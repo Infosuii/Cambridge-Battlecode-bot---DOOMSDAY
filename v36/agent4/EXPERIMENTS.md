@@ -136,3 +136,41 @@ Same bots (bot_v36 vs bot_v34, both compile unchanged on SDK 3.0.2), same maps a
   recognises 15 new maps plus edited expanse and monolith): 50.0% (32–68), gems +46. Inconclusive (17 maps).
 Caveats: generated maps come from the 0.0.3 builder (no Golems); opponent is still v34 only; neither bot drafts
 Heart of Ruin, which dominated the top ladder before its 1.0.1 nerf.
+
+## v37 tuning on engine 1.0.1 (patch 1.0.0/1.0.1). Settings only: no code changes (user instruction).
+Workspace `bcws3` (cambc 3.0.2). Base: bot_v36. Candidate: bot_v37 (= bot_v36 source) with changed `#define`s,
+substituted in place by `tools/paired.py`. Maps from the team generator with the engine 1.0.1 builder
+(`v1_0_1` wasm, generator unchanged): `p-tune` 300 maps (seed 4001), `p-confirm` 1,000 (seed 4002),
+`p-final` 400 (seed 4003); plus the 35-map official pool (`maps`).
+
+### E9 economy screen (registered before running)
+One setting at a time vs bot_v36 on `p-tune` (600 games): `APEX_TRIBUTE_CARRY` 48 / 96 (now 72); `APEX_END_BANK`
+0 / 400 / 800 (now 600); `NOVA_GOLD_UNSEEN` 0.05 / 0.20 / 0.35 (now 0.10; it overrides `APEX_GOLD_WEIGHT` on every
+map v36 does not recognise, which is most maps now); `APEX_AGGRESSION` 1.0 / 1.5 (now 1.2).
+Pass to confirmation: >= 53% with lower bound > 49%. Confirmation on `p-confirm`: >= 52%, lower bound > 50%,
+gems > 0. Winners are then combined and checked on `p-final` + official.
+Change (user instruction, before any E9 result was read): every test is 200 games (first 100 maps of the suite,
+both sides). At this size the 95% interval is about ±7 points, so the screen catches only large effects; pass rule
+for the screen becomes >= 55%, and confirmation runs on 100 different maps (`p-confirm`) with >= 53% and gems > 0.
+
+### E10 post-patch draft (registered before running)
+Model on 6,375 post-patch matches (engine 1.0.1, 20 Oct 20:16–21:22 UTC; one hour, so noisy). Modal top lineups,
+all with Heart of Ruin: 3 HoR+Ren+Stellar (826 side-uses, +1.18 vs v34 lineup 2), 4 HoR+Ren+Ryth+Stellar (878,
++1.45), 5 HoR+Ren+Ryth+Stellar+Varg (1,687, +1.19). Candidate D1 = these as `NOVA_UNSEEN3/4/5` (settings only; the
+bot uses HoR's dash only for movement, so its value may be lower in our bot). 200 games on `p-tune` vs bot_v36;
+pass >= 55%.
+E10 results: screen (p-tune, 200 games) 57.5% (51.0–64.0), gems +46, deaths 3532/5600 → pass. Confirmation
+(p-confirm maps 1–100) 51.0% (44.0–57.5), gems +22, deaths 4473/5981 → below 53%. Extension registered before
+running: p-confirm maps 101–200 (200 games); decide on the pooled 200 confirmation maps: >= 53% and gems > 0.
+E10 extension: p-confirm maps 101–200: 45.0% (38.5–51.5), gems −0. Pooled 200 confirmation maps: **48.0%
+(43.3–52.5), gems +11, deaths 7,921 vs 10,929. Fail; keep v36's draft.** The HoR meta lineup dies less in our bot
+but does not win more (our bot only uses HoR's dash to move; changing that is code, out of scope).
+E9 so far (p-tune, 200 games each, vs bot_v36): carry 48: 55.0% (51.5–58.5) +22 → confirm; carry 96: 48.5% −10;
+end bank 0: 47.0% −20; end bank 400: 53.5% (49.5–57.5) +11 (below the 55% screen bar); end bank 800: 47.0% −11.
+Carry-48 confirmation (p-confirm 1–100): 52.0% (48.5–55.0), +8 → fail (bar 53%). Keep 72.
+E9 rest (p-tune, 200 games each): gold weight on unknown maps 0.05: 53.0% (46.5–59.5) +5; 0.20: 48.0% −7;
+0.35: 44.0% −29. Aggression 1.0 and 1.5: exact mirror (50.0%, identical deaths): `APEX_AGGRESSION` has no effect in
+this build because the brain (`APEX_BRAIN=1`) resets aggression every turn; tune the brain's values instead.
+
+**v37 decision:** no setting or pick list beat v36 on engine 1.0.1, so the v37 base bot = bot_v36 unchanged
+(it beats v34 68.5% on engine 1.0.1, E8). Bundling it with cambc 3.0.2 gives a zip byte-identical to `v36/release/bot_v36.zip` (SHA-256 5ee75d52…b320), so that zip is the base bot for both CLIs.

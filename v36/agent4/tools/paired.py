@@ -14,6 +14,7 @@ import hashlib
 import json
 import os
 import random
+import re
 import shutil
 import subprocess
 import sys
@@ -49,7 +50,15 @@ def materialize(spec):
         if defs:
             p = os.path.join(dst, 'src', 'common.h')
             body = open(p, encoding='utf-8').read()
-            head = ''.join(f'#define {k} {v}\n' for k, v in defs)
+            head = ''
+            for k, v in defs:
+                # Replace the first existing definition (the tuned block, or the guarded default) in place; a second
+                # unguarded #define of the same macro would not compile cleanly.
+                pat = re.compile(rf'^#define {re.escape(k)}\b.*$', re.M)
+                if pat.search(body):
+                    body = pat.sub(lambda _m: f'#define {k} {v}', body, count=1)
+                else:
+                    head += f'#define {k} {v}\n'
             open(p, 'w', encoding='utf-8').write(head + body)
         r = subprocess.run([CAMBC, 'build', '--release', name], cwd=WS, capture_output=True, text=True)
         if r.returncode != 0 or not os.path.exists(wasm):

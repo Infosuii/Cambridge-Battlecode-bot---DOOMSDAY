@@ -23,7 +23,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, '..', 'data')
 REP = os.path.join(HERE, '..', 'reports')
 CH = ['ryth', 'vesper_vale', 'vendetta', 'cassi_and_issac', 'stellar', 'prism', 'marcella', 'willow', 'ren', 'varg',
-      'tavi']
+      'tavi', 'heart_of_ruin']
 MAP_SCALE = 0.35  # champion x map features enter scaled down => stronger effective shrinkage
 
 V34 = {  # lineups as pick-priority lists (first `size` distinct picks), from bot_v34 draft.cpp
