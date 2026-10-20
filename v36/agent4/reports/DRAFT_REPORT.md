@@ -24,6 +24,13 @@ not yet a candidate pick.
 Release artifact: `v36/release/bot_v36.zip` (SHA-256 `5ee75d52…b320`, equal to the tested `bot_v36/src`), manifests
 beside it. Rollback: submit `bot v34.zip`, or build with `#define NOVA_V36_DRAFT 0` (proven mirror of v34).
 
+## Post-patch settings tuning (engine 1.0.1, settings only)
+200 games per test vs v36 (see EXPERIMENTS E9/E10). Heart of Ruin meta draft: 48.0% on 400 confirmation games
+(deaths −28%). Carry 48: 52.0% on confirmation; end bank 0/400/800: 47/53.5/47%; gold weight 0.05/0.20/0.35:
+53/48/44%; aggression 1.0/1.5: no effect (the brain resets it each turn). **No change beat v36; `bot_v36.zip` is the
+base bot for the ML approach** (byte-identical when bundled with cambc 3.0.2). At 200 games only effects of about
+7 points are detectable; carry 48, end bank 400 and gold 0.05 are near misses worth larger tests.
+
 ## What the evidence does and does not show
 - Opponent is **v34 only** (head-to-head). The plan warns head-to-head gains can mislead. The calibrated pool
   (`farm`, `calm`, `sparexp`, `aggro`, `v30base`, `spartop`) was **not** recovered: the snapshot zip has no bot
