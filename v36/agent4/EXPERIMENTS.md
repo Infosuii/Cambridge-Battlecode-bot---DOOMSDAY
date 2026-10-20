@@ -174,3 +174,20 @@ this build because the brain (`APEX_BRAIN=1`) resets aggression every turn; tune
 
 **v37 decision:** no setting or pick list beat v36 on engine 1.0.1, so the v37 base bot = bot_v36 unchanged
 (it beats v34 68.5% on engine 1.0.1, E8). Bundling it with cambc 3.0.2 gives a zip byte-identical to `v36/release/bot_v36.zip` (SHA-256 5ee75d52…b320), so that zip is the base bot for both CLIs.
+
+### E11 near-miss confirmations (registered before running)
+Settings that came close at 200 games: `APEX_TRIBUTE_CARRY=48`, `APEX_END_BANK=400`, `NOVA_GOLD_UNSEEN=0.05f`.
+Each vs bot_v36 on `p-confirm` maps 201–700 (500 maps, 1,000 games; maps 1–200 were used before). Pass: >= 52%,
+lower 95% bound > 50%, gems > 0. Passes are combined (bot_v37) and checked once on `p-final` (400 maps, untouched)
+plus the 35 official maps: combined must be >= 52% with lower bound > 50% on `p-final`, and not below 47% on official.
+E11 results (p-confirm maps 201–700, 1,000 games each, vs bot_v36, engine 1.0.1):
+
+| setting | win | 95% CI | gems | deaths cand/base | verdict |
+|---|---|---|---|---|---|
+| `APEX_TRIBUTE_CARRY=48` | 49.9% | 48.3–51.5 | +8 | 27727/27382 | fail |
+| `APEX_END_BANK=400` | 51.4% | 49.4–53.3 | +9 | 27796/27552 | fail |
+| `NOVA_GOLD_UNSEEN=0.05f` | 49.2% | 46.3–52.1 | −13 | 28798/27122 | fail |
+
+The 200-game near misses were noise. No combined candidate; `p-final` stays untouched for future work.
+**Final: the base bot for the ML approach is `bot_v36` unchanged (`v36/release/bot_v36.zip`, submitted as platform
+version 38 on 20 Oct).**

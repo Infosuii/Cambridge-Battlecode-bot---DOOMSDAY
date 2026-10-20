@@ -28,8 +28,8 @@ beside it. Rollback: submit `bot v34.zip`, or build with `#define NOVA_V36_DRAFT
 200 games per test vs v36 (see EXPERIMENTS E9/E10). Heart of Ruin meta draft: 48.0% on 400 confirmation games
 (deaths −28%). Carry 48: 52.0% on confirmation; end bank 0/400/800: 47/53.5/47%; gold weight 0.05/0.20/0.35:
 53/48/44%; aggression 1.0/1.5: no effect (the brain resets it each turn). **No change beat v36; `bot_v36.zip` is the
-base bot for the ML approach** (byte-identical when bundled with cambc 3.0.2). At 200 games only effects of about
-7 points are detectable; carry 48, end bank 400 and gold 0.05 are near misses worth larger tests.
+base bot for the ML approach** (byte-identical when bundled with cambc 3.0.2). The three 200-game near misses were rechecked at 1,000 games each (E11): carry 48 49.9%, end bank 400 51.4%,
+gold 0.05 49.2%, so none is kept. Submitted to the platform as version 38 (20 Oct).
 
 ## What the evidence does and does not show
 - Opponent is **v34 only** (head-to-head). The plan warns head-to-head gains can mislead. The calibrated pool
