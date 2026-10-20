@@ -125,3 +125,14 @@ lineup 19 above lineup 2 at sizes 3 (+0.25) and 5 (+0.39): consistent with E4/E6
 E7 result: **pass.** maps-holdout + maps-final (640 maps, 1,280 games): **55.3% (95% CI 52.7–57.8), gems +51,
 deaths 12,839 vs 14,894, 0 faults**. By size: 3 picks 52.8% (+35), 4 picks 61.2% (+113), 5 picks 52.1% (+8).
 Official maps (17, 34 games): exact mirror, 0 faults. `NOVA_V36_DRAFT=0` vs v34 on maps-gen (80 maps): exact mirror.
+
+## E8 engine 1.0.1 recheck (after patch 1.0.0/1.0.1; cambc 3.0.2, workspace `bcws3`)
+Patch 1.0.0 nerfed C&I, Stellar, Varg, Ren, Ryth, cut camp gems (wolf 22→4, elk 36→15, gem cluster 24→7), added
+Heart of Ruin and Golem, raised kill gold to 100, ward cooldown to 10. All earlier results are engine 0.0.3.
+Same bots (bot_v36 vs bot_v34, both compile unchanged on SDK 3.0.2), same maps as E7:
+- maps-holdout + maps-final (640 maps, 1,280 games): **68.5% (95% CI 66.2–70.9), gems +154, deaths 28,405 vs
+  40,545, 0 faults**. 3 picks 65.7%, 4 picks 78.8%, 5 picks 61.2%. Games last ~1,590 rounds (was ~690).
+- Official pool, now 35 maps (70 games): 50.0% overall; the 17 maps where the draft differs (v34 no longer
+  recognises 15 new maps plus edited expanse and monolith): 50.0% (32–68), gems +46. Inconclusive (17 maps).
+Caveats: generated maps come from the 0.0.3 builder (no Golems); opponent is still v34 only; neither bot drafts
+Heart of Ruin, which dominated the top ladder before its 1.0.1 nerf.

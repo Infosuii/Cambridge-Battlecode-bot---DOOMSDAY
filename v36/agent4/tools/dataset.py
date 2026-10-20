@@ -24,7 +24,7 @@ CANON = {'c&i': 'cassi_and_issac', 'cassi & issac': 'cassi_and_issac', 'cassi_an
 
 # Numeric drafts (engine 0.0.3 API) follow the SDK enum bc::champion_draft order (cambc.h, SDK 2.2.5).
 ENUM = ['ryth', 'vesper_vale', 'vendetta', 'cassi_and_issac', 'stellar', 'prism', 'marcella', 'willow', 'ren', 'varg',
-        'tavi']
+        'tavi', 'heart_of_ruin']  # heart_of_ruin added in SDK 3.0 (engine 1.0.0)
 
 
 def canon(c):
