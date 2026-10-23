@@ -28,6 +28,13 @@ inline constexpr int kSightX = 42, kSightY = 49, kSightRound = 56, kDistressBit 
 inline constexpr int kSightRoundMask = 63;
 
 class Bot {
+    // Neural integration (nn_*.cpp): read-only state access and hook glue. Declarations only; no code generated.
+    friend struct nn_teacher_access;
+    friend struct nn_obs_access;
+    friend struct nn_strategy_access;
+    friend struct nn_tactics_access;
+    friend struct nn_economy_access;
+
 public:
     void play_turn();
 
