@@ -1,5 +1,10 @@
 # Status — untrained implementation checkpoint
 
+**Plan changed on2026-10-24:** the target is now direct neural control of the important gameplay choices, with a
+rough80% ordinary-decision ownership goal. See [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md). This is a documented
+design change only. Existing210/460 test results apply to legacy v1; no v2 runtime or trained policy exists yet.
+Future work must follow the new plan rather than finishing every optional residual head first.
+
 **Incomplete; not yet ready to train.** No training, submission, upload, activation, browser or desktop action ran
 in this session. No new engine games ran. The inherited original drafting network remains the only trained model
 used by the teacher. All new heads are untrained and inactive in checked-in `teacher_exact`.

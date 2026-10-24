@@ -4,6 +4,17 @@ Workspace root: `C:\projects\cambridge battlecode\work\neural-full-stack` (below
 This file is the single source of truth for interfaces and file ownership during the build. If a contract is wrong,
 write the problem and your proposed change into `agents/<you>/CONTRACT_ISSUES.md`; do not silently diverge.
 
+## Current user direction — direct policy, 2026-10-24
+
+The user changed the plan to roughly80% neural control of important decisions. [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md)
+is the new implementation target; `configs/design/policy_first_v2.json` is a design record, not a runtime config.
+Future v2 heads use direct masked policy logits and teacher-independent candidates; the original teacher is for
+explicit collection/evaluation/fallback. The teacher-first candidate, mandatory teacher computation and bounded
+teacher-residual rules below describe legacy v1 only and must not be imposed on v2. Version the new descriptors,
+schemas and records; do not reinterpret existing artifacts. Preserve teacher_exact byte identity and all no-training,
+no-submission, deterministic legality/safety and workspace rules. Optional belief/carry-risk/search-leaf learning is
+deferred from the first direct-policy milestone. No implementation change or neural ownership is claimed by this amendment.
+
 ## Lead integration amendments (2026-10-24 checkpoint)
 
 - Wave2 original gameplay hooks remain staged, not applied. `tools/stage_wave2.py` creates scratch integration copies.

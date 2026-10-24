@@ -1,5 +1,9 @@
 # Later training workflow — instructions, not jobs already run
 
+**Plan superseded:** these commands describe legacy v1 residual tooling. The user now wants direct policy control;
+follow [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) and implement versioned direct-logit records/collection/parity
+before using a future v2 training workflow. No training is authorized by this change of plan.
+
 **Do not run learning yet.** This build did not authorize training. Current acceptance is incomplete: official fuel,
 integration, real-record parity and release checks remain pending, and carry-risk/belief/search-leaf label/loss paths
 are incomplete. Candidate-policy imitation/PPO and win/margin value fitting are implemented, with synthetic tests.

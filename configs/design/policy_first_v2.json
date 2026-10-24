@@ -1,0 +1,35 @@
+{
+  "name": "policy_first_v2_plan",
+  "status": "design_only_not_implemented",
+  "user_direction_date": "2026-10-24",
+  "target": {
+    "ordinary_decision_start_policy_ownership": 0.8,
+    "all_listed_gameplay_areas_required": true,
+    "measure_source_lines": false,
+    "count_shadow_as_policy_control": false,
+    "report_each_area_and_safety_overrides": true
+  },
+  "inherited_draft": "retain_distinct_trained_model_initially",
+  "direct_gameplay_heads": ["strategy", "objective", "role", "move", "combat", "engage", "bank", "shop"],
+  "deterministic": ["legality", "sdk_execution", "pathfinding_primitives", "communication_bounds", "emergency_safeguards", "initial_ward_placement", "initial_fog_memory"],
+  "deferred_auxiliary_heads": ["belief", "ts_leaf", "carry_risk_output"],
+  "critic": "later_training_auxiliary_with_defined_targets",
+  "policy_semantics": {
+    "interpretation_version": 2,
+    "direct_masked_logits": true,
+    "teacher_prior": false,
+    "teacher_first_candidate": false,
+    "teacher_features": false,
+    "mandatory_online_teacher_decision": false,
+    "teacher_labels_optional_and_separate": true,
+    "candidate_order": "canonical_stable_action_ids",
+    "teacher_use": ["explicit_collection_profile", "whole_bot_fallback", "evaluation_reference"]
+  },
+  "preserve_legacy_v1": true,
+  "preserve_teacher_exact_byte_identity_requirement": true,
+  "release_direct_heads": "off_until_trained_and_validated",
+  "fuel_budget": "pending_official_measurement",
+  "training_authorized": false,
+  "submission_authorized": false,
+  "runtime_config": false
+}

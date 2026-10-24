@@ -1,5 +1,19 @@
 # HANDOFF — stopped at explicit user request, 2026-10-24
 
+## Latest direction: plan revision after the safe stop
+
+The user subsequently asked to switch to roughly80% neural control of important decisions. This turn updated the
+plan only: read POLICY_FIRST_PLAN.md and configs/design/policy_first_v2.json FIRST, then CONTRACTS.md. Direct masked
+policies replace the future residual-first target; no mandatory online teacher scoring, teacher-first candidates or
+teacher-logit priors. Keep teacher for explicit labels, evaluation and fallback; retain inherited trained drafting.
+Legality, SDK calls, pathfinding primitives and narrow emergencies stay deterministic. Optional learned belief,
+carry-risk and search leaf are deferred. All no-training/no-submission/workspace/default-fuel constraints persist.
+No C++, weights, profiles or frozen evaluation results changed in this plan-only turn; v2 is not implemented.
+The historical checkpoint and pending v1 results below are preserved as evidence, not the new implementation order.
+The execution policy has since changed to reviewed escalation; compiler access has NOT been retested. On a future
+implementation turn, retry the official checkpoint through the permitted approval flow instead of assuming the old
+sandbox_approval:false restriction still applies. No background work is running.
+
 STOPPED SAFELY. Full task is incomplete; do not claim training-ready, trained, officially verified or packaged.
 ROOT: C:/projects/cambridge battlecode/work/neural-full-stack.
 Implementation commits: 757a0c3 (modules/runtime/pipeline/docs/evidence), 15dff22 (all13 head schemas).

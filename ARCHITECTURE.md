@@ -1,5 +1,8 @@
 # Neural full-stack architecture — implementation checkpoint
 
+**New target:** [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) supersedes the residual-first architecture below for
+future work. The following sections describe existing v1 code; v2 direct policy is planned, not implemented.
+
 **Not accepted as training-ready yet.** Candidate modules and native twins exist; the gameplay hooks are staged,
 not applied to the original translation units. Official compilation is blocked in this session. The engine fuel
 budget, real-record checks, full integration and packaging remain acceptance requirements. See [STATUS.md](STATUS.md).
