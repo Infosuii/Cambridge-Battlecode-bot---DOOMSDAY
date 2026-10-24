@@ -1,185 +1,95 @@
-# HANDOFF — neural full-stack Battlecode bot (paused 2026-10-24 02:00)
+# HANDOFF — stopped at explicit user request, 2026-10-24
 
-**Start here.** Then read `CONTRACTS.md` (binding interfaces and file ownership) and `agents/USER_REQUEST.md` (the
-user's full specification, sections 1–11; it is the acceptance definition).
+STOPPED SAFELY. Full task is incomplete; do not claim training-ready, trained, officially verified or packaged.
+ROOT: C:/projects/cambridge battlecode/work/neural-full-stack.
+Implementation commits: 757a0c3 (modules/runtime/pipeline/docs/evidence), 15dff22 (all13 head schemas).
+This handoff is in the following stop commit. Original handoff is preserved at de514f4:HANDOFF.md.
+All three workers and all shell jobs have finished. No training, new engine games, submission, upload, activation,
+browser or desktop action ran. References and previous experiments were not modified.
 
-- ROOT = `C:\projects\cambridge battlecode\work\neural-full-stack`
-- Local git repo, HEAD `9598703`, working tree clean. Commit with
-  `git -c user.name=lead -c user.email=lead@local commit`. `core.autocrlf=false`.
+## Verified current state
+- FINAL Python suite: 210 tests OK. FINAL C++ suite: 11 targets, 460/460 checks.
+- Observation C++/Python parity bit-exact (synthetic); included in full suite.
+- Combined staged active AND teacher_exact SDK native syntax checks: 9/9 each.
+- One pre-existing disabled farm branch warns about slot % squads with squads=0. Not changed.
+- Protocol verify passed; all4 reference Wasm/code hashes preserved.
+- Receipts: evaluation/results/native_checkpoint.json, cpp_tests.json, staged_dev_native.json,
+  staged_teacher_native.json, stop_native_python.log, stop_native_cpp.log.
+- PowerShell decorates unittest stderr progress as NativeCommandError in its log; actual exit0, ending210tests OK.
+- All new model tests are labelled synthetic. Synthetic CLI tests mock fitting/collection; no learning job ran.
 
-## 1. Hard rules (from the user; never relax)
-- **No training**, no fine-tuning, no long self-play. Only synthetic shape/gradient/parity/round-trip tests, and
-  anything synthetic is labelled synthetic.
-- **No submission/upload/activation** and no `cambc submit`/login. No browser or desktop control.
-- Write only inside ROOT. The previous experiment (`work/neural-gameplay`), the archives and the CLI/SDK/maps are
-  read-only. Never overwrite `references/**`.
-- Official CLI only: `--release` at default fuel, never `--fuel`.
-- Never present untrained heads as trained or as evidence of strength. All 40 local maps are *reused benchmarks*.
-- Historical data: only 21 Oct 2026 onward. Engine 1.0.1 is excluded. 1.0.2 is draft-observational only.
+## Official execution blocker
+Installed WASI clang++.exe returns permission denied, even --version. User verified compiler/ACLs externally and
+said full access was granted; retries still failed here. Elevated compiler request was automatically rejected:
+tool runtime still reports sandbox_approval:false. This is not lack of user authorization or an ACL diagnosis.
+Do not bypass with a copied/private compiler, proxy daemon or desktop control.
+Final failed official receipt: evaluation/results/teacher_exact_checkpoint.json (passed=false).
+Current root source SHA at attempt: b99089fada190a9790032fe8efff931b531d087bab8aecdd44781a8b0d06f0b8.
+Expected original Wasm SHA: eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442.
+FRESH TEACHER BYTE IDENTITY IS NOT VERIFIED. Previous successful identity belongs to earlier committed sources.
 
-## 2. Environment (verified)
-| Item | Value |
-|---|---|
-| Paths | `config/paths.json` |
-| CLI | cambc 3.0.5, engine 1.0.3, WASI clang 22.1 |
-| Python | `$py = "C:\projects\cambridge battlecode\work\neural-gameplay\.venv\Scripts\python.exe"` (torch 2.11+cu128, numpy). **No pytest**: use unittest. Set `$env:PYTHONPATH="$PWD\python"` |
-| Native C++ | g++ 16.2. Put `C:\msys64\ucrt64\bin` on PATH, or the obs-parity tests skip |
-| Machine | RTX 5070 Ti Laptop 12 GB, 20 logical CPUs, 31 GB RAM |
-| Build | `cambc build bot --release` from ROOT (has `cambc.toml`, `cmake/`, `sdk/`). Recursive `src/*.cpp` glob at -O3. **Keep sources flat in `bot/src/`** |
-| References | `references/{original,v47,first-hour,v50}-src`, plus wasm and hashes in `references/builds/manifest.json` (original `eb0ea88f…`). Builds are byte-reproducible (`tools/build_references.py`) |
-| Fuel | ≈100k per turn; first champion turn ≈182k; first draft turn 10x. Matches are deterministic per (wasmA, wasmB, map) |
+## What exists; what is staged
+D/E/F modules, all13 schemas, Python twins and native tests exist. Root original bot.cpp/main.cpp/draft.cpp/draft.h/
+tsearch.cpp were NOT hook-integrated. Root checked-in profile is teacher_exact, all heads off.
+Use tools/stage_wave2.py --native-check to reproduce a full combined integration in artifacts/tmp/wave2_integrated.
+Use --dest artifacts/tmp/wave2_teacher_exact --profile teacher_exact --native-check for all-off staging.
+Both scratch copies exist and syntax passed. Script does not promote hooks to root.
+D instructions: agents/D/INTEGRATION.md. E script: agents/E/apply_hooks.py. F patch: agents/F/HOOKS.diff.
+Do not smoke root dev_untrained and mistake absent decision call sites for integrated coverage.
 
-PowerShell mangles inline Python/C++ that contains quotes. Use the file-edit tool or script files.
+Implemented lead fixes: leaf pre-admission token consumption and full builder metering; cached observation anchor API;
+NFT1 named heads/invalid/NaN counters deferred after play_turn; external model-directory installation without registry
+mutation; teacher_record/training_objective profiles; canonical records.decode_stdout and obs.encode_bytes adapters;
+seeded hidden initialization with zero residual outputs; value checkpoint persistence; fixed margin unit /1000;
+RL game cap and actual pre-update rollout quality guards; CLI resume/conversion schema checks; semantic hashes for
+ALL head kinds including versions/feature meanings/option semantics/output units; combined dataset hashes include
+all per-head schemas; content-identity match cache and concurrency cap4.
+Shop0 is now an opaque guarded whole-teacher-plan option with unknown zero item descriptors. Updated F patch removes
+the duplicate pre-admission preview entirely. Independent F reviewer confirmed source fix. A subsequent hash-version
+gap was also fixed by lead and regression-tested. Runtime shared context is intentionally first-admitted snapshot;
+later candidate features are live. context_position anchors belief sectors to the snapshot.
 
-## 3. Verification commands (all pass at HEAD)
-```
-$py -m unittest discover -s tests/python -p "test_*.py"   # 186 tests OK
-$py tools/run_cpp_tests.py                                # 11 targets, 451/451 checks
-$py -m unittest tests.python.test_obs_parity -v           # C++ vs Python obs encode bit-exact
-$py tools/lead_profile_check.py --profiles teacher_exact dev_untrained neutral_credit training --maps 2
-$py tools/audit_equivalence.py compare --candidate X.wasm --label L --opponents original --maps 6 --out R.json
-```
+Models regenerated against final schemas:8367params each, status untrained, synthetic only:
+fs_v1_untrained checksum0x6f8163630c208aa3; fs_v1_dev checksum0x165655b4ee67b5d1.
+Inherited draft_net_original remains distinct/trained provenance-only, checksum0x3c09ba1cdb6e22fe.
+release_selection remains empty. No new trained head is active.
 
-## 4. Task status
-| # | Task | Status |
-|---|---|---|
-| 1 | Workspace, contracts, references, probes | done |
-| 2 | Wave 1 agents A, B, C, G, H | done (reports in `agents/*/REPORT.md`; the lead wrote B's and C's after their sessions were cut off) |
-| 3 | Integrate wave 1, teacher/neutral equivalence | done (section 5) |
-| 4 | Wave 2: D strategy/draft/objective/role/value, E move/combat/engage/ward/ts_leaf, F bank/shop | **not started (NEXT)** |
-| 5 | Integrate wave-2 hooks, build all profiles, parity tests | not started |
-| 6 | Engine checks: plumbing, fuel profiling, smoke vs original/v47/first-hour | not started (only small smokes so far) |
-| 7 | Wave 3 independent review (`agents/H/REVIEW_CHECKLIST.md`) | not started |
-| 8 | Docs: ARCHITECTURE, DIAGNOSIS_AND_DESIGN, TRAINING_LATER, STATUS, agent record (EVALUATION_PROTOCOL exists) | not started |
-| 9 | Package release ZIP+wasm, checksums, independent rebuild (`tools/package_release.py`, `tools/verify_release.py`) | not started |
+## Reviews, documents, protocol
+Read CONTRACTS.md lead amendments, agents/USER_REQUEST.md (definition of done), all D/E/F reports,
+agents/H/REVIEW_WAVE2_PREINTEGRATION.md and REVIEW_ECONOMY_INDEPENDENT.md.
+Initial review FAIL findings remain as historical observations. Lead fixes above are native/source passes only.
+C audit completed: agents/C/VISIBILITY.md and REVIEW_FOLLOWUP.md. Memory/history are lazy; group state lacks explicit
+observation age; alive transitions can be missed. Existing8-byte shared protocol unchanged, intent encoding proposal only.
+Docs exist: ARCHITECTURE.md (coverage matrix), DIAGNOSIS_AND_DESIGN.md, TRAINING_LATER.md (NOT RUN commands and limits),
+STATUS.md, AGENT_RECORD.md. Current workers actually launched: strategy, tactics, economy, plus their audit/review
+follow-ups. They inherited configured Codex model; exact resolved identifier unavailable, no Opus5.5 tool option.
+Earlier Opus/Kiro claims belong to historical reports only.
+Current amended protocol SHA:70b872f3cd4ddabb95a152d0af93579c0d9f80f25ba4408014f5c80b2c17adc1.
+Original/intermediate hashes retained in lock history. Adds neutral_real control and replaces impossible credit-neutral
+claims with measured divergence. Strict teacher_exact, partitions, cells and promotion thresholds unchanged.
+Historical results retain old protocol hashes; do not relabel them as new runs.
 
-## 5. What exists now
-**C++ bot (`bot/src`)**
-- The original sources, plus A's patches:
-  - fuel routing: 38 decision fuel reads go through `nnb::teacher_left()`;
-  - lab-strip, gated by `NN_STRIP_LAB`, off;
-  - teacher captures: compile-time gated, `[[gnu::noinline]]`, wrapped in `nnb::CreditScope`.
-- `main.cpp` hooks under `#if NN_ANY_HEAD`:
-  - draft turn: `begin_turn`, `play_draft`, then `nnh::warmup`;
-  - gameplay turn: `begin_turn`, `{CreditScope; turn_start}`, `play_turn`, `nnh::idle` (flushes NFS1 records from leftover fuel only).
-- Runtime:
-  - `nn_rt.h`: kernels and PRNG;
-  - `nn_model.h`: model descriptor and checksums;
-  - `nn_head.{h,cpp}`: `decide`, `value`, `leaf` and the fallback reasons;
-  - `nn_budget.h`: admission, Meter, CreditScope, NFT1 telemetry;
-  - `nn_log.h`: NFS1 records;
-  - `nn_obs*.{h,cpp}` and `nn_schema.h`: the observation (kObsDim 563, hash 0xD341B69C);
-  - `nn_teacher.{h,cpp}`: teacher capture access;
-  - generated `nn_config.h`, `nn_registry.h`, `nn_weights_*.h`.
-- The checked-in `nn_config.h` is profile **teacher_exact**, and the build is **byte-identical to the original wasm**.
-- **No gameplay `nnh::decide()` call sites exist yet.** Only captures of the teacher's choices exist.
+## Resume priorities
+1. Restore official compiler execution. Run tools/check_teacher_exact.py for root, then with
+   --src artifacts/tmp/wave2_teacher_exact/bot/src --out evaluation/results/teacher_exact_staged_checkpoint.json.
+   Require full original SHA. Native syntax and historical binaries are not substitutes.
+2. Run tools/probe_neural_fuel.py (official release/default fuel,2training maps; no learning). Preparation and native
+   probe syntax passed; ENGINE MEASUREMENTS NOT RUN. Measure complete call-site/capture/features/logging/teacher reserves,
+   not just kernels. models/budget.json remains PROVISIONAL:55000allowance/6000tail/10000teacher reserve. Resize if needed.
+3. Integrate staged hooks incrementally into root, official teacher_exact byte recheck after every C++ milestone.
+4. Complete auxiliary target/loss/record paths: carry-risk is consumed but unsupervised; belief needs censored own-future-
+   visible targets/loss; leaf lacks feature/target record/loss. Value-only records do not supply decision rows by themselves.
+   Future collected local matches also need a new grouped split manifest; archive IDs do not assign local episode IDs.
+5. Real NFS1/RawTurn parity, all profiles and per-head ablations, official plumbing/fuel/logging-cost/smoke checks vs
+   original/v47/first-hour both sides, paired neutral_real. Label untrained framework checks and reused benchmarks.
+6. Independent post-integration review; close acceptance failures; package release ZIP/Wasm/checksums and independently
+   rebuild officially with package_release.py/verify_release.py. NO NEW PACKAGE EXISTS. Do not submit.
 
-**Profiles and models**
-- Profiles: `configs/profiles/{release,teacher_exact,neutral_credit,neutral_real,dev_untrained,training,selftest}.json`.
-  Switch with `$py tools/install_models.py --profile P --src <scratch>/src`; that command is the single model-install switch.
-- Every profile builds, and smoke games vs the original had 0 faults and 0 bot errors
-  (`evaluation/results/lead_profile_check*.json`).
-- The training profile emits about 75–80 NFS1 records per game.
-- Models in `models/registry.json`, all synthetic and untrained:
-  - `fs_v1_untrained`: zero residual;
-  - `fs_v1_dev`: non-zero residual, plumbing only;
-  - `draft_net_original`: the inherited trained draft network, used by the teacher and not re-exported.
-  - Regenerate them with `$py -m nfs.models.untrained`.
-
-**Python (`python/nfs`)**
-- `engine.py`: official build/run, summary parsing, replay stdout, wasm sections.
-- `models/`, `export.py`, `registry.py`, `records.py` (B).
-- `obs.py`, `transforms.py`, `schema_gen.py` (C).
-- `data/`, `train/` (rewards, imitation, value, PPO, league, checkpoint, collect) and `cli.py` / `tools/nfs.py` (G).
-  Parameter-updating commands refuse to run without `--i-authorize-training` and a time limit.
-- `evaluate/`: stats, gate, ledger, schedule, fuel, equivalence, wasm, release (H).
-
-**Evaluation (H)**
-- `EVALUATION_PROTOCOL.md` and `evaluation/protocol.json`, frozen with `protocol.lock.json` at 2026-10-23T23:29Z.
-- Schedules in `evaluation/schedules/`, an empty hash-chained `evaluation/ledger.jsonl`, and reference baselines in
-  `evaluation/results/reference/`.
-- The gate is per-opponent with map-cluster bootstrap. A test reproduces the phase-2 "pooled up, original down → FAIL" case.
-
-**Audit (A)**
-- `agents/A/decision_inventory.json`: 59 decision points with exact hook points, teacher variables and fuel gating.
-- `agents/A/sdk_facts.json`: SDK facts with line references.
-- `agents/A/INVARIANTS.md`.
-- Equivalence comparator `tools/audit_equivalence.py`; fixtures in `tests/fixtures/teacher/`.
-
-## 6. Key findings (carry into DIAGNOSIS_AND_DESIGN.md)
-1. **A neural-enabled build cannot be byte-equivalent to the original.** The original's decisions are chaotically
-   sensitive to a few dozen fuel units spent before or while it decides. Spend after its decisions is harmless.
-   Evidence: `evaluation/evidence/neutral_equivalence_bisect.json`.
-
-   | Build | Identical cells |
-   |---|---|
-   | Original + ~40 fuel at turn start | 10/12 |
-   | Original + 13.5k fuel at turn end (H) | 24/24 |
-   | neutral_credit | 4/12 |
-   | Runtime linked, idle, no credit | 11/12 |
-   | The same plus only the credit arithmetic | 6/12 |
-
-   Consequences:
-   - teacher_exact is the only exact-equivalence claim;
-   - every evaluation needs an **overhead-matched control arm** (neutral_real: the same binary, heads shadow/zero-residual), not just the original;
-   - `kFuelCredit` is experimental and is not a neutrality proof;
-   - neural work before teacher decisions must stay minimal, and logging runs after `play_turn`.
-2. A debug (CAMBC_DEBUG) build diverges from release on 2/4 maps (`evaluation/evidence/debug-build-fuel-probe.json`), so
-   `debug_block` cannot carry training logging at parity.
-3. `A2_LAB=1` is not inert: tuned `A2_KNOBS` feed gameplay. Stripping the lab host code changed 20/24 cells (A's
-   evidence), so `NN_STRIP_LAB` stays 0 in every profile.
-4. Archived summaries contain no per-turn actions (G's `agents/G/DATA_AUDIT.md`). Only draft and coarse value labels come
-   from archives; the other heads need instrumented teacher rollouts (NFS1).
-
-## 7. Open problems (fix during steps 4–6)
-1. `models/budget.json` is **provisional (coefficient model, not engine-measured)**. The lead raised turn_allowance to
-   55000, because one K=16 decision plus the encoder is estimated at ≈30k of a ≈100k turn (encoder ≈12.9k, ≈919 per
-   candidate). Write an engine fuel probe and probably shrink the default model in `configs/model/fs_v1.json`.
-2. Add the neutral_real arm to H's schedules as a **recorded protocol amendment** (the protocol is frozen; use
-   `tools/eval_protocol.py`).
-3. NFT1 telemetry prints numeric head ids; map them to names. No NFT1 lines appear yet, because there are no decide() hooks.
-4. `agents/{A,G,H}/CONTRACT_ISSUES.md` contain issues nobody has resolved.
-5. No per-head schemas yet (`schemas/heads/*.json`), so every head uses the provisional F=24.
-6. C still owes `agents/C/VISIBILITY.md` (per-feature legality audit), real RawTurn fixtures in `tests/fixtures/obs/`,
-   and a team-intent encoding proposal within `shared_memory_bytes` (the existing 8-byte claim/sighting protocol must
-   stay unchanged).
-
-## 8. Next steps (in order)
-1. **Fuel probe and budget.** Measure encoder, per-candidate and record costs in the engine. Rewrite `models/budget.json`
-   and resize the default model if needed. Re-run `tools/run_cpp_tests.py` (the tests depend on the budget numbers).
-2. **Wave 2 (D/E/F).** For each head in `schemas/heads.json`:
-   - write a candidate builder in `bot/src/nn_{strategy,tactics,economy}.{h,cpp}` that fills `nnh::Decision`;
-     candidate 0 is the teacher choice and always legal, legality stays deterministic, and features come after
-     candidate narrowing;
-   - add a schema in `schemas/heads/<name>.json` and a Python twin in `python/nfs/heads/`;
-   - add a parity test;
-   - add an `if constexpr`-gated hook at A's inventory hook point, next to the existing `cap_*` call. The draft goes at
-     `cap_draft_pick(best)` in draft.cpp.
-
-   Each new file must keep teacher_exact byte-identical. Agents can be launched with the `subagent` tool. Last session,
-   the configured model claude-opus-5.5 was used for all workers.
-3. Rebuild every profile and run `lead_profile_check.py`. Run H's plumbing, fuel and smoke schedules
-   (`tools/eval_check.py`) for dev_untrained and neutral_real vs original, v47 and first-hour on both sides, labelled
-   *untrained framework check*. Require 0 faults, 0 invalid actions and 0 NaN.
-4. Wave 3: review against `agents/H/REVIEW_CHECKLIST.md`, then fix what it finds.
-5. Docs:
-   - `ARCHITECTURE.md`, with a coverage matrix: decision, observed state, candidates, head output, call site,
-     fallback, fuel cost, model status, future labels;
-   - `DIAGNOSIS_AND_DESIGN.md`: map the user's nine failure points to confirmed/suspected/ruled out and how each is
-     addressed;
-   - `TRAINING_LATER.md`: G's CLI commands labelled *not run*, a bounded first experiment and its stop criteria;
-   - `STATUS.md`;
-   - an agent assignment record.
-6. Package with the release profile (untrained heads off): `tools/package_release.py`, then `tools/verify_release.py`
-   with an independent rebuild. **Do not submit.**
-
-## 9. Tool index (lead-written)
-| Tool | Purpose |
-|---|---|
-| `tools/build_references.py` | Rebuild and verify the reference wasms |
-| `tools/probe_debug_fuel.py` | Debug-vs-release probe |
-| `tools/lead_profile_check.py` | Build profiles in `artifacts/tmp/profiles/<p>` and run smokes |
-| `tools/lead_neutral_bisect.py` | Neutral bisection variants |
-| `tools/lead_wrap_captures.py` | Idempotent noinline+CreditScope wrapper for `cap_*` |
-
-Scratch work goes in `artifacts/tmp/` (gitignored). Engine stdout in bundles is NUL-padded; use `engine.team_stdout()`.
+## Environment/test setup
+$py = C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe
+Set PYTHONPATH=ROOT/python; TMP and TEMP=ROOT/artifacts/tmp; put C:/msys64/ucrt64/bin on PATH.
+Commands: python -m unittest discover -s tests/python -p test_*.py ; python tools/run_cpp_tests.py.
+All sources stay flat; no training; never modify references; official --release/default fuel only.
+Central finding remains: a few dozen pre-decision fuel units can change teacher choices. See
+ evaluation/evidence/neutral_equivalence_bisect.json. Logging/telemetry belongs after play_turn; zero weights or
+experimental fuel credit cannot prove engine neutrality.
