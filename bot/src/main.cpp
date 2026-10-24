@@ -36,9 +36,12 @@ int main() {
     while (true) {
         try {
             if (bc::is_draft()) {
+#if NN_ANY_HEAD
+                nnb::begin_turn(); // per-turn credit/budget reset also on draft turns (draft decisions read teacher_left)
+#endif
                 play_draft();
 #if NN_ANY_HEAD
-                nnh::warmup(); // draft turns have 10x fuel: verify installed model checksums here
+                nnh::warmup(); // after the draft decision: verify installed model checksums with the 10x draft fuel
 #endif
             }
 #if A2_FUELLOG
@@ -58,7 +61,10 @@ int main() {
                 // Neural runtime turn hooks (lead): reset per-turn budget/context, selftest/telemetry/markers; at the
                 // end, flush queued training records from leftover fuel only. Compiled out when every head is off.
                 nnb::begin_turn();
-                nnh::turn_start();
+                {
+                    nnb::CreditScope scope; // turn hooks are neural overhead: credited back in neutral_credit
+                    nnh::turn_start();
+                }
                 bot.play_turn();
                 nnh::idle();
 #else

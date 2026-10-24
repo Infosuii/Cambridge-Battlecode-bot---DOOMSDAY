@@ -22,6 +22,7 @@
 
 #include "bot.h"
 #include "nn_config.h"
+#include "nn_budget.h"
 
 namespace nnt {
 
@@ -215,8 +216,10 @@ struct nn_teacher_access {
 
     // ------------------------------------------------------------------ capture entry points (called from patch 03)
     // All are inline so a disabled gate leaves nothing behind; each copies values the teacher already computed.
-    static void cap_objective(const Bot& b, const Bot::RouteCand* top, int n_top, int best, int best_need, float best_score,
+    [[gnu::noinline]] static void cap_objective(const Bot& b, const Bot::RouteCand* top, int n_top, int best, int best_need, float best_score,
         int participants_hint) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& o = nnt::g_objective;
         o.calls = o.round == b.round ? o.calls + 1 : 1;
         o.round = b.round;
@@ -240,8 +243,10 @@ struct nn_teacher_access {
             o.cand[o.n++] = {best, best_need, 0.0f, 0.0f, best_score, 0};
         }
     }
-    static void cap_bank(const Bot& b, bool go, int dist, bool wins, bool late, bool end_bank, bool rhythm, bool edge,
+    [[gnu::noinline]] static void cap_bank(const Bot& b, bool go, int dist, bool wins, bool late, bool end_bank, bool rhythm, bool edge,
         bool threatened, bool use_safe) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& k = nnt::g_bank;
         k.calls = k.round == b.round ? k.calls + 1 : 1;
         k.round = b.round;
@@ -249,58 +254,88 @@ struct nn_teacher_access {
         k.go = go, k.force = b.force_tribute, k.wins = wins, k.late = late, k.end_bank = end_bank, k.rhythm = rhythm, k.edge = edge;
         k.threatened = threatened, k.use_safe = use_safe;
     }
-    static void cap_fight_begin(const Bot& b, int nearest_d, float ttd, float threat_on_me, float risk) {
+    [[gnu::noinline]] static void cap_fight_begin(const Bot& b, int nearest_d, float ttd, float threat_on_me, float risk) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& f = nnt::g_fight;
         f = nnt::Fight{};
         f.round = b.round, f.nearest_d = nearest_d, f.ttd = ttd, f.threat_on_me = threat_on_me, f.risk = risk;
     }
-    static void cap_enemy(const EnemyRec& e, float key, float ttk, float worth, int dist) {
+    [[gnu::noinline]] static void cap_enemy(const EnemyRec& e, float key, float ttk, float worth, int dist) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& f = nnt::g_fight;
         if (f.n < nnt::kMaxEnemies) f.cand[f.n++] = {e.id, key, ttk, worth, dist};
     }
-    static void cap_formula(const EnemyRec* target, float target_ttk, bool winning, bool in_danger) {
+    [[gnu::noinline]] static void cap_formula(const EnemyRec* target, float target_ttk, bool winning, bool in_danger) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& f = nnt::g_fight;
         f.formula_target_id = f.target_id = target ? target->id : 0;
         f.target_ttk = target_ttk;
         f.formula_winning = winning, f.formula_in_danger = in_danger;
     }
-    static void cap_tfc(int order) { nnt::g_fight.tfc_order = static_cast<std::int8_t>(order); }
-    static void cap_td_verdict(int verdict) { nnt::g_fight.td_verdict = static_cast<std::int8_t>(verdict); }
-    static void cap_td_values(float fight, float run, float margin) {
+    [[gnu::noinline]] static void cap_tfc(int order) {
+        nnb::CreditScope nn_credit_scope_;
+        nnt::g_fight.tfc_order = static_cast<std::int8_t>(order); }
+    [[gnu::noinline]] static void cap_td_verdict(int verdict) {
+        nnb::CreditScope nn_credit_scope_;
+        nnt::g_fight.td_verdict = static_cast<std::int8_t>(verdict); }
+    [[gnu::noinline]] static void cap_td_values(float fight, float run, float margin) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& f = nnt::g_fight;
         f.td_fight = fight, f.td_run = run, f.td_margin = margin, f.td_ran = 1;
     }
-    static void cap_fight_final(const EnemyRec* target, bool winning, bool in_danger, float threat_on_me) {
+    [[gnu::noinline]] static void cap_fight_final(const EnemyRec* target, bool winning, bool in_danger, float threat_on_me) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& f = nnt::g_fight;
         f.target_id = target ? target->id : 0;
         f.winning = winning, f.in_danger = in_danger, f.threat_on_me = threat_on_me;
     }
-    static void cap_chain(const Bot& b, nnt::Chain c) { nnt::g_turn = {b.round, c}; }
-    static void cap_shop(const Bot& b, bool lock, int step, std::uint32_t item, int want) {
+    [[gnu::noinline]] static void cap_chain(const Bot& b, nnt::Chain c) {
+        nnb::CreditScope nn_credit_scope_;
+        nnt::g_turn = {b.round, c}; }
+    [[gnu::noinline]] static void cap_shop(const Bot& b, bool lock, int step, std::uint32_t item, int want) {
+        nnb::CreditScope nn_credit_scope_;
+       
         nnt::g_shop = {b.round, b.gold, static_cast<std::uint8_t>(lock), step, item, want};
     }
-    template <class C> static void cap_steps(const Bot& b, const C* cands, int n) {
+    template <class C> [[gnu::noinline]] static void cap_steps(const Bot& b, const C* cands, int n) {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& m = nnt::g_move;
         m.calls = m.round == b.round ? m.calls + 1 : 1;
         m.round = b.round, m.combat = b.combat_move, m.n = 0;
         for (int i = 0; i < n && i < nnt::kMaxSteps; ++i, ++m.n)
             m.x[i] = static_cast<std::int16_t>(cands[i].p.x), m.y[i] = static_cast<std::int16_t>(cands[i].p.y), m.score[i] = cands[i].score;
     }
-    static void cap_cast(const Bot& b, const EnemyRec& e, int slot, float value, int dash_slot, vec2 aim) {
+    [[gnu::noinline]] static void cap_cast(const Bot& b, const EnemyRec& e, int slot, float value, int dash_slot, vec2 aim) {
+        nnb::CreditScope nn_credit_scope_;
+       
         nnt::g_cast = {b.round, e.id, slot, dash_slot, value, static_cast<std::int16_t>(aim.x), static_cast<std::int16_t>(aim.y)};
     }
-    static void cap_ward(const Bot& b, vec2 at, int key) {
+    [[gnu::noinline]] static void cap_ward(const Bot& b, vec2 at, int key) {
+        nnb::CreditScope nn_credit_scope_;
+       
         nnt::g_ward = {b.round, static_cast<std::int16_t>(at.x), static_cast<std::int16_t>(at.y), key};
     }
-    static void cap_draft_begin() {
+    [[gnu::noinline]] static void cap_draft_begin() {
+        nnb::CreditScope nn_credit_scope_;
+       
         auto& d = nnt::g_draft;
         d.teacher = -1;
         for (int c = 0; c < nnt::kMaxDraft; ++c) d.legal[c] = 0, d.z[c] = 0.0f;
     }
-    static void cap_draft_score(int c, float z) {
+    [[gnu::noinline]] static void cap_draft_score(int c, float z) {
+        nnb::CreditScope nn_credit_scope_;
+       
         if (c >= 0 && c < nnt::kMaxDraft) nnt::g_draft.legal[c] = 1, nnt::g_draft.z[c] = z;
     }
-    static void cap_draft_pick(int best) {
+    [[gnu::noinline]] static void cap_draft_pick(int best) {
+        nnb::CreditScope nn_credit_scope_;
+       
         nnt::g_draft.teacher = best;
         ++nnt::g_draft.picks_made;
     }

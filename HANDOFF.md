@@ -59,28 +59,34 @@ $py tools/lead_profile_check.py --profiles teacher_exact dev_untrained neutral_c
   - log cost at admission is now the enqueue cost only.
   - **Must be replaced by real measurements.** The default model may be too expensive: encoder ≈12.9k and ≈919 per candidate.
 
+## Step 3 result: neutral equivalence (done 2026-10-24, evidence `evaluation/evidence/neutral_equivalence_bisect.json`)
+- **teacher_exact** (all heads compiled out) is byte-identical to the original wasm. This is the only exact-equivalence claim.
+- **Fuel credit cannot make a neural-enabled build byte-identical to the original.** Results (6 maps x 2 sides vs original):
+
+  | Build | Identical cells |
+  |---|---|
+  | neutral_credit | 4/12, also with an engine-calibrated overhead of 33 fuel per capture call |
+  | Runtime linked, no captures, no hooks, no credit | 11/12 |
+  | The same plus only the credit arithmetic in `teacher_left()` | 6/12 |
+  | **Control:** unchanged original + ~40 fuel burned at turn start | 10/12 |
+  | **Control (agent H):** original + 13.5k fuel burned at turn **end** | 24/24 |
+
+  So the teacher is chaotically sensitive to fuel shifts of a few dozen units **before or during** its decisions, while spend **after** them is harmless. Diagnosis-phase-2 finding 1 is a general property of this teacher.
+- **Decisions taken:**
+  1. Every future evaluation uses an overhead-matched control arm (the same binary with heads in shadow or zero-residual, i.e. neutral_real) as well as the original. The original alone does not show "neural changed play".
+  2. Captures are `[[gnu::noinline]]` and wrapped in `nnb::CreditScope` (calibration in `NN_SCOPE_OVERHEAD`). Records and telemetry are written only after `play_turn`, from leftover fuel.
+  3. `kFuelCredit` is kept as an experimental flag and is **not** a neutrality proof.
+
+  These should go into DIAGNOSIS_AND_DESIGN.md and H's protocol. H's gate compares against references, so add the neutral_real arm to the schedules (needs a recorded protocol amendment, because the protocol is frozen).
+- Telemetry is unified: B's lines are now `NFT1 head round=.. head=<id> admitted= refused= fallback= neural= fuel=`, which H's parser form 3 accepts. Head is a numeric id; mapping it to a name is still to do. No lines appear yet, because no gameplay `decide()` hooks exist.
+- Tools: `tools/lead_profile_check.py` (build profiles + smoke), `tools/lead_neutral_bisect.py`, `tools/lead_wrap_captures.py` (idempotent).
+
 ## Known problems / findings (open)
-1. **Neutral equivalence currently FAILS:** this is with no decision hooks wired (no `decide()` calls in gameplay yet).
-   - neutral_credit and dev_untrained already change outcomes vs the original: 00ambush A gives 1047–745 vs the original's 1029–782.
-   - Cause: overhead the fuel credit doesn't cover. That is the teacher captures (`nnt::kAny` turns on every capture when any head is on), `nnh::warmup()` in the draft, and `turn_start`.
-   - Fix: wrap the captures, warmup and turn hooks in `nnb::Meter`/credit, or charge them via `nnb::credit()`. Then run H's equivalence schedule (`tools/eval_check.py`, `tools/audit_equivalence.py`) for neutral_credit and require identical replays. Report neutral_real divergence separately. This is exactly the diagnosis-phase-2 failure mode, so it must be solved before training.
-2. Telemetry format mismatch: B prints `NNTEL ...` lines, while H's parser (`python/nfs/evaluate/fuel.py`, `agents/H/TELEMETRY_FORMAT.md`) expects `NFT1`. Unify them.
-3. Each agent's `agents/*/CONTRACT_ISSUES.md` still lists issues nobody has resolved yet. Read them all.
-4. Stripping lab code changes behaviour: only 4/24 cells were identical. Keep `NN_STRIP_LAB=0` in every profile unless a separate evaluation justifies it.
-5. No per-head schemas exist yet (`schemas/heads/*.json`), so every head uses the provisional default F=24.
-
-## Next steps (in order)
-1. Fix finding 1 (fuel-credit coverage), then prove neutral_credit gives identical replays on H's equivalence schedule. Measure real fuel with a probe (B's deliverable 4) and rewrite `models/budget.json`.
-2. **Wave 2: decision hooks (D/E/F work).** Use A's `agents/A/decision_inventory.json` (59 entries, exact hook points) and the captures already in place.
-   - Write candidate builders in `nn_strategy/tactics/economy.{h,cpp}` that call `nnh::decide()`.
-   - Candidate 0 must be the teacher and always legal. Hooks are `if constexpr` gated.
-   - Add `schemas/heads/<name>.json` with features, and Python twins in `python/nfs/heads/`.
-   - The draft hook goes at `cap_draft_pick(best)` in draft.cpp.
-3. Re-run all tests and `lead_profile_check.py`. Run H's plumbing/fuel/smoke schedules for dev_untrained, labelled as an untrained framework check.
-4. Wave 3 review against `agents/H/REVIEW_CHECKLIST.md`.
-5. **Docs:** ARCHITECTURE.md (coverage matrix: decision → state → candidates → head → call site → fallback → fuel → status → labels), DIAGNOSIS_AND_DESIGN.md, TRAINING_LATER.md (G's CLI commands, labelled as not run), STATUS.md, and an agent record. EVALUATION_PROTOCOL.md already exists. The agents ran as Kiro CLI subagents with the configured model claude-opus-5.5. The wave-1 run was cancelled partway by the user, which is why B and C have no reports.
-6. **Package:** `tools/package_release.py` with the release profile (all untrained heads off) produces ZIP, wasm and checksums. Then run `tools/verify_release.py` with an independent rebuild. **Do not submit.**
-
+1. `models/budget.json` is provisional. The engine fuel probe has not been run.
+2. Each agent's `agents/*/CONTRACT_ISSUES.md` lists issues nobody has resolved yet.
+3. Stripping lab code changes behaviour. Keep `NN_STRIP_LAB=0` unless a separate evaluation justifies it.
+4. No per-head schemas exist yet (`schemas/heads/*.json`), so every head uses the default F=24.
+5. C still owes VISIBILITY.md and real obs fixtures. No team-intent shared-memory encoding exists yet.
 ## Gotchas
 - Engine stdout in replay bundles is NUL-padded. Use `engine.team_stdout()`.
 - `A2_LAB=1` is not inert: `A2_KNOBS` tuned values feed gameplay through `lab::knobs`.

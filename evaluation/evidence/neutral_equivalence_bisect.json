@@ -1,0 +1,21 @@
+{
+  "_doc": "Lead, step 3 (2026-10-24). Neutral-equivalence bisection. Each row: candidate vs the unchanged original on A's equivalence fixtures (tests/fixtures/teacher/schedule.json first 6 maps x both sides, opponent original; official CLI --release default fuel). n_equal = cells whose replay and summary are byte-identical to the original-vs-original reference. Tool: tools/lead_neutral_bisect.py, tools/audit_equivalence.py.",
+  "rows": {
+    "teacher_exact (all heads compiled out)": {"n_cells": 12, "n_equal": 12, "note": "wasm byte-identical to the original; equality is by construction"},
+    "neutral_credit v1 (captures + hooks, credit scopes, overhead constant 0)": {"n_cells": 12, "n_equal": 4, "outcome_changes": 2, "file": "evaluation/results/neutral_credit_v1.json"},
+    "neutral_credit v2 (as v1, engine-calibrated scope overhead 33 fuel/call)": {"n_cells": 12, "n_equal": 4, "outcome_changes": 2, "file": "evaluation/results/neutral_credit_v2.json"},
+    "neutral_credit no_captures (runtime hooks only)": {"n_cells": 12, "n_equal": 6, "outcome_changes": 2},
+    "neutral_credit no_hooks (captures only)": {"n_cells": 12, "n_equal": 4, "outcome_changes": 2},
+    "neutral_credit bare (no captures, no hooks; credit code in teacher_left)": {"n_cells": 12, "n_equal": 6, "outcome_changes": 2},
+    "bare without fuel credit (runtime linked, teacher_left == fuel_remaining)": {"n_cells": 12, "n_equal": 11, "outcome_changes": 0},
+    "CONTROL: unchanged original + ~40 fuel burned at the start of each gameplay turn": {"n_cells": 12, "n_equal": 10, "outcome_changes": 0},
+    "CONTROL (agent H): unchanged original + ~13.5k fuel burned at the END of each turn": {"n_cells": 24, "n_equal": 24, "file": "evaluation/results/controls/fuelburn-probe/results.json"}
+  },
+  "calibration": {"noinline capture call, real fuel per call": 46, "measured inside scope": 9, "loop overhead approx": 4, "NN_SCOPE_OVERHEAD": 33},
+  "conclusions": [
+    "The original teacher is chaotically sensitive to tiny fuel shifts that happen BEFORE or DURING its decisions: ~40 fuel at turn start changes 2/12 cells (the fuel-dependent search depth/admission reads are continuous in remaining fuel). Spend AFTER its decisions is harmless (13.5k end-of-turn burn: 24/24 identical).",
+    "Consequently a fuel-credit mechanism must be exact to the instruction to give byte-identical play. It cannot be: even the credit arithmetic inside teacher_left() (one load + add per read) shifts fuel and reduces equality from 11/12 to 6/12. The credit makes neutrality WORSE, not better.",
+    "Confirmed: diagnosis-phase-2 finding 1 (zero head != neutral) is a general property of this teacher, not only of the old camp-net feature ordering.",
+    "Design decision: (1) the neutral *control arm* for every future evaluation is an overhead-matched build of the same binary with heads in shadow/zero-residual (neutral_real), never the bare original; (2) teacher_exact remains the only byte-exact equivalence claim; (3) neural work that runs before teacher decisions is kept minimal and fixed-cost (captures noinline), and records/telemetry run after play_turn; (4) kFuelCredit is kept only as an experimental flag and is not claimed as a neutrality proof."
+  ]
+}

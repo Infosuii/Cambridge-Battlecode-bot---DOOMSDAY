@@ -17,6 +17,9 @@
 #endif
 #include "nn_config.h"
 #include "nn_registry.h"
+#ifndef NN_SCOPE_OVERHEAD
+#define NN_SCOPE_OVERHEAD 0
+#endif
 
 namespace nnb {
 
@@ -69,6 +72,23 @@ inline std::uint64_t teacher_left() {
     else return fuel_left();
 }
 
+// Overhead-only scope (teacher captures, turn hooks): credits its measured fuel back to the teacher when kFuelCredit,
+// without charging any head's allowance. kScopeOverhead approximates the unmeasured instructions around the two fuel
+// reads (call setup before the first read, arithmetic after the second); calibrated by tools/lead_neutral_check.py.
+inline constexpr std::uint64_t kScopeOverhead = NN_SCOPE_OVERHEAD;
+struct CreditScope {
+    std::uint64_t start;
+    CreditScope() : start(nncfg::kFuelCredit ? fuel_left() : 0) {}
+    ~CreditScope() {
+        if constexpr (nncfg::kFuelCredit) {
+            const std::uint64_t now = fuel_left();
+            g_spent += (start > now ? start - now : 0) + kScopeOverhead;
+        }
+    }
+    CreditScope(const CreditScope&) = delete;
+    CreditScope& operator=(const CreditScope&) = delete;
+};
+
 // Record actual neural spend for `head` (allowance, credit, telemetry).
 inline void charge(nncfg::H head, std::uint64_t spent) {
     if constexpr (kTrack) {
@@ -115,13 +135,13 @@ struct Meter {
     Meter& operator=(const Meter&) = delete;
 };
 
-// One summary line per head with activity: "NNTEL <round> <head> adm ref fb neural fuel" (dev profiles only).
+// One summary line per head with activity: "NFT1 head round=.. head=<id> admitted refused fallback neural fuel" (agents/H/TELEMETRY_FORMAT.md form 3) (dev profiles only).
 inline void print_telemetry(std::uint32_t round) {
     if constexpr (nncfg::kTelemetry) {
         for (int h = 0; h < kHeads; ++h) {
             const Counters& c = g_cnt[h];
             if (!(c.admitted | c.refused | c.fallback | c.neural)) continue;
-            std::printf("NNTEL %u %d %u %u %u %u %llu\n", round, h, c.admitted, c.refused, c.fallback, c.neural,
+            std::printf("NFT1 head round=%u head=%d admitted=%u refused=%u fallback=%u neural=%u fuel=%llu\n", round, h, c.admitted, c.refused, c.fallback, c.neural,
                         static_cast<unsigned long long>(c.fuel));
         }
     } else {
