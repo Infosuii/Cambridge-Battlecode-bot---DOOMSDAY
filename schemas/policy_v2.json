@@ -1,0 +1,1072 @@
+{
+  "name": "nfs_direct_policy_actions",
+  "schema_version": 2,
+  "interpretation_version": 2,
+  "F": 12,
+  "K_max": 16,
+  "order": "ascending_unsigned_action_id",
+  "duplicate_ids": "reject_entire_decision",
+  "normalization": "float32(raw * float32(1 / scale)), then clip; all nonfinite raw values reject before normalization, including masked rows",
+  "ties": "lowest legal canonical id",
+  "masks": "uint8 exactly0 or1; no mandatory legal index0",
+  "empty": "explicit error; caller enters whole-bot teacher fallback",
+  "teacher": "optional stable-id annotation only; absent or out of set=-1; never candidate input/order/prior",
+  "feature_sources": "own/public/static-map/current-visible/legally-remembered-with-age only; no future targets or teacher preference scores",
+  "narrowing": "Caller generates/narrows using each head rule BEFORE this pure builder; count>16 rejects instead of silently truncating",
+  "hash": "FNV1a32 of canonical sorted-key ASCII JSON; per-head excludes own action_hash; combined excludes top action_schema_hash and every head action_hash",
+  "heads": [
+    {
+      "id": 1,
+      "name": "strategy",
+      "options": {
+        "0": "farm",
+        "1": "bank",
+        "2": "defend",
+        "3": "contest",
+        "4": "regroup",
+        "5": "attack",
+        "6": "retreat"
+      },
+      "action_id": "Intent enum0..6. No teacher-chain option.",
+      "narrowing": "At most the seven declared intents; legality is executor availability, with exact execution recheck. Never original priority order.",
+      "features": [
+        {
+          "name": "intent",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "intent"
+        },
+        {
+          "name": "self_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self hp fraction"
+        },
+        {
+          "name": "carried_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "carried gems"
+        },
+        {
+          "name": "gold",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "gold"
+        },
+        {
+          "name": "remaining_rounds",
+          "scale": 2000,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "remaining rounds"
+        },
+        {
+          "name": "goal_walk_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "goal walk distance"
+        },
+        {
+          "name": "near_allies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "near allies"
+        },
+        {
+          "name": "near_enemies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "near enemies"
+        },
+        {
+          "name": "ally_minus_enemy_strength",
+          "scale": 100,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "ally minus enemy strength"
+        },
+        {
+          "name": "submitted_margin",
+          "scale": 1000,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "submitted margin"
+        },
+        {
+          "name": "goal_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "goal gems"
+        },
+        {
+          "name": "goal_threat_damage",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "goal threat damage"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 819906655
+    },
+    {
+      "id": 2,
+      "name": "objective",
+      "options": {},
+      "action_id": "Public static group id (uint32), independent of ranking.",
+      "narrowing": "Enumerate reachable legal groups without teacher scores. If >16, split into four canonical spatial quadrants, take the nearest four per quadrant using static distance then id; fill empty quotas by round-robin quadrants. Report excluded teacher labels; never inject them.",
+      "features": [
+        {
+          "name": "dx",
+          "scale": 16,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "dx"
+        },
+        {
+          "name": "dy",
+          "scale": 16,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "dy"
+        },
+        {
+          "name": "walk_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "walk distance"
+        },
+        {
+          "name": "reward_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "reward gems"
+        },
+        {
+          "name": "reward_gold",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "reward gold"
+        },
+        {
+          "name": "camp_health",
+          "scale": 5000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "camp health"
+        },
+        {
+          "name": "camp_strength",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "camp strength"
+        },
+        {
+          "name": "capture_rounds",
+          "scale": 100,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "capture rounds"
+        },
+        {
+          "name": "respawn_wait",
+          "scale": 200,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "respawn wait"
+        },
+        {
+          "name": "other_ally_claims",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "other ally claims"
+        },
+        {
+          "name": "visible_enemy_count",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "visible enemy count"
+        },
+        {
+          "name": "observation_age",
+          "scale": 100,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "observation age"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 3497944144
+    },
+    {
+      "id": 3,
+      "name": "role",
+      "options": {
+        "0": "farmer",
+        "1": "carrier",
+        "2": "fighter",
+        "3": "escort",
+        "4": "scout"
+      },
+      "action_id": "Role enum0..4.",
+      "narrowing": "All five roles available unless a deterministic executor precondition excludes one. Commit with explicit option start/end; no repeated forced decisions.",
+      "features": [
+        {
+          "name": "role",
+          "scale": 4,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "role"
+        },
+        {
+          "name": "self_slot",
+          "scale": 5,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self slot"
+        },
+        {
+          "name": "self_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self hp fraction"
+        },
+        {
+          "name": "carried_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "carried gems"
+        },
+        {
+          "name": "gold",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "gold"
+        },
+        {
+          "name": "attack_range",
+          "scale": 10,
+          "clip": [
+            0,
+            2
+          ],
+          "description": "attack range"
+        },
+        {
+          "name": "near_allies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "near allies"
+        },
+        {
+          "name": "near_enemies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "near enemies"
+        },
+        {
+          "name": "assignment_walk_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "assignment walk distance"
+        },
+        {
+          "name": "active_group_claims",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "active group claims"
+        },
+        {
+          "name": "submitted_margin",
+          "scale": 1000,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "submitted margin"
+        },
+        {
+          "name": "remaining_rounds",
+          "scale": 2000,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "remaining rounds"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 423138082
+    },
+    {
+      "id": 4,
+      "name": "bank",
+      "options": {
+        "0": "continue",
+        "1": "travel_to_altar",
+        "2": "deposit_at_altar"
+      },
+      "action_id": "Continue=0; travel=1+2*altar_index; deposit=2+2*altar_index. Altar indices are public static order, not teacher rank.",
+      "narrowing": "Continue plus direct deposit options and reachable altar destinations. If >16, keep deposit options first, then nearest altars with four-quadrant diversity; no original bank verdict or bank score.",
+      "features": [
+        {
+          "name": "bank_action",
+          "scale": 2,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "bank action"
+        },
+        {
+          "name": "altar_dx",
+          "scale": 16,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "altar dx"
+        },
+        {
+          "name": "altar_dy",
+          "scale": 16,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "altar dy"
+        },
+        {
+          "name": "walk_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "walk distance"
+        },
+        {
+          "name": "carried_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "carried gems"
+        },
+        {
+          "name": "gems_still_needed",
+          "scale": 1000,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "gems still needed"
+        },
+        {
+          "name": "remaining_rounds",
+          "scale": 2000,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "remaining rounds"
+        },
+        {
+          "name": "self_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self hp fraction"
+        },
+        {
+          "name": "visible_enemies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "visible enemies"
+        },
+        {
+          "name": "threat_damage",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "threat damage"
+        },
+        {
+          "name": "deposit_channel_rounds",
+          "scale": 20,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "deposit channel rounds"
+        },
+        {
+          "name": "altar_enemy_lock_state",
+          "scale": 1,
+          "clip": [
+            -1,
+            1
+          ],
+          "description": "-1 unknown,0 unlocked,1 known enemy lock"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 571699626
+    },
+    {
+      "id": 5,
+      "name": "shop",
+      "options": {
+        "0": "save",
+        "1": "item_shard",
+        "2": "consumable"
+      },
+      "action_id": "Save=0; item=1+SDK item_type index; consumable=1000+raw ABI id. Retired/unavailable ids are never legal.",
+      "narrowing": "Save plus affordable explicit legal purchases. If >16, reserve up to7 distinct item families/stat categories, up to2 consumables, then fill by canonical item id with round-robin families; no complete teacher build-plan option.",
+      "features": [
+        {
+          "name": "purchase_kind",
+          "scale": 2,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "purchase kind"
+        },
+        {
+          "name": "type_id",
+          "scale": 42,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "type id"
+        },
+        {
+          "name": "cost",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "cost"
+        },
+        {
+          "name": "own_gold",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "own gold"
+        },
+        {
+          "name": "owned_count",
+          "scale": 5,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "owned count"
+        },
+        {
+          "name": "health_gain",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "health gain"
+        },
+        {
+          "name": "strength_gain",
+          "scale": 100,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "strength gain"
+        },
+        {
+          "name": "focus_gain",
+          "scale": 100,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "focus gain"
+        },
+        {
+          "name": "heal_amount",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "heal amount"
+        },
+        {
+          "name": "damage_gain",
+          "scale": 100,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "damage gain"
+        },
+        {
+          "name": "remaining_rounds",
+          "scale": 2000,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "remaining rounds"
+        },
+        {
+          "name": "capacity_remaining",
+          "scale": 5,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "capacity remaining"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 364822919
+    },
+    {
+      "id": 6,
+      "name": "move",
+      "options": {
+        "0": "walk",
+        "1": "ability_slot0_mobility",
+        "2": "ability_slot1_mobility",
+        "3": "hold"
+      },
+      "action_id": "(kind<<30)|(canonical_y<<15)|canonical_x; kind0..3, canonical coordinates0..32767. Execution separately retains world coordinates.",
+      "narrowing": "All8 legal adjacent steps and hold. If mobility/waypoints add >16 options, retain hold plus one per compass octant per action kind, round-robin kind/octant; shortest remaining static distance then canonical id breaks narrowing ties. This is geometric narrowing, not teacher route ranking.",
+      "features": [
+        {
+          "name": "dx",
+          "scale": 8,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "dx"
+        },
+        {
+          "name": "dy",
+          "scale": 8,
+          "clip": [
+            -4,
+            4
+          ],
+          "description": "dy"
+        },
+        {
+          "name": "remaining_path_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "remaining path distance"
+        },
+        {
+          "name": "goal_cheb_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "goal cheb distance"
+        },
+        {
+          "name": "enemy_attackers",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "enemy attackers"
+        },
+        {
+          "name": "camp_attackers",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "camp attackers"
+        },
+        {
+          "name": "terrain_cover",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "terrain cover"
+        },
+        {
+          "name": "nearest_enemy_distance",
+          "scale": 16,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "nearest enemy distance"
+        },
+        {
+          "name": "nearest_ally_distance",
+          "scale": 16,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "nearest ally distance"
+        },
+        {
+          "name": "movement_kind",
+          "scale": 3,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "movement kind"
+        },
+        {
+          "name": "ability_cooldown_after_use",
+          "scale": 20,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "ability cooldown after use"
+        },
+        {
+          "name": "carried_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "carried gems"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 1540711168
+    },
+    {
+      "id": 7,
+      "name": "combat",
+      "options": {
+        "0": "basic_attack",
+        "1": "ability_slot0",
+        "2": "ability_slot1",
+        "3": "hold"
+      },
+      "action_id": "(target_handle<<2)|kind; kind0..3, handle0..0x3FFFFFFF. Hold uses handle0,kind3. Reject overflowing handles instead of masking collisions.",
+      "narrowing": "Exact SDK-legal attack/ability/target pairs, plus hold. If >16, round-robin action kinds and spatial octants; include channeling targets within each geometric bucket, then canonical handle order. No inherited target worth/TTK/teacher score.",
+      "features": [
+        {
+          "name": "action_kind",
+          "scale": 3,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "action kind"
+        },
+        {
+          "name": "target_hp",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "target hp"
+        },
+        {
+          "name": "target_max_hp",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "target max hp"
+        },
+        {
+          "name": "target_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "target gems"
+        },
+        {
+          "name": "target_distance",
+          "scale": 16,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "target distance"
+        },
+        {
+          "name": "self_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self hp fraction"
+        },
+        {
+          "name": "self_strength",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "self strength"
+        },
+        {
+          "name": "target_strength",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "target strength"
+        },
+        {
+          "name": "direct_damage",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "direct damage"
+        },
+        {
+          "name": "cooldown_after_use",
+          "scale": 20,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "cooldown after use"
+        },
+        {
+          "name": "target_channel_rounds",
+          "scale": 20,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "target channel rounds"
+        },
+        {
+          "name": "affected_visible_enemies",
+          "scale": 6,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "affected visible enemies"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 3498988315
+    },
+    {
+      "id": 8,
+      "name": "engage",
+      "options": {
+        "0": "fight",
+        "1": "disengage",
+        "2": "hold"
+      },
+      "action_id": "Verdict enum0..2.",
+      "narrowing": "All three decisions, subject only to narrowly declared deterministic emergency/executor constraints. No original fight/search verdict or prior.",
+      "features": [
+        {
+          "name": "verdict",
+          "scale": 2,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "verdict"
+        },
+        {
+          "name": "self_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "self hp fraction"
+        },
+        {
+          "name": "target_hp_fraction",
+          "scale": 1,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "target hp fraction"
+        },
+        {
+          "name": "visible_ally_health",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "visible ally health"
+        },
+        {
+          "name": "visible_enemy_health",
+          "scale": 1000,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "visible enemy health"
+        },
+        {
+          "name": "ally_damage_per_attack",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "ally damage per attack"
+        },
+        {
+          "name": "enemy_damage_per_attack",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "enemy damage per attack"
+        },
+        {
+          "name": "nearest_enemy_distance",
+          "scale": 16,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "nearest enemy distance"
+        },
+        {
+          "name": "escape_walk_distance",
+          "scale": 50,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "escape walk distance"
+        },
+        {
+          "name": "carried_gems",
+          "scale": 100,
+          "clip": [
+            0,
+            8
+          ],
+          "description": "carried gems"
+        },
+        {
+          "name": "ready_spell_count",
+          "scale": 2,
+          "clip": [
+            0,
+            1
+          ],
+          "description": "ready spell count"
+        },
+        {
+          "name": "incoming_damage",
+          "scale": 1000,
+          "clip": [
+            0,
+            4
+          ],
+          "description": "incoming damage"
+        }
+      ],
+      "interpretation_version": 2,
+      "F": 12,
+      "K_max": 16,
+      "contexts": [
+        "ordinary",
+        "combat",
+        "retreat",
+        "positioning"
+      ],
+      "action_hash": 3862387807
+    }
+  ],
+  "action_schema_hash": 383728542
+}

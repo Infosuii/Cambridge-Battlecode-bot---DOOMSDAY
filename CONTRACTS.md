@@ -6,6 +6,26 @@ write the problem and your proposed change into `agents/<you>/CONTRACT_ISSUES.md
 
 ## Current user direction — direct policy, 2026-10-24
 
+### Active implementation ownership: direct policy v2
+
+- Lead: original sources, nn_policy_runtime.{h,cpp}, nn_policy_config.h, tools/install_policy_v2.py, integration,
+  official builds/fuel and top-level documentation.
+- Worker strategy: nn_policy_candidates.{h,cpp}, python/nfs/policy/candidates.py, schemas/policy_v2.json,
+  tests named test_policy_candidates*, agents/v2_candidates/**. Pure candidate data and builders; no Bot glue edits.
+- Worker economy: nn_policy_model.h, python/nfs/policy/{__init__,model,export}.py, configs/model/policy_v2.json,
+  tests named test_policy_model*, agents/v2_model/**. Pure model descriptor and exporter; no runtime/source hooks.
+- Worker tactics: nn_policy_log.h, python/nfs/policy/{records,dataset,losses}.py, tests named test_policy_records*,
+  agents/v2_records/**. NFS2 wire protocol and synthetic-only training-path checks; no actual training jobs.
+
+Shared v2 interface: legacy nncfg::H IDs for strategy/objective/role/move/combat/engage/bank/shop; K<=16, F=12 for
+every direct candidate head, call context0..3. Candidate rows canonical ascending stable action ID; no teacher/prior
+feature. A pure Candidate has uint32 id, uint8 legal, float raw[12]; builder scales/clips into Decision feat[K*12].
+Optional teacher label is -1 absent and never reorders candidates. Neural result has choice=-1 on failure, so callers
+must deliberately enter teacher fallback; zero is never implicitly the teacher. Model wrapper interpretation2 must
+reject v1 semantics while reusing the legacy pure encoder/kernel layout. Model owner defines exact descriptor API
+and messages lead promptly. Log owner defines exact NFS2 API and messages lead promptly. No workers edit shared
+legacy files, __init__ exports belonging to another worker, original source, model registry or profiles.
+
 The user changed the plan to roughly80% neural control of important decisions. [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md)
 is the new implementation target; `configs/design/policy_first_v2.json` is a design record, not a runtime config.
 Future v2 heads use direct masked policy logits and teacher-independent candidates; the original teacher is for

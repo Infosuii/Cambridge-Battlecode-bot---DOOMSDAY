@@ -1,4 +1,91 @@
-# HANDOFF — stopped at explicit user request, 2026-10-24
+# HANDOFF — recovery checkpoint, 2026-10-24
+
+## CURRENT STATE — supersedes historical checkpoint below
+
+Latest user priority: create GitHub repository "neural networkk battlecode" and push EVERYTHING needed to clone
+on a fresh laptop and continue with no missing source/features/tests/data. GitHub upload is explicitly authorized;
+Battlecode submission/login/activation is still prohibited. Private repository CREATED:
+https://github.com/Infosuii/neural-networkk-battlecode . Git Credential Manager's existing Infosuii credential
+works through reviewed escalation. Never print/save its token. No browser or login used. GitHub connector lacks
+creation/bulk Git transport, so tools/recovery_github.py uses official API and Git uses existing credentials.
+
+Recovery: read RECOVERY.md and config/recovery_sources.json. tools/recovery_archive.py snapshots ALL of the
+Cambridge Battlecode directory (~112GB raw), external official CLI workspace (~4GB), official cache (~2.3GB),
+native compiler (~1.1GB), exact Python base runtime, previous environments/caches/data/analytics/history. ZIP
+packs deduplicate SHA256 blocks and use Git LFS. File/block/pack SHA256 and source errors/exclusions are explicit.
+Check recovery/progress.json, snapshot.json, source_errors.json and remote refs/LFS packs. Repository creation or
+source-only push does NOT prove data is backed up. Current backup/publication may still be running: inspect actual
+receipts/processes. The old configured `21 october matches` path was absent before this backup; all available
+dated archives including23102026 are included. Credentials are excluded with paths/reasons only, never contents.
+
+### V2 implementation since b17ace1
+
+Foundation IS implemented; original gameplay dispatch/executors are NOT integrated. Root main.cpp/bot.cpp/draft.cpp
+remain original. Default nn_policy_config.h has NN_POLICY_V2=0. nn_policy_runtime.h declares future glue;
+nn_policy_runtime.cpp does NOT exist. nn_policy_state.h accessors need real option-state definitions. No80% neural
+ownership, readiness to train, strength improvement or completed release packaging is claimed.
+
+- Eight pure candidate heads: strategy/objective/role/bank/shop/move/combat/engage;K<=16,F12,contexts0..3,
+  canonical IDs, no teacher-first choice/prior. Candidate0 may be illegal. Semantic action hash0x16DF3B9E.
+- Compact observation173floats: self40,5x10allies+5mask,6x12enemies+6mask. Hash0x1346E3BA. C++/Python bit-exact
+  on1013 synthetic cases. Strict shapes/masks/padding/nonfinite/import-schema validation, deterministic generator.
+- Direct model2296params,G8/E4/context8/head8, interpretation2 wrapper over kernel1. Raw logits without teacher
+  prior or residual bound. Strict exporter/loaders; synthetic untrained and zero-logit artifacts only.
+- NFS2 bounded context/decision/execution records, stableIDs/optional teacher, true sampled logp. Dataset/PPO reject
+  argmax, mismatched/missing execution acks, overrides/fallbacks/continuations. Imitation needs represented teacher
+  actually executed. Synthetic direct imitation/PPO/SMDP GAE/autograd tests; NO optimizer updates/training jobs.
+- nn_policy_core.h: resumable whole+segment checksums, admission BEFORE features, fuel metering, snapshot cache,
+  single-use authenticated tickets, original selected-action verification on execution ack, sampled true logp or
+  deterministic argmax probability1, leftover-only TEXT-byte-gated log flush. Budgets remain PROVISIONAL.
+- nn_policy_capture.cpp reads own/public/current visible state and own aged sightings/claims only; bounded nearest
+  visible/ID rows, compact encoder. Active SDK syntax passed; real engine capture not yet exercised.
+- tools/install_policy_v2.py makes explicit UNTRAINED scratch trees only. direct_untrained install tested. No
+  dispatch hook exists, so scratch installation is NOT proof of functioning direct neural gameplay.
+- Macro SDK generators were only planned before priority switched. No nn_policy_options.cpp exists. Bank needs
+  REAL per-altar distances: World's aggregate nearest-altar field cannot label every destination.
+
+### Verified checkpoint
+
+-255 Python tests OK: evaluation/results/v2_recovery_python.log,28.492s. Includes candidates5/model10/records15/
+  observation6/core9 new synthetic tests. Core review caught/fixed forged tickets/acks and stale pending tickets.
+- Legacy native11targets460checks: evaluation/results/v2_recovery_cpp.log and cpp_tests.json.
+- Active compact capture SDK native syntax passed: evaluation/results/v2_capture_syntax.log empty(success).
+- Fresh OFFICIAL teacher_exact byte check PASSED:
+  evaluation/results/v2_recovery_teacher_exact.json; source SHA554ecea6272094e5069d80eb517de8ce5e6f0226b676581efb33d238a1083ccc;
+  full Wasm SHA eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442 (frozen original).
+- Compiler access now works with reviewed escalation. Prior failed configuration cached EMPTY Release optimization
+  flags, causing a misleading7d548... mismatch. Fresh reference/current rebuilds are exact. check_teacher_exact.py
+  now always creates a fresh scratch directory. Never reuse poisoned old CMake caches.
+- Official default-fuel LEGACY component probe DID RUN on2reused maps, no learning:
+  evaluation/evidence/neural_fuel_probe.json. Max capture18172,encode11610,dense encoder28724,F24H8K16head20707,
+  F20K16head18595,enqueue3862,flush31957. This motivated compact v2. Complete compact SDK/context/heads/flush
+  fuel is NOT measured; neither budget JSON nor initial defaults are accepted. All local maps reused benchmarks.
+
+Known core accounting gaps: per-record log fuel stays0 though total used includes enqueue; post-admission failures
+have record reasons but invalid/refused counters need consistency. Keep explicit in next review. New hooks stay off.
+
+### Next order
+
+1. Finish COMPLETE GitHub archive + LFS upload, inspect source_errors/exclusions, verify ALL remote packs and a
+   relocated clone restore. tools/configure_recovery.py rewrites paths for a fresh Windows x64 clone and uses
+   exact offline Python packages. Run Python/native/official identity there. Recovery docs added after snapshot
+   are current in Git HEAD; historical snapshot is a timestamped evidence tree, not a replacement for Git HEAD.
+2. Implement eight SDK builders/executors and actual direct runtime dispatch, bypassing original heuristic ranks
+   in nominal mode. Keep deterministic legality/channel/death guards, explicit fallback, inherited trained draft,
+   flat src and fresh full original hash after every C++ milestone.
+3. Engine-calibrate complete compact costs/cadence/budget, actual capture/records/parity, every profile, untrained
+   smoke both sides vs original/v47/first-hour. Amend protocol before v2 comparative runs. Measure decision starts
+   per area, excluding continued options from neural-ownership numerator. Do not manufacture an80% claim.
+4. Independent review, docs/training CLI adaptations, release packaging/independent rebuild. NO TRAINING/SUBMISSION.
+5. Before usage ends, update this handoff and NEXT_AGENT_PROMPT.md; give the user a continuation prompt and commit.
+
+Three real workers strategy/economy/tactics produced agents/v2_* reports/interfaces. Exact configured model ID
+unavailable; do not invent Opus runs. Workers hit usage limits during final followups and were stopped; no further
+worker edits should be assumed. Preserve their native files, evidence and limitations. Current source is incomplete.
+
+---
+
+## HISTORICAL CHECKPOINT — superseded status/blockers retained below
 
 ## Latest direction: plan revision after the safe stop
 

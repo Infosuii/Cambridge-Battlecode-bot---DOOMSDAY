@@ -1,6 +1,7 @@
 """Official byte-identity checkpoint; no matches, training or submission. Fails closed on build errors."""
 import json
 import argparse
+import time
 import sys
 from pathlib import Path
 
@@ -22,7 +23,9 @@ def main():
     result = dict(label='teacher_exact official byte-identity checkpoint', source_sha256=source_sha,
                   expected_sha256=engine.sha256(ROOT / 'references/builds/original.wasm'), passed=False)
     try:
-        dest=ROOT/'artifacts/tmp/teacher_exact_check'/source_sha[:16]
+        # A compiler launch failure can leave CMake's release defaults cached as empty. Always use a clean
+        # checkpoint directory; otherwise a later successful CLI call may silently build without -O3.
+        dest=ROOT/'artifacts/tmp/teacher_exact_check'/(source_sha[:16]+'-'+str(time.time_ns()))
         engine.make_bot_dir(source,dest)
         install('teacher_exact',dest/'src',quiet=True)
         wasm=engine.official_build(dest,dest/'teacher_exact.wasm')

@@ -1,0 +1,267 @@
+{
+  "name": "nfs.compact_policy_observation",
+  "version": 2,
+  "normalization": "float32(raw/scale), clipped[-4,4]; masked rows zero; nonfinite valid fields reject",
+  "layout": "self40,ally5x10,ally_mask5,enemy6x12,enemy_mask6",
+  "obs_dim": 173,
+  "self": [
+    {
+      "name": "hp_fraction",
+      "scale": 1
+    },
+    {
+      "name": "hp",
+      "scale": 1000
+    },
+    {
+      "name": "max_hp",
+      "scale": 1000
+    },
+    {
+      "name": "gems",
+      "scale": 100
+    },
+    {
+      "name": "gold",
+      "scale": 1000
+    },
+    {
+      "name": "strength",
+      "scale": 100
+    },
+    {
+      "name": "focus",
+      "scale": 100
+    },
+    {
+      "name": "attack_range",
+      "scale": 10
+    },
+    {
+      "name": "round",
+      "scale": 2000
+    },
+    {
+      "name": "remaining_rounds",
+      "scale": 2000
+    },
+    {
+      "name": "ally_score",
+      "scale": 1000
+    },
+    {
+      "name": "enemy_score",
+      "scale": 1000
+    },
+    {
+      "name": "role",
+      "scale": 4
+    },
+    {
+      "name": "goal_dx",
+      "scale": 32
+    },
+    {
+      "name": "goal_dy",
+      "scale": 32
+    },
+    {
+      "name": "spawn_distance",
+      "scale": 50
+    },
+    {
+      "name": "cooldown0",
+      "scale": 20
+    },
+    {
+      "name": "cooldown1",
+      "scale": 20
+    },
+    {
+      "name": "spell0_present",
+      "scale": 1
+    },
+    {
+      "name": "spell1_present",
+      "scale": 1
+    },
+    {
+      "name": "alive",
+      "scale": 1
+    },
+    {
+      "name": "can_move",
+      "scale": 1
+    },
+    {
+      "name": "can_attack",
+      "scale": 1
+    },
+    {
+      "name": "can_cast",
+      "scale": 1
+    },
+    {
+      "name": "sight_dx",
+      "scale": 32
+    },
+    {
+      "name": "sight_dy",
+      "scale": 32
+    },
+    {
+      "name": "sight_age",
+      "scale": 100
+    },
+    {
+      "name": "in_bush",
+      "scale": 1
+    },
+    {
+      "name": "on_own_spawn",
+      "scale": 1
+    },
+    {
+      "name": "near_allies",
+      "scale": 6
+    },
+    {
+      "name": "near_enemies",
+      "scale": 6
+    },
+    {
+      "name": "map_width",
+      "scale": 100
+    },
+    {
+      "name": "map_height",
+      "scale": 100
+    },
+    {
+      "name": "champion_type",
+      "scale": 11
+    },
+    {
+      "name": "ability0_kind",
+      "scale": 7
+    },
+    {
+      "name": "ability1_kind",
+      "scale": 7
+    },
+    {
+      "name": "in_hot_zone",
+      "scale": 1
+    },
+    {
+      "name": "ward_charges",
+      "scale": 10
+    },
+    {
+      "name": "ward_cooldown",
+      "scale": 20
+    },
+    {
+      "name": "reserved_zero",
+      "scale": 1
+    }
+  ],
+  "ally": [
+    {
+      "name": "dx",
+      "scale": 32
+    },
+    {
+      "name": "dy",
+      "scale": 32
+    },
+    {
+      "name": "hp_fraction",
+      "scale": 1
+    },
+    {
+      "name": "hp",
+      "scale": 1000
+    },
+    {
+      "name": "strength",
+      "scale": 100
+    },
+    {
+      "name": "focus",
+      "scale": 100
+    },
+    {
+      "name": "attack_range",
+      "scale": 10
+    },
+    {
+      "name": "champion_type",
+      "scale": 11
+    },
+    {
+      "name": "carried_gems",
+      "scale": 100
+    },
+    {
+      "name": "shared_claim_code",
+      "scale": 127
+    }
+  ],
+  "enemy": [
+    {
+      "name": "dx",
+      "scale": 32
+    },
+    {
+      "name": "dy",
+      "scale": 32
+    },
+    {
+      "name": "hp_fraction",
+      "scale": 1
+    },
+    {
+      "name": "hp",
+      "scale": 1000
+    },
+    {
+      "name": "strength",
+      "scale": 100
+    },
+    {
+      "name": "focus",
+      "scale": 100
+    },
+    {
+      "name": "attack_range",
+      "scale": 10
+    },
+    {
+      "name": "champion_type",
+      "scale": 11
+    },
+    {
+      "name": "carried_gems",
+      "scale": 100
+    },
+    {
+      "name": "recalling",
+      "scale": 1
+    },
+    {
+      "name": "submitting",
+      "scale": 1
+    },
+    {
+      "name": "distance",
+      "scale": 32
+    }
+  ],
+  "visibility": "Self/public map and scores, own shared claims, current visible bodies, own remembered sighting with age. No hidden enemy fields or future targets.",
+  "coordinate_frame": "nnobs canonical team frame; all dx/dy mirrored to own perspective",
+  "row_order": "Visible alive bodies only; nearest Chebyshev distance to self then ascending global champion handle; exclude self; at most5 allies and6 enemies.",
+  "semantics": "near_allies/enemies count current visible alive bodies at distance<=8. Goal is current direct-policy option goal or self when absent; role is current direct-policy role (initial farmer0). Sighting is newest own remembered enemy sighting, tie lowest canonical coordinate, absent dx/dy0 age10000. Shared claim is raw7bit own-team code; absent127. Unknown spawn distance10000. reserved_zero always0.",
+  "payload": "173 normalized little-endian f32 values; no legacy RawTurn; NFS2 header supplies schema identity",
+  "obs_schema_hash": 323412922
+}
