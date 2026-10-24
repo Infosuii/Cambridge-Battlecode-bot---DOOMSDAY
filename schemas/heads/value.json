@@ -1,0 +1,42 @@
+{
+  "name": "value",
+  "id": 11,
+  "version": 1,
+  "kind": "value",
+  "F": 0,
+  "K_max": 0,
+  "features": [],
+  "contexts": [],
+  "status": "untrained",
+  "outputs": [
+    {
+      "name": "win_logit",
+      "unit": "logit"
+    },
+    {
+      "name": "margin",
+      "unit": "submitted_gems_per_1000"
+    },
+    {
+      "name": "carry_risk",
+      "unit": "logit"
+    }
+  ],
+  "consumers": [
+    "nns::act: bounded critic contribution to strategy priors/features",
+    "nns::objective: same-turn bounded signal in candidate features",
+    "offline grouped value regression"
+  ],
+  "fallback": "Zero contribution; no safety or legality changes.",
+  "margin_normalization": "Final submitted ally-minus-enemy gem margin /1000. Fixed model output unit; independent of reward shaping margin_scale.",
+  "label_sources": [
+    "engine_1_0_3_public_terminal_outcome",
+    "engine_1_0_3_submitted_margin",
+    "instrumented_carried_value_loss"
+  ],
+  "prohibited_inputs": [
+    "future outcomes",
+    "hidden enemy state",
+    "opponent private memory"
+  ]
+}

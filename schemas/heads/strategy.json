@@ -1,0 +1,267 @@
+{
+  "name": "strategy",
+  "id": 1,
+  "version": 1,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 6,
+  "contexts": [
+    "default"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.25,
+  "features": [
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Current legal round number.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "hp_fraction",
+      "scale": "max(max_hp,1)",
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own current health fraction.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gems",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own carried gems; not submitted score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gold",
+      "scale": 1000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own current gold.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "score_margin",
+      "scale": 500,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Public submitted ally score minus enemy score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "slot",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own fixed team slot.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "team_size",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Team bodies in the teacher slot protocol.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "melee",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own champion melee flag.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_allies",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible allies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_enemies",
+      "scale": 8,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible enemies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role",
+      "scale": 4,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Committed role id, or the teacher-implied role.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "long_term_signal",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Bounded critic signal: .5 act(risk)-.25 act(win)-.25 act(margin), where model margin is submitted gem margin /1000; zero if unavailable.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_teacher_chain",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority teacher chain",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_farm",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority farm",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_bank",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority bank",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_home",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority home",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_hunt",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority hunt",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "priority_regroup",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "priority regroup",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role_farmer",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "role farmer",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role_carrier",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "role carrier",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role_fighter",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "role fighter",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role_escort",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "role escort",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role_scout",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "role scout",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "teacher",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "teacher",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    }
+  ],
+  "label_sources": [
+    "instrumented_original_teacher_NFS1"
+  ],
+  "teacher_index": 0,
+  "ties": "lowest_index",
+  "padding": "ignored beyond K",
+  "empty_fallback": "execute the already-computed teacher choice",
+  "status": "untrained",
+  "semantics": "Candidate 0 executes the unchanged remaining teacher chain. Others attempt the named priority then fall through to that chain if no action succeeds. Emergency combat, win-bank and home guards run first.",
+  "frequency": "Every eligible chain turn; role is committed for 20 rounds.",
+  "legality": "Availability of groups/bag/spawn/visible allies/recent sightings; exact APIs remain deterministic.",
+  "prior": "0 for teacher; -.25 + .05 role_fit + .10 max(signal,0) for bank. Always <= teacher."
+}

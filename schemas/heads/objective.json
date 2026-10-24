@@ -1,0 +1,266 @@
+{
+  "name": "objective",
+  "id": 2,
+  "version": 1,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 8,
+  "contexts": [
+    "default"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.25,
+  "features": [
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Current legal round number.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "hp_fraction",
+      "scale": "max(max_hp,1)",
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own current health fraction.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gems",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own carried gems; not submitted score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gold",
+      "scale": 1000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own current gold.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "score_margin",
+      "scale": 500,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Public submitted ally score minus enemy score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "slot",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own fixed team slot.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "team_size",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Team bodies in the teacher slot protocol.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "melee",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own champion melee flag.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_allies",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible allies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_enemies",
+      "scale": 8,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible enemies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role",
+      "scale": 4,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Committed role id, or the teacher-implied role.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "long_term_signal",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Bounded critic signal: .5 act(risk)-.25 act(win)-.25 act(margin), where model margin is submitted gem margin /1000; zero if unavailable.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_value",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate value",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_cost",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate cost",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_score",
+      "scale": 5,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate score",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_finish",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate finish",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_need",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate need",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_gems",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate gems",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_gold",
+      "scale": 1000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate gold",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_respawn_wait",
+      "scale": 200,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate respawn wait",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_distance",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate distance",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_strength",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate strength",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_other_claims",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "candidate other claims",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "teacher",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "teacher",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    }
+  ],
+  "label_sources": [
+    "instrumented_original_teacher_NFS1"
+  ],
+  "teacher_index": 0,
+  "ties": "lowest_index",
+  "padding": "ignored beyond K",
+  "empty_fallback": "execute the already-computed teacher choice",
+  "status": "untrained",
+  "semantics": "Re-rank only the bounded teacher top-K after score_groups route/plan decisions; carry need and score with the selected id.",
+  "commitment": "Only called when score_groups actually recomputes a choice; teacher low-fuel forced target turns emit no decision.",
+  "legality": "Teacher narrowed candidates; invalid group or active avoid_until masks alternative. Deterministic teacher need/safety checks and execution remain."
+}

@@ -1,0 +1,14 @@
+{
+  "name": "belief", "id": 10, "version": 1, "kind": "value", "F": 0,
+  "K_max": 0, "features": [], "contexts": [], "n_sectors": 9,
+  "outputs": [{"name": "next_visible_enemy_sector", "unit": "logit", "count": 9,
+               "reference": "cached RawTurn self position and canonical team frame", "radius": 16,
+               "horizon_rounds": 10}],
+  "status": "untrained",
+  "consumer": "bounded sector-risk feature for movement, or guarded belief-only tile reranking",
+  "label_sources": ["this champion's own future visible-enemy observations within ten rounds"],
+  "training_status": "target/loss collector not yet implemented; do not claim training-ready",
+  "censoring": "missing future captures cannot mean no enemy; far sector8 is separate from unknown visibility",
+  "fallback": "zero contribution; deterministic teacher endpoint remains",
+  "prohibited_inputs": ["future observations", "privileged replay state", "opponent private memory"]
+}

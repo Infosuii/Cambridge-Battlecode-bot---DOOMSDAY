@@ -1,0 +1,242 @@
+{
+  "name": "combat",
+  "id": 7,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 16,
+  "features": [
+    {
+      "name": "action_kind",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "action kind"
+    },
+    {
+      "name": "spell_slot_plus_one",
+      "scale": 2,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "spell slot plus one"
+    },
+    {
+      "name": "target_distance",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target distance"
+    },
+    {
+      "name": "target_health",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target health"
+    },
+    {
+      "name": "target_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target health fraction"
+    },
+    {
+      "name": "target_carried_gems",
+      "scale": 50,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target carried gems"
+    },
+    {
+      "name": "target_strength",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target strength"
+    },
+    {
+      "name": "target_focus",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target focus"
+    },
+    {
+      "name": "target_range",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target range"
+    },
+    {
+      "name": "visible_enemies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible enemies near"
+    },
+    {
+      "name": "visible_allies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible allies near"
+    },
+    {
+      "name": "self_attack_range",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self attack range"
+    },
+    {
+      "name": "self_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self health fraction"
+    },
+    {
+      "name": "target_submitting",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target submitting"
+    },
+    {
+      "name": "target_recalling",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target recalling"
+    },
+    {
+      "name": "already_walked",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already walked"
+    },
+    {
+      "name": "already_cast",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already cast"
+    },
+    {
+      "name": "striking_dash",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "striking dash"
+    },
+    {
+      "name": "crowd_control",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "crowd control"
+    },
+    {
+      "name": "area_damage",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "area damage"
+    },
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "round"
+    },
+    {
+      "name": "damage_to_target_health",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "damage to target health"
+    },
+    {
+      "name": "self_carried_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self carried fraction"
+    },
+    {
+      "name": "reserved_23",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    }
+  ],
+  "contexts": [
+    "visible_target_intent",
+    "spell_or_keep",
+    "reserved_sequence",
+    "reserved"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.05,
+  "label_sources": [
+    "instrumented_engine_1.0.3_teacher_rollouts",
+    "later_on_policy_rollouts"
+  ],
+  "candidate_zero": "already-computed teacher choice; legal under the deterministic generator",
+  "nonfinite": "Preserved for runtime rejection; teacher fallback.",
+  "padding": "Rows beyond K are ignored. Reserved features are zero.",
+  "status": "untrained",
+  "synthetic_test_data_only": true
+}

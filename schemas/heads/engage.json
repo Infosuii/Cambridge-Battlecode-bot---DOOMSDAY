@@ -1,0 +1,242 @@
+{
+  "name": "engage",
+  "id": 8,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 16,
+  "features": [
+    {
+      "name": "fight",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "fight"
+    },
+    {
+      "name": "run",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "run"
+    },
+    {
+      "name": "keep",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "keep"
+    },
+    {
+      "name": "teacher_fight_value",
+      "scale": 1000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "teacher fight value"
+    },
+    {
+      "name": "teacher_run_value",
+      "scale": 1000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "teacher run value"
+    },
+    {
+      "name": "teacher_margin",
+      "scale": 100,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "teacher margin"
+    },
+    {
+      "name": "time_to_death",
+      "scale": 20,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "time to death"
+    },
+    {
+      "name": "nearest_enemy_distance",
+      "scale": 20,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "nearest enemy distance"
+    },
+    {
+      "name": "self_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self health fraction"
+    },
+    {
+      "name": "carried_gems",
+      "scale": 50,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "carried gems"
+    },
+    {
+      "name": "visible_enemies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible enemies near"
+    },
+    {
+      "name": "visible_allies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible allies near"
+    },
+    {
+      "name": "self_strength",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self strength"
+    },
+    {
+      "name": "self_focus",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self focus"
+    },
+    {
+      "name": "heading_home",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "heading home"
+    },
+    {
+      "name": "melee",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "melee"
+    },
+    {
+      "name": "has_visible_target",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "has visible target"
+    },
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "round"
+    },
+    {
+      "name": "already_cast",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already cast"
+    },
+    {
+      "name": "already_walked",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already walked"
+    },
+    {
+      "name": "reserved_20",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_21",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_22",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_23",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    }
+  ],
+  "contexts": [
+    "final_verdict",
+    "reserved_search",
+    "reserved",
+    "reserved_2"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.05,
+  "label_sources": [
+    "instrumented_engine_1.0.3_teacher_rollouts",
+    "later_on_policy_rollouts"
+  ],
+  "candidate_zero": "already-computed teacher choice; legal under the deterministic generator",
+  "nonfinite": "Preserved for runtime rejection; teacher fallback.",
+  "padding": "Rows beyond K are ignored. Reserved features are zero.",
+  "status": "untrained",
+  "synthetic_test_data_only": true
+}

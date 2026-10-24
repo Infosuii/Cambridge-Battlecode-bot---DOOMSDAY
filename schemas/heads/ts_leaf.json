@@ -1,0 +1,96 @@
+{
+  "name": "ts_leaf",
+  "id": 12,
+  "kind": "value",
+  "F": 8,
+  "K_max": 1,
+  "features": [
+    {
+      "name": "ally_health_delta",
+      "scale": 1000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "ally health delta"
+    },
+    {
+      "name": "enemy_health_delta",
+      "scale": 1000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "enemy health delta"
+    },
+    {
+      "name": "ally_deaths",
+      "scale": 4,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "ally deaths"
+    },
+    {
+      "name": "enemy_deaths",
+      "scale": 4,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "enemy deaths"
+    },
+    {
+      "name": "self_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self health fraction"
+    },
+    {
+      "name": "self_spawn_distance",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self spawn distance"
+    },
+    {
+      "name": "self_gem_delta",
+      "scale": 50,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self gem delta"
+    },
+    {
+      "name": "run_plan",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "run plan"
+    }
+  ],
+  "contexts": [
+    "fight_run_leaf"
+  ],
+  "residual_bound": 25.0,
+  "teacher_margin": 0.05,
+  "label_sources": [
+    "instrumented_engine_1.0.3_teacher_rollouts",
+    "later_on_policy_rollouts"
+  ],
+  "candidate_zero": "already-computed teacher choice; legal under the deterministic generator",
+  "nonfinite": "Preserved for runtime rejection; teacher fallback.",
+  "padding": "Rows beyond K are ignored. Reserved features are zero.",
+  "status": "untrained",
+  "synthetic_test_data_only": true,
+  "interpretation": "Direct bounded residual in teacher planning-value units, added to the completed teacher leaf evaluation. At most four calls/real turn; zero on all fallbacks/shadow."
+}

@@ -1,0 +1,242 @@
+{
+  "name": "ward",
+  "id": 9,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 16,
+  "features": [
+    {
+      "name": "canonical_dx",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "canonical dx"
+    },
+    {
+      "name": "canonical_dy",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "canonical dy"
+    },
+    {
+      "name": "teacher_score_delta",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "teacher score delta"
+    },
+    {
+      "name": "nearest_visible_enemy_distance",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "nearest visible enemy distance"
+    },
+    {
+      "name": "visible_enemies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible enemies near"
+    },
+    {
+      "name": "keep_ward",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "keep ward"
+    },
+    {
+      "name": "in_bush",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "in bush"
+    },
+    {
+      "name": "tile_visible",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "tile visible"
+    },
+    {
+      "name": "in_hot_zone",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "in hot zone"
+    },
+    {
+      "name": "self_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self health fraction"
+    },
+    {
+      "name": "carried_gems",
+      "scale": 50,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "carried gems"
+    },
+    {
+      "name": "heading_home",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "heading home"
+    },
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "round"
+    },
+    {
+      "name": "reveal_context",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "reveal context"
+    },
+    {
+      "name": "camp_context",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "camp context"
+    },
+    {
+      "name": "reserved_15",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_16",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_17",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_18",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_19",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_20",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_21",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_22",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    },
+    {
+      "name": "reserved_23",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Reserved: runtime always emits zero."
+    }
+  ],
+  "contexts": [
+    "ahead",
+    "reveal",
+    "camp",
+    "reserved"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.05,
+  "label_sources": [
+    "instrumented_engine_1.0.3_teacher_rollouts",
+    "later_on_policy_rollouts"
+  ],
+  "candidate_zero": "already-computed teacher choice; legal under the deterministic generator",
+  "nonfinite": "Preserved for runtime rejection; teacher fallback.",
+  "padding": "Rows beyond K are ignored. Reserved features are zero.",
+  "status": "untrained",
+  "synthetic_test_data_only": true
+}

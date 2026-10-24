@@ -1,0 +1,267 @@
+{
+  "name": "draft_pick",
+  "id": 0,
+  "version": 1,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 12,
+  "contexts": [
+    "default"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.25,
+  "features": [
+    {
+      "name": "champion_0",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 0",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_1",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 1",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_2",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 2",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_3",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 3",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_4",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 4",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_5",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 5",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_6",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 6",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_7",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 7",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_8",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 8",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_9",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 9",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_10",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 10",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "champion_11",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "champion 11",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "inherited_teacher_logit",
+      "scale": 10,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "inherited teacher logit",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_width",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: width / 100",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_height",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: height / 100",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_area",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: area / 10000",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_groups",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: groups / 30",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_gems",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: total gems / 500",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "map_gold",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Already-normalised original draft map feature: total gold / 3000",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "our_melee_picks",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "our melee picks",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "their_melee_picks",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "their melee picks",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "progress",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "progress",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "picking_first",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "picking first",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "teacher",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "teacher",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    }
+  ],
+  "label_sources": [
+    "instrumented_original_teacher_NFS1"
+  ],
+  "teacher_index": 0,
+  "ties": "lowest_index",
+  "padding": "ignored beyond K",
+  "empty_fallback": "execute the already-computed teacher choice",
+  "status": "untrained",
+  "semantics": "Residual composition/counterpick ranking over the existing trained draft network, which remains a distinct inherited model.",
+  "uses_shared_context": false,
+  "legality": "Original deterministic taken mask (both current drafts) plus bounds; teacher first, remaining free ids ascending.",
+  "label_note": "Historical winning drafts are observational/confounded; direct action imitation needs instrumented teacher labels."
+}

@@ -1,0 +1,30 @@
+{
+  "name": "shop", "id": 5, "version": 2, "F": 20, "K_max": 16,
+  "contexts": ["shop_opportunity"], "residual_bound": 2.0, "teacher_margin": 0.25,
+  "label_sources": ["instrumented_engine_1.0.3_teacher_option", "future_on_policy_outcome"],
+  "semantics": "Candidate 0 is the opaque guarded executor of the complete original purchase plan, potentially several purchases. It has item/count/cost/owned and projected-gold-after descriptors zero, with teacher_plan flag marking its identity. No first-purchase preview or duplicate build_for allocation is constructed. Other options save or attempt one shard/consumable purchase after immediate can_buy recheck. A failed recheck means save, never an illegal buy. No multi-turn commitment. Fixed deterministic narrowing: 12 shard types across all seven families plus teleport crystal and altar lock.",
+  "legality": "Alternative masks come from SDK can_buy plus current affordability. Teacher complete plan remains legal by its unchanged guarded executor. All exact purchase guards remain deterministic.",
+  "candidate_ids": "plan=0; save=1; shard=0x100+SDK item ID; consumable=0x200+SDK consumable ID",
+  "features": [
+    {"name":"teacher","scale":1,"clip":[0,1],"description":"Teacher complete plan option."},
+    {"name":"save","scale":1,"clip":[0,1],"description":"No purchase this opportunity."},
+    {"name":"teacher_plan","scale":1,"clip":[0,1],"description":"Execute original multi-purchase loop."},
+    {"name":"shard","scale":1,"clip":[0,1],"description":"Alternative shard purchase; zero for opaque teacher plan."},
+    {"name":"consumable","scale":1,"clip":[0,1],"description":"Consumable purchase option."},
+    {"name":"item_family","scale":6,"clip":[0,1],"description":"SDK item ID / 6 integer quotient."},
+    {"name":"item_stat","scale":2,"clip":[0,1],"description":"SDK (item ID % 6) / 2 integer quotient: strength/focus/health."},
+    {"name":"quantity","scale":20,"clip":[0,1],"description":"Alternative purchase count; zero for opaque teacher plan."},
+    {"name":"cost","scale":600,"clip":[0,1],"description":"Alternative exact cost; zero sentinel for opaque teacher plan, not a free-plan claim."},
+    {"name":"gold_after","scale":600,"clip":[0,1],"description":"Current gold minus alternative exact cost; zero sentinel for opaque teacher plan."},
+    {"name":"owned_shard_equivalent","scale":100,"clip":[0,1],"description":"Own shard count plus five times completed emblem count; zero sentinel for opaque teacher plan."},
+    {"name":"emblem_progress","scale":4,"clip":[0,1],"description":"Owned shard equivalents modulo five."},
+    {"name":"hp_fraction","scale":"max(max_hp,1)","clip":[0,1],"description":"Self current health fraction."},
+    {"name":"carried_gems","scale":200,"clip":[0,1],"description":"Self carried gems."},
+    {"name":"gold","scale":600,"clip":[0,1],"description":"Self current gold."},
+    {"name":"round","scale":2000,"clip":[0,1],"description":"Current public round."},
+    {"name":"score_gap","scale":1000,"clip":[-1,1],"description":"Ally minus enemy public score."},
+    {"name":"consumable_kind","scale":4,"clip":[0,1],"description":"SDK consumable ID for a consumable candidate."},
+    {"name":"ally_score","scale":1000,"clip":[0,1],"description":"Public allied submitted gems."},
+    {"name":"enemy_score","scale":1000,"clip":[0,1],"description":"Public enemy submitted gems."}
+  ]
+}

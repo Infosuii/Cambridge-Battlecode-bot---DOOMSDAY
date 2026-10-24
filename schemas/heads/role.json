@@ -1,0 +1,266 @@
+{
+  "name": "role",
+  "id": 3,
+  "version": 1,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 5,
+  "contexts": [
+    "default"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.25,
+  "features": [
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Current legal round number.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "hp_fraction",
+      "scale": "max(max_hp,1)",
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own current health fraction.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gems",
+      "scale": 100,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own carried gems; not submitted score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "gold",
+      "scale": 1000,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own current gold.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "score_margin",
+      "scale": 500,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Public submitted ally score minus enemy score.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "slot",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Own fixed team slot.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "team_size",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Team bodies in the teacher slot protocol.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "melee",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "Own champion melee flag.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_allies",
+      "scale": 6,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible allies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "near_enemies",
+      "scale": 8,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Visible enemies within six Chebyshev tiles.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "role",
+      "scale": 4,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "Committed role id, or the teacher-implied role.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "long_term_signal",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "Bounded critic signal: .5 act(risk)-.25 act(win)-.25 act(margin), where model margin is submitted gem margin /1000; zero if unavailable.",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_role_farmer",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "candidate role farmer",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_role_carrier",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "candidate role carrier",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_role_fighter",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "candidate role fighter",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_role_escort",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "candidate role escort",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "candidate_role_scout",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "candidate role scout",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "has_target",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "has target",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "carrier_bag",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "carrier bag",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "fighter_visible_threat",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "fighter visible threat",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "escort_visible_allies",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "escort visible allies",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "scout_low_visible_threat",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "scout low visible threat",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "farmer_small_bag",
+      "scale": 1,
+      "clip": [
+        -4,
+        4
+      ],
+      "description": "farmer small bag",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    },
+    {
+      "name": "teacher",
+      "scale": 1,
+      "clip": [
+        0,
+        1
+      ],
+      "description": "teacher",
+      "visibility": "self_or_public_or_visible_or_legally_remembered"
+    }
+  ],
+  "label_sources": [
+    "instrumented_original_teacher_NFS1"
+  ],
+  "teacher_index": 0,
+  "ties": "lowest_index",
+  "padding": "ignored beyond K",
+  "empty_fallback": "execute the already-computed teacher choice",
+  "status": "untrained",
+  "semantics": "Teacher-implied role first, other roles in enum order. Role conditions strategy priors and objective features. A role-only active ablation attempts its corresponding deterministic priority.",
+  "commitment": "One decision when an option starts, then no decision records for 20 rounds; reset on dead turns.",
+  "shared_memory": "No new shared-memory bytes or writes. Existing six seven-bit camp claims and sighting word preserved."
+}

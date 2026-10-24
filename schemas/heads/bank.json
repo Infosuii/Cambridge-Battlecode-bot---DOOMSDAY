@@ -1,0 +1,30 @@
+{
+  "name": "bank", "id": 4, "version": 1, "F": 20, "K_max": 3,
+  "contexts": ["tribute_trigger"], "residual_bound": 2.0, "teacher_margin": 0.25,
+  "label_sources": ["instrumented_engine_1.0.3_teacher_option", "future_on_policy_outcome"],
+  "candidate_ids": {"0": "continue farming", "1": "bank via existing static nearest altar field", "2": "bank via existing threat-avoiding altar field"},
+  "semantics": "Candidate 0 is the computed teacher verdict and route. Force/winning/deadline bank priorities cannot be vetoed. Route alternatives require already-computed reachable fields. No new distance fields are built. One decision per champion/round; no multi-turn commitment.",
+  "legality": "Deterministic gems/reachability guards occur before the hook. Continue is excluded when force, wins or late. Every generated candidate is legal; teacher candidate is always retained.",
+  "features": [
+    {"name":"teacher","scale":1,"clip":[0,1],"description":"Candidate is teacher option."},
+    {"name":"bank_now","scale":1,"clip":[0,1],"description":"Start/continue deposit trip."},
+    {"name":"safe_route","scale":1,"clip":[0,1],"description":"Use existing threat-avoiding field."},
+    {"name":"distance","scale":128,"clip":[0,1],"description":"Existing selected field distance to altar ring."},
+    {"name":"carried_gems","scale":200,"clip":[0,1],"description":"Self carried gems."},
+    {"name":"hp_fraction","scale":"max(max_hp,1)","clip":[0,1],"description":"Self current health fraction."},
+    {"name":"gold","scale":600,"clip":[0,1],"description":"Self gold."},
+    {"name":"round","scale":2000,"clip":[0,1],"description":"Current public round."},
+    {"name":"ally_score","scale":1000,"clip":[0,1],"description":"Public allied submitted gems."},
+    {"name":"enemy_score","scale":1000,"clip":[0,1],"description":"Public enemy submitted gems."},
+    {"name":"score_gap","scale":1000,"clip":[-1,1],"description":"Ally minus enemy public score."},
+    {"name":"forced","scale":1,"clip":[0,1],"description":"Teacher forced bank priority."},
+    {"name":"winning_bag","scale":1,"clip":[0,1],"description":"Teacher computed race-ending/end-margin bag flag."},
+    {"name":"deadline","scale":1,"clip":[0,1],"description":"Teacher computed last feasible deposit window."},
+    {"name":"end_bank","scale":1,"clip":[0,1],"description":"Teacher endgame bank predicate."},
+    {"name":"rhythm","scale":1,"clip":[0,1],"description":"Teacher bag/trip predicate."},
+    {"name":"edge","scale":1,"clip":[0,1],"description":"Teacher opening bank predicate."},
+    {"name":"threatened","scale":1,"clip":[0,1],"description":"Visible enemy within teacher threat radius."},
+    {"name":"channel_turns","scale":20,"clip":[0,1],"description":"ceil(carried_gems/10), from current self bag."},
+    {"name":"bag_per_trip_turn","scale":"10*(distance+1)","clip":[0,1],"description":"Current bag relative to selected route length."}
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "name": "move",
+  "id": 6,
+  "kind": "candidate",
+  "F": 24,
+  "K_max": 16,
+  "features": [
+    {
+      "name": "canonical_dx",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "canonical dx"
+    },
+    {
+      "name": "canonical_dy",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "canonical dy"
+    },
+    {
+      "name": "teacher_score_delta",
+      "scale": 1024,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "teacher score delta"
+    },
+    {
+      "name": "spawn_distance",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "spawn distance"
+    },
+    {
+      "name": "spawn_progress",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "spawn progress"
+    },
+    {
+      "name": "nearest_visible_enemy_distance",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "nearest visible enemy distance"
+    },
+    {
+      "name": "visible_enemies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible enemies near"
+    },
+    {
+      "name": "visible_allies_near",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible allies near"
+    },
+    {
+      "name": "visible_enemy_threat",
+      "scale": 500,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "visible enemy threat"
+    },
+    {
+      "name": "self_health_fraction",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "self health fraction"
+    },
+    {
+      "name": "carried_gems",
+      "scale": 50,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "carried gems"
+    },
+    {
+      "name": "in_bush",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "in bush"
+    },
+    {
+      "name": "in_hot_zone",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "in hot zone"
+    },
+    {
+      "name": "on_ally_spawn",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "on ally spawn"
+    },
+    {
+      "name": "in_enemy_spawn_zone",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "in enemy spawn zone"
+    },
+    {
+      "name": "attack_range",
+      "scale": 8,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "attack range"
+    },
+    {
+      "name": "already_walked",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already walked"
+    },
+    {
+      "name": "already_cast",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "already cast"
+    },
+    {
+      "name": "round",
+      "scale": 2000,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "round"
+    },
+    {
+      "name": "altar_distance",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "altar distance"
+    },
+    {
+      "name": "target_group_distance",
+      "scale": 64,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "target group distance"
+    },
+    {
+      "name": "retreat_context",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "retreat context"
+    },
+    {
+      "name": "position_context",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "position context"
+    },
+    {
+      "name": "bounded_sector_belief",
+      "scale": 1,
+      "clip": [
+        -1,
+        1
+      ],
+      "description": "bounded sector belief"
+    }
+  ],
+  "contexts": [
+    "travel",
+    "combat_chase",
+    "retreat_escape",
+    "spacing_position"
+  ],
+  "residual_bound": 2.0,
+  "teacher_margin": 0.05,
+  "label_sources": [
+    "instrumented_engine_1.0.3_teacher_rollouts",
+    "later_on_policy_rollouts"
+  ],
+  "candidate_zero": "already-computed teacher choice; legal under the deterministic generator",
+  "nonfinite": "Preserved for runtime rejection; teacher fallback.",
+  "padding": "Rows beyond K are ignored. Reserved features are zero.",
+  "status": "untrained",
+  "synthetic_test_data_only": true
+}
