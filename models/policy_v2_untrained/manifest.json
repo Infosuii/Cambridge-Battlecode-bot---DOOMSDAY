@@ -1,0 +1,285 @@
+{
+  "name": "policy_v2_untrained",
+  "format": "nfs.direct_policy.v2",
+  "interpretation_version": 2,
+  "policy_kind": "direct_masked_logits",
+  "kernel_arch_version": 1,
+  "arch_version": 1,
+  "obs_schema_hash": "0x1346e3ba",
+  "action_schema_hash": "0x16df3b9e",
+  "head_action_hashes": {
+    "strategy": "0x30dec85f",
+    "objective": "0xd07e6450",
+    "role": "0x19389322",
+    "bank": "0x221371aa",
+    "shop": "0x15bec187",
+    "move": "0x5bd56300",
+    "combat": "0xd08e531b",
+    "engage": "0xe6375c5f"
+  },
+  "architecture": {
+    "obs": {
+      "self_global_dim": 40,
+      "ally_rows": 5,
+      "ally_dim": 10,
+      "enemy_rows": 6,
+      "enemy_dim": 12,
+      "obs_dim": 173
+    },
+    "encoder": {
+      "global_hidden": 8,
+      "entity_hidden": 4,
+      "ctx": 8
+    },
+    "heads": [
+      {
+        "name": "strategy",
+        "id": 1,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 819906655
+      },
+      {
+        "name": "objective",
+        "id": 2,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3497944144
+      },
+      {
+        "name": "role",
+        "id": 3,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 423138082
+      },
+      {
+        "name": "bank",
+        "id": 4,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 571699626
+      },
+      {
+        "name": "shop",
+        "id": 5,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 364822919
+      },
+      {
+        "name": "move",
+        "id": 6,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 1540711168
+      },
+      {
+        "name": "combat",
+        "id": 7,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3498988315
+      },
+      {
+        "name": "engage",
+        "id": 8,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3862387807
+      }
+    ],
+    "value_outputs": null
+  },
+  "n_params": 2296,
+  "checksum": "0xc446256bb95743bd",
+  "segment_checksums": {
+    "enc": "0x8335640f85567c72",
+    "strategy": "0xbd8d9f433abde01a",
+    "objective": "0x2930cfb086c93eed",
+    "role": "0x2e534f8cb8ff7aba",
+    "bank": "0x19c20a4ca6b49ed2",
+    "shop": "0xf249427280768574",
+    "move": "0x746a43b485fbd185",
+    "combat": "0x7b6fb884aa410cde",
+    "engage": "0xc901b3be58eaa93b"
+  },
+  "export_precision": "f32",
+  "engine_version": "1.0.3",
+  "status": "untrained",
+  "provenance": {
+    "synthetic": true,
+    "source": "seeded synthetic initialization",
+    "seed": 20261024,
+    "zero_logits": false,
+    "training_games": 0,
+    "parameter_updates": 0
+  },
+  "validation": {},
+  "config": {
+    "name": "policy_v2",
+    "interpretation_version": 2,
+    "policy_kind": "direct_masked_logits",
+    "kernel_arch_version": 1,
+    "arch_version": 1,
+    "obs": {
+      "obs_schema_hash": 323412922,
+      "self_global_dim": 40,
+      "ally_rows": 5,
+      "ally_dim": 10,
+      "enemy_rows": 6,
+      "enemy_dim": 12,
+      "obs_dim": 173
+    },
+    "encoder": {
+      "global_hidden": 8,
+      "entity_hidden": 4,
+      "ctx": 8
+    },
+    "action_schema_hash": 383728542,
+    "heads": [
+      {
+        "name": "strategy",
+        "id": 1,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 819906655
+      },
+      {
+        "name": "objective",
+        "id": 2,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3497944144
+      },
+      {
+        "name": "role",
+        "id": 3,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 423138082
+      },
+      {
+        "name": "bank",
+        "id": 4,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 571699626
+      },
+      {
+        "name": "shop",
+        "id": 5,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 364822919
+      },
+      {
+        "name": "move",
+        "id": 6,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 1540711168
+      },
+      {
+        "name": "combat",
+        "id": 7,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3498988315
+      },
+      {
+        "name": "engage",
+        "id": 8,
+        "kind": "candidate",
+        "uses_ctx": true,
+        "F": 12,
+        "hidden": 8,
+        "n_ctx": 4,
+        "n_out": 1,
+        "R": 1.0,
+        "action_hash": 3862387807
+      }
+    ],
+    "provisional": []
+  },
+  "files": {
+    "weights": "weights.f32",
+    "header": "nn_policy_weights_policy_v2_untrained.h"
+  },
+  "submitted": false
+}

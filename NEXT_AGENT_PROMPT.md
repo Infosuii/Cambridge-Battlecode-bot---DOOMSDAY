@@ -1,43 +1,27 @@
-Continue the neural Battlecode project from this repository HEAD.
+Continue the neural Battlecode development project from main/HEAD.
 
-LIVE BACKUP: source-checkpoint branch is already on GitHub and a fresh remote checkout passes259tests. main
-is still receiving the full large archive. Local snapshot exec session58054 and publisher session2353 may still
-be running; inspect progress/processes before restarting. Scan flagged1source error/1exclusion; inspect final
-source_errors.json and exclusions.json and resolve before completion. Source-checkpoint omits archive packs ONLY
-on that branch, so it can update promptly; tools/publish_source_checkpoint.py preserves committed source there.
-Do not mistake latest local HEAD in the old publisher partial receipt for remote main: use git ls-remote. Actual
-main data transfer is much slower than local scan; leave no duplicate publishers. Full offline relocated restore
-and every-remote-object verification remain. Read the newest HANDOFF update for precise evidence and fixes.
+Read CURRENT HANDOFF.md first, DEVELOPMENT_SETUP.md, RECOVERY.md, POLICY_FIRST_PLAN.md, CONTRACTS.md,
+agents/USER_REQUEST.md and agents/v2_*/REPORT.md. Important latest user decision: SMALL development repository;
+training ALWAYS stays on the original laptop. The previous full120GB backup is CANCELLED. Do not restart bulk
+snapshot/upload/full-archive verification. All original local data is preserved; generated partial outputs are
+ignored under artifacts/local-only/cancelled-large-recovery. config/repository_scope.json binds this scope.
 
-Read HANDOFF.md CURRENT section, RECOVERY.md, POLICY_FIRST_PLAN.md, CONTRACTS.md, agents/USER_REQUEST.md and
-agents/v2_*/REPORT.md. Historical handoff sections contain resolved blockers; current section supersedes them.
+Private GitHub repository: https://github.com/Infosuii/neural-networkk-battlecode . main should contain source,
+models/schemas, tests and required fixtures/replays/reference binaries, useful evidence,40benchmark maps, the
+official Windows CLI, setup and handoff. If the handoff says lean main publication/verification is pending, finish
+that first. Source-checkpoint passed259 tests from a fresh remote clone. Root and cloned all-off official builds
+match original SHA eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442. Check newest CPU setup receipts.
 
-Latest user priority is COMPLETE GitHub recovery: https://github.com/Infosuii/neural-networkk-battlecode
-(private, Infosuii). Source, ignored replays/builds, datasets, earlier experiments, archives, maps, official CLI/cache,
-compiler and exact Python environment must survive a fresh clone+restore. Repository creation/source-only push
-is insufficient. Check recovery/snapshot.json, source_errors.json, exclusions.json, remote refs/LFS packs and
-evaluation/results/recovery_*.json. Finish missing uploads or verification. Follow RECOVERY.md and test a relocated
-clone. GitHub backup is explicitly authorized; no Battlecode submission/login/activation is authorized.
+Then resume approximately80% direct neural decision ownership. The pure v2 foundation exists (8F12/K16heads,
+compact173obs/hash0x1346E3BA,2296params,NFS2records/dataset/losses,admission/runtimecore); gameplay dispatch,
+SDK builders/executors and nn_policy_runtime.cpp do NOT exist. New heads remain untrained and off; inherited
+trained draft is separate. Do not claim80%, strength or training readiness. Direct policies must not depend on
+teacher-first choices/priors/mandatory teacher ranking. See current HANDOFF for remaining acceptance work.
 
-After complete recovery, continue the approximately80% direct neural policy plan. Implemented foundation: eight
-F12/K16 candidate heads, compact173-float observation/hash0x1346E3BA,2296parameter direct model, NFS2 records,
-dataset/losses and tested pure runtime core. Original gameplay dispatch is NOT integrated; nn_policy_runtime.cpp,
-SDK builders/executors/options do not exist. Root NN_POLICY_V2=0. Do not call this80% neural gameplay or training-ready.
-Keep inherited trained drafting separate. No teacher-first candidates/priors/mandatory online teacher ranking in v2.
-Legality, SDK/path primitives and narrow guards remain deterministic; explicit failures must not silently pick index0.
+NO training/parameter updates on match data, Battlecode login/upload/submission/activation or browser/desktop
+control. GitHub development pushes are authorized. Write only within workspace; old experiments/archives/SDK/maps
+read-only; references immutable; bot/src flat. Official cambc CLI --release/default fuel only, never --fuel. Recheck
+FULL teacher_exact byte identity after C++ milestones. Use reviewed escalation if needed and fresh CMake builds.
 
-Hard constraints: NO training/parameter updates on matches, submission, Battlecode login/upload/activation,
-browser or desktop control. GitHub recovery upload is allowed. Write only inside workspace; old experiments,
-archives/SDK/maps are read-only and references/** immutable. Official cambc CLI --release and default fuel only,
-never --fuel. Keep bot/src flat; recheck FULL teacher_exact byte identity after C++ milestones. Last official check
-passed original SHA eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442. Reviewed escalation for
-installed tools now works. Always fresh CMake scratch directories; an old failed configure poisoned Release flags.
-
-Last checkpoint:255 Python tests,11native targets460checks, active compact capture SDK syntax all pass. All new
-weights/tests synthetic and untrained. Legacy engine component fuel measured, old context expensive; compact
-complete call-site costs remain unmeasured and budgets provisional. Real capture/records/parity, eight SDK
-builders/executors/dispatch, coverage, profiles/smoke, review, training CLI adaptations and release package remain.
-
-Work autonomously. Specialists may help, but verify integrations yourself using actual commands. Do not invent
-agent runs/model identities/strength claims. Commit verified milestones. Before usage ends update HANDOFF.md and
-NEXT_AGENT_PROMPT.md with exact state and give the user a paste-ready continuation prompt.
+Work autonomously; verify real commands and commit milestones. Before usage ends update HANDOFF.md and this
+prompt, and give the user a paste-ready continuation prompt. Do not invent agent/model identities or runs.

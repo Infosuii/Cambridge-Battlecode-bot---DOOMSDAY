@@ -19,7 +19,9 @@ def api(method,path,body=None):
     request=urllib.request.Request('https://api.github.com'+path,data=data,method=method,headers={
         'Authorization':'Bearer '+credential['password'],'Accept':'application/vnd.github+json',
         'Content-Type':'application/json','User-Agent':'battlecode-recovery'})
-    with urllib.request.urlopen(request,timeout=60) as response:return json.load(response)
+    with urllib.request.urlopen(request,timeout=60) as response:
+        if response.status==204:return {}
+        return json.load(response)
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)

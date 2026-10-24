@@ -1,3 +1,48 @@
+# CURRENT HANDOFF — development-only repository,2026-10-24
+
+## Latest user decision OVERRIDES the full-backup sections below
+
+User selected "Smaller development repo (recommended)" and clarified that training will ALWAYS happen on this
+original laptop, never on a different laptop. The original120GB full-workspace GitHub backup is CANCELLED.
+Do not continue full archive repair/upload/restore. Keep original training data/environments/history local.
+All bulk snapshot/publisher/verifier processes were STOPPED and checked absent. Their progress/error counts are
+historical, not acceptance failures for the new smaller scope. Partial generated backup output was MOVED, not
+removed, to artifacts/local-only/cancelled-large-recovery. No original source/data/previous experiment was deleted.
+
+GitHub: https://github.com/Infosuii/neural-networkk-battlecode (private, Infosuii). Lean main is being finalized from
+source-checkpoint. All development source, models, schemas, tests and required frozen replay/reference evidence,
+results,40reused benchmark maps, exact official Windows CLI and setup/handoff are included. A source-history Git
+bundle preserves the pre-cleanup commit graph without huge LFS payloads. Large datasets/runs/tool caches and old
+experiment copies stay local, per config/repository_scope.json. Read DEVELOPMENT_SETUP.md and RECOVERY.md.
+
+Verified before scope switch: root259 Python tests OK; a FRESH remote source-checkpoint checkout also259 OK,
+without manual hydration or byte fixes; legacy native11targets460checks; active compact capture syntax passed;
+official all-off build from root AND cloned source byte-identical to frozen original SHA
+ eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442.
+CPU-only fresh development environment verification is in progress; inspect newest evaluation/results receipts.
+Separate copied-runtime probe failed due native GCC relocation/header paths; this is why the small setup uses a
+normally installed MSYS2 UCRT64 compiler. No claim of a verified relocated full offline archive is made.
+
+Current BOT: v2 foundation implemented, not integrated into gameplay. Eight direct F12/K16 heads,173float compact
+observation(hash0x1346E3BA),2296parameter direct model, NFS2 records/dataset/losses and pure runtime core exist.
+No nn_policy_runtime.cpp or SDK world option generators/executors/dispatch yet. Default NN_POLICY_V2=0; inherited
+trained draft stays separate. No80% neural ownership or training-ready claim. New model artifact is copied to
+models/policy_v2_untrained with status untrained; no release registry selection or activation.
+
+Next: finish lean GitHub main/clone setup verification, then implement the eight SDK option builders/executors
+and runtime dispatch per POLICY_FIRST_PLAN.md. Bank needs real per-altar distances; aggregate nearest-altar field
+cannot label all destinations. Measure full compact fuel and actual records, define decision-opportunity coverage,
+profiles/smoke/protocol amendment, independent review, docs/training CLI adaptation and release packaging later.
+No training or submission is authorized. All existing hard constraints persist: official CLI --release/default
+fuel only, never --fuel; flat bot/src; immutable references and read-only old experiments/SDK/maps; full all-off
+byte identity after C++ changes. Reviewed escalation for installed tools works; always fresh CMake scratch.
+
+Keep this handoff and NEXT_AGENT_PROMPT current before usage ends. Do not invent model/agent runs or strength.
+
+---
+
+# Historical full-backup attempt and implementation evidence — SUPERSEDED scope
+
 # HANDOFF — recovery checkpoint, 2026-10-24
 
 ## CURRENT STATE — supersedes historical checkpoint below

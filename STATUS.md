@@ -1,3 +1,15 @@
+# Current status,2026-10-24
+
+Development-only GitHub repository; training and bulky history remain on the original laptop, by user decision.
+Full backup cancelled. Read HANDOFF.md for exact current state and DEVELOPMENT_SETUP.md for a fresh clone.
+V2 direct-policy foundation implemented; SDK gameplay dispatch/executors still absent. New heads untrained/off.
+259 Python tests and460 legacy native checks pass; official teacher_exact matches frozen original byte-for-byte.
+No80% neural control, trained strength, training readiness or finished release is claimed.
+
+---
+
+# Historical status below (superseded)
+
 # Status — untrained implementation checkpoint
 
 **Plan changed on2026-10-24:** the target is now direct neural control of the important gameplay choices, with a

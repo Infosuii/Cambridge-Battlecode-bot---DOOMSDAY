@@ -1,17 +1,15 @@
 # Neural networkk Battlecode
 
-An in-progress direct neural-policy Battlecode bot and its complete development recovery archive.
+The development repository for our in-progress neural Battlecode bot. It includes source, models, schemas,
+tests and their required data, evaluation evidence,40benchmark maps and the official Windows CLI.
 
-Read [HANDOFF.md](HANDOFF.md) for implementation status and [RECOVERY.md](RECOVERY.md) to restore code,
-test evidence, replay/data archives, previous experiments and tools on another laptop.
-[NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md) is the continuation prompt for a fresh agent.
+Start with [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md), then give a fresh agent
+[NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md). [HANDOFF.md](HANDOFF.md) records exact implementation state.
 
-New neural heads are **untrained and off by default**. Approximately80% neural decision ownership is a target,
-not a measured current capability. No new training or Battlecode submission occurred. See
-[POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) and [CONTRACTS.md](CONTRACTS.md).
+**Training stays on the original laptop.** Large training runs, historical archives, environments, package caches
+and old experiment copies stay local. The attempted full-workspace upload was cancelled at the user's request.
+Git LFS is not required for this development checkout. See [RECOVERY.md](RECOVERY.md).
 
-Checkpoint:259 Python tests,460 legacy native checks, active compact capture syntax and official release
-byte identity with the frozen original passed. Receipts: evaluation/results/v2_recovery_*.
-
-Large recovery packs use Git LFS. Complete recovery requires all packs, checksums and restore. Read the recovery
-snapshot/publication receipts before assuming the backup is complete. The repository is private.
+The current checkpoint passes259 Python tests and460 legacy native checks, and the all-off official build
+is byte-identical to the frozen original. New neural heads are untrained and disabled by default. The target of
+roughly80% neural control is still being implemented; direct gameplay dispatch is not yet connected.

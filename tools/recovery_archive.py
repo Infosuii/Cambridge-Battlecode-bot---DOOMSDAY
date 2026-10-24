@@ -39,6 +39,9 @@ def safe_relative(text):
     return p
 
 def snapshot():
+    scope=ROOT/'config/repository_scope.json'
+    if scope.exists() and not json.loads(scope.read_text()).get('bulk_backup',False):
+        raise RuntimeError('User chose a development-only repository. Bulk backup is cancelled; new user authorization required.')
     if (OUT/'snapshot.json').exists():raise RuntimeError('Snapshot already finalized; never overwrite a saved snapshot')
     OUT.mkdir(exist_ok=True);(OUT/'packs').mkdir(exist_ok=True);(OUT/'histories').mkdir(exist_ok=True)
     config=json.loads((ROOT/'config/recovery_sources.json').read_text())

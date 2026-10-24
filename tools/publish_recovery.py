@@ -26,6 +26,9 @@ def receipt(data):
     p=ROOT/'evaluation/results/recovery_publish.json';p.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
 
 def main():
+    scope=ROOT/'config/repository_scope.json'
+    if scope.exists() and not json.loads(scope.read_text()).get('bulk_backup',False):
+        raise RuntimeError('Bulk upload cancelled by user; development-only repository')
     repo='https://github.com/Infosuii/neural-networkk-battlecode'
     if git('remote','get-url','origin')!=repo+'.git':raise RuntimeError('Unexpected remote; refusing archive upload')
     uploaded=0

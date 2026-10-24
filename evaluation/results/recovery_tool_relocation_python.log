@@ -1,0 +1,160 @@
+...................................E................................................................................................................EEEE............F.F....EE...............................................
+======================================================================
+ERROR: setUpClass (test_economy_parity.TestEconomyParity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_economy_parity.py", line 31, in setUpClass
+    raise AssertionError(p.stdout + p.stderr)
+AssertionError: In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_head.h:22,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_economy.h:3,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_economy_parity.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src\nn_head.h:22,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src\nn_economy.h:3,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src\nn_economy.cpp:1:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+======================================================================
+ERROR: setUpClass (test_policy_candidates_parity.PolicyCandidateTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_candidates_parity.py", line 34, in setUpClass
+    raise AssertionError(run.stderr.decode(errors='replace'))
+AssertionError: In file included from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_candidates_native.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdio:47:10: fatal error: stdio.h: No such file or directory
+   47 | #include <stdio.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src\nn_policy_candidates.h:4,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src\nn_policy_candidates.cpp:1:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+
+======================================================================
+ERROR: setUpClass (test_policy_core.TestPolicyCore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_core.py", line 34, in setUpClass
+    if p.returncode:raise AssertionError(p.stdout+p.stderr)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_policy_candidates.h:4,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_policy_core.h:3,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_core.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+======================================================================
+ERROR: setUpClass (test_policy_model.TestPolicyModel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_model.py", line 37, in setUpClass
+    if p.returncode: raise AssertionError(p.stdout+p.stderr)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_model.h:15,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_policy_model.h:4,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\artifacts\tmp\v2_model\native_export/nn_policy_weights_synthetic_v2.h:5,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_model.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+======================================================================
+ERROR: setUpClass (test_policy_observation.PolicyObservationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_observation.py", line 72, in setUpClass
+    raise AssertionError(run.stderr.decode(errors='replace'))
+AssertionError: In file included from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_observation.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdio:47:10: fatal error: stdio.h: No such file or directory
+   47 | #include <stdio.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+======================================================================
+ERROR: setUpClass (test_strategy_parity.StrategyParity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_strategy_parity.py", line 35, in setUpClass
+    raise AssertionError(result.stderr.decode(errors='replace'))
+AssertionError: In file included from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_strategy_parity.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdio:47:10: fatal error: stdio.h: No such file or directory
+   47 | #include <stdio.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+======================================================================
+ERROR: setUpClass (test_tactics_parity.TacticalParity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_tactics_parity.py", line 20, in setUpClass
+    subprocess.run([cxx,'-std=c++20','-O2','-ffp-contract=off','-I'+str(ROOT/'bot/src'),
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\portable_tools_probe\python_runtime\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\portable_tools_probe\\native_compiler\\bin\\g++.exe', '-std=c++20', '-O2', '-ffp-contract=off', '-IC:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\source_clone_verify\\bot\\src', 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\source_clone_verify\\tests\\cpp\\test_tactics_parity.cpp', '-o', 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\source_clone_verify\\artifacts\\tmp\\E2\\test_tactics_parity.exe']' returned non-zero exit status 1.
+
+======================================================================
+FAIL: test_native_cpp_roundtrip_and_ring_bounds (test_policy_records_roundtrip.RecordCodec.test_native_cpp_roundtrip_and_ring_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_records_roundtrip.py", line 71, in test_native_cpp_roundtrip_and_ring_bounds
+    exe,env=self.compile_driver()
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_records_roundtrip.py", line 37, in compile_driver
+    self.assertEqual(p.returncode,0,p.stderr)
+AssertionError: 1 != 0 : In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_policy_log.h:5,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_records_roundtrip.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+======================================================================
+FAIL: test_varied_cpp_behavior_logp_torch_parity_all_heads (test_policy_records_roundtrip.RecordCodec.test_varied_cpp_behavior_logp_torch_parity_all_heads)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_records_roundtrip.py", line 88, in test_varied_cpp_behavior_logp_torch_parity_all_heads
+    exe,env=self.compile_driver()
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\python\test_policy_records_roundtrip.py", line 37, in compile_driver
+    self.assertEqual(p.returncode,0,p.stderr)
+AssertionError: 1 != 0 : In file included from C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/include/c++/16.2.0/cstdint:47,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\bot\src/nn_policy_log.h:5,
+                 from C:\projects\cambridge battlecode\work\neural-full-stack\recovery\source_clone_verify\tests\cpp\test_policy_records_roundtrip.cpp:2:
+C:/projects/cambridge battlecode/work/neural-full-stack/recovery/portable_tools_probe/native_compiler/lib/gcc/x86_64-w64-mingw32/16.2.0/include/stdint.h:11:16: fatal error: stdint.h: No such file or directory
+   11 | # include_next <stdint.h>
+      |                ^~~~~~~~~~
+compilation terminated.
+
+
+----------------------------------------------------------------------
+Ran 213 tests in 15.274s
+
+FAILED (failures=2, errors=7)

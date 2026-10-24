@@ -26,6 +26,9 @@ def run(args,cwd=ROOT,env=None,log=None):
     return process.stdout
 
 def main(args):
+    scope=ROOT/'config/repository_scope.json'
+    if scope.exists() and not json.loads(scope.read_text()).get('bulk_backup',False):
+        raise RuntimeError('Full-archive workflow cancelled by user; use development setup and tests')
     state=dict(status='waiting_for_full_publication',repo='https://github.com/Infosuii/neural-networkk-battlecode',
                passed=False,full_remote_download=False,relocated_environment=False)
     save(state)
