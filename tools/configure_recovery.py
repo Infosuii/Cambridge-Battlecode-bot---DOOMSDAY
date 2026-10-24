@@ -14,6 +14,18 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def configure(restored,install_cli_cache=False):
     restored=Path(restored).resolve();workspace=restored/'battlecode_workspace'
+    saved_project=workspace/'work/neural-full-stack'
+    # Git HEAD owns existing source. Restore only missing files (ignored replays/build evidence/caches),
+    # never overwrite newer code or rewrite frozen historical receipts.
+    hydrated=0
+    if not saved_project.is_dir():raise RuntimeError('Saved project snapshot missing')
+    for directory,dirs,files in os.walk(saved_project):
+        dirs[:]=[name for name in dirs if name not in {'.git','recovery'}]
+        relative=Path(directory).relative_to(saved_project);target=ROOT/relative
+        target.mkdir(parents=True,exist_ok=True)
+        for name in files:
+            destination=target/name
+            if not destination.exists():shutil.copy2(Path(directory)/name,destination);hydrated+=1
     python=restored/'python_runtime/python.exe';native=restored/'native_compiler/bin/g++.exe'
     cli=restored/'official_cli_workspace/cambc.exe';cache=restored/'official_cli_runtime'
     original_env=workspace/'work/neural-gameplay/.venv/Lib/site-packages'
@@ -48,6 +60,7 @@ def configure(restored,install_cli_cache=False):
     (ROOT/'artifacts/tmp').mkdir(parents=True,exist_ok=True)
     (venv/'recovery-env.ps1').write_text(environment,encoding='utf-8')
     print('Configured clone. In PowerShell run: . ./.venv/recovery-env.ps1')
+    print(f'Restored {hydrated} previously ignored/missing project files without overwriting Git HEAD.')
     print('Python: '+paths['python'])
     if not install_cli_cache:print('Official CLI cache not installed; pass --install-cli-cache on the new laptop before official builds.')
     return paths

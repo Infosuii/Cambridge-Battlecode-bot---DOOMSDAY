@@ -1,0 +1,205 @@
+..............................................F..E...................E.EEE............E...............sssss....................................E................................F........................................E...E............................
+======================================================================
+ERROR: test_end_to_end (test_eval_gate.TestFileEntryPoint.test_end_to_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_gate.py", line 179, in test_end_to_end
+    p = proto.load()
+        ^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\evaluate\protocol.py", line 289, in load
+    raise RuntimeError(f'schedule {k} does not match the lock')
+RuntimeError: schedule equivalence does not match the lock
+
+======================================================================
+ERROR: setUpClass (test_eval_protocol.TestFrozenProtocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_protocol.py", line 17, in setUpClass
+    cls.proto = P.load(verify=True)
+                ^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\evaluate\protocol.py", line 289, in load
+    raise RuntimeError(f'schedule {k} does not match the lock')
+RuntimeError: schedule equivalence does not match the lock
+
+======================================================================
+ERROR: test_lab_exports_fail_only_when_strip_selected (test_eval_release.TestConfigAndWasm.test_lab_exports_fail_only_when_strip_selected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 156, in test_lab_exports_fail_only_when_strip_selected
+    self.assertNotIn('wasm_no_lab_exports', self.failed(self.verify(self.make_zip(), lab)['checks']))
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 73, in verify
+    return verify_release.verify(zp, wasm or self.wasm, self.src, self.models, rebuild=False,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tools\verify_release.py", line 74, in verify
+    man = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\manifest.json'
+
+======================================================================
+ERROR: test_nft1_string_in_wasm_fails (test_eval_release.TestConfigAndWasm.test_nft1_string_in_wasm_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 151, in test_nft1_string_in_wasm_fails
+    self.assertIn('wasm_no_NFT1_string', self.failed(self.verify(self.make_zip(), bad)['checks']))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 73, in verify
+    return verify_release.verify(zp, wasm or self.wasm, self.src, self.models, rebuild=False,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tools\verify_release.py", line 74, in verify
+    man = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\manifest.json'
+
+======================================================================
+ERROR: test_non_release_profile_fails (test_eval_release.TestConfigAndWasm.test_non_release_profile_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 126, in test_non_release_profile_fails
+    self.assertIn('config_profile_release', self.failed(self.verify(self.make_zip())['checks']))
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 73, in verify
+    return verify_release.verify(zp, wasm or self.wasm, self.src, self.models, rebuild=False,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tools\verify_release.py", line 74, in verify
+    man = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\manifest.json'
+
+======================================================================
+ERROR: test_good_zip_passes_everything_but_skipped_rebuild (test_eval_release.TestZip.test_good_zip_passes_everything_but_skipped_rebuild)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 79, in test_good_zip_passes_everything_but_skipped_rebuild
+    doc = self.verify(self.make_zip())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_release.py", line 73, in verify
+    return verify_release.verify(zp, wasm or self.wasm, self.src, self.models, rebuild=False,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tools\verify_release.py", line 74, in verify
+    man = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\manifest.json'
+
+======================================================================
+ERROR: test_rl_quality_rejection_precedes_any_optimizer_update (test_pipeline_integration.SyntheticPipelineIntegration.test_rl_quality_rejection_precedes_any_optimizer_update)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\cli.py", line 134, in _training_maps
+    return list(proto.load_schedule('map_partitions')['partitions']['training'])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\evaluate\protocol.py", line 295, in load_schedule
+    load(verify=True)
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\evaluate\protocol.py", line 289, in load
+    raise RuntimeError(f'schedule {k} does not match the lock')
+RuntimeError: schedule equivalence does not match the lock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_pipeline_integration.py", line 62, in test_rl_quality_rejection_precedes_any_optimizer_update
+    cli.main(['rl', '--run-dir', str(d/'run'), '--model-config',
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\cli.py", line 471, in main
+    return int(a.fn(a) or 0)
+               ^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\cli.py", line 305, in cmd_rl
+    maps = co.resolve_maps(_training_maps(cfg.get('maps', 'eval_partition:training')))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\cli.py", line 136, in _training_maps
+    raise SystemExit(f'frozen map partitions unavailable ({exc}); refusing to guess training maps')
+SystemExit: frozen map partitions unavailable (schedule equivalence does not match the lock); refusing to guess training maps
+
+======================================================================
+ERROR: test_train_configs_parse (test_train_cli_league.CLITests.test_train_configs_parse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_train_cli_league.py", line 104, in test_train_configs_parse
+    lg = cli._league_from_cfg(d)
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\cli.py", line 251, in _league_from_cfg
+    lg = default_league()
+         ^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 100, in default_league
+    lg.add('original', 'reference', b / 'original.wasm', 2.0, 'unchanged original bot (teacher)')
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 58, in add
+    o = Opponent(name=name, kind=kind, wasm=str(wasm), sha256=sha256_file(wasm), weight=float(weight),
+                                                              ^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 27, in sha256_file
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\original.wasm'
+
+======================================================================
+ERROR: test_default_league_uses_reference_builds (test_train_cli_league.LeagueTests.test_default_league_uses_reference_builds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_train_cli_league.py", line 218, in test_default_league_uses_reference_builds
+    lg = L.default_league()
+         ^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 100, in default_league
+    lg.add('original', 'reference', b / 'original.wasm', 2.0, 'unchanged original bot (teacher)')
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 58, in add
+    o = Opponent(name=name, kind=kind, wasm=str(wasm), sha256=sha256_file(wasm), weight=float(weight),
+                                                              ^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\python\nfs\train\league.py", line 27, in sha256_file
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\recovery\\clone_verify\\references\\builds\\original.wasm'
+
+======================================================================
+FAIL: test_real_reference_cells_cross_check (test_eval_fuel.TestFuelMember.test_real_reference_cells_cross_check)
+Real engine data (reference runs written by tools/eval_run.py): cap turns == fuelExhausted entries.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_eval_fuel.py", line 80, in test_real_reference_cells_cross_check
+    self.assertTrue(fuel.check_against_events(c), f)
+AssertionError: False is not true : C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\evaluation\results\reference\matches\00gemfight__1d26e69451fe__eb0ea88fc734
+
+======================================================================
+FAIL: test_schema_hash_dimensions_and_generator_reproducibility (test_policy_observation.PolicyObservationTests.test_schema_hash_dimensions_and_generator_reproducibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\recovery\clone_verify\tests\python\test_policy_observation.py", line 189, in test_schema_hash_dimensions_and_generator_reproducibility
+    self.assertEqual((ROOT / name).read_bytes(), generated_bytes, f'checked-in {name} differs from generator')
+AssertionError: b'{\r\n  "name": "nfs.compact_policy_observat[5637 chars]\r\n' != b'{\n  "name": "nfs.compact_policy_observatio[5103 chars]n}\n' : checked-in schemas/policy_observation_v2.json differs from generator
+
+----------------------------------------------------------------------
+Ran 249 tests in 23.158s
+
+FAILED (failures=2, errors=9, skipped=5)

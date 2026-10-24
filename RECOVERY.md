@@ -31,7 +31,9 @@ update, login to Battlecode or submission occurs during these checks. Keep enoug
 download, approximately120GB of restored originals, and new build scratch space. Exact sizes are in
 recovery/snapshot.json after the snapshot finishes. Git LFS must retrieve the real packs, not leave pointer files.
 
-The configuration step recreates a local virtual environment using the exact offline packages from the saved
+The configuration step hydrates ignored/missing project files (especially replays and evaluation evidence) from
+the snapshot without overwriting existing Git source, then recreates a local virtual environment using exact
+offline packages from the saved
 environment. It rewrites config/paths.json for this clone, sets up a PowerShell environment file, and, with
 --install-cli-cache, restores the official cambc tool cache into the new user's LOCALAPPDATA/cambc. It does not
 modify bot source or the reference builds. Compiler execution can still require approval in a restricted agent.
@@ -63,6 +65,10 @@ Old manifests, cached paths and historical receipts retain their original machin
 them as new runs. Only config/paths.json is regenerated. CMake caches inside restored scratch trees are evidence;
 use fresh build directories. tools/check_teacher_exact.py now always creates a clean scratch directory because
 a failed compiler launch previously left an empty Release optimization cache, producing a misleading mismatch.
+
+The repository disables Git text conversion to preserve exact frozen schedule/schema bytes on Windows. Do not
+renormalize frozen files or regenerate protocol locks to hide checkout differences. Reference Wasm/manifest files
+are tracked directly as well as archived; ignored match replay members are hydrated by configuration before tests.
 
 The inherited draft network is a separate historical trained model. Every new v1/v2 head is untrained. The target
 is approximately80% direct neural ownership of important decision opportunities after integration and later

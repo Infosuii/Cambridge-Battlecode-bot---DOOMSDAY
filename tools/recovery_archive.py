@@ -42,10 +42,23 @@ def snapshot():
     if (OUT/'snapshot.json').exists():raise RuntimeError('Snapshot already finalized; never overwrite a saved snapshot')
     OUT.mkdir(exist_ok=True);(OUT/'packs').mkdir(exist_ok=True);(OUT/'histories').mkdir(exist_ok=True)
     config=json.loads((ROOT/'config/recovery_sources.json').read_text())
-    progress=dict(status='building',started_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),files=0,logical_bytes=0,
+    progress=dict(status='building',pid=os.getpid(),started_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),files=0,logical_bytes=0,
                   unique_bytes=0,packs=0,excluded=0,errors=0,current='',roots=config['roots'])
     objects={};identities={};pack=None;pack_name=None;pack_bytes=0;pack_index=0;packs=[];last=time.monotonic()
     errors=[];histories=[];exclusions=[]
+    # Explicit --resume rebuilds manifests by rereading sources, reusing already closed ZIP content blocks.
+    # Never invoke two snapshot processes concurrently. Preserve a truncated final ZIP instead of deleting it.
+    if getattr(globals().get('ARGS'),'resume',False):
+        for existing in sorted((OUT/'packs').glob('pack-*.zip')):
+            pack_index=max(pack_index,int(existing.stem.split('-')[1]))
+            try:
+                with zipfile.ZipFile(existing) as z:
+                    for item in z.infolist():objects[item.filename]=existing.name;progress['unique_bytes']+=item.file_size
+                packs.append(dict(file=existing.name,bytes=existing.stat().st_size,sha256=sha(existing)))
+            except zipfile.BadZipFile:
+                incomplete=OUT/'incomplete';incomplete.mkdir(exist_ok=True)
+                existing.replace(incomplete/existing.name)
+        print(f'Reusing {len(packs)} closed packs / {len(objects)} content blocks',flush=True)
     manifest=gzip.open(OUT/'files.jsonl.gz.partial','wt',encoding='utf-8',newline='\n')
     object_stream=gzip.open(OUT/'objects.jsonl.gz.partial','wt',encoding='utf-8',newline='\n')
     def tick(force=False):
@@ -58,7 +71,7 @@ def snapshot():
         if pack:
             pack.close();p=OUT/'packs'/pack_name
             packs.append(dict(file=pack_name,bytes=p.stat().st_size,sha256=sha(p)));pack=None
-    def store(data):
+    def store(data,already_compressed=False):
         nonlocal pack,pack_name,pack_bytes,pack_index
         digest=hashlib.sha256(data).hexdigest()
         if digest in objects:return digest
@@ -67,7 +80,8 @@ def snapshot():
             path=OUT/'packs'/pack_name
             if path.exists():raise RuntimeError('Unfinished snapshot exists; preserve it and choose explicit recovery before retry')
             pack=zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=1,allowZip64=True)
-        pack.writestr(digest,data);pack_bytes+=len(data);objects[digest]=pack_name;progress['unique_bytes']+=len(data)
+        pack.writestr(digest,data,compress_type=zipfile.ZIP_STORED if already_compressed else zipfile.ZIP_DEFLATED)
+        pack_bytes+=len(data);objects[digest]=pack_name;progress['unique_bytes']+=len(data)
         object_stream.write(json.dumps(dict(sha256=digest,pack=pack_name,bytes=len(data)),separators=(',',':'))+'\n')
         return digest
     try:
@@ -80,7 +94,8 @@ def snapshot():
                 if (directory/'.git').exists():
                     relative=directory.relative_to(root).as_posix();key=hashlib.sha256((label+'/'+relative).encode()).hexdigest()[:20]
                     target=OUT/'histories'/f'{key}.bundle'
-                    if not target.exists():
+                    if target.exists():histories.append(dict(root=label,path=relative,file=target.name,sha256=sha(target)))
+                    else:
                         result=subprocess.run(['git','-C',str(directory),'bundle','create',str(target),'--all'],capture_output=True,text=True)
                         if result.returncode:errors.append(dict(root=label,path=relative,error='git bundle failed: '+result.stderr[-500:]))
                         else:histories.append(dict(root=label,path=relative,file=target.name,sha256=sha(target)))
@@ -110,7 +125,7 @@ def snapshot():
                             with path.open('rb') as stream:
                                 for data in iter(lambda:stream.read(CHUNK),b''):
                                     if stat.st_size<=2*1024*1024 and SECRET.search(data):unsafe=True;break
-                                    h.update(data);blocks.append(store(data))
+                                    h.update(data);blocks.append(store(data,path.suffix.lower() in {'.zip','.whl','.7z','.gz','.zst','.xz','.bz2','.png','.jpg','.mp4','.repl26a'}))
                             if unsafe:
                                 exclusions.append(dict(root=label,path=relative,reason='recognizable secret content'));continue
                             digest=h.hexdigest();after=path.stat()
@@ -122,6 +137,12 @@ def snapshot():
                     except Exception as error:errors.append(dict(root=label,path=relative,error=str(error)))
                     tick()
         close_pack();manifest.close();object_stream.close()
+        if getattr(globals().get('ARGS'),'resume',False):
+            # Rebuild a complete object map: the new stream otherwise contains only newly added blocks.
+            with gzip.open(OUT/'objects.jsonl.gz.partial','wt',encoding='utf-8',newline='\n') as stream:
+                for name in sorted(set(objects.values())):
+                    with zipfile.ZipFile(OUT/'packs'/name) as z:
+                        for item in z.infolist():stream.write(json.dumps(dict(sha256=item.filename,pack=name,bytes=item.file_size),separators=(',',':'))+'\n')
         (OUT/'files.jsonl.gz.partial').replace(OUT/'files.jsonl.gz')
         (OUT/'objects.jsonl.gz.partial').replace(OUT/'objects.jsonl.gz')
         dump(OUT/'exclusions.json',exclusions);dump(OUT/'source_errors.json',errors);dump(OUT/'histories.json',histories)
@@ -194,9 +215,10 @@ def restore(destination,scope):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);sub=parser.add_subparsers(dest='action',required=True)
-    sub.add_parser('snapshot');v=sub.add_parser('verify');v.add_argument('--full',action='store_true')
+    s=sub.add_parser('snapshot');s.add_argument('--resume',action='store_true',help='Only after previous snapshot process stopped; reuse closed packs')
+    v=sub.add_parser('verify');v.add_argument('--full',action='store_true')
     r=sub.add_parser('restore');r.add_argument('--dest',required=True);r.add_argument('--scope',default='all')
-    args=parser.parse_args()
+    args=parser.parse_args();ARGS=args
     if args.action=='snapshot':snapshot()
     elif args.action=='verify':verify(args.full)
     else:restore(args.dest,args.scope)
