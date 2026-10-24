@@ -10,7 +10,7 @@ No80% neural control, trained strength, training readiness or finished release i
 
 # Historical status below (superseded)
 
-# Status — untrained implementation checkpoint
+# Status - untrained implementation checkpoint
 
 **Plan changed on2026-10-24:** the target is now direct neural control of the important gameplay choices, with a
 rough80% ordinary-decision ownership goal. See [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md). This is a documented

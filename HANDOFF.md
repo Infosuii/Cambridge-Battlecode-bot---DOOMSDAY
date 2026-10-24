@@ -1,4 +1,4 @@
-# CURRENT HANDOFF â€” development-only repository,2026-10-24
+# CURRENT HANDOFF - development-only repository,2026-10-24
 
 ## Latest user decision OVERRIDES the full-backup sections below
 
@@ -51,11 +51,11 @@ Keep this handoff and NEXT_AGENT_PROMPT current before usage ends. Do not invent
 
 ---
 
-# Historical full-backup attempt and implementation evidence â€” SUPERSEDED scope
+# Historical full-backup attempt and implementation evidence - SUPERSEDED scope
 
-# HANDOFF â€” recovery checkpoint, 2026-10-24
+# HANDOFF - recovery checkpoint, 2026-10-24
 
-## CURRENT STATE â€” supersedes historical checkpoint below
+## CURRENT STATE - supersedes historical checkpoint below
 
 ### Live publication update (2026-10-24,13:06UTC)
 
@@ -175,7 +175,7 @@ worker edits should be assumed. Preserve their native files, evidence and limita
 
 ---
 
-## HISTORICAL CHECKPOINT â€” superseded status/blockers retained below
+## HISTORICAL CHECKPOINT - superseded status/blockers retained below
 
 ## Latest direction: plan revision after the safe stop
 
