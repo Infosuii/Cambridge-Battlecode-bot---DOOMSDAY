@@ -3,3 +3,4 @@
 #define NN_POLICY_V2 0
 #define NN_POLICY_LOG 0
 #define NN_POLICY_SAMPLE 0
+#define NN_POLICY_TELEMETRY 0

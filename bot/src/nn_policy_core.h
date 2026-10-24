@@ -23,6 +23,7 @@ struct Hooks {
 struct Ticket {
     nncfg::H head=nncfg::H::count;
     int max_k=0;
+    std::uint32_t candidate_reserve=0;
     std::uint32_t snapshot=0,turn=0;
     std::uint64_t id=0,start=0;
     bool admitted=false;
@@ -34,6 +35,7 @@ struct Result {
     nnp_log::Header header{};
     bool sampled=false,recorded=false;
     float logp=0;
+    std::uint32_t log_fuel=0;
     std::uint64_t option_id=0;
     std::uint8_t source=nnp_log::kDirectPolicy;
 };
@@ -60,12 +62,12 @@ class Core {
     }
     std::uint64_t spent(std::uint64_t start) const { auto now=fuel();return start>now?start-now:0; }
     void charge(std::uint64_t start) {used_+=spent(start);}
-    std::uint64_t estimate(int k) const {
-        return budget_.candidate+budget_.head_base+std::uint64_t(k)*budget_.per_candidate+
+    std::uint64_t estimate(int k,std::uint32_t candidate) const {
+        return candidate+budget_.head_base+std::uint64_t(k)*budget_.per_candidate+
                (encoded_?0:budget_.observation)+(logging_?budget_.log:0);
     }
-    bool affordable(int k) const {
-        const auto cost=estimate(k);
+    bool affordable(int k,std::uint32_t candidate) const {
+        const auto cost=estimate(k,candidate);
         return fuel()>=cost+budget_.action_reserve+budget_.tail_reserve && cost<=budget_.turn_allowance &&
                used_<=budget_.turn_allowance-cost;
     }
@@ -97,6 +99,8 @@ class Core {
         return any;
     }
     Result failure(const Ticket& t,Reason why) {
+        if(nnpc::supported(t.head))++counters.refused[static_cast<int>(t.head)];
+        if(why==Reason::invalid_candidates||why==Reason::capture||why==Reason::nonfinite)++counters.invalid;
         Result r;r.reason=why;r.header=header(t.id);r.source=nnp_log::kTeacherFallback;
         if(logging_&&t.id){nnp_log::DecisionRec d;d.h=r.header;d.head=static_cast<std::uint16_t>(t.head);
             d.source=r.source;d.reason=static_cast<std::uint16_t>(why);r.recorded=nnp_log::enqueue_decision(d);}
@@ -115,6 +119,7 @@ public:
     std::uint64_t fuel() const {return hooks_.fuel?hooks_.fuel():0;}
     bool ready() const {return ready_&&!bad_;}
     bool bad() const {return bad_;}
+    void logging(bool active) {logging_=active;}
     std::uint64_t used() const {return used_;}
     // Resumable checks include the whole blob AND each segment. Only call after teacher decisions.
     bool warmup(std::uint32_t float_budget=256) {
@@ -141,16 +146,18 @@ public:
         if(pending_.admitted){charge(pending_.start);pending_={};}
         ++snapshot_;encoded_=context_logged_=false;
     }
-    Ticket admit(nncfg::H head,int max_k) {
+    Ticket admit(nncfg::H head,int max_k,std::uint32_t candidate_reserve=0) {
         Ticket t;t.head=head;t.max_k=max_k;t.turn=turn_;t.snapshot=snapshot_;
+        t.candidate_reserve=candidate_reserve?candidate_reserve:budget_.candidate;
         if(!nnpc::supported(head)||max_k<1||max_k>16){++counters.invalid;return t;}
         auto hi=static_cast<int>(head);++counters.attempted[hi];
-        if(pending_.admitted||unacknowledged_||!ready()||!affordable(max_k)){++counters.refused[hi];return t;}
+        if(pending_.admitted||unacknowledged_||!ready()||!affordable(max_k,t.candidate_reserve)){++counters.refused[hi];return t;}
         t.id=++serial_;t.start=fuel();t.admitted=true;pending_=t;++counters.admitted[hi];return t;
     }
     Result decide(const Ticket& t,const nnpc::Decision& d,std::uint64_t option_id=0,std::uint8_t flags=0) {
         if(!t.admitted||t.id!=pending_.id||t.turn!=turn_||t.snapshot!=snapshot_||!pending_.admitted||
            t.head!=pending_.head||t.max_k!=pending_.max_k||t.start!=pending_.start||
+           t.candidate_reserve!=pending_.candidate_reserve||
            t.snapshot!=pending_.snapshot||t.turn!=pending_.turn)
         {
             Result stale;stale.reason=Reason::stale_ticket;stale.header=header(t.id);
@@ -160,7 +167,7 @@ public:
         if(!valid(d)||d.head!=t.head||d.K>t.max_k||(flags&&(!option_id||flags>7))){charge(t.start);return failure(t,Reason::invalid_candidates);}
         // Candidate construction already spent real fuel; recheck the remaining estimate before encoding.
         charge(t.start);
-        if(!affordable(d.K))return failure(t,Reason::budget);
+        if(!affordable(d.K,0))return failure(t,Reason::budget);
         const auto start=fuel();std::uint32_t obs_cost=0;
         if(!context(obs_cost)){charge(start);return failure(t,Reason::capture);}
         float logits[16];const auto infer_start=fuel();
@@ -175,15 +182,18 @@ public:
         r.action=d.id[r.choice];
         const auto infer_cost=static_cast<std::uint32_t>(spent(infer_start));
         if(logging_){
+            const auto log_start=fuel();
             if(!context_logged_)context_logged_=nnp_log::enqueue_context({header(0),observation_,sizeof(observation_)});
             nnp_log::DecisionRec rec;rec.h=r.header;rec.head=static_cast<std::uint16_t>(d.head);rec.K=d.K;
             rec.chosen=r.choice;rec.context=d.context;rec.sampled=r.sampled;rec.logp=r.logp;
             rec.flags=flags;rec.option_id=option_id;rec.selected_id=r.action;
             rec.fuel.candidate=static_cast<std::uint32_t>(t.start>start?t.start-start:0);
             rec.fuel.observation=obs_cost;rec.fuel.inference=infer_cost;
+            rec.fuel.log=static_cast<std::uint32_t>(spent(log_start)); // context enqueue; own enqueue is in ack.log_fuel
             rec.id=d.id;rec.legal=d.legal;rec.feat=d.feat;rec.logits=logits;
             // A dropped context makes this decision deliberately unusable for training (dataset rejects it).
             r.recorded=nnp_log::enqueue_decision(rec);
+            r.log_fuel=static_cast<std::uint32_t>(spent(log_start));
         }
         charge(start);++counters.chosen[static_cast<int>(d.head)];
         pending_=t;pending_.admitted=false;selected_=r;unacknowledged_=true;return r;
@@ -200,9 +210,23 @@ public:
         nnp_log::ExecutionRec rec;rec.h=r.header;rec.executed_id=actual;rec.outcome=outcome;
         rec.source=outcome==nnp_log::kOverridden?nnp_log::kSafetyOverride:r.source;
         rec.reason=static_cast<std::uint16_t>(reason);rec.option_id=r.option_id;rec.action_fuel=action_fuel;
+        rec.log_fuel=selected_.log_fuel; // actual context+decision enqueue, measured after writing the decision
         if(logging_)nnp_log::enqueue_execution(rec);
         if(outcome==nnp_log::kExecuted||outcome==nnp_log::kOptionExecuted)++counters.executed[static_cast<int>(pending_.head)];
         ++counters.acknowledgements;unacknowledged_=false;pending_={};return true;
+    }
+    // Explicit termination of a committed macro. This is a continuation, never a new actor start.
+    // A nonzero reason marks interruption (death, safety, teacher fallback or incompatible intent).
+    bool close_option(nncfg::H head,std::uint64_t option,std::uint32_t action,Reason reason=Reason::ok) {
+        if(!logging_)return true;
+        if(!nnpc::supported(head)||!option||action==nnp_log::kNoAction)return false;
+        nnp_log::DecisionRec d;d.h=header(++serial_);d.head=static_cast<std::uint16_t>(head);
+        d.source=nnp_log::kContinuedOption;d.flags=nnp_log::kOptionEnd|nnp_log::kDefinedOption;
+        d.option_id=option;d.selected_id=action;d.reason=static_cast<std::uint16_t>(reason);
+        const auto start=fuel();bool ok=nnp_log::enqueue_decision(d);
+        nnp_log::ExecutionRec a;a.h=d.h;a.option_id=option;a.executed_id=action;a.source=d.source;
+        a.outcome=nnp_log::kOptionExecuted;a.reason=d.reason;a.log_fuel=static_cast<std::uint32_t>(spent(start));
+        ok=nnp_log::enqueue_execution(a)&&ok;charge(start);return ok;
     }
     // Flush only after gameplay; charge textual base64 bytes (larger than the raw record).
     bool flush_one(std::FILE* out=stdout,std::uint32_t fixed=1500,std::uint32_t per_byte=40) {

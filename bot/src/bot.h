@@ -37,6 +37,9 @@ class Bot {
     friend struct nn_policy_access;
     friend struct nn_policy_observation_access;
     friend struct nn_policy_options_access;
+    friend struct nn_policy_strategy_access;
+    friend struct nn_policy_economy_access;
+    friend struct nn_policy_tactics_access;
 
 public:
     void play_turn();

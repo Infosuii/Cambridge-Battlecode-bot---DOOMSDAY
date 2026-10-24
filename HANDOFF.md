@@ -1,3 +1,120 @@
+# SAFE STOP — current implementation checkpoint, 2026-10-24
+
+This section supersedes all implementation-status claims below. User explicitly requested: **stop safely and
+update HANDOFF.md and NEXT_AGENT_PROMPT.md**. Work stopped; all known exec sessions finished; both active workers
+reported no live jobs. A read-only Windows process inventory found zero matching repo Python/compiler/engine/Git
+processes. No training, parameter update on match data, Battlecode login/upload/submission/activation occurred.
+Five bounded official release/default-fuel diagnostic games ran, all on reused calibration maps; these are NOT
+training or strength evidence. Training data and raw diagnostic replays/stdout remain local and ignored.
+
+## Checkout and continuation
+
+Fresh clone of Infosuii/neural-networkk-battlecode main started at `2b81782`. Current local checkout:
+`C:/Users/ishan/.codex/.chatgpt-projects/g-p-6ad14bd9b02481918601a95d4cc0e007/work/neural-networkk-battlecode`.
+Do not resume old cancelled 120GB backup work. Repository scope stays development-only. Synced project `sources/`
+and all reference/SDK/map/old-experiment inputs remain read-only. New gameplay heads remain UNTRAINED/OFF in the
+checked-in default; inherited trained drafting remains separate. No80% ownership or training-ready claim.
+
+The workspace now has a separate CPU `.venv-dev` (Python3.12.14, torch2.11.0+cpu, numpy2.5.2). Native GCC was absent,
+so a complete normal w64devkit2.10.1 distribution was downloaded/extracted under ignored
+`artifacts/tmp/native-toolchain/w64devkit` (archive SHA256
+`add1edf984ce4d473cfeb7c52e0ab38db73a855bba6c7f564d5e16648eb2896a`). Compiler is `bin/g++.exe` there.
+Official bundled cambc3.0.5 and installed WASI clang22.1.0 work through reviewed escalation.
+Clone-local paths were saved in ignored `config/paths.local.json`; tracked `config/paths.json` was restored exactly
+to its original contents before saving. Most tools/tests still read tracked paths directly. On this clone rerun:
+`.venv-dev/Scripts/python.exe tools/configure_dev.py --native-cxx artifacts/tmp/native-toolchain/w64devkit/bin/g++.exe`
+then `. ./artifacts/tmp/dev-env.ps1`. Keep temporary/cache/environment files local; do not commit machine paths.
+
+## Saved implementation — integration is now present but UNFINISHED
+
+- Added flat SDK modules `nn_policy_strategy.cpp` (strategy/objective/role), `nn_policy_economy.cpp` (bank/shop),
+  `nn_policy_tactics.cpp` (move/combat/engage), plus `nn_policy_options.h`.
+- Added `nn_policy_runtime.cpp`, gated Bot/main hooks, model warmup, direct dispatcher, explicit execution acks,
+  opportunity inventory/cadence and telemetry. Original teacher runs on explicit fallback. Root default V2 stays0.
+- Canonical coordinate transform cached. Macro state changes intentionally share the first-admitted same-turn
+  observation; candidate rows are live. Physical effects require refresh/invalidation. No teacher priors/ranking.
+- Bank uses destination-specific real field distances, explicit altar destinations/deposit. Latest saved bank code
+  caps field search at64; if cap leaves an unresolved altar it refuses the WHOLE decision (does not silently label
+  that destination unreachable). `bank_candidate_fuel` estimates metadata/container costs without live SDK reads.
+  It is NOT wired into root admission/probe and is NOT engine-calibrated. Stale bank execution never cold-searches.
+- Shop selects explicit affordable single purchases/save, handles four raw consumable ABI slots (live IDs0/2),
+  and fifth-shard combination gains. Item capacity is not exposed by SDK; feature0 is documented unknown sentinel.
+- Tactics cover visible enemy/camp targets, supported targeted/AoE/reset/shield/heal actions, local movement/dash
+  subset/hold and engage choices. Limitations: offset AoE, altar-lock attacks, handle namespace collisions and
+  hole-crossing dash paths. See worker reports, not a claim of complete combat action coverage.
+- Pure `nn_policy_schedule.h` now plans eligible starts before fallible work; skipped starts remain fallback.
+  Continued options never enter direct numerator. Successful macros in a later-fallback turn count interrupted.
+- Dataset rejects unclosed/interrupted macro starts from PPO/imitation. Ending validation tightened to matching
+  continued-source execution/ID/outcome. Three focused synthetic termination tests passed before later edits.
+- Core gained explicit option termination, logging-cost acks/counters, and authenticated custom candidate reserve.
+  Latest custom-reserve change is UNTESTED. Core estimate no longer reserves candidate construction twice after
+  it has already happened. NFS2 array serialization now bulk-copies on little-endian; latest optimization UNTESTED.
+- Log output was bounded to about40k per champion, avoiding the first run's1MiB truncation. Telemetry is separate
+  from record logging. `check_policy_v2.py` stores diagnostics locally and records invalid-record counts explicitly.
+- Added independent frozen direct-framework protocol/lock, preserving legacy protocol/schedules unchanged.
+  `probe_policy_v2.py` measures post-teacher components; its first real run was incomplete/unsafe (see evidence).
+- Fixed genuine fresh-clone portability failures: evaluation rebuild uses exact locked scenario evidence when old
+  local diagnosis paths are absent; release verifier resolves immutable local reference names and validates hashes.
+
+## CRITICAL unfinished edits at the exact stop point
+
+**Do not assume active V2 compiles.** The tactics worker was stopped during a fuel-bounding refactor:
+1. `nn_policy_tactics.cpp` removed `channel()` while old `targets()` still calls it. Restore helper or finish refactor.
+2. Tactics synthetic tests still reference removed `Boards.home_ready`; adjust tests to final cache representation.
+3. `tactics_candidate_bound` is declared in options.h but has NO definition. Finish and wire it before admission.
+4. Partial tactics changes: capped150 goal fields, whole-decision refusal for capped unknown distances, no-bridge
+   cached group/spawn fields, engage uses spawn field, bounded retreat trace. These latest changes are UNVERIFIED.
+5. Runtime suspension is incomplete: it preserves semantic state/clock after transient teacher fallback and closes
+   log intervals interrupted, but still keeps an ended log ID as its live flag. Separate `committed`/semantic validity
+   from log option identity; clear closed log IDs. Call new `resume_assignments` before using a suspended assignment;
+   do not rerank/select a replacement objective. Reapply claims only after exact guard success. Dead/channel/expiry
+   truly abandon commitments. Runtime currently does NOT call the saved resume helper.
+6. Head-specific builder estimates are NOT wired. Root still admits using generic candidate3500/observation12000/
+   log6000 defaults, which real measurements disprove. Preserve enough whole-teacher fallback fuel. Do not rerun
+   unsafe active experiments until real bounds/gates are repaired. Catch fuel counter reset/round advance in ordinary
+   runtime cost calculations too; current unsigned subtractions can wrap and Core spent() can hide resets.
+7. Telemetry lacks champion ID, so cumulative rows from different bodies cannot be aggregated by head alone. Add
+   champion identity and honest partial-output handling. Admission failures/skipped starts and safety overrides need
+   explicit NFS2 source events if records alone are intended to reconstruct ownership.
+
+## Actual verification and limitations
+
+- Official all-off byte check PASSED at INTERMEDIATE source SHA
+  `080bd659523b42d2b44fc7d91e5381373458700adbce492fcbc99d10658cd479`, Wasm exactly
+  `eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442`.
+  Receipt `evaluation/results/v2_integration_teacher_exact.json`. Later C++ changes have NOT had fresh identity check.
+- Legacy native11targets460checks PASSED: `v2_integration_cpp.json`, `v2_resume_cpp.log`. This does not validate
+  final active SDK source. Initial full Python run:259 tests,5 errors,1skip, all errors old absolute evaluation paths;
+  `v2_resume_python_initial.log`. Portability fix targeted34tests passed. Full suite NOT rerun afterward.
+- Strategy actual SDK syntax and synthetic fixtures passed including latest resume helper and scan optimizations.
+  Pure schedule fixture passed. Latest bounded bank SDK syntax/synthetic fixtures passed. Tactics92 synthetic checks
+  and active syntax passed BEFORE its final partial refactor; current tests/source are not verified.
+- First direct_record game completed but output hit1MiB; strict final NFS2 parse failed. Preserved locally.
+- Second direct_record game: zero bot faults/errors, zero invalid records,42,426 stdout bytes;282 fuel exhaustion
+  entries. Third direct_untrained game: zero bot faults/errors;198 fuel exhaustion entries. Both fail fuel/control
+  acceptance; none proves80% coverage or strength. Early dispatcher repeatedly restarted macros and starved later
+  heads; partial suspension changes were made afterward but final runtime remains incomplete.
+- Two post-teacher component-probe games ran on00rows/01islands. Missing bank/move/engage calibration, and at least
+  one combat sample has unsigned underflow after fuel reset. Objective builder reached62,589 fuel; old43500 gate
+  was insufficient. Original probe's `status=ok` is NOT accepted timing. Probe code now detects overrun and bound
+  violations and rejects old underflow samples; Python syntax passed, but it has NOT been rerun.
+- Compact dense encoder measured14,376; denseK16 heads13,237; context enqueue9,492; decision enqueue35,793 before
+  the untested bulk-copy optimization. These are component observations, not a complete accepted runtime budget.
+- Concise diagnostic/stop receipt: `evaluation/results/v2_safe_stop.json`. Raw replays/stdout/models/build trees
+  remain only under ignored artifacts/tmp. Frozen references/protocol results were not rewritten. No final package,
+  full smoke/profile/ablation suite, actual integrated record/logit parity or training-CLI adaptation accepted.
+
+## Resume order
+
+Read this section and NEXT_AGENT_PROMPT first, then current worker/review reports. Repair active tactics and finish
+semantic suspension/admission wiring; run focused synthetic checks. Recheck full official teacher_exact identity
+with fresh scratch after C++ milestones. Then recalibrate safely at official release/default fuel (never fuel
+override); do not turn bad timing samples into budgets. Complete champion-identified ownership/record parity,
+all profiles/both sides/per-head and smoke checks only after bounded costs permit them. Independent review,
+training CLI adaptation and verified packaging remain later. NO TRAINING OR SUBMISSION.
+
+---
+
 # CURRENT HANDOFF - development-only repository,2026-10-24
 
 ## Latest user decision OVERRIDES the full-backup sections below

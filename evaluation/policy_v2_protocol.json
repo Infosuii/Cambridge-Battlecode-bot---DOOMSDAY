@@ -1,0 +1,32 @@
+{
+  "version": "direct-policy-v2-framework-1",
+  "label": "untrained gameplay integration; no training or strength claim",
+  "amends": "70b872f3cd4ddabb95a152d0af93579c0d9f80f25ba4408014f5c80b2c17adc1",
+  "frozen_before_direct_gameplay_results": true,
+  "engine": "1.0.3",
+  "release": true,
+  "fuel": "official default",
+  "map_label": "reused_benchmark",
+  "calibration_maps": ["00rows", "01islands"],
+  "profiles": ["direct_untrained", "direct_uniform", "direct_record", "direct_sample_record"],
+  "smoke": {"schedule": "evaluation/schedules/smoke.json", "opponents": ["original", "v47", "first-hour"], "sides": ["A", "B"]},
+  "control": "teacher_exact byte identity; original paired cells for fuel; uniform is an independent direct policy, not a teacher-neutral control",
+  "opportunity_cadence": {"role": 32, "strategy": 8, "objective": 8, "bank": 4, "shop": 16, "engage": 1, "combat": 1, "move": 1},
+  "eligibility": {
+    "role": "alive, no channel, commitment expired or absent",
+    "strategy": "alive, no channel, commitment expired or absent or new role",
+    "objective": "farm or contest, goal commitment expired or absent or new strategic decision",
+    "bank": "positive carried gems, cadence expired or absent; banking intent refreshes each turn",
+    "shop": "SDK shop permission and cadence expired or absent, including dead turns",
+    "engage": "current visible enemy, once per nonchannel live turn",
+    "combat": "each nonchannel live turn except selected disengage/hold",
+    "move": "SDK movement permitted except selected engage hold or a newly started channel"
+  },
+  "coverage": "Count eligible starts before fallible preceding work. Skipped starts are fallback. Report each head and overall; continued options never add direct starts. Deterministic dead/channel/urgent-win guards reported separately. A target is not evidence of achieved coverage.",
+  "target": "at least80% ordinary starts overall with coverage in every area; inspect per-area rates, never hide strategic refusals with movement volume",
+  "commitments": "role/strategy/objective explicit option identity; close on replacement, death, channel, fallback or deadline. Records with missing closure or interruption are ineligible for actor training. Physical/save/hold decisions last one turn.",
+  "acceptance": ["all-off full Wasm matches original", "all profiles compile through official CLI", "native SDK fixtures pass", "actual records parse and logits match exported model", "execution acks match actual SDK results", "zero bot exceptions and invalid action diagnostics", "complete feature/capture/inference/execution/logging costs measured", "report budget refusals and original paired fuel divergence", "both sides smoke and every head exercise", "independent review findings resolved", "verified untrained package with direct heads off"],
+  "training_games": 0,
+  "parameter_updates": 0,
+  "submission_authorized": false
+}

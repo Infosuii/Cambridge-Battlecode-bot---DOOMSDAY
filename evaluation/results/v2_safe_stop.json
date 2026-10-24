@@ -1,0 +1,97 @@
+{
+  "status": "STOPPED; integration incomplete; NOT accepted; NOT training-ready",
+  "date": "2026-10-24",
+  "baseline_commit": "2b81782",
+  "training_games": 0,
+  "parameter_updates": 0,
+  "submission": false,
+  "label": "untrained framework diagnostics on reused benchmarks; no strength claim",
+  "development_games_run": 5,
+  "builds": [
+    {
+      "profile": "direct_record",
+      "source_sha256": "fbbb8fb116d325866dda9322cd307fde2571ef1b4041d6b356888ba9961569b3",
+      "wasm_sha256": "608b17e5a09753cf66e119f9c86def29de79f5dd87e1418078ed462f6e1035bc",
+      "protocol_sha256": "71d25a3f3ce84a2628696c86725cc1708de76c5610b2af0bc4fb21bdd2b3388c",
+      "receipt": "artifacts\\tmp\\policy_v2_checks\\direct_record\\1792870907897544000\\receipt.json",
+      "games": [
+        {
+          "map": "00rows",
+          "side": "A",
+          "opponent": "original",
+          "faults": 0,
+          "fuel_exhausted": 282,
+          "opponent_fuel_exhausted": 0,
+          "rounds": 1546,
+          "records": {
+            "context": 17,
+            "decision": 30,
+            "execution": 30
+          },
+          "invalid_records": 0,
+          "stdout_bytes": 42426,
+          "bot_error_lines": []
+        }
+      ]
+    },
+    {
+      "profile": "direct_untrained",
+      "source_sha256": "8607c0a1d79f880c0703723eb8726c3ba719d0cd368a3b22f311e3881baaed65",
+      "wasm_sha256": "e25caee7437cffdeda2e3626112d536c5428a457a6bd01763e34a4890580c0e6",
+      "protocol_sha256": "71d25a3f3ce84a2628696c86725cc1708de76c5610b2af0bc4fb21bdd2b3388c",
+      "receipt": "artifacts\\tmp\\policy_v2_checks\\direct_untrained\\1792871132140312400\\receipt.json",
+      "games": [
+        {
+          "map": "00rows",
+          "side": "A",
+          "opponent": "original",
+          "faults": 0,
+          "fuel_exhausted": 198,
+          "opponent_fuel_exhausted": 0,
+          "rounds": 1579,
+          "records": {
+            "context": 0,
+            "decision": 0,
+            "execution": 0
+          },
+          "invalid_records": 0,
+          "stdout_bytes": 23537,
+          "bot_error_lines": []
+        }
+      ]
+    }
+  ],
+  "first_direct_record": {
+    "receipt": "artifacts/tmp/policy_v2_checks/direct_record/1792870656752293800",
+    "result": "game completed; strict parser failed on final truncated NFS2 record at 1MiB stdout cap; original run preserved locally"
+  },
+  "component_probe": {
+    "receipt": "artifacts/tmp/v2_component_calibration/measurements.json",
+    "source_sha256": "4ff0dc48fe8f2ba3e9dc860a959ad3078901dd964cab826c483a6a0021719e04",
+    "wasm_sha256": "e74e63a306b9a29e440eeb4b0fba47212212aac39b08ac1ce4da44a676726765",
+    "complete": false,
+    "missing_components": [
+      "bank_builder_real",
+      "engage_builder_real",
+      "move_builder_real"
+    ],
+    "invalid_legacy_underflow_samples": [
+      {
+        "map": "00rows",
+        "component": "combat_builder_real",
+        "fuel": 18446744073709523960,
+        "available": 66032,
+        "required": 56750
+      }
+    ],
+    "warning": "Original probe also has unsigned fuel underflow / bound violations. Do not treat status=ok as accepted timing. Probe code was fixed afterward but NOT rerun."
+  },
+  "final_validation": "No complete tests, active build, or fresh teacher identity check after the last partial C++ edits.",
+  "stopped": {
+    "all_known_exec_sessions_completed": true,
+    "workers_stopped": true,
+    "matching_repo_processes": 0,
+    "process_inventory_checked": true
+  },
+  "raw_replays_and_stdout": "Local only under ignored artifacts/tmp; not included in Git"
+}

@@ -4,6 +4,7 @@
 #include "bot.h"
 #include "draft.h"
 #include "nn_config.h"
+#include "nn_policy_runtime.h"
 #if NN_ANY_HEAD
 #include "nn_budget.h"
 #include "nn_head.h"
@@ -40,6 +41,9 @@ int main() {
                 nnb::begin_turn(); // per-turn credit/budget reset also on draft turns (draft decisions read teacher_left)
 #endif
                 play_draft();
+#if NN_POLICY_V2
+                nnp::warmup();
+#endif
 #if NN_ANY_HEAD
                 nnh::warmup(); // after the draft decision: verify installed model checksums with the 10x draft fuel
 #endif
@@ -77,6 +81,9 @@ int main() {
         } catch (...) {
             std::printf("bot error: unknown exception\n");
         }
+#if NN_POLICY_V2
+        nnp::idle();
+#endif
         bc::end_turn();
     }
 }

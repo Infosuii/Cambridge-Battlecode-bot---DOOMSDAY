@@ -41,6 +41,7 @@ def install(destination:Path,profile:str):
     (src/'nn_policy_config.h').write_text(
         '// SYNTHETIC UNTRAINED experiment. Never a release selection.\n#pragma once\n'
         '#define NN_POLICY_V2 1\n'
+        '#define NN_POLICY_TELEMETRY 1\n'
         f'#define NN_POLICY_LOG {int("record" in profile)}\n'
         f'#define NN_POLICY_SAMPLE {int(profile=="direct_sample_record")}\n',encoding='utf-8')
     (destination/'policy_install.json').write_text(json.dumps(dict(profile=profile,status='untrained',

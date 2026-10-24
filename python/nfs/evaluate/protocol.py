@@ -1,7 +1,9 @@
 """Frozen evaluation protocol: map partitions, schedules, gate constants, protocol lock.
 
-`build()` is a pure function of the official map list, the reference manifest and (for fuel-scenario map choice) the
-read-only diagnosis evidence of an original-equivalent control. `tools/eval_protocol.py freeze` writes the result
+`build()` uses the official map list, reference manifest and (for fuel-scenario map choice) the read-only diagnosis
+evidence of an original-equivalent control. A development clone without the original laptop's diagnosis restores
+the already locked historical scenario choices; the selected-map properties are insufficient to rerank the full
+original cohort. `tools/eval_protocol.py freeze` writes the result
 once and records its sha256 in evaluation/protocol.lock.json. Later code calls `load(verify=True)`, which refuses a
 protocol whose bytes no longer match the lock.
 """
@@ -126,6 +128,36 @@ def fuel_scenarios(training: list[str], props: dict[str, dict]) -> dict[str, dic
     return out
 
 
+def frozen_fuel_scenarios(training: list[str]) -> dict[str, dict]:
+    """Restore historical choices from verified repository evidence, without inventing missing run summaries.
+
+    The portable schedule preserves the chosen maps' exact measured properties, but not the full cohort used
+    for the original median/ranking. Consequently this path reuses the locked choices rather than reranking
+    that incomplete subset. A changed partition requires original evidence or an explicit protocol amendment.
+    """
+    proto = load(verify=True)
+    if proto['protocol_version'] != VERSION or proto['map_label'] != MAP_LABEL:
+        raise RuntimeError('frozen fuel evidence belongs to a different evaluation protocol')
+    parts = json.loads((SCHEDULES / 'map_partitions.json').read_text(encoding='utf-8'))['partitions']
+    if sorted(training) != sorted(parts['training']):
+        raise RuntimeError('frozen fuel evidence cannot be reused with a changed training partition')
+    schedule = json.loads((SCHEDULES / 'fuel_profile.json').read_text(encoding='utf-8'))
+    scenarios = schedule['scenarios']
+    if set(scenarios) != {'low_fuel', 'many_entities', 'crowded_combat', 'late_game', 'typical'}:
+        raise RuntimeError('frozen fuel scenario inventory is incomplete')
+    observed = {}
+    for name, scenario in scenarios.items():
+        maps = scenario['maps']
+        if len(maps) != 2 or len(set(maps)) != 2 or not set(maps) <= set(training) or \
+                set(scenario['properties']) != set(maps):
+            raise RuntimeError(f'invalid frozen fuel scenario: {name}')
+        for map_name, props in scenario['properties'].items():
+            if map_name in observed and props != observed[map_name]:
+                raise RuntimeError(f'inconsistent frozen map properties: {map_name}')
+            observed[map_name] = props
+    return scenarios
+
+
 def _cells(maps, opponents, sides=('A', 'B')) -> list[dict]:
     return [dict(map=m, side=s, opponent=o) for o in opponents for m in maps for s in sides]
 
@@ -135,8 +167,10 @@ def build() -> tuple[dict, dict[str, dict]]:
     parts = partitions(names)
     refs = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
     fw = framework_order(parts['training'])
-    props = evidence_map_properties()
-    scen = fuel_scenarios(parts['training'], props)
+    if (EVIDENCE / 'protocol.json').is_file():
+        scen = fuel_scenarios(parts['training'], evidence_map_properties())
+    else:
+        scen = frozen_fuel_scenarios(parts['training'])
     label = {m: MAP_LABEL for m in names}
     common = dict(protocol_version=VERSION, map_label=MAP_LABEL, release=True, fuel='official default (no fuel override flag)')
     schedules = {

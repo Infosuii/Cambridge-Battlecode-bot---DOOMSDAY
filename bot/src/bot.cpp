@@ -5879,7 +5879,12 @@ void Bot::build_fields() {
     }
 }
 
+// V2 has its own dispatch; teacher is entered only after an explicit refusal/failure.
+#include "nn_policy_runtime.h"
 void Bot::play_turn() {
+#if NN_POLICY_V2
+    if(nnp::play_turn(*this))return;
+#endif
     PROF(turn);
 #if A2_TEL
     a2tel::TurnGuard a2_guard;

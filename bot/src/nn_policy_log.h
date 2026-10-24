@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cmath>
+#include <bit>
 
 namespace nnp_log {
 inline constexpr std::uint32_t kMagic=0x3253464eu, kNoAction=0xffffffffu;
@@ -51,6 +52,7 @@ struct ExecutionRec {
 inline unsigned char g_payload[kMaxPayload]{},g_queue[kQueueBytes]{};
 inline char g_text[kMaxText]{};
 inline std::uint32_t g_head=0,g_tail=0,g_bytes=0,g_queued=0,g_written=0,g_dropped=0,g_invalid=0,g_write_failed=0;
+inline std::uint32_t g_text_written=0;
 inline std::uint32_t checksum(const unsigned char* p,int n) {
     std::uint32_t h=2166136261u; for(int i=0;i<n;++i) h=(h^p[i])*16777619u; return h;
 }
@@ -122,10 +124,16 @@ inline bool enqueue_decision(const DecisionRec& r) {
     w.u8(r.context);w.u8(r.sampled);w.u8(r.source);w.u8(r.flags);w.u16(r.reason);
     w.u64(r.option_id);w.u32(r.selected_id);w.u32(r.teacher_id);w.f32(r.logp);
     w.u32(r.fuel.candidate);w.u32(r.fuel.observation);w.u32(r.fuel.inference);w.u32(r.fuel.log);
-    for(int i=0;i<r.K;++i)w.u32(r.id[i]);
-    for(int i=0;i<r.K;++i)w.u8(r.legal[i]);
-    for(int i=0;i<r.K;++i)w.f32(r.logits[i]);
-    for(int i=0;i<r.K*kF;++i)w.f32(r.feat[i]);
+    if constexpr(std::endian::native==std::endian::little) {
+        // Arrays already have the wire's exact scalar representation. Four bounded copies avoid
+        // serializing every float through four single-byte Writer calls on the competition path.
+        w.bytes(r.id,r.K*4);w.bytes(r.legal,r.K);w.bytes(r.logits,r.K*4);w.bytes(r.feat,r.K*kF*4);
+    } else {
+        for(int i=0;i<r.K;++i)w.u32(r.id[i]);
+        for(int i=0;i<r.K;++i)w.u8(r.legal[i]);
+        for(int i=0;i<r.K;++i)w.f32(r.logits[i]);
+        for(int i=0;i<r.K*kF;++i)w.f32(r.feat[i]);
+    }
     return enqueue(w);
 }
 inline bool enqueue_execution(const ExecutionRec& r) {
@@ -153,9 +161,10 @@ inline bool flush_one(std::FILE* out=stdout) {
     if(queue_empty())return false;
     const auto n=next_bytes();ring_read(4,g_payload,n);
     const auto text=encode_line(g_payload,n);const auto written=std::fwrite(g_text,1,text,out);
+    g_text_written+=static_cast<std::uint32_t>(written);
     g_head=(g_head+4+n)%kQueueBytes;g_bytes-=4+n;
     if(written!=static_cast<unsigned>(text)){++g_write_failed;return false;}
     ++g_written;return true;
 }
-inline void reset() {g_head=g_tail=g_bytes=g_queued=g_written=g_dropped=g_invalid=g_write_failed=0;}
+inline void reset() {g_head=g_tail=g_bytes=g_queued=g_written=g_dropped=g_invalid=g_write_failed=g_text_written=0;}
 } // namespace nnp_log

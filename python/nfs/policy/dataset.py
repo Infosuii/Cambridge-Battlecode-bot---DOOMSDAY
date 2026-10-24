@@ -89,6 +89,32 @@ def build_dataset(records, *, episode_id:str,group_id:str,synthetic:bool,engine_
         rows.append(dict(decision=d,execution=ack,obs=None if context is None else context[1],ppo_mask=ppo,
                          imitation_mask=imitation,execution_ok=execution_ok,episode_id=episode_id,group_id=group_id,
                          synthetic=bool(synthetic),stream=(episode_id,d['champion'],d['head']),exclusions=tuple(sorted(set(reasons)))))
+    # A macro can be committed and then interrupted by a later same-turn failure. Its initial ack alone
+    # does not establish an executed option trajectory. Missing/truncated endings fail closed.
+    endings={}
+    for row in rows:
+        d=row['decision']
+        if d['option_id'] and d['flags']&R.OPTION_END:
+            key=(d['champion'],d['head'],d['option_id'])
+            if key in endings:raise DatasetError('duplicate option termination')
+            endings[key]=row
+    for row in rows:
+        d=row['decision']
+        if not (d['option_id'] and d['flags']&R.OPTION_START):continue
+        end=endings.get((d['champion'],d['head'],d['option_id']))
+        why=None
+        if end is None:why='option_unclosed'
+        elif end['decision']['round']<d['round']:raise DatasetError('option termination predates start')
+        elif end['decision']['selected_id']!=d['selected_id']:raise DatasetError('option termination changes selected action')
+        elif end['decision']['reason'] or end['execution'] is None or end['execution']['reason'] or \
+             end['execution']['outcome']!=2 or end['execution']['executed_id']!=d['selected_id'] or \
+             not (end['decision']['flags']&R.DEFINED_OPTION) or \
+             (end is not row and (end['decision']['source']!=1 or end['execution']['source']!=1)):
+            why='option_interrupted'
+        if why:
+            counts['ppo_eligible']-=row['ppo_mask'];counts['imitation_eligible']-=row['imitation_mask']
+            row['ppo_mask']=row['imitation_mask']=False
+            row['exclusions']=tuple(sorted(set(row['exclusions'])|{why}));counts['excluded_'+why]+=1
     counts['orphan_ack']=len(set(acks)-set(decisions))
     return Dataset(rows,dict(counts),dict(version=2,format='NFS2',episode_id=episode_id,group_id=group_id,
         synthetic=bool(synthetic),engine_version=engine_version,obs_hash=expected_obs_hash,action_hash=action_identity,

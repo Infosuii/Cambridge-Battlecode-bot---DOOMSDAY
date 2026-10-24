@@ -1,0 +1,1991 @@
+{
+  "tool": "tools/run_cpp_tests.py",
+  "compiler": "C:\\Users\\ishan\\.codex\\.chatgpt-projects\\g-p-6ad14bd9b02481918601a95d4cc0e007\\work\\neural-networkk-battlecode\\artifacts\\tmp\\native-toolchain\\w64devkit\\bin\\g++.exe",
+  "flags": [
+    "-std=c++20",
+    "-O2",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter"
+  ],
+  "synthetic_data_only": true,
+  "generated": "2026-10-24T20:38:50",
+  "seconds": 43.0,
+  "passed": true,
+  "n_targets": 11,
+  "n_checks": 460,
+  "results": [
+    {
+      "target": "rt_kernels",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 2.56,
+      "n_checks": 30,
+      "failed": [],
+      "checks": [
+        {
+          "name": "act_fixed_points",
+          "passed": true
+        },
+        {
+          "name": "act_tanh_error",
+          "passed": true
+        },
+        {
+          "name": "act_monotone_4ulp",
+          "passed": true
+        },
+        {
+          "name": "act_odd_exact",
+          "passed": true
+        },
+        {
+          "name": "act_nan_propagates",
+          "passed": true
+        },
+        {
+          "name": "act_n_matches_scalar",
+          "passed": true
+        },
+        {
+          "name": "bounded_residual",
+          "passed": true
+        },
+        {
+          "name": "dense_vs_double",
+          "passed": true
+        },
+        {
+          "name": "dense_sequential_order_exact",
+          "passed": true
+        },
+        {
+          "name": "dot",
+          "passed": true
+        },
+        {
+          "name": "pool_padding_invariant",
+          "passed": true
+        },
+        {
+          "name": "pool_permutation_invariant",
+          "passed": true
+        },
+        {
+          "name": "pool_empty_is_zero",
+          "passed": true
+        },
+        {
+          "name": "argmax_lowest_index_tie",
+          "passed": true
+        },
+        {
+          "name": "argmax_all_tied_teacher",
+          "passed": true
+        },
+        {
+          "name": "argmax_empty",
+          "passed": true
+        },
+        {
+          "name": "log_softmax_normalised",
+          "passed": true
+        },
+        {
+          "name": "log_prob_masked",
+          "passed": true
+        },
+        {
+          "name": "all_finite_detects_nan_inf",
+          "passed": true
+        },
+        {
+          "name": "is_finite",
+          "passed": true
+        },
+        {
+          "name": "splitmix64_reference_value",
+          "passed": true
+        },
+        {
+          "name": "uniform_range",
+          "passed": true
+        },
+        {
+          "name": "fnv1a64_vectors",
+          "passed": true
+        },
+        {
+          "name": "fnv1a64_f32_le_bytes",
+          "passed": true
+        },
+        {
+          "name": "fnv1a64_f32_flags_nan",
+          "passed": true
+        },
+        {
+          "name": "sample_never_illegal",
+          "passed": true
+        },
+        {
+          "name": "sample_distribution",
+          "passed": true
+        },
+        {
+          "name": "sample_logp_matches_log_softmax",
+          "passed": true
+        },
+        {
+          "name": "sample_extremes",
+          "passed": true
+        },
+        {
+          "name": "base64_rfc4648",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_records",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 1.1,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "records_cpp_to_python_fields",
+          "passed": true,
+          "detail": "0 decision mismatches"
+        },
+        {
+          "name": "records_oversize_dropped",
+          "passed": true,
+          "detail": "dropped=1 written=18 oversize_ok=0"
+        },
+        {
+          "name": "records_python_reencode",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "target": "rt_off_empty",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 0.65,
+      "n_checks": 1,
+      "failed": [],
+      "checks": [
+        {
+          "name": "off_nn_head_object_has_no_symbols",
+          "passed": true,
+          "detail": ""
+        }
+      ]
+    },
+    {
+      "target": "rt_head:zero_active",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.88,
+      "n_checks": 106,
+      "failed": [],
+      "checks": [
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "zero_active:value_matches_reference",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_bounded",
+          "passed": true
+        },
+        {
+          "name": "zero_active:value_bad_output_index",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_consumes_token_once",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:dev_active",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.28,
+      "n_checks": 106,
+      "failed": [],
+      "checks": [
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": true
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": true
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": true
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": true
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "dev_active:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "dev_active:value_matches_reference",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_bounded",
+          "passed": true
+        },
+        {
+          "name": "dev_active:value_bad_output_index",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_consumes_token_once",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:shadow",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.13,
+      "n_checks": 105,
+      "failed": [],
+      "checks": [
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "shadow:value_heads_zero_in_shadow",
+          "passed": true
+        },
+        {
+          "name": "shadow:value_bad_output_index",
+          "passed": true
+        },
+        {
+          "name": "shadow:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "shadow:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "shadow:leaf_consumes_token_once",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:training",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 14.66,
+      "n_checks": 98,
+      "failed": [],
+      "checks": [
+        {
+          "name": "training:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "training:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "training:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "training:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "training:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "training:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "training:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "training:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "training:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "training:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "training:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "training:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "training:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "training:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "training:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "training:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "training:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "training:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "training:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "training:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "training:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "training:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "training:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "training:context_cached_within_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_begin_turn",
+          "passed": true
+        },
+        {
+          "name": "training:context_invalidated_by_round",
+          "passed": true
+        },
+        {
+          "name": "training:fallback_capture_failed",
+          "passed": true
+        },
+        {
+          "name": "training:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "training:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "training:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "training:training_sample_distribution",
+          "passed": true
+        },
+        {
+          "name": "training:training_logp_behaviour",
+          "passed": true
+        },
+        {
+          "name": "training:records_bounded_per_turn",
+          "passed": true
+        },
+        {
+          "name": "training:records_decode",
+          "passed": true,
+          "detail": "9450 records, 4831 decisions"
+        },
+        {
+          "name": "training:records_logits_bit_exact_vs_reference",
+          "passed": true,
+          "detail": "0/4831 differ"
+        },
+        {
+          "name": "training:records_sampled_choice_prng_twin",
+          "passed": true,
+          "detail": "0/4831 differ"
+        },
+        {
+          "name": "training:records_logp_within_1e-6",
+          "passed": true,
+          "detail": "max |dlogp| 2.38e-07"
+        }
+      ]
+    },
+    {
+      "target": "rt_head:selftest",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.98,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "selftest:selftest_ran",
+          "passed": true
+        },
+        {
+          "name": "selftest:selftest_lines_match_reference_fs_v1_dev",
+          "passed": true,
+          "detail": "14/14 lines equal"
+        },
+        {
+          "name": "selftest:selftest_verify_ok",
+          "passed": true,
+          "detail": "segment verification state"
+        }
+      ]
+    },
+    {
+      "target": "rt_head:badsum",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.34,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "badsum:bad_weights_fallback_ctx_head",
+          "passed": true
+        },
+        {
+          "name": "badsum:bad_weights_whole_model_invalid",
+          "passed": true
+        },
+        {
+          "name": "badsum:bad_weights_value_zero",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:nanw",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.28,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "nanw:bad_weights_fallback_ctx_head",
+          "passed": true
+        },
+        {
+          "name": "nanw:bad_weights_whole_model_invalid",
+          "passed": true
+        },
+        {
+          "name": "nanw:bad_weights_value_zero",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:schema",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 3.14,
+      "n_checks": 2,
+      "failed": [],
+      "checks": [
+        {
+          "name": "schema:schema_hash_mismatch_fallback",
+          "passed": true
+        },
+        {
+          "name": "schema:schema_mismatch_spares_non_context_head",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

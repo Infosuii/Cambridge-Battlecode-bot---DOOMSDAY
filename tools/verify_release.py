@@ -46,6 +46,29 @@ def rebuild_check(zip_path: Path, wasm_path: Path, work: Path) -> tuple[list[dic
                      'identical sha256' if a == b else ('identical non-custom sections' if sa == sb else 'DIFFERENT'))], info
 
 
+def reference_checks(builds_dir: Path | None = None) -> tuple[list[dict], dict]:
+    """Verify immutable local reference artifacts by name and hashes, independent of historical absolute paths."""
+    builds_dir = Path(builds_dir) if builds_dir is not None else engine.ROOT / 'references/builds'
+    manifest = json.loads((builds_dir / 'manifest.json').read_text(encoding='utf-8'))['opponents']
+    changed, info = [], {}
+    for name, expected in manifest.items():
+        if not name or name in ('.', '..') or '/' in name or '\\' in name or ':' in name:
+            changed.append(name)
+            info[name] = dict(error='invalid reference name')
+            continue
+        path = builds_dir / f'{name}.wasm'
+        try:
+            actual = dict(path=str(path.resolve()), wasm_sha256=engine.sha256(path),
+                          code_section_sha256=dict(wasm_mod.WasmModule.load(path).section_hashes()).get(10, ''))
+            matches = all(actual[key] == expected[key] for key in ('wasm_sha256', 'code_section_sha256'))
+        except (OSError, ValueError) as error:
+            actual, matches = dict(path=str(path.resolve()), error=str(error)), False
+        info[name] = actual
+        if not matches:
+            changed.append(name)
+    return [rel._chk('reference_binaries_unchanged', not changed, changed)], info
+
+
 def verify(zip_path, wasm_path, src_dir=None, models=None, rebuild=True, scan_paths=None, work=None) -> dict:
     zip_path, wasm_path = Path(zip_path).resolve(), Path(wasm_path).resolve()
     src_dir = Path(src_dir).resolve() if src_dir else engine.ROOT / 'bot' / 'src'
@@ -71,9 +94,9 @@ def verify(zip_path, wasm_path, src_dir=None, models=None, rebuild=True, scan_pa
     info['models'] = ri
     checks += rel.scan_for_fuel_flag(scan_paths if scan_paths is not None else
                                      [engine.ROOT / 'tools', engine.ROOT / 'python', engine.ROOT / 'configs'])
-    man = json.loads((engine.ROOT / 'references/builds/manifest.json').read_text(encoding='utf-8'))['opponents']
-    changed = [k for k, v in man.items() if engine.sha256(v['wasm']) != v['wasm_sha256']]
-    checks.append(rel._chk('reference_binaries_unchanged', not changed, changed))
+    reference_status, reference_info = reference_checks()
+    checks += reference_status
+    info['references'] = reference_info
     if rebuild:
         stamp = dt.datetime.now().strftime('%Y%m%d-%H%M%S')
         rc2, ri2 = rebuild_check(zip_path, wasm_path, Path(work) if work else engine.ROOT / 'artifacts/tmp/H' / f'rebuild-{stamp}')
