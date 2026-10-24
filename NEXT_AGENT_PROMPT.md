@@ -8,9 +8,10 @@ ignored under artifacts/local-only/cancelled-large-recovery. config/repository_s
 
 Private GitHub repository: https://github.com/Infosuii/neural-networkk-battlecode . main should contain source,
 models/schemas, tests and required fixtures/replays/reference binaries, useful evidence,40benchmark maps, the
-official Windows CLI, setup and handoff. If the handoff says lean main publication/verification is pending, finish
-that first. Source-checkpoint passed259 tests from a fresh remote clone. Root and cloned all-off official builds
-match original SHA eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442. Check newest CPU setup receipts.
+official Windows CLI, setup and handoff. Lean main publication and CPU setup verification are COMPLETE: an ordinary fresh main clone passed259 Python
+tests and460native checks with CPU PyTorch2.11.0+cpu. See evaluation/results/development_clone_verified.json.
+Root and cloned all-off official builds
+match original SHA eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442. No bulk archive/upload/verifier jobs remain. Begin the next bot implementation milestone after baseline checks.
 
 Then resume approximately80% direct neural decision ownership. The pure v2 foundation exists (8F12/K16heads,
 compact173obs/hash0x1346E3BA,2296params,NFS2records/dataset/losses,admission/runtimecore); gameplay dispatch,

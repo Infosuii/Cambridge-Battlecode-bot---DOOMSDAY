@@ -1,3 +1,13 @@
+# Current turn record,2026-10-24
+
+Three actual specialist workers (strategy, economy, tactics) implemented/reviewed the v2 candidate, model and
+record/capture layers; their reports are in agents/v2_*. They used the session-configured Codex model; exact resolved
+model identifier was not exposed. No Opus run is claimed. The lead integrated/fixed and ran the verified tests.
+Later backup work was done by the lead; no extra agents were invented. The user then chose development-only
+GitHub scope with all training local. Full backup workers/processes were stopped; original local files preserved.
+
+---
+
 # Agent assignments and model record
 
 ## Current Codex session

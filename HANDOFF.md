@@ -1,4 +1,4 @@
-# CURRENT HANDOFF — development-only repository,2026-10-24
+# CURRENT HANDOFF â€” development-only repository,2026-10-24
 
 ## Latest user decision OVERRIDES the full-backup sections below
 
@@ -9,8 +9,7 @@ All bulk snapshot/publisher/verifier processes were STOPPED and checked absent. 
 historical, not acceptance failures for the new smaller scope. Partial generated backup output was MOVED, not
 removed, to artifacts/local-only/cancelled-large-recovery. No original source/data/previous experiment was deleted.
 
-GitHub: https://github.com/Infosuii/neural-networkk-battlecode (private, Infosuii). Lean main is being finalized from
-source-checkpoint. All development source, models, schemas, tests and required frozen replay/reference evidence,
+GitHub: https://github.com/Infosuii/neural-networkk-battlecode (private, Infosuii). Lean main is PUBLISHED and independently clone-verified (tested commit6f4e4f8). All development source, models, schemas, tests and required frozen replay/reference evidence,
 results,40reused benchmark maps, exact official Windows CLI and setup/handoff are included. A source-history Git
 bundle preserves the pre-cleanup commit graph without huge LFS payloads. Large datasets/runs/tool caches and old
 experiment copies stay local, per config/repository_scope.json. Read DEVELOPMENT_SETUP.md and RECOVERY.md.
@@ -19,7 +18,18 @@ Verified before scope switch: root259 Python tests OK; a FRESH remote source-che
 without manual hydration or byte fixes; legacy native11targets460checks; active compact capture syntax passed;
 official all-off build from root AND cloned source byte-identical to frozen original SHA
  eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442.
-CPU-only fresh development environment verification is in progress; inspect newest evaluation/results receipts.
+FINAL DEVELOPMENT VERIFICATION: ordinary remote main clone (no LFS skip/no manual hydration) passes259 Python
+ tests with newly installed CPU PyTorch2.11.0+cpu, plus11native targets460checks. The bundled official CLI rebuild
+ matches original Wasm exactly. Receipts: evaluation/results/development_clone_verified.json,
+ development_cpu_python.log, development_cpu_cpp.log, development_teacher_exact.json. Clone Git pack84370965B
+ (~80.46MiB), tracked files190119960B(~181.31MiB),900files at tested commit6f4e4f8. Later changes only add these
+ receipts/documentation. Current checked-out local branch main tracks origin/main; source-checkpoint was renamed
+ to main. Cancelled archive refs master/cancelled-archive-remote/source-checkpoint remain LOCAL only for history.
+ No backup/upload/verifier/worker or engine jobs remain running. Git LFS archive objects are absent from main.
+ The official CLI83MB dominates repository size; its checksum is in tools/vendor/manifest.json.
+ CPU test environment: artifacts/tmp/cpu_dev_venv; original CUDA environment remains in the sibling previous
+ experiment. Do not replace it or start training. Active config/paths.json still preserves this laptop's original
+ paths; fresh clones run tools/configure_dev.py to configure their own tools.
 Separate copied-runtime probe failed due native GCC relocation/header paths; this is why the small setup uses a
 normally installed MSYS2 UCRT64 compiler. No claim of a verified relocated full offline archive is made.
 
@@ -29,7 +39,7 @@ No nn_policy_runtime.cpp or SDK world option generators/executors/dispatch yet. 
 trained draft stays separate. No80% neural ownership or training-ready claim. New model artifact is copied to
 models/policy_v2_untrained with status untrained; no release registry selection or activation.
 
-Next: finish lean GitHub main/clone setup verification, then implement the eight SDK option builders/executors
+Next: lean GitHub/setup verification is COMPLETE. Implement the eight SDK option builders/executors
 and runtime dispatch per POLICY_FIRST_PLAN.md. Bank needs real per-altar distances; aggregate nearest-altar field
 cannot label all destinations. Measure full compact fuel and actual records, define decision-opportunity coverage,
 profiles/smoke/protocol amendment, independent review, docs/training CLI adaptation and release packaging later.
@@ -41,11 +51,11 @@ Keep this handoff and NEXT_AGENT_PROMPT current before usage ends. Do not invent
 
 ---
 
-# Historical full-backup attempt and implementation evidence — SUPERSEDED scope
+# Historical full-backup attempt and implementation evidence â€” SUPERSEDED scope
 
-# HANDOFF — recovery checkpoint, 2026-10-24
+# HANDOFF â€” recovery checkpoint, 2026-10-24
 
-## CURRENT STATE — supersedes historical checkpoint below
+## CURRENT STATE â€” supersedes historical checkpoint below
 
 ### Live publication update (2026-10-24,13:06UTC)
 
@@ -165,7 +175,7 @@ worker edits should be assumed. Preserve their native files, evidence and limita
 
 ---
 
-## HISTORICAL CHECKPOINT — superseded status/blockers retained below
+## HISTORICAL CHECKPOINT â€” superseded status/blockers retained below
 
 ## Latest direction: plan revision after the safe stop
 

@@ -34,6 +34,13 @@ unchanged. If g++ is elsewhere, pass --native-cxx with its absolute executable p
 this clone's tool paths and points maps/SDK paths into this repository. Existing historical/training paths remain
 explicitly original-laptop-only; it never guesses or substitutes a training dataset.
 
+## Verified fresh-clone result
+
+The main branch was cloned normally from GitHub and configured with a separately installed CPU-only development
+ environment:259 Python tests,11native targets460checks, and official teacher_exact byte identity all passed.
+ See evaluation/results/development_clone_verified.json. No raw training archive or old environment copy was
+ needed. Native GCC remains a normal installed dependency; the exact official CLI is in the repository.
+
 ## Verify
 
 ```powershell
