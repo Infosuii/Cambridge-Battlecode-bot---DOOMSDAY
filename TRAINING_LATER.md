@@ -1,3 +1,11 @@
+# Current training operations workflow
+
+OPERATIONS_HANDOFF.md supersedes the first-experiment recipe below: use ROLE, explicit --device cuda, version3 checkpoints, streaming metrics, and the approved regular evaluation configuration. Synthetic CPU/GPU optimization/resume has now passed. No match-data training ran. The user requested that the later Freebuff/DeepSeek agent begin the bounded cycle after handover; use DEEPSEEK_TRAINING_PROMPT.md.
+
+---
+
+Historical recipe/details:
+
 # Later training: executable workflow, not jobs already run
 
 No training has run. Every command in this document is **NOT RUN** and is for a later user-authorized session on the original laptop. The direct framework is integrated; the new heads remain untrained/off in release. This is not a trained competition bot.

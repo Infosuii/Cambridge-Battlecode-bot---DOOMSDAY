@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "kind": "heuristic_non_neural_baseline",
+  "wasm": "baseline.wasm",
+  "wasm_sha256": "00c7d487990959cb4be7aac9955a4ad06f36d863b1936632f4c9cdfc93dca283",
+  "zip": "baseline.zip",
+  "zip_sha256": "0e9d6dffe807db56407d4b14ec0c0c208b057245995d7869f42cf7b4dcebdf94",
+  "audit": {
+    "kind": "heuristic_non_neural_baseline",
+    "source_sha256": "0fcc468453c748f6198a5338a4da6d855fd87e6801905a58751d186d185699eb",
+    "neural_macros": {
+      "A2_MLDRAFT": "0",
+      "A2_MLPLAN": "0",
+      "A2_CAMPNET": "0",
+      "A2_ENEMY_NET": "0",
+      "A2_POLICY": "0",
+      "A2_MOVENET": "0",
+      "A2_TILENET": "0",
+      "APEX_TS_LEARNED": "0",
+      "APEX_TS_LOCALNET": "0",
+      "NN_ANY_HEAD": "0",
+      "NN_POLICY_V2": "0",
+      "NN_TRAINING": "0",
+      "NN_POLICY_LOG": "0",
+      "NN_POLICY_SAMPLE": "0"
+    },
+    "lab_exports_stripped": true,
+    "drafting": "existing deterministic heuristic lineup/map tables; inherited trained draft disabled",
+    "comparison_note": "a separate full-bot baseline, not byte-equivalent to original; original has trained drafting"
+  },
+  "cli_version": "cambc 3.0.5",
+  "release": true,
+  "fuel": "official default",
+  "submitted": false,
+  "training_games": 0,
+  "parameter_updates": 0
+}

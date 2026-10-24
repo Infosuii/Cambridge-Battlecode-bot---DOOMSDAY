@@ -7,6 +7,8 @@ using H=nncfg::H;
 constexpr int ix(H h){return static_cast<int>(h);}
 int main() {
     nnp::Commitment semantic;
+    semantic.start(40,17,2,true,true);semantic.defer();
+    assert(semantic.committed&&semantic.suspended&&semantic.record_open&&semantic.id==17);
     semantic.start(40,17,2,true,true);semantic.suspend();
     assert(semantic.committed&&semantic.suspended&&!semantic.record_open&&semantic.id==0);
     assert(semantic.round==40&&semantic.action==2);

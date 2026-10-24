@@ -61,15 +61,23 @@ def run(profile,maps,sides=('A',),opponents=('original',),build_only=False,model
     if not set(maps)<=set(training):raise ValueError('framework checks require reused training-partition maps')
     stamp=str(time.time_ns());dest=ROOT/'artifacts/tmp/policy_v2_checks'/profile/stamp
     install(dest,profile,model_dir,seed,record_head)
+    def event(kind,**fields):
+        with (dest/'metrics.jsonl').open('a',encoding='utf-8') as stream:
+            stream.write(json.dumps(dict(event=kind,time_unix=time.time(),**fields))+'\n')
+    event('build_start',profile=profile,record_head=record_head)
     wasm=engine.official_build(dest,dest/'bot.wasm')
+    event('build_complete',wasm_sha256=engine.sha256(wasm))
     result=dict(label=declared['label'],profile=profile,record_head=record_head,seed=seed,source_sha256=engine.tree_sha256(dest/'src'),
         wasm_sha256=engine.sha256(wasm),protocol_sha256=digest,amendment_sha256=amendment_digest,release=True,fuel='official default',
         choice_amendment_sha256=choice_digest,training_amendment_sha256=training_digest,map_label='reused_benchmark',training_games=0,parameter_updates=0,games=[])
+    result['planned_games']=0 if build_only else len(opponents)*len(maps)*len(sides)
+    engine.write_json(dest/'receipt.json',result)
     for opponent in (() if build_only else opponents):
         ref=ROOT/f'references/builds/{opponent}.wasm'
         for name in maps:
             for side in sides:
                 folder=dest/'matches'/f'{name}-{opponent}-{side}'
+                event('game_start',map=name,opponent=opponent,side=side,folder=str(folder))
                 match=engine.run_match(wasm if side=='A' else ref,ref if side=='A' else wasm,
                     engine.MAPS/(name+'.map26a'),folder,candidate_side=side)
                 stdout=engine.team_stdout(folder,side)
@@ -91,7 +99,10 @@ def run(profile,maps,sides=('A',),opponents=('original',),build_only=False,model
                 row['bot_error_lines']=[x for x in stdout.splitlines() if 'bot error:' in x]
                 result['games'].append(row)
                 engine.write_json(dest/'receipt.json',result)
+                event('game_complete',map=name,opponent=opponent,side=side,faults=row['faults'],fuel_exhausted=row['fuel_exhausted'],
+                      invalid_records=row['invalid_records'],records=row['records'])
     engine.write_json(dest/'receipt.json',result)
+    event('collection_complete',games=len(result['games']),receipt=str(dest/'receipt.json'))
     print(json.dumps(dict(receipt=str(dest/'receipt.json'),wasm=str(wasm),games=len(result['games'])),indent=2))
     return result
 

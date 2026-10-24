@@ -29,7 +29,7 @@ constinit nnp::OptionsState g_state{};
 constinit nnp::Commitment g_options[9]{};
 constinit nnp::Opportunity g_coverage[9]{};
 constinit Bot* g_bot=nullptr;
-constinit bool g_configured=false,g_physical=false,g_failed=false;
+constinit bool g_configured=false,g_physical=false,g_abandoned=false;
 constinit std::uint32_t g_prepare_failures=0,g_clock_resets=0;
 std::uint32_t round_now(){return bc::round_number();}
 std::uint32_t elapsed(std::uint64_t start,std::uint32_t round){
@@ -61,6 +61,7 @@ void close(H h,nnp::Reason why=nnp::Reason::ok) {
     o.abandon();
 }
 void interrupt() {
+    g_abandoned=true;
     for(int i=1;i<=8;++i)close(static_cast<H>(i),nnp::Reason::interrupted);
     for(auto& o:g_options)o.round=-1;
     g_state={};
@@ -112,7 +113,7 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
            (actual.legal?nnp_log::kFailed:nnp_log::kGuardRefused),action_cost,
         action_cost==UINT32_MAX?nnp::Reason::clock_reset:ok?nnp::Reason::ok:actual.legal?nnp::Reason::action_failed:nnp::Reason::execution_guard);
     g_inventory->record(h,ok);
-    if(!ok)return false;
+    if(!ok){if(macro)interrupt();return false;}
     g_options[hi].start(g_round,option,result.action,macro&&result.recorded,macro);
     // A goal/role change changes the observation, just as a physical move does.
     // Internal intent/role commits retain the first-admitted same-turn snapshot; candidate rows are live.
@@ -126,12 +127,9 @@ bool scheduled(H h,int period,bool force=false) {
     return g_inventory->expected(h);
 }
 bool fallback() {
-    g_failed=true;
     for(int i=1;i<=3;++i) {
         auto& o=g_options[i];
-        recording(static_cast<H>(i));
-        if(o.id&&o.record_open)g_core.close_option(static_cast<H>(i),o.id,o.action,nnp::Reason::interrupted);
-        o.suspend();
+        o.defer();
     }
     // Once policy preparation/decisions have used this turn, a fresh whole-teacher run cannot be
     // promised its original fuel budget. Finish safely and resume the same guarded assignment next turn.
@@ -181,7 +179,11 @@ struct nn_policy_access {
         if(!g_core.ready())return fallback();
         bool suspended=false;for(int i=1;i<=3;++i)suspended|=g_options[i].suspended;
         if(suspended&&g_options[static_cast<int>(H::role)].committed) {
-            if(!nnp::resume_assignments(b,g_state))interrupt();
+            if(!nnp::resume_assignments(b,g_state)) {
+                for(int i=1;i<=3;++i)if(g_inventory->continuation(static_cast<H>(i)))++g_coverage[i].interrupted;
+                interrupt();g_abandoned=false; // New selections below are distinct from the abandoned old options.
+                g_inventory->force(H::role);g_inventory->force(H::strategy);g_inventory->force(H::objective);
+            }
             else for(int i=1;i<=3;++i)g_options[i].suspended=false;
         }
         if(b.was_dead) {
@@ -202,6 +204,7 @@ struct nn_policy_access {
                     if(nnp::execute_bank(b,g_state,id).executed) {
                         ++g_coverage[static_cast<int>(H::bank)].overrides;recording(H::bank);
                         g_core.note(H::bank,nnp_log::kSafetyOverride,nnp::Reason::interrupted,id,nnp_log::kOverridden);
+                        interrupt();
                         g_inventory->suppress(H::engage);g_inventory->suppress(H::combat);g_inventory->suppress(H::move);
                         return fallback();
                     }
@@ -229,6 +232,9 @@ struct nn_policy_access {
         if(b.gems>0&&scheduled(H::bank,nnp::kBankPeriod,macro_start&&g_state.intent==1)) {
             if(!choose(b,H::bank,std::min(16,1+2*static_cast<int>(b.w.altars.size())),nnp::build_bank,nnp::execute_bank))return fallback();
             if(bc::self().state().contains(bc::champion_state::submitting_gems)) {
+                // This policy-selected channel completes the current assignment; it is not an
+                // external interruption. Close its defined interval before the channel-only turns.
+                close(H::role);close(H::strategy);close(H::objective);
                 g_inventory->suppress(H::engage);g_inventory->suppress(H::combat);g_inventory->suppress(H::move);return true;
             }
         }
@@ -267,7 +273,7 @@ struct nn_policy_access {
             }
             g_core.logging(false);g_log_closed=true;
         }
-        g_physical=false;g_failed=false;
+        g_physical=false;g_abandoned=false;
         try {prepare(b);}catch(...) {
             ++g_prepare_failures;interrupt();note(H::strategy,nnp_log::kSafetyOverride,nnp::Reason::capture);return true;
         }
@@ -283,7 +289,7 @@ struct nn_policy_access {
         try {handled=dispatch(b);}catch(...) {handled=fallback();}
         for(int i=1;i<=8;++i)if(inventory.expected(static_cast<H>(i))&&!inventory.visited(static_cast<H>(i)))
             note(static_cast<H>(i),nnp_log::kSafetyOverride,nnp::Reason::budget);
-        inventory.finish(g_coverage,g_failed||!handled);g_inventory=nullptr;
+        inventory.finish(g_coverage,g_abandoned||!handled);g_inventory=nullptr;
         return handled;
     }
     static void fields(Bot& b) {

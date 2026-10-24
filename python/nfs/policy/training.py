@@ -7,9 +7,11 @@ from __future__ import annotations
 from collections import Counter
 import hashlib
 import json
+import os
 from pathlib import Path
 import time
 import numpy as np
+os.environ.setdefault('CUBLAS_WORKSPACE_CONFIG',':4096:8')
 import torch
 from . import dataset as D, records as R, observation as O, candidates as C, losses as L
 from .export import load_blob, load_model, export_model
@@ -136,19 +138,31 @@ def preflight(model_dir,train,validation,head,mode='ppo'):
     if groups[0]&groups[1]:raise ValueError('train/validation provenance leakage')
     return report,datasets
 
-def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False,minutes=5,epochs=4,seed=20261024,resume_checkpoint=None):
+def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False,minutes=5,epochs=4,seed=20261024,
+        resume_checkpoint=None,device='auto',evaluation_config=None,_synthetic_test=False):
     # This is intentionally before model, optimizer, filesystem or data work.
     if not authorized:raise PermissionError('explicit --i-authorize-training required; no training performed')
     if not 0<minutes<=30 or not 1<=epochs<=4:raise ValueError('bounded run: 0<minutes<=30, 1..4 epochs')
     out=writable(out)
     if out.exists():raise FileExistsError('fresh run directory required; checkpoints never overwritten')
     report,data=preflight(model_dir,train,validation,head,mode)
-    if any(r['synthetic'] for r in report.values()):raise ValueError('synthetic data may not be labelled real training')
+    if evaluation_config is not None:
+        from .operations import validate_evaluation_config
+        validate_evaluation_config(evaluation_config,model_dir)
+    if _synthetic_test:
+        scratch=(ROOT/'artifacts/tmp').resolve()
+        if not out.is_relative_to(scratch) or not all(r['synthetic'] for r in report.values()) or epochs>2 or minutes>1 or \
+           any(len(a['head'])>64 for a,_ in data) or evaluation_config is not None:
+            raise ValueError('synthetic functional test must stay tiny, synthetic, scratch-only and without engine games')
+    elif any(r['synthetic'] for r in report.values()):raise ValueError('synthetic data may not be labelled real training')
     if report['train']['eligible']<16 or report['validation']['eligible']<4:
         raise ValueError('need at least16 eligible training and4 validation rows for this head')
     torch.manual_seed(seed);rng=np.random.default_rng(seed)
     torch.set_float32_matmul_precision('highest')
-    device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if device not in ('auto','cpu','cuda'):raise ValueError('device must be auto, cpu or cuda')
+    device=torch.device(('cuda' if torch.cuda.is_available() else 'cpu') if device=='auto' else device)
+    if device.type=='cuda' and not torch.cuda.is_available():raise RuntimeError('CUDA requested but unavailable')
+    torch.use_deterministic_algorithms(True)
     actor=load_model(model_dir).to(device)
     # First experiment protects other policies: encoder and other heads stay frozen.
     for p in actor.parameters():p.requires_grad_(False)
@@ -158,13 +172,14 @@ def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False
     value_optimizer=torch.optim.Adam(critic.parameters(),lr=3e-4)
     a,meta=data[0];mask=a['ppo_mask' if mode=='ppo' else 'imitation_mask'].astype(bool)&(a['head']==HEAD_IDS[head])
     indices=np.flatnonzero(mask);deadline=time.time()+minutes*60
-    history=[];updates=0;stop='epochs_complete';start=time.time();completed_epochs=0
+    history=[];updates=0;stop='epochs_complete';start=time.time();completed_epochs=0;local_samples=0
     if resume_checkpoint is not None:
         old=torch.load(resume_checkpoint,map_location=device,weights_only=True)
-        if (old.get('version'),old.get('head'),old.get('mode'),old.get('train_sha256'))!=(2,head,mode,meta['sha256']):
+        if (old.get('version'),old.get('head'),old.get('mode'),old.get('train_sha256'))!=(3,head,mode,meta['sha256']):
             raise ValueError('checkpoint/data/head mismatch')
         if old.get('validation_sha256')!=data[1][1]['sha256'] or old.get('max_epochs')!=epochs:
             raise ValueError('checkpoint validation/epoch limit mismatch')
+        if bool(old.get('synthetic'))!=_synthetic_test:raise ValueError('checkpoint synthetic/real provenance mismatch')
         deadline=float(old['absolute_deadline']);completed_epochs=int(old['completed_epochs'])
         if time.time()>=deadline or completed_epochs>=epochs:raise ValueError('checkpoint deadline expired or experiment complete')
         actor.load_state_dict(old['actor']);critic.load_state_dict(old['critic'])
@@ -173,11 +188,21 @@ def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False
         if torch.cuda.is_available() and old['cuda_rng']:torch.cuda.set_rng_state_all([x.cpu() for x in old['cuda_rng']])
         updates=int(old['updates']);history=old.get('history',[])
     out.mkdir(parents=True)
+    (out/'checkpoints').mkdir()
     behavior,_=load_blob(model_dir)
-    export_model(load_model(model_dir),behavior['name'],out/'behavior',behavior['status'],behavior['provenance'])
+    with torch.random.fork_rng(devices=[]):
+        export_model(load_model(model_dir),behavior['name'],out/'behavior',behavior['status'],behavior['provenance'])
+    def event(kind,**fields):
+        row=dict(event=kind,time_unix=time.time(),head=head,mode=mode,synthetic=_synthetic_test)
+        row.update(fields)
+        with (out/'metrics.jsonl').open('a',encoding='utf-8') as stream:
+            stream.write(json.dumps(row,allow_nan=False)+'\n');stream.flush()
+    event('start',device=str(device),gpu=torch.cuda.get_device_name(device) if device.type=='cuda' else None,
+          torch_version=str(torch.__version__),cuda_version=torch.version.cuda,deadline=deadline,
+          behavior_checksum=behavior['checksum'],resume=None if resume_checkpoint is None else str(resume_checkpoint))
     def snapshot():
         # Recovery rolls back at most the unfinished epoch. Never extend the original deadline.
-        state=dict(version=2,head=head,mode=mode,actor={k:v.detach().cpu() for k,v in actor.state_dict().items()},
+        state=dict(version=3,head=head,mode=mode,synthetic=_synthetic_test,actor={k:v.detach().cpu() for k,v in actor.state_dict().items()},
             critic={k:v.detach().cpu() for k,v in critic.state_dict().items()},optimizer=optimizer.state_dict(),
             critic_optimizer=value_optimizer.state_dict(),rng=rng.bit_generator.state,torch_rng=torch.get_rng_state(),
             cuda_rng=torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [],behavior_model=str((out/'behavior').resolve()),
@@ -186,12 +211,18 @@ def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False
             train_sha256=meta['sha256'],validation_sha256=data[1][1]['sha256'],updates=updates,history=history,
             completed_epochs=completed_epochs,max_epochs=epochs,absolute_deadline=deadline,stop=stop)
         temporary=out/'checkpoint.partial.pt';torch.save(state,temporary);temporary.replace(out/'checkpoint.pt')
+        version=out/'checkpoints'/f'epoch-{completed_epochs:04d}.pt'
+        version_temp=version.with_suffix('.partial.pt');version_temp.write_bytes((out/'checkpoint.pt').read_bytes());version_temp.replace(version)
+        index=dict(version=3,checkpoint='checkpoint.pt',sha256=_sha(out/'checkpoint.pt'),epoch=completed_epochs,
+                   updates=updates,absolute_deadline=deadline,synthetic=_synthetic_test)
+        temporary=out/'checkpoint.partial.json';temporary.write_text(json.dumps(index,indent=2)+'\n',encoding='utf-8')
+        temporary.replace(out/'checkpoint.json');event('checkpoint',**index)
     snapshot()
     for epoch in range(completed_epochs,epochs):
-        rng.shuffle(indices)
+        order=rng.permutation(indices) # Sorted base indices make epoch recovery reproduce the same permutation.
         for offset in range(0,len(indices),256):
             if time.time()>=deadline:stop='deadline';break
-            ix=indices[offset:offset+256]
+            ix=order[offset:offset+256]
             t=lambda key,dtype=None:torch.as_tensor(a[key][ix],device=device,dtype=dtype)
             obs=t('obs');legal=t('legal',torch.bool)
             logits=actor(obs,head,t('feat'),legal,t('context'))
@@ -213,16 +244,33 @@ def fit(model_dir,train,validation,out,*,head='move',mode='ppo',authorized=False
             if vloss is not None:
                 value_optimizer.zero_grad();vloss.backward()
                 torch.nn.utils.clip_grad_norm_(critic.parameters(),.5,error_if_nonfinite=True);value_optimizer.step()
-            updates+=1;history.append(dict(epoch=epoch,update=updates,loss=float(loss.detach()),grad_norm=float(norm),**metrics))
+            updates+=1;local_samples+=len(ix);measurement=dict(epoch=epoch,update=updates,loss=float(loss.detach()),grad_norm=float(norm),
+                critic_loss=None if vloss is None else float(vloss.detach()),minibatch_size=len(ix),elapsed_seconds=time.time()-start,
+                actor_lr=optimizer.param_groups[0]['lr'],critic_lr=value_optimizer.param_groups[0]['lr'],
+                gpu_allocated_bytes=torch.cuda.memory_allocated(device) if device.type=='cuda' else 0,
+                gpu_peak_bytes=torch.cuda.max_memory_allocated(device) if device.type=='cuda' else 0,**metrics)
+            measurement['samples_per_second']=local_samples/max(.000001,time.time()-start)
+            history.append(measurement);event('update',**measurement)
         if stop!='epochs_complete':break
         completed_epochs=epoch+1;snapshot()
+        if evaluation_config is not None:
+            from .operations import evaluate_epoch
+            try:assessment=evaluate_epoch(actor,out,completed_epochs,head,evaluation_config,deadline)
+            except Exception as error:
+                event('evaluation_error',error_type=type(error).__name__,error=str(error));stop='evaluation_error';break
+            if assessment is not None:
+                event('evaluation',**assessment)
+                if not assessment['implementation_passed']:stop='evaluation_implementation_failure';break
     snapshot()
-    result=dict(status='trained' if updates else 'unmodified',mode=mode,head=head,updates=updates,device=str(device),
+    result=dict(status='synthetic_smoke' if _synthetic_test else 'trained' if updates else 'unmodified',mode=mode,head=head,updates=updates,device=str(device),
         elapsed_seconds=time.time()-start,stop=stop,preflight=report,history=history,
         validation_use='disjoint parity/data gate only; not a strength selection result',submitted=False)
     (out/'report.json').write_text(json.dumps(result,indent=2)+'\n')
+    event('stop',status=result['status'],reason=stop,updates=updates,completed_epochs=completed_epochs)
     if updates:
-        export_model(actor.cpu(),'policy_v2_candidate',out/'export','trained',dict(synthetic=False,source='bounded authorized NFS2 '+mode,
-            trained_heads=[head],untrained_or_inherited_other_heads=True,shared_encoder_frozen=True,
+        trained_heads=[] if _synthetic_test else sorted(set(behavior['provenance'].get('trained_heads',[]))|{head})
+        export_model(actor.cpu(),'policy_v2_candidate',out/'export','untrained' if _synthetic_test else 'trained',dict(synthetic=_synthetic_test,source='synthetic functional check' if _synthetic_test else 'bounded authorized NFS2 '+mode,
+            trained_heads=trained_heads,remaining_untrained_heads=sorted(set(HEAD_IDS)-set(trained_heads)),
+            synthetic_updated_heads=[head] if _synthetic_test else [],updated_head=head,shared_encoder_frozen=True,
             parameter_updates=updates,training_data_sha256=meta['sha256'],report=str(out/'report.json')))
     return result

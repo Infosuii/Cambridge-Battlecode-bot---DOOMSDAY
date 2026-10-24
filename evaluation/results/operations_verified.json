@@ -1,0 +1,342 @@
+{
+  "label": "minimal operations implementation smoke",
+  "synthetic_optimizer_checks": {
+    "cpu": {
+      "synthetic": true,
+      "match_data_used": false,
+      "real_model_parameter_updates": 0,
+      "device": "cpu",
+      "gpu": null,
+      "torch_version": "2.11.0+cpu",
+      "checks": {
+        "actor": true,
+        "critic": true,
+        "optimizer": true,
+        "critic_optimizer": true,
+        "rng": true,
+        "torch_rng": true,
+        "cuda_rng": true,
+        "updates": true,
+        "completed_epochs": true,
+        "only_selected_head_changed": true,
+        "baseline_unchanged": true,
+        "two_total_updates": true,
+        "not_trained_lifecycle": true
+      },
+      "passed": true,
+      "source_model_checksum": "0x9975623563a728d5",
+      "raw_report": "artifacts/tmp/synthetic_cpu_ops2/synthetic_smoke.json",
+      "raw_sha256": "e3c0a2e8b36b531ea47f7e9659b4ab8dc9b175ff9c6f4f6870809fb9eecb81a0"
+    },
+    "cuda": {
+      "synthetic": true,
+      "match_data_used": false,
+      "real_model_parameter_updates": 0,
+      "device": "cuda",
+      "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+      "torch_version": "2.11.0+cu128",
+      "checks": {
+        "actor": true,
+        "critic": true,
+        "optimizer": true,
+        "critic_optimizer": true,
+        "rng": true,
+        "torch_rng": true,
+        "cuda_rng": true,
+        "updates": true,
+        "completed_epochs": true,
+        "only_selected_head_changed": true,
+        "baseline_unchanged": true,
+        "two_total_updates": true,
+        "not_trained_lifecycle": true
+      },
+      "passed": true,
+      "source_model_checksum": "0x9975623563a728d5",
+      "raw_report": "artifacts/tmp/synthetic_gpu_ops2/synthetic_smoke.json",
+      "raw_sha256": "4c784170af5c365503454c7c22a0530717888d8f74b63df5678b9ffa7a029290"
+    }
+  },
+  "comparison": {
+    "label": "model comparison; unvalidated framework check unless separately promoted",
+    "plan": {
+      "candidate": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\models\\policy_v2_untrained",
+      "candidate_checksum": "0x5a9d6349c9dc07b5",
+      "candidate_status": "untrained",
+      "framework_source_sha256": "f3cd26027a4415a6efd16f29de77a8408974429d0c3c8316ba4a03e58232f77b",
+      "opponents": [
+        {
+          "name": "heuristic_non_neural",
+          "kind": "non_neural_baseline"
+        },
+        {
+          "name": "previous_0",
+          "model_dir": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\models\\policy_v2_untrained",
+          "checksum": "0x5a9d6349c9dc07b5",
+          "status": "untrained",
+          "same_weights_control": true
+        }
+      ],
+      "maps": [
+        "00rows"
+      ],
+      "sides": [
+        "A",
+        "B"
+      ],
+      "games": 4,
+      "max_games": 4,
+      "release": true,
+      "fuel": "official default",
+      "map_label": "reused_benchmark",
+      "promotion_authorized": false,
+      "parameter_updates": 0
+    },
+    "candidate_wasm_sha256": "4113be119464f4cf30a8da7c2150f411ef8b02f7a6fd19f77d08625f116dd7db",
+    "baseline_audit": {
+      "kind": "heuristic_non_neural_baseline",
+      "source_sha256": "0fcc468453c748f6198a5338a4da6d855fd87e6801905a58751d186d185699eb",
+      "neural_macros": {
+        "A2_MLDRAFT": "0",
+        "A2_MLPLAN": "0",
+        "A2_CAMPNET": "0",
+        "A2_ENEMY_NET": "0",
+        "A2_POLICY": "0",
+        "A2_MOVENET": "0",
+        "A2_TILENET": "0",
+        "APEX_TS_LEARNED": "0",
+        "APEX_TS_LOCALNET": "0",
+        "NN_ANY_HEAD": "0",
+        "NN_POLICY_V2": "0",
+        "NN_TRAINING": "0",
+        "NN_POLICY_LOG": "0",
+        "NN_POLICY_SAMPLE": "0"
+      },
+      "lab_exports_stripped": true,
+      "drafting": "existing deterministic heuristic lineup/map tables; inherited trained draft disabled",
+      "comparison_note": "a separate full-bot baseline, not byte-equivalent to original; original has trained drafting"
+    },
+    "opponent_sha256": {
+      "heuristic_non_neural": "00c7d487990959cb4be7aac9955a4ad06f36d863b1936632f4c9cdfc93dca283",
+      "previous_0": "4113be119464f4cf30a8da7c2150f411ef8b02f7a6fd19f77d08625f116dd7db"
+    },
+    "games": [
+      {
+        "folder": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\operations_comparison_smoke\\games\\heuristic_non_neural-00rows-A",
+        "map": "00rows",
+        "side": "A",
+        "win": 0.0,
+        "gems": 0,
+        "opponent_gems": 1006,
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0,
+        "deaths": 5,
+        "collected": 0,
+        "gold": 0,
+        "rounds": 1572,
+        "outcome": "teamB",
+        "engine": "1.0.3",
+        "opponent": "heuristic_non_neural"
+      },
+      {
+        "folder": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\operations_comparison_smoke\\games\\heuristic_non_neural-00rows-B",
+        "map": "00rows",
+        "side": "B",
+        "win": 0.0,
+        "gems": 0,
+        "opponent_gems": 1008,
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0,
+        "deaths": 5,
+        "collected": 0,
+        "gold": 0,
+        "rounds": 1571,
+        "outcome": "teamA",
+        "engine": "1.0.3",
+        "opponent": "heuristic_non_neural"
+      },
+      {
+        "folder": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\operations_comparison_smoke\\games\\previous_0-00rows-A",
+        "map": "00rows",
+        "side": "A",
+        "win": 0.0,
+        "gems": 0,
+        "opponent_gems": 0,
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0,
+        "deaths": 5,
+        "collected": 0,
+        "gold": 0,
+        "rounds": 2000,
+        "outcome": "teamB",
+        "engine": "1.0.3",
+        "opponent": "previous_0"
+      },
+      {
+        "folder": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\operations_comparison_smoke\\games\\previous_0-00rows-B",
+        "map": "00rows",
+        "side": "B",
+        "win": 1.0,
+        "gems": 0,
+        "opponent_gems": 0,
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0,
+        "deaths": 5,
+        "collected": 0,
+        "gold": 0,
+        "rounds": 2000,
+        "outcome": "teamB",
+        "engine": "1.0.3",
+        "opponent": "previous_0"
+      }
+    ],
+    "summary": {
+      "heuristic_non_neural": {
+        "games": 2,
+        "win_rate": 0.0,
+        "mean_gem_margin": -1007.0,
+        "bot_faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0
+      },
+      "previous_0": {
+        "games": 2,
+        "win_rate": 0.5,
+        "mean_gem_margin": 0.0,
+        "bot_faults": 0,
+        "fuel_exhausted": 0,
+        "opponent_fuel_exhausted": 0
+      }
+    },
+    "parameter_updates": 0,
+    "promotion_eligible": false,
+    "implementation_passed": true,
+    "frozen_baseline": {
+      "version": 1,
+      "kind": "heuristic_non_neural_baseline",
+      "wasm": "baseline.wasm",
+      "wasm_sha256": "00c7d487990959cb4be7aac9955a4ad06f36d863b1936632f4c9cdfc93dca283",
+      "zip": "baseline.zip",
+      "zip_sha256": "0e9d6dffe807db56407d4b14ec0c0c208b057245995d7869f42cf7b4dcebdf94",
+      "audit": {
+        "kind": "heuristic_non_neural_baseline",
+        "source_sha256": "0fcc468453c748f6198a5338a4da6d855fd87e6801905a58751d186d185699eb",
+        "neural_macros": {
+          "A2_MLDRAFT": "0",
+          "A2_MLPLAN": "0",
+          "A2_CAMPNET": "0",
+          "A2_ENEMY_NET": "0",
+          "A2_POLICY": "0",
+          "A2_MOVENET": "0",
+          "A2_TILENET": "0",
+          "APEX_TS_LEARNED": "0",
+          "APEX_TS_LOCALNET": "0",
+          "NN_ANY_HEAD": "0",
+          "NN_POLICY_V2": "0",
+          "NN_TRAINING": "0",
+          "NN_POLICY_LOG": "0",
+          "NN_POLICY_SAMPLE": "0"
+        },
+        "lab_exports_stripped": true,
+        "drafting": "existing deterministic heuristic lineup/map tables; inherited trained draft disabled",
+        "comparison_note": "a separate full-bot baseline, not byte-equivalent to original; original has trained drafting"
+      },
+      "cli_version": "cambc 3.0.5",
+      "release": true,
+      "fuel": "official default",
+      "submitted": false,
+      "training_games": 0,
+      "parameter_updates": 0
+    },
+    "baseline_hash_matches_smoke": true
+  },
+  "option_record_smoke": {
+    "source_sha256": "52e5e66f1a6c45ccabad7e33170de65986d4a187060e0bc817f2c51ba177c141",
+    "wasm_sha256": "ee9ba73d985a0d36f211c68c3070fe24aeddc4694a35579b8684cb4ea62b7138",
+    "profile": "direct_sample_record",
+    "record_head": "role",
+    "games": [
+      {
+        "map": "00rows",
+        "side": "A",
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "invalid_records": 0,
+        "records": {
+          "context": 110,
+          "decision": 220,
+          "execution": 220
+        },
+        "dataset_validation": {
+          "passed": true,
+          "counts": {
+            "context": 110,
+            "decision": 220,
+            "execution": 220,
+            "source_direct_policy": 110,
+            "teacher_absent": 220,
+            "ppo_eligible": 100,
+            "imitation_eligible": 0,
+            "source_continued_option": 110,
+            "excluded_missing_context": 10,
+            "excluded_decision_fallback_reason": 10,
+            "excluded_not_sampled": 110,
+            "excluded_execution_not_selected_or_undefined": 110,
+            "excluded_not_direct_start": 110,
+            "excluded_option_interrupted": 10,
+            "orphan_ack": 0
+          },
+          "logits_checked": 110,
+          "max_logit_error": 1.1920928955078125e-07,
+          "training_updates": 0
+        }
+      },
+      {
+        "map": "00rows",
+        "side": "B",
+        "faults": 0,
+        "fuel_exhausted": 0,
+        "invalid_records": 0,
+        "records": {
+          "context": 110,
+          "decision": 220,
+          "execution": 220
+        },
+        "dataset_validation": {
+          "passed": true,
+          "counts": {
+            "context": 110,
+            "decision": 220,
+            "execution": 220,
+            "source_direct_policy": 110,
+            "teacher_absent": 220,
+            "ppo_eligible": 93,
+            "imitation_eligible": 0,
+            "source_continued_option": 110,
+            "excluded_missing_context": 10,
+            "excluded_decision_fallback_reason": 17,
+            "excluded_not_sampled": 110,
+            "excluded_execution_not_selected_or_undefined": 110,
+            "excluded_not_direct_start": 110,
+            "excluded_option_interrupted": 17,
+            "orphan_ack": 0
+          },
+          "logits_checked": 110,
+          "max_logit_error": 1.1920928955078125e-07,
+          "training_updates": 0
+        }
+      }
+    ]
+  },
+  "match_data_parameter_updates": 0,
+  "promotion": false,
+  "notes": [
+    "Synthetic optimization only: two full steps plus one recovery step per device. Real model and registry untouched.",
+    "Two record games and four comparison games, no additional training matches.",
+    "193 eligible role starts;220 actual logit comparisons, max error1.1920928955078125e-07.",
+    "Same-model previous-version control draws; untrained bot loses to heuristic non-neural baseline. No strength claim."
+  ]
+}

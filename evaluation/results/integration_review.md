@@ -1,3 +1,7 @@
+# Operations follow-up
+
+GPU/CPU synthetic optimizer and epoch-resume checks now pass exactly; metrics, checkpoint export and previous-model/non-neural-baseline operations are implemented. Actual macro records pass with193 eligible starts. See operations_verified.json and operations_teacher_exact.json. This supersedes the earlier table rows saying optimizer/recovery was unexecuted. No match-data training was performed; imitation annotation and large-map/action-space limits remain.
+
 # Lead integration self-review — 2026-10-24
 
 This is a separate lead review pass using agents/H/REVIEW_CHECKLIST.md, adapted to direct interpretation2. The user requested solo work. No independent review agent was run or claimed.

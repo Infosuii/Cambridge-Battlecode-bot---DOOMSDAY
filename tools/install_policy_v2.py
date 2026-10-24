@@ -11,7 +11,7 @@ sys.path.insert(0,str(ROOT/'python'))
 from nfs.policy.model import build_model,init_untrained,HEAD_IDS
 from nfs.policy.export import export_model,load_blob,load_model
 
-PROFILES=('direct_untrained','direct_uniform','direct_record','direct_sample_record')
+PROFILES=('direct_untrained','direct_uniform','direct_record','direct_sample_record','direct_evaluation')
 
 def install(destination:Path,profile:str,model_dir:Path|None=None,seed:int=20261024,record_head:str='all'):
     destination=destination.resolve()
@@ -54,7 +54,7 @@ def install(destination:Path,profile:str,model_dir:Path|None=None,seed:int=20261
     (src/'nn_policy_config.h').write_text(
         f'// Development experiment, model status: {status}. Never a release selection.\n#pragma once\n'
         '#define NN_POLICY_V2 1\n'
-        '#define NN_POLICY_TELEMETRY 1\n'
+        f'#define NN_POLICY_TELEMETRY {int(profile!="direct_evaluation")}\n'
         f'#define NN_POLICY_SEED {seed}ull\n'
         f'#define NN_POLICY_LOG_HEAD_MASK {log_mask}\n'
         f'#define NN_POLICY_LOG {int("record" in profile)}\n'

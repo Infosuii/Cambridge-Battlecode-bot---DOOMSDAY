@@ -12,6 +12,8 @@ Git LFS is not required for this development checkout. See [RECOVERY.md](RECOVER
 
 The direct gameplay framework is integrated across eight heads. New heads are untrained and disabled by default; the inherited trained draft network remains separate. The goal is the strongest validated competition bot, with no neural percentage quota.
 
-Current checks pass280 Python tests,460 legacy C++ checks and the SDK fixtures. All-off official Wasm matches the frozen original byte-for-byte. A heads-off clean release ZIP/Wasm is independently rebuilt and verified under [artifacts/release/2026-10-24](artifacts/release/2026-10-24).
+Current checks pass287 Python tests,460 legacy C++ checks and the SDK fixtures. All-off official Wasm matches the frozen original byte-for-byte. A heads-off clean release ZIP/Wasm is independently rebuilt and verified under [artifacts/release/2026-10-24](artifacts/release/2026-10-24-final).
 
 See [STATUS.md](STATUS.md) for measured limitations and [TRAINING_LATER.md](TRAINING_LATER.md) for the guarded later training/export workflow. No training or match-data parameter update has run. Current diagnostic data is too sparse for fitting by itself; later collection must pass data and parity gates.
+
+GPU training operations, metrics, checkpoint/resume and model comparisons: [OPERATIONS_HANDOFF.md](OPERATIONS_HANDOFF.md). Copyable agent prompt: [DEEPSEEK_TRAINING_PROMPT.md](DEEPSEEK_TRAINING_PROMPT.md). Tiny synthetic CPU/CUDA recovery tests passed; no match-data training ran.

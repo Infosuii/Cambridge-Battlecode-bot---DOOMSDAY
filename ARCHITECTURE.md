@@ -29,7 +29,7 @@ The compact observation has173 floats:40 self/global fields, five masked10-featu
 
 ## State, recording and fuel
 
-Role/strategy/objective are explicit semantic commitments with32/8/8-round cadence. Banking/shopping use4/16-round cadence; movement/combat/engage are tactical. A forced combat hold can bypass inference. Neural choices with later budget refusal close/censor their training interval, while a separately guarded semantic assignment may resume next turn. An ended log ID is never the live-state flag. Death, channel and replacement abandon incompatible assignments. No alternative objective is silently substituted during resumption.
+Role/strategy/objective are explicit semantic commitments with32/8/8-round cadence. Banking/shopping use4/16-round cadence; movement/combat/engage are tactical. A forced combat hold can bypass inference. A mere safe held turn preserves the same live option interval and guarded semantic assignment; actual abandonment or recording cap closes/censors the interval. An ended log ID is never the live-state flag. Death, channel and replacement abandon incompatible assignments. No alternative objective is silently substituted during resumption.
 
 The first admitted same-turn context can serve multiple intent changes; live candidate rows accompany it. Physical effects invalidate it. World refresh is guarded and repeated refresh after a no-op is avoided. Static anchors, objective narrowing and walking fields can be prepared after actions from spare fuel, with position/geometry/field-availability cache keys; live F12 rows are rebuilt at selection.
 

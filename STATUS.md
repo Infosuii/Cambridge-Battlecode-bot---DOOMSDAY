@@ -1,3 +1,13 @@
+# Training-operations delivery update — 2026-10-24
+
+Core gameplay integration and requested operations interfaces are delivered.287 Python tests pass. Tiny synthetic CPU/CUDA optimization and exact checkpoint recovery passed; no match-data training ran. CLI metrics/status/action inspection, versioned checkpoint recovery/export, regular evaluation hooks and previous-version/non-neural-baseline comparison are implemented. Two role-record smoke games yielded193 usable actor starts; four comparison games passed implementation checks. The bot remains untrained and new heads are off in release.
+
+Use OPERATIONS_HANDOFF.md and DEEPSEEK_TRAINING_PROMPT.md. The approved first cycle is role only,12 collection games maximum,5minutes/four epochs of CUDA fitting, with data/parity/evaluation gates. Final package is artifacts/release/2026-10-24-final; independent rebuild passed. See HANDOFF.md for exact hashes and limitations.
+
+---
+
+Historical milestone below:
+
 # Status — 2026-10-24
 
 The eight-head direct gameplay framework is integrated, with candidate builders, SDK executors, guarded fuel admission, NFS2 recording, Python/C++ parity and a later bounded training/export workflow. New heads are **untrained and disabled** in the checked-in bot and packaged release. The inherited trained draft network stays separate.

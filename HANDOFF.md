@@ -1,76 +1,34 @@
-# Current handoff — 2026-10-24
+# Final handoff — 2026-10-24
 
-Workspace: `C:/projects/cambridge battlecode/work/neural-full-stack`. Private development repo: `https://github.com/Infosuii/neural-networkk-battlecode`, main. Continue from HEAD; do not restart the cancelled130GB/full-backup work. Training/bulk history stays on the original laptop. No new agents: user explicitly requested solo work.
+Workspace: C:/projects/cambridge battlecode/work/neural-full-stack. Private GitHub: Infosuii/neural-networkk-battlecode, main. Training stays on this laptop; the large backup was cancelled. No agents were spawned in this continuation. Codex owns architecture/training logic; the later Freebuff/DeepSeek agent handles training operations. Winning matters, not a neural percentage quota.
 
-## Latest scope and current work
+## Delivered
 
-Eight-head SDK integration is implemented and verified as an untrained framework. The user now explicitly requires the finished framework to include GPU training, streaming metrics, checkpoint management/resume, automated comparisons against previous models and a genuinely non-neural baseline, and documented machine-operable CLIs for a separate Freebuff training-operations agent. Codex retains architecture/training-logic responsibility. No fixed80% neural quota: winning validated competition performance is the goal.
+Eight direct gameplay heads are integrated: strategy/objective/role/bank/shop/move/combat/engage. Compact1056-parameter model is seeded synthetic/untrained; new heads remain off in the checked-in bot and packaged release. The inherited trained draft remains separate. NFS2/interpretation2 is separate from legacy NFS1/residual-v1.
 
-Training-operations expansion is currently in progress. Do not claim that GPU optimization/resume or automated model-version comparison has already been validated. Only minimal necessary implementation smoke tests are authorized; no substantial training. We have run no match-data parameter updates. Use tiny labelled synthetic batches for the GPU/checkpoint functional test, preserving real models and history.
+Per-head fuel admission, reset/overflow checks, guarded SDK execution, persistent champion RNG, bounded per-head recording and deferred output are integrated. Safe held turns preserve semantic options AND their live recording intervals; actual abandonment/override/cap censors them. Successful policy deposit completes macros normally.
 
-## Hard rules
+GPU training, streaming JSONL metrics, explicit device selection, atomic version3 checkpoints, epoch recovery, crash/deadline checkpoint export, regular evaluation hooks and machine-operable status/action/version/checkpoint commands are implemented. Read OPERATIONS_HANDOFF.md for the authoritative first role-head training recipe. DEEPSEEK_TRAINING_PROMPT.md and NEXT_AGENT_PROMPT.md are the requested operator prompt. Earlier TRAINING_LATER.md recipes are superseded where that operations document differs.
 
-- Never submit/login/activate a Battlecode bot. No browser/desktop control. GitHub source pushes are user-authorized.
-- Write only in this workspace. `references/**`, old experiments, archives, SDK/maps/CLI inputs are read-only.
-- Official cambc only, `--release`, default fuel; never override fuel. Keep `bot/src` flat.
-- Default new heads remain untrained/off; inherited trained drafting stays separate. Recheck full teacher_exact byte identity after C++ changes.
-- All local maps are reused benchmarks. No strength claim from plumbing, uniform logits, zero weights or lower fuel counts on changed trajectories.
-- No new workers. Use the lead; the current session model is Codex based on GPT-6, exact served variant not exposed.
+The true non-neural baseline is frozen at artifacts/baselines/heuristic-v1: all audited neural macros are0, including inherited drafting. Wasm SHA25600c7d487990959cb4be7aac9955a4ad06f36d863b1936632f4c9cdfc93dca283. ZIP/Wasm hashes are checked before comparisons. Original is separately labelled because it contains trained drafting.
 
-## Verified implementation milestone
+## Actual verification
 
-- Direct heads: strategy, objective, role, bank, shop, move, combat, engage, under `nn_policy_*` flat modules.
-- Canonical F12/K16 candidates independent of teacher ranking; observation173 floats/hash0x1346e3ba, action hash0x16df3b9e. Interpretation2/NFS2 stays separate from residual v1/NFS1.
-- Compact untrained G4/E4/context4/head4 model:1056 parameters, checksum0x5a9d6349c9dc07b5, seeded20261024. New four-lane numeric kernels have synthetic and real-record parity.
-- Metadata candidate bounds, authenticated candidate/execution reserves, generated direct budget from models/policy_v2_budget.json; reset/round-advance guards. model/budget.json is explicitly legacy v1.
-- Cold capped fields refuse whole decisions for unknown distances. Geometry/anchor caches, target sorting and live selected-action guards avoid expensive repeated work.
-- Early unverified-model failure reaches whole teacher before preparation. Late refusal ends safely instead of restarting the whole teacher on depleted fuel.
-- Semantic commitments separated from recording IDs; exact guarded resumption. NOTE FOR NEXT FIX: current late fallback still closes macro intervals as interrupted even though semantic assignments are preserved. Since this fallback now only holds, it needlessly censors macro learning data. Keep live log intervals through a mere safe hold; close/censor only on actual abandonment/override/log cap, and adjust opportunity accounting/tests accordingly.
-- Deferred checksum/base64/output, bounded per-champion records, per-head recording mask, persistent seed mixed with champion ID, queue drains after logging closes. Actual SDK acknowledgments and invalid-sample exclusion.
-- Fixed draft telemetry crash and distant winning-carrier freeze. Successful urgent deposit records actual action ID; otherwise bank/movement remain available.
-- Later tools: policy_train.py prepare/preflight/fit. Terminal Monte Carlo PPO/critic or explicitly annotated imitation, head-only update with frozen encoder, grouped splits, exact pinned behavior check, authorization, bounded epochs/deadline, atomic epoch checkpoint + recovery, f32 export. No real optimizer run yet. Current direct logs have no teacher annotations, so imitation collection is a follow-up; do not fabricate labels.
+-287 Python tests PASS: artifacts/tmp/operations_delivery_python.log. Legacy460 C++ checks and97 tactics synthetic checks passed earlier; strategy/economy SDK fixtures passed. No claim of an independent agent review; lead checklist self-review only.
+- Tiny synthetic CPU and RTX5070Ti CUDA tests passed: uninterrupted vs epoch-resumed actor, critic, both optimizers and NumPy/Torch/CUDA RNG exactly equal. Two full synthetic steps plus one recovery step per device; real model/registry untouched. No match-data parameter updates or substantial training. Evidence: evaluation/results/operations_verified.json.
+- Four minimal comparison games and two role-record games: no faults, fuel exhaustion or invalid records. Role records yield193 eligible starts and220 actual logit comparisons, max error1.1920928955078125e-07. Frozen baseline binary matches the baseline actually used in those games. Same-version control draws; untrained policy loses to heuristic baseline. No strength claim.
+- All-off current source SHAf3cd26027a4415a6efd16f29de77a8408974429d0c3c8316ba4a03e58232f77b. Full Wasm identical to original: eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442. Receipt operations_teacher_exact.json.
+- Final clean heads-off package: artifacts/release/2026-10-24-final/neural-framework-untrained.zip and .wasm, manifests, SHA256SUMS. Independent official rebuild full SHA matches6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5. ZIP SHA2fb97aa22624b2624ce376600cfaf02949000371afb14ec41ad383fa259fadd7. Package strips inherited lab exports and is distinct from teacher_exact. Nothing submitted/activated.
+- Historical18-game integration matrix, component measurements and earlier failed diagnostics remain distinguishable in evaluation/results. Larger-map refusals and some islands fuel exhaustion remain limitations; do not claim universal fuel safety. Current development maps are reused benchmarks.
 
-## Actual evidence
+## Operator start
 
-- Full Python280 tests PASS: artifacts/tmp/integration_verified_python.log. Legacy11targets460checks PASS: evaluation/results/integration_legacy_cpp.json. Tactics97 synthetic checks PASS, plus strategy actual SDK syntax/fixtures and economy fixtures.
-- Final all-off source SHA2a834e481a378aa46cc19dd588a60940b40866e8d9894e2ceceb18c2230d7456. Full Wasm equals original:
-  eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442.
-  Receipt: evaluation/results/integration_teacher_exact_final.json.
-- Positive-gem banking + all builder/kernel/log components measured; complete/no invalid timings in integration_components.json. Raw probe6 under ignored artifacts/tmp. Not a universal worst-case proof.
-- Final18game integration matrix: zero bot faults, zero invalid records,328 actual logit comparisons, max error8.940696716308594e-08. Two candidate exhaustions on islands, paired reference sides total17; not a causal improvement claim. All active untrained policies scored zero gems. integration_smoke.json has hashes, partial per-champion coverage and limits.
-- Movement-only sampled checks yield sparse data: final four games only5 PPO-eligible rows. Current records alone do not meet fit minimum16train+4validation. Do not weaken masks or duplicate rows.
-- All four direct development profiles officially build. Clean heads-off release packaged/independently rebuilt with full identical SHA:
-  6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5.
-  artifacts/release/2026-10-24/neural-framework-untrained.{zip,wasm,manifest.json,verification.json}.
-  Clean release strips inherited lab exports and is distinct from teacher_exact. Two release smoke games: no faults/exhaustions, scores1003/965 on A and965/1003 on B. No strength claim.
-- IMPORTANT packaging maintenance: models/budget.json and policy_v2_budget.json line endings were normalized after initial package; rerun package_release before final delivery to refresh SHA256SUMS. Further C++ baseline/commitment changes will require new identity/package checks too.
-- Checklist review is a lead self-review, not an independent agent: evaluation/results/integration_review.md.
+Read OPERATIONS_HANDOFF.md. Use CUDA interpreter from config/paths.json without changing the old environment. Set PYTHONPATH to repo/python and TMP/TEMP to repo/artifacts/tmp. First approved cycle: role only, encoder/other heads frozen, two6-game seeded collection batches, grouped preflight, at most5minutes/four epochs of CUDA fitting, approved regular comparison configuration. The user has asked the later agent to begin this bounded cycle after handover; Codex did not run it.
 
-## Tools/environment
+All learning requires the explicit CLI authorization flag. Stop on data/parity/implementation failures or documented KL/entropy/deadline gates. No automatic promotion or submission. Preserve frozen references/SDK/maps and baseline. Do not alter architecture/losses/rewards/candidates/budgets independently: return such problems to Codex.
 
-Verified CPU interpreter: ./artifacts/tmp/cpu_dev_venv/Scripts/python.exe (Python3.12.14, torch2.11.0+cpu, numpy2.5.2).
-Native GCC: C:/msys64/ucrt64/bin/g++.exe; prepend C:/msys64/ucrt64/bin to PATH. Original read-only CUDA environment is config/paths.json python (old neural-gameplay/.venv), torch2.11.0+cu128, RTX5070Ti Laptop12GB previously verified; recheck for synthetic GPU smoke. Never install into or modify that old environment.
+## Limits / honest follow-up
 
-Set PYTHONPATH=$PWD/python, TMP=TEMP=$PWD/artifacts/tmp, PYTHONDONTWRITEBYTECODE=1. Official compiler/network calls work through reviewed escalation (`require_escalated`). Do not copy/proxy the installed compiler or change ACLs. Always use a fresh official teacher_exact checker directory; stale failed CMake caches can silently lose optimization flags.
+No real-data training has run, so playing strength is unestablished. Imitation CLI/loss support requires a separate explicit teacher-annotation collection adapter; current direct logs have no teacher labels. Conservative dash/combat action subsets and large-map refusals are documented in ARCHITECTURE.md. The latest operations additions have not had a new fresh-laptop clone run; prior development-clone evidence is historical. All required new source/baseline/package artifacts are versioned, and current local287-test suite passed.
 
-Commands (verification, not training):
-
-```powershell
-& $py -m unittest discover -s tests/python
-& $py tools/run_cpp_tests.py --json evaluation/results/integration_legacy_cpp.json
-& $py agents/v2_strategy_integration/run_fixture.py --cxx C:/msys64/ucrt64/bin/g++.exe --sdk-syntax
-& $py agents/v2_economy_integration/run_synthetic.py --cxx C:/msys64/ucrt64/bin/g++.exe
-& $py agents/v2_tactics_integration/run_synthetic.py --compiler C:/msys64/ucrt64/bin/g++.exe
-& $py tools/check_teacher_exact.py --out evaluation/results/integration_teacher_exact_final.json
-```
-
-## Ordered remaining work for latest user request
-
-1. Fix macro-log continuity on a safe held turn, with regression tests. Full teacher fallback and actual interruption must remain distinct. Recheck all-off identity.
-2. Add streaming metrics/checkpoint index/status interfaces and explicit device controls. Test GPU optimization + checkpoint/resume equivalence only on tiny labelled synthetic tensors, never match data or real exported models.
-3. Add automated CLI comparisons against previous direct model exports and a genuinely non-neural baseline. Original is NOT fully non-neural because it includes the inherited draft net. Default gameplay NN macros are0; audit draft.cpp (draft_net.h at566, neural scoring near581/667) and add a gated explicit heuristic-draft baseline without changing default bytes. Keep baseline build separate, labelled ablation, not original-neutral.
-4. Expose game/action inspection, structured run status, regular evaluation invocation/config and an operations handover suitable for a separate coding agent. Do not integrate/call Freebuff or a remote model now; use CLI interfaces.
-5. Rerun only necessary tests/smokes for new changes, refresh docs/status and package. Current docs describe the earlier verified milestone; update them for new ops scope. All substantial training commands remain NOT RUN.
-6. Commit verified milestone(s), push authorized GitHub main, then fresh-clone/configure/test the current development repo using existing CPU/native dependencies; no huge backup upload. Update HANDOFF/NEXT with exact final status and no live jobs before stopping.
-
-No training on match data, parameter promotion, Battlecode submission or activation has occurred.
+No long-running job remains from these verification checks. Before future C++ changes, preserve the all-off byte requirement. Use official cambc --release/default fuel only, never override fuel. No browser/desktop/login/submission. Write only in the workspace. Update this handoff if further work is done.

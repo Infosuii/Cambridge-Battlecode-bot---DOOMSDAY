@@ -1,0 +1,25 @@
+{
+  "version": "direct-policy-v2-operations-1",
+  "label": "minimal untrained operations/framework smoke",
+  "amends_sha256": "f8e052380acc1b27e22f17c587395430a105475a1eb7a24fee52d0e4cbc9b930",
+  "frozen_before_operations_smoke": true,
+  "macro_intervals": "A safe held turn preserves the same semantic option and live interval. Exact revalidation on resumption; close on replacement, actual abandonment/death/channel/override, or recording cap. A later tactical refusal does not falsely censor an unchanged macro.",
+  "evaluation": "Argmax direct_evaluation profile with records/telemetry off; compare exported previous versions and audited heuristic baseline with inherited neural draft and all other neural switches disabled. Original is separately labelled because it has trained drafting.",
+  "smoke": {
+    "maps": [
+      "00rows"
+    ],
+    "sides": [
+      "A",
+      "B"
+    ],
+    "maximum_comparison_games": 4,
+    "maximum_record_games": 2
+  },
+  "training": "Only tiny synthetic CPU/CUDA optimization and checkpoint/resume functional checks. No match-data parameter updates or substantial learning.",
+  "no_neural_quota": true,
+  "release": true,
+  "fuel": "official default",
+  "map_label": "reused_benchmark",
+  "promotion_authorized": false
+}
