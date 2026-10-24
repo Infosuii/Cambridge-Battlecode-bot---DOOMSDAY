@@ -49,6 +49,8 @@ class Fixture(unittest.TestCase):
         (self.src / 'main.cpp').write_bytes(b'int main(){}\n')
         (self.src / 'bot.h').write_bytes(b'#pragma once\n')
         (self.src / 'nn_config.h').write_text(config(), encoding='utf-8', newline='\n')
+        (self.src / 'nn_policy_config.h').write_text(''.join(f'#define {k} 0\n' for k in
+            ('NN_POLICY_V2','NN_POLICY_LOG','NN_POLICY_SAMPLE','NN_POLICY_TELEMETRY')))
         self.wasm = self.d / 'bot.wasm'
         self.wasm.write_bytes(synthetic(exports=(('memory', 2), ('_start', 0)), data=(b'abcd', b'efgh')))
         self.models = self.d / 'models'
@@ -75,6 +77,12 @@ class Fixture(unittest.TestCase):
 
 
 class TestZip(Fixture):
+    def test_direct_experiment_cannot_be_packaged_as_release(self):
+        text=(self.src/'nn_policy_config.h').read_text()
+        self.assertTrue(R.check_direct_config(text)[0]['passed'])
+        for flag in ('NN_POLICY_V2','NN_POLICY_LOG','NN_POLICY_SAMPLE','NN_POLICY_TELEMETRY'):
+            self.assertFalse(R.check_direct_config(text.replace(flag+' 0',flag+' 1'))[0]['passed'])
+        self.assertFalse(R.check_direct_config('')[0]['passed'])
     def test_good_zip_passes_everything_but_skipped_rebuild(self):
         doc = self.verify(self.make_zip())
         self.assertEqual(self.failed(doc['checks']), {'independent_rebuild_matches'})  # rebuild skipped in unit test

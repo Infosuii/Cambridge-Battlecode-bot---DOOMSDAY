@@ -1,120 +1,63 @@
-# Later training workflow — instructions, not jobs already run
+# Later training: executable workflow, not jobs already run
 
-**Plan superseded:** these commands describe legacy v1 residual tooling. The user now wants direct policy control;
-follow [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) and implement versioned direct-logit records/collection/parity
-before using a future v2 training workflow. No training is authorized by this change of plan.
+No training has run. Every command in this document is **NOT RUN** and is for a later user-authorized session on the original laptop. The direct framework is integrated; the new heads remain untrained/off in release. This is not a trained competition bot.
 
-**Do not run learning yet.** This build did not authorize training. Current acceptance is incomplete: official fuel,
-integration, real-record parity and release checks remain pending, and carry-risk/belief/search-leaf label/loss paths
-are incomplete. Candidate-policy imitation/PPO and win/margin value fitting are implemented, with synthetic tests.
-The commands below are **NOT RUN** instructions for a later, explicitly authorized session after those blockers close.
+## Setup and bounded first experiment
 
-## Environment and read-only inputs
+Use a workspace environment with PyTorch/NumPy; the verified CPU development interpreter is `artifacts/tmp/cpu_dev_venv/Scripts/python.exe`. For GPU fitting on this laptop, the existing CUDA interpreter in `config/paths.json` may be read without changing that environment. All outputs must stay inside workspace `artifacts/`; training data/checkpoints remain local and ignored by Git. `DEVELOPMENT_SETUP.md` covers fresh development clones.
 
-From this workspace in PowerShell:
+The first experiment changes **move only**, freezing the shared encoder and all other heads. Use at most12 newly collected games,5minutes of fitting and4epochs. Terminal Monte Carlo targets are discounted terminal win plus0.25 submitted-gem margin/1000. A separate critic supplies the baseline. This is not the legacy residual PPO/GAE path and does not mix its NFS1 data.
 
 ```powershell
-# NOT RUN instructions; use this setup for later commands.
-$py = 'C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe'
+# NOT RUN — environment for the later session.
+$py = './artifacts/tmp/cpu_dev_venv/Scripts/python.exe'
 $env:PYTHONPATH = "$PWD/python"
 $env:TMP = "$PWD/artifacts/tmp"
 $env:TEMP = $env:TMP
-$env:PATH = 'C:/msys64/ucrt64/bin;' + $env:PATH
+$base = 'models/policy_v2_untrained'
+
+# NOT RUN — two bounded6-game collection/check batches, twelve games total.
+# Both sides, all three frozen references, reused training-partition map.
+$r1 = & $py tools/check_policy_v2.py --profile direct_sample_record --record-head move --model-dir $base --seed 20261025 --maps 00rows --sides A B --opponents original v47 first-hour | ConvertFrom-Json
+$r2 = & $py tools/check_policy_v2.py --profile direct_sample_record --record-head move --model-dir $base --seed 20261026 --maps 00rows --sides A B --opponents original v47 first-hour | ConvertFrom-Json
+
+# NOT RUN — read completed records/summaries, validate identities, group both sides together,
+# and write checksummed train/validation arrays. No parameter update here.
+& $py tools/policy_train.py prepare --receipts $r1.receipt $r2.receipt --out artifacts/datasets/v2-first
+
+# NOT RUN — exact pinned behavior logits/logp, schema, mask and disjoint-group check.
+& $py tools/policy_train.py preflight --model-dir $base --train artifacts/datasets/v2-first/train.npz --validation artifacts/datasets/v2-first/validation.npz --head move --mode ppo
+
+# NOT RUN — only after the user authorizes learning and the preflight/data gates pass.
+& $py tools/policy_train.py fit --model-dir $base --train artifacts/datasets/v2-first/train.npz --validation artifacts/datasets/v2-first/validation.npz --head move --mode ppo --out artifacts/runs/v2-first --minutes 5 --epochs 4 --i-authorize-training
 ```
 
-The previous handoff verified an RTX5070Ti Laptop12GB,20 logical CPUs and31GB RAM. Recheck available GPU memory before
-later training. Torch `device:auto` uses CUDA when available; engine games run on CPU. Worker counts are configured
-in `configs/train/*.json`; the current engine helper clamps actual engine concurrency to4. Do not assume an8-worker
-configuration currently launches8 games at once. GPU tensor work must never enter the Wasm bot.
+The current diagnostic records are not enough: the final movement-only four-game check yielded only five actor-eligible rows. Fitting requires at least16 eligible training rows and4 validation rows **for the chosen head**. If the bounded collection remains underfilled, stop, inspect admission/record counts, and plan another bounded batch or a fuel fix. Never duplicate rows, weaken masks or label refusals as actions to reach a minimum.
 
-## Inspect and collect defensible data
+## Stop criteria and validation
+
+Stop before fitting on any bot fault, malformed record, schema mismatch, train/validation group overlap or behavior mismatch. Only engine1.0.3 gameplay is admitted. Selection/final-partition maps are rejected. Grouping uses map and unordered Wasm pair, including both sides; row count is not independent match count.
+
+During fitting, stop on deadline,4epochs, nonfinite loss/gradient, approximate KL above0.015 or entropy below0.05. Gradients clip at0.5; actor LR is1e-4 and critic LR3e-4. CPU preflight compares the exact exported behavior; float32 fitting uses the highest matmul precision. Missing acks/context, unsampled decisions, overrides and censored/interrupted macros cannot enter the actor loss.
+
+No optimizer step, real fitting or CUDA training was executed during implementation. Synthetic tests cover batch round-trip, parity, grouping, authorization and safe installation; existing synthetic tests cover direct loss/gradient math. The first authorized trial must verify optimizer/checkpoint recovery in practice. Validation data currently gates parity and data independence; it is not a held-out strength-selection result.
+
+## Checkpoint recovery and export
+
+The run saves an atomic checkpoint initially and after every completed epoch, including actor, critic, both optimizers, RNG, schema/config, data identities, progress and original absolute deadline. A copy of the behavior export stays in the run directory. Recovery may roll back the unfinished epoch and never extends the deadline. An expired/completed experiment cannot be resumed as though it were a fresh budget.
 
 ```powershell
-# NOT RUN — reads current accounting; does not fit a model.
-& $py tools/nfs.py inspect-data
-# NOT RUN — optional new bounded index; do not overwrite frozen experiment receipts.
-& $py tools/nfs.py index-archives --sample-per-part 190 --consistency-checks 10 --workers 4 --out data/manifests/archive_index_next.json
-# NOT RUN — bounded instrumented teacher collection after integrated-profile validation.
-& $py tools/nfs.py collect --config configs/train/collect_teacher.json --profile teacher_record --run-dir artifacts/runs/teacher-next --max-games 96 --time-limit-minutes 30 --workers 4 --i-authorize-collection
+# NOT RUN — recover a genuinely interrupted experiment while its original deadline remains open.
+& $py tools/policy_train.py fit --model-dir artifacts/runs/v2-first/behavior --train artifacts/datasets/v2-first/train.npz --validation artifacts/datasets/v2-first/validation.npz --head move --mode ppo --out artifacts/runs/v2-first-recovered --epochs 4 --resume-checkpoint artifacts/runs/v2-first/checkpoint.pt --i-authorize-training
+
+# NOT RUN — development check of a later trained export, never release activation.
+& $py tools/check_policy_v2.py --profile direct_record --model-dir artifacts/runs/v2-first/export --maps 00rows --sides A B --opponents original v47 first-hour
 ```
 
-Only21Oct2026 onward is eligible. Engine1.0.1 stays excluded;1.0.2 is observational draft-only. Existing local archives
-supplied no compatible1.0.3 gameplay labels in the bounded audit. They do not contain low-level movement/combat
-actions. Use instrumented1.0.3 teacher episodes for those labels. Teacher recording has overhead and must be compared
-with teacher_exact on the same cells; it is not an unchanged-teacher execution claim.
+A completed fit exports f32 weights/header/manifest under `export/`, with the actually trained head named in provenance. Other heads remain untrained or retain their prior state. Do not call every head trained because one head changed. No script automatically promotes, changes the registry/release selection, submits or activates this export. Strength selection must use the frozen evaluation protocol with per-opponent/side anti-regression checks, then a separately authorized promotion/release change.
 
-`teacher_record` runs all heads shadow with records, never sampling. Candidate0 is the teacher option. Summaries
-supply targets only; inputs come from the acting side's NFS1 RawTurns. Canonical record/observation adapters now
-connect, but a post-hook real engine conversion/parity test is still required. Missing/corrupt/incompatible records
-are not silently treated as valid observations. Match caches verify both Wasm hashes, map hash and logging settings.
+## Imitation and later expansion
 
-Build a **new local match split manifest**, grouped by match/series/team and deterministic Wasm-pair/map identity.
-The archive split manifest does not assign IDs to newly collected local episodes. The dataset CLI's `--splits`
-expects `grouped.assignment` keyed by local match IDs. Check map/opponent generalisation separately and label every
-local map a reused benchmark. No unassigned rows should enter fitting.
+`policy_train.py ... --mode imitation` implements the direct masked supervised path, but requires explicit teacher annotations actually executed in NFS2. Current direct-policy checks deliberately leave teacher labels absent, so they cannot supply imitation labels. Instrumented teacher annotation/collection is a separate follow-up; do not fabricate labels or reinterpret legacy residual candidates/archives. Historical engine1.0.2 data remains observational draft-only and1.0.1 stays excluded.
 
-```powershell
-# NOT RUN — local-splits.json must first be generated/reviewed from the collected local match identities.
-& $py tools/nfs.py build-dataset --games artifacts/runs/teacher-next/games --out artifacts/datasets/teacher-next --name teacher_next --splits artifacts/datasets/local-splits.json
-```
-
-## Fit, resume and export later
-
-```powershell
-# NOT RUN — candidate imitation and optional win/margin loss, bounded20minutes.
-& $py tools/nfs.py pretrain --config configs/train/pretrain_default.json --model-config configs/model/fs_v1.json --train artifacts/datasets/teacher-next/teacher_next-train.npz --validation artifacts/datasets/teacher-next/teacher_next-validation.npz --run-dir artifacts/runs/pretrain-next --i-authorize-training --time-limit-minutes 20
-# NOT RUN — gameplay win/margin value fit; saves value.pt plus a report.
-& $py tools/nfs.py train-value --config configs/train/value_default.json --model-config configs/model/fs_v1.json --train artifacts/datasets/teacher-next/teacher_next-train.npz --validation artifacts/datasets/teacher-next/teacher_next-validation.npz --run-dir artifacts/runs/value-next --i-authorize-training --time-limit-minutes 15
-# NOT RUN — first bounded on-policy experiment, objective only.
-& $py tools/nfs.py rl --config configs/train/first_experiment.json --model-config configs/model/fs_v1.json --run-dir artifacts/runs/first-exp --i-authorize-training --time-limit-minutes 30
-# NOT RUN — resume the same run; persisted absolute deadline is not extended.
-& $py tools/nfs.py rl --config configs/train/first_experiment.json --model-config configs/model/fs_v1.json --run-dir artifacts/runs/first-exp --i-authorize-training --time-limit-minutes 30
-# NOT RUN — selected real checkpoint only; synthetic checkpoints are refused by this CLI.
-& $py tools/nfs.py export --checkpoint artifacts/runs/pretrain-next/pretrain.pt --model-config configs/model/fs_v1.json --name candidate_next --out artifacts/exports/candidate_next
-```
-
-PPO starts from seeded features with zero residual output layers, not an all-zero hidden network. It logs the true
-masked sampled probability, checks behavior logits/logp before updating, separates agent/head streams, and uses
-SMDP timing for commitments. Checkpoints include actor, separate critic, both optimizers, RNG, league, game ledger,
-schema hashes and absolute deadline. An actor-only selected checkpoint needs an explicit critic/optimizer reset;
-otherwise stale pairing is refused. Imitation/value commands save final artifacts; full optimizer resume is provided
-by the PPO path, not claimed for every offline fitting command.
-
-The fixed value margin output is submitted-gem difference /1000. Reward shaping has its own scale. Carry-risk is
-currently **not supervised**, and belief/leaf do not have complete real record/target/loss paths. Do not enable them
-as trained policies merely because another head was fitted or the shared encoder changed. Observational archive
-draft-outcome models are separate, confounded checkpoints and cannot export into the runtime without an adapter.
-
-## First experiment and stop criteria
-
-Use `first_experiment.json`: objective only,30minutes or480games, original at least50% of the pinned league, frozen
-training partition only. Actual current engine concurrency is capped4; GPU uses the configured device. Start only
-after byte identity, measured full-call fuel limits, real NFS1 parity and all-head smoke safety have passed.
-
-Stop **before updating** for any bot fault, any invalid selected action, fallback rate>0.2, missing required observation
-rate>0.2, incompatible schemas, absent ratio rows, or behavior-probability mismatch. KL early stop is1.5*target_kl;
-entropy<0.05 is reported for investigation. Persisted deadline and game cap remain hard bounds. Current NFS1 records
-do not log every admission refusal, so logged-row fallback rate is not a complete opportunity-level skip metric;
-combine it with NFT1 telemetry in framework validation.
-
-Report explained variance, critic error, entropy/KL/clipping, gradient norm, reward components, off-teacher/action
-distribution, invalids, fallbacks, skips and team outcomes. Loss reduction is not gameplay improvement. Evaluate the
-deployed argmax rule separately from sampled behavior. Per-opponent selection constraints cannot be replaced by a
-pooled score. Deterministic duplicate games are not new independent samples.
-
-## Later benchmark and promotion
-
-```powershell
-# NOT RUN — install a local export into an already prepared copy, then official-release build/evaluation.
-& $py tools/install_models.py --profile dev_untrained --model artifacts/exports/candidate_next --src artifacts/tmp/candidate_bot/src --receipt artifacts/tmp/candidate_bot/install.json
-& $py tools/eval_run.py --schedule selection --label candidate-next-selection --bot-dir artifacts/tmp/candidate_bot
-& $py tools/eval_report.py evaluation/results/candidate-next-selection/results.json --baseline evaluation/results/teacher-next-selection/results.json --gate selection
-```
-
-Prepare the teacher baseline under the same amended protocol first. Reserve final evaluation once per candidate
-family through `eval_run --schedule final --family ...`; never choose among candidates repeatedly on final results.
-`nfs.py promote` evaluates the frozen per-opponent gate and writes a receipt. Only a passing, schema-compatible
-model may be registered as validated and explicitly selected in `models/registry.json.release_selection`, then
-installed with `install_models.py --profile release`. No promotion or training command above was run in this build.
-
-No submit, upload, login or activation command belongs to this workflow.
+For later heads, record one chosen head with `--record-head`, obtain enough valid starts/closed commitments, and run its own bounded experiment. Architecture changes require new matching engine calibration, budget generation and parity. Large-map budget refusals and conservative dash/combat coverage remain improvement work. Learned fog, carry-risk and search-leaf auxiliaries are deferred until they have useful targets, training paths and measured benefit.

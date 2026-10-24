@@ -112,7 +112,7 @@ class ExecutionDataset(unittest.TestCase):
 
     def test_only_acknowledged_selected_samples_enter_ratio(self):
         c,d,a=self.fixture();ds=self.build([c,d,a]);self.assertTrue(ds.rows[0]['ppo_mask'])
-        for kwargs in (dict(outcome=0),dict(outcome=3),dict(outcome=4,source=3),dict(executed_id=10)):
+        for kwargs in (dict(outcome=0),dict(outcome=3),dict(outcome=4,source=3),dict(executed_id=10),dict(reason=11)):
             self.assertFalse(self.build([c,d,ack(d,**kwargs)]).rows[0]['ppo_mask'])
         self.assertFalse(self.build([c,d]).rows[0]['ppo_mask'])
         self.assertFalse(self.build([d,a]).rows[0]['ppo_mask'])
@@ -148,7 +148,8 @@ class ExecutionDataset(unittest.TestCase):
     def test_pending_ack_final_ack_and_option_intervals(self):
         from nfs.policy.dataset import option_intervals
         c,d,a=self.fixture(flags=R.OPTION_START|R.DEFINED_OPTION,option_id=7)
-        ds=self.build([c,d,ack(d,outcome=0),a]);self.assertTrue(ds.rows[0]['ppo_mask'])
+        ds=self.build([c,d,ack(d,outcome=0),a]);self.assertFalse(ds.rows[0]['ppo_mask'])
+        self.assertEqual(ds.counts['excluded_option_unclosed'],1)
         d2=copy.deepcopy(d);d2.update(decision_id=43,round=9,source=1,sampled=0,logp=0,flags=R.OPTION_END|R.DEFINED_OPTION)
         ds=self.build([c,d,a,d2,ack(d2,outcome=2)])
         spans=option_intervals(ds.rows);self.assertEqual(spans[0]['duration_rounds'],2);self.assertTrue(spans[0]['closed'])

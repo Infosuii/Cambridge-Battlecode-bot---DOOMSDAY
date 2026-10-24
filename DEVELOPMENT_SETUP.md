@@ -59,3 +59,7 @@ the inherited draft model remains separate. Keep training disabled until the use
 
 Only Git-tracked development files are shared. data/cache, checkpoints, bulk runs, virtual environments and
 artifacts/tmp or artifacts/local-only remain local. Commit useful test evidence explicitly, not entire run folders.
+
+## Integrated framework update,2026-10-24
+
+The earlier259-test clone receipt is historical. The integrated framework now has280 Python tests and460 legacy native checks, plus SDK strategy/economy/tactics fixtures. Current evidence is in evaluation/results/integration_*. New training tools only run learning with an explicit authorization flag; their commands in TRAINING_LATER.md are NOT RUN instructions. No CUDA environment is required for development tests. A source-only fresh clone verification of the current checkpoint is recorded separately when complete.

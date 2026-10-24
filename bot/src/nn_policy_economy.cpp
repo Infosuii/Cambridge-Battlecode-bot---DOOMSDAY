@@ -122,8 +122,8 @@ struct nn_policy_economy_access {
         const std::uint64_t ring_side=2*static_cast<std::uint64_t>(radius)+1;
         const std::uint64_t chunks=static_cast<std::uint64_t>(layout.chunked_width)*layout.chunked_height;
         const std::uint64_t field=cached_field(b.w,b.pos,b.my_id,b.round)?0:
-            chunks*(kBankExpansionCap+24)+static_cast<std::uint64_t>(layout.field_bytes)*2+
-            static_cast<std::uint64_t>(layout.board_bytes)*4+3000;
+            chunks*(kBankExpansionCap+24)+(static_cast<std::uint64_t>(layout.field_bytes)*2+
+            static_cast<std::uint64_t>(layout.board_bytes)*4)/16+5000;
         return field+12000+static_cast<std::uint64_t>(b.w.altars.size())*(1200+ring_side*ring_side*96)+
             static_cast<std::uint64_t>(b.w.enemies.size())*250;
     }

@@ -25,6 +25,7 @@ PROBE = r'''
 #include "nn_policy_log.h"
 #include <cstdio>
 #include <algorithm>
+namespace d=cambc::detail;
 
 namespace {
 constexpr int kStages=21;
@@ -65,15 +66,38 @@ void fixture() {
 }
 
 struct nn_policy_probe_access {
+    // Banking after a completed teacher action is only save, even with gems. Measure the live
+    // path on a dedicated next turn, then end that probe turn instead of restarting the teacher.
+    static bool before(Bot& b) {
+        if(g_stage!=4||g_pending>=0||g_repetition>=3||!b.inited)return false;
+        d::champion_info me{};std::uint32_t gems=0;
+        if(d::sdk_champion(b.my_id,&me)!=0||d::sdk_champion_gems(b.my_id,&gems)!=0||!gems||
+           !(me.state&1u)||(me.state&((1u<<1)|(1u<<2)|(1u<<5)|(1u<<6)|(1u<<7)|(1u<<12))))return false;
+        b.round=static_cast<int>(bc::round_number());b.refresh_self();b.w.update(b.round);state(b);
+        const auto required=nnp::bank_candidate_fuel(b);
+        if(required>bc::fuel_remaining()||bc::fuel_remaining()-required<16000)return true;
+        const auto first=bc::round_number();const auto start=bc::fuel_remaining();
+        const bool ok=nnp::build_bank(b,g_state,g_decision);
+        const auto after=bc::fuel_remaining();const auto last=bc::round_number();
+        const bool overrun=first!=last||after>start;const auto cost=overrun?0:start-after;
+        const char* status=overrun?"overrun":cost>required?"bound_exceeded":ok?"ok":"refused";
+        std::printf("NFP2 component=bank_builder_real stage=4 repetition=%d status=%s fuel=%llu required=%llu available=%llu K=%d synthetic=0 before_fuel=%llu after_fuel=%llu before_round=%u after_round=%u\n",
+            g_repetition,status,static_cast<unsigned long long>(cost),static_cast<unsigned long long>(required),
+            static_cast<unsigned long long>(start),g_decision.K,static_cast<unsigned long long>(start),static_cast<unsigned long long>(after),first,last);
+        g_last=static_cast<int>(last);
+        if(ok&&g_decision.K>1)++g_stage;
+        return true;
+    }
     static std::uint64_t bound(const Bot& b,int stage) {
-        // Every static expansion costs at least a chunk sweep; use the graph vertex count as a
-        // conservative expansion bound, never width+height (which is unsafe on maze corridors).
-        const auto chunks=field_chunks(),tiles=std::uint64_t(b.w.width)*b.w.height;
-        const auto field=(tiles+64)*chunks+std::uint64_t(cambc::detail::layout().field_bytes)*2+12000;
-        if(stage==4) return field+std::uint64_t(b.w.altars.size())*2500+18000;
-        if(stage==6||stage==8) return field+std::uint64_t(b.w.camps.size()+b.w.enemies.size())*1500+18000;
-        if(stage==1||stage==2||stage==3) return 32000+std::uint64_t(b.w.groups.size())*250;
-        if(stage==7) return 32000+std::uint64_t(b.w.camps.size()+b.w.enemies.size())*450;
+        if(stage>=1&&stage<=3) {
+            constexpr nncfg::H heads[]={nncfg::H::strategy,nncfg::H::objective,nncfg::H::role};
+            return nnp::strategy_candidate_fuel(b,heads[stage-1]);
+        }
+        if(stage==4)return nnp::bank_candidate_fuel(b);
+        if(stage>=6&&stage<=8) {
+            constexpr nncfg::H heads[]={nncfg::H::move,nncfg::H::combat,nncfg::H::engage};
+            return nnp::tactics_candidate_bound(b,g_state,heads[stage-6]);
+        }
         return 40000;
     }
     static void state(const Bot& b) {
@@ -94,15 +118,17 @@ struct nn_policy_probe_access {
         if(!b.inited||b.was_dead||b.hp<=0||round==g_last||(g_repetition>=3&&g_pending<0))return;
         g_last=round;
         const auto available=bc::fuel_remaining();if(available<kMinimum)return;
+        state(b);
         const int stage=g_pending>=0?-1:g_stage;
-        const auto required=stage<0?std::uint64_t(nnp_log::next_line_bytes())*16+12000:bound(b,stage);
-        if(required+kReserve>available) {
+        if(stage==4)return; // dedicated live banking probe owns this stage
+        const auto required=stage<0?std::uint64_t(nnp_log::next_line_bytes())*32+14000:bound(b,stage);
+        if(required>available||available-required<kReserve) {
             std::printf("NFP2 component=%s stage=%d repetition=%d status=missing_bound fuel=0 required=%llu available=%llu K=0 synthetic=%d\n",
                 label(stage),stage,g_repetition,static_cast<unsigned long long>(required),static_cast<unsigned long long>(available),stage>=9||stage<0);
             if(stage>=0){if(++g_stage==kStages)g_stage=0,++g_repetition;}
             return;
         }
-        state(b);fixture();
+        fixture();
         // Preserve a real compact capture for context cost without charging it to the enqueue kernel.
         bool prepared=true;
         if(stage==18)prepared=nnpobs::capture(b,g_observation);
@@ -123,7 +149,7 @@ struct nn_policy_probe_access {
                     nnp::build_shop,nnp::build_move,nnp::build_combat,nnp::build_engage};
                 ok=builders[stage-1](b,g_state,g_decision);K=g_decision.K;
                 if(K)g_sink=g_decision.feat[0];
-            } else if(stage==9)nnm::encode(*nnp::kInstalled.kernel,g_observation,g_context,g_scratch),g_sink=g_context[0];
+            } else if(stage==9)nnpm::encode(*nnp::kInstalled.kernel,g_observation,g_context,g_scratch),g_sink=g_context[0];
             else if(stage>=10&&stage<=17) {
                 K=16;nnpm::direct_logits(nnp::kInstalled,stage-9,0,g_context,g_features,16,g_legal,g_logits);g_sink=g_logits[15];
             } else if(stage==18) {
@@ -154,7 +180,7 @@ struct nn_policy_probe_access {
         }
     }
 };
-namespace nnpolicyprobe { void run(Bot& b){nn_policy_probe_access::run(b);} }
+namespace nnpolicyprobe { bool before(Bot& b){return nn_policy_probe_access::before(b);} void run(Bot& b){nn_policy_probe_access::run(b);} }
 '''
 
 
@@ -171,10 +197,11 @@ def prepare(destination: Path) -> Path:
     source = bot / "src"
     path = source / "bot.cpp"
     text = path.read_text(encoding="utf-8")
+    text = "class Bot; namespace nnpolicyprobe { bool before(Bot&); }\n"+text
     hook = "if(nnp::play_turn(*this))return;"
     if text.count(hook) != 1:
         raise ValueError("the direct dispatch hook changed; refuse to prepare an ambiguous teacher probe")
-    path.write_text(text.replace(hook, "(void)0; // component probe: teacher already owns this turn"), encoding="utf-8")
+    path.write_text(text.replace(hook, "if(nnpolicyprobe::before(*this))return; // live banking probe only"), encoding="utf-8")
     path = source / "bot.h"
     text = path.read_text(encoding="utf-8")
     friend = "friend struct nn_policy_tactics_access;"
@@ -192,7 +219,7 @@ def prepare(destination: Path) -> Path:
     path.write_text(text, encoding="utf-8")
     (source / "nn_policy_probe.cpp").write_text(PROBE, encoding="utf-8")
     metadata = dict(kind="component_probe", training_eligible=False, training_games=0, parameter_updates=0,
-                    decisions="original teacher", inputs="real permitted cached world after teacher actions",
+                    decisions="original teacher except dedicated live bank probe turns, which end after measuring", inputs="real permitted cached world after teacher actions",
                     capture_and_builders="real", dense_encoder_heads_and_log_fixtures="synthetic",
                     synthetic_record_champion=0xFFFFFFFF, release=True, fuel="official default",
                     cold_field_guard="strict tile-count/chunk bound; missing is never a passing measurement",
@@ -244,14 +271,14 @@ def run(destination: Path, bot: Path, maps: list[str]) -> dict:
                 *(f"head{h}_synthetic_K16" for h in range(1, 9)), "context_enqueue_mixed", "decision_enqueue_synthetic_K16",
                 "execution_enqueue_synthetic", "record_flush_context_mixed", "record_flush_decision_synthetic_K16",
                 "record_flush_execution_synthetic"}
-    passing = {row["component"] for row in rows if row["status"] == "ok"}
+    passing = {row["component"] for row in rows if row["status"] == "ok" and (row['component']!='bank_builder_real' or row['K']>1)}
     violations = [row for row in rows if row["status"] in ("overrun", "bound_exceeded")]
     report = dict(kind="component_probe", training_eligible=False, release=True, fuel="official default",
                   map_label="reused_benchmark", source_sha256=engine.tree_sha256(bot / "src"), candidate_sha256=engine.sha256(wasm),
                   protocol_sha256=protocol.protocol_sha256(), games=games, measurements=rows,
                   missing_components=sorted(expected - passing), invalid_measurements=violations,
                   complete_components=expected <= passing and not violations,
-                  warning="synthetic kernel/log fixtures; builder timing uses permitted cached teacher world, not strength evidence")
+                  warning="synthetic kernel/log fixtures; builder timing uses permitted real world; banking uses dedicated live probe turns; not strength evidence")
     (destination / "measurements.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report
 

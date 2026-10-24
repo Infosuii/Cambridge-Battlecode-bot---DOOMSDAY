@@ -71,10 +71,28 @@ void budgets(){
     check(c.acknowledge(r,r.action,nnp_log::kExecuted),"valid_execution_ack");
     c.begin_turn(3,22);host.fuel=20000;t=c.admit(nncfg::H::move,3);check(t.admitted,"initial_budget_admitted");
     host.fuel=3000;int before=host.captures;r=c.decide(t,decision());
-    check(r.choice==-1&&r.reason==nnp::Reason::budget&&host.captures==before,"candidate_burn_rechecked_before_capture");
+    check(r.choice==-1&&r.reason==nnp::Reason::bound_exceeded&&host.captures==before,"candidate_bound_violation_rejected_before_capture");
+    c.begin_turn(4,22);host.fuel=500000;
+    check(!c.admit(nncfg::H::move,3,UINT64_MAX).admitted,"unsupported_bound_cannot_wrap_into_admission");
+    t=c.admit(nncfg::H::move,3,1000);host.fuel+=1;
+    r=c.decide(t,decision());
+    check(r.choice<0&&r.reason==nnp::Reason::clock_reset&&c.clock_bad(),"fuel_counter_reset_fails_closed");
+    c.begin_turn(5,22);check(!c.clock_bad(),"new_turn_clears_clock_failure");
     auto small=budget();small.turn_allowance=1000;c.configure(nnpw_core_random::kDesc,{fuel,capture,nullptr},small);
     c.warmup(20000);host.fuel=500000;c.begin_turn(4,22);
     check(!c.admit(nncfg::H::move,3).admitted,"allowance_refuses_despite_host_fuel");
+    auto trajectory=[](unsigned champion) {
+        host={};nnp::Core sampled;verified(sampled,nnpw_core_zero::kDesc,false,true);std::string sequence;
+        for(unsigned round=1;round<=24;++round) {
+            sampled.begin_turn(round,champion);
+            auto r=sampled.decide(sampled.admit(nncfg::H::move,3),decision());
+            sequence+=static_cast<char>('0'+r.choice);sampled.acknowledge(r,r.action,nnp_log::kExecuted);
+        }
+        return sequence;
+    };
+    const auto first=trajectory(11);
+    check(first==trajectory(11),"champion_rng_reproducible_across_episode_reset");
+    check(first!=trajectory(12),"champion_rng_streams_are_distinct_and_persist_across_turns");
 }
 
 void cache(){
@@ -119,6 +137,8 @@ void ticket_integrity(){
     c.begin_turn(13,22);t=c.admit(nncfg::H::move,3);c.invalidate();
     check(c.decide(t,decision()).reason==nnp::Reason::stale_ticket,"invalidated_ticket_refused");
     check(c.admit(nncfg::H::move,3).admitted,"invalidation_releases_pending_ticket");
+    c.begin_turn(14,22);t=c.admit(nncfg::H::move,3,500,3000);t.execution_reserve=1;
+    check(c.decide(t,decision()).reason==nnp::Reason::stale_ticket,"ticket_authenticates_execution_reserve");
 }
 
 void ack_integrity(){
@@ -155,7 +175,7 @@ void flush_boundary(const char* filename){
     check(line>raw&&!c.flush_one(file)&&nnp_log::g_bytes==bytes,"flush_gates_text_bytes_not_raw_payload");
     host.fuel=budget().tail_reserve+1500+std::uint64_t(line)*40-1;
     check(!c.flush_one(file),"flush_refuses_one_fuel_below_boundary");
-    ++host.fuel;check(c.flush_one(file),"flush_accepts_exact_text_boundary");std::fclose(file);
+    ++host.fuel;c.logging(false);check(c.flush_one(file),"pending_rows_flush_after_recording_closes");std::fclose(file);
 }
 } // namespace
 

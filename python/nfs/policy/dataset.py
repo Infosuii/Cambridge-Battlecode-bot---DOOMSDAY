@@ -72,7 +72,7 @@ def build_dataset(records, *, episode_id:str,group_id:str,synthetic:bool,engine_
             if _key(ack)!=_key(d) or ack['round']!=d['round']:raise DatasetError('ack snapshot/schema/round mismatch')
             if ack['option_id']!=d['option_id']:raise DatasetError('ack option identity mismatch')
             option=ack['outcome']==2 and bool(d['flags']&R.DEFINED_OPTION)
-            execution_ok=(ack['outcome']==1 or option) and ack['source']==source and ack['executed_id']==d['selected_id'] and chosen>=0
+            execution_ok=(ack['outcome']==1 or option) and ack['source']==source and ack['executed_id']==d['selected_id'] and chosen>=0 and ack['reason']==0
             if not execution_ok:reasons.append('execution_not_selected_or_undefined')
         sampled=bool(d['sampled'])
         if sampled:

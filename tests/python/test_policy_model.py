@@ -154,7 +154,7 @@ class TestPolicyModel(unittest.TestCase):
         x[:,a:a+o["ally_rows"]]=0;x[:,e:e+o["enemy_rows"]]=0
         y=x.clone();y[:,o["self_global_dim"]:a]=123;y[:,a+o["ally_rows"]:e]=-345
         self.assertTrue(torch.equal(self.model.encode(x),self.model.encode(y)))
-        h=torch.zeros(1,8);f=torch.zeros(1,2,12);mask=torch.ones(1,2,dtype=torch.bool)
+        h=torch.zeros(1,self.cfg['encoder']['ctx']);f=torch.zeros(1,2,12);mask=torch.ones(1,2,dtype=torch.bool)
         f[0,0,0]=float("nan")
         with self.assertRaisesRegex(ValueError,"nonfinite"):self.model.head_logits("shop",h,f,mask)
         with self.assertRaisesRegex(ValueError,"context"):self.model.head_logits("shop",h,torch.zeros_like(f),mask,torch.tensor([4]))

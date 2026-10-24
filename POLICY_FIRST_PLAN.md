@@ -1,3 +1,9 @@
+# Current amendment — 2026-10-24
+
+The user clarified that80% was illustrative. Optimize for the strongest validated competition bot; do not force a neural quota. The eight direct gameplay heads are now integrated. Current evidence and limitations are in STATUS.md and ARCHITECTURE.md. The plan below is historical design context; its statements that v2 is not implemented are superseded.
+
+---
+
 # Revised plan: neural policy for the important decisions
 
 Accepted direction from the user, 2026-10-24: aim for roughly80% neural decision control and use neural networks for

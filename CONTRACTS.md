@@ -1,3 +1,13 @@
+# Current lead integration amendment — 2026-10-24
+
+The user requested solo completion. The lead owns current integration and training/tooling fixes; no new workers were spawned. Historical worker ownership/status below is preserved for provenance and no longer means those workers are active.
+
+Direct V2 uses Core admission/selection with canonical teacher-independent F12/K16 candidates. Measured budget configuration is models/policy_v2_budget.json, generated into nn_policy_budget.h. Semantic commitments are distinct from recording intervals. Early unverified-model failure returns to the whole teacher; a late policy refusal ends safely rather than restarting that teacher on depleted fuel. Physical refresh is guarded. Recording may target one head; pending output drains after recording closes.
+
+Winning performance is the objective; the earlier80% figure is not a quota. All new heads remain untrained/off in release. Hard no-training, no-submission, immutable-reference, official-release/default-fuel and flat-source rules remain binding. Later training tools are implemented but never authorized or run here; see TRAINING_LATER.md. Current implementation/evidence supersedes stale integration-status claims below.
+
+---
+
 # Shared contracts (lead-owned; read before editing anything)
 
 Workspace root: `C:\projects\cambridge battlecode\work\neural-full-stack` (below: `ROOT`).

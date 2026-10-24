@@ -1,55 +1,15 @@
-# Current status,2026-10-24
+# Status — 2026-10-24
 
-Development-only GitHub repository; training and bulky history remain on the original laptop, by user decision.
-Full backup cancelled. Read HANDOFF.md for exact current state and DEVELOPMENT_SETUP.md for a fresh clone.
-V2 direct-policy foundation implemented; SDK gameplay dispatch/executors still absent. New heads untrained/off.
-259 Python tests and460 legacy native checks pass; official teacher_exact matches frozen original byte-for-byte.
-No80% neural control, trained strength, training readiness or finished release is claimed.
+The eight-head direct gameplay framework is integrated, with candidate builders, SDK executors, guarded fuel admission, NFS2 recording, Python/C++ parity and a later bounded training/export workflow. New heads are **untrained and disabled** in the checked-in bot and packaged release. The inherited trained draft network stays separate.
 
----
+The user clarified that winning matters, not a neural percentage quota. This is a framework for training and validation, not a trained competition winner.
 
-# Historical status below (superseded)
+Verified:280 Python tests,460 legacy C++ checks,97 tactical synthetic checks and strategic/economy SDK fixtures. Final all-off Wasm is byte-identical to the frozen original. All four direct development profiles build through the official release CLI. The final18-game framework matrix has zero bot faults, zero invalid records,328 actual logit comparisons (max error8.94e-8), and two candidate fuel-exhaustion events on islands. All untrained policies scored zero gems. Details: `evaluation/results/integration_smoke.json`.
 
-# Status - untrained implementation checkpoint
+Fuel calibration includes positive-gem banking and every builder/kernel/log component; `models/policy_v2_budget.json` generates the direct budget header. These are conservative reused-map measurements, not universal fuel guarantees. Some large-map strategic calls remain refused. Periodic ownership telemetry is partial, and no achieved coverage percentage is claimed.
 
-**Plan changed on2026-10-24:** the target is now direct neural control of the important gameplay choices, with a
-rough80% ordinary-decision ownership goal. See [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md). This is a documented
-design change only. Existing210/460 test results apply to legacy v1; no v2 runtime or trained policy exists yet.
-Future work must follow the new plan rather than finishing every optional residual head first.
+The heads-off release ZIP/Wasm/checksums are under `artifacts/release/2026-10-24/`; official independent rebuild verification passed. It strips inherited lab exports, so it is identified separately from `teacher_exact` rather than claimed byte-equivalent to that profile.
 
-**Incomplete; not yet ready to train.** No training, submission, upload, activation, browser or desktop action ran
-in this session. No new engine games ran. The inherited original drafting network remains the only trained model
-used by the teacher. All new heads are untrained and inactive in checked-in `teacher_exact`.
+For later training, read `TRAINING_LATER.md`. Data preflight rejects underfilled, incompatible or unacknowledged samples. The current movement-record check is insufficient by itself; a later bounded collection must pass the minimums. Optimizer/CUDA training and checkpoint recovery have not been exercised on match data. Imitation requires a separate teacher-annotation collection follow-up. No training, parameter update on match data, submission or activation occurred.
 
-Implemented: D/E/F candidate modules, per-head schemas/Python twins, belief movement contribution, staged full-hook
-integration, native parity, safer runtime leaf accounting/deferred telemetry, record/observation adapters, external
-model-directory installation, teacher-record/objective-training profiles, schema/checkpoint guards and rollout stop
-checks. `tools/stage_wave2.py` produces a reviewable combined source copy under `artifacts/tmp` without promoting
-unverified hooks into the original source files.
-
-Verified this session: baseline186 Python tests and451 C++ checks; observation parity bit-exact. The final full suite
-passed210 tests and460/460 C++ checks, including the shop-opacity and schema-version regressions. All such new model
-tests are synthetic. Combined active and all-off source native SDK syntax checks each passed9/9, with one pre-existing disabled farm-path
-division-by-zero warning. Native syntax does not establish official Wasm compatibility.
-
-Official builds repeatedly fail to start the installed WASI `clang++.exe` with "permission denied". The user said
-full access was granted, but the execution runtime continued to report `sandbox_approval:false`, and an elevated
-compiler check was automatically rejected. This is an execution-policy blocker, not a diagnosis of file ACLs.
-See `evaluation/results/teacher_exact_checkpoint.json`. A fresh teacher_exact byte identity is **not verified** for
-the current sources. The last successful byte identity belongs to the earlier committed build only.
-
-Remaining acceptance work:
-
-1. Restore official compiler execution; run current and staged teacher_exact byte checkpoints.
-2. Run the official fuel probe, measure full builder/capture/log costs and teacher reserves, replace provisional
-   `models/budget.json`, resize if needed, then integrate each original-source hook with immediate byte rechecks.
-3. Complete defensible carry-risk, belief and leaf record/target/loss paths. A forward pass is insufficient.
-4. Capture real RawTurns/NFS1, verify Python/C++ logits/encoding and option semantics in official games.
-5. Build every profile and per-head ablation; run plumbing/fuel/smoke against original/v47/first-hour both sides with
-   neutral_real control under the recorded protocol amendment. Report failures plainly, never as strength evidence.
-6. Re-review after integration, audit release diagnostics/lab controls, package ZIP/Wasm/checksums, and independently
-   rebuild through the official CLI. No new release is packaged or accepted at this checkpoint.
-
-All local maps are reused benchmarks. The current8367-parameter exports are synthetic initialization. Budgets remain
-unmeasured. Zero residual and experimental fuel credit do not prove engine neutrality. Architecture, diagnosis,
-later commands and actual worker assignments are in the accompanying documents.
+Raw diagnostic replays, environments and all training history remain local/ignored. GitHub is the smaller development repository selected by the user. Current continuation instructions are in `HANDOFF.md` and `NEXT_AGENT_PROMPT.md`.

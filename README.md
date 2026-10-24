@@ -10,6 +10,8 @@ Start with [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md), then give a fresh agent
 and old experiment copies stay local. The attempted full-workspace upload was cancelled at the user's request.
 Git LFS is not required for this development checkout. See [RECOVERY.md](RECOVERY.md).
 
-The current checkpoint passes259 Python tests and460 legacy native checks, and the all-off official build
-is byte-identical to the frozen original. New neural heads are untrained and disabled by default. The target of
-roughly80% neural control is still being implemented; direct gameplay dispatch is not yet connected.
+The direct gameplay framework is integrated across eight heads. New heads are untrained and disabled by default; the inherited trained draft network remains separate. The goal is the strongest validated competition bot, with no neural percentage quota.
+
+Current checks pass280 Python tests,460 legacy C++ checks and the SDK fixtures. All-off official Wasm matches the frozen original byte-for-byte. A heads-off clean release ZIP/Wasm is independently rebuilt and verified under [artifacts/release/2026-10-24](artifacts/release/2026-10-24).
+
+See [STATUS.md](STATUS.md) for measured limitations and [TRAINING_LATER.md](TRAINING_LATER.md) for the guarded later training/export workflow. No training or match-data parameter update has run. Current diagnostic data is too sparse for fitting by itself; later collection must pass data and parity gates.

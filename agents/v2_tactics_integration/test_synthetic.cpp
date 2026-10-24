@@ -22,6 +22,7 @@ void check(bool ok,const char* message){++checks;if(!ok){std::fprintf(stderr,"FA
 }
 namespace cambc::detail {
 extern "C" {
+std::int64_t sdk_fuel_remaining(){return 100000;}
 std::int32_t sdk_get_settings(game_settings* out){*out={};out->max_rounds=2000;out->winning_gems=1000;return 0;}
 std::int32_t sdk_item_info(std::uint32_t,item_info* out){*out={};return 0;}
 std::int32_t sdk_consumable_info(std::uint32_t,consumable_info* out){*out={};return 0;}
@@ -89,7 +90,7 @@ void reset(Bot& b){
     b.walked=b.cast_done=false;b.w.enemies.clear();b.w.allies.clear();b.w.camps.clear();b.w.spawn_tiles={{0,0}};
     *b.w.static_blocked.ptr()=0;*b.w.unit_tiles.ptr()=0;*b.w.visible.ptr()=~0ull;*b.w.bushes.ptr()=0;
     *b.w.ally_spawn.ptr()=1;
-    if(g_boards)g_boards->goal_ready=g_boards->home_ready=false;
+    if(g_boards)g_boards->goal_ready=false;
     cambc::detail::cached_self=cambc::detail::handle_access::make_champion(static_cast<bc::handle_champion_t>(1));
     bc::bitboard visited;b.w.spawn_field.compute(b.w.static_blocked,b.w.ally_spawn,visited);
 }
@@ -105,6 +106,7 @@ std::uint32_t moveid(unsigned kind,int x,int y){std::uint32_t id=0;check(nnpc::m
 std::uint32_t combatid(unsigned kind,std::uint32_t handle){std::uint32_t id=0;check(nnpc::combat_id(kind,handle,id),"valid combat ID");return id;}
 int main(){Bot b;nnp::OptionsState state{};state.goal={7,7};nnpc::Decision out{};
     reset(b);check(nnp::build_move(b,state,out)&&out.K==9,"eight adjacent walk choices and hold");
+    check(nnp::tactics_candidate_capacity(b,nncfg::H::move)>=out.K,"movement admission covers generated candidate count");
     for(int i=1;i<out.K;++i)check(out.id[i-1]<out.id[i],"canonical ascending movement IDs");
     const auto right=moveid(0,4,3);int row=find(out,right);check(row>=0,"east step generated");
     check(out.feat[row*12]==0.125f&&out.feat[row*12+2]==0.08f,"F12 displacement and static goal distance");
@@ -169,5 +171,10 @@ int main(){Bot b;nnp::OptionsState state{};state.goal={7,7};nnpc::Decision out{}
     ack=nnp::execute_engage(b,state,2);check(ack.executed&&!ack.changed,"repeated hold leaves context unchanged");
     check(!nnp::execute_engage(b,state,3).executed,"invalid engage verdict rejected");
     synthetic::champion[1].health=0;check(!nnp::build_combat(b,state,out)&&out.K==0,"dead self refuses decision");
+    reset(b);check(!nnp::combat_has_choice(b),"empty combat is a forced hold");
+    check(nnp::build_combat(b,state,out)&&out.K==1&&out.id[0]==3,"suppressed combat has only hold");
+    enemy(b,2,4,3);check(nnp::combat_has_choice(b),"legal nearby attack is not suppressed");
+    synthetic::champion[1].state&=~((1u<<4)|(1u<<11));
+    check(!nnp::combat_has_choice(b),"no ready combat action needs no inference");
     std::printf("synthetic tactics: %d checks passed\n",synthetic::checks);return 0;
 }

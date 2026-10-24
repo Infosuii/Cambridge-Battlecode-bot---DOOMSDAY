@@ -5,8 +5,25 @@
   "kernel_arch_version": 1,
   "obs_schema_header": "bot/src/nn_policy_observation.h",
   "action_schema": "schemas/policy_v2.json",
-  "encoder": {"global_hidden": 8, "entity_hidden": 4, "ctx": 8},
-  "heads": {"F": 12, "hidden": 8, "contexts": 4},
-  "active_heads": ["strategy", "objective", "role", "bank", "shop", "move", "combat", "engage"],
-  "_doc": "Direct candidate logits over the compact own observation only; no legacy RawTurn fallback, teacher prior or teacher-bound residual. Reuses numeric kernel arch1 under interpretation2. Seeded synthetic untrained development only; release stays off. Full engine fuel measurement required."
+  "encoder": {
+    "global_hidden": 4,
+    "entity_hidden": 4,
+    "ctx": 4
+  },
+  "heads": {
+    "F": 12,
+    "hidden": 4,
+    "contexts": 4
+  },
+  "active_heads": [
+    "strategy",
+    "objective",
+    "role",
+    "bank",
+    "shop",
+    "move",
+    "combat",
+    "engage"
+  ],
+  "_doc": "Direct candidate logits over the compact own observation only; no legacy RawTurn fallback, teacher prior or teacher-bound residual. Reuses numeric kernel arch1 under interpretation2. Seeded synthetic untrained development only; release stays off. Full engine fuel measurement required. Compact width4 baseline chosen from measured untrained inference costs; no strength claim."
 }

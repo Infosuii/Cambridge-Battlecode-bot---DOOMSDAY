@@ -19,6 +19,13 @@
       "status": "trained",
       "exportable": false,
       "label": "inherited original draft network, used by the teacher"
+    },
+    "policy_v2_untrained": {
+      "path": "models/policy_v2_untrained",
+      "status": "untrained",
+      "exportable": true,
+      "interpretation_version": 2,
+      "label": "Synthetic compact direct policy initialization; disabled in release"
     }
   },
   "release_selection": {}

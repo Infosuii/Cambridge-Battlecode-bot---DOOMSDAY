@@ -40,6 +40,9 @@ def main():
     if bad:
         sys.exit('refusing to package: nn_config.h is not a clean release profile: ' +
                  '; '.join(f"{c['name']}={c['detail']}" for c in bad))
+    policy=src/'nn_policy_config.h'
+    if not policy.exists() or not all(c['passed'] for c in rel.check_direct_config(policy.read_text())):
+        sys.exit('refusing to package: direct policy experiment must be disabled in this release')
     extra = [p.relative_to(src).as_posix() for p in src.rglob('*') if p.is_file() and
              (p.parent != src or p.suffix not in ('.cpp', '.h'))]
     if extra:

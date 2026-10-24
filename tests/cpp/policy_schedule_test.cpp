@@ -1,10 +1,19 @@
 // Pure synthetic opportunity accounting. No SDK, model, engine, or match data.
 #include "nn_policy_schedule.h"
+#include "nn_policy_commitment.h"
 #include <cassert>
 #include <iostream>
 using H=nncfg::H;
 constexpr int ix(H h){return static_cast<int>(h);}
 int main() {
+    nnp::Commitment semantic;
+    semantic.start(40,17,2,true,true);semantic.suspend();
+    assert(semantic.committed&&semantic.suspended&&!semantic.record_open&&semantic.id==0);
+    assert(semantic.round==40&&semantic.action==2);
+    semantic.suspended=false;
+    assert(!nnp::due(41,nnp::LastOpportunity{semantic.round,semantic.committed},nnp::kRolePeriod,true));
+    assert(nnp::due(72,nnp::LastOpportunity{semantic.round,semantic.committed},nnp::kRolePeriod,true));
+    semantic.abandon();assert(!semantic.committed&&!semantic.suspended&&semantic.round==-1);
     nnp::LastOpportunity last[9]{};nnp::Opportunity counts[9]{};
     nnp::ScheduleInput in;in.round=40;in.has_gems=in.shop=in.enemies=in.move=true;
     auto turn=nnp::TurnInventory::plan(in,last);

@@ -1,95 +1,46 @@
-# Neural full-stack architecture — implementation checkpoint
+# Direct neural gameplay framework
 
-**New target:** [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) supersedes the residual-first architecture below for
-future work. The following sections describe existing v1 code; v2 direct policy is planned, not implemented.
+The eight gameplay heads are integrated. They are untrained and disabled in the checked-in bot and packaged release. The inherited trained draft network remains separate. The goal is the strongest validated competition bot; neural ownership is a diagnostic, not a percentage quota.
 
-**Not accepted as training-ready yet.** Candidate modules and native twins exist; the gameplay hooks are staged,
-not applied to the original translation units. Official compilation is blocked in this session. The engine fuel
-budget, real-record checks, full integration and packaging remain acceptance requirements. See [STATUS.md](STATUS.md).
+The current path is `Bot::play_turn` -> `nnp::play_turn` -> admitted candidate builder -> direct masked logits -> exact guarded SDK execution. It does not compute a teacher choice, teacher score/prior, or preferred index first. The original whole bot remains the all-off reference and early model-failure fallback. Legacy residual-v1 modules, models and NFS1 tooling remain separate.
 
-## Information flow and boundaries
+## Coverage
 
-The original bot computes its teacher choice, legality and narrowed alternatives first. A per-head compile-time
-gate calls the neural admission check before expensive features. Candidate0 remains that teacher choice. The scorer
-uses a shared observation encoder and a small task head, adds a bounded residual to teacher priors, and uses stable
-masked argmax in development/deployment or logged softmax sampling in a training profile. Empty, incompatible,
-non-finite, unverified or unaffordable calls fall back to candidate0. SDK execution rechecks legality.
+| Head | Neural choice | Deterministic work | Implementation |
+|---|---|---|---|
+| Strategy | Farm, bank, defend, contest, regroup, attack, retreat intent | Available intent descriptors; claims and dispatch | `nn_policy_strategy.cpp` |
+| Objective | Camp/group assignment | Exact cached distance, canonical spatial quotas, claim bounds | `nn_policy_strategy.cpp` |
+| Role | Farmer, carrier, fighter, escort, scout commitment | Availability, commitment expiry, exact resumption guard | `nn_policy_strategy.cpp` |
+| Bank | Save, altar destination, explicit deposit | Per-altar walking distances, locks/channel rules, legal urgent deposit | `nn_policy_economy.cpp` |
+| Shop | Explicit affordable purchase, supported consumable, save | Costs, combination gains, raw ABI slots, execution recheck | `nn_policy_economy.cpp` |
+| Move | Legal walking/dash endpoint, positioning or hold | Reachability, occupancy, geometric diversity, exact endpoint recheck | `nn_policy_tactics.cpp` |
+| Combat | Target plus basic attack/ability or hold | Visibility, readiness, range, supported target rules, actual SDK acknowledgment | `nn_policy_tactics.cpp` |
+| Engage | Fight, disengage or hold | Permitted current threats and bounded exact walking retreat trace | `nn_policy_tactics.cpp` |
 
-Strategy option0 is the remaining original priority chain, because that chain decides by acting. Shop option0 is
-the complete original purchase loop; its plan descriptors use explicit unknown zero sentinels, avoiding a duplicate
-purchase-plan preview. Other strategy/shop
-options are guarded attempts, including no-op/save on failure. These are explicit action options, not promises that
-an SDK action will succeed. The inherited draft network remains a separate unchanged teacher model.
+Drafting uses the inherited model in `draft.cpp`. Ward/fog/history bookkeeping stays deterministic. Dedicated belief, carry-risk and search-leaf networks are deferred; they are not current integrated learned capabilities. A separate critic is available in the later trainer, outside Wasm.
 
-`nn_obs_glue.cpp` captures only the acting champion's permitted public, visible and remembered state. The pure
-`nn_obs.cpp` / `nfs.obs` encoders have bit-exact native parity. [C's visibility audit](agents/C/VISIBILITY.md)
-records freshness limits: observation/history updates are lazy; group memory has no explicit state-observation age;
-alive transitions between captures can be missed. No privileged replay state or terminal outcome is an input.
+## Model and schemas
 
-## Snapshot and option semantics
+The compact observation has173 floats:40 self/global fields, five masked10-feature ally rows, and six masked12-feature enemy rows. Inputs are permitted public, visible or remembered state. Canonical coordinates mirror both sides consistently; terminal outcomes occur only in offline targets. Each decision has up to16 canonical ascending stable IDs and12 normalized features per candidate. There is no teacher position or teacher-prior input. Absent teacher labels stay absent.
 
-The shared context is a **first-admitted-call snapshot** per turn serial, champion and round. Later actions can change
-the live state; candidate features and execution guards use that live state while the shared embedding intentionally
-retains its first snapshot. One queued RawTurn reconstructs that embedding in Python. `context_position` exposes the
-snapshot's position so belief sectors stay anchored correctly after movement. Changing this to multiple snapshots
-would require versioned record keys and parity tests; silently overwriting a turn's context would corrupt labels.
+`schemas/policy_v2.json` defines per-head meanings. Observation hash is `0x1346e3ba`, action hash `0x16df3b9e`. NFS2 and model interpretation2 are distinct from legacy NFS1/residual interpretation1; incompatible artifacts fail closed.
 
-The role option lasts at most20 rounds and resets on death through its staged hook. Objective choices are logged
-where the teacher reselects; forced continuations are not fresh samples. Python streams are separated by match,
-side, champion and head, with interval rewards and gamma^tau. Draft has no shared-context requirement. A separate
-critic handles PPO; the runtime value head supplies bounded planning features when combined with strategy/objective.
+`configs/model/policy_v2.json` defines G4/E4/context4/head4. The exported untrained model has1056 float32 parameters, checksum `0x5a9d6349c9dc07b5`. Width-four register kernels retain sequential float32 lane operations. Python/C++ synthetic parity and actual record replay test the numeric path. Changing architecture requires a newly measured matching budget; installing a different width silently is refused.
 
-## Neural coverage matrix
+## State, recording and fuel
 
-All rows below describe implemented modules and **staged hook locations**, not completed engine integration.
-`P` means provisional feature fuel reservation; inference/context/record costs are additional. Every new head is
-untrained and inactive in the checked-in `teacher_exact` profile.
+Role/strategy/objective are explicit semantic commitments with32/8/8-round cadence. Banking/shopping use4/16-round cadence; movement/combat/engage are tactical. A forced combat hold can bypass inference. Neural choices with later budget refusal close/censor their training interval, while a separately guarded semantic assignment may resume next turn. An ended log ID is never the live-state flag. Death, channel and replacement abandon incompatible assignments. No alternative objective is silently substituted during resumption.
 
-| Decision | Observed state / candidates | Output and module | Staged call site | Fallback | P feature fuel | Later labels |
-|---|---|---|---|---|---:|---|
-| Draft | Public map, composition, available champion IDs; teacher first | Ranking, `nns::draft_pick` | draft.cpp after cap_draft_pick; gated Bot reference | Inherited draft pick |3000| Teacher pick; observational outcomes are confounded |
-| Strategic mode | Health/bag/time, nearby bodies, role/value;6 priority options | Ranking, `nns::act` | play_turn after emergency go_home | Remaining teacher chain |2500| Instrumented teacher options / on-policy returns |
-| Objective / camp assignment | Teacher-narrowed8 groups, travel/score/risk/claims | Ranking, `nns::objective` | score_groups after cap_objective | Teacher group and its need/score |1800+600K| Teacher selection / SMDP returns |
-| Team role | Carrier/farmer/fighter/escort/scout; slot, claims, health | Ranking, `nns::current_role` | nns::act; death reset | Teacher-implied role |2500| Teacher role and20-round option return |
-| Bank timing and route | Carry/score/deadline and existing safe/static altar fields | Ranking, `nne::bank` | tribute_if_needed after cap_bank | Teacher verdict/field; force/win/late protected |1800| Teacher verdict / secured team objective |
-| Economy | Gold, item progress; opaque whole teacher plan/save/guarded legal purchase | Ranking, `nne::shop` | shop in place of duplicate preview | Original buy loop |6500| Teacher plan / option return |
-| Navigation and positioning | Narrowed legal endpoint/dash tiles, route distances, local threats | Ranking, `nne::move_rank/local_move` | follow_field, retreat_from, dash_away, kite_step | Teacher endpoint |1200+950K /12000| Instrumented movement intents |
-| Combat | Visible target intents and ready legal spell alternatives/keep | Ranking, `nne::combat_target/combat_cast` | handle_enemies and cast_on_enemy | Teacher target/spell |8000 /5000| Instrumented target/ability options |
-| Engage / retreat | Search verdict, local threats, health/TTD; fight/run/keep | Ranking, `nne::engage` | after cap_fight_final | Teacher verdict; emergency masks |4000| Teacher verdict / return |
-| Ward | Teacher-narrowed placement tiles and no-ward | Ranking, `nne::ward_rank` | ward_ahead, ward_reveal, reveal_bush_camp | Teacher placement |1400+600K| Teacher placement / information value |
-| Opponent/fog belief | Legal history, nine canonical sectors relative to snapshot | Sector logits used in move.raw23; guarded belief-only rerank | Staged movement hooks | Zero influence | **unmeasured** | Own next-visible observations; target/loss path incomplete |
-| Long-term value | Shared context | Win logit, margin per1000 submitted gems, carry-loss logit | nns::act and same-round objective features | Zero influence | Central runtime gate | Outcome/margin regression implemented; carry-risk target/loss incomplete |
-| Tactical-search leaf | Bounded simulated leaf deltas, plan and home distance | Bounded residual, `nne::leaf` | active tactical_decide after teacher evaluation; max4/round | Zero residual |2200| Leaf record/target/loss path incomplete |
+The first admitted same-turn context can serve multiple intent changes; live candidate rows accompany it. Physical effects invalidate it. World refresh is guarded and repeated refresh after a no-op is avoided. Static anchors, objective narrowing and walking fields can be prepared after actions from spare fuel, with position/geometry/field-availability cache keys; live F12 rows are rebuilt at selection.
 
-Team assignments continue to communicate through the original claims/sighting protocol. Roles affect local priorities
-and objective features; no additional shared bytes are written. The optional intent proposal in C's audit is a
-proposal only. This checkpoint does not claim a separate learned team communication protocol.
+`models/policy_v2_budget.json` generates `nn_policy_budget.h`. Root admission includes builder bounds, observation, inference, per-candidate recording, execution and tail reserve. Tickets authenticate both candidate and execution reservations. Unsupported or overflowing bounds refuse before construction; fuel increase/round advance fails closed. Macro writes and the final movement recheck have separate execution reserves. A late refusal safely ends the turn rather than starting an expensive whole-teacher search on depleted fuel. An unverified model returns to the whole teacher before preparation.
 
-## Model, memory and fuel contracts
+NFS2 copies bounded immutable record bytes in-turn; checksum, base64 and output run afterward. Recording can target one head to avoid paying every head's data overhead. Pending records drain even after the recording cap closes. Sampling uses install seed mixed with champion ID, once per VM, and persists across turns. Actual SDK outcomes are acknowledged separately from selection. Missing context/ack/closure, overrides, interruption, non-sampling and clock failures are excluded from actor updates.
 
-The small default has a16-unit global projection,8-unit entity projections,16-unit context and8-unit head hidden
-layers. The current synthetic exports have8367 parameters each. Entity rows use masks and mean/max pooling.
-Candidate bounds are K<=16 and F<=24 (economy F20, search leaf F8). There is no per-decision heap allocation in the
-new modules. The log queue is49152 bytes, with at most8 records per turn and explicit drop counters.
+See `evaluation/results/integration_components.json` and `integration_smoke.json`. Component measurements are bounded observations on reused maps, not universal worst-case guarantees. Larger maps still produce refusals and some fuel exhaustion. Periodic coverage is explicitly partial, per champion and head; it is never summed as if every snapshot were a new match.
 
-`models/budget.json` remains **provisional**, not engine-measured:55000 neural allowance,6000 tail reserve and
-10000 default teacher reserve. These numbers are not acceptance evidence. `tools/probe_neural_fuel.py` prepares an
-official-release probe for real capture/encode and labelled synthetic dense kernels/records. Full hook/capture
-prologues and downstream search reserves also require engine measurement; a kernel probe alone is insufficient.
+## Known action-space limits
 
-NFS1 logging and NFT1 telemetry now run after `play_turn`, from leftover fuel. Telemetry prints bounded per-head
-summaries with names and invalid/NaN counters. This placement protects decisions from stdout cost, but queueing,
-captures and inference still consume in-turn fuel. Credit accounting is experimental; the only exact-equivalence
-claim permitted is a verified `teacher_exact` build.
+Movement uses a conservative known-legal dash subset, excluding hole-crossing paths. Capped unknown distances refuse the whole decision. Combat omits ambiguous champion/camp numeric-handle collisions, offset AoE centers and altar-lock attacks. Shop inventory capacity is an unavailable SDK feature and uses a documented unknown sentinel. These are explicit limits, not claims of full SDK action coverage.
 
-## Schemas, lifecycle and installation
-
-Observation and per-head schemas version feature meanings, normalisation, contexts and output units. All kinds,
-including value/belief/leaf, carry semantic hashes. Dataset/checkpoint action hashes include every per-head schema.
-Export validates finite f32 weights/checksums; runtime verifies segments and rejects mismatched descriptors.
-`tools/install_models.py --profile ...` is the single installation switch. Development/training can install an
-unregistered exported directory; release overrides are refused and only validated registry selections may activate.
-
-Release has no new trained heads selected. Original drafting remains trained through the teacher. All new exports
-are seeded synthetic initialization, not learned artifacts. Zero residual establishes scorer choice neutrality only;
-it does not establish engine neutrality. The recorded protocol amendment requires a neutral_real overhead control.
+`tools/install_policy_v2.py` installs a saved compatible model/seed/record mask into a fresh development directory. Release verification independently checks that every direct-policy gate is off. Training, validation and promotion remain separate; a trained export alone is not a competition release.

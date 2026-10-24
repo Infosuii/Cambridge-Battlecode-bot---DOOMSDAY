@@ -1,3 +1,13 @@
+# Solo integration record — 2026-10-24
+
+This continuation was performed by the lead alone, as explicitly requested. No sub-agents were spawned or messaged. The model is Codex based on GPT-6, as stated by the session; the exact served variant/deployment identifier is not exposed. No Opus or independent-review agent run is claimed.
+
+The lead read inherited worker reports, integrated/repaired SDK dispatch, fuel/commitment/recording paths, added guarded later-training tools, ran official builds/checks, and performed a separate checklist-based self-review. That self-review is not an independent agent review. See evaluation/results/integration_review.md and the receipts.
+
+No model training or match-data parameter update occurred. The compact1056-parameter model is seeded synthetic initialization. Historical records below refer to earlier sessions.
+
+---
+
 # Current turn record,2026-10-24
 
 Three actual specialist workers (strategy, economy, tactics) implemented/reviewed the v2 candidate, model and

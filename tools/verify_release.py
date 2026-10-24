@@ -76,6 +76,8 @@ def verify(zip_path, wasm_path, src_dir=None, models=None, rebuild=True, scan_pa
     checks += rel.check_zip(zip_path, src_dir)
     with zipfile.ZipFile(zip_path) as z:
         cfg_text = z.read('src/nn_config.h').decode('utf-8', 'replace') if 'src/nn_config.h' in z.namelist() else ''
+        policy=z.read('src/nn_policy_config.h').decode('utf-8','replace') if 'src/nn_policy_config.h' in z.namelist() else ''
+    checks += rel.check_direct_config(policy)
     if cfg_text:
         cfg = rel.parse_nn_config(cfg_text)
         info['config'] = cfg

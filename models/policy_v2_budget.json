@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "status": "engine-calibrated component ceilings on reused benchmarks; not a universal fuel guarantee",
+  "model": {
+    "global_hidden": 4,
+    "entity_hidden": 4,
+    "ctx": 4,
+    "head_hidden": 4,
+    "n_params": 1056
+  },
+  "policy": {
+    "turn_allowance": 82000,
+    "action_reserve": 16000,
+    "tail_reserve": 7000,
+    "observation": 19000,
+    "candidate": 3500,
+    "head_base": 1800,
+    "per_candidate": 300,
+    "log": 6000,
+    "log_per_candidate": 600
+  },
+  "measurement_receipt": "evaluation/results/integration_components.json",
+  "candidate_bounds": "Per-head metadata formulas in nn_policy_strategy.cpp, nn_policy_economy.cpp and nn_policy_tactics.cpp; UINT64_MAX refuses before construction. Cold/capped geometry remains explicitly bounded.",
+  "notes": [
+    "Complete observation includes real capture and shared encoder, plus validation.",
+    "Log includes context/decision queue work; checksum/base64/output runs after gameplay.",
+    "Movement has a separate final-action execution reserve; physical refresh is separately guarded.",
+    "Large-map refusals are reported, not counted as neural control.",
+    "Legacy models/budget.json belongs to residual v1 and is not used by direct v2."
+  ]
+}

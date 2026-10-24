@@ -8,6 +8,7 @@
 struct vec2 { int x=0,y=0; };
 inline int cheb(vec2 a,vec2 b) {return std::max(std::abs(a.x-b.x),std::abs(a.y-b.y));}
 namespace bc {
+inline std::uint64_t fuel_remaining(){return 100000;}
 namespace constants {inline constexpr unsigned max_rounds=2000;inline constexpr int capture_time=15;}
 struct distance_field {std::array<std::uint16_t,4096> value{};};
 struct bitboard {std::array<bool,4096> value{};};

@@ -1,26 +1,17 @@
 # Diagnosis and design decisions
 
-This checkpoint is an untrained framework build. No new match-strength or training result is claimed. The original
-failure evidence is specified in [USER_REQUEST](agents/USER_REQUEST.md#2-learn-from-the-actual-failures); current
-engine sensitivity evidence is [neutral_equivalence_bisect.json](evaluation/evidence/neutral_equivalence_bisect.json).
+The user clarified that winning the competition is the objective. The earlier80% figure was illustrative. We keep useful deterministic mechanics and require measured evidence before replacing a proven policy. No new head has been trained here, and no playing-strength improvement is claimed.
 
-| Original failure point | Assessment | Design response and remaining proof |
-|---|---|---|
-|1. Zero correction changed play | **Confirmed integration effect.** Current bisection shows even a few dozen pre-decision fuel units can shift teacher choices. | Teacher choice computed first, bounded admission and deferred output; teacher_exact must be byte-identical. Neutral_real is an overhead control, not an equivalence claim. Engine costs remain pending. |
-|2. Pooled selection concealed original regression | **Confirmed by prior results.** | Per-opponent gate plus map-cluster uncertainty; original regression cannot be traded for pooled gains. Synthetic gate tests reproduce the failure. |
-|3. More training stopped helping | **Confirmed plateau in prior run; cause uncertain.** | Bounded experiments, persisted deadlines, checkpoint/optimizer pairing and independent selection partition. No additional training is authorized here. |
-|4. Training/deployment differences | **Confirmed semantics and overhead differences.** | Shared bounded logits/masks, true sampled logp, explicit argmax deployment, option timing, schema/checkpoint guards and export tests. Real post-hook record parity and logging-cost comparison remain pending. |
-|5. Reward may misprice carry/banking/risk | **Hypothesis, not established reward hacking.** | Terminal team outcome plus separately ablatable deposit/carry-potential/economy/death/damage/objective terms; synthetic bank-win/lost-bag and telescoping tests. Reward quality still requires later engine experiments. |
-|6. Release tracing audit was too narrow | **Confirmed audit gap; inherited host controls affect fuel.** | Audit beyond kTraining and package verification. Current profiles preserve lab layout to protect the teacher; no post-Wave2 release package exists. Removed lab controls cannot be assumed inert. |
-|7. Fuel matters but does not explain all losses | **Confirmed.** | Report crashes, invalid actions, fuel exhaustion/tails and decision changes separately. No fuel-only explanation or playing-strength claim. |
-|8. Missing baseline candidate hypothesis | **Not observed in prior diagnostic tests.** | Candidate0 and stable-tie/mask tests protect the invariant without presenting the hypothesis as the regression cause. |
-|9. Logging removal / deferred features were not established upgrades | **Confirmed mixed/failed controls.** | Keep interventions separate, preserve all results, pair against original and overhead control, and measure complete call sites. No default promotion of v50 or an untrained residual. |
+The original teacher is fuel-sensitive: even a small amount of work before its decision can alter its search. Frozen evidence remains in `evaluation/evidence/neutral_equivalence_bisect.json`. Zero weights or uniform logits do not prove neutrality. `teacher_exact` is the only current full-byte-equivalence claim. The clean release strips inherited lab exports and is a separately identified variant.
 
-The [pre-integration review](agents/H/REVIEW_WAVE2_PREINTEGRATION.md) also identified new framework defects. The lead
-fixed zero-layer initialization, external model-directory installation, canonical record/observation adapters,
-leaf admission accounting, value checkpoint persistence, margin units, actual rollout stop guards and schema drift
-checks. These have native/synthetic regressions; they still require official integration verification.
+The original direct integration could spend fuel constructing candidates and then restart the full teacher. Diagnostic games had hundreds of exhaustions. It also confused an ended recording interval with a live semantic assignment. The integration now admits complete work before builders, preserves authenticated reservations, censors interrupted intervals, revalidates semantic assignments, and ends late-failure turns safely. Early model failure still reaches the whole teacher before preparation.
 
-The review's carry-risk, belief and search-leaf label/loss coverage issue remains open. A forward pass and a callable
-hook do not by themselves make an auxiliary head trainable. Official build access is also unresolved. Accordingly
-the current status is **incomplete**, not ready to train or proven stronger.
+Real measurement rejected the generic candidate3500/observation12000/log6000 assumptions. Objective construction exceeded60k, and unsigned subtraction could hide fuel resets. We added per-head metadata bounds and explicit reset rejection, cached immutable anchors/narrowing, eliminated repeated target rescans, shrank the model from2296 to1056 parameters, added width-four register kernels, and moved wire hashing after gameplay. The compact dense encoder measured7381 and K16 heads4868 in the accepted component probe. Runtime budgets remain conservative and map-dependent; refusal is visible, not disguised as control.
+
+A real draft smoke test exposed telemetry querying a champion in the draft VM. Draft idle now avoids champion work. Another check exposed queues failing to drain after logging closed; pending rows now drain. The winning-bag guard previously could freeze a distant carrier. It now overrides only a successful legal nearby deposit, records the actual ID, and otherwise preserves banking/movement selection.
+
+The final18-game untrained framework matrix has zero bot faults and zero invalid records. It has two candidate fuel-exhaustion events on islands; the paired reference sides total17. This is a diagnostic comparison, not a strength or causal fuel-improvement claim. Actual328 decision logits replay against Python with max absolute error below9e-8. Every active untrained policy scored zero submitted gems. These results demonstrate wiring and identify remaining fuel/data limits; they do not demonstrate a useful learned bot.
+
+The later training path deliberately uses terminal Monte Carlo returns with a separate critic, exact pinned behavior parity, disjoint provenance groups and frozen shared encoder/other heads for a first experiment. It does not silently adapt legacy residual PPO or claim an imitation dataset when teacher annotations are absent. Data quantity and actor eligibility are preflight gates. The final movement-record check produced only five usable actor rows, so it is insufficient for a training run by itself.
+
+Future improvement must come from authorized training and evaluation: collect adequate valid actions, compare capacities under measured budgets, address weak action-space coverage where evidence warrants it, and assess each opponent/side on the frozen selection protocol before promotion. Dedicated learned fog/value/search auxiliaries remain deferred. No fixed neural ownership percentage is required.

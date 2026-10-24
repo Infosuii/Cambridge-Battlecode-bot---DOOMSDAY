@@ -108,7 +108,9 @@ inline bool enqueue(Writer& w) {
     if(w.bad||w.n+4>kMaxPayload) {++g_dropped;return false;}
     const auto total=static_cast<std::uint32_t>(w.n+4);
     for(int i=0;i<4;++i)g_payload[8+i]=static_cast<unsigned char>(total>>(8*i));
-    w.u32(checksum(g_payload,w.n));
+    // Internal queue owns a copy of the immutable payload. Finalize its wire checksum only
+    // during post-turn flushing; hashing every candidate byte must not delay gameplay.
+    w.u32(0);
     if(g_bytes+4+total>kQueueBytes) {++g_dropped;return false;}
     unsigned char len[4];for(int i=0;i<4;++i)len[i]=static_cast<unsigned char>(total>>(8*i));
     ring_write(len,4);ring_write(g_payload,total);++g_queued;return true;
@@ -160,6 +162,8 @@ inline int encode_line(const unsigned char* p,int n) {
 inline bool flush_one(std::FILE* out=stdout) {
     if(queue_empty())return false;
     const auto n=next_bytes();ring_read(4,g_payload,n);
+    const auto hash=checksum(g_payload,n-4);
+    for(int i=0;i<4;++i)g_payload[n-4+i]=static_cast<unsigned char>(hash>>(8*i));
     const auto text=encode_line(g_payload,n);const auto written=std::fwrite(g_text,1,text,out);
     g_text_written+=static_cast<std::uint32_t>(written);
     g_head=(g_head+4+n)%kQueueBytes;g_bytes-=4+n;

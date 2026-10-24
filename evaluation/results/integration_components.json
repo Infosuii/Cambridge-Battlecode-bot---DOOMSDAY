@@ -1,0 +1,274 @@
+{
+  "kind": "untrained component calibration receipt",
+  "source_sha256": "c9c7352dbe90cc69f58566f60e1c3c5f47ba083f262e7723df12d3f57b298506",
+  "wasm_sha256": "d20c5b2c3f9091966cad65df48c9f31e0942b84a3fc268e87e8e47a8e3b00a39",
+  "release": true,
+  "fuel": "official default",
+  "map_label": "reused_benchmark",
+  "complete_components": true,
+  "missing_components": [],
+  "invalid_measurements": 0,
+  "components": {
+    "capture_real": {
+      "statuses": {
+        "ok": 17
+      },
+      "valid_samples": 17,
+      "max_valid_fuel": 7552,
+      "max_required": 40000,
+      "max_K": 0
+    },
+    "strategy_builder_real": {
+      "statuses": {
+        "ok": 17
+      },
+      "valid_samples": 17,
+      "max_valid_fuel": 28862,
+      "max_required": 48520,
+      "max_K": 7
+    },
+    "objective_builder_real": {
+      "statuses": {
+        "ok": 15,
+        "missing_bound": 1,
+        "missing_preparation": 1
+      },
+      "valid_samples": 15,
+      "max_valid_fuel": 26352,
+      "max_required": 76240,
+      "max_K": 9
+    },
+    "role_builder_real": {
+      "statuses": {
+        "ok": 17
+      },
+      "valid_samples": 17,
+      "max_valid_fuel": 15022,
+      "max_required": 48520,
+      "max_K": 5
+    },
+    "bank_builder_real": {
+      "statuses": {
+        "ok": 1976,
+        "refused": 4024
+      },
+      "valid_samples": 1976,
+      "max_valid_fuel": 13222,
+      "max_required": 44674,
+      "max_K": 3
+    },
+    "shop_builder_real": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4497,
+      "max_required": 40000,
+      "max_K": 1
+    },
+    "move_builder_real": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 9733,
+      "max_required": 63340,
+      "max_K": 1
+    },
+    "combat_builder_real": {
+      "statuses": {
+        "ok": 10,
+        "missing_preparation": 1
+      },
+      "valid_samples": 10,
+      "max_valid_fuel": 25406,
+      "max_required": 56240,
+      "max_K": 2
+    },
+    "engage_builder_real": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 3299,
+      "max_required": 37000,
+      "max_K": 3
+    },
+    "encoder_synthetic_dense": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 7395,
+      "max_required": 40000,
+      "max_K": 0
+    },
+    "head1_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head2_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head3_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head4_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head5_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head6_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head7_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "head8_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 4882,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "context_enqueue_mixed": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 2665,
+      "max_required": 40000,
+      "max_K": 0
+    },
+    "record_flush_context_mixed": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 34798,
+      "max_required": 45808,
+      "max_K": 0
+    },
+    "decision_enqueue_synthetic_K16": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 10169,
+      "max_required": 40000,
+      "max_K": 16
+    },
+    "record_flush_decision_synthetic_K16": {
+      "statuses": {
+        "missing_preparation": 31,
+        "ok": 11,
+        "missing_bound": 1
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 45982,
+      "max_required": 57200,
+      "max_K": 16
+    },
+    "execution_enqueue_synthetic": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 1597,
+      "max_required": 40000,
+      "max_K": 0
+    },
+    "record_flush_execution_synthetic": {
+      "statuses": {
+        "ok": 11
+      },
+      "valid_samples": 11,
+      "max_valid_fuel": 3494,
+      "max_required": 17136,
+      "max_K": 0
+    }
+  },
+  "raw_receipt": "artifacts\\tmp\\integration_compact_probe6\\measurements.json",
+  "raw_sha256": "5464115279fc09959f7613f267d83fbffa9157f1cad01f93d6c3cb2dafe9279b",
+  "games": [
+    {
+      "map": "00rows",
+      "side": "A",
+      "win": 0.0,
+      "gems": 176,
+      "opponent_gems": 1008,
+      "faults": 0,
+      "fuel_exhausted": 0,
+      "opponent_fuel_exhausted": 0,
+      "deaths": 6,
+      "collected": 270,
+      "gold": 4411,
+      "rounds": 1637,
+      "outcome": "teamB",
+      "engine": "1.0.3"
+    },
+    {
+      "map": "01islands",
+      "side": "A",
+      "win": 0.0,
+      "gems": 0,
+      "opponent_gems": 1019,
+      "faults": 0,
+      "fuel_exhausted": 2,
+      "opponent_fuel_exhausted": 8,
+      "deaths": 0,
+      "collected": 12,
+      "gold": 773,
+      "rounds": 1119,
+      "outcome": "teamB",
+      "engine": "1.0.3"
+    }
+  ],
+  "training_games": 0,
+  "parameter_updates": 0,
+  "warning": "Bank is a dedicated live positive-gem probe turn; other builders use real cached teacher world after actions. Dense kernels/log fixtures synthetic. Not strength or universal worst-case evidence."
+}

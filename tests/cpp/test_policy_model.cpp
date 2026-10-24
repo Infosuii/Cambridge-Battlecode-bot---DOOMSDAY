@@ -56,7 +56,7 @@ int main(int argc,char** argv) {
         std::cin.read(reinterpret_cast<char*>(legal.data()),legal.size());
         if(!std::cin) return 3;
         float h[nnm::kMaxCtx],out[16]; nnm::Scratch scratch;
-        nnm::encode(kKernel,obs.data(),h,scratch);
+        nnpm::encode(kKernel,obs.data(),h,scratch);
         const std::uint32_t ok=nnpm::logits(kDesc,in.head,in.context,h,feat.data(),in.K,legal.data(),out);
         std::cout.write(reinterpret_cast<const char*>(&ok),4);
         std::cout.write(reinterpret_cast<const char*>(h),kKernel.ctx*4);

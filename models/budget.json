@@ -1,16 +1,29 @@
 {
-  "_doc": "PROVISIONAL (not engine-measured yet). log_* = in-turn enqueue (memcpy) cost only; base64+fwrite (~8-12 fuel/byte) runs in nnh::idle() from leftover fuel. turn_allowance raised 30000->55000 by lead so a K=16 decision plus the shared encoder is admissible; must be re-derived from engine measurements.",
+  "_doc": "LEGACY RESIDUAL V1 ONLY; provisional historical estimates retained for compatibility. Direct v2 uses models/policy_v2_budget.json and generated nn_policy_budget.h. PROVISIONAL (not engine-measured yet). log_* = in-turn enqueue (memcpy) cost only; base64+fwrite (~8-12 fuel/byte) runs in nnh::idle() from leftover fuel. turn_allowance raised 30000->55000 by lead so a K=16 decision plus the shared encoder is admissible; must be re-derived from engine measurements.",
   "coefficients": {
-    "dense_call": 20, "dense_row": 8, "dense_v4": 7, "act_call": 10, "act_v4": 14, "pool_row": 30,
-    "finite_v4": 4, "encoder_fixed": 100, "head_fixed": 150, "scalar_op": 3, "cand_fixed": 30, "dot_elem": 5,
-    "bounded": 25, "argmax_elem": 6
+    "dense_call": 20,
+    "dense_row": 8,
+    "dense_v4": 7,
+    "act_call": 10,
+    "act_v4": 14,
+    "pool_row": 30,
+    "finite_v4": 4,
+    "encoder_fixed": 100,
+    "head_fixed": 150,
+    "scalar_op": 3,
+    "cand_fixed": 30,
+    "dot_elem": 5,
+    "bounded": 25,
+    "argmax_elem": 6
   },
   "policy": {
     "safety_factor": 1.25,
     "decide_fixed": 400,
     "turn_allowance": 55000,
     "tail_reserve": 6000,
-    "teacher_reserve": {"default": 10000},
+    "teacher_reserve": {
+      "default": 10000
+    },
     "capture_worst": 15000,
     "obs_encode_worst": 5000,
     "log_fixed": 300,

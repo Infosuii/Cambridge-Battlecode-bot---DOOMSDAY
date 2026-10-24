@@ -23,6 +23,8 @@ Execution execute_objective(Bot&,OptionsState&,std::uint32_t);
 Execution execute_role(Bot&,OptionsState&,std::uint32_t);
 // Revalidate an existing assignment after a temporary teacher turn; never select a replacement goal.
 bool resume_assignments(Bot&,const OptionsState&);
+std::uint64_t strategy_candidate_fuel(const Bot&,nncfg::H);
+void prepare_strategy(const Bot&,std::uint64_t reserve);
 // Metadata/count-only pre-admission estimate. Bank fields cap64 expansions; unresolved options refuse the whole decision.
 std::uint64_t bank_candidate_fuel(const Bot&);
 bool build_bank(const Bot&,const OptionsState&,nnpc::Decision&);
@@ -31,8 +33,11 @@ Execution execute_bank(Bot&,OptionsState&,std::uint32_t);
 Execution execute_shop(Bot&,OptionsState&,std::uint32_t);
 bool build_move(const Bot&,const OptionsState&,nnpc::Decision&);
 bool build_combat(const Bot&,const OptionsState&,nnpc::Decision&);
+bool combat_has_choice(const Bot&);
+int tactics_candidate_capacity(const Bot&,nncfg::H);
 bool build_engage(const Bot&,const OptionsState&,nnpc::Decision&);
 std::uint64_t tactics_candidate_bound(const Bot&,const OptionsState&,nncfg::H);
+void prepare_tactics(const Bot&,const OptionsState&,std::uint64_t reserve);
 Execution execute_move(Bot&,OptionsState&,std::uint32_t);
 Execution execute_combat(Bot&,OptionsState&,std::uint32_t);
 Execution execute_engage(Bot&,OptionsState&,std::uint32_t);

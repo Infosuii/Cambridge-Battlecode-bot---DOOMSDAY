@@ -15,12 +15,20 @@ from pathlib import Path, PurePosixPath
 from . import wasm as wasm_mod
 
 MEMBER_RE = re.compile(r'^src/[A-Za-z0-9_][A-Za-z0-9_.\-]*\.(cpp|h)$')
-FORBIDDEN_STRINGS = (b'NFS1', b'NFT1')
+FORBIDDEN_STRINGS = (b'NFS1', b'NFT1', b'NFS2', b'NPO2', b'NPC2')
 UNSAFE_STATUSES = ('untrained', 'teacher_initialized')
 
 
 def _chk(name, ok, detail=None):
     return dict(name=name, passed=bool(ok), detail=detail)
+
+
+def check_direct_config(text):
+    """This release has no validated direct policy selection. Refuse activation through a second gate."""
+    clean=re.sub(r'//[^\n]*|/\*.*?\*/','',text,flags=re.S)
+    macros=dict(re.findall(r'^\s*#define\s+(NN_POLICY_\w+)\s+(\S+)',clean,re.M))
+    required=('NN_POLICY_V2','NN_POLICY_LOG','NN_POLICY_SAMPLE','NN_POLICY_TELEMETRY')
+    return [_chk('direct_policy_release_disabled',all(macros.get(k)=='0' for k in required),macros)]
 
 
 def check_zip(zip_path, src_dir) -> list[dict]:

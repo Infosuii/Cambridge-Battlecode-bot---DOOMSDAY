@@ -68,10 +68,45 @@ inline bool verify(const PolicyDesc& p) {
     return true;
 }
 
+// Width four uses register accumulators too. Keep this specialization in v2 so the inherited
+// draft/teacher binary does not change. Each lane retains the original sequential float32 order.
+inline void linear4(const nnm::ModelDesc& m,const nnm::Lin& l,const float* x,float* y) {
+    std::memcpy(y,m.blob+l.b,4*sizeof(float));
+    nnrt::dense_acc_fixed<4>(x,l.in,m.blob+l.w,y);
+}
+inline void encode(const nnm::ModelDesc& m,const float* x,float* h,nnm::Scratch& s) {
+    if(m.g_hidden!=4||m.e_hidden!=4||m.ctx!=4){nnm::encode(m,x,h,s);return;}
+    linear4(m,m.g1,x,s.cat);nnrt::act_n(s.cat,4);
+    auto pool=[&](const nnm::Lin& l,const float* rows,const float* mask,int n,int width,float* mean,float* mx) {
+        for(int r=0;r<n;++r) {
+            s.mask[r]=mask[r]>.5f;
+            if(s.mask[r]){linear4(m,l,rows+r*width,s.ent+r*4);nnrt::act_n(s.ent+r*4,4);}
+        }
+        nnrt::pool_mean_max(s.ent,s.mask,n,4,mean,mx);
+    };
+    const float* ally=x+m.self_dim;const float* am=ally+m.ally_rows*m.ally_dim;
+    const float* enemy=am+m.ally_rows;const float* em=enemy+m.enemy_rows*m.enemy_dim;
+    pool(m.a1,ally,am,m.ally_rows,m.ally_dim,s.cat+4,s.cat+8);
+    pool(m.e1,enemy,em,m.enemy_rows,m.enemy_dim,s.cat+12,s.cat+16);
+    linear4(m,m.c1,s.cat,h);nnrt::act_n(h,4);
+}
+
 // Already-validated fast kernel, used by the runtime after descriptor/model verification.
 inline void direct_logits(const PolicyDesc& p, int head, int context, const float* h, const float* feat,
                           int K, const std::uint8_t* legal, float* out) {
     const auto& m = *p.kernel; const auto& hd = m.head[head];
+    if(hd.hidden==4) {
+        float u[4];std::memcpy(u,m.blob+hd.b1,sizeof u);
+        nnrt::dense_acc_fixed<4>(h,m.ctx,m.blob+hd.wh,u);
+        for(int j=0;j<4;++j)u[j]+=m.blob[hd.emb+context*4+j];
+        for(int k=0;k<K;++k) {
+            if(!legal[k]){out[k]=nnrt::kNegInf;continue;}
+            float z[4];std::memcpy(z,u,sizeof z);
+            nnrt::dense_acc_fixed<4>(feat+k*kFeatureDim,kFeatureDim,m.blob+hd.wf,z);
+            nnrt::act_n(z,4);out[k]=nnrt::dot(z,m.blob+hd.w2,4,m.blob[hd.b2]);
+        }
+        return;
+    }
     float u[nnm::kMaxHidden]; nnm::head_pre(m,hd,h,context,u);
     for (int k=0;k<K;++k) out[k] = legal[k] ? nnm::head_residual(m,hd,u,feat+k*kFeatureDim) : nnrt::kNegInf;
 }

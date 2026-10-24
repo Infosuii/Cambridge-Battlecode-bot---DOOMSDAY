@@ -1,0 +1,25 @@
+{
+  "version": "direct-policy-v2-framework-2",
+  "label": "untrained framework integration check; no strength claim",
+  "amends_sha256": "71d25a3f3ce84a2628696c86725cc1708de76c5610b2af0bc4fb21bdd2b3388c",
+  "frozen_before_revised_active_gameplay_results": true,
+  "training_games": 0,
+  "parameter_updates": 0,
+  "engine": "1.0.3",
+  "release": true,
+  "fuel": "official default",
+  "map_label": "reused_benchmark",
+  "target": "Winning competition performance is the objective. User clarified that 80% was illustrative, not a neural-ownership quota. Publish coverage as a diagnostic, never an acceptance percentage.",
+  "model": "Seeded untrained compact G4/E4/context4/head4. Inherited trained draft remains separate. Direct heads off in release.",
+  "failure": "Unverified model returns to the whole teacher before policy preparation. After policy preparation or selection spends fuel, refusal ends the turn safely, closes/censors recording intervals and preserves semantic assignments for exact next-turn guard validation. No second full teacher search on depleted fuel.",
+  "geometry": "Static objective narrowing and walking fields may be prepared after actions using spare fuel. Reuse only for the same champion position, immutable geometry and available static field set. Rebuild live F12 rows at every decision.",
+  "logging": "Deferred wire checksum and text output after gameplay. Internal bounded queue copies immutable bytes. Missing contexts, closures, acks, guard overrides or clock-reset reasons cannot enter actor training.",
+  "ownership": "NPO2/NPC2 include champion identity. Latest cumulative row per champion/head, never sum all snapshots. Output is partial unless every body reports after its last opportunity; no final full-match ownership claim from periodic rows.",
+  "stop": [
+    "No training or submission",
+    "No fuel override",
+    "Report incomplete bounds and component refusals explicitly",
+    "Compare original/v47/first-hour on both sides only as untrained plumbing checks"
+  ],
+  "protocol_change_reason": "Real engine evidence rejected prior generic feature bounds and whole-teacher fallback after neural work; compact four-lane kernels and deferred logging reduce decision fuel."
+}
