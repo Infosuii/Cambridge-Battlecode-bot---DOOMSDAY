@@ -1,0 +1,6 @@
+{
+  "_doc": "Default objective-aligned reward (python/nfs/train/rewards.py). Terminal win/loss/tie + clipped margin dominate; dense terms are small, separately logged and ablatable (list component names in 'ablate': terminal, deposit, carry_shaping, economy, death, damage, objective). carry_potential must not exceed w_submitted.",
+  "reward": {"gamma": 0.9997, "win": 1.0, "tie": 0.0, "margin": 0.5, "margin_scale": 1000.0, "w_submitted": 0.0005,
+             "w_team_submitted": 0.0, "carry_potential": 0.0003, "w_gold": 1e-05, "w_death": 0.03, "w_damage": 2e-06,
+             "w_objective": 0.005, "ablate": []}
+}

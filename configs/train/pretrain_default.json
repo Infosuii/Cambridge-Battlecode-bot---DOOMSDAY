@@ -1,0 +1,6 @@
+{
+  "_doc": "Imitation pretraining + value regression on record shards (instructions only). Train/validation shards must come from build-dataset with build-splits partitions; final_eval shards are refused. Run: python tools/nfs.py pretrain --config configs/train/pretrain_default.json --model-config configs/model/fs_v1.json --train <train.npz> --validation <validation.npz> --run-dir artifacts/runs/pretrain-1 --i-authorize-training --time-limit-minutes 20",
+  "imitation": {"lr": 3e-4, "weight_decay": 1e-4, "batch_size": 512, "max_epochs": 30, "patience": 4, "min_delta": 1e-4,
+                "head_weights": {"draft_pick": 0.0}, "value_weight": 0.25, "prior_dropout": 0.0, "device": "auto", "seed": 1},
+  "_note": "draft_pick is ablated by default: the inherited draft_net_original is a separate validated model (CONTRACTS 5)."
+}

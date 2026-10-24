@@ -1,0 +1,190 @@
+{
+  "determinism": "Matches are deterministic for (wasm A, wasm B, map); re-running a cell or changing a seed does not create an independent sample. Uncertainty uses maps as clusters.",
+  "engine": {
+    "cli": "cambc 3.0.5",
+    "engine_version": "1.0.3",
+    "fuel": "official default; the CLI fuel override flag is forbidden",
+    "max_concurrent_matches": 4,
+    "release": true
+  },
+  "framework_checks": [
+    {
+      "id": "reference_preservation",
+      "pass_rule": "all equal",
+      "schedule": null,
+      "what": "sha256 of references/builds/*.wasm equal manifest.json and protocol"
+    },
+    {
+      "id": "reproducibility",
+      "pass_rule": "replay member, both .fuel members, stdout members and summary.json byte-identical for every repeat",
+      "schedule": "repro",
+      "what": "same (wasm A, wasm B, map) run twice in separate folders"
+    },
+    {
+      "id": "teacher_equivalence",
+      "pass_rule": "replay.repl26a and summary.json byte-identical on every cell; .fuel members reported (expected identical when the code section equals the original)",
+      "profile": "teacher_exact",
+      "schedule": "equivalence",
+      "what": "all heads off vs the original reference cells"
+    },
+    {
+      "id": "neutral_credit_equivalence",
+      "pass_rule": "replay.repl26a and summary.json byte-identical on every cell (identical actions); per-turn fuel overhead reported from .fuel members",
+      "profile": "neutral_credit",
+      "schedule": "equivalence",
+      "what": "all heads shadow, zero residual, kFuelCredit"
+    },
+    {
+      "id": "neutral_real_divergence",
+      "pass_rule": "MEASUREMENT, not pass/fail: cells with divergent replays, first divergent round, outcome flips, margin deltas and fuel overhead are reported, never hidden",
+      "profile": "neutral_real",
+      "schedule": "equivalence",
+      "what": "all heads shadow, no credit"
+    },
+    {
+      "id": "dev_untrained_plumbing",
+      "pass_rule": "0 bot faults, 0 diagnostics codes, 0 invalid actions and per-head call/fallback/budget counters present in NFT1 telemetry; win rates are NOT evaluated",
+      "profile": "dev_untrained",
+      "schedule": "smoke",
+      "what": "every head active with seeded untrained weights (plumbing only)"
+    },
+    {
+      "id": "per_head_shadow",
+      "pass_rule": "0 faults; with kFuelCredit identical replays; without credit divergence measured as in neutral_real",
+      "profile": "per-head shadow builds (one head shadow, rest off)",
+      "schedule": "equivalence",
+      "what": "each head in isolation"
+    },
+    {
+      "id": "release_config_audit",
+      "pass_rule": "every verify_release check passes",
+      "schedule": null,
+      "what": "tools/verify_release.py on the packaged release ZIP"
+    },
+    {
+      "id": "fuel_profile",
+      "pass_rule": "release: fuelExhausted entries <= 1.25x original + 4 on the scenario cells; per-turn p99/p99.9/max reported; dev: per-head fuel and budget refusals reported; low-fuel fallback additionally covered by native budget tests (B)",
+      "profile": "release and dev telemetry builds",
+      "schedule": "fuel_profile",
+      "what": "typical, many entities, crowded combat, late game, low fuel"
+    },
+    {
+      "id": "smoke",
+      "label": "untrained framework check",
+      "pass_rule": "all cells complete, 0 faults; results reported as untrained-framework checks, never as learning or strength evidence",
+      "profile": "release (untrained heads off) and dev_untrained",
+      "schedule": "smoke",
+      "what": "vs original, v47, first-hour, both sides"
+    }
+  ],
+  "gate": {
+    "alpha_one_sided": 0.05,
+    "benefit": {
+      "pooled_d_win_lower_gt": 0.0
+    },
+    "engine_version": "1.0.3",
+    "faults_max": 0,
+    "fuel": {
+      "entries_ratio_max": 1.25,
+      "entries_slack": 4,
+      "games_ratio_max": 1.25,
+      "games_slack": 2
+    },
+    "incumbent": {
+      "original": {
+        "d_win_lower_min": -0.1,
+        "d_win_point_min": 0.0
+      },
+      "other_references": {
+        "d_win_lower_min": -0.2,
+        "d_win_point_min": -0.05
+      }
+    },
+    "invalid_actions_max": 0,
+    "n_boot": 20000,
+    "original": {
+      "d_margin_lower_min": -100.0,
+      "d_win_lower_min": -0.1,
+      "d_win_point_min": 0.0
+    },
+    "other_references": {
+      "d_margin_lower_min": -150.0,
+      "d_win_lower_min": -0.2,
+      "d_win_point_min": -0.05
+    },
+    "override_reason_min_chars": 20,
+    "primary_reference": "original",
+    "required_opponents": [
+      "original",
+      "v47",
+      "first-hour",
+      "v50"
+    ],
+    "seed": 20261024
+  },
+  "ledger": {
+    "append_only": true,
+    "file": "evaluation/ledger.jsonl",
+    "hash_chained": true,
+    "rule": "one final evaluation per candidate sha256 and per candidate family; a second requires a recorded reason (>= 20 chars) and is reported"
+  },
+  "map_label": "reused_benchmark",
+  "protocol_version": "nfs-eval-v1",
+  "references": {
+    "first-hour": {
+      "code_section_sha256": "87f353d1de4c34549381cef07d73fa4daa56da88644b8f4b6b58d4b7294c3c1f",
+      "source_tree_sha256": "b815a5b83234c742d8ce351676a4b9455a17dbbbb5449cb0c9534fe615883785",
+      "wasm": "references/builds/first-hour.wasm",
+      "wasm_sha256": "21bf0e3ee849cbe933ef83f92afc595f69a5c771cf8c487b020747677c27773e"
+    },
+    "original": {
+      "code_section_sha256": "02739407c4f11392261a544e702611c3a8d95a3d848c5a87ed3842eead890136",
+      "source_tree_sha256": "6ee25fcbaf93013ba4eb254b77ac49d2564933b7ba059368f5caa538591de309",
+      "wasm": "references/builds/original.wasm",
+      "wasm_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442"
+    },
+    "v47": {
+      "code_section_sha256": "bda7a2f728def9f06356934c9b5ed51df4fac9a014ec1ed23dc55a56fb7ffa59",
+      "source_tree_sha256": "b1e25e863df95b73c1a53ca4ce9196415a21d683d5ca4d5bd7ab238162f8c380",
+      "wasm": "references/builds/v47.wasm",
+      "wasm_sha256": "1d26e69451fe5752e3fd4c24aabda9cda789916dbf7127f04193a78b60db894f"
+    },
+    "v50": {
+      "code_section_sha256": "f157548c96c985042c9261bea152af1bc74c1cb838583cfbf0441bf9cd499c70",
+      "source_tree_sha256": "ea804ee3a9e4cbc817bd74852cb74956a15ad9d3d3a3a733252895fcbb8a0c20",
+      "wasm": "references/builds/v50.wasm",
+      "wasm_sha256": "9c367348be4969c0d0daf4a55fee7abd8a7e373350da2d879c50735ba7539973"
+    }
+  },
+  "schedules": {
+    "equivalence": {
+      "file": "evaluation/schedules/equivalence.json",
+      "sha256": "c442d066f03fec861683a5d323885000b7f35924cd0c7285222ec18b682ee496"
+    },
+    "final": {
+      "file": "evaluation/schedules/final.json",
+      "sha256": "d9c001717affe012c66cf8cb63d979ea15c0ebfea3f3812befbee3b5d44e3fb8"
+    },
+    "fuel_profile": {
+      "file": "evaluation/schedules/fuel_profile.json",
+      "sha256": "7db8280f67ac75c2d04b3b1da7846fbf784b8c558cb3e762b7d48f1480aa5b6f"
+    },
+    "map_partitions": {
+      "file": "evaluation/schedules/map_partitions.json",
+      "sha256": "9c5361a56c8aa71f3db27c22dedffa6580f0e66773a86a11e13e82c655cdd2c5"
+    },
+    "repro": {
+      "file": "evaluation/schedules/repro.json",
+      "sha256": "d8793c218b5e6aeca1fd77ad9bf8a2801ff9e22f9d2b5935dfac4e41be012d0a"
+    },
+    "selection": {
+      "file": "evaluation/schedules/selection.json",
+      "sha256": "c13d62ecfe78602fa3b3f794a84e95c1c98d2dd369ab7e0cec9d7c813d84a4d5"
+    },
+    "smoke": {
+      "file": "evaluation/schedules/smoke.json",
+      "sha256": "383ea6d394d51548ce6eea606be2bbd7af808a29e3508fc60b184c1b99c5e5c3"
+    }
+  },
+  "written_before_candidate_results": true
+}

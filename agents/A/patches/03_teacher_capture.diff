@@ -1,0 +1,221 @@
+diff --git a/bot/src/bot.cpp b/bot/src/bot.cpp
+--- a/bot/src/bot.cpp
++++ b/bot/src/bot.cpp
+@@ -26,6 +26,7 @@
+ #include <variant>
+ 
+ namespace d = cambc::detail;
++#include "nn_teacher.h" // teacher captures: compile-time gated, no code with every head off
+ 
+ int nova_map_id(int w, int h, unsigned size, int groups); // draft.cpp: official map index, -1 = unseen
+ float a2_gem_density(); // draft.cpp: camp gems per tile, -1 = unreadable
+@@ -533,6 +534,31 @@
+ void Bot::shop() {
+     PROF(shop);
+     auto& me = bc::self();
++    if constexpr (nnt::kShop) {
++        // Teacher capture (nn_teacher.h): the first purchase the loop below will make, computed before buying.
++        int g = gold, step_i = -1, want = 0;
++        bool lock = false;
++        std::uint32_t item = 0;
++        try {
++            if (tune::kAltarLocks && g >= 10 && me.can_buy(bc::consumable_type::altar_lock)) lock = true, g -= 10;
++            if (g >= 30) {
++                const auto counts = me.item_count();
++                int k = 0;
++                for (const auto& step : build_for(type)) {
++                    int owned = static_cast<int>(counts[step.item]);
++                    if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem]) * 5;
++                    const int wv = std::min(step.total - owned, g / 30);
++                    if (wv > 0) {
++                        step_i = k, want = wv, item = static_cast<std::uint32_t>(step.item);
++                        break;
++                    }
++                    ++k;
++                }
++            }
++        } catch (...) {
++        }
++        nn_teacher_access::cap_shop(*this, lock, step_i, item, want);
++    }
+     try {
+         if (tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
+             me.buy(bc::consumable_type::altar_lock);
+@@ -666,6 +692,7 @@
+         cands[n++] = {q, dq * 4 + ((dir.x != 0 && dir.y != 0) ? 0 : 1)};
+     }
+     std::sort(cands.begin(), cands.begin() + n, [](const Cand& a, const Cand& b) { return a.score < b.score; });
++    if constexpr (nnt::kMove) nn_teacher_access::cap_steps(*this, cands.data(), n);
+ #if A2_BRIDGES
+     if (n == 0 && w.bridges_on && !walked && bridge_hold < 12)
+         for (vec2 dir : kDirs) {
+@@ -1449,6 +1476,7 @@
+             best_value = value;
+         }
+     }
++    if constexpr (nnt::kCast) nn_teacher_access::cap_cast(*this, e, best, best_value, dash_slot, dash_aim);
+     if (dash_slot >= 0) {
+         try {
+             if (bc::self().abilities()[dash_slot].use(dash_aim)) {
+@@ -1789,6 +1817,7 @@
+                 best = q;
+             }
+         }
++    if constexpr (nnt::kWard) nn_teacher_access::cap_ward(*this, best, best_d);
+     if (best.x < 0) return false;
+     try {
+         if (me.place_ward(best)) {
+@@ -2767,6 +2796,7 @@
+     // Gem carriers demand a bigger margin: dying hands the bag to the killer.
+     const float risk = gems >= 60 ? 2.0f : gems >= 25 ? 1.4f : 1.0f;
+     const float ci_risk = (type == bc::champion_type::cassi || type == bc::champion_type::issac) ? tune::kCiRisk : 1.0f;
++    if constexpr (nnt::kFight) nn_teacher_access::cap_fight_begin(*this, nearest_d, ttd, threat_on_me, risk);
+ 
+     // Pick the enemy we kill fastest relative to what it is worth.
+     const EnemyRec* target = nullptr;
+@@ -2819,6 +2849,7 @@
+         }
+ #endif
+         const float key = ttk / worth;
++        if constexpr (nnt::kFight) nn_teacher_access::cap_enemy(e, key, ttk, worth, dist);
+         if (key < best_key) {
+             best_key = key;
+             target = &e;
+@@ -2966,6 +2997,7 @@
+     }
+     // Team commander (APEX_TFC): a lower-slot ally within 8 that has issued a fight order leads; otherwise we
+     // search the team plans ourselves and, with a clear verdict, issue the order in our claim slot.
++    if constexpr (nnt::kFight) nn_teacher_access::cap_formula(target, target_ttk, winning, in_danger);
+     bool tfc_applied = false;
+     if ((tune::kTfc || tune::packOn) && nearest_d <= tune::kTsRange && w.groups.size() < 112) {
+         if (enemy_handles.empty())
+@@ -2988,6 +3020,7 @@
+             order = team_decide(order_target);
+             commander = order != 0;
+         }
++        if constexpr (nnt::kFight) nn_teacher_access::cap_tfc(order);
+         if (order == 1) {
+             const EnemyRec* ft = nullptr;
+             for (const auto& e : w.enemies)
+@@ -3227,6 +3260,7 @@
+         // Fight or run by search (tactical_decide): both plans played forward with the full kits and judged with
+         // the learned exchange rates; a clear verdict overrides the formula, c1 still carries it out.
+         const int verdict = tactical_decide();
++        if constexpr (nnt::kFight) nn_teacher_access::cap_td_verdict(verdict);
+         PROF_CHECK("e_td");
+ #if A2_TD_AUTH
+         // A fight verdict may clear the formula's danger only for risks the model represents: every enemy that could
+@@ -3544,6 +3578,7 @@
+         }
+     }
+ #endif
++    if constexpr (nnt::kFight) nn_teacher_access::cap_fight_final(target, winning, in_danger, threat_on_me);
+     if (tune::kTribDeny & 2) {
+         if (in_danger && !winning) try_lock_altar(); // leaving: cancel whatever tribute we can reach
+         else if (deny_tribute()) return true;
+@@ -4110,6 +4145,7 @@
+         (brain::state.max_group < tune::kBigMapGems || raceMono);
+     const bool go = force_tribute || wins || late || end_bank || rhythm || edge || gems >= tune::kTributeCarry ||
+         dist <= tune::kTributeNearDist + static_cast<int>(std::lround(2.0f * LABK(36))) || (threatened && gems >= 20 && dist <= 8);
++    if constexpr (nnt::kBank) nn_teacher_access::cap_bank(*this, go, dist, wins, late, end_bank, rhythm, edge, threatened, use_safe);
+ #if A2_ALTARFIX & 2
+     if (!go) {
+         tribute_stuck = 0;
+@@ -5197,6 +5233,7 @@
+ #if A2_CAMPNET
+     if (best >= 0 && n_cn >= 2) best = campnet_pick(cn, n_cn, best, best_need, best_score);
+ #endif
++    if constexpr (nnt::kObjective) nn_teacher_access::cap_objective(*this, top, n_top, best, best_need, best_score, participants_hint);
+     return best;
+ }
+ 
+@@ -6089,6 +6126,7 @@
+             target_group = kClaimDead;
+             write_claim(kClaimDead);
+         }
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::dead);
+         // Dead turns have the whole budget free: use it to precompute distance fields.
+         if (inited) build_fields();
+         return;
+@@ -6367,14 +6405,17 @@
+     if (a2tel::fleehit_round == round) a2tel::bump(13u * 4096 + (walked ? 1u : 0u) + (cast_done ? 2u : 0u));
+ #endif
+     if (fought) {
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::enemy);
+         if (std::string_view(mode) == "idle") mode = "enemy";
+         if (tune::kDistress && std::string_view(mode).starts_with("flee")) share_sighting(true);
+         opportunistic_attack();
+     } else if (win_now() && hp >= max_hp * tune::kDangerHp && tribute_if_needed()) {
+         // Our bag finishes the race: bank it before anything else (shopping can wait).
+         mode = "tribute-win";
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::tribute_win);
+     } else if (go_home_if_needed()) {
+         if (std::string_view(mode) == "idle") mode = "home";
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::home);
+ #if (A2_TEAM & 2)
+     } else if (a2_join_fight()) {
+ #endif
+@@ -6383,10 +6424,13 @@
+     } else if (fog_regroup()) {
+ #endif
+     } else if (hunt()) {
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::hunt);
+     } else if (tribute_if_needed()) {
+         mode = "tribute";
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::tribute);
+     } else {
+         if (!farm()) mode = "nofarm";
++        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, std::string_view(mode) == "nofarm" ? nnt::Chain::nofarm : nnt::Chain::farm);
+         opportunistic_attack();
+         support_casts();
+     }
+diff --git a/bot/src/draft.cpp b/bot/src/draft.cpp
+--- a/bot/src/draft.cpp
++++ b/bot/src/draft.cpp
+@@ -9,6 +9,7 @@
+ #endif
+ 
+ using cd = bc::champion_draft;
++#include "nn_teacher.h" // draft capture (compile-time gated)
+ namespace {
+ // Candidate priority lists; tests pick the preset (see docs/MASTER_PLAN.md, draft results).
+ constexpr cd kPresets[][11] = {
+@@ -662,15 +663,18 @@
+         for (int r = 0; r < nr; ++r) a += dn::W1[rows[r] * dn::kHid + h] * rw[r];
+         h_base[h] = a;
+     }
++    if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_begin();
+     for (int c = 0; c < 12; ++c) {
+         if (taken[c]) continue;
+         float z = dn::b2;
+         const float* wc = dn::W1 + (16 + c) * dn::kHid; // the candidate's own pick row
+         for (int h = 0; h < dn::kHid; ++h) z += dn::w2[h] * fast_tanh(h_base[h] + wc[h]);
++        if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_score(c, z);
+         if (z > best_z) best_z = z, best = c;
+     }
+     (void)x;
+     if (best < 0) return false;
++    if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_pick(best); // draft_pick head hook: substitute `best` here
+     bc::draft::pick(static_cast<cd>(best));
+ #if A2_MLPLAN
+     // Our last pick: choose the game plan for this comp on this map (net with the plan one-hot set) and pass it to the
+diff --git a/bot/src/tsearch.cpp b/bot/src/tsearch.cpp
+--- a/bot/src/tsearch.cpp
++++ b/bot/src/tsearch.cpp
+@@ -11,6 +11,8 @@
+ 
+ #include <cstring>
+ #include <variant>
++
++#include "nn_teacher.h"
+ 
+ namespace d = cambc::detail;
+ 
+@@ -979,6 +981,7 @@
+     fight += A2_TS_FIGHT_BIAS; // refit of the verdict for the vision-aware playouts (+ leans to fight)
+ #endif
+     const float margin = std::max(0.0f, tune::kTsDecideMargin + LABK(30)); // lab knob 30: decide margin
++    if constexpr (nnt::kFight) nn_teacher_access::cap_td_values(fight, run, margin);
+     if (fight > run + margin) A2RET(5, 1);
+     if (run > fight + margin) A2RET(6, -1);
+     A2RET(4, 0);

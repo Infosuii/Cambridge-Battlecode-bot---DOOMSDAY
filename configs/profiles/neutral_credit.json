@@ -1,0 +1,13 @@
+{
+  "name": "neutral_credit",
+  "description": "Neutral proof: every head shadow with a zero-residual model; teacher fuel queries see neural spend credited back (kFuelCredit), so teacher admission decisions see the budget they would have had. Expected to reproduce teacher actions; not a release.",
+  "mode": "shadow",
+  "heads": {},
+  "model": "fs_v1_untrained",
+  "allow_active_status": [],
+  "allow_shadow_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "require_zero_residual": true,
+  "training": false, "telemetry": false, "fuel_credit": true, "selftest": false, "strip_lab": false,
+  "seed": 0,
+  "playable": false
+}

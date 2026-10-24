@@ -1,0 +1,121 @@
+diff --git a/bot/src/bot.cpp b/bot/src/bot.cpp
+--- a/bot/src/bot.cpp
++++ b/bot/src/bot.cpp
+@@ -1,6 +1,7 @@
+ // Apex champion logic: farm camp groups efficiently, bank gems at altars, shop on spawn,
+ // and take good fights while avoiding bad ones.
+ #include "bot.h"
++#include "nn_config.h"
+ #if A2_MLPLAN
+ #include "ml_plan.h"
+ #endif
+@@ -53,7 +54,7 @@
+ 
+ std::vector<BuildStep> build_for(bc::champion_type t) {
+     using it = bc::item_type;
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
+     {
+         // Engine lab build table (lab.h builds): a type with steps uses them instead of the presets below.
+         const int ti = static_cast<int>(t);
+@@ -3522,7 +3523,7 @@
+         }
+     }
+ #endif
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
+     {
+         // Engine lab (lab.h kinds 4 / 5): from the first turn an enemy is within 4, force the fight / run verdict for
+         // len rounds (kind -4 / -5: record only). The bot's own verdict is recorded in rec_after (1 fight, -1 run, 0 none).
+@@ -4033,7 +4034,7 @@
+ #if A2_ALTARFIX
+     if (w.no_bank || round < tribute_off_until) return false;
+ #endif
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
+     if (lab::active(static_cast<std::int32_t>(my_id), round, 3)) return false; // engine lab: hold the bag
+     if (lab::active(static_cast<std::int32_t>(my_id), round, 2)) lab::ctl.rec_after = (lab::ctl.rec_after < 0 ? 0 : lab::ctl.rec_after) + 1;
+ #endif
+@@ -5991,7 +5992,7 @@
+     keep_channel = false;
+     walked = false;
+     force_tribute = false;
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
+     {
+         // Engine lab intervention (lab.h): record the current choice, then forbid it / force or hold the bank trip.
+         const auto me_id = static_cast<std::int32_t>(my_id);
+@@ -6146,7 +6147,7 @@
+             if (e.hp > 0) a2bel::note(e.id, e.pos.x, e.pos.y, round, e.range, e.strength, e.hp);
+ #endif
+         if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
+         {
+             // Engine lab, death what-ifs (lab.h kinds 6 / 7; start at ctl.round unconditionally): 6 regroup = walk to the
+             // nearest living ally, playing normally once within 2 tiles; 7 home = walk to our spawn.
+diff --git a/bot/src/lab.h b/bot/src/lab.h
+--- a/bot/src/lab.h
++++ b/bot/src/lab.h
+@@ -2,6 +2,8 @@
+ // champion before a game; the bot applies it and records what it would have done. Shipped builds never include this.
+ #pragma once
+ #include <cstdint>
++
++#include "nn_config.h"
+ 
+ namespace lab {
+ struct Ctl {
+@@ -56,10 +58,18 @@
+ // (tsearch.cpp ts_decide), 32 caster micro risk, 33-35 economy passives, 36-39 banking, cohesion and ward distances,
+ // 40 middle-camp weight, 41 team-fight engage ratio, 42 altar prelocking, 43-44 early aggression and hunt range.
+ inline constexpr int kKnobs = 48;
++#if NN_STRIP_LAB // baked knobs as compile-time constants: gameplay values unchanged, no host can write them
++#ifdef A2_KNOBS
++inline constexpr float knobs[kKnobs] = {A2_KNOBS};
++#else
++inline constexpr float knobs[kKnobs] = {};
++#endif
++#else
+ #ifdef A2_KNOBS
+ inline float knobs[kKnobs] = {A2_KNOBS}; // a search result baked into a build (comma-separated, missing = 0)
+ #else
+ inline float knobs[kKnobs] = {};
++#endif
+ #endif
+ // The intervention starts at the first turn its condition holds (recorded in rec_round) and lasts len rounds.
+ inline bool active(std::int32_t me, std::int32_t round, std::int32_t kind) {
+diff --git a/bot/src/learner.h b/bot/src/learner.h
+--- a/bot/src/learner.h
++++ b/bot/src/learner.h
+@@ -6,6 +6,7 @@
+ // [6] camp-group state (0 reward..2 alive) [7] harmless [8] lower-claims/4 [9] higher-claims/4
+ // [10] hand score/3 [11] drain [12] siege [13] initiating [14] solo_job [15] need/4
+ #pragma once
++#include "nn_config.h"
+ #ifndef NOVA_LEARNER
+ #define NOVA_LEARNER 0
+ #endif
+@@ -16,7 +17,7 @@
+ #define A2_LAB 0
+ #endif
+ namespace learner {
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // lab learner (NN_STRIP_LAB: the shipped identity)
+ inline constexpr bool on = true;
+ inline float w_lab[16] = {};
+ inline float* const w = w_lab;
+diff --git a/bot/src/main.cpp b/bot/src/main.cpp
+--- a/bot/src/main.cpp
++++ b/bot/src/main.cpp
+@@ -3,8 +3,9 @@
+ 
+ #include "bot.h"
+ #include "draft.h"
++#include "nn_config.h"
+ 
+-#if A2_LAB
++#if A2_LAB && !NN_STRIP_LAB // lab host exports (NN_STRIP_LAB removes them)
+ #include "learner.h"
+ // Engine lab: the host finds the learner weights through this export.
+ extern "C" __attribute__((export_name("lab_learner_w"))) float* lab_learner_w() { return learner::w_lab; }

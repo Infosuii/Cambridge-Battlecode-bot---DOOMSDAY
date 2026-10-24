@@ -1,0 +1,25 @@
+{
+  "_doc": "Installed models (agent B). status: untrained | teacher_initialized | trained | validated. release_selection maps heads to models for the release profile; only validated, schema-compatible models are ever activated there (tools/install_models.py). Untrained models run only in dev_untrained/training/selftest (active) or neutral_* (shadow, zero residual).",
+  "version": 1,
+  "models": {
+    "fs_v1_untrained": {
+      "path": "models/fs_v1_untrained",
+      "status": "untrained",
+      "exportable": true,
+      "label": "synthetic seeded init, zero residual (teacher-neutral)"
+    },
+    "fs_v1_dev": {
+      "path": "models/fs_v1_dev",
+      "status": "untrained",
+      "exportable": true,
+      "label": "synthetic seeded init, non-zero residual, plumbing only"
+    },
+    "draft_net_original": {
+      "path": "models/draft_net_original",
+      "status": "trained",
+      "exportable": false,
+      "label": "inherited original draft network, used by the teacher"
+    }
+  },
+  "release_selection": {}
+}

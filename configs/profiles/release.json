@@ -1,0 +1,13 @@
+{
+  "name": "release",
+  "description": "Competition configuration. A head is active only if models/registry.json release_selection names a model for it AND that model's status is 'validated' and it is schema-compatible; every other head is off (compiled out). No training records, telemetry, credit or selftest. strip_lab=true removes inherited lab host controls/logs (knobs kept) - the lead must validate that change against the original before shipping.",
+  "mode": "active",
+  "heads": {},
+  "model": "release_selection",
+  "allow_active_status": ["validated"],
+  "allow_shadow_status": [],
+  "require_zero_residual": false,
+  "training": false, "telemetry": false, "fuel_credit": false, "selftest": false, "strip_lab": true,
+  "seed": 0,
+  "playable": true
+}

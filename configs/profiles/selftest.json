@@ -1,0 +1,13 @@
+{
+  "name": "selftest",
+  "description": "Every head shadow with the dev model; on the first turn the installed model runs fixed synthetic fixtures and prints NNST hash lines that python/nfs/models/reference.py reproduces bit-for-bit (in-engine parity check). Telemetry on. Not a release.",
+  "mode": "shadow",
+  "heads": {},
+  "model": "fs_v1_dev",
+  "allow_active_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "allow_shadow_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "require_zero_residual": false,
+  "training": false, "telemetry": true, "fuel_credit": false, "selftest": true, "strip_lab": false,
+  "seed": 3,
+  "playable": false
+}

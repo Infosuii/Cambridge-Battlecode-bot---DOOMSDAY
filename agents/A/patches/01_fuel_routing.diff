@@ -1,0 +1,352 @@
+diff --git a/bot/src/bot.cpp b/bot/src/bot.cpp
+--- a/bot/src/bot.cpp
++++ b/bot/src/bot.cpp
+@@ -17,6 +17,7 @@
+ #include "assess_model.h"
+ #endif
+ #include "runtime_budget.h"
++#include "nn_budget.h"
+ #include "tsearch.h"
+ #include "a2map.h"
+ 
+@@ -699,7 +700,7 @@
+     a2tel::CallCost a2_cost{9};
+ #endif
+     // A path search could suspend the turn (APEX_DET: a floor nearer its real cost, so it binds less often).
+-    if (bc::fuel_remaining() < (tune::kDet ? 9000 : tune::kMinMoveFuel)) return false;
++    if (nnb::teacher_left() < (tune::kDet ? 9000 : tune::kMinMoveFuel)) return false;
+     bc::bitboard blocked = w.static_blocked | w.unit_tiles;
+     blocked.set(pos, false);
+     const bc::bitboard goals = goals_in & ~blocked;
+@@ -1000,7 +1001,7 @@
+ 
+ // A route around the threat zone when it is at most A2_THREAT_DETOUR steps longer; false keeps the shortest route.
+ bool Bot::a2_route_around(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals) {
+-    if (bc::fuel_remaining() < tune::kMinMoveFuel * 2) return false;
++    if (nnb::teacher_left() < tune::kMinMoveFuel * 2) return false;
+     bc::bitboard zone = a2_threat_zone(w, round);
+     if (zone.is_empty() || !bit(zone, pos) && fdist(field, pos) <= 1) return false;
+     clear_bit(zone, pos);
+@@ -1061,7 +1062,7 @@
+ // longer than the shortest one. Returns false (use the shortest route) when no sighting is recent, no goal
+ // lies outside the zone, the detour is too long, or there is no fuel for a second search.
+ bool Bot::travel_around_threats(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals) {
+-    if (bc::fuel_remaining() < tune::kMinMoveFuel * 2) return false;
++    if (nnb::teacher_left() < tune::kMinMoveFuel * 2) return false;
+     bc::bitboard zone;
+     zone.clear();
+     bool any = false;
+@@ -2320,7 +2321,7 @@
+     PROF(escape);
+     esc_plan = {};
+     // Keep enough back that the turn never suspends (a suspended turn hands the chaser free hits).
+-    if (bc::fuel_remaining() < tune::kEscFuel || !bc::self().can_move()) {
++    if (nnb::teacher_left() < tune::kEscFuel || !bc::self().can_move()) {
+ #ifdef APEX_ESCDBG
+         if (bc::fuel_remaining() < tune::kEscFuel) std::printf("ESCSKIP R%d fuel %llu\n", round, static_cast<unsigned long long>(bc::fuel_remaining()));
+ #endif
+@@ -3255,7 +3256,7 @@
+             if (threat_on_me <= 0) threat_on_me = 1.0f;
+         }
+     }
+-    if (tune::kFightSim && target && nearest_d <= 7 && bc::fuel_remaining() > 30000) {
++    if (tune::kFightSim && target && nearest_d <= 7 && nnb::teacher_left() > 30000) {
+         // Play the skirmish forward both ways and keep the better plan.
+         std::vector<SimUnit> units;
+         SimUnit m;
+@@ -4865,8 +4866,8 @@
+     for (int oi = 0; oi < n_order; ++oi) {
+         // Out of fuel (huge maps, first turn): settle for the best group scored so far.
+         if (tune::kDet) {
+-            if (best >= 0 && (evaluated >= tune::kDetScoreN || bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety))) break;
+-        } else if ((oi & 3) == 3 && best >= 0 && bc::fuel_remaining() < tune::kScoreFloor)
++            if (best >= 0 && (evaluated >= tune::kDetScoreN || nnb::teacher_left() < static_cast<std::uint64_t>(tune::kDetSafety))) break;
++        } else if ((oi & 3) == 3 && best >= 0 && nnb::teacher_left() < tune::kScoreFloor)
+             break;
+         const int dist = order[oi].first;
+         const std::size_t gi = static_cast<std::size_t>(order[oi].second);
+@@ -5139,7 +5140,7 @@
+             phi[1] = static_cast<float>(g.gold) / 64.0f > 3.0f ? 3.0f : static_cast<float>(g.gold) / 64.0f;
+             score = learner::fix(score, phi);
+         }
+-        if (tune::kBelief && tune::kBeliefW > 0.0f && score > prune_bound() && !g.camps.empty() && bc::fuel_remaining() > (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 30000)) {
++        if (tune::kBelief && tune::kBeliefW > 0.0f && score > prune_bound() && !g.camps.empty() && nnb::teacher_left() > (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 30000)) {
+             // Enemies that could be at this group before we are done with it (beliefs), beyond what our side
+             // brings: contested jobs get champions caught alone.
+             const int finish = approach + wait + static_cast<int>(kill);
+@@ -5183,7 +5184,7 @@
+             top[i] = {static_cast<int>(gi), need, value, cost, score, finish};
+         }
+     }
+-    if (keep > 1 && n_top >= 2 && bc::fuel_remaining() > tune::kRouteFuel && (!A2_FIELDFIRST || w.fields_ready())) {
++    if (keep > 1 && n_top >= 2 && nnb::teacher_left() > tune::kRouteFuel && (!A2_FIELDFIRST || w.fields_ready())) {
+         bool bank = false;
+         const int pick = tune::kPlan ? plan_search(top, n_top, bank) : route_search(top, n_top);
+         PROF_CHECK("route1");
+@@ -5262,7 +5263,7 @@
+     int best_i = -1;
+     float best_rate = 0.0f;
+     for (int i = 0; i < n_top; ++i) {
+-        if (bc::fuel_remaining() < tune::kRouteFuel / 2) break;
++        if (nnb::teacher_left() < tune::kRouteFuel / 2) break;
+         const RouteCand& c = top[i];
+         const float sticky = c.gi == target_group ? tune::kStickiness : 1.0f;
+         float route = c.score; // the first target alone (stickiness included)
+@@ -5366,7 +5367,7 @@
+     // APEX_PLAN 2: the camp choice stays the greedy best (top[0]); the planner only decides whether to bank first.
+     if (tune::kPlan == 2) n_top = std::min(n_top, 1);
+     for (int i = 0; i < n_top; ++i) {
+-        if (bc::fuel_remaining() < tune::kRouteFuel / 2) break;
++        if (nnb::teacher_left() < tune::kRouteFuel / 2) break;
+         const RouteCand& c = top[i];
+         const float sticky = c.gi == target_group ? tune::kStickiness : 1.0f;
+         const float g1 = gems_of(c.gi);
+@@ -5452,8 +5453,8 @@
+     // otherwise only below the safety floor.
+     // The first turn (initialisation on the doubled budget) never farms: it ends near the floor on big maps.
+     const bool low_fuel = tune::kDet ? (field_calls == 0 || ts_ran_round == round ||
+-                                        bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 10000)
+-                                     : bc::fuel_remaining() < tune::kLowFuel;
++                                        nnb::teacher_left() < static_cast<std::uint64_t>(tune::kDetSafety) + 10000)
++                                     : nnb::teacher_left() < tune::kLowFuel;
+ #if APEX_PROFILE
+     ++prof::farm_calls;
+     prof::farm_low += low_fuel;
+@@ -5636,8 +5637,8 @@
+         }
+     }
+     if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);
+-    if (best < 0 && (tune::kDet ? ts_ran_round != round && bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
+-                                : bc::fuel_remaining() > tune::kLowFuel / 2)) {
++    if (best < 0 && (tune::kDet ? ts_ran_round != round && nnb::teacher_left() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
++                                : nnb::teacher_left() > tune::kLowFuel / 2)) {
+         // Nothing is safe to finish alone: chip at the best big camp anyway. Damage persists,
+         // and the disengage rule walks us out before the camp kills us.
+         best = score_groups(team_size, best_need, best_score);
+@@ -5811,7 +5812,7 @@
+         auto room = [&] {
+             // NOVA_FUEL_OPEN keeps a route-search-sized reserve: the per-champion work below still
+             // needs to clear the 40k route-search gate after prospecting has taken its share.
+-            return bc::fuel_remaining() >
++            return nnb::teacher_left() >
+                 full + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);
+         };
+         if (!w.altar_ready && quota > 0 && room()) w.ensure_altar_field(), --quota;
+@@ -5826,14 +5827,14 @@
+         return;
+     }
+     if (!w.altar_ready &&
+-        bc::fuel_remaining() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
++        nnb::teacher_left() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
+         w.ensure_altar_field();
+     if ((tune::kTerritory < 1.0f || tune::kNumbersInvade < 99) && !w.enemy_ready &&
+-        bc::fuel_remaining() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
++        nnb::teacher_left() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
+         w.ensure_enemy_field();
+-    if (!w.fields_ready() && bc::fuel_remaining() > tune::kFieldBuildReserve + 15000) w.prepare_field_order();
++    if (!w.fields_ready() && nnb::teacher_left() > tune::kFieldBuildReserve + 15000) w.prepare_field_order();
+     while (!w.fields_ready()) {
+-        const std::uint64_t left = bc::fuel_remaining();
++        const std::uint64_t left = nnb::teacher_left();
+         if (left < tune::kFieldBuildReserve || w.field_order.empty()) return;
+         PROF(field);
+         if (!w.build_next_group_field(left - tune::kFieldBuildReserve)) return;
+@@ -6346,10 +6347,10 @@
+     // holes (islands: 14 of 46 by round 250), and straight-line distances sent champions at camps they cannot reach.
+     if (inited && tune::kDet && !w.fields_ready() && w.enemies.empty()) {
+         const std::uint64_t full = static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks() + 3000;
+-        if (!w.altar_ready && bc::fuel_remaining() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.ensure_altar_field();
++        if (!w.altar_ready && nnb::teacher_left() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.ensure_altar_field();
+         else {
+             w.prepare_field_order();
+-            if (!w.field_order.empty() && bc::fuel_remaining() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.build_next_group_field(full);
++            if (!w.field_order.empty() && nnb::teacher_left() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.build_next_group_field(full);
+         }
+     }
+ #endif
+diff --git a/bot/src/draft.cpp b/bot/src/draft.cpp
+--- a/bot/src/draft.cpp
++++ b/bot/src/draft.cpp
+@@ -1,5 +1,6 @@
+ // Draft: farming speed first, then durability. Both teams may own the same champion.
+ #include "draft.h"
++#include "nn_budget.h"
+ #include "common.h"
+ #include "strategy.h"
+ #include <cstdio>
+@@ -539,7 +540,7 @@
+         sx /= sn, sy /= sn;
+         const int ncham = static_cast<int>(std::min<std::uint32_t>(std::max<std::uint32_t>(size, 1), kPlanSlots));
+         Plan best = plan_once(G, sx, sy, ncham, 0.0f);
+-        for (int r = 0; r < A2_DP_ROLLOUTS && bc::fuel_remaining() > 150000; ++r) {
++        for (int r = 0; r < A2_DP_ROLLOUTS && nnb::teacher_left() > 150000; ++r) {
+             const Plan p = plan_once(G, sx, sy, ncham, 0.3f);
+             if (p.value > best.value) best = p;
+         }
+diff --git a/bot/src/runtime_budget.h b/bot/src/runtime_budget.h
+--- a/bot/src/runtime_budget.h
++++ b/bot/src/runtime_budget.h
+@@ -11,6 +11,7 @@
+ #include <cstdint>
+ 
+ #include "common.h"
++#include "nn_budget.h"
+ 
+ namespace rb {
+ 
+@@ -26,7 +27,7 @@
+ // Engine search cost model: (levels + 16) x chunks plus a fixed overhead (world.cpp, measured to 0.3%).
+ inline constexpr std::uint64_t kSearchFixed = 3000;
+ 
+-inline std::uint64_t left() { return bc::fuel_remaining(); }
++inline std::uint64_t left() { return nnb::teacher_left(); } // teacher fuel view (nn_budget.h)
+ 
+ // True when `cost` can start and still leave `reserve`.
+ inline bool fits(std::uint64_t cost, std::uint64_t reserve) {
+diff --git a/bot/src/tsearch.cpp b/bot/src/tsearch.cpp
+--- a/bot/src/tsearch.cpp
++++ b/bot/src/tsearch.cpp
+@@ -1,6 +1,7 @@
+ // Tactical search, bot side: snapshot the local fight into a ts::State, play every root candidate forward
+ // against two enemy models while fuel lasts, and carry out the best one (APEX_TSEARCH).
+ #include "bot.h"
++#include "nn_budget.h"
+ #include "fight.h"
+ #include "tsearch.h"
+ #include "a2map.h"
+@@ -121,7 +122,7 @@
+ // Loads one champion kit per call (designs cost fuel to read): run on calm turns so fights never pay it.
+ void Bot::ts_prewarm() {
+     static int next = 0;
+-    if (next >= ((A2_KITFIX & 1) ? 13 : 12) || bc::fuel_remaining() < 60000) return;
++    if (next >= ((A2_KITFIX & 1) ? 13 : 12) || nnb::teacher_left() < 60000) return;
+     kit_of(static_cast<bc::champion_type>(next++));
+ }
+ 
+@@ -444,7 +445,7 @@
+         return true;
+     }
+ #endif
+-    const auto fuel0 = bc::fuel_remaining();
++    const auto fuel0 = nnb::teacher_left();
+     if (fuel0 < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) return false;
+     ts::State s;
+     ts::Map m;
+@@ -529,7 +530,7 @@
+         for (int i = 0; i < nc; ++i) {
+ #if A2_TSX
+             // Fuel-guarded: a candidate left unscored is left out of the rollouts (it keeps no stale value).
+-            if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) {
++            if (nnb::teacher_left() < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) {
+                 legal[i] = false;
+                 stat[i] = -1e30f;
+                 continue;
+@@ -557,7 +558,7 @@
+         for (int i = 0; i < nc; ++i) {
+             if (!legal[i]) continue;
+             // Never let the search run the turn out of fuel: a suspended turn loses the action.
+-            const std::uint64_t left = bc::fuel_remaining();
++            const std::uint64_t left = nnb::teacher_left();
+             if (left < static_cast<std::uint64_t>(tune::kTsReserve) + 2 * worst) goto done;
+             ts::State c = s;
+             if (!ts::apply_root(c, m, cands[i])) {
+@@ -568,7 +569,7 @@
+             pass_v[pass][i] = ts::evaluate(c, wts);
+             ++passes[i];
+             ++rollouts;
+-            const std::uint64_t now = bc::fuel_remaining();
++            const std::uint64_t now = nnb::teacher_left();
+             if (now < left) worst = std::max(worst, left - now);
+         }
+ done:
+@@ -794,7 +795,7 @@
+ #else
+ #define A2RET(st, v) return v
+ #endif
+-    if (bc::fuel_remaining() < (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) + 10000
++    if (nnb::teacher_left() < (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) + 10000
+                                            : static_cast<std::uint64_t>(tune::kTsReserve) + 30000))
+         A2RET(1, 0);
+     ts::State s;
+@@ -802,7 +803,7 @@
+     const EnemyRec* eref[ts::kMaxUnits] = {};
+     if (!ts_snapshot(s, m, eref)) A2RET(0, 0);
+     if (tune::kTsPhantom && tune::kBelief &&
+-        (tune::kDet || bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kTsReserve) + 45000)) {
++        (tune::kDet || nnb::teacher_left() > static_cast<std::uint64_t>(tune::kTsReserve) + 45000)) {
+         // Reinforcements (APEX_TS_PHANTOM): enemies we cannot see that could join before the horizon, from the
+         // beliefs (expected enemies within reach minus the visible ones there). Each whole expected one enters the
+         // playouts as a fresh copy of the nearest visible enemy, a horizon's walk away on the enemies' side.
+@@ -903,7 +904,7 @@
+         reserve = static_cast<std::uint64_t>(tune::kTsBudgetReserve);
+         const auto n2 = static_cast<std::uint64_t>(s.n * s.n);
+         worst = static_cast<std::uint64_t>(tune::kTsUnitCost) * n2 * static_cast<std::uint64_t>(rounds + 1) / 4;
+-        const std::uint64_t left = bc::fuel_remaining();
++        const std::uint64_t left = nnb::teacher_left();
+         while (rounds > 1 && left < reserve + 2 * worst) {
+             --rounds;
+             worst = static_cast<std::uint64_t>(tune::kTsUnitCost) * n2 * static_cast<std::uint64_t>(rounds + 1) / 4;
+@@ -936,7 +937,7 @@
+     for (int model = 0; model < n_models; ++model) {
+         bool complete = true;
+         for (int plan = 0; plan < 2; ++plan) { // 0 fight, 1 run
+-            const std::uint64_t left = bc::fuel_remaining();
++            const std::uint64_t left = nnb::teacher_left();
+             // Budgeted: only the playouts this model still needs must fit; unbudgeted: the old rule.
+             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+             if (left < reserve + need) {
+@@ -949,7 +950,7 @@
+             ts::act(c, m, 0, pol); // our turn, now
+             ts::rollout(c, m, pol, rounds);
+             v[model][plan] = tune::kTsLocalNet ? plan_value(s, c, m, round, wts.alive) : ts::evaluate(c, wts);
+-            const std::uint64_t now = bc::fuel_remaining();
++            const std::uint64_t now = nnb::teacher_left();
+ #if A2_TEL
+             if (left > now) a2tel::td_cost(std::min(s.n, 8), std::min(rounds, 3), left - now);
+ #endif
+@@ -991,7 +992,7 @@
+ int Bot::team_decide(std::uint32_t& focus_handle) {
+     PROF(tfc);
+     focus_handle = 0;
+-    if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kTsReserve) + 30000) return 0;
++    if (nnb::teacher_left() < static_cast<std::uint64_t>(tune::kTsReserve) + 30000) return 0;
+     ts::State s;
+     ts::Map m;
+     const EnemyRec* eref[ts::kMaxUnits] = {};
+@@ -1030,7 +1031,7 @@
+     for (int model = 0; model < 2; ++model) {
+         bool complete = true;
+         for (int plan = 0; plan < 3; ++plan) { // 0 status quo, 1 all fight, 2 all run
+-            const std::uint64_t left = bc::fuel_remaining();
++            const std::uint64_t left = nnb::teacher_left();
+             if (left < static_cast<std::uint64_t>(tune::kTsReserve) + 2 * worst) {
+                 complete = false;
+                 break;
+@@ -1041,7 +1042,7 @@
+             ts::act(c, m, 0, pol);
+             ts::rollout(c, m, pol, tune::kTfcRounds);
+             v[model][plan] = ts::evaluate(c, wts);
+-            const std::uint64_t now = bc::fuel_remaining();
++            const std::uint64_t now = nnb::teacher_left();
+             if (now < left) worst = std::max(worst, left - now);
+         }
+         if (!complete) break;
+diff --git a/bot/src/world.cpp b/bot/src/world.cpp
+--- a/bot/src/world.cpp
++++ b/bot/src/world.cpp
+@@ -1,5 +1,6 @@
+ // World model: caches terrain and camp groups once, then tracks what each champion sees.
+ #include "world.h"
++#include "nn_budget.h"
+ #include "a2map.h"
+ 
+ #include <cstring>
+@@ -640,7 +641,7 @@
+             continue;
+         }
+         int steps = round - b.round;
+-        if (steps <= 0 || bc::fuel_remaining() < min_fuel) continue; // a later turn catches up
++        if (steps <= 0 || nnb::teacher_left() < min_fuel) continue; // a later turn catches up
+         if (steps > 6) {
+             b.reach = enemy_walk;
+             steps = 0;

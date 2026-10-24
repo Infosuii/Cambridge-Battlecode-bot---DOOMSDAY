@@ -1,0 +1,13 @@
+{
+  "name": "dev_untrained",
+  "description": "PLUMBING ONLY: every head active with seeded untrained non-zero-residual weights (fs_v1_dev) and telemetry. Never a playable release; plays worse than the teacher by design.",
+  "mode": "active",
+  "heads": {},
+  "model": "fs_v1_dev",
+  "allow_active_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "allow_shadow_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "require_zero_residual": false,
+  "training": false, "telemetry": true, "fuel_credit": false, "selftest": false, "strip_lab": false,
+  "seed": 1,
+  "playable": false
+}

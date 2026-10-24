@@ -1,0 +1,566 @@
+{
+  "claim": "reference-only measurements (no candidate exists); maps are reused benchmarks",
+  "parts": {
+    "reference/repro": {
+      "schedule": "repro",
+      "cells": 8,
+      "engine_matches": 8,
+      "candidate_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442",
+      "engine_versions": [
+        "1.0.3"
+      ],
+      "per_opponent": {
+        "original": {
+          "games": 8,
+          "wins": 4.0,
+          "fuel_exhausted_entries": 22,
+          "fuel_exhausted_per_game": 2.75,
+          "games_with_fuel_exhaustion": 4,
+          "per_game": [
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                712,
+                861
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                712,
+                861
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            }
+          ],
+          "turn_p99_max": 98880.0,
+          "turn_max": 100000,
+          "turns_over_95pct": 998,
+          "faults": 0
+        }
+      },
+      "reproducible": true
+    },
+    "reference/equivalence": {
+      "schedule": "equivalence",
+      "cells": 24,
+      "engine_matches": 18,
+      "candidate_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442",
+      "engine_versions": [
+        "1.0.3"
+      ],
+      "per_opponent": {
+        "original": {
+          "games": 12,
+          "wins": 6.0,
+          "fuel_exhausted_entries": 24,
+          "fuel_exhausted_per_game": 2.0,
+          "games_with_fuel_exhaustion": 5,
+          "per_game": [
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 3,
+              "rounds": [
+                385,
+                793,
+                795
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                712,
+                861
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "B",
+              "entries": 1,
+              "rounds": [
+                117
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 9,
+              "rounds": [
+                89,
+                90,
+                336,
+                418,
+                419,
+                606,
+                607,
+                652,
+                653
+              ]
+            }
+          ],
+          "turn_p99_max": 98880.0,
+          "turn_max": 100000,
+          "turns_over_95pct": 656,
+          "faults": 0
+        },
+        "v47": {
+          "games": 12,
+          "wins": 3.0,
+          "fuel_exhausted_entries": 17,
+          "fuel_exhausted_per_game": 1.4167,
+          "games_with_fuel_exhaustion": 3,
+          "per_game": [
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 2,
+              "rounds": [
+                724,
+                726
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 8,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                463,
+                464,
+                1133,
+                1134
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 7,
+              "rounds": [
+                89,
+                90,
+                249,
+                388,
+                389,
+                571,
+                572
+              ]
+            }
+          ],
+          "turn_p99_max": 98930.52,
+          "turn_max": 100000,
+          "turns_over_95pct": 325,
+          "faults": 0
+        }
+      }
+    },
+    "reference/smoke": {
+      "schedule": "smoke",
+      "cells": 48,
+      "engine_matches": 40,
+      "candidate_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442",
+      "engine_versions": [
+        "1.0.3"
+      ],
+      "per_opponent": {
+        "first-hour": {
+          "games": 16,
+          "wins": 10.0,
+          "fuel_exhausted_entries": 26,
+          "fuel_exhausted_per_game": 1.625,
+          "games_with_fuel_exhaustion": 5,
+          "per_game": [
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 4,
+              "rounds": [
+                385,
+                786,
+                794,
+                796
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                442,
+                847
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "B",
+              "entries": 2,
+              "rounds": [
+                234,
+                397
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 9,
+              "rounds": [
+                89,
+                90,
+                336,
+                418,
+                419,
+                606,
+                607,
+                652,
+                653
+              ]
+            }
+          ],
+          "turn_p99_max": 96069.82,
+          "turn_max": 100000,
+          "turns_over_95pct": 244,
+          "faults": 0
+        },
+        "original": {
+          "games": 16,
+          "wins": 8.0,
+          "fuel_exhausted_entries": 24,
+          "fuel_exhausted_per_game": 1.5,
+          "games_with_fuel_exhaustion": 5,
+          "per_game": [
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 3,
+              "rounds": [
+                385,
+                793,
+                795
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                712,
+                861
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "B",
+              "entries": 1,
+              "rounds": [
+                117
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 9,
+              "rounds": [
+                89,
+                90,
+                336,
+                418,
+                419,
+                606,
+                607,
+                652,
+                653
+              ]
+            }
+          ],
+          "turn_p99_max": 98880.0,
+          "turn_max": 100000,
+          "turns_over_95pct": 656,
+          "faults": 0
+        },
+        "v47": {
+          "games": 16,
+          "wins": 5.0,
+          "fuel_exhausted_entries": 17,
+          "fuel_exhausted_per_game": 1.0625,
+          "games_with_fuel_exhaustion": 3,
+          "per_game": [
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 2,
+              "rounds": [
+                724,
+                726
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 8,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                463,
+                464,
+                1133,
+                1134
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 7,
+              "rounds": [
+                89,
+                90,
+                249,
+                388,
+                389,
+                571,
+                572
+              ]
+            }
+          ],
+          "turn_p99_max": 98930.52,
+          "turn_max": 100000,
+          "turns_over_95pct": 332,
+          "faults": 0
+        }
+      }
+    },
+    "reference/fuel_profile": {
+      "schedule": "fuel_profile",
+      "cells": 18,
+      "engine_matches": 9,
+      "candidate_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442",
+      "engine_versions": [
+        "1.0.3"
+      ],
+      "per_opponent": {
+        "original": {
+          "games": 18,
+          "wins": 9.0,
+          "fuel_exhausted_entries": 64,
+          "fuel_exhausted_per_game": 3.5556,
+          "games_with_fuel_exhaustion": 8,
+          "per_game": [
+            {
+              "map": "00stampede",
+              "side": "A",
+              "entries": 1,
+              "rounds": [
+                624
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "A",
+              "entries": 2,
+              "rounds": [
+                712,
+                861
+              ]
+            },
+            {
+              "map": "00swirl",
+              "side": "B",
+              "entries": 1,
+              "rounds": [
+                117
+              ]
+            },
+            {
+              "map": "01big-world",
+              "side": "B",
+              "entries": 3,
+              "rounds": [
+                385,
+                793,
+                795
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "A",
+              "entries": 9,
+              "rounds": [
+                4,
+                5,
+                147,
+                148,
+                509,
+                510,
+                762,
+                1004,
+                1005
+              ]
+            },
+            {
+              "map": "01islands",
+              "side": "B",
+              "entries": 9,
+              "rounds": [
+                89,
+                90,
+                336,
+                418,
+                419,
+                606,
+                607,
+                652,
+                653
+              ]
+            },
+            {
+              "map": "01yellow-brick-road",
+              "side": "A",
+              "entries": 26,
+              "rounds": [
+                14,
+                19,
+                32,
+                36,
+                36,
+                312,
+                418,
+                423,
+                434,
+                447,
+                588,
+                596,
+                690,
+                700,
+                700,
+                716,
+                837,
+                954,
+                1011,
+                1125,
+                1127,
+                1129,
+                1156,
+                1292,
+                1298,
+                1315
+              ]
+            },
+            {
+              "map": "01yellow-brick-road",
+              "side": "B",
+              "entries": 13,
+              "rounds": [
+                29,
+                424,
+                616,
+                618,
+                620,
+                622,
+                821,
+                855,
+                858,
+                1101,
+                1188,
+                1425,
+                1447
+              ]
+            }
+          ],
+          "turn_p99_max": 98880.0,
+          "turn_max": 100000,
+          "turns_over_95pct": 724,
+          "faults": 0
+        }
+      }
+    }
+  }
+}

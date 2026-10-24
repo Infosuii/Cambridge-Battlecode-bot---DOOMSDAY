@@ -1,0 +1,13 @@
+{
+  "name": "neutral_real",
+  "description": "Every head shadow with a zero-residual model and NO fuel credit: measures the real behavioural effect of the neural overhead on the teacher. Not a release.",
+  "mode": "shadow",
+  "heads": {},
+  "model": "fs_v1_untrained",
+  "allow_active_status": [],
+  "allow_shadow_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "require_zero_residual": true,
+  "training": false, "telemetry": false, "fuel_credit": false, "selftest": false, "strip_lab": false,
+  "seed": 0,
+  "playable": false
+}

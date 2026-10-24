@@ -1,0 +1,88 @@
+{
+  "check": "smoke",
+  "label": "untrained framework check",
+  "passed": true,
+  "complete": true,
+  "faults": 0,
+  "per_opponent": {
+    "first-hour": {
+      "games": 16,
+      "wins": 10.0,
+      "win_rate": 0.625,
+      "wilson95_naive": [
+        0.38641040545502714,
+        0.8151876744113636
+      ],
+      "maps": 8,
+      "mean_margin": 154.25,
+      "fuel_exhausted_entries": 26,
+      "games_with_fuel_exhaustion": 5,
+      "faults": 0,
+      "by_side": {
+        "A": {
+          "games": 8,
+          "wins": 7.0,
+          "mean_margin": 344.5
+        },
+        "B": {
+          "games": 8,
+          "wins": 3.0,
+          "mean_margin": -36.0
+        }
+      }
+    },
+    "original": {
+      "games": 16,
+      "wins": 8.0,
+      "win_rate": 0.5,
+      "wilson95_naive": [
+        0.27999563610326017,
+        0.7200043638967398
+      ],
+      "maps": 8,
+      "mean_margin": 0.0,
+      "fuel_exhausted_entries": 24,
+      "games_with_fuel_exhaustion": 5,
+      "faults": 0,
+      "by_side": {
+        "A": {
+          "games": 8,
+          "wins": 6.0,
+          "mean_margin": 118.5
+        },
+        "B": {
+          "games": 8,
+          "wins": 2.0,
+          "mean_margin": -118.5
+        }
+      }
+    },
+    "v47": {
+      "games": 16,
+      "wins": 5.0,
+      "win_rate": 0.3125,
+      "wilson95_naive": [
+        0.14164643854782039,
+        0.5559564416525933
+      ],
+      "maps": 8,
+      "mean_margin": -84.4375,
+      "fuel_exhausted_entries": 17,
+      "games_with_fuel_exhaustion": 3,
+      "faults": 0,
+      "by_side": {
+        "A": {
+          "games": 8,
+          "wins": 3.0,
+          "mean_margin": 11.875
+        },
+        "B": {
+          "games": 8,
+          "wins": 2.0,
+          "mean_margin": -180.75
+        }
+      }
+    }
+  },
+  "claim": "untrained framework check: buildable, runs both sides, no faults. NOT learning or strength evidence"
+}

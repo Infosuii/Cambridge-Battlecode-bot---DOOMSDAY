@@ -1,0 +1,257 @@
+{
+  "cells": [
+    {
+      "map": "00great-wall",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "00great-wall",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "00rows",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "00rows",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "00stampede",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "00stampede",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "00swirl",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "00swirl",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "01big-world",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "01big-world",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "01islands",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "01islands",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "01starfish",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "01starfish",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "01starvation",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "01starvation",
+      "opponent": "original",
+      "side": "B"
+    },
+    {
+      "map": "01yellow-brick-road",
+      "opponent": "original",
+      "side": "A"
+    },
+    {
+      "map": "01yellow-brick-road",
+      "opponent": "original",
+      "side": "B"
+    }
+  ],
+  "evidence": "neural-gameplay/diagnosis-phase2/runs/campnet-off (original-equivalent control; read-only; used only to choose maps by property)",
+  "fuel": "official default (no fuel override flag)",
+  "kind": "framework",
+  "map_label": "reused_benchmark",
+  "opponents": [
+    "original"
+  ],
+  "protocol_version": "nfs-eval-v1",
+  "purpose": "fuel profiling scenarios (per-turn fuel from the replay .fuel member, fuelExhausted events, NFT1 telemetry in dev builds)",
+  "release": true,
+  "scenarios": {
+    "crowded_combat": {
+      "maps": [
+        "00swirl",
+        "01starfish"
+      ],
+      "properties": {
+        "00swirl": {
+          "camp_clears": 73,
+          "champions": 10,
+          "deaths": 67,
+          "deaths_per_100_rounds": 5.977,
+          "fuel_exhausted_entries": 3,
+          "height": 30,
+          "rounds": 1121,
+          "width": 45
+        },
+        "01starfish": {
+          "camp_clears": 50,
+          "champions": 10,
+          "deaths": 68,
+          "deaths_per_100_rounds": 5.14,
+          "fuel_exhausted_entries": 0,
+          "height": 50,
+          "rounds": 1323,
+          "width": 50
+        }
+      },
+      "rule": "highest deaths per 100 rounds"
+    },
+    "late_game": {
+      "maps": [
+        "00stampede",
+        "01starvation"
+      ],
+      "note": "per-turn analysis also reports the last 25% of rounds of every scenario game",
+      "properties": {
+        "00stampede": {
+          "camp_clears": 301,
+          "champions": 10,
+          "deaths": 46,
+          "deaths_per_100_rounds": 2.3,
+          "fuel_exhausted_entries": 1,
+          "height": 50,
+          "rounds": 2000,
+          "width": 60
+        },
+        "01starvation": {
+          "camp_clears": 85,
+          "champions": 10,
+          "deaths": 52,
+          "deaths_per_100_rounds": 2.714,
+          "fuel_exhausted_entries": 0,
+          "height": 80,
+          "rounds": 1916,
+          "width": 80
+        }
+      },
+      "rule": "longest games (2000-round maps first)"
+    },
+    "low_fuel": {
+      "maps": [
+        "01yellow-brick-road",
+        "01islands"
+      ],
+      "note": "the official fuel limit is never changed; low-fuel behaviour is observed on the tail turns of these maps and in native budget-refusal tests (Agent B)",
+      "properties": {
+        "01islands": {
+          "camp_clears": 133,
+          "champions": 10,
+          "deaths": 8,
+          "deaths_per_100_rounds": 0.622,
+          "fuel_exhausted_entries": 18,
+          "height": 60,
+          "rounds": 1287,
+          "width": 60
+        },
+        "01yellow-brick-road": {
+          "camp_clears": 97,
+          "champions": 12,
+          "deaths": 40,
+          "deaths_per_100_rounds": 2.677,
+          "fuel_exhausted_entries": 39,
+          "height": 30,
+          "rounds": 1494,
+          "width": 40
+        }
+      },
+      "rule": "most fuelExhausted entries of the original-equivalent control (tail turns at the fuel cap)"
+    },
+    "many_entities": {
+      "maps": [
+        "01big-world",
+        "01yellow-brick-road"
+      ],
+      "properties": {
+        "01big-world": {
+          "camp_clears": 127,
+          "champions": 12,
+          "deaths": 7,
+          "deaths_per_100_rounds": 0.372,
+          "fuel_exhausted_entries": 3,
+          "height": 100,
+          "rounds": 1883,
+          "width": 100
+        },
+        "01yellow-brick-road": {
+          "camp_clears": 97,
+          "champions": 12,
+          "deaths": 40,
+          "deaths_per_100_rounds": 2.677,
+          "fuel_exhausted_entries": 39,
+          "height": 30,
+          "rounds": 1494,
+          "width": 40
+        }
+      },
+      "rule": "most champions on the map (12 > 10 > 8), then most camp clears"
+    },
+    "typical": {
+      "maps": [
+        "00rows",
+        "00great-wall"
+      ],
+      "properties": {
+        "00great-wall": {
+          "camp_clears": 118,
+          "champions": 10,
+          "deaths": 7,
+          "deaths_per_100_rounds": 0.601,
+          "fuel_exhausted_entries": 0,
+          "height": 40,
+          "rounds": 1165,
+          "width": 50
+        },
+        "00rows": {
+          "camp_clears": 124,
+          "champions": 10,
+          "deaths": 15,
+          "deaths_per_100_rounds": 0.954,
+          "fuel_exhausted_entries": 0,
+          "height": 50,
+          "rounds": 1572,
+          "width": 50
+        }
+      },
+      "rule": "closest to the median rounds and deaths among 10-champion maps with zero exhaustion"
+    }
+  },
+  "sides": [
+    "A",
+    "B"
+  ]
+}

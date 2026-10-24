@@ -1,0 +1,22 @@
+{
+  "_doc": "PROVISIONAL - replaced by measured values from the engine probe (agents/B/REPORT.md).",
+  "coefficients": {
+    "dense_call": 20, "dense_row": 8, "dense_v4": 7, "act_call": 10, "act_v4": 14, "pool_row": 30,
+    "finite_v4": 4, "encoder_fixed": 100, "head_fixed": 150, "scalar_op": 3, "cand_fixed": 30, "dot_elem": 5,
+    "bounded": 25, "argmax_elem": 6
+  },
+  "policy": {
+    "safety_factor": 1.25,
+    "decide_fixed": 400,
+    "turn_allowance": 30000,
+    "tail_reserve": 6000,
+    "teacher_reserve": {"default": 10000},
+    "capture_worst": 15000,
+    "obs_encode_worst": 5000,
+    "log_fixed": 2000,
+    "log_per_byte": 12,
+    "verify_per_float": 24,
+    "verify_chunk": 1024,
+    "max_records_per_turn": 8
+  }
+}

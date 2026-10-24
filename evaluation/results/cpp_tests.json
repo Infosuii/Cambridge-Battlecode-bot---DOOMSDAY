@@ -1,0 +1,2084 @@
+{
+  "tool": "tools/run_cpp_tests.py",
+  "compiler": "C:/msys64/ucrt64/bin/g++.exe",
+  "flags": [
+    "-std=c++20",
+    "-O2",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Wno-unused-parameter"
+  ],
+  "synthetic_data_only": true,
+  "generated": "2026-10-24T00:44:12",
+  "seconds": 14.0,
+  "passed": false,
+  "n_targets": 8,
+  "n_checks": 319,
+  "results": [
+    {
+      "target": "rt_head:zero_active",
+      "passed": false,
+      "returncode": 1,
+      "error": null,
+      "seconds": 1.37,
+      "n_checks": 103,
+      "failed": [
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:value_matches_reference",
+          "passed": false,
+          "detail": "0 vs 0.0717512"
+        }
+      ],
+      "checks": [
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "zero_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "zero_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "zero_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "zero_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "zero_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "zero_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "zero_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "zero_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "zero_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "zero_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "zero_active:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "zero_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "zero_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "zero_active:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "zero_active:value_matches_reference",
+          "passed": false,
+          "detail": "0 vs 0.0717512"
+        },
+        {
+          "name": "zero_active:leaf_bounded",
+          "passed": true
+        },
+        {
+          "name": "zero_active:value_bad_output_index",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:dev_active",
+      "passed": false,
+      "returncode": 1,
+      "error": null,
+      "seconds": 1.38,
+      "n_checks": 103,
+      "failed": [
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:value_matches_reference",
+          "passed": false,
+          "detail": "0 vs -0.00824702"
+        }
+      ],
+      "checks": [
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": true
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": true
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "dev_active:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "dev_active:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "dev_active:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "dev_active:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "dev_active:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "dev_active:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "dev_active:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "dev_active:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "dev_active:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "dev_active:active_executes_argmax",
+          "passed": false,
+          "detail": "active choice != argmax"
+        },
+        {
+          "name": "dev_active:dev_model_moves_choices",
+          "passed": false,
+          "detail": "dev model never left the teacher (plumbing not exercised)"
+        },
+        {
+          "name": "dev_active:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "dev_active:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "dev_active:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "dev_active:value_matches_reference",
+          "passed": false,
+          "detail": "0 vs -0.00824702"
+        },
+        {
+          "name": "dev_active:leaf_bounded",
+          "passed": true
+        },
+        {
+          "name": "dev_active:value_bad_output_index",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:shadow",
+      "passed": false,
+      "returncode": 1,
+      "error": null,
+      "seconds": 1.29,
+      "n_checks": 102,
+      "failed": [
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        }
+      ],
+      "checks": [
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": true
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": true
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "shadow:fallback_empty_set",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_teacher_illegal",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_feature_width_mismatch",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_nan_feature",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:fallback_inf_feature",
+          "passed": false,
+          "detail": "inf"
+        },
+        {
+          "name": "shadow:fallback_nan_prior",
+          "passed": false,
+          "detail": "nan prior"
+        },
+        {
+          "name": "shadow:fallback_teacher_margin",
+          "passed": false,
+          "detail": "bad prior"
+        },
+        {
+          "name": "shadow:illegal_prior_ignored",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_bad_context_code",
+          "passed": true
+        },
+        {
+          "name": "shadow:fallback_K_too_large",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_admit_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_decide_refused",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_refusal_no_feature_work",
+          "passed": true
+        },
+        {
+          "name": "shadow:encoder_skipped_rest_of_turn",
+          "passed": true
+        },
+        {
+          "name": "shadow:budget_recovers_next_turn",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:budget_turn_allowance",
+          "passed": true
+        },
+        {
+          "name": "shadow:context_cached_within_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_begin_turn",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:context_invalidated_by_round",
+          "passed": false,
+          "detail": "captures 0"
+        },
+        {
+          "name": "shadow:fallback_capture_failed",
+          "passed": false,
+          "detail": "reason 3"
+        },
+        {
+          "name": "shadow:net_choice_equals_reference_argmax",
+          "passed": false,
+          "detail": "network pick differs from reference logits"
+        },
+        {
+          "name": "shadow:shadow_executes_teacher",
+          "passed": false,
+          "detail": "shadow executed a non-teacher candidate"
+        },
+        {
+          "name": "shadow:zero_residual_always_teacher",
+          "passed": false,
+          "detail": "0 non-teacher"
+        },
+        {
+          "name": "shadow:padding_invariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:permutation_equivariance_logits",
+          "passed": true
+        },
+        {
+          "name": "shadow:identical_candidates_tie_to_teacher",
+          "passed": false,
+          "detail": "net -1 choice 0"
+        },
+        {
+          "name": "shadow:value_heads_finite",
+          "passed": true
+        },
+        {
+          "name": "shadow:value_heads_zero_in_shadow",
+          "passed": true
+        },
+        {
+          "name": "shadow:value_bad_output_index",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:training",
+      "passed": false,
+      "returncode": -1,
+      "error": "(10, 1)",
+      "seconds": 1.42,
+      "n_checks": 0,
+      "failed": [],
+      "checks": []
+    },
+    {
+      "target": "rt_head:selftest",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 2.56,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "selftest:selftest_ran",
+          "passed": true
+        },
+        {
+          "name": "selftest:selftest_lines_match_reference_fs_v1_dev",
+          "passed": true,
+          "detail": "14/14 lines equal"
+        },
+        {
+          "name": "selftest:selftest_verify_ok",
+          "passed": true,
+          "detail": "segment verification state"
+        }
+      ]
+    },
+    {
+      "target": "rt_head:badsum",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 2.45,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "badsum:bad_weights_fallback_ctx_head",
+          "passed": true
+        },
+        {
+          "name": "badsum:bad_weights_whole_model_invalid",
+          "passed": true
+        },
+        {
+          "name": "badsum:bad_weights_value_zero",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:nanw",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 2.13,
+      "n_checks": 3,
+      "failed": [],
+      "checks": [
+        {
+          "name": "nanw:bad_weights_fallback_ctx_head",
+          "passed": true
+        },
+        {
+          "name": "nanw:bad_weights_whole_model_invalid",
+          "passed": true
+        },
+        {
+          "name": "nanw:bad_weights_value_zero",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "target": "rt_head:schema",
+      "passed": true,
+      "returncode": 0,
+      "error": null,
+      "seconds": 1.35,
+      "n_checks": 2,
+      "failed": [],
+      "checks": [
+        {
+          "name": "schema:schema_hash_mismatch_fallback",
+          "passed": true
+        },
+        {
+          "name": "schema:schema_mismatch_spares_non_context_head",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

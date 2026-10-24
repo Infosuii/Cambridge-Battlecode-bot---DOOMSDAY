@@ -1,0 +1,75 @@
+{
+  "check": "reproducibility",
+  "passed": true,
+  "cells": [
+    {
+      "opponent": "original",
+      "map": "00swirl",
+      "side": "A",
+      "repeats": 2,
+      "identical": true,
+      "members": [
+        "replay.repl26a",
+        "team-a.debug",
+        "team-a.fuel",
+        "team-a.stdout",
+        "team-b.debug",
+        "team-b.fuel",
+        "team-b.stdout"
+      ],
+      "summary_sha256": "34e2936c364d7b28351b864d881ed48eff794a1c939333481eb46d49578e9434"
+    },
+    {
+      "opponent": "original",
+      "map": "01big-world",
+      "side": "A",
+      "repeats": 2,
+      "identical": true,
+      "members": [
+        "replay.repl26a",
+        "team-a.debug",
+        "team-a.fuel",
+        "team-a.stdout",
+        "team-b.debug",
+        "team-b.fuel",
+        "team-b.stdout"
+      ],
+      "summary_sha256": "a1892d44447c21854186d0ef6b5a94561b50b7933bb50911eeb5ba5abf4a6c79"
+    },
+    {
+      "opponent": "original",
+      "map": "01islands",
+      "side": "A",
+      "repeats": 2,
+      "identical": true,
+      "members": [
+        "replay.repl26a",
+        "team-a.debug",
+        "team-a.fuel",
+        "team-a.stdout",
+        "team-b.debug",
+        "team-b.fuel",
+        "team-b.stdout"
+      ],
+      "summary_sha256": "617d52ed59e0fe635af4b82c01e893993d0f464e92049f2be9ea28d9d4366166"
+    },
+    {
+      "opponent": "original",
+      "map": "01starvation",
+      "side": "A",
+      "repeats": 2,
+      "identical": true,
+      "members": [
+        "replay.repl26a",
+        "team-a.debug",
+        "team-a.fuel",
+        "team-a.stdout",
+        "team-b.debug",
+        "team-b.fuel",
+        "team-b.stdout"
+      ],
+      "summary_sha256": "ea5224d6ee62e32df8b58e9e24927a2c22a447fe31381d81aa2e712dd4f1261f"
+    }
+  ],
+  "note": "identical = every replay-bundle member (replay, .fuel, stdout, debug) and summary.json byte-identical across repeats; deterministic engine, so repeats are NOT extra samples"
+}

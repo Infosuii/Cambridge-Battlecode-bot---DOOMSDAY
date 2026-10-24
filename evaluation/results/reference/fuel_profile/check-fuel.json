@@ -1,0 +1,147 @@
+{
+  "check": "fuel_profile",
+  "profile": "reference:original",
+  "passed": null,
+  "scenarios": {
+    "crowded_combat": {
+      "maps": [
+        "00swirl",
+        "01starfish"
+      ],
+      "candidate": {
+        "cells": 4,
+        "fuel_exhausted_entries": 3,
+        "games_with_fuel_exhaustion": 2,
+        "per_game_entries": [
+          2,
+          1,
+          0,
+          0
+        ],
+        "turn_p99_max": 77825.56,
+        "turn_p999_max": 91963.52400000035,
+        "turn_max": 100000,
+        "turns_over_95pct": 4,
+        "cap_turns_match_events": true
+      }
+    },
+    "late_game": {
+      "maps": [
+        "00stampede",
+        "01starvation"
+      ],
+      "candidate": {
+        "cells": 4,
+        "fuel_exhausted_entries": 1,
+        "games_with_fuel_exhaustion": 1,
+        "per_game_entries": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "turn_p99_max": 75026.34000000003,
+        "turn_p999_max": 86290.75200000036,
+        "turn_max": 100000,
+        "turns_over_95pct": 8,
+        "cap_turns_match_events": true
+      }
+    },
+    "low_fuel": {
+      "maps": [
+        "01yellow-brick-road",
+        "01islands"
+      ],
+      "candidate": {
+        "cells": 4,
+        "fuel_exhausted_entries": 57,
+        "games_with_fuel_exhaustion": 4,
+        "per_game_entries": [
+          9,
+          9,
+          26,
+          13
+        ],
+        "turn_p99_max": 86694.0,
+        "turn_p999_max": 100000.0,
+        "turn_max": 100000,
+        "turns_over_95pct": 80,
+        "cap_turns_match_events": true
+      }
+    },
+    "many_entities": {
+      "maps": [
+        "01big-world",
+        "01yellow-brick-road"
+      ],
+      "candidate": {
+        "cells": 4,
+        "fuel_exhausted_entries": 42,
+        "games_with_fuel_exhaustion": 3,
+        "per_game_entries": [
+          0,
+          3,
+          26,
+          13
+        ],
+        "turn_p99_max": 98880.0,
+        "turn_p999_max": 100000.0,
+        "turn_max": 100000,
+        "turns_over_95pct": 692,
+        "cap_turns_match_events": true
+      }
+    },
+    "typical": {
+      "maps": [
+        "00rows",
+        "00great-wall"
+      ],
+      "candidate": {
+        "cells": 4,
+        "fuel_exhausted_entries": 0,
+        "games_with_fuel_exhaustion": 0,
+        "per_game_entries": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "turn_p99_max": 69751.16000000002,
+        "turn_p999_max": 75074.304,
+        "turn_max": 83298,
+        "turns_over_95pct": 0,
+        "cap_turns_match_events": true
+      }
+    }
+  },
+  "all_cells": {
+    "cells": 18,
+    "fuel_exhausted_entries": 64,
+    "games_with_fuel_exhaustion": 8,
+    "per_game_entries": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      2,
+      1,
+      0,
+      3,
+      9,
+      9,
+      0,
+      0,
+      0,
+      0,
+      26,
+      13
+    ],
+    "turn_p99_max": 98880.0,
+    "turn_p999_max": 100000.0,
+    "turn_max": 100000,
+    "turns_over_95pct": 724,
+    "cap_turns_match_events": true
+  }
+}

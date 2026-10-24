@@ -1,0 +1,984 @@
+{
+  "check": "equivalence",
+  "profile": "neutral_real",
+  "rule": "measurement only (divergence reported, never hidden)",
+  "passed": null,
+  "summary": {
+    "cells": 24,
+    "actions_identical": 0,
+    "summary_identical": 0,
+    "fuel_identical": 0,
+    "outcome_flips": 12,
+    "divergent_cells": 24,
+    "first_divergent_round_min": 3,
+    "first_divergent_round_median": 15,
+    "all_actions_identical": false,
+    "candidate_fuel_overhead_mean_per_turn": 0.0,
+    "candidate_fuel_overhead_p99_max": 0.0
+  },
+  "per_cell": [
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 776,
+          "teamB": 280
+        },
+        "rounds": 2000
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 92,
+          "teamB": 1036
+        },
+        "rounds": 1916
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 42,
+      "opponent": "original",
+      "map": "01starvation",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 324,
+          "teamB": 764
+        },
+        "rounds": 2000
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 92,
+          "teamB": 1036
+        },
+        "rounds": 1916
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 36,
+      "opponent": "original",
+      "map": "01starvation",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1010,
+          "teamB": 946
+        },
+        "rounds": 1556
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 601,
+          "teamB": 1049
+        },
+        "rounds": 1883
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 15,
+      "opponent": "original",
+      "map": "01big-world",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 60,
+          "teamB": 1088
+        },
+        "rounds": 1980
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 601,
+          "teamB": 1049
+        },
+        "rounds": 1883
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 15,
+      "opponent": "original",
+      "map": "01big-world",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1011,
+          "teamB": 833
+        },
+        "rounds": 1900
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1017,
+          "teamB": 112
+        },
+        "rounds": 1121
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 3,
+      "opponent": "original",
+      "map": "00swirl",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 794,
+          "teamB": 602
+        },
+        "rounds": 2000
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1017,
+          "teamB": 112
+        },
+        "rounds": 1121
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 3,
+      "opponent": "original",
+      "map": "00swirl",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1018,
+          "teamB": 709
+        },
+        "rounds": 1110
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1023,
+          "teamB": 755
+        },
+        "rounds": 1287
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 4,
+      "opponent": "original",
+      "map": "01islands",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 856,
+          "teamB": 1000
+        },
+        "rounds": 1174
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1023,
+          "teamB": 755
+        },
+        "rounds": 1287
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 5,
+      "opponent": "original",
+      "map": "01islands",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 925,
+          "teamB": 1003
+        },
+        "rounds": 1680
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1003,
+          "teamB": 965
+        },
+        "rounds": 1572
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 11,
+      "opponent": "original",
+      "map": "00rows",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 884,
+          "teamB": 1006
+        },
+        "rounds": 1769
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1003,
+          "teamB": 965
+        },
+        "rounds": 1572
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 11,
+      "opponent": "original",
+      "map": "00rows",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1034,
+          "teamB": 794
+        },
+        "rounds": 1331
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1018,
+          "teamB": 981
+        },
+        "rounds": 1293
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 22,
+      "opponent": "original",
+      "map": "00rushbait-v2",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1164,
+          "teamB": 533
+        },
+        "rounds": 1289
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1018,
+          "teamB": 981
+        },
+        "rounds": 1293
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 22,
+      "opponent": "original",
+      "map": "00rushbait-v2",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 232,
+          "teamB": 1040
+        },
+        "rounds": 1948
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 324,
+          "teamB": 764
+        },
+        "rounds": 2000
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 44,
+      "opponent": "v47",
+      "map": "01starvation",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 232,
+          "teamB": 1040
+        },
+        "rounds": 1948
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 776,
+          "teamB": 280
+        },
+        "rounds": 2000
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 36,
+      "opponent": "v47",
+      "map": "01starvation",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1035,
+          "teamB": 749
+        },
+        "rounds": 1656
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 60,
+          "teamB": 1088
+        },
+        "rounds": 1980
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 15,
+      "opponent": "v47",
+      "map": "01big-world",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1035,
+          "teamB": 749
+        },
+        "rounds": 1656
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1010,
+          "teamB": 946
+        },
+        "rounds": 1556
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 16,
+      "opponent": "v47",
+      "map": "01big-world",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 152,
+          "teamB": 893
+        },
+        "rounds": 2000
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 794,
+          "teamB": 602
+        },
+        "rounds": 2000
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 3,
+      "opponent": "v47",
+      "map": "00swirl",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 152,
+          "teamB": 893
+        },
+        "rounds": 2000
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1011,
+          "teamB": 833
+        },
+        "rounds": 1900
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 3,
+      "opponent": "v47",
+      "map": "00swirl",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1056,
+          "teamB": 722
+        },
+        "rounds": 1072
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 856,
+          "teamB": 1000
+        },
+        "rounds": 1174
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 4,
+      "opponent": "v47",
+      "map": "01islands",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1056,
+          "teamB": 722
+        },
+        "rounds": 1072
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1018,
+          "teamB": 709
+        },
+        "rounds": 1110
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 5,
+      "opponent": "v47",
+      "map": "01islands",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 996,
+          "teamB": 1003
+        },
+        "rounds": 1757
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 884,
+          "teamB": 1006
+        },
+        "rounds": 1769
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 11,
+      "opponent": "v47",
+      "map": "00rows",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": true,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 996,
+          "teamB": 1003
+        },
+        "rounds": 1757
+      },
+      "ref": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 925,
+          "teamB": 1003
+        },
+        "rounds": 1680
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 11,
+      "opponent": "v47",
+      "map": "00rows",
+      "side": "B"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 952,
+          "teamB": 1037
+        },
+        "rounds": 1387
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1164,
+          "teamB": 533
+        },
+        "rounds": 1289
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 26,
+      "opponent": "v47",
+      "map": "00rushbait-v2",
+      "side": "A"
+    },
+    {
+      "actions_identical": false,
+      "summary_identical": false,
+      "fuel_identical": false,
+      "stdout_identical": true,
+      "members": {
+        "replay.repl26a": false,
+        "team-a.fuel": false,
+        "team-b.fuel": false,
+        "team-a.stdout": true,
+        "team-b.stdout": true,
+        "team-a.debug": true,
+        "team-b.debug": true
+      },
+      "outcome_same": false,
+      "cand": {
+        "outcome": "teamB",
+        "gems": {
+          "teamA": 952,
+          "teamB": 1037
+        },
+        "rounds": 1387
+      },
+      "ref": {
+        "outcome": "teamA",
+        "gems": {
+          "teamA": 1034,
+          "teamB": 794
+        },
+        "rounds": 1331
+      },
+      "engine": [
+        "1.0.3",
+        "1.0.3"
+      ],
+      "first_divergent_round": 27,
+      "opponent": "v47",
+      "map": "00rushbait-v2",
+      "side": "B"
+    }
+  ],
+  "candidate_sha256": "1d26e69451fe5752e3fd4c24aabda9cda789916dbf7127f04193a78b60db894f",
+  "candidate_code_section_sha256": "bda7a2f728def9f06356934c9b5ed51df4fac9a014ec1ed23dc55a56fb7ffa59",
+  "original_code_section_sha256": "02739407c4f11392261a544e702611c3a8d95a3d848c5a87ed3842eead890136"
+}

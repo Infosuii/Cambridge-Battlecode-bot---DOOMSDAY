@@ -1,0 +1,17 @@
+{
+  "_doc": "Default PPO configuration for later RL (instructions only). Same keys as first_experiment.json; all heads present in records are optimised unless ppo.heads is set. forced_reasons/budget_reasons must be filled from B's nn_head.h reason enum before use.",
+  "maps": "eval_partition:training",
+  "max_games": 4000,
+  "freeze_every": 10,
+  "critic_hidden": 64,
+  "profile": "training",
+  "collect": {"games_per_iteration": 32, "workers": 12, "torch_threads": 4, "sides": ["A", "B"], "log_limit": 67108864, "timeout": 600},
+  "ppo": {"gamma": 0.9997, "lam": 0.95, "clip": 0.2, "epochs": 4, "minibatch": 512, "lr": 1e-4, "critic_lr": 3e-4,
+          "ent_coef": 0.003, "vf_coef": 0.5, "max_grad_norm": 0.5, "target_kl": 0.02, "parity_tol": 0.002,
+          "commitment_mode": "option", "forced_reasons": [], "budget_reasons": [], "heads": [],
+          "head_weights": {}, "teacher_kl_coef": 0.005, "normalize_adv": true, "device": "auto"},
+  "reward": {"gamma": 0.9997, "win": 1.0, "tie": 0.0, "margin": 0.5, "margin_scale": 1000.0, "w_submitted": 0.0005,
+             "w_team_submitted": 0.0, "carry_potential": 0.0003, "w_gold": 1e-05, "w_death": 0.03, "w_damage": 2e-06,
+             "w_objective": 0.005, "ablate": []},
+  "league": {"min_reference_share": 0.3, "opponents": ["original", "v47", "first-hour", "v50"], "draft_proxies": []}
+}

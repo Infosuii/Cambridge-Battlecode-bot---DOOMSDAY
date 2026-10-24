@@ -1,0 +1,314 @@
+{
+  "schema": "nfs.archive_index.v1",
+  "created_utc": "2026-10-23T23:33:40+00:00",
+  "policy": {
+    "date_floor": "2026-10-21",
+    "gameplay_engines": [
+      "1.0.3"
+    ],
+    "observational_engines": [
+      "1.0.2"
+    ],
+    "excluded_engines": [
+      "1.0.1"
+    ],
+    "min_rounds": 50,
+    "allowed_outcomes": [
+      "teamA",
+      "teamB"
+    ],
+    "require_detailed_capture": true,
+    "reject_bot_faults": true,
+    "reject_zero_score": true,
+    "draft_sizes": [
+      3,
+      4,
+      5
+    ]
+  },
+  "bounded_sample_cap_per_part": 200,
+  "date_evidence": {
+    "per_entry_wall_clock": "absent: ZIP member times are the 1980 placeholder; summaries contain only in-game round/substep timestamps",
+    "method": "bundle-level: platform bundle filename summaries-<date>-partN.zip, cross-checked with the platform listing date when available; archives dated before the floor are rejected whole",
+    "parts": {
+      "summaries-2026-10-21-part1.zip": {
+        "name_date": "2026-10-21",
+        "listing_date": "2026-10-21"
+      },
+      "summaries-2026-10-21-part2.zip": {
+        "name_date": "2026-10-21",
+        "listing_date": "2026-10-21"
+      },
+      "summaries-2026-10-21-part3.zip": {
+        "name_date": "2026-10-21",
+        "listing_date": "2026-10-21"
+      },
+      "summaries-2026-10-21-part4.zip": {
+        "name_date": "2026-10-21",
+        "listing_date": "2026-10-21"
+      }
+    }
+  },
+  "sources": [
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part1.zip",
+      "part": 1,
+      "date": "2026-10-21",
+      "size": 0,
+      "status": "zero_byte",
+      "detail": "",
+      "selected": false,
+      "skip_reason": "zero_byte_duplicate_part",
+      "sha256": null
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\summaries-2026-10-21-part1.zip",
+      "part": 1,
+      "date": "2026-10-21",
+      "size": 821187720,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "47e0899dfcf414bcc08e6768ccd1649ccfcca0e0696b8afce12a04abbf7c2b35"
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part2.zip",
+      "part": 2,
+      "date": "2026-10-21",
+      "size": 820204605,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "4234d17b694eb0179c7e8805da6a35e9e1bea33817cfdff340027382a139d7ad"
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part3.zip",
+      "part": 3,
+      "date": "2026-10-21",
+      "size": 820931231,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "951e9f322131574ed7e89f3e5989ade9a44835b1689f8d9f56a256f8761d7d22"
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part4.zip",
+      "part": 4,
+      "date": "2026-10-21",
+      "size": 817758161,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "e8f1d0015867f7597ab6a020825b7f879f46fefda494fe9793e48d53bc2f1ecb"
+    }
+  ],
+  "parts": [
+    {
+      "path": "C:\\projects\\cambridge battlecode\\summaries-2026-10-21-part1.zip",
+      "part": 1,
+      "date": "2026-10-21",
+      "size": 821187720,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "47e0899dfcf414bcc08e6768ccd1649ccfcca0e0696b8afce12a04abbf7c2b35",
+      "entries": 23401,
+      "listing_date": "2026-10-21",
+      "admitted": true,
+      "archive_entries": 23401,
+      "unique_new_match_ids": 23401,
+      "unparsed_member_names": 0,
+      "duplicate_ids_within_part": 0,
+      "kinds": {
+        "ranked": 11447,
+        "unranked": 11954
+      },
+      "experiment1_ids_in_part": 1000,
+      "sampled_entries": 200,
+      "sampled_fresh": 190,
+      "sampled_consistency": 10,
+      "accepted_fresh": 151,
+      "rejected_fresh_by_reason": {
+        "engine_1.0.1_excluded": 36,
+        "too_few_rounds": 1,
+        "zero_score_tiebreak": 2
+      },
+      "accepted_fresh_by_scope": {
+        "draft_observational": 151
+      },
+      "engine_versions_fresh": {
+        "1.0.2": 154,
+        "1.0.1": 36
+      }
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part2.zip",
+      "part": 2,
+      "date": "2026-10-21",
+      "size": 820204605,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "4234d17b694eb0179c7e8805da6a35e9e1bea33817cfdff340027382a139d7ad",
+      "entries": 23437,
+      "listing_date": "2026-10-21",
+      "admitted": true,
+      "archive_entries": 23437,
+      "unique_new_match_ids": 23437,
+      "unparsed_member_names": 0,
+      "duplicate_ids_within_part": 0,
+      "kinds": {
+        "unranked": 11866,
+        "ranked": 11571
+      },
+      "experiment1_ids_in_part": 1000,
+      "sampled_entries": 200,
+      "sampled_fresh": 190,
+      "sampled_consistency": 10,
+      "accepted_fresh": 137,
+      "rejected_fresh_by_reason": {
+        "engine_1.0.1_excluded": 45,
+        "zero_score_tiebreak": 7,
+        "bot_fault": 1
+      },
+      "accepted_fresh_by_scope": {
+        "draft_observational": 137
+      },
+      "engine_versions_fresh": {
+        "1.0.1": 45,
+        "1.0.2": 145
+      }
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part3.zip",
+      "part": 3,
+      "date": "2026-10-21",
+      "size": 820931231,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "951e9f322131574ed7e89f3e5989ade9a44835b1689f8d9f56a256f8761d7d22",
+      "entries": 23415,
+      "listing_date": "2026-10-21",
+      "admitted": true,
+      "archive_entries": 23415,
+      "unique_new_match_ids": 23415,
+      "unparsed_member_names": 0,
+      "duplicate_ids_within_part": 0,
+      "kinds": {
+        "unranked": 11823,
+        "ranked": 11592
+      },
+      "experiment1_ids_in_part": 1000,
+      "sampled_entries": 200,
+      "sampled_fresh": 190,
+      "sampled_consistency": 10,
+      "accepted_fresh": 137,
+      "rejected_fresh_by_reason": {
+        "engine_1.0.1_excluded": 48,
+        "zero_score_tiebreak": 4,
+        "bot_fault": 1
+      },
+      "accepted_fresh_by_scope": {
+        "draft_observational": 137
+      },
+      "engine_versions_fresh": {
+        "1.0.2": 142,
+        "1.0.1": 48
+      }
+    },
+    {
+      "path": "C:\\projects\\cambridge battlecode\\21 october matches\\summaries-2026-10-21-part4.zip",
+      "part": 4,
+      "date": "2026-10-21",
+      "size": 817758161,
+      "status": "ok",
+      "detail": "",
+      "selected": true,
+      "skip_reason": null,
+      "sha256": "e8f1d0015867f7597ab6a020825b7f879f46fefda494fe9793e48d53bc2f1ecb",
+      "entries": 23353,
+      "listing_date": "2026-10-21",
+      "admitted": true,
+      "archive_entries": 23353,
+      "unique_new_match_ids": 23353,
+      "unparsed_member_names": 0,
+      "duplicate_ids_within_part": 0,
+      "kinds": {
+        "ranked": 11550,
+        "unranked": 11803
+      },
+      "experiment1_ids_in_part": 1000,
+      "sampled_entries": 200,
+      "sampled_fresh": 190,
+      "sampled_consistency": 10,
+      "accepted_fresh": 146,
+      "rejected_fresh_by_reason": {
+        "engine_1.0.1_excluded": 41,
+        "too_few_rounds": 1,
+        "zero_score_tiebreak": 2
+      },
+      "accepted_fresh_by_scope": {
+        "draft_observational": 146
+      },
+      "engine_versions_fresh": {
+        "1.0.2": 149,
+        "1.0.1": 41
+      }
+    }
+  ],
+  "accounting": {
+    "archive_entries": 93606,
+    "unique_match_ids": 93606,
+    "duplicate_entries_dropped": 0,
+    "sampled_entries": 800,
+    "sampled_fresh_entries": 760,
+    "sampled_experiment1_consistency_entries": 40,
+    "accepted_independent_matches": 571,
+    "accepted_gameplay_1_0_3": 0,
+    "accepted_draft_observational_1_0_2": 571,
+    "rejected_by_reason": {
+      "engine_1.0.1_excluded": 170,
+      "too_few_rounds": 2,
+      "zero_score_tiebreak": 15,
+      "bot_fault": 2
+    },
+    "engine_versions_in_sample": {
+      "1.0.2": 590,
+      "1.0.1": 170
+    },
+    "engine_build_hashes": {
+      "1.0.2": [
+        "ff41468c05c7be716f7647aaf7ea7314633f7038815386c806fafcec98629114"
+      ],
+      "1.0.1": [
+        "c3e9ffc8d98c106f86660c58344dc26ced9459a504e2f0d90d88b4c8594c7765"
+      ]
+    },
+    "per_turn_observations": 0,
+    "augmented_samples": 0,
+    "epochs": 0,
+    "note": "Only the bounded sample was decompressed/converted. archive_entries are not compatible games; acceptance rates apply to the sample only. Summaries contain no per-turn observations."
+  },
+  "experiment1": {
+    "ids_known": 4000,
+    "ids_found_in_archives": 4000,
+    "accepted_by_experiment1": 3070,
+    "engine_versions_of_experiment1_accepted": {
+      "1.0.2": 3070
+    },
+    "label": "already_used_by_experiment_1",
+    "consistency_checked": 40,
+    "consistency_engine_agree": 40,
+    "rule": "IDs sampled by experiment 1 are labelled already_used_by_experiment_1; they are excluded from the fresh sample and may only enter train partitions, never final_eval.",
+    "ids_file": "data/manifests/experiment1_used_ids_v1.json"
+  },
+  "duplicates": []
+}

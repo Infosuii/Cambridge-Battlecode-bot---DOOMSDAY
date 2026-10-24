@@ -1,0 +1,13 @@
+{
+  "name": "training",
+  "description": "Data collection for later training: every head active, choices sampled from the masked softmax (behaviour log-prob logged), NFS1 records on stdout. With the zero-residual untrained model the behaviour policy is softmax(teacher priors). Not a release.",
+  "mode": "active",
+  "heads": {},
+  "model": "fs_v1_untrained",
+  "allow_active_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "allow_shadow_status": ["untrained", "teacher_initialized", "trained", "validated"],
+  "require_zero_residual": false,
+  "training": true, "telemetry": false, "fuel_credit": false, "selftest": false, "strip_lab": false,
+  "seed": 2026102401,
+  "playable": false
+}

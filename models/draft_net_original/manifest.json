@@ -1,0 +1,34 @@
+{
+  "name": "draft_net_original",
+  "head": "draft_pick (teacher-internal)",
+  "arch_version": 0,
+  "architecture": {
+    "type": "mlp",
+    "inputs": 53,
+    "hidden": 64,
+    "outputs": 1,
+    "activation": "tanh",
+    "note": "P(win | map features, picks, team size, first pick, progress); see draft_net.h"
+  },
+  "obs_schema_hash": "0xff56fd2d",
+  "obs_schema_note": "own 53-feature draft input schema (draft.cpp); hash = fnv1a32(bot/src/draft_net.h bytes)",
+  "action_schema_hash": "0x00000000",
+  "n_params": 3521,
+  "checksum": "0x3c09ba1cdb6e22fe",
+  "checksum_note": "fnv1a64 over little-endian f32 of W1, b1, w2, b2 as parsed from bot/src/draft_net.h",
+  "export_precision": "f32",
+  "engine_version": "1.0.3",
+  "provenance": {
+    "source": "inherited from original source bot/src/draft_net.h (mld_fuel35_engine103.zip)",
+    "trainer": "agent2/lab/draft_fit.py on random-lineup lab games (per the header comment)",
+    "source_sha256": "6f4ed7a2f8c98ac1b413f25a4922350620e234959c0bf4b98ebe65ffab6cc8df",
+    "used_by": "teacher (original draft logic), unchanged"
+  },
+  "status": "trained",
+  "exportable": false,
+  "validation": {
+    "passed": false,
+    "note": "not re-validated in this build; inherited network kept bit-identical"
+  },
+  "files": {}
+}

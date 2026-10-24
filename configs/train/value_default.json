@@ -1,0 +1,5 @@
+{
+  "_doc": "Value/outcome models (instructions only). Records: python tools/nfs.py train-value --config configs/train/value_default.json --model-config configs/model/fs_v1.json --train <train.npz> --validation <validation.npz> --run-dir artifacts/runs/value-1 --i-authorize-training --time-limit-minutes 15. Observational draft outcome (archives, confounded): add --draft (uses data/archive_sample_v1/sample_rows.jsonl and data/manifests/splits_v1.json).",
+  "value": {"lr": 3e-4, "weight_decay": 1e-4, "batch_size": 512, "max_epochs": 50, "patience": 5, "w_win": 1.0, "w_margin": 0.5,
+            "device": "auto", "seed": 1}
+}

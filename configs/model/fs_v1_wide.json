@@ -1,0 +1,19 @@
+{
+  "name": "fs_v1_wide",
+  "arch_version": 1,
+  "_doc": "Wider capacity variant for later capacity/fuel comparisons (NOT the default; measured fuel in agents/B/REPORT.md). Capacities only; observation dims come from bot/src/nn_schema.h (agent C), head F/contexts/R from schemas/heads/<name>.json (D/E/F). See agents/B/REPORT.md.",
+  "obs": {
+    "schema_header": "bot/src/nn_schema.h",
+    "fallback": {
+      "_note": "Used only while agent C's nn_schema.h does not exist. Models built on it carry obs_schema_hash 0 and are rejected (schema_mismatch) against any real schema.",
+      "self_global_dim": 64, "ally_rows": 5, "ally_dim": 16, "enemy_rows": 8, "enemy_dim": 16, "obs_schema_hash": 0
+    }
+  },
+  "encoder": {"global_hidden": 32, "entity_hidden": 16, "ctx": 32},
+  "candidate_defaults": {"hidden": 16, "F": 24, "n_contexts": 4, "residual_bound": 2.0},
+  "leaf_defaults": {"hidden": 16, "F": 8, "n_contexts": 1, "residual_bound": 1.0},
+  "value": {"hidden": 16, "outputs": ["win_logit", "margin", "carry_risk"]},
+  "belief": {"hidden": 16, "n_sectors": 8},
+  "head_overrides": {},
+  "head_schema_dir": "schemas/heads"
+}

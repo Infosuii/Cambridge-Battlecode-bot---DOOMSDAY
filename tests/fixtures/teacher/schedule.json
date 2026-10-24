@@ -1,0 +1,42 @@
+{
+  "_doc": "Teacher-equivalence fixture schedule (Agent A). Maps = sorted engine.maps() names at indices i*n//12, i=0..11. Cell = (map, candidate side, opponent). Official CLI, --release, default fuel.",
+  "version": 1,
+  "n_maps_available": 40,
+  "map_indices": [
+    0,
+    3,
+    6,
+    10,
+    13,
+    16,
+    20,
+    23,
+    26,
+    30,
+    33,
+    36
+  ],
+  "maps": [
+    "00ambush",
+    "00corners",
+    "00expanse",
+    "00great-wall",
+    "00lost-world",
+    "00pilgrimage",
+    "00rows",
+    "00stampede",
+    "01boss-battle",
+    "01elk-arena",
+    "01hooks",
+    "01starfish"
+  ],
+  "sides": [
+    "A",
+    "B"
+  ],
+  "opponents": {
+    "original": "references/builds/original.wasm",
+    "v47": "references/builds/v47.wasm"
+  },
+  "reference_candidate": "references/builds/original.wasm"
+}
