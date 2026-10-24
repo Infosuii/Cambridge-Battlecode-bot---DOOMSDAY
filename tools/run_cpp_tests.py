@@ -67,6 +67,27 @@ def run_exe(exe, *args, timeout=600):
     return r.returncode, r.stdout.decode('utf-8', 'replace'), r.stderr.decode('utf-8', 'replace')
 
 
+_STUB_REG = None
+
+
+def stub_registry() -> Path:
+    """Synthetic test models exported against tests/cpp/rt_stub_nn_schema.h (built once per run)."""
+    global _STUB_REG
+    if _STUB_REG is None:
+        from nfs.models import untrained
+        base = TMP / 'stub_models'
+        stub = ROOT / 'tests/cpp/rt_stub_nn_schema.h'
+        models = {}
+        for name, zr in (('fs_v1_untrained', True), ('fs_v1_dev', False)):
+            untrained.make(name, zr, out_dir=base / name, schema_header=stub)
+            models[name] = dict(path=(base / name).relative_to(ROOT).as_posix(), status='untrained', exportable=True,
+                                label='synthetic test model (stub schema)')
+        _STUB_REG = base / 'registry.json'
+        _STUB_REG.write_text(json.dumps(dict(version=1, models=models, release_selection={}), indent=2),
+                             encoding='utf-8')
+    return _STUB_REG
+
+
 def prepare_tree(name: str, profile: str, model: str | None = None, tamper: str | None = None) -> Path:
     """Scratch source tree: B's runtime files + stub C headers + generated config/registry/weights."""
     d = TMP / name
@@ -76,13 +97,15 @@ def prepare_tree(name: str, profile: str, model: str | None = None, tamper: str 
     src.mkdir(parents=True)
     for f in OWN:
         shutil.copy2(ROOT / 'bot/src' / f, src / f)
+    # Runtime unit tests use the stub observation layout (RawTurn.x = encoded obs) and test-only synthetic models
+    # exported against that stub schema; the real models in models/ follow agent C's schema (lead, wave-1 fix).
     shutil.copy2(ROOT / 'tests/cpp/rt_stub_nn_schema.h', src / 'nn_schema.h')
     shutil.copy2(ROOT / 'tests/cpp/rt_stub_nn_obs.h', src / 'nn_obs.h')
-    summary = install_models.install(profile, src, ROOT, quiet=True, model=model)
+    summary = install_models.install(profile, src, ROOT, quiet=True, model=model, registry_path=stub_registry())
     (d / 'install.json').write_text(json.dumps(summary, indent=2), encoding='utf-8')
     if tamper in ('badsum', 'nanw'):
         m = summary['models'][0]
-        man, blob = export.load_blob(ROOT / 'models' / m)
+        man, blob = export.load_blob(TMP / 'stub_models' / m)
         cfg = man['config']
         segs = export.segment_checksums(cfg, blob)
         total = man['checksum']
@@ -126,7 +149,7 @@ def check_training_records(stdout: str, src: Path) -> list[dict]:
     sampled choice re-derived from the PRNG twin; logp within 1e-6."""
     summary = json.loads((src.parent / 'install.json').read_text(encoding='utf-8'))
     m = summary['models'][0]
-    man, blob = export.load_blob(ROOT / 'models' / m)
+    man, blob = export.load_blob(TMP / 'stub_models' / m)
     cfg = man['config']
     B = reference.Blob(cfg, blob)
     seed = int(re.search(r'kSeed = (\d+)u', (src / 'nn_config.h').read_text()).group(1))
@@ -144,9 +167,13 @@ def check_training_records(stdout: str, src: Path) -> list[dict]:
             continue
         n_dec += 1
         hc = cfg['heads'][r['head']]
-        if key not in hcache:
-            hcache[key] = reference.encode(B, ctx[key])
-        h = hcache[key]
+        if hc['uses_ctx']:
+            if key not in ctx:  # a context head's decision must be preceded by its turn-context record
+                bad_logit += 1
+                continue
+            if key not in hcache:
+                hcache[key] = reference.encode(B, ctx[key])
+        h = hcache.get(key)
         lg = reference.candidate_logits(B, hc['name'], h if hc['uses_ctx'] else None, r['feat'], r['legal'],
                                         r['prior'], r['context'])
         if lg.tobytes() != r['logit'].tobytes():
@@ -173,7 +200,7 @@ def check_selftest(stdout: str, src: Path) -> list[dict]:
     got = [l.strip() for l in stdout.splitlines() if l.startswith('NNST ') and (' enc ' in l or ' head ' in l
                                                                                or ' value ' in l or ' leaf ' in l)]
     for m in summary['models']:
-        man, blob = export.load_blob(ROOT / 'models' / m)
+        man, blob = export.load_blob(TMP / 'stub_models' / m)
         want = reference.selftest_lines(man['config'], blob, m)
         mine = [l for l in got if l.split()[1] == m]
         out.append(dict(name=f'selftest_lines_match_reference_{m}', passed=mine == want,

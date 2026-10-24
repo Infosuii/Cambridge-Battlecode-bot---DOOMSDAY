@@ -8,11 +8,13 @@
 int main() {
     nnrt::SplitMix64 r{424242};
     // Episode start.
-    nnlog::write_episode(0xA1B2C3D4u, 1, 7, nnlog::kEpisodeStart, 1, 2026102401u, 0x0123456789ABCDEFull, 0xFEEDu);
+    nnlog::enqueue_episode(0xA1B2C3D4u, 1, 7, nnlog::kEpisodeStart, 1, 2026102401u, 0x0123456789ABCDEFull, 0xFEEDu);
+    nnlog::flush_all();
     // Turn context with 37 raw bytes (odd length exercises base64 padding).
     unsigned char raw[37];
     for (int i = 0; i < 37; ++i) raw[i] = static_cast<unsigned char>(i * 7 + 3);
-    nnlog::write_turn_context(0xA1B2C3D4u, 2, 7, raw, 37);
+    nnlog::enqueue_turn_context(0xA1B2C3D4u, 2, 7, raw, 37);
+    nnlog::flush_all();
     // Decisions for K = 1..16 with F = 1 + K % 24.
     for (int K = 1; K <= 16; ++K) {
         const int F = 1 + (K * 5) % 24;
@@ -32,11 +34,12 @@ int main() {
                                static_cast<std::uint16_t>(F), static_cast<std::int16_t>(chosen), 2, 0, static_cast<std::uint8_t>(K % 4),
                                1, -0.5f * K, prior, legal, id, feat, 0xBEEF0000u + K, static_cast<std::uint16_t>(K * 3),
                                static_cast<std::int16_t>(K / 2), logit};
-        nnlog::write_decision(rec);
+        nnlog::enqueue_decision(rec);
+        nnlog::flush_all();
     }
     // Oversized payload is dropped, not truncated.
     static unsigned char big[nnlog::kMaxPayload];
-    const bool ok = nnlog::write_turn_context(0, 0, 0, big, sizeof big);
+    const bool ok = nnlog::enqueue_turn_context(0, 0, 0, big, sizeof big);
     std::printf("dropped=%u written=%u oversize_ok=%d\n", nnlog::g_dropped, nnlog::g_written, ok ? 1 : 0);
     return 0;
 }

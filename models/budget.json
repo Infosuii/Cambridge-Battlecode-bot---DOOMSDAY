@@ -1,5 +1,5 @@
 {
-  "_doc": "PROVISIONAL - replaced by measured values from the engine probe (agents/B/REPORT.md).",
+  "_doc": "PROVISIONAL (not engine-measured yet). log_* = in-turn enqueue (memcpy) cost only; base64+fwrite (~8-12 fuel/byte) runs in nnh::idle() from leftover fuel. turn_allowance raised 30000->55000 by lead so a K=16 decision plus the shared encoder is admissible; must be re-derived from engine measurements.",
   "coefficients": {
     "dense_call": 20, "dense_row": 8, "dense_v4": 7, "act_call": 10, "act_v4": 14, "pool_row": 30,
     "finite_v4": 4, "encoder_fixed": 100, "head_fixed": 150, "scalar_op": 3, "cand_fixed": 30, "dot_elem": 5,
@@ -8,13 +8,13 @@
   "policy": {
     "safety_factor": 1.25,
     "decide_fixed": 400,
-    "turn_allowance": 30000,
+    "turn_allowance": 55000,
     "tail_reserve": 6000,
     "teacher_reserve": {"default": 10000},
     "capture_worst": 15000,
     "obs_encode_worst": 5000,
-    "log_fixed": 2000,
-    "log_per_byte": 12,
+    "log_fixed": 300,
+    "log_per_byte": 2,
     "verify_per_float": 24,
     "verify_chunk": 1024,
     "max_records_per_turn": 8

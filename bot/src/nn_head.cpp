@@ -161,7 +161,7 @@ std::uint8_t ensure_context(const Bot& bot) {
     if constexpr (nncfg::kTraining) {
         if (g_ctx.records < nnreg::kMaxRecordsPerTurn) {
             ++g_ctx.records;
-            nnlog::write_turn_context(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
+            nnlog::enqueue_turn_context(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
                                       &g_raw, static_cast<std::uint32_t>(sizeof(g_raw)));
         } else {
             ++nnlog::g_dropped;
@@ -335,7 +335,8 @@ Result decide(const Bot& bot, Decision& d) {
                                                          static_cast<std::uint32_t>(h), call);
             float lp = 0.0f;
             const int pick = nnrt::masked_sample(logit, d.legal, K, rng.uniform(), &lp);
-            r = Result{pick, true, lp, kOk, static_cast<std::int8_t>(pick)};
+            // net = the deployed (argmax) rule, logged beside the sampled behaviour choice for train/deploy divergence.
+            r = Result{pick, true, lp, kOk, static_cast<std::int8_t>(nnrt::masked_argmax(logit, d.legal, K))};
             sampled = true;
         } else {
             r.net = static_cast<std::int8_t>(nnrt::masked_argmax(logit, d.legal, K));
@@ -369,7 +370,7 @@ Result decide(const Bot& bot, Decision& d) {
                                    static_cast<std::uint16_t>(call),
                                    r.net,
                                    logit};
-            nnlog::write_decision(rec);
+            nnlog::enqueue_decision(rec);
         } else {
             ++nnlog::g_dropped;
         }
@@ -434,10 +435,10 @@ void turn_start() {
         const std::uint16_t flags = static_cast<std::uint16_t>(1u | (nncfg::kFuelCredit ? 2u : 0u));
         if (!g_started) {
             g_started = true;
-            nnlog::write_episode(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
+            nnlog::enqueue_episode(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
                                  nnlog::kEpisodeStart, flags, nncfg::kSeed, ck, nnreg::kProfileHash);
         } else if (g_ctx.round % 100 == 0) {
-            nnlog::write_episode(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
+            nnlog::enqueue_episode(nnobs::kObsSchemaHash, static_cast<std::int32_t>(g_ctx.round), g_ctx.champion,
                                  nnlog::kEpisodeHeartbeat, flags, nncfg::kSeed, ck, nnreg::kProfileHash);
         }
     }
@@ -445,6 +446,20 @@ void turn_start() {
         if (g_ctx.round / 100 != g_last_tel_round / 100) {
             g_last_tel_round = g_ctx.round;
             nnb::print_telemetry(g_ctx.round);
+        }
+    }
+}
+
+void idle() {
+    // Training records are queued during the turn and written here, at the very end of play_turn, only while the
+    // leftover fuel exceeds a reserve: logging never takes fuel the teacher could have used this turn. Records still
+    // queued roll over to the next idle() (bounded queue; overflow counts as dropped and is reported in markers).
+    if constexpr (nncfg::kTraining) {
+        constexpr std::uint64_t kReserve = 4000;
+        while (!nnlog::queue_empty()) {
+            const std::uint64_t need = kReserve + 64 + 12 * static_cast<std::uint64_t>(nnlog::next_bytes());
+            if (nnb::fuel_left() < need) break;
+            nnlog::flush_one();
         }
     }
 }

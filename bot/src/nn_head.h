@@ -91,6 +91,9 @@ float leaf(const Bot& bot, const float* feat, int F, std::uint8_t context = 0);
 // Call right after nnb::begin_turn() (lead hook): selftest fixtures (kSelfTest), telemetry lines, episode markers.
 void turn_start();
 
+// Call as the LAST statement of play_turn (lead hook): flushes queued training records with leftover fuel only.
+void idle();
+
 // Call from the draft (10x fuel): verifies the installed models' checksums so gameplay turns need not.
 void warmup();
 

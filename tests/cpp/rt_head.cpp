@@ -56,6 +56,7 @@ static Bot g_bot;
 using nncfg::H;
 
 static void new_turn(std::uint32_t round) {
+    nnh::idle(); // end of the previous turn: flush queued training records (leftover fuel)
     nnb::host::round = round;
     nnb::host::fuel = 1000000;
     nnb::begin_turn();
@@ -206,7 +207,10 @@ static void test_scoring(H h, bool zero_residual) {
         ref_logits(d, logit);
         const int best = nnrt::masked_argmax(logit, d.legal, K);
         const nnh::Result r = nnh::decide(g_bot, d);
-        if (r.net != best) ok_net = false;
+        if (r.net != best) {
+            if (ok_net) std::fprintf(stderr, "  [dbg] head %d t=%d K=%d net=%d best=%d reason=%d\n", static_cast<int>(h), t, K, r.net, best, r.reason);
+            ok_net = false;
+        }
         if (active && !nncfg::kTraining && (r.choice != best || !r.neural || r.reason != nnh::kOk)) ok_choice = false;
         if (!active && (r.choice != 0 || r.neural || r.reason != nnh::kShadow)) ok_teacher = false;
         if (zero_residual && r.choice != 0) ok_teacher = false;
@@ -293,6 +297,7 @@ static void test_records_bound(H h) {
     const std::uint32_t w0 = nnlog::g_written, d0 = nnlog::g_dropped;
     fill(d, h, 3, F, 31);
     for (int i = 0; i < 20; ++i) nnh::decide(g_bot, d);
+    nnh::idle(); // records are queued during the turn and written at its end
     const std::uint32_t w = nnlog::g_written - w0, dr = nnlog::g_dropped - d0;
     CHECK(w == nnreg::kMaxRecordsPerTurn && dr == 20 + 1 - nnreg::kMaxRecordsPerTurn, "records_bounded_per_turn",
           "written %u dropped %u", w, dr);
@@ -370,6 +375,7 @@ int main(int argc, char** argv) {
             test_values();
         }
     }
+    nnh::idle();
     std::fprintf(stderr, "SUMMARY rt_head_%s pass=%d fail=%d\n", v.c_str(), g_pass, g_fail);
     return g_fail ? 1 : 0;
 }
