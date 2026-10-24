@@ -1,5 +1,10 @@
 # Fresh laptop recovery
 
+**During the initial large upload:** source-checkpoint contains the latest code, tests, frozen builds and replay
+evidence and has passed259tests from a fresh remote checkout. main receives the full historical archive. Do not
+assume the full archive is ready until recovery/snapshot.json and publication verification say so. To inspect
+source immediately use `git clone --branch source-checkpoint ...`; for complete recovery use main after upload.
+
 The active project is at the repository root. Start a new agent with NEXT_AGENT_PROMPT.md and HANDOFF.md.
 The direct-policy bot is still under construction. New heads are untrained, and the checked-in release default
 keeps them off. A backup does not turn the current work into a trained or finished bot.

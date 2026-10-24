@@ -2,6 +2,41 @@
 
 ## CURRENT STATE — supersedes historical checkpoint below
 
+### Live publication update (2026-10-24,13:06UTC)
+
+Current SOURCE is safely on GitHub branch source-checkpoint (first commitdf75fb837202489566e0fef43ea709799a4817ea),
+created without the huge archive packs so source verification need not wait for hours of data transfer. A FRESH
+REMOTE checkout of that branch passed ALL259 tests in24.708s with existing installed tooling, NO manual file
+hydration or line-ending fixes. root259test log also passes. tools/publish_source_checkpoint.py can update this
+branch from committed HEAD without force-pushing or disturbing the real index. main is the full archive branch.
+
+Recovery scan is still RUNNING: exec session58054. Incremental Git LFS publisher still RUNNING: session2353.
+At this update:159612files /70.97GB logical captured,198packs created,1excluded item and1source error flagged.
+The current archiver writes error details only at completion; inspect recovery/source_errors.json then resolve
+the issue before claiming a complete backup. Original archiver is the pre-resume code loaded at launch: it has
+NO pid in progress.json. Do NOT start a second snapshot while it runs. If interrupted, current on-disk tool supports
+snapshot --resume, retaining closed packs and preserving a truncated tail in recovery/incomplete/.
+
+First263597932-byte LFS pack was downloaded from the remote and SHA256 verified exactly. First additional16packs
+successfully pushed; the next batch is transferring. Source, frozen reference Wasm/manifest/build logs AND82small
+frozen evaluation replay files(5.76MB) are committed directly to Git. Entire archived data/dependencies are NOT
+yet all uploaded. evaluation/results/recovery_publish.json remains partial; its old running-process version may
+record a newer LOCAL head if the lead committed during push. Use git ls-remote origin refs/heads/main as authority.
+On-disk publisher code fixes that race for subsequent process launches; don't restart a live publisher casually.
+
+Fresh-clone issues found/fixed: Git's Windows auto-CRLF broke frozen schedule hashes and generated schema tests;
+.gitattributes now starts with `* -text` so EXACT original blob bytes survive any checkout. An unanchored builds/
+ignore hid references/builds; it is now /builds/, and unchanged frozen binaries/manifests are tracked. configure
+recovery now hydrates missing ignored project files from restored snapshot without overwriting existing Git HEAD.
+The earlier clone failed, then passed255tests after exact-byte/frozen-data hydration, and rebuilt ORIGINAL Wasm
+officially: evaluation/results/recovery_clone_teacher_exact.json. The newer source-checkpoint clone passes259
+directly. This proves portable SOURCE/data checkout with existing tools; full relocated offline runtime/all-archive
+restore has NOT yet been verified. No new game/training/submission occurred during backup.
+
+Do not call repo/source creation a finished backup. Finish scan, repair source error/examine exclusion, finish
+all LFS uploads, check every remote OID, checksum/restore archive, configure relocated dependencies and recheck
+Python/native/official teacher identity. The user explicitly requested a handoff prompt before usage ends.
+
 Latest user priority: create GitHub repository "neural networkk battlecode" and push EVERYTHING needed to clone
 on a fresh laptop and continue with no missing source/features/tests/data. GitHub upload is explicitly authorized;
 Battlecode submission/login/activation is still prohibited. Private repository CREATED:

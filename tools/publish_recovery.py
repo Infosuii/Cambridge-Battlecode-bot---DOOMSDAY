@@ -43,8 +43,8 @@ def main():
             git('add','--',*chosen)
             git('-c','user.name=lead','-c','user.email=lead@local','commit','-m',
                 f'Archive closed recovery packs {Path(chosen[0]).stem} through {Path(chosen[-1]).stem}')
-            git('push','origin','HEAD:main');uploaded+=len(chosen)
-            receipt(dict(status='partial',repo=repo,uploaded_packs_this_run=uploaded,head=git('rev-parse','HEAD'),
+            pushed=git('rev-parse','HEAD');git('push','origin',pushed+':main');uploaded+=len(chosen)
+            receipt(dict(status='partial',repo=repo,uploaded_packs_this_run=uploaded,head=pushed,
                          snapshot_complete=bool(final),full_remote_restore_verified=False))
             print(f'Pushed {len(chosen)} additional packs; total new this run {uploaded}',flush=True)
             continue
@@ -54,8 +54,8 @@ def main():
                 'recovery/exclusions.json','recovery/source_errors.json','recovery/histories.json','recovery/histories')
             if git('diff','--cached','--name-only'):
                 git('-c','user.name=lead','-c','user.email=lead@local','commit','-m','Finalize full recovery manifest, histories and pack checksums')
-            git('push','origin','HEAD:main')
-            head=git('rev-parse','HEAD');remote=git('ls-remote','origin','refs/heads/main').split()[0]
+            head=git('rev-parse','HEAD');git('push','origin',head+':main')
+            remote=git('ls-remote','origin','refs/heads/main').split()[0]
             if head!=remote:raise RuntimeError('Remote head mismatch')
             state='uploaded' if final['status']=='complete' else 'uploaded_with_source_errors'
             receipt(dict(status=state,repo=repo,head=head,remote_head=remote,packs=len(final['packs']),files=final['files'],

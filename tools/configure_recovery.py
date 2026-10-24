@@ -20,7 +20,7 @@ def configure(restored,install_cli_cache=False):
     hydrated=0
     if not saved_project.is_dir():raise RuntimeError('Saved project snapshot missing')
     for directory,dirs,files in os.walk(saved_project):
-        dirs[:]=[name for name in dirs if name not in {'.git','recovery'}]
+        dirs[:]=[name for name in dirs if name!='.git']
         relative=Path(directory).relative_to(saved_project);target=ROOT/relative
         target.mkdir(parents=True,exist_ok=True)
         for name in files:

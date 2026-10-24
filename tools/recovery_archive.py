@@ -125,7 +125,7 @@ def snapshot():
                             with path.open('rb') as stream:
                                 for data in iter(lambda:stream.read(CHUNK),b''):
                                     if stat.st_size<=2*1024*1024 and SECRET.search(data):unsafe=True;break
-                                    h.update(data);blocks.append(store(data,path.suffix.lower() in {'.zip','.whl','.7z','.gz','.zst','.xz','.bz2','.png','.jpg','.mp4','.repl26a'}))
+                                    h.update(data);blocks.append(store(data,path.suffix.lower() in {'.zip','.7z','.gz','.zst','.xz','.bz2','.png','.jpg','.mp4'}))
                             if unsafe:
                                 exclusions.append(dict(root=label,path=relative,reason='recognizable secret content'));continue
                             digest=h.hexdigest();after=path.stat()

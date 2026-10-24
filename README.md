@@ -10,7 +10,7 @@ New neural heads are **untrained and off by default**. Approximately80% neural d
 not a measured current capability. No new training or Battlecode submission occurred. See
 [POLICY_FIRST_PLAN.md](POLICY_FIRST_PLAN.md) and [CONTRACTS.md](CONTRACTS.md).
 
-Checkpoint:255 Python tests,460 legacy native checks, active compact capture syntax and official release
+Checkpoint:259 Python tests,460 legacy native checks, active compact capture syntax and official release
 byte identity with the frozen original passed. Receipts: evaluation/results/v2_recovery_*.
 
 Large recovery packs use Git LFS. Complete recovery requires all packs, checksums and restore. Read the recovery

@@ -1,5 +1,14 @@
 Continue the neural Battlecode project from this repository HEAD.
 
+LIVE BACKUP: source-checkpoint branch is already on GitHub and a fresh remote checkout passes259tests. main
+is still receiving the full large archive. Local snapshot exec session58054 and publisher session2353 may still
+be running; inspect progress/processes before restarting. Scan flagged1source error/1exclusion; inspect final
+source_errors.json and exclusions.json and resolve before completion. Source-checkpoint omits archive packs ONLY
+on that branch, so it can update promptly; tools/publish_source_checkpoint.py preserves committed source there.
+Do not mistake latest local HEAD in the old publisher partial receipt for remote main: use git ls-remote. Actual
+main data transfer is much slower than local scan; leave no duplicate publishers. Full offline relocated restore
+and every-remote-object verification remain. Read the newest HANDOFF update for precise evidence and fixes.
+
 Read HANDOFF.md CURRENT section, RECOVERY.md, POLICY_FIRST_PLAN.md, CONTRACTS.md, agents/USER_REQUEST.md and
 agents/v2_*/REPORT.md. Historical handoff sections contain resolved blockers; current section supersedes them.
 
