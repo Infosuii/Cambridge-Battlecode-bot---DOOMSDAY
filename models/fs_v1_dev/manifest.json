@@ -24,10 +24,10 @@
         "uses_ctx": false,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 1707570589
+        "action_hash": 1920229897
       },
       {
         "name": "strategy",
@@ -36,10 +36,10 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2972205690
+        "action_hash": 1433588841
       },
       {
         "name": "objective",
@@ -48,10 +48,10 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2601289251
+        "action_hash": 3643052014
       },
       {
         "name": "role",
@@ -60,34 +60,34 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2057618215
+        "action_hash": 2284478884
       },
       {
         "name": "bank",
         "id": 4,
         "kind": "candidate",
         "uses_ctx": true,
-        "F": 24,
+        "F": 20,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 4069415016
+        "action_hash": 2121997611
       },
       {
         "name": "shop",
         "id": 5,
         "kind": "candidate",
         "uses_ctx": true,
-        "F": 24,
+        "F": 20,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2465742033
+        "action_hash": 1822904660
       },
       {
         "name": "move",
@@ -99,7 +99,7 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 926406115
+        "action_hash": 2565045069
       },
       {
         "name": "combat",
@@ -111,7 +111,7 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2945765995
+        "action_hash": 1682754527
       },
       {
         "name": "engage",
@@ -123,7 +123,7 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2704061659
+        "action_hash": 2440453809
       },
       {
         "name": "ward",
@@ -135,7 +135,7 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 3100322871
+        "action_hash": 2356686304
       },
       {
         "name": "belief",
@@ -145,9 +145,9 @@
         "F": 0,
         "hidden": 8,
         "n_ctx": 0,
-        "n_out": 8,
+        "n_out": 9,
         "R": 0.0,
-        "action_hash": 0
+        "action_hash": 221875660
       },
       {
         "name": "value",
@@ -159,7 +159,7 @@
         "n_ctx": 0,
         "n_out": 3,
         "R": 0.0,
-        "action_hash": 0
+        "action_hash": 2776817594
       },
       {
         "name": "ts_leaf",
@@ -170,8 +170,8 @@
         "hidden": 8,
         "n_ctx": 1,
         "n_out": 1,
-        "R": 1.0,
-        "action_hash": 238541289
+        "R": 25.0,
+        "action_hash": 3232351347
       }
     ],
     "value_outputs": [
@@ -182,24 +182,24 @@
   },
   "obs_schema_hash": "0xd341b69c",
   "obs_schema_source": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\bot\\src\\nn_schema.h",
-  "action_schema_hash": "0x6a38cc34",
-  "n_params": 8566,
-  "checksum": "0x05adf586ac49f73f",
+  "action_schema_hash": "0x0af5b98f",
+  "n_params": 8367,
+  "checksum": "0x165655b4ee67b5d1",
   "segment_checksums": {
     "enc": "0x14df972da8cf172e",
-    "draft_pick": "0x9b7b3742069c184a",
-    "strategy": "0x9e51975543fd45ae",
-    "objective": "0xaaa7d6151b060562",
-    "role": "0x04921ba37668f46c",
-    "bank": "0xd60cb00248de9ed3",
-    "shop": "0xbc7cf7c2c8517cff",
-    "move": "0x6092ff51b88cb05c",
-    "combat": "0xc85e8cb63fca7e22",
-    "engage": "0xa06b974c41e88909",
-    "ward": "0x979375344a548531",
-    "belief": "0xe54bee0741652f8f",
-    "value": "0x60e3881be8e59f31",
-    "ts_leaf": "0xce20d9cb7bdc3342"
+    "draft_pick": "0x4db6c482fdbf2616",
+    "strategy": "0x95225212aa9f8d0a",
+    "objective": "0x2361491ca9b5359c",
+    "role": "0xc0fb226d4e9c01d5",
+    "bank": "0x54af62493c541c3a",
+    "shop": "0x82e8e62cefa969e3",
+    "move": "0x9950b6c251bc7331",
+    "combat": "0x9ce40cb8c6303b64",
+    "engage": "0x68276dcc45c73eba",
+    "ward": "0x339fa5cff2c2c2ee",
+    "belief": "0x68e27f418eaca064",
+    "value": "0x2c18b1c7b600ee7a",
+    "ts_leaf": "0x7989b1e3bac5ffb9"
   },
   "export_precision": "f32",
   "engine_version": "1.0.3",
@@ -216,19 +216,7 @@
     "passed": false,
     "note": "untrained: nothing to validate"
   },
-  "provisional": [
-    "draft_pick: no schemas/heads/draft_pick.json, default F=24",
-    "strategy: no schemas/heads/strategy.json, default F=24",
-    "objective: no schemas/heads/objective.json, default F=24",
-    "role: no schemas/heads/role.json, default F=24",
-    "bank: no schemas/heads/bank.json, default F=24",
-    "shop: no schemas/heads/shop.json, default F=24",
-    "move: no schemas/heads/move.json, default F=24",
-    "combat: no schemas/heads/combat.json, default F=24",
-    "engage: no schemas/heads/engage.json, default F=24",
-    "ward: no schemas/heads/ward.json, default F=24",
-    "ts_leaf: no schemas/heads/ts_leaf.json, default F=8"
-  ],
+  "provisional": [],
   "files": {
     "weights": "weights.f32",
     "header": "nn_weights_fs_v1_dev.h"
@@ -259,11 +247,11 @@
         "uses_ctx": false,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 1707570589,
-        "schema": null
+        "action_hash": 1920229897,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\draft_pick.json"
       },
       {
         "name": "strategy",
@@ -272,11 +260,11 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2972205690,
-        "schema": null
+        "action_hash": 1433588841,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\strategy.json"
       },
       {
         "name": "objective",
@@ -285,11 +273,11 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2601289251,
-        "schema": null
+        "action_hash": 3643052014,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\objective.json"
       },
       {
         "name": "role",
@@ -298,37 +286,37 @@
         "uses_ctx": true,
         "F": 24,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2057618215,
-        "schema": null
+        "action_hash": 2284478884,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\role.json"
       },
       {
         "name": "bank",
         "id": 4,
         "kind": "candidate",
         "uses_ctx": true,
-        "F": 24,
+        "F": 20,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 4069415016,
-        "schema": null
+        "action_hash": 2121997611,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\bank.json"
       },
       {
         "name": "shop",
         "id": 5,
         "kind": "candidate",
         "uses_ctx": true,
-        "F": 24,
+        "F": 20,
         "hidden": 8,
-        "n_ctx": 4,
+        "n_ctx": 1,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2465742033,
-        "schema": null
+        "action_hash": 1822904660,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\shop.json"
       },
       {
         "name": "move",
@@ -340,8 +328,8 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 926406115,
-        "schema": null
+        "action_hash": 2565045069,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\move.json"
       },
       {
         "name": "combat",
@@ -353,8 +341,8 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2945765995,
-        "schema": null
+        "action_hash": 1682754527,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\combat.json"
       },
       {
         "name": "engage",
@@ -366,8 +354,8 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 2704061659,
-        "schema": null
+        "action_hash": 2440453809,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\engage.json"
       },
       {
         "name": "ward",
@@ -379,8 +367,8 @@
         "n_ctx": 4,
         "n_out": 1,
         "R": 2.0,
-        "action_hash": 3100322871,
-        "schema": null
+        "action_hash": 2356686304,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\ward.json"
       },
       {
         "name": "belief",
@@ -390,10 +378,10 @@
         "F": 0,
         "hidden": 8,
         "n_ctx": 0,
-        "n_out": 8,
+        "n_out": 9,
         "R": 0.0,
-        "action_hash": 0,
-        "schema": null
+        "action_hash": 221875660,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\belief.json"
       },
       {
         "name": "value",
@@ -405,8 +393,8 @@
         "n_ctx": 0,
         "n_out": 3,
         "R": 0.0,
-        "action_hash": 0,
-        "schema": null
+        "action_hash": 2776817594,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\value.json"
       },
       {
         "name": "ts_leaf",
@@ -417,9 +405,9 @@
         "hidden": 8,
         "n_ctx": 1,
         "n_out": 1,
-        "R": 1.0,
-        "action_hash": 238541289,
-        "schema": null
+        "R": 25.0,
+        "action_hash": 3232351347,
+        "schema": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\schemas\\heads\\ts_leaf.json"
       }
     ],
     "value_outputs": [
@@ -427,19 +415,7 @@
       "margin",
       "carry_risk"
     ],
-    "provisional": [
-      "draft_pick: no schemas/heads/draft_pick.json, default F=24",
-      "strategy: no schemas/heads/strategy.json, default F=24",
-      "objective: no schemas/heads/objective.json, default F=24",
-      "role: no schemas/heads/role.json, default F=24",
-      "bank: no schemas/heads/bank.json, default F=24",
-      "shop: no schemas/heads/shop.json, default F=24",
-      "move: no schemas/heads/move.json, default F=24",
-      "combat: no schemas/heads/combat.json, default F=24",
-      "engage: no schemas/heads/engage.json, default F=24",
-      "ward: no schemas/heads/ward.json, default F=24",
-      "ts_leaf: no schemas/heads/ts_leaf.json, default F=8"
-    ]
+    "provisional": []
   },
   "zero_residual": false,
   "note": "SYNTHETIC seeded init, untrained, non-zero residual: PLUMBING ONLY, never a release"

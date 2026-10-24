@@ -10,18 +10,18 @@
     "-Wno-unused-parameter"
   ],
   "synthetic_data_only": true,
-  "generated": "2026-10-24T01:43:16",
-  "seconds": 24.9,
+  "generated": "2026-10-24T02:50:58",
+  "seconds": 19.3,
   "passed": true,
   "n_targets": 11,
-  "n_checks": 451,
+  "n_checks": 460,
   "results": [
     {
       "target": "rt_kernels",
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 1.26,
+      "seconds": 0.71,
       "n_checks": 30,
       "failed": [],
       "checks": [
@@ -152,7 +152,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 0.56,
+      "seconds": 0.38,
       "n_checks": 3,
       "failed": [],
       "checks": [
@@ -178,7 +178,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 0.18,
+      "seconds": 0.14,
       "n_checks": 1,
       "failed": [],
       "checks": [
@@ -194,8 +194,8 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 1.96,
-      "n_checks": 103,
+      "seconds": 1.43,
+      "n_checks": 106,
       "failed": [],
       "checks": [
         {
@@ -609,6 +609,18 @@
         {
           "name": "zero_active:value_bad_output_index",
           "passed": true
+        },
+        {
+          "name": "zero_active:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "zero_active:leaf_consumes_token_once",
+          "passed": true
         }
       ]
     },
@@ -617,8 +629,8 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 2.08,
-      "n_checks": 103,
+      "seconds": 1.44,
+      "n_checks": 106,
       "failed": [],
       "checks": [
         {
@@ -1032,6 +1044,18 @@
         {
           "name": "dev_active:value_bad_output_index",
           "passed": true
+        },
+        {
+          "name": "dev_active:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "dev_active:leaf_consumes_token_once",
+          "passed": true
         }
       ]
     },
@@ -1040,8 +1064,8 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 2.08,
-      "n_checks": 102,
+      "seconds": 1.42,
+      "n_checks": 105,
       "failed": [],
       "checks": [
         {
@@ -1451,6 +1475,18 @@
         {
           "name": "shadow:value_bad_output_index",
           "passed": true
+        },
+        {
+          "name": "shadow:leaf_pre_admission",
+          "passed": true
+        },
+        {
+          "name": "shadow:leaf_charges_builder_from_token",
+          "passed": true
+        },
+        {
+          "name": "shadow:leaf_consumes_token_once",
+          "passed": true
         }
       ]
     },
@@ -1459,7 +1495,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 8.61,
+      "seconds": 6.81,
       "n_checks": 98,
       "failed": [],
       "checks": [
@@ -1866,7 +1902,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 2.38,
+      "seconds": 1.57,
       "n_checks": 3,
       "failed": [],
       "checks": [
@@ -1891,7 +1927,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 1.57,
+      "seconds": 1.43,
       "n_checks": 3,
       "failed": [],
       "checks": [
@@ -1914,7 +1950,7 @@
       "passed": true,
       "returncode": 0,
       "error": null,
-      "seconds": 2.23,
+      "seconds": 2.04,
       "n_checks": 3,
       "failed": [],
       "checks": [

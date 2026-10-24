@@ -112,11 +112,22 @@ def install(profile_name: str, src: Path, root: Path = ROOT, budget_path: Path |
             registry_path: Path | None = None) -> dict:
     src = Path(src)
     prof = registry.load_profile(profile_name, root)
+    reg = registry.load_json(registry_path) if registry_path else registry.load_registry(root)
     if model:
         if prof['model'] == 'release_selection':
             raise SystemExit('--model cannot override the release selection (edit models/registry.json)')
+        # In-training exports live under a run directory and must never mutate the installed registry.
+        model_dir = Path(model)
+        if model_dir.is_dir():
+            model_dir = model_dir.resolve()
+            manifest = registry.load_json(model_dir / 'manifest.json')
+            errors = registry.validate_manifest(manifest, model_dir)
+            if errors or not export.NAME_RE.fullmatch(manifest['name']):
+                raise SystemExit('invalid model directory: ' + '; '.join(errors or ['invalid model name']))
+            model = manifest['name']
+            reg = dict(reg, models=dict(reg['models']))
+            reg['models'][model] = dict(path=str(model_dir), status=manifest['status'], exportable=True)
         prof = dict(prof, model=model, name=prof['name'])
-    reg = registry.load_json(registry_path) if registry_path else registry.load_registry(root)
     plan = registry.resolve_profile(prof, reg, root, src)
     budget = json.loads(Path(budget_path or root / 'models/budget.json').read_text(encoding='utf-8'))
     head_hashes = {}

@@ -171,10 +171,24 @@ def build() -> tuple[dict, dict[str, dict]]:
                       maps=parts['final'], opponents=list(REFERENCE_NAMES), sides=['A', 'B'],
                       cells=_cells(parts['final'], REFERENCE_NAMES)),
     }
+    for name in ('smoke', 'fuel_profile', 'equivalence'):
+        schedules[name]['control_arms'] = ['original', 'neutral_real']
+        schedules[name]['control_note'] = (
+            'Amendment 2026-10-24: pair dev_untrained with neutral_real on identical cells. '
+            'neutral_real runs the same encoder, feature builders and scorer architecture in shadow mode; '
+            'it is an overhead control, not proof of identical fuel or teacher decisions. '
+            'All results are untrained framework checks, not strength evidence.')
     sched_hash = {k: hashlib.sha256(_dump(v).encode()).hexdigest() for k, v in schedules.items()}
     protocol = dict(
         protocol_version=VERSION,
-        written_before_candidate_results=True,
+        written_before_candidate_results=False,
+        base_protocol_written_before_candidate_results=True,
+        amendments=[dict(id='2026-10-24-overhead-control',
+                         reason='Pre-decision fuel sensitivity invalidates zero-residual equivalence claims.',
+                         known_evidence='evaluation/evidence/neutral_equivalence_bisect.json',
+                         scope='Add neutral_real control arm; measure credit/shadow divergence, keep teacher_exact exact.',
+                         original_protocol_sha256='af278d4f088e4bd391c44729fa713c474c2a99dc51a3b2b7401bd91daaff4bd3',
+                         after_initial_framework_results=True, before_wave2_results=True)],
         engine=dict(cli=engine.PATHS['expected']['cli_version'], engine_version=GATE['engine_version'],
                     release=True, fuel='official default; the CLI fuel override flag is forbidden', max_concurrent_matches=4),
         determinism='Matches are deterministic for (wasm A, wasm B, map); re-running a cell or changing a seed does '
@@ -204,8 +218,9 @@ FRAMEWORK_CHECKS = [
          pass_rule='replay.repl26a and summary.json byte-identical on every cell; .fuel members reported '
                    '(expected identical when the code section equals the original)'),
     dict(id='neutral_credit_equivalence', schedule='equivalence', profile='neutral_credit',
-         what='all heads shadow, zero residual, kFuelCredit', pass_rule='replay.repl26a and summary.json '
-         'byte-identical on every cell (identical actions); per-turn fuel overhead reported from .fuel members'),
+         what='all heads shadow, zero residual, experimental kFuelCredit', pass_rule='MEASUREMENT: report '
+         'divergent replay/summary cells and overhead; credit is not proof of action equivalence. '
+         'Amended after neutral_equivalence_bisect; teacher_exact remains the exact-equivalence requirement.'),
     dict(id='neutral_real_divergence', schedule='equivalence', profile='neutral_real',
          what='all heads shadow, no credit', pass_rule='MEASUREMENT, not pass/fail: cells with divergent replays, '
          'first divergent round, outcome flips, margin deltas and fuel overhead are reported, never hidden'),
@@ -214,8 +229,8 @@ FRAMEWORK_CHECKS = [
          pass_rule='0 bot faults, 0 diagnostics codes, 0 invalid actions and per-head call/fallback/budget '
                    'counters present in NFT1 telemetry; win rates are NOT evaluated'),
     dict(id='per_head_shadow', schedule='equivalence', profile='per-head shadow builds (one head shadow, rest off)',
-         what='each head in isolation', pass_rule='0 faults; with kFuelCredit identical replays; without credit '
-         'divergence measured as in neutral_real'),
+         what='each head in isolation', pass_rule='0 faults; divergence and fuel measured as in neutral_real; '
+         'no shadow or credit equivalence claim (recorded amendment)'),
     dict(id='release_config_audit', schedule=None, what='tools/verify_release.py on the packaged release ZIP',
          pass_rule='every verify_release check passes'),
     dict(id='fuel_profile', schedule='fuel_profile', profile='release and dev telemetry builds',
@@ -258,7 +273,7 @@ def freeze(force_reason: str | None = None) -> dict:
     lock = dict(protocol_sha256=sha256_text(text), protocol_file='evaluation/protocol.json',
                 frozen_utc=dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'),
                 schedules={k: hashlib.sha256((SCHEDULES / f'{k}.json').read_bytes()).hexdigest() for k in schedules},
-                frozen_before_any_candidate_result=True, supersede_reason=force_reason, history=history)
+                frozen_before_any_candidate_result=not bool(history), supersede_reason=force_reason, history=history)
     LOCK.write_text(_dump(lock), encoding='utf-8', newline='\n')
     return lock
 

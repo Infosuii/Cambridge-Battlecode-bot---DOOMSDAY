@@ -1,0 +1,31 @@
+# Agent assignments and model record
+
+## Current Codex session
+
+The lead is Codex, described by the session instructions as based on GPT-6. The exact resolved deployment/model
+identifier is not exposed by these tools. Workers inherit the lead configuration. The available agent tool has no
+Opus5.5 option; no Opus run or selectable capability is claimed for this session.
+
+| Actual task | Worker task name | Files / role | Evidence |
+|---|---|---|---|
+| D strategy/draft/objective/role/value | `strategy` | D-owned modules, schemas, twins, native parity; staged integration instructions | agents/D/REPORT.md |
+| E movement/combat/engage/ward/leaf; belief consumer extension | `tactics` | E-owned modules, schemas, twins, hook script | agents/E/REPORT.md |
+| F bank/shop | `economy` | F-owned modules, schemas, twin, hook patch | agents/F/REPORT.md |
+| H2 pre-integration review | `economy` follow-up | Independent for D/E/runtime/training; explicitly F self-review | agents/H/REVIEW_WAVE2_PREINTEGRATION.md |
+| C visibility audit | `strategy` follow-up | Per-feature legality/freshness audit and eight-byte intent proposal | agents/C/VISIBILITY.md, REVIEW_FOLLOWUP.md |
+| Independent F review | `tactics` follow-up | Review of another worker's economy module | agents/H/REVIEW_ECONOMY_INDEPENDENT.md |
+
+Only these three worker sessions and their follow-ups were launched here. They did not train, submit or play engine
+games. The lead integrates and reruns tests; worker completion messages are not accepted as official-build evidence.
+
+## Earlier sessions
+
+The preserved A/B/C/G/H reports describe earlier Kiro/Claude Opus5.5 work. B/C reports were written by the previous
+lead after those worker sessions were cut off. These are historical records, not runs launched or independently
+identified by this Codex session. Their engine evidence remains separate from the current native-only checkpoint.
+
+## Integration discipline
+
+CONTRACTS ownership remains in force. Original gameplay hooks are staged for lead application after official fuel
+measurement and byte verification. The lead owns runtime, model/export and training-pipeline integration fixes.
+Reference source/binaries were not modified. New model exports are labelled synthetic initialization and untrained.

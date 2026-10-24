@@ -86,7 +86,9 @@ def plan_jobs(candidate_wasm, league: League, maps: list[Path], sides, n_games: 
               candidate_name: str = 'candidate') -> list[dict]:
     out_dir = Path(out_dir)
     cand_sha = engine.sha256(candidate_wasm)
-    pairs = max(1, n_games // max(1, len(sides)))
+    if n_games <= 0:
+        return []
+    pairs = (n_games + max(1, len(sides)) - 1) // max(1, len(sides))
     opps = league.sample(pairs)
     jobs = []
     for k, opp in enumerate(opps):

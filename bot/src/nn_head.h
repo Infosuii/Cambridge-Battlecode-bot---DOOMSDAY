@@ -88,6 +88,9 @@ float value(const Bot& bot, nncfg::H head, int output);
 // ts_leaf: bounded residual R * act(r / R) for one leaf feature vector; 0 on fallback / shadow; never NaN.
 float leaf(const Bot& bot, const float* feat, int F, std::uint8_t context = 0);
 
+// Anchor of the cached legal-observation snapshot; false until a context has been captured this turn.
+bool context_position(int& x, int& y);
+
 // Call right after nnb::begin_turn() (lead hook): selftest fixtures (kSelfTest), telemetry lines, episode markers.
 void turn_start();
 

@@ -327,6 +327,14 @@ static void test_values() {
     }
     std::uint8_t lr = nnh::last_reason(H::value);
     CHECK(lr == nnh::kBadInput, "value_bad_output_index", "reason %d", lr);
+    new_turn(6001);
+    CHECK(nnh::admit(g_bot, H::ts_leaf, 1, 1000), "leaf_pre_admission", "leaf rejected");
+    nnb::host::fuel -= 1234; // synthetic fuel spent by an admitted builder
+    (void)nnh::leaf(g_bot, lf, head_F(H::ts_leaf), 0);
+    CHECK(nnb::g_used == 1234, "leaf_charges_builder_from_token", "charged %llu", (unsigned long long)nnb::g_used);
+    nnb::host::fuel -= 17;
+    (void)nnh::leaf(g_bot, lf, head_F(H::ts_leaf), 0);
+    CHECK(nnb::g_used == 1234, "leaf_consumes_token_once", "charged %llu", (unsigned long long)nnb::g_used);
 }
 
 int main(int argc, char** argv) {

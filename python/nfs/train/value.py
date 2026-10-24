@@ -150,10 +150,11 @@ class DraftOutcomeModel(nn.Module):
 
 
 def train_draft_outcome(records: list[dict], assignment: dict, cfg: ValueConfig, *, authorized: bool,
-                        time_limit_minutes: float | None, model: nn.Module | None = None) -> dict:
+                        time_limit_minutes: float | None, model: nn.Module | None = None,
+                        deadline: Deadline | None = None) -> dict:
     """Observational, confounded. Uses only 'train' rows for fitting and 'validation' for early stopping."""
     minutes = require_authorization(authorized, time_limit_minutes, 'train-value --draft')
-    deadline = Deadline.from_minutes(minutes)
+    deadline = deadline or Deadline.from_minutes(minutes)
     x, y, ids = draft_rows(records)
     part = np.array([assignment.get(i, 'unassigned') for i in ids])
     tr, va = part == 'train', part == 'validation'

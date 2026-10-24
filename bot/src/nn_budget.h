@@ -51,6 +51,7 @@ inline std::uint32_t g_turn = 0;  // turn serial; begin_turn() increments it (ex
 struct Counters {
     std::uint32_t admitted, refused, fallback, neural;
     std::uint64_t fuel;
+    std::uint32_t invalid, nan;
 };
 inline Counters g_cnt[kHeads] = {}; // maintained only when kTelemetry
 
@@ -122,6 +123,14 @@ inline void count_fallback(nncfg::H head, bool neural) {
     }
 }
 
+inline void count_reason(nncfg::H head, std::uint8_t reason) {
+    if constexpr (nncfg::kTelemetry) {
+        auto& c = g_cnt[static_cast<int>(head)];
+        c.nan += reason == 7; // nnh::kNaN; keep this header independent of nn_head.h
+        c.invalid += reason == 9 || reason == 12 || reason == 13; // teacher illegal / malformed input / bad prior
+    }
+}
+
 // Scope meter: charges the fuel spent between construction and destruction to `head`.
 struct Meter {
     nncfg::H head;
@@ -136,17 +145,21 @@ struct Meter {
 };
 
 // One summary line per head with activity: "NFT1 head round=.. head=<id> admitted refused fallback neural fuel" (agents/H/TELEMETRY_FORMAT.md form 3) (dev profiles only).
-inline void print_telemetry(std::uint32_t round) {
+inline void print_telemetry_head(std::uint32_t round, int h) {
     if constexpr (nncfg::kTelemetry) {
-        for (int h = 0; h < kHeads; ++h) {
+        constexpr const char* names[kHeads] = {"draft_pick", "strategy", "objective", "role", "bank", "shop",
+            "move", "combat", "engage", "ward", "belief", "value", "ts_leaf"};
             const Counters& c = g_cnt[h];
-            if (!(c.admitted | c.refused | c.fallback | c.neural)) continue;
-            std::printf("NFT1 head round=%u head=%d admitted=%u refused=%u fallback=%u neural=%u fuel=%llu\n", round, h, c.admitted, c.refused, c.fallback, c.neural,
-                        static_cast<unsigned long long>(c.fuel));
-        }
+            if (!(c.admitted | c.refused | c.fallback | c.neural)) return;
+            std::printf("NFT1 head round=%u head=%s id=%d admitted=%u refused=%u fallback=%u neural=%u fuel=%llu invalid=%u nan=%u\n",
+                        round, names[h], h, c.admitted, c.refused, c.fallback, c.neural,
+                        static_cast<unsigned long long>(c.fuel), c.invalid, c.nan);
     } else {
-        (void)round;
+        (void)round; (void)h;
     }
+}
+inline void print_telemetry(std::uint32_t round) {
+    if constexpr (nncfg::kTelemetry) for (int h=0; h<kHeads; ++h) print_telemetry_head(round,h);
 }
 
 } // namespace nnb

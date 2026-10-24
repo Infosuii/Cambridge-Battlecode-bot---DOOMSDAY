@@ -1,0 +1,55 @@
+{
+  "label": "staged integration; NOT official verification",
+  "profile": "dev_untrained",
+  "source_sha256": "f2ea6f3731ac1031dbc28bcbd503a180af394e16ca4998227c73e8b1af6019c8",
+  "source": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\wave2_integrated\\bot\\src",
+  "official_build": "NOT RUN",
+  "fuel": "NOT MEASURED",
+  "native_checks": [
+    {
+      "file": "bot.cpp",
+      "passed": true,
+      "output": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\wave2_integrated\\bot\\src\\bot.cpp: In member function 'bool Bot::farm()':\nC:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\wave2_integrated\\bot\\src\\bot.cpp:5639:35: warning: division by zero [-Wdiv-by-zero]\n 5639 |         const int my_squad = slot % squads;\n      |                              ~~~~~^~~~~~~~\n"
+    },
+    {
+      "file": "draft.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "main.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "tsearch.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "nn_strategy.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "nn_tactics.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "nn_economy.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "nn_head.cpp",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "nn_obs_glue.cpp",
+      "passed": true,
+      "output": ""
+    }
+  ]
+}

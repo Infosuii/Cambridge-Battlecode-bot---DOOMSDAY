@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'python'))
 from nfs import engine  # noqa: E402
+from nfs.evaluate import protocol  # noqa: E402
 
 PY = sys.executable
 
@@ -39,18 +40,27 @@ def main():
     for p in a.profiles:
         w = build_profile(p)
         row = dict(wasm=str(w), sha256=engine.sha256(w), identical_to_original=engine.sha256(w) == engine.sha256(orig),
-                   code_identical=engine.code_section_sha(w) == engine.code_section_sha(orig))
+                   code_identical=engine.code_section_sha(w) == engine.code_section_sha(orig),
+                   source_sha256=engine.tree_sha256(ROOT / 'bot/src'), label='untrained framework check',
+                   map_label='reused_benchmark', protocol_sha256=protocol.protocol_sha256())
+        if p == 'teacher_exact' and not row['identical_to_original']:
+            raise SystemExit('FAIL: teacher_exact must be byte-identical to original')
         jobs = []
-        for m in engine.maps()[:a.maps]:
+        training = protocol.load_schedule('map_partitions')['partitions']['training']
+        for name in protocol.framework_order(training)[:a.maps]:
+            m = engine.MAPS / (name + '.map26a')
             for side in 'AB':
                 x, y = (w, orig) if side == 'A' else (orig, w)
                 jobs.append(dict(a=x, b=y, map_path=m, candidate_side=side, log_limit=16777216,
-                                 folder=ROOT / 'artifacts/tmp/profiles' / p / 'runs' / f'{m.stem}-{side}'))
+                                 folder=ROOT / 'artifacts/tmp/profiles' / p / 'runs' / row['sha256'][:12] / f'{m.stem}-{side}'))
         res = engine.run_jobs(jobs, a.workers)
         row['smoke'] = [dict(r.row(), stdout_nfs1=engine.team_stdout(r.folder, r.side).count('NFS1 '),
                              stdout_nft1=engine.team_stdout(r.folder, r.side).count('NFT1 '),
                              bot_errors=engine.team_stdout(r.folder, r.side).count('bot error')) for r in res]
         out[p] = row
+        engine.write_json(ROOT / 'evaluation/results/lead_profile_check.json', out)
+        if any(s['faults'] or s['bot_errors'] for s in row['smoke']):
+            raise SystemExit(f'FAIL: {p} faults or bot errors (see results JSON)')
         print(p, json.dumps({k: v for k, v in row.items() if k != 'smoke'}), flush=True)
         for s in row['smoke']:
             print('   ', s['map'], s['side'], 'win', s['win'], 'gems', s['gems'], s['opponent_gems'], 'faults', s['faults'],

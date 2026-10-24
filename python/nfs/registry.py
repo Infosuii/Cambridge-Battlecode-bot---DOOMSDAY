@@ -108,10 +108,10 @@ def current_head_hashes(root: Path = ROOT, head_schema_dir: Path | None = None, 
     mheads = {h['name']: h for h in (manifest_cfg or {}).get('heads', [])}
     for h in load_heads_index(root):
         p = sdir / f'{h["name"]}.json'
-        if h['name'] in ('value', 'belief'):
-            out[h['name']] = 0
-        elif p.exists():
+        if p.exists():
             out[h['name']] = head_action_hash(load_json(p))
+        elif h['name'] in ('value', 'belief'):
+            out[h['name']] = 0
         elif h['name'] in mheads:
             mh = mheads[h['name']]
             out[h['name']] = head_action_hash(dict(name=h['name'], id=h['id'], F=mh['F'], K_max=16,
@@ -141,11 +141,11 @@ def compat_problems(manifest: dict, obs: dict | None, head_hashes: dict[str, int
     for h in cfg.get('heads', manifest['architecture'].get('heads', [])):
         # The observation schema matters for heads reading the shared context; nn_head.cpp needs nn_schema.h always.
         p = list(obs_issue) if h.get('uses_ctx', True) else (['no nn_schema.h (agent C)'] if obs is None else [])
-        if h['kind'] != 'value':
-            cur = head_hashes.get(h['name'])
-            if cur is None or cur != h['action_hash']:
-                p.append(f'action schema hash 0x{h["action_hash"]:08x} != current '
-                         f'{"none" if cur is None else f"0x{cur:08x}"}')
+        # Value output units and sector conventions are schema semantics too.
+        cur = head_hashes.get(h['name'])
+        if cur is None or cur != h['action_hash']:
+            p.append(f'action schema hash 0x{h["action_hash"]:08x} != current '
+                     f'{"none" if cur is None else f"0x{cur:08x}"}')
         out[h['name']] = p
     return out
 

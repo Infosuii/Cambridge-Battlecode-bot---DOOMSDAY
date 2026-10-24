@@ -189,7 +189,10 @@ def _build_model(model_cfg_path):
         models = importlib.import_module('nfs.models')
     except ImportError as exc:
         raise SystemExit(f'nfs.models (Agent B) unavailable: {exc}')
-    return models.build_model(_json(model_cfg_path))
+    # PolicyNet allocates zeros. Starting every layer at zero leaves candidate scores symmetric and the
+    # hidden layers without a learning signal. Match the seeded, zero-output UNTRAINED runtime initialization.
+    model = models.build_model(_json(model_cfg_path))
+    return models.init_untrained(model, seed=20261024, zero_residual=True)
 
 
 def cmd_pretrain(a) -> int:
@@ -215,18 +218,30 @@ def cmd_pretrain(a) -> int:
 def cmd_train_value(a) -> int:
     minutes = _require(a, 'train-value')
     from .train import value as V
+    from .train.checkpoint import RunClock, save_checkpoint
+    from .train.common import Deadline
     cfg = _cfg(a.config)
+    clock = RunClock.authorize(a.run_dir, minutes, a.run_id or Path(a.run_dir).name)
     vcfg = _dc(V.ValueConfig, cfg.get('value'))
     if a.draft:
         from .data.archives import draft_observational_records
         rows = draft_observational_records([r for r in _sample_rows(a.rows) if r.get('accepted')])
         assignment = _json(a.splits)['grouped']['assignment']
-        rep = V.train_draft_outcome(rows, assignment, vcfg, authorized=True, time_limit_minutes=minutes)
+        model = V.DraftOutcomeModel()
+        rep = V.train_draft_outcome(rows, assignment, vcfg, model=model, authorized=True,
+                                    time_limit_minutes=minutes, deadline=Deadline(clock.deadline_epoch))
+        provenance = dict(stage='draft_outcome', confounded=True, exportable_to_runtime=False,
+                          source_rows=str(a.rows), splits=str(a.splits), synthetic=False)
     else:
         from .data.records_dataset import Shard
         model = _build_model(a.model_config)
-        rep = V.train_value(model, Shard.load(a.train), Shard.load(a.validation), vcfg, authorized=True,
-                            time_limit_minutes=minutes)
+        train, validation = Shard.load(a.train), Shard.load(a.validation)
+        rep = V.train_value(model, train, validation, vcfg, authorized=True,
+                            time_limit_minutes=minutes, deadline=Deadline(clock.deadline_epoch))
+        provenance = dict(stage='team_value', train=train.manifest, validation=validation.manifest,
+                          synthetic=bool(train.manifest.get('synthetic')))
+    save_checkpoint(Path(a.run_dir) / 'value.pt', actor=model, clock=clock,
+                    status='trained_unvalidated', provenance=provenance)
     engine.write_json(Path(a.run_dir) / 'value_report.json', rep)
     return 0
 
@@ -251,7 +266,11 @@ def _export_for_training(model, run_dir: Path, iteration: int, profile: str = 't
         exp = importlib.import_module('nfs.export')
     except ImportError as exc:
         raise SystemExit(f'nfs.export (Agent B) unavailable: {exc}')
-    name = f'{run_dir.name}_it{iteration:05d}'
+    import re
+    run_name = re.sub('[^a-z0-9_]', '_', run_dir.name.lower())
+    if not run_name or not run_name[0].isalpha():
+        run_name = 'run_' + run_name
+    name = f'{run_name}_it{iteration:05d}'
     out = run_dir / 'exports' / name                    # never models/: in-training weights are not registered
     exp.export_model(model, name, out, status='trained',
                      provenance=dict(stage='rl_in_training', run=str(run_dir), iteration=iteration, validated=False))
@@ -289,6 +308,7 @@ def cmd_rl(a) -> int:
     ledger = GamesLedger(run_dir)
     if (run_dir / 'latest.pt').exists() or a.actor_from:
         st = resume(run_dir, actor=model, critic=critic, actor_opt=aopt, critic_opt=copt, actor_from=a.actor_from,
+                    obs_schema_hash=model.cfg['obs']['obs_schema_hash'], action_schema_hash=rd.action_schema_hash(),
                     reset_critic_optimizer=a.reset_critic_optimizer)
         counters.update(st['counters'])
         ledger = st['ledger']
@@ -300,19 +320,33 @@ def cmd_rl(a) -> int:
     while not clock.expired(margin=120) and (max_games is None or len(ledger) < max_games):
         it = counters['iteration'] + 1
         wasm = _export_for_training(model, run_dir, it, cfg.get('profile', 'training'))
-        jobs = co.plan_jobs(wasm, league, maps, ccfg.sides, ccfg.games_per_iteration, run_dir / 'games', it)
+        remaining_games = max_games - len(ledger) if max_games is not None else ccfg.games_per_iteration
+        ccfg.max_games = max_games if max_games is not None else len(ledger) + ccfg.games_per_iteration
+        jobs = co.plan_jobs(wasm, league, maps, ccfg.sides, min(ccfg.games_per_iteration, remaining_games), run_dir / 'games', it)
         before = set(ledger.games)
         rep = co.run_collection(jobs, ccfg, ledger, clock)
-        fresh = [r for r in rep['results'] if GamesLedger.key(r['folder']) not in before and not r['faults']]
+        if rep['faults']:
+            engine.write_json(run_dir / 'stopped.json', dict(reason='bot faults in rollout', collection=rep))
+            raise RuntimeError('stopping before parameter updates: bot fault in rollout')
+        fresh = [r for r in rep['results'] if GamesLedger.key(r['folder']) not in before]
         if not fresh:
             break
         srcs = [rd.MatchSource.from_folder(r['folder'], r['side']) for r in fresh]
         shard = rd.concat([rd.convert_match(s, reward_cfg=rcfg, match_index=k) for k, s in enumerate(srcs)])
+        _, rollout_stats = ppo.ratio_mask_np(shard, pcfg)
+        limits = cfg.get('rollout_stop', dict(invalid_action_rate=0.0, fallback_rate=0.2, missing_obs_rate=0.2))
+        violations = [name for name, limit in limits.items() if rollout_stats.get(name, 0) > limit]
+        if violations or not rollout_stats['ratio_rows']:
+            engine.write_json(run_dir / 'stopped.json', dict(reason='rollout quality before update',
+                              violations=violations, stats=rollout_stats))
+            raise RuntimeError(f'stopping before parameter updates: rollout quality {violations}')
         metrics = ppo.ppo_update(model, critic, aopt, copt, shard, pcfg, authorized=True,
                                  time_limit_minutes=minutes, deadline=deadline)
         counters.update(iteration=it, games=len(ledger), decisions=counters['decisions'] + len(shard))
         save_checkpoint(run_dir / 'latest.pt', actor=model, critic=critic, actor_opt=aopt, critic_opt=copt,
                         league_state=league.state_dict(), ledger=ledger, clock=clock, counters=counters,
+                        obs_schema_hash=model.cfg['obs']['obs_schema_hash'],
+                        action_schema_hash=rd.action_schema_hash(),
                         provenance=dict(stage='rl', config=cfg, reward=rcfg.to_dict(), synthetic=False))
         engine.write_json(run_dir / 'updates' / f'it{it:05d}.json', dict(metrics=metrics, collection={k: v for k, v in rep.items() if k != 'results'}))
         if it % int(cfg.get('freeze_every', 10)) == 0:
@@ -325,6 +359,9 @@ def cmd_export(a) -> int:
     from .train.checkpoint import load_checkpoint
     d = load_checkpoint(a.checkpoint)
     prov = d['meta'].get('provenance', {})
+    if prov.get('exportable_to_runtime') is False:
+        print('refusing: observational draft-outcome checkpoint has no runtime-compatible head adapter')
+        return 2
     if prov.get('synthetic') or d['meta'].get('status') in ('in_training',) and not a.allow_in_training:
         print('refusing: checkpoint is synthetic or mid-training; export requires a selected, non-synthetic checkpoint')
         return 2

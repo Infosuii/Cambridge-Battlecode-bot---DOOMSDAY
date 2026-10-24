@@ -107,6 +107,27 @@ def parse_text(text: str, strict: bool = True, stats: dict | None = None) -> lis
     return out
 
 
+def decode_stdout(text: str) -> list[dict]:
+    """Numeric wire-format adapter consumed by the dataset builder; bad lines stay explicit."""
+    out = []
+    for line in text.replace('\0', '').splitlines():
+        if not line.startswith('NFS1 '):
+            continue
+        try:
+            r = dict(decode_line(line))
+            r['version'] = VERSION
+            r['kind'] = {v: k for k, v in KINDS.items()}[r['kind']]
+            if r['kind'] == 0:
+                r['payload'] = r.pop('raw')
+            if r['kind'] == 1:
+                r['mode'] = {v: k for k, v in MODES.items()}[r['mode']]
+                r['reason'] = REASONS.index(r['reason']) if isinstance(r['reason'], str) else r['reason']
+            out.append(r)
+        except (RecordError, ValueError, struct.error, KeyError):
+            out.append(dict(kind=-1, error='undecodable'))
+    return out
+
+
 def encode_payload(rec: dict) -> bytes:
     """Python writer (tests, tooling): inverse of decode_payload."""
     kind = {v: k for k, v in KINDS.items()}[rec['kind']]

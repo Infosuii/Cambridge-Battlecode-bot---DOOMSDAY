@@ -1,5 +1,25 @@
 # Evaluation protocol (Agent H, `nfs-eval-v1`)
 
+## Recorded amendment — 2026-10-24
+
+Current protocol SHA256: `70b872f3cd4ddabb95a152d0af93579c0d9f80f25ba4408014f5c80b2c17adc1`.
+The original hash below and the intermediate amendment hash remain in `protocol.lock.json` history. This amendment
+was recorded after the initial framework/bisection results and before Wave2 engine results; it does not claim to
+precede every candidate result. Partitions, cells and promotion thresholds are unchanged.
+
+The smoke, fuel and equivalence schedules now explicitly require a `neutral_real` overhead-control arm paired with
+`dev_untrained` on identical cells. It shares architecture, features and scoring work in shadow mode; it is not proof
+of byte-identical overhead. Zero weights and experimental fuel credit do not establish action neutrality.
+The old neutral_credit and per-head-credit equality rules in the original table below are superseded by **measured
+divergence and fuel reporting**. `teacher_exact` remains the strict byte/action-equivalence requirement. Historical
+result receipts retain their original protocol hash; do not relabel them as new runs.
+
+Current release profiles preserve `NN_STRIP_LAB=0`; the original document's references to a stripped release describe
+the earlier proposed configuration, not the checked-in profile. Removing lab host controls changed decisions in
+previous official tests. A stripped release would need separate variant evaluation. No post-Wave2 package is accepted.
+
+The rest of this document preserves the original protocol rationale; the current frozen JSON controls execution.
+
 Frozen machine-readable form: `evaluation/protocol.json`, sha256
 `af278d4f088e4bd391c44729fa713c474c2a99dc51a3b2b7401bd91daaff4bd3`, frozen 2026-10-23T23:29:54Z
 (`evaluation/protocol.lock.json`, which also pins the sha256 of every `evaluation/schedules/*.json`). It was written

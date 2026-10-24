@@ -48,7 +48,7 @@ constexpr std::uint8_t static_status(int h) {
     const nnm::HeadDesc& hd = m->head[h];
     if (hd.kind == nnm::Kind::none) return kNoModel;
     if (hd.uses_ctx && !obs_ok(*m)) return kSchemaMismatch;
-    if (hd.kind == nnm::Kind::candidate && hd.action_hash != nnreg::kHeadActionHash[h]) return kSchemaMismatch;
+    if (hd.action_hash != nnreg::kHeadActionHash[h]) return kSchemaMismatch;
     if (hd.uses_ctx && nnreg::kHeadModel[h] != nnreg::kCtxModel) return kSchemaMismatch;
     return kOk;
 }
@@ -91,6 +91,7 @@ struct Token {
 } g_token;
 bool g_started, g_selftest_done;
 std::uint32_t g_last_tel_round;
+int g_tel_head = kH;
 
 // Refresh the per-turn state when the turn serial or the round changed (explicit invalidation at begin_turn()).
 void touch_turn() {
@@ -194,6 +195,7 @@ std::uint8_t prepare(const Bot& bot, int h, std::uint64_t cost, bool admitted, b
 Result finish(int h, Result r) {
     g_last[h] = r.reason;
     nnb::count_fallback(static_cast<H>(h), r.neural);
+    nnb::count_reason(static_cast<H>(h), r.reason);
     return r;
 }
 
@@ -405,13 +407,17 @@ float leaf(const Bot& bot, const float* feat, int F, std::uint8_t context) {
         return 0.0f;
     } else {
         touch_turn();
+        const bool admitted = g_token.valid && g_token.head == h && g_token.turn == g_ctx.turn &&
+                              g_token.round == g_ctx.round;
+        g_token.valid = 0;
         if (kStatic.s[h] != kOk) return finish(h, fallback(kStatic.s[h])), 0.0f;
         const nnm::ModelDesc& m = *nnreg::kModels[nnreg::kHeadModel[h]];
         const nnm::HeadDesc& hd = m.head[h];
         if (hd.kind != nnm::Kind::leaf || F != hd.F || !feat) return finish(h, fallback(kSchemaMismatch)), 0.0f;
         if (hd.n_ctx ? context >= hd.n_ctx : context != 0) return finish(h, fallback(kBadInput)), 0.0f;
         nnb::Meter meter(H::ts_leaf);
-        const std::uint8_t pr = prepare(bot, h, nnreg::kHeadFixed[h] + nnreg::kHeadPerCand[h], false, true);
+        if (admitted) meter.start = g_token.start;
+        const std::uint8_t pr = prepare(bot, h, nnreg::kHeadFixed[h] + nnreg::kHeadPerCand[h], admitted, true);
         if (pr != kOk) return finish(h, fallback(pr)), 0.0f;
         if (!nnrt::all_finite(feat, F)) return finish(h, fallback(kNaN)), 0.0f;
         const float y = nnm::leaf_out(m, hd, hd.uses_ctx ? g_ctx.h : nullptr, context, feat);
@@ -420,6 +426,16 @@ float leaf(const Bot& bot, const float* feat, int F, std::uint8_t context) {
         finish(h, Result{0, active, 0.0f, active ? kOk : kShadow, -1});
         return active ? y : 0.0f;
     }
+}
+
+bool context_position(int& x, int& y) {
+    if (!g_ctx.valid || g_ctx.turn != nnb::g_turn || g_ctx.state != 1) return false;
+#if defined(NN_HOST_TEST)
+    // The runtime unit-test RawTurn stub contains encoded floats only, with no world coordinates.
+    (void)x; (void)y; return false;
+#else
+    x = g_raw.pos_x; y = g_raw.pos_y; return true;
+#endif
 }
 
 void turn_start() {
@@ -442,15 +458,19 @@ void turn_start() {
                                  nnlog::kEpisodeHeartbeat, flags, nncfg::kSeed, ck, nnreg::kProfileHash);
         }
     }
-    if constexpr (nncfg::kTelemetry) {
-        if (g_ctx.round / 100 != g_last_tel_round / 100) {
-            g_last_tel_round = g_ctx.round;
-            nnb::print_telemetry(g_ctx.round);
-        }
-    }
 }
 
 void idle() {
+    if constexpr (nncfg::kTelemetry) {
+        // Stdout can cost thousands of fuel. Emit bounded cumulative summaries only AFTER teacher actions.
+        if (g_ctx.round / 100 != g_last_tel_round / 100) {
+            g_last_tel_round = g_ctx.round;
+            g_tel_head = 0;
+        }
+        while (g_tel_head < kH && nnb::fuel_left() >= 24000) {
+            nnb::print_telemetry_head(g_ctx.round, g_tel_head++);
+        }
+    }
     // Training records are queued during the turn and written here, at the very end of play_turn, only while the
     // leftover fuel exceeds a reserve: logging never takes fuel the teacher could have used this turn. Records still
     // queued roll over to the next idle() (bounded queue; overflow counts as dropped and is reported in markers).

@@ -1,0 +1,59 @@
+--- a/bot/src/bot.cpp
++++ b/bot/src/bot.cpp
+@@ -19,6 +19,7 @@
+ #endif
+ #include "runtime_budget.h"
+ #include "nn_budget.h"
++#include "nn_economy.h"
+ #include "tsearch.h"
+ #include "a2map.h"
+ 
+@@ -536,30 +537,8 @@
+ void Bot::shop() {
+     PROF(shop);
+     auto& me = bc::self();
+-    if constexpr (nnt::kShop) {
+-        // Teacher capture (nn_teacher.h): the first purchase the loop below will make, computed before buying.
+-        int g = gold, step_i = -1, want = 0;
+-        bool lock = false;
+-        std::uint32_t item = 0;
+-        try {
+-            if (tune::kAltarLocks && g >= 10 && me.can_buy(bc::consumable_type::altar_lock)) lock = true, g -= 10;
+-            if (g >= 30) {
+-                const auto counts = me.item_count();
+-                int k = 0;
+-                for (const auto& step : build_for(type)) {
+-                    int owned = static_cast<int>(counts[step.item]);
+-                    if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem]) * 5;
+-                    const int wv = std::min(step.total - owned, g / 30);
+-                    if (wv > 0) {
+-                        step_i = k, want = wv, item = static_cast<std::uint32_t>(step.item);
+-                        break;
+-                    }
+-                    ++k;
+-                }
+-            }
+-        } catch (...) {
+-        }
+-        nn_teacher_access::cap_shop(*this, lock, step_i, item, want);
++    if constexpr (nncfg::mode(nncfg::H::shop) != nncfg::Mode::off) {
++        if (nne::shop(*this)) return;
+     }
+     try {
+         if (tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
+@@ -4145,9 +4124,14 @@
+     const bool edge = bankFix && gems >= tune::kEdgeBankBag && round <= tune::kEdgeBankUntil && !capturing &&
+         clearish && dist <= tune::kEdgeBankDist && brain::state.ready && brain::state.max_group > 0 &&
+         (brain::state.max_group < tune::kBigMapGems || raceMono);
+-    const bool go = force_tribute || wins || late || end_bank || rhythm || edge || gems >= tune::kTributeCarry ||
++    bool go = force_tribute || wins || late || end_bank || rhythm || edge || gems >= tune::kTributeCarry ||
+         dist <= tune::kTributeNearDist + static_cast<int>(std::lround(2.0f * LABK(36))) || (threatened && gems >= 20 && dist <= 8);
+     if constexpr (nnt::kBank) nn_teacher_access::cap_bank(*this, go, dist, wins, late, end_bank, rhythm, edge, threatened, use_safe);
++    if constexpr (nncfg::mode(nncfg::H::bank) != nncfg::Mode::off) {
++        const nne::BankTerms terms{go, use_safe, force_tribute, wins, late, end_bank, rhythm, edge, threatened, dist, -1};
++        const auto choice = nne::bank(*this, terms);
++        go = choice.go; use_safe = choice.safe; dist = choice.dist;
++    }
+ #if A2_ALTARFIX & 2
+     if (!go) {
+         tribute_stuck = 0;

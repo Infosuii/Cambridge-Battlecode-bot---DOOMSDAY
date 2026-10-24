@@ -4,6 +4,30 @@ Workspace root: `C:\projects\cambridge battlecode\work\neural-full-stack` (below
 This file is the single source of truth for interfaces and file ownership during the build. If a contract is wrong,
 write the problem and your proposed change into `agents/<you>/CONTRACT_ISSUES.md`; do not silently diverge.
 
+## Lead integration amendments (2026-10-24 checkpoint)
+
+- Wave2 original gameplay hooks remain staged, not applied. `tools/stage_wave2.py` creates scratch integration copies.
+  Current official byte verification is blocked by compiler execution policy; native tests are not a substitute.
+- The lead integrated runtime/model/training fixes. D/E/F ownership still governs their modules. The explicit C
+  audit follow-up and H2/F review assignments are recorded in AGENT_RECORD.md; no additional worker runs are implied.
+- NFS1 kind0 prefixes RawTurn with u32 byte count. Decision v1 appends u32 action_hash, u16 call, i16 net, f32 logit[K].
+  Canonical adapters are `nfs.records.decode_stdout` (numeric wire fields) and `nfs.obs.encode_bytes` plus OBS_DIM/hash.
+- Head semantic hashing includes schema version, feature descriptions/scales, option semantics and output units for
+  all kinds (including value/belief/leaf). Combined dataset/checkpoint action hashes include every per-head schema.
+- Value margin unit is fixed submitted-gem difference /1000, independent of reward-shaping scale. Belief has9 sectors.
+  Carry-risk, belief and leaf target/loss coverage remains incomplete and must not be described as training-ready.
+- Shop option0 is the opaque guarded complete teacher executor; its per-item descriptors are unknown zero sentinels.
+  The staged F patch removes the duplicate teacher preview rather than constructing it before admission.
+- `nnh::leaf` consumes an admission token and meters from its start. `context_position` reports the cached snapshot
+  anchor. First-admitted-call snapshot semantics persist through the turn; later candidate features use live state.
+- NFS1 and NFT1 output runs after play_turn from leftover fuel. Credit/shadow builds do not claim exact neutrality.
+  The recorded evaluation amendment preserves the strict teacher_exact requirement and adds neutral_real controls.
+- `install_models --model <export-dir>` is accepted for development/training only, without mutating the registry.
+  `teacher_record` and `training_objective` profiles now exist. Actual engine concurrency is capped4.
+
+The original contracts below retain their design rationale; these explicit lead amendments resolve the listed
+interface changes. No training, submission or release acceptance is authorized by them.
+
 ## 0. Hard rules (all agents)
 
 - NO training: never run anything that updates model parameters on match data, no long self-play, no fine-tuning.

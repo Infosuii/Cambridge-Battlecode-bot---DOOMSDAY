@@ -209,17 +209,19 @@ def ratio_mask_np(shard, cfg: PPOConfig) -> tuple[np.ndarray, dict]:
     budget = np.isin(m['reason'], list(cfg.budget_reasons)) if cfg.budget_reasons else np.zeros(len(shard), bool)
     names = head_names()
     allowed = np.ones(len(shard), bool)
+    index = json.loads((ROOT / 'schemas/heads.json').read_text(encoding='utf-8'))['heads']
+    requires_obs = np.isin(i['head'], [h['id'] for h in index if h.get('uses_shared_context', True)])
     if cfg.heads:
         allowed = np.isin(i['head'], [k for k, v in names.items() if v in cfg.heads])
     mask = ((m['mode'] == MODE_ACTIVE) & (m['sampled'] == 1) & (m['reason'] == 0) & (K > 0) & legal_chosen
-            & np.isfinite(t['logp_behaviour']) & (i['obs_valid'] == 1) & ~forced & allowed)
+            & np.isfinite(t['logp_behaviour']) & ((i['obs_valid'] == 1) | ~requires_obs) & ~forced & allowed)
     n = max(1, len(shard))
     stats = dict(rows=len(shard), ratio_rows=int(mask.sum()),
                  invalid_action_rate=float((~legal_chosen & (K > 0)).sum() / n),
                  fallback_rate=float((m['reason'] != 0).sum() / n), budget_skip_rate=float(budget.sum() / n),
                  forced_rate=float(forced.sum() / n), shadow_rate=float((m['mode'] == MODE_SHADOW).sum() / n),
                  deterministic_active_rate=float(((m['mode'] == MODE_ACTIVE) & (m['sampled'] == 0)).sum() / n),
-                 missing_obs_rate=float((i['obs_valid'] == 0).sum() / n),
+                 missing_obs_rate=float(((i['obs_valid'] == 0) & requires_obs).sum() / n),
                  reason_counts={reason_codes().get(int(k), f'reason_{int(k)}'): int(v)
                                 for k, v in zip(*np.unique(m['reason'], return_counts=True))})
     return mask, stats

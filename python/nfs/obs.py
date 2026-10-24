@@ -17,6 +17,9 @@ import numpy as np
 from . import schema_gen as S
 from .transforms import Frame, make_frame
 
+OBS_DIM = S.OBS_DIM
+OBS_SCHEMA_HASH = S.OBS_SCHEMA_HASH
+
 F32 = np.float32
 BIG = F32(10000.0)
 _ZERO = F32(0.0)
@@ -124,6 +127,14 @@ def empty_raw() -> dict:
 def check_header(d: dict) -> bool:
     return (d['magic'] == S.RAW_MAGIC and d['version'] == S.RAW_VERSION and d['schema_hash'] == S.OBS_SCHEMA_HASH
             and d['size'] == S.RAW_TURN_SIZE)
+
+
+def encode_bytes(data: bytes) -> np.ndarray:
+    """Canonical NFS1 adapter; reject incompatible headers before encoding a legal runtime snapshot."""
+    raw = unpack(data)
+    if not check_header(raw):
+        raise ValueError('RawTurn schema/header mismatch')
+    return encode(raw)
 
 
 # ---------------------------------------------------------------- encoder

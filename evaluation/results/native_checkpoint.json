@@ -1,0 +1,13 @@
+{
+  "label": "untrained implementation checkpoint; synthetic/native verification only",
+  "python": {"command": "python -m unittest discover -s tests/python -p test_*.py", "tests": 210, "passed": true},
+  "cpp": {"command": "python tools/run_cpp_tests.py", "targets": 11, "checks": 460, "passed": true, "receipt": "evaluation/results/cpp_tests.json"},
+  "staged_active_sdk_syntax": {"checks": 9, "passed": true, "receipt": "evaluation/results/staged_dev_native.json"},
+  "staged_all_off_sdk_syntax": {"checks": 9, "passed": true, "receipt": "evaluation/results/staged_teacher_native.json"},
+  "observation_parity": "bit-exact native C++/Python; synthetic fixtures, included in full suite",
+  "official_wasm": "BLOCKED: installed clang++.exe launch denied; elevated execution automatically rejected by policy",
+  "fuel_measurement": "NOT RUN; budget remains provisional",
+  "new_engine_games": 0,
+  "training": "NOT RUN; only labelled synthetic test updates/roundtrips",
+  "release": "NOT PACKAGED; no submission/upload/activation"
+}

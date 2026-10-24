@@ -241,6 +241,11 @@
       "side": "B"
     }
   ],
+  "control_arms": [
+    "original",
+    "neutral_real"
+  ],
+  "control_note": "Amendment 2026-10-24: pair dev_untrained with neutral_real on identical cells. neutral_real runs the same encoder, feature builders and scorer architecture in shadow mode; it is an overhead control, not proof of identical fuel or teacher decisions. All results are untrained framework checks, not strength evidence.",
   "fuel": "official default (no fuel override flag)",
   "kind": "framework",
   "label": "untrained framework check",

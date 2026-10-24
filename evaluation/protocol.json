@@ -1,4 +1,16 @@
 {
+  "amendments": [
+    {
+      "after_initial_framework_results": true,
+      "before_wave2_results": true,
+      "id": "2026-10-24-overhead-control",
+      "known_evidence": "evaluation/evidence/neutral_equivalence_bisect.json",
+      "original_protocol_sha256": "af278d4f088e4bd391c44729fa713c474c2a99dc51a3b2b7401bd91daaff4bd3",
+      "reason": "Pre-decision fuel sensitivity invalidates zero-residual equivalence claims.",
+      "scope": "Add neutral_real control arm; measure credit/shadow divergence, keep teacher_exact exact."
+    }
+  ],
+  "base_protocol_written_before_candidate_results": true,
   "determinism": "Matches are deterministic for (wasm A, wasm B, map); re-running a cell or changing a seed does not create an independent sample. Uncertainty uses maps as clusters.",
   "engine": {
     "cli": "cambc 3.0.5",
@@ -29,10 +41,10 @@
     },
     {
       "id": "neutral_credit_equivalence",
-      "pass_rule": "replay.repl26a and summary.json byte-identical on every cell (identical actions); per-turn fuel overhead reported from .fuel members",
+      "pass_rule": "MEASUREMENT: report divergent replay/summary cells and overhead; credit is not proof of action equivalence. Amended after neutral_equivalence_bisect; teacher_exact remains the exact-equivalence requirement.",
       "profile": "neutral_credit",
       "schedule": "equivalence",
-      "what": "all heads shadow, zero residual, kFuelCredit"
+      "what": "all heads shadow, zero residual, experimental kFuelCredit"
     },
     {
       "id": "neutral_real_divergence",
@@ -50,7 +62,7 @@
     },
     {
       "id": "per_head_shadow",
-      "pass_rule": "0 faults; with kFuelCredit identical replays; without credit divergence measured as in neutral_real",
+      "pass_rule": "0 faults; divergence and fuel measured as in neutral_real; no shadow or credit equivalence claim (recorded amendment)",
       "profile": "per-head shadow builds (one head shadow, rest off)",
       "schedule": "equivalence",
       "what": "each head in isolation"
@@ -159,7 +171,7 @@
   "schedules": {
     "equivalence": {
       "file": "evaluation/schedules/equivalence.json",
-      "sha256": "c442d066f03fec861683a5d323885000b7f35924cd0c7285222ec18b682ee496"
+      "sha256": "079134e07cbb5e2d5745624ba259bc51c49f8841a2ffa126d21b2b2fcebc344e"
     },
     "final": {
       "file": "evaluation/schedules/final.json",
@@ -167,7 +179,7 @@
     },
     "fuel_profile": {
       "file": "evaluation/schedules/fuel_profile.json",
-      "sha256": "7db8280f67ac75c2d04b3b1da7846fbf784b8c558cb3e762b7d48f1480aa5b6f"
+      "sha256": "9e513f8da85a08824a4c86d5903fb931ae4263400334dfee629c4a2a6415fcff"
     },
     "map_partitions": {
       "file": "evaluation/schedules/map_partitions.json",
@@ -183,8 +195,8 @@
     },
     "smoke": {
       "file": "evaluation/schedules/smoke.json",
-      "sha256": "383ea6d394d51548ce6eea606be2bbd7af808a29e3508fc60b184c1b99c5e5c3"
+      "sha256": "4da22c04fd59d9fc52ad9961fb5ac86e378ebde02f27a4663e8a6aeb4096fe31"
     }
   },
-  "written_before_candidate_results": true
+  "written_before_candidate_results": false
 }

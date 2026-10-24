@@ -8,7 +8,7 @@
 namespace nnreg {
 inline constexpr const char* kProfile = "teacher_exact";
 inline constexpr std::uint32_t kProfileHash = 0x1157b7eeu;
-inline constexpr std::uint64_t kTurnAllowance = 30000u;
+inline constexpr std::uint64_t kTurnAllowance = 55000u;
 inline constexpr std::uint64_t kTailReserve = 6000u;
 inline constexpr std::uint64_t kTeacherReserve[13] = {10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u, 10000u};
 inline constexpr std::uint64_t kCaptureWorst = 15000u;   // nnobs::capture (agent C)
@@ -16,8 +16,8 @@ inline constexpr std::uint64_t kObsEncodeWorst = 5000u; // nnobs::encode (agent 
 inline constexpr std::uint64_t kEncoderWorst = 0u;  // shared encoder forward
 inline constexpr std::uint64_t kHeadFixed[13] = {0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
 inline constexpr std::uint64_t kHeadPerCand[13] = {0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u};
-inline constexpr std::uint64_t kLogFixed = 2000u;
-inline constexpr std::uint64_t kLogPerByte = 12u;
+inline constexpr std::uint64_t kLogFixed = 300u;
+inline constexpr std::uint64_t kLogPerByte = 2u;
 inline constexpr std::uint64_t kVerifyPerFloat = 24u;
 inline constexpr std::uint32_t kVerifyChunk = 1024u;
 inline constexpr std::uint32_t kMaxRecordsPerTurn = 8u;

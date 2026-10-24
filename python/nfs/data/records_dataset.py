@@ -167,7 +167,10 @@ def head_names() -> dict[int, str]:
 
 
 def action_schema_hash() -> str:
-    return hashlib.sha256((ROOT / 'schemas/heads.json').read_bytes()).hexdigest()
+    # Include feature meaning/normalisation, not just the frozen head inventory and dimensions.
+    paths = [ROOT / 'schemas/heads.json', *sorted((ROOT / 'schemas/heads').glob('*.json'))]
+    canonical = {p.relative_to(ROOT).as_posix(): json.loads(p.read_text(encoding='utf-8')) for p in paths}
+    return hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
 # --------------------------------------------------------------------------------------------- shard structure
@@ -282,6 +285,7 @@ def _team_series(summary: dict, team: str) -> R.AgentSeries:
 def convert_match(src: MatchSource, *, reward_cfg: R.RewardConfig | None = None,
                   encode: Callable[[bytes], np.ndarray] | None = None, obs_dim: int | None = None,
                   decode: Callable[[str], list[dict]] | None = None, expected_obs_schema: int | None = None,
+                  expected_action_hashes: dict | None = None,
                   engine_version: str = '1.0.3', synthetic: bool = False, match_index: int = 0) -> Shard:
     cfg = (reward_cfg or R.RewardConfig()).validate()
     eng = src.summary.get('match', {}).get('engineVersion')
@@ -299,6 +303,14 @@ def convert_match(src: MatchSource, *, reward_cfg: R.RewardConfig | None = None,
     team = 'team' + src.side.upper()
     recs = decode(src.stdout)
     bad = sum(1 for r in recs if r.get('kind') == -1)
+    if not synthetic:
+        from ..obs import OBS_SCHEMA_HASH
+        from ..registry import current_head_hashes
+        expected_obs_schema = OBS_SCHEMA_HASH if expected_obs_schema is None else expected_obs_schema
+        if expected_action_hashes is None:
+            expected_action_hashes = current_head_hashes()
+        if bad:
+            raise DatasetError(f'{bad} undecodable NFS1 records: refusing partially corrupt gameplay data')
     contexts = {}
     decisions = []
     schema_hashes = Counter()
@@ -307,6 +319,13 @@ def convert_match(src: MatchSource, *, reward_cfg: R.RewardConfig | None = None,
             contexts[(int(r['champion']), int(r['round']))] = r.get('payload', b'')
             schema_hashes[int(r['schema_hash'])] += 1
         elif r.get('kind') == KIND_DECISION:
+            if expected_obs_schema is not None and int(r['schema_hash']) != expected_obs_schema:
+                raise DatasetError('decision observation schema hash mismatch')
+            if expected_action_hashes is not None:
+                name = head_names().get(int(r['head']))
+                want = expected_action_hashes.get(name)
+                if want is None or int(r.get('action_hash', -1)) != int(want):
+                    raise DatasetError(f'{name}: action schema hash mismatch or absent')
             decisions.append((i, r))
     if expected_obs_schema is not None:
         wrong = [h for h in schema_hashes if h != expected_obs_schema]
@@ -374,7 +393,8 @@ def convert_match(src: MatchSource, *, reward_cfg: R.RewardConfig | None = None,
             tg['done'][seq] = int(ints[j]['terminal'])
             tg['return_mc'][seq] = rets[j]
             tg['outcome'][seq] = {'win': 1.0, 'loss': 0.0}.get(s.outcome, 0.5)
-            tg['margin'][seq] = (s.final_team_gems - s.final_opponent_gems) / cfg.margin_scale
+            # Fixed model-output unit, independent of an experiment's reward shaping scale.
+            tg['margin'][seq] = (s.final_team_gems - s.final_opponent_gems) / 1000.0
             for c in R.COMPONENTS:
                 tg['r_' + c][seq] = ints[j]['components'][c]
             mt['champion'][seq], mt['round'][seq], mt['seq'][seq] = h, int(r['round']), seq

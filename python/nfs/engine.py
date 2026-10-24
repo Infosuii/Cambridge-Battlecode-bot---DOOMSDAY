@@ -147,6 +147,16 @@ def run_match(a, b, map_path, folder, candidate_side: str = 'A', log_limit: int 
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     stats = folder / 'summary.json'
+    identity = dict(wasm_a=sha256(a), wasm_b=sha256(b), map=sha256(map_path),
+                    release=True, fuel='official default', log_limit=int(log_limit))
+    receipt = folder / 'engine_identity.json'
+    if receipt.exists():
+        if json.loads(receipt.read_text(encoding='utf-8')) != identity:
+            raise ValueError(f'{folder}: cached match identity differs; use a new folder')
+    elif stats.exists():
+        raise ValueError(f'{folder}: legacy summary has no engine identity; use a new folder')
+    else:
+        write_json(receipt, identity)
     if not stats.exists():
         log = _run([CLI, 'run', a, b, '--map', map_path, '--out-dir', folder, '--statistics', stats,
                     '--json', '--release', '--log-limit', str(log_limit)], timeout=timeout)
@@ -193,7 +203,7 @@ def team_stdout(folder, side: str) -> str:
 
 def run_jobs(jobs: list[dict], workers: int) -> list[MatchResult]:
     out = []
-    with cf.ThreadPoolExecutor(max_workers=max(1, workers)) as ex:
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(4, workers))) as ex:
         futs = {ex.submit(run_match, **j): j for j in jobs}
         for f in cf.as_completed(futs):
             try:
@@ -205,4 +215,4 @@ def run_jobs(jobs: list[dict], workers: int) -> list[MatchResult]:
 
 
 def default_workers() -> int:
-    return max(1, min(16, (os.cpu_count() or 4) - 2))
+    return max(1, min(4, (os.cpu_count() or 4) - 2))

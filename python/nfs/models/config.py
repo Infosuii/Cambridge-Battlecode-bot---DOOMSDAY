@@ -53,8 +53,9 @@ def canonical_json(obj) -> bytes:
 
 def head_action_hash(spec: dict) -> int:
     """fnv1a32 of the canonical JSON of the semantically relevant head-schema fields."""
-    keep = {k: spec.get(k) for k in ('name', 'id', 'F', 'K_max', 'contexts', 'residual_bound', 'R')}
-    keep['features'] = [{k: f.get(k) for k in ('name', 'scale', 'clip')} for f in spec.get('features', [])
+    keep = {k: spec.get(k) for k in ('name', 'id', 'version', 'F', 'K_max', 'contexts', 'residual_bound', 'R',
+                                    'outputs', 'n_sectors', 'semantics', 'candidate_ids', 'legality')}
+    keep['features'] = [{k: f.get(k) for k in ('name', 'scale', 'clip', 'description')} for f in spec.get('features', [])
                         if isinstance(f, dict)] if isinstance(spec.get('features'), list) else spec.get('features')
     return fnv1a32(canonical_json(keep))
 
@@ -113,7 +114,7 @@ def resolve_config(raw: dict, root: Path = ROOT, schema_header: Path | None = No
             if spec and name == 'belief' and spec.get('n_sectors'):
                 n_out = int(spec['n_sectors'])
             heads.append(dict(name=name, id=hid, kind='value', uses_ctx=uses_ctx, F=0, hidden=int(ov.get('hidden', vd['hidden'])),
-                              n_ctx=0, n_out=n_out, R=0.0, action_hash=0,
+                              n_ctx=0, n_out=n_out, R=0.0, action_hash=head_action_hash(spec) if spec else 0,
                               schema=str(spec_path) if spec else None))
             continue
         d = leaf_d if name == 'ts_leaf' else cand_d
