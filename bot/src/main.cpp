@@ -3,8 +3,13 @@
 
 #include "bot.h"
 #include "draft.h"
+#include "nn_config.h"
+#if NN_ANY_HEAD
+#include "nn_budget.h"
+#include "nn_head.h"
+#endif
 
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // lab host exports (NN_STRIP_LAB removes them)
 #include "learner.h"
 // Engine lab: the host finds the learner weights through this export.
 extern "C" __attribute__((export_name("lab_learner_w"))) float* lab_learner_w() { return learner::w_lab; }
@@ -30,8 +35,12 @@ int main() {
 #endif
     while (true) {
         try {
-            if (bc::is_draft())
+            if (bc::is_draft()) {
                 play_draft();
+#if NN_ANY_HEAD
+                nnh::warmup(); // draft turns have 10x fuel: verify installed model checksums here
+#endif
+            }
 #if A2_FUELLOG
             else {
                 const std::uint32_t r0 = bc::round_number();
@@ -44,8 +53,18 @@ int main() {
                 if (r0 % 250 == 0) std::printf("fuellog round %u turns %u overruns %u\n", r0, turns, overruns);
             }
 #else
-            else
+            else {
+#if NN_ANY_HEAD
+                // Neural runtime turn hooks (lead): reset per-turn budget/context, selftest/telemetry/markers; at the
+                // end, flush queued training records from leftover fuel only. Compiled out when every head is off.
+                nnb::begin_turn();
+                nnh::turn_start();
                 bot.play_turn();
+                nnh::idle();
+#else
+                bot.play_turn();
+#endif
+            }
 #endif
         } catch (const std::exception& error) {
             std::printf("bot error: %s\n", error.what());

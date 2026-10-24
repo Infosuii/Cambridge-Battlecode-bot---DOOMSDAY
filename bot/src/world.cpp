@@ -1,5 +1,6 @@
 // World model: caches terrain and camp groups once, then tracks what each champion sees.
 #include "world.h"
+#include "nn_budget.h"
 #include "a2map.h"
 
 #include <cstring>
@@ -640,7 +641,7 @@ void World::update_beliefs(int round, std::uint64_t min_fuel) {
             continue;
         }
         int steps = round - b.round;
-        if (steps <= 0 || bc::fuel_remaining() < min_fuel) continue; // a later turn catches up
+        if (steps <= 0 || nnb::teacher_left() < min_fuel) continue; // a later turn catches up
         if (steps > 6) {
             b.reach = enemy_walk;
             steps = 0;

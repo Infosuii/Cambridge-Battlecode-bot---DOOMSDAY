@@ -1,6 +1,7 @@
 // Apex champion logic: farm camp groups efficiently, bank gems at altars, shop on spawn,
 // and take good fights while avoiding bad ones.
 #include "bot.h"
+#include "nn_config.h"
 #if A2_MLPLAN
 #include "ml_plan.h"
 #endif
@@ -17,6 +18,7 @@
 #include "assess_model.h"
 #endif
 #include "runtime_budget.h"
+#include "nn_budget.h"
 #include "tsearch.h"
 #include "a2map.h"
 
@@ -26,6 +28,7 @@
 #include <variant>
 
 namespace d = cambc::detail;
+#include "nn_teacher.h" // teacher captures: compile-time gated, no code with every head off
 
 int nova_map_id(int w, int h, unsigned size, int groups); // draft.cpp: official map index, -1 = unseen
 float a2_gem_density(); // draft.cpp: camp gems per tile, -1 = unreadable
@@ -53,7 +56,7 @@ bool mobility_farming_map = false;
 
 std::vector<BuildStep> build_for(bc::champion_type t) {
     using it = bc::item_type;
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
     {
         // Engine lab build table (lab.h builds): a type with steps uses them instead of the presets below.
         const int ti = static_cast<int>(t);
@@ -533,6 +536,31 @@ int Bot::claim_count(int group) const {
 void Bot::shop() {
     PROF(shop);
     auto& me = bc::self();
+    if constexpr (nnt::kShop) {
+        // Teacher capture (nn_teacher.h): the first purchase the loop below will make, computed before buying.
+        int g = gold, step_i = -1, want = 0;
+        bool lock = false;
+        std::uint32_t item = 0;
+        try {
+            if (tune::kAltarLocks && g >= 10 && me.can_buy(bc::consumable_type::altar_lock)) lock = true, g -= 10;
+            if (g >= 30) {
+                const auto counts = me.item_count();
+                int k = 0;
+                for (const auto& step : build_for(type)) {
+                    int owned = static_cast<int>(counts[step.item]);
+                    if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem]) * 5;
+                    const int wv = std::min(step.total - owned, g / 30);
+                    if (wv > 0) {
+                        step_i = k, want = wv, item = static_cast<std::uint32_t>(step.item);
+                        break;
+                    }
+                    ++k;
+                }
+            }
+        } catch (...) {
+        }
+        nn_teacher_access::cap_shop(*this, lock, step_i, item, want);
+    }
     try {
         if (tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
             me.buy(bc::consumable_type::altar_lock);
@@ -666,6 +694,7 @@ bool Bot::follow_field(const bc::distance_field& field, const bc::bitboard& bloc
         cands[n++] = {q, dq * 4 + ((dir.x != 0 && dir.y != 0) ? 0 : 1)};
     }
     std::sort(cands.begin(), cands.begin() + n, [](const Cand& a, const Cand& b) { return a.score < b.score; });
+    if constexpr (nnt::kMove) nn_teacher_access::cap_steps(*this, cands.data(), n);
 #if A2_BRIDGES
     if (n == 0 && w.bridges_on && !walked && bridge_hold < 12)
         for (vec2 dir : kDirs) {
@@ -699,7 +728,7 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
     a2tel::CallCost a2_cost{9};
 #endif
     // A path search could suspend the turn (APEX_DET: a floor nearer its real cost, so it binds less often).
-    if (bc::fuel_remaining() < (tune::kDet ? 9000 : tune::kMinMoveFuel)) return false;
+    if (nnb::teacher_left() < (tune::kDet ? 9000 : tune::kMinMoveFuel)) return false;
     bc::bitboard blocked = w.static_blocked | w.unit_tiles;
     blocked.set(pos, false);
     const bc::bitboard goals = goals_in & ~blocked;
@@ -1000,7 +1029,7 @@ const bc::bitboard& Bot::a2_threat_zone(World& world, int now) {
 
 // A route around the threat zone when it is at most A2_THREAT_DETOUR steps longer; false keeps the shortest route.
 bool Bot::a2_route_around(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals) {
-    if (bc::fuel_remaining() < tune::kMinMoveFuel * 2) return false;
+    if (nnb::teacher_left() < tune::kMinMoveFuel * 2) return false;
     bc::bitboard zone = a2_threat_zone(w, round);
     if (zone.is_empty() || !bit(zone, pos) && fdist(field, pos) <= 1) return false;
     clear_bit(zone, pos);
@@ -1061,7 +1090,7 @@ bool Bot::greedy_step(const bc::bitboard& goals) {
 // longer than the shortest one. Returns false (use the shortest route) when no sighting is recent, no goal
 // lies outside the zone, the detour is too long, or there is no fuel for a second search.
 bool Bot::travel_around_threats(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals) {
-    if (bc::fuel_remaining() < tune::kMinMoveFuel * 2) return false;
+    if (nnb::teacher_left() < tune::kMinMoveFuel * 2) return false;
     bc::bitboard zone;
     zone.clear();
     bool any = false;
@@ -1449,6 +1478,7 @@ bool Bot::cast_on_enemy(const EnemyRec& e) {
             best_value = value;
         }
     }
+    if constexpr (nnt::kCast) nn_teacher_access::cap_cast(*this, e, best, best_value, dash_slot, dash_aim);
     if (dash_slot >= 0) {
         try {
             if (bc::self().abilities()[dash_slot].use(dash_aim)) {
@@ -1789,6 +1819,7 @@ bool Bot::ward_ahead() {
                 best = q;
             }
         }
+    if constexpr (nnt::kWard) nn_teacher_access::cap_ward(*this, best, best_d);
     if (best.x < 0) return false;
     try {
         if (me.place_ward(best)) {
@@ -2320,7 +2351,7 @@ bool Bot::plan_escape() {
     PROF(escape);
     esc_plan = {};
     // Keep enough back that the turn never suspends (a suspended turn hands the chaser free hits).
-    if (bc::fuel_remaining() < tune::kEscFuel || !bc::self().can_move()) {
+    if (nnb::teacher_left() < tune::kEscFuel || !bc::self().can_move()) {
 #ifdef APEX_ESCDBG
         if (bc::fuel_remaining() < tune::kEscFuel) std::printf("ESCSKIP R%d fuel %llu\n", round, static_cast<unsigned long long>(bc::fuel_remaining()));
 #endif
@@ -2767,6 +2798,7 @@ bool Bot::handle_enemies() {
     // Gem carriers demand a bigger margin: dying hands the bag to the killer.
     const float risk = gems >= 60 ? 2.0f : gems >= 25 ? 1.4f : 1.0f;
     const float ci_risk = (type == bc::champion_type::cassi || type == bc::champion_type::issac) ? tune::kCiRisk : 1.0f;
+    if constexpr (nnt::kFight) nn_teacher_access::cap_fight_begin(*this, nearest_d, ttd, threat_on_me, risk);
 
     // Pick the enemy we kill fastest relative to what it is worth.
     const EnemyRec* target = nullptr;
@@ -2819,6 +2851,7 @@ bool Bot::handle_enemies() {
         }
 #endif
         const float key = ttk / worth;
+        if constexpr (nnt::kFight) nn_teacher_access::cap_enemy(e, key, ttk, worth, dist);
         if (key < best_key) {
             best_key = key;
             target = &e;
@@ -2966,6 +2999,7 @@ bool Bot::handle_enemies() {
     }
     // Team commander (APEX_TFC): a lower-slot ally within 8 that has issued a fight order leads; otherwise we
     // search the team plans ourselves and, with a clear verdict, issue the order in our claim slot.
+    if constexpr (nnt::kFight) nn_teacher_access::cap_formula(target, target_ttk, winning, in_danger);
     bool tfc_applied = false;
     if ((tune::kTfc || tune::packOn) && nearest_d <= tune::kTsRange && w.groups.size() < 112) {
         if (enemy_handles.empty())
@@ -2988,6 +3022,7 @@ bool Bot::handle_enemies() {
             order = team_decide(order_target);
             commander = order != 0;
         }
+        if constexpr (nnt::kFight) nn_teacher_access::cap_tfc(order);
         if (order == 1) {
             const EnemyRec* ft = nullptr;
             for (const auto& e : w.enemies)
@@ -3227,6 +3262,7 @@ bool Bot::handle_enemies() {
         // Fight or run by search (tactical_decide): both plans played forward with the full kits and judged with
         // the learned exchange rates; a clear verdict overrides the formula, c1 still carries it out.
         const int verdict = tactical_decide();
+        if constexpr (nnt::kFight) nn_teacher_access::cap_td_verdict(verdict);
         PROF_CHECK("e_td");
 #if A2_TD_AUTH
         // A fight verdict may clear the formula's danger only for risks the model represents: every enemy that could
@@ -3255,7 +3291,7 @@ bool Bot::handle_enemies() {
             if (threat_on_me <= 0) threat_on_me = 1.0f;
         }
     }
-    if (tune::kFightSim && target && nearest_d <= 7 && bc::fuel_remaining() > 30000) {
+    if (tune::kFightSim && target && nearest_d <= 7 && nnb::teacher_left() > 30000) {
         // Play the skirmish forward both ways and keep the better plan.
         std::vector<SimUnit> units;
         SimUnit m;
@@ -3522,7 +3558,7 @@ bool Bot::handle_enemies() {
         }
     }
 #endif
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
     {
         // Engine lab (lab.h kinds 4 / 5): from the first turn an enemy is within 4, force the fight / run verdict for
         // len rounds (kind -4 / -5: record only). The bot's own verdict is recorded in rec_after (1 fight, -1 run, 0 none).
@@ -3544,6 +3580,7 @@ bool Bot::handle_enemies() {
         }
     }
 #endif
+    if constexpr (nnt::kFight) nn_teacher_access::cap_fight_final(target, winning, in_danger, threat_on_me);
     if (tune::kTribDeny & 2) {
         if (in_danger && !winning) try_lock_altar(); // leaving: cancel whatever tribute we can reach
         else if (deny_tribute()) return true;
@@ -4033,7 +4070,7 @@ bool Bot::tribute_if_needed() {
 #if A2_ALTARFIX
     if (w.no_bank || round < tribute_off_until) return false;
 #endif
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
     if (lab::active(static_cast<std::int32_t>(my_id), round, 3)) return false; // engine lab: hold the bag
     if (lab::active(static_cast<std::int32_t>(my_id), round, 2)) lab::ctl.rec_after = (lab::ctl.rec_after < 0 ? 0 : lab::ctl.rec_after) + 1;
 #endif
@@ -4110,6 +4147,7 @@ bool Bot::tribute_if_needed() {
         (brain::state.max_group < tune::kBigMapGems || raceMono);
     const bool go = force_tribute || wins || late || end_bank || rhythm || edge || gems >= tune::kTributeCarry ||
         dist <= tune::kTributeNearDist + static_cast<int>(std::lround(2.0f * LABK(36))) || (threatened && gems >= 20 && dist <= 8);
+    if constexpr (nnt::kBank) nn_teacher_access::cap_bank(*this, go, dist, wins, late, end_bank, rhythm, edge, threatened, use_safe);
 #if A2_ALTARFIX & 2
     if (!go) {
         tribute_stuck = 0;
@@ -4865,8 +4903,8 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
     for (int oi = 0; oi < n_order; ++oi) {
         // Out of fuel (huge maps, first turn): settle for the best group scored so far.
         if (tune::kDet) {
-            if (best >= 0 && (evaluated >= tune::kDetScoreN || bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety))) break;
-        } else if ((oi & 3) == 3 && best >= 0 && bc::fuel_remaining() < tune::kScoreFloor)
+            if (best >= 0 && (evaluated >= tune::kDetScoreN || nnb::teacher_left() < static_cast<std::uint64_t>(tune::kDetSafety))) break;
+        } else if ((oi & 3) == 3 && best >= 0 && nnb::teacher_left() < tune::kScoreFloor)
             break;
         const int dist = order[oi].first;
         const std::size_t gi = static_cast<std::size_t>(order[oi].second);
@@ -5139,7 +5177,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
             phi[1] = static_cast<float>(g.gold) / 64.0f > 3.0f ? 3.0f : static_cast<float>(g.gold) / 64.0f;
             score = learner::fix(score, phi);
         }
-        if (tune::kBelief && tune::kBeliefW > 0.0f && score > prune_bound() && !g.camps.empty() && bc::fuel_remaining() > (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 30000)) {
+        if (tune::kBelief && tune::kBeliefW > 0.0f && score > prune_bound() && !g.camps.empty() && nnb::teacher_left() > (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 30000)) {
             // Enemies that could be at this group before we are done with it (beliefs), beyond what our side
             // brings: contested jobs get champions caught alone.
             const int finish = approach + wait + static_cast<int>(kill);
@@ -5183,7 +5221,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
             top[i] = {static_cast<int>(gi), need, value, cost, score, finish};
         }
     }
-    if (keep > 1 && n_top >= 2 && bc::fuel_remaining() > tune::kRouteFuel && (!A2_FIELDFIRST || w.fields_ready())) {
+    if (keep > 1 && n_top >= 2 && nnb::teacher_left() > tune::kRouteFuel && (!A2_FIELDFIRST || w.fields_ready())) {
         bool bank = false;
         const int pick = tune::kPlan ? plan_search(top, n_top, bank) : route_search(top, n_top);
         PROF_CHECK("route1");
@@ -5197,6 +5235,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
 #if A2_CAMPNET
     if (best >= 0 && n_cn >= 2) best = campnet_pick(cn, n_cn, best, best_need, best_score);
 #endif
+    if constexpr (nnt::kObjective) nn_teacher_access::cap_objective(*this, top, n_top, best, best_need, best_score, participants_hint);
     return best;
 }
 
@@ -5262,7 +5301,7 @@ int Bot::route_search(const RouteCand* top, int n_top) {
     int best_i = -1;
     float best_rate = 0.0f;
     for (int i = 0; i < n_top; ++i) {
-        if (bc::fuel_remaining() < tune::kRouteFuel / 2) break;
+        if (nnb::teacher_left() < tune::kRouteFuel / 2) break;
         const RouteCand& c = top[i];
         const float sticky = c.gi == target_group ? tune::kStickiness : 1.0f;
         float route = c.score; // the first target alone (stickiness included)
@@ -5366,7 +5405,7 @@ int Bot::plan_search(const RouteCand* top, int n_top, bool& bank_first) {
     // APEX_PLAN 2: the camp choice stays the greedy best (top[0]); the planner only decides whether to bank first.
     if (tune::kPlan == 2) n_top = std::min(n_top, 1);
     for (int i = 0; i < n_top; ++i) {
-        if (bc::fuel_remaining() < tune::kRouteFuel / 2) break;
+        if (nnb::teacher_left() < tune::kRouteFuel / 2) break;
         const RouteCand& c = top[i];
         const float sticky = c.gi == target_group ? tune::kStickiness : 1.0f;
         const float g1 = gems_of(c.gi);
@@ -5452,8 +5491,8 @@ bool Bot::farm() {
     // otherwise only below the safety floor.
     // The first turn (initialisation on the doubled budget) never farms: it ends near the floor on big maps.
     const bool low_fuel = tune::kDet ? (field_calls == 0 || ts_ran_round == round ||
-                                        bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 10000)
-                                     : bc::fuel_remaining() < tune::kLowFuel;
+                                        nnb::teacher_left() < static_cast<std::uint64_t>(tune::kDetSafety) + 10000)
+                                     : nnb::teacher_left() < tune::kLowFuel;
 #if APEX_PROFILE
     ++prof::farm_calls;
     prof::farm_low += low_fuel;
@@ -5636,8 +5675,8 @@ bool Bot::farm() {
         }
     }
     if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);
-    if (best < 0 && (tune::kDet ? ts_ran_round != round && bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
-                                : bc::fuel_remaining() > tune::kLowFuel / 2)) {
+    if (best < 0 && (tune::kDet ? ts_ran_round != round && nnb::teacher_left() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
+                                : nnb::teacher_left() > tune::kLowFuel / 2)) {
         // Nothing is safe to finish alone: chip at the best big camp anyway. Damage persists,
         // and the disengage rule walks us out before the camp kills us.
         best = score_groups(team_size, best_need, best_score);
@@ -5811,7 +5850,7 @@ void Bot::build_fields() {
         auto room = [&] {
             // NOVA_FUEL_OPEN keeps a route-search-sized reserve: the per-champion work below still
             // needs to clear the 40k route-search gate after prospecting has taken its share.
-            return bc::fuel_remaining() >
+            return nnb::teacher_left() >
                 full + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);
         };
         if (!w.altar_ready && quota > 0 && room()) w.ensure_altar_field(), --quota;
@@ -5826,14 +5865,14 @@ void Bot::build_fields() {
         return;
     }
     if (!w.altar_ready &&
-        bc::fuel_remaining() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
+        nnb::teacher_left() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
         w.ensure_altar_field();
     if ((tune::kTerritory < 1.0f || tune::kNumbersInvade < 99) && !w.enemy_ready &&
-        bc::fuel_remaining() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
+        nnb::teacher_left() > tune::kFieldBuildReserve + static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks())
         w.ensure_enemy_field();
-    if (!w.fields_ready() && bc::fuel_remaining() > tune::kFieldBuildReserve + 15000) w.prepare_field_order();
+    if (!w.fields_ready() && nnb::teacher_left() > tune::kFieldBuildReserve + 15000) w.prepare_field_order();
     while (!w.fields_ready()) {
-        const std::uint64_t left = bc::fuel_remaining();
+        const std::uint64_t left = nnb::teacher_left();
         if (left < tune::kFieldBuildReserve || w.field_order.empty()) return;
         PROF(field);
         if (!w.build_next_group_field(left - tune::kFieldBuildReserve)) return;
@@ -5991,7 +6030,7 @@ void Bot::play_turn() {
     keep_channel = false;
     walked = false;
     force_tribute = false;
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
     {
         // Engine lab intervention (lab.h): record the current choice, then forbid it / force or hold the bank trip.
         const auto me_id = static_cast<std::int32_t>(my_id);
@@ -6089,6 +6128,7 @@ void Bot::play_turn() {
             target_group = kClaimDead;
             write_claim(kClaimDead);
         }
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::dead);
         // Dead turns have the whole budget free: use it to precompute distance fields.
         if (inited) build_fields();
         return;
@@ -6146,7 +6186,7 @@ void Bot::play_turn() {
             if (e.hp > 0) a2bel::note(e.id, e.pos.x, e.pos.y, round, e.range, e.strength, e.hp);
 #endif
         if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // engine-lab host control (NN_STRIP_LAB removes it; knobs stay)
         {
             // Engine lab, death what-ifs (lab.h kinds 6 / 7; start at ctl.round unconditionally): 6 regroup = walk to the
             // nearest living ally, playing normally once within 2 tiles; 7 home = walk to our spawn.
@@ -6346,10 +6386,10 @@ void Bot::play_turn() {
     // holes (islands: 14 of 46 by round 250), and straight-line distances sent champions at camps they cannot reach.
     if (inited && tune::kDet && !w.fields_ready() && w.enemies.empty()) {
         const std::uint64_t full = static_cast<std::uint64_t>(w.width + w.height + 40) * field_chunks() + 3000;
-        if (!w.altar_ready && bc::fuel_remaining() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.ensure_altar_field();
+        if (!w.altar_ready && nnb::teacher_left() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.ensure_altar_field();
         else {
             w.prepare_field_order();
-            if (!w.field_order.empty() && bc::fuel_remaining() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.build_next_group_field(full);
+            if (!w.field_order.empty() && nnb::teacher_left() > full + static_cast<std::uint64_t>(tune::kDetSafety) + 40000) w.build_next_group_field(full);
         }
     }
 #endif
@@ -6367,14 +6407,17 @@ void Bot::play_turn() {
     if (a2tel::fleehit_round == round) a2tel::bump(13u * 4096 + (walked ? 1u : 0u) + (cast_done ? 2u : 0u));
 #endif
     if (fought) {
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::enemy);
         if (std::string_view(mode) == "idle") mode = "enemy";
         if (tune::kDistress && std::string_view(mode).starts_with("flee")) share_sighting(true);
         opportunistic_attack();
     } else if (win_now() && hp >= max_hp * tune::kDangerHp && tribute_if_needed()) {
         // Our bag finishes the race: bank it before anything else (shopping can wait).
         mode = "tribute-win";
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::tribute_win);
     } else if (go_home_if_needed()) {
         if (std::string_view(mode) == "idle") mode = "home";
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::home);
 #if (A2_TEAM & 2)
     } else if (a2_join_fight()) {
 #endif
@@ -6383,10 +6426,13 @@ void Bot::play_turn() {
     } else if (fog_regroup()) {
 #endif
     } else if (hunt()) {
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::hunt);
     } else if (tribute_if_needed()) {
         mode = "tribute";
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, nnt::Chain::tribute);
     } else {
         if (!farm()) mode = "nofarm";
+        if constexpr (nnt::kChain) nn_teacher_access::cap_chain(*this, std::string_view(mode) == "nofarm" ? nnt::Chain::nofarm : nnt::Chain::farm);
         opportunistic_attack();
         support_casts();
     }

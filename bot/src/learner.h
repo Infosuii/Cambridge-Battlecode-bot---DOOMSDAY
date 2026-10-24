@@ -6,6 +6,7 @@
 // [6] camp-group state (0 reward..2 alive) [7] harmless [8] lower-claims/4 [9] higher-claims/4
 // [10] hand score/3 [11] drain [12] siege [13] initiating [14] solo_job [15] need/4
 #pragma once
+#include "nn_config.h"
 #ifndef NOVA_LEARNER
 #define NOVA_LEARNER 0
 #endif
@@ -16,7 +17,7 @@
 #define A2_LAB 0
 #endif
 namespace learner {
-#if A2_LAB
+#if A2_LAB && !NN_STRIP_LAB // lab learner (NN_STRIP_LAB: the shipped identity)
 inline constexpr bool on = true;
 inline float w_lab[16] = {};
 inline float* const w = w_lab;

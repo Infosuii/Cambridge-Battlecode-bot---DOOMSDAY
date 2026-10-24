@@ -1,6 +1,7 @@
 // Tactical search, bot side: snapshot the local fight into a ts::State, play every root candidate forward
 // against two enemy models while fuel lasts, and carry out the best one (APEX_TSEARCH).
 #include "bot.h"
+#include "nn_budget.h"
 #include "fight.h"
 #include "tsearch.h"
 #include "a2map.h"
@@ -11,6 +12,8 @@
 
 #include <cstring>
 #include <variant>
+
+#include "nn_teacher.h"
 
 namespace d = cambc::detail;
 
@@ -121,7 +124,7 @@ void fill_unit(ts::Unit& u, int team, bc::champion_type type, vec2 p, float hp, 
 // Loads one champion kit per call (designs cost fuel to read): run on calm turns so fights never pay it.
 void Bot::ts_prewarm() {
     static int next = 0;
-    if (next >= ((A2_KITFIX & 1) ? 13 : 12) || bc::fuel_remaining() < 60000) return;
+    if (next >= ((A2_KITFIX & 1) ? 13 : 12) || nnb::teacher_left() < 60000) return;
     kit_of(static_cast<bc::champion_type>(next++));
 }
 
@@ -444,7 +447,7 @@ bool Bot::tactical_search() {
         return true;
     }
 #endif
-    const auto fuel0 = bc::fuel_remaining();
+    const auto fuel0 = nnb::teacher_left();
     if (fuel0 < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) return false;
     ts::State s;
     ts::Map m;
@@ -529,7 +532,7 @@ bool Bot::tactical_search() {
         for (int i = 0; i < nc; ++i) {
 #if A2_TSX
             // Fuel-guarded: a candidate left unscored is left out of the rollouts (it keeps no stale value).
-            if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) {
+            if (nnb::teacher_left() < static_cast<std::uint64_t>(tune::kTsReserve) + 12000) {
                 legal[i] = false;
                 stat[i] = -1e30f;
                 continue;
@@ -557,7 +560,7 @@ bool Bot::tactical_search() {
         for (int i = 0; i < nc; ++i) {
             if (!legal[i]) continue;
             // Never let the search run the turn out of fuel: a suspended turn loses the action.
-            const std::uint64_t left = bc::fuel_remaining();
+            const std::uint64_t left = nnb::teacher_left();
             if (left < static_cast<std::uint64_t>(tune::kTsReserve) + 2 * worst) goto done;
             ts::State c = s;
             if (!ts::apply_root(c, m, cands[i])) {
@@ -568,7 +571,7 @@ bool Bot::tactical_search() {
             pass_v[pass][i] = ts::evaluate(c, wts);
             ++passes[i];
             ++rollouts;
-            const std::uint64_t now = bc::fuel_remaining();
+            const std::uint64_t now = nnb::teacher_left();
             if (now < left) worst = std::max(worst, left - now);
         }
 done:
@@ -794,7 +797,7 @@ int Bot::tactical_decide() {
 #else
 #define A2RET(st, v) return v
 #endif
-    if (bc::fuel_remaining() < (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) + 10000
+    if (nnb::teacher_left() < (tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) + 10000
                                            : static_cast<std::uint64_t>(tune::kTsReserve) + 30000))
         A2RET(1, 0);
     ts::State s;
@@ -802,7 +805,7 @@ int Bot::tactical_decide() {
     const EnemyRec* eref[ts::kMaxUnits] = {};
     if (!ts_snapshot(s, m, eref)) A2RET(0, 0);
     if (tune::kTsPhantom && tune::kBelief &&
-        (tune::kDet || bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kTsReserve) + 45000)) {
+        (tune::kDet || nnb::teacher_left() > static_cast<std::uint64_t>(tune::kTsReserve) + 45000)) {
         // Reinforcements (APEX_TS_PHANTOM): enemies we cannot see that could join before the horizon, from the
         // beliefs (expected enemies within reach minus the visible ones there). Each whole expected one enters the
         // playouts as a fresh copy of the nearest visible enemy, a horizon's walk away on the enemies' side.
@@ -903,7 +906,7 @@ int Bot::tactical_decide() {
         reserve = static_cast<std::uint64_t>(tune::kTsBudgetReserve);
         const auto n2 = static_cast<std::uint64_t>(s.n * s.n);
         worst = static_cast<std::uint64_t>(tune::kTsUnitCost) * n2 * static_cast<std::uint64_t>(rounds + 1) / 4;
-        const std::uint64_t left = bc::fuel_remaining();
+        const std::uint64_t left = nnb::teacher_left();
         while (rounds > 1 && left < reserve + 2 * worst) {
             --rounds;
             worst = static_cast<std::uint64_t>(tune::kTsUnitCost) * n2 * static_cast<std::uint64_t>(rounds + 1) / 4;
@@ -936,7 +939,7 @@ int Bot::tactical_decide() {
     for (int model = 0; model < n_models; ++model) {
         bool complete = true;
         for (int plan = 0; plan < 2; ++plan) { // 0 fight, 1 run
-            const std::uint64_t left = bc::fuel_remaining();
+            const std::uint64_t left = nnb::teacher_left();
             // Budgeted: only the playouts this model still needs must fit; unbudgeted: the old rule.
             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
             if (left < reserve + need) {
@@ -949,7 +952,7 @@ int Bot::tactical_decide() {
             ts::act(c, m, 0, pol); // our turn, now
             ts::rollout(c, m, pol, rounds);
             v[model][plan] = tune::kTsLocalNet ? plan_value(s, c, m, round, wts.alive) : ts::evaluate(c, wts);
-            const std::uint64_t now = bc::fuel_remaining();
+            const std::uint64_t now = nnb::teacher_left();
 #if A2_TEL
             if (left > now) a2tel::td_cost(std::min(s.n, 8), std::min(rounds, 3), left - now);
 #endif
@@ -979,6 +982,7 @@ int Bot::tactical_decide() {
     fight += A2_TS_FIGHT_BIAS; // refit of the verdict for the vision-aware playouts (+ leans to fight)
 #endif
     const float margin = std::max(0.0f, tune::kTsDecideMargin + LABK(30)); // lab knob 30: decide margin
+    if constexpr (nnt::kFight) nn_teacher_access::cap_td_values(fight, run, margin);
     if (fight > run + margin) A2RET(5, 1);
     if (run > fight + margin) A2RET(6, -1);
     A2RET(4, 0);
@@ -991,7 +995,7 @@ int Bot::tactical_decide() {
 int Bot::team_decide(std::uint32_t& focus_handle) {
     PROF(tfc);
     focus_handle = 0;
-    if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kTsReserve) + 30000) return 0;
+    if (nnb::teacher_left() < static_cast<std::uint64_t>(tune::kTsReserve) + 30000) return 0;
     ts::State s;
     ts::Map m;
     const EnemyRec* eref[ts::kMaxUnits] = {};
@@ -1030,7 +1034,7 @@ int Bot::team_decide(std::uint32_t& focus_handle) {
     for (int model = 0; model < 2; ++model) {
         bool complete = true;
         for (int plan = 0; plan < 3; ++plan) { // 0 status quo, 1 all fight, 2 all run
-            const std::uint64_t left = bc::fuel_remaining();
+            const std::uint64_t left = nnb::teacher_left();
             if (left < static_cast<std::uint64_t>(tune::kTsReserve) + 2 * worst) {
                 complete = false;
                 break;
@@ -1041,7 +1045,7 @@ int Bot::team_decide(std::uint32_t& focus_handle) {
             ts::act(c, m, 0, pol);
             ts::rollout(c, m, pol, tune::kTfcRounds);
             v[model][plan] = ts::evaluate(c, wts);
-            const std::uint64_t now = bc::fuel_remaining();
+            const std::uint64_t now = nnb::teacher_left();
             if (now < left) worst = std::max(worst, left - now);
         }
         if (!complete) break;

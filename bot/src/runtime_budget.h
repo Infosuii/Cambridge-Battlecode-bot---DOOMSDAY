@@ -11,6 +11,7 @@
 #include <cstdint>
 
 #include "common.h"
+#include "nn_budget.h"
 
 namespace rb {
 
@@ -26,7 +27,7 @@ inline constexpr std::uint64_t kTailReserve = 6000;
 // Engine search cost model: (levels + 16) x chunks plus a fixed overhead (world.cpp, measured to 0.3%).
 inline constexpr std::uint64_t kSearchFixed = 3000;
 
-inline std::uint64_t left() { return bc::fuel_remaining(); }
+inline std::uint64_t left() { return nnb::teacher_left(); } // teacher fuel view (nn_budget.h)
 
 // True when `cost` can start and still leave `reserve`.
 inline bool fits(std::uint64_t cost, std::uint64_t reserve) {

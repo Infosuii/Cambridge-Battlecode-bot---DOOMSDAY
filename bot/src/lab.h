@@ -3,6 +3,8 @@
 #pragma once
 #include <cstdint>
 
+#include "nn_config.h"
+
 namespace lab {
 struct Ctl {
     std::int32_t champ = -1; // champion handle the intervention applies to (-1 = none)
@@ -56,10 +58,18 @@ inline std::int32_t builds[16 * kBuildSlot] = {};
 // (tsearch.cpp ts_decide), 32 caster micro risk, 33-35 economy passives, 36-39 banking, cohesion and ward distances,
 // 40 middle-camp weight, 41 team-fight engage ratio, 42 altar prelocking, 43-44 early aggression and hunt range.
 inline constexpr int kKnobs = 48;
+#if NN_STRIP_LAB // baked knobs as compile-time constants: gameplay values unchanged, no host can write them
+#ifdef A2_KNOBS
+inline constexpr float knobs[kKnobs] = {A2_KNOBS};
+#else
+inline constexpr float knobs[kKnobs] = {};
+#endif
+#else
 #ifdef A2_KNOBS
 inline float knobs[kKnobs] = {A2_KNOBS}; // a search result baked into a build (comma-separated, missing = 0)
 #else
 inline float knobs[kKnobs] = {};
+#endif
 #endif
 // The intervention starts at the first turn its condition holds (recorded in rec_round) and lasts len rounds.
 inline bool active(std::int32_t me, std::int32_t round, std::int32_t kind) {

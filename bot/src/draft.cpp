@@ -1,5 +1,6 @@
 // Draft: farming speed first, then durability. Both teams may own the same champion.
 #include "draft.h"
+#include "nn_budget.h"
 #include "common.h"
 #include "strategy.h"
 #include <cstdio>
@@ -9,6 +10,7 @@
 #endif
 
 using cd = bc::champion_draft;
+#include "nn_teacher.h" // draft capture (compile-time gated)
 namespace {
 // Candidate priority lists; tests pick the preset (see docs/MASTER_PLAN.md, draft results).
 constexpr cd kPresets[][11] = {
@@ -539,7 +541,7 @@ const std::vector<std::uint8_t>& team_plan_bytes(std::uint32_t size) {
         sx /= sn, sy /= sn;
         const int ncham = static_cast<int>(std::min<std::uint32_t>(std::max<std::uint32_t>(size, 1), kPlanSlots));
         Plan best = plan_once(G, sx, sy, ncham, 0.0f);
-        for (int r = 0; r < A2_DP_ROLLOUTS && bc::fuel_remaining() > 150000; ++r) {
+        for (int r = 0; r < A2_DP_ROLLOUTS && nnb::teacher_left() > 150000; ++r) {
             const Plan p = plan_once(G, sx, sy, ncham, 0.3f);
             if (p.value > best.value) best = p;
         }
@@ -662,15 +664,18 @@ bool ml_draft_pick(std::uint32_t size) {
         for (int r = 0; r < nr; ++r) a += dn::W1[rows[r] * dn::kHid + h] * rw[r];
         h_base[h] = a;
     }
+    if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_begin();
     for (int c = 0; c < 12; ++c) {
         if (taken[c]) continue;
         float z = dn::b2;
         const float* wc = dn::W1 + (16 + c) * dn::kHid; // the candidate's own pick row
         for (int h = 0; h < dn::kHid; ++h) z += dn::w2[h] * fast_tanh(h_base[h] + wc[h]);
+        if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_score(c, z);
         if (z > best_z) best_z = z, best = c;
     }
     (void)x;
     if (best < 0) return false;
+    if constexpr (nnt::kDraft) nn_teacher_access::cap_draft_pick(best); // draft_pick head hook: substitute `best` here
     bc::draft::pick(static_cast<cd>(best));
 #if A2_MLPLAN
     // Our last pick: choose the game plan for this comp on this map (net with the plan one-hot set) and pass it to the
