@@ -64,4 +64,22 @@ class OperationsTests(unittest.TestCase):
             result=P.evaluate_epoch(model,self.root,2,'role',config)
             self.assertTrue(result['implementation_passed']);compare.assert_called_once()
 
+    def test_comparison_outside_scratch_installs_sources_in_scratch(self):
+        # Regression: training runs write evaluations under artifacts/runs, where install() refuses source copies.
+        import shutil
+        class Stop(Exception):pass
+        built=[]
+        def build(bot,wasm,**kwargs):built.append(Path(bot));raise Stop
+        base=ROOT/'models/policy_v2_untrained'
+        with tempfile.TemporaryDirectory(prefix='synthetic_ops_',dir=ROOT/'artifacts') as temp:
+            out=Path(temp)/'evaluation'
+            try:
+                with patch.object(P.engine,'official_build',build):
+                    with self.assertRaises(Stop):P.compare(base,[base],['00rows'],out,max_games=4)
+                root=Path(json.loads((out/'plan.json').read_text())['build_root'])
+                self.assertTrue(root.is_relative_to((ROOT/'artifacts/tmp').resolve()))
+                self.assertEqual(built,[root/'candidate'])
+            finally:
+                for bot in built:shutil.rmtree(bot.parent,ignore_errors=True)
+
 if __name__=='__main__':unittest.main()

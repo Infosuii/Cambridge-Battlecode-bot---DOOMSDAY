@@ -108,18 +108,20 @@ def compare(candidate,previous,maps,out,*,sides=('A','B'),max_games=8,seed=20261
         raise ValueError('operations protocol changed after freeze')
     plan['operations_protocol_sha256']=digest
     if out.exists():raise FileExistsError('fresh comparison output required')
+    # Disposable source copies must stay in artifacts/tmp (install_policy_v2 guard); Wasm, games and receipts stay in out.
+    builds=ROOT/'artifacts/tmp/comparison_builds'/str(time.time_ns());plan['build_root']=str(builds)
     out.mkdir(parents=True);engine.write_json(out/'plan.json',plan)
     sys.path.insert(0,str(ROOT/'tools'))
     from install_policy_v2 import install
     def event(kind,**fields):
         with (out/'metrics.jsonl').open('a',encoding='utf-8') as f:f.write(json.dumps(dict(event=kind,time_unix=time.time(),**fields))+'\n')
     event('comparison_start',games=plan['games'],candidate_checksum=plan['candidate_checksum'])
-    bot=install(out/'candidate','direct_evaluation',Path(candidate),seed)
+    bot=install(builds/'candidate','direct_evaluation',Path(candidate),seed)
     candidate_wasm=engine.official_build(bot,out/'candidate.wasm',timeout=remaining())
     baseline,baseline_wasm=load_baseline();audit=baseline['audit']
     opponents=[('heuristic_non_neural',baseline_wasm)]
     for item in plan['opponents'][1:]:
-        bot=install(out/item['name'],'direct_evaluation',Path(item['model_dir']),seed)
+        bot=install(builds/item['name'],'direct_evaluation',Path(item['model_dir']),seed)
         opponents.append((item['name'],engine.official_build(bot,out/(item['name']+'.wasm'),timeout=remaining())))
     if engine.tree_sha256(ROOT/'bot/src')!=plan['framework_source_sha256']:
         raise ValueError('framework source changed during comparison; freeze code before training operations')
