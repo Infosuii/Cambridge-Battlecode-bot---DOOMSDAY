@@ -1,0 +1,376 @@
+{
+  "passed": true,
+  "zip": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\release\\2026-10-24\\neural-framework-untrained.zip",
+  "zip_sha256": "30a0e4c0640d39adcb83a8f881ea84983f5dbb17f3a2f519fc9c50865bbcc859",
+  "wasm": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\release\\2026-10-24\\neural-framework-untrained.wasm",
+  "wasm_sha256": "6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5",
+  "source": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\integration_release_bot\\src",
+  "source_tree_sha256": "2f16d62124f22ff05c6a5e6fadbbf93463ca7c98a4bab259809d1ff1fbee40e8",
+  "cli_version": "cambc 3.0.5",
+  "checks": [
+    {
+      "name": "zip_members_flat_src_cpp_h",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "zip_no_path_traversal",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "zip_no_duplicates",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "zip_no_symlinks",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source_tree_flat_cpp_h_only",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "zip_members_equal_source_files",
+      "passed": true,
+      "detail": {
+        "missing_in_zip": [],
+        "not_in_tree": []
+      }
+    },
+    {
+      "name": "zip_bytes_equal_source_tree",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "zip_crc_ok",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "direct_policy_release_disabled",
+      "passed": true,
+      "detail": {
+        "NN_POLICY_V2": "0",
+        "NN_POLICY_LOG": "0",
+        "NN_POLICY_SAMPLE": "0",
+        "NN_POLICY_TELEMETRY": "0"
+      }
+    },
+    {
+      "name": "config_profile_release",
+      "passed": true,
+      "detail": "release"
+    },
+    {
+      "name": "config_kTraining_false",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "config_kTelemetry_false",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "config_kSelfTest_false",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "config_kFuelCredit_false",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "config_NN_TRAINING_0",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "config_NN_TELEMETRY_0",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "config_head_modes_parsed",
+      "passed": true,
+      "detail": 13
+    },
+    {
+      "name": "config_kAnyHead_consistent",
+      "passed": true,
+      "detail": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "config_no_shadow_heads_in_release",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "wasm_no_NFS1_string",
+      "passed": true,
+      "detail": {
+        "data": 0,
+        "executable_sections": 0
+      }
+    },
+    {
+      "name": "wasm_no_NFT1_string",
+      "passed": true,
+      "detail": {
+        "data": 0,
+        "executable_sections": 0
+      }
+    },
+    {
+      "name": "wasm_no_NFS2_string",
+      "passed": true,
+      "detail": {
+        "data": 0,
+        "executable_sections": 0
+      }
+    },
+    {
+      "name": "wasm_no_NPO2_string",
+      "passed": true,
+      "detail": {
+        "data": 0,
+        "executable_sections": 0
+      }
+    },
+    {
+      "name": "wasm_no_NPC2_string",
+      "passed": true,
+      "detail": {
+        "data": 0,
+        "executable_sections": 0
+      }
+    },
+    {
+      "name": "wasm_no_lab_exports",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "registry_fs_v1_untrained_weights_checksum",
+      "passed": true,
+      "detail": [
+        "0x6f8163630c208aa3",
+        "0x6f8163630c208aa3"
+      ]
+    },
+    {
+      "name": "registry_fs_v1_dev_weights_checksum",
+      "passed": true,
+      "detail": [
+        "0x165655b4ee67b5d1",
+        "0x165655b4ee67b5d1"
+      ]
+    },
+    {
+      "name": "registry_policy_v2_untrained_weights_checksum",
+      "passed": true,
+      "detail": [
+        "0x5a9d6349c9dc07b5",
+        "0x5a9d6349c9dc07b5"
+      ]
+    },
+    {
+      "name": "registry_statuses_consistent",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "no_fuel_override_in_scripts",
+      "passed": true,
+      "detail": {
+        "uses": [],
+        "prose_mentions": []
+      }
+    },
+    {
+      "name": "reference_binaries_unchanged",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "independent_rebuild_matches",
+      "passed": true,
+      "detail": "identical sha256"
+    }
+  ],
+  "info": {
+    "config": {
+      "profile": "release",
+      "flags": {
+        "kAnyHead": false,
+        "kTraining": false,
+        "kTelemetry": false,
+        "kFuelCredit": false,
+        "kSelfTest": false,
+        "kStripLab": true
+      },
+      "macros": {
+        "NN_ANY_HEAD": 0,
+        "NN_STRIP_LAB": 1,
+        "NN_TRAINING": 0,
+        "NN_TELEMETRY": 0
+      },
+      "head_modes": {
+        "draft_pick": "off",
+        "strategy": "off",
+        "objective": "off",
+        "role": "off",
+        "bank": "off",
+        "shop": "off",
+        "move": "off",
+        "combat": "off",
+        "engage": "off",
+        "ward": "off",
+        "belief": "off",
+        "value": "off",
+        "ts_leaf": "off"
+      },
+      "heads": [
+        "draft_pick",
+        "strategy",
+        "objective",
+        "role",
+        "bank",
+        "shop",
+        "move",
+        "combat",
+        "engage",
+        "ward",
+        "belief",
+        "value",
+        "ts_leaf"
+      ],
+      "modes_parsed": true,
+      "head_models": {},
+      "generated": true
+    },
+    "wasm": {
+      "exports": [
+        "memory",
+        "_start"
+      ],
+      "lab_exports": [],
+      "strip_lab_selected": true,
+      "custom_sections": [
+        ".debug_loc",
+        ".debug_abbrev",
+        ".debug_info",
+        ".debug_str",
+        ".debug_line",
+        ".debug_ranges",
+        "name",
+        "producers",
+        "target_features"
+      ],
+      "data_bytes": 23205,
+      "lab_exports_note": null
+    },
+    "models": {
+      "models": [
+        {
+          "name": "fs_v1_untrained",
+          "head": "all",
+          "status": "untrained",
+          "registry_status": "untrained",
+          "active_flag": false,
+          "checksum": "0x6f8163630c208aa3",
+          "files_sha256": {
+            "models/fs_v1_untrained/manifest.json": "96785428b61744ce07830af2e6443354df7b109b7860806315500e66b97ea72b",
+            "models/fs_v1_untrained/nn_weights_fs_v1_untrained.h": "22e6335a75fc2aa644b84e480f0a71a23706466a4784f8bc424e35121a9efa29",
+            "models/fs_v1_untrained/weights.f32": "5b599001d679de91a40a68b7ff8cf1121833fba2ef0ef9a3bfa7cb467479a0f1"
+          },
+          "manifest_present": true,
+          "checksum_recomputed": "0x6f8163630c208aa3"
+        },
+        {
+          "name": "fs_v1_dev",
+          "head": "all",
+          "status": "untrained",
+          "registry_status": "untrained",
+          "active_flag": false,
+          "checksum": "0x165655b4ee67b5d1",
+          "files_sha256": {
+            "models/fs_v1_dev/manifest.json": "30b6fc4929b5bdb9af056cf48ff3caf4978d2535a5c85fd04a74f0895a8872fb",
+            "models/fs_v1_dev/nn_weights_fs_v1_dev.h": "63df88d0923880394a487315473bc07e561c52f8cfa0919f4fca2271e20fd66b",
+            "models/fs_v1_dev/weights.f32": "39abb2e431b4293852f5a880bd4fb5f648260cbc00ad07537854589c672d7831"
+          },
+          "manifest_present": true,
+          "checksum_recomputed": "0x165655b4ee67b5d1"
+        },
+        {
+          "name": "draft_net_original",
+          "head": "draft_pick (teacher-internal)",
+          "status": "trained",
+          "registry_status": "trained",
+          "active_flag": false,
+          "checksum": "0x3c09ba1cdb6e22fe",
+          "files_sha256": {
+            "models/draft_net_original/manifest.json": "6ebf8f48f264341241f6aef6bc2327d446ff69be7a6352eabdb77ad72465a06e"
+          },
+          "manifest_present": true
+        },
+        {
+          "name": "policy_v2_untrained",
+          "head": null,
+          "status": "untrained",
+          "registry_status": "untrained",
+          "active_flag": false,
+          "checksum": "0x5a9d6349c9dc07b5",
+          "files_sha256": {
+            "models/policy_v2_untrained/manifest.json": "55468c7fc914321e915270ed0f378634025452642789fdb9971f0ef74295c416",
+            "models/policy_v2_untrained/nn_policy_weights_policy_v2_untrained.h": "725c82d963c7a232b452066d242538734bff1a648f0b57ea9cf3cd3d95a37fac",
+            "models/policy_v2_untrained/weights.f32": "fa979f2258fb693fb6507edfff71479244a1e0ebb1aa091dedf3634a319c408b"
+          },
+          "manifest_present": true,
+          "checksum_recomputed": "0x5a9d6349c9dc07b5"
+        }
+      ],
+      "release_selection": {}
+    },
+    "references": {
+      "original": {
+        "path": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\references\\builds\\original.wasm",
+        "wasm_sha256": "eb0ea88fc734661cf93935e5eab3c79e7a2658c7d05b7965593fbeb22d9d4442",
+        "code_section_sha256": "02739407c4f11392261a544e702611c3a8d95a3d848c5a87ed3842eead890136"
+      },
+      "v47": {
+        "path": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\references\\builds\\v47.wasm",
+        "wasm_sha256": "1d26e69451fe5752e3fd4c24aabda9cda789916dbf7127f04193a78b60db894f",
+        "code_section_sha256": "bda7a2f728def9f06356934c9b5ed51df4fac9a014ec1ed23dc55a56fb7ffa59"
+      },
+      "first-hour": {
+        "path": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\references\\builds\\first-hour.wasm",
+        "wasm_sha256": "21bf0e3ee849cbe933ef83f92afc595f69a5c771cf8c487b020747677c27773e",
+        "code_section_sha256": "87f353d1de4c34549381cef07d73fa4daa56da88644b8f4b6b58d4b7294c3c1f"
+      },
+      "v50": {
+        "path": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\references\\builds\\v50.wasm",
+        "wasm_sha256": "9c367348be4969c0d0daf4a55fee7abd8a7e373350da2d879c50735ba7539973",
+        "code_section_sha256": "f157548c96c985042c9261bea152af1bc74c1cb838583cfbf0441bf9cd499c70"
+      }
+    },
+    "rebuild": {
+      "rebuilt_sha256": "6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5",
+      "release_sha256": "6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5",
+      "identical_sha256": true,
+      "identical_non_custom_sections": true,
+      "rebuild_dir": "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\H\\rebuild-20261024-221810"
+    }
+  },
+  "submitted": false,
+  "verified_utc": "2026-10-24T21:18:25+00:00"
+}

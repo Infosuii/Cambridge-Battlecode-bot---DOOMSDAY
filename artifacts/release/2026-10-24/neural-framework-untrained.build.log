@@ -1,0 +1,93 @@
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/.cambc/build-release
+[0/2] Re-checking globbed directories...
+[1/23] Building CXX object CMakeFiles/bot.dir/1a3567bf68499669be54b6c48e571320/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_economy.cpp.obj
+[2/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_head.cpp.obj
+[3/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_obs.cpp.obj
+[4/23] Building CXX object CMakeFiles/bot.dir/1a3567bf68499669be54b6c48e571320/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_obs_glue.cpp.obj
+[5/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_capture.cpp.obj
+[6/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_economy.cpp.obj
+[7/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_runtime.cpp.obj
+[8/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_strategy.cpp.obj
+[9/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_tactics.cpp.obj
+[10/23] Building CXX object CMakeFiles/bot.dir/1a3567bf68499669be54b6c48e571320/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_strategy.cpp.obj
+[11/23] Building CXX object CMakeFiles/bot.dir/1a3567bf68499669be54b6c48e571320/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_tactics.cpp.obj
+[12/23] Building CXX object CMakeFiles/bot.dir/1d6fb4c220ac69a2ba20ad5deb090973/artifacts/tmp/integration_release_bot/src/nn_policy_candidates.cpp.obj
+[13/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/deny.cpp.obj
+[14/23] Building CXX object CMakeFiles/bot.dir/1a3567bf68499669be54b6c48e571320/neural-full-stack/artifacts/tmp/integration_release_bot/src/nn_teacher.cpp.obj
+[15/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/fight.cpp.obj
+[16/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/episode.cpp.obj
+[17/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/main.cpp.obj
+[18/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/draft.cpp.obj
+[19/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/world.cpp.obj
+[20/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp:807:26: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+  807 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^  ~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp:807:26: note: use '&' for a bitwise operation
+  807 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~
+      |                          &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp:807:26: note: remove constant to silence this warning
+  807 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp:944:56: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+  944 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^  ~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/tsearch.cpp:944:56: note: use '|' for a bitwise operation
+  944 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+
+      |                                                        ^~
+
+      |                                                        |
+
+2 warnings generated.
+
+[21/23] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3261:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3261 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3261:53: note: use '&' for a bitwise operation
+ 3261 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3261:53: note: remove constant to silence this warning
+ 3261 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3695:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 3695 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3695:92: note: use '|' for a bitwise operation
+ 3695 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3713:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 3713 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/src/bot.cpp:3713:82: note: use '|' for a bitwise operation
+ 3713 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^~
+
+      |                                                                                  |
+
+3 warnings generated.
+
+[22/23] Linking CXX executable bot.wasm
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.9s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/integration_release_bot/.cambc/build
+built C:\projects\cambridge battlecode\work\neural-full-stack\artifacts\tmp\integration_release_bot\.cambc\build-release\bot-injected.wasm
+injected 0 checks into 0 functions

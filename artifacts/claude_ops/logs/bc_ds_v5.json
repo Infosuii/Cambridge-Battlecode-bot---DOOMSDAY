@@ -1,0 +1,91 @@
+{
+ "format": "bc-v2",
+ "heads": [
+  "bank",
+  "combat",
+  "engage",
+  "move",
+  "objective",
+  "role",
+  "strategy"
+ ],
+ "obs_schema_hash": 323412922,
+ "action_schema_hash": 383728542,
+ "sources": [
+  "C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\tmp\\bc_v5_1200"
+ ],
+ "winners_only": true,
+ "val_fraction": 0.05,
+ "verified_rows": 3000,
+ "dropped_unlabelled": 2028797,
+ "split": "by replay name (sha256)",
+ "rule_inputs": "goal=hindsight position 10 rounds later; role rule; hot_zone=0; claim=127",
+ "train": {
+  "rows": 1767613,
+  "replays": 1136,
+  "by_head": {
+   "strategy": {
+    "rows": 366114,
+    "mean_legal": 5.750471164719186
+   },
+   "objective": {
+    "rows": 106397,
+    "mean_legal": 12.448367905110107
+   },
+   "role": {
+    "rows": 358329,
+    "mean_legal": 3.192069299442691
+   },
+   "bank": {
+    "rows": 117018,
+    "mean_legal": 4.438718829581774
+   },
+   "move": {
+    "rows": 307769,
+    "mean_legal": 9.0312637075209
+   },
+   "combat": {
+    "rows": 202858,
+    "mean_legal": 2.655507793629041
+   },
+   "engage": {
+    "rows": 309128,
+    "mean_legal": 3.0
+   }
+  }
+ },
+ "validation": {
+  "rows": 83890,
+  "replays": 55,
+  "by_head": {
+   "strategy": {
+    "rows": 17686,
+    "mean_legal": 5.766934298315052
+   },
+   "objective": {
+    "rows": 4837,
+    "mean_legal": 11.914203018399835
+   },
+   "role": {
+    "rows": 17249,
+    "mean_legal": 3.2263899356484433
+   },
+   "bank": {
+    "rows": 5617,
+    "mean_legal": 3.7434573615809152
+   },
+   "move": {
+    "rows": 13935,
+    "mean_legal": 8.910297811266595
+   },
+   "combat": {
+    "rows": 8598,
+    "mean_legal": 2.5588508955571063
+   },
+   "engage": {
+    "rows": 15968,
+    "mean_legal": 3.0
+   }
+  }
+ }
+}

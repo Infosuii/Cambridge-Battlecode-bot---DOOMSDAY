@@ -25,3 +25,8 @@ config/paths.local.json
 
 # Rebuildable baseline staging trees stay local; frozen ZIP/Wasm/manifest are versioned.
 /artifacts/baselines/*/bot/
+
+# Local match folders and decoded audit dumps are large and rebuildable.
+/artifacts/evaluations/
+/artifacts/datasets/replays-23102026-audit/
+/artifacts/datasets/summaries-23102026-audit/

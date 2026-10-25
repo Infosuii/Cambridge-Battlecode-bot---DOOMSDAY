@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\bench_summary.py", line 38, in <module>
+    main()
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\bench_summary.py", line 18, in main
+    for g in json.loads((root / 'summary.json').read_text(encoding='utf-8'))['per_game']:
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\projects\\cambridge battlecode\\work\\neural-full-stack\\artifacts\\evaluations\\bench28-v51-vs-v50-s0\\summary.json'

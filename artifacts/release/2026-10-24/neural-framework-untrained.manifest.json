@@ -1,0 +1,155 @@
+{
+  "name": "neural-framework-untrained",
+  "created_utc": "2026-10-24T21:18:25+00:00",
+  "cli_version": "cambc 3.0.5",
+  "profile": "release",
+  "head_modes": {
+    "draft_pick": "off",
+    "strategy": "off",
+    "objective": "off",
+    "role": "off",
+    "bank": "off",
+    "shop": "off",
+    "move": "off",
+    "combat": "off",
+    "engage": "off",
+    "ward": "off",
+    "belief": "off",
+    "value": "off",
+    "ts_leaf": "off"
+  },
+  "flags": {
+    "kAnyHead": false,
+    "kTraining": false,
+    "kTelemetry": false,
+    "kFuelCredit": false,
+    "kSelfTest": false,
+    "kStripLab": true
+  },
+  "macros": {
+    "NN_ANY_HEAD": 0,
+    "NN_STRIP_LAB": 1,
+    "NN_TRAINING": 0,
+    "NN_TELEMETRY": 0
+  },
+  "zip": "neural-framework-untrained.zip",
+  "zip_sha256": "30a0e4c0640d39adcb83a8f881ea84983f5dbb17f3a2f519fc9c50865bbcc859",
+  "wasm": "neural-framework-untrained.wasm",
+  "wasm_sha256": "6d64d2a08aeda1998c1e6ab537cf716e195ba6e6047621a6bb83e51c440ad8c5",
+  "wasm_sections": [
+    [
+      1,
+      "eb782c31e14ef95095f20f2092baf2b7ec234d9249e9d157c8b77969070e463f"
+    ],
+    [
+      2,
+      "f20d9eee430abcc4808ab24e5b289f1565dcea3022cd7f616ff663825a0477e4"
+    ],
+    [
+      3,
+      "38cc42f360faf6b4df494f54db225f9e9fc648d0ad484ec5777f4cfece034fea"
+    ],
+    [
+      4,
+      "99842ed3f54c0140c1624c0892216b0ef6aeaf31832fef79a3060812bab612e7"
+    ],
+    [
+      5,
+      "dbecab43cb8facaa2f8537a707d982cbc168a7767f3b0d3b1f3cd4aa5ef272bf"
+    ],
+    [
+      13,
+      "f9535076eb26809f7b425c39485d3fd322142a5c4638b9b81d66b919356ee8ba"
+    ],
+    [
+      6,
+      "284f968f42d30505f68225944d16d116b6123ec6f8fd904852f01292f50b6e4b"
+    ],
+    [
+      7,
+      "c1187428f1664c344a622e7bbec9ac013feadc4034714cc278022bfee4cd8245"
+    ],
+    [
+      9,
+      "2030f871769890ec7384ddb4ecb44aea66ec1d57bb75a179248c6b14609ff14b"
+    ],
+    [
+      10,
+      "c3a6b6a254a5ee85daa91ba2a6efa8d90da48262aa60b4f092472598d7458d46"
+    ],
+    [
+      11,
+      "93a6b83176d20247150207bf27c7ae6d11547383b4a2cca653b88a8ca6b37951"
+    ]
+  ],
+  "code_section_sha256": "c3a6b6a254a5ee85daa91ba2a6efa8d90da48262aa60b4f092472598d7458d46",
+  "source_tree_sha256": "2f16d62124f22ff05c6a5e6fadbbf93463ca7c98a4bab259809d1ff1fbee40e8",
+  "models": {
+    "models": [
+      {
+        "name": "fs_v1_untrained",
+        "head": "all",
+        "status": "untrained",
+        "registry_status": "untrained",
+        "active_flag": false,
+        "checksum": "0x6f8163630c208aa3",
+        "files_sha256": {
+          "models/fs_v1_untrained/manifest.json": "96785428b61744ce07830af2e6443354df7b109b7860806315500e66b97ea72b",
+          "models/fs_v1_untrained/nn_weights_fs_v1_untrained.h": "22e6335a75fc2aa644b84e480f0a71a23706466a4784f8bc424e35121a9efa29",
+          "models/fs_v1_untrained/weights.f32": "5b599001d679de91a40a68b7ff8cf1121833fba2ef0ef9a3bfa7cb467479a0f1"
+        },
+        "manifest_present": true,
+        "checksum_recomputed": "0x6f8163630c208aa3"
+      },
+      {
+        "name": "fs_v1_dev",
+        "head": "all",
+        "status": "untrained",
+        "registry_status": "untrained",
+        "active_flag": false,
+        "checksum": "0x165655b4ee67b5d1",
+        "files_sha256": {
+          "models/fs_v1_dev/manifest.json": "30b6fc4929b5bdb9af056cf48ff3caf4978d2535a5c85fd04a74f0895a8872fb",
+          "models/fs_v1_dev/nn_weights_fs_v1_dev.h": "63df88d0923880394a487315473bc07e561c52f8cfa0919f4fca2271e20fd66b",
+          "models/fs_v1_dev/weights.f32": "39abb2e431b4293852f5a880bd4fb5f648260cbc00ad07537854589c672d7831"
+        },
+        "manifest_present": true,
+        "checksum_recomputed": "0x165655b4ee67b5d1"
+      },
+      {
+        "name": "draft_net_original",
+        "head": "draft_pick (teacher-internal)",
+        "status": "trained",
+        "registry_status": "trained",
+        "active_flag": false,
+        "checksum": "0x3c09ba1cdb6e22fe",
+        "files_sha256": {
+          "models/draft_net_original/manifest.json": "6ebf8f48f264341241f6aef6bc2327d446ff69be7a6352eabdb77ad72465a06e"
+        },
+        "manifest_present": true
+      },
+      {
+        "name": "policy_v2_untrained",
+        "head": null,
+        "status": "untrained",
+        "registry_status": "untrained",
+        "active_flag": false,
+        "checksum": "0x5a9d6349c9dc07b5",
+        "files_sha256": {
+          "models/policy_v2_untrained/manifest.json": "55468c7fc914321e915270ed0f378634025452642789fdb9971f0ef74295c416",
+          "models/policy_v2_untrained/nn_policy_weights_policy_v2_untrained.h": "725c82d963c7a232b452066d242538734bff1a648f0b57ea9cf3cd3d95a37fac",
+          "models/policy_v2_untrained/weights.f32": "fa979f2258fb693fb6507edfff71479244a1e0ebb1aa091dedf3634a319c408b"
+        },
+        "manifest_present": true,
+        "checksum_recomputed": "0x5a9d6349c9dc07b5"
+      }
+    ],
+    "release_selection": {}
+  },
+  "verification": {
+    "passed": true,
+    "file": "neural-framework-untrained.verification.json"
+  },
+  "submitted": false,
+  "note": "packaged locally; this tool never submits, uploads or activates"
+}

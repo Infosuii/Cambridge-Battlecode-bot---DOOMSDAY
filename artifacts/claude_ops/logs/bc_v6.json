@@ -1,0 +1,130 @@
+{
+ "status": "trained",
+ "heads": [
+  "bank",
+  "combat",
+  "engage",
+  "move",
+  "objective",
+  "role",
+  "strategy"
+ ],
+ "stop": "early_stopping",
+ "updates": 13080,
+ "epochs": 60,
+ "best_epoch": 56,
+ "best_validation": {
+  "heads": {
+   "strategy": {
+    "loss": 0.39894949064715257,
+    "accuracy": 0.8821666855139658,
+    "rows": 17686
+   },
+   "objective": {
+    "loss": 0.8317630290985107,
+    "accuracy": 0.733099028323341,
+    "rows": 4837
+   },
+   "role": {
+    "loss": 0.5481342235519074,
+    "accuracy": 0.668676445011305,
+    "rows": 17249
+   },
+   "bank": {
+    "loss": 0.4239405393600464,
+    "accuracy": 0.6734911874666192,
+    "rows": 5617
+   },
+   "move": {
+    "loss": 1.7112636421921885,
+    "accuracy": 0.40823997108782073,
+    "rows": 13835
+   },
+   "combat": {
+    "loss": 0.19243507242862723,
+    "accuracy": 0.9478948592695976,
+    "rows": 8598
+   },
+   "engage": {
+    "loss": 0.5823811904223027,
+    "accuracy": 0.7245115230460922,
+    "rows": 15968
+   }
+  },
+  "loss": 0.6867699222592298
+ },
+ "validation_baselines": {
+  "strategy": {
+   "uniform_legal_accuracy": 0.17686507105827332,
+   "majority_index_accuracy": 0.636548638343811
+  },
+  "objective": {
+   "uniform_legal_accuracy": 0.10547488182783127,
+   "majority_index_accuracy": 0.2148025631904602
+  },
+  "role": {
+   "uniform_legal_accuracy": 0.3277127146720886,
+   "majority_index_accuracy": 0.4595049023628235
+  },
+  "bank": {
+   "uniform_legal_accuracy": 0.32391369342803955,
+   "majority_index_accuracy": 0.6734911799430847
+  },
+  "move": {
+   "uniform_legal_accuracy": 0.12921947240829468,
+   "majority_index_accuracy": 0.14391036331653595,
+   "always_hold_accuracy": 0.21214310824871063
+  },
+  "combat": {
+   "uniform_legal_accuracy": 0.43716198205947876,
+   "majority_index_accuracy": 0.7223773002624512,
+   "always_hold_accuracy": 0.7944870591163635
+  },
+  "engage": {
+   "uniform_legal_accuracy": 0.3333333134651184,
+   "majority_index_accuracy": 0.7272670269012451
+  },
+  "initial": {
+   "heads": {
+    "strategy": {
+     "loss": 1.8012679270674548,
+     "accuracy": 0.13253420784801537,
+     "rows": 17686
+    },
+    "objective": {
+     "loss": 2.4584789276123047,
+     "accuracy": 0.013851560884845978,
+     "rows": 4837
+    },
+    "role": {
+     "loss": 1.140384304598799,
+     "accuracy": 0.45950489883471507,
+     "rows": 17249
+    },
+    "bank": {
+     "loss": 1.220231294631958,
+     "accuracy": 0.35926651237315294,
+     "rows": 5617
+    },
+    "move": {
+     "loss": 2.0770403195427005,
+     "accuracy": 0.21033610408384532,
+     "rows": 13835
+    },
+    "combat": {
+     "loss": 0.8120534666390384,
+     "accuracy": 0.7944870900209351,
+     "rows": 8598
+    },
+    "engage": {
+     "loss": 1.0976255116816274,
+     "accuracy": 0.4721943887775551,
+     "rows": 15968
+    }
+   },
+   "loss": 1.4741399675440512
+  }
+ },
+ "submitted": false,
+ "promoted": false
+}
