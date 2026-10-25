@@ -13,9 +13,10 @@ Never log in or enter credentials. The `cambc` CLI on this machine already has a
 
 ## What is live
 
-- **v51** (`bots/v51`, submitted 2026-10-25 ~11:29 UTC as platform version 51) = v50 plus the moated-island fix (`bots/v51/CHANGES.md`).
-- The ladder tracker writes `artifacts/claude_ops/logs/v51_ladder.log` on this machine. The job runner copies its tail into `ops/STATUS.md`.
-- Baseline before v51 (800 ranked games): 51% overall; big_world 0/26; islands 3/25.
+- **v52** (`bots/v52`, submitted 2026-10-25 12:02 UTC as platform version 52) = v51 plus the sole-gem-camp rule (`bots/v52/CHANGES.md`).
+- v51 (`bots/v51`, submitted 11:29 UTC as version 51) = v50 plus the moated-island fix.
+- Baseline before v51 (800 ranked games): 51% overall; big_world 0/26; islands 3/25; stampede 0/28.
+- Track with `tools/replay/track_submission.py --since 2026-10-25T12:05:00Z --maps 00stampede 01big_world 01islands`.
 
 ## Key findings (do not relearn these)
 
@@ -30,7 +31,7 @@ Never log in or enter credentials. The `cambc` CLI on this machine already has a
    - Making hot paths cheaper is likely the single strongest lever (an expected +5-10 win-rate points).
 3. **Ladder losses are map-specific** (`tools/replay/ladder_report.py`). Over the last 800 games: stampede 0/28, big_world 0/26 (fixed in v51), boss_battle 1/16, islands 3/25 (fixed in v51), concentrated_wealth 3/21, elkring 7/24, swirl 6/19, monolith 6/18, fracture 5/13, yellow_brick_road 9/23. Most other maps are at 50-86%.
 4. **stampede**: one camp (group 10, 20 monsters, 16,080 HP, 160 gems) holds all of the map's gems. Winners farm gold camps until about round 1,100, then the whole team clears it repeatedly and banks after each clear. We never attack it, because big-job joining is broken: `open_call_by_lower` ignores the team-size cap (the soak model says 7), and joiners count as initiators. A hot-path fix (v51b/v51c) won stampede but lost head-to-head because of the fuel cost (finding 2). Redo it with a once-per-turn flag, for example at the top of `score_groups`: return the sole gem group for healthy champions after round R, and let `fight_camps` staging gather the team.
-5. **boss_battle**: gems are collected but never banked, because the altars are gated behind monolith camps (see `A2_ALTARFIX`, `no_bank`). Not yet diagnosed further.
+5. **boss_battle** (next fix): the altars' only access tiles are monolith camp tiles. That is group 16 at (24,20): 2 members, 400 gems, 600 gold, and the access opens only while it is dead (`A2_ALTARFIX`: `no_bank`, `altar_gated`, `gate_camps`). Logged run with v51 as side B, 1,300 rounds: carriers held 170-570 gems each from round ~900, never banked, and their tribute trips stalled beside group 16 at round ~1,100. Top teams bank first at rounds 645-1,100. Idea: in the style of A2_SOLE_GEM, with a once-per-call check at the top of `score_groups`, when `w.altar_gated` and the gate camp is alive, healthy champions target the gate group from round X (sweep 300/500/700); once it dies, carriers bank at once (force_tribute).
 
 ## How to measure
 
