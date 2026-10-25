@@ -41,6 +41,10 @@ for (const file of files) {
       // Independent action counts: a cast followed by an attack still belongs in the cast total.
       add(L, round, 'cast_total', a.cast_total ?? 0);
       add(L, round, 'dash_move_steps', a.dash_move_steps ?? 0);
+      // Purchases count whatever the state: dead champions shop every turn (missing them hid emblems bought while dead).
+      const spent = p ? Math.max(0, equip(c.items) - equip(p.items)) + 10 * c.consumables.reduce((x, n, i) => x + Math.max(0, n - (p.consumables[i] ?? 0)), 0) : 0;
+      if (spent) { add(L, round, 'spend', spent); if (L.first_buy === null) L.first_buy = round; }
+      if (p) c.items.forEach((n, i) => { if (i % 2 && n > (p.items[i] ?? 0)) { const f = FAM[Math.floor(i / 6)]; L.emblems[f] ??= round; } });
       if (!c.alive) { add(L, round, 'dead'); if (p?.alive) L.deaths.push({ round, gems: p.gems }); continue; }
       add(L, round, 'alive');
       const onSpawn = c.position && spawn[c.team].has(`${c.position.x},${c.position.y}`);
@@ -49,9 +53,6 @@ for (const file of files) {
       else if (p?.alive && p.position && p.position.x === c.position.x && p.position.y === c.position.y) add(L, round, 'still');
       else add(L, round, 'travel');
       if (!p || !p.alive) continue;
-      const spent = Math.max(0, equip(c.items) - equip(p.items)) + 10 * c.consumables.reduce((x, n, i) => x + Math.max(0, n - (p.consumables[i] ?? 0)), 0);
-      if (spent) { add(L, round, 'spend', spent); if (L.first_buy === null) L.first_buy = round; }
-      c.items.forEach((n, i) => { if (i % 2 && n > (p.items[i] ?? 0)) { const f = FAM[Math.floor(i / 6)]; L.emblems[f] ??= round; } });
       const earned = c.gold - p.gold + spent;
       add(L, round, 'gold_income', Math.max(0, earned));
       const killed = c.kills > p.kills;

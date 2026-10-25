@@ -274,3 +274,20 @@ The platform rejected the initial note for exceeding80characters; the corrected 
 response is `artifacts/claude_ops/results/v55-submit.txt`, with the rejected response preserved separately.
 `V55_RELEASE.json` now says `submitted`. Do not submit this frozen version again.
 
+## 15. v55 ladder analysis, Bayesian comparison, v56 candidate (Claude Code, 2026-10-25 ~20:30 UTC)
+
+* **v55 ladder** (210 games to 19:54 UTC): 1-49 against Claudus Maximus (rank 4, ten queued groups), 111-49 against
+  everyone else (ranked 22-8). Analysis: `artifacts/claude_ops/V55_LADDER_ANALYSIS.md`; tables `V55_LIFE_DATA.md`.
+  Against Claudus we earn half the capture gold per champion by R250, attack camps 2/3 as often and die 3.5x as
+  often per contact; enemy altar locks are ruled out (our tribute completion 95-96%).
+* **Analysis bug fixed:** `tools/replay/actor_ledger.mjs` ignored purchases made while dead, under-counting emblems
+  (Treasure) and delaying first-purchase rounds for both teams in earlier ledger reports; equipment values come from
+  engine audit snapshots and were unaffected.
+* **`tools/bench_bayes.py`:** hierarchical Bayesian comparison (map random effects, Student-t game noise, Gibbs,
+  numpy only). Use with `bench_compare.py`: it reports P(better), per-map pooled effects and an accept / reject /
+  continue rule. Validated on known runs (v54 vs v53 accept; readiness and teleport steps undecided; E1 rejected
+  after 2 seeds; inert change at zero). With 28 maps, between-map variation limits how much extra seeds help.
+* **v56 = v55 + `V56_SHOP_DONE`** (the report's completed-shopping fix; the bound correction was not ported).
+  24 seeds vs v55: 709-635, +44.5, bootstrap [+2.4, +103.4], Bayesian P(better) 0.944; boss-battle +489 and contest
+  +505 pooled; holdout 38-34, +51.2. Not submitted; see `bots/v56/CHANGES.md`, `V56_RELEASE.json`.
+
