@@ -220,3 +220,13 @@ was kept. The 95 new ladder losses (180 games after the 13:30 UTC snapshot, all 
 * hooks (a holdout map) was used for this research at the user's request; treat it as exposed.
 
 **Submission (2026-10-25 16:24:00 UTC):** at the user's instruction v54 was submitted as platform version 54 (`results/v54-submit.txt`). v53's whole ladder life (13:08:26-16:24:00): 325 games, 161-164; ranked 36/90, unranked 125/235 (`data/ladder/v53_full_life_20261025.json`). Games created after 16:24:00 are v54.
+
+## 14. v53 ladder-life analysis and v55 brief (Claude Code, 2026-10-25, after the v54 submission)
+
+All 325 v53 ladder games (161-164) were decoded and analysed: `artifacts/claude_ops/V53_LIFE_ANALYSIS.md` (narrative)
+and `V53_LIFE_DATA.md/.json` (tables, per-game rows), produced by `tools/replay/run_life_tools.sh` and
+`life_report.py`. Main findings: the equipment gap is 2× already at R100; winners wait at dead camps 2.7× less, take
+2.4× the big-camp gems, open with Treasure, draft Vesper in 93% of games, place 4-5× as many wards, and win the damage
+exchange because of gear. The prompt for the next agent (GPT) to build v55 is `artifacts/claude_ops/V55_GPT_PROMPT.md`.
+Rank at 16:25 UTC: 115 (1788.8). v54's first 30 ladder games: 14/30 (`data/ladder/v54_first_20261025.json`).
+
