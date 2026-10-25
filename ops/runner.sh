@@ -2,12 +2,14 @@
 # Job runner for the training box (see ops/HANDOFF.md). Runs against its own clone on branch `ops`:
 # every 10 minutes it pulls, runs ops/jobs/pending/*.sh in name order (cwd = the training checkout), files each job
 # under ops/jobs/done/ with its log in ops/jobs/logs/, refreshes ops/STATUS.md and pushes. A pushed ops/STOP ends it.
+# `runner.sh --status-only` never runs jobs: it only publishes ops/STATUS.md (no remote execution).
 OPS="/c/projects/cambridge battlecode/work/ops-runner"
 export REPO="/c/projects/cambridge battlecode/work/neural-full-stack"
 export PY="C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe"
 export PYTHONPATH="$REPO/python" PYTHONDONTWRITEBYTECODE=1 TMP="$REPO/artifacts/tmp" TEMP="$REPO/artifacts/tmp"
 export PATH="/c/msys64/ucrt64/bin:$PATH"
 export CLI="$("$PY" -c "import json;print(json.load(open(r'$REPO/config/paths.json'))['cli'])")"
+STATUS_ONLY=0; [ "$1" = "--status-only" ] && STATUS_ONLY=1
 cd "$OPS" || exit 1
 
 push() { # <message>
@@ -48,6 +50,7 @@ while true; do
   [ -f ops/STOP ] && { echo "STOP found"; break; }
   mkdir -p ops/jobs/pending ops/jobs/done ops/jobs/logs
   for job in ops/jobs/pending/*.sh; do
+    [ "$STATUS_ONLY" = 1 ] && break
     [ -f "$job" ] || continue
     name=$(basename "$job" .sh)
     echo "started $(date -u '+%F %T UTC')" > "ops/jobs/logs/$name.log"

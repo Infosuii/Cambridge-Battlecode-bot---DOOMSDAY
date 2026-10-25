@@ -80,6 +80,16 @@ Never log in or enter credentials. The `cambc` CLI on this machine already has a
 
 ## Job runner (how to make this machine do work)
 
+**Not started automatically.** The runner executes scripts pushed to GitHub on this machine, so the user starts it
+themselves (Git Bash on the training box):
+
+```bash
+cd "/c/projects/cambridge battlecode/work/ops-runner" && git pull origin ops && nohup bash ops/runner.sh > runner.log 2>&1 &
+```
+
+Status-only (publishes ops/STATUS.md, never runs jobs): `nohup bash ops/runner.sh --status-only > runner.log 2>&1 &`.
+Without the runner, the user runs a job by hand: `cd <repo> && bash <ops-runner>/ops/jobs/pending/NN-name.sh`.
+
 `ops/runner.sh` runs detached on this machine against a separate clone at `C:\projects\cambridge battlecode\work\ops-runner`, on branch **`ops`**. Every 10 minutes it:
 1. `git pull`s the `ops` branch.
 2. Runs each `ops/jobs/pending/*.sh` in name order. Each job runs with `bash`; `REPO` is set to the training checkout above, and the environment variables above are exported. Jobs run sequentially and synchronously, so start long training detached inside your job (`nohup ... &` or PowerShell `Start-Process`) and write its progress to a file your later jobs can `cat`.
