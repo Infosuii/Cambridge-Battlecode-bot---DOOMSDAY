@@ -2,7 +2,7 @@
   "candidate": "bots/v54",
   "baseline": "bots/v53 (platform version 53, frozen; file hashes verified against V53_RELEASE.json)",
   "v53_unchanged": true,
-  "status": "not submitted (research; release recommendation in bots/v54/CHANGES.md)",
+  "status": "submitted",
   "source_sha256_method": "sha256 over sorted (file name, NUL, bytes) of bots/v54/src",
   "source_sha256": "b8a7b7b58dd03c25684af915aff68fd877d98289c656461e93ded97cdd1d24b9",
   "source_files": {
@@ -203,5 +203,18 @@
       }
     }
   },
-  "holdout_exposure": "The 12 final maps were exposed in earlier v52/v53 releases and rejected candidates; this is v54's single pass, after freezing. Not pristine."
+  "holdout_exposure": "The 12 final maps were exposed in earlier v52/v53 releases and rejected candidates; this is v54's single pass, after freezing. Not pristine.",
+  "platform_version": 54,
+  "submission_log": "artifacts/claude_ops/results/v54-submit.txt",
+  "submission_utc": "2026-10-25T16:24:00Z",
+  "submitted_by": "Claude Code at the user's explicit instruction",
+  "v53_life": {
+    "from": "2026-10-25T13:08:26Z",
+    "to": "2026-10-25T16:24:00Z",
+    "listing": "data/ladder/v53_full_life_20261025.json",
+    "games": 325,
+    "wins": 161,
+    "ranked": "36/90",
+    "unranked": "125/235"
+  }
 }

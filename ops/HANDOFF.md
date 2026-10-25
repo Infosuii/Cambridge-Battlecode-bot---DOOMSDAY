@@ -22,7 +22,7 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 | v51 | version 51, submitted 2026-10-25 11:29 UTC | v50 plus the moated-island fix (champions froze at camps behind two-tile hole moats: big_world, islands) |
 | v52 | version 52, submitted 12:02 UTC | v51 plus the sole-gem-camp rule (stampede) |
 | **v53** | **version 53, submitted 13:08:26 UTC, live** | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
-| v54 | candidate, **not submitted** | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
+| **v54** | **version 54, submitted 16:24:00 UTC, live** | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
 
 `artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
@@ -219,3 +219,4 @@ was kept. The 95 new ladder losses (180 games after the 13:30 UTC snapshot, all 
 * `tools/bot_match.py` no longer imports torch per shard (it exhausted the paging file and dropped games).
 * hooks (a holdout map) was used for this research at the user's request; treat it as exposed.
 
+**Submission (2026-10-25 16:24:00 UTC):** at the user's instruction v54 was submitted as platform version 54 (`results/v54-submit.txt`). v53's whole ladder life (13:08:26-16:24:00): 325 games, 161-164; ranked 36/90, unranked 125/235 (`data/ladder/v53_full_life_20261025.json`). Games created after 16:24:00 are v54.
