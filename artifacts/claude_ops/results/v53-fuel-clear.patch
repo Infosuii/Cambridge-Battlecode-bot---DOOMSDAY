@@ -1,0 +1,292 @@
+diff --git a/bots/v53/src/bot.cpp b/bots/v53/src/bot.cpp
+index e07fe64..17f0dc1 100644
+--- a/bots/v53/src/bot.cpp
++++ b/bots/v53/src/bot.cpp
+@@ -35,7 +35,6 @@ namespace {
+ 
+ bc::bitboard single(vec2 p) {
+     bc::bitboard b;
+-    b.clear();
+     b.set(p, true);
+     return b;
+ }
+@@ -771,7 +770,6 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
+         for (const auto& a : w.allies) friends += cheb(a.pos, pos) <= 4 && a.hp >= a.max_hp * 0.4f;
+         if (hp < max_hp * 0.7f || foes > friends) {
+             bc::bitboard reach;
+-            reach.clear();
+             for (const auto& e : w.enemies) reach.draw_chebyshev(e.pos, static_cast<float>(e.range + 1));
+             if (!bit(reach, pos)) return follow_field(field, blocked | reach, true);
+         }
+@@ -811,7 +809,6 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
+                 src[ns++] = {e.pos, std::max(1, e.range), e.strength, ready ? kit.nuke : 0.0f, ready && kit.stun};
+             }
+             bc::bitboard kill;
+-            kill.clear();
+             for (int dy = -3; dy <= 3; ++dy)
+                 for (int dx = -3; dx <= 3; ++dx) {
+                     const vec2 q{pos.x + dx, pos.y + dy};
+@@ -979,7 +976,6 @@ bool Bot::a2_join_fight() {
+     }
+     if (!best) return false;
+     bc::bitboard goal;
+-    goal.clear();
+     goal.draw_chebyshev(best->pos, 1.0f);
+     const bool moved = walk_toward(goal);
+     if (moved) mode = "join";
+@@ -1069,7 +1065,6 @@ bool Bot::greedy_step(const bc::bitboard& goals) {
+ bool Bot::travel_around_threats(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals) {
+     if (bc::fuel_remaining() < tune::kMinMoveFuel * 2) return false;
+     bc::bitboard zone;
+-    zone.clear();
+     bool any = false;
+     for (const auto& s : w.sightings) {
+         const int age = round - s.round;
+@@ -1190,7 +1185,6 @@ bool Bot::regroup_from(vec2 threat) {
+     }
+     if (!best) return false;
+     bc::bitboard goal;
+-    goal.clear();
+     goal.draw_chebyshev(best->pos, 1.0f);
+     return walk_toward(goal);
+ }
+@@ -1841,7 +1835,6 @@ bool Bot::fog_regroup() {
+     if (!best || cheb(best->pos, pos) <= 2) return false;
+     if (fog_threat(pos) < near + A2_FOG_MARGIN) return false;
+     bc::bitboard goal;
+-    goal.clear();
+     goal.draw_chebyshev(best->pos, 2.0f);
+     mode = "fog-regroup";
+     return walk_toward(goal);
+@@ -2683,7 +2676,6 @@ bool Bot::escape_or_stand(const EnemyRec* target, const EnemyRec* nearest, float
+         if (attack_unit(victim->unit, victim->pos)) use_reset_and_attack(victim->unit, victim->pos);
+     } else {
+         bc::bitboard goal;
+-        goal.clear();
+         goal.draw_chebyshev(victim->pos, static_cast<float>(range));
+         walk_toward(goal);
+         if (cheb(victim->pos, pos) <= range) attack_unit(victim->unit, victim->pos);
+@@ -3775,7 +3767,6 @@ bool Bot::handle_enemies() {
+     }
+     if (dist <= range + tune::kChaseRange) {
+         bc::bitboard goal;
+-        goal.clear();
+         goal.draw_chebyshev(target->pos, static_cast<float>(range));
+         walk_toward(goal);
+         if (cheb(target->pos, pos) <= range) {
+@@ -3852,7 +3843,6 @@ bool Bot::rush() {
+         mode = "rush-lead";
+         if (behind > 3 && behind <= 8) return true;
+         bc::bitboard goal;
+-        goal.clear();
+         for (int ci : w.groups[static_cast<std::size_t>(rush_target)].camps)
+             goal.draw_chebyshev(w.camps[static_cast<std::size_t>(ci)].pos, 2.0f);
+         walk_toward(goal);
+@@ -3864,7 +3854,6 @@ bool Bot::rush() {
+         mode = "rush-follow";
+         if (cheb(a.pos, pos) <= 2) return true;
+         bc::bitboard goal;
+-        goal.clear();
+         goal.draw_chebyshev(a.pos, 1.0f);
+         walk_toward(goal);
+         return true;
+@@ -3873,7 +3862,6 @@ bool Bot::rush() {
+     if (lc >= 0 && lc < static_cast<int>(w.groups.size())) {
+         mode = "rush-join";
+         bc::bitboard goal;
+-        goal.clear();
+         for (int ci : w.groups[static_cast<std::size_t>(lc)].camps) goal.draw_chebyshev(w.camps[static_cast<std::size_t>(ci)].pos, 2.0f);
+         walk_toward(goal);
+         return true;
+@@ -3906,7 +3894,6 @@ bool Bot::hunt() {
+                 return true;
+             }
+             bc::bitboard goal;
+-            goal.clear();
+             goal.draw_chebyshev(best->pos, static_cast<float>(range));
+             walk_toward(goal);
+             if (cheb(best->pos, pos) <= range) {
+@@ -3922,7 +3909,6 @@ bool Bot::hunt() {
+         if (d > 0 && d <= tune::kDistressRange) {
+             mode = "rescue";
+             bc::bitboard goal;
+-            goal.clear();
+             goal.draw_chebyshev(distress.pos, static_cast<float>(range));
+             walk_toward(goal);
+             return true;
+@@ -3945,7 +3931,6 @@ bool Bot::hunt() {
+     if (!best) return false;
+     mode = "hunt";
+     bc::bitboard goal;
+-    goal.clear();
+     goal.draw_chebyshev(best->pos, static_cast<float>(range));
+     walk_toward(goal);
+     return true;
+@@ -3996,7 +3981,6 @@ bool Bot::go_home_if_needed() {
+         // Hit since our last turn with no enemy in sight: some camp still reaches us, so a recall
+         // here would be cancelled again. Step out of every live camp's reach first.
+         bc::bitboard reach;
+-        reach.clear();
+         for (std::size_t ci = 0; ci < w.camps.size(); ++ci) {
+             const auto& c = w.camps[ci];
+             if (c.dead || c.strength <= 0 || cheb(c.pos, pos) > c.range + 1) continue;
+@@ -4050,7 +4034,6 @@ bool Bot::tribute_if_needed() {
+     w.ensure_altar_field();
+     int dist = fdist(w.altar_field, pos);
+     bc::bitboard watched;
+-    watched.clear();
+     bool any_watch = false, any_free = false;
+     if (tune::kStaleBag > 0 && gems >= tune::kStaleBag) {
+         for (std::size_t i = 0; i < w.altars.size() && i < altar_watch.size(); ++i) {
+@@ -4316,7 +4299,6 @@ bool Bot::fight_camps(GroupRec& g, int need) {
+         if (sieging) {
+             mode = "siege";
+             bc::bitboard ring;
+-            ring.clear();
+             for (int ci : g.camps)
+                 if (!w.camps[ci].dead) ring.draw_chebyshev(w.camps[ci].pos, static_cast<float>(w.camps[ci].range + 1));
+             ring &= ~danger_zone & ~w.static_blocked;
+@@ -4325,7 +4307,6 @@ bool Bot::fight_camps(GroupRec& g, int need) {
+                 // champions "sieged" a monolith for 1,500 turns without one cast. Keep tiles with a clear
+                 // straight line (no wall, no foreign bush) to a live camp.
+                 bc::bitboard seeing;
+-                seeing.clear();
+                 const bc::bitboard opaque = bc::map::walls() | w.bushes;
+                 for (vec2 q : ring.positions()) {
+                     for (int ci : g.camps) {
+@@ -4366,7 +4347,6 @@ bool Bot::fight_camps(GroupRec& g, int need) {
+             return false;
+         }
+         bc::bitboard stage;
+-        stage.clear();
+         for (int ci : g.camps)
+             if (!w.camps[ci].dead) stage.draw_chebyshev(w.camps[ci].pos, 5.0f);
+         stage &= ~danger_zone;
+@@ -4485,7 +4465,6 @@ bool Bot::fight_camps(GroupRec& g, int need) {
+         bc::bitboard goal = attack_zone;
+         if (!melee) {
+             bc::bitboard inner;
+-            inner.clear();
+             for (int ci : g.camps)
+                 if (!w.camps[ci].dead) inner.draw_chebyshev(w.camps[ci].pos, static_cast<float>(range - 1));
+             const bc::bitboard ring = attack_zone & ~inner & ~w.static_blocked & ~w.unit_tiles;
+@@ -4566,7 +4545,6 @@ bool Bot::reveal_bush_camp(const GroupRec& g) {
+     const int reach = std::min(range, 2); // ward range 2; melee must stand next to it to attack
+     if (hd > reach) {
+         bc::bitboard goal;
+-        goal.clear();
+         goal.draw_chebyshev(at, static_cast<float>(reach));
+         goal &= ~w.static_blocked;
+         walk_toward(goal);
+@@ -5565,7 +5543,6 @@ bool Bot::farm() {
+                         for (const auto& a : w.allies)
+                             if (a.id == ally_handle[static_cast<std::size_t>(leader)] && cheb(a.pos, pos) > 2) {
+                                 bc::bitboard goal;
+-                                goal.clear();
+                                 goal.draw_chebyshev(a.pos, 2.0f);
+                                 mode = "regroup";
+                                 walk_toward(goal);
+@@ -5768,7 +5745,6 @@ bool Bot::farm() {
+             }
+         }
+         bc::bitboard goal;
+-        goal.clear();
+         for (int ci : g.camps) goal.draw_chebyshev(w.camps[ci].pos, static_cast<float>(range));
+         goal &= ~g.tiles; // standing on a spawn tile delays the respawn
+         if (bit(g.tiles, pos) || !bit(goal, pos)) walk_toward(goal);
+@@ -6204,7 +6180,6 @@ void Bot::play_turn() {
+                     if (a.hp > 0 && cheb(a.pos, pos) < best) best = cheb(a.pos, pos), at = a.pos;
+                 if (best < 99 && best > 2) {
+                     bc::bitboard goal;
+-                    goal.clear();
+                     set_bit(goal, at);
+                     mode = "lab-regroup";
+                     walk_toward(goal);
+@@ -6236,7 +6211,6 @@ void Bot::play_turn() {
+             }
+             if (cheb(pos, post) > 2) {
+                 bc::bitboard goal;
+-                goal.clear();
+                 for (int dy = -2; dy <= 2; ++dy)
+                     for (int dx = -2; dx <= 2; ++dx) {
+                         const vec2 q{post.x + dx, post.y + dy};
+@@ -6306,7 +6280,6 @@ void Bot::play_turn() {
+             h2 |= own;
+             // H3: own cluster transparent but its tiles hidden beyond radius; 4-connected cluster.
+             bc::bitboard own4;
+-            own4.clear();
+             {
+                 std::vector<vec2> st{pos};
+                 set_bit(own4, pos);
+diff --git a/bots/v53/src/deny.cpp b/bots/v53/src/deny.cpp
+index 8601e4e..cf202bd 100644
+--- a/bots/v53/src/deny.cpp
++++ b/bots/v53/src/deny.cpp
+@@ -83,7 +83,6 @@ bool Bot::deny_tribute() {
+     // Get there: into attack range when we hit it in time, otherwise within lock range of its altar.
+     if (cheb(e.pos, pos) > range) {
+         bc::bitboard goal;
+-        goal.clear();
+         if (best_hit) {
+             goal.draw_chebyshev(e.pos, static_cast<float>(range));
+         } else {
+diff --git a/bots/v53/src/world.cpp b/bots/v53/src/world.cpp
+index d38ba27..28c10c7 100644
+--- a/bots/v53/src/world.cpp
++++ b/bots/v53/src/world.cpp
+@@ -69,7 +69,6 @@ void World::init() {
+         // Altars beside the enemy spawn are traps: enemies step out of a full heal onto a channelling
+         // carrier. Use them only if they are the only altars.
+         bc::bitboard near_enemy;
+-        near_enemy.clear();
+         for (vec2 p : enemy_spawn.positions()) near_enemy.draw_chebyshev(p, 5.0f);
+         const bc::bitboard safe = altar_ring & ~near_enemy;
+         if (!safe.is_empty()) altar_ring = safe;
+@@ -148,7 +147,6 @@ void World::init() {
+         // cannot walk to is no access at all. boss-battle's only access tiles are monolith tiles: every carrier walked
+         // up to them and waited out the game. With no open access tile we stop banking (no_bank) and keep farming.
+         bc::bitboard ring;
+-        ring.clear();
+         for (vec2 a : altars) ring.draw_chebyshev(a, static_cast<float>(bc::constants::submit_gems_range));
+         ring &= ~static_blocked;
+         ring &= ~camp_tiles_all;
+@@ -159,7 +157,6 @@ void World::init() {
+             // our farming kills them by round ~1000 and their capture alone is 400 gems).
+             no_bank = true;
+             bc::bitboard gates;
+-            gates.clear();
+             for (vec2 a : altars) gates.draw_chebyshev(a, static_cast<float>(bc::constants::submit_gems_range));
+             gates &= ~static_blocked;
+             gates &= camp_tiles_all;
+@@ -231,7 +228,6 @@ int World::bush_cluster(vec2 p) {
+         { // the original flood from p over bush tiles: every tile it reaches must carry this id, and no other tile may
+             // (kind 18: 0 equal, 1 different)
+             bc::bitboard seen;
+-            seen.clear();
+             std::vector<vec2> st{p};
+             set_bit(seen, p);
+             bool ok = true;
+@@ -547,7 +543,6 @@ void World::observe_groups(int round) {
+ void World::update_altar_gates() {
+     if (!altar_gated) return;
+     bc::bitboard open;
+-    open.clear();
+     for (int ci : gate_camps) {
+         const auto& g = groups[static_cast<std::size_t>(camp_group[ci])];
+         if (g.state != GroupState::alive || camps[ci].dead) open.set(camps[ci].pos, true);
+@@ -683,7 +678,6 @@ float World::expected_enemies(vec2 p, int radius) {
+ 
+ bc::bitboard World::threat_zone(int round, int max_age, float radius) const {
+     bc::bitboard zone;
+-    zone.clear();
+     for (const auto& s : sightings)
+         if (round - s.round <= max_age) zone.draw_chebyshev(s.pos, radius);
+     return zone;
+@@ -741,7 +735,6 @@ void World::update(int round) {
+     // half the turns ran out of fuel and team A banked nothing all game. Same groups marked.
+     if (!enemies.empty()) {
+         bc::bitboard near;
+-        near.clear();
+         for (const auto& e : enemies) near.draw_chebyshev(e.pos, 4.0f);
+         near &= camp_tiles_all;
+         if (!near.is_empty())

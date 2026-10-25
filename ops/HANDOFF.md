@@ -145,3 +145,15 @@ Champion lines look like `R<round> <type> p(x,y) hp g<gems> $<gold> <mode> G<gro
 3. Fuel: profile the hot paths with the `PROF`/`PROF_CHECK` instrumentation in `bot.cpp` and make them cheaper without changing behaviour. Because of finding 2, measure every change.
 4. Neural, only with A/B evidence: a draft win-probability model (map plus both drafts → winner) from ladder downloads. Our win rate ranges from 39% to 58% depending on our picks (`ladder_report.py`).
 5. Release loop: gate → submit → track → match groups → repeat.
+
+## 10. Codex session update (2026-10-25)
+
+Setup completed in this existing checkout using the vendored checksum-verified 3.0.5 CLI and Python 3.12.14. Existing login works; no credentials entered. Config paths were adjusted locally. Rows smoke: 2/2 +168 vs heuristic-v1; stampede setup sweep reproduces the archived 5/6 +536 vs v51 (not a universal 6/6). Initial and refreshed ranked/unranked snapshots are under data/ladder/v52_*.
+
+Read artifacts/claude_ops/V53_PLAN.md, V53_LOSS_REPORT.md and V53_DRAFT_REPORT.json. Initial 14 losses plus seven top-team wins decoded 21/21. Refreshed results are ranked 8/20 and unranked 27/55; additional loss downloads are in progress. Local logging/profile reproductions cover the five weak development maps; holdout maps have only been inspected through ladder replays.
+
+Fuel profiling confirms costly world updates and scoring. Hoisting open-call scans and removing duplicate mask clears both pass the aggregate floor but fail target requirements; neither is retained. The supplied API reference confirms bitboards default to empty; redundant clears are real, but their isolated match gain was insufficient. No-action micro fallback, two fixed boss drafts, a learned counter-pick model and earlier concentrated banking were also rejected. Detailed measurements and the discarded clear patch are in the plan/results. The draft model fits 243,904 games on this machine's existing archive and improves held-out prediction, but loses in games; do not enable it based on predictive accuracy.
+
+Current v53 candidate has only A2_SOLE_FROM 500 → 1100 relative to the work base; A2_GATE_JOB stays off. Stampede six-game target sweep: 6/6, +343.2 average gems, minimum +54, zero faults; deaths 10 vs 20. R700/R900 each won only 4/6 and were discarded. R500 interrupts the gold-farming phase too early. Full bench2 vs v52 is running at artifacts/evaluations/v53-final-dev. Do not submit until that gate and the once-per-release 12-map holdout pass. No version has been submitted in this session yet.
+
+The user explicitly approved pushing these plans, CLI snapshots, analysis reports and source changes to Infosuii/neural-networkk-battlecode, branch claude/compare-fix-replay-decoder; raw replays and credentials remain excluded.
