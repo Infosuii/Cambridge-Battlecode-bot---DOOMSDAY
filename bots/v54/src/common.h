@@ -8,6 +8,9 @@
 #ifndef V54_STAGE_HELPED // turns to wait at the ring when enough teammates claim the job (else APEX_STAGE_TIMEOUT)
 #define V54_STAGE_HELPED 20
 #endif
+#ifndef V54_ITEMS // item milestones (bot.cpp build_for): 1 Treasure first emblem, 2 Bruiser stat stacks, 3 both
+#define V54_ITEMS 3
+#endif
 #ifndef V54_STAGE_WALK // give up a camp job still not reached after this many rounds of walking
 #define V54_STAGE_WALK 60
 #endif

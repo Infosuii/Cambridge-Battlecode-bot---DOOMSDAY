@@ -69,6 +69,44 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
     const bool caster = t == bc::champion_type::stellar || t == bc::champion_type::cassi || t == bc::champion_type::prism
         || (NOVA_CASTER_SET >= 1 && (t == bc::champion_type::tavi))
         || (NOVA_CASTER_SET >= 2 && (t == bc::champion_type::willow || t == bc::champion_type::marcella));
+#if V54_ITEMS
+    // v54 item milestones. Bit 1: the first emblem is Treasure (+20% of all later gold; its five shards give the same
+    // stats as any other emblem, so the price is only the passive it displaces). Every winning lineup in the decoded
+    // top-team games has it on nearly every champion by round 250; v53 never bought it (first purchase median R148
+    // against R72). Bit 2: stat stacking with Bruiser (5 shards of the stat plus one of each other: 7 shards of
+    // stats for 150 gold) instead of Power (6). Camp emblems (Jungle, Durability) keep their place.
+    {
+        using ct = bc::champion_type;
+        const bool tre = (V54_ITEMS & 1) != 0, bru = (V54_ITEMS & 2) != 0;
+        const it main_s = caster ? it::bruiser_shard_of_focus : it::bruiser_shard_of_strength;
+        std::vector<BuildStep> v;
+        auto add = [&](it item, int n) { v.push_back({item, n}); };
+        if (t == ct::vesper_vale) {
+            if (tre) add(it::treasure_shard_of_strength, 5);
+            add(it::jungle_shard_of_strength, 5), add(it::durability_shard_of_health, 5);
+        } else if (t == ct::prism) {
+            add(it::durability_shard_of_health, 5), add(it::monster_shard_of_focus, 5);
+            if (tre) add(it::treasure_shard_of_focus, 5);
+        } else if (t == ct::heart_of_ruin) {
+            if (tre) add(it::treasure_shard_of_health, 5);
+            add(it::jungle_shard_of_focus, 5);
+        } else if (caster) {
+            if (tre) add(it::treasure_shard_of_focus, 5);
+            add(it::durability_shard_of_health, 5);
+        } else {
+            if (tre) add(it::treasure_shard_of_health, 5);
+            add(it::jungle_shard_of_strength, 5), add(it::durability_shard_of_health, 5);
+        }
+        if (bru) {
+            if (t == ct::heart_of_ruin) add(it::bruiser_shard_of_health, 60), add(it::bruiser_shard_of_strength, 60);
+            else add(main_s, t == ct::vesper_vale || caster ? 60 : 40), add(it::bruiser_shard_of_health, 60);
+        } else {
+            const it pw = caster ? it::power_shard_of_focus : it::power_shard_of_strength;
+            add(pw, 20), add(it::power_shard_of_health, 60);
+        }
+        return v;
+    }
+#endif
 #if UB_PROXY
     // Ladder proxy (engine 1.0.3 top teams, ladder/analyse.py): treasure emblem first, then jungle / durability,
     // then bruiser stacks (a bruiser emblem is 5 shards of its stat plus one of each other).
