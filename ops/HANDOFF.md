@@ -291,3 +291,15 @@ response is `artifacts/claude_ops/results/v55-submit.txt`, with the rejected res
   24 seeds vs v55: 709-635, +44.5, bootstrap [+2.4, +103.4], Bayesian P(better) 0.944; boss-battle +489 and contest
   +505 pooled; holdout 38-34, +51.2. Not submitted; see `bots/v56/CHANGES.md`, `V56_RELEASE.json`.
 
+## 16. v57 candidate: contest the middle (Claude Code, 2026-10-25 ~21:00 UTC)
+
+* Full Claudus series 1-79 (all 40 maps). New `tools/replay/camp_clear.mjs`: the gap is the contested middle (Claudus
+  455 middle gems per game vs our 117); camp-attack use and solo-elk cost are at parity. Details: §6 of
+  `artifacts/claude_ops/V55_LADDER_ANALYSIS.md`.
+* **v57 = v56 + `UB_ENEMY_CAMP` 1.0.** vs v55: 379-293, +122.3, P(better) 1.000; vs v56 paired +77.1, P 0.957.
+  **Holdout vs v55 once: 38-34, −31.3** (fails the ≥ 0 margin half; v56's holdout was +51.2). Not submitted.
+* Rejected: `V57_TP_BRIDGE` crystal gap crossing (big-world +45-51, islands −345 to −414); patch and results in
+  `artifacts/claude_ops/rejected/`.
+* Open: survival against stronger-geared teams (cannot be validated against our own lineage), dead-camp waiting on
+  disconnected maps, damage per champion (−12 to −23%).
+

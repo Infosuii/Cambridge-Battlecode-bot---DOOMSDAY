@@ -66,3 +66,25 @@ damage per contact round 32 vs 53; wards 57 vs 243. Time allocation is similar (
 3. Survival when out-geared (3.5× our death rate per contact against Claudus): disengage earlier from stronger
    local groups.
 4. Gem production: big-camp gems are a third of the winners' in every cohort.
+
+## 6. Update: full Claudus series and camp-clearing analysis (20:16 UTC)
+
+A further 30 Claudus games (0-30) completed the series: **1-79 over all 40 maps, both sides** (listing
+`data/ladder/v55_games2_20261025.json`). `tools/replay/camp_clear.mjs` measures solo camp clears per team:
+
+| Clears per game (gems) | Own half | Middle | Enemy half |
+|---|---:|---:|---:|
+| Claudus | 26.4 (383) | **14.4 (455)** | 4.7 (69) |
+| us vs Claudus | 23.9 (251) | **7.9 (117)** | 1.5 (17) |
+| winners vs us (other teams) | 26.4 (467) | 13.6 (321) | 4.7 (100) |
+| us in those losses | 30.7 (442) | 10.2 (201) | 3.2 (45) |
+| us in our wins | 31.3 (441) | 15.5 (336) | 5.6 (110) |
+
+* While engaged with a camp, attack use is identical (0.62 vs 0.63): the controller does not waste turns at camps.
+* Camp damage per engaged champion-round is 23% lower against Claudus (88 vs 115), 12% lower against others.
+* Solo elk clears cost the same (40% of max health, 1-2% deaths), so the soak model is not blocking them.
+* The middle is where games are decided. `UB_ENEMY_CAMP` 0.6 (a 40% value cut for camps an enemy was seen near)
+  ceded it; v57 sets it to 1.0 (`bots/v57/CHANGES.md`).
+* Remaining dead-camp waiting concentrates on disconnected maps (islands, big-world) and yellow-brick-road, mostly
+  champions without a dash; crystal crossing was tried and rejected (islands −345 to −414).
+

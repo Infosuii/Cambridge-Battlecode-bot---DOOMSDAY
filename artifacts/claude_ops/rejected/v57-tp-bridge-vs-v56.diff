@@ -1,0 +1,236 @@
+--- /dev/fd/63	2026-10-25 20:48:52.000000000 +0000
++++ /dev/fd/62	2026-10-25 20:48:52.000000000 +0000
+@@ -448,12 +448,42 @@
+ #endif
+     }
+ #if A2_BRIDGES
+-    for (int s = 0; s < 2; ++s)
+-        if (spells[s].kind == bc::ability_kind::dash) {
+-            w.enable_bridges(); // our fields cross one-tile hole gaps; the travel dash jumps them
+-            break;
++    {
++        bool dasher = false;
++        for (int s = 0; s < 2; ++s)
++            if (spells[s].kind == bc::ability_kind::dash) {
++                dasher = true;
++                w.enable_bridges(); // our fields cross one-tile hole gaps; the travel dash jumps them
++                break;
++            }
++#if V57_TP_BRIDGE && V54_TP
++        // Champions without a dash cross the same gaps with a teleport crystal (range 3 over holes). Without this, on
++        // islands/big-world the non-dashers walked only to their home camps and waited beside them: Varg and Marcella
++        // spent 200-350 of the first 500 rounds waiting at dead camps, and no one teleported.
++        if (!dasher && w.value_cut_off()) {
++            w.enable_bridges(true);
++            tp_bridger = w.bridges_on;
++            if (tp_bridger) {
++                // A crystal is single-use (a dash recharges): limit a non-dasher to groups on foot from spawn or one gap
++                // beyond it, returning by recall. On islands (a chain of one-gap islands) unrestricted crossing sent Varg
++                // home for a new crystal at every gap: 427 of 500 turns in "home", 0/12 games won.
++                auto dil = [](const bc::bitboard& b) {
++                    bc::bitboard d = b | b.shift_right(1) | b.shift_right(-1) | b.shift_up(1) | b.shift_up(-1);
++                    return d | d.shift_right(1) | d.shift_right(-1);
++                };
++                bc::distance_field f0, f1;
++                bc::bitboard r0, r1;
++                f0.compute(w.static_blocked, w.ally_spawn, r0);
++                const bc::bitboard landing = dil(w.bridges & dil(r0)) & ~w.static_blocked & ~r0;
++                f1.compute(w.static_blocked, landing, r1);
++                const bc::bitboard reach = r0 | r1;
++                onehop_ok.assign(w.groups.size(), 0);
++                for (std::size_t gi = 0; gi < w.groups.size(); ++gi) onehop_ok[gi] = !(w.groups[gi].tiles & reach).is_empty();
++            }
+         }
+ #endif
++    }
++#endif
+     seen_claim.fill(-1);
+     onsite_ok = V54_ONSITE && w.groups.size() <= static_cast<std::size_t>(kOnsiteGroups);
+     shared = read_shared();
+@@ -696,6 +726,7 @@
+             gold -= 10;
+         }
+         tp_held = static_cast<int>(me.consumables()[bc::consumable_type::tp_crystal].count());
++        if (tp_held > 0) need_crystal = false;
+     } catch (const std::exception& e) {
+         LOG("crystal buy error %s\n", e.what());
+     }
+@@ -832,6 +863,9 @@
+         cands[n++] = {q, dq * 4 + ((dir.x != 0 && dir.y != 0) ? 0 : 1)};
+     }
+     std::sort(cands.begin(), cands.begin() + n, [](const Cand& a, const Cand& b) { return a.score < b.score; });
++#if A2_BRIDGES && V57_TP_BRIDGE && V54_TP
++    if (n == 0 && tp_bridger && !walked && tp_cross(field)) return true;
++#endif
+ #if A2_BRIDGES
+     if (n == 0 && w.bridges_on && !walked && bridge_hold < 12)
+         for (vec2 dir : kDirs) {
+@@ -859,6 +893,49 @@
+     return walked;
+ }
+ 
++#if A2_BRIDGES && V57_TP_BRIDGE && V54_TP
++// V57_TP_BRIDGE: the field's next step is over a hole gap (a bridge tile) and walking has no way on. With a crystal,
++// hop to the landing tile within 3 that is closest to the goal; without one, go home to buy one (recall is free and
++// heals). Only with no visible enemy and outside awake-camp reach: stuns and death cancel the channel.
++bool Bot::tp_cross(const bc::distance_field& field) {
++    const int here = fdist(field, pos);
++    bool gap = false;
++    for (vec2 dir : kDirs) {
++        const vec2 h = pos + dir;
++        gap |= in_bounds(h, w.width, w.height) && bit(w.bridges, h) && fdist(field, h) < here;
++    }
++    if (!gap || !w.enemies.empty() || bit(w.hot_zone, pos)) return false;
++    auto& me = bc::self();
++    if (tp_held < 0) tp_held = static_cast<int>(me.consumables()[bc::consumable_type::tp_crystal].count());
++    if (tp_held <= 0) {
++        need_crystal = true;
++        return false;
++    }
++    vec2 best{-1, -1};
++    int best_d = here;
++    const bc::bitboard blocked = w.static_blocked | w.unit_tiles | w.hot_zone;
++    for (int dy = -3; dy <= 3; ++dy)
++        for (int dx = -3; dx <= 3; ++dx) {
++            const vec2 q{pos.x + dx, pos.y + dy};
++            if (!in_bounds(q, w.width, w.height) || bit(blocked, q)) continue;
++            const int d = fdist(field, q);
++            if (d < best_d) best_d = d, best = q;
++        }
++    if (best.x < 0) return false;
++    try {
++        if (me.consumables()[bc::consumable_type::tp_crystal].use(best)) {
++            tp_held = 0;
++            mode = "tp-cross";
++            return true;
++        }
++    } catch (const std::exception& e) {
++        LOG("tp cross error %s\n", e.what());
++        tp_held = 0;
++    }
++    return false;
++}
++#endif
++
+ #if V54_TP
+ // Teleport shortcut: a legal landing tile within 3 whose walking distance to the goal is at least V54_TP_GAIN turns
+ // shorter, net of the 3-turn channel. Only out of every enemy's sight and every awake camp's reach (stuns and death
+@@ -908,7 +985,12 @@
+     const bc::bitboard goals = goals_in & ~blocked;
+     if (goals.is_empty() || bit(goals, pos)) return false;
+     // Fields plan over walk_terrain (A2_BRIDGES: hole gaps a dash crosses); steps still treat holes as blocked.
++#if V57_TP_BRIDGE && V54_TP
++    // A non-dasher plans over a hole gap only while it carries the crystal that jumps it (tp_cross in follow_field).
++    const bc::bitboard fblocked = (blocked & ~w.static_blocked) | (tp_bridger && tp_held > 0 ? w.group_terrain : w.walk_terrain);
++#else
+     const bc::bitboard fblocked = (blocked & ~w.static_blocked) | w.walk_terrain;
++#endif
+     bc::distance_field field;
+     bc::bitboard visited;
+     walk_boxed = false;
+@@ -4240,7 +4322,7 @@
+     }
+     // Gold-only trips stop once the build plan is complete (the report's boss-battle carriers made 200-300 of them with
+     // 300-700 gems in the bag and nothing left to buy). Health retreats and threat retreats are unchanged.
+-    const bool rich = gold >= tune::kShopGold && !shop_done;
++    const bool rich = (gold >= tune::kShopGold && !shop_done) || (need_crystal && gold >= 10);
+     if (!heading_home && !low && !rich) return false;
+     // Do not abandon a capture we are standing on.
+     if (!low && target_group >= 0 && w.groups[target_group].state == GroupState::reward &&
+@@ -5811,6 +5893,13 @@
+     PROF(farm);
+     PROF_CHECK("farm0");
+     if (avoid_until.size() != w.groups.size()) avoid_until.assign(w.groups.size(), 0);
++#if V57_TP_BRIDGE && V54_TP
++    if (!onehop_applied && onehop_ok.size() == w.groups.size()) {
++        onehop_applied = true; // once: groups needing more than one crystal hop are off limits for this champion
++        for (std::size_t gi = 0; gi < w.groups.size(); ++gi)
++            if (!onehop_ok[gi]) avoid_until[gi] = 1 << 30;
++    }
++#endif
+     int best = -1, best_need = 1;
+     float best_score = 0;
+ 
+@@ -7243,6 +7332,11 @@
+     int tribute_stuck = 0, tribute_last_dist = -1, tribute_off_until = 0; // A2_ALTARFIX bit 2
+     int approach_group = -1, approach_best = 0, approach_stuck = 0; // A2_APPROACHFIX
+     int bridge_hold = 0; // A2_BRIDGES: turns spent waiting at a hole gap for the dash
++    bool tp_bridger = false;  // V57_TP_BRIDGE: no dash; our fields cross hole gaps that a crystal jumps
++    bool need_crystal = false; // V57_TP_BRIDGE: stopped at a gap without a crystal: buy one at home
++    std::vector<char> onehop_ok;  // V57_TP_BRIDGE: group reachable on foot from spawn or after a single crystal hop
++    bool onehop_applied = false;
++    bool tp_cross(const bc::distance_field& field);
+     std::array<int, 8> altar_watch{}; // APEX_STALE_BAG: round until which each altar (w.altars order) is camped
+     bool keep_channel = false; // this turn: no stuns on a tributer we are hitting (a stun would free it)
+     bool walked = false;
+@@ -7293,7 +7387,11 @@
+     int team_kills_seen = 0;
+ };
+ == common.h
++// v57 (2026-10-25, from v56): contest the middle (UB_ENEMY_CAMP 1.0); see bots/v57/CHANGES.md.
+ // v56 (2026-10-25, from live platform v55); see bots/v56/CHANGES.md.
++#ifndef V57_TP_BRIDGE // on disconnected maps, champions without a dash cross one-tile hole gaps with a teleport crystal
++#define V57_TP_BRIDGE 1
++#endif
+ #ifndef V56_SHOP_DONE // once the build plan is complete, gold alone no longer sends a champion home
+ #define V56_SHOP_DONE 1
+ #endif
+@@ -7456,7 +7554,10 @@
+ #endif
+ // UB_ENEMY_CAMP: value multiplier for a camp group where an enemy was seen in the last 15 rounds (top teams barely avoid them)
+ #ifndef UB_ENEMY_CAMP
+-#define UB_ENEMY_CAMP 0.6f
++// v57: 1.0 (was 0.6). Discounting groups an enemy was seen near ceded the gem-rich middle: in v55's ladder losses
++// Claudus Maximus took 455 middle gems per game against our 117 (winners elsewhere 321 vs 201), and we hold the middle
++// in our wins. Paired vs v56 over 12 seeds: +77.1 gems [+39.4, +115.4], P(better) 0.957.
++#define UB_ENEMY_CAMP 1.0f
+ #endif
+ // UB_CAMPFIX: camp-choice correction from ladder replays (bot.cpp; weights from ladder/camp_choice2.py, order:
+ // dist, gems/10, gold/100, gold/100 early, harmless, elks, wolves, golem+monolith, enemy<=6, ally<=4), scaled by UB_CAMPFIX_SCALE
+@@ -14115,6 +14216,7 @@
+     }
+     bc::bitboard visited;
+     walk_terrain = static_blocked;
++    group_terrain = static_blocked;
+     spawn_field.compute(walk_terrain, ally_spawn, visited);
+     mark("spawn_field");
+ 
+@@ -14400,7 +14502,7 @@
+     return cut_off_map == 1;
+ }
+ 
+-void World::enable_bridges() {
++void World::enable_bridges(bool groups_only) {
+     // Only where walking leaves real value out of reach (value_cut_off): on ordinary maps the hole shortcuts only made
+     // dashers slower and deadlier.
+     if (!value_cut_off()) return;
+@@ -14411,6 +14513,10 @@
+             (open.shift_right(1).shift_up(-1) & open.shift_right(-1).shift_up(1)));
+     if (bridges.is_empty()) return;
+     bridges_on = true;
++    group_terrain = static_blocked & ~bridges;
++    // groups_only (V57_TP_BRIDGE, a champion without a dash): only camp-group fields cross the gaps (a crystal hop);
++    // the way home and to the altars stays on foot, since a non-dasher cannot follow a field over a hole.
++    if (groups_only) return;
+     walk_terrain = static_blocked & ~bridges;
+     bc::bitboard visited;
+     spawn_field.compute(walk_terrain, ally_spawn, visited);
+@@ -14482,7 +14588,7 @@
+     const int gi = field_order[fields_built];
+     bc::bitboard visited;
+     group_dist.emplace_back();
+-    group_dist.back().compute(walk_terrain, groups[gi].tiles, visited, static_cast<std::uint16_t>(cap));
++    group_dist.back().compute(group_terrain, groups[gi].tiles, visited, static_cast<std::uint16_t>(cap));
+     field_slot[gi] = static_cast<int>(group_dist.size()) - 1;
+     field_ptr[gi] = group_dist.back().ptr(); // the heap buffer stays put when the vector grows
+     ++fields_built;
+@@ -14877,7 +14983,8 @@
+     bc::bitboard walk_terrain;   // what blocks our distance fields: static_blocked, less bridges for a dasher
+     bc::bitboard bridges;        // A2_BRIDGES: hole tiles with open ground on two opposite sides (a dash crosses them)
+     bool bridges_on = false;
+-    void enable_bridges();
++    void enable_bridges(bool groups_only = false);
++    bc::bitboard group_terrain;  // what blocks camp-group distance fields (V57_TP_BRIDGE: bridged for non-dashers too)
+     int cut_off_map = -1; // value_cut_off() cache
+     bool value_cut_off();
+     bc::bitboard ally_spawn, enemy_spawn;
