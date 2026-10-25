@@ -1,5 +1,9 @@
 # Neural networkk Battlecode
 
+Latest scouting: [top-team replay findings and comparison with DOOMSDAY, 25 October 2026](analysis/top-teams-2026-10-25/REPORT.md).
+36 official replays, validated analysis, watchable match index and ranked follow-up experiments; raw downloads stay local.
+For the v52/v53 competition lineage, read [ops/HANDOFF.md](ops/HANDOFF.md).
+
 The development repository for our in-progress neural Battlecode bot. It includes source, models, schemas,
 tests and their required data, evaluation evidence,40benchmark maps and the official Windows CLI.
 

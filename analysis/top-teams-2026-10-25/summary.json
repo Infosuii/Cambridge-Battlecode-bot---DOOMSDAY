@@ -1,0 +1,106 @@
+{
+  "cohorts": {
+    "ours_post_v52": {
+      "games": 12,
+      "maps": 8,
+      "wins": 6,
+      "medians": {
+        "score": 728.0,
+        "final_carried": 18.5,
+        "first_bank_round": 85,
+        "median_bank": 29,
+        "physical_body_deaths": 7.0,
+        "peak_single_bag": 81.5,
+        "earned_gold": 5982.0,
+        "unspent_gold": 127.0,
+        "deaths_per_1000_body_rounds": 1.078639377970893,
+        "cast_per_1000_body_rounds": 93.78599821529974,
+        "attack_per_1000_body_rounds": 200.7604812518453
+      },
+      "fuel_exhausted": 35,
+      "errors": 0
+    },
+    "top": {
+      "games": 24,
+      "maps": 15,
+      "wins": 15,
+      "medians": {
+        "score": 1010.0,
+        "final_carried": 20.5,
+        "first_bank_round": 116,
+        "median_bank": 31,
+        "physical_body_deaths": 4.5,
+        "peak_single_bag": 103.5,
+        "earned_gold": 7240.0,
+        "unspent_gold": 391.5,
+        "deaths_per_1000_body_rounds": 1.0778658141043462,
+        "cast_per_1000_body_rounds": 108.13104259442301,
+        "attack_per_1000_body_rounds": 242.8235294117647
+      },
+      "fuel_exhausted": 439,
+      "errors": 0
+    }
+  },
+  "ladder_freshness": {
+    "generatedAt": "2026-10-25T14:10:35.902Z",
+    "refreshing": false
+  },
+  "ladder_revision": "87615:2026-10-25 14:10:34.855934+00",
+  "top6": [
+    {
+      "teamId": "1890540d-1ffc-4847-adbf-d0d08772f268",
+      "name": "Intercontinental Fish",
+      "rank": 1,
+      "rating": 2350.6792926344347
+    },
+    {
+      "teamId": "ad5474c2-784c-4f91-b8da-5fec554e4de4",
+      "name": "Claudus Maximus",
+      "rank": 2,
+      "rating": 2292.687133157899
+    },
+    {
+      "teamId": "ee83f5e5-bcad-4923-86b4-b79ea6083d2e",
+      "name": "Mite",
+      "rank": 3,
+      "rating": 2278.6178796535746
+    },
+    {
+      "teamId": "547efb5b-57e5-4355-8501-3b331f506d62",
+      "name": "willow best girl",
+      "rank": 4,
+      "rating": 2266.4962489779978
+    },
+    {
+      "teamId": "36258abf-3fd0-4827-8fa5-2a217438cf6f",
+      "name": "Trzy Kwaterki",
+      "rank": 5,
+      "rating": 2226.307780424644
+    },
+    {
+      "teamId": "38e6d8c4-1608-44f5-956b-08390f564336",
+      "name": "prism best girl",
+      "rank": 6,
+      "rating": 2215.713649329118
+    }
+  ],
+  "all_checks_passed": true,
+  "downloads_bytes": 1342091,
+  "sha256": {
+    "standard_decoded_local": "712ecaca45620a40ff645c8648a124ae841b751d5b74917bcf7944679cae24fd"
+  },
+  "engine_assets": {
+    "v1_0_3-DRqNt1t2.wasm": "029ecd290dc400e75418178ec386d72cbd7d9f2fc2a2e451bf594ca23566df48",
+    "PanelChrome-BXlTYAwV.js": "960affde6198366d2347bd21f43efec5bc06acc6cb0c53e5f7f96dbf87f027e6",
+    "rolldown-runtime-hePW80VL.js": "580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021"
+  },
+  "definitions": {
+    "first_bank_round": "First positive submitted-score delta; exact engine step, not channel start.",
+    "physical_body_deaths": "Sum of final per-body engine KDA deaths; Cassi and Issac counted separately.",
+    "peak_single_bag": "Maximum carried gems in one physical body at a round-boundary census; may miss within-round peaks.",
+    "first_clear_round": "First round census where every camp in the group has zero health; not capture completion.",
+    "near_first_clear": "Alive bodies within Chebyshev distance 8 at the first clear census; proximity is not damage attribution.",
+    "rates": "Actions or deaths / (final round times physical body count), scaled by 1000; includes dead-time.",
+    "cohorts": "Top rows are the preselected focal side only, four games per top-six team; ours are post-deployment, exact platform version hidden."
+  }
+}

@@ -1,4 +1,26 @@
-# Final handoff — 2026-10-24
+# Latest task: replay scouting completed — 2026-10-25
+
+Read [analysis/top-teams-2026-10-25/REPORT.md](analysis/top-teams-2026-10-25/REPORT.md)
+and [ops/HANDOFF.md](ops/HANDOFF.md) for the current competition lineage. Current
+main was refreshed from `795ed8f` to `2e1dcc1` before this analysis; the historical
+framework handoff below is not the current v52 competition status.
+
+Downloaded 36 official replays (24 top-six focal games, 12 DOOMSDAY games after
+the documented v52 deployment). All 36 passed score/outcome/round/draft/checksum
+and decoder/census reconciliation. Found an opposing-pick exclusion in the v52
+draft despite legal mirror picks; early Treasure/income differences; boss_battle
+score-access failures; and stampede capture/repeat-cycle concerns. Read the report
+for counterexamples, sample limits and precise source attribution.
+
+Only analysis tools/documentation/evidence changed. No bot changes, new games,
+training, parameter updates or submissions ran. Raw bundles and full decodes stay
+under ignored `artifacts/local-only/top-team-study-2026-10-25`. The user completed
+CLI sign-in for downloads; credentials were not read or recorded by the tools.
+There are no remaining analysis jobs. Proposed bot experiments are not implemented.
+
+---
+
+# Historical framework handoff — 2026-10-24
 
 Workspace: C:/projects/cambridge battlecode/work/neural-full-stack. Private GitHub: Infosuii/neural-networkk-battlecode, main. Training stays on this laptop; the large backup was cancelled. No agents were spawned in this continuation. Codex owns architecture/training logic; the later Freebuff/DeepSeek agent handles training operations. Winning matters, not a neural percentage quota.
 

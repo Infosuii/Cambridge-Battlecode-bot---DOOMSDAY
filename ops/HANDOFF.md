@@ -145,3 +145,26 @@ Champion lines look like `R<round> <type> p(x,y) hp g<gems> $<gold> <mode> G<gro
 3. Fuel: profile the hot paths with the `PROF`/`PROF_CHECK` instrumentation in `bot.cpp` and make them cheaper without changing behaviour. Because of finding 2, measure every change.
 4. Neural, only with A/B evidence: a draft win-probability model (map plus both drafts → winner) from ladder downloads. Our win rate ranges from 39% to 58% depending on our picks (`ladder_report.py`).
 5. Release loop: gate → submit → track → match groups → repeat.
+
+## 10. Replay scouting added 2026-10-25 (analysis only)
+
+Read [the 36-replay study](../analysis/top-teams-2026-10-25/REPORT.md) before choosing
+the next change. It uses official downloads and the existing pinned decoder,
+with 36/36 reconciled score/outcome/round/draft/action/fuel/checksum checks.
+
+- Concrete draft discrepancy: `bots/v52/src/draft.cpp:645` excludes opponents'
+  picks, while 35/36 replays contain legal mirror picks. `A2_MLDRAFT 1` normally
+  runs before lineup fallbacks; the boss draft is not simply a fixed lineup.
+- Early Treasure emblems: 69/112 top focal bodies at round 500, 0/65 DOOMSDAY.
+  Five leaders use them; prism best girl is a successful no-Treasure counterexample.
+- boss_battle gate group 16 has **40,000 combined HP** (two 20,000-HP monoliths).
+  DOOMSDAY banked zero in both selected games, ending with 908/2,140 carried gems.
+- stampede: both selected post-deployment games lost (320–320 gold tiebreak and
+  0–1120). Targeting, survival, capture security and repeated clears need separate checks.
+- A blanket earlier-bank or lower-death-rate explanation is unsupported by this
+  sample. Read the matched-map evidence and methodological limits.
+
+Comparison source is v52 at `2e1dcc1`. Exact platform submission versions are
+hidden, so the timestamp-based DOOMSDAY attribution remains unverified. Raw data
+stays local; compact report evidence and reproduction tools are versioned. No
+training, new matches, gameplay changes or submission occurred in this task.
