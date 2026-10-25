@@ -50,6 +50,8 @@ private:
     std::array<std::int16_t, kClaimSlots> claim_cache{};
     unsigned onsite_bits = 0;
     bool onsite_ok = false;                 // this map's groups fit the on-site codes
+    int tp_held = -1;                       // V54_TP: teleport crystals carried (-1 = not read yet)
+    bool try_teleport(const bc::distance_field& field);
     int claim_count(int group) const;
     std::pair<int, int> claims_split(int group) const;
     bool open_call_by_lower();

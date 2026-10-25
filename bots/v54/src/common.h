@@ -17,6 +17,12 @@
 #ifndef V54_HOLD_LEAD // banked-gem lead needed before holding (one stampede cycle is 160 gems)
 #define V54_HOLD_LEAD 160
 #endif
+#ifndef V54_TP // teleport-crystal shortcuts: carry one crystal, use it where a 3-tile hop saves walking (walk_toward)
+#define V54_TP 1
+#endif
+#ifndef V54_TP_GAIN // turns a hop must save, net of its 3-turn channel
+#define V54_TP_GAIN 5
+#endif
 #ifndef V54_STAGE_WALK // give up a camp job still not reached after this many rounds of walking
 #define V54_STAGE_WALK 60
 #endif

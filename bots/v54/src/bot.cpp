@@ -628,6 +628,19 @@ void Bot::shop() {
     } catch (const std::exception& e) {
         LOG("lock buy error %s\n", e.what());
     }
+#if V54_TP
+    try {
+        // A crystal costs 10 gold; winners re-buy one for the same few terrain shortcuts every trip (ladder replays:
+        // up to 53 hops by one champion on concentrated-wealth, none ever by us).
+        if (gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
+            me.buy(bc::consumable_type::tp_crystal);
+            gold -= 10;
+        }
+        tp_held = static_cast<int>(me.consumables()[bc::consumable_type::tp_crystal].count());
+    } catch (const std::exception& e) {
+        LOG("crystal buy error %s\n", e.what());
+    }
+#endif
     if (gold < 30) return;
     try {
         const auto counts = me.item_count();
@@ -780,6 +793,42 @@ bool Bot::follow_field(const bc::distance_field& field, const bc::bitboard& bloc
     return walked;
 }
 
+#if V54_TP
+// Teleport shortcut: a legal landing tile within 3 whose walking distance to the goal is at least V54_TP_GAIN turns
+// shorter, net of the 3-turn channel. Only out of every enemy's sight and every awake camp's reach (stuns and death
+// cancel the channel). One crystal count read per call while we may hold one; nothing else when we do not.
+bool Bot::try_teleport(const bc::distance_field& field) {
+    if (bit(w.hot_zone, pos) || bc::fuel_remaining() < 20000) return false;
+    auto& me = bc::self();
+    if (tp_held < 0) tp_held = static_cast<int>(me.consumables()[bc::consumable_type::tp_crystal].count());
+    if (tp_held <= 0) return false;
+    const int here = fdist(field, pos);
+    if (here == kUnreach || here < 3 + V54_TP_GAIN) return false;
+    vec2 best{-1, -1};
+    int best_d = here - 3 - V54_TP_GAIN;
+    const bc::bitboard blocked = w.static_blocked | w.unit_tiles | w.hot_zone;
+    for (int dy = -3; dy <= 3; ++dy)
+        for (int dx = -3; dx <= 3; ++dx) {
+            const vec2 q{pos.x + dx, pos.y + dy};
+            if (q.x < 0 || q.y < 0 || q.x >= w.width || q.y >= w.height || bit(blocked, q)) continue;
+            const int d = fdist(field, q);
+            if (d < best_d) best_d = d, best = q;
+        }
+    if (best.x < 0) return false;
+    try {
+        if (me.consumables()[bc::consumable_type::tp_crystal].use(best)) {
+            tp_held = 0;
+            mode = "teleport";
+            return true;
+        }
+    } catch (const std::exception& e) {
+        LOG("teleport error %s\n", e.what());
+        tp_held = 0;
+    }
+    return false;
+}
+#endif
+
 bool Bot::walk_toward(const bc::bitboard& goals_in) {
     PROF(move);
 #if A2_TEL
@@ -845,6 +894,9 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
         }
         walk_boxed = true;
     }
+#endif
+#if V54_TP
+    if (tp_held != 0 && !combat_move && w.enemies.empty() && try_teleport(field)) return true;
 #endif
     if (tune::kThreatPath > 0 && !combat_move && hp < max_hp * tune::kThreatHp && travel_around_threats(field, blocked, goals))
         return walked;
