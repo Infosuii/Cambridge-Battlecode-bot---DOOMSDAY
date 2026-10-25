@@ -160,7 +160,10 @@ public:
         if(pending_.admitted){charge(pending_.start);pending_={};}
         ++snapshot_;encoded_=context_logged_=false;
     }
-    Ticket admit(nncfg::H head,int max_k,std::uint64_t candidate_reserve=0,std::uint32_t execution_reserve=0) {
+    // admission_estimate (optional, <= candidate_reserve): typical candidate cost used for admission when the builder
+    // itself fails closed below a fuel floor; candidate_reserve remains the overrun bound checked after building.
+    Ticket admit(nncfg::H head,int max_k,std::uint64_t candidate_reserve=0,std::uint32_t execution_reserve=0,
+                 std::uint64_t admission_estimate=0) {
         Ticket t;t.head=head;t.max_k=max_k;t.turn=turn_;t.snapshot=snapshot_;
         if(hooks_.round&&hooks_.round()!=round_)clock_bad_=true;
         if(!nnpc::supported(head)||max_k<1||max_k>16){++counters.invalid;return t;}
@@ -168,7 +171,8 @@ public:
         if(candidate_reserve>UINT32_MAX){++counters.refused[hi];return t;}
         t.candidate_reserve=candidate_reserve?static_cast<std::uint32_t>(candidate_reserve):budget_.candidate;
         t.execution_reserve=execution_reserve?execution_reserve:budget_.action_reserve;
-        if(pending_.admitted||unacknowledged_||!ready()||!affordable(max_k,t.candidate_reserve,t.execution_reserve)){++counters.refused[hi];return t;}
+        const auto admission=admission_estimate&&admission_estimate<t.candidate_reserve?static_cast<std::uint32_t>(admission_estimate):t.candidate_reserve;
+        if(pending_.admitted||unacknowledged_||!ready()||!affordable(max_k,admission,t.execution_reserve)){++counters.refused[hi];return t;}
         t.id=++serial_;t.start=fuel();t.admitted=true;pending_=t;++counters.admitted[hi];return t;
     }
     Result decide(const Ticket& t,const nnpc::Decision& d,std::uint64_t option_id=0,std::uint8_t flags=0) {

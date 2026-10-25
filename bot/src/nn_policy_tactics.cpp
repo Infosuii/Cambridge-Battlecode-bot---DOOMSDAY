@@ -11,6 +11,10 @@ namespace {
 namespace d = cambc::detail;
 // Bounded local candidate radii, with an explicit builder failure for unsupported designs.
 constexpr int kLocalRadius = 16,kFieldCap=150,kTargetLimit=512;
+// Movement/combat are admitted at a typical cost; their builders refuse below this floor (one more row/target
+// plus the core's post-build affordability recheck), so a costly build can never run the turn out of fuel.
+constexpr std::uint64_t kBuildFloor=15000;
+inline bool build_fuel_ok() {return bc::fuel_remaining()>kBuildFloor;}
 struct Boards {
     bc::bitboard blocked, reach, frontier, scratch, roots, visited;
     bc::distance_field goal_distance;
@@ -110,7 +114,9 @@ struct nn_policy_tactics_access {
         const auto bodies=std::uint64_t(b.w.enemies.size()+b.w.allies.size());
         std::uint64_t visible_camps=0;
         for(std::size_t i=0;i<b.w.camps.size();++i)if(!b.w.camps[i].dead&&b.w.camps[i].hp>0&&visible(b,b.w.camps[i].pos))++visible_camps;
-        if(head==nncfg::H::engage)return 8000+bodies*500+kFieldCap*180;
+        // Engine-measured engage candidates peak at ~4k fuel (2026-10-25, 259 admitted decisions, 12 games);
+        // the bound keeps a ~3x margin instead of the former ~36k field-sized reserve.
+        if(head==nncfg::H::engage)return 6000+bodies*500;
         if(head==nncfg::H::combat)return 25000+b.w.camps.size()*60+visible_camps*1600+bodies*2200;
         if(head!=nncfg::H::move)return std::numeric_limits<std::uint64_t>::max();
         // One live speed read and immutable ability descriptors bound enumeration before construction.
@@ -127,9 +133,11 @@ struct nn_policy_tactics_access {
              bit(b.w.groups[state.objective].tiles,goal)));
         const bool warm=inherited||(g_boards&&g_boards->goal_ready&&g_boards->goal_key==goal);
         const auto chunks=std::uint64_t(l.chunked_width)*l.chunked_height;
-        return (warm?0:chunks*(kFieldCap+24)+(std::uint64_t(l.field_bytes)*2+std::uint64_t(l.board_bytes)*6)/16)+
-            (g_boards?8000:22000)+b.w.camps.size()*60+visible_camps*1000+bodies*500+endpoints*100+
-            std::min<std::uint64_t>(16,endpoints)*1700;
+        // Engine-measured move builds (2026-10-25, ~1.7k builds): blocking ~0.4k, goal field <=1k even when cold
+        // (host distance field), enumeration ~0.1-0.2k per endpoint-square tile, ~1.6-1.9k per feature row incl.
+        // proximity. Each term keeps a margin over its measured peak; overruns are refused as bound_exceeded.
+        return (warm?0:chunks*12+2000)+(g_boards?3000:22000)+b.w.camps.size()*60+visible_camps*400+bodies*300+
+            endpoints*150+std::min<std::uint64_t>(16,endpoints)*2000;
     }
     static bool inside(const Bot& b, vec2 q) { return q.x>=0&&q.y>=0&&q.x<b.w.width&&q.y<b.w.height; }
     static bool visible(const Bot& b, vec2 q) { return inside(b,q) && bit(b.w.visible,q); }
@@ -258,10 +266,11 @@ struct nn_policy_tactics_access {
         // refuse the entire decision rather than silently prune or fabricate those feature rows.
         if(missing_distance)return false;
         const vec2 c=nnp::canonical(b,p);if(!nnpc::move_id(3,c.x,c.y,hold.id))return false;
+        if(!build_fuel_ok())return false;
         rows[n++]=move_row(b,state,hold,p);
-        if(total<=nnpc::kMaxK-1)for(int i=0;i<total;++i)rows[n++]=move_row(b,state,small[i],p);
+        if(total<=nnpc::kMaxK-1)for(int i=0;i<total;++i){if(!build_fuel_ok())return false;rows[n++]=move_row(b,state,small[i],p);}
         else for(int oct=0;oct<8&&n<nnpc::kMaxK;++oct)for(int kind=0;kind<3&&n<nnpc::kMaxK;++kind)
-            if(have[kind][oct])rows[n++]=move_row(b,state,bucket[kind][oct],p);
+            if(have[kind][oct]){if(!build_fuel_ok())return false;rows[n++]=move_row(b,state,bucket[kind][oct],p);}
         return nnpc::build(nncfg::H::move,rows,n,context(state),out)==nnpc::Error::ok;
     }
     template<class Fn>static bool targets(const Bot& b,const d::champion_info& me,Fn emit,std::uint32_t wanted=0xffffffffu) {
@@ -270,6 +279,7 @@ struct nn_policy_tactics_access {
         int n=0;bool overflow=false;
         auto add=[&](const Target& t){if(n==kTargetLimit){overflow=true;return;}g_targets[n++]=t;};
         for(const auto& e:b.w.enemies)if((wanted==0xffffffffu||wanted==e.id)&&e.hp>0&&visible(b,e.pos)) {
+            if(!build_fuel_ok())return false;
             d::champion_info live{};if(d::sdk_champion(e.id,&live)!=0||!(live.state&1u)||live.health<=0)continue;
             Target t{};t.category=Target::enemy;t.handle=e.id;t.q={live.x,live.y};t.hp=live.health;
             t.max_hp=live.max_health;t.strength=live.strength;t.gems=e.gems;t.champion=&e.unit;
@@ -357,7 +367,7 @@ struct nn_policy_tactics_access {
         rows[0].raw[5]=me.health/std::max(1.0f,me.max_health);rows[0].raw[6]=me.strength;
         for(int depth=0;depth<nnpc::kMaxK&&n<nnpc::kMaxK;++depth)
             for(int oct=0;oct<8&&n<nnpc::kMaxK;++oct)for(int kind=0;kind<3&&n<nnpc::kMaxK;++kind)
-                if(depth<count[kind][oct])rows[n++]=combat_row(b,me,bucket[kind][oct][depth]);
+                if(depth<count[kind][oct]){if(!build_fuel_ok())return false;rows[n++]=combat_row(b,me,bucket[kind][oct][depth]);}
         return nnpc::build(nncfg::H::combat,rows,n,context(state),out)==nnpc::Error::ok;
     }
     static vec2 retreat_goal(const Bot& b,vec2 p) {

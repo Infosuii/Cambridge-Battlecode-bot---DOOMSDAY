@@ -9,10 +9,10 @@
     "n_params": 1056
   },
   "policy": {
-    "turn_allowance": 82000,
+    "turn_allowance": 90000,
     "action_reserve": 16000,
     "tail_reserve": 7000,
-    "observation": 19000,
+    "observation": 16000,
     "candidate": 3500,
     "head_base": 1800,
     "per_candidate": 300,
@@ -26,6 +26,7 @@
     "Log includes context/decision queue work; checksum/base64/output runs after gameplay.",
     "Movement has a separate final-action execution reserve; physical refresh is separately guarded.",
     "Large-map refusals are reported, not counted as neural control.",
-    "Legacy models/budget.json belongs to residual v1 and is not used by direct v2."
+    "Legacy models/budget.json belongs to residual v1 and is not used by direct v2.",
+    "2026-10-25 recalibration: observation 19000->16000 (measured capture+encode <=12.7k in game records, component probe peak ~15k); turn_allowance 82000->90000 (real remaining-fuel admission check and tail reserve unchanged). Engage candidate bound calibrated in nn_policy_tactics.cpp. Evidence: artifacts/tmp/fuel_trace/*/trace.json."
   ]
 }

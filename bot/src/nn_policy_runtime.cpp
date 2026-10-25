@@ -86,7 +86,10 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
         h==H::shop?24000u:nnp::tactics_candidate_bound(b,g_state,h);
     // Movement is last: reserve its bounded endpoint recheck, with no following world refresh.
     const auto execution=macro?4000u:h==H::move?6000u+static_cast<std::uint32_t>(field_chunks())*16u:16000u;
-    const auto ticket=g_core.admit(h,max_k,bound,execution);
+    // Movement and combat builders fail closed below a fuel floor, so they are admitted at a typical cost.
+    const bool guarded=h==H::move||h==H::combat;
+    // Typical measured builds: move ~0.4x and combat ~0.6x of their worst-case bounds.
+    const auto ticket=g_core.admit(h,max_k,bound,execution,guarded&&bound<UINT32_MAX?(h==H::move?bound*2/5:bound*3/5):0);
     if(!ticket.admitted){g_inventory->record(h,false);note(h,nnp_log::kSafetyOverride,nnp::Reason::budget);return false;}
     nnpc::Decision decision{};
     const auto candidate_start=fuel();const auto candidate_round=bc::round_number();
@@ -118,8 +121,10 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
     // A goal/role change changes the observation, just as a physical move does.
     // Internal intent/role commits retain the first-admitted same-turn snapshot; candidate rows are live.
     // Physical effects invalidate the context before another action decision.
-    if(actual.changed&&!macro&&h!=H::engage&&h!=H::bank)g_core.invalidate();
-    if(!macro&&actual.changed)g_physical=true;
+    // Combat never moves the acting champion (dash endpoints belong to the movement head), so the turn-start
+    // snapshot stays valid for the movement decision: no ~10k world refresh and ~12k re-encode per attack turn.
+    if(actual.changed&&!macro&&h!=H::engage&&h!=H::bank&&h!=H::combat)g_core.invalidate();
+    if(!macro&&actual.changed&&h!=H::combat)g_physical=true;
     return true;
 }
 bool scheduled(H h,int period,bool force=false) {
@@ -243,14 +248,19 @@ struct nn_policy_access {
             if(g_physical){if(fuel()<30000)return fallback();refresh(b);}
         }
         if(!b.w.enemies.empty()) {
-            if(!choose(b,H::engage,3,nnp::build_engage,nnp::execute_engage))return fallback();
+            // An unavailable verdict (e.g. budget refusal) is "no verdict", not a lost turn: combat and move
+            // keep their own admission checks.
+            if(!choose(b,H::engage,3,nnp::build_engage,nnp::execute_engage))g_state.engagement=-1;
             if(g_state.engagement==2){g_inventory->suppress(H::combat);g_inventory->suppress(H::move);return true;}
             if(g_state.engagement==1)g_inventory->suppress(H::combat);
         } else g_state.engagement=-1;
         if(g_state.engagement!=1&&nnp::combat_has_choice(b)) {
             // Hold is explicit even without an attackable entity; it is not a hidden teacher action.
-            if(!choose(b,H::combat,16,nnp::build_combat,nnp::execute_combat))return fallback();
-            if(g_physical){if(fuel()<30000)return fallback();refresh(b);}
+            // A combat decision that is not admitted or fails holds this turn; movement is still decided below.
+            if(choose(b,H::combat,16,nnp::build_combat,nnp::execute_combat)&&g_physical) {
+                if(fuel()<30000)return fallback();
+                refresh(b);
+            }
         } else g_inventory->suppress(H::combat); // A forced hold needs no neural inference.
         if(bc::self().can_move()) {
             if(!choose(b,H::move,nnp::tactics_candidate_capacity(b,H::move),nnp::build_move,nnp::execute_move))return fallback();
