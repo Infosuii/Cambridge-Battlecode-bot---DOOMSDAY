@@ -13,7 +13,7 @@ def main():
     matches=json.loads((p/'v52_since_live_20261025.json').read_text())
     top=json.loads((p/'v53_top_wins_20261025.json').read_text(encoding='utf-8-sig'))
     meta={m['matchId']:m for m in matches+top}
-    audits=json.loads((local/'audit.json').read_text())
+    audits=json.loads((local/'audit-refresh.json').read_text())
     def names(d):return ', '.join(DRAFT[x] for x in d)
     def inventory(t,r=500):
         snap=next((s for s in t['snapshots'] if s['round']==r),None)
@@ -29,9 +29,14 @@ def main():
         if not mine:continue
         i='ab'.index(mine['side']);j=1-i;opp=next(t for t in m['teams'] if t['name']!='DOOMSDAY')
         losses.append((a['submitted_gems'][i]-a['submitted_gems'][j],m,a,i,j,mine,opp))
+    def record(kind):
+        rows=[m for m in matches if m['kind']==kind]
+        return f"{sum(any(t['name']=='DOOMSDAY' and t['result']=='win' for t in m['teams']) for m in rows)}/{len(rows)}"
+    expected=sum(any(t['name']=='DOOMSDAY' and t['result']=='loss' for t in m['teams']) for m in matches)
+    assert len(losses)==expected,(len(losses),expected)
     lines=['# V52 loss audit — 2026-10-25', '',
-           'Snapshot: ranked 2/5; unranked 4/15 since 12:02 UTC; combined 6/20. Named queued groups are 1/5 against Hidden Altar Keepers and 0/5 against meow. The API timestamps place those groups at 12:05 UTC, earlier than the approximate 12:15 handoff note. Version association uses start time; API list responses do not expose a submission hash.', '',
-           'All 14 losses and seven top-team wins decoded with the pinned engine, 21/21 successful. This report is omniscient offline analysis. Deaths are alive→dead transitions sampled once per round; attack counts include basic attacks classified by target tile, exclude spells, and are proxies for fight allocation. Equipment value is original shard purchase gold (five shards per emblem), not raw inventory-entry counts. Full audits and replays are local-only.', '',
+           f"Refreshed snapshot: ranked {record('ranked')}; unranked {record('unranked')} since 12:02 UTC. Named queued groups are 1/5 against Hidden Altar Keepers and 0/5 against meow. The initial snapshot was ranked 2/5 and unranked 4/15 and is preserved separately. API timestamps place the groups at 12:05 UTC, earlier than the approximate 12:15 handoff note. Version association uses start time; API list responses do not expose a submission hash.", '',
+           f"All {len(losses)} losses and seven top-team wins decoded with the pinned engine, {len(audits)}/{len(audits)} successful. This report is omniscient offline analysis. Deaths are alive→dead transitions sampled once per round; attack counts include basic attacks classified by target tile, exclude spells, and are proxies for fight allocation. Equipment value is original shard purchase gold (five shards per emblem), not raw inventory-entry counts. Full audits and replays are local-only.", '',
            '## Losses ranked by score deficit', '',
            '| Map | Kind | Opponent | Score us/them | Deaths us/them | First bank / median amount: us | Winner | Gear purchase value R500 us/them |',
            '|---|---|---|---|---|---|---|---|']

@@ -4895,6 +4895,9 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         for (std::size_t k = 0; k < w.groups.size(); ++k)
             big_group[k] = total > 0.0f && w.groups[k].gems > 0 && static_cast<float>(w.groups[k].gems) >= NOVA_BIGJOB * total;
     }
+    // Claims and our health do not change while scoring candidates. Scan earlier
+    // allies once per call instead of repeating the same job/soak work per group.
+    const bool lower_call = tune::kInitiateJobs && !no_initiate && round >= call_ban_until && open_call_by_lower();
     int evaluated = 0; // groups past the bound (APEX_DET caps them)
     for (int oi = 0; oi < n_order; ++oi) {
         // Out of fuel (huge maps, first turn): settle for the best group scored so far.
@@ -5001,7 +5004,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         if (siege) initiating = false;
         else if (initiating) {
             const bool big = NOVA_BIGJOB > 0.0f && gi < big_group.size() && big_group[gi];
-            if (!tune::kInitiateJobs || no_initiate || round < call_ban_until || need > (big ? team_size : UB_JOB_MAX) || open_call_by_lower())
+            if (!tune::kInitiateJobs || no_initiate || round < call_ban_until || need > (big ? team_size : UB_JOB_MAX) || lower_call)
                 continue;
         }
         const bool solo_job = need == 1 && (g.state == GroupState::reward || hp_left < 1500.0f);

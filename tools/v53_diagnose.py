@@ -11,18 +11,20 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--profile', action='store_true')
+    p.add_argument('--bot', type=Path, default=ROOT/'bots/v52')
+    p.add_argument('--label', help='fresh diagnostic label (preserves previous measurements)')
     p.add_argument('--rounds', type=int, default=1200)
     p.add_argument('--maps', nargs='+', default=['01boss-battle', '01concentrated-wealth', '00elkring', '00swirl', '01yellow-brick-road'])
     a = p.parse_args()
-    label = 'profile' if a.profile else 'log'
+    label = a.label or ('profile' if a.profile else 'log')
     root = ROOT / 'artifacts/local-only/v53-review' / label
     root.mkdir(parents=True, exist_ok=True)
-    common = (ROOT/'bots/v52/src/common.h').read_text()
-    world = (ROOT/'bots/v52/src/world.cpp').read_text()
+    common = (a.bot/'src/common.h').read_text(encoding='utf8')
+    world = (a.bot/'src/world.cpp').read_text(encoding='utf8')
     assert world.count('if (APEX_LOG)') == 1
     overrides = {'common.h': ('#define APEX_PROFILE 1\n' if a.profile else '#define APEX_LOG 1\n') + common,
                  'world.cpp': world.replace('if (APEX_LOG)', 'if (0)')}
-    bot = engine.make_bot_dir(ROOT/'bots/v52/src', root/'bot', overrides)
+    bot = engine.make_bot_dir(a.bot/'src', root/'bot', overrides)
     wasm = engine.official_build(bot, root/'bot.wasm')
     def run(m):
         out = root/m

@@ -1,0 +1,21 @@
+diff --git a/bots/v53/src/world.cpp b/bots/v53/src/world.cpp
+index d38ba27..6bf4f9f 100644
+--- a/bots/v53/src/world.cpp
++++ b/bots/v53/src/world.cpp
+@@ -692,8 +692,14 @@ bc::bitboard World::threat_zone(int round, int max_age, float radius) const {
+ void World::update(int round) {
+     {
+         PROF(w_vis);
+-        visible = bc::vision::visible_tiles();
+-        unit_tiles = bc::vision::champion_tiles() | bc::vision::camp_tiles() | bc::vision::teleport_tiles();
++        // Reuse observation storage: each *_into call overwrites every chunk.
++        // This avoids temporary mask copies/allocations once per world update.
++        bc::vision::visible_tiles_into(visible);
++        bc::vision::champion_tiles_into(unit_tiles);
++        bc::bitboard occupancy = bc::vision::camp_tiles();
++        unit_tiles |= occupancy;
++        bc::vision::teleport_tiles_into(occupancy);
++        unit_tiles |= occupancy;
+     }
+     PROF_CHECK("w_vis");
+     observe_groups(round);

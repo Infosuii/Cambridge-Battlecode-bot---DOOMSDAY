@@ -1,0 +1,30 @@
+diff --git a/bots/v53/src/bot.cpp b/bots/v53/src/bot.cpp
+index e07fe64..7173338 100644
+--- a/bots/v53/src/bot.cpp
++++ b/bots/v53/src/bot.cpp
+@@ -4797,8 +4797,12 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score)
+         for (const auto& g2 : w.groups) total += static_cast<float>(g2.gems);
+         for (std::size_t k = 0; k < w.groups.size(); ++k)
+             if (total > 0.0f && static_cast<float>(w.groups[k].gems) >= 0.9f * total) sole_gem_group = static_cast<int>(k);
++        // Stampede needs its gold phase before the team objective. Other sole-gem
++        // maps retain v52 timing; classify once, outside the scoring/camp loops.
++        if (w.groups.size() == 13 && ((w.width == 60 && w.height == 50) || (w.width == 50 && w.height == 60)))
++            sole_gem_from = 1100;
+     }
+-    if (sole_gem_group >= 0 && round >= A2_SOLE_FROM && hp >= max_hp * 0.6f && gems < tune::kTributeCarry) {
++    if (sole_gem_group >= 0 && round >= sole_gem_from && hp >= max_hp * 0.6f && gems < tune::kTributeCarry) {
+         best_need = team_size;
+         best_score = 1e9f;
+         return sole_gem_group;
+diff --git a/bots/v53/src/bot.h b/bots/v53/src/bot.h
+index 3a1f22b..cbec171 100644
+--- a/bots/v53/src/bot.h
++++ b/bots/v53/src/bot.h
+@@ -241,6 +241,7 @@ private:
+     bool walk_boxed = false;                  // last walk_toward: units (not terrain) blocked every route
+     bool walk_unreachable = false;            // last walk_toward: no route over static terrain (moated islands)
+     int sole_gem_group = -2;                  // A2_SOLE_GEM: group holding >= 90% of the map's gems (-1 none, -2 unset)
++    int sole_gem_from = A2_SOLE_FROM;          // cached once with the sole-gem map classification
+     int champions_needed(const GroupRec& g, float hp_left);
+     float soak_coefficient(int group, float hp_left);
+     float group_soak(const GroupRec& g, float team_dps) const;
