@@ -1,0 +1,97 @@
+diff -ru bots/v57/src/bot.cpp bots/v58/src/bot.cpp
+--- bots/v57/src/bot.cpp	2026-10-25 20:48:53.979666000 +0000
++++ bots/v58/src/bot.cpp	2026-10-25 21:13:03.587077800 +0000
+@@ -5090,6 +5090,37 @@
+         return sole_gem_group;
+     }
+ #endif
++#if V58_OPEN_PACK
++    // Opening pack (Claudus Maximus, 80 decoded games: their first elk-size clear starts at round 21 with 3.7 champions
++    // and is captured at round 50; ours start at 36 with 2.7 and capture at 79; by round 250 they have taken 4.0 such
++    // groups for 655 gold against our 2.3 for 266). Every champion picks the same group from static data: the best
++    // value per spawn distance among elk-size groups on our side. Once per call, like A2_SOLE_GEM.
++    if (open_group == -2) {
++        open_group = -1;
++        float ex = 0, ey = 0, en = 0;
++        for (vec2 p : w.enemy_spawn.positions()) ex += static_cast<float>(p.x), ey += static_cast<float>(p.y), ++en;
++        float best_v = 0.0f;
++        for (std::size_t k = 0; en > 0 && k < w.groups.size(); ++k) {
++            const auto& g = w.groups[k];
++            if (g.harmless || g.camps.empty() || g.gems == 0 || g.max_hp < 2400.0f || g.max_hp > 6000.0f) continue;
++            const vec2 c = w.camps[static_cast<std::size_t>(g.camps[0])].pos;
++            const int d = fdist(w.spawn_field, c);
++            const float de = std::max(std::fabs(static_cast<float>(c.x) - ex / en), std::fabs(static_cast<float>(c.y) - ey / en));
++            if (d > 30 || static_cast<float>(d) >= 0.8f * de) continue;
++            const float v = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) / (static_cast<float>(d) + 15.0f);
++            if (v > best_v) best_v = v, open_group = static_cast<int>(k);
++        }
++    }
++    if (open_group >= 0) {
++        const auto& og = w.groups[static_cast<std::size_t>(open_group)];
++        if (round >= V58_OPEN_UNTIL || og.state == GroupState::respawning) open_group = -1; // captured: the opening is over
++        else if (og.state == GroupState::alive && hp >= max_hp * 0.5f && gems < tune::kTributeCarry) {
++            best_need = std::min(team_size, V58_OPEN_N);
++            best_score = 1e9f;
++            return open_group;
++        }
++    }
++#endif
+ #if A2_GATE_JOB
+     // Gated altars (boss-battle: every altar access tile holds a monolith camp, banking opens only while it is dead).
+     // Carriers held 170-570 gems all game and never banked; top teams bank from round ~650. While the gate is shut,
+diff -ru bots/v57/src/bot.h bots/v58/src/bot.h
+--- bots/v57/src/bot.h	2026-10-25 20:48:53.978666000 +0000
++++ bots/v58/src/bot.h	2026-10-25 21:13:03.583560400 +0000
+@@ -261,6 +261,7 @@
+     bool walk_boxed = false;                  // last walk_toward: units (not terrain) blocked every route
+     bool walk_unreachable = false;            // last walk_toward: no route over static terrain (moated islands)
+     int sole_gem_group = -2;                  // A2_SOLE_GEM: group holding >= 90% of the map's gems (-1 none, -2 unset)
++    int open_group = -2;                      // V58_OPEN_PACK: the opening team group (-1 none or done, -2 unset)
+     int champions_needed(const GroupRec& g, float hp_left);
+     float soak_coefficient(int group, float hp_left);
+     float group_soak(const GroupRec& g, float team_dps) const;
+diff -ru bots/v57/src/common.h bots/v58/src/common.h
+--- bots/v57/src/common.h	2026-10-25 20:48:54.076147500 +0000
++++ bots/v58/src/common.h	2026-10-25 21:13:03.650363900 +0000
+@@ -1,4 +1,19 @@
++// v58 (2026-10-25, from v57): the ladder meta draft (V58_META_DRAFT); see bots/v58/CHANGES.md.
+ // v57 (2026-10-25, from v56): contest the middle (UB_ENEMY_CAMP 1.0); see bots/v57/CHANGES.md.
++// V58_OPEN_PACK: the team opens on one elk-size group on our side (see bot.cpp score_groups); V58_OPEN_N champions
++// needed, until it is captured or round V58_OPEN_UNTIL
++#ifndef V58_OPEN_PACK
++#define V58_OPEN_PACK 1
++#endif
++#ifndef V58_OPEN_N
++#define V58_OPEN_N 3
++#endif
++#ifndef V58_OPEN_UNTIL
++#define V58_OPEN_UNTIL 90
++#endif
++#ifndef V58_META_DRAFT // 1: Vesper, Heart, Vendetta, Ryth, Marcella (Claudus Maximus in all 80 games); 2: Tavi 4th
++#define V58_META_DRAFT 0
++#endif
+ // v56 (2026-10-25, from live platform v55); see bots/v56/CHANGES.md.
+ #ifndef V56_SHOP_DONE // once the build plan is complete, gold alone no longer sends a champion home
+ #define V56_SHOP_DONE 1
+diff -ru bots/v57/src/draft.cpp bots/v58/src/draft.cpp
+--- bots/v57/src/draft.cpp	2026-10-25 20:48:53.980665800 +0000
++++ bots/v58/src/draft.cpp	2026-10-25 21:01:02.434369600 +0000
+@@ -675,6 +675,18 @@
+         if (z > best_z) best_z = z, best = c;
+     }
+     (void)x;
++#if V58_META_DRAFT
++    // The top teams' comp in fixed order; both teams may own the same champion, so it is always available.
++    {
++        constexpr cd meta1[] = {cd::vesper_vale, cd::heart_of_ruin, cd::vendetta, cd::ryth, cd::marcella, cd::tavi};
++        constexpr cd meta2[] = {cd::vesper_vale, cd::heart_of_ruin, cd::vendetta, cd::tavi, cd::marcella, cd::ryth};
++        for (auto p : (V58_META_DRAFT == 2 ? meta2 : meta1))
++            if (!taken[static_cast<int>(p)]) {
++                best = static_cast<int>(p);
++                break;
++            }
++    }
++#endif
+     if (best < 0) return false;
+     bc::draft::pick(static_cast<cd>(best));
+ #if A2_MLPLAN
