@@ -10,8 +10,10 @@ Checkpoints are atomic per epoch; the best-validation-loss weights are exported 
 promotes, installs or submits anything.
 """
 import argparse
+import copy
 import hashlib
 import json
+import math
 from pathlib import Path
 import sys
 import time
@@ -30,9 +32,18 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def load(path, device):
-    with np.load(path, allow_pickle=False) as z:
-        return {k: torch.as_tensor(z[k]).to(device) for k in ('obs', 'feat', 'legal', 'label', 'context', 'head')}
+KEYS = ('obs', 'feat', 'legal', 'label', 'context', 'head')
+
+
+def load(paths, device, fp16=False):
+    """Concatenate dataset parts on the device; obs/feat optionally stored as float16 (cast to float32 per batch)."""
+    parts = {k: [] for k in KEYS}
+    for path in paths:
+        with np.load(path, allow_pickle=False) as z:
+            for k in KEYS:
+                v = torch.as_tensor(z[k])
+                parts[k].append((v.half() if fp16 and k in ('obs', 'feat') else v).to(device))
+    return {k: torch.cat(v) for k, v in parts.items()}
 
 
 HEAD_NAME = {h['id']: h['name'] for h in C.SCHEMA['heads']}
@@ -48,7 +59,7 @@ def evaluate(model, data, batch):
             for s in range(0, len(ix), batch):
                 b = ix[s:s + batch]
                 legal = data['legal'][b].bool()
-                logits = model(data['obs'][b], HEAD_NAME[hid], data['feat'][b], legal, data['context'][b])
+                logits = model(data['obs'][b].float(), HEAD_NAME[hid], data['feat'][b].float(), legal, data['context'][b])
                 loss, _ = L.imitation_loss(logits, legal, data['label'][b], imitation_mask=torch.ones(len(b), dtype=torch.bool, device=b.device))
                 loss_sum += float(loss) * len(b); total += len(b)
                 correct += int((logits.argmax(-1) == data['label'][b]).sum())
@@ -76,7 +87,7 @@ def baselines(data):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('--data', type=Path, required=True)
+    p.add_argument('--data', type=Path, nargs='+', required=True)
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--init', type=Path, default=ROOT / 'models/policy_v2_untrained')
     p.add_argument('--train', default=None, help='comma list; default encoder + every head in the data')
@@ -89,24 +100,30 @@ def main():
     p.add_argument('--device', choices=('cuda', 'cpu'), default='cuda')
     p.add_argument('--move-distance-offset', type=float, default=0.0,
                    help='augment move batches: add U(0, tiles) to every candidate goal distance (relative order unchanged)')
+    p.add_argument('--fp16-storage', action='store_true', help='keep obs/feat as float16 on the device (halves memory)')
+    p.add_argument('--cosine', action='store_true', help='cosine learning-rate decay over the time budget (to 5%%)')
+    p.add_argument('--export-every-minutes', type=float, default=0, help='also export the best weights so far periodically')
     p.add_argument('--i-authorize-training', action='store_true')
     a = p.parse_args()
     if not a.i_authorize_training:
         raise SystemExit('explicit --i-authorize-training required; no training performed')
-    if not 0 < a.minutes <= 240 or not 1 <= a.epochs <= 200:
-        raise SystemExit('bounded run: 0 < minutes <= 240, 1..200 epochs')
+    if not 0 < a.minutes <= 240 or not 1 <= a.epochs <= 5000:
+        raise SystemExit('bounded run: 0 < minutes <= 240, 1..5000 epochs')
     out = a.out.resolve()
     if not out.is_relative_to(ROOT / 'artifacts') or out.exists():
         raise SystemExit('fresh run directory inside artifacts/ required')
     if a.device == 'cuda' and not torch.cuda.is_available():
         raise SystemExit('CUDA requested but unavailable')
-    manifest = json.loads((a.data / 'manifest.json').read_text(encoding='utf-8'))
-    if manifest['obs_schema_hash'] != O.OBS_SCHEMA_HASH or manifest['action_schema_hash'] != C.ACTION_SCHEMA_HASH:
+    manifests = [json.loads((d / 'manifest.json').read_text(encoding='utf-8')) for d in a.data]
+    if any(m['obs_schema_hash'] != O.OBS_SCHEMA_HASH or m['action_schema_hash'] != C.ACTION_SCHEMA_HASH for m in manifests):
         raise SystemExit('dataset schema hashes differ from the current policy-v2 schema')
-    heads = manifest['heads']
+    manifest = manifests[0] if len(manifests) == 1 else dict(parts=manifests, rule_inputs=manifests[0].get('rule_inputs'))
+    heads = sorted({h for m in manifests for h in m['heads']})
+    data_sha = hashlib.sha256(''.join(sha(d / 'manifest.json') for d in a.data).encode()).hexdigest()
     device = torch.device(a.device)
     torch.manual_seed(a.seed)
-    train, val = load(a.data / 'train.npz', device), load(a.data / 'validation.npz', device)
+    train = load([d / 'train.npz' for d in a.data], device, a.fp16_storage)
+    val = load([d / 'validation.npz' for d in a.data], device, a.fp16_storage)
     init_manifest, _ = load_blob(a.init)
     model = load_model(a.init).to(device)
     trainable = set(a.train.split(',')) if a.train else {'encoder', *heads}
@@ -128,6 +145,7 @@ def main():
           init_checksum=init_manifest['checksum'], data_manifest=manifest, validation_baselines=base)
     deadline, start = time.time() + a.minutes * 60, time.time()
     best, best_state, stale, history, stop, updates = None, None, 0, [], 'epochs_complete', 0
+    last_export = time.time()
     n = len(train['label'])
     for epoch in range(a.epochs):
         batches = []
@@ -141,16 +159,19 @@ def main():
                 stop = 'deadline'; break
             hid, ix = batches[j]
             legal = train['legal'][ix].bool()
-            feat = train['feat'][ix]
+            feat = train['feat'][ix].float()
             if a.move_distance_offset and HEAD_NAME[hid] == 'move':
                 # Absolute goal distance should not change which step makes progress: shift both distance features
                 # (scale 50, clip [0,4]) of all candidates by one random offset per decision.
                 shift = torch.rand(len(ix), 1, device=device) * (a.move_distance_offset / 50)
                 feat = feat.clone(); feat[:, :, 2:4] = (feat[:, :, 2:4] + shift.unsqueeze(-1)).clamp(0, 4) * legal.unsqueeze(-1)
-            logits = model(train['obs'][ix], HEAD_NAME[hid], feat, legal, train['context'][ix])
+            logits = model(train['obs'][ix].float(), HEAD_NAME[hid], feat.float(), legal, train['context'][ix])
             loss, _ = L.imitation_loss(logits, legal, train['label'][ix], imitation_mask=torch.ones(len(ix), dtype=torch.bool, device=device))
             if not torch.isfinite(loss):
                 stop = 'nonfinite_loss'; break
+            if a.cosine:
+                progress = min(1.0, (time.time() - start) / max(1e-6, deadline - start))
+                for g in optimizer.param_groups: g['lr'] = a.lr * (0.05 + 0.95 * 0.5 * (1 + math.cos(math.pi * progress)))
             optimizer.zero_grad(); loss.backward()
             torch.nn.utils.clip_grad_norm_(params, 1.0, error_if_nonfinite=True)
             optimizer.step(); updates += 1
@@ -162,12 +183,18 @@ def main():
                        gpu_peak_bytes=torch.cuda.max_memory_allocated() if a.device == 'cuda' else 0)
         history.append(metrics); event('epoch', **metrics)
         state = dict(model={k: v.detach().cpu() for k, v in model.state_dict().items()}, optimizer=optimizer.state_dict(), epoch=epoch,
-                     updates=updates, metrics=metrics, data_manifest_sha256=sha(a.data / 'manifest.json'))
+                     updates=updates, metrics=metrics, data_manifest_sha256=data_sha)
         torch.save(state, out / 'checkpoint.partial.pt'); (out / 'checkpoint.partial.pt').replace(out / 'checkpoint.pt')
         if best is None or metrics['validation']['loss'] < best['validation']['loss']:
             best, best_state, stale = metrics, state['model'], 0
         else:
             stale += 1
+        if a.export_every_minutes and best_state is not None and time.time() - last_export >= a.export_every_minutes * 60:
+            snapshot = copy.deepcopy(model).cpu(); snapshot.load_state_dict(best_state)
+            export_model(snapshot, 'policy_v2_bc', out / 'exports' / f'epoch-{epoch:04d}', 'trained', dict(
+                synthetic=False, source='periodic best-so-far export (tools/policy_bc.py)', trained_heads=sorted(trainable - {'encoder'}),
+                best_epoch=best['epoch'], best_validation=best['validation'], parameter_updates=updates, data_manifest_sha256=data_sha))
+            last_export = time.time(); event('export', epoch=epoch, best_epoch=best['epoch'], path=str(out / 'exports' / f'epoch-{epoch:04d}'))
         if stale >= a.patience:
             stop = 'early_stopping'; break
         if stop == 'deadline':
@@ -181,8 +208,8 @@ def main():
         export_model(model.cpu(), 'policy_v2_bc', out / 'export', 'trained', dict(
             synthetic=False, source='behaviour cloning from official 1.0.3 platform replays (tools/policy_bc.py)',
             trained_heads=sorted(trainable - {'encoder'}), shared_encoder_frozen='encoder' not in trainable,
-            remaining_untrained_heads=sorted(set(C.HEAD_IDS) - trainable), training_data=str(a.data.resolve()),
-            data_manifest_sha256=sha(a.data / 'manifest.json'), rule_inputs=manifest.get('rule_inputs'),
+            remaining_untrained_heads=sorted(set(C.HEAD_IDS) - trainable), training_data=[str(d.resolve()) for d in a.data],
+            data_manifest_sha256=data_sha, rule_inputs=manifest.get('rule_inputs'),
             best_validation=best['validation'], parameter_updates=updates, init_checksum=init_manifest['checksum']))
     (out / 'report.json').write_text(json.dumps(report, indent=1) + '\n', encoding='utf-8')
     event('stop', reason=stop, updates=updates, best_validation=report['best_validation'])

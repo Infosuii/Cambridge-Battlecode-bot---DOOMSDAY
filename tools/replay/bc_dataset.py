@@ -96,6 +96,8 @@ def main():
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--val-fraction', type=float, default=0.05)
     p.add_argument('--winners-only', action='store_true')
+    p.add_argument('--ratings', type=Path, help='team_ratings.json: keep only rows whose acting team is rated >= --min-rating')
+    p.add_argument('--min-rating', type=float, default=None)
     p.add_argument('--verify', type=int, default=2000)
     p.add_argument('--seed', type=int, default=20261025)
     a = p.parse_args()
@@ -107,6 +109,14 @@ def main():
     keep = raw['label'] >= 0
     if a.winners_only:
         keep &= info[:, 3] == 1
+    if a.ratings is not None:
+        if a.min_rating is None:
+            raise SystemExit('--ratings needs --min-rating')
+        d = json.loads(a.ratings.read_text(encoding='utf-8'))
+        rating = {t: v['rating'] for t, v in d['ratings'].items()}
+        team_rating = {n: (rating[v['team_a']], rating[v['team_b']]) for n, v in d['replays'].items()}
+        acting = np.asarray([team_rating.get(n, (-np.inf, -np.inf))[int(t)] for n, t in zip(raw['replay_name'], info[:, 0])])
+        keep &= acting >= a.min_rating
     raw = {k: v[keep] for k, v in raw.items()}
     info = info[keep]
     for k, width in (('cand_id', C.MAX_K), ('cand_legal', C.MAX_K)):
@@ -120,12 +130,14 @@ def main():
         raise ValueError('label points at an illegal or padded candidate')
     rng = np.random.default_rng(a.seed)
     checked = verify(raw, obs, feat, legal, rng.choice(len(obs), size=min(a.verify, len(obs)), replace=False)) if a.verify else 0
-    group = np.asarray([int(hashlib.sha256(n.encode()).hexdigest()[:15], 16) for n in raw['replay_name']], np.int64)
+    # Salted: replay selection (select_top_replays.py) also orders by SHA-256(name); an unsalted split would then
+    # put a correlated, oversized share of the selected matches into validation.
+    group = np.asarray([int(hashlib.sha256(('split|' + n).encode()).hexdigest()[:15], 16) for n in raw['replay_name']], np.int64)
     validation = (group / 2 ** 60) < a.val_fraction
     out.mkdir(parents=True)
     report = dict(format='bc-v2', heads=sorted(HEAD_NAME[int(h)] for h in np.unique(raw['head'])), obs_schema_hash=O.OBS_SCHEMA_HASH,
                   action_schema_hash=C.ACTION_SCHEMA_HASH, sources=[str(Path(r).resolve()) for r in a.raw],
-                  winners_only=a.winners_only, val_fraction=a.val_fraction, verified_rows=checked, dropped_unlabelled=int((~keep).sum()),
+                  winners_only=a.winners_only, min_rating=a.min_rating, ratings=str(a.ratings) if a.ratings else None, val_fraction=a.val_fraction, verified_rows=checked, dropped_unlabelled=int((~keep).sum()),
                   split='by replay name (sha256)', rule_inputs='goal=hindsight position 10 rounds later; role rule; hot_zone=0; claim=127')
     for part, mask in (('train', ~validation), ('validation', validation)):
         np.savez(out / f'{part}.npz', obs=obs[mask], feat=feat[mask], legal=legal[mask], label=label[mask],
