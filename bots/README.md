@@ -10,5 +10,7 @@ Full submission sources of the heuristic bot lineage, one directory per version 
 | v53 | this repository | frozen platform version53; see `v53/CHANGES.md` |
 | v54 | this repository | frozen platform version54; coordinated economy and teleport logistics |
 | v55 | this repository | submitted as platform version55 at2026-10-25 18:53:28UTC; completed camp missions, Heart camp strikes, legal mirrored drafts; evidence in `artifacts/claude_ops/V55_RELEASE.json` |
+| v56 | this repository | v55 plus shop completion (`V56_SHOP_DONE`); never submitted |
+| v57 | this repository | submitted as platform version 56 at 2026-10-25 21:25 UTC; v56 plus `UB_ENEMY_CAMP` 1.0 (contest the middle); evidence in `artifacts/claude_ops/V57_RELEASE.json` |
 
 Build: `cambc build bots/v51 --release --output <file>.wasm`. Local head-to-head: `tools/bot_match.py`, `artifacts/claude_ops/bench3.sh` (cached builds and verified complete runs). Compare candidates with `tools/bench_compare.py`; retain a mechanism only when its map-clustered 95% interval is above zero against its base.

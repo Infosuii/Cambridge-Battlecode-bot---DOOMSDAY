@@ -23,7 +23,8 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 | v52 | version 52, submitted 12:02 UTC | v51 plus the sole-gem-camp rule (stampede) |
 | v53 | version 53, submitted 13:08:26 UTC, frozen | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
 | v54 | version 54, submitted 16:24:00 UTC, frozen | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
-| **v55** | **version55, submitted18:53:28UTC, live** | Completed camp missions, Heart farming strikes, legal mirrored drafts (§15). vs v54:414/672,+106.0,clustered95%[+44.5,+174.9]; holdout150/288,+21.3; both teams0faults. |
+| v55 | version55, submitted18:53:28UTC, frozen | Completed camp missions, Heart farming strikes, legal mirrored drafts (§15). vs v54:414/672,+106.0,clustered95%[+44.5,+174.9]; holdout150/288,+21.3; both teams0faults. |
+| **v57** | **platform version 56, submitted 21:25 UTC, live** | v55 + `V56_SHOP_DONE` + `UB_ENEMY_CAMP` 1.0 (§16). vs v55: 379/672, +122.3; holdout 38/72, −31.3; fresh 15-map holdout 67/120, +84.8; zero faults. Repository v56 was never submitted. |
 
 `artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
@@ -297,7 +298,10 @@ response is `artifacts/claude_ops/results/v55-submit.txt`, with the rejected res
   455 middle gems per game vs our 117); camp-attack use and solo-elk cost are at parity. Details: §6 of
   `artifacts/claude_ops/V55_LADDER_ANALYSIS.md`.
 * **v57 = v56 + `UB_ENEMY_CAMP` 1.0.** vs v55: 379-293, +122.3, P(better) 1.000; vs v56 paired +77.1, P 0.957.
-  **Holdout vs v55 once: 38-34, −31.3** (fails the ≥ 0 margin half; v56's holdout was +51.2). Not submitted.
+  **Holdout vs v55 once: 38-34, −31.3** (fails the ≥ 0 margin half; v56's holdout was +51.2). Fresh holdout on the 15 new
+  pool maps once: 67-53, +84.8, P(better) 0.92 (`artifacts/claude_ops/V57_FRESH_MAPS.md`). **Submitted at the user's
+  instruction as platform version 56, 21:25 UTC**; upload bundle = benchmarked source `dff699d5…`, independent build =
+  bench wasm `914b49a0…` (`V57_RELEASE.json`). Frozen: do not edit or resubmit.
 * Rejected: `V57_TP_BRIDGE` crystal gap crossing (big-world +45-51, islands −345 to −414); patch and results in
   `artifacts/claude_ops/rejected/`.
 * Open: survival against stronger-geared teams (cannot be validated against our own lineage), dead-camp waiting on

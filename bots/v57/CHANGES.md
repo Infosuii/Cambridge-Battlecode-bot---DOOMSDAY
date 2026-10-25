@@ -1,6 +1,7 @@
 # v57: contest the middle (stop discounting camps where enemies were seen)
 
-Built 2026-10-25 by Claude Code from v56 (= live v55 + `V56_SHOP_DONE`). **Not submitted.** Source SHA-256 (sorted
+Built 2026-10-25 by Claude Code from v56 (= v55 + `V56_SHOP_DONE`). **Submitted as platform version 56 at 2026-10-25
+21:25 UTC** (upload bundle verified byte-identical to the benchmarked source; `artifacts/claude_ops/V57_RELEASE.json`). Source SHA-256 (sorted
 name + NUL + bytes of `src/`): `dff699d59dfe682e761504859af24d28967b27f84626cc61b2f776e207470bbf`. Release Wasm is
 byte-identical to the benchmarked build (`914b49a0…`).
 
