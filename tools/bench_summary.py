@@ -15,6 +15,8 @@ STATS = ('collectedGems', 'submittedGems', 'lost', 'deaths', 'kills', 'monsterDa
 def main():
     rows = []
     for root in map(Path, sys.argv[1:]):
+        if not (root / 'summary.json').exists():
+            continue  # an empty shard (fewer maps than shards)
         for g in json.loads((root / 'summary.json').read_text(encoding='utf-8'))['per_game']:
             _, _, out = game(Path(g['folder']) / 'summary.json')
             me, them = (out['teamA'], out['teamB']) if g['side'] == 'A' else (out['teamB'], out['teamA'])
