@@ -21,7 +21,7 @@
 #define V54_TP 1
 #endif
 #ifndef V54_TP_GAIN // turns a hop must save, net of its 3-turn channel
-#define V54_TP_GAIN 5
+#define V54_TP_GAIN 8
 #endif
 #ifndef V54_STAGE_WALK // give up a camp job still not reached after this many rounds of walking
 #define V54_STAGE_WALK 60
