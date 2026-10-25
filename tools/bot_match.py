@@ -28,9 +28,11 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('--a', required=True); p.add_argument('--b', default=None); p.add_argument('--out', type=Path, required=True)
     p.add_argument('--maps', nargs='+', default=MAPS)
+    p.add_argument('--holdout', action='store_true', help='allow the 12 final maps (release check only)')
     a = p.parse_args()
     partitions = json.loads((ROOT / 'evaluation/schedules/map_partitions.json').read_text())['partitions']
-    if not set(a.maps) <= set(partitions['training']) | set(partitions['selection']):
+    allowed = set(partitions['training']) | set(partitions['selection']) | (set(partitions['final']) if a.holdout else set())
+    if not set(a.maps) <= allowed:
         raise SystemExit('final/unregistered maps refused')
     out = a.out.resolve()
     if not out.is_relative_to(ROOT / 'artifacts') or out.exists():

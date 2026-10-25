@@ -9,6 +9,6 @@ BW="$2"
 i=0; for s in 0 1 2 3; do
   set -- $MAPS; M=""; j=0; for m in "$@"; do [ $((j % 4)) -eq $s ] && M="$M $m"; j=$((j+1)); done
   [ -z "$M" ] && continue
-  "$PY" tools/bot_match.py --a "$A" ${BW:+--b "$BW"} --out "$OUT-s$s" --maps $M > "$OUT-s$s.log" 2>&1 &
+  "$PY" tools/bot_match.py --a "$A" ${BW:+--b "$BW"} ${HOLDOUT:+--holdout} --out "$OUT-s$s" --maps $M > "$OUT-s$s.log" 2>&1 &
 done; wait
 "$PY" tools/bench_summary.py "$OUT"-s0 "$OUT"-s1 "$OUT"-s2 "$OUT"-s3
