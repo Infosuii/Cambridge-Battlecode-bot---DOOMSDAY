@@ -71,7 +71,9 @@ Never log in or enter credentials. The `cambc` CLI on this machine already has a
 ## v52 plan (`artifacts/claude_ops/V52_PLAN.md`), status
 
 - [x] A. bench v2 plus the noise-floor control (finding 2).
-- [ ] B. Map fixes, in this order: stampede (finding 4), boss_battle, concentrated_wealth, elkring, swirl, yellow_brick_road; then a pass on deaths. One fix per candidate; gate each with bench2.
+- [~] B. stampede DONE in `bots/v52` (`A2_SOLE_GEM`, `A2_SOLE_FROM 500`): 6-0 against v51 on stampede for start rounds 300, 600 and 900
+  (+762, +738 and +583; we bank about 870 gems against v51's 100). Full 168-game gate against v51: `artifacts/evaluations/b2-v52a-vs-v51.txt` (running
+  2026-10-25 ~12:15 UTC). Next map fixes:, boss_battle, concentrated_wealth, elkring, swirl, yellow_brick_road; then a pass on deaths. One fix per candidate; gate each with bench2.
 - [ ] C. Fuel profiling and hot-path optimisation (`PROF`/`PROF_CHECK` macros in `bot.cpp`). Probably the biggest gain.
 - [ ] D. Neural:
   - a draft win-probability model from the 245k archive plus our ladder games (our win rate ranges 39-58% by pick);
