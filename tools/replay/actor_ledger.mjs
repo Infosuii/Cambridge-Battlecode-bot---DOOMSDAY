@@ -23,9 +23,9 @@ for (const file of files) {
   const actors = new Map(); // champion index -> ledger
   const act = new Map();    // champion index -> activity flags this round
   const newLedger = (c) => ({ id: c.entity.index, team: c.team, type: c.type, w: {}, first_buy: null, emblems: {},
-    cap_events: [], kill_gold: 0, deaths: [] });
+    cap_events: [], kill_gold: 0, deaths: [], gear: {} });
   const bucket = (L, r) => { for (const W of WINDOWS) if (r <= W) { L.w[W] ??= { alive: 0, dead: 0, spawn: 0, clear: 0, pvp: 0,
-    cast: 0, bank: 0, travel: 0, still: 0, cap_gold: 0, cap_gems: 0, caps: 0, shared_caps: 0, kill_gold: 0, kill_gems: 0, spend: 0 }; } };
+    cast: 0, bank: 0, travel: 0, still: 0, cap_gold: 0, cap_gems: 0, caps: 0, shared_caps: 0, kill_gold: 0, kill_gems: 0, spend: 0, gold_income: 0 }; } };
   const add = (L, r, k, v = 1) => { for (const W of WINDOWS) if (r <= W) L.w[W][k] += v; };
   const closeRound = (s, round) => {
     // Attribute last round's activity and the state change between prev and s.
@@ -33,6 +33,7 @@ for (const file of files) {
     for (const c of s.champions) {
       if (!actors.has(c.entity.index)) actors.set(c.entity.index, newLedger(c));
       const L = actors.get(c.entity.index); bucket(L, round);
+      if (WINDOWS.includes(s.round)) L.gear[s.round] = equip(c.items);
       const p = prev?.champions.find(x => x.entity.index === c.entity.index);
       const a = act.get(c.entity.index) ?? {};
       if (!c.alive) { add(L, round, 'dead'); if (p?.alive) L.deaths.push({ round, gems: p.gems }); continue; }
@@ -47,6 +48,7 @@ for (const file of files) {
       if (spent) { add(L, round, 'spend', spent); if (L.first_buy === null) L.first_buy = round; }
       c.items.forEach((n, i) => { if (i % 2 && n > (p.items[i] ?? 0)) { const f = FAM[Math.floor(i / 6)]; L.emblems[f] ??= round; } });
       const earned = c.gold - p.gold + spent;
+      add(L, round, 'gold_income', Math.max(0, earned));
       const killed = c.kills > p.kills;
       if (killed) { add(L, round, 'kill_gold', Math.max(0, earned)); add(L, round, 'kill_gems', Math.max(0, c.gems - p.gems)); L.kill_gold += Math.max(0, earned); }
       else if (earned > 0 || c.gems > p.gems) {

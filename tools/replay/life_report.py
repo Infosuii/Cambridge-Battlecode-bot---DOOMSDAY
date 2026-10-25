@@ -134,8 +134,10 @@ def main():
         rows.append(row)
     L = [r for r in rows if not r['win']]
     W = [r for r in rows if r['win']]
-    lines = ['# v53 ladder life: where, why, and what winners do', '',
-             f'Platform v53 was live 2026-10-25 13:08:26-16:24:00 UTC. {len(ms)} finished games; {len(rows)} with decoded replays '
+    label = sys.argv[5] if len(sys.argv) > 5 else 'v53'
+    interval = sys.argv[6] if len(sys.argv) > 6 else '2026-10-25 13:08:26-16:24:00 UTC'
+    lines = [f'# {label} ladder replay analysis: where, why, and what winners do', '',
+             f'Platform {label}; interval {interval}. {len(ms)} finished games in listing; {len(rows)} with decoded replays '
              f'({len(L)} losses, {len(W)} wins). Offline omniscient replay analysis with the pinned engine; descriptive, confounded by '
              'map, opponent and draft. Medians of per-game values unless stated; "opp" is the winner in our losses and the loser in our wins.', '']
 
@@ -153,12 +155,14 @@ def main():
             lines.append(f'| {label} | ' + ' | '.join(cells) + ' |')
         lines.append('')
 
-    lines.append('## Results')
+    lines.append('## Listing results and replay coverage')
     lines.append('')
     for kind in ('ranked', 'unranked'):
+        population = [m for m in ms.values() if m['kind'] == kind]
         rs = [r for r in rows if r['kind'] == kind]
-        if rs:
-            lines.append(f'- {kind}: {sum(r["win"] for r in rs)}/{len(rs)}')
+        wins = sum(next(t for t in m['teams'] if t['name'] == 'DOOMSDAY')['result'] == 'win' for m in population)
+        if population:
+            lines.append(f'- {kind}: {wins}/{len(population)} wins in listing; decoded {len(rs)} games ({sum(r["win"] for r in rs)} wins).')
     fams = Counter(f for r in L for f in r['family'])
     lines.append('- loss families (a loss can have several): ' + ', '.join(f'{k} {v}' for k, v in fams.most_common()))
     close = sum(1 for r in L if r['score'][0] - r['score'][1] >= -150)
