@@ -14,7 +14,6 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'python'))
 from nfs import engine  # noqa: E402
-from nfs.policy.operations import load_baseline  # noqa: E402
 
 MAPS = ['00collision', '00contest', '00elkring', '00fragment', '00lost-world', '00quadrants']
 
@@ -39,7 +38,12 @@ def main():
         raise SystemExit('fresh output directory inside artifacts/ required')
     out.mkdir(parents=True)
     bot_a = wasm(a.a, out, 'a')
-    bot_b = wasm(a.b, out, 'b') if a.b else load_baseline()[1]
+    if a.b:
+        bot_b = wasm(a.b, out, 'b')
+    else:
+        # Imported only here: nfs.policy loads torch (CUDA DLLs), which exhausted the paging file with 48 shards.
+        from nfs.policy.operations import load_baseline
+        bot_b = load_baseline()[1]
     games = []
     for map_name in a.maps:
         for side in ('A', 'B'):

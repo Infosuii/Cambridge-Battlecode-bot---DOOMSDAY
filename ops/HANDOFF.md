@@ -204,3 +204,18 @@ holdout maps had prior exposure. Release recommendation: submit v54 after the us
 covers submitting a version that passes the gate), then track ranked/unranked games and queue groups against meow
 and Hidden Altar Keepers.
 
+## 13. Brawl-map PvP survival research (Claude Code, 2026-10-25, after §12)
+
+User direction: do not submit v54 yet; work on PvP survival on brawl maps. Full write-up:
+`artifacts/claude_ops/V55_BRAWL_FINDINGS.md`. v54 is unchanged and still the recommended candidate; no v55 candidate
+was kept. The 95 new ladder losses (180 games after the 13:30 UTC snapshot, all v53) are local-only under
+`artifacts/local-only/v53-after`; the listing is `data/ladder/v53_after_snapshot_20261025.json`.
+
+* Ladder PvP gap = damage, not positioning: equal contact time, cohesion and focus fire; once hurt, identical
+  behaviour and outcomes; but we get hurt 54% more often and deal 42 vs 57 enemy hp per contact round.
+* v54's local brawl weakness traces to carrying a teleport crystal (hooks 10/24 vs 20/24 without, with no hop by
+  anyone); the mechanism is unknown. Gating the purchase, readiness rules and three old survival levers were tested
+  and rejected or neutral (paired tables in the findings).
+* `tools/bot_match.py` no longer imports torch per shard (it exhausted the paging file and dropped games).
+* hooks (a holdout map) was used for this research at the user's request; treat it as exposed.
+
