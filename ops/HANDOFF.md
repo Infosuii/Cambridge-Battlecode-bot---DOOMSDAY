@@ -22,6 +22,7 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 | v51 | version 51, submitted 2026-10-25 11:29 UTC | v50 plus the moated-island fix (champions froze at camps behind two-tile hole moats: big_world, islands) |
 | v52 | version 52, submitted 12:02 UTC | v51 plus the sole-gem-camp rule (stampede) |
 | **v53** | **version 53, submitted 13:08:26 UTC, live** | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
+| v54 | candidate, **not submitted** | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
 
 `artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
@@ -171,3 +172,35 @@ The main strategic recommendation is joint economic openings/reward ownership pl
 The original gate remains mandatory. The plan's >=60% development wins and >=+100 mean gems versus v53 are additional research aspirations, not measured gains or a replacement gate. The existing 12 holdout maps have prior exposure; do not claim they are pristine. The learned draft predictor improved prediction but won only 8/30 in deployment; do not enable it without joint plan/controller evidence. Corrected SDK camp labels in V53_LOSS_REPORT; its numerical measurements are unchanged.
 
 For future implementation, use artifacts/claude_ops/V54_CLAUDE_PROMPT.md as the task prompt, keep bots/v53 frozen, and preserve the analysis/implementation distinction in the audit trail.
+
+## 12. V54 implementation session (Claude Code, 2026-10-25)
+
+The user asked for v54 to be implemented and evaluated from the v54 findings (the §11 analysis-only restriction
+applied to the preceding session). `bots/v54` was built from frozen `bots/v53` (file hashes re-verified). Nothing was
+submitted; no credentials were entered. Read `bots/v54/CHANGES.md` first, then
+`artifacts/claude_ops/V54_BUILD_LOG.md` (actor-level loss explanation, every experiment, rejected variants) and
+`V54_RELEASE.json` (hashes, gate, research numbers). The actor-level ledger is `V54_ACTOR_LEDGER.md`.
+
+Findings to keep (do not relearn):
+
+1. The opening economy is lost through time use and yield, before deaths: in v53 losses we attack camps 20% of alive
+   rounds vs 25%, wait beside dead camps 3x as much, and earn 144 vs 267 capture gold per champion by R250. Shared
+   captures are 0 for us; redundant occupancy is not the problem.
+2. **v53 bug:** a multi-champion job's staging clock started at the walk, so jobs beyond ~7 tiles lapsed before helpers
+   arrived, and the group was banned for 60 rounds. v54 M1 fixes this and adds on-site claim codes (64 + group on maps
+   with ≤ 48 groups; fight orders keep 112-118) so hidden teammates count as present.
+3. Treasure-first emblem plus Bruiser stacks helps only together (+148 with M1; either alone ≈ M1 alone).
+4. An occupied spawn tile delays the whole group's respawn (engine-checked). v54 M3 holds a sole-gem camp while
+   ahead by one cycle; it engaged in 5/12 stampede games, all wins.
+5. Winners reuse fixed 3-tile teleport shortcuts; v54 M4 carries a crystal and hops when it saves ≥ 8 turns.
+6. bench2 is fast on 20 threads (168 games in about 4 minutes). Inert changes move single maps by ±100 gems and up to
+   ±4 wins in 12 through trajectory divergence: use 6-12 seeds (`bench2.sh ... 1 2 ... 12`) and
+   `tools/bench_maps.py` for per-map tables across runs; `tools/replay/ledger_bench.py <prefix>` gives the economy.
+7. Open weakness: PvP death spirals on brawl maps (hooks holdout 1/6; dev eight, quadrants, gold-rush). Next target.
+
+Gate status for v54 vs v53 (§4): (a) declared targets concentrated-wealth, fragment, stampede, swirl, big-world all
+6/6 on both sides, seeds 1-3; (b) 0.649, +149.0; (c) holdout aggregate 41/72, +30.8, its single post-freeze pass. The
+holdout maps had prior exposure. Release recommendation: submit v54 after the user's go-ahead (the standing approval
+covers submitting a version that passes the gate), then track ranked/unranked games and queue groups against meow
+and Hidden Altar Keepers.
+

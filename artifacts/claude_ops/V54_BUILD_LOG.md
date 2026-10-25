@@ -104,13 +104,27 @@ for v53. Zero faults in every bench.
 | lab | naive spawn hold (holder idles) | 1 | 0-640 | | | mechanic confirmed (respawn 120 vs 65 rounds); strategy as written useless |
 | v54f stampede | + M3 lead lock | 12 | 7-5 | 0.583 | +257.8 | hold engaged in 5/12 games, all after a lead, all wins |
 | v54f | M1-M3 | 336 | 207-129 | 0.616 | +154.5 | aggregate neutral, retained for stampede |
-| v54g | M1-M4 | 336 | 223-113 | 0.664 | +192.9 | retained |
+| v54g | M1-M4, hop gain 5 | 336 | 223-113 | 0.664 | +192.9 | |
+| v54g seeds 7-12 | same | 336 | 206-130 | 0.613 | +159.3 | teleport gain did not replicate in wins |
+| no-teleport seeds 7-12 | M1-M3 | 336 | 210-126 | 0.625 | +144.0 | 12 seeds: 417 vs 429 wins, +149.3 vs +176.1 |
+| v54h | hop gain 8, seeds 1-12 | 672 | 443-229 | 0.659 | +187.1 | retained (lost-world 13/24 vs 8/24 at gain 5) |
+| **frozen candidate** | gate run, seeds 1-3 | 168 | 109-59 | 0.649 | +149.0 | targets 6/6 both sides |
+| **release holdout** | 12 final maps, once | 72 | 41-31 | 0.569 | +30.8 | aggregate passes; hooks 1/6, fracture 2/6 |
+| cross-seed | v53 built with seeds 2-7 | 336 | 216-120 | 0.643 | +173.6 | new condition, every seed ≥0.625 |
+| portfolio | v48/v50/v51/v52/heuristic-v1, seed 1 | 280 | 193-87 | 0.689 | +218.8 | v53 on the same field: 156/280, +56 |
 
 Noise: an inert change (M3 is inactive on all but one map) moved single-map means by up to ±100 gems and one map
 from 9/12 to 5/12 (elkring, which used zero teleports in v54g). Read per-map results with that in mind; aggregates
 over hundreds of paired games are the evidence.
 
-## 4. Rejected or not pursued
+## 4. Holdout finding (not tuned on)
+
+hooks: v54 lost five of six by 968-1012, dying 25-31 times by R1000 against v53's 12-20, and fell behind
+economically after the deaths. The same PvP death-spiral pattern appears on development maps eight, quadrants and
+gold-rush (v54 deaths there exceed v53's; most are PvP, often with no ally within 4 tiles). v53 itself was 2/6 on
+hooks against v52 with ±1012 swings. This is the main open weakness and the next development target.
+
+## 5. Rejected or not pursued
 
 * Forced role/route plan for crews (draft-time itineraries): not needed once job coordination worked; untested.
 * Lowering the respawn-wait weight or re-enabling squads/zones: threshold tweaks of previously rejected levers; not
