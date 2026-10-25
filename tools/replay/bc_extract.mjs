@@ -22,7 +22,8 @@ import { Worker, isMainThread, parentPort, workerData } from 'node:worker_thread
 import { engine, defaultAssets, verifyAssets, PINNED } from './engine.mjs';
 import { RowShardWriter } from './npz_write.mjs';
 
-const FORMAT = 'bc-raw-v2', MOVE_HEAD = 6, COMBAT_HEAD = 7, ENGAGE_HEAD = 8, GOAL_ROUNDS = 10, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
+const FORMAT = 'bc-raw-v3', STRATEGY_HEAD = 1, OBJECTIVE_HEAD = 2, ROLE_HEAD = 3, BANK_HEAD = 4, MOVE_HEAD = 6, COMBAT_HEAD = 7, ENGAGE_HEAD = 8,
+  HEAD_LABEL = { 1: 'strategy', 2: 'objective', 3: 'role', 4: 'bank' }, GOAL_ROUNDS = 10, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
 const PHASE_CHAMPIONS = 10, NO_CHAMPION = 0xFFFFFFFF, DASH = 6, GROUND = 16, CLAIM_IDLE = 127;
 const K_WALK = 0, K_HOLD = 3, MAX_K = 16;
 const WIDTHS = { obs_self: [40, Float32Array], obs_ally: [50, Float32Array], ally_mask: [5, Uint8Array], obs_enemy: [72, Float32Array],
@@ -112,6 +113,30 @@ function extract(E, file, rate) {
     const u32 = (fn, ...a) => fn(E.h, ...a, E.out) === 0 ? dv().getUint32(E.out, true) : null;
     const handles = (fn, P) => { if (fn(E.h, P, E.buf + 512, 32, E.out)) return []; const n = Math.min(32, dv().getUint32(E.out, true)); return [...new Uint32Array(X.memory.buffer, E.buf + 512, n)]; };
 
+    // Static macro geometry: camp groups (rewards, camps, anchor), camp tiles, altars and game constants.
+    check(X.Game_GetNumCamps(E.h, E.out)); const numCamps = dv().getUint32(E.out, true);
+    const campInfo = [], campGroup = [], campAt = new Map();
+    for (let k = 0; k < numCamps; k++) {
+      check(X.Game_API_Map_CampInfo_Get(E.h, k, E.out));
+      campInfo.push({ x: dv().getInt32(E.out, true), y: dv().getInt32(E.out + 4, true) });
+      check(X.Game_API_Map_CampInfo_GetGroup(E.h, k, E.out)); campGroup.push(dv().getUint32(E.out, true));
+      campAt.set(campInfo[k].y * w + campInfo[k].x, k);
+    }
+    check(X.Game_API_Map_GetNumCampGroups(E.h, E.out)); const numGroups = dv().getUint32(E.out, true);
+    if (numGroups > 256) throw new Error('more than 256 camp groups'); // E.buf + 2048 holds 256 handles
+    check(X.Game_API_Map_GetCampGroups(E.h, E.buf + 2048, 256, E.out));
+    const groupHandles = [...new Uint32Array(X.memory.buffer, E.buf + 2048, numGroups)];
+    const groups = groupHandles.map((handle) => {
+      check(X.Game_API_Map_CampGroup_Get(E.h, handle, E.out));
+      return { handle, gems: dv().getUint32(E.out, true), gold: dv().getUint32(E.out + 4, true),
+               camps: campGroup.map((g, k) => g === handle ? k : -1).filter(k => k >= 0) };
+    });
+    const altars = [];
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (altar[y * w + x]) altars.push({ x, y });
+    check(X.Game_Visualiser_GetConstants(E.args)); const K_ = (o, f = 'getInt32') => dv()[f](E.args + o, true);
+    const consts = { submitBase: K_(24), submitMin: K_(28), capture: K_(32), submitRange: Math.floor(K_(48, 'getFloat32')), submitMult: K_(56, 'getFloat64') };
+    const WINNING_GEMS = 1000;
+    const campMem = [[], []], groupSeen = [new Map(), new Map()];
     const posHist = new Map(), acts = new Map(), sight = [new Map(), new Map()], turnsOut = [];
     let prev, steps = 0, current = null, outcome = 0, stats = { turns: 0, sampled: 0, skipped: 0 };
     const closeTurn = () => { current = null; };
@@ -122,11 +147,15 @@ function extract(E, file, rate) {
         actorKind: u(72), actor: u(76), tx: s32(88), ty: s32(92), substep: u(104), slot: u(108) };
       if (prev && st.input === prev.input && st.substep === prev.substep) throw new Error('timeline made no progress');
       // Champion actions: role hindsight, labels and engage.
-      if (st.actorKind === 1 && (st.kind === 4 || st.kind === 5 || st.kind === 6 || st.kind === 12)) {
+      if (st.actorKind === 1 && (st.kind === 4 || st.kind === 5 || st.kind === 6 || st.kind === 11 || st.kind === 12)) {
         const c = st.actor, a = { round: st.round, kind: st.kind, x: st.tx, y: st.ty, slot: st.slot, target: 'other' };
         if ((st.kind === 5 || st.kind === 6) && current && current.c === c && current.enemies.some(e => e.x === st.tx && e.y === st.ty))
           a.target = 'champion';
-        else if (st.kind === 5) a.target = 'camp'; // basic attacks are hostile only: not an enemy champion means a camp
+        else if (st.kind === 5) { // basic attacks are hostile only: not an enemy champion means a camp
+          a.target = 'camp';
+          const k = campAt.get(st.ty * w + st.tx); if (k !== undefined) a.group = campGroup[k];
+        }
+        if (st.kind === 12 && current && current.c === c) a.from = current.pos;
         if (!acts.has(c)) acts.set(c, []);
         acts.get(c).push(a);
         if (current && current.c === c && current.rec) {
@@ -137,6 +166,7 @@ function extract(E, file, rate) {
             if (!r.combat) r.combat = { kind: st.kind === 5 ? 0 : st.slot + 1, x: st.tx, y: st.ty };
           }
           if ((st.kind === 5 || st.kind === 6) && a.target === 'champion') r.fight = true;
+          if (st.kind === 12 && !r.submit) r.submit = { x: st.tx, y: st.ty };
         }
       }
       // A new champion turn.
@@ -155,7 +185,12 @@ function extract(E, file, rate) {
             const v = champGet(P, e);
             if (v && (v.state & 1) && v.hp > 0) { enemies.push({ id: e, ...v }); sight[t].set(e, { round: st.round, x: v.x, y: v.y }); }
           }
-          current = { c, t, enemies, camps: [], rec: null };
+          // Team camp memory (the bot's world model): last seen camp state and group sighting round.
+          for (let k = 0; k < numCamps; k++) if (X.Game_API_Camp_Get(E.h, P, k, E.buf + 1024) === 0) {
+            campMem[t][k] = { hp: dv().getFloat32(E.buf + 1032, true), str: dv().getFloat32(E.buf + 1040, true), round: st.round };
+            groupSeen[t][campGroup[k]] = st.round;
+          }
+          current = { c, t, enemies, camps: [], rec: null, pos: { x: me.x, y: me.y } };
           const sampled = fnv(`${name}|${c}|${st.round}`) / 2 ** 32 < rate;
           if (sampled) {
             const view = (check(X.Game_Visualiser_ReadState(E.h, P, E.snap)), PC.F(dv(), E.snap));
@@ -163,7 +198,7 @@ function extract(E, file, rate) {
             if (!self || (self.channelTimer ?? 0) > 0) stats.skipped++;
             else {
               current.camps = view.camps.filter(k => k.position && (k.health ?? 0) > 0 && (k.strength?.effective ?? 0) > 0)
-                .map(k => ({ x: k.position.x, y: k.position.y, range: k.attackRange ?? 0 }));
+                .map(k => ({ x: k.position.x, y: k.position.y, range: k.attackRange ?? 0, str: k.strength.effective }));
               current.rec = sampleTurn(c, t, me, self, enemies, st.round, P);
               turnsOut.push(current.rec); stats.sampled++;
             }
@@ -309,7 +344,98 @@ function extract(E, file, rate) {
           }
           combatRows.push({ id: pick.id, kind, q, raw });
         }
-      return { c, t, round, p, o, allyRows, allyMask, enemyRows, enemyMask, gems, walk, dash, dashSlots,
+      // Macro heads (nn_policy_strategy.cpp, nn_policy_economy.cpp bank()) over one walk field from this tile.
+      const field = bfs(w, h, team[t].blocked, [p.y * w + p.x]), pc = { x: cx(t, p.x), y: cy(t, p.y) };
+      const remaining = Math.max(0, MAX_ROUNDS - round), margin = ours - theirs, hpf = me.hp / maxHp;
+      let near8a = 0, near8e = 0, strength8 = me.str;
+      for (const a of allies) if (cheb(a.x, a.y, p.x, p.y) <= 8) { near8a++; strength8 += a.str; }
+      for (const e of enemies) if (cheb(e.x, e.y, p.x, p.y) <= 8) { near8e++; strength8 -= e.str; }
+      const liveCamps = (current?.camps ?? []);
+      const threat = (q) => !q ? 0 : enemies.reduce((s, e) => s + (cheb(e.x, e.y, q.x, q.y) <= e.range ? e.str : 0), 0)
+        + liveCamps.reduce((s, k) => s + (cheb(k.x, k.y, q.x, q.y) <= k.range ? k.str : 0), 0);
+      const groupOpt = (gi) => {
+        const g = groups[gi]; let distance = UNREACH, anchor = null, key = null;
+        for (const k of g.camps) {
+          const q = campInfo[k]; distance = Math.min(distance, field[q.y * w + q.x]);
+          const kc = { x: cx(t, q.x), y: cy(t, q.y) };
+          if (!key || kc.y < key.y || (kc.y === key.y && kc.x < key.x)) { anchor = q; key = kc; }
+        }
+        return distance === UNREACH || !anchor ? null : { gi, distance, id: g.handle, anchor, key };
+      };
+      const nearer = (a, b) => a.distance < b.distance || (a.distance === b.distance && a.id < b.id);
+      const options = groups.map((g, gi) => groupOpt(gi)).filter(Boolean);
+      let nearestGroup = null, oldestGroup = null, oldestSeen = 0;
+      for (const q of options) {
+        if (!nearestGroup || nearer(q, nearestGroup)) nearestGroup = q;
+        const seen = groupSeen[t].get(groups[q.gi].handle) ?? -1;
+        if (!oldestGroup || seen < oldestSeen || (seen === oldestSeen && nearer(q, oldestGroup))) { oldestGroup = q; oldestSeen = seen; }
+      }
+      const ringDistance = (al) => {
+        let best = UNREACH;
+        for (let y = al.y - consts.submitRange; y <= al.y + consts.submitRange; y++) for (let x = al.x - consts.submitRange; x <= al.x + consts.submitRange; x++)
+          if (x >= 0 && y >= 0 && x < w && y < h) best = Math.min(best, field[y * w + x]);
+        return best;
+      };
+      const altarD = altars.map(ringDistance), bankD = altarD.length ? Math.min(...altarD) : UNREACH;
+      let home = null, homeKey = null;
+      for (let y = team[t].y0; y < team[t].y1; y++) for (let x = team[t].x0; x < team[t].x1; x++) {
+        const d0 = cheb(x, y, p.x, p.y), k = { x: cx(t, x), y: cy(t, y) };
+        if (!home || d0 < home.d0 || (d0 === home.d0 && (k.y < homeKey.y || (k.y === homeKey.y && k.x < homeKey.x)))) { home = { x, y, d0 }; homeKey = k; }
+      }
+      const homeGoal = o[15] !== 10000 && home ? { legal: true, pos: home, distance: o[15], group: -1 } : { legal: false };
+      const byDistance = (list) => list.reduce((b, q) => !b || cheb(q.x, q.y, p.x, p.y) < cheb(b.x, b.y, p.x, p.y) || (cheb(q.x, q.y, p.x, p.y) === cheb(b.x, b.y, p.x, p.y) && q.id < b.id) ? q : b, null);
+      const ally = byDistance(allies), enemy = byDistance(enemies);
+      let latest = null;
+      for (const sg of sight[t].values()) if (sg.round <= round && round - sg.round <= 100) {
+        const k = { x: cx(t, sg.x), y: cy(t, sg.y) };
+        if (!latest || sg.round > latest.round || (sg.round === latest.round && (k.y < latest.k.y || (k.y === latest.k.y && k.x < latest.k.x)))) latest = { ...sg, k };
+      }
+      const groupGoal = (q) => q ? { legal: true, pos: q.anchor, distance: q.distance, group: q.gi } : { legal: false };
+      const goals = { farmNearest: groupGoal(nearestGroup), farmScout: groupGoal(oldestGroup),
+        bank: gems > 0 && altars.length && bankD !== UNREACH ? { legal: true, pos: p, distance: bankD, group: -1 } : { legal: false },
+        home: homeGoal, regroup: ally ? { legal: true, pos: ally, distance: 10000, group: -1 } : { legal: false },
+        attack: enemy ? { legal: true, pos: enemy, distance: 10000, group: -1 } : latest ? { legal: true, pos: latest, distance: 10000, group: -1 } : { legal: false } };
+      const strategyRow = (i, g) => ({ id: i, legal: g.legal ? 1 : 0, raw: [i, hpf, gems, gold, remaining, g.legal ? g.distance : 10000, near8a, near8e, strength8, margin,
+                                                                      g.legal && g.group >= 0 ? groups[g.group].gems : 0, g.legal ? threat(g.pos) : 0] });
+      // Objective: best 16 per canonical quadrant, 4 from each, then round-robin (geometry()).
+      const quad = [[], [], [], []];
+      for (const q of options) quad[(q.key.x >= pc.x ? 1 : 0) | (q.key.y >= pc.y ? 2 : 0)].push(q);
+      quad.forEach(l => { l.sort((a, b) => nearer(a, b) ? -1 : 1); l.length = Math.min(l.length, 16); });
+      const used = [0, 0, 0, 0], selected = [];
+      for (let qd = 0; qd < 4; qd++) for (let i = 0; i < Math.min(4, quad[qd].length); i++) selected.push(quad[qd][used[qd]++]);
+      for (let added = true; selected.length < 16 && added;) { added = false; for (let qd = 0; qd < 4 && selected.length < 16; qd++) if (used[qd] < quad[qd].length) { selected.push(quad[qd][used[qd]++]); added = true; } }
+      const objectiveRows = selected.map((q) => {
+        const g = groups[q.gi]; let hp = 0, str = 0;
+        for (const k of g.camps) { const m = campMem[t][k]; if (m && m.hp > 0) { hp += m.hp; str += m.str; } }
+        let respawn = 0;
+        if (X.Game_API_CampGroup_GetState(E.h, P, g.handle, E.out) === 0 && dv().getUint32(E.out, true) === 3 &&
+            X.Game_API_CampGroup_GetCooldown(E.h, P, g.handle, E.out) === 0) respawn = Math.max(0, dv().getInt32(E.out, true));
+        const seen = groupSeen[t].get(g.handle);
+        return { id: g.handle, raw: [cx(t, q.anchor.x) - pc.x, cy(t, q.anchor.y) - pc.y, q.distance, g.gems, g.gold, hp, str, consts.capture, respawn, 0,
+                                     enemies.filter(e => cheb(e.x, e.y, q.anchor.x, q.anchor.y) <= 8).length, seen === undefined ? round + 1 : round - seen] };
+      });
+      const teamIds = handles(X.Game_API_Champion_GetAllies, P).sort((a, b) => a - b), slot = Math.max(0, teamIds.indexOf(c));
+      const roleLegal = [options.length > 0, goals.bank.legal, enemies.length > 0, allies.length > 0, options.length > 0];
+      const roleRows = [0, 1, 2, 3, 4].map(i => ({ id: i, legal: roleLegal[i] ? 1 : 0, raw: [i, slot, hpf, gems, gold, me.range, near8a, near8e, 10000, 0, margin, remaining] }));
+      // Bank (only scheduled while carrying gems): continue, deposits in range, then destinations (one per quadrant, nearest).
+      let bankRows = null;
+      if (gems > 0) {
+        let visible = 0, damage = 0;
+        for (const e of enemies) { visible++; if (cheb(e.x, e.y, p.x, p.y) <= e.range + 1) damage += e.str; }
+        const channelRounds = Math.max(consts.submitMin, consts.submitBase + Math.ceil(gems * consts.submitMult));
+        const fill = (action, al, distance) => [action, al ? cx(t, al.x) - pc.x : 0, al ? cy(t, al.y) - pc.y : 0, distance, gems, WINNING_GEMS - ours, remaining, hpf, visible, damage, channelRounds, -1];
+        bankRows = [{ id: 0, raw: fill(0, null, 0) }];
+        const reach = altars.map((al, i) => ({ i, al, distance: altarD[i], quadrant: (cx(t, al.x) >= pc.x ? 1 : 0) | (cy(t, al.y) >= pc.y ? 2 : 0) })).filter(a => a.distance !== UNREACH);
+        for (const a of reach) if (a.distance === 0 && cheb(p.x, p.y, a.al.x, a.al.y) <= consts.submitRange && bankRows.length < MAX_K) bankRows.push({ id: 2 + 2 * a.i, raw: fill(2, a.al, 0) });
+        const nearestA = [...reach].sort((a, b) => a.distance - b.distance || a.i - b.i), picked = new Set();
+        const append = (a) => { if (a && !picked.has(a.i) && bankRows.length < MAX_K) { picked.add(a.i); bankRows.push({ id: 1 + 2 * a.i, raw: fill(1, a.al, a.distance) }); } };
+        if (reach.length <= MAX_K - bankRows.length) nearestA.forEach(append);
+        else { for (let qd = 0; qd < 4; qd++) append(nearestA.find(a => a.quadrant === qd)); nearestA.forEach(append); }
+        bankRows.sort((a, b) => a.id - b.id);
+      }
+      objectiveRows.sort((a, b) => a.id - b.id); // schema order: ascending stable id (narrowing order is not row order)
+      const macro = { goals, strategyRow, objectiveRows, roleRows, bankRows };
+      return { c, t, round, p, o, allyRows, allyMask, enemyRows, enemyMask, gems, walk, dash, dashSlots, macro,
                allies: allies.map(a => ({ x: a.x, y: a.y })), enemies: enemies.map(e => ({ x: e.x, y: e.y, range: e.range })),
                enemiesKnown: sight[t].size > 0, canMove: (me.state >> 3) & 1, engageRaw, combatRows: combatRows.sort((a, b) => a.id - b.id),
                camps: null, move: null, combat: null, combatBefore: false, fight: false };
@@ -369,6 +495,34 @@ function extract(E, file, rate) {
         }
         const context = r.enemiesKnown ? (engage === 0 ? 1 : engage === 1 ? 2 : 0) : 0;
         const base = { r, context, won: outcome === t + 1 ? 1 : 0 };
+        // Macro labels (hindsight rules): strategy intent, objective group, role, bank action.
+        const M = r.macro, macroContext = r.enemiesKnown ? 1 : 0;
+        let intent = 0;
+        if (r.gems > 0 && window(r.round, r.round + 40, a => a.kind === 12)) intent = 1;
+        else if (window(r.round, r.round + 10, a => a.kind === 11)) intent = 6;
+        else if (window(r.round, r.round + 10, a => a.target === 'champion')) intent = 5;
+        else if (window(r.round, r.round + 10, a => a.target === 'camp')) intent = 0;
+        else if (role === 3) intent = 4;
+        const farm = role === 4 ? M.goals.farmScout : M.goals.farmNearest;
+        const sRows = [farm, M.goals.bank, M.goals.home, farm, M.goals.regroup, M.goals.attack, M.goals.home].map((g, i) => M.strategyRow(i, g));
+        const pushRows = (head, list, label, kind) => {
+          rows.push({ ...base, head, context: macroContext, ids: list.map(q => q.id), feats: list.map(q => q.raw), legal: list.map(q => q.legal ?? 1),
+                      label, flags: 0, kind });
+          tally(HEAD_LABEL[head], label >= 0);
+        };
+        if (sRows.some(q => q.legal)) pushRows(STRATEGY_HEAD, sRows, sRows[intent].legal ? intent : -1, intent);
+        if (M.roleRows.some(q => q.legal)) pushRows(ROLE_HEAD, M.roleRows, M.roleRows[role].legal ? role : -1, role);
+        if ((intent === 0 || intent === 3) && M.objectiveRows.length) {
+          const nextCamp = acts_.find(a => a.round >= r.round && a.round <= r.round + 30 && a.target === 'camp' && a.group !== undefined);
+          pushRows(OBJECTIVE_HEAD, M.objectiveRows, nextCamp ? M.objectiveRows.findIndex(q => q.id === nextCamp.group) : -1, -1);
+        }
+        if (M.bankRows) {
+          const nearestAltar = (q) => altars.reduce((b, al, i) => b < 0 || cheb(al.x, al.y, q.x, q.y) < cheb(altars[b].x, altars[b].y, q.x, q.y) ? i : b, -1);
+          let id = 0;
+          if (r.submit) id = 2 + 2 * nearestAltar(r.submit);
+          else { const s = acts_.find(a => a.round > r.round && a.round <= r.round + 40 && a.kind === 12); if (s) id = 1 + 2 * nearestAltar(s); }
+          pushRows(BANK_HEAD, M.bankRows, M.bankRows.findIndex(q => q.id === id), id);
+        }
         if (r.enemiesKnown) {
           rows.push({ ...base, head: ENGAGE_HEAD, context: 0, ids: [0, 1, 2], feats: [0, 1, 2].map(v => [v, ...r.engageRaw.slice(1)]), label: engage, flags: 0, kind: engage });
           tally('engage', true);
@@ -397,7 +551,7 @@ function extract(E, file, rate) {
         const r = row.r;
         A.obs_self.set(r.o, i * 40); A.obs_ally.set(r.allyRows, i * 50); A.ally_mask.set(r.allyMask, i * 5);
         A.obs_enemy.set(r.enemyRows, i * 72); A.enemy_mask.set(r.enemyMask, i * 6);
-        row.feats.forEach((f, k) => { A.cand_feat.set(f, (i * MAX_K + k) * 12); A.cand_id[i * MAX_K + k] = row.ids[k]; A.cand_legal[i * MAX_K + k] = 1; });
+        row.feats.forEach((f, k) => { A.cand_feat.set(f, (i * MAX_K + k) * 12); A.cand_id[i * MAX_K + k] = row.ids[k]; A.cand_legal[i * MAX_K + k] = row.legal ? row.legal[k] : 1; });
         A.cand_k[i] = row.ids.length; A.label[i] = row.label; A.context[i] = row.context; A.head[i] = row.head;
         A.info.set([r.t, r.c, r.round, row.won, row.flags, row.kind], i * 6);
       });
