@@ -1,9 +1,9 @@
 #!/bin/bash
-# Bench v3: bench2 with cached builds and verified, retried shards. Same arguments and output layout as bench2.sh
+# Bench v3: cached builds and verified, retried shards. Stable output layout:
 # (<out>-seed<s>-s<k>/summary.json, <out>-seed<s>.txt), so every analysis tool works unchanged.
 #   bash artifacts/claude_ops/bench3.sh <abs candidate dir> <abs opponent dir> <abs out prefix> [seed ...]
-# Env: MAPS_OVERRIDE, HOLDOUT (as bench2), JOBS (parallel shards, default 4 per seed), RETRIES (default 2).
-# Differences from bench2:
+# Env: MAPS_OVERRIDE, HOLDOUT, PY; RETRIES (failed shard retries, default 2).
+# Guarantees:
 #   * each (source tree, seed) is built once and cached by content hash in artifacts/tmp/wasm-cache, so frozen
 #     opponents and unchanged candidates are not rebuilt for every run;
 #   * every shard's summary must hold 2 games per map; a crashed shard (WinError 1455, killed process) is rerun up to

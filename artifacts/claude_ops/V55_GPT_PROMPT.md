@@ -102,11 +102,13 @@ divergence round), and fix it without losing the shortcut gains on concentrated-
 ## 6. Evaluation protocol (non-negotiable)
 
 * Environment as in SETUP; pass **absolute** paths; `export PY=<python>`.
-* Development: `bash artifacts/claude_ops/bench2.sh <abs bots/v55> <abs bots/v54> <abs out prefix> 1 2 ... 12`
+* Development: `bash artifacts/claude_ops/bench3.sh <abs bots/v55> <abs bots/v54> <abs out prefix> 1 2 ... 12`
   (672 games, ~16 minutes on 20 threads). Also bench against `bots/v53`.
-* Compare candidates with `python tools/bench_paired.py <prefix A> <prefix B> [maps]` (only identical
+* Compare candidates with `python tools/bench_compare.py <prefix A> <prefix B> [--maps a,b]` (only identical
   map/side/seed games) and `tools/bench_maps.py`, `tools/bench_deaths.py`, `tools/replay/ledger_bench.py`.
-* Noise is large: an inert change moves single maps by ±100 gems and up to ±4 wins in 12 through trajectory
+* A non-zero exit, any faults, or fewer than `2 × maps × seeds` games invalidates a run. Keep a mechanism only if its map-clustered 95% interval is above zero against its base; never decide from the naive standard error.
+
+Noise is large: an inert change moves single maps by ±100 gems and up to ±4 wins in 12 through trajectory
   divergence, and hot-path instructions change outcomes (fuel). Use 12 seeds; never decide from one map or 3 seeds.
 * Gate for release (HANDOFF §4) against the live v54: (a) declared target maps won on both sides across seeds by a
   clear margin; (b) development win rate ≥ 0.47 and mean margin ≥ −30; (c) no aggregate regression on the 12 holdout

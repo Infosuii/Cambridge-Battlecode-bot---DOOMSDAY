@@ -39,10 +39,10 @@ export PY=python   # or the full path to your interpreter; the bench scripts rea
 ```bash
 python -c "from pathlib import Path; from nfs import engine; engine.official_build(Path('bots/v52'), Path('artifacts/tmp/v52.wasm'))"
 python tools/bot_match.py --a artifacts/tmp/v52.wasm --maps 00rows --out artifacts/evaluations/smoke   # v52 against heuristic-v1
-MAPS_OVERRIDE=00stampede bash artifacts/claude_ops/bench2.sh "$PWD/bots/v52" "$PWD/bots/v51" "$PWD/artifacts/evaluations/smoke-b2"
+MAPS_OVERRIDE="00rows" bash artifacts/claude_ops/bench3.sh "$PWD/bots/v54" "$PWD/bots/v53" "$PWD/artifacts/evaluations/smoke-b3" 1
 ```
 
-Pass **absolute** paths to `bench2.sh`/`bench28.sh`, because they `cd` to the repo root. A full bench2 run is 168 games; with 20 CPU threads it takes about 25 minutes, so it scales with your core count.
+Pass **absolute** paths to `bench3.sh`, because they `cd` to the repo root. The default run is 168 games (28 maps, both sides, three seeds); twelve seeds give 672. A non-zero exit, any faults, or fewer than twice the map count times the seed count makes the run invalid. Compare candidates with `tools/bench_compare.py` and use its map-clustered 95% interval for decisions.
 
 ## 5. Where things are
 
@@ -51,7 +51,7 @@ Pass **absolute** paths to `bench2.sh`/`bench28.sh`, because they `cd` to the re
 | State, findings, gate, next steps | `ops/HANDOFF.md` |
 | Plan | `artifacts/claude_ops/V52_PLAN.md` |
 | Bot versions | `bots/v48`, `v50`, `v51`, `v52` (live), `v53` (work base) |
-| Bench and match tools | `artifacts/claude_ops/bench2.sh`, `bench28.sh`, `tools/bot_match.py`, `tools/match_stats.py`, `tools/bench_summary.py` |
+| Bench and match tools | `artifacts/claude_ops/bench3.sh`, `tools/bench_compare.py`, `tools/bot_match.py`, `tools/match_stats.py`, `tools/bench_summary.py` |
 | Ladder tools | `tools/replay/ladder_report.py`, `track_submission.py`, `decode_replays.mjs`, `team_ratings.py` |
 | Ladder data snapshots | `data/ladder/` |
 | Benchmark results so far | `artifacts/claude_ops/results/` |

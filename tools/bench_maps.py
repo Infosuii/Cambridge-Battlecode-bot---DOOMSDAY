@@ -1,6 +1,6 @@
-"""Per-map table across several bench2 runs (any seed sets): wins by side, mean margin, worst margin.
+"""Per-map table across several bench3 runs (any seed sets): wins by side, mean margin, worst margin.
 
-Usage: python tools/bench_maps.py <bench2 out prefix>...   (prefixes as passed to bench2.sh)
+Usage: python tools/bench_maps.py <bench3 out prefix>...   (prefixes as passed to bench3.sh)
 """
 from collections import defaultdict
 import glob

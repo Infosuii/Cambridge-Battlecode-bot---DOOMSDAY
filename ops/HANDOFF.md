@@ -74,17 +74,19 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 
 ## 4. Measuring and the gate
 
-- **bench v2:** `bash artifacts/claude_ops/bench2.sh <abs cand dir> <abs opp dir> <abs out prefix> [seeds]`.
+- **bench v3:** `bash artifacts/claude_ops/bench3.sh <abs cand dir> <abs opp dir> <abs out prefix> [seeds]`.
   - It plays the 28 development maps × both sides × `NOVA_SEED` 1-3, rebuilding both bots per seed (the shipped bots use seed 1): 168 games.
-  - Single maps: `MAPS_OVERRIDE="00stampede" bench2.sh ...`.
+  - Single maps: `MAPS_OVERRIDE="00stampede" bench3.sh ...`.
+- A non-zero exit, any faults, or fewer than `2 × maps × seeds` games invalidates a run.
+- Compare candidates with `python tools/bench_compare.py <prefix A> <prefix B>`. Retain a mechanism only when its map-clustered 95% interval is above zero against the base it modifies; do not use the naive per-game standard error.
 - **Gate** for a new version against the live one:
   - (a) Every target map is won on both sides across seeds, by a clear margin.
   - (b) Overall win rate ≥ 0.47 and margin ≥ -30. This is the noise floor: the behaviour-identical control scored 0.417 and -85.
-  - (c) No regression on the 12 holdout maps (`HOLDOUT=1 MAPS_OVERRIDE="<the 12 final maps>" bench2.sh ...`). Run them once per release.
+  - (c) No regression on the 12 holdout maps (`HOLDOUT=1 MAPS_OVERRIDE="<the 12 final maps>" bench3.sh ...`). Run them once per release.
   - A map whose six games mirror the opponent's exactly (A-side margins = -B-side margins) is untouched by the change.
 - **Other tools:**
   - `tools/bot_match.py`: any two bots; the default opponent is heuristic-v1.
-  - `artifacts/claude_ops/bench28.sh`.
+  - `artifacts/claude_ops/bench3.sh`.
   - `tools/match_stats.py` and `tools/bench_summary.py`.
 - **Results so far** are in `artifacts/claude_ops/results/*.txt`:
   - `b2-v52a-vs-v51`: 83-85, +6.7;
