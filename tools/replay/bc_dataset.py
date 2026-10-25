@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'python'))
 from nfs.policy import candidates as C, observation as O  # noqa: E402
 
-RAW_FORMAT = 'bc-raw-v3'
+RAW_FORMAT = 'bc-raw-v6'
 HEAD_NAME = {h['id']: h['name'] for h in C.SCHEMA['heads']}
 
 

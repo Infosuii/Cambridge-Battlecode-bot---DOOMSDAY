@@ -87,6 +87,8 @@ def main():
     p.add_argument('--patience', type=int, default=3)
     p.add_argument('--seed', type=int, default=20261025)
     p.add_argument('--device', choices=('cuda', 'cpu'), default='cuda')
+    p.add_argument('--move-distance-offset', type=float, default=0.0,
+                   help='augment move batches: add U(0, tiles) to every candidate goal distance (relative order unchanged)')
     p.add_argument('--i-authorize-training', action='store_true')
     a = p.parse_args()
     if not a.i_authorize_training:
@@ -139,7 +141,13 @@ def main():
                 stop = 'deadline'; break
             hid, ix = batches[j]
             legal = train['legal'][ix].bool()
-            logits = model(train['obs'][ix], HEAD_NAME[hid], train['feat'][ix], legal, train['context'][ix])
+            feat = train['feat'][ix]
+            if a.move_distance_offset and HEAD_NAME[hid] == 'move':
+                # Absolute goal distance should not change which step makes progress: shift both distance features
+                # (scale 50, clip [0,4]) of all candidates by one random offset per decision.
+                shift = torch.rand(len(ix), 1, device=device) * (a.move_distance_offset / 50)
+                feat = feat.clone(); feat[:, :, 2:4] = (feat[:, :, 2:4] + shift.unsqueeze(-1)).clamp(0, 4) * legal.unsqueeze(-1)
+            logits = model(train['obs'][ix], HEAD_NAME[hid], feat, legal, train['context'][ix])
             loss, _ = L.imitation_loss(logits, legal, train['label'][ix], imitation_mask=torch.ones(len(ix), dtype=torch.bool, device=device))
             if not torch.isfinite(loss):
                 stop = 'nonfinite_loss'; break

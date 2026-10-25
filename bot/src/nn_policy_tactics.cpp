@@ -14,6 +14,9 @@ constexpr int kLocalRadius = 16,kFieldCap=150,kTargetLimit=512;
 // Movement/combat are admitted at a typical cost; their builders refuse below this floor (one more row/target
 // plus the core's post-build affordability recheck), so a costly build can never run the turn out of fuel.
 constexpr std::uint64_t kBuildFloor=15000;
+// Movement decisions keep at most 12 candidates (hold, best walk per octant, then dash): each feature row costs
+// ~1.6-2k fuel and 15-row builds were refused for budget after building (measured 2026-10-25).
+constexpr int kMoveCap=12;
 inline bool build_fuel_ok() {return bc::fuel_remaining()>kBuildFloor;}
 struct Boards {
     bc::bitboard blocked, reach, frontier, scratch, roots, visited;
@@ -79,7 +82,7 @@ struct nn_policy_tactics_access {
             if(!std::isfinite(props.range)||props.range<0||props.range>kLocalRadius)return 16;
             const int width=2*static_cast<int>(props.range)+1;n+=width*width-1;
         }
-        return std::min(16,n);
+        return std::min(kMoveCap,n);
     }
     static bool combat_has_choice(const Bot& b) {
         d::champion_info me{};if(!active_self(me))return false;
@@ -143,7 +146,7 @@ struct nn_policy_tactics_access {
         // on large maps (kept at the chunk formula), enumeration ~0.1-0.2k per endpoint-square tile, ~1.6-1.9k per
         // feature row incl. proximity. Overruns are refused as bound_exceeded; the builder also fails closed.
         return (warm?0:chunks*(kFieldCap+24)+(std::uint64_t(l.field_bytes)*2+std::uint64_t(l.board_bytes)*6)/16)+(g_boards?3000:22000)+b.w.camps.size()*60+visible_camps*400+bodies*300+
-            endpoints*150+std::min<std::uint64_t>(16,endpoints)*2000;
+            endpoints*150+std::min<std::uint64_t>(kMoveCap,endpoints)*2000;
     }
     static bool inside(const Bot& b, vec2 q) { return q.x>=0&&q.y>=0&&q.x<b.w.width&&q.y<b.w.height; }
     static bool visible(const Bot& b, vec2 q) { return inside(b,q) && bit(b.w.visible,q); }
@@ -200,30 +203,33 @@ struct nn_policy_tactics_access {
         return std::uint64_t(l.chunked_width)*l.chunked_height*(kFieldCap+24)+(std::uint64_t(l.field_bytes)*2+std::uint64_t(l.board_bytes)*6)/16;
     }
     static int path_distance(const Boards& x,vec2 q) {return x.active_distance[field_index(q)];}
-    static void proximity(const Bot& b, vec2 q, int& attackers, int& camps, int& enemy_distance, int& ally_distance) {
-        attackers=camps=0;enemy_distance=ally_distance=10000;
-        for (const auto& e:b.w.enemies) if (e.hp>0 && visible(b,e.pos)) {
-            const int distance=cheb(q,e.pos);enemy_distance=std::min(enemy_distance,distance);
-            attackers += distance<=e.range;
-        }
-        for(int j=0;j<g_visible_count;++j) {
-            const auto& c=b.w.camps[g_visible_camps[j]];
-            camps += cheb(q,c.pos)<=c.range;
-        }
-        for (const auto& a:b.w.allies) if (a.hp>0 && visible(b,a.pos)) ally_distance=std::min(ally_distance,cheb(q,a.pos));
+    // Visible entities for movement features, filtered once per build instead of once per candidate row.
+    struct Near { vec2 pos; int range; };
+    static inline Near g_near_enemy[kTargetLimit],g_near_camp[kTargetLimit],g_near_ally[kTargetLimit];
+    static inline int g_near_enemies=0,g_near_camps=0,g_near_allies=0;
+    static void collect_near(const Bot& b) {
+        g_near_enemies=g_near_camps=g_near_allies=0;
+        for (const auto& e:b.w.enemies) if (e.hp>0 && visible(b,e.pos) && g_near_enemies<kTargetLimit) g_near_enemy[g_near_enemies++]={e.pos,e.range};
+        for(int j=0;j<g_visible_count;++j) {const auto& c=b.w.camps[g_visible_camps[j]];g_near_camp[g_near_camps++]={c.pos,c.range};}
+        for (const auto& a:b.w.allies) if (a.hp>0 && visible(b,a.pos) && g_near_allies<kTargetLimit) g_near_ally[g_near_allies++]={a.pos,0};
     }
+    static void proximity(vec2 q, int& attackers, int& camps, int& enemy_distance, int& ally_distance) {
+        attackers=camps=0;enemy_distance=ally_distance=10000;
+        for(int i=0;i<g_near_enemies;++i) {
+            const int distance=cheb(q,g_near_enemy[i].pos);enemy_distance=std::min(enemy_distance,distance);
+            attackers += distance<=g_near_enemy[i].range;
+        }
+        for(int i=0;i<g_near_camps;++i) camps += cheb(q,g_near_camp[i].pos)<=g_near_camp[i].range;
+        for(int i=0;i<g_near_allies;++i) ally_distance=std::min(ally_distance,cheb(q,g_near_ally[i].pos));
+    }
+    static inline float g_dash_cooldown[3]{};
     static nnpc::Candidate move_row(const Bot& b,const nnp::OptionsState& state,const MovePick& pick,vec2 p) {
         nnpc::Candidate row{};row.id=pick.id;row.legal=1;
         const vec2 a=nnp::canonical(b,p),q=nnp::canonical(b,pick.q);
         const vec2 goal=inside(b,state.goal)?state.goal:p;
         int attackers,camps,enemy_distance,ally_distance;
-        proximity(b,pick.q,attackers,camps,enemy_distance,ally_distance);
-        float cooldown=0;
-        if (pick.kind==1||pick.kind==2) {
-            const auto ability=bc::self().abilities()[pick.kind-1];
-            const auto& info=ability.info();
-            if (info) cooldown=std::visit([](const auto& props) {return static_cast<float>(props.max_cooldown);},*info);
-        }
+        proximity(pick.q,attackers,camps,enemy_distance,ally_distance);
+        const float cooldown=pick.kind==1||pick.kind==2?g_dash_cooldown[pick.kind]:0.0f;
         row.raw[0]=static_cast<float>(q.x-a.x);row.raw[1]=static_cast<float>(q.y-a.y);
         row.raw[2]=static_cast<float>(pick.distance);row.raw[3]=static_cast<float>(cheb(pick.q,goal));
         row.raw[4]=static_cast<float>(attackers);row.raw[5]=static_cast<float>(camps);
@@ -248,10 +254,11 @@ struct nn_policy_tactics_access {
         bool missing_distance=false;
         MovePick small[nnpc::kMaxK]{};int total=0;
         MovePick bucket[3][8]{};bool have[3][8]{};
+        const vec2 cp=nnp::canonical(b,p);
         auto add=[&](vec2 q,unsigned kind) {
             MovePick pick{};pick.q=q;pick.kind=kind;const vec2 c=nnp::canonical(b,q);
             if (!nnpc::move_id(kind,c.x,c.y,pick.id))return;
-            pick.oct=octant(c-nnp::canonical(b,p));pick.distance=path_distance(x,q);
+            pick.oct=octant(c-cp);pick.distance=path_distance(x,q);
             if(pick.distance==kUnreach&&!x.active_complete)missing_distance=true;
             if(total<nnpc::kMaxK)small[total]=pick;
             ++total;
@@ -276,6 +283,9 @@ struct nn_policy_tactics_access {
             // Conservative known-legal path subset: no hole-crossing or paths through occupied tiles.
             x.blocked.reachable_tiles_into(p,static_cast<std::uint16_t>(radius),x.frontier,x.scratch,x.reach);
             for(int dy=-radius;dy<=radius;++dy)for(int dx=-radius;dx<=radius;++dx) {
+                // Long dashes: only the outer ring is enumerated (the per-octant best endpoint is at full range);
+                // scoring the whole square cost ~15k fuel per decision (measured 2026-10-25).
+                if(radius>2&&std::max(std::abs(dx),std::abs(dy))!=radius)continue;
                 const vec2 q{p.x+dx,p.y+dy};if(q!=p&&inside(b,q)&&bit(x.reach,q)){if(!build_fuel_ok())return false;add(q,static_cast<unsigned>(s+1));}
             }
         }
@@ -286,10 +296,14 @@ struct nn_policy_tactics_access {
         // refuse the entire decision rather than silently prune or fabricate those feature rows.
         if(missing_distance)return false;
         const vec2 c=nnp::canonical(b,p);if(!nnpc::move_id(3,c.x,c.y,hold.id))return false;
+        collect_near(b);
+        {const auto abilities=bc::self().abilities();
+         for(int s=0;s<2;++s){g_dash_cooldown[s+1]=0;const auto& info=abilities[s].info();
+             if(info)g_dash_cooldown[s+1]=std::visit([](const auto& props){return static_cast<float>(props.max_cooldown);},*info);}}
         if(!build_fuel_ok())return false;
         rows[n++]=move_row(b,state,hold,p);
-        if(total<=nnpc::kMaxK-1)for(int i=0;i<total;++i){if(!build_fuel_ok())return false;rows[n++]=move_row(b,state,small[i],p);}
-        else for(int oct=0;oct<8&&n<nnpc::kMaxK;++oct)for(int kind=0;kind<3&&n<nnpc::kMaxK;++kind)
+        if(total<=kMoveCap-1)for(int i=0;i<total;++i){if(!build_fuel_ok())return false;rows[n++]=move_row(b,state,small[i],p);}
+        else for(int kind=0;kind<3&&n<kMoveCap;++kind)for(int oct=0;oct<8&&n<kMoveCap;++oct)
             if(have[kind][oct]){if(!build_fuel_ok())return false;rows[n++]=move_row(b,state,bucket[kind][oct],p);}
         return nnpc::build(nncfg::H::move,rows,n,context(state),out)==nnpc::Error::ok;
     }

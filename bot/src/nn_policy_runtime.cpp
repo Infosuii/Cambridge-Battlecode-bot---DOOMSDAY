@@ -76,6 +76,25 @@ void configure(Bot* bot=nullptr) {
                      budget,NN_POLICY_LOG,NN_POLICY_SAMPLE,NN_POLICY_SEED,nnp_log::kSafetyOverride);
     g_configured=true;
 }
+// Anti-stall rule (hard-coded, movement only): replay-trained policies learned to wait near teammates far from the
+// goal (base pauses in strong teams' games), so a champion could hold at spawn indefinitely. When the policy holds
+// with nothing able to attack the hold tile, in an ordinary context and with the goal more than one step away, the
+// legal walk step with the least remaining path distance is executed instead. The decision record keeps the policy's
+// own selection; the acknowledgement records the executed step, so training data never mislabels it.
+std::uint32_t g_unstalled=0;
+std::uint32_t unstall_move(const nnpc::Decision& d,const nnp::Result& r) {
+    if(r.choice<0||r.choice>=d.K||(r.action>>30)!=3u||d.context!=0)return r.action;
+    const float* hold=d.feat+12*r.choice; // normalised: [2] remaining path /50, [4] enemy attackers, [5] camp attackers
+    if(hold[4]!=0||hold[5]!=0||hold[2]*50.0f<1.5f)return r.action;
+    int best=-1;
+    for(int i=0;i<d.K;++i) {
+        const float* f=d.feat+12*i;
+        if(!d.legal[i]||(d.id[i]>>30)!=0u||f[4]!=0)continue;
+        if(best<0||f[2]<d.feat[12*best+2])best=i;
+    }
+    if(best<0||!(d.feat[12*best+2]<hold[2]))return r.action;
+    ++g_unstalled;return d.id[best];
+}
 using Build=bool(*)(const Bot&,const nnp::OptionsState&,nnpc::Decision&);
 using Execute=nnp::Execution(*)(Bot&,nnp::OptionsState&,std::uint32_t);
 bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
@@ -106,19 +125,20 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
     g_costs[hi].decision=std::max(g_costs[hi].decision,decision_cost);
     if(result.choice<0){g_inventory->record(h,false);++g_costs[hi].refused;return false;}
     if(cumulative==UINT32_MAX){g_inventory->record(h,false);return false;}
+    const auto action=h==H::move?unstall_move(decision,result):result.action;
     const auto before=fuel();nnp::Execution actual{};
-    try {actual=execute(b,g_state,result.action);} catch(...) {actual={true,false,false};}
+    try {actual=execute(b,g_state,action);} catch(...) {actual={true,false,false};}
     const auto action_cost=elapsed(before,candidate_round);
     g_costs[hi].execution=std::max(g_costs[hi].execution,action_cost);
     g_costs[hi].total=std::max(g_costs[hi].total,elapsed(candidate_start,candidate_round));
     const bool ok=actual.legal&&actual.executed;
-    g_core.acknowledge(result,ok?result.action:nnp_log::kNoAction,
+    g_core.acknowledge(result,ok?action:nnp_log::kNoAction,
         ok?(macro?nnp_log::kOptionExecuted:nnp_log::kExecuted):
            (actual.legal?nnp_log::kFailed:nnp_log::kGuardRefused),action_cost,
         action_cost==UINT32_MAX?nnp::Reason::clock_reset:ok?nnp::Reason::ok:actual.legal?nnp::Reason::action_failed:nnp::Reason::execution_guard);
     g_inventory->record(h,ok);
     if(!ok){if(macro)interrupt();return false;}
-    g_options[hi].start(g_round,option,result.action,macro&&result.recorded,macro);
+    g_options[hi].start(g_round,option,action,macro&&result.recorded,macro);
     // A goal/role change changes the observation, just as a physical move does.
     // Internal intent/role commits retain the first-admitted same-turn snapshot; candidate rows are live.
     // Physical effects invalidate the context before another action decision.

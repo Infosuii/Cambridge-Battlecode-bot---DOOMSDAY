@@ -7,7 +7,8 @@
 // Raw (unnormalised) values are written; tools/replay/bc_dataset.py normalises them with the policy-v2 schema.
 //
 // Bot-internal inputs have no replay equivalent and use fixed rules:
-//   goal  = the champion's own position ~GOAL_ROUNDS later (hindsight destination)
+//   goal  = the runtime goal for the hindsight intent (farm: anchor of the next attacked camp's group; bank: nearest
+//           altar; defend/retreat: home spawn; regroup/attack: nearest ally/enemy), else position ~GOAL_ROUNDS later
 //   role  = carrier (carrying gems, submits within 40 rounds) > fighter (attacks a champion within 10 rounds)
 //           > farmer (attacks a camp within 10 rounds) > escort (a visible ally carrying gems within 3 tiles) > scout
 //   hot_zone = 0; ally shared-claim code = 127 (the bot's own "no mapping" value)
@@ -22,10 +23,10 @@ import { Worker, isMainThread, parentPort, workerData } from 'node:worker_thread
 import { engine, defaultAssets, verifyAssets, PINNED } from './engine.mjs';
 import { RowShardWriter } from './npz_write.mjs';
 
-const FORMAT = 'bc-raw-v3', STRATEGY_HEAD = 1, OBJECTIVE_HEAD = 2, ROLE_HEAD = 3, BANK_HEAD = 4, MOVE_HEAD = 6, COMBAT_HEAD = 7, ENGAGE_HEAD = 8,
-  HEAD_LABEL = { 1: 'strategy', 2: 'objective', 3: 'role', 4: 'bank' }, GOAL_ROUNDS = 10, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
+const FORMAT = 'bc-raw-v6', STRATEGY_HEAD = 1, OBJECTIVE_HEAD = 2, ROLE_HEAD = 3, BANK_HEAD = 4, MOVE_HEAD = 6, COMBAT_HEAD = 7, ENGAGE_HEAD = 8,
+  HEAD_LABEL = { 1: 'strategy', 2: 'objective', 3: 'role', 4: 'bank' }, GOAL_ROUNDS = 10, FARM_GOAL_ROUNDS = 150, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
 const PHASE_CHAMPIONS = 10, NO_CHAMPION = 0xFFFFFFFF, DASH = 6, GROUND = 16, CLAIM_IDLE = 127;
-const K_WALK = 0, K_HOLD = 3, MAX_K = 16;
+const K_WALK = 0, K_HOLD = 3, MAX_K = 16, MOVE_CAP = 12; // MOVE_CAP mirrors kMoveCap in nn_policy_tactics.cpp
 const WIDTHS = { obs_self: [40, Float32Array], obs_ally: [50, Float32Array], ally_mask: [5, Uint8Array], obs_enemy: [72, Float32Array],
   enemy_mask: [6, Uint8Array], cand_feat: [MAX_K * 12, Float32Array], cand_id: [MAX_K, Uint32Array], cand_legal: [MAX_K, Uint8Array],
   cand_k: [1, Uint8Array], label: [1, Int16Array], context: [1, Uint8Array], head: [1, Uint8Array], info: [6, Int32Array] };
@@ -276,7 +277,9 @@ function extract(E, file, rate) {
         const radius = Math.floor(pr.range ?? 0), blocked = new Uint8Array(w * h);
         for (let i = 0; i < w * h; i++) blocked[i] = team[t].blocked[i] | units[i];
         const reach = bfs(w, h, blocked, [p.y * w + p.x], radius);
-        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (reach[y * w + x] !== UNREACH && !(x === p.x && y === p.y)) dash.push({ x, y, kind: s + 1, cooldown: pr.cooldown ?? 0 });
+        // Mirrors the runtime: long dashes (radius > 2) only offer outer-ring endpoints.
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (reach[y * w + x] !== UNREACH && !(x === p.x && y === p.y) &&
+            !(radius > 2 && cheb(x, y, p.x, p.y) !== radius)) dash.push({ x, y, kind: s + 1, cooldown: pr.cooldown ?? 0 });
       }
       // Engage (nn_policy_tactics.cpp engage()): one shared feature vector for the three verdicts.
       let allyHp = me.hp, enemyHp = 0, allyDamage = me.str, enemyDamage = 0, incoming = 0, closest = null, nearestD = NONE;
@@ -447,15 +450,39 @@ function extract(E, file, rate) {
       recs.forEach((r) => {
         r.camps = r.camps ?? [];
         const t = r.t, p = r.p, hist = posHist.get(r.c) ?? [], acts_ = acts.get(r.c) ?? [];
-        // Hindsight goal: own position GOAL_ROUNDS later (else the last known one).
-        let goal = hist[hist.length - 1];
-        for (const q of hist) if (q.round >= r.round + GOAL_ROUNDS) { goal = q; break; }
         const window = (lo, hi, pred) => acts_.some(a => a.round >= lo && a.round <= hi && pred(a));
         let role = 4;
         if (r.gems > 0 && window(r.round, r.round + 40, a => a.kind === 12)) role = 1;
         else if (window(r.round, r.round + 10, a => a.target === 'champion')) role = 2;
         else if (window(r.round, r.round + 10, a => a.target === 'camp')) role = 0;
         else if ([...Array(5).keys()].some(k => r.allyMask[k] && r.allyRows[k * 10 + 8] > 0 && Math.max(Math.abs(r.allyRows[k * 10]), Math.abs(r.allyRows[k * 10 + 1])) <= 3)) role = 3;
+        // Hindsight intent (strategy label) and the goal the runtime would hold for it: the runtime moves towards
+        // strategy/objective/bank goals, so training goals must follow the same rules, not a future position.
+        let intent = 0;
+        if (r.gems > 0 && window(r.round, r.round + 40, a => a.kind === 12)) intent = 1;
+        else if (window(r.round, r.round + 10, a => a.kind === 11)) intent = 6;
+        else if (window(r.round, r.round + 10, a => a.target === 'champion')) intent = 5;
+        else if (window(r.round, r.round + 10, a => a.target === 'camp')) intent = 0;
+        else if (role === 3) intent = 4;
+        const M = r.macro, nextCamp = acts_.find(a => a.round >= r.round && a.round <= r.round + 30 && a.target === 'camp' && a.group !== undefined);
+        // Movement goal: the group of the next camp farmed within FARM_GOAL_ROUNDS, so long walks (after respawn, to a
+        // far camp) train with the far anchor the runtime uses, not a nearby future position.
+        const goalCamp = acts_.find(a => a.round >= r.round && a.round <= r.round + FARM_GOAL_ROUNDS && a.target === 'camp' && a.group !== undefined);
+        const anchorOf = (handle) => {
+          const g = groups.find(q => q.handle === handle); let best = null, key = null;
+          for (const k of g ? g.camps : []) { const q = campInfo[k], kc = { x: cx(t, q.x), y: cy(t, q.y) }; if (!key || kc.y < key.y || (kc.y === key.y && kc.x < key.x)) { best = q; key = kc; } }
+          return best;
+        };
+        const nearestAltar = (q) => altars.reduce((b, al, i) => b < 0 || cheb(al.x, al.y, q.x, q.y) < cheb(altars[b].x, altars[b].y, q.x, q.y) ? i : b, -1);
+        const farmGoal = role === 4 ? M.goals.farmScout : M.goals.farmNearest;
+        let goal = null;
+        if (intent === 0 || intent === 3) goal = (goalCamp && anchorOf(goalCamp.group)) || (farmGoal.legal ? farmGoal.pos : null);
+        else if (intent === 1) goal = M.goals.bank.legal && altars.length ? altars[nearestAltar(p)] : null;
+        else if (intent === 2 || intent === 6) goal = M.goals.home.legal ? M.goals.home.pos : null;
+        else if (intent === 4) goal = M.goals.regroup.legal ? M.goals.regroup.pos : null;
+        else if (intent === 5) goal = M.goals.attack.legal ? M.goals.attack.pos : null;
+        if (!goal) { goal = hist[hist.length - 1]; for (const q of hist) if (q.round >= r.round + GOAL_ROUNDS) { goal = q; break; } }
+        goal = { x: goal.x, y: goal.y };
         r.o[12] = role; r.o[13] = ddx(t, goal.x - p.x); r.o[14] = ddy(t, goal.y - p.y);
         // Goal field: the goal tile, or its unblocked ring when the goal itself is blocked.
         const blocked = team[t].blocked, gi = goal.y * w + goal.x, roots = [];
@@ -467,12 +494,12 @@ function extract(E, file, rate) {
         const all = [...r.walk, ...r.dash].map(pick), hold = pick({ x: p.x, y: p.y, kind: K_HOLD });
         const less = (a, b) => a.distance < b.distance || (a.distance === b.distance && a.id < b.id);
         let chosen;
-        if (all.length <= MAX_K - 1) chosen = [hold, ...all];
+        if (all.length <= MOVE_CAP - 1) chosen = [hold, ...all];
         else {
           const bucket = new Map();
           for (const q of all) { const key = q.kind * 8 + q.oct; if (!bucket.has(key) || less(q, bucket.get(key))) bucket.set(key, q); }
           chosen = [hold];
-          for (let oct = 0; oct < 8 && chosen.length < MAX_K; oct++) for (let kind = 0; kind < 3 && chosen.length < MAX_K; kind++) if (bucket.has(kind * 8 + oct)) chosen.push(bucket.get(kind * 8 + oct));
+          for (let kind = 0; kind < 3 && chosen.length < MOVE_CAP; kind++) for (let oct = 0; oct < 8 && chosen.length < MOVE_CAP; oct++) if (bucket.has(kind * 8 + oct)) chosen.push(bucket.get(kind * 8 + oct));
         }
         chosen.sort((a, b) => a.id - b.id);
         // Label: actual movement (or hold); a narrowed-out destination maps to its kind/octant representative.
@@ -496,14 +523,7 @@ function extract(E, file, rate) {
         const context = r.enemiesKnown ? (engage === 0 ? 1 : engage === 1 ? 2 : 0) : 0;
         const base = { r, context, won: outcome === t + 1 ? 1 : 0 };
         // Macro labels (hindsight rules): strategy intent, objective group, role, bank action.
-        const M = r.macro, macroContext = r.enemiesKnown ? 1 : 0;
-        let intent = 0;
-        if (r.gems > 0 && window(r.round, r.round + 40, a => a.kind === 12)) intent = 1;
-        else if (window(r.round, r.round + 10, a => a.kind === 11)) intent = 6;
-        else if (window(r.round, r.round + 10, a => a.target === 'champion')) intent = 5;
-        else if (window(r.round, r.round + 10, a => a.target === 'camp')) intent = 0;
-        else if (role === 3) intent = 4;
-        const farm = role === 4 ? M.goals.farmScout : M.goals.farmNearest;
+        const macroContext = r.enemiesKnown ? 1 : 0, farm = farmGoal;
         const sRows = [farm, M.goals.bank, M.goals.home, farm, M.goals.regroup, M.goals.attack, M.goals.home].map((g, i) => M.strategyRow(i, g));
         const pushRows = (head, list, label, kind) => {
           rows.push({ ...base, head, context: macroContext, ids: list.map(q => q.id), feats: list.map(q => q.raw), legal: list.map(q => q.legal ?? 1),
@@ -513,11 +533,9 @@ function extract(E, file, rate) {
         if (sRows.some(q => q.legal)) pushRows(STRATEGY_HEAD, sRows, sRows[intent].legal ? intent : -1, intent);
         if (M.roleRows.some(q => q.legal)) pushRows(ROLE_HEAD, M.roleRows, M.roleRows[role].legal ? role : -1, role);
         if ((intent === 0 || intent === 3) && M.objectiveRows.length) {
-          const nextCamp = acts_.find(a => a.round >= r.round && a.round <= r.round + 30 && a.target === 'camp' && a.group !== undefined);
           pushRows(OBJECTIVE_HEAD, M.objectiveRows, nextCamp ? M.objectiveRows.findIndex(q => q.id === nextCamp.group) : -1, -1);
         }
         if (M.bankRows) {
-          const nearestAltar = (q) => altars.reduce((b, al, i) => b < 0 || cheb(al.x, al.y, q.x, q.y) < cheb(altars[b].x, altars[b].y, q.x, q.y) ? i : b, -1);
           let id = 0;
           if (r.submit) id = 2 + 2 * nearestAltar(r.submit);
           else { const s = acts_.find(a => a.round > r.round && a.round <= r.round + 40 && a.kind === 12); if (s) id = 1 + 2 * nearestAltar(s); }
