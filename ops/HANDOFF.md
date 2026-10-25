@@ -1,110 +1,147 @@
-# Handoff: v52 work (read this first)
+# Handoff: bot development from v52 onward (read this first)
 
-Last updated by Claude Code on 2026-10-25. The repository is the only shared channel. This machine (the training box) runs every build, match and training run. You (on another laptop) direct it by pushing job scripts. See "Job runner" below.
+Written by Claude Code on 2026-10-25, when development was paused at v53. The next agent (GPT/Codex) works on **another device** and should set it up with `ops/SETUP.md`. Everything needed to build, test, analyse and submit is in this repository. Only bulk training data stays on the original laptop, the "training box" (§7), and none of the next steps need it.
 
-## Goal and approvals
+## 1. Goal and standing approvals
 
-The user's goal is an "unbeatable" bot. The measurable target is ladder top 25; team **DOOMSDAY** is currently rank 87. Approved by the user (2026-10-25):
-- queue unranked match groups against top teams;
-- multi-hour CPU/GPU training runs on this machine;
-- **submit v52 once it passes the gate** (below).
+- **Goal:** the user wants an "unbeatable" bot. The measurable target is ladder top 25; team **DOOMSDAY** (team id `fcf5f666-ea55-4da0-b8d4-97c64bb37236`) is currently rank 87, rating 1834.
+- **Approved by the user (2026-10-25):**
+  - queueing unranked match groups against top teams;
+  - multi-hour CPU/GPU training runs;
+  - submitting a new version **once it passes the gate** (§4).
+- **Credentials:** never log in or enter them. The user logs the CLI in on each device (`ops/SETUP.md` §2).
 
-Never log in or enter credentials. The `cambc` CLI on this machine already has a session.
+## 2. Versions
 
-## What is live
+Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each version's `CHANGES.md` has its measurements.
 
-- **v52** (`bots/v52`, submitted 2026-10-25 12:02 UTC as platform version 52) = v51 plus the sole-gem-camp rule (`bots/v52/CHANGES.md`).
-- v51 (`bots/v51`, submitted 11:29 UTC as version 51) = v50 plus the moated-island fix.
-- Baseline before v51 (800 ranked games): 51% overall; big_world 0/26; islands 3/25; stampede 0/28.
-- Track with `tools/replay/track_submission.py --since 2026-10-25T12:05:00Z --maps 00stampede 01big_world 01islands`.
+| Version | Platform | Content |
+|---|---|---|
+| v48 | - | heuristic lineage; draft net and danger net on |
+| v50 | version 50 | v48 lineage plus a camp net (321 parameters, about 3 hours of PPO; `training/v50-campnet/`); danger net off |
+| v51 | version 51, submitted 2026-10-25 11:29 UTC | v50 plus the moated-island fix (champions froze at camps behind two-tile hole moats: big_world, islands) |
+| **v52** | **version 52, submitted 12:02 UTC, live** | v51 plus the sole-gem-camp rule (stampede) |
+| v53 | not submitted | v52 plus the boss_battle gate rule, **switched off** (`A2_GATE_JOB 0`; rejected 0-6/1-5/1-5). Use it as the work base. |
 
-## Key findings (do not relearn these)
+`artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
-1. **The bot lineage** (v48, v50, v51 and `artifacts/baselines/heuristic-v1`) is a single hand-written heuristic codebase. Neural parts:
+## 3. Findings (do not relearn)
+
+1. **One heuristic codebase.** v48, v50, v51, v52 and heuristic-v1 differ by only a few hundred lines. Neural parts:
    - draft net (`A2_MLDRAFT`);
-   - v50's camp net (`A2_CAMPNET`; 321 parameters; 3 hours of PPO in `work/neural-gameplay`; the extra 2 hours showed no reliable gain);
-   - v48's danger net (`UB_DANGER`).
+   - camp net (`A2_CAMPNET`; its extra 2 hours of training gave no reliable gain);
+   - danger net (v48, `UB_DANGER`).
 
-   On 56-game local A/B tests none had a measurable effect. Policy-v2 (behaviour cloning from 7.3M top-team decisions, `tools/policy_bc.py`) learned nothing that helps in games: 0 gems, 0-12 against heuristic-v1. Do not revive it.
-2. **The bot is fuel-limited, and that dominates evaluation.** A behaviour-identical change that added a few instructions in hot code (`open_call_by_lower` and the group-scoring loop) scored **70-98 (41.7%, -85 gem margin) over 168 games** against v51. The same no-op in a cold path played identical games, because the engine is deterministic.
-   - Hot-path additions must be near-free. Gate code with a flag that is checked once per turn, never inside per-group or per-camp loops.
-   - Making hot paths cheaper is likely the single strongest lever (an expected +5-10 win-rate points).
-3. **Ladder losses are map-specific** (`tools/replay/ladder_report.py`). Over the last 800 games: stampede 0/28, big_world 0/26 (fixed in v51), boss_battle 1/16, islands 3/25 (fixed in v51), concentrated_wealth 3/21, elkring 7/24, swirl 6/19, monolith 6/18, fracture 5/13, yellow_brick_road 9/23. Most other maps are at 50-86%.
-4. **stampede**: one camp (group 10, 20 monsters, 16,080 HP, 160 gems) holds all of the map's gems. Winners farm gold camps until about round 1,100, then the whole team clears it repeatedly and banks after each clear. We never attack it, because big-job joining is broken: `open_call_by_lower` ignores the team-size cap (the soak model says 7), and joiners count as initiators. A hot-path fix (v51b/v51c) won stampede but lost head-to-head because of the fuel cost (finding 2). Redo it with a once-per-turn flag, for example at the top of `score_groups`: return the sole gem group for healthy champions after round R, and let `fight_camps` staging gather the team.
-5. **boss_battle** (next fix): the altars' only access tiles are monolith camp tiles. That is group 16 at (24,20): 2 members, 400 gems, 600 gold, and the access opens only while it is dead (`A2_ALTARFIX`: `no_bank`, `altar_gated`, `gate_camps`). Logged run with v51 as side B, 1,300 rounds: carriers held 170-570 gems each from round ~900, never banked, and their tribute trips stalled beside group 16 at round ~1,100. Top teams bank first at rounds 645-1,100. **Tried and rejected**: `bots/v53` `A2_GATE_JOB` (the whole team targets the gate group while the altars are shut) went 0-6, 1-5 and 1-5 against v52 for start rounds 200, 500 and 800. The gate group contains a monolith (20,000 HP, strength 200, range 5). Rushing it gets the team killed, and at round 200 we collected 32 gems against 2,455. It is now off (`A2_GATE_JOB 0`). Even v52 against v52 collects about 2,500 but banks only about 300. Next ideas: (a) find out what top teams do first on boss_battle (decode their winning replays: when they kill group 16, and with what draft and items); (b) take the gate only late, with full items and the whole team, timed for a gems-carried threshold; (c) draft for it, since our boss_battle draft is fixed to types 3, 5, 9, 11 (see `APEX_MAPDRAFT`).
+   In 56-game local A/B tests none had a measurable effect. The policy-v2 network, trained by behaviour cloning on 7.3M top-team decisions (`tools/policy_bc.py`, `artifacts/claude_ops/NIGHT_REPORT.md`), learned nothing useful in games: 0 gems, 0-12 against heuristic-v1. Do not revive it.
+2. **The bot runs at its fuel limit, and that dominates evaluation.** The engine is deterministic.
+   - A behaviour-identical change that added a few instructions in hot code (`open_call_by_lower` and the group-scoring loop) lost **70-98 with a -85 gem margin over 168 games**.
+   - The same no-op in a cold path played identical games.
+   - Fuel is also charged for memory fills (1 per byte, per a comment in `bot.cpp`).
 
-## How to measure
+   Rules that follow:
+   - Put new logic behind a check that runs once per call or once per turn, never inside per-group or per-camp loops.
+   - Making hot paths cheaper is probably the strongest untried lever.
+3. **Ladder losses are map-specific.** These are the 800 ranked games before v51 (`data/ladder/doomsday_ranked_800_20261025.json`, analysed with `tools/replay/ladder_report.py`); overall 51%.
 
-- Builds: `engine.official_build(<dir with src/>, <out.wasm>)` (python `nfs.engine`), or `cambc build`.
-- `tools/bot_match.py --a <dir|wasm> [--b <wasm>] --maps ... --out artifacts/evaluations/<fresh>`. Default B is heuristic-v1.
-- `artifacts/claude_ops/bench28.sh <a.wasm> <b.wasm|""> <out>`: 28 development maps × 2 sides, 4 shards.
-- **`artifacts/claude_ops/bench2.sh <cand dir> <opp dir> <out> [seeds]`**: bench v2, 168 games with `NOVA_SEED` 1-3 for both bots. Use it against `bots/v51`.
-  - **Gate** (revised: one map is 1/28 of the bench, so a single-map fix cannot lift the overall rate much):
-    (a) every target map is won on both sides by a clear margin across seeds;
-    (b) overall against v51: win rate >= 0.47 and margin >= -30. This is the noise floor: the behaviour-identical hot-path
-    control scored 0.417 and -85, so anything clearly below the floor is a real regression.
-    Maps whose 6 games mirror v51's exactly (A-side margins = -B-side margins) are unaffected by the change.
-  - Holdout: the 12 `final` maps (`HOLDOUT=1 MAPS_OVERRIDE="..." bench2.sh ...`). Run them once per release.
-- Per-team statistics: `tools/match_stats.py <eval dir>`. Aggregate: `tools/bench_summary.py <dirs>`.
-- **Diagnose a map**:
-  1. Copy the bot and prepend `#define APEX_LOG 1` to `src/common.h`.
-  2. Silence the per-turn GROUP dump in `src/world.cpp` (`if (APEX_LOG)` → `if (0)`, near line 179).
-  3. `cambc run <a.wasm> <b.wasm> --map <path> --rounds 600 --release --log-limit 12000000 --out-dir <dir>`.
-  4. The output `.repl26a` is a ZIP: unzip it and read `team-a.stdout` (`strings`).
+   | Map | Record | Status |
+   |---|---|---|
+   | stampede | 0/28 | v52 fix |
+   | big_world | 0/26 | v51 fix |
+   | boss_battle | 1/16 | open |
+   | islands | 3/25 | v51 fix |
+   | concentrated_wealth | 3/21 | open |
+   | elkring | 7/24 | open |
+   | swirl | 6/19 | open |
+   | monolith (holdout) | 6/18 | open |
+   | fracture (holdout) | 5/13 | open |
+   | yellow_brick_road | 9/23 | open |
 
-  Champion lines look like `R<round> <type> p(x,y) hp g<gems> $<gold> <mode> G<group>`. Frozen positions or never-changing modes reveal bugs.
-- Ladder:
+   Most other maps are at 50-86%. Early ladder after v51: 14/20 (70%), with none yet on the target maps.
+4. **stampede (fixed in v52).** One group holds every gem (20 monsters, 16,080 HP, 160 gems). Big-job calls never filled, so the camp was never attacked.
+   - Fix: `A2_SOLE_GEM` at the top of `score_groups`.
+   - Result: stampede 6-0 locally at every tested start round, banking about 870 gems against v51's 100.
+5. **boss_battle (open).**
+   - The altars' only access tiles are monolith camp tiles: group 16 at (24,20), 2 members, 400 gems, 600 gold, strength 200, range 5, 20,000 HP. Banking opens only while that group is dead. See `A2_ALTARFIX`, `no_bank`, `altar_gated`, `gate_camps` and `World::update_altar_gates`.
+   - Our carriers hold 170-570 gems each from round ~900 and never bank. Even v52 against v52 collects about 2,500 gems but banks only about 300. Top teams bank first at rounds 645-1,100.
+   - Rushing the gate with the whole team (v53 `A2_GATE_JOB`) gets the team killed.
+
+   Next ideas:
+   - decode top teams' winning boss_battle replays to see when and how they kill group 16 (draft, items, timing);
+   - take the gate only late, with full items, as a whole-team job;
+   - change the boss_battle draft, which is fixed to types 3, 5, 9, 11 (`APEX_MAPDRAFT`, `draft.cpp`).
+6. **Methodology for map bugs** (it found the v51 and v52 bugs in about an hour each). Reproduce the bug with a logging build (§5), look for champions whose position or mode never changes, find the code path, and fix it cheaply.
+
+## 4. Measuring and the gate
+
+- **bench v2:** `bash artifacts/claude_ops/bench2.sh <abs cand dir> <abs opp dir> <abs out prefix> [seeds]`.
+  - It plays the 28 development maps × both sides × `NOVA_SEED` 1-3, rebuilding both bots per seed (the shipped bots use seed 1): 168 games.
+  - Single maps: `MAPS_OVERRIDE="00stampede" bench2.sh ...`.
+- **Gate** for a new version against the live one:
+  - (a) Every target map is won on both sides across seeds, by a clear margin.
+  - (b) Overall win rate ≥ 0.47 and margin ≥ -30. This is the noise floor: the behaviour-identical control scored 0.417 and -85.
+  - (c) No regression on the 12 holdout maps (`HOLDOUT=1 MAPS_OVERRIDE="<the 12 final maps>" bench2.sh ...`). Run them once per release.
+  - A map whose six games mirror the opponent's exactly (A-side margins = -B-side margins) is untouched by the change.
+- **Other tools:**
+  - `tools/bot_match.py`: any two bots; the default opponent is heuristic-v1.
+  - `artifacts/claude_ops/bench28.sh`.
+  - `tools/match_stats.py` and `tools/bench_summary.py`.
+- **Results so far** are in `artifacts/claude_ops/results/*.txt`:
+  - `b2-v52a-vs-v51`: 83-85, +6.7;
+  - `b2-holdout-v52-vs-v51`: 36-36, +29.6;
+  - `b2-noop-vs-v51`: the noise floor;
+  - `bb-gate*`: the rejected gate rule;
+  - `st-sole*`: the stampede sweeps.
+
+## 5. Diagnosing a map (logging build)
+
+1. Copy the bot and prepend `#define APEX_LOG 1` to `src/common.h`.
+2. In `src/world.cpp`, change the per-turn GROUP dump's `if (APEX_LOG)` (near line 179) to `if (0)`. Leave it on and run 2 rounds when you want the camp-group list.
+3. Build with `engine.official_build(dir, out.wasm)` (python `nfs.engine`) or `cambc build`.
+4. Run `cambc run <a.wasm> <b.wasm> --map maps/local-benchmarks/<map>.map26a --rounds 600 --release --log-limit 16000000 --out-dir <dir>`.
+5. The `.repl26a` output is a ZIP. Unzip it and run `strings` on `team-a.stdout` / `team-b.stdout`.
+
+Champion lines look like `R<round> <type> p(x,y) hp g<gems> $<gold> <mode> G<group>`. There are also `BIG`, `DUO` and `MODES`/`DIAG` lines every 50 rounds.
+
+## 6. Ladder and platform (needs the user's CLI login on your device)
+
+- **Recent games:**
   - `cambc matches list --team me --kind ranked --json` (paginate with `--cursor`);
-  - `cambc matches download <id> -o <file>` (a ZIP holding the replay and our team's logs);
-  - decode replays with `tools/replay/decode_replays.mjs`;
-  - `tools/replay/track_submission.py --since <iso>`.
-- Unranked match groups against a team: `cambc match-groups create <team uuid> --maps a,b,c,d,e`. They use our currently submitted bot. Team UUIDs come from `cambc ladder --json`.
+  - `tools/replay/ladder_report.py --matches <json> --ladder <ladder json>`;
+  - `tools/replay/track_submission.py --since 2026-10-25T12:05:00Z --maps 00stampede 01big_world 01islands` for results since v52.
+- **Replays:** `cambc matches download <match id> -o <file>` gives a ZIP with the replay and our team's logs. Decode it with `node tools/replay/decode_replays.mjs --out <x.jsonl> <replay.repl26a>`. Local replays are also ZIPs; extract `replay.repl26a` first.
+- **Standings:** `cambc ladder --json --limit 100 --page N` (snapshot: `data/ladder/ladder_top400_20261025.json`).
+- **Match groups** were queued 2026-10-25 around 12:15 UTC with v52 on stampede, big_world, islands, concentrated_wealth and elkring, against Hidden Altar Keepers (#80) and meow (#25). Their ids are in `data/ladder/match_groups_20261025.json`. Read them with `cambc match-groups show <group id> --json` or `cambc match-groups download <group id>`. New groups: `cambc match-groups create <team uuid> --maps a,b,c,d,e --sides a,b,a,b,a`. Match groups play our **currently submitted** bot.
+- **Submit:** `cambc submit bots/vNN --note "..."`, only after the gate passes.
 
-## Environment on this machine
+## 7. Data
+
+- **In the repo** (`data/ladder/`, see its README):
+  - top-400 ladder snapshot;
+  - our last 800 ranked games, and our games since v51;
+  - compact Bradley-Terry ratings (743 teams, 244,981 matches);
+  - 46 decoded bad-map losses (gz) with metadata, and 30 user-supplied decoded losses (gz);
+  - the queued match groups.
+
+  The 40 maps are in `maps/local-benchmarks`.
+- **On the training box only** (too large, gitignored):
+  - `artifacts/local-only/replays-20261023`: the decoded 23 Oct archive, 244,981 matches, with per-replay team ids in `team_ratings.json`;
+  - `artifacts/local-only/bc-top12k`: the behaviour-cloning dataset;
+  - downloaded match ZIPs;
+  - the original archive ZIPs in `C:\projects\cambridge battlecode\match summaries 23102026`.
+
+  You can rebuild the archive analysis from fresh downloads with `tools/replay/decode_archive.py` and `team_ratings.py`. For a draft model, new ladder downloads (`cambc matches list/download`) are enough.
+
+## 8. Training box (original laptop) reference
 
 - Repo: `C:\projects\cambridge battlecode\work\neural-full-stack`.
-- Python: `C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe`.
-- Env: `PYTHONPATH=<repo>/python`, `TMP=TEMP=<repo>/artifacts/tmp`, `PYTHONDONTWRITEBYTECODE=1`, and `C:/msys64/ucrt64/bin` prefixed to `PATH`.
-- CLI path: `config/paths.json` → `cli`.
-- Data (local only):
-  - `artifacts/local-only/replays-20261023` (244,981 decoded matches, `team_ratings.json`);
-  - `artifacts/local-only/doomsday-losses` (our recent ranked list and downloaded losses);
-  - `artifacts/local-only/bot-v48|v50|v51` (+ wasm).
-- Hardware: 20 CPU threads, RTX 5070 Ti laptop GPU with 12 GB. One bench2 run uses 12 match processes and takes about 25 minutes.
+- Python (CUDA torch 2.11): `C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe`.
+- Hardware: 20 CPU threads, RTX 5070 Ti laptop GPU (12 GB).
+- Optional remote control: `ops/runner.sh` on branch `ops`, with its clone at `work/ops-runner`. The user must start it there (`nohup bash ops/runner.sh > runner.log 2>&1 &`, or add `--status-only`). It then runs scripts you push to `ops/jobs/pending/` and pushes their logs; see `ops/jobs/README.md`. It is not running now.
 
-## v52 plan (`artifacts/claude_ops/V52_PLAN.md`), status
+## 9. Suggested next steps (in order)
 
-- [x] A. bench v2 plus the noise-floor control (finding 2).
-- [~] B. stampede DONE in `bots/v52` (`A2_SOLE_GEM`, `A2_SOLE_FROM 500`): 6-0 against v51 on stampede for start rounds 300, 600 and 900
-  (+762, +738 and +583; we bank about 870 gems against v51's 100). Full gate against v51: 83-85, +6.7, stampede 5/6. PASSES (b); starvation and boss_battle differences are fuel perturbation
-  (neither has a sole gem camp). Holdout run: `artifacts/evaluations/b2-holdout-v52-vs-v51.txt`. Next map fixes:, boss_battle, concentrated_wealth, elkring, swirl, yellow_brick_road; then a pass on deaths. One fix per candidate; gate each with bench2.
-- [ ] C. Fuel profiling and hot-path optimisation (`PROF`/`PROF_CHECK` macros in `bot.cpp`). Probably the biggest gain.
-- [ ] D. Neural:
-  - a draft win-probability model from the 245k archive plus our ladder games (our win rate ranges 39-58% by pick);
-  - camp-net PPO is low value (finding 1).
-- [ ] E. Release: gate, holdout, `cambc submit bots/v52 --note ...`, then ladder tracking and match groups.
-
-## Job runner (how to make this machine do work)
-
-**Not started automatically.** The runner executes scripts pushed to GitHub on this machine, so the user starts it
-themselves (Git Bash on the training box):
-
-```bash
-cd "/c/projects/cambridge battlecode/work/ops-runner" && git pull origin ops && nohup bash ops/runner.sh > runner.log 2>&1 &
-```
-
-Status-only (publishes ops/STATUS.md, never runs jobs): `nohup bash ops/runner.sh --status-only > runner.log 2>&1 &`.
-Without the runner, the user runs a job by hand: `cd <repo> && bash <ops-runner>/ops/jobs/pending/NN-name.sh`.
-
-`ops/runner.sh` runs detached on this machine against a separate clone at `C:\projects\cambridge battlecode\work\ops-runner`, on branch **`ops`**. Every 10 minutes it:
-1. `git pull`s the `ops` branch.
-2. Runs each `ops/jobs/pending/*.sh` in name order. Each job runs with `bash`; `REPO` is set to the training checkout above, and the environment variables above are exported. Jobs run sequentially and synchronously, so start long training detached inside your job (`nohup ... &` or PowerShell `Start-Process`) and write its progress to a file your later jobs can `cat`.
-3. Moves each finished job to `ops/jobs/done/` and its log (last 400 lines) to `ops/jobs/logs/<job>.log`.
-4. Rewrites `ops/STATUS.md`, then commits and pushes.
-
-Workflow from the other laptop:
-1. `git checkout ops && git pull`.
-2. Add `ops/jobs/pending/NN-name.sh`, commit, push.
-3. Within about 10 minutes, `git pull` and read `ops/jobs/logs/NN-name.log`.
-
-Bot code changes: push them to `main` (or a branch). A job then runs `git -C "$REPO" pull` or checks out your branch before building. Stop the runner by pushing the file `ops/STOP` to the `ops` branch.
+1. Read the match-group results and the ladder since v52 (§6). Confirm the stampede, big_world and islands fixes on the ladder.
+2. Fix boss_battle (finding 5), then concentrated_wealth, elkring, swirl and yellow_brick_road. Use the §5 method, one fix per version, and gate each one.
+3. Fuel: profile the hot paths with the `PROF`/`PROF_CHECK` instrumentation in `bot.cpp` and make them cheaper without changing behaviour. Because of finding 2, measure every change.
+4. Neural, only with A/B evidence: a draft win-probability model (map plus both drafts → winner) from ladder downloads. Our win rate ranges from 39% to 58% depending on our picks (`ladder_report.py`).
+5. Release loop: gate → submit → track → match groups → repeat.

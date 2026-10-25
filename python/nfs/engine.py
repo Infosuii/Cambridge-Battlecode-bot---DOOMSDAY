@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[2]
 PATHS = json.loads((ROOT / 'config/paths.json').read_text(encoding='utf-8'))
 CLI = Path(PATHS['cli'])
 MAPS = Path(PATHS['maps'])
+if not MAPS.is_dir():  # another machine: the 40 official maps are vendored in the repository
+    MAPS = ROOT / 'maps' / 'local-benchmarks'
 
 
 def sha256(path) -> str:

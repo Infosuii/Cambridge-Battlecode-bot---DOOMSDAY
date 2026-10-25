@@ -6,9 +6,9 @@
 set -e
 CAND="$1"; OPP="$2"; OUT="$3"; shift 3
 SEEDS="${*:-1 2 3}"
-cd "/c/projects/cambridge battlecode/work/neural-full-stack"
+cd "$(dirname "$0")/../.." # repo root, wherever it is cloned
 export PYTHONPATH="$PWD/python" PYTHONDONTWRITEBYTECODE=1 TMP="$PWD/artifacts/tmp" TEMP="$PWD/artifacts/tmp" PATH="/c/msys64/ucrt64/bin:$PATH"
-PY="C:/projects/cambridge battlecode/work/neural-gameplay/.venv/Scripts/python.exe"
+PY="${PY:-$(sed -n 's/.*"python": *"\([^"]*\)".*/\1/p' config/paths.json)}" # override with PY=...
 B="$OUT-build"; mkdir -p "$B"
 build() { # <bot dir> <seed> <out wasm>
   local d="$B/src-$(basename "$3" .wasm)"; rm -rf "$d"; mkdir -p "$d"; cp -r "$1/src" "$d/"
