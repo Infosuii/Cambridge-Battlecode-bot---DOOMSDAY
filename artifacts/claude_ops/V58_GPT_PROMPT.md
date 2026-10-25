@@ -17,7 +17,10 @@ Read first, in this order: `artifacts/claude_ops/V58_CLAUDUS_FINDINGS.md`, `arti
    (`tools/vendor/cambc.exe`) is already logged in. Do not queue match groups (they spend the team's shared quota
    and play the submitted bot) unless the user tells you to.
 2. Do not modify frozen bots: v48-v57 and `artifacts/baselines/heuristic-v1`. Make v58 with `cp -r bots/v57 bots/v58`
-   and delete any copied `.cambc/` folder (a copied CMake cache breaks the build).
+   and delete any copied `.cambc/` folder (a copied CMake cache breaks the build). A `bots/v58` folder may already
+   exist as an untracked Claude Code experiment (meta draft + opening pack, both rejected; diff in
+   `artifacts/claude_ops/rejected/v58-meta-draft-open-pack-vs-v57.diff`): move it to
+   `artifacts/tmp/v58-claude-experiment` first, then copy from v57.
 3. Never commit `config/paths.json`. Another agent (Claude Code) works in this same checkout: `git add` only files you
    created or changed, never `git add -A`. Commit and push after every accepted mechanism.
 4. Raw replays and downloads stay in `artifacts/local-only/` (git-ignored). Never commit replays.
