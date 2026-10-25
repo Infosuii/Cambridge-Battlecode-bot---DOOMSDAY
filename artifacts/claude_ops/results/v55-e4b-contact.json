@@ -1,0 +1,2105 @@
+{
+ "games": 120,
+ "maps": [
+  "00eight",
+  "00quadrants",
+  "00rows",
+  "00rushbait-v2",
+  "01gold-rush"
+ ],
+ "definition": "full_health5=hp five sampled alive rounds before death >=75% final maxHP; no_return_fire=pvp basic attacks zero in last5; proxy does not prove hidden vision/ambush",
+ "metrics": {
+  "contact_rounds": {
+   "candidate": {
+    "mean": 650.375,
+    "median": 748.0
+   },
+   "opponent": {
+    "mean": 651.0916666666667,
+    "median": 751.5
+   }
+  },
+  "hp_lost_per_contact_round": {
+   "candidate": {
+    "mean": 48.02287619077201,
+    "median": 45.22513034624098
+   },
+   "opponent": {
+    "mean": 53.213504186017914,
+    "median": 49.20863763665223
+   }
+  },
+  "deaths": {
+   "candidate": {
+    "mean": 15.4,
+    "median": 8.0
+   },
+   "opponent": {
+    "mean": 12.35,
+    "median": 8.0
+   }
+  },
+  "full_health5_deaths": {
+   "candidate": {
+    "mean": 4.691666666666666,
+    "median": 0.0
+   },
+   "opponent": {
+    "mean": 3.1416666666666666,
+    "median": 1.0
+   }
+  },
+  "full_health5_no_return_fire_proxy": {
+   "candidate": {
+    "mean": 2.7333333333333334,
+    "median": 0.0
+   },
+   "opponent": {
+    "mean": 1.8583333333333334,
+    "median": 0.0
+   }
+  }
+ },
+ "per_game": [
+  {
+   "id": "00eight-A-seed1",
+   "candidate": {
+    "contact_rounds": 894,
+    "hp_lost_per_contact_round": 79.44411367804679,
+    "deaths": 14,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 895,
+    "hp_lost_per_contact_round": 59.43161522209977,
+    "deaths": 26,
+    "full_health5_deaths": 6,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed1",
+   "candidate": {
+    "contact_rounds": 1418,
+    "hp_lost_per_contact_round": 72.28906519019553,
+    "deaths": 16,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1417,
+    "hp_lost_per_contact_round": 59.8208025903372,
+    "deaths": 23,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed1",
+   "candidate": {
+    "contact_rounds": 170,
+    "hp_lost_per_contact_round": 25.74705882352941,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 170,
+    "hp_lost_per_contact_round": 20.2,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-B-seed1",
+   "candidate": {
+    "contact_rounds": 84,
+    "hp_lost_per_contact_round": 25.485711960565474,
+    "deaths": 3,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 2
+   },
+   "opponent": {
+    "contact_rounds": 86,
+    "hp_lost_per_contact_round": 53.50930218363917,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed1",
+   "candidate": {
+    "contact_rounds": 367,
+    "hp_lost_per_contact_round": 43.235210699346474,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 369,
+    "hp_lost_per_contact_round": 49.573300162628094,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed1",
+   "candidate": {
+    "contact_rounds": 308,
+    "hp_lost_per_contact_round": 30.087986537388392,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 306,
+    "hp_lost_per_contact_round": 23.643346449908087,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed1",
+   "candidate": {
+    "contact_rounds": 705,
+    "hp_lost_per_contact_round": 40.867856289478055,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 715,
+    "hp_lost_per_contact_round": 41.46680178342166,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed1",
+   "candidate": {
+    "contact_rounds": 750,
+    "hp_lost_per_contact_round": 27.345625040690106,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 755,
+    "hp_lost_per_contact_round": 42.83470604498655,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed1",
+   "candidate": {
+    "contact_rounds": 1106,
+    "hp_lost_per_contact_round": 74.5561481772452,
+    "deaths": 35,
+    "full_health5_deaths": 14,
+    "full_health5_no_return_fire_proxy": 10
+   },
+   "opponent": {
+    "contact_rounds": 1108,
+    "hp_lost_per_contact_round": 84.73312088728812,
+    "deaths": 32,
+    "full_health5_deaths": 11,
+    "full_health5_no_return_fire_proxy": 8
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed1",
+   "candidate": {
+    "contact_rounds": 1030,
+    "hp_lost_per_contact_round": 104.56009728885391,
+    "deaths": 38,
+    "full_health5_deaths": 15,
+    "full_health5_no_return_fire_proxy": 9
+   },
+   "opponent": {
+    "contact_rounds": 1041,
+    "hp_lost_per_contact_round": 94.19241142456173,
+    "deaths": 46,
+    "full_health5_deaths": 18,
+    "full_health5_no_return_fire_proxy": 13
+   }
+  },
+  {
+   "id": "00eight-A-seed10",
+   "candidate": {
+    "contact_rounds": 972,
+    "hp_lost_per_contact_round": 62.975521982452015,
+    "deaths": 18,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 981,
+    "hp_lost_per_contact_round": 44.580077082860484,
+    "deaths": 24,
+    "full_health5_deaths": 7,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed10",
+   "candidate": {
+    "contact_rounds": 846,
+    "hp_lost_per_contact_round": 64.77488136742414,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 863,
+    "hp_lost_per_contact_round": 38.12418196624013,
+    "deaths": 27,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 2
+   }
+  },
+  {
+   "id": "00rows-A-seed10",
+   "candidate": {
+    "contact_rounds": 48,
+    "hp_lost_per_contact_round": 48.42498779296875,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 53,
+    "hp_lost_per_contact_round": 18.849056603773583,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-B-seed10",
+   "candidate": {
+    "contact_rounds": 181,
+    "hp_lost_per_contact_round": 48.03536059974965,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 203,
+    "hp_lost_per_contact_round": 47.211331672856375,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed10",
+   "candidate": {
+    "contact_rounds": 297,
+    "hp_lost_per_contact_round": 39.84668667468961,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 299,
+    "hp_lost_per_contact_round": 31.30823386712218,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed10",
+   "candidate": {
+    "contact_rounds": 517,
+    "hp_lost_per_contact_round": 47.5486773374694,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 520,
+    "hp_lost_per_contact_round": 45.00586156111497,
+    "deaths": 9,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed10",
+   "candidate": {
+    "contact_rounds": 706,
+    "hp_lost_per_contact_round": 48.40895082727708,
+    "deaths": 14,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 702,
+    "hp_lost_per_contact_round": 58.37338708948206,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed10",
+   "candidate": {
+    "contact_rounds": 648,
+    "hp_lost_per_contact_round": 40.95547075624819,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 650,
+    "hp_lost_per_contact_round": 40.31948260967548,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed10",
+   "candidate": {
+    "contact_rounds": 729,
+    "hp_lost_per_contact_round": 33.27475971907418,
+    "deaths": 43,
+    "full_health5_deaths": 27,
+    "full_health5_no_return_fire_proxy": 18
+   },
+   "opponent": {
+    "contact_rounds": 733,
+    "hp_lost_per_contact_round": 79.90941200412475,
+    "deaths": 8,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 3
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed10",
+   "candidate": {
+    "contact_rounds": 766,
+    "hp_lost_per_contact_round": 63.960052211353116,
+    "deaths": 7,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 3
+   },
+   "opponent": {
+    "contact_rounds": 786,
+    "hp_lost_per_contact_round": 35.634224675690554,
+    "deaths": 39,
+    "full_health5_deaths": 22,
+    "full_health5_no_return_fire_proxy": 11
+   }
+  },
+  {
+   "id": "00eight-A-seed11",
+   "candidate": {
+    "contact_rounds": 1070,
+    "hp_lost_per_contact_round": 42.08772734169648,
+    "deaths": 32,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1073,
+    "hp_lost_per_contact_round": 71.59624420763284,
+    "deaths": 11,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed11",
+   "candidate": {
+    "contact_rounds": 1208,
+    "hp_lost_per_contact_round": 68.32435580752544,
+    "deaths": 16,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1202,
+    "hp_lost_per_contact_round": 53.588933655902274,
+    "deaths": 30,
+    "full_health5_deaths": 4,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed11",
+   "candidate": {
+    "contact_rounds": 100,
+    "hp_lost_per_contact_round": 59.4,
+    "deaths": 4,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 2
+   },
+   "opponent": {
+    "contact_rounds": 97,
+    "hp_lost_per_contact_round": 56.08246667606314,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-B-seed11",
+   "candidate": {
+    "contact_rounds": 89,
+    "hp_lost_per_contact_round": 53.00898999846383,
+    "deaths": 3,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   },
+   "opponent": {
+    "contact_rounds": 88,
+    "hp_lost_per_contact_round": 86.85680042613636,
+    "deaths": 2,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00quadrants-A-seed11",
+   "candidate": {
+    "contact_rounds": 408,
+    "hp_lost_per_contact_round": 37.793456582462085,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 413,
+    "hp_lost_per_contact_round": 31.23840250749565,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed11",
+   "candidate": {
+    "contact_rounds": 412,
+    "hp_lost_per_contact_round": 20.216729562259413,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 400,
+    "hp_lost_per_contact_round": 34.195,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed11",
+   "candidate": {
+    "contact_rounds": 1135,
+    "hp_lost_per_contact_round": 41.55290791515737,
+    "deaths": 15,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1152,
+    "hp_lost_per_contact_round": 48.0339150428772,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed11",
+   "candidate": {
+    "contact_rounds": 829,
+    "hp_lost_per_contact_round": 33.86941430767138,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 828,
+    "hp_lost_per_contact_round": 30.39081510829465,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed11",
+   "candidate": {
+    "contact_rounds": 936,
+    "hp_lost_per_contact_round": 91.97040557861328,
+    "deaths": 42,
+    "full_health5_deaths": 19,
+    "full_health5_no_return_fire_proxy": 14
+   },
+   "opponent": {
+    "contact_rounds": 943,
+    "hp_lost_per_contact_round": 105.33128238811473,
+    "deaths": 51,
+    "full_health5_deaths": 28,
+    "full_health5_no_return_fire_proxy": 19
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed11",
+   "candidate": {
+    "contact_rounds": 722,
+    "hp_lost_per_contact_round": 34.92493199905861,
+    "deaths": 44,
+    "full_health5_deaths": 21,
+    "full_health5_no_return_fire_proxy": 12
+   },
+   "opponent": {
+    "contact_rounds": 731,
+    "hp_lost_per_contact_round": 82.63515512072436,
+    "deaths": 13,
+    "full_health5_deaths": 4,
+    "full_health5_no_return_fire_proxy": 3
+   }
+  },
+  {
+   "id": "00eight-A-seed12",
+   "candidate": {
+    "contact_rounds": 1252,
+    "hp_lost_per_contact_round": 62.4796536722884,
+    "deaths": 27,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1258,
+    "hp_lost_per_contact_round": 69.0254372140372,
+    "deaths": 23,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed12",
+   "candidate": {
+    "contact_rounds": 955,
+    "hp_lost_per_contact_round": 64.980001048143,
+    "deaths": 9,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 967,
+    "hp_lost_per_contact_round": 41.303676096335316,
+    "deaths": 30,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed12",
+   "candidate": {
+    "contact_rounds": 172,
+    "hp_lost_per_contact_round": 32.58488286927689,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 172,
+    "hp_lost_per_contact_round": 40.12616321652435,
+    "deaths": 3,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00rows-B-seed12",
+   "candidate": {
+    "contact_rounds": 42,
+    "hp_lost_per_contact_round": 14.571428571428571,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 42,
+    "hp_lost_per_contact_round": 45.023809523809526,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed12",
+   "candidate": {
+    "contact_rounds": 277,
+    "hp_lost_per_contact_round": 34.311080326672496,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 260,
+    "hp_lost_per_contact_round": 39.139880840594955,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed12",
+   "candidate": {
+    "contact_rounds": 202,
+    "hp_lost_per_contact_round": 49.70926700252117,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 196,
+    "hp_lost_per_contact_round": 31.37396022251674,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed12",
+   "candidate": {
+    "contact_rounds": 954,
+    "hp_lost_per_contact_round": 57.15992452113633,
+    "deaths": 13,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 941,
+    "hp_lost_per_contact_round": 71.30696260004318,
+    "deaths": 11,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed12",
+   "candidate": {
+    "contact_rounds": 812,
+    "hp_lost_per_contact_round": 47.941508927368766,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 830,
+    "hp_lost_per_contact_round": 39.610370976091865,
+    "deaths": 9,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed12",
+   "candidate": {
+    "contact_rounds": 967,
+    "hp_lost_per_contact_round": 22.790897688919905,
+    "deaths": 39,
+    "full_health5_deaths": 22,
+    "full_health5_no_return_fire_proxy": 12
+   },
+   "opponent": {
+    "contact_rounds": 976,
+    "hp_lost_per_contact_round": 53.75963104748335,
+    "deaths": 14,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 3
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed12",
+   "candidate": {
+    "contact_rounds": 895,
+    "hp_lost_per_contact_round": 39.260781741009076,
+    "deaths": 42,
+    "full_health5_deaths": 18,
+    "full_health5_no_return_fire_proxy": 12
+   },
+   "opponent": {
+    "contact_rounds": 893,
+    "hp_lost_per_contact_round": 56.54132059573593,
+    "deaths": 21,
+    "full_health5_deaths": 10,
+    "full_health5_no_return_fire_proxy": 9
+   }
+  },
+  {
+   "id": "00eight-A-seed2",
+   "candidate": {
+    "contact_rounds": 960,
+    "hp_lost_per_contact_round": 61.92717266082764,
+    "deaths": 10,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 948,
+    "hp_lost_per_contact_round": 45.32740884289963,
+    "deaths": 23,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed2",
+   "candidate": {
+    "contact_rounds": 1096,
+    "hp_lost_per_contact_round": 63.03311109890903,
+    "deaths": 16,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1105,
+    "hp_lost_per_contact_round": 53.94359697022589,
+    "deaths": 26,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed2",
+   "candidate": {
+    "contact_rounds": 73,
+    "hp_lost_per_contact_round": 36.80821917808219,
+    "deaths": 2,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 2
+   },
+   "opponent": {
+    "contact_rounds": 74,
+    "hp_lost_per_contact_round": 35.244590965477194,
+    "deaths": 4,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 2
+   }
+  },
+  {
+   "id": "00rows-B-seed2",
+   "candidate": {
+    "contact_rounds": 35,
+    "hp_lost_per_contact_round": 58.205716378348214,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 37,
+    "hp_lost_per_contact_round": 49.351351351351354,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed2",
+   "candidate": {
+    "contact_rounds": 330,
+    "hp_lost_per_contact_round": 38.458323808149856,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 324,
+    "hp_lost_per_contact_round": 51.03395061728395,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed2",
+   "candidate": {
+    "contact_rounds": 360,
+    "hp_lost_per_contact_round": 29.754602728949653,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 369,
+    "hp_lost_per_contact_round": 25.641874483930387,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed2",
+   "candidate": {
+    "contact_rounds": 746,
+    "hp_lost_per_contact_round": 29.69257794500356,
+    "deaths": 10,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 753,
+    "hp_lost_per_contact_round": 33.13569999786012,
+    "deaths": 1,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed2",
+   "candidate": {
+    "contact_rounds": 908,
+    "hp_lost_per_contact_round": 48.00589110252616,
+    "deaths": 11,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 898,
+    "hp_lost_per_contact_round": 55.5142846054383,
+    "deaths": 8,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed2",
+   "candidate": {
+    "contact_rounds": 746,
+    "hp_lost_per_contact_round": 28.163673625874456,
+    "deaths": 42,
+    "full_health5_deaths": 23,
+    "full_health5_no_return_fire_proxy": 13
+   },
+   "opponent": {
+    "contact_rounds": 740,
+    "hp_lost_per_contact_round": 59.736486486486484,
+    "deaths": 16,
+    "full_health5_deaths": 9,
+    "full_health5_no_return_fire_proxy": 8
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed2",
+   "candidate": {
+    "contact_rounds": 825,
+    "hp_lost_per_contact_round": 45.309332386363636,
+    "deaths": 52,
+    "full_health5_deaths": 25,
+    "full_health5_no_return_fire_proxy": 16
+   },
+   "opponent": {
+    "contact_rounds": 805,
+    "hp_lost_per_contact_round": 94.7232288431677,
+    "deaths": 22,
+    "full_health5_deaths": 9,
+    "full_health5_no_return_fire_proxy": 6
+   }
+  },
+  {
+   "id": "00eight-A-seed3",
+   "candidate": {
+    "contact_rounds": 1443,
+    "hp_lost_per_contact_round": 65.9037881429544,
+    "deaths": 18,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1448,
+    "hp_lost_per_contact_round": 66.03127602845925,
+    "deaths": 20,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed3",
+   "candidate": {
+    "contact_rounds": 1084,
+    "hp_lost_per_contact_round": 42.911247591250934,
+    "deaths": 24,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1060,
+    "hp_lost_per_contact_round": 70.21616635592478,
+    "deaths": 14,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed3",
+   "candidate": {
+    "contact_rounds": 141,
+    "hp_lost_per_contact_round": 60.397158791832894,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 136,
+    "hp_lost_per_contact_round": 37.500001795151654,
+    "deaths": 7,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 3
+   }
+  },
+  {
+   "id": "00rows-B-seed3",
+   "candidate": {
+    "contact_rounds": 78,
+    "hp_lost_per_contact_round": 81.6551263271234,
+    "deaths": 3,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 84,
+    "hp_lost_per_contact_round": 75.81190418061756,
+    "deaths": 3,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00quadrants-A-seed3",
+   "candidate": {
+    "contact_rounds": 325,
+    "hp_lost_per_contact_round": 46.353370549128606,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 325,
+    "hp_lost_per_contact_round": 52.525228740985575,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed3",
+   "candidate": {
+    "contact_rounds": 367,
+    "hp_lost_per_contact_round": 39.756377758057305,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 368,
+    "hp_lost_per_contact_round": 37.105162081511125,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed3",
+   "candidate": {
+    "contact_rounds": 739,
+    "hp_lost_per_contact_round": 35.98085672381121,
+    "deaths": 12,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 740,
+    "hp_lost_per_contact_round": 48.64230152851827,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed3",
+   "candidate": {
+    "contact_rounds": 919,
+    "hp_lost_per_contact_round": 41.72406103821133,
+    "deaths": 10,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 909,
+    "hp_lost_per_contact_round": 45.49697684612211,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed3",
+   "candidate": {
+    "contact_rounds": 962,
+    "hp_lost_per_contact_round": 42.32474091147187,
+    "deaths": 44,
+    "full_health5_deaths": 23,
+    "full_health5_no_return_fire_proxy": 10
+   },
+   "opponent": {
+    "contact_rounds": 932,
+    "hp_lost_per_contact_round": 69.54957014092048,
+    "deaths": 15,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 5
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed3",
+   "candidate": {
+    "contact_rounds": 853,
+    "hp_lost_per_contact_round": 59.21898984741354,
+    "deaths": 48,
+    "full_health5_deaths": 26,
+    "full_health5_no_return_fire_proxy": 15
+   },
+   "opponent": {
+    "contact_rounds": 849,
+    "hp_lost_per_contact_round": 88.07243726391113,
+    "deaths": 24,
+    "full_health5_deaths": 7,
+    "full_health5_no_return_fire_proxy": 5
+   }
+  },
+  {
+   "id": "00eight-A-seed4",
+   "candidate": {
+    "contact_rounds": 1192,
+    "hp_lost_per_contact_round": 80.3864023733459,
+    "deaths": 28,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1193,
+    "hp_lost_per_contact_round": 80.51876243981411,
+    "deaths": 24,
+    "full_health5_deaths": 4,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed4",
+   "candidate": {
+    "contact_rounds": 1253,
+    "hp_lost_per_contact_round": 61.65088562230919,
+    "deaths": 23,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1258,
+    "hp_lost_per_contact_round": 59.31155912220383,
+    "deaths": 25,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed4",
+   "candidate": {
+    "contact_rounds": 74,
+    "hp_lost_per_contact_round": 20.33783783783784,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 73,
+    "hp_lost_per_contact_round": 60.273972602739725,
+    "deaths": 2,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 2
+   }
+  },
+  {
+   "id": "00rows-B-seed4",
+   "candidate": {
+    "contact_rounds": 56,
+    "hp_lost_per_contact_round": 61.88392857142857,
+    "deaths": 1,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 58,
+    "hp_lost_per_contact_round": 90.71032925309807,
+    "deaths": 2,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00quadrants-A-seed4",
+   "candidate": {
+    "contact_rounds": 330,
+    "hp_lost_per_contact_round": 32.682653253728695,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 330,
+    "hp_lost_per_contact_round": 33.45276914654356,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed4",
+   "candidate": {
+    "contact_rounds": 355,
+    "hp_lost_per_contact_round": 35.22783237511003,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 350,
+    "hp_lost_per_contact_round": 36.92535949707031,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed4",
+   "candidate": {
+    "contact_rounds": 790,
+    "hp_lost_per_contact_round": 35.454855308049844,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 808,
+    "hp_lost_per_contact_round": 26.200321159740486,
+    "deaths": 12,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed4",
+   "candidate": {
+    "contact_rounds": 589,
+    "hp_lost_per_contact_round": 29.44907595467689,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 592,
+    "hp_lost_per_contact_round": 43.193617640314876,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed4",
+   "candidate": {
+    "contact_rounds": 926,
+    "hp_lost_per_contact_round": 81.92602506106152,
+    "deaths": 36,
+    "full_health5_deaths": 13,
+    "full_health5_no_return_fire_proxy": 11
+   },
+   "opponent": {
+    "contact_rounds": 938,
+    "hp_lost_per_contact_round": 87.6720673453325,
+    "deaths": 39,
+    "full_health5_deaths": 19,
+    "full_health5_no_return_fire_proxy": 16
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed4",
+   "candidate": {
+    "contact_rounds": 974,
+    "hp_lost_per_contact_round": 43.544353132619996,
+    "deaths": 42,
+    "full_health5_deaths": 23,
+    "full_health5_no_return_fire_proxy": 15
+   },
+   "opponent": {
+    "contact_rounds": 967,
+    "hp_lost_per_contact_round": 65.37724624523332,
+    "deaths": 23,
+    "full_health5_deaths": 11,
+    "full_health5_no_return_fire_proxy": 7
+   }
+  },
+  {
+   "id": "00eight-A-seed5",
+   "candidate": {
+    "contact_rounds": 989,
+    "hp_lost_per_contact_round": 42.41760050250016,
+    "deaths": 31,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 988,
+    "hp_lost_per_contact_round": 76.60762266398442,
+    "deaths": 9,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed5",
+   "candidate": {
+    "contact_rounds": 1316,
+    "hp_lost_per_contact_round": 62.60448723650993,
+    "deaths": 24,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1319,
+    "hp_lost_per_contact_round": 54.51933622902501,
+    "deaths": 29,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed5",
+   "candidate": {
+    "contact_rounds": 143,
+    "hp_lost_per_contact_round": 47.91818087917942,
+    "deaths": 7,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 3
+   },
+   "opponent": {
+    "contact_rounds": 146,
+    "hp_lost_per_contact_round": 47.973973104398546,
+    "deaths": 3,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 2
+   }
+  },
+  {
+   "id": "00rows-B-seed5",
+   "candidate": {
+    "contact_rounds": 111,
+    "hp_lost_per_contact_round": 54.44864743894285,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 116,
+    "hp_lost_per_contact_round": 29.95862132105334,
+    "deaths": 2,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00quadrants-A-seed5",
+   "candidate": {
+    "contact_rounds": 454,
+    "hp_lost_per_contact_round": 41.99166268504138,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 460,
+    "hp_lost_per_contact_round": 43.706225983992866,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed5",
+   "candidate": {
+    "contact_rounds": 178,
+    "hp_lost_per_contact_round": 29.54564606741573,
+    "deaths": 1,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 174,
+    "hp_lost_per_contact_round": 31.89252866547683,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed5",
+   "candidate": {
+    "contact_rounds": 750,
+    "hp_lost_per_contact_round": 58.09526749674479,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 750,
+    "hp_lost_per_contact_round": 39.45435913085937,
+    "deaths": 14,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed5",
+   "candidate": {
+    "contact_rounds": 905,
+    "hp_lost_per_contact_round": 46.53499025797976,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 905,
+    "hp_lost_per_contact_round": 44.58121847078945,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed5",
+   "candidate": {
+    "contact_rounds": 677,
+    "hp_lost_per_contact_round": 33.84682497280915,
+    "deaths": 51,
+    "full_health5_deaths": 30,
+    "full_health5_no_return_fire_proxy": 16
+   },
+   "opponent": {
+    "contact_rounds": 660,
+    "hp_lost_per_contact_round": 86.1542423132694,
+    "deaths": 16,
+    "full_health5_deaths": 8,
+    "full_health5_no_return_fire_proxy": 7
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed5",
+   "candidate": {
+    "contact_rounds": 717,
+    "hp_lost_per_contact_round": 46.142398169183664,
+    "deaths": 43,
+    "full_health5_deaths": 25,
+    "full_health5_no_return_fire_proxy": 17
+   },
+   "opponent": {
+    "contact_rounds": 710,
+    "hp_lost_per_contact_round": 85.21028167294784,
+    "deaths": 23,
+    "full_health5_deaths": 8,
+    "full_health5_no_return_fire_proxy": 7
+   }
+  },
+  {
+   "id": "00eight-A-seed6",
+   "candidate": {
+    "contact_rounds": 1312,
+    "hp_lost_per_contact_round": 63.155369444591244,
+    "deaths": 31,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1338,
+    "hp_lost_per_contact_round": 61.46886441810961,
+    "deaths": 19,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed6",
+   "candidate": {
+    "contact_rounds": 945,
+    "hp_lost_per_contact_round": 70.79738646815063,
+    "deaths": 12,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 951,
+    "hp_lost_per_contact_round": 44.58729095940334,
+    "deaths": 32,
+    "full_health5_deaths": 8,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00rows-A-seed6",
+   "candidate": {
+    "contact_rounds": 194,
+    "hp_lost_per_contact_round": 48.67732348884504,
+    "deaths": 2,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   },
+   "opponent": {
+    "contact_rounds": 196,
+    "hp_lost_per_contact_round": 26.786736624581472,
+    "deaths": 9,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 5
+   }
+  },
+  {
+   "id": "00rows-B-seed6",
+   "candidate": {
+    "contact_rounds": 131,
+    "hp_lost_per_contact_round": 53.613750195685235,
+    "deaths": 4,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 2
+   },
+   "opponent": {
+    "contact_rounds": 134,
+    "hp_lost_per_contact_round": 77.60373129773495,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed6",
+   "candidate": {
+    "contact_rounds": 350,
+    "hp_lost_per_contact_round": 37.9596435546875,
+    "deaths": 8,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 360,
+    "hp_lost_per_contact_round": 49.11684807671441,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed6",
+   "candidate": {
+    "contact_rounds": 350,
+    "hp_lost_per_contact_round": 44.55901035853795,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 351,
+    "hp_lost_per_contact_round": 39.816561707064636,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed6",
+   "candidate": {
+    "contact_rounds": 932,
+    "hp_lost_per_contact_round": 41.32671601782541,
+    "deaths": 10,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 933,
+    "hp_lost_per_contact_round": 40.4113172917504,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed6",
+   "candidate": {
+    "contact_rounds": 923,
+    "hp_lost_per_contact_round": 42.181662645267636,
+    "deaths": 5,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 936,
+    "hp_lost_per_contact_round": 28.55179472051115,
+    "deaths": 8,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed6",
+   "candidate": {
+    "contact_rounds": 871,
+    "hp_lost_per_contact_round": 71.36819727795816,
+    "deaths": 59,
+    "full_health5_deaths": 34,
+    "full_health5_no_return_fire_proxy": 21
+   },
+   "opponent": {
+    "contact_rounds": 865,
+    "hp_lost_per_contact_round": 94.38300513118678,
+    "deaths": 27,
+    "full_health5_deaths": 12,
+    "full_health5_no_return_fire_proxy": 7
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed6",
+   "candidate": {
+    "contact_rounds": 1143,
+    "hp_lost_per_contact_round": 47.939021980772914,
+    "deaths": 49,
+    "full_health5_deaths": 26,
+    "full_health5_no_return_fire_proxy": 17
+   },
+   "opponent": {
+    "contact_rounds": 1130,
+    "hp_lost_per_contact_round": 73.78592751427034,
+    "deaths": 24,
+    "full_health5_deaths": 10,
+    "full_health5_no_return_fire_proxy": 8
+   }
+  },
+  {
+   "id": "00eight-A-seed7",
+   "candidate": {
+    "contact_rounds": 1017,
+    "hp_lost_per_contact_round": 49.963314855344876,
+    "deaths": 32,
+    "full_health5_deaths": 4,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1007,
+    "hp_lost_per_contact_round": 72.20728117896405,
+    "deaths": 11,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed7",
+   "candidate": {
+    "contact_rounds": 1043,
+    "hp_lost_per_contact_round": 92.8565246494253,
+    "deaths": 13,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1048,
+    "hp_lost_per_contact_round": 49.30042719659004,
+    "deaths": 36,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed7",
+   "candidate": {
+    "contact_rounds": 107,
+    "hp_lost_per_contact_round": 49.55327855760806,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 110,
+    "hp_lost_per_contact_round": 57.81181640625,
+    "deaths": 4,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00rows-B-seed7",
+   "candidate": {
+    "contact_rounds": 208,
+    "hp_lost_per_contact_round": 27.533653846153847,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 208,
+    "hp_lost_per_contact_round": 51.978361276479866,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed7",
+   "candidate": {
+    "contact_rounds": 391,
+    "hp_lost_per_contact_round": 30.7856776244805,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 404,
+    "hp_lost_per_contact_round": 36.24302325862469,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed7",
+   "candidate": {
+    "contact_rounds": 250,
+    "hp_lost_per_contact_round": 29.48,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 239,
+    "hp_lost_per_contact_round": 22.639644351464437,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed7",
+   "candidate": {
+    "contact_rounds": 831,
+    "hp_lost_per_contact_round": 38.7172933089604,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 841,
+    "hp_lost_per_contact_round": 30.430947756228633,
+    "deaths": 11,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed7",
+   "candidate": {
+    "contact_rounds": 1027,
+    "hp_lost_per_contact_round": 42.71190908519296,
+    "deaths": 9,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1042,
+    "hp_lost_per_contact_round": 42.95808621514553,
+    "deaths": 7,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed7",
+   "candidate": {
+    "contact_rounds": 822,
+    "hp_lost_per_contact_round": 45.23102344967733,
+    "deaths": 43,
+    "full_health5_deaths": 23,
+    "full_health5_no_return_fire_proxy": 10
+   },
+   "opponent": {
+    "contact_rounds": 816,
+    "hp_lost_per_contact_round": 82.86580906662286,
+    "deaths": 21,
+    "full_health5_deaths": 10,
+    "full_health5_no_return_fire_proxy": 8
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed7",
+   "candidate": {
+    "contact_rounds": 775,
+    "hp_lost_per_contact_round": 20.231742061491936,
+    "deaths": 41,
+    "full_health5_deaths": 23,
+    "full_health5_no_return_fire_proxy": 15
+   },
+   "opponent": {
+    "contact_rounds": 763,
+    "hp_lost_per_contact_round": 61.672870441001805,
+    "deaths": 10,
+    "full_health5_deaths": 5,
+    "full_health5_no_return_fire_proxy": 5
+   }
+  },
+  {
+   "id": "00eight-A-seed8",
+   "candidate": {
+    "contact_rounds": 1011,
+    "hp_lost_per_contact_round": 62.609388885347116,
+    "deaths": 13,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1018,
+    "hp_lost_per_contact_round": 52.17544155832827,
+    "deaths": 24,
+    "full_health5_deaths": 7,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00eight-B-seed8",
+   "candidate": {
+    "contact_rounds": 1007,
+    "hp_lost_per_contact_round": 46.84316213507401,
+    "deaths": 31,
+    "full_health5_deaths": 3,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 990,
+    "hp_lost_per_contact_round": 79.44142699578796,
+    "deaths": 12,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed8",
+   "candidate": {
+    "contact_rounds": 87,
+    "hp_lost_per_contact_round": 100.0,
+    "deaths": 1,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   },
+   "opponent": {
+    "contact_rounds": 89,
+    "hp_lost_per_contact_round": 68.86968376931179,
+    "deaths": 5,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00rows-B-seed8",
+   "candidate": {
+    "contact_rounds": 134,
+    "hp_lost_per_contact_round": 35.348520762884796,
+    "deaths": 2,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   },
+   "opponent": {
+    "contact_rounds": 141,
+    "hp_lost_per_contact_round": 47.862412040115245,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed8",
+   "candidate": {
+    "contact_rounds": 263,
+    "hp_lost_per_contact_round": 53.74786121673004,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 260,
+    "hp_lost_per_contact_round": 41.45838000957782,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed8",
+   "candidate": {
+    "contact_rounds": 345,
+    "hp_lost_per_contact_round": 49.453052111639494,
+    "deaths": 7,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 341,
+    "hp_lost_per_contact_round": 43.78707250332203,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed8",
+   "candidate": {
+    "contact_rounds": 858,
+    "hp_lost_per_contact_round": 48.77031211586265,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 868,
+    "hp_lost_per_contact_round": 38.08722542617728,
+    "deaths": 10,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed8",
+   "candidate": {
+    "contact_rounds": 1014,
+    "hp_lost_per_contact_round": 40.522950121636924,
+    "deaths": 11,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 1010,
+    "hp_lost_per_contact_round": 39.47155226905747,
+    "deaths": 8,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed8",
+   "candidate": {
+    "contact_rounds": 812,
+    "hp_lost_per_contact_round": 30.39741162830973,
+    "deaths": 43,
+    "full_health5_deaths": 27,
+    "full_health5_no_return_fire_proxy": 16
+   },
+   "opponent": {
+    "contact_rounds": 789,
+    "hp_lost_per_contact_round": 79.9452468620658,
+    "deaths": 12,
+    "full_health5_deaths": 6,
+    "full_health5_no_return_fire_proxy": 6
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed8",
+   "candidate": {
+    "contact_rounds": 833,
+    "hp_lost_per_contact_round": 69.70732191802502,
+    "deaths": 23,
+    "full_health5_deaths": 7,
+    "full_health5_no_return_fire_proxy": 6
+   },
+   "opponent": {
+    "contact_rounds": 829,
+    "hp_lost_per_contact_round": 50.97008305493252,
+    "deaths": 36,
+    "full_health5_deaths": 21,
+    "full_health5_no_return_fire_proxy": 11
+   }
+  },
+  {
+   "id": "00eight-A-seed9",
+   "candidate": {
+    "contact_rounds": 847,
+    "hp_lost_per_contact_round": 34.00398425537974,
+    "deaths": 31,
+    "full_health5_deaths": 4,
+    "full_health5_no_return_fire_proxy": 1
+   },
+   "opponent": {
+    "contact_rounds": 851,
+    "hp_lost_per_contact_round": 66.4688063373857,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00eight-B-seed9",
+   "candidate": {
+    "contact_rounds": 908,
+    "hp_lost_per_contact_round": 63.05565320657738,
+    "deaths": 20,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 906,
+    "hp_lost_per_contact_round": 60.13444793566436,
+    "deaths": 17,
+    "full_health5_deaths": 2,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rows-A-seed9",
+   "candidate": {
+    "contact_rounds": 255,
+    "hp_lost_per_contact_round": 43.87333266314338,
+    "deaths": 6,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 256,
+    "hp_lost_per_contact_round": 36.291407346725464,
+    "deaths": 3,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 1
+   }
+  },
+  {
+   "id": "00rows-B-seed9",
+   "candidate": {
+    "contact_rounds": 20,
+    "hp_lost_per_contact_round": 7.65,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 22,
+    "hp_lost_per_contact_round": 71.79545454545455,
+    "deaths": 0,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-A-seed9",
+   "candidate": {
+    "contact_rounds": 335,
+    "hp_lost_per_contact_round": 35.632528185488574,
+    "deaths": 5,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 340,
+    "hp_lost_per_contact_round": 34.40423157635857,
+    "deaths": 4,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00quadrants-B-seed9",
+   "candidate": {
+    "contact_rounds": 254,
+    "hp_lost_per_contact_round": 37.692097821573576,
+    "deaths": 3,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 247,
+    "hp_lost_per_contact_round": 46.165181889707746,
+    "deaths": 2,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-A-seed9",
+   "candidate": {
+    "contact_rounds": 720,
+    "hp_lost_per_contact_round": 45.21923724280463,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 714,
+    "hp_lost_per_contact_round": 48.86460624288778,
+    "deaths": 8,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "00rushbait-v2-B-seed9",
+   "candidate": {
+    "contact_rounds": 799,
+    "hp_lost_per_contact_round": 32.720412195847835,
+    "deaths": 7,
+    "full_health5_deaths": 1,
+    "full_health5_no_return_fire_proxy": 0
+   },
+   "opponent": {
+    "contact_rounds": 793,
+    "hp_lost_per_contact_round": 36.775251698824675,
+    "deaths": 6,
+    "full_health5_deaths": 0,
+    "full_health5_no_return_fire_proxy": 0
+   }
+  },
+  {
+   "id": "01gold-rush-A-seed9",
+   "candidate": {
+    "contact_rounds": 1058,
+    "hp_lost_per_contact_round": 77.49886640754224,
+    "deaths": 34,
+    "full_health5_deaths": 12,
+    "full_health5_no_return_fire_proxy": 11
+   },
+   "opponent": {
+    "contact_rounds": 1061,
+    "hp_lost_per_contact_round": 68.15032976242195,
+    "deaths": 50,
+    "full_health5_deaths": 22,
+    "full_health5_no_return_fire_proxy": 16
+   }
+  },
+  {
+   "id": "01gold-rush-B-seed9",
+   "candidate": {
+    "contact_rounds": 1115,
+    "hp_lost_per_contact_round": 66.92008894163396,
+    "deaths": 42,
+    "full_health5_deaths": 17,
+    "full_health5_no_return_fire_proxy": 13
+   },
+   "opponent": {
+    "contact_rounds": 1121,
+    "hp_lost_per_contact_round": 55.70312012698797,
+    "deaths": 35,
+    "full_health5_deaths": 12,
+    "full_health5_no_return_fire_proxy": 6
+   }
+  }
+ ]
+}

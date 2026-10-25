@@ -7,6 +7,7 @@ capture income, big-capture gems and stationary waits for the candidate (bot_mat
 from collections import defaultdict
 import glob
 import json
+import os
 from pathlib import Path
 import statistics as st
 import subprocess
@@ -20,13 +21,13 @@ from still_report import category  # noqa: E402
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def run_batches(script, args, files, output):
+def run_batches(script, args, files, output, until=None):
     """Bound child command lines on Windows; combine complete, ordered JSON arrays."""
     rows = []
     for start in range(0, len(files), 32):
         part = output.with_name(output.stem + f'-part{start // 32}.json')
         command = ['node', str(ROOT / 'tools/replay' / script), *args, str(part), *files[start:start + 32]]
-        subprocess.run(command, check=True, stdout=subprocess.DEVNULL)
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, env=None if until is None else dict(os.environ, NFS_LEDGER_UNTIL=str(until)))
         rows.extend(json.loads(part.read_text(encoding='utf-8')))
         print(f'{script}: {min(start + 32, len(files))}/{len(files)}', flush=True)
     output.write_text(json.dumps(rows), encoding='utf-8')
@@ -49,7 +50,7 @@ def main():
         side[out.stem] = 0 if p.parent.name.endswith('-A') else 1
     led, still = work / 'ledger.json', work / 'still.json'
     if not led.exists():
-        run_batches('actor_ledger.mjs', [], files, led)
+        run_batches('actor_ledger.mjs', [], files, led, until=500)
     if not still.exists():
         run_batches('still_runs.mjs', ['auto', '500'], files, still)
     L = json.loads(led.read_text())

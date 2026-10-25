@@ -1,0 +1,97 @@
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,6 @@
++#ifndef V55_AWAKE_EXACT
++#define V55_AWAKE_EXACT 1
++#endif
+ // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
+ #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins
+ #define V54_STAGE_ARRIVE 1
+--- a/src/tsearch.cpp
++++ b/src/tsearch.cpp
+@@ -1155,13 +1155,22 @@
+     int n_near = -1;
+     auto camps_near = [&](vec2 q, float* out, int& n_out) {
+         n_out = 0;
++#if !V55_AWAKE_EXACT
+         if (!bit(w.hot_zone, q)) return;
++#endif
+         if (n_near < 0) {
+             n_near = 0;
++#if V55_AWAKE_EXACT
++            for (int ci : w.visible_awake_camps()) {
++                const auto& c = w.camps[static_cast<std::size_t>(ci)];
++                if (n_near < 32 && cheb(c.pos, pos) <= c.range + 1) near_camps[n_near++] = ci;
++            }
++#else
+             for (std::size_t ci = 0; ci < w.camps.size() && n_near < 32; ++ci) {
+                 const auto& c = w.camps[ci];
+                 if (!c.dead && c.strength > 0 && c.hp < c.max_hp && cheb(c.pos, pos) <= c.range + 1) near_camps[n_near++] = static_cast<int>(ci);
+             }
++#endif
+         }
+         for (int k = 0; k < n_near && n_out < 32; ++k) {
+             const auto& c = w.camps[static_cast<std::size_t>(near_camps[k])];
+--- a/src/world.cpp
++++ b/src/world.cpp
+@@ -327,14 +327,36 @@
+     return row.data();
+ }
+ 
++#if V55_AWAKE_EXACT
++const std::vector<int>& World::visible_awake_camps() const {
++    if (awake_cache_valid) return awake_cache;
++    awake_cache_valid = true;
++    awake_cache.clear();
++    // Personal vision only. Full-health members can be awake; injured camps can be asleep again.
++    const auto awake = bc::vision::camp_tiles() & ~bc::vision::asleep_camp_tiles();
++    for (vec2 p : awake.positions()) {
++        const int ci = find_camp(static_cast<std::uint32_t>(p.y * width + p.x) + 1);
++        if (ci >= 0 && camps[static_cast<std::size_t>(ci)].strength > 0) awake_cache.push_back(ci);
++    }
++    return awake_cache;
++}
++#endif
+ std::vector<int> World::awake_camps_near(vec2 q) const {
+     std::vector<int> out;
++#if V55_AWAKE_EXACT
++    for (int ci : visible_awake_camps()) {
++        const auto& c = camps[static_cast<std::size_t>(ci)];
++        if (cheb(c.pos, q) <= c.range) out.push_back(ci);
++    }
++    return out;
++#else
+     if (!bit(hot_zone, q)) return out; // hot_zone covers the reach of every damaged live camp
+     for (std::size_t ci = 0; ci < camps.size(); ++ci) {
+         const auto& c = camps[ci];
+         if (!c.dead && c.strength > 0 && c.hp < c.max_hp && cheb(c.pos, q) <= c.range) out.push_back(static_cast<int>(ci));
+     }
+     return out;
++#endif
+ }
+ 
+ int World::group_to_group(int from, int to) {
+@@ -690,6 +712,9 @@
+ }
+ 
+ void World::update(int round) {
++#if V55_AWAKE_EXACT
++    awake_cache_valid = false;
++#endif
+     {
+         PROF(w_vis);
+         visible = bc::vision::visible_tiles();
+--- a/src/world.h
++++ b/src/world.h
+@@ -158,6 +158,11 @@
+     int group_to_group(int from, int to);
+     // Camps that are awake (damaged, alive) and would reach tile q (small list; for exposure).
+     std::vector<int> awake_camps_near(vec2 q) const;
++#if V55_AWAKE_EXACT
++    const std::vector<int>& visible_awake_camps() const;
++    mutable bool awake_cache_valid = false;
++    mutable std::vector<int> awake_cache;
++#endif
+     // The whole row for `from` (nullptr when its field is not built yet, or when building it is
+     // not allowed this turn).
+     const std::uint16_t* pair_row(int from, bool may_build);

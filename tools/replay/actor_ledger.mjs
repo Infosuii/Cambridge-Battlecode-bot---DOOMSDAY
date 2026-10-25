@@ -8,6 +8,8 @@ const dir = defaultAssets(); verifyAssets(dir);
 const E = await engine(dir);
 const [output, ...files] = process.argv.slice(2);
 const WINDOWS = [100, 250, 500, 1000];
+// Bench-only optional early cutoff; whole-life reports retain the default full game.
+const UNTIL = Number(process.env.NFS_LEDGER_UNTIL ?? Infinity);
 // Item index = family * 6 + stat * 2 + (1 if emblem). Families: monster, power, durability, treasure, jungle, home, bruiser.
 const FAM = ['monster', 'power', 'durability', 'treasure', 'jungle', 'home', 'bruiser'];
 const equip = (items) => items.reduce((s, n, i) => s + n * (i % 2 ? 150 : 30), 0);
@@ -88,7 +90,7 @@ for (const file of files) {
       else if (kind === 6) f.cast = 1;
       else if (kind === 12 || kind === 18) f.bank = 1;
     }
-    if (outcome || (d.getUint32(tsnap + 20, true) !== 0 && pos >= size)) break;
+    if (outcome || (d.getUint32(tsnap + 20, true) !== 0 && pos >= size) || round > UNTIL + 1) break;
     check(X.Game_Visualiser_Timeline_ReplayNext(E.h, 1));
   }
   results.push({ id: path.basename(file).replace('.repl26a', ''), rounds: final.round, submitted: final.submittedGems.map(Number),

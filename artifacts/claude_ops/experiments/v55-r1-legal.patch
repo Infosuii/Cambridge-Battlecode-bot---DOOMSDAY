@@ -1,0 +1,23 @@
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,7 @@
++// V55 opponent-driven restart: one contract correction at a time.
++#ifndef V55_DRAFT_LEGAL
++#define V55_DRAFT_LEGAL 1
++#endif
+ // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
+ #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins
+ #define V54_STAGE_ARRIVE 1
+--- a/src/draft.cpp
++++ b/src/draft.cpp
+@@ -642,7 +642,10 @@
+     const auto ours = bc::draft::current_draft(team::ally), theirs = bc::draft::current_draft(team::enemy);
+     bool taken[12] = {};
+     for (auto c : ours) if (static_cast<int>(c) >= 0 && static_cast<int>(c) < 12) taken[static_cast<int>(c)] = true;
++#if !V55_DRAFT_LEGAL
+     for (auto c : theirs) if (static_cast<int>(c) >= 0 && static_cast<int>(c) < 12) taken[static_cast<int>(c)] = true;
++#endif
++    // Enemy picks remain model features, but only our own picks make a champion unavailable.
+     const int sz = static_cast<int>(std::max<std::uint32_t>(size, 1));
+     const int j = static_cast<int>(ours.size()) + 1;
+     const bool first = theirs.size() == ours.size();

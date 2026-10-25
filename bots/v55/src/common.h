@@ -1,27 +1,6 @@
-// v55 experiments. Switches isolate hypotheses; frozen v54 is the control.
-#ifndef V55_DRAFT
-#define V55_DRAFT 0
-#endif
-#ifndef V55_OWNER
-#define V55_OWNER 0
-#endif
-#ifndef V55_BUILDS
-#define V55_BUILDS 0
-#endif
-#ifndef V55_CYCLE
-#define V55_CYCLE 0
-#endif
-#ifndef V55_BANK
-#define V55_BANK 0
-#endif
-#ifndef V55_WARDS
-#define V55_WARDS 0
-#endif
-#ifndef V55_GEAR
-#define V55_GEAR 0
-#endif
-#ifndef V55_CRYSTAL
-#define V55_CRYSTAL 0
+// V55 opponent-driven restart: one contract correction at a time.
+#ifndef V55_DRAFT_LEGAL
+#define V55_DRAFT_LEGAL 1
 #endif
 // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
 #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins

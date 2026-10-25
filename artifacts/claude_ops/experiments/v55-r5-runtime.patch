@@ -1,0 +1,92 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -4939,7 +4939,7 @@
+             if (logit[k] > logit[pick]) pick = k;
+     }
+ #if A2_LAB
+-    if (lab::cn_cfg[2] < lab::kCnLogMax) {
++    if ((!V55_TRACE_COLD || ngp::training()) && lab::cn_cfg[2] < lab::kCnLogMax) {
+         float* e = lab::cn_log + static_cast<std::size_t>(lab::cn_cfg[2]++) * lab::kCnEntry;
+         e[0] = static_cast<float>(n), e[1] = static_cast<float>(pick), e[2] = std::log(p[pick] / z), e[3] = static_cast<float>(round), e[4] = forced ? 1.0f : 0.0f;
+         for (int k = 0; k < lab::kCnK; ++k)
+@@ -5001,6 +5001,11 @@
+                 return gg;
+             }
+         }
++#endif
++#if V55_HOIST_GOLD
++    const float score_gold_weight = gold_weight();
++#else
++#define score_gold_weight gold_weight()
+ #endif
+     const float dps = my_dps(nullptr);
+     int best = -1;
+@@ -5124,7 +5129,7 @@
+         const float mid_mult = gi < mid_group.size() && mid_group[gi] ? A2_MID_W * std::exp(0.3f * LABK(40)) : 1.0f;
+ #endif
+         {
+-            const float best_case = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) * mid_mult *
++            const float best_case = (static_cast<float>(g.gems) + score_gold_weight * static_cast<float>(g.gold)) * mid_mult *
+                 tune::kStickiness / (static_cast<float>(approach + wait) + tune::kCaptureTime + 4.0f);
+             if (best_case <= prune_bound()) {
+ #ifdef APEX_SCOREDBG
+@@ -5201,7 +5206,7 @@
+         const int helpers = solo_job ? 0 : claims;
+         const int participants = siege ? 1 : std::max({need, helpers + 1, participants_hint});
+         const float kill = siege ? hp_left / sdps : hp_left / (my_dps(&g) + static_cast<float>(participants - 1) * dps);
+-        float value = static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold);
++        float value = static_cast<float>(g.gems) + score_gold_weight * static_cast<float>(g.gold);
+ #if A2_DPLAN
+         if (dplan_group() == static_cast<int>(gi)) value *= A2_DP_MULT; // the team plan's current step
+ #endif
+@@ -5419,6 +5424,9 @@
+     if (best >= 0 && n_cn >= 2) best = campnet_pick(cn, n_cn, best, best_need, best_score);
+ #endif
+     return best;
++#if !V55_HOIST_GOLD
++#undef score_gold_weight
++#endif
+ }
+ 
+ // Follow-up table for one champion alone, rebuilt once per turn in a single pass over the groups.
+@@ -5429,12 +5437,17 @@
+     follow_value.resize(n);
+     follow_fixed.resize(n);
+     follow_respawn.resize(n);
++#if V55_HOIST_GOLD
++    const float follow_gold_weight = gold_weight();
++#else
++#define follow_gold_weight gold_weight()
++#endif
+     const float base_dps = my_dps(nullptr);
+     for (std::size_t gi = 0; gi < n; ++gi) {
+         const auto& g = w.groups[gi];
+         const float dps = (type == bc::champion_type::varg && g.camps.size() > 1) ? base_dps * 1.6f : base_dps;
+         const float kill = g.hp_left(w.camps) / std::max(dps, 1.0f);
+-        float value = static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold);
++        float value = static_cast<float>(g.gems) + follow_gold_weight * static_cast<float>(g.gold);
+         if (round - g.enemy_round < 15) value *= UB_ENEMY_CAMP;
+         // Safe alone: the camps' damage over the kill stays well under our health.
+         const bool solo = g.harmless || g.strength * kill < hp * 0.8f;
+@@ -5448,6 +5461,9 @@
+         const int c = claim_of(s);
+         if (s != slot && c >= 0 && c < static_cast<int>(n)) follow_value[static_cast<std::size_t>(c)] = 0.0f;
+     }
++#if !V55_HOIST_GOLD
++#undef follow_gold_weight
++#endif
+ }
+ 
+ // Extend each first target with its best follow-up group(s) and return the index (into top) of
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,9 @@
++#ifndef V55_HOIST_GOLD
++#define V55_HOIST_GOLD 1
++#endif
++#ifndef V55_TRACE_COLD
++#define V55_TRACE_COLD 1
++#endif
+ // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
+ #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins
+ #define V54_STAGE_ARRIVE 1

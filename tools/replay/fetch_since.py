@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
+import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -53,4 +54,5 @@ def main():
 
 
 if __name__ == '__main__':
+    sys.stdout.reconfigure(encoding='utf-8')
     main()

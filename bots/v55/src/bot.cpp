@@ -90,15 +90,6 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
         } else if (t == ct::heart_of_ruin) {
             if (tre) add(it::treasure_shard_of_health, 5);
             add(it::jungle_shard_of_focus, 5);
-#if V55_BUILDS
-        } else if (t == ct::ryth) {
-            if (tre) add(it::treasure_shard_of_health, 5);
-            add(it::jungle_shard_of_strength, 5), add(it::durability_shard_of_health, 5);
-            for (int n = 5; n <= 60; n += 5) {
-                add(it::bruiser_shard_of_health, n), add(it::bruiser_shard_of_strength, n);
-            }
-            return v;
-#endif
         } else if (caster) {
             if (tre) add(it::treasure_shard_of_focus, 5);
             add(it::durability_shard_of_health, 5);
@@ -641,7 +632,7 @@ void Bot::shop() {
     try {
         // A crystal costs 10 gold; winners re-buy one for the same few terrain shortcuts every trip (ladder replays:
         // up to 53 hops by one champion on concentrated-wealth, none ever by us).
-        if (gold >= 10 && (!V55_CRYSTAL || gold % 30 >= 10) && me.can_buy(bc::consumable_type::tp_crystal)) {
+        if (gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
             me.buy(bc::consumable_type::tp_crystal);
             gold -= 10;
         }
@@ -3529,29 +3520,6 @@ bool Bot::handle_enemies() {
             }
         }
     }
-#if V55_GEAR
-    if (nearest_d <= 5 && target && target_ttk > 1.0f) {
-        float ours = my_items(), theirs = 0.0f;
-        int na = 1, ne = 0;
-        for (const auto& a : w.allies) if (cheb(a.pos, pos) <= 5) {
-            ours += items_of(a.type, a.max_hp, a.strength, a.focus);
-            ++na;
-        }
-        for (const auto& e : w.enemies) if (cheb(e.pos, pos) <= 6) {
-            theirs += items_of(e.type, e.max_hp, e.strength, e.focus);
-            ++ne;
-        }
-        const float our_avg = ours / static_cast<float>(na), their_avg = theirs / static_cast<float>(std::max(1, ne));
-        if (ne >= na && their_avg > our_avg + 5.0f) {
-            winning = false;
-            in_danger = true;
-            if (threat_on_me <= 0) threat_on_me = 1.0f;
-        } else if (na >= ne && our_avg > their_avg + 5.0f && hp >= max_hp * 0.7f && target_ttk < ttd * 0.8f) {
-            winning = true;
-            in_danger = false;
-        }
-    }
-#endif
 #ifdef APEX_FIGHTLOG
     // Fight dataset (analysis only): one line per contact turn; deaths are logged in play_turn.
     if (nearest_d <= 4) {
@@ -4293,11 +4261,6 @@ bool Bot::tribute_if_needed() {
         return false;
     }
 #endif
-#if V55_BANK & 1
-    // Fill a useful bag on a safe sortie. Winning/late/forced banks and zero-distance banks remain immediate.
-    if (!force_tribute && !wins && !late && !end_bank && !threatened && w.enemies.empty() &&
-        hp >= max_hp * 0.75f && my_items() >= 15.0f && gems < 36 && dist > 0) return false;
-#endif
     if (!go) return false;
 #if A2_ALTARFIX & 2
     // Stuck carrier: 20 turns on the way without a new closest distance (camps or units hold every way in; jittering
@@ -4835,10 +4798,6 @@ bool Bot::group_capture_covered(const GroupRec& g) const {
     const float mine = tune::kShareGold ? my_items() : 0.0f;
     for (const auto& a : w.allies) {
         if (!bit(g.tiles, a.pos)) continue;
-#if V55_OWNER
-        if (a.type == bc::champion_type::vesper_vale) return true;
-        if (type == bc::champion_type::vesper_vale) continue;
-#endif
         // A clearly richer ally on the region does not cover it: we take over and it hands over.
         if (tune::kShareGold && items_of(a.type, a.max_hp, a.strength, a.focus) > mine + static_cast<float>(tune::kShareGold))
             continue;
@@ -4853,13 +4812,13 @@ float Bot::my_items() const { return items_of(type, max_hp, strength, focus); }
 // on_tile_only) it claims the group and stands within 2 tiles of it.
 bool Bot::poorer_ally_takes(const GroupRec& g, int gi, bool on_tile_only) const {
     const float mine = my_items();
-#if UB_GOLD_FUNNEL || V55_OWNER
+#if UB_GOLD_FUNNEL
     // Gold funnel (top teams' Vesper earns 42% of her team's gold): Vesper gains 33% more from every gold gain, so
     // she keeps the rewards she is on, and allies hand theirs to her instead of to the poorest teammate.
     if (type == bc::champion_type::vesper_vale) return false;
 #endif
     for (const auto& a : w.allies) {
-        const bool funnel = (UB_GOLD_FUNNEL || V55_OWNER) && a.type == bc::champion_type::vesper_vale;
+        const bool funnel = UB_GOLD_FUNNEL && a.type == bc::champion_type::vesper_vale;
         if (!funnel && items_of(a.type, a.max_hp, a.strength, a.focus) + static_cast<float>(tune::kShareGold) >= mine) continue;
         if (bit(g.tiles, a.pos)) return true;
         if (on_tile_only) continue;
@@ -5701,40 +5660,6 @@ bool Bot::is_official_map() {
     return official_map == 1;
 }
 
-#if V55_CYCLE
-// Event-driven two-stop cycle: spend a long respawn gap clearing an unclaimed solo group,
-// then return by the original camp's next cycle. No scoring-loop work is added.
-int Bot::cycle_pick(int waiting) {
-    const auto& home = w.groups[waiting];
-    if (round > 500 || round < cycle_check || home.state != GroupState::respawning ||
-        !w.enemies.empty() || hp < max_hp * 0.65f || bc::fuel_remaining() < 55000) return waiting;
-    const int gap = home.respawn_round - round;
-    if (gap < 20 || (waiting == sole_gem_group && ally_score - enemy_score >= V54_HOLD_LEAD)) return waiting;
-    cycle_check = round + 8;
-    refresh_follow_ups(); // cached once per turn, includes solo safety and teammates' claims
-    const auto* back = w.pair_row(waiting, true);
-    if (!back) return waiting;
-    int pick = -1;
-    float rate = 0.0f;
-    for (std::size_t gi = 0; gi < w.groups.size(); ++gi) {
-        if (static_cast<int>(gi) == waiting || follow_value[gi] <= 0 || !w.has_field(static_cast<int>(gi))) continue;
-        const auto& g = w.groups[gi];
-        if (g.state == GroupState::respawning || round - g.enemy_round < 15) continue;
-        const int there = w.group_distance(static_cast<int>(gi), pos), ret = back[gi];
-        if (there == kUnreach || ret == kUnreach || there > 12) continue;
-        const float done = static_cast<float>(std::max(0, there - range)) + follow_fixed[gi];
-        if (done + static_cast<float>(ret) > static_cast<float>(gap + 6)) continue;
-        const float value = follow_value[gi] / std::max(1.0f, done);
-        if (value > rate) rate = value, pick = static_cast<int>(gi);
-    }
-    if (pick < 0) return waiting;
-    cycle_return = waiting;
-    cycle_detour = pick;
-    cycle_deadline = home.respawn_round + 12;
-    return pick;
-}
-#endif
-
 bool Bot::farm() {
     PROF(farm);
     PROF_CHECK("farm0");
@@ -5947,20 +5872,6 @@ bool Bot::farm() {
         if (planned >= 0) best = planned;
     }
 #endif
-#if V55_CYCLE
-    if (best >= 0 && !low_fuel) {
-        if (cycle_detour >= 0 && cycle_return >= 0 && round <= cycle_deadline && w.enemies.empty() &&
-            w.groups[cycle_detour].state == GroupState::respawning && avoid_until[cycle_return] <= round) {
-            best = cycle_return;
-            best_need = champions_needed(w.groups[best], w.groups[best].hp_left(w.camps));
-            cycle_return = cycle_detour = -1;
-        } else if (cycle_return < 0 || round > cycle_deadline) {
-            cycle_return = cycle_detour = -1;
-            const int detour = cycle_pick(best);
-            if (detour != best) best = detour, best_need = 1;
-        }
-    }
-#endif
     PROF_CHECK("farmsel");
 
     // The planner chose a bank trip first (APEX_PLAN).
@@ -6088,29 +5999,11 @@ void Bot::drop_ward() {
     if (!tune::kWards) return;
     const bool at_objective = std::string_view(mode) == "capture" || std::string_view(mode) == "tribute" ||
         std::string_view(mode) == "siege";
-#if V55_WARDS
-    if (bit(w.ally_spawn, pos)) return;
-    if (!at_objective && target_group < 0 && w.enemies.empty()) return;
-    if (ward_pos.x >= 0 && cheb(ward_pos, pos) < 4 && w.enemies.empty()) return;
-#else
     if (!at_objective) return;
     if (ward_pos.x >= 0 && cheb(ward_pos, pos) <= 10) return;
-#endif
     auto& me = bc::self();
     try {
         if (me.ward_cooldown() > 0) return;
-#if V55_WARDS
-        vec2 aim = pos;
-        if (!w.enemies.empty()) aim = w.enemies.front().pos;
-        else if (target_group >= 0 && target_group < static_cast<int>(w.groups.size()) &&
-                 !w.groups[target_group].camps.empty()) aim = w.camps[w.groups[target_group].camps[0]].pos;
-        const vec2 delta{(aim.x > pos.x) - (aim.x < pos.x), (aim.y > pos.y) - (aim.y < pos.y)};
-        const vec2 ahead{pos.x + 3 * delta.x, pos.y + 3 * delta.y};
-        if (in_bounds(ahead, w.width, w.height) && !bit(w.static_blocked, ahead) && me.place_ward(ahead)) {
-            ward_pos = ahead;
-            return;
-        }
-#endif
         for (int r = 0; r <= 1; ++r)
             for (int dx = -r; dx <= r; ++dx)
                 for (int dy = -r; dy <= r; ++dy) {
@@ -6595,10 +6488,6 @@ void Bot::play_turn() {
                 if (!bit(w.visible, a)) w.add_sighting(a, round - 1);
     }
     prev_enemy_score = enemy_score;
-#if V55_BANK & 2
-    // Adapt the existing group value coefficient once, after brain/lab reset and self refresh.
-    if (my_items() >= 15.0f) tune::kGoldWeight *= 0.5f;
-#endif
     if (tune::kOppModel) update_opp_model();
     if (tune::kNumbers != 0.0f || tune::kNumbersInvade < 99) {
         update_numbers();

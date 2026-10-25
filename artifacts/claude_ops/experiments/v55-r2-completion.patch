@@ -1,0 +1,25 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -4894,6 +4894,13 @@
+     // Keep the kCnK best by score, the bot's pick first.
+     std::sort(cn, cn + n, [&](const CnCand& a, const CnCand& b) { return (a.gi == base) != (b.gi == base) ? a.gi == base : a.score > b.score; });
+     n = std::min(n, lab_cn::kK);
++#if V55_COMMIT_EVENT
++    // A capture completes the mission. The learned pick's 40-round lock must not survive it into a respawn wait.
++    if (cn_commit >= 0 && w.groups[static_cast<std::size_t>(cn_commit)].state == GroupState::respawning) {
++        cn_commit = -1;
++        cn_last_base = -1;
++    }
++#endif
+     // A committed pick (an earlier sample) stands while it is still a candidate and fresh: no resampling every turn.
+     if (cn_commit >= 0 && round - cn_commit_round <= 40)
+         for (int k = 0; k < n; ++k)
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,6 @@
++#ifndef V55_COMMIT_EVENT
++#define V55_COMMIT_EVENT 1
++#endif
+ // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
+ #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins
+ #define V54_STAGE_ARRIVE 1

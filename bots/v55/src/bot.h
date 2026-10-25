@@ -52,10 +52,6 @@ private:
     bool onsite_ok = false;                 // this map's groups fit the on-site codes
     int tp_held = -1;                       // V54_TP: teleport crystals carried (-1 = not read yet)
     bool try_teleport(const bc::distance_field& field);
-#if V55_CYCLE
-    int cycle_check = 0, cycle_return = -1, cycle_detour = -1, cycle_deadline = 0;
-    int cycle_pick(int waiting);
-#endif
     int claim_count(int group) const;
     std::pair<int, int> claims_split(int group) const;
     bool open_call_by_lower();

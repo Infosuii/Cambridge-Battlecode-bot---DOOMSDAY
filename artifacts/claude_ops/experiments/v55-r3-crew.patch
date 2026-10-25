@@ -1,0 +1,114 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -4798,6 +4798,10 @@
+     const float mine = tune::kShareGold ? my_items() : 0.0f;
+     for (const auto& a : w.allies) {
+         if (!bit(g.tiles, a.pos)) continue;
++#if V55_CREW_OWNER
++        if (type == bc::champion_type::varg && a.type == bc::champion_type::vesper_vale) return true;
++        if (type == bc::champion_type::vesper_vale && a.type == bc::champion_type::varg) continue;
++#endif
+         // A clearly richer ally on the region does not cover it: we take over and it hands over.
+         if (tune::kShareGold && items_of(a.type, a.max_hp, a.strength, a.focus) > mine + static_cast<float>(tune::kShareGold))
+             continue;
+@@ -4818,7 +4822,10 @@
+     if (type == bc::champion_type::vesper_vale) return false;
+ #endif
+     for (const auto& a : w.allies) {
+-        const bool funnel = UB_GOLD_FUNNEL && a.type == bc::champion_type::vesper_vale;
++#if V55_CREW_OWNER
++        if (type == bc::champion_type::vesper_vale && a.type == bc::champion_type::varg) continue;
++#endif
++        const bool funnel = (UB_GOLD_FUNNEL || (V55_CREW_OWNER && type == bc::champion_type::varg)) && a.type == bc::champion_type::vesper_vale;
+         if (!funnel && items_of(a.type, a.max_hp, a.strength, a.focus) + static_cast<float>(tune::kShareGold) >= mine) continue;
+         if (bit(g.tiles, a.pos)) return true;
+         if (on_tile_only) continue;
+@@ -5856,6 +5863,32 @@
+             no_initiate = !tune::kSoloInitiate;
+         }
+     }
++#if V55_CREW_ROUTE
++    // A bounded two-person economic crew. All other champions keep the original controller.
++    if (best < 0 && !low_fuel && (type == bc::champion_type::varg || type == bc::champion_type::vesper_vale)) {
++        using ct = bc::champion_type;
++        const ct buddy_type = type == ct::varg ? ct::vesper_vale : ct::varg;
++        const AllyRec* crew = nullptr;
++        for (const auto& a : w.allies)
++            if (a.type == buddy_type && a.hp >= a.max_hp * 0.5f && cheb(a.pos, pos) <= 8) crew = &a;
++        if (crew && hp >= max_hp * 0.6f) {
++            if (type == ct::varg) {
++                best = score_groups(2, best_need, best_score);
++            } else {
++                int leader = -1;
++                for (int s = 0; s < std::min(team_size, kClaimSlots); ++s)
++                    if (ally_handle[static_cast<std::size_t>(s)] == crew->id) leader = s;
++                const int job = leader >= 0 ? claim_of(leader) : -1;
++                if (job >= 0 && job < static_cast<int>(w.groups.size()) && avoid_until[job] <= round &&
++                    w.groups[job].state != GroupState::respawning &&
++                    (w.groups[job].gems >= 20 || w.groups[job].gold >= 150)) {
++                    best = job;
++                    best_need = 1; // the leader is already staffing/staging this mission
++                }
++            }
++        }
++    }
++#endif
+     if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);
+     if (best < 0 && (tune::kDet ? ts_ran_round != round && bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
+                                 : bc::fuel_remaining() > tune::kLowFuel / 2)) {
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,12 @@
++#ifndef V55_CREW_DRAFT
++#define V55_CREW_DRAFT 1
++#endif
++#ifndef V55_CREW_ROUTE
++#define V55_CREW_ROUTE 1
++#endif
++#ifndef V55_CREW_OWNER
++#define V55_CREW_OWNER 1
++#endif
+ // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
+ #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins
+ #define V54_STAGE_ARRIVE 1
+--- a/src/draft.cpp
++++ b/src/draft.cpp
+@@ -561,7 +561,7 @@
+ } // namespace
+ #endif
+ 
+-#if A2_MLDRAFT
++#if A2_MLDRAFT && !V55_CREW_DRAFT
+ #include "draft_net.h"
+ namespace {
+ // ML draft (agent2/lab/draft_data.js + draft_fit.py): a net trained on random-lineup lab games scores every free
+@@ -715,7 +715,7 @@
+         size = bc::draft::team_size();
+     } catch (...) {
+     }
+-#if A2_MLDRAFT
++#if A2_MLDRAFT && !V55_CREW_DRAFT
+     // ML draft on maps the lineup tables do not know (A2_MLDRAFT 2: unknown maps only; 1: every map).
+     bool ml_done = false;
+     try {
+@@ -765,7 +765,7 @@
+         } catch (...) {
+         }
+     }
+-#if A2_MLDRAFT
++#if A2_MLDRAFT && !V55_CREW_DRAFT
+     if (ml_done) return; // picked (and planned) by the net above; the header is written
+ #endif
+     {
+@@ -788,6 +788,11 @@
+         } catch (...) {
+             // Preserve the existing draft if optional map analysis is unavailable.
+         }
++#endif
++#if V55_CREW_DRAFT
++        constexpr cd economic_crew[] = {cd::varg, cd::vesper_vale, cd::vendetta, cd::marcella, cd::heart_of_ruin,
++            cd::ryth, cd::ren, cd::willow, cd::tavi, cd::stellar, cd::prism, cd::cassi_and_issac};
++        if (pick_from(economic_crew, chosen)) return;
+ #endif
+         int li = NOVA_ALL_LINEUP >= 0 ? NOVA_ALL_LINEUP
+                                       : (mid >= 0 ? kNovaMapLineup[mid] : NOVA_FALLBACK_LINEUP);

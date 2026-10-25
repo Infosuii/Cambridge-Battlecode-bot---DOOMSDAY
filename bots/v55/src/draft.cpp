@@ -561,7 +561,7 @@ const std::vector<std::uint8_t>& team_plan_bytes(std::uint32_t size) {
 } // namespace
 #endif
 
-#if A2_MLDRAFT && V55_DRAFT != 1
+#if A2_MLDRAFT
 #include "draft_net.h"
 namespace {
 // ML draft (agent2/lab/draft_data.js + draft_fit.py): a net trained on random-lineup lab games scores every free
@@ -642,7 +642,10 @@ bool ml_draft_pick(std::uint32_t size) {
     const auto ours = bc::draft::current_draft(team::ally), theirs = bc::draft::current_draft(team::enemy);
     bool taken[12] = {};
     for (auto c : ours) if (static_cast<int>(c) >= 0 && static_cast<int>(c) < 12) taken[static_cast<int>(c)] = true;
+#if !V55_DRAFT_LEGAL
     for (auto c : theirs) if (static_cast<int>(c) >= 0 && static_cast<int>(c) < 12) taken[static_cast<int>(c)] = true;
+#endif
+    // Enemy picks remain model features, but only our own picks make a champion unavailable.
     const int sz = static_cast<int>(std::max<std::uint32_t>(size, 1));
     const int j = static_cast<int>(ours.size()) + 1;
     const bool first = theirs.size() == ours.size();
@@ -715,7 +718,7 @@ void play_draft() {
         size = bc::draft::team_size();
     } catch (...) {
     }
-#if A2_MLDRAFT && V55_DRAFT != 1
+#if A2_MLDRAFT
     // ML draft on maps the lineup tables do not know (A2_MLDRAFT 2: unknown maps only; 1: every map).
     bool ml_done = false;
     try {
@@ -725,12 +728,6 @@ void play_draft() {
             bc::detail::sdk_map_num_camp_groups(&n);
             known = nova_map_id(bc::map::width(), bc::map::height(), size, static_cast<int>(n)) >= 0;
         }
-#if V55_DRAFT == 2
-        if (chosen.empty()) {
-            bc::draft::pick(cd::vesper_vale);
-            ml_done = true;
-        } else
-#endif
         ml_done = !known && ml_draft_pick(size);
     } catch (...) {
         ml_done = false; // fall back to the lineup tables
@@ -771,7 +768,7 @@ void play_draft() {
         } catch (...) {
         }
     }
-#if A2_MLDRAFT && V55_DRAFT != 1
+#if A2_MLDRAFT
     if (ml_done) return; // picked (and planned) by the net above; the header is written
 #endif
     {
@@ -794,10 +791,6 @@ void play_draft() {
         } catch (...) {
             // Preserve the existing draft if optional map analysis is unavailable.
         }
-#endif
-#if V55_DRAFT == 1
-        // Keep terrain-required dash access above. Economy core on connected maps.
-        if (pick_from(kLineups[26], chosen)) return;
 #endif
         int li = NOVA_ALL_LINEUP >= 0 ? NOVA_ALL_LINEUP
                                       : (mid >= 0 ? kNovaMapLineup[mid] : NOVA_FALLBACK_LINEUP);
