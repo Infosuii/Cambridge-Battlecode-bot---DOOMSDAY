@@ -4,7 +4,7 @@ Written by Claude Code on 2026-10-25, when development was paused at v53. The ne
 
 ## 1. Goal and standing approvals
 
-- **Goal:** the user wants an "unbeatable" bot. The measurable target is ladder top 25; team **DOOMSDAY** (team id `fcf5f666-ea55-4da0-b8d4-97c64bb37236`) is currently rank 87, rating 1834.
+- **Goal:** the user wants an "unbeatable" bot. The measurable target is ladder top 25; team **DOOMSDAY** (team id `fcf5f666-ea55-4da0-b8d4-97c64bb37236`). Original snapshot: rank 87, rating 1834. Latest saved 2026-10-25 13:34 UTC snapshot: rank 78, rating 1848.9; this is not attributed causally to v53.
 - **Approved by the user (2026-10-25):**
   - queueing unranked match groups against top teams;
   - multi-hour CPU/GPU training runs;
@@ -20,8 +20,8 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 | v48 | - | heuristic lineage; draft net and danger net on |
 | v50 | version 50 | v48 lineage plus a camp net (321 parameters, about 3 hours of PPO; `training/v50-campnet/`); danger net off |
 | v51 | version 51, submitted 2026-10-25 11:29 UTC | v50 plus the moated-island fix (champions froze at camps behind two-tile hole moats: big_world, islands) |
-| **v52** | **version 52, submitted 12:02 UTC, live** | v51 plus the sole-gem-camp rule (stampede) |
-| v53 | not submitted | v52 plus the boss_battle gate rule, **switched off** (`A2_GATE_JOB 0`; rejected 0-6/1-5/1-5). Use it as the work base. |
+| v52 | version 52, submitted 12:02 UTC | v51 plus the sole-gem-camp rule (stampede) |
+| **v53** | **version 53, submitted 13:08:26 UTC, live** | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
 
 `artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
@@ -154,8 +154,20 @@ Read artifacts/claude_ops/V53_PLAN.md, V53_LOSS_REPORT.md and V53_DRAFT_REPORT.j
 
 Fuel profiling confirms costly world updates and scoring. Removing duplicate mask clears and reusing observation buffers failed their applicable gates; patches are preserved, source restored. Hoisting open-call scans was initially held back under an extra target-sweep requirement I imposed on general optimizations; after reading v52's release precedent, it was evaluated correctly as a general optimization with no map-specific behavioral claim. It passes development 87/168 (51.8%), -2.1, and its once-per-candidate aggregate holdout 39/72 (54.2%), +5.3; zero faults. Individual holdout map tradeoffs remain and are disclosed in bots/v53/CHANGES.md. No-action micro fallback, two fixed boss drafts, a learned counter-pick model and earlier concentrated banking were rejected. The draft model fits 243,904 games on this machine's existing archive and improves held-out prediction, but loses in games; do not enable it based on predictive accuracy.
 
-Current v53 release candidate contains only the open-call invariant hoist in score_groups. A2_GATE_JOB stays off and A2_SOLE_FROM remains 500. Source SHA256: 2929c1e5cdf9520fea777f0f15ed596a45f7e33378133f3bc27cfe2c2fc1b35b. Gate assertions and file hashes are in artifacts/claude_ops/V53_RELEASE.json. It has passed and is ready for authorized submission; no version has been submitted in this session yet.
+Live v53 contains only the open-call invariant hoist in score_groups. A2_GATE_JOB stays off and A2_SOLE_FROM remains 500. Source SHA256: 2929c1e5cdf9520fea777f0f15ed596a45f7e33378133f3bc27cfe2c2fc1b35b. Gate assertions and file hashes are in artifacts/claude_ops/V53_RELEASE.json. It was submitted successfully as platform version 53 at 13:08:26 UTC; see results/v53-submit.txt.
 
 The rejected stampede R1100 experiment is still useful for v54: target 6/6 +343.2, minimum +54, deaths 10 vs 20, and at R900 one seed earned 4644 gold versus v52's 2352. However global timing changed another sole-gem map and all scoped implementations had negative release holdout margins. Do not copy it into a release without a new independently motivated candidate and full gate.
 
 The user explicitly approved pushing these plans, CLI snapshots, analysis reports and source changes to Infosuii/neural-networkk-battlecode, branch claude/compare-fix-replay-decoder; raw replays and credentials remain excluded.
+
+## 11. V54 analysis handoff (2026-10-25)
+
+The user changed the current session to **analysis and detailed improvement planning only**. Do not build, train, submit or schedule v54 under that analysis request. The user subsequently asked for the findings to be pushed and a reusable Claude Code implementation prompt; supplying that prompt does not execute it. The earlier exploratory bots/v54 directory has been removed, and no build/submission automation was created. A future explicit implementation request or the user invoking the prepared build prompt changes that scope.
+
+Read artifacts/claude_ops/V54_PLAN.md, V54_MATCH_REVIEW.md, V54_WINNER_PLAYBOOKS.md and V54_EVIDENCE.json. Snapshot cutoff is games created through 13:30:12 UTC: ranked 5/10; unranked 31/65, including 0/10 in targeted groups against meow and Hidden Altar Keepers. All 75 v53 games, 40 v52 losses, 10 v52 winning controls and 11 diverse top-team wins have been decoded and audited (136/136). Raw replays remain local-only under artifacts/local-only/v53-review. The analysis tools and game-level derived measurements are committed; a fresh clone can regenerate the text match review without raw replays.
+
+The main strategic recommendation is joint economic openings/reward ownership plus coordinated objective conversion, with mission-aware tactics and bounded computation. In v53 losses, median R250/R500 equipment ratios are 0.71/0.67; targeted opponents produce 17.5 versus 3.5 deaths and 3 versus 31 banks. Important counterexample: on boss_battle against Hidden Altar Keepers we led equipment at R500 but lost 0–1690 banked gems. The new ranked boss win was 0–0 on a gold tiebreak, not a solved altar problem. Candidate replenishment/clock control and transport logistics are rule-supported hypotheses, not validated improvements.
+
+The original gate remains mandatory. The plan's >=60% development wins and >=+100 mean gems versus v53 are additional research aspirations, not measured gains or a replacement gate. The existing 12 holdout maps have prior exposure; do not claim they are pristine. The learned draft predictor improved prediction but won only 8/30 in deployment; do not enable it without joint plan/controller evidence. Corrected SDK camp labels in V53_LOSS_REPORT; its numerical measurements are unchanged.
+
+For future implementation, use artifacts/claude_ops/V54_CLAUDE_PROMPT.md as the task prompt, keep bots/v53 frozen, and preserve the analysis/implementation distinction in the audit trail.

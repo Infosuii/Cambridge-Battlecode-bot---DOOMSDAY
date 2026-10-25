@@ -6,7 +6,7 @@ import statistics
 
 ROOT=Path(__file__).resolve().parents[2]
 DRAFT=['Ryth','Vesper','Vendetta','Cassi+Issac','Stellar','Prism','Marcella','Willow','Ren','Varg','Tavi','Heart']
-CAMP=['wolf','elk','golem','gem','gold','monolith']
+CAMP=['wolf','elk','gem','gold','monolith','golem']
 
 def main():
     p=ROOT/'data/ladder';local=ROOT/'artifacts/local-only/v53-review'
@@ -65,11 +65,11 @@ def main():
         lines += [f"- {m['map']}: {winner['name']} ({a['id']}), {a['submitted_gems']}, {a['rounds']} rounds. Draft {names(winner['draftPicks'])}. Bank {bank(t)}; deaths {t['deaths']}; gear value R100/R500 {inventory(t,100)}/{inventory(t)}. First targets: {targets(t)}."]
     lines+=['','## Local reproduction and conclusions','',
             '- `tools/v53_diagnose.py` reproduced boss-battle, concentrated-wealth, elkring, swirl and yellow-brick-road at default fuel using the documented logging/profile copies. Full logs are under artifacts/local-only/v53-review/{log,profile}. Local holdout maps were not used for tuning.',
-            '- Boss-battle: the logging build has carriers with 136–482 gems at R1200 and repeated cmicro positions around the gated altar. The winning reference starts attacking a monolith at R518 and first banks 581 at R684; a Marcella has 4,900 maximum health at R500. Merely copying its draft fails in our controller. Objective readiness and income allocation, rather than an early whole-team rush, remain unresolved.',
+            '- Boss-battle: the logging build has carriers with 136–482 gems at R1200 and repeated cmicro positions around the gated altar. The winning reference first targets the two monolith tiles with basic attacks at R284 and R518, then first banks 581 at R684; a Marcella has 4,900 maximum health at R500. These are first observed basic attacks, not complete objective-attempt boundaries. Merely copying its draft fails in our controller. Objective readiness and income allocation remain unresolved.',
             '- Concentrated-wealth: large death and farming deficits dominate both target scrimmages. In the Hidden Altar Keepers game we spend 685 basic attacks on champions versus 252 by the winner, yet die 9 times versus zero. Our own capture/wait behavior and lower equipment value are worth measuring; a short wait is not by itself evidence of a freeze.',
             '- Elkring: deaths 10–12 versus 1–2; examine solo commits and nearby camp aggro before changing banking thresholds. A new learned draft loses all six local tests, so the observational draft association is insufficient.',
             '- Swirl: the logging reproduction has frequent approach/capture travel and linked Cassi/Issac still at only 925/1300 maximum health at R1200. The new draft model also loses all six. No validated cheap fix yet.',
-            '- Yellow-brick-road: profile shows world work above 60k fuel on heavy turns, with suspended decisions. The reference winner has much more spent equipment by R500 and starts banking at R33. Redundant mask initialization is directly confirmed in the SDK and is the next isolated fuel candidate.',
+            '- Yellow-brick-road: profile shows world work above 60k fuel on heavy turns, with suspended decisions. The reference winner has much more spent equipment by R500 and starts banking at R33. Redundant mask initialization is confirmed in the SDK, but its later isolated experiment failed the gate and was reverted; see V53_PLAN.md. It is not an untested next fix.',
             '- Big-world/islands fixes remove specific reachability failures, but do not make farming competitive with top teams: in the two big-world losses the winner makes 1,409–1,455 basic camp attacks versus our 1,057–1,139. Their R500 equipment lead supports a tempo hypothesis.',
             '- Monolith/fracture are inspected through ladder replays only. Monolith loss has 19 deaths versus eight and fewer bank channels. Fracture loss has more champion attacks despite fewer banks; local holdout tests remain reserved for release.',
             '', '## Rules and API cross-check','',

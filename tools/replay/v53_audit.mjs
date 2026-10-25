@@ -16,7 +16,9 @@ for (const name of fs.readdirSync(input).filter(x => x.endsWith('.repl26a'))) {
   const full=()=>{check(X.Game_Visualiser_ReadTimelineState(E.h,tsnap));return E.PC.I(dv(),tsnap);};
   let lastRound=-1,previous=null,first=null,final=null;
   const teams=[0,1].map(()=>({banks:[],deaths:0,lost_on_death:0,camp_attacks:0,champion_attacks:0,
-    first_targets:[],purchases:[],snapshots:[],gate_damage_rounds:[],fuel_exhausted:0}));
+    first_targets:[],purchases:[],snapshots:[],gate_damage_rounds:[],fuel_exhausted:0,
+    camp_attacks_by_type:{},early_camp_attacks:0,early_champion_attacks:0,
+    dead_champion_rounds:0,alive_champion_rounds:0,unspent_gold_rounds:0}));
   const seenTargets=[new Set(),new Set()];
   let champs=new Map(), camps=new Map();
   for (;;) {
@@ -33,9 +35,12 @@ for (const name of fs.readdirSync(input).filter(x => x.endsWith('.repl26a'))) {
         for (const c of s.champions) {
           const p=previous?.champions.find(x=>x.entity.index===c.entity.index);
           if (p?.alive && !c.alive) {teams[c.team].deaths++;teams[c.team].lost_on_death+=p.gems??0;}
+          if(c.alive) {teams[c.team].alive_champion_rounds++;teams[c.team].unspent_gold_rounds+=c.gold??0;}
+          else teams[c.team].dead_champion_rounds++;
         }
-        if (round===1 || round%100===0)
+        if (round===1 || round%100===0 || [25,50,75,150,250,750].includes(round))
           for (const t of [0,1]) teams[t].snapshots.push({round,banked:Number(s.submittedGems[t]),
+            deaths:teams[t].deaths,dead_champion_rounds:teams[t].dead_champion_rounds,
             champions:s.champions.filter(c=>c.team===t).map(c=>({id:c.entity.index,type:c.type,alive:c.alive,
               position:c.position,hp:c.health,max_hp:c.maxHealth,gold:c.gold,gems:c.gems,
               items:c.items.map((n,i)=>n?[i,n]:null).filter(Boolean)}))});
@@ -58,8 +63,10 @@ for (const name of fs.readdirSync(input).filter(x => x.endsWith('.repl26a'))) {
         const tx=dv().getInt32(tsnap+88,true),ty=dv().getInt32(tsnap+92,true),key=`${tx},${ty}`,c=camps.get(key);
         if (c) {
           teams[t].camp_attacks++;
+          teams[t].camp_attacks_by_type[c.type]=(teams[t].camp_attacks_by_type[c.type]??0)+1;
+          if(round<=250) teams[t].early_camp_attacks++;
           if (!seenTargets[t].has(key)) {seenTargets[t].add(key);teams[t].first_targets.push({round,type:c.type,x:tx,y:ty});}
-        } else teams[t].champion_attacks++;
+        } else {teams[t].champion_attacks++;if(round<=250) teams[t].early_champion_attacks++;}
       }
     }
     if (outcome || (d.getUint32(tsnap+20,true)!==0 && pos>=size)) {final=s??full();break;}
