@@ -84,16 +84,22 @@ struct nn_policy_tactics_access {
     static bool combat_has_choice(const Bot& b) {
         d::champion_info me{};if(!active_self(me))return false;
         float range=(me.state&(1u<<4))?static_cast<float>(me.attack_range):-1.0f;
+        const auto p=live_position(me);
         for(const auto& ability:bc::self().abilities())if(ability.info()&&ability.is_ready()&&!ability.is_dash()) {
-            if(ability.is_heal()||ability.is_shield()||ability.is_attack_reset())return true;
+            // Self buffs only matter with a hostile target in attack range; heals only with an injured ally in
+            // range. An unconditional "choice" ran the ~30k combat build on every idle turn and starved movement.
+            if(ability.is_shield()||ability.is_attack_reset())range=std::max(range,static_cast<float>(me.attack_range));
+            bool heal=false;
             std::visit([&](const auto& props) {
                 using A=std::decay_t<decltype(props)>;
                 if constexpr(std::is_same_v<A,bc::ability_damage>||std::is_same_v<A,bc::ability_cc>||std::is_same_v<A,bc::ability_aoe_damage>)
                     range=std::max(range,props.range);
+                if constexpr(std::is_same_v<A,bc::ability_heal>)
+                    for(const auto& a:b.w.allies)heal|=a.hp>0&&a.hp<a.max_hp&&visible(b,a.pos)&&cheb(p,a.pos)<=props.range;
             },*ability.info());
+            if(heal)return true;
         }
         if(range<0)return false;
-        const auto p=live_position(me);
         for(const auto& e:b.w.enemies)if(e.hp>0&&visible(b,e.pos)&&cheb(p,e.pos)<=range)return true;
         for(const auto& c:b.w.camps)if(!c.dead&&c.hp>0&&visible(b,c.pos)&&cheb(p,c.pos)<=range)return true;
         return false;
@@ -133,10 +139,10 @@ struct nn_policy_tactics_access {
              bit(b.w.groups[state.objective].tiles,goal)));
         const bool warm=inherited||(g_boards&&g_boards->goal_ready&&g_boards->goal_key==goal);
         const auto chunks=std::uint64_t(l.chunked_width)*l.chunked_height;
-        // Engine-measured move builds (2026-10-25, ~1.7k builds): blocking ~0.4k, goal field <=1k even when cold
-        // (host distance field), enumeration ~0.1-0.2k per endpoint-square tile, ~1.6-1.9k per feature row incl.
-        // proximity. Each term keeps a margin over its measured peak; overruns are refused as bound_exceeded.
-        return (warm?0:chunks*12+2000)+(g_boards?3000:22000)+b.w.camps.size()*60+visible_camps*400+bodies*300+
+        // Engine-measured move builds (2026-10-25): blocking ~0.4k, a warm goal field <1k but a cold one up to ~49k
+        // on large maps (kept at the chunk formula), enumeration ~0.1-0.2k per endpoint-square tile, ~1.6-1.9k per
+        // feature row incl. proximity. Overruns are refused as bound_exceeded; the builder also fails closed.
+        return (warm?0:chunks*(kFieldCap+24)+(std::uint64_t(l.field_bytes)*2+std::uint64_t(l.board_bytes)*6)/16)+(g_boards?3000:22000)+b.w.camps.size()*60+visible_camps*400+bodies*300+
             endpoints*150+std::min<std::uint64_t>(16,endpoints)*2000;
     }
     static bool inside(const Bot& b, vec2 q) { return q.x>=0&&q.y>=0&&q.x<b.w.width&&q.y<b.w.height; }
@@ -181,6 +187,18 @@ struct nn_policy_tactics_access {
         x.active_distance=x.goal_distance.ptr();x.active_complete=x.goal_complete;
         return true;
     }
+    // Fuel a cold goal field costs (one uninterruptible host distance field; ~49k observed on large maps), else 0.
+    static std::uint64_t goal_field_cost(const Bot& b,const nnp::OptionsState& state,vec2 p,const Boards& x) {
+        const vec2 goal=inside(b,state.goal)?state.goal:p;
+        if(!b.w.bridges_on) {
+            if(inside(b,goal)&&bit(b.w.ally_spawn,goal))return 0;
+            const int gi=state.objective;
+            if(gi>=0&&gi<static_cast<int>(b.w.groups.size())&&b.w.has_field(gi)&&bit(b.w.groups[gi].tiles,goal))return 0;
+        }
+        if(x.goal_ready&&x.goal_key==goal)return 0;
+        const auto& l=d::layout();
+        return std::uint64_t(l.chunked_width)*l.chunked_height*(kFieldCap+24)+(std::uint64_t(l.field_bytes)*2+std::uint64_t(l.board_bytes)*6)/16;
+    }
     static int path_distance(const Boards& x,vec2 q) {return x.active_distance[field_index(q)];}
     static void proximity(const Bot& b, vec2 q, int& attackers, int& camps, int& enemy_distance, int& ally_distance) {
         attackers=camps=0;enemy_distance=ally_distance=10000;
@@ -224,7 +242,9 @@ struct nn_policy_tactics_access {
                 g_visible_camps[g_visible_count++]=i;
             }
         }
-        auto& x=boards();blocking(b,p,x);goal_field(b,state,p,x);
+        auto& x=boards();blocking(b,p,x);
+        if(const auto cold=goal_field_cost(b,state,p,x);cold&&bc::fuel_remaining()<cold+kBuildFloor)return false;
+        goal_field(b,state,p,x);
         bool missing_distance=false;
         MovePick small[nnpc::kMaxK]{};int total=0;
         MovePick bucket[3][8]{};bool have[3][8]{};
@@ -242,7 +262,7 @@ struct nn_policy_tactics_access {
             if(me.move_speed<0||me.move_speed>kLocalRadius)return false;
             x.blocked.reachable_tiles_into(p,static_cast<std::uint16_t>(me.move_speed),x.frontier,x.scratch,x.reach);
             for(int dy=-me.move_speed;dy<=me.move_speed;++dy)for(int dx=-me.move_speed;dx<=me.move_speed;++dx) {
-                const vec2 q{p.x+dx,p.y+dy};if(q!=p&&inside(b,q)&&bit(x.reach,q))add(q,0);
+                const vec2 q{p.x+dx,p.y+dy};if(q!=p&&inside(b,q)&&bit(x.reach,q)){if(!build_fuel_ok())return false;add(q,0);}
             }
         }
         const auto abilities=bc::self().abilities();
@@ -256,7 +276,7 @@ struct nn_policy_tactics_access {
             // Conservative known-legal path subset: no hole-crossing or paths through occupied tiles.
             x.blocked.reachable_tiles_into(p,static_cast<std::uint16_t>(radius),x.frontier,x.scratch,x.reach);
             for(int dy=-radius;dy<=radius;++dy)for(int dx=-radius;dx<=radius;++dx) {
-                const vec2 q{p.x+dx,p.y+dy};if(q!=p&&inside(b,q)&&bit(x.reach,q))add(q,static_cast<unsigned>(s+1));
+                const vec2 q{p.x+dx,p.y+dy};if(q!=p&&inside(b,q)&&bit(x.reach,q)){if(!build_fuel_ok())return false;add(q,static_cast<unsigned>(s+1));}
             }
         }
         nnpc::Candidate rows[nnpc::kMaxK]{};int n=0;

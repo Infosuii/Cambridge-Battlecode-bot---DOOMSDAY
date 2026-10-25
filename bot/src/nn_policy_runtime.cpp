@@ -85,7 +85,8 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
     const auto bound=hi<=3?nnp::strategy_candidate_fuel(b,h):h==H::bank?nnp::bank_candidate_fuel(b):
         h==H::shop?24000u:nnp::tactics_candidate_bound(b,g_state,h);
     // Movement is last: reserve its bounded endpoint recheck, with no following world refresh.
-    const auto execution=macro?4000u:h==H::move?6000u+static_cast<std::uint32_t>(field_chunks())*16u:16000u;
+    // Macro reserve: strategy execution peaks ~17.5k, and a new objective/goal makes the next movement field cold.
+    const auto execution=macro?20000u:h==H::move?6000u+static_cast<std::uint32_t>(field_chunks())*16u:16000u;
     // Movement and combat builders fail closed below a fuel floor, so they are admitted at a typical cost.
     const bool guarded=h==H::move||h==H::combat;
     // Typical measured builds: move ~0.4x and combat ~0.6x of their worst-case bounds.
@@ -231,9 +232,11 @@ struct nn_policy_access {
         g_inventory->conditional_objective(g_state.intent==0||g_state.intent==3,macro_start,g_state.objective<0);
         if(g_state.intent==0||g_state.intent==3) {
             if(scheduled(H::objective,nnp::kObjectivePeriod,macro_start||g_state.objective<0))
-                if(!choose(b,H::objective,std::min(16,static_cast<int>(b.w.groups.size())),nnp::build_objective,nnp::execute_objective,true))return fallback();
+                // Strategy already set a reachable farming group as the goal; an unavailable objective decision keeps it.
+                if(!choose(b,H::objective,std::min(16,static_cast<int>(b.w.groups.size())),nnp::build_objective,nnp::execute_objective,true)&&
+                   g_state.objective<0)return fallback();
         } else close(H::objective,nnp::Reason::interrupted);
-        if((g_state.intent==0||g_state.intent==3)&&!g_options[static_cast<int>(H::objective)].committed)return fallback();
+        if((g_state.intent==0||g_state.intent==3)&&!g_options[static_cast<int>(H::objective)].committed&&g_state.objective<0)return fallback();
         if(b.gems>0&&scheduled(H::bank,nnp::kBankPeriod,macro_start&&g_state.intent==1)) {
             if(!choose(b,H::bank,std::min(16,1+2*static_cast<int>(b.w.altars.size())),nnp::build_bank,nnp::execute_bank))return fallback();
             if(bc::self().state().contains(bc::champion_state::submitting_gems)) {
