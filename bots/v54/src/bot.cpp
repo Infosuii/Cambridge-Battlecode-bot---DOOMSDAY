@@ -5890,6 +5890,24 @@ bool Bot::farm() {
     }
     case GroupState::respawning: {
         mode = "wait-respawn";
+#if V54_HOLD
+        // Lead lock (sole gem camp only): any occupied spawn tile delays the whole group's respawn (engine-checked:
+        // a held stampede group stayed down 120 rounds against 65). With a banked lead of at least one cycle, one
+        // champion with an empty bag stands on a tile; teammates wait beside it as before, so it is not alone.
+        if (static_cast<int>(&g - &w.groups[0]) == sole_gem_group && round >= A2_SOLE_FROM &&
+            ally_score - enemy_score >= V54_HOLD_LEAD && gems < 10 && hp >= max_hp * 0.5f) {
+            const int gi = sole_gem_group;
+            bool other = false;
+            for (int s = 0; s < std::min(team_size, kClaimSlots); ++s)
+                other |= s != slot && claim_onsite(s) && claim_cache[static_cast<std::size_t>(s)] == gi;
+            if (!other) {
+                mode = "hold";
+                if (!bit(g.tiles, pos)) walk_toward(g.tiles);
+                if (bit(g.tiles, pos)) mark_onsite(gi);
+                return true;
+            }
+        }
+#endif
         if (tune::kUseWaits) {
             const int wait = g.respawn_round - round;
             const int altar_trip = gems >= 10 && w.ensure_altar_field()

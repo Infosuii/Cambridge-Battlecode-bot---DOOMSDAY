@@ -11,6 +11,12 @@
 #ifndef V54_ITEMS // item milestones (bot.cpp build_for): 1 Treasure first emblem, 2 Bruiser stat stacks, 3 both
 #define V54_ITEMS 3
 #endif
+#ifndef V54_HOLD // lead lock: hold a tile of the sole gem camp to delay its respawn while ahead (bot.cpp farm)
+#define V54_HOLD 1
+#endif
+#ifndef V54_HOLD_LEAD // banked-gem lead needed before holding (one stampede cycle is 160 gems)
+#define V54_HOLD_LEAD 160
+#endif
 #ifndef V54_STAGE_WALK // give up a camp job still not reached after this many rounds of walking
 #define V54_STAGE_WALK 60
 #endif
