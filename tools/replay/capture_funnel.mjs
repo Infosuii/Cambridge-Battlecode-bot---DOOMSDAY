@@ -8,7 +8,9 @@ import fs from 'node:fs'; import path from 'node:path';
 import { engine, defaultAssets, verifyAssets } from './engine.mjs';
 const dir = defaultAssets(); verifyAssets(dir); const E = await engine(dir);
 const cheb = (a, b) => Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
-const VAL = { 0: [40, 4, 1350], 1: [90, 15, 2400], 2: [0, 7, 120], 3: [0, 1, 1], 4: [0, 0, 1], 5: [0, 0, 1] };
+// SDK/GameRules camp_type order: wolf, elk, gem cluster, gold cluster, monolith, golem.
+const VAL = { 0: [40, 4, 1350], 1: [90, 15, 2400], 2: [0, 7, 120], 3: [20, 0, 120], 4: [300, 200, 20000], 5: [160, 36, 5000] };
+const UNTIL = Number(process.env.NFS_FUNNEL_UNTIL ?? Infinity);
 const [output, ...files] = process.argv.slice(2); const all = [];
 for (const file of files) {
   E.load(fs.readFileSync(file)); const { X, check, dv, out, args, tsnap } = E;
@@ -73,7 +75,7 @@ for (const file of files) {
       // a basic attack on a champion tile may be a kill; its gold is not a capture
       if (c && s.champions.some(o => o.team !== c.team && o.position && `${o.position.x},${o.position.y}` === k)) killsThisRound.add(actor);
     }
-    if (outcome || (d.getUint32(tsnap + 20, true) !== 0 && pos >= size)) break;
+    if (outcome || round > UNTIL + 1 || (d.getUint32(tsnap + 20, true) !== 0 && pos >= size)) break;
     check(X.Game_Visualiser_Timeline_ReplayNext(E.h, 1));
   }
   all.push({ id: path.basename(file).replace('.repl26a', ''), captures: rows }); E.destroy();

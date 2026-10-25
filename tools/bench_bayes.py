@@ -118,6 +118,7 @@ def main():
     else:
         verdict = 'CONTINUE: not decisive; add seeds (or treat as neutral)'
     print(f'  decision: {verdict}')
+    print(f'  incomplete-loop check: mean >= -25 {bool(mu.mean() >= -25)}; P(> -50) {np.mean(mu > -50):.3f}')
     eff = pg['mu'][:, None] + pg['b']
     raw = defaultdict(list)
     for k, v in zip(keys, gem):
@@ -135,6 +136,7 @@ def main():
         Path(args.json).write_text(json.dumps({'a': args.a, 'b': args.b, 'games': len(keys), 'maps': len(mlist), 'seeds': seeds_used,
             'gems_mean': float(mu.mean()), 'gems_ci95': [q(mu, .025), q(mu, .975)], 'p_gain': p_pos,
             'p_gain_25': float(np.mean(mu > 25)), 'p_gain_50': float(np.mean(mu > 50)), 'win_mean': float(muw.mean() + off),
+            'p_gain_neg50': float(np.mean(mu > -50)), 'p_gain_neg25': float(np.mean(mu > -25)),
             'win_ci95': [q(muw, .025) + off, q(muw, .975) + off], 'tau': float(pg['tau'].mean()), 'sigma': float(pg['sigma'].mean()),
             'decision': verdict, 'per_map': rows}, indent=1) + '\n')
 

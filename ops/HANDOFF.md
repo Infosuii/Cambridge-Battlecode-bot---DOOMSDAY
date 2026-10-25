@@ -307,3 +307,42 @@ response is `artifacts/claude_ops/results/v55-submit.txt`, with the rejected res
 * Open: survival against stronger-geared teams (cannot be validated against our own lineage), dead-camp waiting on
   disconnected maps, damage per champion (−12 to −23%).
 
+## 17. v58 coordinated economy research: not submitted (2026-10-25)
+
+The user supplied a strict v58 brief and authorized submission only after every release gate. Twenty complete
+development screens on frozen SDK/CLI3.0.5 / engine1.0.3 produced4480 games. Every completed screen returned0,
+had exact224-game coverage and zero native faults on both teams. One invalid build and eight diagnostic games
+are excluded. Sprint3 patch notes were ignored at the user's subsequent instruction. No match groups or holdout
+passes were run. **v57 remains live as platform56; v58 is not submitted.**
+
+`bots/v58/src` contains disabled research mechanisms: repeated shared jobs, single-owner reward handoffs,
+carry Treasure shopping, coupled drafting, parallel clears, survival, action ordering, personal wards and timed
+altar locks. All new defaults are0; a clean source copy builds byte-identically to v57 (`914b49a0…`). Frozen v57's
+per-file release hashes still match. Do not submit this disabled tree as an improvement.
+
+No screen met acceptance, a positive clustered lower bound, or incomplete-loop non-inferiority. Final D14:
+107/224,+5.3 raw gems; Bayes+12.1/P=.564, cluster95%[−136.7,+163.5], fuel1.790/game. R250 team capture gold677.7
+versus722.9 (target900); elk captures2.99 (target3.5); carry share44.7%; Vesper Treasure median134; deaths down3.7%
+(target30%). D6/D13 Vesper drafts did reach Treasure median114.5/110 and share45.5%/45.8%, while the complete
+economy/strength still failed. First large captures reached median43–48; the remaining gap is repeat income and
+pressure, rather than simply a slower opening. This is evidence about these prototypes, not a proven diagnosis
+of all Claudus losses. No~1000-gold configuration existed to freeze as a proxy; optional denial/hunting stayed off.
+
+Visible-power survival lost heavily despite fewer deaths. Extra stationary casts displaced basics. More wards
+did not reduce deaths; more altar locks did not increase completed enemy tribute latency. D13 hoisted planner
+work: diagnostic maximum13,367 versus22,497 fuel, but normal-game fuel-outs still2.487/game. Diagnostic MICLOG
+builds change trajectories and are excluded from strength results. D14 restored middle-camp eligibility with an
+enemy-side travel cost, reducing fuel but not producing a reliable gain. All these mechanisms remain unretained.
+
+Read `artifacts/claude_ops/V58_BUILD_LOG.md`, `V58_RESULTS.md`, `V58_RESULTS.json` and `V58_RELEASE.json`.
+The release record explicitly lists failed and unrun conditions. `V58_EXPERIMENTS.json` indexes21 exact snapshot
+patches, including invalid D2; all reconstructed file-for-file with `tools/reproduce_v58.py`. For example:
+`python tools/reproduce_v58.py d14 artifacts/tmp/reproduced-v58-next`. Use a new destination, bench3, the pinned
+engine and both Bayes/clustered comparisons. Source/hash identities for every seed are preserved; raw replays,
+builds, extracted intermediates and the pre-existing Claude experiment remain ignored/local-only.
+
+The user's brief says to stop and let them decide when this gate fails. Research is stopped with no accepted
+mechanism, no12-seed confirmation, no active-candidate independent release build, no bundle and no upload.
+No rank25 or Claudus win claim is supported. A future architecture should explain how it improves repeated team
+income and pressure together; do not resume threshold tuning or open holdouts to rescue these screens.
+

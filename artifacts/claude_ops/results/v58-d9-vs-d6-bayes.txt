@@ -1,0 +1,35 @@
+A - B (paired): 224 games, 28 maps, seeds 1,2,3,4
+  gems per game: posterior mean -40.5, 95% credible [-125.4, +40.4]; P(>0) 0.161, P(>25) 0.051, P(>50) 0.015, P(>100) 0.001
+  difference in win probability: posterior mean -0.018, 95% credible [-0.102, +0.068]; P(A better) 0.333
+  between-map sd tau 155 gems, game noise sigma 365 gems (t, nu=4)
+  decision: CONTINUE: not decisive; add seeds (or treat as neutral)
+  incomplete-loop check: mean >= -25 False; P(> -50) 0.603
+  map                      games      raw   pooled       95% credible  P(>0)  flag
+  00collision                  8   -156.5   -103.7 [ -330.2,  +113.5]  0.18  
+  00contest                    8   -250.0    -99.7 [ -393.7,  +183.4]  0.24  
+  00eight                      8    +58.1    -23.3 [ -248.9,  +212.2]  0.41  
+  00elkring                    8   -291.5   -173.0 [ -402.6,   +45.0]  0.06  likely loss
+  00fragment                   8   +666.0   +119.6 [ -112.1,  +368.9]  0.83  
+  00gem-fields                 8     +0.0    -17.6 [ -203.6,  +171.7]  0.43  
+  00gemfight                   8     +0.0    -13.2 [ -196.7,  +169.1]  0.45  
+  00great-wall                 8   -140.5    -64.9 [ -301.2,  +161.4]  0.29  
+  00lost-world                 8     +0.0    -16.2 [ -206.3,  +165.6]  0.43  
+  00quadrants                  8    -20.6    -37.8 [ -237.3,  +158.7]  0.35  
+  00reverse-spiral             8     +0.0    -15.1 [ -203.3,  +177.5]  0.44  
+  00road-of-riches             8     +0.0    -14.5 [ -201.8,  +170.5]  0.44  
+  00rows                       8    +39.5     +6.3 [ -183.2,  +191.2]  0.53  
+  00rushbait-v2                8     +0.0    -15.2 [ -200.6,  +172.1]  0.43  
+  00split                      8    +50.9     +9.6 [ -197.6,  +222.0]  0.53  
+  00stampede                   8   +448.4    +76.1 [ -173.2,  +342.0]  0.72  
+  00swirl                      8   -177.2    -10.6 [ -229.2,  +201.5]  0.47  
+  01big-world                  8    -11.2    -43.1 [ -250.4,  +170.3]  0.34  
+  01boss-battle                8   -212.8   -181.7 [ -432.1,   +55.7]  0.07  likely loss
+  01broken-curve               8   +147.8    +79.4 [ -125.1,  +280.1]  0.78  
+  01concentrated-wealth        8   -383.6   -217.1 [ -456.3,   +12.7]  0.03  likely loss
+  01corridors                  8    +81.5    +16.0 [ -174.7,  +210.1]  0.57  
+  01gold-rush                  8     +0.0    -14.3 [ -200.6,  +170.2]  0.43  
+  01islands                    8   +105.0     -1.0 [ -207.8,  +209.0]  0.50  
+  01shortcut                   8    -96.0    +10.9 [ -270.2,  +278.7]  0.54  
+  01starfish                   8   -364.6   -132.4 [ -394.1,  +111.1]  0.15  
+  01starvation                 8    -27.0    +33.9 [ -186.7,  +253.6]  0.62  
+  01yellow-brick-road          8   -774.5   -288.8 [ -575.5,   -41.1]  0.01  likely loss
