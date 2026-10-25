@@ -85,7 +85,7 @@ std::uint32_t g_unstalled=0;
 std::uint32_t unstall_move(const nnpc::Decision& d,const nnp::Result& r) {
     if(r.choice<0||r.choice>=d.K||(r.action>>30)!=3u||d.context!=0)return r.action;
     const float* hold=d.feat+12*r.choice; // normalised: [2] remaining path /50, [4] enemy attackers, [5] camp attackers
-    if(hold[4]!=0||hold[5]!=0||hold[2]*50.0f<1.5f)return r.action;
+    if(hold[4]!=0||hold[2]*50.0f<1.5f)return r.action; // camps in range of the tile may be asleep: only enemy threats block
     int best=-1;
     for(int i=0;i<d.K;++i) {
         const float* f=d.feat+12*i;
@@ -94,6 +94,23 @@ std::uint32_t unstall_move(const nnpc::Decision& d,const nnp::Result& r) {
     }
     if(best<0||!(d.feat[12*best+2]<hold[2]))return r.action;
     ++g_unstalled;return d.id[best];
+}
+// Anti-passivity rule (hard-coded, combat only): the replay-trained policy often waits beside camps. When it holds in an
+// ordinary context, no enemy champion is among the options and a basic attack on a camp is legal, the camp with the
+// least health is attacked. Normalised combat features: [0] kind/3, [1] target hp, [11] affected enemy champions.
+std::uint32_t g_unpassive=0;
+std::uint32_t unpassive_combat(const nnpc::Decision& d,const nnp::Result& r) {
+    if(r.choice<0||r.choice>=d.K||r.action!=3u||d.context!=0)return r.action;
+    int best=-1;
+    for(int i=0;i<d.K;++i) {
+        const float* f=d.feat+12*i;
+        if(!d.legal[i])continue;
+        if(f[11]!=0)return r.action; // an enemy champion option: leave the decision to the policy
+        if((d.id[i]&3u)!=0u||d.id[i]==3u)continue;
+        if(best<0||f[1]<d.feat[12*best+1])best=i;
+    }
+    if(best<0)return r.action;
+    ++g_unpassive;return d.id[best];
 }
 using Build=bool(*)(const Bot&,const nnp::OptionsState&,nnpc::Decision&);
 using Execute=nnp::Execution(*)(Bot&,nnp::OptionsState&,std::uint32_t);
@@ -109,7 +126,9 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
     // Movement and combat builders fail closed below a fuel floor, so they are admitted at a typical cost.
     const bool guarded=h==H::move||h==H::combat;
     // Typical measured builds: move ~0.4x and combat ~0.6x of their worst-case bounds.
-    const auto ticket=g_core.admit(h,max_k,bound,execution,guarded&&bound<UINT32_MAX?(h==H::move?bound*2/5:bound*3/5):0);
+    // Objective builds peak at ~0.7x their bound (measured); its 20k macro execution reserve (~1k actual) covers the rest.
+    const auto admission=bound>=UINT32_MAX?0:guarded?(h==H::move?bound*2/5:bound*3/5):h==H::objective?bound*7/10:0;
+    const auto ticket=g_core.admit(h,max_k,bound,execution,admission);
     if(!ticket.admitted){g_inventory->record(h,false);note(h,nnp_log::kSafetyOverride,nnp::Reason::budget);return false;}
     nnpc::Decision decision{};
     const auto candidate_start=fuel();const auto candidate_round=bc::round_number();
@@ -125,7 +144,7 @@ bool choose(Bot& b,H h,int max_k,Build build,Execute execute,bool macro=false) {
     g_costs[hi].decision=std::max(g_costs[hi].decision,decision_cost);
     if(result.choice<0){g_inventory->record(h,false);++g_costs[hi].refused;return false;}
     if(cumulative==UINT32_MAX){g_inventory->record(h,false);return false;}
-    const auto action=h==H::move?unstall_move(decision,result):result.action;
+    const auto action=h==H::move?unstall_move(decision,result):h==H::combat?unpassive_combat(decision,result):result.action;
     const auto before=fuel();nnp::Execution actual{};
     try {actual=execute(b,g_state,action);} catch(...) {actual={true,false,false};}
     const auto action_cost=elapsed(before,candidate_round);
