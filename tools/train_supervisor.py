@@ -70,7 +70,13 @@ def main():
     p.add_argument('--snapshot-minutes', type=float, default=15); p.add_argument('--previous', type=Path, nargs='*', default=[])
     p.add_argument('--maps', nargs='+', default=MAPS); p.add_argument('--games', type=int, default=24)
     a = p.parse_args()
-    run = a.run.resolve(); sup = run / 'supervisor'; sup.mkdir(parents=True, exist_ok=True)
+    run = a.run.resolve(); sup = run / 'supervisor'
+    waited = time.time()
+    while not (run / 'metrics.jsonl').exists():  # policy_bc.py needs a fresh run directory; never create it first
+        if time.time() > waited + 30 * 60:
+            raise SystemExit(f'training never started in {run}')
+        time.sleep(10)
+    sup.mkdir(exist_ok=True)
     env = dict(os.environ, PYTHONPATH=str(ROOT / 'python'), TMP=str(ROOT / 'artifacts/tmp'), TEMP=str(ROOT / 'artifacts/tmp'),
                PYTHONDONTWRITEBYTECODE='1', PATH='C:/msys64/ucrt64/bin;' + os.environ.get('PATH', ''))
     start = time.time(); next_snapshot = start; n = 0
