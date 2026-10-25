@@ -1,6 +1,6 @@
-"""Economic ledger of a bench2 run: candidate vs opponent, from the local replays (offline analysis only).
+"""Economic ledger of a bench3 run: candidate vs opponent, from the local replays (offline analysis only).
 
-Usage: python tools/replay/ledger_bench.py <bench2 out prefix> [json out]
+Usage: python tools/replay/ledger_bench.py <bench3 out prefix> [json out]
 Extracts every game's replay, runs actor_ledger.mjs and still_runs.mjs, and prints paired medians/means of time use,
 capture income, big-capture gems and stationary waits for the candidate (bot_match --a) and its opponent.
 """
@@ -27,7 +27,11 @@ def run_batches(script, args, files, output, until=None):
     for start in range(0, len(files), 32):
         part = output.with_name(output.stem + f'-part{start // 32}.json')
         command = ['node', str(ROOT / 'tools/replay' / script), *args, str(part), *files[start:start + 32]]
-        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, env=None if until is None else dict(os.environ, NFS_LEDGER_UNTIL=str(until)))
+        child_env = dict(os.environ)
+        child_env['NODE_OPTIONS'] = (child_env.get('NODE_OPTIONS', '') + ' --no-warnings').strip()
+        if until is not None:
+            child_env['NFS_LEDGER_UNTIL'] = str(until)
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, env=child_env)
         rows.extend(json.loads(part.read_text(encoding='utf-8')))
         print(f'{script}: {min(start + 32, len(files))}/{len(files)}', flush=True)
     output.write_text(json.dumps(rows), encoding='utf-8')
@@ -64,6 +68,12 @@ def main():
                 if all(str(W) in ac.get('gear', {}) for ac in actors):
                     rows[f'R{W} equipment'][i].append(sum(ac['gear'][str(W)] for ac in actors))
                 vesper = [ac for ac in actors if ac['type'] == 1]
+                hearts = [ac for ac in actors if ac['type'] == 12]
+                if hearts:
+                    for key in ('cap_gold', 'gold_income', 'cast_total', 'dash_move_steps', 'clear'):
+                        values = [ac['w'].get(str(W), {}).get(key, ac['w'].get(str(W), {}).get('dash_total') if key == 'dash_move_steps' else None) for ac in hearts]
+                        if all(value is not None for value in values):
+                            rows[f'R{W} Heart {key} (if drafted)'][i].append(sum(values) / len(hearts))
                 if vesper:
                     team_cap = sum(ac['w'].get(str(W), {}).get('cap_gold', 0) for ac in actors)
                     team_gold = sum(ac['w'].get(str(W), {}).get('gold_income', 0) for ac in actors)

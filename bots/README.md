@@ -7,5 +7,8 @@ Full submission sources of the heuristic bot lineage, one directory per version 
 | v48 | `C:\projects\cambridge battlecode\bot v48\danger20_engine103.zip` | heuristic, trained draft net (`A2_MLDRAFT`) and danger net (`UB_DANGER`) on |
 | v50 | `C:\projects\cambridge battlecode\bot v50\bot.zip` | v48 lineage, draft net and camp net (`A2_CAMPNET`, about 3 hours of in-engine RL); no danger net |
 | v51 | this repository | v50 plus the moated-island fix; submitted 2026-10-25 as bot version 51 (see `v51/CHANGES.md`) |
+| v53 | this repository | frozen platform version53; see `v53/CHANGES.md` |
+| v54 | this repository | frozen platform version54; coordinated economy and teleport logistics |
+| v55 | this repository | completed camp missions, Heart camp strikes, legal mirrored drafts; release/submission status in `artifacts/claude_ops/V55_RELEASE.json` |
 
 Build: `cambc build bots/v51 --release --output <file>.wasm`. Local head-to-head: `tools/bot_match.py`, `artifacts/claude_ops/bench3.sh` (cached builds and verified complete runs). Compare candidates with `tools/bench_compare.py`; retain a mechanism only when its map-clustered 95% interval is above zero against its base.

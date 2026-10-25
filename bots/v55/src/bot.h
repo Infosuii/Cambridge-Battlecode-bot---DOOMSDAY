@@ -172,6 +172,12 @@ private:
     // Combat helpers.
     bool attack_unit(const bc::unit& target, vec2 where);
     bool cast_on_camp(int camp_index);
+#if V55_HEART_CAMP
+    bool cast_camp_strike(int camp_index);
+#endif
+#if V55_HEART_MODEL
+    float cached_dps = 1.0f;
+#endif
     bool cast_on_enemy(const EnemyRec& e);
     bool use_reset_and_attack(const bc::unit& target, vec2 where);
     void support_casts();

@@ -27,7 +27,7 @@ for (const file of files) {
   const newLedger = (c) => ({ id: c.entity.index, team: c.team, type: c.type, w: {}, first_buy: null, emblems: {},
     cap_events: [], kill_gold: 0, deaths: [], gear: {} });
   const bucket = (L, r) => { for (const W of WINDOWS) if (r <= W) { L.w[W] ??= { alive: 0, dead: 0, spawn: 0, clear: 0, pvp: 0,
-    cast: 0, bank: 0, travel: 0, still: 0, cap_gold: 0, cap_gems: 0, caps: 0, shared_caps: 0, kill_gold: 0, kill_gems: 0, spend: 0, gold_income: 0 }; } };
+    cast: 0, cast_total: 0, dash_move_steps: 0, bank: 0, travel: 0, still: 0, cap_gold: 0, cap_gems: 0, caps: 0, shared_caps: 0, kill_gold: 0, kill_gems: 0, spend: 0, gold_income: 0 }; } };
   const add = (L, r, k, v = 1) => { for (const W of WINDOWS) if (r <= W) L.w[W][k] += v; };
   const closeRound = (s, round) => {
     // Attribute last round's activity and the state change between prev and s.
@@ -38,6 +38,9 @@ for (const file of files) {
       if (WINDOWS.includes(s.round)) L.gear[s.round] = equip(c.items);
       const p = prev?.champions.find(x => x.entity.index === c.entity.index);
       const a = act.get(c.entity.index) ?? {};
+      // Independent action counts: a cast followed by an attack still belongs in the cast total.
+      add(L, round, 'cast_total', a.cast_total ?? 0);
+      add(L, round, 'dash_move_steps', a.dash_move_steps ?? 0);
       if (!c.alive) { add(L, round, 'dead'); if (p?.alive) L.deaths.push({ round, gems: p.gems }); continue; }
       add(L, round, 'alive');
       const onSpawn = c.position && spawn[c.team].has(`${c.position.x},${c.position.y}`);
@@ -87,7 +90,9 @@ for (const file of files) {
     if (actorKind === 1) {
       const f = act.get(actor) ?? {}; act.set(actor, f);
       if (kind === 5) { const tx = d.getInt32(tsnap + 88, true), ty = d.getInt32(tsnap + 92, true); if (camps.has(`${tx},${ty}`)) f.clear = 1; else f.pvp = 1; }
-      else if (kind === 6) f.cast = 1;
+      else if (kind === 6) { f.cast = 1; f.cast_total = (f.cast_total ?? 0) + 1; }
+      // Movement-step events are not an exhaustive count of dash ability casts; use kind6/slot1 for Heart casts.
+      else if (kind === 23) f.dash_move_steps = (f.dash_move_steps ?? 0) + 1;
       else if (kind === 12 || kind === 18) f.bank = 1;
     }
     if (outcome || (d.getUint32(tsnap + 20, true) !== 0 && pos >= size) || round > UNTIL + 1) break;

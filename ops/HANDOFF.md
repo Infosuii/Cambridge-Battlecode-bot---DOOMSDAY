@@ -232,3 +232,39 @@ and `V53_LIFE_DATA.md/.json` (tables, per-game rows), produced by `tools/replay/
 exchange because of gear. The prompt for the next agent (GPT) to build v55 is `artifacts/claude_ops/V55_GPT_PROMPT.md`.
 Rank at 16:25 UTC: 115 (1788.8). v54's first 30 ladder games: 14/30 (`data/ladder/v54_first_20261025.json`).
 
+## 15. v55 release candidate and contract audit (2026-10-25)
+
+The user explicitly authorized submitting a definite improvement over v54. No further permission is pending.
+Frozen candidate R10 is in `bots/v55`; release state, source hashes and checks are in
+`artifacts/claude_ops/V55_RELEASE.json`. Source hash using the bench3 convention:
+`91be1f2103d7466806bcabfba188826da6dafd7650d3d0eb25bd49c4cbc94a83`.
+The independent official build exactly matches the benchmark seed1 wasm:
+`3978e8d7053cd2f1cd2e8f3b91180aacc6a075abbb58c359cde722855d28d11a`.
+v53/v54 file hashes still match their frozen release records. Local machine config and unrelated files are preserved.
+
+Changes: complete learned camp commitments on capture (`V55_COMMIT_EVENT`), use Heart's damaging camp dash
+deliberately (`V55_HEART_CAMP`), and remove enemy picks from the learned selector's availability mask
+(`V55_DRAFT_LEGAL`). Enemy picks remain model inputs. Draft legality alone was neutral in all672games.
+Do not claim it explained the entire ladder deficit. Damage-model/cache and spell-kill retarget experiments are off.
+
+Development versus v54: **414/672 (61.6%),+106.0 gems, map-clustered95%[+44.5,+174.9]**. The retained completion
+foundation is726/1344,+19.8,[+3.5,+37.1] over24seeds, now explicitly paired with an inert control. Adding Heart to
+that foundation gives+79.2,[+4.2,+160.6]. The reverse completion-on-Heart ablation is inconclusive: report it honestly.
+Final R500 ledger: capture gold363.2versus321.8per actor, equipment1911.6versus1670.0, dead-camp waits127.2versus135.3.
+Heart capture gold319.4versus235.0; successful dash casts45.24versus35.21, camp-adjacent landings8.56versus1.23per actor.
+Camp adjacency is a post-cast marker, not direct damage attribution; timeline kind23 is not a complete cast counter.
+
+Gate: once-only frozen12-map holdout150/288,+21.3; versus v53:469/672,+240.1. v48 portfolio:113/168,+232.0,
+against v54's107/168,+154.6. v53/v48 paired incremental intervals include zero; these are compatibility checks.
+All runs exited0 and have exact coverage and0native faults on BOTH teams. Fuel: dev965/962, holdout83/81,
+v53test1050/924, v48test273/290. General economy/controller change; no map-specific all-seed win target declared.
+Gold-rush regressed107.9gems in development; brawl aggregate81/120,+98.7 has an interval including zero.
+All40maps are reused; hooks had extensive prior development exposure. No holdout tuning occurred. Top25 remains
+a live ladder target, not an established result of same-lineage testing.
+
+Only `bench3.sh` and `bench_compare.py` for new work. Old bench2/bench28/bench_paired tools were retired in
+`f9cb4bc`; historical logs unchanged. Restart research: `V55_RESTART.md`, `V55_CONTRACT_AUDIT.md` and the
+hash-checked restart patches. Reconstruct with `python tools/reproduce_v55.py r10-heart-completion <new repo-local dir>`.
+Raw replays/downloads/builds remain local-only. Read the release manifest for submission status before submitting
+again; it is updated after the authorized upload succeeds.
+

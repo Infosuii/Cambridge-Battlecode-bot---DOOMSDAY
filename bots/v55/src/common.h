@@ -1,6 +1,17 @@
-// V55 opponent-driven restart: one contract correction at a time.
 #ifndef V55_DRAFT_LEGAL
 #define V55_DRAFT_LEGAL 1
+#endif
+#ifndef V55_COMMIT_EVENT
+#define V55_COMMIT_EVENT 1
+#endif
+#ifndef V55_HEART_CAMP
+#define V55_HEART_CAMP 1
+#endif
+#ifndef V55_HEART_MODEL
+#define V55_HEART_MODEL 0
+#endif
+#ifndef V55_CAST_RETARGET
+#define V55_CAST_RETARGET 0
 #endif
 // v54 (2026-10-25, from frozen v53). Each mechanism has its own switch for ablation; see bots/v54/CHANGES.md.
 #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins

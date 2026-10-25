@@ -438,6 +438,20 @@ void Bot::refresh_self() {
     }
     ally_score = static_cast<int>(bc::global_submitted_gems(team::ally));
     enemy_score = static_cast<int>(bc::global_submitted_gems(team::enemy));
+#if V55_HEART_MODEL
+    // These stats are already snapshotted for this turn. Keep invariant damage work outside group scoring.
+    cached_dps = strength;
+    for (const auto& sp : spells) {
+        if (!sp.present) continue;
+        if (sp.kind == bc::ability_kind::attack_reset) cached_dps += strength / 8.0f;
+        if ((sp.kind == bc::ability_kind::damage || sp.kind == bc::ability_kind::cc || sp.kind == bc::ability_kind::aoe_damage) && sp.camps)
+            cached_dps += sp.modifier * focus / 8.0f;
+        if (type == bc::champion_type::heart_of_ruin && sp.kind == bc::ability_kind::dash && sp.modifier > 0.0f)
+            cached_dps += sp.modifier * focus / 8.0f;
+    }
+    if (type == bc::champion_type::heart_of_ruin)
+        cached_dps *= 1.0f + 0.5f * (1.0f - hp / max_hp);
+#endif
 }
 
 bool Bot::spell_ready(int s) const { return spells[s].present && cooldown[s] == 0 && !cast_done; }
@@ -1397,6 +1411,9 @@ bool Bot::retreat_from(vec2 threat) {
 // ---------------------------------------------------------------- combat helpers
 
 float Bot::my_dps(const GroupRec* g) const {
+#if V55_HEART_MODEL
+    float dps = cached_dps;
+#else
     float dps = strength;
     for (int s = 0; s < 2; ++s) {
         const auto& sp = spells[s];
@@ -1406,6 +1423,7 @@ float Bot::my_dps(const GroupRec* g) const {
             && sp.camps)
             dps += sp.modifier * focus / 8.0f;
     }
+#endif
     if (type == bc::champion_type::varg && g && g->camps.size() > 1) dps *= 1.6f;
     if (g) dps *= camp_dealt_mult;
     return std::max(dps, 1.0f);
@@ -1488,6 +1506,48 @@ bool Bot::use_reset_and_attack(const bc::unit& target, vec2 where) {
     return false;
 }
 
+#if V55_HEART_CAMP
+bool Bot::cast_camp_strike(int ci) {
+    if (type != bc::champion_type::heart_of_ruin || cast_done) return false;
+    const auto& target = w.camps[static_cast<std::size_t>(ci)];
+    const int gi = w.camp_group[static_cast<std::size_t>(ci)];
+    if (gi < 0 || !bit(w.visible, target.pos)) return false;
+    for (int s = 0; s < 2; ++s) {
+        const auto& sp = spells[s];
+        if (!spell_ready(s) || sp.kind != bc::ability_kind::dash || sp.modifier <= 0.0f) continue;
+        const int radius = std::max(1, static_cast<int>(sp.radius));
+        if (cheb(pos, target.pos) > static_cast<int>(sp.range) + radius) continue;
+        vec2 best{-1, -1};
+        int best_hits = 0, best_home = kUnreach;
+        for (int dx = -radius; dx <= radius; ++dx) for (int dy = -radius; dy <= radius; ++dy) {
+            const vec2 q{target.pos.x + dx, target.pos.y + dy};
+            if (!in_bounds(q, w.width, w.height) || q == pos || cheb(pos, q) > static_cast<int>(sp.range) ||
+                bit(w.static_blocked, q) || bit(w.unit_tiles, q)) continue;
+            bool extra_group = false;
+            for (int x = -radius; x <= radius; ++x) for (int y = -radius; y <= radius; ++y) {
+                const int other = w.group_of_camp_tile({q.x + x, q.y + y});
+                if (other >= 0 && other != gi && w.groups[static_cast<std::size_t>(other)].state == GroupState::alive) extra_group = true;
+            }
+            if (extra_group) continue;
+            int hits = 0;
+            for (int c : w.groups[static_cast<std::size_t>(gi)].camps)
+                if (!w.camps[c].dead && bit(w.visible, w.camps[c].pos) && cheb(w.camps[c].pos, q) <= radius) ++hits;
+            const int home = fdist(w.spawn_field, q);
+            if (hits > best_hits || (hits == best_hits && home < best_home)) best = q, best_hits = hits, best_home = home;
+        }
+        if (best.x < 0 || best_hits <= 0) return false;
+        try {
+            if (bc::self().abilities()[s].use(best)) {
+                pos = best;
+                cast_done = true;
+                return true;
+            }
+        } catch (...) { }
+    }
+    return false;
+}
+#endif
+
 bool Bot::cast_on_camp(int ci) {
     const auto& c = w.camps[ci];
     if (tune::kSpellHold & 1) {
@@ -1497,6 +1557,9 @@ bool Bot::cast_on_camp(int ci) {
         for (const auto& sg : w.sightings)
             if (round - sg.round <= tune::kSpellHoldAge && cheb(sg.pos, pos) <= tune::kSpellHoldRange) return false;
     }
+#if V55_HEART_CAMP
+    if (cast_camp_strike(ci)) return true;
+#endif
     int best = -1;
     float best_value = 0;
     for (int s = 0; s < 2; ++s) {
@@ -1671,6 +1734,12 @@ void Bot::support_casts() {
                     dash_ready |= spell_ready(s2) && spells[s2].kind == bc::ability_kind::dash && spells[s2].modifier > 0.0f;
                 bool near3 = false;
                 for (const auto& e : w.enemies) near3 |= cheb(e.pos, pos) <= 3;
+#if V55_HEART_CAMP
+                if (dash_ready && !near3 && hp >= max_hp * 0.6f && target_group >= 0 &&
+                    target_group < static_cast<int>(w.groups.size()) && w.groups[target_group].state == GroupState::alive)
+                    for (int ci : w.groups[target_group].camps)
+                        if (!w.camps[ci].dead && bit(w.visible, w.camps[ci].pos) && cheb(w.camps[ci].pos, pos) <= 3) near3 = true;
+#endif
                 if (dash_ready && near3) want_shield = false;
             }
 #endif
@@ -4688,7 +4757,24 @@ bool Bot::fight_camps(GroupRec& g, int need) {
         t = pick_target();
         if (t < 0) return true;
     }
+#if V55_CAST_RETARGET
+    if (cast_on_camp(t)) {
+        // A spell may have killed the chosen target (or several nearby targets). Preserve the basic attack.
+        for (int retry = 0; retry < 4 && t >= 0; ++retry) {
+            d::camp_state fresh{};
+            const int code = d::sdk_camp(static_cast<std::uint32_t>(static_cast<bc::handle_camp_t>(w.camps[t].camp)), &fresh);
+            if (code == 0 && fresh.health > 0.0f) {
+                w.camps[t].hp = fresh.health;
+                break;
+            }
+            w.camps[t].dead = true;
+            t = pick_target();
+        }
+        if (t < 0) return true;
+    }
+#else
     cast_on_camp(t);
+#endif
     if (attack_unit(w.camps[t].camp, w.camps[t].pos)) {
         // Refresh the target in case the first hit killed it.
         d::camp_state cs{};
@@ -4894,6 +4980,13 @@ int Bot::campnet_pick(CnCand* cn, int n, int base, int& best_need, float& best_s
     // Keep the kCnK best by score, the bot's pick first.
     std::sort(cn, cn + n, [&](const CnCand& a, const CnCand& b) { return (a.gi == base) != (b.gi == base) ? a.gi == base : a.score > b.score; });
     n = std::min(n, lab_cn::kK);
+#if V55_COMMIT_EVENT
+    // A capture completes the mission. The learned pick's 40-round lock must not survive it into a respawn wait.
+    if (cn_commit >= 0 && w.groups[static_cast<std::size_t>(cn_commit)].state == GroupState::respawning) {
+        cn_commit = -1;
+        cn_last_base = -1;
+    }
+#endif
     // A committed pick (an earlier sample) stands while it is still a candidate and fresh: no resampling every turn.
     if (cn_commit >= 0 && round - cn_commit_round <= 40)
         for (int k = 0; k < n; ++k)
