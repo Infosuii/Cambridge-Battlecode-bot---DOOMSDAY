@@ -31,6 +31,7 @@ P 0.46) and the combination was +22.4 (P 0.66); this change was +64.0 (P 0.91) a
 | v57 vs live v55 | 672 | 379-293 (56.4%), +122.3 | [+66.7, +189.2] | +162.2 [+77.6, +253.0], 1.000 — ACCEPT |
 | v57 vs v56, paired | 672 | 379 vs 352 wins, +77.1 | [+39.4, +115.4] | +60.7 [−9.0, +134.1], 0.957 — ACCEPT |
 | **release holdout vs v55, once** | 72 | 38-34, **−31.3** | [−117.5, +54.4] | −23.3 [−179.9, +135.1], 0.383 |
+| **fresh holdout vs v55, once** (15 new pool maps, seeds 1-4; `artifacts/claude_ops/V57_FRESH_MAPS.md`) | 120 | 67-53, **+84.8** | [−20.7, +191.0] | +100.4 [−41.7, +242.7], 0.916 |
 
 Mechanism (local games vs v55, seeds 1-3): middle gems 295 vs 235 (v56: 283 vs 245); capture gold per champion
 R500 347 vs 336; big-capture gems 151 vs 140; deaths 14.8 vs 15.6. Respawn waiting unchanged (122 vs 120).
