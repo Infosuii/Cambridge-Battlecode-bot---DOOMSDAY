@@ -15,7 +15,7 @@ Read first, in this order: `artifacts/claude_ops/V58_CLAUDUS_FINDINGS.md`, `arti
 
 1. **Submission is pre-authorised by the user, but only through the release gate (§6.5).** If and only if a frozen
    v58 candidate passes every condition there, submit it once with `tools/vendor/cambc.exe submit bots/v58 --note
-   "<≤ 80 chars>"` and record it as §7.6 says. Do not submit anything that misses a condition, do not submit
+   "<≤ 80 chars>"` and record it as §7 step 7 says. Do not submit anything that misses a condition, do not submit
    intermediate variants, and do not resubmit after a ladder dip without new evidence. Never enter credentials;
    the CLI is already logged in. Do not queue match groups (they spend the team's shared quota) unless the user tells
    you to.
