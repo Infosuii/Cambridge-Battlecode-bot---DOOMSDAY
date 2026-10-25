@@ -1,5 +1,5 @@
 #define A2_SOLE_GEM 1
-#define A2_GATE_JOB 1
+#define A2_GATE_JOB 0 // rejected 2026-10-25: 0-6, 1-5, 1-5 vs v52 on boss-battle (monolith gate kills the team)
 #ifndef A2_GATE_FROM
 #define A2_GATE_FROM 500
 #endif
