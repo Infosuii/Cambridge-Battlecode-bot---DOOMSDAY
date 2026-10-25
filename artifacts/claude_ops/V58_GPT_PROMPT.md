@@ -13,9 +13,12 @@ Read first, in this order: `artifacts/claude_ops/V58_CLAUDUS_FINDINGS.md`, `arti
 
 ## 0. Hard rules
 
-1. **Never submit.** Submission is the user's decision. Never enter credentials; the `cambc` CLI
-   (`tools/vendor/cambc.exe`) is already logged in. Do not queue match groups (they spend the team's shared quota
-   and play the submitted bot) unless the user tells you to.
+1. **Submission is pre-authorised by the user, but only through the release gate (§6.5).** If and only if a frozen
+   v58 candidate passes every condition there, submit it once with `tools/vendor/cambc.exe submit bots/v58 --note
+   "<≤ 80 chars>"` and record it as §7.6 says. Do not submit anything that misses a condition, do not submit
+   intermediate variants, and do not resubmit after a ladder dip without new evidence. Never enter credentials;
+   the CLI is already logged in. Do not queue match groups (they spend the team's shared quota) unless the user tells
+   you to.
 2. Do not modify frozen bots: v48-v57 and `artifacts/baselines/heuristic-v1`. Make v58 with `cp -r bots/v57 bots/v58`
    and delete any copied `.cambc/` folder (a copied CMake cache breaks the build). A `bots/v58` folder may already
    exist as an untracked Claude Code experiment (meta draft + opening pack, both rejected; diff in
@@ -222,7 +225,7 @@ The capturer of each cleared group is chosen by the director, not by "the poores
 
 ## 6. How to prove it: a test bed that can see Claudus-style play
 
-Self-play against our own lineage punishes Claudus-style changes (§3). Use three layers of evidence:
+Self-play against our own lineage punishes Claudus-style changes (§3). Use these layers of evidence:
 
 1. **Mechanism targets** (local, each variant against v57, `ledger_bench.py` + `capture_funnel.mjs` +
    `sanity_audit.mjs`): R250 team capture gold ≥ 900 (v57 ~630); elk-size captures by R250 ≥ 3.5 (v57 2.7);
@@ -231,16 +234,27 @@ Self-play against our own lineage punishes Claudus-style changes (§3). Use thre
 2. **Strength gates** against v57 (`bench3.sh`, 28 maps × 2 sides, 4 seeds to screen, 12 to confirm, `bench_bayes.py`):
    * a non-inferiority gate for a loop component while the loop is incomplete (posterior mean ≥ −25,
      P(> −50) ≥ 0.9);
-   * a full gate for the release: ACCEPT (P(>0) ≥ 0.95, mean ≥ 25) and 0 faults;
-   * the 12-map holdout once, then the fresh 15-map holdout once (`bench3_fresh.sh`): ≥ 50% wins and ≥ 0 margin
-     on the aggregate.
+   * to keep a mechanism: ACCEPT (P(>0) ≥ 0.95, mean ≥ 25) and 0 faults;
+   * for release and submission: the stricter release gate in §6.5.
 3. **A Claudus proxy opponent.** Once a v58 configuration reaches the R250 economy target (~1000 gold, carry ≥ 40%),
    freeze it as `artifacts/baselines/proxy-claudus` and bench every later variant against both v57 and the proxy.
    The final v58 must beat both. Report how closely the proxy matches Claudus's signature (§2 numbers) to state how
    far to trust it.
-4. **Ladder (the user's call).** When a candidate passes 1-3, write the case for submission. After a submission the
-   user can queue unranked match groups against Claudus (`cambc match-groups create <team id> --maps a,b,c,d,e`;
-   quota 50 groups per day). The baseline is 1 win in 80, so 3+ wins in 20 games is a real signal.
+4. **Ladder.** After a submission (§6.5) the user can queue unranked match groups against Claudus
+   (`cambc match-groups create <team id> --maps a,b,c,d,e`; quota 50 groups per day). The baseline is 1 win in 80,
+   so 3+ wins in 20 games is a real signal. Pull the new ladder games with `fetch_since.py` and report v58's record
+   against Claudus and against the field.
+5. **Release gate: submit only if all of these hold** for the frozen candidate (no edits after the checks):
+   * development vs v57, 12 seeds (672 games): `bench_bayes.py` ACCEPT with **posterior mean ≥ +50 gems and
+     P(>0) ≥ 0.95**, map-cluster bootstrap 95% interval above 0, win rate ≥ 53%;
+   * against the Claudus proxy if one exists (§6.3): posterior mean ≥ 0;
+   * 12-map holdout once and fresh 15-map holdout once: each ≥ 50% wins and ≥ 0 margin (if one misses narrowly,
+     do not submit; report it to the user);
+   * 0 native faults for both teams in every run; fuel-outs ≤ 2 per game;
+   * mechanism targets (§6.1) met, or the shortfall explained in `CHANGES.md`;
+   * a clean independent build (from a copy of `src/`, no `.cambc/`) byte-identical to the benchmarked seed-1 wasm,
+     and the `cambc bundle bots/v58 --output <zip>` bundle containing exactly `src/` with the benchmarked source
+     hash.
 
 ## 7. Order of work
 
@@ -257,8 +271,14 @@ Self-play against our own lineage punishes Claudus-style changes (§3). Use thre
    v57 and the proxy.
 6. Final candidate: 12 seeds against v57, the holdouts once, a clean independent build that matches the bench wasm,
    source hash (sorted name + NUL + bytes of `src/`), and a `bots/v58/CHANGES.md` in the style of
-   `bots/v57/CHANGES.md`. Then `artifacts/claude_ops/V58_RELEASE.json` with status "not submitted" and a release
-   recommendation to the user.
+   `bots/v57/CHANGES.md`. Write `artifacts/claude_ops/V58_RELEASE.json` (model: `V57_RELEASE.json`: source and
+   per-file hashes, wasm hashes, bundle size and hash, every gate result).
+7. **If the release gate (§6.5) passes:** commit and push the record first, then submit once, save the CLI response
+   to `artifacts/claude_ops/results/v58-submit.txt`, check that the uploaded byte count equals the verified bundle
+   size and that the source hash is unchanged, and set the record's status to "submitted" with the platform version
+   and UTC time. Update `bots/v58/CHANGES.md`, `bots/README.md` and the version table in `ops/HANDOFF.md` (v58 live,
+   v57 frozen). Commit and push. **If it does not pass:** status "not submitted", list which conditions failed, and
+   stop; the user decides.
 
 At every step: one mechanism at a time, numbers before opinions, rejected diffs saved in
 `artifacts/claude_ops/rejected/` with their results, and honest reporting. A loss is a result; say so plainly. If a
@@ -269,6 +289,7 @@ blindly.
 
 * `bots/v58/` (source, `CHANGES.md`), with every mechanism behind a switch.
 * `artifacts/claude_ops/V58_BUILD_LOG.md`: every variant, command, result (Bayes + bootstrap) and mechanism metrics.
-* `artifacts/claude_ops/V58_RELEASE.json` and a short recommendation: submit or not, and why.
+* `artifacts/claude_ops/V58_RELEASE.json` with the gate results and status (submitted, with the platform version, or
+  not submitted, with the failed conditions).
 * Any new analysis tools under `tools/replay/` with a usage header like the existing ones.
 * `ops/HANDOFF.md`: a new section summarising v58 and what is still open.
