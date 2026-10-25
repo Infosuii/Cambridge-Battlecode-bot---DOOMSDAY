@@ -1,7 +1,7 @@
 {
  "candidate": "bots/v55",
  "baseline": "bots/v54",
- "status": "ready_to_submit",
+ "status": "submitted",
  "prepared_utc": "2026-10-25T18:50:51.917671+00:00",
  "authorization": "User explicitly instructed submission once v55 demonstrates definite improvement over v54; no additional approval pending.",
  "frozen_opponents_unchanged": {
@@ -11940,7 +11940,7 @@
   "v53": "bash artifacts/claude_ops/bench3.sh \"$PWD/bots/v55\" \"$PWD/bots/v53\" \"$PWD/artifacts/evaluations/v55-final-vs53-r10\" 1 2 3 4 5 6 7 8 9 10 11 12",
   "portfolio": "for v in 54 55; do bash artifacts/claude_ops/bench3.sh \"$PWD/bots/v$v\" \"$PWD/bots/v48\" \"$PWD/artifacts/evaluations/v55-portfolio-v$v-vs48\" 1 2 3; done",
   "comparison": "python tools/bench_compare.py artifacts/evaluations/v55-r10-heart-completion artifacts/evaluations/v55-e4",
-  "submission": "tools/vendor/cambc.exe submit bots/v55 --note \"v55: completed camp missions, Heart farming strikes, legal mirrored drafts; 414/672 vs54, +106 gems; holdout150/288; zero faults\""
+  "submission": "tools/vendor/cambc.exe submit bots/v55 --note \"v55: camp completion + Heart farming; 61.6% vs54, zero faults\""
  },
  "bench_exit_statuses": {
   "development": 0,
@@ -11957,5 +11957,9 @@
   "v53/v48 comparison deltas versus v54 controls include zero; their winning records are compatibility checks, not separate proven gains.",
   "External opponent source unavailable. No international top25 or ladder improvement claim before live results.",
   "Draft legality alone produced identical672games; not an explanation for all v54 losses."
- ]
+ ],
+ "platform_version": 55,
+ "submission_utc": "2026-10-25T18:53:28.368964+00:00",
+ "submission_log": "artifacts/claude_ops/results/v55-submit.txt",
+ "submission_commit": "c0272a20d91d102887ac0b0df51b58a421086f40"
 }

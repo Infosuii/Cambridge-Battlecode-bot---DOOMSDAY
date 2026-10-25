@@ -83,7 +83,7 @@ def main():
             'v53': 'bash artifacts/claude_ops/bench3.sh <abs bots/v55> <abs bots/v53> <abs artifacts/evaluations/v55-final-vs53-r10> 1 2 3 4 5 6 7 8 9 10 11 12',
             'portfolio': 'bash artifacts/claude_ops/bench3.sh <abs bots/v54 or bots/v55> <abs bots/v48> <abs artifacts/evaluations/v55-portfolio-v54-vs48 or v55-portfolio-v55-vs48> 1 2 3',
             'comparison': 'python tools/bench_compare.py artifacts/evaluations/v55-r10-heart-completion artifacts/evaluations/v55-e4',
-            'submission': 'tools/vendor/cambc.exe submit bots/v55 --note "v55: completed camp missions, Heart farming strikes, legal mirrored drafts; 414/672 vs54, +106 gems; holdout150/288; zero faults"',
+            'submission': 'tools/vendor/cambc.exe submit bots/v55 --note "v55: camp completion + Heart farming; 61.6% vs54, zero faults"',
         },
         'bench_exit_statuses': {'development': 0, 'v53': 0, 'holdout': 0, 'v48_candidate': 0, 'v48_control': 0, 'completion_replication_control': 0},
         'limits': [

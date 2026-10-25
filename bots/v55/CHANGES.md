@@ -1,6 +1,6 @@
 # v55: complete camp missions and execute Heart's farming kit
 
-Frozen release candidate R10, based on v54. Submission is authorized by the user after the release checks pass.
+**Submitted as platform version55 at2026-10-25 18:53:28UTC**, from frozen candidate R10, based on v54.
 Current status and final results belong in `artifacts/claude_ops/V55_RELEASE.json`; restart research and rejected
 experiments are in `artifacts/claude_ops/V55_RESTART.md`. No claim of reaching international rank25 yet.
 

@@ -21,8 +21,9 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 | v50 | version 50 | v48 lineage plus a camp net (321 parameters, about 3 hours of PPO; `training/v50-campnet/`); danger net off |
 | v51 | version 51, submitted 2026-10-25 11:29 UTC | v50 plus the moated-island fix (champions froze at camps behind two-tile hole moats: big_world, islands) |
 | v52 | version 52, submitted 12:02 UTC | v51 plus the sole-gem-camp rule (stampede) |
-| **v53** | **version 53, submitted 13:08:26 UTC, live** | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
-| **v54** | **version 54, submitted 16:24:00 UTC, live** | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
+| v53 | version 53, submitted 13:08:26 UTC, frozen | v52 plus once-per-call open-job scan hoist; `A2_GATE_JOB 0`, `A2_SOLE_FROM 500`. Development 87/168, -2.1; aggregate holdout 39/72, +5.3; zero faults. |
+| v54 | version 54, submitted 16:24:00 UTC, frozen | v53 plus crew-job coordination, item milestones, lead lock, teleport shortcuts (§12). vs v53: development 109/168, +149.0; 12 seeds 443/672, +187.1; holdout 41/72, +30.8; zero faults. |
+| **v55** | **version55, submitted18:53:28UTC, live** | Completed camp missions, Heart farming strikes, legal mirrored drafts (§15). vs v54:414/672,+106.0,clustered95%[+44.5,+174.9]; holdout150/288,+21.3; both teams0faults. |
 
 `artifacts/baselines/heuristic-v1` is the frozen local baseline from the same lineage; do not modify it.
 
@@ -232,7 +233,7 @@ and `V53_LIFE_DATA.md/.json` (tables, per-game rows), produced by `tools/replay/
 exchange because of gear. The prompt for the next agent (GPT) to build v55 is `artifacts/claude_ops/V55_GPT_PROMPT.md`.
 Rank at 16:25 UTC: 115 (1788.8). v54's first 30 ladder games: 14/30 (`data/ladder/v54_first_20261025.json`).
 
-## 15. v55 release candidate and contract audit (2026-10-25)
+## 15. v55 release and contract audit (2026-10-25)
 
 The user explicitly authorized submitting a definite improvement over v54. No further permission is pending.
 Frozen candidate R10 is in `bots/v55`; release state, source hashes and checks are in
@@ -267,4 +268,9 @@ Only `bench3.sh` and `bench_compare.py` for new work. Old bench2/bench28/bench_p
 hash-checked restart patches. Reconstruct with `python tools/reproduce_v55.py r10-heart-completion <new repo-local dir>`.
 Raw replays/downloads/builds remain local-only. Read the release manifest for submission status before submitting
 again; it is updated after the authorized upload succeeds.
+
+**Submission confirmed:** platform version55 at2026-10-25 18:53:28UTC, from source/evidence commit`c0272a2`.
+The platform rejected the initial note for exceeding80characters; the corrected note succeeded. The sanitized
+response is `artifacts/claude_ops/results/v55-submit.txt`, with the rejected response preserved separately.
+`V55_RELEASE.json` now says `submitted`. Do not submit this frozen version again.
 
