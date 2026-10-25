@@ -3,8 +3,8 @@
     python tools/policy_bc.py --data <bc_dataset dir> --out artifacts/runs/<fresh> --minutes 20 --epochs 30
                               --device cuda --i-authorize-training [--init models/policy_v2_untrained] [--train encoder,move]
 
-Cross-entropy over legal candidates (nfs.policy.losses.imitation_loss) on the dataset's head. Trains the shared
-encoder and the named heads; every other parameter stays frozen. Validation is a disjoint set of matches: every
+Cross-entropy over legal candidates (nfs.policy.losses.imitation_loss) for every head in the dataset, with per-head
+minibatches mixed within each epoch. Trains the shared encoder and the named heads (default: all heads in the data); every other parameter stays frozen. Validation is a disjoint set of matches: every
 epoch reports loss and top-1 accuracy next to the always-hold and uniform-legal baselines and the initial model.
 Checkpoints are atomic per epoch; the best-validation-loss weights are exported with the existing exporter. Never
 promotes, installs or submits anything.
@@ -32,34 +32,45 @@ def sha(path):
 
 def load(path, device):
     with np.load(path, allow_pickle=False) as z:
-        return {k: torch.as_tensor(z[k]).to(device) for k in ('obs', 'feat', 'legal', 'label', 'context')}
+        return {k: torch.as_tensor(z[k]).to(device) for k in ('obs', 'feat', 'legal', 'label', 'context', 'head')}
 
 
-def evaluate(model, head, data, batch, hold_index=None):
+HEAD_NAME = {h['id']: h['name'] for h in C.SCHEMA['heads']}
+
+
+def evaluate(model, data, batch):
     model.eval()
-    total, correct, loss_sum = 0, 0, 0.0
+    out = {}
     with torch.no_grad():
-        for s in range(0, len(data['label']), batch):
-            sl = slice(s, s + batch)
-            legal = data['legal'][sl].bool()
-            logits = model(data['obs'][sl], head, data['feat'][sl], legal, data['context'][sl])
-            loss, _ = L.imitation_loss(logits, legal, data['label'][sl], imitation_mask=torch.ones_like(data['label'][sl], dtype=torch.bool))
-            n = len(data['label'][sl])
-            loss_sum += float(loss) * n; total += n
-            correct += int((logits.argmax(-1) == data['label'][sl]).sum())
+        for hid in data['head'].unique().tolist():
+            ix = torch.nonzero(data['head'] == hid).squeeze(1)
+            total, correct, loss_sum = 0, 0, 0.0
+            for s in range(0, len(ix), batch):
+                b = ix[s:s + batch]
+                legal = data['legal'][b].bool()
+                logits = model(data['obs'][b], HEAD_NAME[hid], data['feat'][b], legal, data['context'][b])
+                loss, _ = L.imitation_loss(logits, legal, data['label'][b], imitation_mask=torch.ones(len(b), dtype=torch.bool, device=b.device))
+                loss_sum += float(loss) * len(b); total += len(b)
+                correct += int((logits.argmax(-1) == data['label'][b]).sum())
+            out[HEAD_NAME[hid]] = dict(loss=loss_sum / total, accuracy=correct / total, rows=total)
     model.train()
-    return dict(loss=loss_sum / total, accuracy=correct / total)
+    rows = sum(v['rows'] for v in out.values())
+    return dict(heads=out, loss=sum(v['loss'] * v['rows'] for v in out.values()) / rows)
 
 
-def baselines(data, head):
-    legal = data['legal'].bool()
-    uniform = float((1.0 / legal.sum(1).float()).mean())
-    out = dict(uniform_legal_accuracy=uniform)
-    if head == 'move':
-        # Hold has movement kind 3, the highest id prefix; it is legal in every move decision.
-        feat_kind = data['feat'][:, :, 9]
-        hold = (feat_kind >= feat_kind.max(1, keepdim=True).values) & legal
-        out['always_hold_accuracy'] = float((hold.float().argmax(1) == data['label']).float().mean())
+def baselines(data):
+    out = {}
+    for hid in data['head'].unique().tolist():
+        m = data['head'] == hid
+        legal, label = data['legal'][m].bool(), data['label'][m]
+        b = dict(uniform_legal_accuracy=float((1.0 / legal.sum(1).float()).mean()),
+                 majority_index_accuracy=float((label == label.mode().values).float().mean()))
+        name = HEAD_NAME[hid]
+        if name in ('move', 'combat'):
+            # Hold is kind 3 (move: feature 9, combat: feature 0), the largest kind value among the candidates.
+            kind = data['feat'][m][:, :, 9 if name == 'move' else 0].masked_fill(~legal, -1)
+            b['always_hold_accuracy'] = float((kind.argmax(1) == label).float().mean())
+        out[name] = b
     return out
 
 
@@ -68,7 +79,7 @@ def main():
     p.add_argument('--data', type=Path, required=True)
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--init', type=Path, default=ROOT / 'models/policy_v2_untrained')
-    p.add_argument('--train', default='encoder,move')
+    p.add_argument('--train', default=None, help='comma list; default encoder + every head in the data')
     p.add_argument('--minutes', type=float, default=20)
     p.add_argument('--epochs', type=int, default=30)
     p.add_argument('--batch', type=int, default=8192)
@@ -90,13 +101,13 @@ def main():
     manifest = json.loads((a.data / 'manifest.json').read_text(encoding='utf-8'))
     if manifest['obs_schema_hash'] != O.OBS_SCHEMA_HASH or manifest['action_schema_hash'] != C.ACTION_SCHEMA_HASH:
         raise SystemExit('dataset schema hashes differ from the current policy-v2 schema')
-    head = manifest['head']
+    heads = manifest['heads']
     device = torch.device(a.device)
     torch.manual_seed(a.seed)
     train, val = load(a.data / 'train.npz', device), load(a.data / 'validation.npz', device)
     init_manifest, _ = load_blob(a.init)
     model = load_model(a.init).to(device)
-    trainable = set(a.train.split(','))
+    trainable = set(a.train.split(',')) if a.train else {'encoder', *heads}
     for name, param in model.named_parameters():
         param.requires_grad_(any(name.startswith('heads.' + h + '.') for h in trainable - {'encoder'}) or
                              ('encoder' in trainable and not name.startswith('heads.')))
@@ -108,8 +119,8 @@ def main():
         with (out / 'metrics.jsonl').open('a', encoding='utf-8') as f:
             f.write(json.dumps(dict(event=kind, time_unix=time.time(), **fields)) + '\n')
 
-    base = dict(baselines(val, head), initial=evaluate(model, head, val, a.batch))
-    event('start', device=str(device), gpu=torch.cuda.get_device_name(0) if a.device == 'cuda' else None, head=head,
+    base = dict(baselines(val), initial=evaluate(model, val, a.batch))
+    event('start', device=str(device), gpu=torch.cuda.get_device_name(0) if a.device == 'cuda' else None, heads=heads,
           trainable=sorted(trainable), trainable_parameters=sum(q.numel() for q in params),
           total_parameters=sum(q.numel() for q in model.parameters()), train_rows=len(train['label']), validation_rows=len(val['label']),
           init_checksum=init_manifest['checksum'], data_manifest=manifest, validation_baselines=base)
@@ -117,14 +128,18 @@ def main():
     best, best_state, stale, history, stop, updates = None, None, 0, [], 'epochs_complete', 0
     n = len(train['label'])
     for epoch in range(a.epochs):
-        order = torch.randperm(n, device=device)
+        batches = []
+        for hid in train['head'].unique().tolist():
+            idx = torch.nonzero(train['head'] == hid).squeeze(1)
+            idx = idx[torch.randperm(len(idx), device=device)]
+            batches += [(hid, idx[s:s + a.batch]) for s in range(0, len(idx), a.batch)]
         epoch_loss, seen = 0.0, 0
-        for s in range(0, n, a.batch):
+        for j in torch.randperm(len(batches)).tolist():
             if time.time() >= deadline:
                 stop = 'deadline'; break
-            ix = order[s:s + a.batch]
+            hid, ix = batches[j]
             legal = train['legal'][ix].bool()
-            logits = model(train['obs'][ix], head, train['feat'][ix], legal, train['context'][ix])
+            logits = model(train['obs'][ix], HEAD_NAME[hid], train['feat'][ix], legal, train['context'][ix])
             loss, _ = L.imitation_loss(logits, legal, train['label'][ix], imitation_mask=torch.ones(len(ix), dtype=torch.bool, device=device))
             if not torch.isfinite(loss):
                 stop = 'nonfinite_loss'; break
@@ -134,7 +149,7 @@ def main():
             epoch_loss += float(loss.detach()) * len(ix); seen += len(ix)
         if stop in ('nonfinite_loss',):
             break
-        metrics = dict(epoch=epoch, updates=updates, train_loss=epoch_loss / max(1, seen), validation=evaluate(model, head, val, a.batch),
+        metrics = dict(epoch=epoch, updates=updates, train_loss=epoch_loss / max(1, seen), validation=evaluate(model, val, a.batch),
                        elapsed_seconds=time.time() - start, samples_per_second=updates * a.batch / max(1e-6, time.time() - start),
                        gpu_peak_bytes=torch.cuda.max_memory_allocated() if a.device == 'cuda' else 0)
         history.append(metrics); event('epoch', **metrics)
@@ -149,7 +164,7 @@ def main():
             stop = 'early_stopping'; break
         if stop == 'deadline':
             break
-    report = dict(status='trained' if best else 'unmodified', head=head, stop=stop, updates=updates, epochs=len(history),
+    report = dict(status='trained' if best else 'unmodified', heads=heads, stop=stop, updates=updates, epochs=len(history),
                   best_epoch=best and best['epoch'], best_validation=best and best['validation'], validation_baselines=base,
                   history=history, submitted=False, promoted=False)
     if best_state is not None:

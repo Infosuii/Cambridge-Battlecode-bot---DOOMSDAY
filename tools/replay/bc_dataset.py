@@ -1,4 +1,4 @@
-"""Normalise raw behaviour-cloning rows from bc_extract.mjs into grouped train/validation training arrays.
+"""Normalise raw multi-head behaviour-cloning rows from bc_extract.mjs into grouped train/validation training arrays.
 
     python tools/replay/bc_dataset.py --raw <bc_extract dir> [...] --out <fresh dir> [--val-fraction 0.05]
                                       [--winners-only] [--verify 2000]
@@ -19,8 +19,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'python'))
 from nfs.policy import candidates as C, observation as O  # noqa: E402
 
-RAW_FORMAT = 'bc-move-raw-v1'
-HEAD = 'move'
+RAW_FORMAT = 'bc-raw-v2'
+HEAD_NAME = {h['id']: h['name'] for h in C.SCHEMA['heads']}
 
 
 def load_raw(directories):
@@ -60,12 +60,15 @@ def normalise_obs(a):
 
 def normalise_feat(a):
     n = len(a['cand_k'])
-    spec = C.HEAD_SPECS[HEAD]['features']
-    inv = np.asarray(np.float32(1) / np.asarray([f['scale'] for f in spec], np.float32), np.float32)
-    low = np.asarray([f['clip'][0] for f in spec], np.float32)
-    high = np.asarray([f['clip'][1] for f in spec], np.float32)
     raw = a['cand_feat'].reshape(n, C.MAX_K, C.F).astype(np.float32)
-    feat = np.maximum(low, np.minimum(high, np.asarray(raw * inv, np.float32))).astype(np.float32)
+    feat = np.zeros_like(raw)
+    for hid in np.unique(a['head']):
+        spec = C.HEAD_SPECS[HEAD_NAME[int(hid)]]['features']
+        inv = np.asarray(np.float32(1) / np.asarray([f['scale'] for f in spec], np.float32), np.float32)
+        low = np.asarray([f['clip'][0] for f in spec], np.float32)
+        high = np.asarray([f['clip'][1] for f in spec], np.float32)
+        rows = a['head'] == hid
+        feat[rows] = np.maximum(low, np.minimum(high, np.asarray(raw[rows] * inv, np.float32))).astype(np.float32)
     present = np.arange(C.MAX_K)[None, :] < a['cand_k'].reshape(n, 1)
     return feat * present[:, :, None], (a['cand_legal'].reshape(n, C.MAX_K) * present).astype(np.uint8), present
 
@@ -80,7 +83,7 @@ def verify(a, obs, feat, legal, rows):
         k = int(a['cand_k'][i])
         cands = [C.Candidate(int(a['cand_id'][i, j]), int(a['cand_legal'][i, j]), a['cand_feat'][i].reshape(C.MAX_K, C.F)[j])
                  for j in range(k)]
-        d = C.build(HEAD, cands, int(a['context'][i]))
+        d = C.build(HEAD_NAME[int(a['head'][i])], cands, int(a['context'][i]))
         if not (np.array_equal(d.feat.view(np.uint32), feat[i, :k].view(np.uint32)) and np.array_equal(d.legal, legal[i, :k])
                 and np.array_equal(d.id, a['cand_id'][i, :k].astype(np.uint32))):
             raise ValueError(f'candidate normalisation/order differs from candidates.build at row {i}')
@@ -120,17 +123,18 @@ def main():
     group = np.asarray([int(hashlib.sha256(n.encode()).hexdigest()[:15], 16) for n in raw['replay_name']], np.int64)
     validation = (group / 2 ** 60) < a.val_fraction
     out.mkdir(parents=True)
-    report = dict(format='bc-move-v1', head=HEAD, head_id=C.HEAD_IDS[HEAD], obs_schema_hash=O.OBS_SCHEMA_HASH,
+    report = dict(format='bc-v2', heads=sorted(HEAD_NAME[int(h)] for h in np.unique(raw['head'])), obs_schema_hash=O.OBS_SCHEMA_HASH,
                   action_schema_hash=C.ACTION_SCHEMA_HASH, sources=[str(Path(r).resolve()) for r in a.raw],
                   winners_only=a.winners_only, val_fraction=a.val_fraction, verified_rows=checked, dropped_unlabelled=int((~keep).sum()),
                   split='by replay name (sha256)', rule_inputs='goal=hindsight position 10 rounds later; role rule; hot_zone=0; claim=127')
     for part, mask in (('train', ~validation), ('validation', validation)):
         np.savez(out / f'{part}.npz', obs=obs[mask], feat=feat[mask], legal=legal[mask], label=label[mask],
-                 context=raw['context'][mask].astype(np.int64), group=group[mask], won=info[mask, 3].astype(np.uint8),
+                 context=raw['context'][mask].astype(np.int64), head=raw['head'][mask].astype(np.int64), group=group[mask], won=info[mask, 3].astype(np.uint8),
                  flags=info[mask, 4].astype(np.uint8), k=raw['cand_k'][mask].astype(np.uint8))
         report[part] = dict(rows=int(mask.sum()), replays=int(len(np.unique(group[mask]))),
-                            hold_rate=float((info[mask, 5] == -1).mean()) if mask.any() else None,
-                            mean_legal=float(legal[mask].sum(1).mean()) if mask.any() else None)
+                            by_head={HEAD_NAME[int(h)]: dict(rows=int((raw['head'][mask] == h).sum()),
+                                     mean_legal=float(legal[mask][raw['head'][mask] == h].sum(1).mean()))
+                                     for h in np.unique(raw['head'][mask])})
     if set(group[validation]) & set(group[~validation]):
         raise ValueError('train/validation replay overlap')
     (out / 'manifest.json').write_text(json.dumps(report, indent=1) + '\n', encoding='utf-8')

@@ -1,4 +1,4 @@
-// Behaviour-cloning rows for the policy-v2 move head from official replays (engine 1.0.3, read-only).
+// Behaviour-cloning rows for the policy-v2 engage, combat and move heads from official replays (engine 1.0.3, read-only).
 //
 // At each sampled champion turn the acting champion's observation is built from the same Game_API_* calls the bot
 // makes at runtime (perspective = that champion), following bot/src/nn_policy_capture.cpp, and its move candidates
@@ -22,7 +22,7 @@ import { Worker, isMainThread, parentPort, workerData } from 'node:worker_thread
 import { engine, defaultAssets, verifyAssets, PINNED } from './engine.mjs';
 import { RowShardWriter } from './npz_write.mjs';
 
-const FORMAT = 'bc-move-raw-v1', MOVE_HEAD = 6, GOAL_ROUNDS = 10, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
+const FORMAT = 'bc-raw-v2', MOVE_HEAD = 6, COMBAT_HEAD = 7, ENGAGE_HEAD = 8, GOAL_ROUNDS = 10, MAX_ROUNDS = 2000, UNREACH = 65535, NONE = 10000;
 const PHASE_CHAMPIONS = 10, NO_CHAMPION = 0xFFFFFFFF, DASH = 6, GROUND = 16, CLAIM_IDLE = 127;
 const K_WALK = 0, K_HOLD = 3, MAX_K = 16;
 const WIDTHS = { obs_self: [40, Float32Array], obs_ally: [50, Float32Array], ally_mask: [5, Uint8Array], obs_enemy: [72, Float32Array],
@@ -124,16 +124,18 @@ function extract(E, file, rate) {
       // Champion actions: role hindsight, labels and engage.
       if (st.actorKind === 1 && (st.kind === 4 || st.kind === 5 || st.kind === 6 || st.kind === 12)) {
         const c = st.actor, a = { round: st.round, kind: st.kind, x: st.tx, y: st.ty, slot: st.slot, target: 'other' };
-        if ((st.kind === 5 || st.kind === 6) && current && current.c === c) {
-          if (current.enemies.some(e => e.x === st.tx && e.y === st.ty)) a.target = 'champion';
-          else if (current.camps.some(k => k.x === st.tx && k.y === st.ty)) a.target = 'camp';
-        }
+        if ((st.kind === 5 || st.kind === 6) && current && current.c === c && current.enemies.some(e => e.x === st.tx && e.y === st.ty))
+          a.target = 'champion';
+        else if (st.kind === 5) a.target = 'camp'; // basic attacks are hostile only: not an enemy champion means a camp
         if (!acts.has(c)) acts.set(c, []);
         acts.get(c).push(a);
         if (current && current.c === c && current.rec) {
           const r = current.rec, isDash = st.kind === 6 && r.dashSlots.has(st.slot);
           if (!r.move && (st.kind === 4 || isDash)) r.move = { kind: st.kind === 4 ? K_WALK : st.slot + 1, x: st.tx, y: st.ty };
-          if (!r.move && (st.kind === 5 || (st.kind === 6 && !isDash))) r.combatBefore = true;
+          if (st.kind === 5 || (st.kind === 6 && !isDash)) {
+            if (!r.move) r.combatBefore = true;
+            if (!r.combat) r.combat = { kind: st.kind === 5 ? 0 : st.slot + 1, x: st.tx, y: st.ty };
+          }
           if ((st.kind === 5 || st.kind === 6) && a.target === 'champion') r.fight = true;
         }
       }
@@ -241,15 +243,82 @@ function extract(E, file, rate) {
         const reach = bfs(w, h, blocked, [p.y * w + p.x], radius);
         for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (reach[y * w + x] !== UNREACH && !(x === p.x && y === p.y)) dash.push({ x, y, kind: s + 1, cooldown: pr.cooldown ?? 0 });
       }
+      // Engage (nn_policy_tactics.cpp engage()): one shared feature vector for the three verdicts.
+      let allyHp = me.hp, enemyHp = 0, allyDamage = me.str, enemyDamage = 0, incoming = 0, closest = null, nearestD = NONE;
+      for (const a of allies) { allyHp += a.hp; allyDamage += a.str; }
+      for (const e of enemies) {
+        enemyHp += e.hp; enemyDamage += e.str; const dd = cheb(p.x, p.y, e.x, e.y);
+        if (dd < nearestD || (dd === nearestD && (!closest || e.id < closest.id))) { closest = e; nearestD = dd; }
+        if (dd <= e.range) incoming += e.str;
+      }
+      const ready = [0, 1].map(s => !!props[s] && props[s].type !== 0 && cooldowns[s] === 0 && (!(props[s].maxCharges > 0) || self.charges?.[s] > 0));
+      const escape = team[t].spawnField[p.y * w + p.x];
+      const engageRaw = [0, me.hp / maxHp, closest ? closest.hp / Math.max(1, closest.max) : 0, allyHp, enemyHp, allyDamage, enemyDamage,
+                         nearestD, escape, gems, ready.filter(Boolean).length, incoming];
+      // Combat (targets()/combat_legal()/combat_row()): visible enemies, allies, self, visible camps, unique handles.
+      const campMult = (self.items?.[1] || self.items?.[3] || self.items?.[5]) ? 1.1 : 1.0;
+      const channelOf = (id, state) => (state & ((1 << 1) | (1 << 2) | (1 << 12))) && X.Game_API_Champion_GetChannelTime(E.h, P, id, E.out) === 0 ? dv().getInt32(E.out, true) : 0;
+      const targets = [];
+      for (const e of enemies) targets.push({ cat: 'enemy', handle: e.id, x: e.x, y: e.y, hp: e.hp, max: e.max, str: e.str,
+                                              gems: u32(X.Game_API_Champion_GetGems, P, e.id) ?? 0, channel: channelOf(e.id, e.state) });
+      for (const a of allies) targets.push({ cat: 'ally', handle: a.id, x: a.x, y: a.y, hp: a.hp, max: a.max, str: a.str, gems: a.gems, channel: channelOf(a.id, a.state) });
+      targets.push({ cat: 'self', handle: c, x: p.x, y: p.y, hp: me.hp, max: me.max, str: me.str, gems, channel: 0 });
+      check(X.Game_GetNumCamps(E.h, E.out));
+      for (let k = 0, nc = dv().getUint32(E.out, true); k < nc; k++) {
+        if (X.Game_API_Camp_Get(E.h, P, k, E.buf + 1024) !== 0) continue;
+        const hp = dv().getFloat32(E.buf + 1032, true);
+        if (hp > 0) targets.push({ cat: 'camp', handle: k, x: dv().getInt32(E.buf + 1024, true), y: dv().getInt32(E.buf + 1028, true), hp,
+                                   max: dv().getFloat32(E.buf + 1036, true), str: dv().getFloat32(E.buf + 1040, true), gems: 0, channel: 0 });
+      }
+      targets.sort((a, b) => a.handle - b.handle);
+      const unique = targets.filter((q, i) => !(i && targets[i - 1].handle === q.handle) && !(i + 1 < targets.length && targets[i + 1].handle === q.handle));
+      const canAttack = (me.state >> 4) & 1, bucket = new Map();
+      const legal = (q, kind) => {
+        const hostile = q.cat === 'enemy' || q.cat === 'camp', dist = cheb(p.x, p.y, q.x, q.y);
+        if (kind === 0) return hostile && canAttack && dist <= me.range;
+        const pr = props[kind - 1];
+        if (!pr || !ready[kind - 1] || pr.type === DASH) return false;
+        const permits = (pr.target & (q.cat === 'enemy' ? 2 : q.cat === 'camp' ? 1 : q.cat === 'self' ? 8 : 4)) !== 0;
+        if (pr.type === 1 || pr.type === 7) return q.cat === 'self' && permits;          // attack reset, shield
+        if (pr.type === 5) return !hostile && permits && dist <= (pr.range ?? 0);        // heal
+        return hostile && permits && dist <= (pr.range ?? 0);
+      };
+      for (const q of unique) for (let kind = 0; kind < 3; kind++) {
+        if (!(kind === 0 ? canAttack : ready[kind - 1]) || !legal(q, kind)) continue;
+        const pick = { q, kind, id: q.handle * 4 + kind, oct: octant(cx(t, q.x) - cx(t, p.x), cy(t, q.y) - cy(t, p.y)) };
+        const key = kind * 8 + pick.oct; if (!bucket.has(key)) bucket.set(key, []);
+        const list = bucket.get(key); let at = 0;
+        while (at < list.length && !((pick.q.channel > 0) !== (list[at].q.channel > 0) ? pick.q.channel > 0 : pick.id < list[at].id)) at++;
+        if (at < MAX_K) { list.splice(at, 0, pick); if (list.length > MAX_K) list.pop(); }
+      }
+      const combatRows = [{ id: 3, kind: 3, q: null, raw: [3, 0, 0, 0, 0, me.hp / maxHp, me.str, 0, 0, 0, 0, 0] }];
+      for (let depth = 0; depth < MAX_K && combatRows.length < MAX_K; depth++)
+        for (let oct = 0; oct < 8 && combatRows.length < MAX_K; oct++) for (let kind = 0; kind < 3 && combatRows.length < MAX_K; kind++) {
+          const pick = bucket.get(kind * 8 + oct)?.[depth];
+          if (!pick) continue;
+          const q = pick.q, raw = [kind, q.hp, q.max, q.gems, cheb(p.x, p.y, q.x, q.y), me.hp / maxHp, me.str, q.str, 0, 0, q.channel, q.cat === 'enemy' ? 1 : 0];
+          if (kind === 0) raw[8] = me.str * (q.cat === 'camp' ? campMult : 1);
+          else {
+            const pr = props[kind - 1]; raw[9] = pr.cooldown ?? 0;
+            if (pr.type === 2 || pr.type === 3 || pr.type === 4) {
+              const rc = q.cat === 'camp' ? X.Game_API_Champion_GetAbilityDamage(E.h, P, c, kind - 1, E.out)
+                : X.Game_API_Champion_GetAbilityDamageAgainst(E.h, P, c, kind - 1, q.handle, E.out);
+              raw[8] = rc === 0 ? dv().getFloat32(E.out, true) * (q.cat === 'camp' ? campMult : 1) : 0;
+            }
+            if (pr.type === 3) raw[11] = enemies.filter(e => cheb(q.x, q.y, e.x, e.y) <= (pr.radius ?? 0)).length;
+          }
+          combatRows.push({ id: pick.id, kind, q, raw });
+        }
       return { c, t, round, p, o, allyRows, allyMask, enemyRows, enemyMask, gems, walk, dash, dashSlots,
                allies: allies.map(a => ({ x: a.x, y: a.y })), enemies: enemies.map(e => ({ x: e.x, y: e.y, range: e.range })),
-               camps: null, move: null, combatBefore: false, fight: false };
+               enemiesKnown: sight[t].size > 0, canMove: (me.state >> 3) & 1, engageRaw, combatRows: combatRows.sort((a, b) => a.id - b.id),
+               camps: null, move: null, combat: null, combatBefore: false, fight: false };
     }
 
     function finalize(recs, outcome) {
-      const n = recs.length, A = Object.fromEntries(Object.entries(WIDTHS).map(([k, [width, Type]]) => [k, new Type(n * width)]));
-      let labelled = 0, relabelled = 0, unlabelled = 0;
-      recs.forEach((r, i) => {
+      const rows = [], counts = {};
+      const tally = (head, ok) => { const k = `${head}_${ok ? 'labelled' : 'unlabelled'}`; counts[k] = (counts[k] ?? 0) + 1; };
+      recs.forEach((r) => {
         r.camps = r.camps ?? [];
         const t = r.t, p = r.p, hist = posHist.get(r.c) ?? [], acts_ = acts.get(r.c) ?? [];
         // Hindsight goal: own position GOAL_ROUNDS later (else the last known one).
@@ -286,32 +355,53 @@ function extract(E, file, rate) {
         let label = chosen.findIndex(q => q.id === mid), flags = r.combatBefore ? 2 : 0;
         if (label < 0) {
           const target = all.find(q => q.id === mid);
-          if (target) { label = chosen.findIndex(q => q.kind === target.kind && q.oct === target.oct); if (label >= 0) { flags |= 1; relabelled++; } }
+          if (target) { label = chosen.findIndex(q => q.kind === target.kind && q.oct === target.oct); if (label >= 0) flags |= 1; }
         }
-        if (label >= 0) labelled++; else unlabelled++;
-        // Engage verdict from this turn's behaviour -> tactics context.
+        // Engage verdict from this turn's behaviour (runtime: hold suppresses combat and move, disengage suppresses combat).
         let engage = 2;
-        if (r.fight) engage = 0;
-        else if (r.enemies.length) {
-          const near = r.enemies.reduce((b, e) => (!b || cheb(e.x, e.y, p.x, p.y) < cheb(b.x, b.y, p.x, p.y) ? e : b), null);
-          if (cheb(near.x, near.y, p.x, p.y) <= 8 && cheb(near.x, near.y, m.x, m.y) > cheb(near.x, near.y, p.x, p.y)) engage = 1;
+        if (r.combat) engage = 0;
+        else if (r.move) {
+          engage = 0;
+          if (r.enemies.length) {
+            const near = r.enemies.reduce((b, e) => (!b || cheb(e.x, e.y, p.x, p.y) < cheb(b.x, b.y, p.x, p.y) ? e : b), null);
+            if (cheb(near.x, near.y, p.x, p.y) <= 8 && cheb(near.x, near.y, m.x, m.y) > cheb(near.x, near.y, p.x, p.y)) engage = 1;
+          }
         }
-        const feat = A.cand_feat;
-        chosen.forEach((q, k) => {
-          let attackers = 0, camps = 0, enemyD = NONE, allyD = NONE;
-          for (const e of r.enemies) { const dd = cheb(q.x, q.y, e.x, e.y); enemyD = Math.min(enemyD, dd); attackers += dd <= e.range; }
-          for (const cp of r.camps) camps += cheb(q.x, q.y, cp.x, cp.y) <= cp.range;
-          for (const a of r.allies) allyD = Math.min(allyD, cheb(q.x, q.y, a.x, a.y));
-          feat.set([ddx(t, q.x - p.x), ddy(t, q.y - p.y), q.distance, cheb(q.x, q.y, goal.x, goal.y), attackers, camps,
-                    bush[q.y * w + q.x], enemyD, allyD, q.kind, q.kind === 1 || q.kind === 2 ? q.cooldown : 0, r.gems], (i * MAX_K + k) * 12);
-          A.cand_id[i * MAX_K + k] = q.id; A.cand_legal[i * MAX_K + k] = 1;
-        });
+        const context = r.enemiesKnown ? (engage === 0 ? 1 : engage === 1 ? 2 : 0) : 0;
+        const base = { r, context, won: outcome === t + 1 ? 1 : 0 };
+        if (r.enemiesKnown) {
+          rows.push({ ...base, head: ENGAGE_HEAD, context: 0, ids: [0, 1, 2], feats: [0, 1, 2].map(v => [v, ...r.engageRaw.slice(1)]), label: engage, flags: 0, kind: engage });
+          tally('engage', true);
+        }
+        if ((!r.enemiesKnown || engage === 0) && r.combatRows.length > 1) {
+          let cl = r.combatRows.findIndex(q => q.kind === 3);
+          if (r.combat) cl = r.combatRows.findIndex(q => q.q && q.kind === r.combat.kind && q.q.x === r.combat.x && q.q.y === r.combat.y);
+          rows.push({ ...base, head: COMBAT_HEAD, ids: r.combatRows.map(q => q.id), feats: r.combatRows.map(q => q.raw), label: cl, flags: 0, kind: r.combat ? r.combat.kind : 3 });
+          tally('combat', cl >= 0);
+        }
+        if (r.canMove && !(r.enemiesKnown && engage === 2)) {
+          const feats = chosen.map((q) => {
+            let attackers = 0, camps = 0, enemyD = NONE, allyD = NONE;
+            for (const e of r.enemies) { const dd = cheb(q.x, q.y, e.x, e.y); enemyD = Math.min(enemyD, dd); attackers += dd <= e.range; }
+            for (const cp of r.camps) camps += cheb(q.x, q.y, cp.x, cp.y) <= cp.range;
+            for (const a of r.allies) allyD = Math.min(allyD, cheb(q.x, q.y, a.x, a.y));
+            return [ddx(t, q.x - p.x), ddy(t, q.y - p.y), q.distance, cheb(q.x, q.y, goal.x, goal.y), attackers, camps,
+                    bush[q.y * w + q.x], enemyD, allyD, q.kind, q.kind === 1 || q.kind === 2 ? q.cooldown : 0, r.gems];
+          });
+          rows.push({ ...base, head: MOVE_HEAD, ids: chosen.map(q => q.id), feats, label, flags, kind: r.move ? r.move.kind : -1 });
+          tally('move', label >= 0);
+        }
+      });
+      const n = rows.length, A = Object.fromEntries(Object.entries(WIDTHS).map(([k, [width, Type]]) => [k, new Type(n * width)]));
+      rows.forEach((row, i) => {
+        const r = row.r;
         A.obs_self.set(r.o, i * 40); A.obs_ally.set(r.allyRows, i * 50); A.ally_mask.set(r.allyMask, i * 5);
         A.obs_enemy.set(r.enemyRows, i * 72); A.enemy_mask.set(r.enemyMask, i * 6);
-        A.cand_k[i] = chosen.length; A.label[i] = label; A.context[i] = engage === 0 ? 1 : engage === 1 ? 2 : 0; A.head[i] = MOVE_HEAD;
-        A.info.set([t, r.c, r.round, outcome === t + 1 ? 1 : 0, flags, r.move ? r.move.kind : -1], i * 6);
+        row.feats.forEach((f, k) => { A.cand_feat.set(f, (i * MAX_K + k) * 12); A.cand_id[i * MAX_K + k] = row.ids[k]; A.cand_legal[i * MAX_K + k] = 1; });
+        A.cand_k[i] = row.ids.length; A.label[i] = row.label; A.context[i] = row.context; A.head[i] = row.head;
+        A.info.set([r.t, r.c, r.round, row.won, row.flags, row.kind], i * 6);
       });
-      return { rows: n, arrays: A, entry: { replay: name, ok: true, rows: n, outcome, steps, ...stats, labelled, relabelled, unlabelled } };
+      return { rows: n, arrays: A, entry: { replay: name, ok: true, rows: n, outcome, steps, ...stats, ...counts } };
     }
   } finally { E.destroy(); }
 }
