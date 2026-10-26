@@ -1,8 +1,8 @@
 # v55: complete camp missions and execute Heart's farming kit
 
 **Submitted as platform version55 at2026-10-25 18:53:28UTC**, from frozen candidate R10, based on v54.
-Current status and final results belong in `artifacts/claude_ops/V55_RELEASE.json`; restart research and rejected
-experiments are in `artifacts/claude_ops/V55_RESTART.md`. No claim of reaching international rank25 yet.
+Current status and final results belong in `research/v55/V55_RELEASE.json`; restart research and rejected
+experiments are in `research/v55/V55_RESTART.md`. No claim of reaching international rank25 yet.
 
 ## Retained changes
 
@@ -38,7 +38,7 @@ The proposed damage-model/cache and spell-kill retarget changes lack incremental
 `V55_HEART_MODEL=0`, `V55_CAST_RETARGET=0`. Forced economic drafts, global reward funnels, more wards, changed
 banking thresholds, gear-aware fighting, and invariant-work optimizations were tested and rejected or unproven.
 Exact awake-camp tactical lists remain an unretained correctness candidate. Their findings are preserved in
-`artifacts/claude_ops/V55_CONTRACT_AUDIT.md` and reconstructible experiment patches.
+`research/v55/V55_CONTRACT_AUDIT.md` and reconstructible experiment patches.
 
 The five-map brawl set won81/120,+98.7; its interval[-27.7,+252.9] is inconclusive. Gold-rush regressed by107.9mean
 gems in this test, while eight improved390.1. These are tradeoffs, not universal map fixes. The general controller

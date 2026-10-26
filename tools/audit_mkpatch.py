@@ -1,10 +1,10 @@
 """Agent A patch helpers: make git-applicable unified diffs of lead-owned files and materialise scratch copies.
 
-    python tools/audit_mkpatch.py diff  --base bot/src --mod artifacts/tmp/A/x/bot/src --out agents/A/patches/NN.diff [--files a b]
-    python tools/audit_mkpatch.py check --patch agents/A/patches/NN.diff                 # git apply --check from ROOT
+    python tools/audit_mkpatch.py diff  --base bot/src --mod artifacts/tmp/A/x/bot/src --out archive/agents/A/patches/NN.diff [--files a b]
+    python tools/audit_mkpatch.py check --patch archive/agents/A/patches/NN.diff                 # git apply --check from ROOT
     python tools/audit_mkpatch.py scratch --dest artifacts/tmp/A/x [--patch p1 --patch p2 ...]
 
-`scratch` builds <dest>/bot/src from the frozen base (git HEAD bot/src + agents/A/base_stubs + nn_teacher.*; --live: the live bot/src) and applies the patches there with
+`scratch` builds <dest>/bot/src from the frozen base (git HEAD bot/src + archive/agents/A/base_stubs + nn_teacher.*; --live: the live bot/src) and applies the patches there with
 `git apply -p1 --directory=<dest rel>` (only files under <dest> are written; bot/src is never touched).
 """
 from __future__ import annotations
@@ -57,13 +57,13 @@ A_OWNED = ('nn_teacher.h', 'nn_teacher.cpp')
 
 def frozen_base(src: Path) -> None:
     """Lead-committed bot/src (git HEAD, read-only `git show`) + the lead stubs nn_config.h / nn_budget.h saved in
-    agents/A/base_stubs + Agent A's nn_teacher.*: a base that other agents' in-progress files in bot/src cannot change."""
+    archive/agents/A/base_stubs + Agent A's nn_teacher.*: a base that other agents' in-progress files in bot/src cannot change."""
     src.mkdir(parents=True)
     names = git('ls-files', 'bot/src').stdout.split()
     for n in names:
         data = subprocess.run(['git', 'show', f'HEAD:{n}'], cwd=ROOT, capture_output=True).stdout
         (src / Path(n).name).write_bytes(data)
-    for stub in (ROOT / 'agents/A/base_stubs').iterdir():
+    for stub in (ROOT / 'archive/agents/A/base_stubs').iterdir():
         shutil.copyfile(stub, src / stub.name)
     for n in A_OWNED:
         shutil.copyfile(ROOT / 'bot/src' / n, src / n)

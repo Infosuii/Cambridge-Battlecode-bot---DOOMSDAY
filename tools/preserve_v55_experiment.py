@@ -35,11 +35,11 @@ def main():
         before = (base / name).read_text(encoding='utf8').splitlines(keepends=True)
         after = data.decode('utf8').replace('\r\n', '\n').splitlines(keepends=True)
         patch.extend(difflib.unified_diff(before, after, fromfile='a/src/' + name, tofile='b/src/' + name))
-    target = ROOT / 'artifacts/claude_ops/V55_RESTART_EXPERIMENTS.json'
+    target = ROOT / 'research/v55/V55_RESTART_EXPERIMENTS.json'
     manifest = json.loads(target.read_text(encoding='utf8'))
     if args.label in manifest and manifest[args.label]['tree_sha256'] != h.hexdigest():
         raise SystemExit('refusing to replace a different recorded snapshot')
-    patch_path = f'artifacts/claude_ops/experiments/v55-{args.label}.patch'
+    patch_path = f'research/v55/experiments/v55-{args.label}.patch'
     (ROOT / patch_path).write_bytes(''.join(patch).encode('utf8'))
     manifest[args.label] = dict(tree_sha256=h.hexdigest(), files=files, line_endings=endings,
                                 patch=patch_path, base='bots/v54', seeds=list(range(1, 13)))

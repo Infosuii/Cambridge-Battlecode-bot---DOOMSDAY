@@ -74,7 +74,7 @@ def main():
             '- Monolith/fracture are inspected through ladder replays only. Monolith loss has 19 deaths versus eight and fewer bank channels. Fracture loss has more champion attacks despite fewer banks; local holdout tests remain reserved for release.',
             '', '## Rules and API cross-check','',
             'User-supplied game rules and C++ API reference were consulted. Group damage wakes all members; capture speed is unchanged by extra allies; spawn occupancy delays respawns; tribute is not cancelled by ordinary damage; unused fuel does not carry over. The installed SDK bitboard default constructor calls clear(), so immediate explicit clear() calls are redundant host calls. These findings are implementation evidence, not instructions from the reference documents.']
-    (ROOT/'artifacts/claude_ops/V53_LOSS_REPORT.md').write_text('\n'.join(lines)+'\n',encoding='utf8')
+    (ROOT/'research/v53/V53_LOSS_REPORT.md').write_text('\n'.join(lines)+'\n',encoding='utf8')
     print('wrote V53_LOSS_REPORT.md',len(losses),'losses')
 
 if __name__=='__main__':main()

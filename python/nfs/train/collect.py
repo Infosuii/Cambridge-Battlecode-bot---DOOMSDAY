@@ -70,7 +70,7 @@ def build_profile_bot(profile: str, out_dir, *, python: str = sys.executable, mo
     target = work / 'src' if opt != '--bot-dir' else work
     args = [python, str(install_tool), '--profile', profile, opt, str(target), '--receipt', str(out_dir / f'{profile}.install.json')]
     if model:
-        args += ['--model', str(model)]   # in-training export (see agents/G/CONTRACT_ISSUES.md: model dir support)
+        args += ['--model', str(model)]   # in-training export (see archive/agents/G/CONTRACT_ISSUES.md: model dir support)
     r = subprocess.run(args, capture_output=True,
                        text=True, encoding='utf-8', errors='replace', timeout=600, cwd=ROOT)
     if r.returncode:

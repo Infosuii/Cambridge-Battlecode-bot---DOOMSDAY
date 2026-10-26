@@ -1,0 +1,1241 @@
+{
+ "candidate": "bots/v58",
+ "baseline": "bots/v57 (frozen source, rebuilt with SDK4.0.0)",
+ "status": "submitted; selected and queued for platform compilation",
+ "submitted": true,
+ "authorization": "User authorized submission once definite improvement; strict v58 final gate retained. Whole-package evaluation and Sprint3 migration explicitly requested. No match groups queued.",
+ "sdk_cli_version": "4.0.0",
+ "engine_version": "2.0.0",
+ "fuel": "Official CLI default100000 per turn; official opening budget doubled. No --fuel override.",
+ "source_sha256_method": "sha256 over sorted file name + NUL + raw source bytes, same as bench3",
+ "source_sha256": "38754076d690d5e0cc434b27719785046aac0c84f1e63c340b3113091d031f19",
+ "source_files": {
+  "a2map.h": "84ca0c4aaef77d3c40a13b0c61d87739ba1b6e41314f437eddf949166b9ee8c1",
+  "act_model.h": "d4648c6b07b7d3ddabd2ddb403fa7d87784cf2a10465ffdfe96360111025954b",
+  "assess_model.h": "fd1de3478ea80021013ac69265da14e55b3d1e660a777d67a3de35e8a103a27a",
+  "bot.cpp": "6c9f6ae8401e8e8e9452c49bb43d692105feec8b8d1781824e6b7d8b2fe115f4",
+  "bot.h": "0ff2bc57733ce889ad2608182d45a2bb04a44ae0749f59904b4fdca9044c341f",
+  "common.h": "e9f5b8827e5622dd4fe3b0f3f7903bf6b4c05fcf87a6fe0ce0c4112c85d0ac2b",
+  "deny.cpp": "b5351989381817b4affc45fd133b92d05797f3382e1f76c87147fec87e164938",
+  "draft.cpp": "0766ebc1022e056eb1bc59f0c72fcacbdac990784939d3eb852d2c73c540f02c",
+  "draft.h": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+  "draft_net.h": "51d92f70f34eb127312651b068b2d0dc52db14d844831222d16abec410806d1d",
+  "economy.cpp": "2bccddf8ef472d52cd955dcc3e43bde17ec8e9d426269730146c75044aa25b1a",
+  "ep_model.h": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+  "episode.cpp": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+  "fight.cpp": "549336757c0642f058e4dc8e9b494110b8655d1945268b058e245cb60303dd0b",
+  "fight.h": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+  "lab.h": "56c26d60297744da3a353d125238f2b60064d3e26120cb80b5450380d8dd4ff4",
+  "learner.h": "6990b9c9ad1bab412daaa2d8b28d0d58cf7f24eaac97d0aac3fa298aac8ded29",
+  "local_model.h": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+  "main.cpp": "65992e90ab2dd1eda6c9cc97182da0038a1e216924a567e6a3257943fa45b38a",
+  "ml_plan.h": "b22b4213858168e4b1b563f6c04bb4e76c5af594add18e32500eb07c3201aeb5",
+  "move_model.h": "4f61a9c92c9abfc955820a79084ca7f1b6aa48d441e57096a03836287655249b",
+  "neural_policy.cpp": "7e47857cd7a7b9212379f3edf7adfe94e1f3b038aa683a2ff93f614055d6fa36",
+  "neural_policy.h": "aa2488f08f6fff5df20bd402972b91204517ed875fb701d40e1d297418e2013a",
+  "neural_weights.h": "5fec0f2e025a1c4a6329782d0ac740bcc2fc158a8e642efc61d292694dae3f83",
+  "pressure.cpp": "cd0c84d43df1144a35a3ba0fd3e942f635cb07f07522732483ba458a075b37d6",
+  "runtime_budget.h": "dc614d94b1920b79b1d5152e11193aa8a6e3019e3cfd2cc0e104ecfed28fcdf2",
+  "strategy.h": "03b3912328cdaaec50890137b9da866162bab5974c9254a96e94fd1f5277730b",
+  "tactics.cpp": "bf0538f7a7880fb379554f561e65faae79d1f0b24854ec599fcd92da6ebb4eb6",
+  "tile_model.h": "c0963cf2cf6fcac042a1db8879cf2ac3a8a368a0096b47ca45959902d210c9c4",
+  "tsearch.cpp": "78d6f9989474067f23df47ae0e6daf1f70a2275db67750be593270bbdf801abd",
+  "tsearch.h": "670c6d6e84ca25dd64c8aa09a374e8987c662d849e8d85dc81f8cfb2c5831a93",
+  "world.cpp": "e1b8bda73ee2d5fbee2d1ad754f6129ae57a248daeebdc172bc109f14d4beaeb",
+  "world.h": "36dc8f9010aa5fab61055133fbf012a7396e089fcd470f65709ef67ee1528038"
+ },
+ "switches": {
+  "V58_PATCH": "1",
+  "V58_ITEM_PLAN": "1",
+  "V58_CAPTURE_FOOTWORK": "1",
+  "V58_CAMP_CONTACT": "1",
+  "V58_FINISH_RESET": "1",
+  "V58_CAPTURE_STAND": "2",
+  "V58_KIT_MARCELLA": "2",
+  "V58_KIT_TAVI": "1",
+  "V58_KIT_HEART": "1",
+  "V58_PRECAP": "0",
+  "V58_DIRECTOR": "0",
+  "V58_ROUTE": "0",
+  "V58_CARRY_SHOP": "0",
+  "V58_DRAFT": "0",
+  "V58_SURVIVE": "0",
+  "V58_ACT": "12",
+  "V58_VISION": "0",
+  "V58_LOCKS": "0",
+  "V58_DENY_CAP": "1",
+  "V58_HUNT_CARRY": "0"
+ },
+ "additional_enabled_switches": {
+  "A2_FASTGRP": 1
+ },
+ "wasm_sha256_by_seed": {
+  "1": {
+   "candidate": "9f4890b764a18ca3edee8bbeb310677d87c8aadfb0cb815993a13d5608a71cba",
+   "opponent": "772b1a84d13c7f62e519e56cbea02c2bdd06ba08bc3a190ce25e578da858cb77"
+  },
+  "2": {
+   "candidate": "8e10a97e803e25660cc3ad55c37c8be791321dd10a58888e985a6933f885c6e2",
+   "opponent": "69a928855775b65a1cf1eb5db8399c60d853c4e5545d9e711f537461bbe20ed9"
+  },
+  "3": {
+   "candidate": "5c9e3ca2191d172736be61b818afb6cb94b04e157c736ca512f1d00f1d08d9a3",
+   "opponent": "a635a35a4bac127257c3a1ddd613964c765c82678039e610030f40d366d77699"
+  },
+  "4": {
+   "candidate": "d45fd52a6380d4fe857bdc680a3fc95872ebb4c5bdb8d7d9a67a6d3a67769f1b",
+   "opponent": "03d29c60d55c0deaedd60c09ca709651c5f5064a869283aeb5dcf8c079952079"
+  },
+  "5": {
+   "candidate": "0300078824fed692af6234e311227646404f09c07e01ace5b26fdd14f2021c75",
+   "opponent": "9b7f74fd99e19d792a1710c7add35c92ac417e53709213b53a6450db4d57e808"
+  },
+  "6": {
+   "candidate": "98736605bfd1bbc928e520abf1f8ff0f8e7331ddb7a796c498d72898df1e6cb9",
+   "opponent": "69e92631b2bbe812c292154d53b94ede2b073cfdfe74045c11dab5c831be341b"
+  },
+  "7": {
+   "candidate": "f0cd5f1b5cef9abd73cd95d110e98d974eac250f204e5e99e6dfcb16d82fe1ff",
+   "opponent": "fa539db194ffbb73c50a0dd28858d778a13d315ebb3a5cf07a4d0fb371d6ae2d"
+  },
+  "8": {
+   "candidate": "cf8d4eb175a3a765807e8f604cc8ec83dbabc86966fa9f709d7d2ef29ebf9d1d",
+   "opponent": "5e138e8d8924364e316d7c03b36a0deee70fdd80f8002b13629697682d9ef95c"
+  },
+  "9": {
+   "candidate": "c987474a382d1a0b2e7caef5e81afaf0a35098d9597ab083c2c74dfd1d7e7d29",
+   "opponent": "a1c3c484f82c367faf9bad0513194c3227dc71eaf01679618a9dc77b28cd1936"
+  },
+  "10": {
+   "candidate": "f1900d21e02fd3ccb309c984433ca703212dd8be9fd20ef8dd9979e6cf55543b",
+   "opponent": "b627482a7fe60830807a6215530224de656323edb78fb524d9df5bdb88fd4483"
+  },
+  "11": {
+   "candidate": "35cfa2259d744f7cb7c76041f75f0dba6f0a0e8d5b1088d05bb3fad41421bcf2",
+   "opponent": "d7fe842485b2d6e0cb07f81dc675126ace11224076ab35cdd4fe2e37dfecb578"
+  },
+  "12": {
+   "candidate": "372bf91515ac9a9f1027d7d668154aabd6e9e910752188f81b57f4b4413e0d23",
+   "opponent": "063f1a08325c1a979a10640c91d27d66813d521b95446cfb46bb4de9edafafeb"
+  }
+ },
+ "clean_build": {
+  "source_sha256": "38754076d690d5e0cc434b27719785046aac0c84f1e63c340b3113091d031f19",
+  "independent_wasm_sha256": "9f4890b764a18ca3edee8bbeb310677d87c8aadfb0cb815993a13d5608a71cba",
+  "benchmark_seed1_sha256": "9f4890b764a18ca3edee8bbeb310677d87c8aadfb0cb815993a13d5608a71cba",
+  "byte_identical": true,
+  "source_copy": "artifacts/tmp/v58-s3-independent/src",
+  "bundle_bytes": 279034,
+  "bundle_sha256": "9f36ec6e3dfa4b34886ba5af9695285a42d3d4ebb4b3b6695ace3fa7198e226c",
+  "bundle_source_exact": true,
+  "bundle_entries": 33,
+  "frozen_v57_hashes_unchanged": true
+ },
+ "build_environment": {
+  "schema": 1,
+  "inputs": {
+   "cli": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+   "workspace": "8aaf204d06a6fe9e2c92979fe4281a95d3445e929353f716637e1c9144687ecb",
+   "sdk/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+   "sdk/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+   "sdk/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+   "sdk/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+   "sdk/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+   "sdk/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+   "sdk/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53",
+   "sdk/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+   "sdk/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+   "sdk/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+   "cmake/CMakeLists.txt": "a2f9978b9d948623b48ac4fca70692a604bc5cdac2c50c115558ba891a26b78c",
+   "toolchain/clang.exe": "6d9b6b13a9d6c0e64765fe85c4ba86b605f9b65e49a0c28703c85ba66038a1df",
+   "toolchain/clang++.exe": "6d9b6b13a9d6c0e64765fe85c4ba86b605f9b65e49a0c28703c85ba66038a1df",
+   "toolchain/wasm-ld.exe": "3112e8805c53552dbb1b8677b6f2fa27a7f2c4b6f3b39bd0d7601e2a6dd5d529"
+  },
+  "cli_version": "cambc 4.0.0",
+  "engine_version": "2.0.0",
+  "fuel": 100000,
+  "fingerprint": "46d0563aa972dd7eb5adfa13270a715e5b7872be847b47dc92f8a1bb7c4e3fda"
+ },
+ "gate": {
+  "passed": true,
+  "development": {
+   "prefix": "artifacts/evaluations/v58-s3-fastgroups-confirm",
+   "games": 672,
+   "expected_games": 672,
+   "wins": 430.0,
+   "win_rate": 0.6398809523809523,
+   "mean_margin": 152.96428571428572,
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel": {
+    "candidate": 671,
+    "opponent": 1427
+   },
+   "missing": [],
+   "unexpected": [],
+   "duplicates": [],
+   "engine_versions": [
+    "2.0.0"
+   ],
+   "environment_fingerprint": "46d0563aa972dd7eb5adfa13270a715e5b7872be847b47dc92f8a1bb7c4e3fda",
+   "passed": true,
+   "candidate_fuel_per_game": 0.9985119047619048,
+   "cluster": {
+    "a": "artifacts/evaluations/v58-s3-fastgroups-confirm",
+    "b": null,
+    "games": 672,
+    "maps": 28,
+    "win_mean": 0.6398809523809523,
+    "gem_mean": 152.96428571428572,
+    "gem_ci95": [
+     107.46428571428571,
+     202.79761904761904
+    ],
+    "win_ci95": [
+     0.5997023809523809,
+     0.6815476190476191
+    ],
+    "faults": 0,
+    "per_map": [
+     {
+      "map": "00collision",
+      "games": 24,
+      "win": 14.0,
+      "gem": 127.58333333333333,
+      "flag": ""
+     },
+     {
+      "map": "00contest",
+      "games": 24,
+      "win": 19.0,
+      "gem": 475.0,
+      "flag": ""
+     },
+     {
+      "map": "00eight",
+      "games": 24,
+      "win": 18.0,
+      "gem": 464.4583333333333,
+      "flag": ""
+     },
+     {
+      "map": "00elkring",
+      "games": 24,
+      "win": 13.0,
+      "gem": 51.166666666666664,
+      "flag": ""
+     },
+     {
+      "map": "00fragment",
+      "games": 24,
+      "win": 16.0,
+      "gem": 191.58333333333334,
+      "flag": ""
+     },
+     {
+      "map": "00gem-fields",
+      "games": 24,
+      "win": 17.0,
+      "gem": 236.16666666666666,
+      "flag": ""
+     },
+     {
+      "map": "00gemfight",
+      "games": 24,
+      "win": 12.0,
+      "gem": -56.583333333333336,
+      "flag": ""
+     },
+     {
+      "map": "00great-wall",
+      "games": 24,
+      "win": 17.0,
+      "gem": 123.625,
+      "flag": ""
+     },
+     {
+      "map": "00lost-world",
+      "games": 24,
+      "win": 18.0,
+      "gem": 283.0416666666667,
+      "flag": ""
+     },
+     {
+      "map": "00quadrants",
+      "games": 24,
+      "win": 15.0,
+      "gem": 134.79166666666666,
+      "flag": ""
+     },
+     {
+      "map": "00reverse-spiral",
+      "games": 24,
+      "win": 11.0,
+      "gem": -44.583333333333336,
+      "flag": ""
+     },
+     {
+      "map": "00road-of-riches",
+      "games": 24,
+      "win": 12.0,
+      "gem": 16.125,
+      "flag": ""
+     },
+     {
+      "map": "00rows",
+      "games": 24,
+      "win": 23.0,
+      "gem": 115.25,
+      "flag": ""
+     },
+     {
+      "map": "00rushbait-v2",
+      "games": 24,
+      "win": 16.0,
+      "gem": 127.875,
+      "flag": ""
+     },
+     {
+      "map": "00split",
+      "games": 24,
+      "win": 17.0,
+      "gem": 108.58333333333333,
+      "flag": ""
+     },
+     {
+      "map": "00stampede",
+      "games": 24,
+      "win": 14.0,
+      "gem": 82.875,
+      "flag": ""
+     },
+     {
+      "map": "00swirl",
+      "games": 24,
+      "win": 15.0,
+      "gem": 253.41666666666666,
+      "flag": ""
+     },
+     {
+      "map": "01big-world",
+      "games": 24,
+      "win": 19.0,
+      "gem": 164.95833333333334,
+      "flag": ""
+     },
+     {
+      "map": "01boss-battle",
+      "games": 24,
+      "win": 17.0,
+      "gem": 359.625,
+      "flag": ""
+     },
+     {
+      "map": "01broken-curve",
+      "games": 24,
+      "win": 15.0,
+      "gem": 124.58333333333333,
+      "flag": ""
+     },
+     {
+      "map": "01concentrated-wealth",
+      "games": 24,
+      "win": 14.0,
+      "gem": 101.54166666666667,
+      "flag": ""
+     },
+     {
+      "map": "01corridors",
+      "games": 24,
+      "win": 13.0,
+      "gem": 58.541666666666664,
+      "flag": ""
+     },
+     {
+      "map": "01gold-rush",
+      "games": 24,
+      "win": 16.0,
+      "gem": 267.2916666666667,
+      "flag": ""
+     },
+     {
+      "map": "01islands",
+      "games": 24,
+      "win": 16.0,
+      "gem": 102.16666666666667,
+      "flag": ""
+     },
+     {
+      "map": "01shortcut",
+      "games": 24,
+      "win": 15.0,
+      "gem": 123.625,
+      "flag": ""
+     },
+     {
+      "map": "01starfish",
+      "games": 24,
+      "win": 15.0,
+      "gem": 237.16666666666666,
+      "flag": ""
+     },
+     {
+      "map": "01starvation",
+      "games": 24,
+      "win": 10.0,
+      "gem": 32.625,
+      "flag": ""
+     },
+     {
+      "map": "01yellow-brick-road",
+      "games": 24,
+      "win": 13.0,
+      "gem": 20.5,
+      "flag": ""
+     }
+    ]
+   },
+   "bayes": {
+    "a": "artifacts/evaluations/v58-s3-fastgroups-confirm",
+    "b": null,
+    "games": 672,
+    "maps": 28,
+    "seeds": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12"
+    ],
+    "gems_mean": 202.51074109125858,
+    "gems_ci95": [
+     124.9799398573471,
+     282.6183452037827
+    ],
+    "p_gain": 1.0,
+    "p_gain_25": 1.0,
+    "p_gain_50": 0.9998333333333334,
+    "win_mean": 0.6474931507057714,
+    "p_gain_neg50": 1.0,
+    "p_gain_neg25": 1.0,
+    "win_ci95": [
+     0.5920317832444038,
+     0.703426433477895
+    ],
+    "tau": 162.64180422767,
+    "sigma": 495.27770154778256,
+    "decision": "ACCEPT: better with posterior probability >= 0.95",
+    "per_map": [
+     {
+      "map": "00collision",
+      "games": 24,
+      "raw": 127.58333333333333,
+      "pooled": 196.91894580351646,
+      "ci95": [
+       -17.755661265349,
+       406.4381029695777
+      ],
+      "p_gain": 0.9658333333333333,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00contest",
+      "games": 24,
+      "raw": 475.0,
+      "pooled": 485.8025061983806,
+      "ci95": [
+       265.9014440132889,
+       720.5085015871225
+      ],
+      "p_gain": 1.0,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00eight",
+      "games": 24,
+      "raw": 464.4583333333333,
+      "pooled": 431.6045990193991,
+      "ci95": [
+       228.38290525133107,
+       643.8284370926359
+      ],
+      "p_gain": 1.0,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00elkring",
+      "games": 24,
+      "raw": 51.166666666666664,
+      "pooled": 101.73193489928734,
+      "ci95": [
+       -68.86191745371342,
+       270.8384087996784
+      ],
+      "p_gain": 0.8798333333333334,
+      "flag": ""
+     },
+     {
+      "map": "00fragment",
+      "games": 24,
+      "raw": 191.58333333333334,
+      "pooled": 271.74828076220643,
+      "ci95": [
+       56.711723230301935,
+       479.50851947434376
+      ],
+      "p_gain": 0.9925,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00gem-fields",
+      "games": 24,
+      "raw": 236.16666666666666,
+      "pooled": 283.63666761493687,
+      "ci95": [
+       91.22580126907971,
+       470.46930590499306
+      ],
+      "p_gain": 0.9973333333333333,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00gemfight",
+      "games": 24,
+      "raw": -56.583333333333336,
+      "pooled": 82.33321093308965,
+      "ci95": [
+       -176.87324375017388,
+       317.237917850836
+      ],
+      "p_gain": 0.7551666666666667,
+      "flag": ""
+     },
+     {
+      "map": "00great-wall",
+      "games": 24,
+      "raw": 123.625,
+      "pooled": 155.59110523521304,
+      "ci95": [
+       -17.3245608535562,
+       328.32188713303555
+      ],
+      "p_gain": 0.9621666666666666,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00lost-world",
+      "games": 24,
+      "raw": 283.0416666666667,
+      "pooled": 290.24892615130324,
+      "ci95": [
+       106.6282574906491,
+       479.24118537039647
+      ],
+      "p_gain": 0.9991666666666666,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00quadrants",
+      "games": 24,
+      "raw": 134.79166666666666,
+      "pooled": 155.75283369402115,
+      "ci95": [
+       -12.100992940747725,
+       323.94295146070624
+      ],
+      "p_gain": 0.9658333333333333,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00reverse-spiral",
+      "games": 24,
+      "raw": -44.583333333333336,
+      "pooled": 48.28296402101348,
+      "ci95": [
+       -181.1811167117785,
+       264.5754118629148
+      ],
+      "p_gain": 0.668,
+      "flag": ""
+     },
+     {
+      "map": "00road-of-riches",
+      "games": 24,
+      "raw": 16.125,
+      "pooled": 77.98276699374395,
+      "ci95": [
+       -111.07841107024828,
+       262.6235780094051
+      ],
+      "p_gain": 0.799,
+      "flag": ""
+     },
+     {
+      "map": "00rows",
+      "games": 24,
+      "raw": 115.25,
+      "pooled": 135.09101131744669,
+      "ci95": [
+       -19.22351249115018,
+       289.74572817086266
+      ],
+      "p_gain": 0.9583333333333334,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00rushbait-v2",
+      "games": 24,
+      "raw": 127.875,
+      "pooled": 155.05765177420716,
+      "ci95": [
+       -20.423692654834444,
+       328.7200352364976
+      ],
+      "p_gain": 0.9633333333333334,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00split",
+      "games": 24,
+      "raw": 108.58333333333333,
+      "pooled": 134.81612299988882,
+      "ci95": [
+       -33.34594205205261,
+       297.6796532706591
+      ],
+      "p_gain": 0.946,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00stampede",
+      "games": 24,
+      "raw": 82.875,
+      "pooled": 215.60371546411736,
+      "ci95": [
+       -34.866119302262405,
+       457.94098082537903
+      ],
+      "p_gain": 0.955,
+      "flag": "likely gain"
+     },
+     {
+      "map": "00swirl",
+      "games": 24,
+      "raw": 253.41666666666666,
+      "pooled": 330.4148312033796,
+      "ci95": [
+       98.19803450471613,
+       564.929568360042
+      ],
+      "p_gain": 0.9973333333333333,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01big-world",
+      "games": 24,
+      "raw": 164.95833333333334,
+      "pooled": 176.1573811247227,
+      "ci95": [
+       16.35036737372617,
+       337.15341108973814
+      ],
+      "p_gain": 0.9846666666666667,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01boss-battle",
+      "games": 24,
+      "raw": 359.625,
+      "pooled": 295.5792313039373,
+      "ci95": [
+       96.40176966570004,
+       496.7035066163351
+      ],
+      "p_gain": 0.9981666666666666,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01broken-curve",
+      "games": 24,
+      "raw": 124.58333333333333,
+      "pooled": 153.8328799345256,
+      "ci95": [
+       -25.402118752285492,
+       325.67608067804156
+      ],
+      "p_gain": 0.9553333333333334,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01concentrated-wealth",
+      "games": 24,
+      "raw": 101.54166666666667,
+      "pooled": 194.09966531676434,
+      "ci95": [
+       -30.859764526510983,
+       414.5346784129471
+      ],
+      "p_gain": 0.9553333333333334,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01corridors",
+      "games": 24,
+      "raw": 58.541666666666664,
+      "pooled": 136.1635966452156,
+      "ci95": [
+       -83.54630955063038,
+       353.8267856472831
+      ],
+      "p_gain": 0.889,
+      "flag": ""
+     },
+     {
+      "map": "01gold-rush",
+      "games": 24,
+      "raw": 267.2916666666667,
+      "pooled": 331.276537651052,
+      "ci95": [
+       114.27189563940787,
+       548.1627885829181
+      ],
+      "p_gain": 0.9981666666666666,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01islands",
+      "games": 24,
+      "raw": 102.16666666666667,
+      "pooled": 143.7400351937935,
+      "ci95": [
+       -29.401042754070147,
+       309.47155842280085
+      ],
+      "p_gain": 0.953,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01shortcut",
+      "games": 24,
+      "raw": 123.625,
+      "pooled": 178.69014964661872,
+      "ci95": [
+       -11.219218047823748,
+       361.41762421630636
+      ],
+      "p_gain": 0.9666666666666667,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01starfish",
+      "games": 24,
+      "raw": 237.16666666666666,
+      "pooled": 388.6940411240834,
+      "ci95": [
+       136.09707160478297,
+       629.8171712695101
+      ],
+      "p_gain": 0.9988333333333334,
+      "flag": "likely gain"
+     },
+     {
+      "map": "01starvation",
+      "games": 24,
+      "raw": 32.625,
+      "pooled": 76.44205496954062,
+      "ci95": [
+       -140.52859101020255,
+       282.5196642241776
+      ],
+      "p_gain": 0.764,
+      "flag": ""
+     },
+     {
+      "map": "01yellow-brick-road",
+      "games": 24,
+      "raw": 20.5,
+      "pooled": 115.66365904654725,
+      "ci95": [
+       -107.53893829736573,
+       328.1082955523119
+      ],
+      "p_gain": 0.8553333333333333,
+      "flag": ""
+     }
+    ]
+   }
+  },
+  "original_holdout": {
+   "prefix": "artifacts/evaluations/v58-s3-holdout12",
+   "games": 96,
+   "expected_games": 96,
+   "wins": 67.0,
+   "win_rate": 0.6979166666666666,
+   "mean_margin": 151.97916666666666,
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel": {
+    "candidate": 23,
+    "opponent": 29
+   },
+   "missing": [],
+   "unexpected": [],
+   "duplicates": [],
+   "engine_versions": [
+    "2.0.0"
+   ],
+   "environment_fingerprint": "46d0563aa972dd7eb5adfa13270a715e5b7872be847b47dc92f8a1bb7c4e3fda",
+   "passed": true,
+   "candidate_fuel_per_game": 0.23958333333333334,
+   "cluster": {
+    "a": "artifacts/evaluations/v58-s3-holdout12",
+    "b": null,
+    "games": 96,
+    "maps": 12,
+    "win_mean": 0.6979166666666666,
+    "gem_mean": 151.97916666666666,
+    "gem_ci95": [
+     78.53125,
+     219.90625
+    ],
+    "win_ci95": [
+     0.6041666666666666,
+     0.8020833333333334
+    ],
+    "faults": 0,
+    "per_map": [
+     {
+      "map": "00ambush",
+      "games": 8,
+      "win": 6.0,
+      "gem": 132.875,
+      "flag": ""
+     },
+     {
+      "map": "00corners",
+      "games": 8,
+      "win": 3.0,
+      "gem": -133.5,
+      "flag": ""
+     },
+     {
+      "map": "00expanse",
+      "games": 8,
+      "win": 6.0,
+      "gem": 65.125,
+      "flag": ""
+     },
+     {
+      "map": "00interlock",
+      "games": 8,
+      "win": 5.0,
+      "gem": 158.5,
+      "flag": ""
+     },
+     {
+      "map": "00lanes",
+      "games": 8,
+      "win": 8.0,
+      "gem": 181.625,
+      "flag": ""
+     },
+     {
+      "map": "00monolith",
+      "games": 8,
+      "win": 6.0,
+      "gem": 212.625,
+      "flag": ""
+     },
+     {
+      "map": "00packs",
+      "games": 8,
+      "win": 8.0,
+      "gem": 318.375,
+      "flag": ""
+     },
+     {
+      "map": "00pilgrimage",
+      "games": 8,
+      "win": 6.0,
+      "gem": 250.25,
+      "flag": ""
+     },
+     {
+      "map": "01elk-arena",
+      "games": 8,
+      "win": 4.0,
+      "gem": 56.375,
+      "flag": ""
+     },
+     {
+      "map": "01fracture",
+      "games": 8,
+      "win": 6.0,
+      "gem": 144.75,
+      "flag": ""
+     },
+     {
+      "map": "01hooks",
+      "games": 8,
+      "win": 5.0,
+      "gem": 348.125,
+      "flag": ""
+     },
+     {
+      "map": "01the-farm",
+      "games": 8,
+      "win": 4.0,
+      "gem": 88.625,
+      "flag": ""
+     }
+    ]
+   }
+  },
+  "previous_fresh_holdout": {
+   "prefix": "artifacts/evaluations/v58-s3-fresh15",
+   "games": 120,
+   "expected_games": 120,
+   "wins": 69.0,
+   "win_rate": 0.575,
+   "mean_margin": 127.125,
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "missing": [],
+   "unexpected": [],
+   "duplicates": [],
+   "engine_versions": [
+    "2.0.0"
+   ],
+   "environment_fingerprint": "46d0563aa972dd7eb5adfa13270a715e5b7872be847b47dc92f8a1bb7c4e3fda",
+   "passed": true,
+   "candidate_fuel_per_game": 0.0,
+   "cluster": {
+    "a": "artifacts/evaluations/v58-s3-fresh15",
+    "b": null,
+    "games": 120,
+    "maps": 15,
+    "win_mean": 0.575,
+    "gem_mean": 127.125,
+    "gem_ci95": [
+     56.34166666666667,
+     198.05833333333334
+    ],
+    "win_ci95": [
+     0.5,
+     0.6416666666666667
+    ],
+    "faults": 0,
+    "per_map": [
+     {
+      "map": "00anvil",
+      "games": 8,
+      "win": 5.0,
+      "gem": 190.875,
+      "flag": ""
+     },
+     {
+      "map": "00breadcrumbs",
+      "games": 8,
+      "win": 5.0,
+      "gem": 111.25,
+      "flag": ""
+     },
+     {
+      "map": "00crater",
+      "games": 8,
+      "win": 4.0,
+      "gem": 122.625,
+      "flag": ""
+     },
+     {
+      "map": "00dunes",
+      "games": 8,
+      "win": 6.0,
+      "gem": 361.875,
+      "flag": ""
+     },
+     {
+      "map": "00galaxy",
+      "games": 8,
+      "win": 5.0,
+      "gem": 48.25,
+      "flag": ""
+     },
+     {
+      "map": "00oasis",
+      "games": 8,
+      "win": 5.0,
+      "gem": 310.0,
+      "flag": ""
+     },
+     {
+      "map": "00quarry",
+      "games": 8,
+      "win": 4.0,
+      "gem": 7.5,
+      "flag": ""
+     },
+     {
+      "map": "00ribs",
+      "games": 8,
+      "win": 4.0,
+      "gem": 209.5,
+      "flag": ""
+     },
+     {
+      "map": "00the-line",
+      "games": 8,
+      "win": 5.0,
+      "gem": 135.75,
+      "flag": ""
+     },
+     {
+      "map": "00vault",
+      "games": 8,
+      "win": 4.0,
+      "gem": -34.75,
+      "flag": ""
+     },
+     {
+      "map": "adgato-gemcombat1",
+      "games": 8,
+      "win": 5.0,
+      "gem": 132.5,
+      "flag": ""
+     },
+     {
+      "map": "adgato-gemcombat2",
+      "games": 8,
+      "win": 2.0,
+      "gem": -155.625,
+      "flag": ""
+     },
+     {
+      "map": "adgato-gemcombat3",
+      "games": 8,
+      "win": 3.0,
+      "gem": -1.25,
+      "flag": ""
+     },
+     {
+      "map": "adgato-gemcombat4",
+      "games": 8,
+      "win": 7.0,
+      "gem": 365.75,
+      "flag": ""
+     },
+     {
+      "map": "adgato-gemcombat5",
+      "games": 8,
+      "win": 5.0,
+      "gem": 102.625,
+      "flag": ""
+     }
+    ]
+   }
+  },
+  "additional_new02_check": {
+   "prefix": "artifacts/evaluations/v58-s3-new02",
+   "games": 120,
+   "expected_games": 120,
+   "wins": 73.0,
+   "win_rate": 0.6083333333333333,
+   "mean_margin": 79.525,
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel": {
+    "candidate": 224,
+    "opponent": 441
+   },
+   "missing": [],
+   "unexpected": [],
+   "duplicates": [],
+   "engine_versions": [
+    "2.0.0"
+   ],
+   "environment_fingerprint": "46d0563aa972dd7eb5adfa13270a715e5b7872be847b47dc92f8a1bb7c4e3fda",
+   "passed": true,
+   "candidate_fuel_per_game": 1.8666666666666667,
+   "cluster": {
+    "a": "artifacts/evaluations/v58-s3-new02",
+    "b": null,
+    "games": 120,
+    "maps": 15,
+    "win_mean": 0.6083333333333333,
+    "gem_mean": 79.525,
+    "gem_ci95": [
+     -50.166666666666664,
+     190.25833333333333
+    ],
+    "win_ci95": [
+     0.5,
+     0.7166666666666667
+    ],
+    "faults": 0,
+    "per_map": [
+     {
+      "map": "02arena",
+      "games": 8,
+      "win": 3.0,
+      "gem": -222.25,
+      "flag": ""
+     },
+     {
+      "map": "02crossing",
+      "games": 8,
+      "win": 5.0,
+      "gem": 200.375,
+      "flag": ""
+     },
+     {
+      "map": "02cuts",
+      "games": 8,
+      "win": 7.0,
+      "gem": 180.75,
+      "flag": ""
+     },
+     {
+      "map": "02famine",
+      "games": 8,
+      "win": 8.0,
+      "gem": 249.125,
+      "flag": ""
+     },
+     {
+      "map": "02fields",
+      "games": 8,
+      "win": 7.0,
+      "gem": 311.125,
+      "flag": ""
+     },
+     {
+      "map": "02geodes",
+      "games": 8,
+      "win": 6.0,
+      "gem": 104.25,
+      "flag": ""
+     },
+     {
+      "map": "02gift-wrapping",
+      "games": 8,
+      "win": 4.0,
+      "gem": -73.375,
+      "flag": ""
+     },
+     {
+      "map": "02guardians",
+      "games": 8,
+      "win": 2.0,
+      "gem": -535.375,
+      "flag": ""
+     },
+     {
+      "map": "02harvest",
+      "games": 8,
+      "win": 4.0,
+      "gem": 16.75,
+      "flag": ""
+     },
+     {
+      "map": "02stalactites",
+      "games": 8,
+      "win": 5.0,
+      "gem": 228.875,
+      "flag": ""
+     },
+     {
+      "map": "02tangle",
+      "games": 8,
+      "win": 5.0,
+      "gem": 40.0,
+      "flag": ""
+     },
+     {
+      "map": "02the-pack",
+      "games": 8,
+      "win": 6.0,
+      "gem": 400.25,
+      "flag": ""
+     },
+     {
+      "map": "02the-pond",
+      "games": 8,
+      "win": 4.0,
+      "gem": 0.0,
+      "flag": ""
+     },
+     {
+      "map": "02treasure-box",
+      "games": 8,
+      "win": 5.0,
+      "gem": 334.5,
+      "flag": ""
+     },
+     {
+      "map": "02uncharted-lands",
+      "games": 8,
+      "win": 2.0,
+      "gem": -42.125,
+      "flag": ""
+     }
+    ]
+   }
+  },
+  "proxy": "not created: capture income/carry concentration targets were not reached",
+  "mechanism_shortfalls": {
+   "capture_gold_R250": {
+    "candidate": 711.9107142857143,
+    "baseline": 689.6785714285714,
+    "target": 900
+   },
+   "elk_captures_R250": {
+    "candidate": 2.7857142857142856,
+    "target": 3.5
+   },
+   "carry_share": {
+    "candidate": 0.27528834635841126,
+    "target": 0.4
+   },
+   "deaths_reduction": 0.13253333333333328,
+   "explanation": "The user requested the whole combined package and then Sprint3 support. Dedicated carry/director packages lost strength and remain off. This package improves distributed economy and legal capture retention. Prospector replaces nerfed Treasure; Capture follows mitigation and is mostly a mid-game purchase. Capture/elk/carry targets and30% death reduction were not reached; CHANGES.md explains them. No Claudus proxy qualified."
+  },
+  "shortfalls_explained_in": "bots/v58/CHANGES.md",
+  "independent_build": true,
+  "exact_source_bundle": true
+ },
+ "results": "research/v58/V58_SPRINT3_RESULTS.json",
+ "loss_review": "research/v57/V57_SPRINT3_LOSS_REVIEW.json",
+ "platform_version": 57,
+ "submitted_at_utc": "2026-10-26T13:23:03.916Z",
+ "upload_bytes": 279034,
+ "source_commit": "311c4a898f78bc22da1d7b8a2ad5df87d5eebdd8",
+ "provenance_limit": "The CLI provides no platform read-back of source content/hash. Submission verification will check exact local source/bundle and reported upload size, then compilation/active selection.",
+ "submission_started_utc": "2026-10-26T13:23:01.195975+00:00",
+ "platform_note": "v58: Sprint3 economy + faster camp tracking; src 38754076",
+ "submission_log": "research/v58/results/v58-submit.txt",
+ "source_unchanged_after_submission": true,
+ "upload_matches_verified_bundle": true,
+ "platform_selected": true,
+ "platform_active": false,
+ "platform_compilation_status": "queued",
+ "last_platform_check_utc": "2026-10-26T13:25:23.337815+00:00"
+}

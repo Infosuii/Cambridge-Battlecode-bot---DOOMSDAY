@@ -1,7 +1,7 @@
 """Download native summaries for the requested v57 loss review; never queues matches or downloads source.
 
 Usage: python tools/replay/fetch_v57_review.py --listing data/ladder/v57_games_20261026.json --cli <official CLI4>
-       --out-root artifacts/local-only/v57-latest --manifest artifacts/claude_ops/V57_LATEST_REVIEW_MANIFEST.json
+       --out-root artifacts/local-only/v57-latest --manifest research/v57/V57_LATEST_REVIEW_MANIFEST.json
 All engine2 ranked games plus up to20 recent engine2 Claudus games are included. Raw data stay local-only.
 """
 import argparse

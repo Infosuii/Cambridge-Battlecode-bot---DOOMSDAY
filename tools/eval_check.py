@@ -1,4 +1,4 @@
-"""Build-time framework checks (EVALUATION_PROTOCOL.md section 3). Not strength claims.
+"""Build-time framework checks (docs/neural-framework/EVALUATION_PROTOCOL.md section 3). Not strength claims.
 
   python tools/eval_check.py refs
   python tools/eval_check.py repro --results reference/repro

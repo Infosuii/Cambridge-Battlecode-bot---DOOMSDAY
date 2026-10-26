@@ -25,7 +25,7 @@ def item(index):
 def main():
     parts = json.loads((ROOT / 'evaluation/schedules/map_partitions.json').read_text())['partitions']
     dev = {normal(m) for m in parts['training'] + parts['selection']}
-    meta = {g['id']: g for g in json.loads((ROOT / 'artifacts/claude_ops/V55_LIFE_DATA.json').read_text(encoding='utf8'))}
+    meta = {g['id']: g for g in json.loads((ROOT / 'research/v55/V55_LIFE_DATA.json').read_text(encoding='utf8'))}
     counts = defaultdict(Counter)
     games = Counter()
     for g in json.loads(Path(sys.argv[1]).read_text(encoding='utf8')):

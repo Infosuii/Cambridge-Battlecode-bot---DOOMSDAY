@@ -35,12 +35,12 @@ def main():
         old = before.read_text(encoding='utf8').splitlines(keepends=True) if before.exists() else []
         new = p.read_text(encoding='utf8').splitlines(keepends=True) if p.exists() else []
         diff.extend(difflib.unified_diff(old, new, fromfile='a/src/' + name if before.exists() else '/dev/null', tofile='b/src/' + name if p.exists() else '/dev/null'))
-    target = ROOT / 'artifacts/claude_ops/V58_EXPERIMENTS.json'
+    target = ROOT / 'research/v58/V58_EXPERIMENTS.json'
     manifest = json.loads(target.read_text(encoding='utf8')) if target.exists() else {}
     if a.label in manifest:
         assert manifest[a.label]['source_sha256'] == tree.hexdigest(), 'recorded source changed'
     directory = 'rejected' if a.state in ('rejected', 'invalid') else 'experiments'
-    patch = f'artifacts/claude_ops/{directory}/v58-{a.label}.diff'
+    patch = f'research/v58/{directory}/v58-{a.label}.diff'
     (ROOT / patch).parent.mkdir(parents=True, exist_ok=True)
     (ROOT / patch).write_bytes(''.join(diff).encode('utf8'))
     manifest[a.label] = dict(base='bots/v57', source_sha256=tree.hexdigest(), files=files, line_endings=endings,

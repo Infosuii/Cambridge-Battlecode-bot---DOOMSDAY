@@ -13,7 +13,7 @@ def main():
  ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('experiment');ap.add_argument('destination');a=ap.parse_args()
  entries={}
  for name in ('V55_EXPERIMENTS.json','V55_RESTART_EXPERIMENTS.json'):
-  entries.update(json.loads((ROOT/'artifacts/claude_ops'/name).read_text(encoding='utf8')))
+  entries.update(json.loads((ROOT/'research/v55'/name).read_text(encoding='utf8')))
  e=entries[a.experiment]
  dest=Path(a.destination).resolve()
  if not dest.is_relative_to(ROOT) or dest.exists():raise SystemExit('destination must be a new directory inside this repository')

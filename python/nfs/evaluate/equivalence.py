@@ -1,7 +1,7 @@
 """Independent per-cell equivalence comparator (Agent H). Deliberately does not share code with Agent A's
 tools/audit_equivalence.py, so the two can cross-check each other.
 
-Verified on engine 1.0.3 (agents/H/REPORT.md): `replay.repl26a` and `summary.json` do not depend on bot file names
+Verified on engine 1.0.3 (archive/agents/H/REPORT.md): `replay.repl26a` and `summary.json` do not depend on bot file names
 and do not change when a bot burns extra fuel without changing actions; only the team's `.fuel` member changes.
 Therefore:
 * actions identical  <=> replay.repl26a member bytes identical (summary.json identical as a second witness);

@@ -72,7 +72,7 @@ def med(rows, key, i):
 
 def main():
     ledger = json.loads(Path(sys.argv[1] if len(sys.argv) > 1 else ROOT / 'artifacts/local-only/v53-review/ledger-all.json').read_text())
-    outp = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / 'artifacts/claude_ops/V54_ACTOR_LEDGER.md')
+    outp = Path(sys.argv[2] if len(sys.argv) > 2 else ROOT / 'research/v54/V54_ACTOR_LEDGER.md')
     meta, latest, tids = load_meta()
     latest_ids = {m['matchId'] for m in latest}
     games = []

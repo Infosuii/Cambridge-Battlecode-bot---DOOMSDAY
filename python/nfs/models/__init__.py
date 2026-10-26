@@ -1,6 +1,6 @@
 """PolicyNet: shared observation encoder + every learned head (agent B; CONTRACTS section 4).
 
-Exactly the C++ forward pass of bot/src/nn_model.h (see that header and agents/B/REPORT.md "Numerics"):
+Exactly the C++ forward pass of bot/src/nn_model.h (see that header and archive/agents/B/REPORT.md "Numerics"):
   encoder  g = act(x_sg @ G1 + b); a_r = act(ally_r @ A1 + b), e_r = act(enemy_r @ E1 + b) (valid rows);
            h = act([g, mean(a), max(a), mean(e), max(e)] @ C1 + b)
   candidate u = b1 + h @ Wh + emb[context];  r_k = act(u + f_k @ Wf) @ w2 + b2;  logit_k = prior_k + R*act(r_k/R)

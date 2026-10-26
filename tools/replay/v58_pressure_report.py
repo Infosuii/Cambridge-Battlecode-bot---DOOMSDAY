@@ -27,7 +27,7 @@ def main():
         parts = json.loads((ROOT / 'evaluation/schedules/map_partitions.json').read_text())['partitions']
         normal = lambda name: name.replace('_', '').replace('-', '')
         dev = {normal(m) for m in parts['training'] + parts['selection']}
-        meta = json.loads((ROOT / 'artifacts/claude_ops/V55_LIFE_DATA.json').read_text(encoding='utf8'))
+        meta = json.loads((ROOT / 'research/v55/V55_LIFE_DATA.json').read_text(encoding='utf8'))
         for g in meta:
             if g['opp'] == 'Claudus Maximus' and normal(g['map']) in dev:
                 p = raw_dir / (g['id'] + '.repl26a')

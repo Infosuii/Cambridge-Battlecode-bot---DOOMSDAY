@@ -1,6 +1,6 @@
 """Release verification logic (used by tools/verify_release.py and tools/package_release.py; unit-tested).
 
-Official ZIP layout (learned from `cambc bundle` 3.0.5 on references/builds/original, agents/H/REPORT.md):
+Official ZIP layout (learned from `cambc bundle` 3.0.5 on references/builds/original, archive/agents/H/REPORT.md):
 flat `src/<file>` members, sorted, DEFLATE, timestamp 1980-01-01, no directory entries, no comment. `cambc bundle`
 packs EVERYTHING under src/ (also nested dirs and non-source files), so this verifier enforces the stricter project
 rule: only flat src/*.cpp and src/*.h, byte-equal to the source tree, nothing else.

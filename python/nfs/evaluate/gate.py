@@ -1,4 +1,4 @@
-"""Promotion gate for trained candidates (EVALUATION_PROTOCOL.md section 5).
+"""Promotion gate for trained candidates (docs/neural-framework/EVALUATION_PROTOCOL.md section 5).
 
 `evaluate(candidate, baseline, gate_cfg, incumbent=None, ...)` -> GateResult. A candidate passes only if EVERY check
 passes; pooled improvement can never compensate for a per-opponent failure (the phase-2 failure mode: pooled 40/60 ->

@@ -1,14 +1,14 @@
 """Collect completed v58 development screens, evidence and immutable source/build identities.
 
 Usage: python tools/report_v58.py
-Writes V58_RESULTS.json and V58_RESULTS.md under artifacts/claude_ops; does not select or submit a bot.
+Writes V58_RESULTS.json and V58_RESULTS.md under research/v58; does not select or submit a bot.
 """
 import hashlib
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OPS = ROOT / 'artifacts/claude_ops'
+OPS = ROOT / 'research/v58'
 LABELS = ['d1', 'd2b', 'd3', 'd4', 'd5', 'd6', 'd7', 'a1', 'd8', 'a2', 'd9', 's1', 'd10',
           'a3', 'd11', 'd12', 'v1', 'l1', 'd13', 'd14']
 DESCRIPTIONS = {
@@ -64,7 +64,7 @@ def main():
                    bayes_accept=bayes['gems_mean'] >= 25 and bayes['p_gain'] >= .95,
                    positive_cluster_interval=cluster['gem_ci95'][0] > 0,
                    incomplete_noninferiority=bayes['gems_mean'] >= -25 and bayes.get('p_gain_neg50', 0) >= .9,
-                   state='not retained', evidence_stem='artifacts/claude_ops/' + stem,
+                   state='not retained', evidence_stem='research/v58/' + stem,
                    wasm_sha256={side: {str(seed): sha(build / f'{file}-s{seed}.wasm') for seed in range(1, 5)}
                                 for side, file in [('candidate', 'cand'), ('baseline', 'opp')]})
         if label in BASES:
@@ -76,7 +76,7 @@ def main():
                                       cluster_ci95=cc['gem_ci95'], raw_margin=cc['gem_mean'])
         for suffix in ('mechanisms', 'actions', 'locks'):
             if (OPS / (stem + '-' + suffix + '.json')).exists():
-                row[suffix + '_report'] = 'artifacts/claude_ops/' + stem + '-' + suffix + '.json'
+                row[suffix + '_report'] = 'research/v58/' + stem + '-' + suffix + '.json'
         rows.append(row)
     result = dict(status='not submitted', sdk='3.0.5', engine='1.0.3',
                   development_maps=28, seeds=[1, 2, 3, 4], completed_screens=len(rows),
@@ -110,7 +110,7 @@ def main():
     lines += ['', 'An incremental improvement inside a losing loop does not make the complete loop acceptable.', '',
               '## Reproduction', '',
               'Use `python tools/reproduce_v58.py <variant> <new repo-local directory>`; it verifies every source-file hash.',
-              'Then run `bash artifacts/claude_ops/bench3.sh "$PWD/<directory>" "$PWD/bots/v57" "$PWD/artifacts/evaluations/<new-prefix>" 1 2 3 4`.',
+              'Then run `bash tools/bench3.sh "$PWD/<directory>" "$PWD/bots/v57" "$PWD/artifacts/evaluations/<new-prefix>" 1 2 3 4`.',
               'Use the same pinned SDK/engine. Every normal run returned0; `check_bench_run.py` verifies exact224-game coverage and both fault counts.',
               'Run `bench_bayes.py <prefix> --json <out>` and `bench_compare.py <prefix> [base-prefix] --json <out>`.',
               'Use the optional replay-report tools listed in V58_BUILD_LOG.md for mechanism audits. Raw replays remain local-only.', '']

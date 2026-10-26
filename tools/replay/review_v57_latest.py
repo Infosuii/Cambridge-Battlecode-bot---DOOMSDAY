@@ -24,8 +24,8 @@ def value_at(runs, round_number):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--manifest', default='artifacts/claude_ops/V57_LATEST_REVIEW_MANIFEST.json')
-    ap.add_argument('--out', default='artifacts/claude_ops/V57_SPRINT3_LOSS_REVIEW.json')
+    ap.add_argument('--manifest', default='research/v57/V57_LATEST_REVIEW_MANIFEST.json')
+    ap.add_argument('--out', default='research/v57/V57_SPRINT3_LOSS_REVIEW.json')
     args = ap.parse_args()
     manifest = json.loads((ROOT / args.manifest).read_text(encoding='utf8'))
     cohorts = defaultdict(list)

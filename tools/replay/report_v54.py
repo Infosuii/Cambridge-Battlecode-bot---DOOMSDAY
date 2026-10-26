@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main():
     matches = json.loads((ROOT / 'data/ladder/v53_since_live_analysis_20261025.json').read_text())
-    evidence = json.loads((ROOT / 'artifacts/claude_ops/V54_EVIDENCE.json').read_text())
+    evidence = json.loads((ROOT / 'research/v54/V54_EVIDENCE.json').read_text())
     rows = evidence['games']['v53_all_losses'] + evidence['games']['v53_all_wins']
     by_id = {r['id']: r for r in rows}
     assert len(matches) == len(by_id) == 75
@@ -90,7 +90,7 @@ def main():
               '`python tools/replay/report_v54.py` regenerates this report from committed snapshots '
               'and `V54_EVIDENCE.json`. The underlying replay audit can be regenerated from local '
               'downloads using `v53_audit.mjs` and `strategic_metrics.py`. Raw replays are deliberately excluded from Git.', '']
-    output = ROOT / 'artifacts/claude_ops/V54_MATCH_REVIEW.md'
+    output = ROOT / 'research/v54/V54_MATCH_REVIEW.md'
     output.write_text('\n'.join(lines), encoding='utf-8')
     print(f'{len(rows)} games -> {output}')
 

@@ -1,6 +1,6 @@
 """Append-only, hash-chained ledger of final-benchmark use (evaluation/ledger.jsonl).
 
-Rules (EVALUATION_PROTOCOL.md 5.4):
+Rules (docs/neural-framework/EVALUATION_PROTOCOL.md 5.4):
 * A candidate (wasm sha256) gets ONE final evaluation; a candidate family (training run / lineage id) gets ONE final
   evaluation. A second final evaluation of the same sha256 or of any member of an already-evaluated family is
   refused unless a reason (>= min chars) is supplied; the override and its reason are recorded and reported.

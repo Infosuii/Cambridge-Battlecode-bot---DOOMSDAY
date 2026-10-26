@@ -1,5 +1,5 @@
 #!/bin/bash
-# Job runner for the training box (see ops/HANDOFF.md). Runs against its own clone on branch `ops`:
+# Job runner for the training box (see docs/handoff.md). Runs against its own clone on branch `ops`:
 # every 10 minutes it pulls, runs ops/jobs/pending/*.sh in name order (cwd = the training checkout), files each job
 # under ops/jobs/done/ with its log in ops/jobs/logs/, refreshes ops/STATUS.md and pushes. A pushed ops/STOP ends it.
 # `runner.sh --status-only` never runs jobs: it only publishes ops/STATUS.md (no remote execution).
@@ -33,7 +33,7 @@ status() {
     echo
     echo "## v51 ladder tracker (latest)"
     echo '```'
-    tail -c 1500 "$REPO/artifacts/claude_ops/logs/v51_ladder.log" 2>/dev/null || echo "no tracker log yet"
+    tail -c 1500 "$REPO/research/early/logs/v51_ladder.log" 2>/dev/null || echo "no tracker log yet"
     echo
     echo '```'
     echo

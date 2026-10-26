@@ -1,8 +1,8 @@
 # v54: coordinated economy (crew jobs, item milestones, lead lock, teleport logistics)
 
 Built 2026-10-25 by Claude Code from frozen `bots/v53` (live platform version 53; its files are verified unchanged).
-**Not submitted.** Full audit trail: `artifacts/claude_ops/V54_BUILD_LOG.md`; hashes, gate and research numbers:
-`artifacts/claude_ops/V54_RELEASE.json`. Source SHA-256 (sorted name + bytes of `src/`):
+**Not submitted.** Full audit trail: `research/v54/V54_BUILD_LOG.md`; hashes, gate and research numbers:
+`research/v54/V54_RELEASE.json`. Source SHA-256 (sorted name + bytes of `src/`):
 `b8a7b7b58dd03c25684af915aff68fd877d98289c656461e93ded97cdd1d24b9`.
 
 ## Why (actor-level evidence, 136 decoded ladder replays)
@@ -48,7 +48,7 @@ All new logic runs once per call/turn or in cold paths; none is inside per-group
 Opponent portfolio, 28 maps × 2 sides, seed 1: v48 41-15 (+265.6), v50 40-16 (+272.5), v51 38-18 (+207.1), v52 34-22
 (+149.6), heuristic-v1 40-16 (+199.3); total 193/280 (68.9%). The same lineage is not a diverse league.
 
-Gate (ops/HANDOFF.md §4): (a) declared target maps, seeds 1-3, both sides: concentrated-wealth 6/6 (worst +679),
+Gate (docs/handoff.md §4): (a) declared target maps, seeds 1-3, both sides: concentrated-wealth 6/6 (worst +679),
 fragment 6/6 (+502), stampede 6/6 (+200), swirl 6/6 (+439), big-world 6/6 (+103) — pass; (b) 0.649 ≥ 0.47 and +149.0
 ≥ −30 — pass; (c) holdout aggregate 41/72, +30.8 (v53's release check against v52: 39/72, +5.3) — pass on the
 aggregate interpretation used for v52 and v53.
@@ -56,7 +56,7 @@ aggregate interpretation used for v52 and v53.
 Development per map, seeds 1-3 (A side, B side): wins on fragment, stampede, swirl, big-world, concentrated-wealth
 (all 6/6); 5/6 great-wall, islands, broken-curve, yellow-brick-road; losses to disclose: gem-fields 1/6, quadrants
 2/6, rushbait-v2 2/6, gold-rush 2/6, boss-battle 3/6 (side B 0/3), contest, eight, elkring, lost-world, rows,
-starfish, starvation 3/6. Full strings: `artifacts/claude_ops/results/v54final-dev.txt`; 12-seed table
+starfish, starvation 3/6. Full strings: `research/v54/results/v54final-dev.txt`; 12-seed table
 `results/v54h-tp8-maps.txt`.
 
 Holdout per map (seeds 1-3, A/B): ambush 5/6, the-farm 5/6, packs 5/6, elk-arena 4/6, pilgrimage 4/6, interlock 3/6,
@@ -108,7 +108,7 @@ boss-battle; the next development target is PvP survival on brawl maps.
 ## Reproduce
 
 ```bash
-export PY="<python 3.12>"; R="$PWD"   # repo root, with the environment from ops/SETUP.md
+export PY="<python 3.12>"; R="$PWD"   # repo root, with the environment from docs/setup.md
 bash artifacts/claude_ops/bench2.sh "$R/bots/v54" "$R/bots/v53" "$R/artifacts/evaluations/v54final-dev"
 HOLDOUT=1 MAPS_OVERRIDE="00ambush 00corners 00expanse 00interlock 00lanes 00monolith 00packs 00pilgrimage 01elk-arena 01fracture 01hooks 01the-farm" \
   bash artifacts/claude_ops/bench2.sh "$R/bots/v54" "$R/bots/v53" "$R/artifacts/evaluations/v54final-holdout"

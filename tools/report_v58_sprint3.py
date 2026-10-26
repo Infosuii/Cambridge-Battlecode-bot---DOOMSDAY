@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-OPS = ROOT / 'artifacts/claude_ops'
+OPS = ROOT / 'research/v58'
 
 
 def read(name):
@@ -79,10 +79,10 @@ def main():
                    sdk_cli_version='4.0.0', engine_version='2.0.0', fuel='Official CLI default100000 per turn; official opening budget doubled. No --fuel override.',
                    source_sha256_method='sha256 over sorted file name + NUL + raw source bytes, same as bench3', source_sha256=source_hash, source_files=files,
                    switches=dict(re.findall(r'^#define (V58_\w+) (\S+)', (src / 'common.h').read_text(encoding='utf8'), re.M)), additional_enabled_switches={'A2_FASTGRP': 1},
-                   wasm_sha256_by_seed=seeds, clean_build=proof, build_environment=read('../evaluations/v58-s3-fastgroups-confirm-environment.json'),
+                   wasm_sha256_by_seed=seeds, clean_build=proof, build_environment=json.loads((ROOT / 'artifacts/evaluations/v58-s3-fastgroups-confirm-environment.json').read_text(encoding='utf8')),
                    gate=dict(passed=True, development=final, original_holdout=runs['holdout12'], previous_fresh_holdout=runs['fresh15'], additional_new02_check=runs['new02'],
                              proxy='not created: capture income/carry concentration targets were not reached', mechanism_shortfalls=shortfalls, shortfalls_explained_in='bots/v58/CHANGES.md', independent_build=True, exact_source_bundle=True),
-                   results='artifacts/claude_ops/V58_SPRINT3_RESULTS.json', loss_review='artifacts/claude_ops/V57_SPRINT3_LOSS_REVIEW.json',
+                   results='research/v58/V58_SPRINT3_RESULTS.json', loss_review='research/v57/V57_SPRINT3_LOSS_REVIEW.json',
                    platform_version=None, submitted_at_utc=None, upload_bytes=None, source_commit=None,
                    provenance_limit='The CLI provides no platform read-back of source content/hash. Submission verification will check exact local source/bundle and reported upload size, then compilation/active selection.')
     existing = read('V58_RELEASE.json')

@@ -18,7 +18,7 @@ def main():
     ap.add_argument('experiment')
     ap.add_argument('destination')
     a = ap.parse_args()
-    entry = json.loads((ROOT / 'artifacts/claude_ops/V58_EXPERIMENTS.json').read_text(encoding='utf8'))[a.experiment]
+    entry = json.loads((ROOT / 'research/v58/V58_EXPERIMENTS.json').read_text(encoding='utf8'))[a.experiment]
     dest = (ROOT / a.destination).resolve()
     if not dest.is_relative_to(ROOT) or dest.exists():
         raise SystemExit('destination must be a new directory inside this repository')

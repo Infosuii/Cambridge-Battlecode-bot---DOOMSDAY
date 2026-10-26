@@ -114,12 +114,12 @@ def main():
             line = (f"| {snap['wall_time']} | {snap['minutes_since_start']} | epochs {state['epochs']} | updates {state['updates']} | "
                     f"val loss {state['validation_loss']} | acc {state['validation_accuracy']} | gpu {snap['gpu']} | "
                     f"evals {json.dumps({k: v.get('result', v['status']) for k, v in evaluations.items()})} |\n")
-            with (sup / 'STATUS.md').open('a', encoding='utf-8') as f: f.write(line)
+            with (sup / 'docs/neural-framework/STATUS.md').open('a', encoding='utf-8') as f: f.write(line)
             next_snapshot += a.snapshot_minutes * 60
         if finished:
             break
         if time.time() > start + (a.minutes + 120) * 60:  # hard stop: training deadline plus evaluation grace
-            with (sup / 'STATUS.md').open('a', encoding='utf-8') as f: f.write('| supervisor hard stop: deadline plus grace exceeded |\n')
+            with (sup / 'docs/neural-framework/STATUS.md').open('a', encoding='utf-8') as f: f.write('| supervisor hard stop: deadline plus grace exceeded |\n')
             break
         time.sleep(20)
 

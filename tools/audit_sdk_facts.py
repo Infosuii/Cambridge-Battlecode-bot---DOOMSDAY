@@ -1,5 +1,5 @@
-"""Agent A: assemble agents/A/sdk_facts.json from the SDK header (line references) and the runtime probe
-(agents/A/evidence/sdk_probe_facts.jsonl, produced by agents/A/probe/a_sdk_dump.cpp in one official match).
+"""Agent A: assemble archive/agents/A/sdk_facts.json from the SDK header (line references) and the runtime probe
+(archive/agents/A/evidence/sdk_probe_facts.jsonl, produced by archive/agents/A/probe/a_sdk_dump.cpp in one official match).
 
     python tools/audit_sdk_facts.py
 """
@@ -50,7 +50,7 @@ def ability(a: dict) -> dict:
 
 
 def main() -> int:
-    probe = [json.loads(l) for l in (ROOT / 'agents/A/evidence/sdk_probe_facts.jsonl').read_text().splitlines() if l.strip()]
+    probe = [json.loads(l) for l in (ROOT / 'archive/agents/A/evidence/sdk_probe_facts.jsonl').read_text().splitlines() if l.strip()]
     by = {}
     for r in probe:
         by.setdefault(r['rec'], []).append(r)
@@ -59,8 +59,8 @@ def main() -> int:
     turn = by['turn']
     facts = {
         '_doc': 'Verified SDK facts (Agent A). "sdk" = line in sdk/cpp/cambc.h or imports.h; "runtime" = value read from the '
-                'engine through the SDK by agents/A/probe/a_sdk_dump.cpp in one official match (engine 1.0.3, cambc 3.0.5, '
-                'map 00ambush, --release); raw records in agents/A/evidence/sdk_probe_facts.jsonl. Values the SDK reads at '
+                'engine through the SDK by archive/agents/A/probe/a_sdk_dump.cpp in one official match (engine 1.0.3, cambc 3.0.5, '
+                'map 00ambush, --release); raw records in archive/agents/A/evidence/sdk_probe_facts.jsonl. Values the SDK reads at '
                 'runtime (settings, designs, items) could differ on another engine build: read the constants at runtime.',
         'engine': {'cli': engine.cli_version(), 'engine_version_in_summaries': '1.0.3', 'probe_match': 'artifacts/tmp/A/probe/match'},
         'game_settings': {
@@ -244,8 +244,8 @@ def main() -> int:
         facts['camps']['runtime'].append({'type': c['type'], 'name': c['name'], 'health': c['base_health'], 'strength': c['base_strength'],
                                          'attack_range': c['base_attack_range'], 'vision_radius': c['vision_radius'],
                                          'move_speed': c['base_move_speed']})
-    engine.write_json(ROOT / 'agents/A/sdk_facts.json', facts)
-    print('wrote agents/A/sdk_facts.json', len(facts['champions']['runtime']), 'champions', len(facts['items_and_shop']['runtime_items']), 'items')
+    engine.write_json(ROOT / 'archive/agents/A/sdk_facts.json', facts)
+    print('wrote archive/agents/A/sdk_facts.json', len(facts['champions']['runtime']), 'champions', len(facts['items_and_shop']['runtime_items']), 'items')
     return 0
 
 

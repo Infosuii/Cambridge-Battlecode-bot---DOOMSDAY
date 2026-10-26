@@ -70,7 +70,7 @@ def main():
         out[key]=s
     result={'method':'paired game measurements, no causal attribution; winning controls are selected, not a random sample; round-sampled deaths; original shard-cost equipment value; ratios omit zero opponent equipment and report their denominator counts',
             'summary':out,'games':rows}
-    (ROOT/'artifacts/claude_ops/V54_EVIDENCE.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf8')
+    (ROOT/'research/v54/V54_EVIDENCE.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf8')
     print(json.dumps(out,indent=2))
 
 if __name__=='__main__':main()

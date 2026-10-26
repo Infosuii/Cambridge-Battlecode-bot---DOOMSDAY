@@ -15,7 +15,7 @@ General fuel optimization against live v52. No map-specific behavior fix or draf
 
 Development fuel-exhausted turns: 235 for candidate versus 274 for the opponent; holdout: 23 versus 17. Fuel savings do not translate uniformly across maps because thresholds alter subsequent decisions. These results pass the documented aggregate floor (>=47% wins, >=−30 margin) and the aggregate no-regression holdout check, following the v52 release's suite-level interpretation. Criterion (a) applies to declared map fixes; this release is a general optimization with no map-specific target claim.
 
-Per-map tradeoffs remain: holdout monolith 5/6, interlock 4/6 and expanse 4/6; ambush, elk_arena and hooks each 2/6. This is a small measured candidate, not evidence of a broad ladder win-rate increase. Results: `artifacts/claude_ops/results/v53-fuel-call-vs-v52.txt` and `v53-call-holdout.txt`.
+Per-map tradeoffs remain: holdout monolith 5/6, interlock 4/6 and expanse 4/6; ambush, elk_arena and hooks each 2/6. This is a small measured candidate, not evidence of a broad ladder win-rate increase. Results: `research/v53/results/v53-fuel-call-vs-v52.txt` and `v53-call-holdout.txt`.
 
 ## Research retained, experiments rejected
 
@@ -25,4 +25,4 @@ Per-map tradeoffs remain: holdout monolith 5/6, interlock 4/6 and expanse 4/6; a
 - A regularized model trained on 243,904 ladder games improves held-out prediction (log loss 0.6004 → 0.5925) but loses its local gameplay screen, 8/30. No new model is enabled.
 - Fixed boss drafts, smaller concentrated-wealth banking, no-action caster micro fallback, duplicate mask-clear removal and observation-buffer reuse failed their applicable gates. Buffer reuse approximately halved profiled observation cost but lost −55.3 mean gems overall, illustrating why fuel optimizations still need game tests.
 
-Submission status and source hashes are recorded in `artifacts/claude_ops/V53_RELEASE.json` and `ops/HANDOFF.md`.
+Submission status and source hashes are recorded in `research/v53/V53_RELEASE.json` and `docs/handoff.md`.

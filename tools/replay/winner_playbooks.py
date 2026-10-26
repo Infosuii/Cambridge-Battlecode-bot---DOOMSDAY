@@ -62,7 +62,7 @@ def main():
               'when their farm is productive.', '',
               'Regenerate with `python tools/replay/winner_playbooks.py` after downloading the listed match IDs '
               'and creating the complete local audit. Raw replay bundles remain outside Git.', '']
-    out = ROOT / 'artifacts/claude_ops/V54_WINNER_PLAYBOOKS.md'
+    out = ROOT / 'research/v54/V54_WINNER_PLAYBOOKS.md'
     out.write_text('\n'.join(lines), encoding='utf-8')
     print(f'{len(selected)} paired cases + {len(refs)} winning references -> {out}')
 

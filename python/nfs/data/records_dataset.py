@@ -14,7 +14,7 @@ used as an input. The summary is used only for targets (rewards/outcome).
 
 Decoding: the B-owned decoder `nfs.records` is used when importable; otherwise the reference decoder below
 implements CONTRACTS section 3.5 (packed little-endian). Observation encoding uses C-owned `nfs.obs` when importable
-(see agents/G/CONTRACT_ISSUES.md for the function names probed) or an injected encoder.
+(see archive/agents/G/CONTRACT_ISSUES.md for the function names probed) or an injected encoder.
 """
 from __future__ import annotations
 

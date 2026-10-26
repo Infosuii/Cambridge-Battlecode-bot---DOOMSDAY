@@ -1,0 +1,220 @@
+{
+  "candidate": "bots/v54",
+  "baseline": "bots/v53 (platform version 53, frozen; file hashes verified against V53_RELEASE.json)",
+  "v53_unchanged": true,
+  "status": "submitted",
+  "source_sha256_method": "sha256 over sorted (file name, NUL, bytes) of bots/v54/src",
+  "source_sha256": "b8a7b7b58dd03c25684af915aff68fd877d98289c656461e93ded97cdd1d24b9",
+  "source_files": {
+    "a2map.h": "84ca0c4aaef77d3c40a13b0c61d87739ba1b6e41314f437eddf949166b9ee8c1",
+    "act_model.h": "d4648c6b07b7d3ddabd2ddb403fa7d87784cf2a10465ffdfe96360111025954b",
+    "assess_model.h": "fd1de3478ea80021013ac69265da14e55b3d1e660a777d67a3de35e8a103a27a",
+    "bot.cpp": "457dbf556ab9f8076595c96e82873b98173cab1b7ac9e42dd25ed12c7a5306fb",
+    "bot.h": "538e9a22766769adcabf8295beef3ad46a2875df60cfa76a59c1a15ef86a315e",
+    "common.h": "7e3ee5077e62f4f150f9c9f36b2e344a147c0fcefad8a66846d51c931d189f9a",
+    "deny.cpp": "b5351989381817b4affc45fd133b92d05797f3382e1f76c87147fec87e164938",
+    "draft.cpp": "aa951e345595d7631b6792778161d3f3f7604b6c8ad7b5f19d6696fd764799db",
+    "draft.h": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+    "draft_net.h": "51d92f70f34eb127312651b068b2d0dc52db14d844831222d16abec410806d1d",
+    "ep_model.h": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+    "episode.cpp": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+    "fight.cpp": "549336757c0642f058e4dc8e9b494110b8655d1945268b058e245cb60303dd0b",
+    "fight.h": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+    "lab.h": "56c26d60297744da3a353d125238f2b60064d3e26120cb80b5450380d8dd4ff4",
+    "learner.h": "6990b9c9ad1bab412daaa2d8b28d0d58cf7f24eaac97d0aac3fa298aac8ded29",
+    "local_model.h": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+    "main.cpp": "d3a2f9ebea69830ac4fc3ba660ca12f311a2dfe7a03338dff594b0f22356bad8",
+    "ml_plan.h": "b22b4213858168e4b1b563f6c04bb4e76c5af594add18e32500eb07c3201aeb5",
+    "move_model.h": "4f61a9c92c9abfc955820a79084ca7f1b6aa48d441e57096a03836287655249b",
+    "neural_policy.cpp": "7e47857cd7a7b9212379f3edf7adfe94e1f3b038aa683a2ff93f614055d6fa36",
+    "neural_policy.h": "aa2488f08f6fff5df20bd402972b91204517ed875fb701d40e1d297418e2013a",
+    "neural_weights.h": "5fec0f2e025a1c4a6329782d0ac740bcc2fc158a8e642efc61d292694dae3f83",
+    "runtime_budget.h": "dc614d94b1920b79b1d5152e11193aa8a6e3019e3cfd2cc0e104ecfed28fcdf2",
+    "strategy.h": "03b3912328cdaaec50890137b9da866162bab5974c9254a96e94fd1f5277730b",
+    "tile_model.h": "c0963cf2cf6fcac042a1db8879cf2ac3a8a368a0096b47ca45959902d210c9c4",
+    "tsearch.cpp": "78d6f9989474067f23df47ae0e6daf1f70a2275db67750be593270bbdf801abd",
+    "tsearch.h": "670c6d6e84ca25dd64c8aa09a374e8987c662d849e8d85dc81f8cfb2c5831a93",
+    "world.cpp": "e1b8bda73ee2d5fbee2d1ad754f6129ae57a248daeebdc172bc109f14d4beaeb",
+    "world.h": "36dc8f9010aa5fab61055133fbf012a7396e089fcd470f65709ef67ee1528038"
+  },
+  "mechanisms": {
+    "M1": "V54_STAGE_ARRIVE=1, V54_STAGE_WALK=60, V54_ONSITE=1, V54_STAGE_HELPED=20",
+    "M2": "V54_ITEMS=3",
+    "M3": "V54_HOLD=1, V54_HOLD_LEAD=160",
+    "M4": "V54_TP=1, V54_TP_GAIN=8"
+  },
+  "gate": {
+    "development_seeds_1_3": {
+      "games": 168,
+      "wins": 109,
+      "win_rate": 0.649,
+      "mean_margin": 149.0,
+      "faults": 0,
+      "fuel_exhausted": 259,
+      "opponent_fuel_exhausted": 278,
+      "file": "research/v54/results/v54final-dev.txt"
+    },
+    "holdout_once_seeds_1_3": {
+      "games": 72,
+      "wins": 41,
+      "win_rate": 0.569,
+      "mean_margin": 30.8,
+      "faults": 0,
+      "fuel_exhausted": 20,
+      "opponent_fuel_exhausted": 18,
+      "file": "research/v54/results/v54final-holdout.txt"
+    },
+    "target_maps_seeds_1_3": {
+      "01concentrated-wealth": "6/6, worst +679 (M1, M4)",
+      "00fragment": "6/6, worst +502 (M1)",
+      "00stampede": "6/6, worst +200 (M3)",
+      "00swirl": "6/6, worst +439 (logistics/M2-M4; declared for M4)",
+      "01big-world": "6/6, worst +103 (M4)"
+    },
+    "criteria": {
+      "a_targets_both_sides_all_seeds": true,
+      "b_win_rate_ge_0.47_and_margin_ge_-30": true,
+      "c_holdout_aggregate_no_regression": true
+    }
+  },
+  "research": {
+    "development_12_seeds_tp8": {
+      "games": 672,
+      "wins": 443,
+      "win_rate": 0.659,
+      "mean_margin": 187.1,
+      "faults": 0,
+      "fuel_exhausted": 955,
+      "opponent_fuel_exhausted": 1018,
+      "file": "research/v54/results/v54h-tp8.txt"
+    },
+    "cross_seed_v53_opponents": [
+      {
+        "games": 56,
+        "wins": 40,
+        "win_rate": 0.714,
+        "mean_margin": 186.5,
+        "faults": 0,
+        "fuel_exhausted": 98,
+        "opponent_fuel_exhausted": 125,
+        "file": "research/v53/results/xseed-v53s2.txt"
+      },
+      {
+        "games": 56,
+        "wins": 36,
+        "win_rate": 0.643,
+        "mean_margin": 175.4,
+        "faults": 0,
+        "fuel_exhausted": 126,
+        "opponent_fuel_exhausted": 155,
+        "file": "research/v53/results/xseed-v53s3.txt"
+      },
+      {
+        "games": 56,
+        "wins": 35,
+        "win_rate": 0.625,
+        "mean_margin": 166.2,
+        "faults": 0,
+        "fuel_exhausted": 84,
+        "opponent_fuel_exhausted": 157,
+        "file": "research/v53/results/xseed-v53s4.txt"
+      },
+      {
+        "games": 56,
+        "wins": 35,
+        "win_rate": 0.625,
+        "mean_margin": 182.4,
+        "faults": 0,
+        "fuel_exhausted": 80,
+        "opponent_fuel_exhausted": 144,
+        "file": "research/v53/results/xseed-v53s5.txt"
+      },
+      {
+        "games": 56,
+        "wins": 35,
+        "win_rate": 0.625,
+        "mean_margin": 160.0,
+        "faults": 0,
+        "fuel_exhausted": 84,
+        "opponent_fuel_exhausted": 72,
+        "file": "research/v53/results/xseed-v53s6.txt"
+      },
+      {
+        "games": 56,
+        "wins": 35,
+        "win_rate": 0.625,
+        "mean_margin": 171.1,
+        "faults": 0,
+        "fuel_exhausted": 78,
+        "opponent_fuel_exhausted": 86,
+        "file": "research/v53/results/xseed-v53s7.txt"
+      }
+    ],
+    "lineage_portfolio": {
+      "v48": {
+        "games": 56,
+        "wins": 41,
+        "win_rate": 0.732,
+        "mean_margin": 265.6,
+        "faults": 0,
+        "fuel_exhausted": 87,
+        "opponent_fuel_exhausted": 79,
+        "file": "research/misc/results/portF-vs-v48.txt"
+      },
+      "v50": {
+        "games": 56,
+        "wins": 40,
+        "win_rate": 0.714,
+        "mean_margin": 272.5,
+        "faults": 0,
+        "fuel_exhausted": 83,
+        "opponent_fuel_exhausted": 73,
+        "file": "research/misc/results/portF-vs-v50.txt"
+      },
+      "v51": {
+        "games": 56,
+        "wins": 38,
+        "win_rate": 0.679,
+        "mean_margin": 207.1,
+        "faults": 0,
+        "fuel_exhausted": 91,
+        "opponent_fuel_exhausted": 103,
+        "file": "research/misc/results/portF-vs-v51.txt"
+      },
+      "v52": {
+        "games": 56,
+        "wins": 34,
+        "win_rate": 0.607,
+        "mean_margin": 149.6,
+        "faults": 0,
+        "fuel_exhausted": 82,
+        "opponent_fuel_exhausted": 97,
+        "file": "research/misc/results/portF-vs-v52.txt"
+      },
+      "hv1": {
+        "games": 56,
+        "wins": 40,
+        "win_rate": 0.714,
+        "mean_margin": 199.3,
+        "faults": 0,
+        "fuel_exhausted": 60,
+        "opponent_fuel_exhausted": 76,
+        "file": "research/misc/results/portF-vs-hv1.txt"
+      }
+    }
+  },
+  "holdout_exposure": "The 12 final maps were exposed in earlier v52/v53 releases and rejected candidates; this is v54's single pass, after freezing. Not pristine.",
+  "platform_version": 54,
+  "submission_log": "research/v54/results/v54-submit.txt",
+  "submission_utc": "2026-10-25T16:24:00Z",
+  "submitted_by": "Claude Code at the user's explicit instruction",
+  "v53_life": {
+    "from": "2026-10-25T13:08:26Z",
+    "to": "2026-10-25T16:24:00Z",
+    "listing": "data/ladder/v53_full_life_20261025.json",
+    "games": 325,
+    "wins": 161,
+    "ranked": "36/90",
+    "unranked": "125/235"
+  }
+}

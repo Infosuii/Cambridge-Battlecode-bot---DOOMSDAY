@@ -1,19 +1,67 @@
-# Neural networkk Battlecode
+# DOOMSDAY Battlecode bot
 
-The development repository for our in-progress neural Battlecode bot. It includes source, models, schemas,
-tests and their required data, evaluation evidence,40benchmark maps and the official Windows CLI.
+Our bot for the Cambridge Battlecode (CAMBC) ladder, team **DOOMSDAY**. It plays as a heuristic C++ bot compiled to
+WebAssembly. A few small neural networks run inside it: a draft network, a camp network and an item model.
 
-Start with [DEVELOPMENT_SETUP.md](DEVELOPMENT_SETUP.md), then give a fresh agent
-[NEXT_AGENT_PROMPT.md](NEXT_AGENT_PROMPT.md). [HANDOFF.md](HANDOFF.md) records exact implementation state.
+**Latest submission:** repository `bots/v58`, uploaded as platform version 57 on 2026-10-26. Platform numbers trail
+repository numbers by one because v56 was never submitted. It was measured against v57 at 430 wins of 672 games
+(+153 gems per game). The workspace runs the Sprint 3 rules: official CLI and SDK 4.0.0, engine 2.0.0.
 
-**Training stays on the original laptop.** Large training runs, historical archives, environments, package caches
-and old experiment copies stay local. The attempted full-workspace upload was cancelled at the user's request.
-Git LFS is not required for this development checkout. See [RECOVERY.md](RECOVERY.md).
+## Where things are
 
-The direct gameplay framework is integrated across eight heads. New heads are untrained and disabled by default; the inherited trained draft network remains separate. The goal is the strongest validated competition bot, with no neural percentage quota.
+| Folder | What it holds |
+|---|---|
+| [`bots/`](bots/README.md) | Every ladder version, one folder each (`v48` to `v58`). `bots/vNN/src` is exactly what gets uploaded; `CHANGES.md` records what changed and how it measured. |
+| [`research/`](research/README.md) | Reports, benchmark results, experiment diffs and rejected ideas, one folder per version (`research/v58/` …). |
+| [`docs/`](docs/README.md) | The current handoff, setup guide and agent prompts, plus the archived neural-framework design docs. |
+| [`tools/`](tools/README.md) | Benchmarking, statistics, replay analysis and release scripts. `tools/bench3.sh` is the standard head-to-head bench. |
+| `maps/` | All 70 published maps. 40 are registered in `evaluation/schedules/map_partitions.json` (28 development, 12 held out). The other 30 are fresh holdout maps: the 15 pool maps from 25 October and the 15 `02*` maps. |
+| `ops/` | `runner.sh` and the job queue for long unattended runs. |
+| `data/` | Ladder snapshots and the decoded replay samples the analysis tools use. |
+| `training/` | The v50 camp-network training run (reports and scripts). |
+| `artifacts/` | Frozen builds (`baselines/heuristic-v1`, `release/`) and a small dataset. `artifacts/tmp`, `artifacts/evaluations` and `artifacts/local-only` are local scratch space and are not in git. |
+| `archive/` | Finished work kept for its history: the old multi-agent workspaces and a pre-cleanup bundle. Nothing here is used. |
 
-Current checks pass287 Python tests,460 legacy C++ checks and the SDK fixtures. All-off official Wasm matches the frozen original byte-for-byte. A heads-off clean release ZIP/Wasm is independently rebuilt and verified under [artifacts/release/2026-10-24](artifacts/release/2026-10-24-final).
+The **neural framework** is the earlier attempt at a fully neural bot. It still sits at the top level because the
+Python package, tests and frozen evaluation records point at these paths:
 
-See [STATUS.md](STATUS.md) for measured limitations and [TRAINING_LATER.md](TRAINING_LATER.md) for the guarded later training/export workflow. No training or match-data parameter update has run. Current diagnostic data is too sparse for fitting by itself; later collection must pass data and parity gates.
+| Folder | Role |
+|---|---|
+| `python/nfs/` | Python package. The bench uses it to build bots (`nfs.engine.official_build`). |
+| `bot/` | The framework's bot source: the heuristic base plus the neural runtime. It is not a ladder version. |
+| `tests/` | 288 Python tests and the C++ checks. |
+| `schemas/`, `models/`, `configs/`, `config/` | Observation schemas, model files, model and training configs. `config/paths.json` holds machine paths. |
+| `evaluation/`, `references/` | The locked evaluation protocol, its results, and the frozen reference bots it compares against. |
+| `sdk/`, `cmake/` | The C++ SDK and build files. |
 
-GPU training operations, metrics, checkpoint/resume and model comparisons: [OPERATIONS_HANDOFF.md](OPERATIONS_HANDOFF.md). Copyable agent prompt: [DEEPSEEK_TRAINING_PROMPT.md](DEEPSEEK_TRAINING_PROMPT.md). Tiny synthetic CPU/CUDA recovery tests passed; no match-data training ran.
+## Common commands
+
+Run these from the repository root in Git Bash.
+
+```bash
+# head-to-head bench: candidate vs opponent, 28 development maps x 2 sides, seeds 1-4
+bash tools/bench3.sh "$PWD/bots/v59" "$PWD/bots/v58" "$PWD/artifacts/evaluations/v59-vs-v58" 1 2 3 4
+# is the candidate better? (Bayesian and map-clustered bootstrap)
+python tools/bench_bayes.py artifacts/evaluations/v59-vs-v58
+python tools/bench_compare.py artifacts/evaluations/v59-vs-v58
+# the 15 fresh pool maps as a holdout (frozen candidates only, once each)
+bash tools/bench3_fresh.sh "$PWD/bots/v59" "$PWD/bots/v58" "$PWD/artifacts/evaluations/v59-fresh" 1 2 3 4
+# Python tests
+PYTHONPATH=python python -m unittest discover -s tests/python
+```
+
+Submitting uses `tools/vendor/cambc.exe submit bots/vNN --note "..."`. Only submit when the user says so or a
+prompt's release gate allows it. The gate is described in [docs/handoff.md](docs/handoff.md) §4, and each release is
+recorded in `research/vNN/VNN_RELEASE.json`.
+
+## Rules for working here
+
+- Never edit a submitted or frozen bot (`bots/v48` to `bots/v58`, `artifacts/baselines/heuristic-v1`). Copy it to a
+  new version folder instead.
+- Held-out maps (the 12 `final` maps and the 30 fresh maps) run once per frozen candidate. Never tune on them.
+- Never compare bench runs from different engines: results from engine 1.0.3 (before 2026-10-26) and engine 2.0.0
+  are not comparable. `tools/bench_provenance.py` checks this.
+- `config/paths.json` holds machine-specific paths. Never commit it.
+- Raw replays and downloaded match data stay in `artifacts/local-only/`.
+- New logic must stay out of per-group and per-camp hot loops: the bot runs at its per-turn compute (fuel) limit, and
+  small slowdowns cost games.

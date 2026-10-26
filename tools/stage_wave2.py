@@ -100,9 +100,9 @@ def main():
     dest.relative_to((ROOT/'artifacts/tmp').resolve())
     src=engine.make_bot_dir(ROOT/'bot/src',dest/'bot')/'src'
     strategy_hooks(src)
-    subprocess.run([sys.executable,str(ROOT/'agents/E/apply_hooks.py'),'--src',str(src)],check=True,cwd=ROOT)
+    subprocess.run([sys.executable,str(ROOT/'archive/agents/E/apply_hooks.py'),'--src',str(src)],check=True,cwd=ROOT)
     subprocess.run(['git','apply','--directory='+dest.relative_to(ROOT).as_posix(),
-                    str(ROOT/'agents/F/HOOKS.diff')],check=True,cwd=ROOT)
+                    str(ROOT/'archive/agents/F/HOOKS.diff')],check=True,cwd=ROOT)
     subprocess.run([sys.executable,str(ROOT/'tools/install_models.py'),'--profile',a.profile,'--src',str(src),
                     '--receipt',str(dest/'install.json')],check=True,cwd=ROOT)
     receipt=dict(label='staged integration; NOT official verification', profile=a.profile,

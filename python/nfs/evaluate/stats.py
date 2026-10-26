@@ -1,6 +1,6 @@
 """Statistics for deterministic map benchmarks.
 
-Design rules (EVALUATION_PROTOCOL.md section 4):
+Design rules (docs/neural-framework/EVALUATION_PROTOCOL.md section 4):
 * The engine is deterministic for (wasm A, wasm B, map). A cell (map, side, opponent) is one fixed outcome, not a
   random draw; re-running it adds nothing. The only replication unit we resample is the MAP (cluster).
 * Side and opponent cells on the same map are NOT independent: they share the map's structure. All opponents are

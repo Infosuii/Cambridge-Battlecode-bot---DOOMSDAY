@@ -24,7 +24,7 @@ LEDGER = EVAL / 'ledger.jsonl'
 RESULTS = EVAL / 'results'
 
 VERSION = 'nfs-eval-v1'
-PARTITION_SALT = 'nfs-eval-v1|partition'      # fixed once, never tuned (see EVALUATION_PROTOCOL.md 2)
+PARTITION_SALT = 'nfs-eval-v1|partition'      # fixed once, never tuned (see docs/neural-framework/EVALUATION_PROTOCOL.md 2)
 FRAMEWORK_SALT = 'nfs-eval-v1|framework'
 MAP_LABEL = 'reused_benchmark'
 REFERENCE_NAMES = ('original', 'v47', 'first-hour', 'v50')

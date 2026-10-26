@@ -1,7 +1,7 @@
 # v57: contest the middle (stop discounting camps where enemies were seen)
 
 Built 2026-10-25 by Claude Code from v56 (= v55 + `V56_SHOP_DONE`). **Submitted as platform version 56 at 2026-10-25
-21:25 UTC** (upload bundle verified byte-identical to the benchmarked source; `artifacts/claude_ops/V57_RELEASE.json`). Source SHA-256 (sorted
+21:25 UTC** (upload bundle verified byte-identical to the benchmarked source; `research/v57/V57_RELEASE.json`). Source SHA-256 (sorted
 name + NUL + bytes of `src/`): `dff699d59dfe682e761504859af24d28967b27f84626cc61b2f776e207470bbf`. Release Wasm is
 byte-identical to the benchmarked build (`914b49a0…`).
 
@@ -32,7 +32,7 @@ P 0.46) and the combination was +22.4 (P 0.66); this change was +64.0 (P 0.91) a
 | v57 vs live v55 | 672 | 379-293 (56.4%), +122.3 | [+66.7, +189.2] | +162.2 [+77.6, +253.0], 1.000 — ACCEPT |
 | v57 vs v56, paired | 672 | 379 vs 352 wins, +77.1 | [+39.4, +115.4] | +60.7 [−9.0, +134.1], 0.957 — ACCEPT |
 | **release holdout vs v55, once** | 72 | 38-34, **−31.3** | [−117.5, +54.4] | −23.3 [−179.9, +135.1], 0.383 |
-| **fresh holdout vs v55, once** (15 new pool maps, seeds 1-4; `artifacts/claude_ops/V57_FRESH_MAPS.md`) | 120 | 67-53, **+84.8** | [−20.7, +191.0] | +100.4 [−41.7, +242.7], 0.916 |
+| **fresh holdout vs v55, once** (15 new pool maps, seeds 1-4; `research/v57/V57_FRESH_MAPS.md`) | 120 | 67-53, **+84.8** | [−20.7, +191.0] | +100.4 [−41.7, +242.7], 0.916 |
 
 Mechanism (local games vs v55, seeds 1-3): middle gems 295 vs 235 (v56: 283 vs 245); capture gold per champion
 R500 347 vs 336; big-capture gems 151 vs 140; deaths 14.8 vs 15.6. Respawn waiting unchanged (122 vs 120).
@@ -47,7 +47,7 @@ the margin half of the holdout rule (≥ 50% wins and ≥ 0 margin). The holdout
 `V57_TP_BRIDGE` (non-dashers cross one-tile hole gaps with a teleport crystal on disconnected maps, three
 iterations: plain, one-hop limit, group-only terrain). Big-world improved +45 to +51 every time; islands lost −345 to
 −414 every time (chains of one-gap islands; single-use crystals; groups beyond need helpers). Diff and results:
-`artifacts/claude_ops/rejected/`. Respawn waiting on disconnected maps remains the largest unsolved waste.
+`research/v57/rejected/`. Respawn waiting on disconnected maps remains the largest unsolved waste.
 
 ## Recommendation
 

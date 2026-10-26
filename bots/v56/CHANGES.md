@@ -37,6 +37,6 @@ decisive at 95%.
 
 ## Limits
 
-Evidence is against our own lineage; the ladder losses (`artifacts/claude_ops/V55_LADDER_ANALYSIS.md`) are driven
+Evidence is against our own lineage; the ladder losses (`research/v55/V55_LADDER_ANALYSIS.md`) are driven
 by income rate, draft and survival, which this change does not address. Hooks and the holdout maps have prior
 exposure.

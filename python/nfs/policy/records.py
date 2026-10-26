@@ -1,4 +1,4 @@
-"""Strict NFS2 direct-policy codec. NFS1 is never reinterpreted; full wire: agents/v2_records/WIRE.md."""
+"""Strict NFS2 direct-policy codec. NFS1 is never reinterpreted; full wire: archive/agents/v2_records/WIRE.md."""
 from __future__ import annotations
 import base64
 import binascii

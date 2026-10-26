@@ -3,7 +3,7 @@
 Three sources, in decreasing authority:
 1. `fuelExhausted` events in the official match summary (engine-reported; one entry per exhausted turn).
 2. The replay bundle members `team-a.fuel` / `team-b.fuel`. FORMAT IS INFERRED (not documented by the CLI), verified
-   by Agent H on engine 1.0.3 (agents/H/TELEMETRY_FORMAT.md): 8-byte tag b'a62leuf\\0', 5 opaque header bytes, then
+   by Agent H on engine 1.0.3 (archive/agents/H/TELEMETRY_FORMAT.md): 8-byte tag b'a62leuf\\0', 5 opaque header bytes, then
    little-endian int64 values: 8 budget constants (per team pair: draft, turn, first turn, turn) followed by the fuel
    USED by every turn of that team in engine order (draft picks first, then champion turns round by round).
    Exhausted turns read exactly the turn budget (100000). Cross-checked against (1) by `check_against_events`.

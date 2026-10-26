@@ -9,7 +9,7 @@ original-reference result for the same (map, side, opponent).
 
 Comparison levels per cell (strongest first), all exact:
   replay   sha256 of the bundle's replay.repl26a (verified to contain no bot names, paths or timestamps; see
-           agents/A/REPORT.md) - every engine-visible action of both teams.
+           archive/agents/A/REPORT.md) - every engine-visible action of both teams.
   summary  sha256 of the canonical (sort_keys) summary JSON: outcome, rounds, scores, per-champion metrics, timelines,
            events (including fuelExhausted).
   fuel     sha256 of the candidate team's per-turn fuel trace (team-<x>.fuel): identical fuel use on every turn.

@@ -130,7 +130,7 @@ def _training_maps(spec) -> list[str]:
             from .evaluate import protocol as proto
         except ImportError as exc:
             raise SystemExit(f'evaluation protocol (Agent H) unavailable: {exc}; refusing to guess training maps')
-        try:      # H: read the frozen partition file, not a recomputed list (agents/H/CONTRACT_ISSUES.md 1)
+        try:      # H: read the frozen partition file, not a recomputed list (archive/agents/H/CONTRACT_ISSUES.md 1)
             return list(proto.load_schedule('map_partitions')['partitions']['training'])
         except Exception as exc:  # noqa: BLE001
             raise SystemExit(f'frozen map partitions unavailable ({exc}); refusing to guess training maps')

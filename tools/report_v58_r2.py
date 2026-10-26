@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OPS = ROOT / 'artifacts/claude_ops'
+OPS = ROOT / 'research/v58'
 RUNS = ['r2-m1', 'r2-t1', 'r2-h1', 'r2-c1', 'r2-n1', 'r2-c1-confirm', 'r2-f1', 'r2-p1',
         'r2-c2', 'r2-c3b', 'r2-c3b-confirm', 'r2-c4', 'r2-c4b']
 DESCRIPTIONS = {
@@ -57,12 +57,12 @@ def main():
                    bayes_accept=bayes['gems_mean'] >= 25 and bayes['p_gain'] >= .95,
                    positive_cluster_interval=cluster['gem_ci95'][0] > 0,
                    incomplete_noninferiority=bayes['gems_mean'] >= -25 and bayes['p_gain_neg50'] >= .9,
-                   evidence_stem='artifacts/claude_ops/' + stem,
+                   evidence_stem='research/v58/' + stem,
                    wasm_sha256={side: {str(seed): sha(build / f'{file}-s{seed}.wasm') for seed in seeds}
                                 for side, file in [('candidate', 'cand'), ('baseline', 'opp')]})
         for suffix in ('pressure', 'observables'):
             if (OPS / (stem + '-' + suffix + '.json')).is_file():
-                row[suffix + '_report'] = 'artifacts/claude_ops/' + stem + '-' + suffix + '.json'
+                row[suffix + '_report'] = 'research/v58/' + stem + '-' + suffix + '.json'
         rows.append(row)
     data = dict(round=2, sdk_cli='3.0.5', engine='1.0.3', sprint3_patch_applied=False,
                 completed_runs=len(rows), actual_games=sum(r['games'] for r in rows),

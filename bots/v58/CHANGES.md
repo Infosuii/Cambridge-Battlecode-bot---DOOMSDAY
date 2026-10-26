@@ -73,5 +73,5 @@ Frozen v57 release file hashes are unchanged. Build caches are now namespaced by
 cross-environment comparisons are rejected. New replay analysis explicitly selects the pinned engine2 decoder,
 verified against a native final round/score. Legacy training labels remain separated on engine1.0.3.
 
-See artifacts/claude_ops/V58_SPRINT3_RESULTS.md, V58_RELEASE.json, V57_SPRINT3_LOSS_REVIEW.json and
+See research/v58/V58_SPRINT3_RESULTS.md, V58_RELEASE.json, V57_SPRINT3_LOSS_REVIEW.json and
 results/v58-s3-clean-build.json. No new match groups were queued.
