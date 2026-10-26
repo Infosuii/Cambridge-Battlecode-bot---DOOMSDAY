@@ -1,0 +1,1275 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -65,6 +65,21 @@
+             return v;
+         }
+     }
++#endif
++#if V58_KIT_MARCELLA
++    if (t == bc::champion_type::marcella)
++        return {{it::jungle_shard_of_strength, 5}, {it::durability_shard_of_health, 5},
++            {it::bruiser_shard_of_strength, 60}, {it::bruiser_shard_of_health, 60}};
++#endif
++#if V58_KIT_TAVI
++    if (t == bc::champion_type::tavi)
++        return {{it::treasure_shard_of_strength, 5}, {it::durability_shard_of_health, 5},
++            {it::monster_shard_of_strength, 5}, {it::bruiser_shard_of_strength, 60}, {it::bruiser_shard_of_health, 60}};
++#endif
++#if V58_KIT_HEART
++    if (t == bc::champion_type::heart_of_ruin)
++        return {{it::treasure_shard_of_health, 5}, {it::jungle_shard_of_focus, 5},
++            {it::durability_shard_of_health, 5}, {it::bruiser_shard_of_health, 60}, {it::bruiser_shard_of_strength, 60}};
+ #endif
+     const bool caster = t == bc::champion_type::stellar || t == bc::champion_type::cassi || t == bc::champion_type::prism
+         || (NOVA_CASTER_SET >= 1 && (t == bc::champion_type::tavi))
+@@ -373,6 +388,13 @@
+         }
+     }
+     team_size = static_cast<int>(allies.size());
++#if V58_DIRECTOR
++    if (bc::draft_memory.size() >= 1016 && static_cast<std::uint8_t>(bc::draft_memory[1008]) == 0x58 &&
++        static_cast<int>(bc::draft_memory[1009]) == team_size) {
++        for (int s = 0; s < std::min(team_size, kClaimSlots); ++s)
++            slot_type[s] = static_cast<bc::champion_type>(static_cast<std::uint8_t>(bc::draft_memory[1010 + s]));
++    }
++#endif
+     my_id = static_cast<std::uint32_t>(static_cast<bc::handle_champion_t>(me));
+     type = me.champion_name();
+     const auto abilities = me.abilities();
+@@ -497,6 +519,9 @@
+             onsite_bits |= 1u << s;
+         }
+ #endif
++#if V58_DIRECTOR
++        if (team_size < kClaimSlots && s == 5) c = static_cast<int>(kClaimCodeIdle); // reserved job, never a phantom claimant
++#endif
+         claim_cache[static_cast<std::size_t>(s)] = static_cast<std::int16_t>(c);
+     }
+ }
+@@ -634,8 +659,13 @@
+ void Bot::shop() {
+     PROF(shop);
+     auto& me = bc::self();
++#if V58_DIRECTOR && V58_CARRY_SHOP
++    const bool reserve_treasure = economy_enabled() && slot == economy_carry() && ec_treasure_shards < 5;
++#else
++    constexpr bool reserve_treasure = false;
++#endif
+     try {
+-        if (tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
++        if (!reserve_treasure && tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
+             me.buy(bc::consumable_type::altar_lock);
+             gold -= 10;
+         }
+@@ -646,7 +676,7 @@
+     try {
+         // A crystal costs 10 gold; winners re-buy one for the same few terrain shortcuts every trip (ladder replays:
+         // up to 53 hops by one champion on concentrated-wealth, none ever by us).
+-        if (gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
++        if (!reserve_treasure && gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
+             me.buy(bc::consumable_type::tp_crystal);
+             gold -= 10;
+         }
+@@ -658,6 +688,10 @@
+     if (gold < 30) return;
+     try {
+         const auto counts = me.item_count();
++#if V58_DIRECTOR && V58_CARRY_SHOP
++        ec_treasure_shards = static_cast<int>(counts[bc::item_type::treasure_shard_of_strength] + counts[bc::item_type::treasure_shard_of_health] + counts[bc::item_type::treasure_shard_of_focus]) +
++            5 * static_cast<int>(counts[bc::item_type::treasure_emblem_of_strength] + counts[bc::item_type::treasure_emblem_of_health] + counts[bc::item_type::treasure_emblem_of_focus]);
++#endif
+         bool complete = true; // V56_SHOP_DONE: every step's total reached after this visit
+         for (const auto& step : build_for(type)) {
+             int owned = static_cast<int>(counts[step.item]);
+@@ -671,6 +705,10 @@
+                 return;
+             }
+             me.buy(step.item, static_cast<std::uint32_t>(want));
++#if V58_DIRECTOR && V58_CARRY_SHOP
++            if (step.item == bc::item_type::treasure_shard_of_strength || step.item == bc::item_type::treasure_shard_of_health || step.item == bc::item_type::treasure_shard_of_focus)
++                ec_treasure_shards += want; // purchase event, not work in a scoring loop
++#endif
+             gold -= want * 30;
+             if (gold < 30) return; // later steps unchecked: completion is recorded on a visit that walks the whole plan
+         }
+@@ -1789,6 +1827,9 @@
+ // Lock any altar within reach that has no lock: our team still tributes there, while enemies must
+ // spend three basic attacks on it first (their tribute attempts turn into those attacks).
+ void Bot::prelock_altars() {
++#if V58_LOCKS
++    locks_objective();
++#endif
+     // Lab knob 42: k > 0 prelocks (without APEX_PRELOCK) once the enemy has banked max(0, 600 - 300k).
+     const bool prelock = tune::kPrelock || LABK(42) > 0.0f;
+     const int prelock_score = tune::kPrelock ? tune::kPrelockScore : std::max(0, static_cast<int>(600.0f - 300.0f * LABK(42)));
+@@ -2956,6 +2997,15 @@
+     a2_hold_burst = false;
+ #endif
+     if (w.enemies.empty()) return false;
++#if V58_CAMP_CONTACT
++    if (camp_contact()) return true;
++#endif
++#if V58_CAPTURE_STAND
++    if (capture_stand()) return true;
++#endif
++#if V58_DENY_CAP
++    if (deny_capture()) return true;
++#endif
+     FlagScope combat{combat_move};
+     PROF(enemies);
+     PROF_CHECK("e_in");
+@@ -4195,8 +4245,37 @@
+     }
+     // Gold-only trips stop once the build plan is complete (the report's boss-battle carriers made 200-300 of them with
+     // 300-700 gems in the bag and nothing left to buy). Health retreats and threat retreats are unchanged.
+-    const bool rich = gold >= tune::kShopGold && !shop_done;
++    bool rich = gold >= tune::kShopGold && !shop_done;
++#if V58_DIRECTOR && V58_CARRY_SHOP
++    if (economy_enabled() && slot == economy_carry() && ec_treasure_shards < 5) {
++        const int remaining = 30 * (5 - ec_treasure_shards);
++        rich = gold >= remaining && fdist(w.spawn_field, pos) <= 12;
++        // Complete the clear before starting a gold-only shopping trip; captures already have a guard below.
++        if (target_group >= 0 && w.groups[target_group].state == GroupState::alive &&
++            w.groups[target_group].hp_left(w.camps) < w.groups[target_group].max_hp - 1.0f) rich = false;
++    }
++#endif
+     if (!heading_home && !low && !rich) return false;
++#if V58_FINISH_RESET
++    if (rich && !low && !heading_home && hp >= 0.65f * max_hp && w.enemies.empty() &&
++        target_group >= 0 && target_group < static_cast<int>(w.groups.size())) {
++        const auto& pending = w.groups[target_group];
++        if (reset_defer_group != target_group) reset_defer_group = target_group, reset_defer_until = -1;
++        bool close_finish = false;
++        if (pending.state == GroupState::alive) {
++            bool in_range = false;
++            for (int ci : pending.camps) if (!w.camps[ci].dead && cheb(w.camps[ci].pos, pos) <= range) in_range = true;
++            close_finish = in_range && pending.hp_left(w.camps) <= 2.0f * my_dps(&pending) &&
++                hp - 3.0f * incoming_from_group(pending, pos) >= 0.45f * max_hp;
++        } else if (pending.state == GroupState::reward) {
++            for (vec2 tile : pending.tiles.positions()) if (cheb(tile, pos) <= 2) { close_finish = true; break; }
++        }
++        if (close_finish) {
++            if (reset_defer_until < 0) reset_defer_until = round + 10;
++            if (round < reset_defer_until) return false; // one bounded deferral per target, never a rolling deadline
++        }
++    }
++#endif
+     // Do not abandon a capture we are standing on.
+     if (!low && target_group >= 0 && w.groups[target_group].state == GroupState::reward &&
+         bit(w.groups[target_group].tiles, pos))
+@@ -4280,7 +4359,7 @@
+         any_watch = any_watch && any_free;
+     }
+     if (gems >= 15) {
+-        bc::bitboard threat = w.threat_zone(round, 10, 4.0f);
++        bc::bitboard threat = w.threat_zone(round, V58_SURVIVE ? 15 : 10, 4.0f);
+         threat.set(pos, false);
+         if (!threat.is_empty() || any_watch) {
+             bc::bitboard blocked = w.static_blocked | threat;
+@@ -4330,7 +4409,11 @@
+     const bool edge = bankFix && gems >= tune::kEdgeBankBag && round <= tune::kEdgeBankUntil && !capturing &&
+         clearish && dist <= tune::kEdgeBankDist && brain::state.ready && brain::state.max_group > 0 &&
+         (brain::state.max_group < tune::kBigMapGems || raceMono);
+-    const bool go = force_tribute || wins || late || end_bank || rhythm || edge || gems >= tune::kTributeCarry ||
++    const bool go = force_tribute || wins || late || end_bank || rhythm || edge ||
++#if V58_SURVIVE
++        survive_bank_due() ||
++#endif
++        gems >= tune::kTributeCarry ||
+         dist <= tune::kTributeNearDist + static_cast<int>(std::lround(2.0f * LABK(36))) || (threatened && gems >= 20 && dist <= 8);
+ #if A2_ALTARFIX & 2
+     if (!go) {
+@@ -4642,6 +4725,13 @@
+ 
+     const float hp_left = g.hp_left(w.camps);
+     const float team_dps = my_dps(&g) * static_cast<float>(present);
++#if V58_DIRECTOR && V58_ROUTE && V58_PRECAP
++    if (economy_precapture(g, hp_left)) {
++        const int ready_target = pick_target();
++        if (ready_target >= 0) use_reset_and_attack(w.camps[ready_target].camp, w.camps[ready_target].pos);
++        return true;
++    }
++#endif
+     // NOVA_CAMP_SAFE = K: every camp in reach may switch to us next round (the tank in front of us can
+     // step away later this round: Cassi kept hitting elks at 160 health because Issac stood closer,
+     // then Issac disengaged and both died). Leave their reach while K x that damage would kill us.
+@@ -4721,6 +4811,9 @@
+     if (t < 0 && NOVA_BUSH_WARD && reveal_bush_camp(g)) t = pick_target();
+     if (t < 0 && std::string_view(mode) == "bush-ward") return true;
+     if (t < 0) {
++#if V58_ACT & 1
++        if (act_camp_before_walk(g)) return true;
++#endif
+         mode = "approach";
+ #if A2_APPROACHFIX
+         {
+@@ -4762,7 +4855,24 @@
+             }
+             if (break_out()) return true;
+         }
+-        if (!melee) return true; // ranged units spent their allowance walking
++        if (!melee) {
++#if V58_ACT & 12
++            const int after_walk = pick_target();
++            if (after_walk >= 0) {
++#if V58_ACT & 8
++                const bool basic = attack_unit(w.camps[after_walk].camp, w.camps[after_walk].pos);
++#else
++                constexpr bool basic = false;
++#endif
++#if V58_ACT & 4
++                if (!basic) use_reset_and_attack(w.camps[after_walk].camp, w.camps[after_walk].pos);
++#else
++                (void)basic;
++#endif
++            }
++#endif
++            return true; // a compatible reset can restore the attack spent walking
++        }
+         t = pick_target();
+         if (t < 0) return true;
+     }
+@@ -4890,6 +5000,12 @@
+ 
+ bool Bot::group_capture_covered(const GroupRec& g) const {
+     if (g.state != GroupState::reward) return false;
++#if V58_DIRECTOR && V58_ROUTE
++    if (economy_enabled() && (static_cast<int>(&g - w.groups.data()) == ec_job || static_cast<int>(&g - w.groups.data()) == ec_capture)) {
++        if (economy_carry() == slot) return false;
++        if (economy_carry_on(g)) return true;
++    }
++#endif
+     const float mine = tune::kShareGold ? my_items() : 0.0f;
+     for (const auto& a : w.allies) {
+         if (!bit(g.tiles, a.pos)) continue;
+@@ -4906,6 +5022,13 @@
+ // A clearly poorer ally will take this finished group's reward: it stands on the region, or (unless
+ // on_tile_only) it claims the group and stands within 2 tiles of it.
+ bool Bot::poorer_ally_takes(const GroupRec& g, int gi, bool on_tile_only) const {
++#if V58_DIRECTOR && V58_ROUTE
++    if (economy_enabled() && (gi == ec_job || gi == ec_capture)) {
++        if (economy_carry() == slot) return false;
++        // A handoff requires the carry already on the region: never leave an unoccupied reward waiting for it.
++        return economy_carry_on(g);
++    }
++#endif
+     const float mine = my_items();
+ #if UB_GOLD_FUNNEL
+     // Gold funnel (top teams' Vesper earns 42% of her team's gold): Vesper gains 33% more from every gold gain, so
+@@ -5073,6 +5196,9 @@
+ #endif
+     PROF(score);
+     PROF_CHECK("score0");
++#if V58_DIRECTOR
++    if (const int assignment = economy_assignment(best_need, best_score); assignment >= 0) return assignment;
++#endif
+ #if A2_SOLE_GEM
+     // Sole gem camp (stampede: one 20-monster group holds every gem). Winners farm gold until mid-game, then the whole
+     // team clears it again and again; our job calls never filled and it was never attacked. One check per call, never
+@@ -5766,6 +5892,9 @@
+     PROF(farm);
+     PROF_CHECK("farm0");
+     if (avoid_until.size() != w.groups.size()) avoid_until.assign(w.groups.size(), 0);
++#if V58_DIRECTOR && V58_ROUTE
++    if (economy_release_capture()) return true;
++#endif
+     int best = -1, best_need = 1;
+     float best_score = 0;
+ 
+@@ -6090,7 +6219,17 @@
+ 
+ void Bot::opportunistic_attack() {
+     auto& me = bc::self();
+-    if (!me.can_attack()) return;
++    if (!me.can_attack()) {
++#if V58_ACT & 4
++        if (!melee && walked && !cast_done) {
++            bool ready = false;
++            for (int s = 0; s < 2; ++s) ready |= spell_ready(s) && spells[s].kind == bc::ability_kind::attack_reset;
++            if (ready) for (const auto& enemy : w.enemies)
++                if (cheb(pos, enemy.pos) <= range && use_reset_and_attack(enemy.unit, enemy.pos)) return;
++        }
++#endif
++        return;
++    }
+     for (const auto& e : w.enemies)
+         if (cheb(e.pos, pos) <= range && attack_unit(e.unit, e.pos)) return;
+ }
+@@ -6098,6 +6237,9 @@
+ // Wards are free and permanent: leave one at each objective we work at (a capture or an altar),
+ // so our vision keeps reporting camp timers and enemy carriers there after we leave.
+ void Bot::drop_ward() {
++#if V58_VISION
++    vision_objective();
++#endif
+     if (!tune::kWards) return;
+     const bool at_objective = std::string_view(mode) == "capture" || std::string_view(mode) == "tribute" ||
+         std::string_view(mode) == "siege";
+@@ -6714,7 +6856,17 @@
+         }
+     }
+ #endif
+-    const bool fought = handle_enemies();
++#if V58_DIRECTOR
++    economy_update(); // once per observation; the elected coordinator replans at most every ten rounds or completion
++#endif
++    const bool fought =
++#if V58_SURVIVE
++        survive_contact() ||
++#endif
++#if V58_ACT & 2
++        act_enemy_before_walk() ||
++#endif
++        handle_enemies();
+ #if A2_SHIELDLATE
+     if (fought && !cast_done) {
+         shield_late_pass = true; // the dash was not used: the shield may go now
+--- a/src/bot.h
++++ b/src/bot.h
+@@ -31,13 +31,67 @@
+ // without seeing them.
+ inline constexpr int kOnsiteBase = 64, kOnsiteGroups = 48;
+ 
++#if V58_DIRECTOR
++void economy_record_roster();
++#endif
++
+ class Bot {
+ public:
+     void play_turn();
+ 
+ private:
++#if V58_FINISH_RESET
++    int reset_defer_group = -1, reset_defer_until = -1;
++#endif
++#if V58_CAMP_CONTACT
++    bool camp_contact();
++#endif
+     void init();
++#if V58_CAPTURE_STAND
++    bool capture_stand();
++#endif
++#if V58_DENY_CAP
++    bool deny_capture();
++#endif
+     void refresh_self();
++#if V58_VISION
++    void vision_objective();
++    int vision_checked = -100;
++#endif
++#if V58_LOCKS
++    void locks_objective();
++#endif
++#if V58_SURVIVE
++    bool survive_contact();
++    bool survive_bank_due() const;
++#endif
++#if V58_ACT
++    bool act_camp_before_walk(GroupRec& g);
++    bool act_enemy_before_walk();
++    std::uint32_t act_enemy_id = 0;
++    int act_enemy_round = -100;
++    vec2 act_enemy_previous{-1, -1};
++#endif
++#if V58_DIRECTOR
++    bool economy_enabled() const;
++    int economy_carry() const;
++    bool economy_carry_on(const GroupRec& g) const;
++    int economy_owner(const GroupRec& g) const;
++    int economy_crew(int group, unsigned& mask, int requested = 0) const;
++    void economy_update();
++    int economy_assignment(int& need, float& score);
++    int ec_job = -1, ec_job_since = 0, ec_replan = -100, ec_capture = -1;
++    int ec_local_epoch = -1, ec_local_group = -1;
++    int ec_treasure_shards = 0, ec_release = -1;
++    bool ec_small_crew = false;
++#if V58_DIRECTOR >= 2
++    int economy_secondary_for(int primary);
++    std::vector<int> ec_secondary_cache;
++    int ec_secondary_commit = -1, ec_secondary_since = 0;
++#endif
++    bool economy_release_capture();
++    bool economy_precapture(const GroupRec& g, float remaining_hp);
++#endif
+     void shop();
+ 
+     // Shared memory: per-slot camp-group claims plus the last enemy sighting.
+--- a/src/common.h
++++ b/src/common.h
+@@ -1,3 +1,56 @@
++// v58 coordinated economy research; all new mechanisms initially disabled.
++#ifndef V58_CAMP_CONTACT // Finish an already engaged nearby camp while all visible enemies remain outside immediate reach.
++#define V58_CAMP_CONTACT 0
++#endif
++#ifndef V58_FINISH_RESET // Complete a nearby almost-finished camp/reward before a healthy gold-only shopping reset.
++#define V58_FINISH_RESET 0
++#endif
++#ifndef V58_CAPTURE_STAND // 1 holds safe captures; 2 elects one visible safe anchor while other champions keep fighting.
++#define V58_CAPTURE_STAND 2
++#endif
++#ifndef V58_KIT_MARCELLA // Camp resistance and attack stats before economic spending on the farming support.
++#define V58_KIT_MARCELLA 0
++#endif
++#ifndef V58_KIT_TAVI // Treasure attack stats and an early Monster emblem for the mobile ranged farmer.
++#define V58_KIT_TAVI 0
++#endif
++#ifndef V58_KIT_HEART // Add early universal damage reduction before Heart's long stat stack.
++#define V58_KIT_HEART 0
++#endif
++
++#ifndef V58_PRECAP // Experimental carry prepositioning, unretained; keep separate from reward ownership.
++#define V58_PRECAP 0
++#endif
++#ifndef V58_DIRECTOR // 1 primary jobs; 2 nearby parallel pair; 3 permits middle camps with an enemy-side travel cost.
++#define V58_DIRECTOR 0
++#endif
++#ifndef V58_ROUTE // Hand rewards to a designated nearby capturer without leaving them unattended.
++#define V58_ROUTE 0
++#endif
++#ifndef V58_CARRY_SHOP // Complete the carry Treasure milestone using short, useful shopping trips.
++#define V58_CARRY_SHOP 0
++#endif
++#ifndef V58_DRAFT // Use the carry composition only with the coordinated economy loop.
++#define V58_DRAFT 0
++#endif
++#ifndef V58_SURVIVE // Use visible power and valuable bags to disengage before losing fights.
++#define V58_SURVIVE 0
++#endif
++#ifndef V58_ACT // Bit1 camp casts, bit2 enemy casts, bit4 post-walk resets, bit8 legal basic attacks after dash approaches.
++#define V58_ACT 0
++#endif
++#ifndef V58_VISION // Refresh useful personal wards at contested groups and banking routes.
++#define V58_VISION 0
++#endif
++#ifndef V58_LOCKS // Place timely altar locks against visible enemy banking threats.
++#define V58_LOCKS 0
++#endif
++#ifndef V58_DENY_CAP // Contest an enemy capture only with a healthy nearby non-carrier.
++#define V58_DENY_CAP 0
++#endif
++#ifndef V58_HUNT_CARRY // Coordinate a carry interception only with a local advantage.
++#define V58_HUNT_CARRY 0
++#endif
+ // v57 (2026-10-25, from v56): contest the middle (UB_ENEMY_CAMP 1.0); see bots/v57/CHANGES.md.
+ // v56 (2026-10-25, from live platform v55); see bots/v56/CHANGES.md.
+ #ifndef V56_SHOP_DONE // once the build plan is complete, gold alone no longer sends a champion home
+--- a/src/draft.cpp
++++ b/src/draft.cpp
+@@ -711,6 +711,56 @@
+ } // namespace
+ #endif
+ 
++
++#if V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT
++namespace {
++bool economy_draft_supported() {
++    static int cached = -1;
++    if (cached >= 0) return cached != 0;
++    cached = 0;
++    namespace api = bc::detail;
++    std::uint32_t count = 0;
++    if (api::sdk_map_num_camp_groups(&count) != 0 || count > 48) return false;
++    const auto home = bc::map::spawn_region(team::ally), enemy = bc::map::spawn_region(team::enemy);
++    bc::bitboard visited;
++    bc::distance_field distance;
++    distance.compute(bc::map::walls() | bc::map::holes() | bc::map::altars() | enemy, home, visited);
++    float ex = 0, ey = 0, en = 0;
++    for (vec2 p : enemy.positions()) ex += p.x, ey += p.y, en += 1.0f;
++    if (en <= 0) return false;
++    ex /= en; ey /= en;
++    std::vector<std::uint32_t> groups(count);
++    if (api::sdk_map_camp_groups(groups.data(), count, &count) != 0) return false;
++    api::camp_design designs[6]{};
++    bool loaded[6] = {};
++    for (auto handle : groups) {
++        api::camp_group_info info{};
++        if (api::sdk_map_camp_group(handle, &info) != 0 || info.gold == 0) continue;
++        std::uint32_t n = 0;
++        if (api::sdk_map_camp_group_num_camps(handle, &n) != 0 || n == 0) continue;
++        std::vector<std::uint32_t> members(n);
++        if (api::sdk_map_camp_group_camps(handle, members.data(), n, &n) != 0) continue;
++        float hp = 0.0f;
++        int travel = kUnreach;
++        float enemy_distance = 0.0f;
++        for (auto member : members) {
++            api::camp_info camp{};
++            if (api::sdk_map_camp_info(member, &camp) != 0 || camp.type < 0 || camp.type >= 6) continue;
++            if (!loaded[camp.type]) {
++                if (api::sdk_camp_design(camp.type, &designs[camp.type]) != 0) continue;
++                loaded[camp.type] = true;
++            }
++            hp += designs[camp.type].base_stats.base_health;
++            const int d = fdist(distance, {camp.x, camp.y});
++            if (d < travel) travel = d, enemy_distance = std::max(std::fabs(camp.x - ex), std::fabs(camp.y - ey));
++        }
++        if (hp >= 2400.0f && hp <= 6500.0f && travel <= 30 && travel <= 0.9f * enemy_distance) return cached = 1;
++    }
++    return false;
++}
++} // namespace
++#endif
++
+ void play_draft() {
+     const auto chosen = bc::draft::current_draft(team::ally);
+     [[maybe_unused]] std::uint32_t size = 0;
+@@ -718,6 +768,19 @@
+         size = bc::draft::team_size();
+     } catch (...) {
+     }
++#if V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT
++    if (economy_draft_supported()) {
++        constexpr cd meta[] = {cd::vesper_vale, cd::heart_of_ruin, cd::vendetta, cd::ryth, cd::marcella, cd::tavi};
++        if (pick_from(meta, chosen)) {
++            const auto facts = read_facts();
++            unsigned flags = facts.monolith ? 2u : 0u;
++            const float area = static_cast<float>(bc::map::width() * bc::map::height());
++            if (area > 0 && facts.gems / area >= NOVA_RACE_DENS) flags |= 1u;
++            brain::record_draft(size, facts.max_gems, flags);
++            return;
++        }
++    }
++#endif
+ #if A2_MLDRAFT
+     // ML draft on maps the lineup tables do not know (A2_MLDRAFT 2: unknown maps only; 1: every map).
+     bool ml_done = false;
+--- /dev/null
++++ b/src/economy.cpp
+@@ -0,0 +1,409 @@
++// V58_DIRECTOR: repeated shared jobs, with a bounded coordinator and local assignment caches.
++#include "bot.h"
++
++#if V58_DIRECTOR
++void economy_record_roster() {
++    // Public draft choices, stored after the existing brain/plan data; each champion reads this at startup.
++    if (bc::constants::draft_memory_bytes < 1016 || bc::fuel_remaining() < 4000) return;
++    std::array<std::uint8_t, 8> roster{0x58, 0, 0, 0, 0, 0, 0, 0};
++    for (auto choice : bc::draft::current_draft(team::ally)) {
++        const int pick = static_cast<int>(choice);
++        if (choice == bc::champion_draft::cassi_and_issac) {
++            if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(bc::champion_type::cassi);
++            if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(bc::champion_type::issac);
++        } else if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(pick >= 4 ? pick + 1 : pick);
++    }
++    // The SDK only submits a prefix. Read the current host bytes (not the startup snapshot) to preserve this turn's plan.
++    std::array<std::uint8_t, 1016> memory{};
++    bc::detail::check(bc::detail::sdk_read_draft_memory(0, memory.data(), static_cast<std::uint32_t>(memory.size())));
++    std::copy(roster.begin(), roster.end(), memory.begin() + 1008);
++    bc::draft_memory = memory;
++}
++
++
++#if V58_DIRECTOR >= 2
++int Bot::economy_secondary_for(int primary) {
++    if (ec_secondary_cache.size() != w.groups.size()) ec_secondary_cache.assign(w.groups.size(), -2);
++    int& cached = ec_secondary_cache[primary];
++    if (cached != -2) return cached;
++    cached = -1;
++    const vec2 anchor = w.camps[w.groups[primary].camps[0]].pos;
++    float best = 0.0f;
++    for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
++        const auto& g = w.groups[gi];
++        if (gi == primary || g.camps.empty() || g.harmless || g.gold == 0 || g.max_hp < 2400.0f || g.max_hp > 3000.0f) continue;
++        const vec2 c = w.camps[g.camps[0]].pos;
++        const int gap = cheb(c, anchor);
++        if (gap > 8) continue;
++        const float score = (g.gold + 3.0f * g.gems) / (2.0f * (gap + g.max_hp / 120.0f) + 5.0f);
++        if (score > best) best = score, cached = gi;
++    }
++    return cached;
++}
++#endif
++
++bool Bot::economy_enabled() const {
++    // The sixth 7-bit claim is unused only on teams with at most five physical bodies.
++    return team_size >= 3 && team_size < kClaimSlots && w.groups.size() <= kOnsiteGroups && round <= 300;
++}
++
++int Bot::economy_carry() const {
++    for (int s = 0; s < team_size; ++s)
++        if (claim_of(s) != static_cast<int>(kClaimCodeDead) && slot_type[s] == bc::champion_type::vesper_vale) return s;
++    for (int s = 0; s < team_size; ++s)
++        if (claim_of(s) != static_cast<int>(kClaimCodeDead)) return s; // equal initial Treasure progress: lowest-slot tie
++    return slot;
++}
++
++bool Bot::economy_carry_on(const GroupRec& g) const {
++    const int carry = economy_carry();
++    if (carry == slot) return bit(g.tiles, pos);
++    for (const auto& a : w.allies)
++        if (a.id == ally_handle[carry] && a.hp > 0 && bit(g.tiles, a.pos)) return true;
++    return false;
++}
++
++int Bot::economy_owner(const GroupRec& g) const {
++    const int carry = economy_carry();
++    int owner = bit(g.tiles, pos) ? slot : -1;
++    if (owner == carry) return owner;
++    for (const auto& a : w.allies) {
++        if (a.hp <= 0 || !bit(g.tiles, a.pos)) continue;
++        for (int s = 0; s < team_size; ++s) if (a.id == ally_handle[s]) {
++            if (s == carry) return carry;
++            if (owner < 0 || s < owner) owner = s;
++        }
++    }
++    return owner;
++}
++
++int Bot::economy_crew(int group, unsigned& mask, int requested) const {
++    (void)group;
++    const int wanted = std::min(team_size, requested > 0 ? requested : round < 60 ? 4 : ec_small_crew ? 2 : 3);
++    const int carry = economy_carry();
++    mask = 1u << carry;
++    int count = 1;
++    for (; count < wanted; ++count) {
++        int best = -1;
++        float value = -1.0f;
++        for (int s = 0; s < team_size; ++s) {
++            if ((mask & (1u << s)) || claim_of(s) == static_cast<int>(kClaimCodeDead)) continue;
++            const auto t = slot_type[s];
++            // Static kit ranking is identical across the initial spawn pack; no hidden teammate stats are read.
++            const float v = t == bc::champion_type::vendetta ? 100.0f : t == bc::champion_type::varg ? 95.0f
++                : t == bc::champion_type::heart_of_ruin ? 90.0f : t == bc::champion_type::ryth ? 85.0f
++                : t == bc::champion_type::marcella ? 80.0f : 65.0f;
++            if (v > value) value = v, best = s;
++        }
++        if (best < 0) break;
++        mask |= 1u << best;
++    }
++    return count;
++}
++
++void Bot::economy_update() {
++    if (!economy_enabled()) return;
++#if V58_ROUTE
++    // Remember the old region before adopting a new broadcast. A clearer can attack its next camp from the old
++    // region, so changing its target alone does not stop it splitting the carry's five-round capture.
++    for (int old : {ec_job, target_group}) if (old >= 0 && old < static_cast<int>(w.groups.size())) {
++        const auto& g = w.groups[old];
++        if (g.state != GroupState::reward) continue;
++        if (old == ec_job && economy_carry() == slot) ec_capture = old; // preserve the delivery before adopting a new job
++        const int owner = economy_owner(g);
++        if (bit(g.tiles, pos) && owner >= 0 && owner != slot) ec_release = old;
++    }
++#endif
++    int leader = 0;
++    while (leader < team_size && claim_of(leader) == static_cast<int>(kClaimCodeDead)) ++leader;
++    const int raw_job = static_cast<int>((shared >> (5 * kClaimBits)) & kClaimMask);
++    const int decoded = raw_job & 63;
++    const int published = decoded < static_cast<int>(w.groups.size()) ? decoded : -1;
++    const bool small_crew = (raw_job & 64) != 0;
++    if (published != ec_job) {
++        ec_job = published;
++        ec_job_since = round;
++        ec_local_epoch = -1;
++    }
++    ec_small_crew = small_crew;
++    if (ec_capture >= 0 && w.groups[ec_capture].state != GroupState::reward) ec_capture = -1;
++    if (ec_job >= 0 && w.groups[ec_job].state == GroupState::reward && economy_carry() == slot)
++        ec_capture = ec_job;
++    if (slot != leader || bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 23000) return;
++    if (round - ec_replan < 10) {
++        const bool completed = ec_job >= 0 && ((w.groups[ec_job].state == GroupState::reward && economy_owner(w.groups[ec_job]) >= 0) ||
++            w.groups[ec_job].state == GroupState::respawning);
++        if (!completed) return; // including maps with no eligible job: do not repeat the empty scan every turn
++    }
++    ec_replan = round;
++    const std::uint64_t fuel_before = bc::fuel_remaining();
++    std::array<float, kClaimSlots> power{}, health{};
++    for (int s = 0; s < team_size; ++s) {
++        power[s] = 65.0f; health[s] = 700.0f; // conservative fallback for a teammate outside personal vision
++        if (s == slot) power[s] = my_dps(nullptr), health[s] = hp;
++        else for (const auto& a : w.allies) if (a.id == ally_handle[s]) {
++            power[s] = a.strength * 1.125f + a.focus * 0.125f;
++            health[s] = a.hp;
++            break;
++        }
++    }
++    std::array<unsigned, 5> crew_masks{};
++    std::array<int, 5> crew_counts{};
++    std::array<float, 5> crew_power{}, crew_health{};
++    for (int size = 2; size <= 4; ++size) {
++        crew_counts[size] = economy_crew(0, crew_masks[size], size);
++        for (int s = 0; s < team_size; ++s) if (crew_masks[size] & (1u << s)) {
++            crew_power[size] += power[s]; crew_health[size] += health[s];
++        }
++        crew_power[size] = std::max(90.0f, crew_power[size]);
++    }
++    const float carrier_bonus = slot_type[economy_carry()] == bc::champion_type::vesper_vale ? 1.33f : 1.0f;
++#if V58_DIRECTOR >= 2
++    std::array<unsigned, kOnsiteGroups> claimed_by{}, onsite_by{};
++    for (int s = 0; s < team_size; ++s) {
++        const int g = claim_of(s);
++        if (g < 0 || g >= static_cast<int>(w.groups.size())) continue;
++        claimed_by[g] |= 1u << s;
++        if (claim_onsite(s)) onsite_by[g] |= 1u << s;
++    }
++#endif
++    int pick = ec_job;
++    bool pick_small = ec_small_crew;
++    bool replace = pick < 0;
++    if (pick >= 0) {
++        const auto& g = w.groups[pick];
++        const int distance = w.has_field(pick) ? w.group_distance(pick, pos) : cheb(pos, w.camps[g.camps[0]].pos);
++        replace = (g.state == GroupState::reward && economy_owner(g) >= 0) ||
++            (g.state == GroupState::respawning && g.respawn_round - round > distance + 3) ||
++            round - ec_job_since > 65 || (!avoid_until.empty() && avoid_until[pick] > round);
++    }
++    if (replace) {
++        vec2 origin = pos;
++        if (ec_job >= 0 && !w.groups[ec_job].camps.empty()) origin = w.camps[w.groups[ec_job].camps[0]].pos;
++        float ex = 0, ey = 0, en = 0;
++        for (vec2 q : w.enemy_spawn.positions()) ex += q.x, ey += q.y, en += 1.0f;
++        if (en > 0) ex /= en, ey /= en;
++        struct Candidate { int group = -1; float value = 0, cost = 0, score = 0; bool small = false; } top[3];
++        for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
++            const auto& g = w.groups[gi];
++            if (g.camps.empty() || g.harmless || g.max_hp < 2400.0f || g.max_hp > 6500.0f || g.gold == 0 ||
++                (gi == ec_job && g.state != GroupState::alive) || (!avoid_until.empty() && avoid_until[gi] > round)) continue;
++            const vec2 c = w.camps[g.camps[0]].pos;
++            const int home = fdist(w.spawn_field, c);
++            const float enemy = std::max(std::fabs(c.x - ex), std::fabs(c.y - ey));
++            if (home == kUnreach) continue;
++#if V58_DIRECTOR < 3
++            if (round < 150 && home > 0.9f * enemy) continue;
++#endif
++            const int travel = w.has_field(gi) ? w.group_distance(gi, origin) : cheb(origin, c);
++            if (travel == kUnreach || travel > 35) continue;
++            const int wait = g.state == GroupState::respawning ? std::max(0, g.respawn_round - round - travel) : 0;
++            if (wait > 5) continue;
++            Candidate candidate;
++            const int first_size = round < 60 ? std::min(team_size, 4) : 2;
++            const int last_size = round < 60 ? first_size : 3;
++            for (int size = first_size; size <= last_size; ++size) {
++                const unsigned crew_mask = crew_masks[size];
++                const int crew = crew_counts[size];
++                if (crew < 2) continue;
++#if V58_DIRECTOR >= 2
++                const unsigned outside = claimed_by[gi] & ~crew_mask;
++                if ((outside & (outside - 1u)) != 0 || (onsite_by[gi] & outside) != 0) continue;
++#endif
++                const float dps = crew_power[size], pool = crew_health[size];
++                const float clear = g.state == GroupState::reward ? 0.0f : g.max_hp / dps;
++                if (clear > 35.0f || g.strength * clear > 0.85f * pool) continue;
++                const float value = carrier_bonus * static_cast<float>(g.gold) + 3.0f * g.gems;
++                // Spend team-rounds: three travellers/clearers cost three times one. Capture needs only its owner.
++                const float cost = crew * (travel + wait + clear
++#if V58_DIRECTOR >= 3
++                    + (round < 150 ? std::max(0.0f, home - enemy) : 0.0f)
++#endif
++                    ) + 5.0f;
++                const float rate = value / cost;
++                if (rate > candidate.score) candidate = {gi, value, cost, rate, crew <= 2};
++            }
++            for (int k = 0; k < 3; ++k) if (candidate.score > top[k].score) std::swap(candidate, top[k]);
++        }
++        // A bounded second leg among the three finalists rewards a repeatable cycle, not a single opening.
++        pick = -1;
++        float best = 0.0f;
++        for (int k = 0; k < 3; ++k) {
++            const auto& a = top[k];
++            if (a.group < 0) continue;
++            float continuation = 0.0f;
++            const vec2 at = w.camps[w.groups[a.group].camps[0]].pos;
++            for (int j = 0; j < 3; ++j) {
++                if (j == k || top[j].group < 0 || top[j].group == a.group) continue;
++                const auto& b = top[j];
++                const int leg = cheb(at, w.camps[w.groups[b.group].camps[0]].pos);
++                if (leg <= 12) continuation = std::max(continuation, b.value / (b.cost + leg));
++            }
++            float score = a.score + 0.35f * continuation;
++#if V58_DIRECTOR >= 2
++            if (round >= 60 && team_size >= 4) {
++                const int secondary = economy_secondary_for(a.group);
++                if (secondary >= 0) {
++                    const auto& side = w.groups[secondary];
++                    if (side.state != GroupState::respawning || side.respawn_round <= round + 10) {
++                        const int gap = cheb(at, w.camps[side.camps[0]].pos);
++                        score += 0.6f * (side.gold + 3.0f * side.gems) / (2.0f * (gap + side.max_hp / 120.0f) + 5.0f);
++                    }
++                }
++            }
++#endif
++            if (score > best) best = score, pick = a.group, pick_small = a.small;
++        }
++    }
++    if (pick != ec_job) ec_job_since = round;
++    ec_job = pick;
++    ec_small_crew = pick_small;
++    std::uint64_t word = read_shared();
++    word &= ~(kClaimMask << (5 * kClaimBits));
++    word |= static_cast<std::uint64_t>(pick >= 0 ? pick | (pick_small ? 64 : 0) : kClaimCodeIdle) << (5 * kClaimBits);
++    bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&word, 1});
++    shared = word;
++    decode_claims();
++#if A2_MICLOG
++    std::printf("DIRECTOR R%d S%d G%d fuel%llu\n", round, slot, pick, static_cast<unsigned long long>(fuel_before - bc::fuel_remaining()));
++#else
++    (void)fuel_before;
++#endif
++}
++
++bool Bot::economy_release_capture() {
++#if V58_ROUTE
++    if (!economy_enabled() || ec_release < 0) return false;
++    const auto& g = w.groups[ec_release];
++    if (g.state != GroupState::reward || !bit(g.tiles, pos)) { ec_release = -1; return false; }
++    const int owner = economy_owner(g);
++    if (!w.enemies.empty() || owner < 0 || owner == slot) return false;
++    if (!avoid_until.empty()) avoid_until[ec_release] = round + 8;
++    target_group = -1;
++    write_claim(-1);
++    mode = "capture-handoff";
++    walk_toward(~g.tiles & ~w.static_blocked);
++    return true;
++#else
++    return false;
++#endif
++}
++
++bool Bot::economy_precapture(const GroupRec& g, float remaining_hp) {
++#if V58_ROUTE
++    if (!economy_enabled() || melee || slot != economy_carry() || hp < 0.65f * max_hp ||
++        !w.enemies.empty() || remaining_hp > strength * 8.0f || bit(g.tiles, pos)) return false;
++    float finish_dps = 0.0f;
++    const int gi = static_cast<int>(&g - w.groups.data());
++    for (const auto& a : w.allies) {
++        if (a.hp < a.max_hp * 0.6f) continue;
++        bool assigned = false;
++        for (int s = 0; s < team_size; ++s) if (a.id == ally_handle[s] && claim_of(s) == gi) assigned = true;
++        if (!assigned) continue;
++        for (int ci : g.camps) if (!w.camps[ci].dead && cheb(a.pos, w.camps[ci].pos) <= a.range) {
++            finish_dps += a.strength;
++            break;
++        }
++    }
++    if (finish_dps <= 0 || remaining_hp > 3.0f * finish_dps) return false;
++    bc::bitboard goals = g.tiles & ~w.unit_tiles & ~w.static_blocked;
++    if (goals.is_empty()) {
++        goals.clear();
++        for (int ci : g.camps) goals.draw_chebyshev(w.camps[ci].pos, 1.0f);
++        goals &= ~w.static_blocked;
++        if (bit(goals, pos)) return false;
++        goals &= ~w.unit_tiles;
++    }
++    if (goals.is_empty()) return false;
++    if (!walk_toward(goals)) return false;
++    mode = "carry-position";
++    return true;
++#else
++    (void)g; (void)remaining_hp;
++    return false;
++#endif
++}
++
++int Bot::economy_assignment(int& need, float& score) {
++    if (!economy_enabled() || hp < 0.5f * max_hp || gems >= tune::kTributeCarry) return -1;
++    // A new broadcast must not interrupt a capture already in progress, including a satellite's small group.
++    if (target_group >= 0 && target_group < static_cast<int>(w.groups.size())) {
++        const auto& old = w.groups[target_group];
++        if (old.state == GroupState::reward && bit(old.tiles, pos) && economy_owner(old) == slot) {
++            need = 1; score = 1e9f; return target_group;
++        }
++    }
++    if (ec_capture >= 0 && w.groups[ec_capture].state == GroupState::reward) {
++        need = 1; score = 1e9f; return ec_capture;
++    }
++#if V58_DIRECTOR >= 2
++    if (ec_secondary_commit >= 0) {
++        const int old = ec_secondary_commit;
++        const auto& job = w.groups[old];
++        if (round - ec_secondary_since <= 65 && job.state != GroupState::respawning &&
++            (avoid_until.empty() || avoid_until[old] <= round)) {
++            need = job.state == GroupState::alive ? std::min(2, champions_needed(job, job.hp_left(w.camps))) : 1;
++            score = 1e9f; return old;
++        }
++        ec_secondary_commit = -1;
++    }
++#endif
++    if (ec_job < 0 || round - ec_job_since > 75) return -1;
++    if (!avoid_until.empty() && avoid_until[ec_job] > round) return -1;
++    const auto& g = w.groups[ec_job];
++    if (g.state == GroupState::respawning && g.respawn_round - round > 5) return -1;
++    unsigned mask = 0;
++    const int crew = economy_crew(ec_job, mask);
++    if (mask & (1u << slot)) {
++        if (g.state == GroupState::reward && economy_carry() != slot && economy_carry_on(g)) return -1;
++        need = g.state == GroupState::alive ? std::min(crew, std::max(2, champions_needed(g, g.hp_left(w.camps)))) : 1;
++        score = 1e9f;
++        return ec_job;
++    }
++#if V58_DIRECTOR >= 2
++    if (round >= 60) {
++        int pair[2] = {-1, -1}, count = 0;
++        for (int s = 0; s < team_size && count < 2; ++s)
++            if (!(mask & (1u << s)) && claim_of(s) != static_cast<int>(kClaimCodeDead)) pair[count++] = s;
++        if (count == 2 && (slot == pair[0] || slot == pair[1])) {
++            int candidate = -1;
++            if (slot == pair[1]) {
++                const int claimed = claim_of(pair[0]);
++                if (claimed >= 0 && claimed < static_cast<int>(w.groups.size()) && claimed != ec_job &&
++                    w.groups[claimed].max_hp >= 2400.0f && w.groups[claimed].max_hp <= 3000.0f &&
++                    cheb(w.camps[w.groups[claimed].camps[0]].pos, w.camps[g.camps[0]].pos) <= 8) candidate = claimed;
++            }
++            if (candidate < 0) candidate = economy_secondary_for(ec_job);
++            if (candidate >= 0 && w.groups[candidate].state != GroupState::respawning &&
++                (avoid_until.empty() || avoid_until[candidate] <= round)) {
++                ec_secondary_commit = candidate; ec_secondary_since = round;
++                need = std::min(2, champions_needed(w.groups[candidate], w.groups[candidate].hp_left(w.camps)));
++                score = 1e9f; return candidate;
++            }
++        }
++    }
++#endif
++    // Satellites farm small neighbours while the main pack clears; recompute only every ten rounds/job change.
++    const int epoch = round / 10;
++    if (ec_local_epoch != epoch && (ec_local_group < 0 || w.groups[ec_local_group].state == GroupState::respawning ||
++        (!avoid_until.empty() && avoid_until[ec_local_group] > round))) {
++        ec_local_epoch = epoch; ec_local_group = -1;
++        float best = 0.0f;
++        const vec2 anchor = w.camps[g.camps[0]].pos;
++        for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
++            const auto& other = w.groups[gi];
++            if (gi == ec_job || other.camps.empty() || other.max_hp > 3000.0f || other.state == GroupState::respawning ||
++                claim_count(gi) > 0 || (!avoid_until.empty() && avoid_until[gi] > round)) continue;
++            const vec2 c = w.camps[other.camps[0]].pos;
++            if (cheb(anchor, c) > 8) continue;
++            const int travel = w.has_field(gi) ? w.group_distance(gi, pos) : cheb(pos, c);
++            if (travel == kUnreach) continue;
++            if (other.max_hp > 1500.0f && champions_needed(other, other.hp_left(w.camps)) > 1) continue;
++            const float v = (other.gold + 3.0f * other.gems) / (travel + other.max_hp / std::max(1.0f, strength) + 5.0f);
++            if (v > best) best = v, ec_local_group = gi;
++        }
++    }
++    if (ec_local_group < 0 || w.groups[ec_local_group].state == GroupState::respawning) return -1;
++    need = 1; score = 1e8f; return ec_local_group;
++}
++#endif
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -30,8 +30,12 @@
+ #endif
+     while (true) {
+         try {
+-            if (bc::is_draft())
++            if (bc::is_draft()) {
+                 play_draft();
++#if V58_DIRECTOR
++                economy_record_roster();
++#endif
++            }
+ #if A2_FUELLOG
+             else {
+                 const std::uint32_t r0 = bc::round_number();
+--- /dev/null
++++ b/src/pressure.cpp
+@@ -0,0 +1,123 @@
++// Objective-aware combat: protect completed work; contest a reward only with immediate, supported access.
++#include "bot.h"
++#include "fight.h"
++
++#if V58_CAPTURE_STAND
++bool Bot::capture_stand() {
++    if (target_group < 0 || target_group >= static_cast<int>(w.groups.size()) || hp < 0.55f * max_hp ||
++        gems >= 40 || heading_home || win_now() || round + bc::constants::capture_time >= bc::constants::max_rounds ||
++        bit(w.hot_zone, pos) || bc::fuel_remaining() < 18000) return false;
++    const auto& g = w.groups[target_group];
++    if (g.state != GroupState::reward || !bit(g.tiles, pos)) return false;
++    float burst = 0.0f;
++    const EnemyRec* target = nullptr;
++    for (const auto& e : w.enemies) {
++        if (bit(g.tiles, e.pos)) return false; // capture cannot advance with an enemy occupying the region
++        if (e.tributing() && enemy_score + e.gems >= static_cast<int>(bc::constants::winning_gems)) return false;
++        const int distance = cheb(e.pos, pos);
++        if (distance <= e.range + 2) burst += 3.0f * e.strength; // two turns plus one possible attack reset
++        if (distance <= 5) {
++            const auto kit = spell_kit(e.type, e.focus);
++            burst += kit.nuke * (kit.two_spells ? 2.0f : 1.0f);
++        }
++        if (distance <= std::max(range, 4) && (!target || e.hp < target->hp)) target = &e;
++    }
++    if (hp <= 1.3f * burst) return false;
++#if V58_CAPTURE_STAND >= 2
++    // One visible anchor is enough. Prefer Vesper's capture bonus, then stable actor id; other bodies retain combat.
++    std::uint32_t anchor = my_id;
++    bool anchor_carry = type == bc::champion_type::vesper_vale;
++    for (const auto& ally : w.allies) {
++        const bool carry = ally.type == bc::champion_type::vesper_vale;
++        if ((!carry && anchor_carry) || (carry == anchor_carry && ally.id >= anchor)) continue;
++        if (!bit(g.tiles, ally.pos) || ally.hp < 0.55f * ally.max_hp || ally.hp <= 1.3f * burst ||
++            bit(w.hot_zone, ally.pos)) continue;
++        try {
++            const int bag = static_cast<int>(ally.unit.gem_count());
++            if (bag >= 40 || ally_score + bag >= static_cast<int>(bc::constants::winning_gems)) continue;
++        } catch (...) { continue; }
++        anchor = ally.id; anchor_carry = carry;
++    }
++    if (anchor != my_id) return false;
++#endif
++    if (target) {
++        // Only stationary offensive casts: cast_on_enemy also considers striking dashes, which can leave the region.
++        int best = -1;
++        float best_damage = -1.0f;
++        for (int s = 0; s < 2; ++s) {
++            const auto& spell = spells[s];
++            if (!spell_ready(s) || !spell.enemies || cheb(pos, target->pos) > static_cast<int>(spell.range)) continue;
++            if (spell.kind != bc::ability_kind::damage && spell.kind != bc::ability_kind::aoe_damage &&
++                spell.kind != bc::ability_kind::cc) continue;
++            const float damage = spell.modifier * focus + (spell.kind == bc::ability_kind::cc ? 120.0f : 0.0f);
++            if (damage > best_damage) best = s, best_damage = damage;
++        }
++        if (best >= 0) {
++            try {
++                auto ability = bc::self().abilities()[best];
++                const bool used = spells[best].ground ? ability.use(target->pos) : ability.use(target->unit);
++                if (used) cast_done = true;
++            } catch (...) {}
++        }
++        if (cheb(pos, target->pos) <= range) attack_unit(target->unit, target->pos);
++    }
++    mode = "capture-stand";
++    return true;
++}
++#endif
++
++#if V58_DENY_CAP
++bool Bot::deny_capture() {
++    if (gems >= 20 || hp < 0.75f * max_hp || heading_home || win_now() || !bc::self().can_move() ||
++        bc::fuel_remaining() < 24000) return false;
++    int best = -1;
++    vec2 landing{-1, -1};
++    float best_value = 0.0f;
++    for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
++        const auto& g = w.groups[gi];
++        if (g.state != GroupState::reward || bit(g.tiles, pos)) continue;
++        bool enemy_on = false;
++        for (const auto& e : w.enemies) if (bit(g.tiles, e.pos)) { enemy_on = true; break; }
++        if (!enemy_on) continue;
++        vec2 tile{-1, -1};
++        for (vec2 q : g.tiles.positions()) if (cheb(q, pos) == 1 && !bit(w.static_blocked, q) &&
++            !bit(w.unit_tiles, q) && !bit(w.hot_zone, q)) { tile = q; break; }
++        if (tile.x < 0) continue; // guaranteed immediate entry, never a remote chase
++        float friendly = strength + 0.2f * focus, hostile = 0.0f;
++        int helpers = 0;
++        for (const auto& ally : w.allies) if (ally.hp >= 0.5f * ally.max_hp && cheb(ally.pos, tile) <= ally.range + 1) {
++            friendly += ally.strength + 0.2f * ally.focus; ++helpers;
++        }
++        for (const auto& enemy : w.enemies) if (cheb(enemy.pos, tile) <= enemy.range + 2)
++            hostile += enemy.strength + 0.2f * enemy.focus;
++        if (helpers == 0 || friendly < 1.2f * hostile) continue;
++        const float value = g.gems + 0.2f * g.gold;
++        if (value > best_value) best_value = value, best = gi, landing = tile;
++    }
++    if (best < 0) return false;
++    bc::bitboard goal; goal.clear(); goal.set(landing, true);
++    if (!walk_toward(goal)) return false;
++    mode = "capture-deny";
++    return true;
++}
++#endif
++
++#if V58_CAMP_CONTACT
++bool Bot::camp_contact() {
++    if (target_group < 0 || target_group >= static_cast<int>(w.groups.size()) || hp < 0.65f * max_hp ||
++        gems >= 40 || heading_home || win_now() || bc::fuel_remaining() < 30000) return false;
++    for (const auto& enemy : w.enemies)
++        if (cheb(pos, enemy.pos) <= std::max(6, enemy.range + 2)) return false;
++    auto& group = w.groups[target_group];
++    if (group.state != GroupState::alive || group.hp_left(w.camps) > 4.0f * my_dps(&group)) return false;
++    bool engaged = false, damaged = false;
++    for (int ci : group.camps) {
++        const auto& camp = w.camps[ci];
++        damaged |= camp.dead || camp.hp < camp.max_hp;
++        engaged |= !camp.dead && bit(w.visible, camp.pos) && cheb(camp.pos, pos) <= range;
++    }
++    if (!engaged || !damaged || hp - 2.0f * incoming_from_group(group, pos) < 0.5f * max_hp) return false;
++    // Existing camp staffing, targeting, tank rotation, cast ordering and movement remain authoritative.
++    return fight_camps(group, champions_needed(group, group.hp_left(w.camps)));
++}
++#endif
+--- /dev/null
++++ b/src/tactics.cpp
+@@ -0,0 +1,184 @@
++// V58 action density and survival helpers. Selected-objective/visible-contact work only, never a scoring-loop hook.
++#include "bot.h"
++
++#if V58_ACT
++bool Bot::act_camp_before_walk(GroupRec& g) {
++    if (walked || cast_done) return false;
++    float reach = 0.0f;
++    for (int s = 0; s < 2; ++s) {
++        const auto& spell = spells[s];
++        if (spell_ready(s) && spell.excludes_walk && spell.camps && spell.modifier > 0.0f)
++            reach = std::max(reach, spell.range);
++    }
++    if (reach <= range) return false;
++    int target = -1;
++    float key = 1e30f;
++    for (int ci : g.camps) {
++        const auto& camp = w.camps[ci];
++        if (camp.dead || !bit(w.visible, camp.pos) || cheb(pos, camp.pos) > static_cast<int>(reach)) continue;
++        const float value = camp.hp - camp.strength * 1000.0f;
++        if (value < key) key = value, target = ci;
++    }
++    if (target < 0 || !cast_on_camp(target)) return false;
++    mode = "stand-cast-camp";
++    return true;
++}
++
++bool Bot::act_enemy_before_walk() {
++    if (w.enemies.empty() || walked || cast_done || (!spells[0].excludes_walk && !spells[1].excludes_walk)) return false;
++    const EnemyRec* target = nullptr;
++    int distance = 999;
++    for (const auto& e : w.enemies) {
++        const int d = cheb(pos, e.pos);
++        if (d < distance) distance = d, target = &e;
++    }
++    if (!target) return false;
++    const bool not_fleeing = act_enemy_id == target->id && act_enemy_round == round - 1 &&
++        distance <= cheb(pos, act_enemy_previous);
++    act_enemy_id = target->id; act_enemy_round = round; act_enemy_previous = target->pos;
++    if (!not_fleeing || distance <= range || hp < 0.65f * max_hp || (gems >= 30 && hp < 0.8f * max_hp)) return false;
++    float friendly = strength + focus * 0.125f, hostile = 0.0f;
++    for (const auto& a : w.allies) if (a.hp >= 0.5f * a.max_hp && cheb(a.pos, pos) <= 5) friendly += a.strength + a.focus * 0.125f;
++    for (const auto& e : w.enemies) if (cheb(e.pos, pos) <= 6) hostile += e.strength + e.focus * 0.125f;
++    if (hostile > 1.25f * friendly) return false;
++    bool ready = false;
++    for (int s = 0; s < 2; ++s) {
++        const auto& spell = spells[s];
++        if (spell_ready(s) && spell.excludes_walk && spell.modifier > 0.0f &&
++            (spell.enemies || spell.kind == bc::ability_kind::aoe_damage) && distance <= static_cast<int>(spell.range)) ready = true;
++    }
++    if (!ready || !cast_on_enemy(*target)) return false;
++    mode = "stand-cast-enemy";
++    return true;
++}
++#endif
++
++#if V58_VISION
++void Bot::vision_objective() {
++    if (round - vision_checked < 10) return;
++    vision_checked = round;
++    if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 5000) return;
++    vec2 objective{-1, -1};
++    int closest = 5;
++    if (gems >= 10) for (vec2 altar : w.altars) {
++        const int d = cheb(pos, altar);
++        if (d < closest) closest = d, objective = altar;
++    }
++    if (objective.x < 0 && target_group >= 0 && target_group < static_cast<int>(w.groups.size())) {
++        const auto& g = w.groups[target_group];
++        if (!g.camps.empty()) {
++            const vec2 at = w.camps[g.camps[0]].pos;
++            if (cheb(pos, at) <= 4) {
++                int enemy = kUnreach;
++                for (vec2 spawn : w.enemy_spawn.positions()) enemy = std::min(enemy, cheb(at, spawn));
++                const int home = fdist(w.spawn_field, at);
++                if (home != kUnreach && home >= 0.65f * enemy) objective = at;
++            }
++        }
++    }
++    if (objective.x < 0) for (const auto& enemy : w.enemies) if (cheb(pos, enemy.pos) <= 4) {
++        objective = enemy.pos; break;
++    }
++    if (objective.x < 0 || (ward_pos.x >= 0 && cheb(ward_pos, objective) <= 4)) return;
++    auto& me = bc::self();
++    try {
++        if (me.ward_cooldown() > 0) return;
++        const auto valid = me.ward_placement_tiles();
++        vec2 best{-1, -1};
++        int score = -100000;
++        for (vec2 q : valid.positions()) {
++            if (q == ward_pos || bit(w.static_blocked, q)) continue;
++            const int value = -20 * cheb(q, objective) + std::min(40, static_cast<int>(fdist(w.spawn_field, q)));
++            if (value > score) score = value, best = q;
++        }
++        if (best.x >= 0 && me.place_ward(best)) ward_pos = best;
++    } catch (...) { }
++}
++#endif
++
++#if V58_LOCKS
++void Bot::locks_objective() {
++    if (bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 3000) return;
++    for (vec2 altar : w.altars) {
++        if (cheb(pos, altar) > 2) continue;
++        bool wanted = enemy_score >= 700 && ally_score >= 600;
++        for (const auto& enemy : w.enemies)
++            if (enemy.gems >= 30 && cheb(enemy.pos, altar) <= 6) wanted = true;
++        if (!wanted) continue;
++        try {
++            if (bc::vision::has_altar_lock(altar)) continue;
++            auto& lock = bc::self().consumables()[bc::consumable_type::altar_lock];
++            if (lock.count() == 0) return;
++            if (lock.use(altar)) return;
++        } catch (...) { }
++    }
++}
++#endif
++
++#if V58_SURVIVE
++bool Bot::survive_bank_due() const {
++    if (gems < 35) return false;
++    for (const auto& seen : w.sightings)
++        if (round - seen.round <= 15 && cheb(pos, seen.pos) <= 12) return true;
++    for (const auto& e : w.enemies) if (cheb(pos, e.pos) <= 12) return true;
++    return false;
++}
++
++bool Bot::survive_contact() {
++    if (w.enemies.empty() || bit(w.ally_spawn, pos) || bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 8000) return false;
++    const EnemyRec* nearest = nullptr;
++    int distance = 999;
++    for (const auto& enemy : w.enemies) {
++        const int d = cheb(pos, enemy.pos);
++        if (d < distance) nearest = &enemy, distance = d;
++    }
++    if (!nearest || distance > 6) return false;
++    auto value = [](float health, float maximum, float attack, float magic) {
++        return std::max(1.0f, attack + 0.2f * magic) * (std::max(0.0f, health) + 0.2f * maximum);
++    };
++    auto stun_slot = [](bc::champion_type champion) {
++        using ct = bc::champion_type;
++        if (champion == ct::ryth || champion == ct::ren || champion == ct::prism || champion == ct::marcella) return 0;
++        if (champion == ct::tavi || champion == ct::heart_of_ruin || champion == ct::cassi) return 1;
++        return -1;
++    };
++    float friendly = value(hp, max_hp, strength, focus), hostile = 0.0f;
++    const int my_stun = stun_slot(type);
++    if (my_stun >= 0 && spell_ready(my_stun)) friendly *= 1.15f;
++    for (const auto& ally : w.allies) {
++        const int d = cheb(ally.pos, nearest->pos);
++        if (d > ally.range + 3) continue;
++        const float reach = d <= ally.range ? 1.0f : 0.6f;
++        friendly += reach * value(ally.hp, ally.max_hp, ally.strength, ally.focus);
++    }
++    for (const auto& enemy : w.enemies) {
++        if (cheb(pos, enemy.pos) > 6) continue;
++        float power = value(enemy.hp, enemy.max_hp, enemy.strength, enemy.focus);
++        const int slot_with_stun = stun_slot(enemy.type);
++        if (slot_with_stun >= 0) {
++            bool ready = true; // unknown visible-enemy cooldown is conservatively treated as ready
++            if (&enemy == nearest) {
++                std::int32_t cd = 0;
++                if (bc::detail::sdk_champion_cooldown(enemy.id, slot_with_stun, &cd) == 0) ready = cd == 0;
++            }
++            if (ready) power *= 1.15f;
++        }
++        hostile += power;
++    }
++    const bool bag_panic = gems >= 30 && hp < 0.35f * max_hp;
++    const bool immediate_finish = distance <= range && nearest->hp < 0.5f * strength;
++    if (!bag_panic && (immediate_finish || hostile < 1.65f * friendly)) return false;
++    // Prefer a dash landing outside visible attack ranges and known camp danger, then use existing multi-threat retreat.
++    bc::bitboard blocked = w.static_blocked | w.unit_tiles | w.hot_zone;
++    for (const auto& enemy : w.enemies) blocked.draw_chebyshev(enemy.pos, static_cast<float>(enemy.range));
++    const bool previous_combat = combat_move;
++    combat_move = true;
++    const bool dashed = try_dash(w.spawn_field, blocked);
++    combat_move = previous_combat;
++    const bool moved = dashed || retreat_from(nearest->pos);
++    if (!moved) return false;
++    if (bag_panic || hp < 0.45f * max_hp) heading_home = true;
++    mode = bag_panic ? "flee-bag" : "flee-power";
++    return true;
++}
++#endif

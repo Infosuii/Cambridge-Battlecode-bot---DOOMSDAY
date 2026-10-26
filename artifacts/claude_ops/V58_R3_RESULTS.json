@@ -1,0 +1,82 @@
+{
+ "engine": "1.0.3",
+ "cli": "3.0.5",
+ "unit": "whole combined package as requested by user",
+ "packages": {
+  "bundle": {
+   "games": 672,
+   "wins": 333.0,
+   "win_rate": 0.4955357142857143,
+   "raw_margin": 26.044642857142858,
+   "bayes_mean": 18.923057852127545,
+   "p_gain": 0.6285,
+   "cluster_ci95": [
+    -50.910714285714285,
+    111.90178571428571
+   ],
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel_per_game": 2.1592261904761907,
+   "retained": false
+  },
+  "team": {
+   "games": 672,
+   "wins": 292.0,
+   "win_rate": 0.43452380952380953,
+   "raw_margin": -40.79761904761905,
+   "bayes_mean": -69.59646428031905,
+   "p_gain": 0.14266666666666666,
+   "cluster_ci95": [
+    -134.23809523809524,
+    76.84970238095238
+   ],
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel_per_game": 2.1517857142857144,
+   "retained": false
+  },
+  "core": {
+   "games": 672,
+   "wins": 363.0,
+   "win_rate": 0.5401785714285714,
+   "raw_margin": 75.44345238095238,
+   "bayes_mean": 101.14888459623539,
+   "p_gain": 0.976,
+   "cluster_ci95": [
+    -1.0461309523809523,
+    152.95535714285714
+   ],
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel_per_game": 2.299107142857143,
+   "retained": false
+  },
+  "localmeta": {
+   "games": 672,
+   "wins": 315.0,
+   "win_rate": 0.46875,
+   "raw_margin": 6.145833333333333,
+   "bayes_mean": -10.691356664586403,
+   "p_gain": 0.4211666666666667,
+   "cluster_ci95": [
+    -87.5922619047619,
+    97.72470238095238
+   ],
+   "faults": {
+    "candidate": 0,
+    "opponent": 0
+   },
+   "fuel_per_game": 2.3958333333333335,
+   "retained": false
+  }
+ },
+ "release_passed": false,
+ "holdouts": "not run",
+ "next": "Sprint3 engine2 migration and recent v57 loss review"
+}

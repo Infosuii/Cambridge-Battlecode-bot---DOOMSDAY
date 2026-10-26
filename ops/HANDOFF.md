@@ -346,3 +346,10 @@ mechanism, no12-seed confirmation, no active-candidate independent release build
 No rank25 or Claudus win claim is supported. A future architecture should explain how it improves repeated team
 income and pressure together; do not resume threshold tuning or open holdouts to rescue these screens.
 
+
+
+## Combined research checkpoint and patch migration (2026-10-26)
+
+The user resumed work and requested whole-package testing, followed by Sprint3 updates and fresh v57 loss review. Round2 and round3 results supersede the stopped round1 status above. Four combined packages each completed672 games on engine1.0.3 with zero native faults. Core reached363 wins/672 (+75.4 raw gems; Bayes+101.1/P=.976), but cluster95%[-1.05,+152.96] and fuel2.299/game miss the final gate. No upload or holdout. Read V58_R2_RESULTS.md and V58_R3_RESULTS.md under artifacts/claude_ops. Exact patches are indexed in V58_EXPERIMENTS.json.
+
+Next authorized work: preserve this checkpoint, migrate verified official CLI/SDK4.0.0 and engine2.0.0, isolate build caches by environment, implement the new item/balance rules, and analyze recently downloaded v57 losses. The core package is a development base only. Frozen v57 source remains unchanged and live as platform56.

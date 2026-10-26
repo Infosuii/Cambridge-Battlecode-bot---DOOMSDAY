@@ -66,6 +66,28 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
         }
     }
 #endif
+#if V58_KIT_MARCELLA
+    if (t == bc::champion_type::marcella)
+#if V58_KIT_MARCELLA >= 2
+        // Observed top-team order: camp mitigation/attack, general mitigation, then a balanced support stat core.
+        return {{it::jungle_shard_of_strength, 5}, {it::durability_shard_of_health, 5},
+            {it::bruiser_shard_of_focus, 5}, {it::bruiser_shard_of_health, 5}, {it::bruiser_shard_of_strength, 5},
+            {it::bruiser_shard_of_focus, 60}, {it::bruiser_shard_of_health, 60}, {it::bruiser_shard_of_strength, 60}};
+#else
+        return {{it::jungle_shard_of_strength, 5}, {it::durability_shard_of_health, 5},
+            {it::bruiser_shard_of_strength, 60}, {it::bruiser_shard_of_health, 60}};
+#endif
+#endif
+#if V58_KIT_TAVI
+    if (t == bc::champion_type::tavi)
+        return {{it::treasure_shard_of_strength, 5}, {it::durability_shard_of_health, 5},
+            {it::monster_shard_of_strength, 5}, {it::bruiser_shard_of_strength, 60}, {it::bruiser_shard_of_health, 60}};
+#endif
+#if V58_KIT_HEART
+    if (t == bc::champion_type::heart_of_ruin)
+        return {{it::treasure_shard_of_health, 5}, {it::jungle_shard_of_focus, 5},
+            {it::durability_shard_of_health, 5}, {it::bruiser_shard_of_health, 60}, {it::bruiser_shard_of_strength, 60}};
+#endif
     const bool caster = t == bc::champion_type::stellar || t == bc::champion_type::cassi || t == bc::champion_type::prism
         || (NOVA_CASTER_SET >= 1 && (t == bc::champion_type::tavi))
         || (NOVA_CASTER_SET >= 2 && (t == bc::champion_type::willow || t == bc::champion_type::marcella));
@@ -2982,6 +3004,15 @@ bool Bot::handle_enemies() {
     a2_hold_burst = false;
 #endif
     if (w.enemies.empty()) return false;
+#if V58_CAMP_CONTACT
+    if (camp_contact()) return true;
+#endif
+#if V58_CAPTURE_STAND
+    if (capture_stand()) return true;
+#endif
+#if V58_DENY_CAP
+    if (deny_capture()) return true;
+#endif
     FlagScope combat{combat_move};
     PROF(enemies);
     PROF_CHECK("e_in");
@@ -4232,6 +4263,26 @@ bool Bot::go_home_if_needed() {
     }
 #endif
     if (!heading_home && !low && !rich) return false;
+#if V58_FINISH_RESET
+    if (rich && !low && !heading_home && hp >= 0.65f * max_hp && w.enemies.empty() &&
+        target_group >= 0 && target_group < static_cast<int>(w.groups.size())) {
+        const auto& pending = w.groups[target_group];
+        if (reset_defer_group != target_group) reset_defer_group = target_group, reset_defer_until = -1;
+        bool close_finish = false;
+        if (pending.state == GroupState::alive) {
+            bool in_range = false;
+            for (int ci : pending.camps) if (!w.camps[ci].dead && cheb(w.camps[ci].pos, pos) <= range) in_range = true;
+            close_finish = in_range && pending.hp_left(w.camps) <= 2.0f * my_dps(&pending) &&
+                hp - 3.0f * incoming_from_group(pending, pos) >= 0.45f * max_hp;
+        } else if (pending.state == GroupState::reward) {
+            for (vec2 tile : pending.tiles.positions()) if (cheb(tile, pos) <= 2) { close_finish = true; break; }
+        }
+        if (close_finish) {
+            if (reset_defer_until < 0) reset_defer_until = round + 10;
+            if (round < reset_defer_until) return false; // one bounded deferral per target, never a rolling deadline
+        }
+    }
+#endif
     // Do not abandon a capture we are standing on.
     if (!low && target_group >= 0 && w.groups[target_group].state == GroupState::reward &&
         bit(w.groups[target_group].tiles, pos))

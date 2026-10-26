@@ -1,4 +1,26 @@
 // v58 coordinated economy research; all new mechanisms initially disabled.
+#ifndef V58_CAPTURE_FOOTWORK // A sole unsafe capturer may step to a safe adjacent tile inside the same reward region.
+#define V58_CAPTURE_FOOTWORK 0
+#endif
+#ifndef V58_CAMP_CONTACT // Finish an already engaged nearby camp while all visible enemies remain outside immediate reach.
+#define V58_CAMP_CONTACT 0
+#endif
+#ifndef V58_FINISH_RESET // Complete a nearby almost-finished camp/reward before a healthy gold-only shopping reset.
+#define V58_FINISH_RESET 0
+#endif
+#ifndef V58_CAPTURE_STAND // 1 holds safe captures; 2 elects one visible safe anchor while other champions keep fighting.
+#define V58_CAPTURE_STAND 0
+#endif
+#ifndef V58_KIT_MARCELLA // 1 attack-focused trial; 2 hybrid Jungle attack, durability, then focus/health/attack emblems.
+#define V58_KIT_MARCELLA 0
+#endif
+#ifndef V58_KIT_TAVI // Treasure attack stats and an early Monster emblem for the mobile ranged farmer.
+#define V58_KIT_TAVI 0
+#endif
+#ifndef V58_KIT_HEART // Add early universal damage reduction before Heart's long stat stack.
+#define V58_KIT_HEART 0
+#endif
+
 #ifndef V58_PRECAP // Experimental carry prepositioning, unretained; keep separate from reward ownership.
 #define V58_PRECAP 0
 #endif
@@ -11,7 +33,7 @@
 #ifndef V58_CARRY_SHOP // Complete the carry Treasure milestone using short, useful shopping trips.
 #define V58_CARRY_SHOP 0
 #endif
-#ifndef V58_DRAFT // Use the carry composition only with the coordinated economy loop.
+#ifndef V58_DRAFT // 1 carry composition with director; 2 also permits the local capture-anchor package.
 #define V58_DRAFT 0
 #endif
 #ifndef V58_SURVIVE // Use visible power and valuable bags to disengage before losing fights.

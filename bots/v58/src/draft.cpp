@@ -712,7 +712,7 @@ bool ml_draft_pick(std::uint32_t size) {
 #endif
 
 
-#if V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT
+#if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2)
 namespace {
 bool economy_draft_supported() {
     static int cached = -1;
@@ -768,7 +768,7 @@ void play_draft() {
         size = bc::draft::team_size();
     } catch (...) {
     }
-#if V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT
+#if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2)
     if (economy_draft_supported()) {
         constexpr cd meta[] = {cd::vesper_vale, cd::heart_of_ruin, cd::vendetta, cd::ryth, cd::marcella, cd::tavi};
         if (pick_from(meta, chosen)) {

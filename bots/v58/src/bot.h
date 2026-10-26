@@ -40,7 +40,19 @@ public:
     void play_turn();
 
 private:
+#if V58_FINISH_RESET
+    int reset_defer_group = -1, reset_defer_until = -1;
+#endif
+#if V58_CAMP_CONTACT
+    bool camp_contact();
+#endif
     void init();
+#if V58_CAPTURE_STAND
+    bool capture_stand();
+#endif
+#if V58_DENY_CAP
+    bool deny_capture();
+#endif
     void refresh_self();
 #if V58_VISION
     void vision_objective();

@@ -1,0 +1,96 @@
+{
+ "round": 3,
+ "user_request": "Combine the minor improvements at once and judge the whole package, breaking the single-change rejection loop.",
+ "sdk_cli": "3.0.5",
+ "engine": "1.0.3",
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12
+ ],
+ "maps": "28 development maps, both sides",
+ "games_per_package": 672,
+ "baseline": "bots/v57",
+ "previous_best": "r2-c3b-confirm",
+ "packages": {
+  "r3-bundle": {
+   "flags": {
+    "CAPTURE_STAND": 2,
+    "CAPTURE_FOOTWORK": 1,
+    "CAMP_CONTACT": 1,
+    "FINISH_RESET": 1,
+    "KIT_MARCELLA": 2,
+    "KIT_TAVI": 1,
+    "KIT_HEART": 1,
+    "DENY_CAP": 1,
+    "ACT": 12,
+    "VISION": 1,
+    "LOCKS": 1
+   },
+   "source_sha256": "54e039cd6ed9b46e8d6e76ae3e17363d97ec58e773e05f0b42c90c48b28e3ace"
+  },
+  "r3-team": {
+   "flags": {
+    "CAPTURE_STAND": 2,
+    "CAPTURE_FOOTWORK": 1,
+    "CAMP_CONTACT": 1,
+    "FINISH_RESET": 1,
+    "KIT_MARCELLA": 2,
+    "KIT_TAVI": 1,
+    "KIT_HEART": 1,
+    "DENY_CAP": 1,
+    "ACT": 12,
+    "VISION": 1,
+    "LOCKS": 1,
+    "DIRECTOR": 3,
+    "ROUTE": 1,
+    "CARRY_SHOP": 1,
+    "DRAFT": 1,
+    "PRECAP": 1
+   },
+   "source_sha256": "f5710059a27daecad5a88d946ceeac36d3a5fa062d509ee47a064c214ea671c1"
+  },
+  "r3-core": {
+   "flags": {
+    "CAPTURE_STAND": 2,
+    "CAPTURE_FOOTWORK": 1,
+    "CAMP_CONTACT": 1,
+    "FINISH_RESET": 1,
+    "KIT_MARCELLA": 2,
+    "KIT_TAVI": 1,
+    "KIT_HEART": 1,
+    "DENY_CAP": 1,
+    "ACT": 12
+   },
+   "source_sha256": "b4c3038f6a9f2f959fca20c6eaa19a067d6d6ac9c869850a372d6a88d9ceef1d"
+  },
+  "r3-localmeta": {
+   "flags": {
+    "CAPTURE_STAND": 2,
+    "CAPTURE_FOOTWORK": 1,
+    "CAMP_CONTACT": 1,
+    "FINISH_RESET": 1,
+    "KIT_MARCELLA": 2,
+    "KIT_TAVI": 1,
+    "KIT_HEART": 1,
+    "DENY_CAP": 1,
+    "ACT": 12,
+    "DRAFT": 2
+   },
+   "source_sha256": "7d46ff9820bffcfba6d2638b33d65aaa137cb5d7f1552d91284714f0c57759a7"
+  }
+ },
+ "evaluation": "Both packages receive the complete fixed12seed test. Compare overall strength vs v57 and paired against the previous best; no standalone component acceptance requirement for the bundle.",
+ "exclusions": "Broad power-based retreat remains off because it directly overrides objective anchoring; carry hunting has no implementation. Sprint3 patch is not applied.",
+ "release_gate": "Original strict whole-candidate release conditions remain: positive clustered interval, Bayes mean>=50/P>=.95, wins>=.53, zero native faults, fuel<=2/game, once-only holdouts and verified clean build/bundle.",
+ "followup": "After the two full packages completed, test the combined productive core without vision/locks; then the same core with carry drafting but no forced director jobs. Both receive12fixedseeds. These are package-level alternatives, not standalone component gates."
+}
