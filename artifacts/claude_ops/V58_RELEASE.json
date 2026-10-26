@@ -1,8 +1,8 @@
 {
  "candidate": "bots/v58",
  "baseline": "bots/v57 (frozen source, rebuilt with SDK4.0.0)",
- "status": "validated; not submitted yet",
- "submitted": false,
+ "status": "submitted; selected and queued for platform compilation",
+ "submitted": true,
  "authorization": "User authorized submission once definite improvement; strict v58 final gate retained. Whole-package evaluation and Sprint3 migration explicitly requested. No match groups queued.",
  "sdk_cli_version": "4.0.0",
  "engine_version": "2.0.0",
@@ -1224,9 +1224,18 @@
  },
  "results": "artifacts/claude_ops/V58_SPRINT3_RESULTS.json",
  "loss_review": "artifacts/claude_ops/V57_SPRINT3_LOSS_REVIEW.json",
- "platform_version": null,
- "submitted_at_utc": null,
- "upload_bytes": null,
+ "platform_version": 57,
+ "submitted_at_utc": "2026-10-26T13:23:03.916Z",
+ "upload_bytes": 279034,
  "source_commit": "311c4a898f78bc22da1d7b8a2ad5df87d5eebdd8",
- "provenance_limit": "The CLI provides no platform read-back of source content/hash. Submission verification will check exact local source/bundle and reported upload size, then compilation/active selection."
+ "provenance_limit": "The CLI provides no platform read-back of source content/hash. Submission verification will check exact local source/bundle and reported upload size, then compilation/active selection.",
+ "submission_started_utc": "2026-10-26T13:23:01.195975+00:00",
+ "platform_note": "v58: Sprint3 economy + faster camp tracking; src 38754076",
+ "submission_log": "artifacts/claude_ops/results/v58-submit.txt",
+ "source_unchanged_after_submission": true,
+ "upload_matches_verified_bundle": true,
+ "platform_selected": true,
+ "platform_active": false,
+ "platform_compilation_status": "queued",
+ "last_platform_check_utc": "2026-10-26T13:25:23.337815+00:00"
 }

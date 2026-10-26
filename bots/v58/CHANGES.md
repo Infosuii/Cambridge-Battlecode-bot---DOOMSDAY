@@ -1,6 +1,7 @@
 # v58: Sprint3 economy and faster contested-camp tracking
 
-Validated for submission; repository v57 remains platform56 until the upload succeeds. This is the combined
+Submitted2026-10-26T13:23:03.916Z as platform57 (repository v58). Selected; compilation queued at the last check.
+Previous platform56 remains active while compilation is queued. This is the combined
 package requested by the user, based on frozen v57. Development uses official SDK/CLI4.0.0 and engine2.0.0,
 with the official100000 fuel/turn and doubled opening allowance. No fuel, round or rule overrides.
 
