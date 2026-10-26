@@ -14,6 +14,7 @@ from collections import defaultdict
 import glob
 import json
 from pathlib import Path
+from bench_provenance import require_compatible
 import random
 import statistics as st
 
@@ -37,6 +38,7 @@ def main():
     ap.add_argument('--maps'); ap.add_argument('--boot', type=int, default=4000); ap.add_argument('--json')
     args = ap.parse_args()
     maps = set(args.maps.split(',')) if args.maps else None
+    require_compatible(args.a, args.b)
     A = load(args.a, maps)
     B = load(args.b, maps) if args.b else None
     keys = sorted(A.keys() & B.keys()) if B else sorted(A)

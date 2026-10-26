@@ -3,8 +3,9 @@
 # (<out>-seed<s>-s<k>/summary.json, <out>-seed<s>.txt), so every analysis tool works unchanged.
 #   bash artifacts/claude_ops/bench3.sh <abs candidate dir> <abs opponent dir> <abs out prefix> [seed ...]
 # Env: MAPS_OVERRIDE, HOLDOUT, PY; RETRIES (failed shard retries, default 2).
+# MAP_DIR selects an explicit fresh-map directory and requires HOLDOUT=1; uses the same build/fault checks.
 # Guarantees:
-#   * each (source tree, seed) is built once and cached by content hash in artifacts/tmp/wasm-cache, so frozen
+#   * each (environment, source tree, seed) is built once and cached by content hash, so frozen
 #     opponents and unchanged candidates are not rebuilt for every run;
 #   * every shard's summary must hold 2 games per map; a crashed shard (WinError 1455, killed process) is rerun up to
 #     RETRIES times, and the run fails loudly (exit 1) rather than silently reporting fewer games.
@@ -15,8 +16,14 @@ RETRIES="${RETRIES:-2}"
 cd "$(dirname "$0")/../.." # repo root
 export PYTHONPATH="$PWD/python" PYTHONDONTWRITEBYTECODE=1 TMP="$PWD/artifacts/tmp" TEMP="$PWD/artifacts/tmp" PATH="/c/msys64/ucrt64/bin:$PATH"
 PY="${PY:-$(sed -n 's/.*"python": *"\([^"]*\)".*/\1/p' config/paths.json)}"
-CACHE="$PWD/artifacts/tmp/wasm-cache"; B="$OUT-build"; mkdir -p "$CACHE" "$B"
-MAPS=${MAPS_OVERRIDE:-$("$PY" -c "import json;p=json.load(open('evaluation/schedules/map_partitions.json'))['partitions'];print(' '.join(p['training']+p['selection']))")}
+ENV_KEY=$("$PY" tools/bench_environment.py --json "$OUT-environment.json")
+CACHE="$PWD/artifacts/tmp/wasm-cache/$ENV_KEY"; B="$OUT-build"; mkdir -p "$CACHE" "$B"
+if [ -n "$MAP_DIR" ]; then
+  [ "$HOLDOUT" = "1" ] || { echo "MAP_DIR requires HOLDOUT=1 (frozen candidate only)"; exit 1; }
+  MAPS=${MAPS_OVERRIDE:-$("$PY" -c "import pathlib,sys;print(' '.join(p.stem for p in sorted(pathlib.Path(sys.argv[1]).glob('*.map26a'))))" "$MAP_DIR")}
+else
+  MAPS=${MAPS_OVERRIDE:-$("$PY" -c "import json;p=json.load(open('evaluation/schedules/map_partitions.json'))['partitions'];print(' '.join(p['training']+p['selection']))")}
+fi
 
 build() { # <bot dir> <seed> <out wasm>: seed-substituted copy, content-hashed, built only on a cache miss
   local d="$B/src-$(basename "$3" .wasm)"; rm -rf "$d"; mkdir -p "$d"; cp -r "$1/src" "$d/"
@@ -34,7 +41,11 @@ shard_maps() { local k=$1 j=0 m out=""; for m in $MAPS; do [ $((j % 4)) -eq $k ]
 run_shard() { # <seed> <shard>: fresh output dir each attempt
   local s=$1 k=$2 dir="$OUT-seed$s-s$k" maps; maps=$(shard_maps $k); [ -z "$maps" ] && return 0
   rm -rf "$dir"
-  "$PY" tools/bot_match.py --a "$B/cand-s$s.wasm" --b "$B/opp-s$s.wasm" ${HOLDOUT:+--holdout} --out "$dir" --maps $maps > "$dir.log" 2>&1 || true
+  if [ -n "$MAP_DIR" ]; then
+    "$PY" tools/fresh_match.py --a "$B/cand-s$s.wasm" --b "$B/opp-s$s.wasm" --map-dir "$MAP_DIR" --out "$dir" --maps $maps > "$dir.log" 2>&1 || true
+  else
+    "$PY" tools/bot_match.py --a "$B/cand-s$s.wasm" --b "$B/opp-s$s.wasm" ${HOLDOUT:+--holdout} --out "$dir" --maps $maps > "$dir.log" 2>&1 || true
+  fi
 }
 shard_ok() { # <seed> <shard>: summary exists with 2 games per map
   local s=$1 k=$2 maps n; maps=$(shard_maps $k); [ -z "$maps" ] && return 0
@@ -56,3 +67,5 @@ for s in $SEEDS; do
 done
 "$PY" tools/bench_summary.py "${dirs[@]}"
 if [ -n "$bad" ]; then echo "INCOMPLETE: shards failed after $RETRIES retries:$bad (see $OUT-seed<s>-s<k>.log)"; exit 1; fi
+"$PY" tools/bench_environment.py --json "$OUT-environment.json" --verify
+"$PY" tools/check_bench_run.py "$OUT" --seeds "${SEEDS// /,}" --maps "${MAPS// /,}"

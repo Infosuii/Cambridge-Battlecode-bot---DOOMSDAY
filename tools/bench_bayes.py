@@ -26,6 +26,7 @@ from collections import defaultdict
 import glob
 import json
 from pathlib import Path
+from bench_provenance import require_compatible
 
 import numpy as np
 
@@ -86,6 +87,7 @@ def main():
     args = ap.parse_args()
     maps = set(args.maps.split(',')) if args.maps else None
     seeds = set(args.seeds.split(',')) if args.seeds else None
+    require_compatible(args.a, args.b)
     A = load(args.a, maps, seeds)
     B = load(args.b, maps, seeds) if args.b else None
     keys = sorted(A.keys() & B.keys()) if B else sorted(A)

@@ -19,6 +19,9 @@ def configure(python=None,native_cxx=None,cli=None):
     paths.update(python=str(Path(python or sys.executable).resolve()),native_cxx=str(Path(compiler).resolve()),
                  cli=str(Path(official).resolve()),sdk_cpp=str(ROOT/'sdk/cpp'),maps=str(ROOT/'maps/local-benchmarks'),
                  _note='Configured for this clone. Existing training/history paths are original-laptop-only; never guess a replacement training dataset.')
+    if Path(official).resolve() == (ROOT/'tools/vendor/cambc.exe').resolve():
+        manifest=json.loads((ROOT/'tools/vendor/manifest.json').read_text())
+        paths.setdefault('expected',{}).update(cli_version='cambc '+manifest['version'],engine_version=manifest['engine_version'],fuel_per_turn=100000)
     if os.name=='nt':paths['wasi_sdk']=str(Path(os.environ['LOCALAPPDATA'])/'cambc/wasi-sdk-33')
     (ROOT/'config/paths.json').write_text(json.dumps(paths,indent=2)+'\n',encoding='utf-8')
     temp=ROOT/'artifacts/tmp';temp.mkdir(parents=True,exist_ok=True)

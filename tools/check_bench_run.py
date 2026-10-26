@@ -24,6 +24,9 @@ def main():
     actual, duplicates = set(), []
     faults = {'candidate': 0, 'opponent': 0}
     fuel = {'candidate': 0, 'opponent': 0}
+    env_file = Path(a.prefix + "-environment.json")
+    env = json.loads(env_file.read_text()) if env_file.exists() else None
+    versions = set()
     games = wins = 0
     margin = 0
     for f in glob.glob(a.prefix + '-seed*-s*/summary.json'):
@@ -37,6 +40,7 @@ def main():
                 duplicates.append(key)
             actual.add(key)
             native = json.loads((Path(g['folder']) / 'summary.json').read_text(encoding='utf8'))
+            versions.add(native['match']['engineVersion'])
             us, them = 'team' + g['side'], 'team' + ('B' if g['side'] == 'A' else 'A')
             for label, team in (('candidate', us), ('opponent', them)):
                 faults[label] += int(native['diagnostics']['botFaults'][team])
@@ -47,7 +51,9 @@ def main():
     report = dict(games=games, expected_games=len(expected), wins=wins,
                   win_rate=wins / games if games else None, mean_margin=margin / games if games else None,
                   faults=faults, fuel=fuel, missing=sorted(expected - actual), unexpected=sorted(actual - expected), duplicates=duplicates)
-    report['passed'] = actual == expected and not duplicates and sum(faults.values()) == 0
+    report['engine_versions'] = sorted(versions)
+    report['environment_fingerprint'] = env['fingerprint'] if env else None
+    report['passed'] = actual == expected and not duplicates and sum(faults.values()) == 0 and len(versions) == 1 and (env is None or versions == {env['engine_version']})
     if a.json:
         Path(a.json).write_text(json.dumps(report, indent=1) + '\n', encoding='utf8')
     print(json.dumps(report))

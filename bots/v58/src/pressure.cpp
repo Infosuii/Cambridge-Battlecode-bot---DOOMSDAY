@@ -5,7 +5,7 @@
 #if V58_CAPTURE_STAND
 bool Bot::capture_stand() {
     if (target_group < 0 || target_group >= static_cast<int>(w.groups.size()) || hp < 0.55f * max_hp ||
-        gems >= 40 || heading_home || win_now() || round + bc::constants::capture_time >= bc::constants::max_rounds ||
+        gems >= 40 || heading_home || win_now() || round + capture_time >= bc::constants::max_rounds ||
         bit(w.hot_zone, pos) || bc::fuel_remaining() < 18000) return false;
     const auto& g = w.groups[target_group];
     if (g.state != GroupState::reward || !bit(g.tiles, pos)) return false;

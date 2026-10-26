@@ -25,8 +25,10 @@ def main():
     work = ROOT / 'artifacts/local-only/v58' / Path(prefix).name
     work.mkdir(parents=True, exist_ok=True)
     files, games = [], {}
+    selected_seeds = set(filter(None, os.environ.get('NFS_ANALYSIS_SEEDS','').split(',')))
     for summary in sorted(glob.glob(prefix + '-seed*-s*/summary.json')):
         seed = Path(summary).parent.name.split('-seed')[-1].split('-')[0]
+        if selected_seeds and seed not in selected_seeds: continue
         for g in json.loads(Path(summary).read_text(encoding='utf8'))['per_game']:
             name = f"{g['map']}-{g['side']}-seed{seed}"
             path = work / (name + '.repl26a')
@@ -39,7 +41,8 @@ def main():
             files.append(str(path))
             games[name] = (g, json.loads((native / 'summary.json').read_text(encoding='utf8')))
     assert files, 'no completed games'
-    ledger_path, funnel_path = work / 'ledger.json', work / 'funnel.json'
+    suffix = '-seeds' + '-'.join(sorted(selected_seeds)) if selected_seeds else ''
+    ledger_path, funnel_path = work / ('ledger'+suffix+'.json'), work / ('funnel'+suffix+'.json')
     if not ledger_path.exists():
         run_batches('actor_ledger.mjs', [], files, ledger_path, until=500)
     if not funnel_path.exists():
@@ -94,7 +97,7 @@ def main():
         for key in ('carry_capture_share_R250', 'carry_treasure_by120', 'carry_treasure_round_censored500'):
             xs = [r[key] for r in subset if r[key] is not None]
             vesper_only[side][key] = {'n': len(xs), 'mean': mean(xs), 'median': st.median(xs) if xs else None}
-    report = {'prefix': prefix, 'games': len(rows), 'metrics': metrics, 'vesper_only_metrics': vesper_only,
+    report = {'prefix': prefix, 'analysis_seeds': sorted(selected_seeds), 'engine': os.environ.get('NFS_REPLAY_ENGINE','1.0.3'), 'games': len(rows), 'metrics': metrics, 'vesper_only_metrics': vesper_only,
               'carry_definition': 'Vesper if drafted, otherwise lowest actor-id slot; missing Treasure censored at501, not omitted.',
               'funnel_note': 'Observed capture detection, basic-attack hitters, SDK camp base values; spell-only hits may be missed. Same analysis for both teams.',
               'per_game': rows}

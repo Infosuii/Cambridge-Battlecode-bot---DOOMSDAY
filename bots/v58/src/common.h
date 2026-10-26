@@ -1,24 +1,30 @@
-// v58 coordinated economy research; all new mechanisms initially disabled.
+// v58 development package; release remains conditional on whole-candidate validation.
+#ifndef V58_PATCH // Runtime balance metadata, complete item accounting and cached passive models.
+#define V58_PATCH 1
+#endif
+#ifndef V58_ITEM_PLAN // Sprint3 economy package: Prospector/Capture, mitigation, then efficient stat growth.
+#define V58_ITEM_PLAN 1
+#endif
 #ifndef V58_CAPTURE_FOOTWORK // A sole unsafe capturer may step to a safe adjacent tile inside the same reward region.
-#define V58_CAPTURE_FOOTWORK 0
+#define V58_CAPTURE_FOOTWORK 1
 #endif
 #ifndef V58_CAMP_CONTACT // Finish an already engaged nearby camp while all visible enemies remain outside immediate reach.
-#define V58_CAMP_CONTACT 0
+#define V58_CAMP_CONTACT 1
 #endif
 #ifndef V58_FINISH_RESET // Complete a nearby almost-finished camp/reward before a healthy gold-only shopping reset.
-#define V58_FINISH_RESET 0
+#define V58_FINISH_RESET 1
 #endif
 #ifndef V58_CAPTURE_STAND // 1 holds safe captures; 2 elects one visible safe anchor while other champions keep fighting.
-#define V58_CAPTURE_STAND 0
+#define V58_CAPTURE_STAND 2
 #endif
 #ifndef V58_KIT_MARCELLA // 1 attack-focused trial; 2 hybrid Jungle attack, durability, then focus/health/attack emblems.
-#define V58_KIT_MARCELLA 0
+#define V58_KIT_MARCELLA 2
 #endif
 #ifndef V58_KIT_TAVI // Treasure attack stats and an early Monster emblem for the mobile ranged farmer.
-#define V58_KIT_TAVI 0
+#define V58_KIT_TAVI 1
 #endif
 #ifndef V58_KIT_HEART // Add early universal damage reduction before Heart's long stat stack.
-#define V58_KIT_HEART 0
+#define V58_KIT_HEART 1
 #endif
 
 #ifndef V58_PRECAP // Experimental carry prepositioning, unretained; keep separate from reward ownership.
@@ -40,7 +46,7 @@
 #define V58_SURVIVE 0
 #endif
 #ifndef V58_ACT // Bit1 camp casts, bit2 enemy casts, bit4 post-walk resets, bit8 legal basic attacks after dash approaches.
-#define V58_ACT 0
+#define V58_ACT 12
 #endif
 #ifndef V58_VISION // Refresh useful personal wards at contested groups and banking routes.
 #define V58_VISION 0
@@ -49,7 +55,7 @@
 #define V58_LOCKS 0
 #endif
 #ifndef V58_DENY_CAP // Contest an enemy capture only with a healthy nearby non-carrier.
-#define V58_DENY_CAP 0
+#define V58_DENY_CAP 1
 #endif
 #ifndef V58_HUNT_CARRY // Coordinate a carry interception only with a local advantage.
 #define V58_HUNT_CARRY 0
@@ -938,7 +944,7 @@ inline void report(int round) {
 #define A2_FIELDFIRST 0 // the route search (fields built only from leftover fuel never arrived on islands: straight-line targets)
 #endif
 #ifndef A2_FASTGRP // world update: groups near enemies through a bitboard (same result, a fraction of the fuel)
-#define A2_FASTGRP 0
+#define A2_FASTGRP 1
 #endif
 #ifndef A2_ZONES // territories (commander v1, bot.cpp build_zones): 1 one sector of camp groups per champion, 2 per pair
 #define A2_ZONES 0

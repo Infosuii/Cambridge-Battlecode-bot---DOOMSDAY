@@ -1,0 +1,61 @@
+{
+ "source_sha256": "38754076d690d5e0cc434b27719785046aac0c84f1e63c340b3113091d031f19",
+ "seeds": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "frozen_candidate": "artifacts/tmp/v58-s3-fastgroups",
+ "baseline": "bots/v57 rebuilt with SDK4",
+ "engine": "2.0.0",
+ "original_holdout": [
+  "00ambush",
+  "00corners",
+  "00expanse",
+  "00interlock",
+  "00lanes",
+  "00monolith",
+  "00packs",
+  "00pilgrimage",
+  "01elk-arena",
+  "01fracture",
+  "01hooks",
+  "01the-farm"
+ ],
+ "previous_fresh_holdout": [
+  "00anvil",
+  "00breadcrumbs",
+  "00crater",
+  "00dunes",
+  "00galaxy",
+  "00oasis",
+  "00quarry",
+  "00ribs",
+  "00the-line",
+  "00vault",
+  "adgato-gemcombat1",
+  "adgato-gemcombat2",
+  "adgato-gemcombat3",
+  "adgato-gemcombat4",
+  "adgato-gemcombat5"
+ ],
+ "sprint3_new_map_compatibility": [
+  "02arena",
+  "02crossing",
+  "02cuts",
+  "02famine",
+  "02fields",
+  "02geodes",
+  "02gift-wrapping",
+  "02guardians",
+  "02harvest",
+  "02stalactites",
+  "02tangle",
+  "02the-pack",
+  "02the-pond",
+  "02treasure-box",
+  "02uncharted-lands"
+ ],
+ "rules": "Each pool run once for this frozen candidate. The previous fresh pool has earlier version exposure. New02 maps have recent-loss analysis exposure, no v58 benchmark tuning. Required12+15 holdouts must each reach50% wins and nonnegative margin, native faults0, fuel<=2/game. Extra02 compatibility results are reported separately, not used for tuning this release."
+}

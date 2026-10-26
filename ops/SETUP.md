@@ -4,7 +4,7 @@ Everything needed to build, test, analyse and submit is in this repository. Only
 
 ## 1. Prerequisites
 
-- Windows x64. Other platforms need their own official `cambc` 3.0.5 binary.
+- Windows x64. Other platforms need their own official `cambc` 4.0.0 binary.
 - Git Bash: every `*.sh` here is bash.
 - Python 3.12 with `numpy`, and `torch` for training (`pip install -r requirements-dev.txt`). A CUDA torch build is only needed for GPU training.
 - Node.js ≥ 20, for `tools/replay/*.mjs`.
@@ -12,7 +12,7 @@ Everything needed to build, test, analyse and submit is in this repository. Only
 
 ## 2. Official CLI and login
 
-The unmodified official CLI is vendored: `tools/vendor/cambc.exe` (3.0.5, SHA-256 in `tools/vendor/manifest.json`).
+The unmodified official CLI is vendored: `tools/vendor/cambc.exe` (4.0.0 / engine2.0.0, SHA-256 in `tools/vendor/manifest.json`).
 - **The user must log in on this device:** `tools/vendor/cambc.exe login`. Agents never enter credentials. Without a login, everything local still works; only `ladder`, `matches`, `match-groups` and `submit` need it.
 - The first `cambc build` downloads the wasi-sdk into `%LOCALAPPDATA%/cambc/wasi-sdk-33`.
 - Replay decoding (`tools/replay/decode_replays.mjs`) loads the engine wasm from the CLI's visualiser assets, `%LOCALAPPDATA%/cambc/assets/<hash>/visualiser/assets` (pinned by SHA-256 in the script). Run `tools/vendor/cambc.exe view <any replay>` once to install them, or pass `--assets <dir>`.
@@ -25,7 +25,7 @@ python tools/configure_dev.py --cli tools/vendor/cambc.exe       # rewrites conf
 
 `configure_dev.py` stops if it cannot find a native `g++`. Install MSYS2 UCRT64, or pass `--native-cxx <path>`; any existing file works if you will not use the native policy tools.
 
-Check the `cli`, `python` and `maps` entries in `config/paths.json`. `maps` should be `maps/local-benchmarks`: all 40 ladder maps are vendored there, and `nfs.engine` falls back to it when the configured map folder is missing.
+Check the `cli`, `python` and `maps` entries in `config/paths.json`. `maps` should be `maps/local-benchmarks`: all70 published maps are vendored there, and `nfs.engine` falls back to it when the configured map folder is missing.
 
 Environment for every command (bash):
 
@@ -58,3 +58,5 @@ Pass **absolute** paths to `bench3.sh`, because they `cd` to the repo root. The 
 | v50 camp-net PPO training code | `training/v50-campnet/` (paths inside are the training box's; adjust ROOT and CLI) |
 | Policy-v2 neural framework (abandoned) | `python/nfs/policy`, `tools/policy_bc.py`, `bot/src/nn_policy_*` |
 | Frozen baseline | `artifacts/baselines/heuristic-v1` (do not modify) |
+
+Sprint3: the active workspace uses official SDK/CLI4.0.0 and engine2.0.0. bench3 fingerprints CLI, SDK, CMake and toolchain inputs, so legacy Wasm caches cannot be reused after migration. Native faults on either team invalidate the run. Compare only matching environments. Historical training records and replay analysis default to1.0.3; explicitly set NFS_REPLAY_ENGINE=2.0.0 for new replays. Do not mix old/new gameplay labels. Fresh-map final checks use HOLDOUT=1 MAP_DIR=<directory> with bench3, without opening those pools during development.

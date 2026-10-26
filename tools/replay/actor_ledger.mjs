@@ -11,8 +11,9 @@ const WINDOWS = [100, 250, 500, 1000];
 // Bench-only optional early cutoff; whole-life reports retain the default full game.
 const UNTIL = Number(process.env.NFS_LEDGER_UNTIL ?? Infinity);
 // Item index = family * 6 + stat * 2 + (1 if emblem). Families: monster, power, durability, treasure, jungle, home, bruiser.
-const FAM = ['monster', 'power', 'durability', 'treasure', 'jungle', 'home', 'bruiser'];
-const equip = (items) => items.reduce((s, n, i) => s + n * (i % 2 ? 150 : 30), 0);
+const FAM = ['monster', 'power', 'durability', 'treasure', 'jungle', 'home', 'bruiser', 'tribute', 'capture', 'prospector', 'hunter', 'skirmish', 'greed', 'collectors'];
+// Greed combines25 ordinary30-gold shards; valuing its emblem at150 invents a600-gold sale/loss.
+const equip = (items) => items.reduce((s, n, i) => s + n * (i % 2 ? (Math.floor(i / 6) === 12 ? 750 : 150) : 30), 0);
 const results = [];
 for (const file of files) {
   E.load(fs.readFileSync(file));

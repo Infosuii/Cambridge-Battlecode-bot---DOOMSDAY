@@ -402,8 +402,15 @@ private:
     bool no_initiate = false;    // solo members in pair mode: no help calls this turn
     int call_ban_until = -1;     // after a help call times out, no new calls until this round
     float camp_taken_mult = 1.0f; // camp damage we take: jungle emblem 0.7, durability 0.9
-    float camp_dealt_mult = 1.0f; // camp damage we deal: monster emblem 1.1
+    float camp_dealt_mult = 1.0f; // camp damage we deal: monster emblem from runtime metadata
     void refresh_emblems();
+#if V58_PATCH
+    bool inventory_dirty = true;
+    int capture_time = 5;
+    float champion_dealt_mult = 1.0f, prospector_bonus = 0.0f, tribute_bonus = 0.0f;
+#else
+    static constexpr int capture_time = tune::kCaptureTime;
+#endif
     // Our bag alone finishes the race (switch APEX_WIN_FIRST): tribute outranks shopping and recalls.
     // Gold buys items, which matter early; gems win. With APEX_GOLD_TAPER the weight falls linearly
     // from APEX_GOLD_WEIGHT at score 0 to a fifth of it at that score.

@@ -76,6 +76,9 @@ Sources are in `bots/`; `src/` is exactly what `cambc submit` uploads. Each vers
 
 ## 4. Measuring and the gate
 
+Current workspace: official CLI/SDK4.0.0, engine2.0.0 (Sprint3). bench3 namespaces caches by CLI/SDK/CMake/toolchain fingerprint and rejects native faults on either team. Never compare a legacy engine1.0.3 prefix with a new-rule prefix. Fresh-map final checks now also use bench3 with HOLDOUT=1 MAP_DIR=<directory>; bench3_fresh only delegates. Keep historical training labels/analysis explicitly separated. The user authorized whole-package evaluation for v58, followed by Sprint3 migration and recent-loss review. The strict final whole-candidate gate remains.
+
+
 - **bench v3:** `bash artifacts/claude_ops/bench3.sh <abs cand dir> <abs opp dir> <abs out prefix> [seeds]`.
   - It plays the 28 development maps × both sides × `NOVA_SEED` 1-3, rebuilding both bots per seed (the shipped bots use seed 1): 168 games.
   - Single maps: `MAPS_OVERRIDE="00stampede" bench3.sh ...`.
@@ -353,3 +356,32 @@ income and pressure together; do not resume threshold tuning or open holdouts to
 The user resumed work and requested whole-package testing, followed by Sprint3 updates and fresh v57 loss review. Round2 and round3 results supersede the stopped round1 status above. Four combined packages each completed672 games on engine1.0.3 with zero native faults. Core reached363 wins/672 (+75.4 raw gems; Bayes+101.1/P=.976), but cluster95%[-1.05,+152.96] and fuel2.299/game miss the final gate. No upload or holdout. Read V58_R2_RESULTS.md and V58_R3_RESULTS.md under artifacts/claude_ops. Exact patches are indexed in V58_EXPERIMENTS.json.
 
 Next authorized work: preserve this checkpoint, migrate verified official CLI/SDK4.0.0 and engine2.0.0, isolate build caches by environment, implement the new item/balance rules, and analyze recently downloaded v57 losses. The core package is a development base only. Frozen v57 source remains unchanged and live as platform56.
+
+
+## 18. v58 Sprint3 release candidate (2026-10-26)
+
+The combined old-engine core was promising but failed clustered/fuel gates. After the user's explicit request,
+the workspace migrated to official CLI/SDK4.0.0, engine2.0.0, using the published Windows binary checksum.
+SDK3 snapshots remain in Git history and an ignored local archive. All frozen v57 source hashes still match.
+
+Current frozen v58 source38754076: Prospector/Capture/Collectors/Greed economy, runtime champion/Monster metadata,
+correct repeated-purchase and25-shard Greed accounting, safe capture anchors/footwork, supported adjacent denial,
+finish-before-reset/contact clearing, legal post-move actions, and exact fast camp-contact marking (A2_FASTGRP).
+The broad director/forced carry draft remains off. 350 new engine2 summaries were reviewed;330 ranked follow v57
+activation and20 additional unranked games have unverified submission identity. Read V57_SPRINT3_LOSS_REVIEW.json.
+
+Final672-game development:430wins (64.0%), +152.96 gems; cluster95%[+107.5,+202.8], Bayes+202.5/P=1.000;
+fuel671/672=0.999/game, down55.6% from the promising unoptimized package. Original12 holdout67/96,+152.0;
+previous fresh15 69/120,+127.1; extra new02 maps73/120,+79.5. Each pool run once for this source, native faults0
+both teams and candidate fuel<=2/game. Original900-gold/3.5-elk/40%-carry/30%-death-reduction targets remain unmet
+and explained in CHANGES.md: seed1 capture gold711.9, elk2.79, carry27.5%; full-set deaths down13.25%. No proxy.
+
+Clean independent build equals benchmark seed1, SHA9f4890b7. Official source-only bundle279034bytes/33files,
+exact source hash. Every strict release condition now passes, including the brief's explained-shortfall exception.
+V58_RELEASE.json records validated/not-submitted until the one authorized upload succeeds; update actual platform
+number and selected/active state after submission. Do not infer platform version from repository directory name.
+No match groups queued. Do not rerun holdouts or change this frozen source before submitting.
+
+Read V58_SPRINT3_RESULTS.md/.json and V58_RELEASE.json under artifacts/claude_ops. report_v58_sprint3.py rebuilds
+pre-submission evidence and refuses to overwrite a completed submission record. New replay analysis sets
+NFS_REPLAY_ENGINE=2.0.0; decoder final score/round matched native output. Historical training adapters stay1.0.3.

@@ -54,6 +54,49 @@ bool mobility_farming_map = false;
 
 std::vector<BuildStep> build_for(bc::champion_type t) {
     using it = bc::item_type;
+#if V58_ITEM_PLAN
+    // Same-stat Prospector replaces the nerfed Treasure opening. Capture follows survival purchases;
+    // late Greed is bought in full25-shard milestones, with mixed health/offense before another stack.
+    using ct = bc::champion_type;
+    const bool focus_user = t == ct::cassi || t == ct::stellar || t == ct::prism || t == ct::willow || t == ct::marcella;
+    const bool tank = t == ct::heart_of_ruin;
+    const it main = focus_user ? it::greed_shard_of_focus : it::greed_shard_of_strength;
+    std::vector<BuildStep> plan;
+    if (t == ct::marcella) {
+        plan = {{it::jungle_shard_of_strength,5}, {it::prospector_shard_of_focus,5},
+            {it::durability_shard_of_health,5}, {it::monster_shard_of_focus,5},
+            {it::capture_shard_of_health,5}, {it::bruiser_shard_of_health,5}, {it::bruiser_shard_of_strength,5}};
+    } else if (tank) {
+        plan = {{it::prospector_shard_of_health,5}, {it::jungle_shard_of_focus,5},
+            {it::durability_shard_of_health,5}, {it::capture_shard_of_health,5},
+            {it::monster_shard_of_focus,5}, {it::bruiser_shard_of_focus,5}, {it::bruiser_shard_of_strength,5}};
+    } else if (focus_user) {
+        if (t == ct::prism) plan.push_back({it::durability_shard_of_health,5});
+        plan.push_back({it::prospector_shard_of_focus,5});
+        if (t != ct::prism) plan.push_back({it::durability_shard_of_health,5});
+        plan.push_back({it::monster_shard_of_focus,5});
+        plan.push_back({it::capture_shard_of_health,5});
+    } else {
+        plan = {{t == ct::vesper_vale || t == ct::tavi ? it::prospector_shard_of_strength : it::prospector_shard_of_health,5}};
+        if (t != ct::tavi) plan.push_back({it::jungle_shard_of_strength,5});
+        plan.push_back({it::durability_shard_of_health,5});
+        plan.push_back({it::monster_shard_of_strength,5});
+        plan.push_back({it::capture_shard_of_strength,5});
+    }
+    plan.push_back({focus_user || tank ? it::collectors_shard_of_focus : it::collectors_shard_of_strength,5});
+    if (tank) {
+        for (int n : {25,50,75}) {
+            plan.push_back({it::greed_shard_of_health,n});
+            plan.push_back({it::greed_shard_of_focus,n});
+        }
+    } else {
+        for (int n : {25,50,75}) {
+            plan.push_back({main,n});
+            plan.push_back({it::greed_shard_of_health,n});
+        }
+    }
+    return plan;
+#endif
 #if A2_LAB
     {
         // Engine lab build table (lab.h builds): a type with steps uses them instead of the presets below.
@@ -286,7 +329,9 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
 struct BaseStats {
     float hp, str, focus, ghp, gstr, gfocus;
 };
-#if A2_KITFIX & 16 // cambc 3.0.4 starting stats and growth (Vesper, Vendetta, Stellar, Tavi, Heart of Ruin changed)
+#if V58_PATCH
+std::array<BaseStats, 13> kBase{}; // Filled once per guest from current immutable champion designs.
+#elif A2_KITFIX & 16 // cambc 3.0.4 starting stats and growth (Vesper, Vendetta, Stellar, Tavi, Heart of Ruin changed)
 constexpr BaseStats kBase[13] = {
     {1200, 45, 100, 100, 5, 10},  // ryth (+1% of bonus health as strength)
     {1000, 55, 100, 100, 5, 10},  // vesper vale
@@ -351,6 +396,14 @@ float items_of(bc::champion_type t, float max_hp, float str, float focus) {
 // ---------------------------------------------------------------- setup
 
 void Bot::init() {
+#if V58_PATCH
+    for (int i = 0; i < 13; ++i) {
+        d::champion_design design{};
+        d::check(d::sdk_champion_design(i, &design));
+        const auto& s = design.base_stats;
+        kBase[i] = {s.base_health,s.base_strength,s.base_focus,s.health_growth,s.strength_growth,s.focus_growth};
+    }
+#endif
 #if A2_MAP_PROFILE
     { // which official map (same identity as the draft and is_official_map), before any bush labelling
         std::uint32_t ngroups = 0;
@@ -666,13 +719,32 @@ int Bot::claim_count(int group) const {
 void Bot::shop() {
     PROF(shop);
     auto& me = bc::self();
+#if V58_PATCH
+    if (gold < 10) return;
+    const auto counts = me.item_count();
+    std::array<int, static_cast<std::size_t>(bc::item_type::count)> purchased{};
+#if A2_LAB
+    const auto plan = build_for(type);
+#else
+    static const auto plan = build_for(type);
+#endif
+    bool reserve_items = false;
+    if (!plan.empty()) {
+        const auto first = plan.front();
+        int owned = static_cast<int>(counts[first.item]);
+        if (auto result = first.item.result()) owned += static_cast<int>(counts[*result] * first.item.combine_count());
+        reserve_items = owned < first.total;
+    }
+#else
+    constexpr bool reserve_items = false;
+#endif
 #if V58_DIRECTOR && V58_CARRY_SHOP
     const bool reserve_treasure = economy_enabled() && slot == economy_carry() && ec_treasure_shards < 5;
 #else
     constexpr bool reserve_treasure = false;
 #endif
     try {
-        if (!reserve_treasure && tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
+        if (!reserve_treasure && !reserve_items && tune::kAltarLocks && gold >= 10 && me.can_buy(bc::consumable_type::altar_lock)) {
             me.buy(bc::consumable_type::altar_lock);
             gold -= 10;
         }
@@ -683,7 +755,7 @@ void Bot::shop() {
     try {
         // A crystal costs 10 gold; winners re-buy one for the same few terrain shortcuts every trip (ladder replays:
         // up to 53 hops by one champion on concentrated-wealth, none ever by us).
-        if (!reserve_treasure && gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
+        if (!reserve_treasure && (!reserve_items || mobility_farming_map) && gold >= 10 && me.can_buy(bc::consumable_type::tp_crystal)) {
             me.buy(bc::consumable_type::tp_crystal);
             gold -= 10;
         }
@@ -694,16 +766,26 @@ void Bot::shop() {
 #endif
     if (gold < 30) return;
     try {
+#if !V58_PATCH
         const auto counts = me.item_count();
+#endif
 #if V58_DIRECTOR && V58_CARRY_SHOP
         ec_treasure_shards = static_cast<int>(counts[bc::item_type::treasure_shard_of_strength] + counts[bc::item_type::treasure_shard_of_health] + counts[bc::item_type::treasure_shard_of_focus]) +
             5 * static_cast<int>(counts[bc::item_type::treasure_emblem_of_strength] + counts[bc::item_type::treasure_emblem_of_health] + counts[bc::item_type::treasure_emblem_of_focus]);
 #endif
         bool complete = true; // V56_SHOP_DONE: every step's total reached after this visit
+#if V58_PATCH
+        for (const auto& step : plan) {
+            const int cost = std::max(1, static_cast<int>(step.item.cost()));
+            int owned = purchased[static_cast<std::size_t>(step.item)] + static_cast<int>(counts[step.item]);
+            if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem] * step.item.combine_count());
+            const int want = std::min(step.total - owned, gold / cost);
+#else
         for (const auto& step : build_for(type)) {
             int owned = static_cast<int>(counts[step.item]);
             if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem]) * 5;
             int want = std::min(step.total - owned, gold / 30);
+#endif
             if (step.total - owned > std::max(want, 0)) complete = false;
             if (want <= 0) continue;
             if (!me.can_buy(step.item, static_cast<std::uint32_t>(want))) {
@@ -716,7 +798,13 @@ void Bot::shop() {
             if (step.item == bc::item_type::treasure_shard_of_strength || step.item == bc::item_type::treasure_shard_of_health || step.item == bc::item_type::treasure_shard_of_focus)
                 ec_treasure_shards += want; // purchase event, not work in a scoring loop
 #endif
+#if V58_PATCH
+            purchased[static_cast<std::size_t>(step.item)] += want; // Same item can appear at several milestones.
+            inventory_dirty = true;
+            gold -= want * cost;
+#else
             gold -= want * 30;
+#endif
             if (gold < 30) return; // later steps unchecked: completion is recorded on a visit that walks the whole plan
         }
         if (complete) shop_done = V56_SHOP_DONE != 0;
@@ -728,16 +816,36 @@ void Bot::shop() {
 // Emblem passives change how much damage we take from and deal to camps; the soak model uses them.
 void Bot::refresh_emblems() {
     if (!tune::kEmblemModel) return;
+#if V58_PATCH
+    if (!inventory_dirty) return; // Purchases/combinations are the only inventory mutations in this policy.
+#endif
     try {
         using it = bc::item_type;
         const auto counts = bc::self().item_count();
         auto has = [&](it a, it b, it c) { return counts[a] + counts[b] + counts[c] > 0; };
         camp_taken_mult = 1.0f;
         if (has(it::jungle_emblem_of_strength, it::jungle_emblem_of_focus, it::jungle_emblem_of_health)) camp_taken_mult *= 0.7f;
-        if (has(it::durability_emblem_of_strength, it::durability_emblem_of_focus, it::durability_emblem_of_health))
-            camp_taken_mult *= 0.9f;
-        camp_dealt_mult =
-            has(it::monster_emblem_of_strength, it::monster_emblem_of_focus, it::monster_emblem_of_health) ? 1.1f : 1.0f;
+        if (has(it::durability_emblem_of_strength, it::durability_emblem_of_focus, it::durability_emblem_of_health)) camp_taken_mult *= 0.9f;
+        camp_dealt_mult = has(it::monster_emblem_of_strength, it::monster_emblem_of_focus, it::monster_emblem_of_health)
+            ? 1.0f + it::monster_emblem_of_strength.passive_magnitude() : 1.0f;
+#if V58_PATCH
+        unsigned families = 0;
+        for (unsigned f = 0; f < 14; ++f)
+            if (has(it{f*6+1},it{f*6+3},it{f*6+5})) ++families;
+        float collector = has(it::collectors_emblem_of_strength,it::collectors_emblem_of_focus,it::collectors_emblem_of_health)
+            ? 1.0f + static_cast<float>(families) * it::collectors_emblem_of_strength.passive_magnitude() : 1.0f;
+        camp_dealt_mult *= collector;
+        champion_dealt_mult = collector;
+        if (has(it::skirmish_emblem_of_strength,it::skirmish_emblem_of_focus,it::skirmish_emblem_of_health))
+            champion_dealt_mult *= 1.0f + it::skirmish_emblem_of_strength.passive_magnitude();
+        capture_time = has(it::capture_emblem_of_strength,it::capture_emblem_of_focus,it::capture_emblem_of_health)
+            ? static_cast<int>(it::capture_emblem_of_strength.passive_magnitude()) : bc::constants::capture_time;
+        prospector_bonus = has(it::prospector_emblem_of_strength,it::prospector_emblem_of_focus,it::prospector_emblem_of_health)
+            ? it::prospector_emblem_of_strength.passive_magnitude() : 0.0f;
+        tribute_bonus = has(it::tribute_emblem_of_strength,it::tribute_emblem_of_focus,it::tribute_emblem_of_health)
+            ? it::tribute_emblem_of_strength.passive_magnitude() : 0.0f;
+        inventory_dirty = false;
+#endif
     } catch (const std::exception& e) {
         LOG("emblem error %s\n", e.what());
     }
@@ -1478,6 +1586,9 @@ float Bot::my_dps(const GroupRec* g) const {
 #endif
     if (type == bc::champion_type::varg && g && g->camps.size() > 1) dps *= 1.6f;
     if (g) dps *= camp_dealt_mult;
+#if V58_PATCH
+    else dps *= champion_dealt_mult;
+#endif
     return std::max(dps, 1.0f);
 }
 
@@ -5360,7 +5471,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
 #endif
         {
             const float best_case = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) * mid_mult *
-                tune::kStickiness / (static_cast<float>(approach + wait) + tune::kCaptureTime + 4.0f);
+                tune::kStickiness / (static_cast<float>(approach + wait) + capture_time + 4.0f);
             if (best_case <= prune_bound()) {
 #ifdef APEX_SCOREDBG
                 if (g.harmless && g.gems > 0 && round < 60)
@@ -5522,7 +5633,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
                 std::max(max_hp, 1.0f) * tune::kHpCost;
         }
         const float cost = static_cast<float>(participants) * (static_cast<float>(approach + wait) + kill) +
-            tune::kCaptureTime + 4.0f + drain;
+            capture_time + 4.0f + drain;
         float score = value / cost;
 #if UB_CAMPFIX
         // Camp-choice correction learned from ladder replays (ladder/camp_choice2.py): a conditional logit fitted to
@@ -5633,7 +5744,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
 #endif
         if (keep > 1 && (n_top < keep || score > top[n_top - 1].score)) {
             // Turns until this champion is free again: walk, wait, kill, capture.
-            const int finish = approach + wait + static_cast<int>(kill) + tune::kCaptureTime;
+            const int finish = approach + wait + static_cast<int>(kill) + capture_time;
             int i = n_top < keep ? n_top++ : keep - 1;
             for (; i > 0 && top[i - 1].score < score; --i) top[i] = top[i - 1];
             top[i] = {static_cast<int>(gi), need, value, cost, score, finish};
@@ -5675,7 +5786,7 @@ void Bot::refresh_follow_ups() {
         const bool solo = g.harmless || g.strength * kill < hp * 0.8f;
         if (!solo || avoid_until[gi] > round) value = 0.0f;
         follow_value[gi] = value;
-        follow_fixed[gi] = kill + static_cast<float>(tune::kCaptureTime) + 4.0f;
+        follow_fixed[gi] = kill + static_cast<float>(capture_time) + 4.0f;
         follow_respawn[gi] = g.state == GroupState::respawning ? g.respawn_round : -1;
     }
     // Groups a teammate has claimed are theirs.

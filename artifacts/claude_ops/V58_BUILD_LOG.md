@@ -258,3 +258,52 @@ Then run `bash artifacts/claude_ops/bench3.sh "$PWD/<directory>" "$PWD/bots/v57"
 Use the same pinned SDK/engine. Every normal run returned0; `check_bench_run.py` verifies exact224-game coverage and both fault counts.
 Run `bench_bayes.py <prefix> --json <out>` and `bench_compare.py <prefix> [base-prefix] --json <out>`.
 Use the optional replay-report tools listed in V58_BUILD_LOG.md for mechanism audits. Raw replays remain local-only.
+
+
+## Resumed whole-package research and Sprint3 release checks (2026-10-26)
+
+The user explicitly resumed work, requested combining improvements as a whole and then applying the new patch,
+pulling v57 losses and fixing fuel. This supersedes the original component-at-a-time/stopped status above.
+Rounds2/3 are recorded in V58_R2_RESULTS and V58_R3_RESULTS, checkpoint40e350e. No old mechanism was promoted on
+naive standard error. The best old-engine package remained below its clustered/fuel gate.
+
+Official CLI4.0.0 Windows SHA03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34 verified against
+the official download page, extracted from the official PyPI wheel. Initialized a separate official workspace,
+probed all13 champions/84 items/settings, then refreshed root SDK and CLI. Old40 map contents matched;70 current
+published maps are now available. SDK facts are in SPRINT3_SDK_FACTS.json. Actual Hunter metadata is50 bonus over
+100 base; trust engine metadata rather than interpreting the pasted wording as150 additional gold. Greed costs
+750 to combine25 shards into35 stat shards. New champion identity is readable out of vision in SDK4; both bots
+are rebuilt on that SDK, so the v57 comparator benefits too. Frozen released v57 source remains untouched.
+
+No benchmark was running when bench3 changed. Cache namespaces now include CLI/SDK/CMake/toolchain fingerprint,
+new prefixes record environment provenance, native faults on either team invalidate a run, and comparators refuse
+cross-environment pairing. Cross-engine refusal was tested. Both smoke runs exited0 with exactly2 games/faults0.
+Fresh-map runs delegate to this same verified bench3 path. No historical result files were rewritten.
+
+Eight competitive runs/2352 played games (1904 distinct configuration/map/side/seed slots; screen-confirmation
+sets overlap) completed with exact coverage, zero native faults both teams and wrapper exit0. V58_SPRINT3_RESULTS
+contains every result. Core224:125wins,+77.9,fuel2.478; economy224:135wins,+116.9,fuel2.094; economy672:410wins,
++136.3,cluster[+62.5,+216.4],fuel2.247. The unchanged full package therefore improved strength but failed fuel.
+
+Four separate diagnostic profiling games localized most overruns to large-map observation/combat work. A local
+belief-query optimization was discarded after discovering that feature is inactive in this build; it was never
+retained or counted as strength evidence. Six checked diagnostic games compared old and fast camp-contact marks
+at every observation; zero assertion/native faults. Diagnostics incur extra work and are excluded from strength.
+Normal A2_FASTGRP224:147wins,+186.6,fuel0.853; final672:430wins,+153.0,cluster[+107.5,+202.8],Bayes+202.5/P=1,
+fuel0.999. Paired gem improvement over the unoptimized economy package is+16.7,cluster[-39.9,+70.8]: do not claim
+a separately established strength gain for the optimization. The complete package is the accepted comparison unit
+against v57; the computation optimization resolves its fuel failure. Source frozen38754076 before holdouts.
+
+Original12 holdout once/seeds1-4:67/96,+151.98,fuel23/96. Previous fresh15 once:69/120,+127.13,fuel0. New02
+compatibility once:73/120,+79.53,fuel224/120. All0 native faults both teams; no further tuning or holdout reruns.
+
+Mechanisms: prespecified all28maps/both sides/seed1 audit56games; pinned engine2 replay decoder final score and
+round matched native output. Capture gold711.9 vs689.7, elk2.79, carry27.5%, capture delay7.86vs8.52. Full672 native
+R250 earned gold948.8vs878.8 includes kills/bonuses. Deaths14.52vs16.74 (-13.25%), below30% target; bag loss250.8vs233.5
+still open. CHANGES.md explicitly explains shortfalls and why no carry proxy qualifies. Distributed economy wins
+where the forced director lost; Prospector replaces Treasure; do not call a team-first median a carry median.
+
+Independent clean copy (no .cambc) built byte-identical to benchmark seed1, wasmSHA9f4890b7; official bundle exactly
+33src files/279034bytes, sourceSHA38754076, bundleSHA9f36ec6e. Reconstruction patch matched every file. All twelve
+seeded source trees and Wasm hashes recorded. v57 release file hashes remain unchanged. Commit/push release proof
+before the authorized one-time submission, then record response, unchanged source, byte count and active selection.
