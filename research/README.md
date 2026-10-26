@@ -13,7 +13,7 @@ layout:
 | Version | What happened | Start with |
 |---|---|---|
 | v51 | Moated-island fix; submitted as platform 51 | `../bots/v51/CHANGES.md` |
-| v52 | Sole-gem-camp rule; submitted as platform 52 | `v52/V52_PLAN.md` |
+| v52 | Sole-gem-camp rule; submitted as platform 52. 36-replay study of the top teams against it | `v52/V52_PLAN.md`, `v52/top-teams-2026-10-25/REPORT.md` |
 | v53 | Open-job scan hoist; submitted as platform 53. Loss and champion-life analyses | `v53/V53_LOSS_REPORT.md` |
 | v54 | Crew jobs, item milestones, lead lock, teleports: +149 vs v53; submitted as platform 54 | `v54/V54_BUILD_LOG.md` |
 | v55 | Completed camp missions, Heart farming strikes: +106 vs v54; submitted as platform 55 | `v55/V55_BUILD_LOG.md` |
