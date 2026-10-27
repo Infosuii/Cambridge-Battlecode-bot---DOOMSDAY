@@ -85,9 +85,9 @@ def build(bot_dir, seed, work, label, defines=None):
         lines[at[0]] = f'#define {name} {value}{end}'
     common.write_bytes(''.join(lines).encode('utf-8'))
     h = hashlib.sha256((ROOT / 'tools/vendor/cambc.exe').read_bytes())
-    for p in sorted((tmp / 'src').iterdir()):
+    for p in sorted((tmp / 'src').rglob('*')):
         if p.is_file():
-            h.update(p.name.encode() + b'\0' + p.read_bytes())
+            h.update(p.relative_to(tmp / 'src').as_posix().encode() + b'\0' + p.read_bytes())
     key = h.hexdigest()
     cached = CACHE / f'{key}.wasm'
     if not cached.is_file():

@@ -298,6 +298,9 @@ private:
     bool v67_contact();
     void v67_team_turn();
     void v67_team_sync();
+    void v67_team_decode(std::uint64_t memory);
+    void v67_team_after_turn();
+    bool v67_team_join();
     void v67_team_publish(bool alive);
     void v67_team_plan();
     bool v67_team_combat();
@@ -310,12 +313,15 @@ private:
         float hp = 0, max_hp = 1, strength = 40, focus = 80;
         bool alive = false, exact = false;
         int seen = -1000;
+        int job = -1, job_seen = -1000, position_seen = -1000, message = -1;
     };
     std::array<TeamMate67, 6> team67_;
     std::uint64_t memory67_ = 0;
     int leader67_ = 0, rally67_ = -1, rally_since67_ = -1000, last_plan67_ = -1000;
     int focus67_ = -1, focus_seen67_ = -1000;
     bool home67_ = false, bank67_ = false;
+    vec2 battle67_{-1,-1};
+    int battle_target67_ = -1;
     int v67_opening_job();
     std::vector<int> opening_map67_;
     int opening_step67_ = 0, opening_started67_ = -1;

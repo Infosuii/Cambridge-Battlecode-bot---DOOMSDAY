@@ -2,6 +2,7 @@
 // and take good fights while avoiding bad ones.
 #include "bot.h"
 #include "v67_meta.h"
+#include "team_memory.h"
 #include "neural_policy.h"
 #if A2_MLPLAN
 #include "ml_plan.h"
@@ -573,7 +574,16 @@ std::uint64_t Bot::read_shared() const {
 }
 
 void Bot::write_claim(int group, bool onsite) {
-    if (V67_TEAMPLAY) return;
+    if (V67_TEAMPLAY) {
+        auto memory = team67::put_job(read_shared(),slot,group);
+        bc::shared_memory.write(0,std::span<std::uint64_t,1>{&memory,1});
+        if(slot>=0 && slot<6) {
+            team67_[slot].job=group; team67_[slot].job_seen=round;
+            claim_cache[slot]=static_cast<std::int16_t>(group<0 ? kClaimCodeIdle : group);
+            if(onsite) onsite_bits |= 1u<<slot;
+        }
+        return;
+    }
     if (slot >= kClaimSlots) return;
     std::uint64_t v = read_shared();
     if (!inited && v == 0) v = (std::uint64_t{1} << (kClaimBits * kClaimSlots)) - 1; // first writer: all slots idle
@@ -597,7 +607,7 @@ void Bot::write_claim(int group, bool onsite) {
 
 // Claims are read in the camp-scoring loops: decode the shared word once per change, not per lookup.
 void Bot::decode_claims() {
-    if (V67_TEAMPLAY) { claim_cache.fill(static_cast<std::int16_t>(kClaimCodeIdle)); onsite_bits = 0; return; }
+    if (V67_TEAMPLAY) { v67_team_decode(shared); return; }
     onsite_bits = 0;
     for (int s = 0; s < kClaimSlots; ++s) {
         int c = static_cast<int>((shared >> (s * kClaimBits)) & kClaimMask);
@@ -673,6 +683,7 @@ void Bot::share_sighting(bool call_for_help) {
 }
 
 void Bot::read_sighting() {
+    if (V67_TEAMPLAY) return;
 #if APEX_EVENTS
     if ((shared >> 63) & 1) {
         // A teammate's group event: group (7 bits) and its respawn-ready round mod 256 (8 bits).
@@ -3239,6 +3250,10 @@ bool Bot::handle_enemies() {
             if (e.type == bc::champion_type::cassi || e.type == bc::champion_type::issac) worth *= std::exp(0.3f * kk[21]);
             worth = std::max(worth, 0.05f);
         }
+#endif
+#if V67_TEAMPLAY == 3 && V67_COORD
+        if(battle_target67_>=0 && battle_target67_<static_cast<int>(enemy_handles.size()) &&
+           e.id==enemy_handles[battle_target67_] && dist<=nearest_d+2) worth*=2.0f;
 #endif
         const float key = ttk / worth;
         if (key < best_key) {
@@ -6489,7 +6504,10 @@ void Bot::build_fields() {
 }
 
 void Bot::play_turn() {
-#if V67_TEAMPLAY
+#if V67_TEAMPLAY == 3
+    struct Publish67 { Bot* bot; ~Publish67() { bot->v67_team_after_turn(); } } publish67{this};
+#endif
+#if V67_TEAMPLAY == 1 || V67_TEAMPLAY == 2
     v67_team_turn();
     return;
 #endif
@@ -6803,6 +6821,9 @@ void Bot::play_turn() {
     {
         PROF(world);
         w.update(round);
+#if V67_TEAMPLAY == 3
+        v67_team_sync();
+#endif
         PROF_CHECK("w_update");
 #if A2_BELIEF
         for (const auto& e : w.enemies)
@@ -6961,7 +6982,7 @@ void Bot::play_turn() {
         share_sighting();
     }
     PROF_CHECK("sight");
-#if APEX_EVENTS
+#if APEX_EVENTS && !V67_TEAMPLAY
     // No enemy in view: publish a newly learned respawn timer, unless a fresh sighting would be lost.
     if (w.enemies.empty() && !w.pending_events.empty()) {
         std::uint64_t v = read_shared();
@@ -7055,6 +7076,9 @@ void Bot::play_turn() {
     } else if (NOVA_RUSH_UNTIL > 0 && rush()) {
 #if A2_FOG
     } else if (fog_regroup()) {
+#endif
+#if V67_TEAMPLAY == 3 && V67_COORD
+    } else if (v67_team_join()) {
 #endif
     } else if (hunt()) {
     } else if (tribute_if_needed()) {

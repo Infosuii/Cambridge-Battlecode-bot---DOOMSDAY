@@ -1,7 +1,8 @@
+#define V67_COORD 1
 #define V67_TRACE 0
-#define V67_TEAMPLAY 0
+#define V67_TEAMPLAY 3
 #define V67_OPENING 0
-#define V67_CAMP_STATE 1
+#define V67_CAMP_STATE 0
 #define V67_META -1
 #define V67_BUILD 0
 #define V67_FIGHT 0

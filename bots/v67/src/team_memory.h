@@ -1,33 +1,43 @@
-// Six coarse positions (9 bits each), focus target (3 bits), rally camp (7 bits): exactly 64 bits.
+// Six tagged bytes alternate intentions and positions; a timed focus uses the remaining 16 bits.
 #pragma once
 #include <cstdint>
-
 namespace team67 {
-constexpr int kSlots = 6, kPositionBits = 9, kFocusShift = 54, kRallyShift = 57;
-constexpr std::uint64_t kPositionMask = 511, kFocusMask = 7, kRallyMask = 127;
-inline unsigned encode(int x, int y) {
-    if (x < 0 || y < 0 || x >= 100 || y >= 100) return 0;
-    return static_cast<unsigned>(1 + x / 5 + 20 * (y / 5));
+constexpr int kSlots=6, kFocusShift=48, kPayloadShift=51, kTimeShift=61;
+constexpr std::uint64_t kSlotsMask=(std::uint64_t{1}<<48)-1;
+inline unsigned byte(std::uint64_t m,int s) { return s>=0&&s<6 ? unsigned((m>>(8*s))&255) : 0; }
+inline std::uint64_t put_byte(std::uint64_t m,int s,unsigned v) {
+    if(s<0||s>=6) return m;
+    return (m&~(std::uint64_t{255}<<(8*s)))|(std::uint64_t(v&255)<<(8*s));
 }
-inline bool position(std::uint64_t memory, int slot, int& x, int& y) {
-    if (slot < 0 || slot >= kSlots) return false;
-    const int value = static_cast<int>((memory >> (slot * kPositionBits)) & kPositionMask);
-    if (value < 1 || value > 400) return false;
-    x = ((value - 1) % 20) * 5 + 2;
-    y = ((value - 1) / 20) * 5 + 2;
+inline bool position(std::uint64_t m,int s,int& x,int& y) {
+    const unsigned v=byte(m,s);
+    if(!(v&128)||(v&127)<1||(v&127)>100) return false;
+    x=int(((v&127)-1)%10)*10+5; y=int(((v&127)-1)/10)*10+5;
     return true;
 }
-inline std::uint64_t put_position(std::uint64_t memory, int slot, int x, int y, bool alive) {
-    if (slot < 0 || slot >= kSlots) return memory;
-    const int shift = slot * kPositionBits;
-    return (memory & ~(kPositionMask << shift)) | (static_cast<std::uint64_t>(alive ? encode(x, y) : 0) << shift);
+inline std::uint64_t put_position(std::uint64_t m,int s,int x,int y,bool alive) {
+    unsigned v=0;
+    if(alive&&x>=0&&y>=0&&x<100&&y<100) v=128+1+x/10+10*(y/10);
+    return put_byte(m,s,v);
 }
-inline int focus(std::uint64_t memory) { return static_cast<int>((memory >> kFocusShift) & kFocusMask) - 1; }
-inline int rally(std::uint64_t memory) { return static_cast<int>((memory >> kRallyShift) & kRallyMask) - 1; }
-inline std::uint64_t put_plan(std::uint64_t memory, int focus_target, int group) {
-    const auto keep = memory & ((std::uint64_t{1} << kFocusShift) - 1);
-    const unsigned f = focus_target >= 0 && focus_target < 6 ? static_cast<unsigned>(focus_target + 1) : 0;
-    const unsigned g = group >= 0 && group < 127 ? static_cast<unsigned>(group + 1) : 0;
-    return keep | (static_cast<std::uint64_t>(f) << kFocusShift) | (static_cast<std::uint64_t>(g) << kRallyShift);
+inline bool job_message(std::uint64_t m,int s) { return !(byte(m,s)&128); }
+inline int job(std::uint64_t m,int s) { return job_message(m,s) ? int(byte(m,s))-1 : -1; }
+inline std::uint64_t put_job(std::uint64_t m,int s,int g) { return put_byte(m,s,g>=0&&g<126 ? unsigned(g+1) : 0); }
+inline int focus(std::uint64_t m) { return int((m>>48)&7)-1; }
+inline int age(std::uint64_t m,int round) { return (round-int(m>>61))&7; }
+inline int rally(std::uint64_t m) { return focus(m)<0 ? int((m>>51)&1023)-1 : -1; }
+inline std::uint64_t put_plan(std::uint64_t m,int target,int group,int round=0) {
+    const unsigned f=target>=0&&target<6 ? unsigned(target+1) : 0;
+    const unsigned payload=group>=0&&group<1023 ? unsigned(group+1) : 0;
+    return (m&kSlotsMask)|(std::uint64_t(f)<<48)|(std::uint64_t(payload)<<51)|(std::uint64_t(round&7)<<61);
+}
+inline std::uint64_t put_battle(std::uint64_t m,int target,int x,int y,int round) {
+    if(target<0||target>=6||x<0||y<0||x>=100||y>=100) return m;
+    return put_plan(m,target,x/4+25*(y/4),round);
+}
+inline bool battle(std::uint64_t m,int round,int& target,int& x,int& y) {
+    target=focus(m); const int payload=int((m>>51)&1023)-1;
+    if(target<0||age(m,round)>3||payload<0||payload>=625) return false;
+    x=(payload%25)*4+2; y=(payload/25)*4+2; return true;
 }
 }

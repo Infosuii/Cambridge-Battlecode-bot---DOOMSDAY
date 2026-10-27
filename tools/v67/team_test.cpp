@@ -1,27 +1,32 @@
 #include "../../bots/v67/src/team_memory.h"
 #include <cassert>
 #include <cstdio>
-
+#include <cstdlib>
 int main() {
-    std::uint64_t memory = team67::put_plan(0, 5, 126);
-    for (int s = 0; s < 6; ++s) memory = team67::put_position(memory, s, s * 17, s * 17, true);
-    for (int s = 0; s < 6; ++s) {
-        int x, y;
-        assert(team67::position(memory, s, x, y));
-        assert(x == (s * 17 / 5) * 5 + 2 && y == x);
-    }
-    assert(team67::focus(memory) == 5 && team67::rally(memory) == 126);
-    const auto old = memory;
-    memory = team67::put_plan(memory, -1, -1);
-    assert((memory & ((std::uint64_t{1} << 54) - 1)) == (old & ((std::uint64_t{1} << 54) - 1)));
-    assert(team67::focus(memory) == -1 && team67::rally(memory) == -1);
-    for (int s = 0; s < 6; ++s) memory = team67::put_position(memory, s, 0, 0, false);
-    assert(memory == 0);
-    for (int x0 = 0; x0 < 100; ++x0) for (int y0 = 0; y0 < 100; ++y0) {
-        const auto bits = team67::put_position(0, 5, x0, y0, true);
-        int x, y;
-        assert(team67::position(bits, 5, x, y));
-        assert(x - x0 >= -2 && x - x0 <= 2 && y - y0 >= -2 && y - y0 <= 2);
-    }
-    std::puts("v67 shared-position/focus/rally protocol passed");
+ auto m=team67::put_plan(0,-1,126,7);
+ for(int s=0;s<6;++s) {
+  m=team67::put_position(m,s,s*17,s*17,true);
+  int x=0,y=0; assert(team67::position(m,s,x,y));
+  assert(std::abs(x-s*17)<=5&&std::abs(y-s*17)<=5);
+  assert(!team67::job_message(m,s));
+ }
+ assert(team67::rally(m)==126);
+ const auto slots=m&team67::kSlotsMask;
+ m=team67::put_battle(m,5,99,99,7); int target=0,x=0,y=0;
+ assert((m&team67::kSlotsMask)==slots);
+ assert(team67::battle(m,0,target,x,y)&&target==5&&x==98&&y==98);
+ assert(team67::battle(m,2,target,x,y));
+ assert(!team67::battle(m,3,target,x,y));
+ for(int s=0;s<6;++s) for(int g=-1;g<126;++g) {
+  auto n=team67::put_job(m,s,g);
+  assert(team67::job_message(n,s)&&team67::job(n,s)==g);
+  assert((n&~(std::uint64_t{255}<<(8*s)))==(m&~(std::uint64_t{255}<<(8*s))));
+ }
+ for(int x0=0;x0<100;++x0) for(int y0=0;y0<100;++y0) {
+  auto n=team67::put_position(m,5,x0,y0,true);
+  assert(team67::position(n,5,x,y)&&std::abs(x-x0)<=5&&std::abs(y-y0)<=5);
+  n=team67::put_battle(n,0,x0,y0,6);
+  assert(team67::battle(n,7,target,x,y)&&target==0&&std::abs(x-x0)<=2&&std::abs(y-y0)<=2);
+ }
+ std::puts("v67 tagged position/job and timed battle protocol passed");
 }

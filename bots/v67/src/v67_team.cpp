@@ -19,73 +19,123 @@ void Bot::v67_team_publish(bool alive) {
         alive = (self.state & 1) && self.x >= 0;
     }
     auto memory = read_shared();
-    memory = team67::put_position(memory, slot, pos.x, pos.y, alive);
+    if (!alive || (round & 1)) memory = team67::put_position(memory, slot, pos.x, pos.y, alive);
+    else {
+        const int job = !heading_home && !home67_ && !bank67_ && target_group >= 0 &&
+            target_group < static_cast<int>(w.groups.size()) ? target_group : -1;
+        memory = team67::put_job(memory, slot, job);
+    }
     bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&memory, 1});
     memory67_ = memory;
+}
+
+void Bot::v67_team_decode(std::uint64_t memory) {
+    claim_cache.fill(static_cast<std::int16_t>(kClaimCodeIdle));
+    onsite_bits = 0;
+    for (int s = 0; s < std::min(team_size,6); ++s) {
+        auto& a = team67_[s];
+        const int message = static_cast<int>(team67::byte(memory,s));
+        if (message != a.message) {
+            a.message = message;
+            if (team67::job_message(memory,s)) {
+                a.job = team67::job(memory,s); a.job_seen = round;
+            } else {
+                int x,y;
+                if (team67::position(memory,s,x,y)) {
+                    a.pos = {std::min(x,w.width-1),std::min(y,w.height-1)};
+                    a.position_seen = round;
+                }
+            }
+        }
+        if (s == slot && target_group >= 0 && target_group < static_cast<int>(w.groups.size()))
+            a.job = target_group, a.job_seen = round;
+        if (!a.alive && inited) { claim_cache[s] = kClaimCodeDead; continue; }
+        if (a.job >= 0 && a.job < static_cast<int>(w.groups.size()) && round-a.job_seen <= 4) {
+            claim_cache[s] = static_cast<std::int16_t>(a.job);
+            if (a.exact) for (int ci : w.groups[a.job].camps)
+                if (cheb(a.pos,w.camps[ci].pos) <= 5) onsite_bits |= 1u<<s;
+        }
+    }
 }
 
 void Bot::v67_team_sync() {
     memory67_ = read_shared();
     leader67_ = slot;
-    for (int s = 0; s < std::min(team_size, 6); ++s) {
+    for (int s = 0; s < std::min(team_size,6); ++s) {
         auto& a = team67_[s];
-        std::int32_t live = 0;
+        std::int32_t live=0;
         cambc::detail::sdk_champion_is_alive(ally_handle[s], &live);
-        a.alive = live != 0;
-        a.exact = false;
-        if (!a.alive) { a.pos = {-1, -1}; continue; }
-        leader67_ = std::min(leader67_, s);
+        a.alive = live != 0; a.exact = false;
+        if (!a.alive) { a.pos={-1,-1}; a.job=-1; continue; }
+        leader67_ = std::min(leader67_,s);
+    }
+    v67_team_decode(memory67_);
+    // Exact visible states supersede the coarse mailbox location.
+    for (int s = 0; s < std::min(team_size,6); ++s) {
+        auto& a=team67_[s]; if(!a.alive) continue;
         if (s == slot) {
-            a.pos = pos; a.hp = hp; a.max_hp = max_hp; a.strength = strength; a.focus = focus;
-            a.seen = round; a.exact = true;
-            continue;
+            a.pos=pos; a.hp=hp; a.max_hp=max_hp; a.strength=strength; a.focus=focus; a.exact=true;
+        } else for (const auto& visible : w.allies) if(visible.id==ally_handle[s]) {
+            a.pos=visible.pos; a.hp=visible.hp; a.max_hp=visible.max_hp;
+            a.strength=visible.strength; a.focus=visible.focus; a.exact=true;
         }
-        for (const auto& visible : w.allies) if (visible.id == ally_handle[s]) {
-            a.pos = visible.pos; a.hp = visible.hp; a.max_hp = visible.max_hp;
-            a.strength = visible.strength; a.focus = visible.focus;
-            a.seen = round; a.exact = true;
-        }
-        if (!a.exact) {
-            int x, y;
-            if (team67::position(memory67_, s, x, y)) a.pos = {std::min(x, w.width - 1), std::min(y, w.height - 1)};
-            else a.pos = {-1, -1};
-        }
+        if(a.exact) a.seen=round, a.position_seen=round;
+        else if(round-a.position_seen>4) a.pos={-1,-1};
         if (a.max_hp <= 1) {
             cambc::detail::champion_design design{};
-            if (cambc::detail::sdk_champion_design(static_cast<int>(slot_type[s]), &design) == 0) {
-                a.max_hp = design.base_stats.base_health;
-                a.hp = a.max_hp * 0.75f;
-                a.strength = design.base_stats.base_strength;
-                a.focus = design.base_stats.base_focus;
+            if (cambc::detail::sdk_champion_design(static_cast<int>(slot_type[s]), &design)==0) {
+                a.max_hp=design.base_stats.base_health; a.hp=a.max_hp*0.75f;
+                a.strength=design.base_stats.base_strength; a.focus=design.base_stats.base_focus;
             }
         }
+        if (a.job >= 0 && a.job < static_cast<int>(w.groups.size()) && a.exact)
+            for(int ci:w.groups[a.job].camps) if(cheb(a.pos,w.camps[ci].pos)<=5) onsite_bits|=1u<<s;
     }
-    const int next = team67::rally(memory67_);
-    if (next != rally67_) { rally67_ = next; rally_since67_ = round; }
-    const int focus = team67::focus(memory67_);
-    if (focus != focus67_) { focus67_ = focus; focus_seen67_ = round; }
-    if (enemy_handles.empty())
-        for (const auto& enemy : bc::champions(team::enemy))
-            enemy_handles.push_back(static_cast<std::uint32_t>(static_cast<bc::handle_champion_t>(enemy)));
-    // Nearby positions provide conservative on-site work estimates. No unseen
-    // champion's destination is invented: travelling allies have no inferred job.
-    claim_cache.fill(static_cast<std::int16_t>(kClaimCodeIdle));
-    onsite_bits = 0;
-    for (int s = 0; s < std::min(team_size, 6); ++s) {
-        if (!team67_[s].alive) { claim_cache[s] = kClaimCodeDead; continue; }
-        int best = -1, distance = 5;
-        for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
-            if (w.groups[gi].state == GroupState::respawning) continue;
-            for (int ci : w.groups[gi].camps) {
-                const int d = cheb(team67_[s].pos, w.camps[ci].pos);
-                if (d < distance) { distance = d; best = gi; }
-            }
-        }
-        if (best >= 0) {
-            claim_cache[s] = static_cast<std::int16_t>(best);
-            if (distance <= 2) onsite_bits |= 1u << s;
-        }
+    const int next=team67::rally(memory67_);
+    if(next>=0 && next!=rally67_) { rally67_=next; rally_since67_=round; }
+    int x,y;
+    if(team67::battle(memory67_,round,battle_target67_,x,y)) {
+        battle67_={std::min(x,w.width-1),std::min(y,w.height-1)};
+        focus67_=battle_target67_; focus_seen67_=round-team67::age(memory67_,round);
+    } else battle_target67_=-1, focus67_=-1;
+    if(enemy_handles.empty()) for(const auto& e:bc::champions(team::enemy))
+        enemy_handles.push_back(static_cast<std::uint32_t>(static_cast<bc::handle_champion_t>(e)));
+}
+
+void Bot::v67_team_after_turn() {
+    if(!inited) return;
+    const bool alive=bc::self().is_alive();
+    v67_team_publish(alive);
+    if(!alive) return;
+    const EnemyRec* target=nullptr; int distance=99,foes=0,friends=1;
+    for(const auto& e:w.enemies) if(e.hp>0 && !bit(w.enemy_spawn,e.pos)) {
+        const int d=cheb(pos,e.pos); foes+=d<=6;
+        if(d<distance) distance=d,target=&e;
     }
+    for(const auto& a:w.allies) friends+=a.hp>=a.max_hp*0.5f&&cheb(a.pos,pos)<=5;
+    auto memory=read_shared();
+    if(target&&distance<=5&&hp>=max_hp*0.65f&&!heading_home&&friends>=foes) {
+        const auto it=std::find(enemy_handles.begin(),enemy_handles.end(),target->id);
+        if(it!=enemy_handles.end() && it-enemy_handles.begin()<6) {
+            memory=team67::put_battle(memory,static_cast<int>(it-enemy_handles.begin()),target->pos.x,target->pos.y,round);
+            bc::shared_memory.write(0,std::span<std::uint64_t,1>{&memory,1});
+        }
+    } else if(slot==leader67_ && team67::focus(memory)>=0 && team67::age(memory,round)>3) {
+        memory=team67::put_plan(memory,-1,rally67_,round);
+        bc::shared_memory.write(0,std::span<std::uint64_t,1>{&memory,1});
+    }
+}
+
+bool Bot::v67_team_join() {
+    if (battle_target67_<0 || hp<max_hp*0.75f || gems>=30 || heading_home) return false;
+    const int distance=cheb(pos,battle67_);
+    if(distance<=4 || distance>11 || bit(w.enemy_spawn,battle67_)) return false;
+    if(target_group>=0 && target_group<static_cast<int>(w.groups.size()) &&
+       w.groups[target_group].state==GroupState::reward && bit(w.groups[target_group].tiles,pos)) return false;
+    // Only a fresh, short reinforcement trip can interrupt the economy.
+    mode="team-join";
+    bc::bitboard goal; goal.clear(); goal.draw_chebyshev(battle67_,3.0f);
+    return walk_toward(goal);
 }
 
 int Bot::v67_team_local_job(vec2 origin, int exclude) {
@@ -220,7 +270,7 @@ bool Bot::v67_team_combat() {
     if (found != enemy_handles.end() && found - enemy_handles.begin() < 6) {
         focus67_ = static_cast<int>(found - enemy_handles.begin());
         focus_seen67_ = round;
-        auto memory = team67::put_plan(read_shared(), focus67_, rally67_);
+        auto memory = team67::put_battle(read_shared(), focus67_, target->pos.x, target->pos.y, round);
         bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&memory, 1});
     }
     mode = "team-focus";
@@ -428,10 +478,11 @@ void Bot::v67_team_turn() {
 #if V67_TRACE
             if (bot->round % 25 == 0) {
                 const int g = bot->target_group;
-                std::printf("T67 r%d s%d %s p%d,%d hp%.0f/%.0f gold%d bag%d rally%d job%d state%d left%.0f allies%zu\n",
+                std::printf("T67 r%d s%d %s p%d,%d hp%.0f/%.0f gold%d bag%d rally%d job%d state%d left%.0f allies%zu fields%d fuel%llu\n",
                     bot->round, bot->slot, bot->mode, bot->pos.x, bot->pos.y, bot->hp, bot->max_hp, bot->gold, bot->gems,
                     bot->rally67_, g, g >= 0 ? static_cast<int>(bot->w.groups[g].state) : -1,
-                    g >= 0 ? bot->w.groups[g].hp_left(bot->w.camps) : -1.0f, bot->w.allies.size());
+                    g >= 0 ? bot->w.groups[g].hp_left(bot->w.camps) : -1.0f, bot->w.allies.size(), bot->field_calls,
+                    static_cast<unsigned long long>(bc::fuel_remaining()));
             }
 #endif
             bot->v67_team_publish(true);
@@ -456,5 +507,7 @@ void Bot::v67_team_turn() {
     support_casts();
     shield_late_pass = false;
 #endif
-    if (bc::fuel_remaining() > 60000) build_fields();
+    // This also advances field_calls when there is not room for a field yet.
+    // farm() deliberately refuses its first job until that startup pass ran.
+    build_fields();
 }

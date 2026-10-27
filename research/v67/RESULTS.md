@@ -23,3 +23,6 @@ Fixed 120-slot schedule. Margins are v67 minus opponent.
 | b16-winning-draft-items | Winning replay drafts and exact opening item milestones | v65 | [1, 2] | 76/240 | -206.2 | 16.50 | 10.62 | 5629 | 416/294 | 0/0 |
 | b17-winning-draft-routes | Winning replay drafts and coordinated camp opening routes | v65 | [1, 2] | 80/240 | -182.5 | 14.94 | 10.25 | 5559 | 174/118 | 0/0 |
 | b18-public-camp-state | Baseline with legal out-of-vision camp state and cooldown queries | v65 | [1, 2] | 126/240 | +55.7 | 14.35 | 12.82 | 6262 | 941/359 | 0/0 |
+| b19-team-startup-fix | Fix new controller startup: always enter bounded field-building pass, allowing farm first job | v65 | [1, 2] | 7/240 | -749.2 | 17.88 | 1.95 | 2107 | 2077/103 | 0/0 |
+| b20-tagged-team-foundation | Tagged position/job mailboxes and timed focus location in established gameplay pipeline; coordination actions off | v65 | [1, 2] | 95/240 | -119.1 | 15.11 | 11.95 | 5850 | 299/241 | 0/0 |
+| b21-tagged-team-coordination | Tagged job/position sharing with fresh battle-location reinforcement trips and explicit focus target | v65 | [1, 2] | 91/240 | -139.3 | 16.43 | 12.83 | 5384 | 604/435 | 0/0 |
