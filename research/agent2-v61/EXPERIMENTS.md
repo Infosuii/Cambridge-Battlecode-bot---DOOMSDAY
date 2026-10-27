@@ -979,3 +979,79 @@ help against it (the sparring-bot step was skipped).
   seen, 160-420 answers, 15-22 lock cancels, carrier hunts 182; maze test maps rarely (ward in 4 of 15).
 - Conclusion: denying v61 / b5 tributes and hunting their carriers costs more farming than it takes from them; no
   variant beats the control. Not adopted. (E40's permanent ambusher and carrier hunter lost the same way.)
+
+## E72 (27 Oct) - next-camp choice: top teams vs us (tools/next_camp.py, agent2/lab/dec_lab.js; A2_TOPFIX in p65)
+- Data: 9,193 next-camp decisions of top teams from 485 decoded ladder games (replays_db/dec, 17 maps with mapinfo)
+  and 1,220 of p63b vs v61_c3 on the same 17 maps in the lab (dec_lab.js writes lab games in the decode format).
+  Decision = after a capture, bank or respawn; label = the group captured next. Conditional logit over all groups:
+  log walking distance, log gems, gold, respawn wait on arrival, side (walk margin), middle, allies / enemies within 5,
+  a teammate nearer, bag x distance, hurt x enemies, round x side.
+- Held-out top-1 (games split): top model 0.313 (nearest group 0.246, gems/distance/wait rule 0.238); ours 0.350.
+- Coefficients top vs ours: dist -1.35 / -1.33, gems +0.75 / +1.25, gold -0.33 / -0.38, wait -0.84 / -1.30, side
+  +0.53 / +0.65, mid +0.26 / +0.09, enemy5 -0.01 / -0.13. Top teams weigh gem size less and a respawn wait less.
+- A2_TOPFIX: value x exp(K (-0.50 log(1 + gems) + 0.46 wait / 20 + 0.17 mid)), in the pruning bound too. 100 games vs
+  v61_c3 + b5_c3 (control 57.0): K 0.5 43.5, 1 38.0, 1.5 16.0; K -0.25 57.0, -0.5 38.0, -1 36.0. Both directions lose:
+  our camp choice is at the optimum against our own bot family. Not adopted.
+
+## E73 (27 Oct) - what decides games: resource and kill exchange rates, gold valuation, rush, flee/stand (p63b / p65)
+All on the same 200 games (25 official + 25 maze test maps x 2 sides, vs v61_c3 + b5_c3; p63b control 53.5).
+- Gifts (lab_h2h.js H2H_GIFT=round:gold:gems, once to each of our champions): +150 gold at round 100 84.5, +300 gold
+  97.5, +30 gems 67.0, +60 gems 74.5; at round 400: +150 gold 76.8, +30 gems 64.5. One gold is worth about 0.5-0.8
+  gems in wins (camp choice uses 0.72 before round 250, then 0.18; 0.10 on unseen maps).
+- Free kills (H2H_KILL=round:n, credited to us): 1 at round 100 71.0, 1 at round 300 67.2, 2 at round 100 80.5.
+  The game snowballs hard on early resources: one kill or ~100 gold per champion early decides most games.
+- Gold valuation (structural): early x4 until round 600 57.0, all game 47.2, early x6 56.5, official value on unseen
+  maps 55.5 (all within noise except all-game, which loses). Gifts are free; in-game gold trades against gems.
+- Item facts (SDK 4.0.0): every shard adds its stat whatever the family; Bruiser and Greed give 1.4x the stats per
+  gold, Power 1.2x; passives: Treasure +10% gold, Prospector 0.25, Capture 3, Collectors 0.01, Tribute 0.33,
+  Hunter 50, Skirmish 0.05, Monster +15% camp damage, Jungle -30% camp damage, Durability -10% damage.
+- Opening rush (NOVA_RUSH_UNTIL, never tested on engine 2.0): 60 rounds 48.5, 100 42.5, 150 37.5. Probe
+  (early_stats.js, 50 official games): rush60 raises enemy deaths by round 100 from 0.58 to 1.20 but our banked +
+  carried gems fall from 44 to 18 and our stats lag: the farming lost outweighs the kills.
+- Deaths (dec_lab, 34 games p63b vs v61_c3): about 12 per team per game, almost all with an enemy within 4, mostly
+  after round 300; even between the teams.
+- Flee / stand switches on engine 2.0: APEX_STAND2 3 (stand and fight when caught) 25.5, NOVA_FLEE_HIT 53.5,
+  APEX_ESCAPE_SEARCH 55.5, all three 36.5. Fleeing is right; standing when caught is a disaster.
+
+## E74 (27 Oct) - opportunistic gang kills and power-based early retreat (A2_GANG, A2_LANCH in p65)
+Same 200 games as E73 (control 53.5). early_stats.js probes on 50 official games vs v61_c3.
+- A2_GANG (an enemy within 6 with no other enemy seen within 7, off its spawn, a teammate within 5 of it, dead in <= 4
+  turns, its damage < 60% of our health meanwhile -> attack it): probe unchanged from control through round 400
+  (enemy deaths 0.60 / 1.28 / 3.14 at rounds 100 / 200 / 400 vs 0.58 / 1.32 / 3.40); 46-50% on the probe games
+  (solo at <= 2.5 turns, reach 9: same). The situation is rare and the existing fight logic already takes it.
+- Early deaths (A2_MODELOG, 70 games, rounds <= 200): 111 deaths, 89 while fleeing; 72 of those outnumbered when the
+  flight began (2-4 enemies vs 0-2 allies), median flight start 32% health, 4 turns, 23 tiles from home. Our bot dies
+  more early than v61 (0.88 vs 0.58 by round 100; 1.70 vs 1.32 by round 200) and banks less by round 200 (59 vs 74).
+- A2_LANCH (leave at any health when the enemies' (health sum x damage sum) near us is k times ours): k 1.5 all game
+  49.8, k 2 50.0, k 1.5 until round 300 53.5; NOVA_EARLY_SAFE_UNTIL 200 (flee when outnumbered by one) 55.5.
+  Neutral: the bot's results barely move with its fight rules.
+
+## E75 (27 Oct) - how the platform winners beat us (20 distinct lost games, rounds 0-300) and copying it
+Tools: agent2/lab/platform_decode.js (replays -> per-round JSON in platform_matches/dec), tools/platform_study.py,
+tools/platform_farm.py. Team 0 = us.
+- Rounds 0-300 per game, us vs them: deaths 3.4 / 1.9, kills 1.9 / 3.4, kill gold 145 / 301, other gold 745 / 932,
+  gems gained 134 / 262, banked at 100 / 200 / 300: 19 / 32 / 80 vs 49 / 106 / 191; strength sum at 300 260 / 306.
+  Nearest teammate 6.3 / 4.8 tiles, a teammate within 3 42% / 59% of the time. Their items: Treasure + Jungle first,
+  then Bruiser / Power; ours Prospector + Jungle + Durability.
+- Farming: the same share of time at camps (49%), captures by round 100 3.0 / 3.2, by 300 9.4 / 12.2; gems per
+  capture 11.6 / 19.6 (we split big groups between two champions; they take them alone).
+- The decisive games: an early fight (rounds 19-75) where they arrive with 4-6 champions at full health against our
+  1-4 (03-24610ae3: 6 vs 3, we lost 5, they 0; 01-609a1e2d: 5 vs 4 at a 343-gem group, then took it and banked 343
+  by round 100; 03-ccd2c001: took 168 + 77 after an early kill). On ordinary maps both teams solo-farm 7-gem clusters
+  at the same pace.
+- Copies in p65, same 200 games as E73 (control 53.5, parity 53.5): A2_PACK (every champion works the leader's group)
+  until round 100 46.0, 200 38.5, all game 9.8; pairs (A2_PACK 2) until 200 46.2, all game 22.8; pack + gang kills
+  37.8; A2_JACKPOT (whole team on the map's biggest group early) 43.5, share 0.15 37.0, until 600 41.5. Probe of the
+  200-round pack: our deaths by round 200 halve (0.86 vs 1.70) but banked falls 59 -> 36.
+- Conclusion: against v61 / b5 (which spread out and contest little early), concentrating costs more farming than it
+  saves. The platform winners' concentration pays against our platform bot; whether it pays against the ladder can
+  only be measured there.
+
+## E76 (27 Oct) - farm first, then pack and attack (A2_RUSH_FROM / A2_RUSH_LEAD / A2_RUSH_ITEMS, A2_PACK from a round; p65)
+Same 200 games (control 53.5). The rush pack (leader marches to enemy-side camps within 20 of their spawn, followers
+within 2, aggression x1.5) from a start round: 400-700 29.5, 600-900 25.8, 300-end 7.0, 500-end 10.0; from round 150
+once a champion owns 15 shards' worth 16.5; from round 200 while 50+ banked gems ahead 32.5. Pack farming (every
+champion on the leader's group) 400-700 31.5; pairs from 400 22.8.
+- Packing costs at every stage of the game: capture rewards are split among the champions present, so team income
+  scales with the number of camps worked at once, and v61 / b5 leave when outnumbered by two (APEX_OUTNUMBERED 2), so a
+  pack gets few kills to make up for it. Not adopted.

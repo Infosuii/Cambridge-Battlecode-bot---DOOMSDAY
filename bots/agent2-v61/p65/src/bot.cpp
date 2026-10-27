@@ -3310,6 +3310,9 @@ bool Bot::handle_enemies() {
 #if V58_DENY_CAP
     if (deny_capture()) return true;
 #endif
+#if A2_GANG
+    if (gang_kill()) return true;
+#endif
 #if A2_RAID
     if (raid_answer()) return true;
 #endif
@@ -3450,6 +3453,24 @@ bool Bot::handle_enemies() {
             if (threat_on_me <= 0) threat_on_me = 1.0f;
         }
     }
+#if A2_LANCH
+    // A2_LANCH (E74): Lanchester check before round A2_LN_UNTIL. Fighting strength = (sum of health) x (sum of damage a
+    // turn) of each side near us; when theirs is A2_LN_RATIO times ours, leave now at any health (72 of 89 early flee
+    // deaths were outnumbered when the flight began at a median 32% health, 23 tiles from home).
+    if (round < A2_LN_UNTIL) {
+        float uh = hp, ud = std::max(strength * 1.15f, 30.0f) + 12.0f, eh = 0.0f, ed = 0.0f;
+        for (const auto& a : w.allies)
+            if (cheb(a.pos, pos) <= 5 && a.hp >= a.max_hp * 0.3f) uh += a.hp, ud += ally_dps(a);
+        for (const auto& e : w.enemies)
+            if (cheb(e.pos, pos) <= 8 && e.hp > 0) eh += e.hp, ed += enemy_dps(e);
+        const bool sure_kill = target && target_ttk <= 1.0f;
+        if (eh > 0.0f && eh * ed > A2_LN_RATIO * uh * ud && !sure_kill) {
+            in_danger = true;
+            winning = false;
+            if (threat_on_me <= 0) threat_on_me = 1.0f;
+        }
+    }
+#endif
     if (NOVA_BURST_K > 0.0f) {
         // Burst-aware danger: what the visible enemies can land on us next turn (ready nukes within spell
         // reach, basic attacks within walking reach). Caster teams kill from 15-20% health in one turn.
@@ -4457,6 +4478,10 @@ int Bot::rush_leader_slot() const {
 bool Bot::rush_active() const {
     if (round >= NOVA_RUSH_UNTIL) return false;
     if (gems >= NOVA_RUSH_GEMS) return false;
+    // Late pack (E76): farm spread out first; the pack attacks from round A2_RUSH_FROM, only while our banked lead is at
+    // least A2_RUSH_LEAD and (A2_RUSH_ITEMS) once this champion owns that many shards' worth of items.
+    if (round < A2_RUSH_FROM || ally_score - enemy_score < A2_RUSH_LEAD) return false;
+    if (A2_RUSH_ITEMS > 0 && my_items() < static_cast<float>(A2_RUSH_ITEMS)) return false;
     // Only while we have at least as many living champions as they do.
     int us = 0, them = 0;
     for (const auto& c : bc::champions(team::ally)) {
@@ -4477,6 +4502,7 @@ bool Bot::rush() {
     if (hp < max_hp * 0.45f) return false;
     FlagScope combat{combat_move};
     if (rush_visited.size() != w.groups.size()) rush_visited.assign(w.groups.size(), 0);
+    if (A2_RUSH_FROM > 0 && round % 60 == 0) std::fill(rush_visited.begin(), rush_visited.end(), 0); // camps respawn
     const int leader = rush_leader_slot();
     if (leader == slot) {
         // Next enemy-side camp: nearest to the enemy spawn among those not yet checked.
@@ -5743,9 +5769,19 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         }
         // Lab knob 40 scales the middle weight (exp(0.3k); 0 = this build's A2_MID_W).
         const float mid_mult = gi < mid_group.size() && mid_group[gi] ? A2_MID_W * std::exp(0.3f * LABK(40)) : 1.0f;
+#if A2_TOPFIX
+        // A2_TOPFIX (E72, tools/next_camp.py): camp choice shifted toward the top teams'. A conditional logit on 9,193 of
+        // their next-camp decisions against 1,220 of ours: they weigh gem size less (log(1 + gems) -0.50), mind a respawn
+        // wait less (+0.46 per 20 rounds still to wait on arrival) and like the middle a little more (+0.17).
+        const float topfix = std::exp(A2_TF_K * (-0.50f * std::log1p(static_cast<float>(g.gems)) +
+            0.46f * static_cast<float>(g.state == GroupState::respawning ? std::max(0, g.respawn_round - round - approach) : 0) / 20.0f +
+            0.17f * (gi < mid_group.size() && mid_group[gi] ? 1.0f : 0.0f)));
+#else
+        constexpr float topfix = 1.0f;
+#endif
 #endif
         {
-            const float best_case = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) * mid_mult *
+            const float best_case = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) * mid_mult * topfix *
                 tune::kStickiness / (static_cast<float>(approach + wait) + capture_time + 4.0f);
             if (best_case <= prune_bound()) {
 #ifdef APEX_SCOREDBG
@@ -5866,7 +5902,7 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
             hp >= max_hp * 0.8f && gems < 20 && allies_near_group(g) >= 1)
             value *= A2_CW_MULT;
 #endif
-        value *= mid_mult;
+        value *= mid_mult * topfix;
 #if A2_ZONES
         // Territories: another sector's group is worth A2_ZONE_W of its value (captures and team jobs excepted).
         if (zone_of.size() != w.groups.size()) build_zones();
@@ -6340,6 +6376,51 @@ bool Bot::farm() {
         }
         best = target_group;
     }
+#if A2_PACK || A2_JACKPOT
+    // Pack (A2_PACK, E75): until round A2_PACK_UNTIL every champion works the group the team leader (lowest living slot)
+    // claimed, so the team clears camps and meets enemies together. The platform winners met our spread team with 4-6
+    // champions at full health and killed 3-5 of ours by round 70 in the decisive games.
+#if A2_JACKPOT
+    // Jackpot (A2_JACKPOT, E75): before round A2_JP_UNTIL the whole team works the map's biggest group when it holds
+    // A2_JP_SHARE of all camp gems and is not respawning (the platform winners took 168- and 343-gem groups after
+    // winning the fight there with their whole team).
+    if (!low_fuel && best < 0 && round < A2_JP_UNTIL) {
+        int jp = -1, total = 0;
+        for (std::size_t gi = 0; gi < w.groups.size(); ++gi) {
+            total += w.groups[gi].gems;
+            if (jp < 0 || w.groups[gi].gems > w.groups[static_cast<std::size_t>(jp)].gems) jp = static_cast<int>(gi);
+        }
+        if (jp >= 0 && static_cast<float>(w.groups[static_cast<std::size_t>(jp)].gems) >= A2_JP_SHARE * static_cast<float>(total) &&
+            w.groups[static_cast<std::size_t>(jp)].state != GroupState::respawning && avoid_until[static_cast<std::size_t>(jp)] <= round &&
+            !group_capture_covered(w.groups[static_cast<std::size_t>(jp)])) {
+            best = jp;
+            best_need = std::max(1, team_size);
+            mode = "jackpot";
+        }
+    }
+#endif
+    if (A2_PACK && !low_fuel && best < 0 && round < A2_PACK_UNTIL && round >= A2_RUSH_FROM) {
+        // A2_PACK 2: pairs (slots 0+1, 2+3, 4+5): the odd slot works its partner's group while the partner lives.
+        int leader = rush_leader_slot();
+        if (A2_PACK == 2) {
+            leader = slot;
+            const int partner = slot ^ 1;
+            std::int32_t alive = 0;
+            if ((slot & 1) && partner < static_cast<int>(ally_handle.size()) &&
+                d::sdk_champion_is_alive(ally_handle[static_cast<std::size_t>(partner)], &alive) == 0 && alive)
+                leader = partner;
+        }
+        if (leader != slot) {
+            const int lc = claim_of(leader);
+            if (lc >= 0 && lc < static_cast<int>(w.groups.size()) && avoid_until[static_cast<std::size_t>(lc)] <= round &&
+                !group_capture_covered(w.groups[static_cast<std::size_t>(lc)])) {
+                best = lc;
+                best_need = 1;
+                mode = "pack";
+            }
+        }
+    }
+#endif
     // Escort (APEX_ESCORT): a caster farms where the nearest healthy melee ally farms, so a protector is
     // beside it when enemies arrive (alone, casters spent up to 30% of their turns fleeing).
     if (tune::kEscort > 0 && !low_fuel && !melee && best < 0) {
@@ -7673,6 +7754,51 @@ bool Bot::carrier_hunt() {
 #ifdef A2_RAIDLOG
     std::printf("RAIDEV hunt r%d slot %d gems %d%c", round, slot, t->gems, 10);
 #endif
+    if (cheb(t->pos, pos) > range) {
+        bc::bitboard goal;
+        goal.clear();
+        goal.draw_chebyshev(t->pos, static_cast<float>(range));
+        walk_toward(goal);
+    }
+    cast_on_enemy(*t);
+    if (cheb(t->pos, pos) <= range && attack_unit(t->unit, t->pos)) use_reset_and_attack(t->unit, t->pos);
+    return true;
+}
+#endif
+
+#if A2_GANG
+// Opportunistic gang kill (A2_GANG, E74). An enemy within A2_GK_DIST of us with no other enemy seen within A2_GK_ISO of
+// it (now or in the last 5 rounds), off its spawn, with A2_GK_ALLIES teammates within A2_GK_HELP of it, that our dps
+// and theirs kill within A2_GK_TTK turns while its side cannot take 60% of our health: attack it. Teammates near it see
+// the same picture and converge without messages. A free kill early is worth about +17 points (E73).
+bool Bot::gang_kill() {
+    if (hp < A2_GK_HP * max_hp || gems >= 60) return false;
+    const EnemyRec* t = nullptr;
+    float tv = 0.0f;
+    for (const auto& e : w.enemies) {
+        if (e.hp <= 0 || bit(w.enemy_spawn_zone, e.pos)) continue;
+        const int d = cheb(e.pos, pos);
+        if (d > A2_GK_DIST) continue;
+        bool alone = true;
+        for (const auto& o : w.enemies)
+            if (o.id != e.id && cheb(o.pos, e.pos) <= A2_GK_ISO) alone = false;
+        for (const auto& s : w.sightings)
+            if (alone && round - s.round <= 5 && cheb(s.pos, e.pos) <= A2_GK_ISO && cheb(s.pos, e.pos) > 2) alone = false;
+        if (!alone) continue;
+        int helpers = 0;
+        float dps = strength + 12.0f;
+        for (const auto& a : w.allies)
+            if (a.hp > 0.4f * a.max_hp && cheb(a.pos, e.pos) <= A2_GK_HELP) ++helpers, dps += ally_dps(a);
+        if (helpers < A2_GK_ALLIES) continue;
+        const float walk = static_cast<float>(std::max(0, d - range));
+        const float ttk = e.hp / std::max(1.0f, dps) + 0.5f * walk;
+        if (ttk > A2_GK_TTK) continue;
+        if (enemy_dps(e) * (ttk + 1.0f) > 0.6f * hp) continue;
+        const float v = static_cast<float>(e.gems) + 60.0f - 10.0f * ttk;
+        if (!t || v > tv) t = &e, tv = v;
+    }
+    if (!t) return false;
+    mode = "gang";
     if (cheb(t->pos, pos) > range) {
         bc::bitboard goal;
         goal.clear();

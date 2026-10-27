@@ -324,6 +324,9 @@ private:
     std::vector<char> rush_visited;
     int rush_target = -1;
     int rush_leader_slot() const;
+#if A2_GANG
+    bool gang_kill(); // E74: converge on an isolated, quickly killable enemy with a teammate near it
+#endif
 #if A2_RAID
     // Altar raid (A2_RAID, bot.cpp end): the enemy's banking altar is warded and long tributes there are denied.
     bool raid_slot() const { return ((A2_RAID_SLOTS >> slot) & 1) != 0; }

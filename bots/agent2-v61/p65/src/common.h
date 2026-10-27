@@ -641,6 +641,15 @@ using bc::vec2;
 #ifndef NOVA_RUSH_UNTIL
 #define NOVA_RUSH_UNTIL 0 // opening rush: the pack hunts at the enemy's nearest camps until this round
 #endif
+#ifndef A2_RUSH_FROM // late pack (E76): the rush pack starts at this round (0 = from the start)
+#define A2_RUSH_FROM 0
+#endif
+#ifndef A2_RUSH_LEAD // ...and only while our banked lead (ours - theirs) is at least this
+#define A2_RUSH_LEAD -100000
+#endif
+#ifndef A2_RUSH_ITEMS // ...and once this champion owns this many shards' worth of items (0 = any)
+#define A2_RUSH_ITEMS 0
+#endif
 #ifndef NOVA_RUSH_AGGR
 #define NOVA_RUSH_AGGR 1.5f
 #endif
@@ -1054,6 +1063,57 @@ inline void report(int round) {
 #endif
 #ifndef A2_BURST2_K
 #define A2_BURST2_K 1.0f
+#endif
+#ifndef A2_JACKPOT // the whole team works the map's biggest group early when it holds A2_JP_SHARE of the camp gems (E75)
+#define A2_JACKPOT 0
+#endif
+#ifndef A2_JP_SHARE
+#define A2_JP_SHARE 0.25f
+#endif
+#ifndef A2_JP_UNTIL
+#define A2_JP_UNTIL 300
+#endif
+#ifndef A2_PACK // pack farming (E75): every champion works the leader's claimed group until round A2_PACK_UNTIL
+#define A2_PACK 0
+#endif
+#ifndef A2_PACK_UNTIL
+#define A2_PACK_UNTIL 150
+#endif
+#ifndef A2_LANCH // Lanchester retreat (E74): leave early when the enemies' (health x damage) near us is A2_LN_RATIO times ours
+#define A2_LANCH 0
+#endif
+#ifndef A2_LN_RATIO
+#define A2_LN_RATIO 1.5f
+#endif
+#ifndef A2_LN_UNTIL
+#define A2_LN_UNTIL 2001
+#endif
+#ifndef A2_GANG // opportunistic gang kills (E74): an isolated enemy near us and a teammate, killable fast, is attacked
+#define A2_GANG 0 // 1 = on (bot.cpp gang_kill)
+#endif
+#ifndef A2_GK_DIST // farthest target (Chebyshev from us)
+#define A2_GK_DIST 6
+#endif
+#ifndef A2_GK_ALLIES // teammates (besides us) that must be within A2_GK_HELP of the target
+#define A2_GK_ALLIES 1
+#endif
+#ifndef A2_GK_HELP // a teammate this close to the target counts as help
+#define A2_GK_HELP 5
+#endif
+#ifndef A2_GK_TTK // the target must die within this many of our turns (our dps + helpers')
+#define A2_GK_TTK 4.0f
+#endif
+#ifndef A2_GK_ISO // no other enemy (seen now or in the last 5 rounds) within this of the target
+#define A2_GK_ISO 7
+#endif
+#ifndef A2_GK_HP // our health share needed
+#define A2_GK_HP 0.55f
+#endif
+#ifndef A2_TOPFIX // camp choice shifted toward the top teams' revealed preferences (E72, tools/next_camp.py; bot.cpp)
+#define A2_TOPFIX 0
+#endif
+#ifndef A2_TF_K // strength of that shift (1 = the fitted difference)
+#define A2_TF_K 1.0f
 #endif
 #ifndef A2_RAID // altar raid: 1 ward the enemy's banking altar and keep that ward all game (A2_RAID_SLOTS), 2 answer long
 #define A2_RAID 0 // tributes seen (kill or lock-cancel the channeller), 4 lock that altar when passing with a spare lock, 8 hunt carriers,
