@@ -14,6 +14,7 @@ from local_duel import build, map_path
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--map', default='00quadrants')
+    ap.add_argument('--bot', default='bots/v67')
     ap.add_argument('--out', required=True)
     ap.add_argument('--define', action='append', default=[], metavar='NAME=VALUE')
     a = ap.parse_args()
@@ -24,7 +25,7 @@ def main():
     work.mkdir(parents=True)
     defines = dict(setting.split('=', 1) for setting in a.define)
     defines['V67_TRACE'] = 1
-    ours = build(ROOT / 'bots/v67', 1, work, 'bot', defines)
+    ours = build(ROOT / a.bot, 1, work, 'bot', defines)
     opponent = build(ROOT / 'bots/v65', 1, work, 'opponent')
     result = engine.run_match(ours, opponent, map_path(a.map), out / 'game', log_limit=64 << 20)
     (out / 'a.txt').write_text(engine.team_stdout(out / 'game', 'a'), encoding='utf8', newline='\n')

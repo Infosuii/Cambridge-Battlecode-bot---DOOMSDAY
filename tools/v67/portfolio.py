@@ -23,7 +23,8 @@ def main():
     out=(ROOT/a.out).resolve()
     if out.exists() or not out.is_relative_to(ROOT): raise SystemExit('fresh workspace output directory required')
     records=[json.loads(s) for s in (ROOT/'research/v67/RESULTS.jsonl').read_text().splitlines() if s]
-    eligible={r['run']:r for r in records if r['opponent']=='v65' and r['seeds']==[1,2] and not r['holdout']}
+    eligible={r['run']:r for r in records if r['opponent']=='v65' and r['seeds']==[1,2] and not r['holdout']
+              and 'selection.json' not in r['source_sha256']}
     if a.runs: eligible={r:eligible[r] for r in a.runs}
     table=defaultdict(list)
     for run,r in eligible.items():

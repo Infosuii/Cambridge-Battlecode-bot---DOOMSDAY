@@ -28,9 +28,18 @@ def main():
         ap.error('seeds 3/4 are reserved for the frozen holdout')
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', a.run):
         ap.error('run must be a directory name')
-    src = ROOT / 'bots/v67/src'
+    out = ROOT / 'artifacts/evaluations/v67' / a.run
+    if a.record_existing and a.set:
+        ap.error('historical runs cannot change source settings')
+    src = (out / 'build' / f'src-bot-s{a.seeds[0]}' / 'src') if a.record_existing else ROOT / 'bots/v67/src'
+    if not src.is_dir():
+        ap.error('missing exact source snapshot for benchmark')
     common = src / 'common.h'
     code = common.read_bytes().decode('utf8')
+    if a.record_existing:
+        # Reconstruct the source input before local_duel's documented seed rewrite.
+        code = re.sub(rf'^#define NOVA_SEED {a.seeds[0]}\r?$',
+                      lambda m: '#define NOVA_SEED 1' + ('\r' if m[0].endswith('\r') else ''), code, flags=re.M)
     end = '\r\n' if '\r\n' in code else '\n'
     changes = {}
     for setting in a.set:
@@ -47,13 +56,12 @@ def main():
         common.write_bytes(code.encode('utf8'))
     if code.splitlines().count('#define NOVA_SEED 1') != 1:
         raise SystemExit('v67 must have exactly one #define NOVA_SEED 1')
-    hashes = {p.relative_to(src).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+    hashes = {p.relative_to(src).as_posix(): hashlib.sha256(code.encode('utf8') if p == common else p.read_bytes()).hexdigest()
               for p in sorted(src.rglob('*')) if p.is_file()}
     frozen = json.loads((ROOT / 'research/v67/V65_SOURCE_SHA256.json').read_text())
     for name, sha in frozen.items():
         if hashlib.sha256((ROOT / 'bots/v65/src' / name).read_bytes()).hexdigest() != sha:
             raise SystemExit('v65 source changed: ' + name)
-    out = ROOT / 'artifacts/evaluations/v67' / a.run
     if not a.record_existing:
         command = [sys.executable, 'tools/proxy/local_duel.py', '--plan', 'research/v59/duel_top1.json',
                    '--bot', 'bots/v67', '--name', 'v67', '--proxy', 'bots/' + a.opponent,
@@ -84,9 +92,12 @@ def main():
     n = len(rows)
     record = dict(run=a.run, note=a.note, opponent=a.opponent, seeds=a.seeds, holdout=a.holdout, games=n,
                   wins=sum(r['win'] for r in rows), draws=sum(r['draw'] for r in rows),
+                  positive_margin_wins=sum(r['margin'] > 0 for r in rows),
                   margin=sum(r['margin'] for r in rows) / n, fuel=sum(r['fuel'] for r in rows),
                   opponent_fuel=sum(r['opp_fuel'] for r in rows), metrics=dict(metrics), opponent_metrics=dict(opponents),
                   per_map=per_map, source_sha256=hashes, changes=changes)
+    record['source_snapshot'] = str(src.relative_to(ROOT)).replace('\\','/')
+    record['candidate_path'] = run['bot']
     (out / 'audit.json').write_text(json.dumps(record, indent=2) + '\n', encoding='utf8', newline='\n')
     log = ROOT / 'research/v67/RESULTS.jsonl'
     with log.open('a', encoding='utf8', newline='\n') as f:
@@ -100,7 +111,7 @@ def main():
         f.write(f'| {a.run} | {a.note} | {a.opponent} | {a.seeds} | {record["wins"]}/{n} | {record["margin"]:+.1f} | '
                 f'{metrics["deaths"]/n:.2f} | {metrics["kills"]/n:.2f} | {metrics["earnedGold"]/n:.0f} | '
                 f'{record["fuel"]}/{record["opponent_fuel"]} | {metrics["faults"]}/{opponents["faults"]} |\n')
-    print(json.dumps({k:record[k] for k in ('run','wins','games','margin','fuel','opponent_fuel','metrics')}, indent=2))
+    print(json.dumps({k:record[k] for k in ('run','wins','positive_margin_wins','games','margin','fuel','opponent_fuel','metrics')}, indent=2))
 
 
 if __name__ == '__main__':
