@@ -6,7 +6,9 @@
 
 Every (group, slot) of the plan is one game on the same map with our bot on the same side as on the ladder; the
 opponent is one proxy bot; with --per-team, that bot built once per top team with PROXY_TEAM set to the team's row in
-its proxy_tables.h (its drafts and items); or any bot per team (--proxy-map: {"team name": "bots/<dir>", ...}). Several seeds
+its proxy_tables.h (its drafts and items), or for a mimic bot (bots/mimic: it has src/weights.h) MIMIC_TEAM set to the
+team's index in kTeamNames (-1, the pooled models, for a team it has no models of); or any bot per team
+(--proxy-map: {"team name": "bots/<dir>", ...}). Several seeds
 replay the whole schedule with different NOVA_SEED values in both bots, to average over the bots' own randomness.
 
 Output: <out>/games.json (one row per game, the same fields as research/proxy/ladder_arms.json), and with --replays
@@ -36,6 +38,18 @@ def map_path(name):
     if not p.is_file():
         raise SystemExit('no local copy of ' + name)
     return p
+
+
+def team_define(bot_dir, name):
+    """(define, value) that makes a per-team bot imitate `name`: MIMIC_TEAM = its index in a mimic bot's weights.h
+    kTeamNames (-1, the pooled models, when absent), or PROXY_TEAM = its row in a proxy bot's proxy_tables.h."""
+    weights = Path(bot_dir) / 'src/weights.h'
+    if weights.is_file():
+        text = weights.read_text(encoding='utf8')
+        at = text.index('kTeamNames[')
+        names = re.findall(r'"([^"]*)"', text[at:text.index('};', at)])
+        return 'MIMIC_TEAM', names.index(name) if name in names else -1
+    return 'PROXY_TEAM', proxy_team_index(bot_dir, name)
 
 
 def proxy_team_index(bot_dir, name):
@@ -94,11 +108,19 @@ def main():
     ap.add_argument('--proxy')
     ap.add_argument('--proxy-map')
     ap.add_argument('--per-team', action='store_true')
+    ap.add_argument('--proxy-define', action='append', default=[], metavar='NAME=VALUE',
+                    help='override a proxy common.h switch (repeatable; included in the build cache key)')
     ap.add_argument('--seeds', type=int, nargs='+', default=[1])
     ap.add_argument('--workers', type=int, default=12)
     ap.add_argument('--replays', action='store_true')
     ap.add_argument('--out', required=True)
     a = ap.parse_args()
+    proxy_defines = {}
+    for setting in a.proxy_define:
+        name, sep, value = setting.partition('=')
+        if not sep or not re.fullmatch(r'[A-Z][A-Z0-9_]*', name) or not re.fullmatch(r'[-+0-9.eEfFuU]+', value):
+            ap.error('invalid --proxy-define; expected NAME=numeric-value')
+        proxy_defines[name] = value
     if bool(a.proxy) == bool(a.proxy_map):
         raise SystemExit('give exactly one of --proxy and --proxy-map')
     out = Path(a.out).resolve()
@@ -110,7 +132,7 @@ def main():
     teams = sorted({g['opponent'] for g in plan['groups']})
     opp_dir = {t: (ROOT / opp_of[t]) if a.proxy_map else Path(a.proxy).resolve() for t in teams}
     # One opponent build per distinct (bot dir, defines): with --per-team, the proxy for each team.
-    opp_key = {t: (str(opp_dir[t]), proxy_team_index(opp_dir[t], t) if a.per_team else None) for t in teams}
+    opp_key = {t: (str(opp_dir[t]), team_define(opp_dir[t], t) if a.per_team else None) for t in teams}
     work = out / 'build'
     work.mkdir()
     wasm = {}
@@ -119,7 +141,9 @@ def main():
         for s in a.seeds:
             futs[ex.submit(build, a.bot, s, work, 'bot')] = ('bot', s)
             for i, key in enumerate(sorted(set(opp_key.values()), key=str)):
-                defines = {} if key[1] is None else {'PROXY_TEAM': key[1]}
+                defines = dict(proxy_defines)
+                if key[1] is not None:
+                    defines[key[1][0]] = key[1][1]
                 futs[ex.submit(build, key[0], s, work, f'p{i}', defines)] = (key, s)
         for f in cf.as_completed(futs):
             wasm[futs[f]] = f.result()
@@ -128,7 +152,7 @@ def main():
         for gi, g in enumerate(plan['groups']):
             for k, (m, side) in enumerate(zip(g['maps'], g['sides'])):
                 ours, theirs = wasm[('bot', s)], wasm[(opp_key[g['opponent']], s)]
-                team_k = opp_key[g['opponent']][1]
+                team_k = None if opp_key[g['opponent']][1] is None else opp_key[g['opponent']][1][1]
                 jobs.append(dict(seed=s, group=gi, slot=k + 1, map=m, side=side, opponent=g['opponent'],
                                  proxy=opp_dir[g['opponent']].name + ('' if team_k is None else f'#{team_k}'),
                                  A=ours if side == 'a' else theirs,
@@ -150,7 +174,8 @@ def main():
             if len(rows) % 40 == 0:
                 print('games', len(rows), '/', len(jobs), flush=True)
     rows.sort(key=lambda r: (r['seed'], r['group'], r['slot']))
-    meta = dict(plan=a.plan, bot=a.bot, name=a.name, proxy=a.proxy, per_team=a.per_team, proxy_map=opp_of, seeds=a.seeds)
+    meta = dict(plan=a.plan, bot=a.bot, name=a.name, proxy=a.proxy, per_team=a.per_team, proxy_map=opp_of,
+                proxy_defines=proxy_defines, seeds=a.seeds)
     (out / 'games.json').write_text(json.dumps(dict(meta, games=rows), indent=1) + '\n', encoding='utf8', newline='\n')
     if a.replays:
         rdir = out / 'replays'

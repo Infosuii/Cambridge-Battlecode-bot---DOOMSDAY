@@ -1,0 +1,694 @@
+{
+ "mimic": {
+  "summary": {
+   "arms": 6,
+   "spearman": 0.9428571428571428,
+   "pearson": 0.8568799910176859,
+   "pairs_agree": 14,
+   "pairs": 15,
+   "decided_agree": 1,
+   "decided": 1,
+   "per_game_r": -0.12740692993940186,
+   "team_r": 0.17700730329759054
+  },
+  "arms": [
+   {
+    "arm": "v60",
+    "games": 120,
+    "ladder": -465.025,
+    "ladder_se": 41.65665223490923,
+    "ladder_win": 0.125,
+    "local": 897.6458333333334,
+    "local_se": 16.405563716694154,
+    "local_win": 1.0,
+    "per_game_r": -0.12982884468842826
+   },
+   {
+    "arm": "v61",
+    "games": 120,
+    "ladder": -462.26666666666665,
+    "ladder_se": 43.98713323032766,
+    "ladder_win": 0.175,
+    "local": 908.4,
+    "local_se": 15.77096399470016,
+    "local_win": 1.0,
+    "per_game_r": -0.21794409274296328
+   },
+   {
+    "arm": "v62c",
+    "games": 120,
+    "ladder": -493.9916666666667,
+    "ladder_se": 43.616818088264125,
+    "ladder_win": 0.125,
+    "local": 891.8166666666667,
+    "local_se": 16.408434640684337,
+    "local_win": 1.0,
+    "per_game_r": -0.1863964917640317
+   },
+   {
+    "arm": "v65",
+    "games": 120,
+    "ladder": -386.175,
+    "ladder_se": 51.102804144063896,
+    "ladder_win": 0.2,
+    "local": 912.625,
+    "local_se": 15.350513967344048,
+    "local_win": 1.0,
+    "per_game_r": -0.05807444543227021
+   },
+   {
+    "arm": "v66a",
+    "games": 120,
+    "ladder": -408.84166666666664,
+    "ladder_se": 49.614873916015824,
+    "ladder_win": 0.16666666666666666,
+    "local": 907.2833333333333,
+    "local_se": 15.745908647084029,
+    "local_win": 1.0,
+    "per_game_r": -0.06727949589442853
+   },
+   {
+    "arm": "v66b",
+    "games": 120,
+    "ladder": -403.1166666666667,
+    "ladder_se": 49.23491562329766,
+    "ladder_win": 0.19166666666666668,
+    "local": 909.2291666666666,
+    "local_se": 15.382244365854385,
+    "local_win": 1.0,
+    "per_game_r": -0.1049182091142893
+   }
+  ],
+  "pairs": [
+   {
+    "a": "v60",
+    "b": "v61",
+    "games": 120,
+    "ladder": 2.7583333333333333,
+    "ladder_se": 34.14141786719262,
+    "local": 10.754166666666666,
+    "local_se": 8.171363614935862,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v62c",
+    "games": 120,
+    "ladder": -28.966666666666665,
+    "ladder_se": 43.9532950701728,
+    "local": -5.829166666666667,
+    "local_se": 10.779796331923427,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v65",
+    "games": 120,
+    "ladder": 78.85,
+    "ladder_se": 44.7245031663113,
+    "local": 14.979166666666666,
+    "local_se": 9.409472839953203,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 56.18333333333333,
+    "ladder_se": 49.33254643459787,
+    "local": 9.6375,
+    "local_se": 11.329235380961368,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 61.90833333333333,
+    "ladder_se": 45.74687082077444,
+    "local": 11.583333333333334,
+    "local_se": 10.83624018316268,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v62c",
+    "games": 120,
+    "ladder": -31.725,
+    "ladder_se": 43.4238248681121,
+    "local": -16.583333333333332,
+    "local_se": 9.774375787510978,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v65",
+    "games": 120,
+    "ladder": 76.09166666666667,
+    "ladder_se": 52.43468258501985,
+    "local": 4.225,
+    "local_se": 9.23358155654373,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 53.425,
+    "ladder_se": 50.591740258889786,
+    "local": -1.1166666666666667,
+    "local_se": 10.87465143736664,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 59.15,
+    "ladder_se": 52.31648150147979,
+    "local": 0.8291666666666667,
+    "local_se": 10.716076524203983,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v62c",
+    "b": "v65",
+    "games": 120,
+    "ladder": 107.81666666666666,
+    "ladder_se": 51.73075493426609,
+    "local": 20.808333333333334,
+    "local_se": 7.4971100485652995,
+    "agree": true,
+    "decided": true
+   },
+   {
+    "a": "v62c",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 85.15,
+    "ladder_se": 53.90824065357861,
+    "local": 15.466666666666667,
+    "local_se": 8.568419503723156,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v62c",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 90.875,
+    "ladder_se": 48.639689621877785,
+    "local": 17.4125,
+    "local_se": 7.480599704320136,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v65",
+    "b": "v66a",
+    "games": 120,
+    "ladder": -22.666666666666668,
+    "ladder_se": 45.85318235847569,
+    "local": -5.341666666666667,
+    "local_se": 7.4065394853146955,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v65",
+    "b": "v66b",
+    "games": 120,
+    "ladder": -16.941666666666666,
+    "ladder_se": 54.301553614115214,
+    "local": -3.3958333333333335,
+    "local_se": 6.374383849592951,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v66a",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 5.725,
+    "ladder_se": 45.95780241255054,
+    "local": 1.9458333333333333,
+    "local_se": 5.9991648456851845,
+    "agree": true,
+    "decided": false
+   }
+  ],
+  "teams": [
+   {
+    "team": "Ad Astra",
+    "games": 60,
+    "ladder": -207.65,
+    "ladder_se": 77.23203290591061,
+    "local": 975.3916666666667,
+    "local_se": 15.09079438247576
+   },
+   {
+    "team": "Claudus Maximus",
+    "games": 60,
+    "ladder": -370.73333333333335,
+    "ladder_se": 77.43433838310123,
+    "local": 1030.5333333333333,
+    "local_se": 3.466666666666667
+   },
+   {
+    "team": "Intercontinental Fish",
+    "games": 60,
+    "ladder": -731.6,
+    "ladder_se": 31.57592589371209,
+    "local": 842.9416666666667,
+    "local_se": 19.158947444589888
+   },
+   {
+    "team": "Mite",
+    "games": 60,
+    "ladder": -516.0333333333333,
+    "ladder_se": 46.47562976398027,
+    "local": 892.4,
+    "local_se": 19.96713330524386
+   },
+   {
+    "team": "NEETCoders",
+    "games": 60,
+    "ladder": -370.9166666666667,
+    "ladder_se": 61.03793990860318,
+    "local": 807.5,
+    "local_se": 20.805471765072564
+   },
+   {
+    "team": "Sponge(Albert and Bob)",
+    "games": 60,
+    "ladder": -346.31666666666666,
+    "ladder_se": 96.74474683666107,
+    "local": 937.2583333333333,
+    "local_se": 24.190316184954266
+   },
+   {
+    "team": "Trzy Kwaterki",
+    "games": 60,
+    "ladder": -521.5833333333334,
+    "ladder_se": 65.16152590730773,
+    "local": 988.4583333333334,
+    "local_se": 9.94119213589912
+   },
+   {
+    "team": "Univardisty of Shingtonwash",
+    "games": 60,
+    "ladder": -408.23333333333335,
+    "ladder_se": 75.54514258864187,
+    "local": 944.7583333333333,
+    "local_se": 19.149701992292126
+   },
+   {
+    "team": "hello",
+    "games": 60,
+    "ladder": -383.48333333333335,
+    "ladder_se": 62.79069118306235,
+    "local": 877.3166666666667,
+    "local_se": 23.190110176132578
+   },
+   {
+    "team": "print dont int",
+    "games": 60,
+    "ladder": -363.53333333333336,
+    "ladder_se": 40.220455111997374,
+    "local": 846.9083333333333,
+    "local_se": 24.34461126600776
+   },
+   {
+    "team": "prism best girl",
+    "games": 60,
+    "ladder": -631.45,
+    "ladder_se": 58.41963635995502,
+    "local": 918.0583333333333,
+    "local_se": 25.259042380637023
+   },
+   {
+    "team": "willow best girl",
+    "games": 60,
+    "ladder": -387.3,
+    "ladder_se": 46.80005734218323,
+    "local": 792.475,
+    "local_se": 28.341497058350225
+   }
+  ]
+ },
+ "self-play": {
+  "summary": {
+   "arms": 6,
+   "spearman": 0.42857142857142855,
+   "pearson": 0.6841180148459723,
+   "pairs_agree": 9,
+   "pairs": 15,
+   "decided_agree": 1,
+   "decided": 1,
+   "per_game_r": -0.008086948601065949,
+   "team_r": -0.4383596610900154
+  },
+  "arms": [
+   {
+    "arm": "v60",
+    "games": 120,
+    "ladder": -465.025,
+    "ladder_se": 41.65665223490923,
+    "ladder_win": 0.125,
+    "local": -89.475,
+    "local_se": 53.7103967350547,
+    "local_win": 0.4166666666666667,
+    "per_game_r": 0.20504887387404538
+   },
+   {
+    "arm": "v61",
+    "games": 120,
+    "ladder": -462.26666666666665,
+    "ladder_se": 43.98713323032766,
+    "ladder_win": 0.175,
+    "local": 113.55,
+    "local_se": 53.47414995009415,
+    "local_win": 0.575,
+    "per_game_r": 0.0263747718083843
+   },
+   {
+    "arm": "v62c",
+    "games": 120,
+    "ladder": -493.9916666666667,
+    "ladder_se": 43.616818088264125,
+    "ladder_win": 0.125,
+    "local": -98.2,
+    "local_se": 49.23703116654413,
+    "local_win": 0.375,
+    "per_game_r": 0.1320093109901328
+   },
+   {
+    "arm": "v65",
+    "games": 120,
+    "ladder": -386.175,
+    "ladder_se": 51.102804144063896,
+    "ladder_win": 0.2,
+    "local": 71.56666666666666,
+    "local_se": 58.97407887757511,
+    "local_win": 0.5666666666666667,
+    "per_game_r": -0.14118452525142114
+   },
+   {
+    "arm": "v66a",
+    "games": 120,
+    "ladder": -408.84166666666664,
+    "ladder_se": 49.614873916015824,
+    "ladder_win": 0.16666666666666666,
+    "local": 102.05833333333334,
+    "local_se": 57.45684447485321,
+    "local_win": 0.6083333333333333,
+    "per_game_r": -0.05976396086660577
+   },
+   {
+    "arm": "v66b",
+    "games": 120,
+    "ladder": -403.1166666666667,
+    "ladder_se": 49.23491562329766,
+    "ladder_win": 0.19166666666666668,
+    "local": 72.64166666666667,
+    "local_se": 54.10633502292048,
+    "local_win": 0.5333333333333333,
+    "per_game_r": -0.21100616216093127
+   }
+  ],
+  "pairs": [
+   {
+    "a": "v60",
+    "b": "v61",
+    "games": 120,
+    "ladder": 2.7583333333333333,
+    "ladder_se": 34.14141786719262,
+    "local": 203.025,
+    "local_se": 60.428070840034096,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v62c",
+    "games": 120,
+    "ladder": -28.966666666666665,
+    "ladder_se": 43.9532950701728,
+    "local": -8.725,
+    "local_se": 63.907657211089216,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v65",
+    "games": 120,
+    "ladder": 78.85,
+    "ladder_se": 44.7245031663113,
+    "local": 161.04166666666666,
+    "local_se": 77.23846028576433,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 56.18333333333333,
+    "ladder_se": 49.33254643459787,
+    "local": 191.53333333333333,
+    "local_se": 80.29475717553804,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v60",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 61.90833333333333,
+    "ladder_se": 45.74687082077444,
+    "local": 162.11666666666667,
+    "local_se": 63.63821960791025,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v62c",
+    "games": 120,
+    "ladder": -31.725,
+    "ladder_se": 43.4238248681121,
+    "local": -211.75,
+    "local_se": 62.13213674071081,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v65",
+    "games": 120,
+    "ladder": 76.09166666666667,
+    "ladder_se": 52.43468258501985,
+    "local": -41.983333333333334,
+    "local_se": 78.3082369208663,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 53.425,
+    "ladder_se": 50.591740258889786,
+    "local": -11.491666666666667,
+    "local_se": 69.9827919983693,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v61",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 59.15,
+    "ladder_se": 52.31648150147979,
+    "local": -40.90833333333333,
+    "local_se": 65.27792982827911,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v62c",
+    "b": "v65",
+    "games": 120,
+    "ladder": 107.81666666666666,
+    "ladder_se": 51.73075493426609,
+    "local": 169.76666666666668,
+    "local_se": 74.99066770448022,
+    "agree": true,
+    "decided": true
+   },
+   {
+    "a": "v62c",
+    "b": "v66a",
+    "games": 120,
+    "ladder": 85.15,
+    "ladder_se": 53.90824065357861,
+    "local": 200.25833333333333,
+    "local_se": 74.3329255642871,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v62c",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 90.875,
+    "ladder_se": 48.639689621877785,
+    "local": 170.84166666666667,
+    "local_se": 63.310421916347686,
+    "agree": true,
+    "decided": false
+   },
+   {
+    "a": "v65",
+    "b": "v66a",
+    "games": 120,
+    "ladder": -22.666666666666668,
+    "ladder_se": 45.85318235847569,
+    "local": 30.491666666666667,
+    "local_se": 75.14712646311189,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v65",
+    "b": "v66b",
+    "games": 120,
+    "ladder": -16.941666666666666,
+    "ladder_se": 54.301553614115214,
+    "local": 1.075,
+    "local_se": 76.0995553185291,
+    "agree": false,
+    "decided": false
+   },
+   {
+    "a": "v66a",
+    "b": "v66b",
+    "games": 120,
+    "ladder": 5.725,
+    "ladder_se": 45.95780241255054,
+    "local": -29.416666666666668,
+    "local_se": 63.28721000365465,
+    "agree": false,
+    "decided": false
+   }
+  ],
+  "teams": [
+   {
+    "team": "Ad Astra",
+    "games": 60,
+    "ladder": -207.65,
+    "ladder_se": 77.23203290591061,
+    "local": -34.03333333333333,
+    "local_se": 86.68438421678563
+   },
+   {
+    "team": "Claudus Maximus",
+    "games": 60,
+    "ladder": -370.73333333333335,
+    "ladder_se": 77.43433838310123,
+    "local": -35.516666666666666,
+    "local_se": 77.53535184838175
+   },
+   {
+    "team": "Intercontinental Fish",
+    "games": 60,
+    "ladder": -731.6,
+    "ladder_se": 31.57592589371209,
+    "local": 28.616666666666667,
+    "local_se": 73.12562169967664
+   },
+   {
+    "team": "Mite",
+    "games": 60,
+    "ladder": -516.0333333333333,
+    "ladder_se": 46.47562976398027,
+    "local": 7.65,
+    "local_se": 78.13132803750334
+   },
+   {
+    "team": "NEETCoders",
+    "games": 60,
+    "ladder": -370.9166666666667,
+    "ladder_se": 61.03793990860318,
+    "local": 27.216666666666665,
+    "local_se": 60.87735699060824
+   },
+   {
+    "team": "Sponge(Albert and Bob)",
+    "games": 60,
+    "ladder": -346.31666666666666,
+    "ladder_se": 96.74474683666107,
+    "local": 54.63333333333333,
+    "local_se": 94.27974351717756
+   },
+   {
+    "team": "Trzy Kwaterki",
+    "games": 60,
+    "ladder": -521.5833333333334,
+    "ladder_se": 65.16152590730773,
+    "local": 198.4,
+    "local_se": 81.11116108142825
+   },
+   {
+    "team": "Univardisty of Shingtonwash",
+    "games": 60,
+    "ladder": -408.23333333333335,
+    "ladder_se": 75.54514258864187,
+    "local": 181.13333333333333,
+    "local_se": 80.73940946684347
+   },
+   {
+    "team": "hello",
+    "games": 60,
+    "ladder": -383.48333333333335,
+    "ladder_se": 62.79069118306235,
+    "local": 7.316666666666666,
+    "local_se": 73.0701253292403
+   },
+   {
+    "team": "print dont int",
+    "games": 60,
+    "ladder": -363.53333333333336,
+    "ladder_se": 40.220455111997374,
+    "local": -166.93333333333334,
+    "local_se": 67.13951603888704
+   },
+   {
+    "team": "prism best girl",
+    "games": 60,
+    "ladder": -631.45,
+    "ladder_se": 58.41963635995502,
+    "local": 188.25,
+    "local_se": 83.4745559020882
+   },
+   {
+    "team": "willow best girl",
+    "games": 60,
+    "ladder": -387.3,
+    "ladder_se": 46.80005734218323,
+    "local": -112.45,
+    "local_se": 61.09233275517417
+   }
+  ]
+ }
+}
