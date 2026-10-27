@@ -1,0 +1,358 @@
+v67 actual saved benchmark stdout/stderr
+b00 baseline output was not saved by the initial runner. Its measured result is in RESULTS.md/jsonl; no replacement output is invented here.
+
+================================================================================
+b01-early-stats
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 110 wins, 0 draws, margin -19.2, faults 0, fuel-outs 112 (proxy 242)
+
+
+================================================================================
+b02-team-commander
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 131 wins, 0 draws, margin +63.6, faults 0, fuel-outs 598 (proxy 135)
+
+
+================================================================================
+b03-economy-director
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 108 wins, 0 draws, margin -21.7, faults 0, fuel-outs 111 (proxy 112)
+
+
+================================================================================
+b04-fish-meta
+================================================================================
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 200, in <module>
+    main()
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 149, in main
+    wasm[futs[f]] = f.result()
+                    ^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 95, in build
+    out = engine.official_build(tmp, work / f'{key}.wasm')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 77, in official_build
+    log = _run(args, timeout=timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 61, in _run
+    raise RuntimeError(f'command failed ({r.returncode}): {args[:3]}\n{out[-4000:]}')
+RuntimeError: command failed (1): [WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/tools/vendor/cambc.exe'), 'build', WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2')]
+facts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/tsearch.cpp:941:56: note: use '|' for a bitwise operation
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+
+      |                                                        ^~
+
+      |                                                        |
+
+2 warnings generated.
+
+[13/15] Building CXX object CMakeFiles/bot.dir/173bf8db0ab3b697ed42e3dcacb073d5/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:3617:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3617 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:3617:53: note: use '&' for a bitwise operation
+ 3617 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:3617:53: note: remove constant to silence this warning
+ 3617 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:4049:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4049 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:4049:92: note: use '|' for a bitwise operation
+ 4049 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:4067:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4067 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b04-fish-meta/build/src-bot-s2/src/bot.cpp:4067:82: note: use '|' for a bitwise operation
+ 4067 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+
+      |                                                                                  ^~
+
+      |                                                                                  |
+
+3 warnings generated.
+
+ninja: build stopped: subcommand failed.
+error: cmake build failed with status exit code: 1
+
+
+
+================================================================================
+b04b-fish-meta
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 81 wins, 0 draws, margin -159.3, faults 0, fuel-outs 218 (proxy 194)
+
+
+================================================================================
+b05-direct-combat
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 25 wins, 0 draws, margin -485.5, faults 0, fuel-outs 74 (proxy 95)
+
+
+================================================================================
+b06-life15
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 137 wins, 0 draws, margin +108.0, faults 0, fuel-outs 335 (proxy 295)
+
+
+================================================================================
+b07-no-verdict-search
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 121 wins, 0 draws, margin -2.5, faults 0, fuel-outs 132 (proxy 194)
+
+
+================================================================================
+b08-opening-rush
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 44 wins, 0 draws, margin -428.2, faults 0, fuel-outs 151 (proxy 142)
+
+
+================================================================================
+b09-original-item-path
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 113 wins, 0 draws, margin +20.7, faults 0, fuel-outs 476 (proxy 283)
+
+
+================================================================================
+b10-melee-micro
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 95 wins, 0 draws, margin -147.3, faults 0, fuel-outs 132 (proxy 153)
+
+
+================================================================================
+b11-team-foundation
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 0 wins, 0 draws, margin -803.3, faults 0, fuel-outs 19 (proxy 91)
+
+
+================================================================================
+b12-team-camp-execution
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 3 wins, 0 draws, margin -732.5, faults 0, fuel-outs 38 (proxy 133)
+
+
+================================================================================
+b13-team-local-economy
+================================================================================
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 200, in <module>
+    main()
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 149, in main
+    wasm[futs[f]] = f.result()
+                    ^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 95, in build
+    out = engine.official_build(tmp, work / f'{key}.wasm')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 77, in official_build
+    log = _run(args, timeout=timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 61, in _run
+    raise RuntimeError(f'command failed ({r.returncode}): {args[:3]}\n{out[-4000:]}')
+RuntimeError: command failed (1): [WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/tools/vendor/cambc.exe'), 'build', WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1')]
+nt64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+
+      |                                                        ^~
+
+      |                                                        |
+
+2 warnings generated.
+
+[14/17] Building CXX object CMakeFiles/bot.dir/574b64d245471ef4f0f841ceda3b0911/build/src-bot-s1/src/world.cpp.obj
+[15/17] Building CXX object CMakeFiles/bot.dir/574b64d245471ef4f0f841ceda3b0911/build/src-bot-s1/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:3625:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3625 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:3625:53: note: use '&' for a bitwise operation
+ 3625 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:3625:53: note: remove constant to silence this warning
+ 3625 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:4057:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4057 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:4057:92: note: use '|' for a bitwise operation
+ 4057 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:4075:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4075 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/b13-team-local-economy/build/src-bot-s1/src/bot.cpp:4075:82: note: use '|' for a bitwise operation
+ 4075 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+
+      |                                                                                  ^~
+
+      |                                                                                  |
+
+3 warnings generated.
+
+ninja: build stopped: subcommand failed.
+error: cmake build failed with status exit code: 1
+
+
+
+================================================================================
+b13b-team-local-economy
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 6 wins, 0 draws, margin -836.9, faults 0, fuel-outs 2087 (proxy 84)
+
+
+================================================================================
+b14-winning-map-openings
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 77 wins, 0 draws, margin -189.4, faults 0, fuel-outs 171 (proxy 130)
+
+
+================================================================================
+b15-winning-drafts
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 81 wins, 0 draws, margin -177.3, faults 0, fuel-outs 396 (proxy 317)
+
+
+================================================================================
+b16-winning-draft-items
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 76 wins, 0 draws, margin -206.2, faults 0, fuel-outs 416 (proxy 294)
+
+
+================================================================================
+b17-winning-draft-routes
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 80 wins, 0 draws, margin -182.5, faults 0, fuel-outs 174 (proxy 118)
+
+
+================================================================================
+b18-public-camp-state
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 126 wins, 0 draws, margin +55.7, faults 0, fuel-outs 941 (proxy 359)
+
