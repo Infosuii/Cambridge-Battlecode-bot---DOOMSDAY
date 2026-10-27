@@ -1,5 +1,31 @@
 # Resumed v67 work, after checkpoint 9b15244
 
+## Authoritative update after the frozen validation
+
+- Current live source: b40-four-seed-policy, **220 strict wins/240**, +508.6, zero faults, fuel345 vs185.
+- Same frozen source on development 5/6: 217 strict (218 outcome) wins, +467.8, zero faults, fuel361 vs119.
+- Untouched 7/8: **137/240**, +91.9; reserved 3/4: **137/240**, +104.3. All zero faults. Strong overfitting persists.
+- Final-source older guards:139 vs v61,+88.4;159 vs v58,+186.7;141 vs v66b,+153.5. All240games/zero faults.
+- Full actual output and all1680game receipts are in FINAL_BENCHMARK_OUTPUT.md/FINAL_GAMES.json. README and
+  FINAL_REPORT explain higher fuel exhaustion and why the broad strength goal is unfinished.
+- FROZEN_CANDIDATE.json was written before launching3/4; current source still matches that hash set. **3/4
+  are consumed: never use their data to select or tune subsequent controllers.** Use new reserved validation seeds.
+- The separate coherent package p42 scored17/240,-613.7,zero faults. Full mechanism audit showed R250gold512.5
+  vs956, gems53 vs107.5; a single diagnostic's improved damage was not representative.
+- A concrete integration omission was found: its new turn loop skipped priority updates, death/job cleanup,
+  field warmup and other mature lifecycle bookkeeping. `make_package.py --variant lifecycle` reconstructs a
+  separate combat-package-v3 from corrected p15, uses TEAMPLAY3's complete lifecycle, replaces the old contact
+  gate with v67_team_combat and disables legacy hunt overrides. Formation, focus, raw stats and Vesper capture
+  ownership remain together. **p48-package-complete-lifecycle** is running, unified-exec session48821 at this note.
+  Audit with run.py --run p48-package-complete-lifecycle --record-existing when complete; it is a prototype,
+  not live acceptance source. Do not rerun the generator into its existing folder.
+- `run.py` now checks exact schedule rows and opponent/seed metadata before historical audits. `checkpoint.py`
+  selects a source-matched training run rather than mistakenly treating the latest guard/prototype as live source.
+- `final_report.py` exports the seven completed frozen-candidate validations and checks their exact source hashes.
+  It intentionally reports the failed generalization and higher fuel; it does not certify a broad success.
+- Native exhaustive team protocol tests and Python syntax checks passed. v65/mimic tracked sources unchanged.
+- Update this leading section as work continues. Everything below is historical and may describe obsolete source.
+
 ## Latest state: read this before the historical sections
 
 The user explicitly said to fix confirmed defects immediately, and supplied new measured-loss notes at

@@ -15,6 +15,6 @@ Full submission sources of the heuristic bot lineage, one directory per version 
 | v58 | this repository | Submitted as platform57 on2026-10-26; selected, compilation queued at last check.64.0% over672games vs v57; fuel0.999/game; both required holdouts pass; see `v58/CHANGES.md` and `research/v58/V58_RELEASE.json` |
 | proxy | this repository | not a ladder bot: local stand-in for the top 12 (their per-map drafts, item milestones, recall trick, fitted fight knobs on v65's code); see `proxy/CHANGES.md` and `research/proxy/README.md` |
 | mimic | this repository | new executor with replay-trained decisions; research only, never submitted. v9 loses 240/240 to v65, but matches 14/15 existing ladder-arm orderings; see `mimic/CHANGES.md` and `research/mimic/README.md` for limits |
-| v67 | this repository | unfinished research checkpoint; 220/240 target not met. Best tested candidate 137/240 vs v65; start with `research/v67/HANDOFF.md`. Never submitted. |
+| v67 | this repository | frozen map/side portfolio: 220/240 strict local wins vs v65, but only137/240 on untouched3/4 and7/8; overfitted, higher fuel, no ladder claim. Further controller research continues; see `research/v67/README.md`. Never submitted. |
 
 Build: `cambc build bots/v51 --release --output <file>.wasm`. Local head-to-head: `tools/bot_match.py`, `tools/bench3.sh` (cached builds and verified complete runs). Compare candidates with `tools/bench_compare.py`; retain a mechanism only when its map-clustered 95% interval is above zero against its base.

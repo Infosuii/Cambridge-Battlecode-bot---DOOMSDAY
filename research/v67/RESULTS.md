@@ -38,3 +38,11 @@ Fixed 120-slot schedule. Margins are v67 minus opponent.
 | v34-arrival-fix-seeds56 | First arrival-ack fix source snapshot on development seeds5/6; later cache-clear correction not included | v65 | [5, 6] | 135/240 | +76.3 | 15.27 | 13.20 | 6199 | 303/134 | 0/0 |
 | b35-arrival-cache-complete | Complete arrival contract: authenticated acknowledgements, stale clearing, and job-change cache clearing in both tagged policies | v65 | [1, 2] | 226/240 | +541.4 | 10.85 | 15.69 | 7004 | 352/123 | 0/0 |
 | v36-arrival-cache-seeds56 | Complete arrival-cache correction on development seeds5/6; exact frozen source audited | v65 | [5, 6] | 136/240 | +71.4 | 15.32 | 13.12 | 6180 | 303/132 | 0/0 |
+| b40-four-seed-policy | Corrected team protocols; map assignments optimized jointly over development seeds1/2/5/6, training floor220 | v65 | [1, 2] | 220/240 | +508.6 | 10.15 | 15.80 | 7240 | 345/185 | 0/0 |
+| p42-combat-package-development | Separate combat-package-v2 prototype, not acceptance source; responsive formation and early raw-stat builds. | v65 | [1, 2] | 17/240 | -613.7 | 13.88 | 5.75 | 3515 | 131/124 | 0/0 |
+| v41-four-seed-policy56 | Rebuilt four-development-seed portfolio; 5/6 participated in selection, not holdout. | v65 | [5, 6] | 218/240 | +467.8 | 10.58 | 15.49 | 7125 | 361/119 | 0/0 |
+| g44-frozen-vs-v61 | Frozen-source required older-opponent check; no further tuning. | v61 | [1, 2] | 139/240 | +88.4 | 12.03 | 11.53 | 6288 | 338/97 | 0/0 |
+| g45-frozen-vs-v58 | Frozen-source required older-opponent check; no further tuning. | v58 | [1, 2] | 159/240 | +186.7 | 13.62 | 14.25 | 6647 | 390/99 | 0/0 |
+| g46-frozen-vs-v66b | Frozen-source required older-opponent check; no further tuning. | v66b | [1, 2] | 141/240 | +153.5 | 12.35 | 12.15 | 6410 | 389/147 | 0/0 |
+| v43-frozen-seeds78 | Untouched frozen-source validation; results not used for policy selection. | v65 | [7, 8] | 137/240 | +91.9 | 13.92 | 13.05 | 6338 | 324/104 | 0/0 |
+| h47-frozen-seeds34 | Untouched frozen-source validation; results not used for policy selection. | v65 | [3, 4] | 137/240 | +104.3 | 13.30 | 12.83 | 6385 | 324/134 | 0/0 |

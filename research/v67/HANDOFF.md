@@ -1,10 +1,28 @@
 # Continue v67 here
 
+## Current status: this supersedes the historical checkpoint below
+
+The frozen portfolio `b40-four-seed-policy` actually achieved **220/240 strict gem-margin wins** on the exact
+seed 1/2 schedule, +508.6 mean margin, zero faults. **It is overfitted:** untouched seeds 7/8 and reserved 3/4
+both scored **137/240**. Older-opponent guards: 139/240 vs v61, 159/240 vs v58, 141/240 vs v66b, all zero faults.
+Fuel exhaustion is higher than opponents. Do not describe this as a generally dominant or flawless bot.
+
+Read [README.md](README.md), [FINAL_REPORT.json](FINAL_REPORT.json), [FINAL_BENCHMARK_OUTPUT.md](FINAL_BENCHMARK_OUTPUT.md)
+and [CONTINUATION.md](CONTINUATION.md). The `FINAL_*` files document this frozen candidate, not completion of
+the user's broader strength goal. Seeds 3/4 are now consumed and must never guide subsequent tuning.
+
+The live `bots/v67/src` stays frozen and matches all seven validation runs. Further experiments use separate
+prototype directories. At this update, `p48-package-complete-lifecycle` is testing combat-package-v3; it restores
+the established priorities/death/job/field lifecycle while using the new contact controller. Results pending.
+The prior combined-controller prototype p42 scored 17/240; do not promote it. The user explicitly asked us to
+keep working autonomously and fix confirmed defects immediately. There is no impossibility evidence.
+
 ## What the user wants
 
 Read the original `GPT_PROMPT.md` in this directory. Latest strength goal: **v67 wins at least 220/240 against
-unmodified v65**, or provide clear evidence that it cannot. We are far below this target, and do not have evidence
-of impossibility. Continue autonomously. This handoff exists only because the user said usage is low and asked
+unmodified v65**, or provide clear evidence that it cannot. The original historical checkpoint was far below
+the target; the newer fitted threshold result and its validation limits are recorded above. Continue autonomously.
+This handoff originally existed because the user said usage is low and asked
 for files so another agent on the same device can continue. Do not interpret the checkpoint as completion.
 
 Earlier mimic objectives were superseded by this v67 request. Do not modify `bots/mimic` or `bots/v65`.

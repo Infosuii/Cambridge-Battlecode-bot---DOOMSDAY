@@ -74,6 +74,15 @@ def main():
             raise SystemExit(p.returncode)
     run = json.loads((out / 'games.json').read_text(encoding='utf8'))
     rows = run['games']
+    if run['seeds'] != a.seeds or Path(run['proxy']).name != a.opponent:
+        raise SystemExit('run metadata does not match the requested seeds/opponent')
+    plan = json.loads((ROOT / 'research/v59/duel_top1.json').read_text(encoding='utf8'))
+    expected = sorted((seed, gi, k + 1, name, side)
+                      for seed in a.seeds for gi, group in enumerate(plan['groups'])
+                      for k, (name, side) in enumerate(zip(group['maps'], group['sides'])))
+    actual = sorted((r['seed'], r['group'], r['slot'], r['map'], r['side']) for r in rows)
+    if actual != expected:
+        raise SystemExit('benchmark does not contain the exact complete fixed schedule')
     if len(rows) != 120 * len(a.seeds):
         raise SystemExit('incomplete benchmark')
     metrics, opponents, per_map = Counter(), Counter(), {}

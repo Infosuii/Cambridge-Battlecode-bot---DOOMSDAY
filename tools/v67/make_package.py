@@ -2,12 +2,17 @@
 
 The active v67 portfolio stays unchanged; this is an independent mechanism experiment.
 """
+import argparse
 from pathlib import Path
 import re
 import shutil
 
 ROOT=Path(__file__).resolve().parents[2]
-out=ROOT/'artifacts/tmp/v67/combat-package-v2'
+ap=argparse.ArgumentParser(description=__doc__)
+ap.add_argument('--variant', choices=['responsive','lifecycle'], default='lifecycle')
+args=ap.parse_args()
+lifecycle=args.variant=='lifecycle'
+out=ROOT/('artifacts/tmp/v67/combat-package-v3' if lifecycle else 'artifacts/tmp/v67/combat-package-v2')
 assert not out.exists()
 src=out/'src';src.mkdir(parents=True)
 source=ROOT/'bots/v67/src/policies/p15'
@@ -18,7 +23,7 @@ for p in source.iterdir():
         shutil.copyfile(p,src/name)
 shutil.copyfile(ROOT/'artifacts/tmp/v67/controller-v21/main.cpp',src/'main.cpp')
 p=src/'common.h';s=p.read_bytes().decode();s=s.replace('#define NOVA_SEED (::v67_eval_seed)','#define NOVA_SEED 1')
-for name,value in {'V67_TEAMPLAY':'2','V67_META':'3','V67_OPENING':'0','V67_BUILD':'3','V67_FIGHT':'0','V67_COORD':'1','V67_CAMP_STATE':'1'}.items():
+for name,value in {'V67_TEAMPLAY':'3' if lifecycle else '2','V67_META':'3','V67_OPENING':'0','V67_BUILD':'3','V67_FIGHT':'0','V67_COORD':'1','V67_CAMP_STATE':'1'}.items():
     s=re.sub(r'(^#define '+name+r' )[^\r\n]*',lambda m:m[1]+value,s,flags=re.M)
 p.write_bytes(s.encode())
 p=src/'bot.cpp';s=p.read_bytes().decode();e='\r\n' if '\r\n' in s else '\n'
@@ -32,6 +37,17 @@ s=s.replace('int Bot::score_groups(int participants_hint, int& best_need, float&
         if(type==bc::champion_type::varg)participants_hint=std::max(participants_hint,2);
     }'''.replace('\n',e),1)
 p.write_bytes(s.encode())
+if lifecycle:
+    # Preserve the mature lifecycle: priorities, death/job cleanup, field warmup,
+    # claim tenure and race/banking bookkeeping. Only the contact decision is
+    # replaced; legacy hunt cannot override a rejected fight.
+    p=src/'bot.cpp';s=p.read_bytes().decode();end='\r\n' if '\r\n' in s else '\n'
+    start=s.index('    const bool fought ='+end)
+    stop=s.index('#if A2_SHIELDLATE',start)
+    s=s[:start]+'    const bool fought = v67_team_combat();'+end+s[stop:]
+    assert s.count('} else if (hunt()) {')==1
+    s=s.replace('} else if (hunt()) {','} else if (false) { // all contact decisions belong to v67_team_combat')
+    p.write_bytes(s.encode())
 p=src/'bot.h';s=p.read_bytes().decode();e='\r\n' if '\r\n' in s else '\n'
 s=s.replace('    bool v67_team_combat();','    bool v67_team_combat();'+e+'    int v67_capture_owner(const GroupRec& g) const;'+e+'    int v67_buddy_job() const;'+e+'    int contact67_=-1000;')
 p.write_bytes(s.encode())

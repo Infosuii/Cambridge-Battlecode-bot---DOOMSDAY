@@ -1,15 +1,18 @@
 # Current checkpoint
 
-The user requested a handoff because usage is low. Continue from HANDOFF.md and GPT_PROMPT.md.
-The 220/240 goal is unfinished; there is no evidence it is impossible. Best tested: b06-life15,137/240,+108.0.
-Latest/current source: b18-public-camp-state,126/240,+55.7,0faults,fuel941vs359. No benchmark is still running.
-Seeds3/4 and checks vs v61/v58/v66b remain unused. No ladder queue/submission. v65/mimic unchanged.
+Current source: **b40-four-seed-policy, 220/240 strict gem-margin wins**, mean margin +508.6.
 
-RESULTS.md/jsonl contain all 19 complete240-game experiments. BENCHMARK_OUTPUTS.txt preserves all available
-actual stdout/stderr, including the two failed builds; b00's original output was not captured to a file.
-CHECKPOINT.json records the exact source hash set matching b18. Every historical source/build remains under
-artifacts/evaluations/v67/<run>/build. The 70-map study covers all1177 replays after underscore/hyphen normalization.
+Read README.md, FINAL_REPORT.json and FINAL_BENCHMARK_OUTPUT.md for validation and limitations.
+The fitted local threshold does not establish 220/240 on unseen seeds or the ladder. Fuel exhaustion is higher.
+Do not tune on reserved seeds 3/4 after their frozen validation. v65/mimic unchanged; no ladder submission.
+CHECKPOINT.json records exact live source hashes. Historical source snapshots remain in local artifacts.
 
-First next investigation: new controller's >60000fuel gate around build_fields may prevent field_calls becoming
-nonzero, while legacy farm refuses to select its first job with field_calls==0. This is an untested hypothesis,
-not an implemented fix. Read the full handoff for protocol limitations and other concrete next steps.
+| Source-matched run | Opponent | Seeds | Strict wins | Fuel ours/opponent |
+|---|---|---|---:|---:|
+| b40-four-seed-policy | v65 | [1, 2] | 220/240 | 345/185 |
+| v41-four-seed-policy56 | v65 | [5, 6] | 217/240 | 361/119 |
+| g44-frozen-vs-v61 | v61 | [1, 2] | 139/240 | 338/97 |
+| g45-frozen-vs-v58 | v58 | [1, 2] | 159/240 | 390/99 |
+| g46-frozen-vs-v66b | v66b | [1, 2] | 141/240 | 389/147 |
+| v43-frozen-seeds78 | v65 | [7, 8] | 137/240 | 324/104 |
+| h47-frozen-seeds34 | v65 | [3, 4] | 137/240 | 324/134 |
