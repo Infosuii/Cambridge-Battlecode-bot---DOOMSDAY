@@ -20,6 +20,7 @@ layout:
 | v56 | Shop completion; never submitted | `../bots/v56/CHANGES.md` |
 | v57 | Contest the middle: +122 vs v55, +85 on the fresh holdout; submitted as platform 56. Sprint 3 loss review | `v57/V57_FRESH_MAPS.md`, `v57/V57_SPRINT3_LOSS_REVIEW.md` |
 | v58 | Economy package (capture, collectors, Greed) on the Sprint 3 rules: 430/672, +153 vs v57; **submitted as platform 57** | `v58/V58_SPRINT3_RESULTS.md`, `v58/V58_RELEASE.json`, `../bots/v58/CHANGES.md` |
+| agent2-v61 | Agent 2's own v61 (not `bots/v61` on other branches): 55.0% vs the v60 dev in the real engine; everything tried after it (E58–E71) and the MOBA-AI research report | `agent2-v61/README.md` |
 
 `early/` holds the 2026-10-24 neural-policy work: night run reports, training logs and fuel probes. `misc/` holds a
 few results that belong to no single version and `SPRINT3_SDK_FACTS.json` (the Sprint 3 rule changes read from the
