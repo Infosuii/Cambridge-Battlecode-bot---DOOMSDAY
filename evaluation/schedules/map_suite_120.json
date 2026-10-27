@@ -1,0 +1,1134 @@
+{
+ "kind": "map_suite",
+ "engine": "2.0.0",
+ "method": "tools/mapgen (structured resampling of official components; see tools/mapgen/README.md)",
+ "official_excluded": [
+  "adgato-gemcombat1",
+  "adgato-gemcombat2",
+  "adgato-gemcombat3",
+  "adgato-gemcombat4",
+  "adgato-gemcombat5"
+ ],
+ "acceptance_envelope_from_official_v58_mirror": {
+  "rounds": [
+   380.0,
+   2000.0
+  ],
+  "winner_gems": [
+   343.0,
+   1407.0
+  ],
+  "total_banked": [
+   343.0,
+   2132.0
+  ],
+  "deaths": [
+   1.0,
+   56.5
+  ],
+  "fuel_outs": [
+   0.0,
+   58.0
+  ]
+ },
+ "generated": {
+  "gen4_0003": {
+   "split": "gen-dev",
+   "template": "01starvation",
+   "w": 75,
+   "h": 75,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 0.939,
+   "donors": [
+    "01starvation",
+    "00anvil",
+    "00oasis"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00breadcrumbs",
+    "00swirl",
+    "01starvation"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0005": {
+   "split": "gen-holdout",
+   "template": "02uncharted-lands",
+   "w": 52,
+   "h": 48,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.048,
+   "donors": [
+    "02uncharted-lands",
+    "01starfish",
+    "00breadcrumbs"
+   ],
+   "groups": 9,
+   "group_sources": [
+    "00expanse",
+    "00lanes",
+    "00rushbait-v2",
+    "02uncharted-lands"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0009": {
+   "split": "gen-dev",
+   "template": "01shortcut",
+   "w": 37,
+   "h": 37,
+   "symmetry": "vertical",
+   "team": 4,
+   "scale": 0.929,
+   "donors": [
+    "01shortcut",
+    "02stalactites",
+    "00lost-world"
+   ],
+   "groups": 9,
+   "group_sources": [
+    "00lanes",
+    "01shortcut"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0012": {
+   "split": "gen-dev",
+   "template": "00contest",
+   "w": 51,
+   "h": 51,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.011,
+   "donors": [
+    "00contest",
+    "00corners",
+    "00expanse"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00contest",
+    "01broken-curve"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0017": {
+   "split": "gen-holdout",
+   "template": "00ambush",
+   "w": 100,
+   "h": 100,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.04,
+   "donors": [
+    "00ambush",
+    "02cuts",
+    "00pilgrimage"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00ambush"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0018": {
+   "split": "gen-holdout",
+   "template": "02famine",
+   "w": 80,
+   "h": 66,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.88,
+   "donors": [
+    "02famine",
+    "00the-line",
+    "01the-farm"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00lanes",
+    "02famine",
+    "02stalactites"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0022": {
+   "split": "gen-dev",
+   "template": "00eight",
+   "w": 44,
+   "h": 32,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 1.07,
+   "donors": [
+    "00eight",
+    "00interlock",
+    "00monolith"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00eight"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0025": {
+   "split": "gen-holdout",
+   "template": "00anvil",
+   "w": 42,
+   "h": 35,
+   "symmetry": "horizontal",
+   "team": 3,
+   "scale": 1.126,
+   "donors": [
+    "00anvil",
+    "00vault",
+    "02arena"
+   ],
+   "groups": 9,
+   "group_sources": [
+    "00anvil",
+    "01concentrated-wealth",
+    "01hooks"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0026": {
+   "split": "gen-holdout",
+   "template": "01the-farm",
+   "w": 50,
+   "h": 40,
+   "symmetry": "horizontal",
+   "team": 3,
+   "scale": 1.005,
+   "donors": [
+    "01the-farm",
+    "00the-line",
+    "02geodes"
+   ],
+   "groups": 15,
+   "group_sources": [
+    "00breadcrumbs",
+    "00collision",
+    "01big-world",
+    "01the-farm"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0027": {
+   "split": "gen-holdout",
+   "template": "02the-pond",
+   "w": 34,
+   "h": 34,
+   "symmetry": "rotational",
+   "team": 3,
+   "scale": 1.122,
+   "donors": [
+    "02the-pond",
+    "01islands",
+    "00stampede"
+   ],
+   "groups": 11,
+   "group_sources": [
+    "00collision",
+    "00split",
+    "01big-world",
+    "02harvest",
+    "02the-pond"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0028": {
+   "split": "gen-dev",
+   "template": "01islands",
+   "w": 64,
+   "h": 64,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.07,
+   "donors": [
+    "01islands",
+    "02the-pond",
+    "00stampede"
+   ],
+   "groups": 22,
+   "group_sources": [
+    "00elkring",
+    "00expanse",
+    "00oasis",
+    "00rushbait-v2",
+    "01broken-curve",
+    "01hooks",
+    "01islands",
+    "02famine",
+    "02the-pack"
+   ],
+   "altars_half": 6
+  },
+  "gen4_0033": {
+   "split": "gen-dev",
+   "template": "01big-world",
+   "w": 95,
+   "h": 95,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.955,
+   "donors": [
+    "01big-world",
+    "00split",
+    "00rushbait-v2"
+   ],
+   "groups": 10,
+   "group_sources": [
+    "00ribs",
+    "01big-world",
+    "01elk-arena"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0039": {
+   "split": "gen-holdout",
+   "template": "00crater",
+   "w": 63,
+   "h": 63,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 1.028,
+   "donors": [
+    "00crater",
+    "01fracture",
+    "00reverse-spiral"
+   ],
+   "groups": 4,
+   "group_sources": [
+    "00crater",
+    "00monolith",
+    "00oasis"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0040": {
+   "split": "gen-dev",
+   "template": "01yellow-brick-road",
+   "w": 36,
+   "h": 27,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.904,
+   "donors": [
+    "01yellow-brick-road",
+    "02fields",
+    "02the-pack"
+   ],
+   "groups": 10,
+   "group_sources": [
+    "01yellow-brick-road",
+    "02fields",
+    "02the-pond"
+   ],
+   "altars_half": 4
+  },
+  "gen4_0045": {
+   "split": "gen-holdout",
+   "template": "00vault",
+   "w": 28,
+   "h": 28,
+   "symmetry": "horizontal",
+   "team": 4,
+   "scale": 0.895,
+   "donors": [
+    "00vault",
+    "00anvil",
+    "02arena"
+   ],
+   "groups": 4,
+   "group_sources": [
+    "00ribs",
+    "00vault",
+    "01shortcut",
+    "02guardians"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0048": {
+   "split": "gen-dev",
+   "template": "01shortcut",
+   "w": 35,
+   "h": 35,
+   "symmetry": "vertical",
+   "team": 4,
+   "scale": 0.877,
+   "donors": [
+    "01shortcut",
+    "02stalactites",
+    "00lost-world"
+   ],
+   "groups": 8,
+   "group_sources": [
+    "00road-of-riches",
+    "00split",
+    "01shortcut"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0049": {
+   "split": "gen-holdout",
+   "template": "00corners",
+   "w": 72,
+   "h": 72,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 1.02,
+   "donors": [
+    "00corners",
+    "00contest",
+    "00eight"
+   ],
+   "groups": 16,
+   "group_sources": [
+    "00breadcrumbs",
+    "00corners",
+    "00expanse",
+    "00fragment",
+    "00ribs",
+    "00road-of-riches",
+    "00split",
+    "01corridors",
+    "01hooks",
+    "02harvest",
+    "02the-pack"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0052": {
+   "split": "gen-holdout",
+   "template": "02famine",
+   "w": 100,
+   "h": 83,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.109,
+   "donors": [
+    "02famine",
+    "00the-line",
+    "01the-farm"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00collision",
+    "00lost-world",
+    "02famine"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0054": {
+   "split": "gen-dev",
+   "template": "00rushbait-v2",
+   "w": 26,
+   "h": 71,
+   "symmetry": "rotational",
+   "team": 4,
+   "scale": 0.882,
+   "donors": [
+    "00rushbait-v2",
+    "01big-world",
+    "01gold-rush"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00dunes",
+    "00rushbait-v2",
+    "01yellow-brick-road"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0057": {
+   "split": "gen-holdout",
+   "template": "02the-pond",
+   "w": 33,
+   "h": 33,
+   "symmetry": "rotational",
+   "team": 3,
+   "scale": 1.105,
+   "donors": [
+    "02the-pond",
+    "01islands",
+    "00stampede"
+   ],
+   "groups": 13,
+   "group_sources": [
+    "01islands",
+    "01starvation",
+    "02the-pond"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0058": {
+   "split": "gen-holdout",
+   "template": "02famine",
+   "w": 89,
+   "h": 73,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.974,
+   "donors": [
+    "02famine",
+    "00the-line",
+    "01the-farm"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00gem-fields",
+    "00monolith",
+    "02cuts",
+    "02famine"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0059": {
+   "split": "gen-dev",
+   "template": "01concentrated-wealth",
+   "w": 64,
+   "h": 64,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.056,
+   "donors": [
+    "01concentrated-wealth",
+    "02harvest",
+    "02crossing"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00lost-world",
+    "00split",
+    "01concentrated-wealth",
+    "02uncharted-lands"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0061": {
+   "split": "gen-dev",
+   "template": "00fragment",
+   "w": 29,
+   "h": 29,
+   "symmetry": "rotational",
+   "team": 3,
+   "scale": 0.98,
+   "donors": [
+    "00fragment",
+    "00breadcrumbs",
+    "00swirl"
+   ],
+   "groups": 3,
+   "group_sources": [
+    "00fragment"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0063": {
+   "split": "gen-holdout",
+   "template": "00galaxy",
+   "w": 96,
+   "h": 96,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.028,
+   "donors": [
+    "00galaxy",
+    "00road-of-riches",
+    "02treasure-box"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00galaxy",
+    "02stalactites"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0064": {
+   "split": "gen-dev",
+   "template": "01starvation",
+   "w": 89,
+   "h": 89,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 1.115,
+   "donors": [
+    "01starvation",
+    "00anvil",
+    "00oasis"
+   ],
+   "groups": 10,
+   "group_sources": [
+    "00expanse",
+    "00quarry",
+    "01starvation",
+    "02arena",
+    "02the-pond"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0066": {
+   "split": "gen-holdout",
+   "template": "00monolith",
+   "w": 52,
+   "h": 52,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.03,
+   "donors": [
+    "00monolith",
+    "00interlock",
+    "00eight"
+   ],
+   "groups": 10,
+   "group_sources": [
+    "00monolith",
+    "01elk-arena",
+    "02harvest",
+    "02the-pack"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0076": {
+   "split": "gen-dev",
+   "template": "01shortcut",
+   "w": 42,
+   "h": 42,
+   "symmetry": "vertical",
+   "team": 4,
+   "scale": 1.057,
+   "donors": [
+    "01shortcut",
+    "02stalactites",
+    "00lost-world"
+   ],
+   "groups": 13,
+   "group_sources": [
+    "01shortcut",
+    "02harvest"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0085": {
+   "split": "gen-holdout",
+   "template": "00the-line",
+   "w": 34,
+   "h": 34,
+   "symmetry": "vertical",
+   "team": 4,
+   "scale": 1.037,
+   "donors": [
+    "00the-line",
+    "01the-farm",
+    "02famine"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00the-line",
+    "01boss-battle",
+    "02guardians"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0088": {
+   "split": "gen-holdout",
+   "template": "00ambush",
+   "w": 100,
+   "h": 100,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.06,
+   "donors": [
+    "00ambush",
+    "02cuts",
+    "00pilgrimage"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00ambush"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0090": {
+   "split": "gen-holdout",
+   "template": "02gift-wrapping",
+   "w": 42,
+   "h": 42,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.942,
+   "donors": [
+    "02gift-wrapping",
+    "00packs",
+    "00lanes"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "01boss-battle",
+    "02gift-wrapping"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0091": {
+   "split": "gen-holdout",
+   "template": "00packs",
+   "w": 30,
+   "h": 30,
+   "symmetry": "rotational",
+   "team": 3,
+   "scale": 0.961,
+   "donors": [
+    "00packs",
+    "02gift-wrapping",
+    "00lanes"
+   ],
+   "groups": 4,
+   "group_sources": [
+    "00packs",
+    "02famine"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0092": {
+   "split": "gen-dev",
+   "template": "01corridors",
+   "w": 48,
+   "h": 37,
+   "symmetry": "vertical",
+   "team": 5,
+   "scale": 0.936,
+   "donors": [
+    "01corridors",
+    "01broken-curve",
+    "00dunes"
+   ],
+   "groups": 12,
+   "group_sources": [
+    "00great-wall",
+    "01corridors"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0093": {
+   "split": "gen-dev",
+   "template": "01shortcut",
+   "w": 38,
+   "h": 38,
+   "symmetry": "vertical",
+   "team": 4,
+   "scale": 0.956,
+   "donors": [
+    "01shortcut",
+    "02stalactites",
+    "00lost-world"
+   ],
+   "groups": 11,
+   "group_sources": [
+    "00galaxy",
+    "00gem-fields",
+    "00road-of-riches",
+    "00vault",
+    "01shortcut",
+    "02geodes"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0099": {
+   "split": "gen-holdout",
+   "template": "00ambush",
+   "w": 98,
+   "h": 98,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.975,
+   "donors": [
+    "00ambush",
+    "02cuts",
+    "00pilgrimage"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00ambush",
+    "01corridors"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0100": {
+   "split": "gen-holdout",
+   "template": "00vault",
+   "w": 28,
+   "h": 28,
+   "symmetry": "rotational",
+   "team": 4,
+   "scale": 0.908,
+   "donors": [
+    "00vault",
+    "00anvil",
+    "02arena"
+   ],
+   "groups": 3,
+   "group_sources": [
+    "00galaxy",
+    "00vault"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0101": {
+   "split": "gen-holdout",
+   "template": "00ambush",
+   "w": 100,
+   "h": 100,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.068,
+   "donors": [
+    "00ambush",
+    "02cuts",
+    "00pilgrimage"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00ambush",
+    "00quarry"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0103": {
+   "split": "gen-dev",
+   "template": "00contest",
+   "w": 47,
+   "h": 47,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.937,
+   "donors": [
+    "00contest",
+    "00corners",
+    "00expanse"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00contest",
+    "00packs",
+    "01gold-rush",
+    "01yellow-brick-road"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0105": {
+   "split": "gen-holdout",
+   "template": "02harvest",
+   "w": 100,
+   "h": 100,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.072,
+   "donors": [
+    "02harvest",
+    "01concentrated-wealth",
+    "02famine"
+   ],
+   "groups": 12,
+   "group_sources": [
+    "00split",
+    "00vault",
+    "02guardians",
+    "02harvest",
+    "02tangle",
+    "02the-pack"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0106": {
+   "split": "gen-holdout",
+   "template": "00packs",
+   "w": 34,
+   "h": 34,
+   "symmetry": "rotational",
+   "team": 3,
+   "scale": 1.097,
+   "donors": [
+    "00packs",
+    "02gift-wrapping",
+    "00lanes"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00packs",
+    "00pilgrimage",
+    "02fields",
+    "02treasure-box"
+   ],
+   "altars_half": 3
+  },
+  "gen4_0120": {
+   "split": "gen-holdout",
+   "template": "02harvest",
+   "w": 100,
+   "h": 100,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.068,
+   "donors": [
+    "02harvest",
+    "01concentrated-wealth",
+    "02famine"
+   ],
+   "groups": 11,
+   "group_sources": [
+    "00corners",
+    "01shortcut",
+    "02harvest"
+   ],
+   "altars_half": 4
+  },
+  "gen4_0122": {
+   "split": "gen-dev",
+   "template": "01islands",
+   "w": 58,
+   "h": 58,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.974,
+   "donors": [
+    "01islands",
+    "02the-pond",
+    "00stampede"
+   ],
+   "groups": 22,
+   "group_sources": [
+    "00ambush",
+    "00anvil",
+    "00collision",
+    "00gemfight",
+    "01fracture",
+    "01islands",
+    "01yellow-brick-road",
+    "02crossing",
+    "02tangle",
+    "02the-pack"
+   ],
+   "altars_half": 4
+  },
+  "gen4_0126": {
+   "split": "gen-holdout",
+   "template": "00anvil",
+   "w": 37,
+   "h": 31,
+   "symmetry": "horizontal",
+   "team": 3,
+   "scale": 1.013,
+   "donors": [
+    "00anvil",
+    "00vault",
+    "02arena"
+   ],
+   "groups": 6,
+   "group_sources": [
+    "00anvil",
+    "00crater"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0133": {
+   "split": "gen-dev",
+   "template": "00eight",
+   "w": 46,
+   "h": 34,
+   "symmetry": "horizontal",
+   "team": 5,
+   "scale": 1.128,
+   "donors": [
+    "00eight",
+    "00interlock",
+    "00monolith"
+   ],
+   "groups": 5,
+   "group_sources": [
+    "00eight",
+    "00pilgrimage"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0136": {
+   "split": "gen-holdout",
+   "template": "00galaxy",
+   "w": 82,
+   "h": 82,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 0.882,
+   "donors": [
+    "00galaxy",
+    "00road-of-riches",
+    "02treasure-box"
+   ],
+   "groups": 4,
+   "group_sources": [
+    "00galaxy",
+    "00road-of-riches",
+    "01starvation"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0137": {
+   "split": "gen-dev",
+   "template": "01boss-battle",
+   "w": 50,
+   "h": 41,
+   "symmetry": "vertical",
+   "team": 5,
+   "scale": 1.005,
+   "donors": [
+    "01boss-battle",
+    "00the-line",
+    "00interlock"
+   ],
+   "groups": 16,
+   "group_sources": [
+    "00dunes",
+    "00road-of-riches",
+    "01boss-battle",
+    "01islands",
+    "02arena",
+    "02famine"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0139": {
+   "split": "gen-dev",
+   "template": "01corridors",
+   "w": 58,
+   "h": 46,
+   "symmetry": "vertical",
+   "team": 5,
+   "scale": 1.144,
+   "donors": [
+    "01corridors",
+    "01broken-curve",
+    "00dunes"
+   ],
+   "groups": 17,
+   "group_sources": [
+    "00collision",
+    "00elkring",
+    "00great-wall",
+    "00road-of-riches",
+    "01boss-battle",
+    "01corridors",
+    "02cuts"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0144": {
+   "split": "gen-holdout",
+   "template": "02guardians",
+   "w": 37,
+   "h": 37,
+   "symmetry": "rotational",
+   "team": 4,
+   "scale": 0.907,
+   "donors": [
+    "02guardians",
+    "00lost-world",
+    "02stalactites"
+   ],
+   "groups": 10,
+   "group_sources": [
+    "00collision",
+    "00gem-fields",
+    "00quadrants",
+    "01islands",
+    "02guardians",
+    "02uncharted-lands"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0145": {
+   "split": "gen-holdout",
+   "template": "02famine",
+   "w": 100,
+   "h": 85,
+   "symmetry": "rotational",
+   "team": 5,
+   "scale": 1.132,
+   "donors": [
+    "02famine",
+    "00the-line",
+    "01the-farm"
+   ],
+   "groups": 8,
+   "group_sources": [
+    "00anvil",
+    "00corners",
+    "02crossing",
+    "02famine",
+    "02guardians"
+   ],
+   "altars_half": 2
+  },
+  "gen4_0146": {
+   "split": "gen-dev",
+   "template": "00stampede",
+   "w": 59,
+   "h": 49,
+   "symmetry": "vertical",
+   "team": 5,
+   "scale": 0.977,
+   "donors": [
+    "00stampede",
+    "01islands",
+    "02the-pond"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00corners",
+    "00stampede",
+    "02fields"
+   ],
+   "altars_half": 1
+  },
+  "gen4_0147": {
+   "split": "gen-dev",
+   "template": "00rushbait-v2",
+   "w": 27,
+   "h": 73,
+   "symmetry": "rotational",
+   "team": 4,
+   "scale": 0.913,
+   "donors": [
+    "00rushbait-v2",
+    "01big-world",
+    "01gold-rush"
+   ],
+   "groups": 7,
+   "group_sources": [
+    "00rushbait-v2",
+    "00stampede"
+   ],
+   "altars_half": 1
+  }
+ },
+ "rejected": {
+  "gen4_0011": "outside official range: deaths=0",
+  "gen4_0019": "outside official range: deaths=0",
+  "gen4_0020": "outside official range: deaths=0.5",
+  "gen4_0031": "outside official range: deaths=0.5",
+  "gen4_0047": "outside official range: deaths=0",
+  "gen4_0069": "outside official range: winner_gems=0, total_banked=0",
+  "gen4_0086": "outside official range: deaths=0",
+  "gen4_0089": "outside official range: deaths=0.5",
+  "gen4_0095": "outside official range: winner_gems=116, total_banked=204",
+  "gen4_0098": "outside official range: deaths=0.5",
+  "gen4_0138": "outside official range: winner_gems=308"
+ },
+ "counts": {
+  "gen-dev": 22,
+  "gen-holdout": 28
+ },
+ "selection": "importance resampling of 50 from the accepted maps, seed 120"
+}

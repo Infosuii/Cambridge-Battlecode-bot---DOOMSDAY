@@ -3,7 +3,7 @@
 # (<out>-seed<s>-s<k>/summary.json, <out>-seed<s>.txt), so every analysis tool works unchanged.
 #   bash tools/bench3.sh <abs candidate dir> <abs opponent dir> <abs out prefix> [seed ...]
 # Env: MAPS_OVERRIDE, HOLDOUT, PY; RETRIES (failed shard retries, default 2).
-# MAP_DIR selects an explicit fresh-map directory and requires HOLDOUT=1; uses the same build/fault checks.
+# MAP_DIR selects an explicit map directory; it requires HOLDOUT=1 except for maps/generated/dev. Same build/fault checks.
 # Guarantees:
 #   * each (environment, source tree, seed) is built once and cached by content hash, so frozen
 #     opponents and unchanged candidates are not rebuilt for every run;
@@ -19,7 +19,9 @@ PY="${PY:-$(sed -n 's/.*"python": *"\([^"]*\)".*/\1/p' config/paths.json)}"
 ENV_KEY=$("$PY" tools/bench_environment.py --json "$OUT-environment.json")
 CACHE="$PWD/artifacts/tmp/wasm-cache/$ENV_KEY"; B="$OUT-build"; mkdir -p "$CACHE" "$B"
 if [ -n "$MAP_DIR" ]; then
-  [ "$HOLDOUT" = "1" ] || { echo "MAP_DIR requires HOLDOUT=1 (frozen candidate only)"; exit 1; }
+  # The generated development maps (maps/generated/dev, tools/mapgen) may be used for development without HOLDOUT=1.
+  case "$(cd "$MAP_DIR" && pwd)" in */maps/generated/dev) ;; *)
+    [ "$HOLDOUT" = "1" ] || { echo "MAP_DIR requires HOLDOUT=1 (frozen candidate only)"; exit 1; } ;; esac
   MAPS=${MAPS_OVERRIDE:-$("$PY" -c "import pathlib,sys;print(' '.join(p.stem for p in sorted(pathlib.Path(sys.argv[1]).glob('*.map26a'))))" "$MAP_DIR")}
 else
   MAPS=${MAPS_OVERRIDE:-$("$PY" -c "import json;p=json.load(open('evaluation/schedules/map_partitions.json'))['partitions'];print(' '.join(p['training']+p['selection']))")}
