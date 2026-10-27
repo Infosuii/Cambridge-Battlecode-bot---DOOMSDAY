@@ -13,5 +13,6 @@ Full submission sources of the heuristic bot lineage, one directory per version 
 | v56 | this repository | v55 plus shop completion (`V56_SHOP_DONE`); never submitted |
 | v57 | this repository | submitted as platform version 56 at 2026-10-25 21:25 UTC; v56 plus `UB_ENEMY_CAMP` 1.0 (contest the middle); evidence in `research/v57/V57_RELEASE.json` |
 | v58 | this repository | Submitted as platform57 on2026-10-26; selected, compilation queued at last check.64.0% over672games vs v57; fuel0.999/game; both required holdouts pass; see `v58/CHANGES.md` and `research/v58/V58_RELEASE.json` |
+| proxy | this repository | not a ladder bot: local stand-in for the top 12 (their per-map drafts, item milestones, recall trick, fitted fight knobs on v65's code); see `proxy/CHANGES.md` and `research/proxy/README.md` |
 
 Build: `cambc build bots/v51 --release --output <file>.wasm`. Local head-to-head: `tools/bot_match.py`, `tools/bench3.sh` (cached builds and verified complete runs). Compare candidates with `tools/bench_compare.py`; retain a mechanism only when its map-clustered 95% interval is above zero against its base.

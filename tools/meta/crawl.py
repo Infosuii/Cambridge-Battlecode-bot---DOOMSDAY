@@ -4,6 +4,7 @@ Lists each current top-N team's ranked matches, keeps finished games where both 
 native summaries (purchases, picks, events). Read-only: never queues matches or changes submissions.
 
   python tools/meta/crawl.py [--top 12] [--hours 24] [--max-summaries 800] [--out artifacts/local-only/meta/<stamp>]
+  python tools/meta/crawl.py --team <team id> [--hours 48] ...   one team's ranked games against anyone
 """
 import argparse
 import concurrent.futures as cf
@@ -61,18 +62,19 @@ def main():
     ap.add_argument('--hours', type=float, default=24)
     ap.add_argument('--max-summaries', type=int, default=800)
     ap.add_argument('--out')
+    ap.add_argument('--team', help='crawl this team id only, against any opponent')
     a = ap.parse_args()
     now = dt.datetime.now(dt.timezone.utc)
     out = Path(a.out) if a.out else ROOT / 'artifacts/local-only/meta' / now.strftime('%Y%m%d-%H%M')
     out.mkdir(parents=True, exist_ok=True)
     since = (now - dt.timedelta(hours=a.hours)).strftime('%Y-%m-%dT%H:%M:%S')
-    tops = ladder(a.top)
+    tops = [dict(rank=0, rating=0.0, teamId=a.team, name=a.team)] if a.team else ladder(a.top)
     ids = {t['teamId'] for t in tops}
     games = {}
     for t in tops:
         ms = team_matches(t['teamId'], since)
         for m in ms:
-            if m['status'] == 'finished' and all(x['teamId'] in ids for x in m['teams']):
+            if m['status'] == 'finished' and (a.team or all(x['teamId'] in ids for x in m['teams'])):
                 games[m['matchId']] = m
         print(f"{t['rank']:>2} {t['name'][:28]:28} {len(ms):4} ranked, {len(games):5} top-vs-top so far", flush=True)
     rows = sorted(games.values(), key=lambda m: m['createdAt'], reverse=True)
@@ -97,7 +99,7 @@ def main():
                 print('summary error', e, flush=True)
             if done % 100 == 0:
                 print('summaries', done, flush=True)
-    meta = dict(crawledAt=now.isoformat(), since=since, top=a.top, games=len(rows), summaries=done)
+    meta = dict(crawledAt=now.isoformat(), since=since, top=0 if a.team else a.top, team=a.team, games=len(rows), summaries=done)
     (out / 'crawl.json').write_text(json.dumps(meta, indent=1), encoding='utf8')
     print('CRAWL', out, meta, flush=True)
 
