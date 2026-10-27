@@ -7,7 +7,7 @@ official ones**, in layout and in how games play out, so testing covers more of 
 | Folder | Maps | Use |
 |---|---|---|
 | `maps/local-benchmarks` | 70 official | unchanged (28 development, 12 `final` holdout, 30 fresh) |
-| `maps/generated/dev` | 22 generated | development, like the 28 development maps |
+| `maps/generated/dev` | 22 generated, template-anchored | development, like the 28 development maps |
 | `maps/generated/holdout` | 28 generated | frozen candidates only, once each, like the official holdouts |
 
 Suite record: `evaluation/schedules/map_suite_120.json` (per map: split, template, size, symmetry, team size, group
@@ -52,9 +52,34 @@ resampling of official map components**, done through the engine's own MapBuilde
 `adgato-gemcombat1`–`5` are kept in the 70-map suite but are not used as generator sources: they have no gold and no
 monsters (gem clusters only), a mini-format unlike the sprint maps.
 
-## Validation (`realism.py`)
+## The development maps: template-anchored (`--anchor`)
 
-Official 65 (generator sources) vs the selected 50, v58 mirror games:
+The 22 dev maps use a stronger mode, chosen because development decisions depend on it:
+
+- `gen_maps.py --anchor --templates <the 28 official dev maps>`: each template's own camp groups and altars start at
+  their official positions (scaled to the new size, jittered by up to 2 tiles, then moved to the nearest free fit),
+  60% of terrain patches come from the same relative position of the template (its corridors, wall lines and moats
+  carry over), the template's symmetry is kept, and the rest of the groups come from the official pool.
+- Two candidates per dev template; `select_per_template.py` keeps the one whose v58-mirror gameplay is closest to its
+  template's official gameplay (inside the official envelope, no faults), then 22 of the 28 templates by seeded draw.
+
+**Accuracy test** (`research/maps/dev_accuracy.json`): known bot pairs under match conditions on each dev set.
+
+| Pair | Official dev (28) | Previous generated dev | Anchored generated dev |
+|---|---|---|---|
+| v58 vs v57 (reference: 64.0%, +153 over 672 official dev games) | 64.3%, +121 | 70.5%, +157 | **63.6%, +134** |
+| bot.zip (v66 dev) vs v58 | 46.4%, +3, inconclusive | 38.6%, −53, inconclusive | 54.5%, +89, inconclusive |
+| Per-template correlation of v58-vs-v57 margin, generated map vs its official template | — | −0.10 | **+0.45** |
+
+The anchored maps reproduce their template's results (where fights happen, what is worth contesting), so they act
+as extra samples of the official development styles. Against the 28 official dev maps they are closer than the
+previous set in map size (KS 0.089 vs 0.231), gems per area (0.179 vs 0.273), game length (0.232 vs 0.292) and
+deaths (0.179 vs 0.266); generated games still end with slightly smaller winner margins (KS 0.375 vs 0.477).
+The 28 holdout maps were made with the unanchored method below and are unchanged.
+
+## Validation of the full generated set (`realism.py`)
+
+Official 65 (generator sources) vs the first 50 generated maps (unanchored; the 28 holdout maps are from this set), v58 mirror games:
 
 | Check | Result |
 |---|---|
@@ -84,4 +109,4 @@ python tools/mapgen/screen_maps.py --official-profile research/maps/profile_offi
 
 The map tools need the `wasmtime` Python package and the engine 2.0.0 map-editor wasm, which any cambc 4.0.0 build
 unpacks into `%LOCALAPPDATA%/cambc/assets/*/mapeditor/assets/`. `realism.py` and `screen_maps.py` need scikit-learn.
-The suite in this commit came from seed 4 (batch 3) and selection seed 120.
+Holdout maps: seed 4 (batch 3), selection seed 120. Dev maps: `--anchor` seed 6, 2 per dev template, selection seed 22.

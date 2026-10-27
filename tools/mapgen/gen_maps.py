@@ -64,16 +64,20 @@ def group_templates(official):
     return out
 
 
-def patch_from(donor, rng, size):
-    """A square terrain patch from a donor map: dict cell->kind ('W','B','H') with random flip/rotation."""
+def patch_from(donor, rng, size, origin=None):
+    """A square terrain patch from a donor map: dict cell->kind ('W','B','H') with random flip/rotation. With origin,
+    the patch is cut at that position of the donor and kept untransformed (template-anchored terrain)."""
     w, h = donor['w'], donor['h']
-    x0, y0 = rng.randrange(max(1, w - size)), rng.randrange(max(1, h - size))
+    if origin is None:
+        x0, y0 = rng.randrange(max(1, w - size)), rng.randrange(max(1, h - size))
+    else:
+        x0, y0 = origin
     cells = {}
     for kind, key in (('W', 'walls'), ('B', 'bushes'), ('H', 'holes')):
         for (x, y) in donor[key]:
             if x0 <= x < x0 + size and y0 <= y < y0 + size:
                 cells[(x - x0, y - y0)] = kind
-    rot, flip = rng.randrange(4), rng.random() < 0.5
+    rot, flip = (0, False) if origin is not None else (rng.randrange(4), rng.random() < 0.5)
     out = {}
     for (x, y), k in cells.items():
         if flip:
@@ -98,13 +102,13 @@ def reachable(w, h, blocked, starts):
     return seen
 
 
-def build_one(eng, rng, official, names, templates, tname):
+def build_one(eng, rng, official, names, templates, tname, anchor=False):
     T = official[tname]
     scale = rng.uniform(0.85, 1.15)
     w = max(24, min(100, round(T['w'] * scale)))
     h = max(24, min(100, round(T['h'] * scale)))
     sym = T['symmetry']
-    if rng.random() < 0.25:
+    if not anchor and rng.random() < 0.25:  # anchored maps keep T's symmetry: its designed geometry depends on it
         sym = rng.choice(['horizontal', 'vertical', 'rotational'] if w == h else ['rotational', 'horizontal'
                                                                                     if w >= h else 'vertical'])
     team = T['team']
@@ -121,7 +125,14 @@ def build_one(eng, rng, official, names, templates, tname):
         size = rng.randint(6, 14)
         x = 0
         while x < w:
-            p = patch_from(rng.choice(donors), rng, size)
+            if anchor and rng.random() < 0.6:
+                # Template-anchored terrain: the patch at the same relative position of T, so its large-scale
+                # structure (corridors, wall lines, moats) carries over while details vary.
+                ox = min(max(0, round(x / w * T['w'])), max(0, T['w'] - size))
+                oy = min(max(0, round(y / h * T['h'])), max(0, T['h'] - size))
+                p = patch_from(T, rng, size, origin=(ox, oy))
+            else:
+                p = patch_from(rng.choice(donors), rng, size)
             for (px, py), k in p.items():
                 cx, cy = x + px, y + py
                 if cx < w and cy < h:
@@ -170,7 +181,33 @@ def build_one(eng, rng, official, names, templates, tname):
     n_groups = max(1, round(len(T['groups']) * area_ratio * rng.uniform(0.85, 1.15)))
     placed = []
     own = [t for t in templates if t['from'] == tname]
-    for _ in range(n_groups):
+
+    def place_near(g, ax0, ay0, radius):
+        for r in range(radius + 1):
+            ring = [(ax0 + dx, ay0 + dy) for dx in range(-r, r + 1) for dy in range(-r, r + 1) if max(abs(dx), abs(dy)) == r]
+            rng.shuffle(ring)
+            for ax, ay in ring:
+                cells = [(t, ax + dx, ay + dy) for (t, dx, dy) in g['members']]
+                if all(free(x, y, 1) for (_, x, y) in cells):
+                    for (_, x, y) in cells:
+                        occupied.update((x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1))
+                        terrain.pop((x, y), None)
+                    placed.append({'from': g['from'], 'cells': cells, 'anchored': True})
+                    return True
+        return False
+
+    if anchor:
+        # T's own groups at their official positions, scaled and jittered (designers' placement: contested middles,
+        # distances from spawn). On a smaller map some are dropped at random; a larger map is topped up from the pool.
+        keep = [gr for gr in T['groups'] if gr['camps']]
+        rng.shuffle(keep)
+        for gr in keep[:n_groups]:
+            c0 = gr['camps'][0]
+            g = {'from': tname, 'members': [(c['type'], c['x'] - c0['x'], c['y'] - c0['y']) for c in gr['camps']]}
+            ax0 = round(c0['x'] / T['w'] * w) + rng.randint(-2, 2)
+            ay0 = round(c0['y'] / T['h'] * h) + rng.randint(-2, 2)
+            place_near(g, ax0, ay0, 6)
+    for _ in range(n_groups - len(placed)):
         g = rng.choice(own) if own and rng.random() < 0.7 else rng.choice(templates)
         for _try in range(400):
             ax, ay = rng.randrange(w), rng.randrange(h)
@@ -188,7 +225,22 @@ def build_one(eng, rng, official, names, templates, tname):
     n_alt = max(1, round(len(T['altars']) * rng.uniform(0.8, 1.25) / 2))
     altars = []
     sxc, syc = px + sw / 2, py + sh / 2
-    for _ in range(n_alt):
+    anchors = []
+    if anchor:
+        anchors = [(round(x / T['w'] * w), round(y / T['h'] * h)) for (x, y) in T['altars']
+                   if in_half(T['symmetry'], T['w'], T['h'], x, y) or mirror(T['symmetry'], T['w'], T['h'], x, y) == (x, y)]
+        rng.shuffle(anchors)
+    for i in range(n_alt):
+        if i < len(anchors):
+            ax0, ay0 = anchors[i]
+            spot = next(((ax0 + dx, ay0 + dy) for r in range(4) for dx in range(-r, r + 1) for dy in range(-r, r + 1)
+                         if max(abs(dx), abs(dy)) == r and free(ax0 + dx, ay0 + dy, 0)
+                         and math.hypot(ax0 + dx - sxc, ay0 + dy - syc) >= 6), None)
+            if spot:
+                altars.append(spot)
+                occupied.add(spot)
+                terrain.pop(spot, None)
+                continue
         for _try in range(200):
             x, y = rng.randrange(w), rng.randrange(h)
             if free(x, y, 0) and math.hypot(x - sxc, y - syc) >= 6:
@@ -230,7 +282,8 @@ def build_one(eng, rng, official, names, templates, tname):
         return None, 'game does not load'
     meta = {'template': tname, 'w': w, 'h': h, 'symmetry': sym, 'team': team, 'scale': round(scale, 3),
             'donors': [tname] + near, 'groups': len(placed), 'group_sources': sorted({g['from'] for g in placed}),
-            'altars_half': len(altars)}
+            'altars_half': len(altars), 'anchored': anchor,
+            'anchored_groups': sum(1 for g in placed if g.get('anchored'))}
     return data, meta
 
 
@@ -241,6 +294,8 @@ def main():
     ap.add_argument('--seed', type=int, required=True)
     ap.add_argument('--official', default=os.path.join(ROOT, 'research', 'maps', 'official_maps.json'))
     ap.add_argument('--exclude', nargs='*', default=[])
+    ap.add_argument('--anchor', action='store_true', help='template-anchored terrain, groups and altars')
+    ap.add_argument('--templates', nargs='*', help='cycle through these templates in order (stratified generation)')
     a = ap.parse_args()
     official = json.load(open(a.official))
     for n in a.exclude:
@@ -253,10 +308,11 @@ def main():
     made, tries, reasons, metas = 0, 0, {}, {}
     skipped = {}
     while made < a.count and tries < a.count * 40:
-        tname = rng.choice(names)  # template drawn first; failures retry the same template (no size/style bias)
+        # Template drawn first (or the next in --templates); failures retry the same template (no size/style bias).
+        tname = a.templates[made % len(a.templates)] if a.templates else rng.choice(names)
         for _attempt in range(30):
             tries += 1
-            data, meta = build_one(eng, rng, official, names, templates, tname)
+            data, meta = build_one(eng, rng, official, names, templates, tname, a.anchor)
             if data is not None:
                 break
             reasons[meta] = reasons.get(meta, 0) + 1
