@@ -4,7 +4,8 @@
 started on `analysis/deep-2026-10-28`. Read
 `research/deep-2026-10-28/STATE.md` for its provenance and next action.
 CLI 4.0.0 and engine-2 assets are prepared, but live-source verification and
-private replay access await authentication. Zero study scrimmages queued.
+private-source checks await a working download path. Browser sign-in has
+recovered; platform69 is UI-verified live. Zero study scrimmages queued.
 The older live-version statements below are historical; do not use them as
 current submission identity. No bot was submitted or activated by this study.
 

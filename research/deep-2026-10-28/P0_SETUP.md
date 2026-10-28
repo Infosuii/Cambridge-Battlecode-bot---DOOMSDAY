@@ -65,3 +65,15 @@ native-summary/replay pairs before current-engine bulk processing.
 
 These reports do not establish today's live submission or its failure rates.
 Resume at authenticated provenance, as STATE.md specifies.
+
+## Access update superseding the initial browser status
+
+Fresh signed-in Submissions UI confirms platform v69 Active and Verified,
+note `v75 ladder duel candidate`, submission ID
+`f91de3f0-0453-409e-b712-b86067eecbca`, uploaded by Om, displayed age 2 h
+(measured, n=1 current live submission). The absolute activation timestamp
+and source hash remain unknown. Two browser download methods timed out;
+direct navigation to its exact archive link returned ERR_BLOCKED_BY_CLIENT.
+Further observation was rejected by the browser URL/security policy. No
+workaround was attempted. The required next input is the live ZIP or a
+working user-authenticated CLI. Browser sign-in itself is now available.

@@ -4,7 +4,7 @@ Updated 28 October 2026. **Session 1 started; setup is blocked, not complete.**
 
 ## Phase
 
-Session 1, section 2.1: establish the current live source and activation interval.
+Session 1, section 2.1: platform v69 is now UI-verified Active/Verified; establish its exact source hash and activation interval.
 The next phase is authenticated provenance, followed by current-game ingestion,
 wave 1 (up to 14 mirrored groups), and detector implementation/validation.
 
@@ -41,15 +41,14 @@ wave 1 (up to 14 mirrored groups), and detector implementation/validation.
 - CLI ladder read: `Sign in first with cambc login`.
 - Two CLI login starts failed immediately with `error: io: Connection refused`,
   including one explicit official event origin. No credentials were entered.
-- The available website session shows `Not signed in`.
+- The initial website snapshot showed `Not signed in`; later fresh UI shows Ishanp signed in and platform v69 Active/Verified. Browser sign-in is no longer the blocker.
 - One official replay-bundle read returned HTTP 401. Stop private downloads until
   the user restores authentication; do not extract browser cookies or tokens.
 - No `artifacts/local-only/live-src/bot.zip` was provided. `apex_c9.zip` has 17
   files, not the 33-file bundle described by the master prompt. It is not an exact
   match for any pinned bot tree. See INPUT_PROVENANCE.json.
-- The earlier conversation observed platform v69 with note `v75 ladder duel
-  candidate`. That is historical UI evidence only; current live identity,
-  activation time and source hash remain unverified.
+- Current Submissions UI confirms platform v69 Active/Verified, note `v75 ladder duel candidate`, uploaded by Om, displayed as 2 h ago. Submission ID: `f91de3f0-0453-409e-b712-b86067eecbca`. Exact upload/activation times and source hash remain unverified.
+- The two documented browser download methods timed out. Direct navigation to the exact source link returned `net::ERR_BLOCKED_BY_CLIENT`; a subsequent DOM observation was rejected by the browser URL/security policy. No source archive was obtained. Stop browser attempts at this boundary; ask for the live ZIP or a working user-authenticated CLI on the executing device.
 
 ## Budget and groups
 
@@ -70,9 +69,7 @@ recorded. Reserve wave 2 for written hypotheses after FAST_FINDINGS.md.
 
 ## Next action
 
-1. Restore sign-in in the task's website browser, or supply a user-authenticated
-   CLI session on the executing device. Browser-only continuation is allowed by
-   the master prompt, but never transfer its session secrets into shell tools.
+1. Obtain the current v69 source ZIP from the user (master prompt Part A, step 3), or a working user-authenticated CLI on the executing device. Browser source download is blocked by client/security policy. Do not circumvent that block or copy browser session secrets into shell tools.
 2. Recheck Submissions; record live/selected/active IDs, uploaded time and actual
    activation evidence. Download our live source and hash its exact bytes. If
    activation time is unknown, bound it explicitly and quarantine ambiguous games.
@@ -90,3 +87,5 @@ recorded. Reserve wave 2 for written hypotheses after FAST_FINDINGS.md.
 
 Historical findings are context, not measured facts about today's live bot.
 Never submit, activate, request ranked matches or edit frozen bot sources.
+
+Latest access update recorded 2026-10-28T11:48:12.607950+00:00. Commit d79a361 is the earlier preflight; this update supersedes its browser-sign-in blocker. Session 1 remains incomplete.

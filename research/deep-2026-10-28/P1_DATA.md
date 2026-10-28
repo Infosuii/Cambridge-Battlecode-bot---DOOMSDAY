@@ -34,3 +34,7 @@ out of detector tuning and example selection until final validation.
 
 P2_DETECTORS.md has not been produced. Detector implementations and measured
 loss-versus-win rates remain Session 1 work after accepted replays are available.
+
+Later signed-in UI confirms the live platform number is 69 (n=1 submission),
+but the archive download is blocked and its activation interval is
+unverified. Eligible current-source game counts remain zero.

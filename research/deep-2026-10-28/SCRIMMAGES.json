@@ -7,15 +7,32 @@
   "groups_queued": 0,
   "games_requested": 0,
   "groups": [],
-  "status": "blocked_on_authentication_and_live_provenance",
+  "status": "blocked_on_live_source_download_and_activation_provenance",
   "quota_observed": null,
   "live_submission_verified": false,
   "wave_1_plan": {
     "learn": "Top three at final snapshot, two mirrored groups each on identical five maps",
     "climb": "Four finalized Climb opponents, two mirrored groups each",
     "maps": "Pending current-version loss/uncertainty/family analysis",
-    "sides_pair": [["a", "b", "a", "b", "a"], ["b", "a", "b", "a", "b"]]
+    "sides_pair": [
+      [
+        "a",
+        "b",
+        "a",
+        "b",
+        "a"
+      ],
+      [
+        "b",
+        "a",
+        "b",
+        "a",
+        "b"
+      ]
+    ]
   },
   "wave_2_rule": "Require FAST_FINDINGS.md, a hypothesis, prediction and decision rule before each probe",
-  "safety": "Reserve each request before sending; reconcile uncertain responses before retrying; no uploads, activations or ranked requests"
+  "safety": "Reserve each request before sending; reconcile uncertain responses before retrying; no uploads, activations or ranked requests",
+  "observed_live_platform_version": 69,
+  "source_hash_verified": false
 }
