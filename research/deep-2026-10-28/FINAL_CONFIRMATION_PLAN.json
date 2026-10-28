@@ -1,0 +1,11 @@
+{
+  "status": "frozen before any hands-off detector or decision exposure",
+  "dataset": "165 reserved games: 160 DOOMSDAY, 5 top-v-top; five calibration games remain excluded",
+  "scope": "One final aggregate frequency check. No held-out cards, source traces, model refitting, threshold changes, new mistake definitions or candidate tuning.",
+  "D3": {"window": 250, "radius": 6, "definition": "Per physical actor, a death with any earlier death within 250 rounds at Chebyshev distance<=6, or to the same enemy champion ID. Exact existing registered detector semantics.", "confirmatory_direction": "Loss minus win per-death rate >0 overall and in Climb; report map- and opponent-cluster 95% intervals without using them to retune."},
+  "M1_proxy": {"minimum_consecutive_rounds": 3, "definition": "Existing M1_SPEC: same actor each round has accepted Cancel channel16 and Recall11, no physical move4/teleport22/attack5/cast6. Winning-bag descriptor uses previous completed round banked+bag>=1000 on every episode round.", "interpretation": "Frequency replication only. This observable proxy is broader than the exact source bank-disable timer conflict and is not expected to be more common in losses."},
+  "native_accounting": "Final own-vs-opponent banked/collected/lost/carried identity only; descriptive replication of the income-dominant loss decomposition.",
+  "validation_gate": "Before held-out access, demonstrate minimal extractor M1 episodes/recall counts equal all 385 examined timeline outputs and D3 event actor/round keys equal all 385 examined detector outputs; five excluded calibration files must also decode. Lock current code and plan hashes in FINAL_VALIDATION.json.",
+  "output": "Aggregate cohort/outcome frequencies and cluster uncertainty; game IDs and compact frequency/count rows for audit. No held-out action sequences or trajectories in committed outputs.",
+  "failure_rule": "Record disagreements or non-replication explicitly. Do not revise the hypothesis after opening the reserved data."
+}
