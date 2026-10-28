@@ -95,6 +95,10 @@ python tools/dz.py smoke --name UNIQUE-V65-RUN --pool --opponent v65
 - `research/dz/runs/*/evidence.zip`: exact candidate and benchmark source, both Wasm,
   logs, full native summary and replay per schedule cell. Current source is not
   substituted into old experiments. ZIPs were fully CRC/content-hash verified.
+- `PORTABILITY_VERIFIED.json`: a fresh source-only Git export (no local settings
+  or prior bot build cache) rebuilt byte-for-byte to the tested Wasm hash. This was
+  tested on the same Windows host using its installed official toolchain; it is
+  not a claim of rerunning installation on a second physical machine.
 - Replay decoding: Node 24, `NFS_REPLAY_ENGINE=2.0.0`; extract `replay.repl26a`
   from each bundle before decoding. The old camp-regeneration script hard-codes
   the previous laptop path; use a portable copy/import when running it elsewhere.
