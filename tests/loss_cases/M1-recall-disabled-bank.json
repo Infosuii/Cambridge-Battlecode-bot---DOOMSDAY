@@ -1,0 +1,21 @@
+{
+  "id": "M1-recall-disabled-bank",
+  "status": "confirmed decision inconsistency; bounded diagnostic passes; ladder value untested",
+  "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+  "map": "02guardians",
+  "map_file": "maps/local-benchmarks/02guardians.map26a",
+  "study_platform_version": 69,
+  "failing_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+  "actor": 1,
+  "takeover_round": 1669,
+  "assertion_window": [1669, 1672],
+  "assertion": "No same-turn cancel-channel plus recall restart by this actor during the fixed window",
+  "maximum_restart_pairs": 0,
+  "fixture_state": "At R1668 end: recall active, timer4, HP1296.4005/5500, bag736, own banked280; exact tail traces establish banking disabled until1683",
+  "baseline_expected": "fail: restart pairs1669,1670,1671,1672",
+  "diagnostic_expected": "pass: preserve the existing channel-danger guard while checking bank eligibility before win-only recall cancellation",
+  "horizon": "Interpret at most R1669-1678 and stop earlier if an enemy puppet action is rejected",
+  "fixtures": "Raw replay/native files remain local-only under artifacts/local-only/deep-2026-10-28/replays/examined; see REPRO_RESULTS and TAKEOVER_RESULT for exact hashes",
+  "evidence": ["research/deep-2026-10-28/REPRO_STATE_VALIDATION.json", "research/deep-2026-10-28/TRACE_RESULTS_BANK_TAIL.json", "research/deep-2026-10-28/TAKEOVER_RESULT.json"],
+  "limits": "A pass tests this decision invariant, not match outcome or benchmark strength. Future candidates require an exact warm replay prefix."
+}

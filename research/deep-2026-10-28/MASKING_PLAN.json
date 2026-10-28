@@ -1,0 +1,11 @@
+{
+  "status": "fixed before ablation runs",
+  "question": "Does removing only the V71 map-profile override change a carrier's decision at the same warm state?",
+  "intervention": "For the specified physical actor from takeover onward, restore the 48 baked A2_KNOBS before their per-turn application. Keep V75 guards and source defaults unchanged. This removes map overrides, not all learned tuning.",
+  "cases": [
+    {"card_id": "C034", "actor": 6, "takeover_round": 123, "map_profile": "00vault aggr", "prediction": "The map raises aggression. Default A2 may change post-channel combat/escape decisions; do not assume it improves them."},
+    {"card_id": "C099", "actor": 3, "takeover_round": 123, "map_profile": "00packs has no V71 row", "prediction": "Restoring the already-default A2 vector should preserve accepted actions; any earlier difference invalidates the comparison."}
+  ],
+  "validation": "Accepted inputs and every-round states before takeover must be exact. Treat compiler/fuel changes before takeover as invalidating. Inspect at most 10 rounds and stop earlier at an enemy puppet rejection. Ignore outcomes.",
+  "scope": "Two diagnostic contexts can establish sensitivity, not transfer to unseen maps. No held-out exposure."
+}

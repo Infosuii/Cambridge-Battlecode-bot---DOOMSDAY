@@ -1,0 +1,12 @@
+{
+  "status": "descriptive profile measurement fixed before computing the new contact/focus/separation metrics",
+  "partition": "examined only",
+  "contact": "A physical champion is contact-exposed at the end of a round when alive and at Chebyshev distance<=6 from any alive enemy. Omniscient geometry, not a claim about visibility or intent.",
+  "damage": "Native championDamageDone increment for that round, included in the contact numerator only if the physical champion is contact-exposed at its end. Divide by contact-exposed champion-rounds.",
+  "focus": "At least two different allied champions issue recorded basic attacks against the same enemy champion in one round. Rate per team-target-round with at least one basic attacker. Casts/AoE/support are omitted.",
+  "separation": "On consecutive round-end samples, a champion previously alive at<=35% HP with a nearest enemy<=6 moves to a position farther from that enemy's old position. This includes passive displacement and is a kinematic proxy, not true retreat intent.",
+  "geometry_bands": {"compact": "max(width,height)<=41", "medium": "42<=max dimension<=64", "large": "max dimension>=65"},
+  "profile_selection": "All five observed Learn opponents plus the three observed Climb opponents with the largest number of our losses, breaking ties by sample count then name.",
+  "uncertainty": "Game occurrence Wilson95; paired margin mean with map-cluster bootstrap where at least two maps are represented. Small strata and one-sided samples remain descriptive.",
+  "limits": "No causal exploit or winning policy follows from these profiles; all statistics refer to the frozen historical study, not the current ladder. Final partial rounds are included as one boundary sample."
+}

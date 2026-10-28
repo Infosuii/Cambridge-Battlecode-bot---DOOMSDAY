@@ -1,6 +1,6 @@
 # Handoff: bot development from v52 onward
 
-**Latest deep-analysis checkpoint: Session 2 (2026-10-28).** Read `research/deep-2026-10-28/STATE.md` and FAST_FINDINGS.md. Timelines, model and105 descriptive cards are saved; exact reproduction/traces are next. See the dated Session2 section at the end.
+**Latest deep-analysis handoff: final research report (2026-10-28).** Read `docs/NEXT_BOT_BRIEF.md` and `research/deep-2026-10-28/REPORT.md`. Exact reproduction, bounded recall regression, opponent profiles and fixed reserved-game frequency confirmation are complete. Recommendations remain unimplemented; see the dated final section at the end.
 
 **Analysis checkpoint (2026-10-28, Session 1 complete):** Read
 `research/deep-2026-10-28/STATE.md`, SESSION1_FINDINGS.md and P2_DETECTORS.md.
@@ -503,3 +503,11 @@ violations. Ten planned wave2 groups remain unqueued; check identity and direct
 authorization before any new request. No source edits/submissions/activations/new
 matches occurred. The user approved ongoing analysis-only pushes to the existing
 analysis/deep-2026-10-28 branch; raw replays/native summaries remain local.
+
+## 2026-10-28 final deep-analysis handoff
+
+Read docs/NEXT_BOT_BRIEF.md, docs/LOSS_KNOWLEDGE.md and research/deep-2026-10-28/REPORT.md, DATA.json, MISTAKES.md, P5_OPPONENTS.md, P6_DEEP_TRACK.md and FINAL_CONFIRMATION.md. Session3/4 now supersede the older Session2 “unfinished” pointers above.
+
+Ten losses/two control wins reproduce byte-for-byte;24 independent state comparisons/25,184 samples pass. Detailed traces are valid for nine selected windows, sparse exact traces for three. One recall/bank timer inconsistency is causally tested at a bounded warm state; original regression fails and diagnostic passes, without a win claim. Full-model purchases and broad repeated-death flags are not production recipes. A fixed final D3/M1-proxy/native-accounting check opens the165 reserved games once; no refitting or threshold tuning.
+
+Only a narrow M1 patch is implementation-ready; broader opening/combat/capture work requires diagnosis and new failing cases. Recommendations only: frozen bot unchanged, no new candidate submitted/activated or ranked/shared-quota matches requested. Wave2 ten groups remain unqueued. All tools/notes are on analysis/deep-2026-10-28 under ongoing user-approved analysis-only publication. Raw replays and diagnostic binaries remain ignored. The165 research-confirmation games are spent; future candidates need an untouched release holdout and the existing bench3/cluster/Bayes gate.

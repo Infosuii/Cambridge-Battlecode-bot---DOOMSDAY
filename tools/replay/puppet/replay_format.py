@@ -46,9 +46,6 @@ def parse(replay: bytes, map_bytes: bytes):
             reason = replay[offset]
             offset += 1
             args = [has_pick, pick, reason]
-        elif tag == 1:
-            # Resign is confirmed separately before using a record containing it.
-            raise ValueError(f'Unknown outer1 at input{index+1},offset{start}; prior{rows[-1]}; bytes{replay[start:start+30].hex()}')
         else:
             raise ValueError(f'Unknown input tag{tag} at input{index + 1},offset{start}')
         rows.append({'input': index + 1, 'tag': tag, 'action': action, 'args': args,

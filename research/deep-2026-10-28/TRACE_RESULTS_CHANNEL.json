@@ -1,0 +1,123 @@
+{
+  "cases": 1,
+  "hands_off_used": 0,
+  "byte_exact_traces": 0,
+  "complete_trusted_windows": 0,
+  "rule": "Only lines strictly before first accepted-input divergence are trusted; retain state divergence separately.",
+  "rows": [
+    {
+      "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+      "map": "02guardians",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C004",
+      "window": [
+        1700,
+        1712
+      ],
+      "trace_actor": 1,
+      "trace_from": 1680,
+      "trace_until": 1732,
+      "run": {
+        "replay_bytes_identical": false,
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "6b76fc4ae23c3300b67eb7ba493aeaacf79a6fd0b233975f8287fdd5d6f55b8f",
+        "first_different_byte": 13527,
+        "rounds": 1086,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 32
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": true
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/trace-channel-v1/C004-run/game-raw.repl26a",
+        "wasm_a_sha256": "6a9d9f7824e347ab2ec5e0b8f53a6c0615124989dcd9ff4ab4abfd85d93b8eea",
+        "wasm_b_sha256": "99273bd8c10b9c9a0b7973a4183dfe4e9998463727ae25b5fd2439445135c2c5",
+        "map_sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09"
+      },
+      "state_comparison": {
+        "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "6b76fc4ae23c3300b67eb7ba493aeaacf79a6fd0b233975f8287fdd5d6f55b8f",
+        "replay_bytes_identical": false,
+        "expected_samples": 2017,
+        "actual_samples": 1103,
+        "matched_samples": 51,
+        "every_round_state_identical": false,
+        "first_divergence": {
+          "sample": "round:35",
+          "round": 35,
+          "expected_input": 677,
+          "actual_input": 677,
+          "changed_champion_fields": [
+            {
+              "champion": 0,
+              "field": "p",
+              "expected": {
+                "x": 1,
+                "y": 17
+              },
+              "actual": {
+                "x": 1,
+                "y": 11
+              }
+            }
+          ],
+          "expected_banked": [
+            "0",
+            "0"
+          ],
+          "actual_banked": [
+            "0",
+            "0"
+          ]
+        }
+      },
+      "first_input_divergence": {
+        "input": 668,
+        "round": 35,
+        "phase": 10,
+        "actor": 0,
+        "expected": {
+          "tag": 0,
+          "action": 3,
+          "args": [
+            1,
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "actual": {
+          "input": 668,
+          "tag": 0,
+          "action": 3,
+          "args": [
+            1,
+            0,
+            0,
+            0,
+            12
+          ],
+          "start_offset": 17982,
+          "end_offset": 18001
+        }
+      },
+      "logged_lines": 0,
+      "trusted_lines_before_divergence": 0,
+      "trace_window_complete_before_divergence": false,
+      "trusted_trace": [],
+      "trace_file": "artifacts/tmp/deep-repro/trace-channel-v1/C004-run/trace.txt"
+    }
+  ]
+}

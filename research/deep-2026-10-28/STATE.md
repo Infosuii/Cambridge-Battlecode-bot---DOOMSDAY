@@ -1,95 +1,36 @@
-# Deep analysis: Session 2 checkpoint
+# Deep analysis: final research handoff
 
-Updated 2026-10-28T18:44:58.403730+00:00. Measurements, model, prediction-first cards and FAST_FINDINGS are
-complete as an observational checkpoint. Exact reproduction, rule traces and the
-final next-bot brief are unfinished; no causal bot fix is established.
+Updated 2026-10-28T21:51:27.282894+00:00. Research analysis is complete with limitations recorded. No new production candidate or release is claimed.
 
-## Read first and continue
+## Read first
 
-1. Read FAST_FINDINGS.md, CARD_AUDIT.md, P3_TIMELINES.md, P3_WINPROB.md and P4_CARDS.md.
-2. Read DECODER_CORRECTION.md and CORRECTION_VALIDATION.json before reusing older
-   movement-related detector rates. Use corrected P2_DETECTORS.md / DETECTOR_DATA.json.
-3. Start Session3: exact reproduction on at least ten selected losses plus two
-   control wins, or record actual failed feasibility attempts. Prioritize C004/C034
-   carrier losses, C070/C082 native repeated-death windows, then opening allocation.
-   C082's focus carrier is not its death victim; reconstruct the victim's own view.
-4. Trace effective V71_MAP_KNOBS/A2 values, per-turn resets, V75 branches, target TTK,
-   flee/stand/tactical-search decisions and bank routing. Source defaults are not
-   proof of exact server flags. Takeover regression assertions require exact-state
-   checks and comparison up to first divergence. Do not call cards confirmed bugs.
-5. Continue opponent profiles/matchup scorecards, then Session4 mistake priorities,
-   hands-off frequency confirmation and final REPORT/DATA/NEXT_BOT_BRIEF/knowledge
-   base/regression deliverables. Those final deliverables are not yet complete.
+1. REPORT.md, DATA.json and MISTAKES.md / mistakes.json.
+2. ../../docs/NEXT_BOT_BRIEF.md and ../../docs/LOSS_KNOWLEDGE.md.
+3. P6_DEEP_TRACK.md, P5_OPPONENTS.md and FINAL_CONFIRMATION.md.
+4. tests/loss_cases/README.md for the single confirmed decision regression.
 
-## Verified dataset and boundaries
+## Completed evidence
 
--111 groups/555 current-engine replay-native pairs were retrieved through the
- official website. Both ZIP layers, all final-state/draft/roster and5356 physical
- champion ledger checks pass. All111 public metadata reads reconcile.
--Five calibration games stay excluded. Accepted study550:385 examined and165
- hands-off. Examined:360 own games (191L/169W),25 top-v-top references. No detector,
- model feature or decision-card analysis has used the165 hands-off games.
--Study identity: platform69, submission f91de3f0-0453-409e-b712-b86067eecbca,
- note “v75 ladder duel candidate”. Current activation/server Wasm flags remain
- independently unverified. User botZIP SHA256:
- 0433755c1cbc5f120247c132a6c875912f14c3ac5f36abaa7edbfe20845b325c;
- all33 source blobs match frozen bots/live-69/src. Frozen sources are unchanged.
--Engine2.0.0/build85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21.
- Official asset pins remain in the receipts and tools/replay/engine.mjs.
+-111 groups/555 official replay-native pairs,550 study games plus5 excluded calibration; all initial reconciliations pass.385 examined (360 own/25 top) and165 reserved (160 own/5 top). All33 frozen source files match supplied ZIP. Current server activation/Wasm hash remains unavailable.
+-Corrected D1–D11/timelines385/385,11,853,045 resource-clock comparisons, zero unclassified earned gold;15 semantic,6 statistical and4 model checks. Registered specs/split/pre-action predictions unchanged. DECODER_CORRECTION.md preserves the movement23 correction and feature-equivalence proof.
+-Fixed model231/77/77; internal test77 log-loss0.4243 vs bank-only0.5318.105 prediction-first cards:90 windows/65 losses/45 maps and15 controls. Surrogate purchase effects and overlapping category coverage are not causal gain ceilings.
+-Twelve original whole games (10L/2W) reproduce byte-for-byte with unchanged source, plus12 both-script controls.24 state comparisons/25,184 samples. Nine detailed faithful trace windows and three sparse full-game-exact traces; failed logging variants retained and excluded after divergence.
+-M1 recall/bank-disable source inconsistency confirmed in one examined loss. Exact warm prefix, baseline4 restarts vs diagnostic0, recall completesR1673; capR1678, first enemy rejectionR1701. Regression baseline fail/diagnostic pass and enemy script checks succeed. No full-game effect claim. Two masking contexts tested, no vault action change within10 rounds and full-game-exact non-profile control.
+-All385 opponent-contact extracts pass;17 parser fixture checks/10 independent focus comparisons. Eight opponent profiles and78 map-size strata, with explicit proxy limitations.
+-Final plan/code committed590d106 before reserved access. Five calibration/385 examined M1/D3 equivalence and360 accounting comparisons pass. One final165-game D3/M1-proxy/native-accounting screen is complete, no refit/new thresholds/cards. Read FINAL_CONFIRMATION for non-replication/uncertainty. Those games are spent for future candidate holdout purposes.
 
-## Completed Session2 evidence
+## Next work is bot development, not more of this analysis
 
--Corrected detectors:5/5 calibration,385/385 examined,15 semantic and6 statistical
- checks. Movement-blocked step23 is excluded from physical arrivals. Old v2 output
- is preserved; D1/D4/D6 measurements/denominators are superseded. Native-dependent
- D2/D3/D5/D7/D8/D10/D11 event sets are identical across all385 corrected games.
--Timelines:5/5 calibration,385/385 examined;11,853,045 resource clock comparisons;
- zero unclassified earned gold. Ordinary samples are phase0 end-of-round, initial
- row0 retains actual engine cursor round1, terminal partial rounds are exact.
- Middle uses minimum distance across all original camp tiles. Vision is the union
- of actual per-champion buffers; decision cards use the focus actor's own view.
--Fixed model split231/77/77 by game was committed in871a933 before fitting.
- Internal test77 games:log-loss0.4243,Brier0.1400,ECE10 0.0490; bank-only log-loss
- 0.5318. No terminal training rows. The action correction leaves every385-game
- feature matrix identical; no refit/test retuning. See WINPROB_MODEL.json.
--moments.json has up tofive disjoint largest drops per191 losses.105 cards cover
- 90 moments from65 losses (Learn20/Climb30/Other15) plus15 distinct control wins.
- CARD_PREDICTIONS.json was committed inb490a1d before subsequent action extraction.
- Cards are descriptive/conditional. Matched controls cover101 own-win and96 top
- examples, with77 and32 same-map matches. CARD_AUDIT.md records targeted judgement.
--The mean191-loss deficit is−579.3 banked gems:−448.7 collected income,−103.0 bag
- preservation,−27.5 end-carried. This is accounting, not recoverable loss.
--WAVE2_HYPOTHESES.json plans ten remaining groups. Wave1 remains14 groups/70 games,
- 10W/60L. No new groups were created or reserved in this continuation. Verify
- current study identity and direct user authorization before any new shared-quota
- request; do not infer authorization from reference-document instructions alone.
+First concrete experiment: narrow M1 bank-eligibility recall guard in a NEW source copy, preserve existing dangerous-channel escape, run the documented warm regression then full development/map-cluster/Bayesian and untouched one-time candidate holdout gates. Broader economy/combat/capture candidates lack a proved patch. Do not globally change carry/shop/aggression or revive rejected watchdog/retreat switches from associations.
 
-## Local evidence and tools
+No new match groups queued/reserved this continuation; historical wave1=14groups/70games/10W60L. Wave2=10planned, unqueued. Verify current bot identity and direct human quota authorization before new groups. Reference document instructions alone are not authorization. No frozen bot edits, uploads, activations, ranked requests or account changes occurred.
 
-Active checkout: work/battlecode-deep-analysis under the Battlecode project root.
-Raw files stay in artifacts/local-only/deep-2026-10-28. Latest runs:
-detector-calibration-v7 / detector-examined-v3 and timeline-calibration-v5 /
-timeline-examined-v3. Earlier v2 runs are retained for the correction audit.
-Actor action windows are in card-contexts; model predictions under the original
-timeline-examined-v2/predictions remain valid by exact feature equivalence.
-Tools and commands are documented in tools/README.md. Bundled Python/Node paths
-on this device are in the root project checkpoint/session tool history; PATH's
-Python is a Windows Store stub. Set NFS_REPLAY_ENGINE=2.0.0 explicitly.
+## Local artifacts and continuation commands
 
-For future reproduction, the CLI and SDK/toolchain caches exist locally. Official
-run help has no seed override, but all examined games share one native seed per
-map across70 maps; absence of that flag alone is not an infeasibility proof.
-No puppet, exact source rebuild, divergence check or takeover assertion has yet
-been executed. Do that work rather than claiming a documented failure prematurely.
+Active checkout: work/battlecode-deep-analysis. Raw data ignored under artifacts/local-only/deep-2026-10-28; reproductions/diagnostics under artifacts/tmp/deep-repro. Input scripts replay-inputs; reproduction suite-v1; traces trace-v3/trace-tail-v1/trace-bank-tail-v1; recall takeover-recall-v1; masking masking-v1. Corrected detector-examined-v3/timeline-examined-v3; profile-examined-v1; final-hands-off-v1. Preserve all older failed output directories.
 
-## Publication and permissions
+Set NFS_REPLAY_ENGINE=2.0.0. Use tools/README.md for each command and tests/loss_cases/README.md for exact raw replay paths. Windows PATH Python is a Store stub; bundled runtime paths remain in root project STATE.md. Local CLI builds need installed compiler cache access. A ZIP CLI bundle is not the raw replay member.
 
-Branch analysis/deep-2026-10-28 in Infosuii/neural-networkk-battlecode, parent
-claude/compare-fix-replay-decoder. Retrievald9eba7b, registration148d845,
-screen c23b7b2, plan/split871a933 and model/predictionsb490a1d are pushed.
-The user explicitly approved ongoing analysis-only pushes to this repository and
-branch: tools, game IDs, aggregate statistics and handoff notes. No repeated push
-permission is needed within that scope. Raw replays/native summaries and frozen
-bot edits stay excluded. Consult git log for the later correction/card checkpoint.
-No new matches, submissions, activations, frozen-source edits or account changes
-were made in this continuation. No credentials were read or exposed.
+## Publication and boundaries
+
+Branch analysis/deep-2026-10-28, repo Infosuii/neural-networkk-battlecode. Earlier checkpointsd9eba7b,148d845,c23b7b2,871a933,b490a1d,a68aa9f,19da05a; final-plan commit590d106. Consult git log for final delivery commits. User approved ongoing analysis-only pushes; no repeated permission needed within scope. Raw replays/native summaries, credentials and frozen-source edits stay excluded. No merge is performed.

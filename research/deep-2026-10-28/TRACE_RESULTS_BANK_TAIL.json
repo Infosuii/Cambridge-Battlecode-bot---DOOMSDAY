@@ -1,0 +1,1267 @@
+{
+  "cases": 1,
+  "hands_off_used": 0,
+  "byte_exact_traces": 1,
+  "complete_trusted_windows": 1,
+  "rule": "Only lines strictly before first accepted-input divergence are trusted; retain state divergence separately.",
+  "rows": [
+    {
+      "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+      "map": "02guardians",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C004",
+      "window": [
+        1700,
+        1712
+      ],
+      "trace_actor": 1,
+      "trace_from": 1680,
+      "trace_until": 1732,
+      "run": {
+        "replay_bytes_identical": true,
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "first_different_byte": null,
+        "rounds": 2000,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": true,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/trace-bank-tail-v1/C004-run/game-raw.repl26a",
+        "wasm_a_sha256": "8dc8d48e8e44f88e2d72637ef6ce655196f6690c9942d1caed6b7ff03b1d97a7",
+        "wasm_b_sha256": "99273bd8c10b9c9a0b7973a4183dfe4e9998463727ae25b5fd2439445135c2c5",
+        "map_sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09"
+      },
+      "state_comparison": {
+        "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "replay_bytes_identical": true,
+        "expected_samples": 2017,
+        "actual_samples": 2017,
+        "matched_samples": 2017,
+        "every_round_state_identical": true,
+        "first_divergence": null
+      },
+      "first_input_divergence": null,
+      "logged_lines": 60,
+      "trusted_lines_before_divergence": 60,
+      "trace_window_complete_before_divergence": true,
+      "trusted_trace": [
+        {
+          "r": 1680,
+          "emitted_round": 1680,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 1,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1680,
+          "emitted_round": 1680,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "home",
+            "x": 20,
+            "y": 10,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 0,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1681,
+          "emitted_round": 1681,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 1,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1681,
+          "emitted_round": 1681,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "home",
+            "x": 20,
+            "y": 10,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 0,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1682,
+          "emitted_round": 1682,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 1,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1682,
+          "emitted_round": 1682,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "home",
+            "x": 20,
+            "y": 10,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 0,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1683,
+          "emitted_round": 1683,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 1,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1683,
+          "emitted_round": 1683,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 19,
+            "y": 11,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1684,
+          "emitted_round": 1684,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1684,
+          "emitted_round": 1684,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 18,
+            "y": 12,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 1,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1685,
+          "emitted_round": 1685,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1685,
+          "emitted_round": 1685,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 17,
+            "y": 13,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1686,
+          "emitted_round": 1686,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1686,
+          "emitted_round": 1686,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 16,
+            "y": 14,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1687,
+          "emitted_round": 1687,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1687,
+          "emitted_round": 1687,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 15,
+            "y": 15,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1688,
+          "emitted_round": 1688,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1688,
+          "emitted_round": 1688,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 14,
+            "y": 16,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1689,
+          "emitted_round": 1689,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1689,
+          "emitted_round": 1689,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 15,
+            "y": 17,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1690,
+          "emitted_round": 1690,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1690,
+          "emitted_round": 1690,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 14,
+            "y": 18,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1691,
+          "emitted_round": 1691,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1691,
+          "emitted_round": 1691,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 14,
+            "y": 19,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1692,
+          "emitted_round": 1692,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1692,
+          "emitted_round": 1692,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "tribute-win",
+            "x": 15,
+            "y": 20,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 1,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1693,
+          "emitted_round": 1693,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1693,
+          "emitted_round": 1693,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 14,
+            "y": 19,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1694,
+          "emitted_round": 1694,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1694,
+          "emitted_round": 1694,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 13,
+            "y": 18,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1695,
+          "emitted_round": 1695,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1695,
+          "emitted_round": 1695,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 14,
+            "y": 17,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1696,
+          "emitted_round": 1696,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1696,
+          "emitted_round": 1696,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 15,
+            "y": 16,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1697,
+          "emitted_round": 1697,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1697,
+          "emitted_round": 1697,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 16,
+            "y": 15,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1698,
+          "emitted_round": 1698,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1698,
+          "emitted_round": 1698,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 17,
+            "y": 14,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1699,
+          "emitted_round": 1699,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1699,
+          "emitted_round": 1699,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 18,
+            "y": 13,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1700,
+          "emitted_round": 1700,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1700,
+          "emitted_round": 1700,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "trib-deny",
+            "x": 19,
+            "y": 14,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 1,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1701,
+          "emitted_round": 1701,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1701,
+          "emitted_round": 1701,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 18,
+            "y": 13,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1702,
+          "emitted_round": 1702,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1702,
+          "emitted_round": 1702,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 18,
+            "y": 12,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1703,
+          "emitted_round": 1703,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1296.4005126953125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1703,
+          "emitted_round": 1703,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 19,
+            "y": 11,
+            "hp": 1296.4005126953125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1704,
+          "emitted_round": 1704,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 1262.00048828125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1704,
+          "emitted_round": 1704,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 19,
+            "y": 10,
+            "hp": 1262.00048828125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1705,
+          "emitted_round": 1705,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 977.6004638671875,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1705,
+          "emitted_round": 1705,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 20,
+            "y": 9,
+            "hp": 977.6004638671875,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1706,
+          "emitted_round": 1706,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 693.200439453125,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1706,
+          "emitted_round": 1706,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 20,
+            "y": 8,
+            "hp": 693.200439453125,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1707,
+          "emitted_round": 1707,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 408.8004455566406,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1707,
+          "emitted_round": 1707,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 20,
+            "y": 7,
+            "hp": 408.8004455566406,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1708,
+          "emitted_round": 1708,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 124.40045166015625,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1708,
+          "emitted_round": 1708,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 20,
+            "y": 6,
+            "hp": 124.40045166015625,
+            "bag": 736,
+            "walked": 1,
+            "cast": 1,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        },
+        {
+          "r": 1709,
+          "emitted_round": 1709,
+          "actor": 1,
+          "stage": "BANK_CONTEXT",
+          "values": {
+            "own_score": 280,
+            "enemy_score": 178,
+            "no_bank": 0,
+            "gated": 1,
+            "off_until": 1683,
+            "hp": 90.00045776367188,
+            "maxhp": 5500.0,
+            "bag": 736,
+            "danger": 0.18038499355316162,
+            "channel_guard": 1.0,
+            "recalling": 0,
+            "banking": 0,
+            "carry": 65,
+            "force": 0
+          }
+        },
+        {
+          "r": 1709,
+          "emitted_round": 1709,
+          "actor": 1,
+          "stage": "END",
+          "values": {
+            "mode": "flee",
+            "x": 20,
+            "y": 5,
+            "hp": 90.00045776367188,
+            "bag": 736,
+            "walked": 1,
+            "cast": 0,
+            "home": 1,
+            "group": 21,
+            "force": 0
+          }
+        }
+      ],
+      "trace_file": "artifacts/tmp/deep-repro/trace-bank-tail-v1/C004-run/trace.txt"
+    }
+  ]
+}

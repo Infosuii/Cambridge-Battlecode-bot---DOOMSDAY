@@ -166,3 +166,31 @@ Latest valid runs: detector-calibration-v7/examined-v3 and
 timeline-calibration-v5/examined-v3. Official PanelChrome.L distinguishes22 teleport
 completion,23 movement blocked,25 sell and9 priority. DECODER_CORRECTION.md records
 the post-registration implementation fix; thresholds were not changed.
+
+## Session 3–4 exact replay research and final confirmation
+
+Run from repository root with NFS_REPLAY_ENGINE=2.0.0 and the pinned official CLI4.0.0/default fuel. Build/run require the installed compiler cache. Raw replay/scripts/logs/Wasm stay under ignored artifacts/. These tools never upload, activate or queue games.
+
+| Tool | Usage / boundary |
+|---|---|
+| replay/deep_repro_prepare.py, deep_repro_plan.py | Copy all33 frozen source files byte-for-byte into ignored artifacts and freeze the12-case reproduction plan. |
+| replay/puppet/replay_format.py, parse_inputs.py | Exact engine2 accepted-input format; `parse_inputs.py --partition calibration-excluded` or `examined --ids <selected UUIDs>`. Rejects unknown records and bulk examined parsing without selected IDs. |
+| replay/puppet/validate_inputs.mjs | `<script.json> ...`; API reapplication, exact saved raw bytes and every-round state hash. Five calibration games first. |
+| replay/puppet/gen_puppet.py | `--help`; generate exact per-team C++ script including drafts, accepted targets/orders and fuel-pause continuation. No opponent source involved. |
+| replay/puppet/run_reproductions.py | `--workers 2`; official local both-scripted and frozen-source-vs-enemy-puppet suite. Reuses hash-checked builds; preserve original run directories. |
+| replay/puppet/compare_replays.mjs, audit_reproductions.py | `node compare_replays.mjs <match-id> <actual raw> <local output.json>`; `python audit_reproductions.py --node <node.exe>`. Full round-state hashes, first divergence incl draft. Originals calibration/examined only. |
+| replay/puppet/make_trace*.py, trace_format.py, run_traces.py | `run_traces.py --format numeric|tail|bank-tail --suite artifacts/tmp/deep-repro/<NEW> --cards <IDs> --node <node.exe>`. Generator formats verbose/channel retain failed attempts. Trust only lines whose logical and emission rounds precede first accepted-input divergence; sparse tail lacks mid-guard data. Never replace a successful receipt with an incompatible format. |
+| replay/puppet/label_inputs.mjs | `<local script.json>`; label accepted raw inputs and bounded actor states. Calibration/examined references only. |
+| replay/puppet/run_recall_takeover.py | `--node <node.exe>`; predeclared C004 warm diagnostic with bank-eligibility cancellation condition. Ten-round cap; ignore match outcome; reads TAKEOVER_PLAN. Diagnostic source only. |
+| tests/loss_cases/run_case.py | See tests/loss_cases/README.md; requires exact warm inputs/states and unchanged accepted enemy script. Rejects incomplete/short candidates. |
+| replay/puppet/run_masking.py | `--node <node.exe>`; two MASKING_PLAN contexts, restore baked A2 vector at warm takeover to remove V71 override; no outcome claims. |
+| replay/puppet/screen_recall_loops.py | `--run artifacts/local-only/deep-2026-10-28/timeline-examined-v3`; fixed exploratory M1 observable proxy, not exact private timer mechanism. |
+| replay/profile_contacts.mjs | `calibration-excluded|examined <new-local-output>`; official geometry/native-damage/basic-focus extract. Current five-game calibration required for bulk. No reserved profile mode. |
+| replay/deep_profiles.py | Build eight profiles/78 size-band strata from current profile-examined-v1 and TIMELINE_DATA. Includes real sample denominators and map-cluster uncertainty. |
+| replay/deep_puppet_audit.py | Assert17 real parser fixtures unchanged and independent basic-attack focus counts equal ten calibration team outputs. |
+| replay/final_actions.mjs | `<partition> <local-output>`; minimal fixed D3/M1 support extraction. Reserved mode requires FINAL_VALIDATION current hashes; no full detector/model/card work. |
+| replay/deep_final_confirmation.py | `validate` compares all385 examined M1/D3 outputs and360 native accounting rows; `confirm` consumes the165 final fixed extracts. The plan was committed before first access. Do not reuse the reserved games for tuning. |
+| replay/deep_final_report.py | Rebuild REPORT/DATA/mistakes/NEXT_BOT_BRIEF and state from committed fixed result receipts. Append-once knowledge/tool/handoff updates; no fitting or external writes. |
+| replay/audit_final_delivery.py | Check complete report/case/provenance/split boundaries, exact reproduction, final validation and frozen source. |
+
+Canonical paths and measured limitations are in research/deep-2026-10-28/STATE.md. Historical Session2 tools/receipts are retained as earlier checkpoints; final state supersedes their “still unfinished” notes.
