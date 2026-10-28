@@ -7,10 +7,12 @@ V76 is the established local comparator; V80-85 are not proven upgrades. Repo v7
 
 ## Fresh Windows laptop
 
-Install Git/Git Bash, Python3.12+ and Node20+. Clone this checkpoint branch (the GitHub checkpoint commit is the
-authoritative snapshot; do not assume main has the newest research). From its repository root in Git Bash:
+Install Git/Git Bash, Python3.12+ and Node24 (tested here:24.20.0). Clone this checkpoint branch (the GitHub checkpoint commit is the
+authoritative snapshot; do not assume main has the newest research). In Git Bash:
 
 ```bash
+git clone --branch checkpoint/research-v85-2026-10-28 https://github.com/Infosuii/neural-networkk-battlecode.git
+cd neural-networkk-battlecode
 python tools/continuation_checkpoint.py verify --full
 python tools/continuation_checkpoint.py restore --install-runtime
 python -m venv .venv
@@ -20,7 +22,9 @@ python -m venv .venv
 The restore command verifies all archive hashes and installs the saved official Windows SDK/CMake/Ninja/replay
 assets into `%LOCALAPPDATA%/cambc`. It restores ignored evidence into its original repository paths and never
 overwrites Git source. If a different official runtime is already installed, restore without `--install-runtime`
-and use the extracted `artifacts/portable-runtime` separately. No credentials or login sessions are archived.
+and use the extracted `artifacts/portable-runtime` separately. Replay tools accept `NFS_REPLAY_ASSETS` pointing to
+its `assets/<hash>/visualiser/assets` directory containing the pinned engine2.0.0 Wasm. No credentials or login
+sessions are archived.
 
 Configure paths for this clone:
 

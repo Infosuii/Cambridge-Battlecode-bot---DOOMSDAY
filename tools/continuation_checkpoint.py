@@ -70,7 +70,7 @@ def pack():
   while b:=f.read(40*1024*1024):
    p=DEST/f'evidence.part{n:03d}';p.write_bytes(b);parts.append(dict(name=p.name,bytes=len(b),sha256=hashlib.sha256(b).hexdigest()));n+=1
  manifest['parts']=parts;manifest['packed_bytes']=archive.stat().st_size
- (DEST/'manifest.json').write_text(json.dumps(manifest,indent=1)+'\n',encoding='utf8')
+ (DEST/'manifest.json').write_text(json.dumps(manifest,indent=1)+'\n',encoding='utf8',newline='\n')
  print(json.dumps({k:v for k,v in manifest.items() if k not in ('files','parts')},indent=1),flush=True)
  verify(False)
 class Parts(io.RawIOBase):

@@ -46,7 +46,8 @@ R300 collected gems+93 but final margin-205; concentrated-wealth+686, stampede-9
 This is **not a finalist**. Family suggests harvest/conversion and gear prerequisites must be modeled together.
 Latest source has only this first prototype. Do not broaden it without diagnosing readiness/banking interaction.
 Geometry initialization also needs a hard per-loop fuel guard before any broader run. User paused before repairs.
-Disabled v84/v85 control source folders exist (`q84disabled`, `q85disabled`) but their byte equality was NOT checked.
+Disabled v84/v85 control source folders existed locally (`q84disabled`, `q85disabled`) but their byte equality was NOT
+checked. Recreate them with c_variant.py and V84_DENIAL=0 / V85_OBJECTIVE=0 if absent from restored scratch.
 
 ## Next highest-information work when resumed
 
