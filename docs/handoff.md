@@ -1,5 +1,13 @@
 # Handoff: bot development from v52 onward
 
+**Analysis checkpoint (2026-10-28):** Session 1 of the deep-analysis prompt
+started on `analysis/deep-2026-10-28`. Read
+`research/deep-2026-10-28/STATE.md` for its provenance and next action.
+CLI 4.0.0 and engine-2 assets are prepared, but live-source verification and
+private replay access await authentication. Zero study scrimmages queued.
+The older live-version statements below are historical; do not use them as
+current submission identity. No bot was submitted or activated by this study.
+
 **Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
 Written by Claude Code on 2026-10-25, when development was paused at v53. The next agent (GPT/Codex) works on **another device** and should set it up with `docs/setup.md`. Everything needed to build, test, analyse and submit is in this repository. Only bulk training data stays on the original laptop, the "training box" (§7), and none of the next steps need it.

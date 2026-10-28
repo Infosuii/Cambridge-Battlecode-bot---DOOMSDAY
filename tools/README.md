@@ -1,5 +1,22 @@
 # Tools
 
+## Deep-analysis preflight
+
+`replay/deep_preflight.py` hashes supplied ZIPs, compares their exact Git blob
+hashes with every pinned bot tree, and saves a public ladder/group snapshot.
+It has no credential, upload, activation or match-creation operation.
+
+```bash
+python tools/replay/deep_preflight.py --work artifacts/local-only/deep-2026-10-28 --out research/deep-2026-10-28 --inputs /path/to/source-zips
+```
+
+The default repository ref is the analysis parent `294500b8c4da4af19a81f2cdb262305ea54d27f9`.
+Use `--repository-ref` and `--repository-branch` for a different study. A full
+Git checkout can generate its own tree manifest; a connector-backed checkout
+can supply `repository-tree.json` under the local work directory. Raw HTTP
+responses remain local-only. Snapshot metadata does not prove live identity.
+Session status and remaining validation: `research/deep-2026-10-28/STATE.md`.
+
 Run everything from the repository root. The first line of each script says what it does. Scripts stay in this one
 folder because their paths are part of commands in the prompts and records.
 

@@ -1,0 +1,1549 @@
+{
+  "evidence_label": "measured",
+  "base_branch": "claude/compare-fix-replay-decoder",
+  "base_commit": "294500b8c4da4af19a81f2cdb262305ea54d27f9",
+  "inputs": [
+    {
+      "archive": "01-apex_c5.zip",
+      "archive_sha256": "6e64db200fbd7a43ff936f1a07d9b6ce4cb471ae5fc3dbf923c597c3fafca871",
+      "file_count": 16,
+      "files": {
+        "src/bot.cpp": {
+          "bytes": 147809,
+          "sha256": "9b9f57a638d37ddc126803220a16805e003647cdfb558b067dc498d76da83c2f",
+          "git_blob_sha": "a645bc713261db1802517719db1f2c598f37d116"
+        },
+        "src/bot.h": {
+          "bytes": 10764,
+          "sha256": "34b7505cce6c54f13a539cf753176124465528fd06f151acc1d07969741089c7",
+          "git_blob_sha": "6edae74d79368bc20d6d92dd212482dccebe6632"
+        },
+        "src/common.h": {
+          "bytes": 32982,
+          "sha256": "63a59c1a109cee0255312dfda5e4b2597bb4cdc64018bcd4d044a50fbbb093fe",
+          "git_blob_sha": "006bb741f8b076785e7ea6d07c8943729b2222d1"
+        },
+        "src/deny.cpp": {
+          "bytes": 5415,
+          "sha256": "99a6020475948c82e484ef97d49faf61a75836f8d1fe4450edb5e10d39f14322",
+          "git_blob_sha": "547d8f71bb54beed307ee50f162331b5986768a6"
+        },
+        "src/draft.cpp": {
+          "bytes": 8078,
+          "sha256": "b217f76db21d77a395c646e2170955c8c6219de78e197060ae114d1b860c05b7",
+          "git_blob_sha": "7737eefcf21843543de3d1dc5523ea42e8090e76"
+        },
+        "src/draft.h": {
+          "bytes": 121,
+          "sha256": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+          "git_blob_sha": "04efe6f0986adb6ca888c40429b386793692e250"
+        },
+        "src/ep_model.h": {
+          "bytes": 226,
+          "sha256": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+          "git_blob_sha": "aab4127aed1a03b88efb875819749feb23cac8e0"
+        },
+        "src/episode.cpp": {
+          "bytes": 6698,
+          "sha256": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+          "git_blob_sha": "fb69fc09ffd7a98899eb620d500213dbde1cc10d"
+        },
+        "src/fight.cpp": {
+          "bytes": 5288,
+          "sha256": "bc398d8f888fd590528e2f90d7297917327d82d5ca0210a0a74c2c8d33758a8c",
+          "git_blob_sha": "8d77bf2c465cdda4bb24f8a5f5a0cf57d420d8f7"
+        },
+        "src/fight.h": {
+          "bytes": 1145,
+          "sha256": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+          "git_blob_sha": "13b777605200b14fffc838aa394c562591889740"
+        },
+        "src/main.cpp": {
+          "bytes": 554,
+          "sha256": "bda8204eb11b49c6dfc08d491f2dc06d1d8d9cc118062012985b2ffb2ce67d12",
+          "git_blob_sha": "5f4ffcb5905d3b09b09ce4b8bf3d9746d120964b"
+        },
+        "src/strategy.h": {
+          "bytes": 7972,
+          "sha256": "6ce9d45d9e7127866d34a3e8dc1eece97d674c3eb16c9ca3de49b896de3accdc",
+          "git_blob_sha": "17a007a823ac3f27b64e634b7ee634230d56ecb7"
+        },
+        "src/tsearch.cpp": {
+          "bytes": 20479,
+          "sha256": "2378ec432e98190b3c840a83234be287ff40b389d5e1c930a648361260490c9c",
+          "git_blob_sha": "6a793eb7b321b02f07076abad9a4dfad6e0deeb6"
+        },
+        "src/tsearch.h": {
+          "bytes": 22690,
+          "sha256": "6ecee6216707f1a478a230644f1c13515a5ee59e09a5c9cb2354e6ef49758b34",
+          "git_blob_sha": "4e1e161de4a3add16e0649cec78c8379734f3c53"
+        },
+        "src/world.cpp": {
+          "bytes": 19914,
+          "sha256": "2d3a7d2efaa0b22e6745957ef4275481e1ce19fb039647461805b9cbcee68963",
+          "git_blob_sha": "6d243626c887acd69c26ac31b35e0f76ca2f71c6"
+        },
+        "src/world.h": {
+          "bytes": 7482,
+          "sha256": "174c2381a0cdee3e04e6b64c5a2284a66f17b4549735d530fdafe3f68aedb82f",
+          "git_blob_sha": "f275493427efe0cdec96cc6458e4c1fe47af233f"
+        }
+      },
+      "comparisons": [
+        {
+          "bot": "proxy",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 35,
+          "identical_tree": false
+        },
+        {
+          "bot": "v48",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 28,
+          "identical_tree": false
+        },
+        {
+          "bot": "v50",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v51",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v52",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v53",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v54",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v55",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v56",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v57",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v58",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v59",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v60",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v61",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62a",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62b",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62c",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62d",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62e",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62f",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v65",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66a",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66b",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66c",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "mimic",
+          "exact_matches": 0,
+          "shared_paths": 6,
+          "archive_files": 16,
+          "repository_files": 10,
+          "identical_tree": false
+        },
+        {
+          "bot": "v67",
+          "exact_matches": 0,
+          "shared_paths": 2,
+          "archive_files": 16,
+          "repository_files": 847,
+          "identical_tree": false
+        }
+      ]
+    },
+    {
+      "archive": "02-apex_c4_rows40.zip",
+      "archive_sha256": "bb227c933391dfa7fd39a8bef4a4e8ae9e6a410f69f9c5a42dea9fce31af0150",
+      "file_count": 16,
+      "files": {
+        "src/bot.cpp": {
+          "bytes": 148552,
+          "sha256": "0544d2e0b3c7d3c504b2b1b10b9c62518cc73c0b677d94004be90ec239668a53",
+          "git_blob_sha": "0b631112b3e928c69ffe0d35d3a66d4ddea77c15"
+        },
+        "src/bot.h": {
+          "bytes": 10819,
+          "sha256": "138dcfce6a29e6b31d0a5cd916193ff85193ddd37bb999b4740d7323a932a842",
+          "git_blob_sha": "0e77c15d1c9282a9b55c7ff7cb1e4ff31ea3bd7f"
+        },
+        "src/common.h": {
+          "bytes": 31859,
+          "sha256": "ab4a6de9927c732a259e6ef525e57ace18ebf20231932ef549c5e4b27d0db0e8",
+          "git_blob_sha": "1b89a04ff343d60d3ab898a9700803fa4e584572"
+        },
+        "src/deny.cpp": {
+          "bytes": 5415,
+          "sha256": "99a6020475948c82e484ef97d49faf61a75836f8d1fe4450edb5e10d39f14322",
+          "git_blob_sha": "547d8f71bb54beed307ee50f162331b5986768a6"
+        },
+        "src/draft.cpp": {
+          "bytes": 8078,
+          "sha256": "b217f76db21d77a395c646e2170955c8c6219de78e197060ae114d1b860c05b7",
+          "git_blob_sha": "7737eefcf21843543de3d1dc5523ea42e8090e76"
+        },
+        "src/draft.h": {
+          "bytes": 121,
+          "sha256": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+          "git_blob_sha": "04efe6f0986adb6ca888c40429b386793692e250"
+        },
+        "src/ep_model.h": {
+          "bytes": 226,
+          "sha256": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+          "git_blob_sha": "aab4127aed1a03b88efb875819749feb23cac8e0"
+        },
+        "src/episode.cpp": {
+          "bytes": 6698,
+          "sha256": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+          "git_blob_sha": "fb69fc09ffd7a98899eb620d500213dbde1cc10d"
+        },
+        "src/fight.cpp": {
+          "bytes": 5288,
+          "sha256": "bc398d8f888fd590528e2f90d7297917327d82d5ca0210a0a74c2c8d33758a8c",
+          "git_blob_sha": "8d77bf2c465cdda4bb24f8a5f5a0cf57d420d8f7"
+        },
+        "src/fight.h": {
+          "bytes": 1145,
+          "sha256": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+          "git_blob_sha": "13b777605200b14fffc838aa394c562591889740"
+        },
+        "src/main.cpp": {
+          "bytes": 554,
+          "sha256": "bda8204eb11b49c6dfc08d491f2dc06d1d8d9cc118062012985b2ffb2ce67d12",
+          "git_blob_sha": "5f4ffcb5905d3b09b09ce4b8bf3d9746d120964b"
+        },
+        "src/strategy.h": {
+          "bytes": 9269,
+          "sha256": "82b5234d201e2775ddf0deda3896440982e1768c81b20f552f53e89bb6557a9e",
+          "git_blob_sha": "a54596b8396286e272487252c82113326ef5bfb6"
+        },
+        "src/tsearch.cpp": {
+          "bytes": 17135,
+          "sha256": "9877cd52a3776205a5f7fc86d72b1ed5ef666a797c22c429a6550eff39e079e4",
+          "git_blob_sha": "7b147d8607c53779ed23f0e8f8465dc213c653ee"
+        },
+        "src/tsearch.h": {
+          "bytes": 21565,
+          "sha256": "18ac7c7657fab0f9f96cb6c38af27c965d0d32f2f597cffc57d783e92822bba5",
+          "git_blob_sha": "e30bbd9d08c1a6fcbc06561d6307b1ddb76ba7e3"
+        },
+        "src/world.cpp": {
+          "bytes": 19914,
+          "sha256": "2d3a7d2efaa0b22e6745957ef4275481e1ce19fb039647461805b9cbcee68963",
+          "git_blob_sha": "6d243626c887acd69c26ac31b35e0f76ca2f71c6"
+        },
+        "src/world.h": {
+          "bytes": 7482,
+          "sha256": "174c2381a0cdee3e04e6b64c5a2284a66f17b4549735d530fdafe3f68aedb82f",
+          "git_blob_sha": "f275493427efe0cdec96cc6458e4c1fe47af233f"
+        }
+      },
+      "comparisons": [
+        {
+          "bot": "proxy",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 35,
+          "identical_tree": false
+        },
+        {
+          "bot": "v48",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 28,
+          "identical_tree": false
+        },
+        {
+          "bot": "v50",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v51",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v52",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v53",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v54",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v55",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v56",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v57",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v58",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v59",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v60",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v61",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62a",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62b",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62c",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62d",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62e",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62f",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v65",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66a",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66b",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66c",
+          "exact_matches": 4,
+          "shared_paths": 16,
+          "archive_files": 16,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "mimic",
+          "exact_matches": 0,
+          "shared_paths": 6,
+          "archive_files": 16,
+          "repository_files": 10,
+          "identical_tree": false
+        },
+        {
+          "bot": "v67",
+          "exact_matches": 0,
+          "shared_paths": 2,
+          "archive_files": 16,
+          "repository_files": 847,
+          "identical_tree": false
+        }
+      ]
+    },
+    {
+      "archive": "03-apex_c7.zip",
+      "archive_sha256": "caa1c5927f4505fc0675e69d46822772a3e1996222c330be56cddc2c10becb5b",
+      "file_count": 17,
+      "files": {
+        "src/bot.cpp": {
+          "bytes": 164098,
+          "sha256": "8e1aa75a6410d73350b003be6b1a9920796d27606f637cf9632ece5230ad7862",
+          "git_blob_sha": "e0c4b22d9f07f3f711d237124a90bbde4f3a412d"
+        },
+        "src/bot.h": {
+          "bytes": 12075,
+          "sha256": "3dd1fa96c4b9a71dcd5a7590d2bca5f6f38e41c58f686307dcd5668e818440ed",
+          "git_blob_sha": "113270bf9a3c57e3a58457ea4c48ea485dec7a02"
+        },
+        "src/common.h": {
+          "bytes": 39844,
+          "sha256": "34790af1cebfc032b34bf8519c592c62544183cf3e2a89ed2fd030c8da4c7ebb",
+          "git_blob_sha": "1f0c6f201bb5ab5fb67611addc6b27c7d32774d4"
+        },
+        "src/deny.cpp": {
+          "bytes": 5415,
+          "sha256": "99a6020475948c82e484ef97d49faf61a75836f8d1fe4450edb5e10d39f14322",
+          "git_blob_sha": "547d8f71bb54beed307ee50f162331b5986768a6"
+        },
+        "src/draft.cpp": {
+          "bytes": 8078,
+          "sha256": "b217f76db21d77a395c646e2170955c8c6219de78e197060ae114d1b860c05b7",
+          "git_blob_sha": "7737eefcf21843543de3d1dc5523ea42e8090e76"
+        },
+        "src/draft.h": {
+          "bytes": 121,
+          "sha256": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+          "git_blob_sha": "04efe6f0986adb6ca888c40429b386793692e250"
+        },
+        "src/ep_model.h": {
+          "bytes": 226,
+          "sha256": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+          "git_blob_sha": "aab4127aed1a03b88efb875819749feb23cac8e0"
+        },
+        "src/episode.cpp": {
+          "bytes": 6698,
+          "sha256": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+          "git_blob_sha": "fb69fc09ffd7a98899eb620d500213dbde1cc10d"
+        },
+        "src/fight.cpp": {
+          "bytes": 5288,
+          "sha256": "bc398d8f888fd590528e2f90d7297917327d82d5ca0210a0a74c2c8d33758a8c",
+          "git_blob_sha": "8d77bf2c465cdda4bb24f8a5f5a0cf57d420d8f7"
+        },
+        "src/fight.h": {
+          "bytes": 1145,
+          "sha256": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+          "git_blob_sha": "13b777605200b14fffc838aa394c562591889740"
+        },
+        "src/local_model.h": {
+          "bytes": 14548,
+          "sha256": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+          "git_blob_sha": "db3484b4b47af510eb42d8d7c3bb6e28ef2f0c58"
+        },
+        "src/main.cpp": {
+          "bytes": 554,
+          "sha256": "bda8204eb11b49c6dfc08d491f2dc06d1d8d9cc118062012985b2ffb2ce67d12",
+          "git_blob_sha": "5f4ffcb5905d3b09b09ce4b8bf3d9746d120964b"
+        },
+        "src/strategy.h": {
+          "bytes": 14436,
+          "sha256": "34ca3010f8e781326962db3bb156689b1babeb570a343d29603320c4f8c0b359",
+          "git_blob_sha": "d0f29560e7d27880df9a6b4dc729957088651860"
+        },
+        "src/tsearch.cpp": {
+          "bytes": 34613,
+          "sha256": "07d3386ba52107cf4ea0d756600cd3cae109c8d993ab797527eb70889208dca3",
+          "git_blob_sha": "2133f18120195cd767bda8587ede98bb6a06e3c0"
+        },
+        "src/tsearch.h": {
+          "bytes": 26046,
+          "sha256": "95ccbff3daa81660f9e0fe61bcdc5f678ab92addebf314b9e898082d6ad39299",
+          "git_blob_sha": "afc8853017b58056ed02a5f2ba89ffca94a0bb84"
+        },
+        "src/world.cpp": {
+          "bytes": 22645,
+          "sha256": "c63fe854baa8a274385ead8087fc8d2e07e9ad2ae052e7ea88af996b1e3c10f0",
+          "git_blob_sha": "87cd50a10f5c449a330e488b094a597d1752459b"
+        },
+        "src/world.h": {
+          "bytes": 8424,
+          "sha256": "a855b83c52cec4dcea646ebec68e2f9b29a8c5024503e5bff25a49b1d53fe9af",
+          "git_blob_sha": "6e17f585188fe085d5a08bb9c74d02d892ebdaeb"
+        }
+      },
+      "comparisons": [
+        {
+          "bot": "proxy",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 35,
+          "identical_tree": false
+        },
+        {
+          "bot": "v48",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 28,
+          "identical_tree": false
+        },
+        {
+          "bot": "v50",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v51",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v52",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v53",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v54",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v55",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v56",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v57",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v58",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v59",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v60",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v61",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62d",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62e",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62f",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v65",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "mimic",
+          "exact_matches": 0,
+          "shared_paths": 6,
+          "archive_files": 17,
+          "repository_files": 10,
+          "identical_tree": false
+        },
+        {
+          "bot": "v67",
+          "exact_matches": 0,
+          "shared_paths": 2,
+          "archive_files": 17,
+          "repository_files": 847,
+          "identical_tree": false
+        }
+      ]
+    },
+    {
+      "archive": "04-apex_c8.zip",
+      "archive_sha256": "47127470fe68a8132e713c095b3abea74cff56e339e230502f9510f93dc2b738",
+      "file_count": 17,
+      "files": {
+        "src/bot.cpp": {
+          "bytes": 167361,
+          "sha256": "8c8907d71061c05f6d34b581a6bf7546b4bb5043051a551ec2bcab47ecabe380",
+          "git_blob_sha": "da376e96d1ff7957b87eca4a37d3b6e571ee5243"
+        },
+        "src/bot.h": {
+          "bytes": 12254,
+          "sha256": "c85da2284da06c0155f737bd8fee566aae37bd53ea354e876454a6565116e0ed",
+          "git_blob_sha": "6ab511d0c3483e6dda529e3916fafb80deb605f2"
+        },
+        "src/common.h": {
+          "bytes": 41825,
+          "sha256": "48edad5ce7f85862530c119201899c2ea510344ba7036b4508944d7e921e13ec",
+          "git_blob_sha": "b5e038e45f8ef5d8ea7034e27b4ef1293cb7771f"
+        },
+        "src/deny.cpp": {
+          "bytes": 5415,
+          "sha256": "99a6020475948c82e484ef97d49faf61a75836f8d1fe4450edb5e10d39f14322",
+          "git_blob_sha": "547d8f71bb54beed307ee50f162331b5986768a6"
+        },
+        "src/draft.cpp": {
+          "bytes": 8078,
+          "sha256": "b217f76db21d77a395c646e2170955c8c6219de78e197060ae114d1b860c05b7",
+          "git_blob_sha": "7737eefcf21843543de3d1dc5523ea42e8090e76"
+        },
+        "src/draft.h": {
+          "bytes": 121,
+          "sha256": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+          "git_blob_sha": "04efe6f0986adb6ca888c40429b386793692e250"
+        },
+        "src/ep_model.h": {
+          "bytes": 226,
+          "sha256": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+          "git_blob_sha": "aab4127aed1a03b88efb875819749feb23cac8e0"
+        },
+        "src/episode.cpp": {
+          "bytes": 6698,
+          "sha256": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+          "git_blob_sha": "fb69fc09ffd7a98899eb620d500213dbde1cc10d"
+        },
+        "src/fight.cpp": {
+          "bytes": 5288,
+          "sha256": "bc398d8f888fd590528e2f90d7297917327d82d5ca0210a0a74c2c8d33758a8c",
+          "git_blob_sha": "8d77bf2c465cdda4bb24f8a5f5a0cf57d420d8f7"
+        },
+        "src/fight.h": {
+          "bytes": 1145,
+          "sha256": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+          "git_blob_sha": "13b777605200b14fffc838aa394c562591889740"
+        },
+        "src/local_model.h": {
+          "bytes": 14548,
+          "sha256": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+          "git_blob_sha": "db3484b4b47af510eb42d8d7c3bb6e28ef2f0c58"
+        },
+        "src/main.cpp": {
+          "bytes": 554,
+          "sha256": "bda8204eb11b49c6dfc08d491f2dc06d1d8d9cc118062012985b2ffb2ce67d12",
+          "git_blob_sha": "5f4ffcb5905d3b09b09ce4b8bf3d9746d120964b"
+        },
+        "src/strategy.h": {
+          "bytes": 14436,
+          "sha256": "34ca3010f8e781326962db3bb156689b1babeb570a343d29603320c4f8c0b359",
+          "git_blob_sha": "d0f29560e7d27880df9a6b4dc729957088651860"
+        },
+        "src/tsearch.cpp": {
+          "bytes": 44819,
+          "sha256": "cafdc8b786a8fb120b8c1a8a4fc5af0ac505de651b861b944b20e57d0263d800",
+          "git_blob_sha": "ca78e65045ddae5d63460bb1e10414d8a257c063"
+        },
+        "src/tsearch.h": {
+          "bytes": 26046,
+          "sha256": "95ccbff3daa81660f9e0fe61bcdc5f678ab92addebf314b9e898082d6ad39299",
+          "git_blob_sha": "afc8853017b58056ed02a5f2ba89ffca94a0bb84"
+        },
+        "src/world.cpp": {
+          "bytes": 22645,
+          "sha256": "c63fe854baa8a274385ead8087fc8d2e07e9ad2ae052e7ea88af996b1e3c10f0",
+          "git_blob_sha": "87cd50a10f5c449a330e488b094a597d1752459b"
+        },
+        "src/world.h": {
+          "bytes": 8424,
+          "sha256": "a855b83c52cec4dcea646ebec68e2f9b29a8c5024503e5bff25a49b1d53fe9af",
+          "git_blob_sha": "6e17f585188fe085d5a08bb9c74d02d892ebdaeb"
+        }
+      },
+      "comparisons": [
+        {
+          "bot": "proxy",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 35,
+          "identical_tree": false
+        },
+        {
+          "bot": "v48",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 28,
+          "identical_tree": false
+        },
+        {
+          "bot": "v50",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v51",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v52",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v53",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v54",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v55",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v56",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v57",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v58",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v59",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v60",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v61",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62d",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62e",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62f",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v65",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "mimic",
+          "exact_matches": 0,
+          "shared_paths": 6,
+          "archive_files": 17,
+          "repository_files": 10,
+          "identical_tree": false
+        },
+        {
+          "bot": "v67",
+          "exact_matches": 0,
+          "shared_paths": 2,
+          "archive_files": 17,
+          "repository_files": 847,
+          "identical_tree": false
+        }
+      ]
+    },
+    {
+      "archive": "05-apex_c9.zip",
+      "archive_sha256": "dc27db72ce51ee9bb498668fe92927c163cf561ffed3efbdc5831fd41e0b1295",
+      "file_count": 17,
+      "files": {
+        "src/bot.cpp": {
+          "bytes": 171849,
+          "sha256": "dfaebfa772892f502e56da6127f376dffdd209f52904128d04783d9c54980cfa",
+          "git_blob_sha": "cc7cce8d0ba26a820d4931644eb9ba85fdeb2ad6"
+        },
+        "src/bot.h": {
+          "bytes": 12462,
+          "sha256": "deb7d8023cbc1cf12e0e2b2245525e319667f869d1ec88ddee666fd88f400acd",
+          "git_blob_sha": "d283ac5ec5df7b21320b4bc893510f89a3156b18"
+        },
+        "src/common.h": {
+          "bytes": 42345,
+          "sha256": "d62ed19668a9ca425e4aa21946ef6c5b8ea97578919f1215de87479310d0a31e",
+          "git_blob_sha": "092477e30c5bc86c0ce245e35803ef524f4015b0"
+        },
+        "src/deny.cpp": {
+          "bytes": 5415,
+          "sha256": "99a6020475948c82e484ef97d49faf61a75836f8d1fe4450edb5e10d39f14322",
+          "git_blob_sha": "547d8f71bb54beed307ee50f162331b5986768a6"
+        },
+        "src/draft.cpp": {
+          "bytes": 8078,
+          "sha256": "b217f76db21d77a395c646e2170955c8c6219de78e197060ae114d1b860c05b7",
+          "git_blob_sha": "7737eefcf21843543de3d1dc5523ea42e8090e76"
+        },
+        "src/draft.h": {
+          "bytes": 121,
+          "sha256": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+          "git_blob_sha": "04efe6f0986adb6ca888c40429b386793692e250"
+        },
+        "src/ep_model.h": {
+          "bytes": 226,
+          "sha256": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+          "git_blob_sha": "aab4127aed1a03b88efb875819749feb23cac8e0"
+        },
+        "src/episode.cpp": {
+          "bytes": 6698,
+          "sha256": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+          "git_blob_sha": "fb69fc09ffd7a98899eb620d500213dbde1cc10d"
+        },
+        "src/fight.cpp": {
+          "bytes": 5288,
+          "sha256": "bc398d8f888fd590528e2f90d7297917327d82d5ca0210a0a74c2c8d33758a8c",
+          "git_blob_sha": "8d77bf2c465cdda4bb24f8a5f5a0cf57d420d8f7"
+        },
+        "src/fight.h": {
+          "bytes": 1145,
+          "sha256": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+          "git_blob_sha": "13b777605200b14fffc838aa394c562591889740"
+        },
+        "src/local_model.h": {
+          "bytes": 14548,
+          "sha256": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+          "git_blob_sha": "db3484b4b47af510eb42d8d7c3bb6e28ef2f0c58"
+        },
+        "src/main.cpp": {
+          "bytes": 554,
+          "sha256": "bda8204eb11b49c6dfc08d491f2dc06d1d8d9cc118062012985b2ffb2ce67d12",
+          "git_blob_sha": "5f4ffcb5905d3b09b09ce4b8bf3d9746d120964b"
+        },
+        "src/strategy.h": {
+          "bytes": 14436,
+          "sha256": "34ca3010f8e781326962db3bb156689b1babeb570a343d29603320c4f8c0b359",
+          "git_blob_sha": "d0f29560e7d27880df9a6b4dc729957088651860"
+        },
+        "src/tsearch.cpp": {
+          "bytes": 44898,
+          "sha256": "76e7b1c59a657bbab23ca3d6fa968f491e4c33cc7e255f9a23d82ee30490d35c",
+          "git_blob_sha": "747508c3a3b8981586aea3bd19c4c425128cbfbd"
+        },
+        "src/tsearch.h": {
+          "bytes": 26046,
+          "sha256": "95ccbff3daa81660f9e0fe61bcdc5f678ab92addebf314b9e898082d6ad39299",
+          "git_blob_sha": "afc8853017b58056ed02a5f2ba89ffca94a0bb84"
+        },
+        "src/world.cpp": {
+          "bytes": 22645,
+          "sha256": "c63fe854baa8a274385ead8087fc8d2e07e9ad2ae052e7ea88af996b1e3c10f0",
+          "git_blob_sha": "87cd50a10f5c449a330e488b094a597d1752459b"
+        },
+        "src/world.h": {
+          "bytes": 8424,
+          "sha256": "a855b83c52cec4dcea646ebec68e2f9b29a8c5024503e5bff25a49b1d53fe9af",
+          "git_blob_sha": "6e17f585188fe085d5a08bb9c74d02d892ebdaeb"
+        }
+      },
+      "comparisons": [
+        {
+          "bot": "proxy",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 35,
+          "identical_tree": false
+        },
+        {
+          "bot": "v48",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 28,
+          "identical_tree": false
+        },
+        {
+          "bot": "v50",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v51",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v52",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v53",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v54",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v55",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v56",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v57",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 30,
+          "identical_tree": false
+        },
+        {
+          "bot": "v58",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v59",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v60",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v61",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62d",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62e",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v62f",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v65",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66a",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66b",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 33,
+          "identical_tree": false
+        },
+        {
+          "bot": "v66c",
+          "exact_matches": 5,
+          "shared_paths": 17,
+          "archive_files": 17,
+          "repository_files": 34,
+          "identical_tree": false
+        },
+        {
+          "bot": "mimic",
+          "exact_matches": 0,
+          "shared_paths": 6,
+          "archive_files": 17,
+          "repository_files": 10,
+          "identical_tree": false
+        },
+        {
+          "bot": "v67",
+          "exact_matches": 0,
+          "shared_paths": 2,
+          "archive_files": 17,
+          "repository_files": 847,
+          "identical_tree": false
+        }
+      ]
+    }
+  ],
+  "live_source_verified": false,
+  "caveat": "These attached archives have not been established as the live submission."
+}
