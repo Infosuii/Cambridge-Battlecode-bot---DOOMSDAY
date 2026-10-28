@@ -126,6 +126,7 @@ function decode(E, file, withPerspective, reference) {
     }
     const last = fullState();
     return { engine_version: VERSION, width, height, steps, inputs: last.inputPosition, timeline_size: size, rounds: last.round, outcome: last.outcome,
+             ...(VERSION === '2.0.0' ? { drafts: last.drafts.map((p, t) => p.slice(0, last.draftCounts[t])) } : {}),
              submitted_gems: last.submittedGems.map(Number), fuel_exhausted_turns: fuelExhausted, error_turns: errors, counts,
              champions: last.champions.map(c => ({ index: c.entity.index, team: c.team, type: c.type, gold: c.gold, gems: c.gems, kills: c.kills })),
              actions, turns: withPerspective ? turns : undefined };
@@ -143,6 +144,18 @@ function compare(result, summaryPath) {
     rounds: m.roundsStarted === result.rounds, final_input: m.finalInput === result.inputs,
     submitted_gems: JSON.stringify(gems) === JSON.stringify(result.submitted_gems),
     champion_gold_gems_kills: JSON.stringify(want) === JSON.stringify(got) };
+  if (VERSION === '2.0.0') {
+    // Names and numeric order are defined in the official 4.0.0 SDK cambc.h enums.
+    const draftNames = ['Ryth', 'Vesper Vale', 'Vendetta', 'Cassi & Issac', 'Stellar', 'Prism',
+      'Marcella', 'Willow', 'Ren', 'Varg', 'Tavi', 'Heart of Ruin'];
+    const typeNames = ['Ryth', 'Vesper Vale', 'Vendetta', 'Cassi', 'Issac', 'Stellar', 'Prism',
+      'Marcella', 'Willow', 'Ren', 'Varg', 'Tavi', 'Heart of Ruin'];
+    const draft = ['teamA', 'teamB'].map(t => d.roster.draft.filter(p => p.team === t).map(p => draftNames.indexOf(p.champion)));
+    const roster = d.roster.champions.map(c => [c.id, c.team === 'teamA' ? 0 : 1, typeNames.indexOf(c.name)]).sort((a,b) => a[0]-b[0]);
+    checks.draft_picks = draft.flat().every(v => v >= 0) && JSON.stringify(draft) === JSON.stringify(result.drafts);
+    checks.physical_roster = roster.every(c => c[2] >= 0) && JSON.stringify(roster) ===
+      JSON.stringify(result.champions.map(c => [c.index,c.team,c.type]).sort((a,b) => a[0]-b[0]));
+  }
   return { passed: Object.values(checks).every(Boolean), checks };
 }
 

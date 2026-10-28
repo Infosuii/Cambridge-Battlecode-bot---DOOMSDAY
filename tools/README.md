@@ -20,6 +20,33 @@ Session status and remaining validation: `research/deep-2026-10-28/STATE.md`.
 Run everything from the repository root. The first line of each script says what it does. Scripts stay in this one
 folder because their paths are part of commands in the prompts and records.
 
+## Website replay intake and reconciliation
+
+Use the signed-in official match-group page's Download 5 games and each game's
+Summary / Download JSON controls. Keep the frozen IDs in CANDIDATE_MANIFEST.json;
+do not queue replacement games or read held-out trajectories while retrieving files.
+
+`replay/deep_download_ingest.py --downloads <download-directory>` reads only named
+study files, validates both ZIP CRC layers and the exact five registered match IDs,
+preserves immutable raw evidence under artifacts/local-only and writes DOWNLOADS.json.
+
+```bash
+python tools/replay/deep_download_ingest.py --downloads /path/to/Downloads
+NFS_REPLAY_ENGINE=2.0.0 node --no-warnings tools/replay/decode_replays.mjs --workers 4 --out artifacts/local-only/deep-2026-10-28/decoded.jsonl artifacts/local-only/deep-2026-10-28/replays/calibration-excluded artifacts/local-only/deep-2026-10-28/replays/examined artifacts/local-only/deep-2026-10-28/replays/hands-off
+python tools/replay/deep_reconcile.py artifacts/local-only/deep-2026-10-28/decoded.jsonl
+```
+
+On PowerShell set `$env:NFS_REPLAY_ENGINE='2.0.0'` before invoking Node. The shared
+loader finds installed official assets or accepts NFS_REPLAY_ASSETS.
+Validate the five calibration pairs before bulk decoding. `deep_reconcile.py`
+audits native accounting, replay final states, drafts, dynamic rosters and available
+frozen metadata, reporting booleans rather than held-out decisions or detector rates.
+
+For an already verified prefix from the same pinned decoder, avoid duplicate decoding:
+`python tools/replay/deep_decode_missing.py --node <node-executable> --prior <prior-local.jsonl>`.
+It retains prior passing rows, decodes only missing files, combines local JSONL and
+reconciles the complete result. Raw JSONL, native summaries and ZIPs are never committed.
+
 ## Benchmarking a candidate (current workflow)
 
 | Script | Purpose |

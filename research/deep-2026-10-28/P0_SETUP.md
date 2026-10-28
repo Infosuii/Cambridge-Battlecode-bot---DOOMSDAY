@@ -1,7 +1,8 @@
 # Session 1 setup and provenance
 
-Updated 2026-10-28T12:53:39.380580+00:00. Source freeze and metadata/scrimmage setup complete;
-replay validation remains blocked. Historical access notes are superseded here.
+Updated 2026-10-28T16:04:21.416097+00:00. Source freeze, metadata setup and replay intake complete.
+555 official replay/native pairs pass, including five calibration games validated before bulk decoding.
+The original CLI/source observations below remain historical; current download evidence is in REPLAY_RETRIEVAL.md.
 
 | Check (measured) | Result | Sample |
 |---|---|---:|
@@ -11,8 +12,8 @@ replay validation remains blocked. Historical access notes are superseded here.
 | User archive |bot.zip,284031 bytes,33 files|1 archive|
 | Match against v58 |29/33 source files byte-identical|33 files|
 | Remote frozen copy |33/33 Git blob hashes match ZIP|33 files|
-| Native internal checks |scores, rounds, roster, gems, gold pass|2 summaries,19 champions|
-| Replay/native reconciliation |pending missing current replay files|0 games|
+| Native internal checks |draft/roster/gem/gold identities pass|555 summaries,5,356 champion bodies|
+| Replay/native reconciliation |all final-state, draft and roster checks pass|555 games|
 | Website account |Ishanp signed in; live platform 69 Active/Verified|1 submission|
 | CLI session |not authenticated; login initiation refused before credentials|2 prior attempts|
 
@@ -33,20 +34,19 @@ decode_replays.mjs now imports engine/defaultAssets/verifyAssets/PINNED/VERSION
 from engine.mjs, eliminating its duplicate 1.0.3-only loader. Its summary comparison
 checks the selected version. Engine 2 remains explicit: NFS_REPLAY_ENGINE=2.0.0.
 Default asset search supports Linux and Windows; NFS_REPLAY_ASSETS overrides it.
-Syntax, official asset pins and engine instantiation pass. Current replay decoding
-and five-game native reconciliation have not been validated. Do not bulk-process
-until those checks pass. The older cached 0.0.3 replays fail the engine 2 load and
+Syntax, official asset pins, engine instantiation and all 555 replay/native comparisons pass.
+Five calibration pairs passed before bulk processing. Own-perspective and detector semantics still require separate validation. The older cached 0.0.3 replays fail the engine 2 load and
 are excluded rather than coerced through another engine.
 
 Native rosters are dynamic: a draft may have fewer than ten picks/champions;
 Cassi & Issac share one draftPick while having separate champion IDs. The native
 auditor checks each recorded roster entry against its actual pick and does not
-assume a ten-champion roster (measured, n=2 summaries with 10 and 9 champions).
+assume a ten-champion roster (measured, n=555 summaries / 5,356 physical champion bodies).
 
 ## Repository and boundaries
 
 Parent working branch:claude/compare-fix-replay-decoder, pinned commit
 294500b8c4da4af19a81f2cdb262305ea54d27f9. Main lacks the newer v59–v67 reports.
-The checkout is partial; connector tree commits preserve every untouched parent
-entry. Publish only analysis/deep-2026-10-28, without force. Frozen bot bytes remain
+The resumed Windows checkout is a full clone; the earlier connector checkout was partial.
+Preserve every unrelated entry. Publish only analysis/deep-2026-10-28, without force. Frozen bot bytes remain
 unchanged. No account settings, submissions, activations or ranked requests.

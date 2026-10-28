@@ -1,13 +1,14 @@
 # Handoff: bot development from v52 onward
 
-**Analysis checkpoint (2026-10-28, updated):** Session 1 continues on
-`analysis/deep-2026-10-28`; read `research/deep-2026-10-28/STATE.md` and §19 below.
-The user-provided live69 source is frozen unchanged (33/33 remote blobs match).
-Fourteen mirrored unranked groups finished: 70 games,10W/60L; wave2 retains10 groups.
-Current replay downloads still produce no file; CLI is signed out. No decoded
-game is accepted and detector implementation/rates remain blocked. All fourteen
-study pages confirm platform69. Server-source hash and activation time are unknown.
-The live-version statements below are historical. No bot was submitted or activated.
+**Analysis checkpoint (2026-10-28, replay intake verified):** Session 1 continues
+on `analysis/deep-2026-10-28`; read `research/deep-2026-10-28/STATE.md` and §20.
+All 111 frozen groups / 555 replay-native pairs pass validation; accepted study
+n=550 (385 examined,165 hands-off), plus five calibration-only games. The user
+archive hash matches the checkpoint; frozen live69 source remains unchanged.
+Detector implementation/validation is next. Wave 1 is complete; wave 2 retains
+10 groups and still requires FAST_FINDINGS and written hypotheses. Server-source
+hash and absolute activation time remain unknown. The live-version statements
+below are historical. No new match, submission or activation was made.
 
 **Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
@@ -448,3 +449,20 @@ Do not copy browser session secrets or bypass blocked download controls. Resume
 with current replay bundles/native summaries, validate five pairs, then implement
 and validate D1-D11. Decoder migration uses the shared engine2 pins; smoke checks
 are not replay validation. No submissions, activations or ranked requests made.
+
+
+## 20. Deep-analysis website retrieval complete (2026-10-28)
+
+The earlier replay-access blocker in section 19 is resolved on the Windows desktop.
+All 111 frozen groups / 555 replay/native pairs were downloaded through official
+website controls. All 555 pass engine-2.0.0 final-state, draft, dynamic roster and
+native accounting checks (5,356 champion bodies); five calibration games passed
+before bulk decoding. Accepted study n=550: 385 examined / 165 hands-off. IDs and
+partitions are unchanged; no held-out decision/detector outputs were reviewed.
+
+Read research/deep-2026-10-28/STATE.md and REPLAY_RETRIEVAL.md; inventories/checks
+are DOWNLOADS.json and RECONCILIATION.json. Raw and decoded files remain local-only
+under artifacts/local-only/deep-2026-10-28 in work/battlecode-deep-analysis on the
+Battlecode project desktop workspace. See tools/README.md for ingestion/validation.
+Resume at detector threshold registration and D1-D11/perspective validation; do not
+restart wave 1. No new matches, submissions, activations or frozen-bot edits occurred.

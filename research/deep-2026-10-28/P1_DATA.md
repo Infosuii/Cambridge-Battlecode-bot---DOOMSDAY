@@ -1,53 +1,55 @@
 # Session 1 data and exclusions
 
-**Measured metadata intake; accepted decoded/reconciled dataset n=0.**
+**Measured intake: 555 replay/native pairs reconciled; accepted study dataset n=550.**
 
-Existing catalog: n=455 games,239 wins and216 losses,91 version-filtered
-groups, created09:20:04.612Z–12:00:05.488Z on28 October2026.
-It is the captured UI catalog, not a proven complete activation-bounded census.
-Wave1 adds n=70 games. Top-v-top adds n=30 games in6 groups.
-All metadata rows identify engine 2.0.0; no old-engine replay was substituted.
+All 111 frozen groups were downloaded through the official website. Existing catalog n=455,
+wave 1 n=70 and top-v-top n=30 all pass native/replay checks. Five existing-catalog games
+remain calibration-only; they are not additional strength or detector evidence.
+DOWNLOADS.json contains file identities and RECONCILIATION.json contains every check.
+
+## Accepted study counts
 
 | Primary cohort | Games | Wins | Losses | Side A | Side B |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Climb | 295 | 173 | 122 | 135 | 160 |
 | Learn | 80 | 8 | 72 | 40 | 40 |
-| Other | 150 | 68 | 82 | 66 | 84 |
+| Other | 145 | 65 | 80 | 66 | 79 |
 | Top-v-top | 30 | n/a | n/a | n/a | n/a |
 
-Counts include the five calibration games. Learn takes precedence for tabulation
-when Learn and Climb overlap; Control means our wins across all cohorts.
-Full membership/ranks/ratings and timestamps: COHORTS.json.
+Learn takes precedence when cohorts overlap. Control is our wins across cohorts.
+The accepted sources are existing catalog 450, wave 1 70 and top-v-top 30 (total 550).
+COHORTS.json retains ranks, snapshot times and overlap/unequal-exposure caveats.
 
-## Candidate partition frozen before trajectory review
+## Frozen split and restrictions
 
-Seed 20261028; cohort×map strata; nearest70% Hamilton allocation and seeded shuffle.
-Examined candidates n=385; hands-off candidates n=165;
-calibration-excluded n=5. CANDIDATE_MANIFEST.json
-fixes IDs, selection, partitions and method. These are candidate assignments,
-not accepted games. Preserve assignments through reconciliation failures.
-Outcome metadata was visible during coverage selection; current replay trajectories
-were not reviewed. Hands-off trajectories and detector outputs remain unopened.
+Seed 20261028; cohort × map strata; 385 examined / 165 hands-off, all reconciled.
+The five calibration games remain separate. ID assignments did not change after
+downloads. Outcome metadata was seen during catalog selection; no current decision
+trajectories were manually reviewed. Hands-off decoding was automated integrity
+validation only; no hands-off decision or detector outputs were inspected.
 
 ## Attribution and exclusions
 
-- The authenticated Matches filter group-version=69 and each study-group UI page
-  supply actual platform-version evidence. The same time window also contains v67
-  games, so a timestamp-only filter would mix sources. Activation time remains unknown.
-- The user supplied the live source; all 33 frozen files are exact. No independent
-  server-source hash was obtained. Platform identity and source identity remain distinct.
-- Native summaries n=2 pass metadata score/round/outcome and internal
-  draft/roster/gem/gold checks. This is not replay reconciliation; independent pairs n=0.
-- Initial five-game native-download selection produced two usable unique JSONs,
-  one binary instead of requested JSON, one duplicate/mismatched JSON and one absent
-  file. The latter three stay quarantined; see DOWNLOAD_EXCLUSIONS.json.
-- Both current replay download controls returned paths with no corresponding file.
-  No current replay entered analysis. CLI 4.0.0 remains unauthenticated.
-- Fourteen older cached ZIPs contain engine 0.0.3/format 0.0.3 replays; exclude all 14.
-- Unequal exposure is substantial: error404 accounts for215/455 existing games
-  (measured, n=455). Loss-count cohort additions are not opponent-strength rankings.
+- Actual platform-version 69 UI evidence identifies the study. Other versions in
+  contemporaneous or later listings are not imported. Exact activation time is unknown.
+- The supplied archive and 33 frozen source blobs are exact; server-source hash remains
+  independently unverified. This retrieval made no submission or activation change.
+- All 555 native summaries pass internal identities and match independent replay states,
+  including draft and physical roster. All 5,356 champion-body conservation checks pass.
+- The first five-game calibration passed before bulk decoding. All currently selected
+  pairs pass; there are no current integrity exclusions. Historical missing/mismatched
+  downloads remain quarantined, documented in DOWNLOAD_EXCLUSIONS.json.
+- Fourteen older engine/format 0.0.3 archives remain excluded from this study.
+- The earlier raw catalog.json was local to the prior machine and was not committed.
+  Existing-game outcomes agree with the frozen manifest; exact final states are checked
+  against independent native summaries. Wave/top public score metadata is additionally
+  compared. Do not claim restoration of that original raw catalog.
+- The captured existing catalog remains n=455, 239W/216L, from 91 groups created
+  09:20:04.612Z–12:00:05.488Z on 28 October. This is not a proven activation-bounded census.
+  error404 accounts for 215/455 games; loss counts are not opponent-strength rankings.
 
-## Counts by map (metadata only)
+## Original full-intake map coverage (n=555, including five calibration games)
+
 
 | Map | Learn | Climb | Other | Top-v-top |
 | --- | ---: | ---: | ---: | ---: |
@@ -122,5 +124,4 @@ were not reviewed. Hands-off trajectories and detector outputs remain unopened.
 | adgato_gemcombat4 | 1 | 3 | 2 | 0 |
 | adgato_gemcombat5 | 0 | 3 | 2 | 0 |
 
-No loss-versus-win detector intervals, final win-probability decomposition or
-next-bot causal recommendations can be supported until current replays reconcile.
+Detector intervals, final decomposition and causal next-bot recommendations remain pending.

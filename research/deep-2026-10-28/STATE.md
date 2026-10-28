@@ -1,46 +1,37 @@
-# Deep analysis: Session 1 checkpoint
+# Deep analysis: replay retrieval and reconciliation complete
 
-Updated 2026-10-28T12:53:39.380580+00:00. **Session 1 is partially complete; replay access is the blocker.**
+Updated 2026-10-28T16:04:21.416097+00:00. Replay access is restored. Session 1 resumes at D1-D11 detector implementation.
 
-## Phase and next action
+## Read first / next action
 
-Setup/source freeze, cohorts, metadata catalog and wave1 complete. Resume at §2.1
-five-game replay/native reconciliation, then §3 accepted ingestion and §4 detectors.
-Obtain current replay bundles with native summaries through a working official
-download or user-supplied files. Browser replay controls returned nonexistent
-paths; CLI is unauthenticated and login starts refused before credential entry.
-Do not extract browser cookies/tokens or bypass the blocked source download.
-Do not queue more wave1 groups or repeat confirmed requests.
+- Read REPLAY_RETRIEVAL.md, P0_SETUP.md, P1_DATA.md, P2_DETECTORS.md and RECONCILIATION.json.
+- Preregister detector thresholds and validate event/visibility semantics on the five calibration games before running examined-game detectors. The existing own-perspective path still needs its own validation.
+- Preserve the frozen split: 385 examined, 165 hands-off; five calibration games stay outside the study. Do not inspect hands-off decision trajectories or detector rates until final confirmation.
+- Do not queue further wave 1 groups. Wave 2 has 10 groups remaining and requires FAST_FINDINGS.md plus written hypotheses/predictions/decision rules first.
 
-## Preserved state
+## Verified intake (measured)
 
-- Branch:analysis/deep-2026-10-28; parent working branch:claude/compare-fix-replay-decoder.
-- Parent commit:294500b8c4da4af19a81f2cdb262305ea54d27f9. Partial checkout;
-  remote tree commits must preserve all untouched entries. No force push.
-- Live platform 69/submission f91de3f0-0453-409e-b712-b86067eecbca Active/Verified;
-  note“v75 ladder duel candidate”. Exact activation time unknown.
-- Correct user bot.zip: 33 files; 29 match v58. Frozen unchanged in bots/live-69/src.
-  ZIP0433755c1cbc5f120247c132a6c875912f14c3ac5f36abaa7edbfe20845b325c.
-  All 33 remote Git blobs equal the ZIP. Server source hash independently unverified.
-- Existing v69 metadata:455 games (239W/216L),91 captured groups.
-  Actual authenticated version filter avoids v67 games in the same time window.
-- Wave 1:14 groups/70 games, all finished; 10W/60L.
-  Every group's actual own version 69, maps, sides and opponent checked. SCRIMMAGES.json
-  holds all IDs/results/pins. Wave 1 budget 0 remaining; wave 2 budget 10 remaining.
-- Learn:current top5. Climb:eight spaced ranks 15–40 plus top3 observed loss counts.
-  Source snapshot and overlap/unequal-exposure caveats are in COHORTS.json.
-- Top-v-top metadata:n=30; accepted decoded/reconciled games:n=0.
-- Native integrity:2 summaries/19 champions pass; independent replay pairs:n=0.
-- CLI 4.0.0 and engine 2.0.0 pinned. Decoder imports shared loader; syntax/pins/
-  instantiation pass. Do not treat that as five-game decoder validation.
-- Candidate partition seed 20261028:385 examined/165 hands-off;
-  5 calibration-excluded. Preserve IDs through reconciliation. No trajectories reviewed.
+- Signed-in official website controls downloaded all 111 frozen groups / 555 games and 555 native JSON summaries. Every file exists on disk; both ZIP levels pass CRC checks. See DOWNLOADS.json for IDs, sizes and SHA256.
+- Engine 2.0.0 / build 85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21; all three official asset pins pass.
+- All 555 independent replay/native pairs pass: engine, outcome, rounds, final input, scores, champion gold/gems/kills, actual draft picks and dynamic physical roster.
+- All 5,356 champion-body gem and gold conservation checks pass; five-game calibration passed before bulk decoding. No current pair is excluded for integrity failure.
+- Accepted study n=550: existing version-69 catalog 450, wave 1 70, top-v-top 30. The remaining five catalog games are calibration only.
+- No study trajectories have been manually reviewed. Hands-off decoding was automatic integrity validation only, with no decision or detector outputs exposed.
 
-## Files and resumption rules
+## Local files and reproducible commands
 
-Read P0_SETUP.md, P1_DATA.md, P2_DETECTORS.md, WAVE1_RESULTS.md and the JSON ledgers.
-Raw evidence stays artifacts/local-only/deep-2026-10-28 (never commit raw replays).
-DOWNLOAD_EXCLUSIONS.json records failed/ambiguous downloads and old-engine caches.
-P2 is a blocker/status registry, not completed detector implementation or rates.
-No FAST_FINDINGS.md exists; wave2 requires it plus written hypotheses first.
-Never submit, activate, request ranked games, edit frozen bots or expose credentials.
+- This desktop checkout: work/battlecode-deep-analysis under the Battlecode project workspace. It is a full clone on analysis/deep-2026-10-28, not the earlier partial checkout.
+- Raw ZIPs and partitioned replay/native files: artifacts/local-only/deep-2026-10-28/bundles and replays/{calibration-excluded,examined,hands-off}.
+- Decoded actions: artifacts/local-only/deep-2026-10-28/decoded.jsonl (local-only; do not open hands-off rows for analysis).
+- The first 375 decoded rows were retained; only the remaining 180 were newly decoded. Tools: deep_download_ingest.py, deep_decode_missing.py, deep_reconcile.py; usage in tools/README.md.
+- Raw evidence is Git-ignored. The prior machine's raw catalog.json was not in Git. Existing-game outcomes agree with the frozen manifest; exact final states agree independently with native summaries. Wave/top metadata scores are additionally checked. Preserve this provenance limitation.
+
+## Preserved study identity and boundaries
+
+- Branch analysis/deep-2026-10-28; original parent working branch claude/compare-fix-replay-decoder at 294500b8c4da4af19a81f2cdb262305ea54d27f9. Preserve all unrelated entries; no force push.
+- Study platform version 69, submission f91de3f0-0453-409e-b712-b86067eecbca, note “v75 ladder duel candidate”. This is the study identity, not a newly verified current activation. Later page listings include other versions; do not mix them.
+- User bot (8).zip re-hashed to 0433755c1cbc5f120247c132a6c875912f14c3ac5f36abaa7edbfe20845b325c. Frozen bots/live-69/src remains unchanged; 33/33 blobs match. Server source hash and exact activation time remain independently unverified.
+- Existing metadata: 455 games, 239W/216L, 91 groups. Wave 1: 14 groups/70 games, 10W/60L. No new group, ranked request, upload, activation or account change was made during retrieval.
+- Learn/Climb membership and unequal exposure caveats remain in COHORTS.json. Historical failed downloads and old-engine archives remain quarantined; their access failures no longer block current replay intake.
+- P2 is still a detector status/definition registry, not completed rates. FAST_FINDINGS.md, timelines, model, cards, deep track and final bot brief remain pending.
+- Never submit, activate, request ranked games, edit frozen bots, expose credentials or bypass browser security barriers.

@@ -1,4 +1,4 @@
-# Wave 1: measured outcomes; replay diagnosis pending
+# Wave 1: outcomes and replay intake verified; detector diagnosis pending
 
 Recorded 2026-10-28T12:53:39.380580+00:00. All 14 unranked groups / 70 games finished.
 Maps, ordered sides, opponent identities and unranked status agree with all
@@ -28,7 +28,8 @@ The service hides numeric opponent submission versions in public metadata.
 
 The Mite pair won only on 01islands (2/2 on that map, 0/8 elsewhere; n=10 games).
 This is a small **association**, not an explanation of why the other maps lose.
-No detector rates or causal code findings are available: replay reconciliation n=0.
+All 70 replay/native pairs now reconcile, including draft and dynamic roster.
+No detector rates or causal code findings are available yet.
 
 Source rows and intervals: WAVE1_METADATA.json. Full IDs, maps, sides and scores:
 SCRIMMAGES.json. No further wave 1 requests. Wave 2 retains 10 groups and requires

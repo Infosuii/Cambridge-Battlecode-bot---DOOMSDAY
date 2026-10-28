@@ -1,7 +1,8 @@
 # Session 1 detector status
 
-**Blocked before validated replay ingestion. No detectors have been accepted.**
-Decoded/reconciled games n=0; loss-versus-win detector-rate denominators n=0/n=0.
+**Replay intake complete; detector implementation/validation is next. No detectors have been accepted.**
+Reconciled pairs n=555; accepted study n=550 (385 examined,165 hands-off), plus five calibration-only games.
+Loss-versus-win detector-rate denominators remain n=0/n=0 until detectors are validated and run.
 There are no valid rates, intervals, example rounds or causal bug candidates yet.
 Native-summary internal checks are not independent replay reconciliation.
 
