@@ -1,0 +1,34 @@
+BATTLECODE 5060 JOB - plan-branching farm (no git, no login, one file to send back)
+==================================================================================
+
+WHAT IT DOES
+  Plays thousands of practice games of our bot on this PC. Each game is replayed with different team plans
+  switched in at a few moments in the game, so we can learn which plan wins from which position. Nothing is
+  uploaded anywhere; the only output is one zip file that you send back once.
+
+TIMELINE (hours from when Rishik sends you the package)
+  Hour 0      You receive pack5060.zip (about 150 MB).
+  Hour 0      Set up (5 minutes, below) and leave it running.
+  Hour 0-1    First run downloads the official compiler once (about 600 MB) and builds the bots.
+  Hour 1-26   Games run. The window shows "games N / TOTAL". Keep the PC awake and plugged in.
+  Hour 26     (or as soon as the window says ALL DONE, whichever comes first)
+              Double-click ZIP_RESULTS.bat and send results_5060.zip to Rishik. THIS IS THE ONLY SEND.
+              If you can't send at hour 26, send whenever you can; partial results are still useful.
+
+SETUP
+  1. Unzip pack5060.zip to C:\pack5060  (a short path; NOT inside OneDrive or Desktop sync folders).
+  2. Double-click C:\pack5060\RUN_ME.bat
+     - It needs internet only for the one-time compiler download.
+     - It needs about 15 GB free disk.
+     - It uses all but 2 CPU threads; the PC stays usable for light work.
+  3. Leave the window open.
+
+IF SOMETHING HAPPENS
+  - Closed the window, PC restarted, or you need the PC: just double-click RUN_ME.bat again later.
+    It continues where it stopped (finished games are kept).
+  - Low on RAM (PC sluggish): close the window, then open RUN_ME.bat again; it re-checks memory and uses fewer games
+    at once.
+  - Any red error text: take a photo of the window and send it with the results.
+
+YOU DO NOT NEED
+  git, Python, Node, an account, a login, or to understand the output.
