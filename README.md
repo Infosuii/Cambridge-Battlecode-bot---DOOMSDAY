@@ -1,5 +1,11 @@
 # DOOMSDAY Battlecode bot
 
+**Active pure algorithm build:** branch `build/pure-algorithm-zero`, fresh C++ source
+in [bots/dz](bots/dz/README.md). Start at [CONTINUE_HERE.md](CONTINUE_HERE.md) and
+[the DZ handoff](research/dz/HANDOFF.md). The walking skeleton passed 292 release
+games without faults/fuel-outs; strategy parity is not achieved. All research,
+runtime restoration, calibration evidence and experiment capsules are on the branch.
+
 **2026-10-28 portable research checkpoint:** start at [CONTINUE_HERE.md](CONTINUE_HERE.md) and
 [the precise paused handoff](research/v81/HANDOFF.md). This supersedes the historical version/status claims below.
 Repo v74 is live platform68; v76 is the local comparator; v80-85 are not proven upgrades. No submission or activation

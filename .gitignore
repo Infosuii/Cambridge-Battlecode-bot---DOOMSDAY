@@ -22,6 +22,9 @@ recovery/incomplete/
 .venv-dev/
 config/paths.local.json
 
+# DZ experiment capsules are compact, authenticated continuation evidence.
+!/research/dz/runs/
+
 
 # Rebuildable baseline staging trees stay local; frozen ZIP/Wasm/manifest are versioned.
 /artifacts/baselines/*/bot/

@@ -1,4 +1,56 @@
-# DOOMSDAY: resume this checkpoint
+# DOOMSDAY Zero: continue the pure algorithm bot build
+
+**Active branch: `build/pure-algorithm-zero`.** The user resumed work on 2026-10-28
+and authorized a clean-slate algorithmic bot, local tests, read-only replay downloads,
+and pushing this build branch to `Infosuii/neural-networkk-battlecode`.
+
+Read [the active DZ handoff](research/dz/HANDOFF.md),
+[results and failures](research/dz/RESULTS.md), and
+[the bot guide](bots/dz/README.md). Build work and all supplied research are committed
+on this branch. Historical "paused / not yet approved" statements below and in the
+planning documents do not supersede the user's current build authorization.
+
+The starter completed 292 release games with zero faults/fuel-outs but lost every
+contested game against v65/v76. It is a foundation, not a finals candidate.
+
+Fresh Windows x64 machine (from the clone root):
+
+```powershell
+git clone --branch build/pure-algorithm-zero https://github.com/Infosuii/neural-networkk-battlecode.git
+cd neural-networkk-battlecode
+python tools/continuation_checkpoint.py verify
+python tools/continuation_checkpoint.py restore --install-runtime
+python tools/dz_support.py verify
+python tools/dz_support.py restore
+python tools/dz.py verify
+python tools/dz.py build
+python tools/dz.py host
+```
+
+Python 3.12+ and Git are required; native host tests additionally need C++20 g++
+(MSYS2 UCRT64 on this laptop), on PATH or selected by `DZ_CXX`. DZ's build/test
+runner uses only Python's standard library and repo-relative paths. Do not commit
+`config/paths.json`, which belongs to this laptop. No login is required for local
+builds or matches. The large original archive supplies the pinned Windows official
+runtime; the DZ support archive supplies 2,931 offline evidence files, including the
+SA-IDLE-v76 calibration replays and the deep-study reports at 19109c4. Both restorers
+verify content and refuse to overwrite different source/evidence files.
+
+Other operating systems need their matching official CLI/toolchain; only Windows
+x64 restoration has been packaged/tested. Node 24 is needed only for the optional
+replay decoders, with `NFS_REPLAY_ENGINE=2.0.0`.
+
+Do not submit, activate, create ladder match groups or run ladder duels without
+separate authorization. Never copy old bot code into DZ. The next agent should
+finish engine conformance and validate the objective model before enabling the
+economy auction or EE. Preserve the registered release holdout.
+
+The previous checkpoint guide is retained at
+[continuation/RESEARCH_CHECKPOINT_HANDOFF.md](continuation/RESEARCH_CHECKPOINT_HANDOFF.md).
+
+---
+
+# Historical paused research checkpoint (superseded for active build status)
 
 Research was paused at the user's request on2026-10-28. **No live change is authorized.**
 Read [the precise handoff](research/v81/HANDOFF.md), [the mission](research/v81/MISSION.md),

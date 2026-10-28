@@ -1,0 +1,90 @@
+#include "static_world.h"
+
+namespace dz {
+Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
+    for (const auto& camp : sdk.camps()) tiles.push_back(camp.spawn_position());
+}
+void Group::init_stats() {
+    max_hp = 0; strength = 0; cluster = true; initial_hp.clear();
+    for (const auto& camp : sdk.camps()) {
+        const auto stats = camp.base_stats();
+        initial_hp.push_back(stats.base_health);
+        max_hp += stats.base_health;
+        strength += stats.base_strength;
+        cluster &= camp.is_gem_cluster() || camp.is_gold_cluster();
+    }
+}
+void StaticWorld::boot(const TurnContext& tc) {
+    if (ready) return;
+    if (!loaded_) {
+        blocked = cambc::map::walls() | cambc::map::holes() | cambc::map::altars() | cambc::map::spawn_region(cambc::team::enemy);
+        auto source = cambc::map::camp_groups();
+        groups.clear(); groups.reserve(source.size());
+        for (auto& g : source) groups.emplace_back(std::move(g));
+        allies = cambc::champions(cambc::team::ally);
+        std::sort(allies.begin(), allies.end(), [](const auto& a, const auto& b) {
+            return static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(a)) <
+                   static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(b));
+        });
+        for (unsigned i = 0; i < allies.size(); ++i) if (allies[i] == cambc::self()) slot = i;
+        altars.clear();
+        for (auto p : cambc::map::altars().positions()) altars.push_back({p, nullptr});
+        loaded_ = true;
+        tc.guard();
+        return; // Budget metadata, home, designs and altar fields on separate turns.
+    }
+    if (!home_ready_) {
+        if (!tc.allow(field_budget())) return;
+        home.compute(blocked, cambc::map::spawn_region(cambc::team::ally), visited);
+        tc.guard(); home_ready_ = true;
+        return;
+    }
+    while (stats_cursor_ < groups.size()) {
+        if (tc.fuel0 - cambc::fuel_remaining() > 25000) return;
+        if (!tc.allow(3000 + groups[stats_cursor_].tiles.size() * 500)) return;
+        groups[stats_cursor_].init_stats();
+        tc.guard(); ++stats_cursor_;
+    }
+    // Transactional field publication: no partially computed cache becomes usable.
+    for (auto& altar : altars) {
+        if (altar.field) continue;
+        if (!tc.allow(field_budget())) return;
+        roots.clear();
+        for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
+            vec2 p = altar.tile + vec2{dx,dy};
+            if (walkable(p)) roots.set(p);
+        }
+        auto field = std::make_unique<cambc::distance_field>();
+        field->compute(blocked, roots, visited);
+        tc.guard(); altar.field = std::move(field);
+    }
+    ready = true;
+}
+void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
+    if (!tc.allow(field_budget()) || tier_for(cambc::fuel_remaining()) != Tier::Full || groups.empty()) return;
+    int selected = -1;
+    if (preferred >= 0 && preferred < static_cast<int>(groups.size()) && !groups[preferred].field) selected = preferred;
+    else {
+        for (std::size_t i = 0; i < groups.size(); ++i) {
+            const auto index = (fields_cursor_ + i) % groups.size();
+            if (!groups[index].field) { selected = static_cast<int>(index); fields_cursor_ = index + 1; break; }
+        }
+    }
+    if (selected < 0) return;
+    roots.clear();
+    for (auto p : groups[selected].tiles) if (walkable(p)) roots.set(p);
+    auto field = std::make_unique<cambc::distance_field>();
+    field->compute(blocked, roots, visited);
+    tc.guard(); groups[selected].field = std::move(field);
+}
+int StaticWorld::distance(int g, vec2 p) const {
+    const auto& group = groups[g];
+    if (group.field) return group.field->get(p);
+    int result = 65535;
+    for (auto tile : group.tiles) result = std::min(result, static_cast<int>(p.chebyshev_distance(tile)));
+    return (result * 13 + 9) / 10;
+}
+int StaticWorld::altar_distance(unsigned a, vec2 p) const {
+    return altars[a].field ? altars[a].field->get(p) : 65535;
+}
+}

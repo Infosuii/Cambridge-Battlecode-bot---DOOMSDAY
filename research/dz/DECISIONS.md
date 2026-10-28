@@ -19,3 +19,10 @@ pre-existing `config/paths.json` edit, generated compile commands, or unrelated 
 - Advanced auction/ObjModel/EE/gear/opening remain future gated modules, not claimed implementations.
 - v76 is the local comparator; final fallback selection remains the user's decision.
 - No submit, activate, unranked match-group creation, or ladder duel without separate authorization.
+
+Implementation results: `RESULTS.md` and `CONFORMANCE.md` distinguish observed facts,
+working starter behavior, incomplete conformance and unvalidated future models.
+The user explicitly approved the named GitHub push after the initial automatic
+approval review requested destination/payload authorization. The branch is published.
+Support evidence was added so fresh agents have raw calibration replays rather than
+only reports. A one-time continuation is active for 04:07 London on 2026-10-29.
