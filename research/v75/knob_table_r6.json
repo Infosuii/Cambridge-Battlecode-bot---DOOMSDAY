@@ -1,0 +1,733 @@
+{
+ "base": [
+  "v65=R6s-v65-base",
+  "v61=R6s-v61-base",
+  "v58=R6s-v58-base",
+  "proxy=R6s-proxy-base"
+ ],
+ "options": [
+  "aggr:v65=R6s-v65-aggr",
+  "aggr:v61=R6s-v61-aggr",
+  "aggr:v58=R6s-v58-aggr",
+  "aggr:proxy=R6s-proxy-aggr",
+  "caut:v65=R6s-v65-caut",
+  "caut:v61=R6s-v61-caut",
+  "caut:v58=R6s-v58-caut",
+  "caut:proxy=R6s-proxy-caut",
+  "bank:v65=R6s-v65-bank",
+  "bank:v61=R6s-v61-bank",
+  "bank:v58=R6s-v58-bank",
+  "bank:proxy=R6s-proxy-bank",
+  "hoard:v65=R6s-v65-hoard",
+  "hoard:v61=R6s-v61-hoard",
+  "hoard:v58=R6s-v58-hoard",
+  "hoard:proxy=R6s-proxy-hoard",
+  "hunt:v65=R6s-v65-hunt",
+  "hunt:v61=R6s-v61-hunt",
+  "hunt:v58=R6s-v58-hunt",
+  "hunt:proxy=R6s-proxy-hunt",
+  "group:v65=R6s-v65-group",
+  "group:v61=R6s-v61-group",
+  "group:v58=R6s-v58-group",
+  "group:proxy=R6s-proxy-group",
+  "gems:v65=R6s-v65-gems",
+  "gems:v61=R6s-v61-gems",
+  "gems:v58=R6s-v58-gems",
+  "gems:proxy=R6s-proxy-gems",
+  "gold:v65=R6s-v65-gold",
+  "gold:v61=R6s-v61-gold",
+  "gold:v58=R6s-v58-gold",
+  "gold:proxy=R6s-proxy-gold",
+  "mid:v65=R6s-v65-mid",
+  "mid:v61=R6s-v61-mid",
+  "mid:v58=R6s-v58-mid",
+  "mid:proxy=R6s-proxy-mid",
+  "nomid:v65=R6s-v65-nomid",
+  "nomid:v61=R6s-v61-nomid",
+  "nomid:v58=R6s-v58-nomid",
+  "nomid:proxy=R6s-proxy-nomid",
+  "search:v65=R6s-v65-search",
+  "search:v61=R6s-v61-search",
+  "search:v58=R6s-v58-search",
+  "search:proxy=R6s-proxy-search",
+  "ranged:v65=R6s-v65-ranged",
+  "ranged:v61=R6s-v61-ranged",
+  "ranged:v58=R6s-v58-ranged",
+  "ranged:proxy=R6s-proxy-ranged",
+  "hunt2:v65=R6s-v65-hunt2",
+  "hunt2:v61=R6s-v61-hunt2",
+  "hunt2:v58=R6s-v58-hunt2",
+  "hunt2:proxy=R6s-proxy-hunt2",
+  "ranged2:v65=R6s-v65-ranged2",
+  "ranged2:v61=R6s-v61-ranged2",
+  "ranged2:v58=R6s-v58-ranged2",
+  "ranged2:proxy=R6s-proxy-ranged2",
+  "search2:v65=R6s-v65-search2",
+  "search2:v61=R6s-v61-search2",
+  "search2:v58=R6s-v58-search2",
+  "search2:proxy=R6s-proxy-search2",
+  "huntranged:v65=R6s-v65-huntranged",
+  "huntranged:v61=R6s-v61-huntranged",
+  "huntranged:v58=R6s-v58-huntranged",
+  "huntranged:proxy=R6s-proxy-huntranged",
+  "bankhunt:v65=R6s-v65-bankhunt",
+  "bankhunt:v61=R6s-v61-bankhunt",
+  "bankhunt:v58=R6s-v58-bankhunt",
+  "bankhunt:proxy=R6s-proxy-bankhunt",
+  "softcaut:v65=R6s-v65-softcaut",
+  "softcaut:v61=R6s-v61-softcaut",
+  "softcaut:v58=R6s-v58-softcaut",
+  "softcaut:proxy=R6s-proxy-softcaut",
+  "softaggr:v65=R6s-v65-softaggr",
+  "softaggr:v61=R6s-v61-softaggr",
+  "softaggr:v58=R6s-v58-softaggr",
+  "softaggr:proxy=R6s-proxy-softaggr",
+  "decisive:v65=R6s-v65-decisive",
+  "decisive:v61=R6s-v61-decisive",
+  "decisive:v58=R6s-v58-decisive",
+  "decisive:proxy=R6s-proxy-decisive",
+  "patient:v65=R6s-v65-patient",
+  "patient:v61=R6s-v61-patient",
+  "patient:v58=R6s-v58-patient",
+  "patient:proxy=R6s-proxy-patient",
+  "teamfight:v65=R6s-v65-teamfight",
+  "teamfight:v61=R6s-v61-teamfight",
+  "teamfight:v58=R6s-v58-teamfight",
+  "teamfight:proxy=R6s-proxy-teamfight",
+  "spread:v65=R6s-v65-spread",
+  "spread:v61=R6s-v61-spread",
+  "spread:v58=R6s-v58-spread",
+  "spread:proxy=R6s-proxy-spread",
+  "solo:v65=R6s-v65-solo",
+  "solo:v61=R6s-v61-solo",
+  "solo:v58=R6s-v58-solo",
+  "solo:proxy=R6s-proxy-solo",
+  "needplus:v65=R6s-v65-needplus",
+  "needplus:v61=R6s-v61-needplus",
+  "needplus:v58=R6s-v58-needplus",
+  "needplus:proxy=R6s-proxy-needplus",
+  "nohunt:v65=R6s-v65-nohunt",
+  "nohunt:v61=R6s-v61-nohunt",
+  "nohunt:v58=R6s-v58-nohunt",
+  "nohunt:proxy=R6s-proxy-nohunt",
+  "calm:v65=R6s-v65-calm",
+  "calm:v61=R6s-v61-calm",
+  "calm:v58=R6s-v58-calm",
+  "calm:proxy=R6s-proxy-calm",
+  "wait:v65=R6s-v65-wait",
+  "wait:v61=R6s-v61-wait",
+  "wait:v58=R6s-v58-wait",
+  "wait:proxy=R6s-proxy-wait",
+  "nowait:v65=R6s-v65-nowait",
+  "nowait:v61=R6s-v61-nowait",
+  "nowait:v58=R6s-v58-nowait",
+  "nowait:proxy=R6s-proxy-nowait",
+  "shopmore:v65=R6s-v65-shopmore",
+  "shopmore:v61=R6s-v61-shopmore",
+  "shopmore:v58=R6s-v58-shopmore",
+  "shopmore:proxy=R6s-proxy-shopmore",
+  "shopless:v65=R6s-v65-shopless",
+  "shopless:v61=R6s-v61-shopless",
+  "shopless:v58=R6s-v58-shopless",
+  "shopless:proxy=R6s-proxy-shopless"
+ ],
+ "min_gain": 120.0,
+ "max_loss": 250.0,
+ "table": {
+  "00ambush": {
+   "profile": "ranged2",
+   "key": [
+    100,
+    100,
+    5,
+    12,
+    270
+   ],
+   "gain": 161,
+   "per_opponent": {
+    "v65": 251,
+    "v61": 64,
+    "v58": 117,
+    "proxy": 210
+   }
+  },
+  "00anvil": {
+   "profile": "gold",
+   "key": [
+    37,
+    31,
+    3,
+    13,
+    258
+   ],
+   "gain": 167,
+   "per_opponent": {
+    "v65": 106,
+    "v61": 120,
+    "v58": 310,
+    "proxy": 134
+   }
+  },
+  "00contest": {
+   "profile": "group",
+   "key": [
+    50,
+    50,
+    5,
+    14,
+    400
+   ],
+   "gain": 183,
+   "per_opponent": {
+    "v65": 467,
+    "v61": 467,
+    "v58": -67,
+    "proxy": -133
+   }
+  },
+  "00dunes": {
+   "profile": "caut",
+   "key": [
+    79,
+    79,
+    5,
+    11,
+    238
+   ],
+   "gain": 312,
+   "per_opponent": {
+    "v65": 11,
+    "v61": 497,
+    "v58": -56,
+    "proxy": 796
+   }
+  },
+  "00eight": {
+   "profile": "needplus",
+   "key": [
+    41,
+    30,
+    5,
+    8,
+    230
+   ],
+   "gain": 250,
+   "per_opponent": {
+    "v65": 184,
+    "v61": 528,
+    "v58": -24,
+    "proxy": 311
+   }
+  },
+  "00fragment": {
+   "profile": "mid",
+   "key": [
+    30,
+    30,
+    3,
+    6,
+    68
+   ],
+   "gain": 223,
+   "per_opponent": {
+    "v65": -242,
+    "v61": 488,
+    "v58": 518,
+    "proxy": 129
+   }
+  },
+  "00gem-fields": {
+   "profile": "solo",
+   "key": [
+    50,
+    40,
+    5,
+    18,
+    364
+   ],
+   "gain": 185,
+   "per_opponent": {
+    "v65": 207,
+    "v61": 36,
+    "v58": 87,
+    "proxy": 411
+   }
+  },
+  "00gemfight": {
+   "profile": "wait",
+   "key": [
+    30,
+    30,
+    4,
+    19,
+    200
+   ],
+   "gain": 225,
+   "per_opponent": {
+    "v65": 108,
+    "v61": 506,
+    "v58": 108,
+    "proxy": 178
+   }
+  },
+  "00great-wall": {
+   "profile": "group",
+   "key": [
+    50,
+    40,
+    5,
+    17,
+    1404
+   ],
+   "gain": 179,
+   "per_opponent": {
+    "v65": 496,
+    "v61": -107,
+    "v58": -40,
+    "proxy": 366
+   }
+  },
+  "00interlock": {
+   "profile": "softcaut",
+   "key": [
+    40,
+    40,
+    4,
+    14,
+    200
+   ],
+   "gain": 351,
+   "per_opponent": {
+    "v65": 592,
+    "v61": 527,
+    "v58": 231,
+    "proxy": 53
+   }
+  },
+  "00lost-world": {
+   "profile": "huntranged",
+   "key": [
+    35,
+    31,
+    5,
+    34,
+    592
+   ],
+   "gain": 237,
+   "per_opponent": {
+    "v65": 303,
+    "v61": -125,
+    "v58": 245,
+    "proxy": 525
+   }
+  },
+  "00monolith": {
+   "profile": "wait",
+   "key": [
+    50,
+    50,
+    5,
+    20,
+    670
+   ],
+   "gain": 131,
+   "per_opponent": {
+    "v65": 376,
+    "v61": -13,
+    "v58": 163,
+    "proxy": -4
+   }
+  },
+  "00oasis": {
+   "profile": "shopmore",
+   "key": [
+    29,
+    29,
+    4,
+    10,
+    124
+   ],
+   "gain": 311,
+   "per_opponent": {
+    "v65": 324,
+    "v61": 338,
+    "v58": 590,
+    "proxy": -10
+   }
+  },
+  "00packs": {
+   "profile": "ranged2",
+   "key": [
+    31,
+    31,
+    3,
+    8,
+    148
+   ],
+   "gain": 179,
+   "per_opponent": {
+    "v65": 311,
+    "v61": 154,
+    "v58": 238,
+    "proxy": 12
+   }
+  },
+  "00quarry": {
+   "profile": "group",
+   "key": [
+    35,
+    29,
+    4,
+    14,
+    114
+   ],
+   "gain": 231,
+   "per_opponent": {
+    "v65": -56,
+    "v61": 799,
+    "v58": 29,
+    "proxy": 152
+   }
+  },
+  "00reverse-spiral": {
+   "profile": "mid",
+   "key": [
+    30,
+    30,
+    4,
+    14,
+    334
+   ],
+   "gain": 227,
+   "per_opponent": {
+    "v65": 115,
+    "v61": 16,
+    "v58": 200,
+    "proxy": 578
+   }
+  },
+  "00road-of-riches": {
+   "profile": "group",
+   "key": [
+    40,
+    40,
+    5,
+    51,
+    1158
+   ],
+   "gain": 266,
+   "per_opponent": {
+    "v65": 598,
+    "v61": 142,
+    "v58": 138,
+    "proxy": 185
+   }
+  },
+  "00rushbait-v2": {
+   "profile": "shopless",
+   "key": [
+    30,
+    80,
+    4,
+    18,
+    258
+   ],
+   "gain": 280,
+   "per_opponent": {
+    "v65": 26,
+    "v61": 432,
+    "v58": 411,
+    "proxy": 249
+   }
+  },
+  "00stampede": {
+   "profile": "nomid",
+   "key": [
+    60,
+    50,
+    5,
+    13,
+    160
+   ],
+   "gain": 130,
+   "per_opponent": {
+    "v65": -182,
+    "v61": 198,
+    "v58": 162,
+    "proxy": 342
+   }
+  },
+  "00swirl": {
+   "profile": "spread",
+   "key": [
+    45,
+    30,
+    4,
+    22,
+    638
+   ],
+   "gain": 524,
+   "per_opponent": {
+    "v65": 440,
+    "v61": 349,
+    "v58": 626,
+    "proxy": 681
+   }
+  },
+  "01boss-battle": {
+   "profile": "teamfight",
+   "key": [
+    50,
+    41,
+    5,
+    31,
+    1180
+   ],
+   "gain": 326,
+   "per_opponent": {
+    "v65": 172,
+    "v61": 535,
+    "v58": 242,
+    "proxy": 357
+   }
+  },
+  "01concentrated-wealth": {
+   "profile": "ranged2",
+   "key": [
+    61,
+    61,
+    5,
+    11,
+    177
+   ],
+   "gain": 121,
+   "per_opponent": {
+    "v65": 12,
+    "v61": 322,
+    "v58": 84,
+    "proxy": 68
+   }
+  },
+  "01elk-arena": {
+   "profile": "wait",
+   "key": [
+    50,
+    50,
+    5,
+    29,
+    72
+   ],
+   "gain": 184,
+   "per_opponent": {
+    "v65": 551,
+    "v61": -123,
+    "v58": -88,
+    "proxy": 396
+   }
+  },
+  "01shortcut": {
+   "profile": "ranged",
+   "key": [
+    40,
+    40,
+    4,
+    21,
+    990
+   ],
+   "gain": 162,
+   "per_opponent": {
+    "v65": 106,
+    "v61": -24,
+    "v58": 493,
+    "proxy": 73
+   }
+  },
+  "01starfish": {
+   "profile": "softcaut",
+   "key": [
+    50,
+    50,
+    5,
+    16,
+    334
+   ],
+   "gain": 458,
+   "per_opponent": {
+    "v65": 105,
+    "v61": 826,
+    "v58": 918,
+    "proxy": -16
+   }
+  },
+  "01starvation": {
+   "profile": "teamfight",
+   "key": [
+    80,
+    80,
+    5,
+    14,
+    532
+   ],
+   "gain": 350,
+   "per_opponent": {
+    "v65": 198,
+    "v61": 341,
+    "v58": 488,
+    "proxy": 371
+   }
+  },
+  "01the-farm": {
+   "profile": "mid",
+   "key": [
+    50,
+    40,
+    3,
+    28,
+    1096
+   ],
+   "gain": 179,
+   "per_opponent": {
+    "v65": 396,
+    "v61": 326,
+    "v58": -35,
+    "proxy": 27
+   }
+  },
+  "02arena": {
+   "profile": "mid",
+   "key": [
+    30,
+    30,
+    3,
+    14,
+    102
+   ],
+   "gain": 497,
+   "per_opponent": {
+    "v65": 428,
+    "v61": 477,
+    "v58": 570,
+    "proxy": 511
+   }
+  },
+  "02fields": {
+   "profile": "wait",
+   "key": [
+    51,
+    51,
+    5,
+    22,
+    1038
+   ],
+   "gain": 283,
+   "per_opponent": {
+    "v65": 321,
+    "v61": 372,
+    "v58": 194,
+    "proxy": 245
+   }
+  },
+  "02geodes": {
+   "profile": "calm",
+   "key": [
+    89,
+    71,
+    5,
+    14,
+    402
+   ],
+   "gain": 128,
+   "per_opponent": {
+    "v65": 227,
+    "v61": 105,
+    "v58": 5,
+    "proxy": 176
+   }
+  },
+  "02stalactites": {
+   "profile": "gold",
+   "key": [
+    30,
+    30,
+    4,
+    15,
+    452
+   ],
+   "gain": 186,
+   "per_opponent": {
+    "v65": 178,
+    "v61": -124,
+    "v58": 230,
+    "proxy": 458
+   }
+  },
+  "02the-pack": {
+   "profile": "huntranged",
+   "key": [
+    45,
+    45,
+    3,
+    35,
+    388
+   ],
+   "gain": 247,
+   "per_opponent": {
+    "v65": 225,
+    "v61": 231,
+    "v58": 568,
+    "proxy": -37
+   }
+  },
+  "02the-pond": {
+   "profile": "needplus",
+   "key": [
+    30,
+    30,
+    3,
+    20,
+    148
+   ],
+   "gain": 247,
+   "per_opponent": {
+    "v65": 383,
+    "v61": 2,
+    "v58": 360,
+    "proxy": 243
+   }
+  },
+  "adgato-gemcombat2": {
+   "profile": "group",
+   "key": [
+    51,
+    31,
+    4,
+    9,
+    168
+   ],
+   "gain": 380,
+   "per_opponent": {
+    "v65": 687,
+    "v61": 486,
+    "v58": 99,
+    "proxy": 247
+   }
+  },
+  "adgato-gemcombat4": {
+   "profile": "group",
+   "key": [
+    41,
+    61,
+    5,
+    8,
+    252
+   ],
+   "gain": 152,
+   "per_opponent": {
+    "v65": 476,
+    "v61": 341,
+    "v58": -73,
+    "proxy": -136
+   }
+  }
+ }
+}

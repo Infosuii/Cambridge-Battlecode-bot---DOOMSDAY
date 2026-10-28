@@ -2,6 +2,42 @@
 
 ## Authoritative update after the frozen validation
 
+### Active research after that checkpoint (read first)
+
+The user asked to continue beyond the overfitted local score. No source changes to the frozen live portfolio.
+Further completed prototypes, all full240seed1/2 and zero faults:
+- p48-package-complete-lifecycle:20wins,-591.0,fuel164vs105. Complete lifecycle alone did not repair the economy.
+- p49-symmetric-arrival-power:18wins,-615.3,fuel164vs114. Fair two-turn reach estimates increased deaths; not promoted.
+- p50-stable-camp-crews:32wins,-539.2,fuel119vs116. Explicit stable leader jobs and single visible capture owner.
+- p52b-productive-crew-package:29wins,-550.0,fuel106vs166. Damage-first Bruiser/Jungle, close Vesper handoff,
+  concurrent-crew discount and 40round low-progress job check. p52 failed to build due a generator-order omission;
+  fixed the generator and missing header fields, then ran p52b in a fresh folder. Both outputs retained.
+
+`tools/v67/make_package.py --variant ...` now reconstructs separate flat sources from corrected p15. Existing
+version folders must never be overwritten. Versions2responsive,3lifecycle,4symmetric,5crews,6productive,7vision.
+`package_combat.cpp`, `package_power.h`, `package_farm.cpp` hold the coherent experimental components.
+`trace_lifecycle.py` clones a flat prototype and instruments the full lifecycle without modifying benchmark source.
+
+**Confirmed physical stall:** t53/t54 on00quadrants, Vesper repeatedly approaches group1 without firing while
+Heart/Vendetta clear it. AtR25 Vesper has range3, can_move/can_attack, and camps atdistance3 but SDK returns97
+(`api_not_in_vision`). It remains outside the bush and waits/routes for ward coverage. Its remembered groupHP3120
+while Heart sees384atR50 is legal separate vision, not shared team vision. The old full-range attack ring can be
+reached without seeing a target. `vision_patch.py` now tries a ward when ready, then walks into a nearby walkable
+part of the target bush cluster (or adjacent to a hidden open camp), refreshes observations, and preserves the
+entry action instead of returning to the outer attack ring. One-tile occupied bushes retain ward-range staging.
+
+Active full runs at this note:
+- **p55-crew-bush-entry**, source combat-package-v7, workers8, unified-exec session94779.
+- **p56-base-bush-entry**, source artifacts/tmp/v67/base-vision-fix, workers8, session34358. This is the same
+  vision fix applied to the exact b06-life15 flat-source snapshot, to distinguish a physics fix from new-controller
+  assumptions. Acceptance is still only live bots/v67; these are separate diagnostics.
+- t57-visible-entry is a one-map instrumented copy of v7. Read its tool result / result.json when complete.
+
+Audit completed full runs with run.py --run <name> --record-existing; records use their exact build snapshots.
+Use mechanisms.py for R100/250/500/1000 evidence; do not select changes from one replay. Reserved3/4 are consumed
+and their data must not guide tuning. Fresh9/10 have not been used. Latest pushed checkpoint294500b contains the
+frozen220-win candidate and its disclosed failed holdouts; these later prototype changes are not yet committed.
+
 - Current live source: b40-four-seed-policy, **220 strict wins/240**, +508.6, zero faults, fuel345 vs185.
 - Same frozen source on development 5/6: 217 strict (218 outcome) wins, +467.8, zero faults, fuel361 vs119.
 - Untouched 7/8: **137/240**, +91.9; reserved 3/4: **137/240**, +104.3. All zero faults. Strong overfitting persists.

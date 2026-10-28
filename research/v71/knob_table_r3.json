@@ -1,0 +1,190 @@
+{
+ "base": [
+  "v65=S-v65-base",
+  "v61=S-v61-base",
+  "v58=S-v58-base",
+  "proxy=S-proxy-base"
+ ],
+ "options": [
+  "hunt2:v65=S-v65-hunt2",
+  "hunt2:v61=S-v61-hunt2",
+  "hunt2:v58=S-v58-hunt2",
+  "hunt2:proxy=S-proxy-hunt2",
+  "ranged2:v65=S-v65-ranged2",
+  "ranged2:v61=S-v61-ranged2",
+  "ranged2:v58=S-v58-ranged2",
+  "ranged2:proxy=S-proxy-ranged2",
+  "search2:v65=S-v65-search2",
+  "search2:v61=S-v61-search2",
+  "search2:v58=S-v58-search2",
+  "search2:proxy=S-proxy-search2",
+  "huntranged:v65=S-v65-huntranged",
+  "huntranged:v61=S-v61-huntranged",
+  "huntranged:v58=S-v58-huntranged",
+  "huntranged:proxy=S-proxy-huntranged",
+  "bankhunt:v65=S-v65-bankhunt",
+  "bankhunt:v61=S-v61-bankhunt",
+  "bankhunt:v58=S-v58-bankhunt",
+  "bankhunt:proxy=S-proxy-bankhunt",
+  "softcaut:v65=S-v65-softcaut",
+  "softcaut:v61=S-v61-softcaut",
+  "softcaut:v58=S-v58-softcaut",
+  "softcaut:proxy=S-proxy-softcaut",
+  "softaggr:v65=S-v65-softaggr",
+  "softaggr:v61=S-v61-softaggr",
+  "softaggr:v58=S-v58-softaggr",
+  "softaggr:proxy=S-proxy-softaggr",
+  "decisive:v65=S-v65-decisive",
+  "decisive:v61=S-v61-decisive",
+  "decisive:v58=S-v58-decisive",
+  "decisive:proxy=S-proxy-decisive",
+  "patient:v65=S-v65-patient",
+  "patient:v61=S-v61-patient",
+  "patient:v58=S-v58-patient",
+  "patient:proxy=S-proxy-patient",
+  "teamfight:v65=S-v65-teamfight",
+  "teamfight:v61=S-v61-teamfight",
+  "teamfight:v58=S-v58-teamfight",
+  "teamfight:proxy=S-proxy-teamfight"
+ ],
+ "min_gain": 100.0,
+ "max_loss": 250.0,
+ "table": {
+  "00ambush": {
+   "profile": "teamfight",
+   "key": [
+    100,
+    100,
+    5,
+    12,
+    270
+   ],
+   "gain": 130,
+   "per_opponent": {
+    "v65": 357,
+    "v61": 142,
+    "v58": -46,
+    "proxy": 68
+   }
+  },
+  "00galaxy": {
+   "profile": "teamfight",
+   "key": [
+    93,
+    93,
+    5,
+    9,
+    113
+   ],
+   "gain": 206,
+   "per_opponent": {
+    "v65": 314,
+    "v61": 236,
+    "v58": 95,
+    "proxy": 177
+   }
+  },
+  "00great-wall": {
+   "profile": "softcaut",
+   "key": [
+    50,
+    40,
+    5,
+    17,
+    1404
+   ],
+   "gain": 148,
+   "per_opponent": {
+    "v65": 19,
+    "v61": 110,
+    "v58": 116,
+    "proxy": 346
+   }
+  },
+  "00swirl": {
+   "profile": "softcaut",
+   "key": [
+    45,
+    30,
+    4,
+    22,
+    638
+   ],
+   "gain": 187,
+   "per_opponent": {
+    "v65": 742,
+    "v61": 250,
+    "v58": -213,
+    "proxy": -31
+   }
+  },
+  "01shortcut": {
+   "profile": "teamfight",
+   "key": [
+    40,
+    40,
+    4,
+    21,
+    990
+   ],
+   "gain": 119,
+   "per_opponent": {
+    "v65": 81,
+    "v61": 284,
+    "v58": 79,
+    "proxy": 34
+   }
+  },
+  "02uncharted-lands": {
+   "profile": "ranged2",
+   "key": [
+    50,
+    46,
+    5,
+    20,
+    732
+   ],
+   "gain": 111,
+   "per_opponent": {
+    "v65": 11,
+    "v61": 233,
+    "v58": 178,
+    "proxy": 25
+   }
+  },
+  "adgato-gemcombat3": {
+   "profile": "softaggr",
+   "key": [
+    51,
+    51,
+    4,
+    10,
+    308
+   ],
+   "gain": 110,
+   "per_opponent": {
+    "v65": 70,
+    "v61": 147,
+    "v58": 472,
+    "proxy": -250
+   }
+  },
+  "adgato-gemcombat4": {
+   "profile": "softcaut",
+   "key": [
+    41,
+    61,
+    5,
+    8,
+    252
+   ],
+   "gain": 154,
+   "per_opponent": {
+    "v65": 152,
+    "v61": 392,
+    "v58": 95,
+    "proxy": -22
+   }
+  }
+ }
+}

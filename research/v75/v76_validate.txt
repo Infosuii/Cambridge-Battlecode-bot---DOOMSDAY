@@ -1,0 +1,42 @@
+v76 table 52 maps; 12 round-5 entries, 5 combined
+replaced table in C:\projects\cambridge battlecode\work\neural-full-stack\bots\v76\src 52 maps, 64 knob settings
+W-v65-v74: v67: 280 games, 173 wins, 0 draws, margin +152.7, faults 0, fuel-outs 142 (proxy 272)
+W-v65-v76: v67: 280 games, 181 wins, 0 draws, margin +197.2, faults 0, fuel-outs 138 (proxy 265)
+W-v61-v74: v67: 280 games, 180 wins, 0 draws, margin +193.5, faults 0, fuel-outs 138 (proxy 174)
+W-v61-v76: v67: 280 games, 185 wins, 0 draws, margin +235.7, faults 0, fuel-outs 138 (proxy 173)
+W-v58-v74: v67: 280 games, 188 wins, 0 draws, margin +219.9, faults 0, fuel-outs 166 (proxy 218)
+W-v58-v76: v67: 280 games, 192 wins, 0 draws, margin +252.9, faults 0, fuel-outs 166 (proxy 282)
+W-proxy-v74: v67: 280 games, 211 wins, 0 draws, margin +333.0, faults 0, fuel-outs 155 (proxy 185)
+W-proxy-v76: v67: 280 games, 217 wins, 0 draws, margin +360.3, faults 0, fuel-outs 149 (proxy 191)
+W-v65-v76 vs W-v65-v74: 280 distinct paired games over 70 maps
+  wins: candidate 181/280 (64.6%), baseline 173/280 (61.8%), difference +8
+  margin difference per game: +44.5 gems, 95% CI [+10.5, +89.2] (better)
+  deaths per game: 11.4 vs 11.8 (-0.4)
+  gold per game: 6113.7 vs 5996.2 (+117.5)
+  fuel per game: 0.5 vs 0.5 (-0.0)
+  most worse maps: 00collision -39, 00eight -25, 00ambush +0, 00anvil +0, 00breadcrumbs +0
+  most better maps: 00the-line +1063, 01hooks +922, 00corners +364, 02famine +250, 01gold-rush +197
+W-v61-v76 vs W-v61-v74: 280 distinct paired games over 70 maps
+  wins: candidate 185/280 (66.1%), baseline 180/280 (64.3%), difference +5
+  margin difference per game: +42.3 gems, 95% CI [+3.4, +87.1] (better)
+  deaths per game: 10.6 vs 10.7 (-0.1)
+  gold per game: 6022.8 vs 5855.9 (+166.9)
+  fuel per game: 0.5 vs 0.5 (+0.0)
+  most worse maps: 01gold-rush -567, 02famine -85, 00the-line -42, 00ambush +0, 00anvil +0
+  most better maps: 01hooks +899, 00collision +820, 00corners +480, 00reverse-spiral +433, 00quadrants +331
+W-v58-v76 vs W-v58-v74: 280 distinct paired games over 70 maps
+  wins: candidate 192/280 (68.6%), baseline 188/280 (67.1%), difference +4
+  margin difference per game: +33.0 gems, 95% CI [+3.0, +82.1] (better)
+  deaths per game: 11.7 vs 11.6 (+0.0)
+  gold per game: 6297.9 vs 6143.0 (+154.9)
+  fuel per game: 0.6 vs 0.6 (+0.0)
+  most worse maps: 00vault -202, 00corners -28, 00ambush +0, 00anvil +0, 00breadcrumbs +0
+  most better maps: 01hooks +1386, 01concentrated-wealth +271, 00eight +251, 02tangle +206, 00the-line +149
+W-proxy-v76 vs W-proxy-v74: 280 distinct paired games over 70 maps
+  wins: candidate 217/280 (77.5%), baseline 211/280 (75.4%), difference +6
+  margin difference per game: +27.3 gems, 95% CI [-8.6, +71.5] (not distinguishable)
+  deaths per game: 10.6 vs 10.8 (-0.2)
+  gold per game: 6485.5 vs 6422.9 (+62.6)
+  fuel per game: 0.5 vs 0.6 (-0.0)
+  most worse maps: 01concentrated-wealth -462, 00eight -373, 00collision -180, 01hooks -3, 00ambush +0
+  most better maps: 00vault +836, 00reverse-spiral +683, 01gold-rush +544, 02famine +279, 00the-line +277

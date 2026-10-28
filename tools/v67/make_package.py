@@ -9,10 +9,14 @@ import shutil
 
 ROOT=Path(__file__).resolve().parents[2]
 ap=argparse.ArgumentParser(description=__doc__)
-ap.add_argument('--variant', choices=['responsive','lifecycle'], default='lifecycle')
+ap.add_argument('--variant', choices=['responsive','lifecycle','symmetric','crews','productive','vision','entry','cohort'], default='lifecycle')
+ap.add_argument('--legacy-combat',action='store_true',help='Paired cohort control using the established fight executor')
 args=ap.parse_args()
-lifecycle=args.variant=='lifecycle'
-out=ROOT/('artifacts/tmp/v67/combat-package-v3' if lifecycle else 'artifacts/tmp/v67/combat-package-v2')
+lifecycle=args.variant!='responsive'
+assert not args.legacy_combat or args.variant=='cohort'
+version={'responsive':2,'lifecycle':3,'symmetric':4,'crews':5,'productive':6,'vision':7,'entry':8,'cohort':9}[args.variant]
+if args.legacy_combat:version=10
+out=ROOT/f'artifacts/tmp/v67/combat-package-v{version}'
 assert not out.exists()
 src=out/'src';src.mkdir(parents=True)
 source=ROOT/'bots/v67/src/policies/p15'
@@ -44,12 +48,19 @@ if lifecycle:
     p=src/'bot.cpp';s=p.read_bytes().decode();end='\r\n' if '\r\n' in s else '\n'
     start=s.index('    const bool fought ='+end)
     stop=s.index('#if A2_SHIELDLATE',start)
-    s=s[:start]+'    const bool fought = v67_team_combat();'+end+s[stop:]
+    controller='handle_enemies()' if args.legacy_combat else 'v67_team_combat()'
+    s=s[:start]+'    const bool fought = '+controller+';'+end+s[stop:]
     assert s.count('} else if (hunt()) {')==1
     s=s.replace('} else if (hunt()) {','} else if (false) { // all contact decisions belong to v67_team_combat')
     p.write_bytes(s.encode())
 p=src/'bot.h';s=p.read_bytes().decode();e='\r\n' if '\r\n' in s else '\n'
 s=s.replace('    bool v67_team_combat();','    bool v67_team_combat();'+e+'    int v67_capture_owner(const GroupRec& g) const;'+e+'    int v67_buddy_job() const;'+e+'    int contact67_=-1000;')
+if args.variant in ('productive','vision','entry','cohort'):
+    assert s.count('    int contact67_=-1000;')==1
+    s=s.replace('    int contact67_=-1000;','    int contact67_=-1000;'+e+
+        '    int crew_progress_job67_=-1,crew_progress_round67_=0;'+e+'    float crew_progress_hp67_=0;')
+if args.variant=='cohort':
+    s=s.replace('    int contact67_=-1000;','    int contact67_=-1000;'+e+'    float v67_item_investment(int s) const;')
 p.write_bytes(s.encode())
 p=src/'v67_meta.cpp';s=p.read_text(encoding='utf8');s=s.replace('    const auto& team = selected();','''    constexpr bc::champion_draft package[]={bc::champion_draft::vesper_vale,bc::champion_draft::heart_of_ruin,
         bc::champion_draft::vendetta,bc::champion_draft::varg,bc::champion_draft::marcella,bc::champion_draft::ryth};
@@ -76,6 +87,18 @@ p=src/'v67_meta.cpp';s=p.read_text(encoding='utf8');s=s.replace('    const auto&
 }
 #endif
 ''',encoding='utf8',newline='\n')
+if args.variant in ('productive','vision','entry','cohort'):
+    p=src/'v67_build.inc';s=p.read_text(encoding='utf8')
+    s=s.replace('    std::vector<BuildStep> plan;','    const it jungle=focus_user?it::jungle_shard_of_focus:it::jungle_shard_of_strength;\n    std::vector<BuildStep> plan;')
+    s=s.replace('plan.push_back({it::jungle_shard_of_health,5});','plan.push_back({jungle,5});')
+    s=s.replace('''    } else {
+        plan.push_back({jungle,5});
+        plan.push_back({main,5});
+    }''','''    } else {
+        plan.push_back({main,5});
+        plan.push_back({jungle,5});
+    }''')
+    p.write_text(s,encoding='utf8',newline='\n')
 p=src/'v67_team.cpp';s=p.read_text(encoding='utf8')
 a=s.index('bool Bot::v67_team_combat() {');b=s.index('bool Bot::v67_team_home()',a)
 s=s[:a]+s[b:]
@@ -109,10 +132,82 @@ s=s.replace('''        if (!v67_team_home() && !v67_team_bank()) {
             farm(); opportunistic_attack();
         }''')
 p.write_text(s,encoding='utf8',newline='\n')
+if args.variant in ('crews','productive','vision','entry','cohort'):
+    p=src/'v67_team.cpp';s=p.read_text(encoding='utf8')
+    start=s.index('bool Bot::v67_team_farm() {');stop=s.index('void Bot::v67_team_turn()',start)
+    s=s[:start]+s[stop:];p.write_text(s,encoding='utf8',newline='\n')
+    p=src/'bot.cpp';s=p.read_bytes().decode()
+    assert s.count('if (!farm()) mode = "nofarm";')==1
+    s=s.replace('if (!farm()) mode = "nofarm";','if (!v67_team_farm()) mode = "nofarm";')
+    p.write_bytes(s.encode())
+    farm=(ROOT/'tools/v67/package_farm.cpp').read_text(encoding='utf8')
+    if args.variant in ('productive','vision','entry','cohort'):
+        farm=farm.replace('''            if(!a.alive||!a.exact||!bit(g.tiles,a.pos))continue;''','''            if(!a.alive||!a.exact)continue;
+            bool ready=bit(g.tiles,a.pos);
+            if(slot_type[s]==ct::vesper_vale&&a.job==gi&&a.hp>=a.max_hp*0.4f&&w.enemies.empty())
+                for(int ci:g.camps)ready|=cheb(a.pos,w.camps[ci].pos)<=2;
+            if(!ready)continue;''')
+        farm=farm.replace('''    int job=-1;''','''    if(valid(target_group)) {
+        const auto& g=w.groups[target_group];const float remaining=g.hp_left(w.camps);
+        if(crew_progress_job67_!=target_group||g.state!=GroupState::alive||distance_to(target_group,pos)>8) {
+            crew_progress_job67_=target_group;crew_progress_hp67_=remaining;crew_progress_round67_=round;
+        } else if(round-crew_progress_round67_>=40) {
+            if(crew_progress_hp67_-remaining<std::max(100.0f,g.max_hp*0.1f))avoid_until[target_group]=round+30;
+            crew_progress_hp67_=remaining;crew_progress_round67_=round;
+        }
+    }
+    int job=-1;''',1)
+        farm=farm.replace('''            value/=1+loss/std::max(1.0f,pool)*0.5f;''','''            bool other_crew=false;
+            for(int s=0;s<std::min(team_size,6);++s) {
+                const auto& a=team67_[s];
+                other_crew|=a.alive&&crew(s)!=mine&&a.job==gi&&round-a.job_seen<=4;
+            }
+            if(other_crew)value*=0.6f;
+            value/=1+loss/std::max(1.0f,pool)*0.5f;''')
+    if args.variant=='cohort':
+        farm=farm.replace('if(team_size<=3)return 0;','if(team_size<=3||round<150)return 0;')
+        farm=farm.replace('''        int owner=-1;
+        for(int s=0;s<std::min(team_size,6);++s) {''','''        int owner=-1;float investment=1e30f;
+        const int preferred=v67_capture_owner(g);
+        for(int s=0;s<std::min(team_size,6);++s) {''',1)
+        farm=farm.replace('if(slot_type[s]==ct::vesper_vale&&a.job==gi&&a.hp>=a.max_hp*0.4f&&w.enemies.empty())',
+            'if(s==preferred&&a.job==gi&&a.hp>=a.max_hp*0.4f&&w.enemies.empty())')
+        farm=farm.replace('''            if(owner<0||slot_type[s]==ct::vesper_vale)owner=s;''','''            if(s==preferred)return s;
+            const float amount=v67_item_investment(s);
+            if(amount<investment)owner=s,investment=amount;''')
+        farm=farm.replace('''    auto& g=w.groups[job];''','''    auto& g=w.groups[job];
+    if(g.state==GroupState::alive&&type==ct::heart_of_ruin) {
+        for(int ci:g.camps)if(!w.camps[ci].dead&&bit(w.visible,w.camps[ci].pos)&&cheb(pos,w.camps[ci].pos)<=3)
+            if(cast_camp_strike(ci)) {w.update(round);break;}
+    }''',1)
+    (src/'package_farm.cpp').write_text(farm,encoding='utf8',newline='\n')
 package=(ROOT/'tools/v67/package_combat.cpp').read_text(encoding='utf8')
+if args.variant=='symmetric':
+    helper=(ROOT/'tools/v67/package_power.h').read_text(encoding='utf8')
+    package=package.replace('#include "team_memory.h"','#include "team_memory.h"\n'+helper,1)
+    package=package.replace('float our_hp=hp,our_dps=my_dps(nullptr),their_hp=0,their_dps=0,immediate=0;',
+        'const float self_weight=contact_weight67(distance,range,ready_gap67(my_id,type));\n'
+        '    float our_hp=hp*self_weight,our_dps=my_dps(nullptr)*self_weight,their_hp=0,their_dps=0,immediate=0;')
+    package=package.replace('const int eta=std::max(0,cheb(a.pos,target->pos)-a.range);',
+        'const int eta=std::max(0,cheb(a.pos,target->pos)-a.range-ready_gap67(a.id,a.type));')
+    package=package.replace('''        their_hp+=e.hp;their_dps+=e.strength+kit.nuke*(kit.two_spells?0.25f:0.125f);++foes;''',
+        '''        const int eta=std::max(0,d-e.range-ready_gap67(e.id,e.type));
+        const float weight=contact_weight67(d,e.range,ready_gap67(e.id,e.type));
+        their_hp+=e.hp*weight;
+        their_dps+=(e.strength+kit.nuke*(kit.two_spells?0.25f:0.125f))*weight;
+        foes+=eta<=1;''')
 a=package.index('int Bot::v67_capture_owner');b=package.index('int Bot::v67_buddy_job',a)
 capture=package[a:b]
+if args.variant=='cohort':
+    capture+='''float Bot::v67_item_investment(int s) const {
+    const auto& a=team67_[s];
+    return items_of(slot_type[s],a.max_hp,a.strength,a.focus);
+}
+'''
 p=src/'bot.cpp';original=p.read_bytes().decode();end='\r\n' if '\r\n' in original else '\n'
 p.write_bytes((original+end+capture.replace('\n',end)).encode())
 (src/'package_combat.cpp').write_text(package[:a]+package[b:],encoding='utf8',newline='\n')
+if args.variant in ('vision','entry','cohort'):
+    from vision_patch import patch_folder
+    patch_folder(src,persistent=args.variant!='vision')
 print('prepared',out)

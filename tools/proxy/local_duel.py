@@ -19,10 +19,13 @@ import argparse
 import concurrent.futures as cf
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
 import sys
+import threading
+import time
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,19 +74,22 @@ def build(bot_dir, seed, work, label, defines=None):
     shutil.copytree(src, tmp / 'src', ignore=shutil.ignore_patterns('.cambc', 'compile_commands.json'),
                     copy_function=shutil.copyfile)  # sources may be read-only; the copy must not be
     common = tmp / 'src/common.h'
-    text = common.read_bytes().decode('utf-8')  # bytes: the file keeps its own line ends
-    lines = text.splitlines(keepends=True)
+    # Independent public bots need not implement our NOVA seed/feature protocol.
+    # Compile their source unchanged; the manifest still records actual Wasm hashes.
+    lines = common.read_bytes().decode('utf-8').splitlines(keepends=True) if common.exists() else []
     hits = [i for i, l in enumerate(lines) if l.rstrip('\r\n') == '#define NOVA_SEED 1']
-    if len(hits) != 1:
+    if common.exists() and len(hits) != 1:
         raise SystemExit(f'{bot_dir}: expected one "#define NOVA_SEED 1" line')
-    lines[hits[0]] = lines[hits[0]].replace('NOVA_SEED 1', f'NOVA_SEED {seed}')
+    if hits:
+        lines[hits[0]] = lines[hits[0]].replace('NOVA_SEED 1', f'NOVA_SEED {seed}')
     for name, value in (defines or {}).items():
         at = [i for i, l in enumerate(lines) if re.match(rf'#define {name}\b', l)]
         if len(at) != 1:
             raise SystemExit(f'{bot_dir}: expected one "#define {name}" line')
         end = '\r\n' if lines[at[0]].endswith('\r\n') else '\n'
         lines[at[0]] = f'#define {name} {value}{end}'
-    common.write_bytes(''.join(lines).encode('utf-8'))
+    if common.exists():
+        common.write_bytes(''.join(lines).encode('utf-8'))
     h = hashlib.sha256((ROOT / 'tools/vendor/cambc.exe').read_bytes())
     for p in sorted((tmp / 'src').rglob('*')):
         if p.is_file():
@@ -93,10 +99,24 @@ def build(bot_dir, seed, work, label, defines=None):
     if not cached.is_file():
         CACHE.mkdir(parents=True, exist_ok=True)
         out = engine.official_build(tmp, work / f'{key}.wasm')
-        shutil.copyfile(out, cached.with_suffix('.tmp'))
-        cached.with_suffix('.tmp').replace(cached)
+        staging = cached.with_suffix(f'.{os.getpid()}.{threading.get_ident()}.tmp')
+        shutil.copyfile(out, staging)
+        try:
+            staging.replace(cached)
+        except PermissionError:
+            # A parallel run cached the same tree first (identical bytes): keep theirs.
+            if not cached.is_file():
+                raise
+            staging.unlink(missing_ok=True)
     local = work / f'{label}-s{seed}.wasm'  # the seeded tree also stays under <out>/build
-    shutil.copyfile(cached, local)
+    for attempt in range(20):  # a parallel run may be replacing the cached file at this moment (Windows locks it)
+        try:
+            shutil.copyfile(cached, local)
+            break
+        except PermissionError:
+            if attempt == 19:
+                raise
+            time.sleep(0.5)
     return local
 
 
@@ -111,6 +131,9 @@ def main():
     ap.add_argument('--proxy-define', action='append', default=[], metavar='NAME=VALUE',
                     help='override a proxy common.h switch (repeatable; included in the build cache key)')
     ap.add_argument('--seeds', type=int, nargs='+', default=[1])
+    ap.add_argument('--bot-seed', type=int, default=None,
+                    help='build our bot once with this NOVA_SEED (the shipped value is 1) and vary only the opponent '
+                         'with --seeds; default: our bot takes each seed too')
     ap.add_argument('--workers', type=int, default=12)
     ap.add_argument('--replays', action='store_true')
     ap.add_argument('--out', required=True)
@@ -138,8 +161,9 @@ def main():
     wasm = {}
     with cf.ThreadPoolExecutor(max_workers=6) as ex:
         futs = {}
-        for s in a.seeds:
+        for s in ([a.bot_seed] if a.bot_seed is not None else a.seeds):
             futs[ex.submit(build, a.bot, s, work, 'bot')] = ('bot', s)
+        for s in a.seeds:
             for i, key in enumerate(sorted(set(opp_key.values()), key=str)):
                 defines = dict(proxy_defines)
                 if key[1] is not None:
@@ -151,7 +175,7 @@ def main():
     for s in a.seeds:
         for gi, g in enumerate(plan['groups']):
             for k, (m, side) in enumerate(zip(g['maps'], g['sides'])):
-                ours, theirs = wasm[('bot', s)], wasm[(opp_key[g['opponent']], s)]
+                ours, theirs = wasm[('bot', a.bot_seed if a.bot_seed is not None else s)], wasm[(opp_key[g['opponent']], s)]
                 team_k = None if opp_key[g['opponent']][1] is None else opp_key[g['opponent']][1][1]
                 jobs.append(dict(seed=s, group=gi, slot=k + 1, map=m, side=side, opponent=g['opponent'],
                                  proxy=opp_dir[g['opponent']].name + ('' if team_k is None else f'#{team_k}'),
@@ -175,7 +199,7 @@ def main():
                 print('games', len(rows), '/', len(jobs), flush=True)
     rows.sort(key=lambda r: (r['seed'], r['group'], r['slot']))
     meta = dict(plan=a.plan, bot=a.bot, name=a.name, proxy=a.proxy, per_team=a.per_team, proxy_map=opp_of,
-                proxy_defines=proxy_defines, seeds=a.seeds)
+                proxy_defines=proxy_defines, seeds=a.seeds, bot_seed=a.bot_seed)
     (out / 'games.json').write_text(json.dumps(dict(meta, games=rows), indent=1) + '\n', encoding='utf8', newline='\n')
     if a.replays:
         rdir = out / 'replays'

@@ -1,0 +1,254 @@
+{
+ "base": [
+  "v65=R5-v65-base,R5b-v65-base",
+  "v61=R5-v61-base,R5b-v61-base",
+  "v58=R5-v58-base,R5b-v58-base",
+  "proxy=R5-proxy-base,R5b-proxy-base"
+ ],
+ "options": [
+  "spread:v65=R5-v65-spread,R5b-v65-spread",
+  "spread:v61=R5-v61-spread,R5b-v61-spread",
+  "spread:v58=R5-v58-spread,R5b-v58-spread",
+  "spread:proxy=R5-proxy-spread,R5b-proxy-spread",
+  "solo:v65=R5-v65-solo,R5b-v65-solo",
+  "solo:v61=R5-v61-solo,R5b-v61-solo",
+  "solo:v58=R5-v58-solo,R5b-v58-solo",
+  "solo:proxy=R5-proxy-solo,R5b-proxy-solo",
+  "needplus:v65=R5-v65-needplus,R5b-v65-needplus",
+  "needplus:v61=R5-v61-needplus,R5b-v61-needplus",
+  "needplus:v58=R5-v58-needplus,R5b-v58-needplus",
+  "needplus:proxy=R5-proxy-needplus,R5b-proxy-needplus",
+  "nohunt:v65=R5-v65-nohunt,R5b-v65-nohunt",
+  "nohunt:v61=R5-v61-nohunt,R5b-v61-nohunt",
+  "nohunt:v58=R5-v58-nohunt,R5b-v58-nohunt",
+  "nohunt:proxy=R5-proxy-nohunt,R5b-proxy-nohunt",
+  "calm:v65=R5-v65-calm,R5b-v65-calm",
+  "calm:v61=R5-v61-calm,R5b-v61-calm",
+  "calm:v58=R5-v58-calm,R5b-v58-calm",
+  "calm:proxy=R5-proxy-calm,R5b-proxy-calm",
+  "wait:v65=R5-v65-wait,R5b-v65-wait",
+  "wait:v61=R5-v61-wait,R5b-v61-wait",
+  "wait:v58=R5-v58-wait,R5b-v58-wait",
+  "wait:proxy=R5-proxy-wait,R5b-proxy-wait",
+  "nowait:v65=R5-v65-nowait,R5b-v65-nowait",
+  "nowait:v61=R5-v61-nowait,R5b-v61-nowait",
+  "nowait:v58=R5-v58-nowait,R5b-v58-nowait",
+  "nowait:proxy=R5-proxy-nowait,R5b-proxy-nowait",
+  "shopmore:v65=R5-v65-shopmore,R5b-v65-shopmore",
+  "shopmore:v61=R5-v61-shopmore,R5b-v61-shopmore",
+  "shopmore:v58=R5-v58-shopmore,R5b-v58-shopmore",
+  "shopmore:proxy=R5-proxy-shopmore,R5b-proxy-shopmore",
+  "shopless:v65=R5-v65-shopless,R5b-v65-shopless",
+  "shopless:v61=R5-v61-shopless,R5b-v61-shopless",
+  "shopless:v58=R5-v58-shopless,R5b-v58-shopless",
+  "shopless:proxy=R5-proxy-shopless,R5b-proxy-shopless"
+ ],
+ "min_gain": 100.0,
+ "max_loss": 250.0,
+ "table": {
+  "00collision": {
+   "profile": "shopmore",
+   "key": [
+    41,
+    41,
+    3,
+    20,
+    280
+   ],
+   "gain": 107,
+   "per_opponent": {
+    "v65": 146,
+    "v61": 502,
+    "v58": -152,
+    "proxy": -67
+   }
+  },
+  "00corners": {
+   "profile": "solo",
+   "key": [
+    71,
+    71,
+    5,
+    30,
+    396
+   ],
+   "gain": 175,
+   "per_opponent": {
+    "v65": 580,
+    "v61": 145,
+    "v58": -86,
+    "proxy": 62
+   }
+  },
+  "00eight": {
+   "profile": "shopmore",
+   "key": [
+    41,
+    30,
+    5,
+    8,
+    230
+   ],
+   "gain": 184,
+   "per_opponent": {
+    "v65": -7,
+    "v61": 272,
+    "v58": 494,
+    "proxy": -21
+   }
+  },
+  "00quadrants": {
+   "profile": "solo",
+   "key": [
+    45,
+    45,
+    5,
+    21,
+    763
+   ],
+   "gain": 233,
+   "per_opponent": {
+    "v65": 410,
+    "v61": 344,
+    "v58": 259,
+    "proxy": -82
+   }
+  },
+  "00reverse-spiral": {
+   "profile": "spread",
+   "key": [
+    30,
+    30,
+    4,
+    14,
+    334
+   ],
+   "gain": 123,
+   "per_opponent": {
+    "v65": 458,
+    "v61": 160,
+    "v58": -119,
+    "proxy": -7
+   }
+  },
+  "00the-line": {
+   "profile": "wait",
+   "key": [
+    33,
+    33,
+    4,
+    9,
+    193
+   ],
+   "gain": 378,
+   "per_opponent": {
+    "v65": 967,
+    "v61": -148,
+    "v58": 164,
+    "proxy": 528
+   }
+  },
+  "00vault": {
+   "profile": "wait",
+   "key": [
+    31,
+    31,
+    4,
+    7,
+    359
+   ],
+   "gain": 156,
+   "per_opponent": {
+    "v65": 1,
+    "v61": -32,
+    "v58": -181,
+    "proxy": 836
+   }
+  },
+  "01concentrated-wealth": {
+   "profile": "spread",
+   "key": [
+    61,
+    61,
+    5,
+    11,
+    177
+   ],
+   "gain": 104,
+   "per_opponent": {
+    "v65": 285,
+    "v61": 263,
+    "v58": -79,
+    "proxy": -54
+   }
+  },
+  "01gold-rush": {
+   "profile": "calm",
+   "key": [
+    31,
+    31,
+    3,
+    15,
+    266
+   ],
+   "gain": 238,
+   "per_opponent": {
+    "v65": 153,
+    "v61": 423,
+    "v58": 176,
+    "proxy": 200
+   }
+  },
+  "01hooks": {
+   "profile": "solo",
+   "key": [
+    31,
+    31,
+    4,
+    12,
+    88
+   ],
+   "gain": 240,
+   "per_opponent": {
+    "v65": 274,
+    "v61": 7,
+    "v58": 680,
+    "proxy": 0
+   }
+  },
+  "02famine": {
+   "profile": "wait",
+   "key": [
+    91,
+    75,
+    5,
+    11,
+    380
+   ],
+   "gain": 101,
+   "per_opponent": {
+    "v65": 201,
+    "v61": -21,
+    "v58": 87,
+    "proxy": 138
+   }
+  },
+  "02tangle": {
+   "profile": "nowait",
+   "key": [
+    100,
+    80,
+    5,
+    33,
+    600
+   ],
+   "gain": 106,
+   "per_opponent": {
+    "v65": 31,
+    "v61": 252,
+    "v58": 176,
+    "proxy": -35
+   }
+  }
+ }
+}

@@ -1,0 +1,339 @@
+
+RUN HOME84D-trace2
+SIDE a win True fuel 106
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [44, {"rewardAvailable": true, "captureTeam": 0}], [53, {"rewardAvailable": false, "captureTeam": 2}], [124, {"rewardAvailable": true, "captureTeam": 2}], [190, {"rewardAvailable": false, "captureTeam": 2}], [303, {"rewardAvailable": true, "captureTeam": 1}], [312, {"rewardAvailable": false, "captureTeam": 2}], [421, {"rewardAvailable": true, "captureTeam": 0}], [425, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [43, {"rewardAvailable": true, "captureTeam": 0}], [173, {"rewardAvailable": false, "captureTeam": 2}], [266, {"rewardAvailable": true, "captureTeam": 1}], [314, {"rewardAvailable": false, "captureTeam": 2}], [409, {"rewardAvailable": true, "captureTeam": 1}]]
+GOLD 100 700.0
+GOLD 200 1520.0
+GOLD 300 2075.0
+GOLD 500 4725.0
+decisions first100:
+HO R10 s0 t3 p9,21 mode=approach job0 gold0 hp600
+HO R10 s1 t4 p11,16 mode=approach job0 gold0 hp900
+HO R10 s2 t2 p10,20 mode=approach job0 gold0 hp1000
+HO R10 s3 t9 p11,19 mode=approach job0 gold0 hp900
+HO R10 s4 t12 p12,18 mode=approach job0 gold0 hp1000
+HO R10 s5 t10 p12,17 mode=approach job0 gold0 hp1000
+HG R10 g0 gold600 gems0 harmless1 st0 hp2760/3600 cap0 d16372 seen10 margin999
+HG R10 g1 gold600 gems0 harmless1 st0 hp3360/3600 cap0 d16372 seen10 margin999
+HO R20 s3 t9 p20,17 mode=fight job0 gold0 hp900
+HO R20 s5 t10 p19,17 mode=approach job0 gold0 hp1000
+HO R20 s1 t4 p21,17 mode=approach job0 gold0 hp900
+HO R20 s4 t12 p23,18 mode=approach job0 gold0 hp1000
+HO R20 s2 t2 p15,16 mode=approach job1 gold0 hp1000
+HO R20 s0 t3 p16,20 mode=approach job0 gold0 hp600
+HG R20 g0 gold600 gems0 harmless1 st0 hp1920/3600 cap0 d0 seen20 margin999
+HG R20 g1 gold600 gems0 harmless1 st0 hp3240/3600 cap0 d0 seen20 margin999
+HO R30 s5 t10 p16,18 mode=flee job1 gold0 hp740
+HO R30 s2 t2 p8,18 mode=flee job1 gold0 hp98
+HO R30 s4 t12 p19,9 mode=flee job1 gold0 hp805
+HO R30 s1 t4 p27,18 mode=fight job0 gold0 hp900
+HO R30 s3 t9 p26,19 mode=approach job0 gold0 hp900
+HO R30 s0 t3 p18,18 mode=ambush job0 gold0 hp600
+HG R30 g0 gold600 gems0 harmless1 st0 hp960/3600 cap0 d7372 seen30 margin999
+HG R30 g1 gold600 gems0 harmless1 st0 hp1940/3600 cap0 d7372 seen30 margin999
+HO R40 s4 t12 p13,8 mode=home-escape job1 gold100 hp90
+HO R40 s2 t2 p11,12 mode=approach job1 gold0 hp820
+HO R40 s3 t9 p32,18 mode=fight job0 gold0 hp900
+HO R40 s5 t10 p20,19 mode=approach job0 gold0 hp740
+HO R43 s2 t2 p13,12 mode=capture job1 gold0 hp460
+HO R44 s2 t2 p12,9 mode=home-escape job1 gold0 hp340
+HO R44 s3 t9 p33,17 mode=capture-stand job0 gold0 hp900
+HO R45 s3 t9 p33,17 mode=capture-stand job0 gold0 hp900
+HO R45 s2 t2 p11,8 mode=home job1 gold0 hp340
+HO R46 s3 t9 p33,17 mode=capture-stand job0 gold0 hp900
+HO R46 s4 t12 p2,13 mode=home job1 gold10 hp90
+HO R46 s2 t2 p10,9 mode=home job1 gold0 hp340
+HO R47 s3 t9 p33,17 mode=capture-stand job0 gold0 hp900
+HO R47 s2 t2 p9,9 mode=home job1 gold0 hp340
+HO R47 s4 t12 p5,12 mode=to-capture job1 gold10 hp1300
+HO R48 s3 t9 p33,17 mode=capture-stand job0 gold0 hp720
+HO R48 s5 t10 p28,19 mode=to-capture job1 gold0 hp740
+HO R48 s2 t2 p8,10 mode=home job1 gold0 hp340
+HO R48 s4 t12 p6,13 mode=to-capture job0 gold10 hp1300
+HO R49 s3 t9 p33,17 mode=capture-stand job0 gold0 hp690
+HO R49 s5 t10 p29,18 mode=to-capture job1 gold0 hp740
+HO R49 s2 t2 p7,11 mode=home job1 gold0 hp340
+HO R49 s4 t12 p7,14 mode=to-capture job0 gold10 hp1300
+HO R50 s3 t9 p33,17 mode=capture-stand job0 gold0 hp660
+HO R50 s5 t10 p30,17 mode=to-capture job1 gold0 hp740
+HO R50 s2 t2 p6,12 mode=home job1 gold0 hp340
+HO R50 s4 t12 p6,15 mode=to-capture job0 gold10 hp1300
+HO R51 s3 t9 p33,17 mode=capture-stand job0 gold0 hp629
+HO R51 s5 t10 p31,16 mode=to-capture job1 gold0 hp740
+HO R51 s2 t2 p7,13 mode=to-capture job0 gold0 hp340
+HO R51 s4 t12 p7,16 mode=to-capture job0 gold10 hp1300
+HO R52 s3 t9 p33,17 mode=capture-stand job0 gold0 hp629
+HO R52 s5 t10 p30,17 mode=flee job1 gold0 hp740
+HO R52 s2 t2 p6,12 mode=home job0 gold0 hp340
+HO R52 s4 t12 p8,17 mode=to-capture job0 gold10 hp1300
+HO R53 s5 t10 p29,16 mode=home job1 gold200 hp740
+HO R54 s5 t10 p28,17 mode=flee job1 gold200 hp740
+HO R54 s2 t2 p6,12 mode=to-capture job1 gold0 hp1000
+HO R55 s5 t10 p27,18 mode=flee job1 gold200 hp740
+HO R55 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R56 s5 t10 p28,19 mode=home-escape job1 gold200 hp740
+HO R56 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R57 s5 t10 p27,20 mode=home job1 gold200 hp740
+HO R57 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R58 s5 t10 p27,20 mode=home job1 gold200 hp740
+HO R58 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R59 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R60 s3 t9 p23,17 mode=home job0 gold200 hp599
+HO R60 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R60 s4 t12 p7,16 mode=wait-respawn job0 gold0 hp1500
+HO R61 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R62 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R63 s5 t10 p2,13 mode=home job1 gold20 hp740
+HO R63 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R64 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R65 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R66 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R67 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R68 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R69 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R70 s3 t9 p2,13 mode=home job0 gold20 hp599
+HO R70 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R70 s4 t12 p7,16 mode=wait-respawn job0 gold0 hp1444
+HO R70 s5 t10 p8,15 mode=approach job2 gold0 hp1500
+HO R71 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R72 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R73 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R74 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R75 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R76 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R77 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R78 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R79 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R80 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R80 s3 t9 p4,16 mode=wait-respawn job0 gold0 hp1400
+HO R80 s4 t12 p7,16 mode=wait-respawn job0 gold0 hp1444
+HO R80 s5 t10 p8,15 mode=fight job2 gold0 hp1260
+HO R81 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R82 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R83 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R84 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R85 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R86 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R87 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R88 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R89 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R90 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R90 s3 t9 p8,16 mode=fight job2 gold0 hp1320
+HO R90 s4 t12 p7,16 mode=wait-respawn job0 gold0 hp1444
+HO R90 s5 t10 p9,16 mode=wait-respawn job0 gold0 hp1140
+HO R91 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R92 s2 t2 p6,12 mode=capture job1 gold0 hp1000
+HO R93 s2 t2 p6,12 mode=nofarm job1 gold0 hp1000
+HO R94 s2 t2 p7,13 mode=to-capture job2 gold0 hp1000
+HO R94 s5 t10 p10,15 mode=to-capture job1 gold0 hp1140
+HO R95 s2 t2 p8,14 mode=to-capture job2 gold0 hp1000
+HO R95 s3 t9 p10,13 mode=to-capture job1 gold0 hp1240
+HO R95 s5 t10 p11,14 mode=to-capture job1 gold0 hp1140
+HO R96 s2 t2 p8,14 mode=capture job2 gold0 hp1000
+HO R96 s3 t9 p11,12 mode=to-capture job1 gold0 hp1240
+HO R97 s2 t2 p8,14 mode=capture job2 gold0 hp1000
+HO R97 s3 t9 p11,12 mode=capture job1 gold0 hp1240
+HO R98 s1 t4 p5,12 mode=to-capture job1 gold0 hp900
+HO R98 s2 t2 p8,14 mode=capture job2 gold0 hp1000
+HO R98 s0 t3 p3,14 mode=to-capture job1 gold0 hp600
+HG R98 g0 gold600 gems0 harmless1 st2 hp3600/3600 cap0 d3 seen98 margin999
+HG R98 g1 gold600 gems0 harmless1 st1 hp0/3600 cap0 d2 seen98 margin999
+HO R99 s2 t2 p8,14 mode=capture job2 gold0 hp1000
+HO R100 s1 t4 p5,12 mode=capture job1 gold0 hp900
+HO R100 s2 t2 p8,14 mode=capture job2 gold0 hp1000
+HO R100 s3 t9 p12,15 mode=wait-respawn job0 gold0 hp1240
+HO R100 s4 t12 p7,16 mode=wait-respawn job0 gold0 hp1444
+HO R100 s5 t10 p13,16 mode=wait-respawn job0 gold0 hp1140
+SIDE b win False fuel 75
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [40, {"rewardAvailable": true, "captureTeam": 2}], [296, {"rewardAvailable": false, "captureTeam": 2}], [372, {"rewardAvailable": true, "captureTeam": 2}], [402, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [61, {"rewardAvailable": true, "captureTeam": 2}], [67, {"rewardAvailable": false, "captureTeam": 2}], [159, {"rewardAvailable": true, "captureTeam": 2}], [191, {"rewardAvailable": false, "captureTeam": 2}], [266, {"rewardAvailable": true, "captureTeam": 1}], [328, {"rewardAvailable": false, "captureTeam": 2}]]
+GOLD 100 0.0
+GOLD 200 0.0
+GOLD 300 0.0
+GOLD 500 360.0
+decisions first100:
+HO R10 s0 t3 p30,9 mode=approach job1 gold0 hp600
+HO R10 s1 t4 p30,12 mode=approach job1 gold0 hp900
+HO R10 s2 t2 p27,12 mode=approach job1 gold0 hp1000
+HO R10 s3 t9 p26,12 mode=approach job1 gold0 hp900
+HO R10 s4 t12 p27,11 mode=approach job1 gold0 hp1000
+HO R10 s5 t10 p27,13 mode=approach job1 gold0 hp1000
+HG R10 g0 gold600 gems0 harmless1 st0 hp3600/3600 cap0 d27747 seen10 margin999
+HG R10 g1 gold600 gems0 harmless1 st0 hp2760/3600 cap0 d27747 seen10 margin999
+HO R20 s3 t9 p20,12 mode=flee job1 gold0 hp500
+HO R20 s4 t12 p18,13 mode=fight-champ job1 gold0 hp900
+HO R20 s2 t2 p19,11 mode=approach job1 gold0 hp1000
+HO R20 s5 t10 p21,10 mode=approach job1 gold0 hp880
+HO R20 s1 t4 p20,9 mode=approach job1 gold0 hp900
+HO R20 s0 t3 p24,9 mode=approach job1 gold0 hp600
+HG R20 g0 gold600 gems0 harmless1 st0 hp3600/3600 cap0 d25185 seen20 margin999
+HG R20 g1 gold600 gems0 harmless1 st0 hp1920/3600 cap0 d25185 seen20 margin999
+HO R30 s3 t9 p37,16 mode=home job1 gold0 hp320
+HO R30 s1 t4 p18,11 mode=flee job1 gold0 hp500
+HO R30 s2 t2 p25,13 mode=approach job0 gold0 hp600
+HO R30 s5 t10 p22,13 mode=approach job0 gold0 hp800
+HO R30 s0 t3 p19,9 mode=approach job1 gold0 hp580
+HG R30 g0 gold600 gems0 harmless1 st0 hp2363/3600 cap0 d24375 seen30 margin999
+HG R30 g1 gold600 gems0 harmless1 st0 hp1320/3600 cap0 d24375 seen30 margin999
+HO R39 s5 t10 p29,18 mode=to-capture job0 gold0 hp410
+HO R39 s3 t9 p30,17 mode=capture job0 gold0 hp900
+HO R40 s5 t10 p28,17 mode=approach job1 gold0 hp410
+HO R40 s2 t2 p27,17 mode=approach job1 gold0 hp580
+HO R40 s3 t9 p29,16 mode=approach job1 gold0 hp900
+HO R40 s4 t12 p30,16 mode=approach job1 gold0 hp1000
+HO R46 s3 t9 p24,14 mode=to-capture job0 gold0 hp720
+HO R47 s3 t9 p25,15 mode=to-capture job0 gold0 hp600
+HO R48 s3 t9 p26,16 mode=to-capture job0 gold0 hp480
+HO R49 s3 t9 p27,17 mode=to-capture job0 gold0 hp360
+HO R50 s2 t2 p15,11 mode=approach job1 gold0 hp400
+HO R50 s3 t9 p27,17 mode=capture job0 gold0 hp240
+HO R50 s4 t12 p16,12 mode=approach job1 gold0 hp940
+HO R50 s5 t10 p32,18 mode=home job1 gold0 hp350
+HO R51 s3 t9 p27,17 mode=capture job0 gold0 hp120
+HO R51 s4 t12 p15,13 mode=to-capture job0 gold0 hp940
+HO R52 s4 t12 p14,14 mode=to-capture job0 gold0 hp940
+HO R53 s4 t12 p15,15 mode=to-capture job0 gold0 hp940
+HO R53 s5 t10 p33,17 mode=to-capture job0 gold0 hp1000
+HO R54 s4 t12 p16,16 mode=to-capture job0 gold0 hp940
+HO R54 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R55 s4 t12 p17,17 mode=to-capture job0 gold0 hp940
+HO R55 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R56 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R56 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R57 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R57 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R58 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R58 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R59 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R59 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R60 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R60 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R61 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R61 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R62 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R62 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R63 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R63 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R64 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R64 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R65 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R65 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R66 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R66 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R67 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R67 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R68 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R68 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R69 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R69 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R70 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R70 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R71 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R71 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R72 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R72 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R73 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R73 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R74 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R74 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R75 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R75 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R76 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R76 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R77 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R77 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R78 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R78 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R79 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R79 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R80 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R80 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R81 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R81 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R82 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R82 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R83 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R83 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R84 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R84 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R85 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R85 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R86 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R86 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R87 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R87 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R88 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R88 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R89 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R89 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R90 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R90 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R91 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R91 s5 t10 p33,17 mode=capture job0 gold0 hp1000
+HO R92 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R92 s5 t10 p33,17 mode=nofarm job0 gold0 hp1000
+HO R93 s4 t12 p17,17 mode=capture job0 gold0 hp940
+HO R94 s4 t12 p17,17 mode=nofarm job0 gold0 hp940
+HO R99 s1 t4 p34,17 mode=to-capture job0 gold0 hp900
+HO R100 s4 t12 p16,12 mode=home-escape job1 gold0 hp290
+HO R99 s0 t3 p36,15 mode=to-capture job0 gold0 hp600
+HG R99 g0 gold600 gems0 harmless1 st1 hp0/3600 cap0 d2 seen99 margin999
+HG R99 g1 gold600 gems0 harmless1 st2 hp3600/3600 cap0 d3 seen99 margin999
+HO R100 s5 t10 p35,13 mode=wait-respawn job1 gold0 hp1000
+
+RUN HOME84D-baseidle
+SIDE a win True fuel 5
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [168, {"rewardAvailable": true, "captureTeam": 0}], [171, {"rewardAvailable": false, "captureTeam": 2}], [307, {"rewardAvailable": true, "captureTeam": 2}], [311, {"rewardAvailable": false, "captureTeam": 2}], [484, {"rewardAvailable": true, "captureTeam": 2}], [490, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [132, {"rewardAvailable": true, "captureTeam": 0}], [137, {"rewardAvailable": false, "captureTeam": 2}], [246, {"rewardAvailable": true, "captureTeam": 0}], [251, {"rewardAvailable": false, "captureTeam": 2}], [356, {"rewardAvailable": true, "captureTeam": 2}], [360, {"rewardAvailable": false, "captureTeam": 2}], [447, {"rewardAvailable": true, "captureTeam": 2}], [451, {"rewardAvailable": false, "captureTeam": 2}]]
+GOLD 100 0.0
+GOLD 200 1355.0
+GOLD 300 1995.0
+GOLD 500 5510.0
+SIDE b win True fuel 11
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [58, {"rewardAvailable": true, "captureTeam": 1}], [67, {"rewardAvailable": false, "captureTeam": 2}], [155, {"rewardAvailable": true, "captureTeam": 1}], [158, {"rewardAvailable": false, "captureTeam": 2}], [264, {"rewardAvailable": true, "captureTeam": 1}], [269, {"rewardAvailable": false, "captureTeam": 2}], [354, {"rewardAvailable": true, "captureTeam": 1}], [357, {"rewardAvailable": false, "captureTeam": 2}], [462, {"rewardAvailable": true, "captureTeam": 2}], [466, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [46, {"rewardAvailable": true, "captureTeam": 2}], [58, {"rewardAvailable": false, "captureTeam": 2}], [156, {"rewardAvailable": true, "captureTeam": 1}], [161, {"rewardAvailable": false, "captureTeam": 2}], [243, {"rewardAvailable": true, "captureTeam": 2}], [250, {"rewardAvailable": false, "captureTeam": 2}], [356, {"rewardAvailable": true, "captureTeam": 1}], [361, {"rewardAvailable": false, "captureTeam": 2}]]
+GOLD 100 1535.0
+GOLD 200 3214.0
+GOLD 300 5009.0
+GOLD 500 9469.0
+
+RUN HOME84D-baseproxy
+SIDE a win True fuel 6
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [43, {"rewardAvailable": true, "captureTeam": 2}], [49, {"rewardAvailable": false, "captureTeam": 2}], [157, {"rewardAvailable": true, "captureTeam": 2}], [192, {"rewardAvailable": false, "captureTeam": 2}], [297, {"rewardAvailable": true, "captureTeam": 2}], [311, {"rewardAvailable": false, "captureTeam": 2}], [403, {"rewardAvailable": true, "captureTeam": 2}], [407, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [38, {"rewardAvailable": true, "captureTeam": 1}], [46, {"rewardAvailable": false, "captureTeam": 2}], [124, {"rewardAvailable": true, "captureTeam": 2}], [132, {"rewardAvailable": false, "captureTeam": 2}], [217, {"rewardAvailable": true, "captureTeam": 2}], [237, {"rewardAvailable": false, "captureTeam": 2}], [321, {"rewardAvailable": true, "captureTeam": 0}], [324, {"rewardAvailable": false, "captureTeam": 2}], [427, {"rewardAvailable": true, "captureTeam": 2}]]
+GOLD 100 1420.0
+GOLD 200 2620.0
+GOLD 300 3800.0
+GOLD 500 8320.0
+SIDE b win False fuel 4
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [62, {"rewardAvailable": true, "captureTeam": 0}], [67, {"rewardAvailable": false, "captureTeam": 2}], [134, {"rewardAvailable": true, "captureTeam": 2}], [480, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [85, {"rewardAvailable": true, "captureTeam": 2}], [156, {"rewardAvailable": false, "captureTeam": 2}], [251, {"rewardAvailable": true, "captureTeam": 2}], [275, {"rewardAvailable": false, "captureTeam": 2}], [453, {"rewardAvailable": true, "captureTeam": 2}], [491, {"rewardAvailable": false, "captureTeam": 2}]]
+GOLD 100 100.0
+GOLD 200 420.0
+GOLD 300 1240.0
+GOLD 500 2070.0

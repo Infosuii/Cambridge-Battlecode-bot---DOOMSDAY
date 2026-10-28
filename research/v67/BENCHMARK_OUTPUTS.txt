@@ -574,6 +574,144 @@ v67: 240 games, 17 wins, 0 draws, margin -613.7, faults 0, fuel-outs 131 (proxy 
 
 
 ================================================================================
+p48-package-complete-lifecycle
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 20 wins, 0 draws, margin -591.0, faults 0, fuel-outs 164 (proxy 105)
+
+
+================================================================================
+p49-symmetric-arrival-power
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 18 wins, 0 draws, margin -615.3, faults 0, fuel-outs 164 (proxy 114)
+
+
+================================================================================
+p50-stable-camp-crews
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 32 wins, 0 draws, margin -539.2, faults 0, fuel-outs 119 (proxy 116)
+
+
+================================================================================
+p52-productive-crew-package
+================================================================================
+Traceback (most recent call last):
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 200, in <module>
+    main()
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 149, in main
+    wasm[futs[f]] = f.result()
+                    ^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\omdha\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\tools\proxy\local_duel.py", line 95, in build
+    out = engine.official_build(tmp, work / f'{key}.wasm')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 77, in official_build
+    log = _run(args, timeout=timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\projects\cambridge battlecode\work\neural-full-stack\python\nfs\engine.py", line 61, in _run
+    raise RuntimeError(f'command failed ({r.returncode}): {args[:3]}\n{out[-4000:]}')
+RuntimeError: command failed (1): [WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/tools/vendor/cambc.exe'), 'build', WindowsPath('C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2')]
+bulk-memory -mbulk-memory-opt -fwasm-exceptions -mllvm -wasm-use-legacy-eh=false -MD -MT CMakeFiles/bot.dir/dfb0cace999063b011deb798bf3579f4/build/src-bot-s2/src/package_farm.cpp.obj -MF CMakeFiles\bot.dir\dfb0cace999063b011deb798bf3579f4\build\src-bot-s2\src\package_farm.cpp.obj.d -o CMakeFiles/bot.dir/dfb0cace999063b011deb798bf3579f4/build/src-bot-s2/src/package_farm.cpp.obj -c "C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp"
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:55:12: error: use of undeclared identifier 'crew_progress_job67_'
+   55 |         if(crew_progress_job67_!=target_group||g.state!=GroupState::alive||distance_to(target_group,pos)>8) {
+      |            ^~~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:56:13: error: use of undeclared identifier 'crew_progress_job67_'
+   56 |             crew_progress_job67_=target_group;crew_progress_hp67_=remaining;crew_progress_round67_=round;
+      |             ^~~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:56:47: error: use of undeclared identifier 'crew_progress_hp67_'
+   56 |             crew_progress_job67_=target_group;crew_progress_hp67_=remaining;crew_progress_round67_=round;
+      |                                               ^~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:56:77: error: use of undeclared identifier 'crew_progress_round67_'
+   56 |             crew_progress_job67_=target_group;crew_progress_hp67_=remaining;crew_progress_round67_=round;
+      |                                                                             ^~~~~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:57:25: error: use of undeclared identifier 'crew_progress_round67_'
+   57 |         } else if(round-crew_progress_round67_>=40) {
+      |                         ^~~~~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:58:16: error: use of undeclared identifier 'crew_progress_hp67_'
+   58 |             if(crew_progress_hp67_-remaining<std::max(100.0f,g.max_hp*0.1f))avoid_until[target_group]=round+30;
+      |                ^~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:59:13: error: use of undeclared identifier 'crew_progress_hp67_'
+   59 |             crew_progress_hp67_=remaining;crew_progress_round67_=round;
+
+      |             ^~~~~~~~~~~~~~~~~~~
+
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/evaluations/v67/p52-productive-crew-package/build/src-bot-s2/src/package_farm.cpp:59:43: error: use of undeclared identifier 'crew_progress_round67_'
+
+   59 |             crew_progress_hp67_=remaining;crew_progress_round67_=round;
+
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~
+
+8 errors generated.
+
+[10/20] Building CXX object CMakeFiles/bot.dir/dfb0cace999063b011deb798bf3579f4/build/src-bot-s2/src/package_combat.cpp.obj
+[11/20] Building CXX object CMakeFiles/bot.dir/dfb0cace999063b011deb798bf3579f4/build/src-bot-s2/src/pressure.cpp.obj
+[12/20] Building CXX object CMakeFiles/bot.dir/dfb0cace999063b011deb798bf3579f4/build/src-bot-s2/src/tactics.cpp.obj
+ninja: build stopped: subcommand failed.
+error: cmake build failed with status exit code: 1
+
+
+
+================================================================================
+p52b-productive-crew-package
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 29 wins, 0 draws, margin -550.0, faults 0, fuel-outs 106 (proxy 166)
+
+
+================================================================================
+p55-crew-bush-entry
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 23 wins, 0 draws, margin -560.8, faults 0, fuel-outs 104 (proxy 91)
+
+
+================================================================================
+p56-base-bush-entry
+================================================================================
+games 40 / 240
+games 80 / 240
+games 120 / 240
+games 160 / 240
+games 200 / 240
+games 240 / 240
+v67: 240 games, 135 wins, 0 draws, margin +114.4, faults 0, fuel-outs 372 (proxy 289)
+
+
+================================================================================
 v27-fresh-seeds56
 ================================================================================
 games 40 / 240

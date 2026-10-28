@@ -1,0 +1,304 @@
+MIC80-proxy
+us-loss   grouped contact rounds   5568: one in/one out  7.8%  one hits/one leaves 19.0%  all leave  7.3%  all hit 20.7%
+them-loss grouped contact rounds   5736: one in/one out  7.0%  one hits/one leaves 17.5%  all leave  3.6%  all hit 22.9%
+us-win    grouped contact rounds  13136: one in/one out  6.3%  one hits/one leaves 16.4%  all leave  3.0%  all hit 23.4%
+them-win  grouped contact rounds  13055: one in/one out  6.9%  one hits/one leaves 20.5%  all leave  5.2%  all hit 22.0%
+us-loss    contact rounds  32479: attack champ 34.6%  attack other  3.7%  cast 15.4%  move 67.0%  move-only 41.4%  dash  1.0%  nothing 11.3%  hp lost/round 46
+them-loss  contact rounds  32741: attack champ 36.9%  attack other  4.2%  cast 18.0%  move 63.6%  move-only 21.5%  dash  1.2%  nothing  6.9%  hp lost/round 38
+us-win     contact rounds  78150: attack champ 34.7%  attack other  4.2%  cast 17.1%  move 62.8%  move-only 38.1%  dash  1.2%  nothing 13.0%  hp lost/round 37
+them-win   contact rounds  80496: attack champ 35.0%  attack other  2.9%  cast 15.8%  move 61.3%  move-only 21.0%  dash  1.0%  nothing 10.4%  hp lost/round 47
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   416   23%   20%   53%    8%   them   811   20%   24%   19%    4%
+  heart     us  7071   37%   19%   35%   14%   them  6979   41%   20%   15%    8%
+  issac     us   597   25%   12%   40%   20%   them   724   29%   12%   11%    5%
+  marcella  us  4991   34%   12%   48%    6%   them  5625   35%   17%   27%    4%
+  prism     us   171   26%   19%   41%   16%   them   634   33%   30%   16%    4%
+  ren       us  2377   25%   14%   44%   13%   them  1183   40%   17%   29%   16%
+  ryth      us  1936   34%   13%   45%   10%   them  3004   35%   17%   29%    8%
+  stellar   us       -   them       -
+  tavi      us       -   them   196   31%   27%    0%    2%
+  varg      us  5016   34%   15%   44%   12%   them  3071   32%   16%   29%    7%
+  vendetta  us  7526   38%   15%   39%   11%   them  6246   42%   19%   16%    7%
+  vesper    us  1717   38%   15%   40%   13%   them  4233   36%   15%   24%    7%
+  willow    us   661   29%   15%   48%   13%   them       -
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          |  9208   43%   17%   26%  1.3 | 14351   46%   15%   25%  0.5 | 29990   42%   12%   26%  0.2
+hp70+ r0.6-1.2       |  6150   41%   24%   17%  2.2 |  4396   45%   20%   17%  0.9 | 11331   45%   16%   18%  0.7
+hp70+ r<0.6          |  3990   40%   30%   12%  5.0 |  1263   46%   23%   13%  1.2 |  4129   41%   22%   12%  1.6
+hp35-70 r1.2+        |  2905   55%   17%   16%  4.6 |  4725   56%   15%   18%  1.6 | 10137   53%   14%   20%  1.8
+hp35-70 r0.6-1.2     |  2405   52%   22%    9%  7.7 |  2249   54%   21%    9%  2.9 |  6325   54%   20%   11%  3.0
+hp35-70 r<0.6        |  3413   50%   26%    5% 13.9 |  1803   53%   25%    5%  7.4 |  5474   53%   25%    6%  6.6
+hp<35 r1.2+          |   862   37%   42%    5% 28.7 |  1386   45%   29%   10% 18.0 |  3178   37%   35%   11% 20.1
+hp<35 r0.6-1.2       |   792   43%   30%    4% 42.2 |   670   46%   31%    6% 26.9 |  2138   42%   34%    6% 21.4
+hp<35 r<0.6          |  2664   42%   34%    2% 49.8 |  1790   39%   38%    2% 38.7 |  5213   37%   37%    3% 31.4
+us-loss   first 500 rounds: dead 19.6%  of living rounds: camp hits 18.5%  move only 49.2%  idle 15.8%   farm gold per camp-hit round 2.94  per living round 0.54
+them-loss first 500 rounds: dead 11.1%  of living rounds: camp hits 18.2%  move only 31.7%  idle 12.2%   farm gold per camp-hit round 3.78  per living round 0.69
+us-win    first 500 rounds: dead  8.9%  of living rounds: camp hits 19.8%  move only 49.9%  idle 16.6%   farm gold per camp-hit round 4.03  per living round 0.80
+them-win  first 500 rounds: dead 13.1%  of living rounds: camp hits 18.0%  move only 28.6%  idle 12.2%   farm gold per camp-hit round 3.59  per living round 0.65
+MIC80-proxy-share
+us-loss   grouped contact rounds   6939: one in/one out  5.1%  one hits/one leaves 16.1%  all leave  2.3%  all hit 28.4%
+them-loss grouped contact rounds   6626: one in/one out  6.2%  one hits/one leaves 18.4%  all leave  2.4%  all hit 27.1%
+us-win    grouped contact rounds  11860: one in/one out  5.0%  one hits/one leaves 13.8%  all leave  2.3%  all hit 26.5%
+them-win  grouped contact rounds  12158: one in/one out  6.2%  one hits/one leaves 20.7%  all leave  4.7%  all hit 24.4%
+us-loss    contact rounds  37054: attack champ 37.7%  attack other  4.6%  cast 16.6%  move 61.6%  move-only 35.8%  dash  1.6%  nothing 11.6%  hp lost/round 54
+them-loss  contact rounds  36854: attack champ 40.1%  attack other  4.1%  cast 18.5%  move 59.5%  move-only 17.0%  dash  1.1%  nothing  8.0%  hp lost/round 44
+us-win     contact rounds  70179: attack champ 37.0%  attack other  3.8%  cast 17.6%  move 61.9%  move-only 36.7%  dash  1.1%  nothing 13.0%  hp lost/round 38
+them-win   contact rounds  73875: attack champ 36.9%  attack other  2.9%  cast 16.2%  move 60.6%  move-only 21.3%  dash  1.1%  nothing 10.0%  hp lost/round 48
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   981   22%   22%   49%   12%   them   644   20%   24%   20%    5%
+  heart     us  7457   42%   20%   29%   13%   them  8484   44%   20%   11%   10%
+  issac     us  1105   29%   12%   41%   14%   them   614   35%   15%   12%    7%
+  marcella  us  6799   38%   14%   42%    5%   them  6686   38%   18%   23%    3%
+  prism     us   413   34%   24%   43%   10%   them   591   31%   30%    0%    3%
+  ren       us  3095   32%   16%   32%   14%   them  1365   42%   19%   27%   12%
+  ryth      us  2310   38%   16%   38%   11%   them  3890   41%   18%   22%    8%
+  stellar   us       -   them   463   27%   23%   49%    6%
+  tavi      us       -   them   584   40%   26%    0%    4%
+  varg      us  5004   40%   17%   34%   12%   them  1882   38%   16%   22%   13%
+  vendetta  us  8000   38%   17%   35%   14%   them  6565   43%   19%   13%    8%
+  vesper    us  1331   36%   14%   37%   16%   them  5035   38%   14%   17%    9%
+  willow    us   559   34%   14%   36%   22%   them    51   31%   22%   59%    0%
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          |  9786   47%   11%   27%  1.6 | 15597   49%   14%   23%  0.5 | 26790   42%   11%   28%  0.2
+hp70+ r0.6-1.2       |  6728   47%   17%   17%  3.2 |  4777   49%   18%   16%  1.1 | 10739   48%   12%   16%  0.7
+hp70+ r<0.6          |  4416   47%   22%   12%  5.4 |  1136   46%   25%   13%  2.6 |  3548   44%   19%   13%  1.7
+hp35-70 r1.2+        |  3353   59%   14%   18%  4.1 |  5723   57%   14%   18%  2.3 |  8712   56%   13%   21%  1.5
+hp35-70 r0.6-1.2     |  2872   59%   18%   10%  9.2 |  2561   59%   17%    7%  4.6 |  5766   58%   16%   11%  3.9
+hp35-70 r<0.6        |  3915   55%   22%    6% 15.6 |  2166   53%   26%    7%  9.1 |  5067   54%   24%    6%  6.7
+hp<35 r1.2+          |  1210   40%   34%    7% 25.5 |  1689   46%   30%    7% 21.4 |  2868   41%   32%   11% 17.0
+hp<35 r0.6-1.2       |  1247   40%   32%    4% 32.8 |   981   48%   30%    3% 27.0 |  1849   48%   30%    5% 29.6
+hp<35 r<0.6          |  3374   39%   31%    2% 43.4 |  2064   45%   30%    2% 39.7 |  4577   40%   35%    3% 38.1
+us-loss   first 500 rounds: dead 20.5%  of living rounds: camp hits 18.3%  move only 48.3%  idle 16.4%   farm gold per camp-hit round 2.89  per living round 0.53
+them-loss first 500 rounds: dead 13.1%  of living rounds: camp hits 17.0%  move only 27.0%  idle 12.5%   farm gold per camp-hit round 4.07  per living round 0.69
+us-win    first 500 rounds: dead  9.6%  of living rounds: camp hits 20.5%  move only 49.1%  idle 16.6%   farm gold per camp-hit round 3.97  per living round 0.82
+them-win  first 500 rounds: dead 14.3%  of living rounds: camp hits 18.2%  move only 29.8%  idle 11.9%   farm gold per camp-hit round 3.49  per living round 0.63
+MIC80-proxy-recall
+us-loss   grouped contact rounds   5160: one in/one out  7.7%  one hits/one leaves 19.5%  all leave  6.2%  all hit 21.0%
+them-loss grouped contact rounds   4943: one in/one out  6.6%  one hits/one leaves 17.3%  all leave  3.0%  all hit 23.7%
+us-win    grouped contact rounds  14470: one in/one out  6.0%  one hits/one leaves 15.4%  all leave  3.1%  all hit 23.7%
+them-win  grouped contact rounds  15364: one in/one out  7.0%  one hits/one leaves 20.2%  all leave  4.4%  all hit 20.6%
+us-loss    contact rounds  28989: attack champ 34.8%  attack other  3.9%  cast 15.7%  move 66.5%  move-only 40.5%  dash  1.2%  nothing 10.9%  hp lost/round 47
+them-loss  contact rounds  28263: attack champ 38.1%  attack other  4.1%  cast 18.3%  move 62.5%  move-only 16.3%  dash  1.0%  nothing  6.7%  hp lost/round 38
+us-win     contact rounds  84381: attack champ 34.6%  attack other  4.2%  cast 16.9%  move 61.4%  move-only 37.0%  dash  1.2%  nothing 14.3%  hp lost/round 37
+them-win   contact rounds  88895: attack champ 34.3%  attack other  3.2%  cast 15.4%  move 59.6%  move-only 21.5%  dash  1.2%  nothing 10.1%  hp lost/round 47
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   557   23%   20%   53%   10%   them   376   19%   26%   11%    2%
+  heart     us  5900   37%   20%   34%   12%   them  6286   41%   20%   11%    7%
+  issac     us   786   26%   11%   42%   20%   them   388   42%   18%    3%    3%
+  marcella  us  4296   34%   13%   47%    5%   them  4754   35%   17%   23%    4%
+  prism     us   185   27%   18%   47%   10%   them   882   33%   26%   10%    5%
+  ren       us  2451   27%   14%   42%   15%   them  1097   41%   20%   27%   12%
+  ryth      us  1841   37%   14%   41%   10%   them  2885   34%   17%   25%    8%
+  stellar   us       -   them       -
+  tavi      us       -   them   401   32%   23%    0%    3%
+  varg      us  4795   34%   15%   44%   10%   them  1884   34%   16%   27%    8%
+  vendetta  us  6622   39%   16%   37%   11%   them  5501   43%   19%   11%    9%
+  vesper    us  1075   34%   16%   42%   11%   them  3774   38%   16%   14%    6%
+  willow    us   481   26%   15%   47%   16%   them       -
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          |  8413   45%   17%   24%  1.2 | 12217   47%   14%   26%  0.1 | 32560   43%   12%   25%  0.2
+hp70+ r0.6-1.2       |  4778   41%   24%   17%  1.6 |  3975   47%   18%   17%  0.8 | 12781   45%   17%   18%  0.5
+hp70+ r<0.6          |  3200   43%   26%   13%  4.2 |  1347   48%   22%   14%  3.0 |  4489   39%   22%   12%  1.1
+hp35-70 r1.2+        |  2963   52%   20%   16%  3.3 |  3896   57%   15%   18%  1.0 | 10524   53%   15%   20%  1.6
+hp35-70 r0.6-1.2     |  2217   53%   23%    9%  8.0 |  1977   52%   22%   10%  4.1 |  6631   54%   21%   11%  3.3
+hp35-70 r<0.6        |  3046   49%   27%    5% 12.7 |  1572   56%   23%    6% 11.6 |  5678   53%   24%    6%  7.3
+hp<35 r1.2+          |   951   40%   34%    8% 24.8 |  1115   43%   30%   10% 17.3 |  3930   32%   28%    8% 14.0
+hp<35 r0.6-1.2       |   719   40%   34%    4% 43.8 |   540   45%   33%    4% 30.2 |  2136   41%   30%    6% 23.5
+hp<35 r<0.6          |  2534   41%   33%    2% 48.9 |  1460   43%   32%    2% 43.1 |  5415   35%   30%    2% 30.3
+us-loss   first 500 rounds: dead 20.1%  of living rounds: camp hits 19.0%  move only 50.0%  idle 14.8%   farm gold per camp-hit round 2.97  per living round 0.56
+them-loss first 500 rounds: dead 12.4%  of living rounds: camp hits 18.5%  move only 23.8%  idle 10.9%   farm gold per camp-hit round 3.88  per living round 0.72
+us-win    first 500 rounds: dead  8.8%  of living rounds: camp hits 19.7%  move only 49.8%  idle 16.6%   farm gold per camp-hit round 4.01  per living round 0.79
+them-win  first 500 rounds: dead 12.8%  of living rounds: camp hits 17.7%  move only 31.0%  idle 12.5%   farm gold per camp-hit round 3.59  per living round 0.63
+MIC80-proxy-both
+us-loss   grouped contact rounds   5333: one in/one out  5.5%  one hits/one leaves 17.2%  all leave  3.4%  all hit 26.5%
+them-loss grouped contact rounds   4682: one in/one out  5.8%  one hits/one leaves 16.1%  all leave  2.2%  all hit 24.5%
+us-win    grouped contact rounds  12516: one in/one out  5.0%  one hits/one leaves 13.2%  all leave  2.1%  all hit 25.8%
+them-win  grouped contact rounds  13505: one in/one out  6.1%  one hits/one leaves 19.9%  all leave  4.9%  all hit 23.0%
+us-loss    contact rounds  30390: attack champ 35.0%  attack other  4.7%  cast 15.9%  move 60.9%  move-only 36.3%  dash  1.5%  nothing 13.5%  hp lost/round 48
+them-loss  contact rounds  29512: attack champ 37.6%  attack other  4.0%  cast 17.8%  move 59.8%  move-only 16.1%  dash  1.0%  nothing  8.3%  hp lost/round 36
+us-win     contact rounds  76738: attack champ 35.3%  attack other  3.8%  cast 16.8%  move 60.0%  move-only 35.6%  dash  1.1%  nothing 16.2%  hp lost/round 37
+them-win   contact rounds  81245: attack champ 35.4%  attack other  2.7%  cast 15.5%  move 60.5%  move-only 20.3%  dash  1.1%  nothing  9.7%  hp lost/round 44
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   950   25%   22%   45%   14%   them   363   18%   21%   14%    5%
+  heart     us  6331   39%   20%   32%   13%   them  6345   40%   20%   11%    9%
+  issac     us  1118   29%   12%   43%   15%   them   282   44%   14%    4%    8%
+  marcella  us  5656   37%   14%   43%    6%   them  5208   35%   18%   20%    4%
+  prism     us   417   37%   22%   37%   14%   them   302   33%   30%    0%    3%
+  ren       us  1996   31%   16%   31%   15%   them  1600   39%   18%   30%   13%
+  ryth      us  1694   38%   16%   35%   12%   them  3176   37%   18%   21%    8%
+  stellar   us       -   them       -
+  tavi      us       -   them   160   28%   28%    0%    2%
+  varg      us  3202   39%   16%   34%   12%   them  1154   33%   16%   27%   17%
+  vendetta  us  7117   34%   15%   37%   14%   them  5827   40%   19%   13%    8%
+  vesper    us  1149   32%   13%   38%   23%   them  5044   35%   14%   14%   10%
+  willow    us   760   15%    7%   24%   58%   them    51   31%   22%   59%    0%
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          |  7473   48%   13%   23%  0.9 | 13329   45%   16%   24%  0.2 | 31643   40%   10%   26%  0.2
+hp70+ r0.6-1.2       |  5391   45%   19%   16%  2.5 |  3558   48%   18%   16%  0.8 | 10169   48%   13%   17%  0.8
+hp70+ r<0.6          |  4356   39%   20%   11%  3.7 |   927   45%   24%   14%  1.3 |  4430   38%   17%   11%  1.5
+hp35-70 r1.2+        |  2477   54%   16%   17%  4.2 |  4358   57%   13%   17%  1.7 |  9356   56%   12%   20%  1.6
+hp35-70 r0.6-1.2     |  2332   57%   18%   11%  7.8 |  1999   58%   16%    7%  4.2 |  5803   55%   17%   11%  4.5
+hp35-70 r<0.6        |  3618   50%   27%    7% 14.1 |  1499   53%   24%    6%  5.9 |  5377   51%   24%    6%  7.3
+hp<35 r1.2+          |   925   37%   37%    6% 27.2 |  1388   45%   27%   10% 18.1 |  3089   41%   31%   11% 17.4
+hp<35 r0.6-1.2       |   955   41%   33%    3% 35.0 |   789   45%   29%    4% 25.6 |  1832   45%   30%    5% 29.7
+hp<35 r<0.6          |  2756   38%   36%    2% 45.2 |  1566   40%   33%    2% 31.9 |  4801   38%   32%    3% 33.3
+us-loss   first 500 rounds: dead 20.6%  of living rounds: camp hits 19.1%  move only 48.7%  idle 16.6%   farm gold per camp-hit round 2.74  per living round 0.52
+them-loss first 500 rounds: dead 11.3%  of living rounds: camp hits 17.8%  move only 23.2%  idle 12.0%   farm gold per camp-hit round 3.99  per living round 0.71
+us-win    first 500 rounds: dead  9.3%  of living rounds: camp hits 20.2%  move only 48.7%  idle 16.9%   farm gold per camp-hit round 4.10  per living round 0.83
+them-win  first 500 rounds: dead 15.1%  of living rounds: camp hits 17.7%  move only 31.0%  idle 12.1%   farm gold per camp-hit round 3.52  per living round 0.62
+MIC80-v65
+us-loss   grouped contact rounds   6928: one in/one out  6.4%  one hits/one leaves 17.1%  all leave  4.4%  all hit 26.8%
+them-loss grouped contact rounds   6918: one in/one out  5.9%  one hits/one leaves 14.8%  all leave  3.2%  all hit 26.3%
+us-win    grouped contact rounds  12984: one in/one out  6.1%  one hits/one leaves 14.6%  all leave  3.0%  all hit 22.3%
+them-win  grouped contact rounds  11214: one in/one out  6.8%  one hits/one leaves 20.5%  all leave  5.2%  all hit 21.6%
+us-loss    contact rounds  43967: attack champ 37.1%  attack other  4.2%  cast 16.1%  move 63.8%  move-only 38.1%  dash  1.0%  nothing 11.8%  hp lost/round 48
+them-loss  contact rounds  43337: attack champ 38.0%  attack other  4.1%  cast 17.0%  move 62.1%  move-only 36.8%  dash  1.0%  nothing 12.0%  hp lost/round 41
+us-win     contact rounds  73146: attack champ 33.9%  attack other  4.3%  cast 17.0%  move 61.0%  move-only 36.7%  dash  1.3%  nothing 15.2%  hp lost/round 37
+them-win   contact rounds  69839: attack champ 36.3%  attack other  3.2%  cast 15.9%  move 64.3%  move-only 39.7%  dash  1.4%  nothing 11.1%  hp lost/round 47
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   740   20%   21%   49%   14%   them   985   19%   23%   53%    7%
+  heart     us  9704   41%   19%   31%   12%   them  8447   48%   20%   29%    8%
+  issac     us   863   30%   13%   44%   11%   them  1812   20%    9%   25%   45%
+  marcella  us  6681   38%   15%   43%    6%   them  6804   36%   16%   43%    7%
+  prism     us   114   32%   23%   47%    7%   them       -
+  ren       us  1587   29%   14%   34%   16%   them  1796   35%   17%   31%   16%
+  ryth      us  2538   35%   15%   45%    7%   them  1961   37%   16%   39%    9%
+  stellar   us       -   them       -
+  tavi      us       -   them   250   26%   24%   53%    8%
+  varg      us  8604   40%   16%   39%   10%   them  7857   38%   16%   39%   10%
+  vendetta  us 10205   37%   15%   36%   15%   them 10195   39%   18%   37%   12%
+  vesper    us  2007   28%   10%   45%   23%   them  3181   34%   13%   40%   19%
+  willow    us   924   30%   15%   48%   15%   them       -
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          | 14446   43%   15%   24%  0.6 | 15971   45%   13%   26%  0.2 | 32162   40%   12%   24%  0.4
+hp70+ r0.6-1.2       |  7570   44%   20%   16%  1.5 |  7107   45%   18%   16%  0.9 |  9697   48%   17%   16%  0.9
+hp70+ r<0.6          |  3165   44%   25%   13%  6.2 |  2367   40%   20%   11%  2.4 |  2589   42%   24%   14%  3.1
+hp35-70 r1.2+        |  4562   58%   16%   17%  2.8 |  5532   58%   14%   19%  1.8 | 10535   50%   13%   19%  1.4
+hp35-70 r0.6-1.2     |  3867   57%   22%    7%  7.1 |  3567   58%   19%   10%  4.5 |  5830   54%   20%   10%  3.2
+hp35-70 r<0.6        |  3641   55%   25%    5% 13.6 |  3202   53%   24%    6%  9.6 |  4210   51%   26%    7%  7.2
+hp<35 r1.2+          |  1660   45%   32%    8% 23.8 |  1661   41%   33%    9% 22.5 |  2788   42%   32%    9% 18.7
+hp<35 r0.6-1.2       |  1347   42%   34%    3% 33.5 |  1113   48%   30%    3% 32.3 |  1537   46%   29%    4% 30.6
+hp<35 r<0.6          |  3491   41%   34%    2% 46.2 |  2628   42%   36%    1% 42.6 |  3555   44%   36%    2% 37.7
+us-loss   first 500 rounds: dead 15.0%  of living rounds: camp hits 20.4%  move only 48.7%  idle 15.8%   farm gold per camp-hit round 3.46  per living round 0.71
+them-loss first 500 rounds: dead 11.6%  of living rounds: camp hits 19.9%  move only 47.8%  idle 16.8%   farm gold per camp-hit round 4.15  per living round 0.83
+us-win    first 500 rounds: dead  9.4%  of living rounds: camp hits 18.9%  move only 49.9%  idle 16.0%   farm gold per camp-hit round 3.97  per living round 0.75
+them-win  first 500 rounds: dead 16.4%  of living rounds: camp hits 18.0%  move only 50.4%  idle 16.7%   farm gold per camp-hit round 3.32  per living round 0.60
+MIC80-v65-share
+us-loss   grouped contact rounds   7780: one in/one out  5.6%  one hits/one leaves 16.8%  all leave  3.3%  all hit 27.1%
+them-loss grouped contact rounds   7501: one in/one out  5.8%  one hits/one leaves 17.6%  all leave  2.6%  all hit 27.3%
+us-win    grouped contact rounds  11911: one in/one out  4.9%  one hits/one leaves 13.8%  all leave  1.8%  all hit 27.4%
+them-win  grouped contact rounds  10939: one in/one out  6.4%  one hits/one leaves 20.3%  all leave  4.9%  all hit 24.4%
+us-loss    contact rounds  44264: attack champ 38.4%  attack other  3.8%  cast 16.5%  move 63.8%  move-only 37.1%  dash  1.5%  nothing 11.3%  hp lost/round 52
+them-loss  contact rounds  43788: attack champ 40.0%  attack other  3.9%  cast 18.2%  move 61.8%  move-only 36.0%  dash  1.3%  nothing 10.3%  hp lost/round 42
+us-win     contact rounds  69604: attack champ 38.4%  attack other  4.2%  cast 18.0%  move 62.7%  move-only 36.9%  dash  1.1%  nothing 10.8%  hp lost/round 38
+them-win   contact rounds  69277: attack champ 38.0%  attack other  3.2%  cast 16.2%  move 63.8%  move-only 39.0%  dash  1.1%  nothing 10.8%  hp lost/round 47
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us  1370   21%   21%   52%    9%   them  1363   22%   25%   50%    7%
+  heart     us  8346   43%   19%   29%   13%   them  7948   45%   20%   29%   11%
+  issac     us  2161   30%   13%   41%   16%   them  1966   35%   15%   36%   15%
+  marcella  us  5754   40%   14%   41%    6%   them  5676   40%   17%   41%    5%
+  prism     us   338   30%   22%   38%   14%   them   803   28%   25%   34%   16%
+  ren       us  2990   33%   17%   35%   13%   them  3470   36%   17%   32%   12%
+  ryth      us  2166   34%   13%   40%   10%   them  1939   40%   16%   34%   10%
+  stellar   us       -   them   127   23%   24%   47%   14%
+  tavi      us       -   them       -
+  varg      us  8387   42%   16%   37%   10%   them  7355   40%   16%   39%   10%
+  vendetta  us  9531   40%   17%   35%   12%   them  9368   44%   19%   34%    9%
+  vesper    us  1796   28%   12%   49%   15%   them  3266   34%   14%   44%   14%
+  willow    us  1425   37%   17%   44%   11%   them   469   37%   20%   37%   18%
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          | 12684   45%   13%   26%  1.3 | 17406   48%   13%   24%  0.6 | 27756   45%   11%   26%  0.2
+hp70+ r0.6-1.2       |  8724   49%   17%   16%  3.1 |  6524   50%   16%   15%  1.0 | 10288   49%   15%   19%  0.5
+hp70+ r<0.6          |  3929   46%   24%   13%  9.4 |  1782   47%   23%   11%  2.9 |  2986   44%   21%   15%  1.6
+hp35-70 r1.2+        |  4378   57%   14%   17%  5.2 |  5963   59%   14%   17%  2.7 |  9266   58%   11%   21%  2.0
+hp35-70 r0.6-1.2     |  3883   56%   20%    8%  9.7 |  3402   57%   19%    9%  4.4 |  5490   60%   16%    9%  4.1
+hp35-70 r<0.6        |  3849   53%   26%    6% 17.4 |  2675   52%   25%    5%  8.4 |  4435   54%   25%    6%  7.7
+hp<35 r1.2+          |  1669   39%   34%    9% 28.7 |  1975   44%   33%    8% 21.0 |  3027   46%   27%   11% 18.6
+hp<35 r0.6-1.2       |  1439   47%   29%    3% 40.7 |  1120   48%   31%    3% 30.8 |  1990   47%   28%    6% 28.1
+hp<35 r<0.6          |  3565   41%   33%    2% 48.9 |  2796   43%   35%    2% 40.8 |  4136   43%   34%    2% 38.4
+us-loss   first 500 rounds: dead 16.8%  of living rounds: camp hits 20.9%  move only 48.1%  idle 16.1%   farm gold per camp-hit round 3.40  per living round 0.71
+them-loss first 500 rounds: dead 12.7%  of living rounds: camp hits 20.4%  move only 47.5%  idle 17.1%   farm gold per camp-hit round 4.14  per living round 0.85
+us-win    first 500 rounds: dead 11.2%  of living rounds: camp hits 18.5%  move only 49.9%  idle 15.7%   farm gold per camp-hit round 3.86  per living round 0.71
+them-win  first 500 rounds: dead 16.0%  of living rounds: camp hits 17.6%  move only 50.5%  idle 16.1%   farm gold per camp-hit round 3.32  per living round 0.58
+MIC80-v65-recall
+us-loss   grouped contact rounds   5934: one in/one out  6.8%  one hits/one leaves 17.3%  all leave  4.4%  all hit 25.6%
+them-loss grouped contact rounds   5745: one in/one out  5.3%  one hits/one leaves 16.1%  all leave  3.4%  all hit 25.0%
+us-win    grouped contact rounds  13596: one in/one out  6.1%  one hits/one leaves 16.5%  all leave  3.2%  all hit 23.7%
+them-win  grouped contact rounds  12900: one in/one out  7.5%  one hits/one leaves 20.6%  all leave  5.1%  all hit 21.8%
+us-loss    contact rounds  40459: attack champ 36.2%  attack other  4.5%  cast 16.1%  move 62.0%  move-only 37.3%  dash  0.9%  nothing 12.9%  hp lost/round 42
+them-loss  contact rounds  39478: attack champ 37.0%  attack other  4.5%  cast 17.0%  move 60.9%  move-only 36.6%  dash  0.9%  nothing 12.4%  hp lost/round 38
+us-win     contact rounds  74877: attack champ 36.6%  attack other  4.3%  cast 17.9%  move 64.7%  move-only 38.4%  dash  1.4%  nothing 10.6%  hp lost/round 40
+them-win   contact rounds  75233: attack champ 36.7%  attack other  3.0%  cast 15.9%  move 65.7%  move-only 40.1%  dash  1.5%  nothing 10.7%  hp lost/round 48
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us   935   24%   21%   47%   12%   them  1076   18%   23%   51%   10%
+  heart     us  8595   41%   19%   31%   12%   them  7847   45%   20%   29%   10%
+  issac     us  1058   28%   12%   45%   14%   them  1801   17%    9%   28%   44%
+  marcella  us  5667   37%   15%   43%    6%   them  6159   37%   15%   42%    7%
+  prism     us   252   34%   23%   39%    9%   them   152   26%   20%   49%    9%
+  ren       us  1917   26%   13%   33%   21%   them  1901   30%   16%   31%   20%
+  ryth      us  2334   34%   15%   41%   10%   them  2366   36%   16%   39%   10%
+  stellar   us       -   them       -
+  tavi      us       -   them   435   35%   25%   49%    5%
+  varg      us  7821   38%   16%   38%   12%   them  6049   37%   16%   40%   11%
+  vendetta  us  9335   37%   15%   34%   17%   them  8931   38%   17%   35%   13%
+  vesper    us  1525   30%   12%   50%   13%   them  2761   37%   14%   42%   12%
+  willow    us  1020   33%   16%   48%   12%   them       -
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          | 13344   43%   15%   23%  0.5 | 14041   45%   13%   25%  0.3 | 30968   44%   13%   26%  0.4
+hp70+ r0.6-1.2       |  7026   44%   21%   16%  1.6 |  6316   46%   19%   15%  0.6 | 10776   47%   18%   17%  0.6
+hp70+ r<0.6          |  2697   43%   25%   13%  6.0 |  2269   39%   20%   10%  1.9 |  2882   44%   23%   14%  1.9
+hp35-70 r1.2+        |  4457   57%   15%   17%  2.9 |  5071   57%   12%   20%  1.4 | 10502   55%   14%   20%  1.8
+hp35-70 r0.6-1.2     |  3556   56%   22%    7%  6.6 |  3466   57%   19%   10%  3.7 |  6281   56%   19%   10%  3.3
+hp35-70 r<0.6        |  3556   53%   26%    5% 12.8 |  3043   53%   25%    6%  8.7 |  4390   51%   28%    7%  7.4
+hp<35 r1.2+          |  1444   44%   30%    8% 24.8 |  1459   41%   33%    9% 19.5 |  3228   43%   31%   10% 19.6
+hp<35 r0.6-1.2       |  1134   44%   29%    2% 32.1 |   989   46%   30%    3% 33.1 |  1829   47%   30%    4% 29.0
+hp<35 r<0.6          |  3093   41%   32%    2% 45.6 |  2685   42%   34%    2% 40.1 |  3740   43%   37%    2% 40.0
+us-loss   first 500 rounds: dead 12.8%  of living rounds: camp hits 20.2%  move only 49.8%  idle 15.7%   farm gold per camp-hit round 3.33  per living round 0.67
+them-loss first 500 rounds: dead  9.9%  of living rounds: camp hits 19.5%  move only 49.3%  idle 16.8%   farm gold per camp-hit round 4.09  per living round 0.80
+us-win    first 500 rounds: dead 10.2%  of living rounds: camp hits 18.9%  move only 49.4%  idle 16.0%   farm gold per camp-hit round 4.01  per living round 0.76
+them-win  first 500 rounds: dead 17.4%  of living rounds: camp hits 18.0%  move only 49.6%  idle 16.8%   farm gold per camp-hit round 3.31  per living round 0.60
+MIC80-v65-both
+us-loss   grouped contact rounds   7651: one in/one out  5.9%  one hits/one leaves 16.8%  all leave  2.9%  all hit 27.3%
+them-loss grouped contact rounds   7235: one in/one out  5.7%  one hits/one leaves 17.3%  all leave  2.8%  all hit 26.8%
+us-win    grouped contact rounds  12344: one in/one out  5.2%  one hits/one leaves 14.7%  all leave  1.9%  all hit 27.2%
+them-win  grouped contact rounds  11700: one in/one out  6.1%  one hits/one leaves 20.4%  all leave  4.6%  all hit 24.7%
+us-loss    contact rounds  43382: attack champ 39.2%  attack other  3.8%  cast 16.8%  move 64.3%  move-only 37.5%  dash  1.1%  nothing 10.1%  hp lost/round 50
+them-loss  contact rounds  42659: attack champ 40.2%  attack other  4.2%  cast 18.0%  move 62.2%  move-only 36.4%  dash  1.0%  nothing  9.8%  hp lost/round 43
+us-win     contact rounds  72473: attack champ 38.6%  attack other  4.0%  cast 18.0%  move 62.6%  move-only 36.6%  dash  1.2%  nothing 11.1%  hp lost/round 40
+them-win   contact rounds  72448: attack champ 38.3%  attack other  3.1%  cast 16.3%  move 63.6%  move-only 38.5%  dash  1.2%  nothing 10.9%  hp lost/round 49
+by type (loss games): attack champ / cast / move-only / nothing
+  cassi     us  1362   22%   22%   52%    9%   them  1184   21%   24%   50%    7%
+  heart     us  8224   44%   19%   29%   13%   them  7019   46%   20%   29%   11%
+  issac     us  1859   30%   13%   40%   15%   them  1671   35%   15%   35%   14%
+  marcella  us  6146   39%   15%   40%    7%   them  5913   41%   17%   41%    5%
+  prism     us   303   36%   24%   43%    6%   them   582   25%   26%   40%   14%
+  ren       us  2540   35%   16%   37%   11%   them  3397   36%   17%   32%   11%
+  ryth      us  2231   37%   15%   40%    8%   them  1731   40%   16%   33%   11%
+  stellar   us       -   them       -
+  tavi      us       -   them    84   27%   21%   44%   15%
+  varg      us  8239   43%   16%   38%    9%   them  7094   42%   17%   39%    9%
+  vendetta  us  9650   40%   17%   37%   10%   them  9906   43%   19%   35%   10%
+  vesper    us  1530   31%   13%   48%   12%   them  3609   34%   15%   44%   13%
+  willow    us  1298   38%   17%   42%   12%   them   469   37%   20%   37%   18%
+situation            |          us (loss games)           |         them (loss games)          |           us (win games)          
+                     |   n    hit  away toward die5 |   n    hit  away toward die5 |   n    hit  away toward die5
+hp70+ r1.2+          | 13233   46%   13%   26%  1.1 | 16188   48%   13%   25%  0.6 | 28379   45%   12%   25%  0.4
+hp70+ r0.6-1.2       |  8061   48%   17%   17%  2.7 |  6325   52%   16%   15%  1.0 | 11029   49%   16%   19%  0.6
+hp70+ r<0.6          |  3528   44%   27%   13%  8.8 |  1793   48%   24%   11%  3.0 |  3184   44%   22%   14%  2.4
+hp35-70 r1.2+        |  4489   59%   13%   18%  5.1 |  5469   58%   13%   18%  2.5 |  9604   57%   12%   20%  2.4
+hp35-70 r0.6-1.2     |  3586   59%   19%    8%  9.4 |  3533   60%   18%    8%  4.7 |  6015   59%   17%    9%  4.2
+hp35-70 r<0.6        |  3583   54%   25%    6% 16.4 |  2887   53%   23%    5%  8.5 |  4616   54%   25%    7%  8.3
+hp<35 r1.2+          |  1792   41%   32%    9% 28.5 |  2037   44%   33%    8% 20.2 |  3130   45%   27%   12% 19.5
+hp<35 r0.6-1.2       |  1346   45%   32%    4% 40.6 |  1183   46%   32%    2% 31.3 |  2032   47%   28%    6% 28.2
+hp<35 r<0.6          |  3598   41%   33%    1% 49.5 |  3088   42%   35%    2% 38.7 |  4275   44%   33%    2% 38.5
+us-loss   first 500 rounds: dead 17.2%  of living rounds: camp hits 20.7%  move only 48.1%  idle 16.3%   farm gold per camp-hit round 3.42  per living round 0.71
+them-loss first 500 rounds: dead 12.3%  of living rounds: camp hits 20.2%  move only 47.0%  idle 17.6%   farm gold per camp-hit round 4.29  per living round 0.86
+us-win    first 500 rounds: dead 11.3%  of living rounds: camp hits 18.9%  move only 50.1%  idle 15.2%   farm gold per camp-hit round 3.79  per living round 0.71
+them-win  first 500 rounds: dead 16.4%  of living rounds: camp hits 17.8%  move only 51.0%  idle 15.6%   farm gold per camp-hit round 3.27  per living round 0.58

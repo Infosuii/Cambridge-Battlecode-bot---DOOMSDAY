@@ -20,14 +20,22 @@ def main():
     ap.add_argument('--seeds',type=int,nargs='+',default=[1,2])
     ap.add_argument('--workers',type=int,default=8)
     ap.add_argument('--holdout',action='store_true')
+    ap.add_argument('--plan',default='research/v59/duel_top1.json',
+                    help='research/v68/pool_plan.json: every pool map once from each side, no repeated slots')
+    ap.add_argument('--bot-seed',type=int,default=None,
+                    help='our bot built once with this NOVA_SEED (shipped: 1); --seeds then vary only the opponent')
+    ap.add_argument('--per-team',action='store_true',
+                    help='opponent bots/proxy imitates each slot\'s named top team (plan research/v70/pool_plan_teams.json)')
     a=ap.parse_args()
     if not re.fullmatch(r'[a-zA-Z0-9_-]+',a.run):ap.error('invalid run name')
     if set(a.seeds)&{3,4} and not a.holdout:ap.error('reserved seeds3/4 require an explicitly frozen holdout')
     out=ROOT/'artifacts/evaluations/v67'/a.run
     if out.exists():ap.error('fresh run directory required')
-    command=[sys.executable,'tools/proxy/local_duel.py','--plan','research/v59/duel_top1.json',
+    command=[sys.executable,'tools/proxy/local_duel.py','--plan',a.plan,
              '--bot',a.bot,'--name','v67','--proxy','bots/'+a.opponent,'--seeds',*map(str,a.seeds),
              '--workers',str(a.workers),'--replays','--out',str(out)]
+    if a.bot_seed is not None:command+=['--bot-seed',str(a.bot_seed)]
+    if a.per_team:command+=['--per-team']
     env=dict(os.environ);env.setdefault('CMAKE_BUILD_PARALLEL_LEVEL','4')
     p=subprocess.run(command,cwd=ROOT,env=env,capture_output=True,text=True,encoding='utf8',errors='replace')
     out.mkdir(parents=True,exist_ok=True)

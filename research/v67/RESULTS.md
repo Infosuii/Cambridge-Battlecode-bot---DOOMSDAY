@@ -46,3 +46,11 @@ Fixed 120-slot schedule. Margins are v67 minus opponent.
 | g46-frozen-vs-v66b | Frozen-source required older-opponent check; no further tuning. | v66b | [1, 2] | 141/240 | +153.5 | 12.35 | 12.15 | 6410 | 389/147 | 0/0 |
 | v43-frozen-seeds78 | Untouched frozen-source validation; results not used for policy selection. | v65 | [7, 8] | 137/240 | +91.9 | 13.92 | 13.05 | 6338 | 324/104 | 0/0 |
 | h47-frozen-seeds34 | Untouched frozen-source validation; results not used for policy selection. | v65 | [3, 4] | 137/240 | +104.3 | 13.30 | 12.83 | 6385 | 324/134 | 0/0 |
+| p48-package-complete-lifecycle | Separate coherent package, complete mature lifecycle, priority/death/job/field handling restored. | v65 | [1, 2] | 20/240 | -591.0 | 12.77 | 6.52 | 3755 | 164/105 | 0/0 |
+| p49-symmetric-arrival-power | Separate coherent package; symmetric two-turn arrival horizon, public ready dash ranges for both teams. | v65 | [1, 2] | 18/240 | -615.3 | 17.60 | 6.62 | 3789 | 164/114 | 0/0 |
+| p50-stable-camp-crews | Separate coherent package; explicit leader/follower camp crews, stable clear jobs, visible capture handoff, no occupied-spawn respawn blocking. | v65 | [1, 2] | 32/240 | -539.2 | 11.58 | 6.97 | 3551 | 119/116 | 0/0 |
+| p52b-productive-crew-package | Separate crew package: Bruiser damage first, damage Jungle, nearby Vesper handoff, concurrent-crew discount and low-progress job timeout; p52 failed to build, retained separately. | v65 | [1, 2] | 29/240 | -550.0 | 12.97 | 7.78 | 4187 | 106/166 | 0/0 |
+| p55-crew-bush-entry | Crew package with stateless camp-visibility entry; first fix, not persistent. | v65 | [1, 2] | 23/240 | -560.8 | 13.40 | 7.58 | 4064 | 104/91 | 0/0 |
+| p56-base-bush-entry | Stable b06 control with stateless camp-visibility entry. | v65 | [1, 2] | 135/240 | +114.4 | 14.17 | 13.04 | 6288 | 372/289 | 0/0 |
+| p58b-crew-persistent-entry | Crew package with persistent camp-entry state; p58 was aborted after preparation assertion, not a valid test. | v65 | [1, 2] | 22/240 | -559.5 | 13.53 | 6.87 | 3951 | 105/87 | 0/0 |
+| p59b-base-persistent-entry | Stable b06 control with persistent camp-entry state; p59 preparation failure was aborted. | v65 | [1, 2] | 145/240 | +147.6 | 13.60 | 13.18 | 6452 | 357/290 | 0/0 |

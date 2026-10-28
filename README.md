@@ -1,5 +1,10 @@
 # DOOMSDAY Battlecode bot
 
+**2026-10-28 portable research checkpoint:** start at [CONTINUE_HERE.md](CONTINUE_HERE.md) and
+[the precise paused handoff](research/v81/HANDOFF.md). This supersedes the historical version/status claims below.
+Repo v74 is live platform68; v76 is the local comparator; v80-85 are not proven upgrades. No submission or activation
+is authorized. The split portable archive includes the research evidence and official Windows runtime.
+
 Our bot for the Cambridge Battlecode (CAMBC) ladder, team **DOOMSDAY**. It plays as a heuristic C++ bot compiled to
 WebAssembly. A few small neural networks run inside it: a draft network, a camp network and an item model.
 
