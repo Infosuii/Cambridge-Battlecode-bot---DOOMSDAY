@@ -1,91 +1,46 @@
 # Deep analysis: Session 1 checkpoint
 
-Updated 28 October 2026. **Session 1 started; setup is blocked, not complete.**
+Updated 2026-10-28T12:53:39.380580+00:00. **Session 1 is partially complete; replay access is the blocker.**
 
-## Phase
+## Phase and next action
 
-Session 1, section 2.1: platform v69 is now UI-verified Active/Verified; establish its exact source hash and activation interval.
-The next phase is authenticated provenance, followed by current-game ingestion,
-wave 1 (up to 14 mirrored groups), and detector implementation/validation.
+Setup/source freeze, cohorts, metadata catalog and wave1 complete. Resume at §2.1
+five-game replay/native reconciliation, then §3 accepted ingestion and §4 detectors.
+Obtain current replay bundles with native summaries through a working official
+download or user-supplied files. Browser replay controls returned nonexistent
+paths; CLI is unauthenticated and login starts refused before credential entry.
+Do not extract browser cookies/tokens or bypass the blocked source download.
+Do not queue more wave1 groups or repeat confirmed requests.
 
-## Repository
+## Preserved state
 
-- Repository: `Infosuii/neural-networkk-battlecode` only.
-- Analysis branch: `analysis/deep-2026-10-28`.
-- Parent branch: `claude/compare-fix-replay-decoder`, explicitly named in
-  `research/v67/HANDOFF.md` and the historical `docs/handoff.md` section 10.
-- Parent commit: `294500b8c4da4af19a81f2cdb262305ea54d27f9`.
-- Parent tree: `978b2b6bc8f35c6a4b6d125c948b51de65195289`.
-- GitHub connector supplies pinned files and branch publication. Direct Git
-  authentication is unavailable here. Local files are a partial materialization;
-  remote commits must preserve the complete parent tree.
-- Main is older in development content: it has versions through v58, whereas the
-  named branch has v59-v67 research. Do not restart analysis from main's README.
+- Branch:analysis/deep-2026-10-28; parent working branch:claude/compare-fix-replay-decoder.
+- Parent commit:294500b8c4da4af19a81f2cdb262305ea54d27f9. Partial checkout;
+  remote tree commits must preserve all untouched entries. No force push.
+- Live platform 69/submission f91de3f0-0453-409e-b712-b86067eecbca Active/Verified;
+  note“v75 ladder duel candidate”. Exact activation time unknown.
+- Correct user bot.zip: 33 files; 29 match v58. Frozen unchanged in bots/live-69/src.
+  ZIP0433755c1cbc5f120247c132a6c875912f14c3ac5f36abaa7edbfe20845b325c.
+  All 33 remote Git blobs equal the ZIP. Server source hash independently unverified.
+- Existing v69 metadata:455 games (239W/216L),91 captured groups.
+  Actual authenticated version filter avoids v67 games in the same time window.
+- Wave 1:14 groups/70 games, all finished; 10W/60L.
+  Every group's actual own version 69, maps, sides and opponent checked. SCRIMMAGES.json
+  holds all IDs/results/pins. Wave 1 budget 0 remaining; wave 2 budget 10 remaining.
+- Learn:current top5. Climb:eight spaced ranks 15–40 plus top3 observed loss counts.
+  Source snapshot and overlap/unequal-exposure caveats are in COHORTS.json.
+- Top-v-top metadata:n=30; accepted decoded/reconciled games:n=0.
+- Native integrity:2 summaries/19 champions pass; independent replay pairs:n=0.
+- CLI 4.0.0 and engine 2.0.0 pinned. Decoder imports shared loader; syntax/pins/
+  instantiation pass. Do not treat that as five-game decoder validation.
+- Candidate partition seed 20261028:385 examined/165 hands-off;
+  5 calibration-excluded. Preserve IDs through reconciliation. No trajectories reviewed.
 
-## Completed preflight
+## Files and resumption rules
 
-- Installed the official `cambc==4.0.0` Linux wheel using the package command
-  advertised on the official CLI page.
-- `cambc --version` reports `cambc 4.0.0` (measured, n=1 binary).
-- Extracted official visualiser assets with `cambc mapeditor --no-browser` and
-  stopped its local server afterward. All three engine-2 checksum pins match
-  `tools/replay/engine.mjs`; loader instantiates (measured, n=3 assets).
-- Hashed all five attached source archives and compared every source entry
-  against each bot source tree in the pinned branch.
-- Captured a public ladder page with 100 teams and the latest public listing of
-  25 DOOMSDAY groups; expanded the newest group (5 match metadata rows).
-- Created the analysis branch. No bot source or account setting changed.
-
-## Blocking evidence
-
-- CLI ladder read: `Sign in first with cambc login`.
-- Two CLI login starts failed immediately with `error: io: Connection refused`,
-  including one explicit official event origin. No credentials were entered.
-- The initial website snapshot showed `Not signed in`; later fresh UI shows Ishanp signed in and platform v69 Active/Verified. Browser sign-in is no longer the blocker.
-- One official replay-bundle read returned HTTP 401. Stop private downloads until
-  the user restores authentication; do not extract browser cookies or tokens.
-- No `artifacts/local-only/live-src/bot.zip` was provided. `apex_c9.zip` has 17
-  files, not the 33-file bundle described by the master prompt. It is not an exact
-  match for any pinned bot tree. See INPUT_PROVENANCE.json.
-- Current Submissions UI confirms platform v69 Active/Verified, note `v75 ladder duel candidate`, uploaded by Om, displayed as 2 h ago. Submission ID: `f91de3f0-0453-409e-b712-b86067eecbca`. Exact upload/activation times and source hash remain unverified.
-- The two documented browser download methods timed out. Direct navigation to the exact source link returned `net::ERR_BLOCKED_BY_CLIENT`; a subsequent DOM observation was rejected by the browser URL/security policy. No source archive was obtained. Stop browser attempts at this boundary; ask for the live ZIP or a working user-authenticated CLI on the executing device.
-
-## Budget and groups
-
-`SCRIMMAGES.json`: 0 groups queued by this study / total cap 24.
-Wave 1 cap 14; wave 2 cap 10. No quota consumed by preflight.
-Do not queue until the current source, activation interval and map selection are
-recorded. Reserve wave 2 for written hypotheses after FAST_FINDINGS.md.
-
-## Files produced
-
-- `P0_SETUP.md`: reproducible environment, blockers and decoder issue.
-- `P1_DATA.md`: actual counts and attribution exclusions.
-- `INPUT_PROVENANCE.json`: exact archive/file hashes and all bot comparisons.
-- `PUBLIC_SNAPSHOT.json`: current ranks/ratings and provisional cohort candidates.
-- `ACCESS_CHECKS.json`: sanitized preflight receipt.
-- `SCRIMMAGES.json`: empty ledger and preserved budget.
-- `tools/replay/deep_preflight.py`: repeatable input hashing/public snapshot tool.
-
-## Next action
-
-1. Obtain the current v69 source ZIP from the user (master prompt Part A, step 3), or a working user-authenticated CLI on the executing device. Browser source download is blocked by client/security policy. Do not circumvent that block or copy browser session secrets into shell tools.
-2. Recheck Submissions; record live/selected/active IDs, uploaded time and actual
-   activation evidence. Download our live source and hash its exact bytes. If
-   activation time is unknown, bound it explicitly and quarantine ambiguous games.
-3. Compare the downloaded tree against every `bots/*/src`; preserve an unchanged
-   `bots/live-<platform version>` only if absent, as authorized in section 2.1.
-4. Collect current-game metadata, finalize Learn/Climb/Control cohorts, and select
-   wave-1 maps from verified current-version losses/coverage. Queue mirrored sides
-   with a ledger reservation before each request; confirm response IDs.
-5. Fix/use an engine-2-compatible decoder. The standalone decode_replays.mjs is
-   still hardcoded to engine 1.0.3 despite the shared loader supporting engine 2.
-   Validate 5 native-summary/replay pairs before bulk processing.
-6. Download both wins and losses plus >=30 top-versus-top games, reconcile every
-   accepted game, freeze the stratified 70/30 split (seed 20261028), then implement
-   D1-D11 and validate event semantics. Do not report detector rates from n=0.
-
-Historical findings are context, not measured facts about today's live bot.
-Never submit, activate, request ranked matches or edit frozen bot sources.
-
-Latest access update recorded 2026-10-28T11:48:12.607950+00:00. Commit d79a361 is the earlier preflight; this update supersedes its browser-sign-in blocker. Session 1 remains incomplete.
+Read P0_SETUP.md, P1_DATA.md, P2_DETECTORS.md, WAVE1_RESULTS.md and the JSON ledgers.
+Raw evidence stays artifacts/local-only/deep-2026-10-28 (never commit raw replays).
+DOWNLOAD_EXCLUSIONS.json records failed/ambiguous downloads and old-engine caches.
+P2 is a blocker/status registry, not completed detector implementation or rates.
+No FAST_FINDINGS.md exists; wave2 requires it plus written hypotheses first.
+Never submit, activate, request ranked games, edit frozen bots or expose credentials.

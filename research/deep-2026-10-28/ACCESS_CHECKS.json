@@ -5,9 +5,10 @@
   "cli_platform": "linux-x86_64",
   "cli_binary_sha256": "552056aab1b99a6626597b6aaf0ae38f967709626f90f2d6926c4510ca929eb4",
   "cli_ladder": {
-    "attempts": 1,
+    "attempts": 2,
     "authenticated": false,
-    "error": "Sign in first with cambc login"
+    "error": "Sign in first with cambc login",
+    "last_checked_at": "2026-10-28T12:53:39.321900+00:00"
   },
   "cli_login": {
     "attempts": 2,
@@ -41,7 +42,7 @@
   },
   "live_source": {
     "verified": false,
-    "expected_local_zip_present": false,
+    "expected_local_zip_present": true,
     "platform_version": 69,
     "submission_id": "f91de3f0-0453-409e-b712-b86067eecbca",
     "ui_active": true,
@@ -51,7 +52,11 @@
     "displayed_age": "2 h ago",
     "absolute_upload_time": null,
     "activation_time": null,
-    "source_sha256": null
+    "source_sha256": null,
+    "user_provided_source_frozen": true,
+    "frozen_source_files": 33,
+    "remote_blob_hash_matches": 33,
+    "independent_server_archive_hash_verified": false
   },
   "scrimmages_queued": 0,
   "runtime_interruption": "Briefly unavailable while checkpointing; recovered with files retained",
@@ -61,5 +66,15 @@
     "direct_navigation_error": "net::ERR_BLOCKED_BY_CLIENT",
     "subsequent_dom_observation": "Rejected by browser URL/security policy; no workaround attempted"
   },
-  "latest_update_recorded_at": "2026-10-28T11:48:12.607950+00:00"
+  "latest_update_recorded_at": "2026-10-28T11:48:12.607950+00:00",
+  "resume_session": {
+    "website_signed_in": true,
+    "wave_groups_own_version_verified": 14,
+    "wave_request_checks_passed": 14,
+    "native_internal_summaries_passed": 2,
+    "native_replay_pairs": 0,
+    "replay_file_failures": 2,
+    "new_login_attempts": 0,
+    "credentials_entered": false
+  }
 }

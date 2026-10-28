@@ -1,13 +1,13 @@
 # Handoff: bot development from v52 onward
 
-**Analysis checkpoint (2026-10-28):** Session 1 of the deep-analysis prompt
-started on `analysis/deep-2026-10-28`. Read
-`research/deep-2026-10-28/STATE.md` for its provenance and next action.
-CLI 4.0.0 and engine-2 assets are prepared, but live-source verification and
-private-source checks await a working download path. Browser sign-in has
-recovered; platform69 is UI-verified live. Zero study scrimmages queued.
-The older live-version statements below are historical; do not use them as
-current submission identity. No bot was submitted or activated by this study.
+**Analysis checkpoint (2026-10-28, updated):** Session 1 continues on
+`analysis/deep-2026-10-28`; read `research/deep-2026-10-28/STATE.md` and §19 below.
+The user-provided live69 source is frozen unchanged (33/33 remote blobs match).
+Fourteen mirrored unranked groups finished: 70 games,10W/60L; wave2 retains10 groups.
+Current replay downloads still produce no file; CLI is signed out. No decoded
+game is accepted and detector implementation/rates remain blocked. All fourteen
+study pages confirm platform69. Server-source hash and activation time are unknown.
+The live-version statements below are historical. No bot was submitted or activated.
 
 **Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
@@ -423,3 +423,28 @@ NFS_REPLAY_ENGINE=2.0.0; decoder final score/round matched native output. Histor
 
 
 v58 submission receipt:2026-10-26T13:23:03.916Z, platform57 (repository v58),279034bytes, matching the verified bundle. Source unchanged38754076. The platform selected57; compilation remained queued and platform56 active at the last check. The user said further checking was unnecessary; no more polling, automation or match groups. Source/evidence commits311c4a8 and9c5ee22 were pushed before upload. See results/v58-submit.txt and V58_RELEASE.json.
+
+## 19. Deep analysis Session 1 checkpoint (2026-10-28)
+
+Analysis continues on `analysis/deep-2026-10-28`, based on the named working branch
+`claude/compare-fix-replay-decoder` at294500b8c4da4af19a81f2cdb262305ea54d27f9.
+The correct user-provided live69 source is frozen unchanged in `bots/live-69/`;
+33/33 remote blob hashes equal the ZIP,29/33 match v58. Independent server-source
+hash and exact activation time remain unavailable; authenticated actual-version
+UI evidence excludes contemporaneous v67 games.
+
+Read `research/deep-2026-10-28/STATE.md`, `P0_SETUP.md`, `P1_DATA.md`,
+`P2_DETECTORS.md` and `WAVE1_RESULTS.md`. Session 1 is incomplete at replay access:
+455 existing v69 games and30 top-v-top games cataloged as metadata;14 mirrored
+unranked groups/70 games completed,10W/60L, all request maps/sides/teams checked.
+No further wave1 requests. Wave2 retains10 groups and needs FAST_FINDINGS plus
+written hypotheses first. `SCRIMMAGES.json` is authoritative for IDs and pins.
+
+Candidate split: seed20261028,385 examined/165 hands-off,5 calibration-excluded.
+These are metadata assignments; accepted/reconciled games n=0. Two official native
+summaries pass internal/metadata checks, but no current replay file arrived.
+CLI remains signed out; login initiation previously refused before credentials.
+Do not copy browser session secrets or bypass blocked download controls. Resume
+with current replay bundles/native summaries, validate five pairs, then implement
+and validate D1-D11. Decoder migration uses the shared engine2 pins; smoke checks
+are not replay validation. No submissions, activations or ranked requests made.

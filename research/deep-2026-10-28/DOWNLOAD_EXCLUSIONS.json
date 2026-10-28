@@ -1,0 +1,16 @@
+{
+  "evidence_label": "measured",
+  "current_replays_accepted": 0,
+  "current_replay_attempts": [
+    {"kind":"five-game group download","group_id":"5f7d89e8-c49d-440b-9198-5a1cd778e7a8","reason":"Browser returned a path but no file existed there in either shared environment; no replay obtained."},
+    {"kind":"individual replay download","match_id":"e7a912c8-37ba-4c3f-b8e3-0d03f07b1055","reason":"Browser returned a path but no corresponding file appeared; no replay obtained."}
+  ],
+  "native_summary_quarantine": [
+    {"intended_match_id":"b4a0cc8b-8396-45e2-9d2d-48876ab19bc1","reason":"Download was CAMSTAT binary rather than requested JSON; correspondence not established, excluded."},
+    {"intended_match_id":"c14132df-a3c9-4634-9d50-bfe9eb9e094b","reason":"JSON reports1301 rounds instead of1097 and duplicates the00rows summary; excluded from this match."},
+    {"intended_match_id":"1abf1538-87ef-4afb-9226-5b09147ff2f5","reason":"Returned path has no file; excluded."}
+  ],
+  "old_cached_archives":{"count":14,"engine":"0.0.3","format":"0.0.3","reason":"Wrong engine/period; excluded from all current-source comparisons."},
+  "not_a_confirmed_cause":"Replay-file absence does not establish a site bot block or the exact download failure cause.",
+  "separate_source_issue":"Server source-archive navigation previously returned ERR_BLOCKED_BY_CLIENT. No workaround attempted; user-provided bot.zip resolved local source availability."
+}

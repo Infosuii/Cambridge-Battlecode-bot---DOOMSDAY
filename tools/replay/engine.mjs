@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const VERSION = process.env.NFS_REPLAY_ENGINE ?? '1.0.3';
+export const VERSION = process.env.NFS_REPLAY_ENGINE ?? '1.0.3';
 if (!['1.0.3','2.0.0'].includes(VERSION)) throw new Error('unsupported replay engine '+VERSION);
 const WASM = VERSION === '2.0.0' ? 'v2_0_0-hWOQ1R8f.wasm' : 'v1_0_3-DRqNt1t2.wasm';
 const PANEL = VERSION === '2.0.0' ? 'PanelChrome-DXwmYkIC.js' : 'PanelChrome-BXlTYAwV.js';
@@ -23,12 +23,16 @@ export const PINNED = VERSION === '2.0.0' ? PINNED2 : {
 };
 
 export function defaultAssets() {
-  const root = path.join(os.homedir(), 'AppData/Local/cambc/assets');
-  for (const d of fs.existsSync(root) ? fs.readdirSync(root) : []) {
-    const p = path.join(root, d, 'visualiser/assets');
-    if (fs.existsSync(path.join(p, WASM))) return p;
+  if (process.env.NFS_REPLAY_ASSETS) return process.env.NFS_REPLAY_ASSETS;
+  const roots = [path.join(os.homedir(), 'AppData/Local/cambc/assets'),
+                 path.join(os.homedir(), '.cache/cambc/assets')];
+  for (const root of roots) {
+    for (const d of fs.existsSync(root) ? fs.readdirSync(root).sort() : []) {
+      const p = path.join(root, d, 'visualiser/assets');
+      if (Object.keys(PINNED).every(name => fs.existsSync(path.join(p, name)))) return p;
+    }
   }
-  throw new Error('cambc visualiser assets not found; pass --assets');
+  throw new Error('cambc visualiser assets not found; pass --assets or NFS_REPLAY_ASSETS');
 }
 
 export function verifyAssets(dir) {

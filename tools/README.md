@@ -63,3 +63,26 @@ who captures camps), `respawn_delay.mjs`, `fuel_outs.mjs`, `death_context.mjs`, 
   `v2_baseline_audit.py`, `v53_diagnose.py`.
 - Machine setup and backup: `configure_dev.py`, `configure_recovery.py`, `recovery_*.py`, `publish_*.py`,
   `verify_remote_recovery.py`.
+
+## Deep analysis: 28 October 2026 Session 1
+
+All raw inputs stay in `artifacts/local-only/deep-2026-10-28/`; public/derived ledgers
+and reports are in `research/deep-2026-10-28/`. No tool here submits or activates a bot.
+
+| Tool | Usage and boundary |
+|---|---|
+| `replay/deep_ingest_source.py` | `python tools/replay/deep_ingest_source.py bot.zip --platform-version 69 --submission-id <id>`; compare pinned repository blobs and freeze exact bytes; refuses differing existing source. Requires the pinned repository-tree export. |
+| `replay/deep_catalog.py` | `--ui <version-filtered-UI-export.json>`; join authenticated v69 group IDs to paced, cached public metadata. No timestamp-only attribution. |
+| `replay/deep_plan.py` | Freeze official ladder cohorts and existing ranked-map loss metadata; no match creation. Do not refresh a frozen cohort after starting its wave. |
+| `replay/deep_ledger.py` | `plan`, `reserve --number N`, `confirm --number N --group UUID --state finished`, `status`; local budget ledger only. Reserve before the separate authorized UI request. Never retry a reserved/uncertain write. |
+| `replay/deep_native_audit.py` | `--downloads <JSON [{match_id,path}]>`; internal official-summary identities plus metadata checks; explicitly does not reconcile replay trajectories. |
+| `replay/deep_top_catalog.py` | Bounded public current-engine top-five-versus-top-five catalog, metadata only. |
+| `replay/deep_wave_results.py` | `--ui <verified-group-UI-receipts.json>`; check every requested map, ordered side, opponent and unranked type; no private downloads or new requests. |
+| `replay/deep_checkpoint.py` | Build the metadata candidate manifest, freeze seed20261028 cohort/map split, and regenerate Session-1 reports. Refuses to change existing candidate assignments. Requires study inputs and the saved proof screenshot. |
+
+`decode_replays.mjs` now uses the shared engine loader/pins. Select current games with
+`NFS_REPLAY_ENGINE=2.0.0 node tools/replay/decode_replays.mjs --workers 4 --perspective --out <local-only.jsonl> <replays>`.
+`NFS_REPLAY_ASSETS` or `--assets` selects an installed asset directory; Linux cache
+and Windows AppData are supported. Syntax/pin/instantiation checks pass. Current
+replay decoding and five-game reconciliation remain unvalidated due missing files;
+do not treat the metadata candidate manifest as an accepted decoded dataset.
