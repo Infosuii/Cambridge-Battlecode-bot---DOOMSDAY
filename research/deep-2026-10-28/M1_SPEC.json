@@ -1,0 +1,19 @@
+{
+  "version": "recall-restart-v1",
+  "status": "exploratory definition frozen after discovery in one examined case, before screening the rest or confirming on hands-off games",
+  "discovery": "C004, platform69, 1473a066-b6df-4410-a447-2b374428adc2, actor1",
+  "confirmed_source_conflict": "Winning-bag recall cancellation ignores the bank-disabled timer checked by tribute_if_needed. Exact tail traces at R1680-1682 show own280+bag736>=1000, recalling=true and tribute_off_until1683; accepted inputs cancel and restart recall each turn.",
+  "proxy_predicate": "At least three consecutive actual rounds for one physical actor, each containing accepted CancelChannel and Recall actions, with no actual move or teleport completion, attack or cast in those rounds. Merge consecutive runs into one episode.",
+  "minimum_rounds": 3,
+  "qualifying_steps": {"cancel_channel": 16, "recall": 11, "exclude": [4, 5, 6, 22]},
+  "winning_bag_descriptor": "Previous completed round native team submittedGems + actor gems >= engine winning threshold1000 on every episode round; no future resource sample is used",
+  "unit": "physical actor episodes; report per-game occurrence and native recall-start exposure separately",
+  "limits": [
+    "The broader observable proxy does not prove a bank-disabled timer or the same source cause in every flagged game",
+    "The previous-round bag descriptor is not an exact actor-turn state; discovery-case actor-turn values are independently traced",
+    "A cancelled channel may be legitimate under new danger; a proxy flag is a review candidate",
+    "This is not one of the original preregistered D1-D11 flags",
+    "No source edit, outcome gain or general fix is established merely by this screen"
+  ],
+  "confirmation_rule": "Keep the definition fixed across examined and final hands-off frequency confirmation; report cohorts, losses/wins, exposure and all zero results. Do not tune thresholds on held-out games."
+}

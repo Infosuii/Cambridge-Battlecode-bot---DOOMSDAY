@@ -1,0 +1,768 @@
+{
+  "engine": "2.0.0",
+  "engine_build": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "hands_off_used": 0,
+  "source": "unchanged frozen33-file source copied to ignored artifacts",
+  "server_wasm_hash": "unavailable; behavioral fidelity independently tested",
+  "cases_completed": 12,
+  "both_script_byte_exact": 12,
+  "source_byte_exact": 12,
+  "rows": [
+    {
+      "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+      "map": "02guardians",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C004",
+      "window": [
+        1700,
+        1712
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "first_different_byte": null,
+        "rounds": 2000,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C004/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "4e1057448c8957c1a92c5b0e6fc7900f9edac09a86f0ec8c720f0175ad9d6c58",
+        "wasm_b_sha256": "99273bd8c10b9c9a0b7973a4183dfe4e9998463727ae25b5fd2439445135c2c5",
+        "map_sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "actual_sha256": "7c93a12e49af610e8cfe3f5666d03b79baf5d9bca0984f78d6ae4c8222361c3e",
+        "first_different_byte": null,
+        "rounds": 2000,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C004/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "99273bd8c10b9c9a0b7973a4183dfe4e9998463727ae25b5fd2439445135c2c5",
+        "map_sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 2001
+    },
+    {
+      "match_id": "51ce7c28-56c9-475f-9ccd-999c5e06b0f9",
+      "map": "02the_pond",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C011",
+      "window": [
+        461,
+        473
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "454db14eea6a88145f0bb1dd08fe558ac2e9ec2fd98ce447e1253a2e25435894",
+        "actual_sha256": "454db14eea6a88145f0bb1dd08fe558ac2e9ec2fd98ce447e1253a2e25435894",
+        "first_different_byte": null,
+        "rounds": 1082,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C011/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "0b7ac251d3d71383cab4704649e58e6374a5c7bfde0332f01126a36e8a9f15a3",
+        "wasm_b_sha256": "9140c5bfc46eeadb28738873e36da6f9ca9c87ad5940fe50c5d2f6dd7235f876",
+        "map_sha256": "216f697ab34a7dd9785c1026a49faca6b3f840fbf150c3b89ff136590d8e7972"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "454db14eea6a88145f0bb1dd08fe558ac2e9ec2fd98ce447e1253a2e25435894",
+        "actual_sha256": "454db14eea6a88145f0bb1dd08fe558ac2e9ec2fd98ce447e1253a2e25435894",
+        "first_different_byte": null,
+        "rounds": 1082,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C011/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "0b7ac251d3d71383cab4704649e58e6374a5c7bfde0332f01126a36e8a9f15a3",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "216f697ab34a7dd9785c1026a49faca6b3f840fbf150c3b89ff136590d8e7972"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 1083
+    },
+    {
+      "match_id": "76e42a16-7524-4b71-8052-531b8052541b",
+      "map": "00galaxy",
+      "cohort": "Climb",
+      "opponent": "Univardisty of Shingtonwash",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C018",
+      "window": [
+        350,
+        365
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "e7d0ea5bcfe3c01843f69e2380684d6610714c257572dc7a62449cef67346280",
+        "actual_sha256": "e7d0ea5bcfe3c01843f69e2380684d6610714c257572dc7a62449cef67346280",
+        "first_different_byte": null,
+        "rounds": 881,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C018/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "2f29b6876ae41864479456a9625a0d1dcf9023c26a63dd254336c04f28c15c39",
+        "wasm_b_sha256": "c26085e2c8bdf730b272b24a43558d1852de3b93dd2f506fb589b68aed83a384",
+        "map_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "e7d0ea5bcfe3c01843f69e2380684d6610714c257572dc7a62449cef67346280",
+        "actual_sha256": "e7d0ea5bcfe3c01843f69e2380684d6610714c257572dc7a62449cef67346280",
+        "first_different_byte": null,
+        "rounds": 881,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C018/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "c26085e2c8bdf730b272b24a43558d1852de3b93dd2f506fb589b68aed83a384",
+        "map_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 882
+    },
+    {
+      "match_id": "8ebca548-42d4-481b-8e7c-85290fc7fb6c",
+      "map": "00ambush",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C026",
+      "window": [
+        577,
+        589
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "60acf3d5070fa8f44222c6ca3b80b8d8abc89b10bcbb6aa38593bc05771c1063",
+        "actual_sha256": "60acf3d5070fa8f44222c6ca3b80b8d8abc89b10bcbb6aa38593bc05771c1063",
+        "first_different_byte": null,
+        "rounds": 1317,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C026/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "565714ef0e5d6031cb91a73ea2ed58138ddede43348bd83e6d37baab542c28fd",
+        "wasm_b_sha256": "48b947c4b281ae620fe2dfbbb78fdec40ef804c3c026500ffd9c504809cc5097",
+        "map_sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "60acf3d5070fa8f44222c6ca3b80b8d8abc89b10bcbb6aa38593bc05771c1063",
+        "actual_sha256": "60acf3d5070fa8f44222c6ca3b80b8d8abc89b10bcbb6aa38593bc05771c1063",
+        "first_different_byte": null,
+        "rounds": 1317,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C026/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "48b947c4b281ae620fe2dfbbb78fdec40ef804c3c026500ffd9c504809cc5097",
+        "map_sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 1318
+    },
+    {
+      "match_id": "a5a33396-7620-4844-a113-f06b8c12a769",
+      "map": "00dunes",
+      "cohort": "Climb",
+      "opponent": "Univardisty of Shingtonwash",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C030",
+      "window": [
+        296,
+        307
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "204c287e5e489f48389cfb2525573a3adcb92bb6ea8befa0fe31144ba10f3071",
+        "actual_sha256": "204c287e5e489f48389cfb2525573a3adcb92bb6ea8befa0fe31144ba10f3071",
+        "first_different_byte": null,
+        "rounds": 1278,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C030/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "aec16c916dd37dfb899d1da44d14cc7916cb4776d588d8f8864a50991f7ae887",
+        "wasm_b_sha256": "f65724df56783aad3db65217588fafa09d9a06ab22d1ec1da6ca3e1ee486e068",
+        "map_sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "204c287e5e489f48389cfb2525573a3adcb92bb6ea8befa0fe31144ba10f3071",
+        "actual_sha256": "204c287e5e489f48389cfb2525573a3adcb92bb6ea8befa0fe31144ba10f3071",
+        "first_different_byte": null,
+        "rounds": 1278,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C030/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "aec16c916dd37dfb899d1da44d14cc7916cb4776d588d8f8864a50991f7ae887",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 1279
+    },
+    {
+      "match_id": "b495a4c0-a795-4774-9a9f-c712bc33d708",
+      "map": "00vault",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C034",
+      "window": [
+        133,
+        143
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "7ea3ec77dc553ec3d961fc944e1e7b090830d9179a969a1865983bd873d2a018",
+        "actual_sha256": "7ea3ec77dc553ec3d961fc944e1e7b090830d9179a969a1865983bd873d2a018",
+        "first_different_byte": null,
+        "rounds": 639,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C034/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "30cf6bdf6693cf1dae775bd246b8d4a30bd8a5062b0aeda35eaef36d23b1cf45",
+        "wasm_b_sha256": "18f8b5f8f51da99f701d9d236cce8b97092c0a17109a8c0d1978898fcf554758",
+        "map_sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "7ea3ec77dc553ec3d961fc944e1e7b090830d9179a969a1865983bd873d2a018",
+        "actual_sha256": "7ea3ec77dc553ec3d961fc944e1e7b090830d9179a969a1865983bd873d2a018",
+        "first_different_byte": null,
+        "rounds": 639,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C034/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "30cf6bdf6693cf1dae775bd246b8d4a30bd8a5062b0aeda35eaef36d23b1cf45",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 640
+    },
+    {
+      "match_id": "2db20b4a-fe1e-49cb-a4fe-6c33c886943e",
+      "map": "00galaxy",
+      "cohort": "Learn",
+      "opponent": "Intercontinental Fish",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C048",
+      "window": [
+        480,
+        495
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "e09d6956e51f32bad5d5db96722b4952c799ee5acd21df2365143bb49349f71a",
+        "actual_sha256": "e09d6956e51f32bad5d5db96722b4952c799ee5acd21df2365143bb49349f71a",
+        "first_different_byte": null,
+        "rounds": 891,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C048/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "b4c38f586e383ebff5a60f3272543e9e9b70a54e31f93ffb14ff6304bc91efd3",
+        "wasm_b_sha256": "be8779e4af766f1075a3cfe9c41d808df90ddbd4aed0f0c470dd34f237d26c37",
+        "map_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "e09d6956e51f32bad5d5db96722b4952c799ee5acd21df2365143bb49349f71a",
+        "actual_sha256": "e09d6956e51f32bad5d5db96722b4952c799ee5acd21df2365143bb49349f71a",
+        "first_different_byte": null,
+        "rounds": 891,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C048/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "be8779e4af766f1075a3cfe9c41d808df90ddbd4aed0f0c470dd34f237d26c37",
+        "map_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 892
+    },
+    {
+      "match_id": "c5fd2e3d-e990-4732-aac6-960f45a6e5eb",
+      "map": "00dunes",
+      "cohort": "Learn",
+      "opponent": "newer team",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C060",
+      "window": [
+        95,
+        105
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "d6645a4001a20efbba177a478f0c4a79d124cc55c19f3147b02855cec2926b66",
+        "actual_sha256": "d6645a4001a20efbba177a478f0c4a79d124cc55c19f3147b02855cec2926b66",
+        "first_different_byte": null,
+        "rounds": 695,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C060/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "2357d36aa68c423cb082efe532cfb91b30089783608628a57e34ded56fabbac6",
+        "wasm_b_sha256": "9ae38daae07f7e1f837115881606f37dc3229908de26a9495fa1a193af429571",
+        "map_sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "d6645a4001a20efbba177a478f0c4a79d124cc55c19f3147b02855cec2926b66",
+        "actual_sha256": "d6645a4001a20efbba177a478f0c4a79d124cc55c19f3147b02855cec2926b66",
+        "first_different_byte": null,
+        "rounds": 695,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C060/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "9ae38daae07f7e1f837115881606f37dc3229908de26a9495fa1a193af429571",
+        "map_sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 696
+    },
+    {
+      "match_id": "503221be-c6b7-4736-be77-acf298bd16f5",
+      "map": "02treasure_box",
+      "cohort": "Other",
+      "opponent": "prism best girl",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C070",
+      "window": [
+        390,
+        400
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "b0c6734f42d88ff7296ec40611c71b342129e7c0120d765b0304329691b22a1e",
+        "actual_sha256": "b0c6734f42d88ff7296ec40611c71b342129e7c0120d765b0304329691b22a1e",
+        "first_different_byte": null,
+        "rounds": 740,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C070/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "0c3f9b3063dbe468ce9d2424ea4806752a0b9a2711f8cff45b1dacf5b73b0e75",
+        "wasm_b_sha256": "bdaeba82a7d7c9c011f34daaabe79e9275165e09ecec51e2b6aca8429260ce32",
+        "map_sha256": "c5df4adcd74d20398b403f558f2939a062883563d07dc0205008df1f1d0b8bc5"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "b0c6734f42d88ff7296ec40611c71b342129e7c0120d765b0304329691b22a1e",
+        "actual_sha256": "b0c6734f42d88ff7296ec40611c71b342129e7c0120d765b0304329691b22a1e",
+        "first_different_byte": null,
+        "rounds": 740,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C070/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "0c3f9b3063dbe468ce9d2424ea4806752a0b9a2711f8cff45b1dacf5b73b0e75",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "c5df4adcd74d20398b403f558f2939a062883563d07dc0205008df1f1d0b8bc5"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 741
+    },
+    {
+      "match_id": "956be22e-1c55-4738-8384-07fb1ce95e05",
+      "map": "00corners",
+      "cohort": "Other",
+      "opponent": "\u5251\u6865\u591c\u722c\u8005",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C082",
+      "window": [
+        725,
+        735
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "fc2087c338e75901cb07e72aeab957101c4e0801f9f52b75229a2750e19faaa4",
+        "actual_sha256": "fc2087c338e75901cb07e72aeab957101c4e0801f9f52b75229a2750e19faaa4",
+        "first_different_byte": null,
+        "rounds": 1327,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C082/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "b4146f371dfe014908d3169a0a6c98c0c8681e9f302044337cb7e130790c3d5d",
+        "wasm_b_sha256": "877d765d299bf31e996b6cc6d6958152eb05ff45db1dd1075720bf5792de1fa8",
+        "map_sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "fc2087c338e75901cb07e72aeab957101c4e0801f9f52b75229a2750e19faaa4",
+        "actual_sha256": "fc2087c338e75901cb07e72aeab957101c4e0801f9f52b75229a2750e19faaa4",
+        "first_different_byte": null,
+        "rounds": 1327,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C082/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "b4146f371dfe014908d3169a0a6c98c0c8681e9f302044337cb7e130790c3d5d",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 1328
+    },
+    {
+      "match_id": "f6949d45-e140-4de1-85df-de7dc60fc25e",
+      "map": "00packs",
+      "cohort": "Climb",
+      "opponent": "Rogue Lock Pickers",
+      "result": "win",
+      "side": "b",
+      "card_id": "C099",
+      "window": [
+        32,
+        42
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "25169c6ce9585238099675435ba0b71f78db961b424ee7226a26936fc38ed101",
+        "actual_sha256": "25169c6ce9585238099675435ba0b71f78db961b424ee7226a26936fc38ed101",
+        "first_different_byte": null,
+        "rounds": 970,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C099/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "782397cbd42245db29280630d924d694444da107ac613b5e414ea370fa7a56c1",
+        "wasm_b_sha256": "bd03866a6b6418a5be2bfc85aa52c209928e042d9b14e2ae1bb11cdb507ff32a",
+        "map_sha256": "60ee7a86ee377a04a77d11008b78aaed9e2c1cfcfc4302055974195e078c675a"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "25169c6ce9585238099675435ba0b71f78db961b424ee7226a26936fc38ed101",
+        "actual_sha256": "25169c6ce9585238099675435ba0b71f78db961b424ee7226a26936fc38ed101",
+        "first_different_byte": null,
+        "rounds": 970,
+        "outcome": "teamB",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/C099/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "782397cbd42245db29280630d924d694444da107ac613b5e414ea370fa7a56c1",
+        "wasm_b_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "map_sha256": "60ee7a86ee377a04a77d11008b78aaed9e2c1cfcfc4302055974195e078c675a"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 971
+    },
+    {
+      "match_id": "1d769695-04a8-402a-86d7-b3e4ccf9e270",
+      "map": "00vault",
+      "cohort": "Other",
+      "opponent": "\ud80c\udfbc\ud80c\udced\ud80c\udd71\ud80c\udc8b\ud80c\uddcc \ud80c\udfcf\ud80c\udd71 \ud80c\udc8b\ud80c\udd3f",
+      "result": "win",
+      "side": "a",
+      "card_id": "matched-C034-control",
+      "window": [
+        150,
+        160
+      ],
+      "compiled_script_control": {
+        "replay_bytes_identical": true,
+        "original_sha256": "0a2c5f4114b33d5007a3cae2640dddd78aac44937f2fb785a171809d2d786d5c",
+        "actual_sha256": "0a2c5f4114b33d5007a3cae2640dddd78aac44937f2fb785a171809d2d786d5c",
+        "first_different_byte": null,
+        "rounds": 548,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/matched-C034-control/both-scripted/game-raw.repl26a",
+        "wasm_a_sha256": "9cdc2d549d8888ad7b0f41f842b1a7b230651614b99271cd3aba69288d29728a",
+        "wasm_b_sha256": "5921bbe366e38fe42445ea13cddd08c80d2a84c0eafd92f6221513b4149e9bb6",
+        "map_sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454"
+      },
+      "frozen_source_test": {
+        "replay_bytes_identical": true,
+        "original_sha256": "0a2c5f4114b33d5007a3cae2640dddd78aac44937f2fb785a171809d2d786d5c",
+        "actual_sha256": "0a2c5f4114b33d5007a3cae2640dddd78aac44937f2fb785a171809d2d786d5c",
+        "first_different_byte": null,
+        "rounds": 548,
+        "outcome": "teamA",
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "puppet_rejection_messages": {
+          "a": 0,
+          "b": 0
+        },
+        "stdout_nonempty": {
+          "a": false,
+          "b": false
+        },
+        "raw_replay": "artifacts/tmp/deep-repro/suite-v1/matched-C034-control/live-source/game-raw.repl26a",
+        "wasm_a_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+        "wasm_b_sha256": "5921bbe366e38fe42445ea13cddd08c80d2a84c0eafd92f6221513b4149e9bb6",
+        "map_sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454"
+      },
+      "source_wasm_sha256": "29f79745ef2a69b26741e3751ef6e9ee8855d93b9a4991d3dce42295e9d69057",
+      "input_api_validation_round_states": 549
+    }
+  ]
+}
