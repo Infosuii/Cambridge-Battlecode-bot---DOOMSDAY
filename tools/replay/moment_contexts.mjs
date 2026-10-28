@@ -57,7 +57,7 @@ for(const [mid,cards] of groups){
       }
       if(started&&mode==='after'){
         const actor=d.getUint32(tsnap+76,true),ak=d.getUint32(tsnap+72,true),kind=d.getUint32(tsnap+68,true);
-        if(ak===1&&[4,5,6,11,12,13,14,18,22,23,25,26,27].includes(kind))for(const s of states.values())if(actor===s.actor&&r>=s.card.start-20&&r<=s.card.end+20)
+        if(ak===1&&[4,5,6,9,11,12,13,14,15,16,18,20,21,22,23,25,26,27].includes(kind))for(const s of states.values())if(actor===s.actor&&r>=s.card.start-20&&r<=s.card.end+20)
           s.actions.push({r,input,substep,kind,slot:d.getUint32(tsnap+108,true),from:{x:d.getInt32(tsnap+80,true),y:d.getInt32(tsnap+84,true)},to:{x:d.getInt32(tsnap+88,true),y:d.getInt32(tsnap+92,true)}});
       }
       if(outcome||(started&&r>end)||(mode==='before'&&[...states.values()].every(s=>s.observation)))break;

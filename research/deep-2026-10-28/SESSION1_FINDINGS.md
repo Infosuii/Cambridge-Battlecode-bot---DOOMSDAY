@@ -64,3 +64,14 @@ win-probability model, and about 100 varied moments with prediction-first cards 
 ceilings. Review at least 60 examined losses plus control wins. Only then write
 FAST_FINDINGS and reserve wave-2 hypothesis probes. Keep all hands-off trajectories
 and detector outputs unopened until final frequency confirmation.
+
+
+## Post-registration movement correction
+
+Session2 found that official step23 means movement blocked. The corrected detector
+uses only actual move/teleport arrivals, with15 semantic cases and fresh5/385-game
+calibration/examined passes. D1/D4/D6 event/rate details are superseded by current
+P2_DETECTORS.md. D3 and all other native-dependent event sets are unchanged across
+385 games. See DECODER_CORRECTION.md and CORRECTION_VALIDATION.json. Session2
+timelines, model,105 cards and FAST_FINDINGS are now available; exact traces remain
+the next phase. This earlier Session1 text is retained as historical context.

@@ -59,6 +59,7 @@ def main():
         assert game['code_sha256'] == run['code_sha256']
         if meta['source'] == 'top-v-top':
             continue
+        native = json.loads((LOCAL / 'replays/examined' / (mid + '.summary.json')).read_text(encoding='utf-8'))
         own = 0 if meta['side'] == 'a' else 1
         enemy = 1 - own
         final = {s: {f: game['rows'][-1]['teams'][t][f] for f in FIELDS} for s, t in [('us', own), ('them', enemy)]}
@@ -87,13 +88,14 @@ def main():
             for e in events:
                 if e['kind'] == 'gemCollection' and isinstance(e['target'], dict) and e['target'].get('kind') == 'campGroup':
                     reward[(e['timestamp']['round'], e['target']['id'])] += int(e['value'])
-            large = next(((r, group, gems) for (r, group), gems in sorted(reward.items()) if gems >= 20), None)
-            starts = {str(c['id']): game['opening'][str(c['id'])] for c in game['roster'] if ids[c['id']] == team}
+            large = next(((r, group, gems) for (r, group), gems in sorted(reward.items()) if gems >= 20 and r <= 250), None)
+            starts = {str(c['id']): [a for a in game['opening'][str(c['id'])] if a['r'] <= 250] for c in game['roster'] if ids[c['id']] == team}
             target_cards = {}
             for actor, targets in starts.items():
                 target_cards[actor] = [dict(a, first_team_gem_receipt=next((r for (r, group), amount in sorted(reward.items()) if group == a['group'] and r >= a['r']), None)) for a in targets]
             opening_rows.append({'match_id': mid, 'map': meta['map'], 'cohort': meta['cohort'], 'result': meta['result'], 'team': label,
-                                 'draft': [c['name'] for c in game['roster'] if ids[c['id']] == team], 'targets': target_cards,
+                                 'draft': [c['champion'] for c in native['roster']['draft'] if c['team'] == ('teamA' if team == 0 else 'teamB')],
+                                 'physical_roster': [c['name'] for c in game['roster'] if ids[c['id']] == team], 'targets': target_cards,
                                  'first_purchase': min((e['timestamp']['round'] for e in buys), default=None),
                                  'first_large_observed_gem_reward': large,
                                  'large_grouping': None if not large else next(({'r': r['r'], 'alive': r['teams'][team]['alive'], 'spread': r['teams'][team]['spread']} for r in reversed(game['rows']) if r['r'] <= large[0] - 5), None)})

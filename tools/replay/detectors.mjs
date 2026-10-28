@@ -26,7 +26,9 @@ const nativeEvents=d=>d.events.flatMap(s=>s.entries.map(e=>({...e,kind:s.kind,ow
 const ownEvents=(events,id,kind)=>events.filter(e=>e.owner.kind==='champion'&&e.owner.id===id&&e.kind===kind);
 const counter=rows=>{const out={};for(const row of rows){const k=JSON.stringify(row);out[k]=(out[k]??0)+1;}return Object.entries(out).sort();};
 const equalCounts=(a,b)=>JSON.stringify(counter(a))===JSON.stringify(counter(b));
-const moving=r=>r.actions.some(a=>[4,22,23].includes(a.kind)&&!same(a.from,a.to));
+// Official PanelChrome.L: 4 Move,22 Teleport complete,23 Movement blocked.
+const isMovementAction=a=>[4,22].includes(a.kind)&&!same(a.from,a.to);
+const moving=r=>r.actions.some(isMovementAction);
 const active=r=>r.actions.some(a=>[5,6].includes(a.kind))||moving(r);
 const free=r=>r.complete&&r.alive&&r.end_alive&&r.p&&r.end_p&&!r.channel&&!r.end_channel&&!r.stun;
 const idleEligible=r=>free(r)&&!r.capture&&!r.actions.some(a=>[11,12].includes(a.kind));
@@ -183,7 +185,7 @@ function analyse(E,file,entry,validate){
         alive_observed_turns:rows.filter(r=>r.alive&&r.p).length,
         high_bag_observed_turns:rows.filter(r=>r.alive&&r.p&&r.bag>=T.bag_gems).length,
         idle_eligible_turns:whole.filter(idleEligible).length,native_deaths:ownEvents(events,ch.id,'death').length,
-        moves:actions.filter(a=>a.actor===ch.id&&[4,22,23].includes(a.kind)&&!same(a.from,a.to)).length};
+        moves:actions.filter(a=>a.actor===ch.id&&isMovementAction(a)).length};
       episodes(ch,'D1','stationary',whole,isIdle,T.idle_turns,r=>({x:r.p.x,y:r.p.y,bag:r.bag,gold:r.gold}),r=>pointKey(r.p));
       episodes(ch,'D2','high_bag',rows,r=>r.alive&&r.p&&r.bag>=T.bag_gems&&!r.channel&&!r.actions.some(a=>[12,18].includes(a.kind)),T.bag_turns,(a,b)=>({bag_start:a.bag,bag_end:b.bag}));
       const deaths=ownEvents(events,ch.id,'death').sort((a,b)=>a.timestamp.ordinal-b.timestamp.ordinal);
@@ -205,7 +207,7 @@ function analyse(E,file,entry,validate){
         }
       }
       let movement=[],oscillation=null;
-      for(const a of actions.filter(a=>a.actor===ch.id&&[4,22,23].includes(a.kind)&&!same(a.from,a.to))){
+      for(const a of actions.filter(a=>a.actor===ch.id&&isMovementAction(a))){
         if(!movement.length||!same(movement.at(-1).p,a.from)){movement=[{p:a.from,r:a.r}];oscillation=null;}
         movement.push({p:a.to,r:a.r});if(movement.length>5)movement.shift();
         const yes=movement.length===5&&same(movement[0].p,movement[2].p)&&same(movement[2].p,movement[4].p)&&same(movement[1].p,movement[3].p)&&
@@ -348,4 +350,4 @@ if(!isMainThread){
   if(partition==='calibration-excluded')fs.writeFileSync(path.join(STUDY,'DETECTOR_VALIDATION.json'),JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify({...report,results:results.filter(r=>!r.passed)}));if(report.failed)process.exitCode=1;
 }
-export {episodes,isIdle,idleEligible,unionTurns,equip};
+export {episodes,isIdle,idleEligible,unionTurns,equip,isMovementAction};

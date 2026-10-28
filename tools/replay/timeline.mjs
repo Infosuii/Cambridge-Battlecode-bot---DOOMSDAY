@@ -132,8 +132,10 @@ function analyse(E,item){
               credits.push({r:s.r,input:s.input,substep:s.substep,owner:c.entity.index,gold:delta,source,group:group??null});}
           }
         }
-        if(s.ak===1&&teams.has(s.actor)&&[4,5,6,11,12,13,14,18,22,23,25,26,27].includes(s.kind)){
+        if(s.ak===1&&teams.has(s.actor)&&[4,5,6,9,11,12,13,14,15,16,18,20,21,22,23,25,26,27].includes(s.kind)){
           const a={r:s.stepRound,input:s.input,substep:s.substep,actor:s.actor,kind:s.kind,from:s.from,to:s.to,slot:s.slot};
+          if(s.kind===9)a.priority=E.PC.I(dv(),p).step.priority;
+          a.successful=s.kind!==23;
           actions.push(a);const co=counters[teams.get(s.actor)];co.round_actions[s.kind]=(co.round_actions[s.kind]??0)+1;
           if([5,6].includes(s.kind)&&prevPtr&&opening[s.actor].length<3){
             const pv=E.PC.I(dv(),prevPtr),camp=pv.camps.find(c=>c.health>0&&same(c.position,s.to));

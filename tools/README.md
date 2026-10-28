@@ -137,6 +137,32 @@ and reports are in `research/deep-2026-10-28/`. No tool here submits or activate
 `decode_replays.mjs` now uses the shared engine loader/pins. Select current games with
 `NFS_REPLAY_ENGINE=2.0.0 node tools/replay/decode_replays.mjs --workers 4 --perspective --out <local-only.jsonl> <replays>`.
 `NFS_REPLAY_ASSETS` or `--assets` selects an installed asset directory; Linux cache
-and Windows AppData are supported. Syntax/pin/instantiation checks pass. Current
-replay decoding and five-game reconciliation remain unvalidated due missing files;
-do not treat the metadata candidate manifest as an accepted decoded dataset.
+and Windows AppData are supported. Syntax/pin/instantiation checks pass. All555 current replay/native pairs now reconcile; five-game calibration passed
+before accepted bulk decoding. See research/deep-2026-10-28/STATE.md for later checks.
+
+
+## Session 2 timelines, model and prediction-first cards
+
+All commands run at the repository root. Set NFS_REPLAY_ENGINE=2.0.0 (PowerShell:
+$env:NFS_REPLAY_ENGINE='2.0.0'). Raw trajectories stay ignored. The tools reject
+hands-off analysis. Use new output directories; preserve prior calibration receipts.
+
+| Tool | Purpose / usage |
+|---|---|
+| replay/timeline.mjs | --partition calibration-excluded --workers3 --out artifacts/local-only/deep-2026-10-28/timeline-calibration-NEW, then --partition examined with a new output. Requires5 current-code calibration passes. End-of-round/native ledger validation, exact gold credit phases, union vision, first camp targets and accepted action/blocked-step log. |
+| replay/deep_timeline_report.py | --run <examined-run>; creates P3_TIMELINES/TIMELINE_DATA/TIMELINE_SCREEN from360 own games. Actual native draft picks are separate from physical rosters. |
+| replay/deep_model_split.py | Creates immutable MODEL_SPLIT.json,231/77/77 stratified game partitions. Never resplit after fitting. |
+| replay/winprob.py | --run <examined-run>; fixed-scale symmetric L2 logistic plus calibration-set temperature, game weights, frozen test evaluation. Needs NumPy; no sklearn/scipy. Do not tune on test results. |
+| replay/test_winprob.py | Four scientific checks: neutral calibration bins, symmetry, no future income, per-game weighting. |
+| replay/deep_model_report.py | Renders P3_WINPROB from the saved model without refitting. |
+| replay/deep_moments.py | --run <examined-run>; up to5 disjoint ~10-round drops/loss, immutable105-card MOMENT_SAMPLE. |
+| replay/moment_contexts.mjs | before <examined-run> freezes exact focus-actor own observations and conditional expectations; commit them before after <examined-run> exposes subsequent action windows. CARD_PREDICTIONS must remain unchanged. |
+| replay/deep_card_report.py | --run <examined-run> [--detectors <corrected-detector-run>]; cards<=25 lines, error_analysis.csv, event-label surrogate ceilings and nearest-state winner controls. Descriptive, not confirmed bugs. |
+| replay/deep_correction_audit.py | Uses preserved timeline-examined-v2/v3 and detector-examined-v2/v3 to prove feature/native-event equivalence after the blocked-movement correction. Fixed historical directory names are intentional. |
+| replay/deep_session2_checkpoint.py | Refreshes the measured checkpoint, small resource-only calibration sample and handoff pointers; does not implement bots, queue games or fabricate traces. |
+| replay/audit_session2_delivery.py | Checks105 cards,65 losses,15 control wins, line limits, frozen predictions/splits, source integrity and no hands-off leakage. |
+
+Latest valid runs: detector-calibration-v7/examined-v3 and
+timeline-calibration-v5/examined-v3. Official PanelChrome.L distinguishes22 teleport
+completion,23 movement blocked,25 sell and9 priority. DECODER_CORRECTION.md records
+the post-registration implementation fix; thresholds were not changed.

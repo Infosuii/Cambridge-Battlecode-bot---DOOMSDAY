@@ -1,5 +1,7 @@
 # Handoff: bot development from v52 onward
 
+**Latest deep-analysis checkpoint: Session 2 (2026-10-28).** Read `research/deep-2026-10-28/STATE.md` and FAST_FINDINGS.md. Timelines, model and105 descriptive cards are saved; exact reproduction/traces are next. See the dated Session2 section at the end.
+
 **Analysis checkpoint (2026-10-28, Session 1 complete):** Read
 `research/deep-2026-10-28/STATE.md`, SESSION1_FINDINGS.md and P2_DETECTORS.md.
 All 555 replay/native pairs pass; all 385 examined games pass the registered
@@ -483,3 +485,21 @@ Next: Session 2 timelines, decomposition, openings, game-separated win-probabili
 calibration and diverse prediction-first cards/ceilings. FAST_FINDINGS and wave-2
 hypotheses remain pending. Current raw outputs are local-only under
 artifacts/local-only/deep-2026-10-28/detector-examined-v2; usage in tools/README.md.
+
+
+## Session 2 deep-analysis checkpoint — 2026-10-28
+
+Read research/deep-2026-10-28/STATE.md and FAST_FINDINGS.md first.385 examined
+timelines pass11,853,045 resource comparisons; model231/77/77 split test log-loss
+0.4243 versus0.5318 bank-only;105 prediction-first cards cover65 losses and15
+control wins. D3 remains the leading detector association, not a tested fix.
+The official movement-blocked label correction is documented and checked across
+385 games, with identical model features/native-dependent events. Current P2
+supersedes older movement rates. The165 hands-off games remain unreviewed.
+
+Next: exact reproduction/effective-rule traces, then opponent profiles, takeover
+regressions and the final bot brief. Automated cards do not establish source-rule
+violations. Ten planned wave2 groups remain unqueued; check identity and direct
+authorization before any new request. No source edits/submissions/activations/new
+matches occurred. The user approved ongoing analysis-only pushes to the existing
+analysis/deep-2026-10-28 branch; raw replays/native summaries remain local.

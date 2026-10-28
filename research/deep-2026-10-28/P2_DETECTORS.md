@@ -49,9 +49,9 @@ These are pooled measured durations, not independent-turn confidence intervals.
 
 | Flag | Loss flagged/eligible champion-turns | Win flagged/eligible champion-turns |
 | --- | ---: | ---: |
-| D1 | 26422/736375 | 36967/671532 |
+| D1 | 27600/736375 | 37529/671532 |
 | D2 | 78775/833704 | 49818/783987 |
-| D6 | 13241/833593 | 23414/783974 |
+| D6 | 13533/833593 | 23751/783974 |
 | D9 | 16480/833704 | 16234/783987 |
 | D10 | 334/968946 | 2069/844832 |
 
@@ -140,3 +140,12 @@ less validation than fuel events. No flag alone is an actionable bot-code change
 Next: Session 2 round timelines, income/conversion/denial/time decomposition, openings,
 game-separated calibrated win probability, then diverse loss/win cards and ceilings.
 Do not queue wave 2 until FAST_FINDINGS.md and hypothesis/prediction/decision rules exist.
+
+
+## Movement-blocked implementation correction
+
+This table uses corrected source5052f245, examined-v3. Step23 is a blocked
+destination, not an arrival.15 semantic cases now pass. D1/D4/D6 measurements
+are regenerated without changing the registered thresholds; D9 and all native
+event detector sets are unchanged. See DECODER_CORRECTION.md and
+CORRECTION_VALIDATION.json. Session2 results and next work are in STATE.md.

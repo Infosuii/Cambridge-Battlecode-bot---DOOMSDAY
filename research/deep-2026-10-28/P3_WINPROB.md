@@ -47,3 +47,11 @@ Four scientific checks pass: neutral probability/calibration-bin accounting, exa
 moments.json records the five largest disjoint positive approximately ten-round drops per examined DOOMSDAY loss. Nonterminal states are used at both ends. Feature changes are apportioned by integrating the logistic derivative along the observed segment; the components sum to the model change but are not causal credit. Single events, cards, shares and later fix priorities require that distinction.
 
 MOMENT_SAMPLE.json fixes 105 cards: 90 loss moments from 65 losses (20 Learn,30 Climb,15 Other) and 15 distinct control wins (2 Learn,9 Climb,4 Other). Actor-own pre-window observations and rule-based expectations are frozen separately before subsequent actions are exposed. The focus actor is selected from the pre-window state by largest bag, then lower HP fraction, then physical ID. This can omit a different victim in a team-level swing.
+
+
+## Action-log correction compatibility
+
+CORRECTION_VALIDATION.json proves exact equality of all385 model feature matrices
+after correcting action labels/completeness. The fitted coefficients, temperature,
+internal split and test scores are retained without refitting or test retuning.
+The compatible source revision is recorded in WINPROB_MODEL.json.
