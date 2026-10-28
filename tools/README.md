@@ -47,6 +47,33 @@ For an already verified prefix from the same pinned decoder, avoid duplicate dec
 It retains prior passing rows, decodes only missing files, combines local JSONL and
 reconciles the complete result. Raw JSONL, native summaries and ZIPs are never committed.
 
+## Registered replay detectors
+
+Read research/deep-2026-10-28/DETECTOR_SPEC.json first. Definitions were committed
+before examined processing. The extractor accepts only calibration-excluded or
+examined; it refuses hands-off before creating output. It uses the pinned engine-2
+loader, actual channel/capture state and native events. Flags are associations;
+read the registered limits for mode, gate, island and vision proxies.
+
+```bash
+NFS_REPLAY_ENGINE=2.0.0 node tools/replay/test_detectors.mjs
+NFS_REPLAY_ENGINE=2.0.0 node --no-warnings tools/replay/detectors.mjs --partition calibration-excluded --validate --workers 3 --out artifacts/local-only/deep-2026-10-28/detector-calibration-NEW
+NFS_REPLAY_ENGINE=2.0.0 node --no-warnings tools/replay/detectors.mjs --partition examined --validate --workers 4 --out artifacts/local-only/deep-2026-10-28/detector-examined-NEW
+python tools/replay/test_deep_detector_report.py
+python tools/replay/deep_detector_report.py --run artifacts/local-only/deep-2026-10-28/detector-examined-NEW
+```
+
+Use new run names. Current-source/spec hashes and five passing calibration games
+are required before examined processing. Per-game local JSON contains per-champion
+events, ranges, first-flag rounds, contexts, rates and denominators. The report
+produces P2_DETECTORS.md and DETECTOR_DATA.json, with Wilson intervals and map/
+opponent bootstrap sensitivity. This does not calibrate win probability or prove
+causal mistakes. PowerShell: set `$env:NFS_REPLAY_ENGINE='2.0.0'` before Node.
+
+`deep_metadata_restore.py` reads only frozen public group endpoints, paced and
+cached. It creates no match and uses no login. It validates all selected identities,
+maps, sides, outcomes and native scores/rounds; raw responses remain local-only.
+
 ## Benchmarking a candidate (current workflow)
 
 | Script | Purpose |

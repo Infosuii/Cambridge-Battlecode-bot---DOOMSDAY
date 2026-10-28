@@ -1,14 +1,13 @@
 # Handoff: bot development from v52 onward
 
-**Analysis checkpoint (2026-10-28, replay intake verified):** Session 1 continues
-on `analysis/deep-2026-10-28`; read `research/deep-2026-10-28/STATE.md` and §20.
-All 111 frozen groups / 555 replay-native pairs pass validation; accepted study
-n=550 (385 examined,165 hands-off), plus five calibration-only games. The user
-archive hash matches the checkpoint; frozen live69 source remains unchanged.
-Detector implementation/validation is next. Wave 1 is complete; wave 2 retains
-10 groups and still requires FAST_FINDINGS and written hypotheses. Server-source
-hash and absolute activation time remain unknown. The live-version statements
-below are historical. No new match, submission or activation was made.
+**Analysis checkpoint (2026-10-28, Session 1 complete):** Read
+`research/deep-2026-10-28/STATE.md`, SESSION1_FINDINGS.md and P2_DETECTORS.md.
+All 555 replay/native pairs pass; all 385 examined games pass the registered
+D1-D11 event/state checks (360 own games,25 top-v-top). The 165 hands-off games
+have no detector output. Repeated-death flags remain associated with losses after
+per-death normalization and clustering; this is not a causal fix. Session 2
+timelines/model/cards are next. Wave 2 still needs FAST_FINDINGS and hypotheses.
+No new matches, bot edits, submissions or activations were made.
 
 **Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
@@ -466,3 +465,21 @@ under artifacts/local-only/deep-2026-10-28 in work/battlecode-deep-analysis on t
 Battlecode project desktop workspace. See tools/README.md for ingestion/validation.
 Resume at detector threshold registration and D1-D11/perspective validation; do not
 restart wave 1. No new matches, submissions, activations or frozen-bot edits occurred.
+
+
+## 21. Deep-analysis Session 1 detector screen complete (2026-10-28)
+
+Registration 148d845 fixes D1-D11 definitions before examined processing. All five
+calibration games and all 385 examined games pass native-event/perspective checks;
+13 semantic cases and six statistics cases pass. Examined own sample: 191 losses,
+169 wins; reference: 25 top-v-top games. No detector has run on 165 hands-off games.
+New public metadata for all 111 frozen groups agree with native scores/rounds.
+
+Read research/deep-2026-10-28/SESSION1_FINDINGS.md, P2_DETECTORS.md and
+DETECTOR_DATA.json. D3 repeat deaths are associated with losses even per native
+death; D11's per-death contrast is weaker than its per-game contrast. Several
+other flags are frequent in wins too. No causal fix or threshold change follows.
+Next: Session 2 timelines, decomposition, openings, game-separated win-probability
+calibration and diverse prediction-first cards/ceilings. FAST_FINDINGS and wave-2
+hypotheses remain pending. Current raw outputs are local-only under
+artifacts/local-only/deep-2026-10-28/detector-examined-v2; usage in tools/README.md.

@@ -40,10 +40,11 @@ validation only; no hands-off decision or detector outputs were inspected.
   pairs pass; there are no current integrity exclusions. Historical missing/mismatched
   downloads remain quarantined, documented in DOWNLOAD_EXCLUSIONS.json.
 - Fourteen older engine/format 0.0.3 archives remain excluded from this study.
-- The earlier raw catalog.json was local to the prior machine and was not committed.
-  Existing-game outcomes agree with the frozen manifest; exact final states are checked
-  against independent native summaries. Wave/top public score metadata is additionally
-  compared. Do not claim restoration of that original raw catalog.
+- Fresh public reads now restore group metadata for all 111 frozen groups / 555 games.
+  IDs, maps, sides, engine and outcomes agree with the frozen manifest; all native scores
+  and round counts agree. New raw metadata is local-only in restored-catalog.json;
+  METADATA_RESTORE.json records validation. The earlier machine's original snapshot
+  was not copied; this is a new read of the same immutable group identities.
 - The captured existing catalog remains n=455, 239W/216L, from 91 groups created
   09:20:04.612Z–12:00:05.488Z on 28 October. This is not a proven activation-bounded census.
   error404 accounts for 215/455 games; loss counts are not opponent-strength rankings.
@@ -124,4 +125,6 @@ validation only; no hands-off decision or detector outputs were inspected.
 | adgato_gemcombat4 | 1 | 3 | 2 | 0 |
 | adgato_gemcombat5 | 0 | 3 | 2 | 0 |
 
-Detector intervals, final decomposition and causal next-bot recommendations remain pending.
+P2_DETECTORS.md now reports the examined screen (360 own games,25 reference games).
+The 165 hands-off games still have no detector outputs. Decomposition, causal
+next-bot recommendations and final held-out confirmation remain pending.
