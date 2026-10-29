@@ -243,3 +243,11 @@ gold matches cumulative percentage carry rather than independent reward floors.
 The reversed reward order moves the carried unit to the later event. Gem
 Prospector bonuses floor per award. Larger camps and other combinations remain
 open; no advanced model was enabled.
+
+## Equipped single-wolf combat
+
+CAMP_MODIFIER_CONFORMANCE.md records 20 complete native cells with zero faults/
+fuel-outs. Monster +15%, multiplicative Jungle/Durability mitigation and the
+restricted basic-clear primitive all match per-hit/per-phase/total observations,
+including 80.5 basic hits and 12.6 incoming damage. Other combatants and variable
+stats/abilities remain open; this is not full V-M1 or strategy evidence.

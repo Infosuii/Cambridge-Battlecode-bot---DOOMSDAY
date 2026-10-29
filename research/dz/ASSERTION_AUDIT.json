@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T10:10:48.349424+00:00",
+  "verified_utc": "2026-10-29T10:29:46.234531+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 120,
+  "checked_passing_cells": 140,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -285,6 +285,146 @@
       "side": "B",
       "assertions": 6,
       "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
+    {
+      "run": "dz-camp-mods-000-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "904648a4f7cfc027f2eb744e5ec8b84d1c1e4ec795230cafe2389582ce3a9347"
+    },
+    {
+      "run": "dz-camp-mods-000-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "9a29287e230dd6ea76623792d0e716721ef1f7f630c8505a34d19a18df5c3db2"
+    },
+    {
+      "run": "dz-camp-mods-001-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "4737bb29db6fc89f87d2acb1c5ea86d1a3fa07b2044113d26ac9d3c8a663b913"
+    },
+    {
+      "run": "dz-camp-mods-001-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "8fbead6f3e4075fdc171acb51430492f5d9ced1417e628c74ab302b4d16bab67"
+    },
+    {
+      "run": "dz-camp-mods-010-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "8878131af5f418de4f237001554db0740a5ceaa5fdecd169bc68841a32b653be"
+    },
+    {
+      "run": "dz-camp-mods-010-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "df96718243c0e4da5b70e303197513d0a98702d0a8729dc83eb02f4ea0f5398c"
+    },
+    {
+      "run": "dz-camp-mods-011-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "a3907da77c6954307bcab8d1147d92698dcfc99747820e1d3b344b170b6058c5"
+    },
+    {
+      "run": "dz-camp-mods-011-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "5f098c877820d3c81302095a6d8347a16d2759f6b7683d6878701ac88f0c305a"
+    },
+    {
+      "run": "dz-camp-mods-100-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "a6595dd84afaea0bdd6407ce0bf8c0e04e189e6706e78d2e3b0c285609d25ac6"
+    },
+    {
+      "run": "dz-camp-mods-100-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "ff7d39e889ceaad00b1c5091948d8aa8affd3b892075477536237fe844c55db4"
+    },
+    {
+      "run": "dz-camp-mods-101-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "3d95477f829cc3f47c9646b219f657efc32bd5971099cad3f2054dd22b307357"
+    },
+    {
+      "run": "dz-camp-mods-101-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "ad0145fc287cf83241c5f3b6ffc23dc191aaebbf3f489f37c7840593c448a162"
+    },
+    {
+      "run": "dz-camp-mods-110-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "f3b7a181b7c73c4c3cb15ef13b47db886bab083401c43ecb0dbe3ca75b3581e1"
+    },
+    {
+      "run": "dz-camp-mods-110-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "0c17fbec2b4d37bf4829486feeb1caf70f302d27de3d61bc3a55ce7f5bc52c18"
+    },
+    {
+      "run": "dz-camp-mods-111-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "8fd149830876ee9e26815e895b1eb8218cb228a2084bb315691affd90988c66e"
+    },
+    {
+      "run": "dz-camp-mods-111-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "cc189e7e8023313611687b2ca9ae8d07b99495682f85f3dac7849f34be62b584"
+    },
+    {
+      "run": "dz-camp-mods-focus-100-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "54b30e64128a8fde9eb1e8eba84fd05fa773cb9759f80bffbe87fb3eb2a08007"
+    },
+    {
+      "run": "dz-camp-mods-focus-100-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "cf9cb33f0f1094d969aa464c9f3e5d063449f0f3549ef63c7f2c2f7c6eaf9240"
+    },
+    {
+      "run": "dz-camp-mods-focus-111-01",
+      "map": "camp-modifiers",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "11e41684341d7b63f8b0d6f7650e6dfb3a7cfb5cfc1b67b450acb0074472bd06"
+    },
+    {
+      "run": "dz-camp-mods-focus-111-01",
+      "map": "camp-modifiers",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "9a9014839ddb2ef053c8396971f37d98221d88182157402a9a211ca572bbbed4"
     },
     {
       "run": "dz-ct13-power-control-02",

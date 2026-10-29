@@ -7,6 +7,15 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_camp_modifiers_need_real_samples_and_multiplicative_reductions(self):
+        names=['modifier_setup','modifier_gold_captured','modifier_items_created','modifier_feasible','modifier_hit_damage','modifier_phase_damage','modifier_attack_count','modifier_elapsed','modifier_total_damage','modifier_isolated_fixed_stats']
+        checks='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)
+        text=checks+'\nCT_MOD_SETUP monster=0 jungle=0 durability=0 strength=70 camp_hp=1350 camp_strength=20 hit=70 incoming=20 predicted=20\n'+'\n'.join(f'CT_MOD_PHASE round={r} delta=20' for r in range(11,30))+'\nCT_MOD_RESULT attacks=20 elapsed=19 hp_lost=380 expected_damage=380'
+        self.assertTrue(dz.diagnostic_checks(text,'camp-mods')['passed'])
+        self.assertFalse(dz.diagnostic_checks(checks,'camp-mods')['passed'])
+        combined=text.replace('jungle=0 durability=0','jungle=1 durability=1').replace('incoming=20','incoming=12.6').replace('delta=20','delta=12.6').replace('hp_lost=380 expected_damage=380','hp_lost=239.4 expected_damage=239.4')
+        self.assertTrue(dz.diagnostic_checks(combined,'camp-mods')['passed'])
+        self.assertFalse(dz.diagnostic_checks(combined.replace('12.6','12'),'camp-mods')['passed'])
     def test_vesper_reward_order_moves_the_carried_gold_unit(self):
         data=[('baseline_gold',0,0,0,240,319,319),('gem_7_floor',7,7,7,0,0,0),('gem_14_floor',14,14,14,0,0,0),('gold_cluster_bonus',0,0,0,20,26,26),('wolf_reward_unchanged',4,4,4,40,54,54)]
         def transcript(rows):

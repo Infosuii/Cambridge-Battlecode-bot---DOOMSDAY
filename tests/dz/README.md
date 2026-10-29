@@ -12,6 +12,7 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-camp-mods --fixture camp-mods --map-dir tests/dz/maps --maps camp-modifiers --diagnostic-rounds 2000 --set DZ_MONSTER=1 --set DZ_JUNGLE=1 --set DZ_DURABILITY=1
 python tools/dz.py conformance --name new-prospector --fixture prospector --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-linked --fixture linked --map-dir tests/dz/maps --maps isolated-monolith --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-missed-pick --fixture draft-miss --maps 00collision 01big-world --diagnostic-rounds 2000
@@ -49,6 +50,11 @@ probes establish engine behavior; their lineups are not production draft plans.
 the last two awards. Use `--set` for these booleans. See
 `research/dz/PROSPECTOR_REWARD_CONFORMANCE.md` for the supported scope and
 the order-dependent gold rounding; these are not strategy match results.
+
+`camp-mods` tests `DZ_MONSTER`, `DZ_JUNGLE` and `DZ_DURABILITY` in any boolean
+combination. `DZ_MONSTER_FOCUS=1` uses the focus version for fractional basic
+damage. The runner freezes the exact `basic_clear.h`. See
+`research/dz/CAMP_MODIFIER_CONFORMANCE.md` for scope and measured tolerances.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

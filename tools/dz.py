@@ -9,6 +9,7 @@ import concurrent.futures as cf
 import datetime as dt
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -160,6 +161,23 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='camp-mods':
+        checks=transcript_assertions(stdout)
+        required={'modifier_setup','modifier_gold_captured','modifier_items_created','modifier_feasible','modifier_hit_damage',
+                  'modifier_phase_damage','modifier_attack_count','modifier_elapsed','modifier_total_damage','modifier_isolated_fixed_stats'}
+        setup=re.findall(r'CT_MOD_SETUP monster=([01]) jungle=([01]) durability=([01]) strength=([0-9.eE+-]+) camp_hp=([0-9.eE+-]+) camp_strength=([0-9.eE+-]+) hit=([0-9.eE+-]+) incoming=([0-9.eE+-]+) predicted=(\d+)',stdout)
+        result=re.findall(r'CT_MOD_RESULT attacks=(\d+) elapsed=(\d+) hp_lost=([0-9.eE+-]+) expected_damage=([0-9.eE+-]+)',stdout)
+        phases=[(int(r),float(d)) for r,d in re.findall(r'CT_MOD_PHASE round=(\d+) delta=([0-9.eE+-]+)',stdout)]
+        valid=False
+        if len(setup)==len(result)==1:
+            m,j,d=map(int,setup[0][:3]);strength,hp,camp_strength,hit,incoming=map(float,setup[0][3:8]);predicted=int(setup[0][8])
+            attacks,elapsed=map(int,result[0][:2]);loss,expected_loss=map(float,result[0][2:])
+            finite=all(math.isfinite(x) for x in (strength,hp,camp_strength,hit,incoming,loss,expected_loss))
+            if finite and hit>0 and hp>0:
+                n=math.ceil(hp/hit); damage=incoming*(n-1)
+                valid=abs(hit-strength*(1+.15*m))<.01 and abs(incoming-camp_strength*(1-.3*j)*(1-.1*d))<.01 and n==attacks==predicted and elapsed==n-1 and abs(loss-damage)<.1 and abs(expected_loss-damage)<.01 and len(phases)==n-1 and len(phases)>=5 and all(abs(delta-incoming)<.01 for _,delta in phases) and all(phases[i][0]==phases[0][0]+i for i in range(len(phases)))
+        return dict(passed=valid and not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
+                    checks=checks,setup=setup,result=result,phase_samples=len(phases),missing=sorted(required-checks.keys()),scope='constant-stat stationary wolf duel; no spells or other combatants')
     if fixture=='prospector':
         checks=transcript_assertions(stdout)
         rewards=re.findall(r'CT13_REWARD label=(\w+) base_gems=(\d+) actual_gems=(\d+) expected_gems=(\d+) base_gold=(\d+) actual_gold=(\d+) expected_gold=(\d+)',stdout)
@@ -501,12 +519,12 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
-    if args.command=='conformance' and args.fixture=='clear':
+    if args.command=='conformance' and args.fixture in ('clear','camp-mods'):
         shutil.copyfile(ROOT/'bots/dz/src/basic_clear.h',frozen/'src/basic_clear.h')
     if args.trace or injected:
         config = frozen/'src/config.h'
@@ -683,7 +701,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

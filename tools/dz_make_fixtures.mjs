@@ -17,6 +17,7 @@ const layouts={
   'isolated-golem':[[5,10,10]],
   'cluster-line':Array.from({length:12},(_,i)=>[3,6+i,6]),
   'prospector':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[2,8,12],[2,8,16],[2,9,16],[3,5,15],[0,8,22]],
+  'camp-modifiers':[...Array.from({length:24},(_,i)=>[3,6+i%6,6+Math.floor(i/6)]),[0,12,14]],
   'recovery-shop':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[0,10,12]],
   'capture-contest':[[2,14,15],[2,15,15]],
 };

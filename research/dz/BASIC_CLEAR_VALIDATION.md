@@ -61,3 +61,10 @@ measure real clear/arrival/damage errors across varying items, abilities, health
 terrain, members and crews. Required gates remain median clear error ≤20%, bias
 ≤10%, arrival error ≤3 rounds and damage bias ≤20%. Preserve the release holdout.
 No map-specific plans or parameter fitting were introduced.
+
+## Equipped-combat extension
+
+CAMP_MODIFIER_CONFORMANCE.md adds 20 complete native cells across all eight
+Monster/Jungle/Durability combinations and Monster-focus fractional-hit variants.
+The same frozen primitive matches every count, elapsed interval and damage
+receipt within the stated small float-snapshot tolerances. V-M1 remains incomplete.

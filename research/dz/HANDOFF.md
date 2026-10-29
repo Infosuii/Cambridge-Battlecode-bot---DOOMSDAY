@@ -2,6 +2,27 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Camp-modifier continuation after c83a2f9
+
+Production remains unchanged and still matches the low-fuel 420-game / clean
+export receipt. Ten new campaigns (20 complete native games) pass every Monster/
+Jungle/Durability combination and fractional 80.5-hit cases, zero native faults/
+fuel-outs. Read CAMP_MODIFIER_CONFORMANCE.md. This validates the restricted
+basic_clear.h against equipped combat too; it does not close V-M1.
+
+The single-wolf incoming formula is confirmed as multiplicative (20 × .7 × .9
+= 12.6). Item stat points are not flat damage: five Monster strength points give
+Vendetta +30 live strength here, then the 15% passive takes a 100 hit to 115.
+The focus version keeps strength 70 and gives 80.5 hits; exactly 17 attacks and
+16 future damage phases match the model. All eight MJD configurations and both
+focus variants are archived. No production source edit or strategy promotion.
+
+Next useful gate is exact on-site capture timing with/without the Capture emblem
+used by fixed shopping. Distinguish the configured 5/3 timer from physical entry
+and its initialization phase. Tribute/remaining item modifiers, action/vision
+cases, full SafeMode and objective-model calibration remain open.
+
+
 ### Prospector / reward continuation after 59974a2
 
 Production remains unchanged: exact low-fuel binary, 420-game receipt and clean

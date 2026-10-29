@@ -160,3 +160,13 @@ The registry was created before experiments. Entries below record actual use.
 | dz-ct13-vesper-prospector-05 | 2026-10-29 | deterministic; Wasm c14cdb502d6e | 2 cells; idle81 | conformance; trace=False |
 | dz-ct13-vesper-power-control-05 | 2026-10-29 | deterministic; Wasm 619521ae38d0 | 2 cells; idle81 | conformance; trace=False |
 | dz-ct13-vesper-power-reversed-05 | 2026-10-29 | deterministic; Wasm 0d766dc5cc51 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-000-01 | 2026-10-29 | deterministic; Wasm d53326ed47e6 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-111-01 | 2026-10-29 | deterministic; Wasm dfad0f8e2c47 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-001-01 | 2026-10-29 | deterministic; Wasm 7c9c6d7165db | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-010-01 | 2026-10-29 | deterministic; Wasm c2774ee8bcaf | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-011-01 | 2026-10-29 | deterministic; Wasm 1ae86b1438e1 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-100-01 | 2026-10-29 | deterministic; Wasm 50d32a13a029 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-101-01 | 2026-10-29 | deterministic; Wasm c3d3a193e4cd | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-110-01 | 2026-10-29 | deterministic; Wasm 8e4238243f67 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-focus-100-01 | 2026-10-29 | deterministic; Wasm 23c419752631 | 2 cells; idle81 | conformance; trace=False |
+| dz-camp-mods-focus-111-01 | 2026-10-29 | deterministic; Wasm b3b95fb5da0d | 2 cells; idle81 | conformance; trace=False |
