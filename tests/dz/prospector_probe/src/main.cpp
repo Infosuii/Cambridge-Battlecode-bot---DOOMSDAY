@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdio>
 #include "config.h"
+#include "objective_math.h"
 using namespace cambc;
 void check(const char* name,bool pass) { std::printf("CT_CHECK name=%s pass=%d\n",name,pass); }
 bool walk(vec2 target,unsigned round) {
@@ -39,10 +40,12 @@ int main() {
     if (actor) {
         check("prospector_setup",std::all_of(selected.begin(),selected.end(),[](int i){return i>=0;}));
         std::printf("CT13_ACTOR vesper=%d bonus_gold_percent=%u\n",DZ_VESPER,gold_bonus);
+        if constexpr (DZ_OBJECTIVE_MATH) std::printf("CT_MATH enabled=1\n");
     }
     const std::array labels{"baseline_gold","gem_7_floor","gem_14_floor","gold_cluster_bonus","wolf_reward_unchanged"};
     unsigned phase=0,gold_before=0,gems_before=0,entered=0;
     std::uint64_t cumulative_gold_units=0; // Exact rational award history, denominator 400.
+    int model_remainder=0; unsigned predicted_receipt=0;
     bool sampled=false,shop_done=false,dead_logged=false;
     std::vector<bool> dead;
     for (;;) {
@@ -80,6 +83,15 @@ int main() {
                         auto award_units=static_cast<std::uint64_t>(g.gold_value())*(boosted?5:4)*(100+gold_bonus);
                         unsigned expected_gold=static_cast<unsigned>((cumulative_gold_units+award_units)/400-cumulative_gold_units/400);
                         cumulative_gold_units+=award_units;
+                        if constexpr (DZ_OBJECTIVE_MATH) {
+                            const auto kind=role==4?dz::RewardKind::Wolf:role==1||role==2?dz::RewardKind::GemCluster:dz::RewardKind::GoldCluster;
+                            const bool owns_prospector=DZ_PROSPECTOR&&shop_done;
+                            auto quote=dz::solo_reward(kind,g.gem_value(),g.gold_value(),owns_prospector,DZ_VESPER,model_remainder);
+                            auto uncertain=dz::solo_reward(kind,g.gem_value(),g.gold_value(),owns_prospector,DZ_VESPER);
+                            check((std::string("math_reward_")+labels[role]).c_str(),quote.supported()&&quote.gems==actual_gems&&quote.gold_min==actual_gold&&quote.gold_max==actual_gold);
+                            check((std::string("math_unknown_")+labels[role]).c_str(),uncertain.supported()&&uncertain.gems==actual_gems&&uncertain.gold_min<=actual_gold&&actual_gold<=uncertain.gold_max&&uncertain.next_remainder==-1);
+                            model_remainder=quote.next_remainder;
+                        }
                         check(labels[role],actual_gems==expected_gems&&actual_gold==expected_gold);
                         std::printf("CT13_REWARD label=%s base_gems=%u actual_gems=%u expected_gems=%u base_gold=%u actual_gold=%u expected_gold=%u\n",
                             labels[role],g.gem_value(),actual_gems,expected_gems,g.gold_value(),actual_gold,expected_gold);
@@ -87,6 +99,7 @@ int main() {
                             int timer=phase>0&&DZ_CAPTURE_ITEM?static_cast<int>(get_item_enum(item_family::capture,item_stat::strength,false).passive_magnitude()):constants::capture_time;
                             check((std::string("capture_elapsed_")+labels[role]).c_str(),entered>0&&round-entered==static_cast<unsigned>(timer+1));
                             std::printf("CT_CAP_RESULT label=%s entered=%u captured=%u elapsed=%u configured=%d\n",labels[role],entered,round,round-entered,timer);
+                            if constexpr (DZ_OBJECTIVE_MATH) check((std::string("math_capture_receipt_")+labels[role]).c_str(),predicted_receipt==round);
                         }
                         ++phase; sampled=false;
                     } else {
@@ -121,6 +134,12 @@ int main() {
                             check((std::string("capture_stayed_onsite_")+labels[role]).c_str(),all_dead&&onsite);
                             auto cap=g.capture_state();
                             std::printf("CT_CAP_STEP label=%s round=%u timer=%d state=%d\n",labels[role],round,cap.timer,static_cast<int>(cap.state));
+                            if constexpr (DZ_OBJECTIVE_MATH) {
+                                int configured=phase>0&&DZ_CAPTURE_ITEM?static_cast<int>(get_item_enum(item_family::capture,item_stat::strength,false).passive_magnitude()):constants::capture_time;
+                                auto quote=dz::solo_capture_delay(static_cast<dz::CapturePhase>(cap.state),cap.timer,configured,true,onsite);
+                                if (round==entered) predicted_receipt=round+quote.rounds;
+                                check((std::string("math_capture_step_")+labels[role]).c_str(),quote.supported()&&round+quote.rounds==predicted_receipt);
+                            }
                         }
                     }
                 }

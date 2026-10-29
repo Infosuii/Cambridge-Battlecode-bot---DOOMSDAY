@@ -7,6 +7,15 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_objective_fixture_requires_its_exact_model_checks(self):
+        names=['tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer','tribute_cancel_retains_bag','tribute_item_created','tribute_same_bag','tribute_completed','tribute_live_duration','tribute_passive_effect']
+        text='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+'\nCT12_BASE bag=70 timer=7\nCT12_ITEM active=1 magnitude=0.330000013\nCT12_RESULT bag=70 base_timer=7 initial_timer=5 elapsed=5 banked_delta=70 gold_delta=0 active=1 magnitude=0.330000013'
+        self.assertTrue(dz.diagnostic_checks(text,'tribute-passive')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text,'objective-tribute')['passed'])
+        math='\nCT_MATH enabled=1\nCT_CHECK name=math_tribute_delay pass=1'
+        self.assertTrue(dz.diagnostic_checks(text+math,'objective-tribute')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+math+'\nCT_CHECK name=math_tribute_delay pass=0','objective-tribute')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+math+math,'objective-tribute')['passed'])
     def test_group_visibility_requires_dead_member_and_hidden_capturer_evidence(self):
         text='\n'.join(f'CT_CHECK name={n} pass=1' for n in ['single_spawn_setup','single_spawn_position','visible_camp_full_health'])+'\nCT10_QUERY name=visible_camp_health accepted=1 value=120 code=0\nCT10_QUERY name=hidden_camp_health accepted=0 value=0 code=97\n'
         text+='\n'.join(f'CT10_SAMPLE round={r} spawns=1 live=1 group=1 capture=0 timer=5 actor_visible=0' for r in range(1,7))+'\n'

@@ -1,0 +1,272 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 392.3688784890523,
+  "fuel_p99": 5663,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "ab7856e45186cb1a80c42d4dc9fae10c7c332f229596da9e2f3b3d1b59ae0efc",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "860ed60bd4cbf8bd110b73485f5a3e603626c516dab6376a70f08ba37200c5f8",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "checks": {
+            "prospector_setup": true,
+            "math_reward_baseline_gold": true,
+            "math_unknown_baseline_gold": true,
+            "baseline_gold": true,
+            "item_created": true,
+            "math_reward_gem_7_floor": true,
+            "math_unknown_gem_7_floor": true,
+            "gem_7_floor": true,
+            "math_reward_gem_14_floor": true,
+            "math_unknown_gem_14_floor": true,
+            "gem_14_floor": true,
+            "math_reward_wolf_reward_unchanged": true,
+            "math_unknown_wolf_reward_unchanged": true,
+            "wolf_reward_unchanged": true,
+            "math_reward_gold_cluster_bonus": true,
+            "math_unknown_gold_cluster_bonus": true,
+            "gold_cluster_bonus": true
+          },
+          "rewards": [
+            [
+              "baseline_gold",
+              "0",
+              "0",
+              "0",
+              "240",
+              "319",
+              "319"
+            ],
+            [
+              "gem_7_floor",
+              "7",
+              "7",
+              "7",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "gem_14_floor",
+              "14",
+              "14",
+              "14",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "4",
+              "4",
+              "4",
+              "40",
+              "53",
+              "53"
+            ],
+            [
+              "gold_cluster_bonus",
+              "0",
+              "0",
+              "0",
+              "20",
+              "27",
+              "27"
+            ]
+          ],
+          "prospector": false,
+          "vesper": true,
+          "missing": [],
+          "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+        },
+        "checks": {
+          "prospector_setup": true,
+          "math_reward_baseline_gold": true,
+          "math_unknown_baseline_gold": true,
+          "baseline_gold": true,
+          "item_created": true,
+          "math_reward_gem_7_floor": true,
+          "math_unknown_gem_7_floor": true,
+          "gem_7_floor": true,
+          "math_reward_gem_14_floor": true,
+          "math_unknown_gem_14_floor": true,
+          "gem_14_floor": true,
+          "math_reward_wolf_reward_unchanged": true,
+          "math_unknown_wolf_reward_unchanged": true,
+          "wolf_reward_unchanged": true,
+          "math_reward_gold_cluster_bonus": true,
+          "math_unknown_gold_cluster_bonus": true,
+          "gold_cluster_bonus": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "0fd1b13b956e433e402a8ccf7f00e33cb470d8ab10f370d20977ad8b5d315047",
+      "opponent_fuel_outs": 0
+    },
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "ab7856e45186cb1a80c42d4dc9fae10c7c332f229596da9e2f3b3d1b59ae0efc",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "7c1767764669fd86cdd033c787d66a6a7c39f7b5d9310d9563957a0dcd12d4ea",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "checks": {
+            "prospector_setup": true,
+            "math_reward_baseline_gold": true,
+            "math_unknown_baseline_gold": true,
+            "baseline_gold": true,
+            "item_created": true,
+            "math_reward_gem_7_floor": true,
+            "math_unknown_gem_7_floor": true,
+            "gem_7_floor": true,
+            "math_reward_gem_14_floor": true,
+            "math_unknown_gem_14_floor": true,
+            "gem_14_floor": true,
+            "math_reward_wolf_reward_unchanged": true,
+            "math_unknown_wolf_reward_unchanged": true,
+            "wolf_reward_unchanged": true,
+            "math_reward_gold_cluster_bonus": true,
+            "math_unknown_gold_cluster_bonus": true,
+            "gold_cluster_bonus": true
+          },
+          "rewards": [
+            [
+              "baseline_gold",
+              "0",
+              "0",
+              "0",
+              "240",
+              "319",
+              "319"
+            ],
+            [
+              "gem_7_floor",
+              "7",
+              "7",
+              "7",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "gem_14_floor",
+              "14",
+              "14",
+              "14",
+              "0",
+              "0",
+              "0"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "4",
+              "4",
+              "4",
+              "40",
+              "53",
+              "53"
+            ],
+            [
+              "gold_cluster_bonus",
+              "0",
+              "0",
+              "0",
+              "20",
+              "27",
+              "27"
+            ]
+          ],
+          "prospector": false,
+          "vesper": true,
+          "missing": [],
+          "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+        },
+        "checks": {
+          "prospector_setup": true,
+          "math_reward_baseline_gold": true,
+          "math_unknown_baseline_gold": true,
+          "baseline_gold": true,
+          "item_created": true,
+          "math_reward_gem_7_floor": true,
+          "math_unknown_gem_7_floor": true,
+          "gem_7_floor": true,
+          "math_reward_gem_14_floor": true,
+          "math_unknown_gem_14_floor": true,
+          "gem_14_floor": true,
+          "math_reward_wolf_reward_unchanged": true,
+          "math_unknown_wolf_reward_unchanged": true,
+          "wolf_reward_unchanged": true,
+          "math_reward_gold_cluster_bonus": true,
+          "math_unknown_gold_cluster_bonus": true,
+          "gold_cluster_bonus": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "dc0d8f9dc17f55f8e66feeab9ac015ac55524dce911d71c1a70a7ffef5b2b236",
+      "opponent_fuel_outs": 0
+    }
+  ]
+}

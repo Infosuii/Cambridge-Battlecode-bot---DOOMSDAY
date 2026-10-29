@@ -1,5 +1,10 @@
 # Continue DOOMSDAY Zero
 
+**Paused at the user's explicit request on 2026-10-29 for continuation in Claude.**
+Read `../../CLAUDE_HANDOFF.md` first for newer inactive objective arithmetic,
+completed and interrupted tests, and the untested priority probe. The sections
+below describe the last validated executed behavior; no automatic resume.
+
 ## User direction and authorized scope
 
 Build the fresh pure-algorithm C++ bot on `build/pure-algorithm-zero`.
@@ -21,8 +26,8 @@ needed, not a hand-written scheduler workaround.
 
 ## Current production checkpoint
 
-Production source has not changed since `069dfb0`; later commits add tests,
-evidence and notes. Exact source hashes and accepted diagnostics are in
+Executed production behavior has not changed since `069dfb0`; the paused WIP
+adds an unused objective_math.h. The original source hashes and accepted diagnostics are in
 `FOUNDATION_CHECKPOINT.json`. Default Wasm SHA256:
 
 `dcc75b76faa0751b4b7e38bc5740c9a2b99529dd01991df1bb131bc5e2a8378f`

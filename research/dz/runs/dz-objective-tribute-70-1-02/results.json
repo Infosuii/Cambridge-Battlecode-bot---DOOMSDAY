@@ -1,0 +1,178 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 375.85274945679424,
+  "fuel_p99": 5135,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "tribute-passive-boundary",
+      "map_sha256": "41c6322c37917c3a15d63bfe022a7299bf8a664e948d73ab78a2177327070f51",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "cb4270b2aff704b079215fc494142631b3696061552c0b7367f0476fca99c193",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "f6fe7ebe97df6764c35a2096838ae015357cd05fb21e6ec2d108776529c2f4e5",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "mechanical_setup_passed": true,
+          "observation_only": false,
+          "checks": {
+            "tribute_passive_setup": true,
+            "tribute_financed": true,
+            "tribute_bag_prepared": true,
+            "tribute_baseline_timer": true,
+            "tribute_cancel_retains_bag": true,
+            "tribute_item_created": true,
+            "tribute_same_bag": true,
+            "tribute_completed": true,
+            "tribute_live_duration": true,
+            "math_tribute_delay": true,
+            "tribute_passive_effect": true
+          },
+          "results": [
+            [
+              "70",
+              "7",
+              "5",
+              "5",
+              "70",
+              "0",
+              "1",
+              "0.330000013"
+            ]
+          ],
+          "missing": [],
+          "scope": "uncontested banking: ceil(base rounded timer * (1 - tribute magnitude)); rewards unchanged"
+        },
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true,
+          "math_tribute_delay": true,
+          "tribute_passive_effect": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "0743131a7049639a0a67229d17d979f33c5bb19bec8d13b1af6bcd816eef3744",
+      "opponent_fuel_outs": 0
+    },
+    {
+      "map": "tribute-passive-boundary",
+      "map_sha256": "41c6322c37917c3a15d63bfe022a7299bf8a664e948d73ab78a2177327070f51",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "cb4270b2aff704b079215fc494142631b3696061552c0b7367f0476fca99c193",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "9a19ff408ab6c6a65f6a49d1ffc9ec4aa0b0baae75a7fb7e979b200b3631feef",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "mechanical_setup_passed": true,
+          "observation_only": false,
+          "checks": {
+            "tribute_passive_setup": true,
+            "tribute_financed": true,
+            "tribute_bag_prepared": true,
+            "tribute_baseline_timer": true,
+            "tribute_cancel_retains_bag": true,
+            "tribute_item_created": true,
+            "tribute_same_bag": true,
+            "tribute_completed": true,
+            "tribute_live_duration": true,
+            "math_tribute_delay": true,
+            "tribute_passive_effect": true
+          },
+          "results": [
+            [
+              "70",
+              "7",
+              "5",
+              "5",
+              "70",
+              "0",
+              "1",
+              "0.330000013"
+            ]
+          ],
+          "missing": [],
+          "scope": "uncontested banking: ceil(base rounded timer * (1 - tribute magnitude)); rewards unchanged"
+        },
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true,
+          "math_tribute_delay": true,
+          "tribute_passive_effect": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "55d6c7a7e2fe8883e879150f154afec484f5ec901ba9e73ea445239927088420",
+      "opponent_fuel_outs": 0
+    }
+  ]
+}

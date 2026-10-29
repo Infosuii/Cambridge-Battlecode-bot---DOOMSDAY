@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdio>
 #include "config.h"
+#include "objective_math.h"
 using namespace cambc;
 void check(const char* name,bool pass) { std::printf("CT_CHECK name=%s pass=%d\n",name,pass); }
 bool walk(vec2 target,unsigned round) {
@@ -48,13 +49,14 @@ int main() {
     if (actor) for (unsigned i=0;i<groups.size();++i) {
         auto& g=groups[i];bool gold=true,gem=true;
         for (auto& c:g.camps()) { gold&=c.is_gold_cluster();gem&=c.is_gem_cluster(); }
-        int role=gold&&g.gold_value()>=150?0:gem&&g.camps().size()==1?1:gem&&g.camps().size()==2?2:gem&&g.camps().size()==(DZ_MID_BAG?5:14)?3:-1;
+        int role=gold&&g.gold_value()>=150?0:gem&&g.camps().size()==1?1:gem&&g.camps().size()==2?2:gem&&g.camps().size()==(DZ_BOUNDARY_BAG?10:DZ_MID_BAG?5:14)?3:-1;
         int d=static_cast<int>(corner.chebyshev_distance(g.camps()[0].spawn_position()));
         if (role>=0&&d<distances[role]) { selected[role]=i;distances[role]=d; }
     }
     bool ready=selected[0]>=0&&selected[DZ_LARGE_BAG?3:2]>=0&&(!(DZ_SMALL_BAG||DZ_BIG_BAG)||selected[1]>=0)&&!map::altars().is_empty()&&
         !(DZ_BIG_BAG&&DZ_SMALL_BAG)&&!(DZ_LARGE_BAG&&(DZ_BIG_BAG||DZ_SMALL_BAG))&&!(DZ_MID_BAG&&!DZ_LARGE_BAG);
     if (actor) check("tribute_passive_setup",ready);
+    if (actor&&DZ_OBJECTIVE_MATH) std::printf("CT_MATH enabled=1\n");
     auto altars=map::altars().positions();vec2 altar=altars.empty()?vec2{}:altars.front();std::vector<bool> dead;
     unsigned phase=0,bag=0,started=0,bank_before=0,gold_before=0;
     int base_timer=0,live_timer=0;float magnitude=0;
@@ -105,6 +107,11 @@ int main() {
                 } else if (phase==6&&!self().is_submitting_gems()) {
                     check("tribute_completed",self().gem_count()==0);
                     check("tribute_live_duration",round-started==static_cast<unsigned>(live_timer));
+                    if constexpr (DZ_OBJECTIVE_MATH) {
+                        auto base=dz::tribute_delay(bag,constants::submit_gem_base_duration,constants::submit_gem_minimum_duration,constants::submit_gem_duration_multiplier,0);
+                        auto actual=dz::tribute_delay(bag,constants::submit_gem_base_duration,constants::submit_gem_minimum_duration,constants::submit_gem_duration_multiplier,magnitude);
+                        check("math_tribute_delay",base.supported()&&actual.supported()&&base.rounds==base_timer&&actual.rounds==live_timer&&static_cast<unsigned>(actual.rounds)==round-started);
+                    }
                     if constexpr (!DZ_OBSERVE_ONLY) {
                         int expected=std::max(constants::submit_gem_minimum_duration,static_cast<int>(std::ceil(base_timer*(1-static_cast<double>(magnitude)))));
                         check("tribute_passive_effect",live_timer==expected&&global_submitted_gems(team::ally)-bank_before==bag&&self().gold_count()==gold_before);

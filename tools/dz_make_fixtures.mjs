@@ -20,6 +20,7 @@ const layouts={
   'camp-modifiers':[...Array.from({length:24},(_,i)=>[3,6+i%6,6+Math.floor(i/6)]),[0,12,14]],
   'tribute-passive':[...Array.from({length:12},(_,i)=>[3,6+i,6]),...Array.from({length:14},(_,i)=>[2,6+i,12]),[2,5,15],[2,8,15],[2,9,15]],
   'tribute-passive-mid':[...Array.from({length:12},(_,i)=>[3,6+i,6]),...Array.from({length:5},(_,i)=>[2,6+i,12]),[2,5,15],[2,8,15],[2,9,15]],
+  'tribute-passive-boundary':[...Array.from({length:12},(_,i)=>[3,6+i,6]),...Array.from({length:10},(_,i)=>[2,6+i,12]),[2,5,15],[2,8,15],[2,9,15]],
   'group-visibility':Array.from({length:12},(_,i)=>[3,6+i,12]),
   'recovery-shop':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[0,10,12]],
   'capture-contest':[[2,14,15],[2,15,15]],

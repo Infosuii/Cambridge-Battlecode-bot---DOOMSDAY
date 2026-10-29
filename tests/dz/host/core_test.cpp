@@ -3,12 +3,53 @@
 #include "camp_threat.h"
 #include "ledger.h"
 #include "basic_clear.h"
+#include "objective_math.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
 
 int main() {
     using namespace dz;
+    assert(solo_capture_delay(CapturePhase::Available,5,3,true,true).rounds==4);
+    assert(solo_capture_delay(CapturePhase::Available,5,5,true,true).rounds==6);
+    assert(solo_capture_delay(CapturePhase::AllyActive,3,3,true,true).rounds==3);
+    assert(!solo_capture_delay(CapturePhase::AllyActive,3,3,false,true).supported());
+    assert(!solo_capture_delay(CapturePhase::Available,5,3,true,false).supported());
+    for (auto phase:{CapturePhase::Unavailable,CapturePhase::Contested,CapturePhase::EnemyActive})
+        assert(solo_capture_delay(phase,5,3,true,true).status==QuoteStatus::Unsupported);
+    assert(solo_capture_delay(CapturePhase::AllyActive,0,3,true,true).status==QuoteStatus::Invalid);
+    assert(solo_capture_delay(CapturePhase::AllyActive,5,3,true,true).status==QuoteStatus::Invalid);
+    assert(solo_capture_delay(static_cast<CapturePhase>(7),5,3,true,true).status==QuoteStatus::Invalid);
+    for (auto row:std::array<std::array<int,3>,7>{{{7,1,1},{14,2,2},{21,3,3},{30,3,3},{35,4,3},{70,7,5},{98,10,7}}}) {
+        assert(tribute_delay(row[0],0,1,.1f,0).rounds==row[1]);
+        assert(tribute_delay(row[0],0,1,.1f,.33f).rounds==row[2]);
+    }
+    // Independently known integer decade rule; catches widening .1f to double.
+    for (unsigned bag=1;bag<=2000;++bag) assert(tribute_delay(bag,0,1,.1f,0).rounds==static_cast<int>((bag+9)/10));
+    assert(!tribute_delay(0,0,1,.1f,0).supported());
+    assert(!tribute_delay(7,0,1,.1f,1).supported());
+    assert(!tribute_delay(7,0,1,std::numeric_limits<float>::quiet_NaN(),0).supported());
+    auto reward=solo_reward(RewardKind::GoldCluster,0,240,false,true,0);
+    assert(reward.supported()&&reward.gold_min==319&&reward.gold_max==319&&reward.next_remainder==80);
+    auto small_gold=solo_reward(RewardKind::GoldCluster,0,20,false,true,reward.next_remainder);
+    auto wolf_gold=solo_reward(RewardKind::Wolf,4,40,true,true,small_gold.next_remainder);
+    assert(small_gold.gold_min==26&&wolf_gold.gold_min==54&&wolf_gold.gems==4);
+    auto wolf_first=solo_reward(RewardKind::Wolf,4,40,false,true,reward.next_remainder);
+    assert(wolf_first.gold_min==53&&solo_reward(RewardKind::GoldCluster,0,20,false,true,wolf_first.next_remainder).gold_min==27);
+    assert(solo_reward(RewardKind::GemCluster,7,0,true,false).gems==8);
+    assert(solo_reward(RewardKind::GemCluster,14,0,true,false).gems==17);
+    for (bool prospector:{false,true}) for (bool vesper:{false,true}) for (unsigned gold:{0u,1u,20u,40u,240u,std::numeric_limits<unsigned>::max()}) {
+        auto interval=solo_reward(RewardKind::GoldCluster,0,gold,prospector,vesper);
+        assert(interval.supported()&&interval.next_remainder==-1&&interval.gold_max-interval.gold_min<=1);
+        for (int remainder=0;remainder<400;++remainder) {
+            auto exact=solo_reward(RewardKind::GoldCluster,0,gold,prospector,vesper,remainder);
+            assert(exact.supported()&&exact.gold_min==exact.gold_max&&exact.gold_min>=interval.gold_min&&exact.gold_max<=interval.gold_max);
+            assert(exact.next_remainder>=0&&exact.next_remainder<400);
+        }
+    }
+    assert(!solo_reward(RewardKind::Unsupported,7,20,false,false).supported());
+    assert(!solo_reward(RewardKind::GemCluster,7,20,false,false).supported());
+    assert(!solo_reward(RewardKind::Wolf,4,40,false,false,400).supported());
     assert(!action_budget_available(5000,ActionBudget::Normal));
     assert(action_budget_available(5000,ActionBudget::Emergency));
     assert(!action_budget_available(1800,ActionBudget::Emergency));

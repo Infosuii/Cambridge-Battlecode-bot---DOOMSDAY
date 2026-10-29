@@ -1,0 +1,756 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 477.7083402975096,
+  "fuel_p99": 8087,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "de8b0220eb52b7838acdaad67075620cc134ffd11f4a3dfea381e8077f68a8fa",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "489c724d90808b6e1bd5b14f907bf4d7600b7235f2b97374cdd6e3c656128d16",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "underlying_rewards": {
+            "passed": true,
+            "checks": {
+              "prospector_setup": true,
+              "capture_stayed_onsite_baseline_gold": true,
+              "math_capture_step_baseline_gold": true,
+              "math_reward_baseline_gold": true,
+              "math_unknown_baseline_gold": true,
+              "baseline_gold": true,
+              "capture_elapsed_baseline_gold": true,
+              "math_capture_receipt_baseline_gold": true,
+              "item_created": true,
+              "capture_stayed_onsite_gem_7_floor": true,
+              "math_capture_step_gem_7_floor": true,
+              "math_reward_gem_7_floor": true,
+              "math_unknown_gem_7_floor": true,
+              "gem_7_floor": true,
+              "capture_elapsed_gem_7_floor": true,
+              "math_capture_receipt_gem_7_floor": true,
+              "capture_stayed_onsite_gem_14_floor": true,
+              "math_capture_step_gem_14_floor": true,
+              "math_reward_gem_14_floor": true,
+              "math_unknown_gem_14_floor": true,
+              "gem_14_floor": true,
+              "capture_elapsed_gem_14_floor": true,
+              "math_capture_receipt_gem_14_floor": true,
+              "capture_stayed_onsite_gold_cluster_bonus": true,
+              "math_capture_step_gold_cluster_bonus": true,
+              "math_reward_gold_cluster_bonus": true,
+              "math_unknown_gold_cluster_bonus": true,
+              "gold_cluster_bonus": true,
+              "capture_elapsed_gold_cluster_bonus": true,
+              "math_capture_receipt_gold_cluster_bonus": true,
+              "capture_stayed_onsite_wolf_reward_unchanged": true,
+              "math_capture_step_wolf_reward_unchanged": true,
+              "math_reward_wolf_reward_unchanged": true,
+              "math_unknown_wolf_reward_unchanged": true,
+              "wolf_reward_unchanged": true,
+              "capture_elapsed_wolf_reward_unchanged": true,
+              "math_capture_receipt_wolf_reward_unchanged": true
+            },
+            "rewards": [
+              [
+                "baseline_gold",
+                "0",
+                "0",
+                "0",
+                "240",
+                "240",
+                "240"
+              ],
+              [
+                "gem_7_floor",
+                "7",
+                "7",
+                "7",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "gem_14_floor",
+                "14",
+                "14",
+                "14",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "gold_cluster_bonus",
+                "0",
+                "0",
+                "0",
+                "20",
+                "20",
+                "20"
+              ],
+              [
+                "wolf_reward_unchanged",
+                "4",
+                "4",
+                "4",
+                "40",
+                "40",
+                "40"
+              ]
+            ],
+            "prospector": false,
+            "vesper": false,
+            "missing": [],
+            "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+          },
+          "capture_item": [
+            [
+              "1",
+              "3"
+            ]
+          ],
+          "entries": [
+            [
+              "baseline_gold",
+              "40"
+            ],
+            [
+              "gem_7_floor",
+              "69"
+            ],
+            [
+              "gem_14_floor",
+              "82"
+            ],
+            [
+              "gold_cluster_bonus",
+              "92"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "117"
+            ]
+          ],
+          "results": [
+            [
+              "baseline_gold",
+              "40",
+              "46",
+              "6",
+              "5"
+            ],
+            [
+              "gem_7_floor",
+              "69",
+              "73",
+              "4",
+              "3"
+            ],
+            [
+              "gem_14_floor",
+              "82",
+              "86",
+              "4",
+              "3"
+            ],
+            [
+              "gold_cluster_bonus",
+              "92",
+              "96",
+              "4",
+              "3"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "117",
+              "121",
+              "4",
+              "3"
+            ]
+          ],
+          "steps": [
+            [
+              "baseline_gold",
+              "40",
+              "5",
+              "4"
+            ],
+            [
+              "baseline_gold",
+              "41",
+              "5",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "42",
+              "4",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "43",
+              "3",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "44",
+              "2",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "45",
+              "1",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "69",
+              "5",
+              "4"
+            ],
+            [
+              "gem_7_floor",
+              "70",
+              "3",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "71",
+              "2",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "72",
+              "1",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "82",
+              "5",
+              "4"
+            ],
+            [
+              "gem_14_floor",
+              "83",
+              "3",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "84",
+              "2",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "85",
+              "1",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "92",
+              "5",
+              "4"
+            ],
+            [
+              "gold_cluster_bonus",
+              "93",
+              "3",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "94",
+              "2",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "95",
+              "1",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "117",
+              "5",
+              "4"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "118",
+              "3",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "119",
+              "2",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "120",
+              "1",
+              "1"
+            ]
+          ],
+          "scope": "solo physical on-site entry after all members defeated; configured timer plus first initialization phase"
+        },
+        "checks": {
+          "prospector_setup": true,
+          "capture_stayed_onsite_baseline_gold": true,
+          "math_capture_step_baseline_gold": true,
+          "math_reward_baseline_gold": true,
+          "math_unknown_baseline_gold": true,
+          "baseline_gold": true,
+          "capture_elapsed_baseline_gold": true,
+          "math_capture_receipt_baseline_gold": true,
+          "item_created": true,
+          "capture_stayed_onsite_gem_7_floor": true,
+          "math_capture_step_gem_7_floor": true,
+          "math_reward_gem_7_floor": true,
+          "math_unknown_gem_7_floor": true,
+          "gem_7_floor": true,
+          "capture_elapsed_gem_7_floor": true,
+          "math_capture_receipt_gem_7_floor": true,
+          "capture_stayed_onsite_gem_14_floor": true,
+          "math_capture_step_gem_14_floor": true,
+          "math_reward_gem_14_floor": true,
+          "math_unknown_gem_14_floor": true,
+          "gem_14_floor": true,
+          "capture_elapsed_gem_14_floor": true,
+          "math_capture_receipt_gem_14_floor": true,
+          "capture_stayed_onsite_gold_cluster_bonus": true,
+          "math_capture_step_gold_cluster_bonus": true,
+          "math_reward_gold_cluster_bonus": true,
+          "math_unknown_gold_cluster_bonus": true,
+          "gold_cluster_bonus": true,
+          "capture_elapsed_gold_cluster_bonus": true,
+          "math_capture_receipt_gold_cluster_bonus": true,
+          "capture_stayed_onsite_wolf_reward_unchanged": true,
+          "math_capture_step_wolf_reward_unchanged": true,
+          "math_reward_wolf_reward_unchanged": true,
+          "math_unknown_wolf_reward_unchanged": true,
+          "wolf_reward_unchanged": true,
+          "capture_elapsed_wolf_reward_unchanged": true,
+          "math_capture_receipt_wolf_reward_unchanged": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "0fda1f05e8ede6d6a1948dbdd0522c44d03d0a27abfaa5cfbe85dea54f913d72"
+    },
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "de8b0220eb52b7838acdaad67075620cc134ffd11f4a3dfea381e8077f68a8fa",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "6f55e85be41fb3ee2bb706cc11074f6b9ac0150d0325b7a03d11dfba775bab5a",
+      "diagnostic_checks": {
+        "passed": true,
+        "underlying": {
+          "passed": true,
+          "underlying_rewards": {
+            "passed": true,
+            "checks": {
+              "prospector_setup": true,
+              "capture_stayed_onsite_baseline_gold": true,
+              "math_capture_step_baseline_gold": true,
+              "math_reward_baseline_gold": true,
+              "math_unknown_baseline_gold": true,
+              "baseline_gold": true,
+              "capture_elapsed_baseline_gold": true,
+              "math_capture_receipt_baseline_gold": true,
+              "item_created": true,
+              "capture_stayed_onsite_gem_7_floor": true,
+              "math_capture_step_gem_7_floor": true,
+              "math_reward_gem_7_floor": true,
+              "math_unknown_gem_7_floor": true,
+              "gem_7_floor": true,
+              "capture_elapsed_gem_7_floor": true,
+              "math_capture_receipt_gem_7_floor": true,
+              "capture_stayed_onsite_gem_14_floor": true,
+              "math_capture_step_gem_14_floor": true,
+              "math_reward_gem_14_floor": true,
+              "math_unknown_gem_14_floor": true,
+              "gem_14_floor": true,
+              "capture_elapsed_gem_14_floor": true,
+              "math_capture_receipt_gem_14_floor": true,
+              "capture_stayed_onsite_gold_cluster_bonus": true,
+              "math_capture_step_gold_cluster_bonus": true,
+              "math_reward_gold_cluster_bonus": true,
+              "math_unknown_gold_cluster_bonus": true,
+              "gold_cluster_bonus": true,
+              "capture_elapsed_gold_cluster_bonus": true,
+              "math_capture_receipt_gold_cluster_bonus": true,
+              "capture_stayed_onsite_wolf_reward_unchanged": true,
+              "math_capture_step_wolf_reward_unchanged": true,
+              "math_reward_wolf_reward_unchanged": true,
+              "math_unknown_wolf_reward_unchanged": true,
+              "wolf_reward_unchanged": true,
+              "capture_elapsed_wolf_reward_unchanged": true,
+              "math_capture_receipt_wolf_reward_unchanged": true
+            },
+            "rewards": [
+              [
+                "baseline_gold",
+                "0",
+                "0",
+                "0",
+                "240",
+                "240",
+                "240"
+              ],
+              [
+                "gem_7_floor",
+                "7",
+                "7",
+                "7",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "gem_14_floor",
+                "14",
+                "14",
+                "14",
+                "0",
+                "0",
+                "0"
+              ],
+              [
+                "gold_cluster_bonus",
+                "0",
+                "0",
+                "0",
+                "20",
+                "20",
+                "20"
+              ],
+              [
+                "wolf_reward_unchanged",
+                "4",
+                "4",
+                "4",
+                "40",
+                "40",
+                "40"
+              ]
+            ],
+            "prospector": false,
+            "vesper": false,
+            "missing": [],
+            "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+          },
+          "capture_item": [
+            [
+              "1",
+              "3"
+            ]
+          ],
+          "entries": [
+            [
+              "baseline_gold",
+              "40"
+            ],
+            [
+              "gem_7_floor",
+              "65"
+            ],
+            [
+              "gem_14_floor",
+              "77"
+            ],
+            [
+              "gold_cluster_bonus",
+              "87"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "122"
+            ]
+          ],
+          "results": [
+            [
+              "baseline_gold",
+              "40",
+              "46",
+              "6",
+              "5"
+            ],
+            [
+              "gem_7_floor",
+              "65",
+              "69",
+              "4",
+              "3"
+            ],
+            [
+              "gem_14_floor",
+              "77",
+              "81",
+              "4",
+              "3"
+            ],
+            [
+              "gold_cluster_bonus",
+              "87",
+              "91",
+              "4",
+              "3"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "122",
+              "126",
+              "4",
+              "3"
+            ]
+          ],
+          "steps": [
+            [
+              "baseline_gold",
+              "40",
+              "5",
+              "4"
+            ],
+            [
+              "baseline_gold",
+              "41",
+              "5",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "42",
+              "4",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "43",
+              "3",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "44",
+              "2",
+              "1"
+            ],
+            [
+              "baseline_gold",
+              "45",
+              "1",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "65",
+              "5",
+              "4"
+            ],
+            [
+              "gem_7_floor",
+              "66",
+              "3",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "67",
+              "2",
+              "1"
+            ],
+            [
+              "gem_7_floor",
+              "68",
+              "1",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "77",
+              "5",
+              "4"
+            ],
+            [
+              "gem_14_floor",
+              "78",
+              "3",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "79",
+              "2",
+              "1"
+            ],
+            [
+              "gem_14_floor",
+              "80",
+              "1",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "87",
+              "5",
+              "4"
+            ],
+            [
+              "gold_cluster_bonus",
+              "88",
+              "3",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "89",
+              "2",
+              "1"
+            ],
+            [
+              "gold_cluster_bonus",
+              "90",
+              "1",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "122",
+              "5",
+              "4"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "123",
+              "3",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "124",
+              "2",
+              "1"
+            ],
+            [
+              "wolf_reward_unchanged",
+              "125",
+              "1",
+              "1"
+            ]
+          ],
+          "scope": "solo physical on-site entry after all members defeated; configured timer plus first initialization phase"
+        },
+        "checks": {
+          "prospector_setup": true,
+          "capture_stayed_onsite_baseline_gold": true,
+          "math_capture_step_baseline_gold": true,
+          "math_reward_baseline_gold": true,
+          "math_unknown_baseline_gold": true,
+          "baseline_gold": true,
+          "capture_elapsed_baseline_gold": true,
+          "math_capture_receipt_baseline_gold": true,
+          "item_created": true,
+          "capture_stayed_onsite_gem_7_floor": true,
+          "math_capture_step_gem_7_floor": true,
+          "math_reward_gem_7_floor": true,
+          "math_unknown_gem_7_floor": true,
+          "gem_7_floor": true,
+          "capture_elapsed_gem_7_floor": true,
+          "math_capture_receipt_gem_7_floor": true,
+          "capture_stayed_onsite_gem_14_floor": true,
+          "math_capture_step_gem_14_floor": true,
+          "math_reward_gem_14_floor": true,
+          "math_unknown_gem_14_floor": true,
+          "gem_14_floor": true,
+          "capture_elapsed_gem_14_floor": true,
+          "math_capture_receipt_gem_14_floor": true,
+          "capture_stayed_onsite_gold_cluster_bonus": true,
+          "math_capture_step_gold_cluster_bonus": true,
+          "math_reward_gold_cluster_bonus": true,
+          "math_unknown_gold_cluster_bonus": true,
+          "gold_cluster_bonus": true,
+          "capture_elapsed_gold_cluster_bonus": true,
+          "math_capture_receipt_gold_cluster_bonus": true,
+          "capture_stayed_onsite_wolf_reward_unchanged": true,
+          "math_capture_step_wolf_reward_unchanged": true,
+          "math_reward_wolf_reward_unchanged": true,
+          "math_unknown_wolf_reward_unchanged": true,
+          "wolf_reward_unchanged": true,
+          "capture_elapsed_wolf_reward_unchanged": true,
+          "math_capture_receipt_wolf_reward_unchanged": true
+        },
+        "missing": [],
+        "scope": "exact production objective_math.h; restricted solo inputs, no strategy activation"
+      },
+      "summary_sha256": "37d5bfb1f31e54a85d5b0aa1c9cc6986de3c9ad54e3d850a99720cce2381d048"
+    }
+  ]
+}

@@ -161,6 +161,15 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    model_fixtures={'objective-reward':'prospector','objective-capture':'capture-time','objective-tribute':'tribute-passive'}
+    if fixture in model_fixtures:
+        base=diagnostic_checks(stdout,model_fixtures[fixture],opponent_stdout)
+        checks=transcript_assertions(stdout)
+        labels={'baseline_gold','gem_7_floor','gem_14_floor','gold_cluster_bonus','wolf_reward_unchanged'}
+        required={'math_tribute_delay'} if fixture=='objective-tribute' else {prefix+label for prefix in ('math_reward_','math_unknown_') for label in labels}
+        if fixture=='objective-capture': required|={prefix+label for prefix in ('math_capture_step_','math_capture_receipt_') for label in labels}
+        return dict(passed=base['passed'] and stdout.count('CT_MATH enabled=1')==1 and not(required-checks.keys()) and all(checks.values()),
+                    underlying=base,checks=checks,missing=sorted(required-checks.keys()),scope='exact production objective_math.h; restricted solo inputs, no strategy activation')
     if fixture in ('group-visibility','group-visibility-first'):
         checks=transcript_assertions(stdout);opponent_checks=transcript_assertions(opponent_stdout)
         required={'single_spawn_setup','single_spawn_position','visible_camp_full_health'}
@@ -511,6 +520,9 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 faults_measured=True,opponent_faults=int(native['diagnostics']['botFaults']['team'+('B' if side=='A' else 'A')]),
                 fuel_outs=sum(len(e['entries']) for e in native['events'] if e['kind']=='fuelExhausted' and e['owner']['team']==owner),
                 summary_sha256=sha(folder/'summary.json'))
+            other='team'+('B' if side=='A' else 'A')
+            result['opponent_fuel_outs']=sum(len(e['entries']) for e in native['events'] if e['kind']=='fuelExhausted' and e['owner']['team']==other)
+            result['diagnostic_checks']['passed'] &= result['opponent_faults']==result['opponent_fuel_outs']==0
             if fixture in ('module-failure','module-stale'):
                 bodies=sum(c['team']==owner for c in native['champions'])
                 expected_outs=bodies if fixture=='module-stale' else 0
@@ -524,10 +536,6 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             if fixture=='draft-stale':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
-            if fixture in ('group-visibility','group-visibility-first'):
-                other='team'+('B' if side=='A' else 'A')
-                result['opponent_fuel_outs']=sum(len(e['entries']) for e in native['events'] if e['kind']=='fuelExhausted' and e['owner']['team']==other)
-                result['diagnostic_checks']['passed'] &= result['opponent_faults']==result['opponent_fuel_outs']==0
             if fixture=='kernel':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
@@ -587,12 +595,12 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
-    if args.command=='conformance' and args.fixture=='capture-time':
+    if args.command=='conformance' and args.fixture in ('capture-time','objective-capture'):
         config=frozen/'src/config.h'; source_text=config.read_text()
         for flag,value in [('DZ_CAPTURE_TEST',1),('DZ_CAPTURE_ITEM',1),('DZ_PROSPECTOR',0)]:
             source_text,n=re.subn(r'^#define '+flag+r'\s+[01]$',f'#define {flag} {value}',source_text,flags=re.MULTILINE)
@@ -600,6 +608,11 @@ def experiment(args):
         config.write_text(source_text,encoding='utf-8',newline='\n')
     if args.command=='conformance' and args.fixture in ('clear','camp-mods'):
         shutil.copyfile(ROOT/'bots/dz/src/basic_clear.h',frozen/'src/basic_clear.h')
+    if args.command=='conformance' and args.fixture in ('prospector','capture-time','tribute-passive','objective-reward','objective-capture','objective-tribute'):
+        shutil.copyfile(ROOT/'bots/dz/src/objective_math.h',frozen/'src/objective_math.h')
+        if args.fixture.startswith('objective-'):
+            config=frozen/'src/config.h'
+            config.write_text(config.read_text().replace('#define DZ_OBJECTIVE_MATH 0','#define DZ_OBJECTIVE_MATH 1'),encoding='utf-8',newline='\n')
     if args.trace or injected:
         config = frozen/'src/config.h'
         config.write_text(config.read_text().replace('#define DZ_TRACE 0', '#define DZ_TRACE 1'))
@@ -801,7 +814,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
