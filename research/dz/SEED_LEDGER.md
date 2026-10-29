@@ -304,3 +304,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-masks-check-03 | 2026-10-29 | deterministic; Wasm 3ec11fe8c833 | 8 cells; v65 | smoke; trace=False |
 | dz-hard-v65-01 | 2026-10-29 | deterministic; Wasm 3ec11fe8c833 | 140 cells; v65 | smoke; trace=False |
 | dz-hard-idle-01 | 2026-10-29 | deterministic; Wasm 3ec11fe8c833 | 140 cells; idle81 | smoke; trace=False |
+| dz-gear-idle-01 | 2026-10-29 | deterministic; Wasm ab07a9acd240 | 140 cells; idle81 | smoke; trace=False |
+| dz-gear-v65-01 | 2026-10-29 | deterministic; Wasm ab07a9acd240 | 140 cells; v65 | smoke; trace=False |
+| dz-gear-idle-02 | 2026-10-29 | deterministic; Wasm 28077469fe20 | 140 cells; idle81 | smoke; trace=False |
+| dz-gear-v65-02 | 2026-10-29 | deterministic; Wasm 28077469fe20 | 140 cells; v65 | smoke; trace=False |

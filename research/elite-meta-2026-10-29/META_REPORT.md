@@ -1,0 +1,65 @@
+# Cambridge Battlecode elite metagame — 29 October 2026
+
+The strongest evidenced principle is **build a complete production-and-delivery system around the map's binding constraint**. Elite teams do not share one item order, one bank threshold or one optimal five-pick draft. Their successful systems connect camp damage, reward ownership, recovery, equipment spikes, access and delivered score. Copying a visible component without its supporting loop can fail.
+
+This new study processes **30 primary matches, 30 maps, 17 teams, 26 match groups, 30,865 actual rounds and 5,226,075 timeline transitions**. It retains **277,901 personal turn contexts**, every round's rich state and all ordered transitions, including a partial final round where applicable. The engine/native resource-clock comparison passes **834,864 checks**. There are 226 strategically selected±5-round windows, plus an extended exact gate/tribute investigation. This is research only: no new bot, training, match request, submission or activation.
+
+Read [MATCH_ANALYSIS.md](MATCH_ANALYSIS.md) for the 30 authored causal dossiers and complete emblem/bank progressions, [TEAM_PROFILES.md](TEAM_PROFILES.md) for all represented teams, and [REPRODUCE.md](REPRODUCE.md) for arbitrary-round access. The full local ledger is about 256MB compressed and remains in the repository's designated ignored artifact area. [MATCH_INDEX.csv](MATCH_INDEX.csv), [PURCHASES.csv](PURCHASES.csv) and [TURNING_POINTS.csv](TURNING_POINTS.csv) connect conclusions to exact source IDs, ordinals and windows.
+
+## Scope and currentness
+
+The frozen official ladder snapshot is 29 October 12:54:54 UTC. Its top team,“prism best girl”, is marked developer; Mite, newer team, Intercontinental Fish and Ad Astra follow. All 12 snapshot-leading teams are represented, alongside five opponents. The bounded metadata catalog contained 325 eligible top-20 matchups and no rank 21–75 opponents. The registered fallback therefore yields 26 elite games and four top-12 losses to ranks 13–20, rather than pretending to satisfy the unavailable weaker-opponent stratum. A metadata-stratum precedence error was corrected before opening any new trajectory; both manifests and the correction are retained.
+
+The latest official patch listing remains 2.0.0; CLI/SDK is 4.0.0. The exact shipped engine assets are SHA-pinned. Fresh engine queries verify 84 item records and current settings. Historical 1.0.3 economics are kept separate. Public opponent submission versions and pregame ratings are hidden; versions are unknown, not guessed from a team's reputation or match date. One map per game supplies breadth but limits within-map causal attribution.
+
+## The ten most important discoveries
+
+1. **A capture can enter an already-running tribute without extending its timer.** On boss_battle `3b30c86a`, newer team's Vendetta starts with 109 at R534, receives 200 at R538 and banks 309 at R545. Varg repeats 49→249 on R748–752 with Tribute. The full phase/state sequence is verified. Intent and breadth are uncertain: two instances in one match. The legal timing opportunity is high-confidence; a general win-rate improvement is untested. See [GEMS_OBJECTIVES.md](GEMS_OBJECTIVES.md).
+
+2. **One team's damage capital can be another body's scoring job.** Newer team's Prism ends that boss_battle win with 989 gems and zero banks; the bag adds 1483.5 Focus. Varg banks 544, Vendetta 369 and Willow 87. Prism's gate-clear credit at R748 links retained power to access, while other bodies deliver 1000 score. Ad Astra's opposing Marcella collects 808 and banks zero, losing 608 at R672. Large inventory can therefore be useful scaling or failed conversion; distinguish the job and access state. Medium-confidence role framework, low-confidence universal composition.
+
+3. **The common core is real, but controller complementarity beats draft fashion.** Vesper and Marcella appear 51/60 sides, Heart 50 and Vendetta 47. Yet Ryth–Vendetta–Marcella wins arena and fragment against Vesper–Heart–Vendetta; Mite and Claudus mirror the latter on packs and finish 1004–188. Popularity is high-confidence, intrinsic tier ordering is not identified. Draft around feasible jobs, not raw win-rate rankings. See [CHAMPION_META.md](CHAMPION_META.md) and [DRAFT_EVIDENCE.md](DRAFT_EVIDENCE.md).
+
+4. **Delivered score is a separate optimisation problem from production.** Winners' median lifetime conversion is 96.5% versus 78.4%. Three win with less earned gold, three with fewer collected gems. Rows `cf10b651` is especially diagnostic: Supaswag wins 1006–983 with less gold, fewer gems and more deaths. The only kill transfers zero gems. Its final 12-gem bank at R1384 is a delivery-race event, not evidence of greater economic strength. High confidence in these accounting facts; medium in the broad scheduling recommendation.
+
+5. **Early banking is conditional, not inherently elite.** Mite first banks at R1779 on contest and wins 400–0. NEETCoders first banks at R550 on tangle and wins with 159+159 on R1243–1244. Conversely, islands and split reward sustained early conversion. Compare safe completion time, scaling value and opponent finishing pressure. A global small-bag/early-round threshold is contradicted by observed wins. High confidence that a universal rule is inadequate; exact policy boundaries remain low-confidence.
+
+6. **Jungle-first is a serious successful alternative to Treasure-first.** Mite's contest/broken_curve/packs systems use Jungle-led development. Fish wins expanse while its Vesper completes Treasure only at R290, against an opponent's R54 Treasure. Jungle preserves repeated camp cycles; Treasure finances future output. Which bottleneck is binding matters more than popularity. Medium-confidence conditional mechanism, no isolated item superiority experiment.
+
+7. **Prospector is a receiver-and-resource-type decision.** Current Prospector adds 25% of the holder's own cluster reward share, rounded down; it does not boost arbitrary monster rewards. Capture caps a region timer rather than rewarding extra waiting allies. This changes draft roles, receiver choice and item payback. On elk_arena all five procless bodies open Prospector, but that is a context-specific resource system, not a universal opener. High-confidence rules, medium-confidence application.
+
+8. **Marcella makes banking itself part of the economy.** On eight `4942b190`, print dont int's Marcella banks 830 and earns 6774; Supaswag's Marcella banks 797 on elkring. Her 2-gold-per-submitted-gem passive and stun immunity can support a protected scoring engine. Boss_battle is the counterexample when access fails. High-confidence mechanical feedback and observations; forced universal funneling is not established.
+
+9. **Combat value is objective- and bag-dependent.** Arena/fragment show repeated deaths destroying productive cycles; broken_curve's251 loss at R759 and vault's347 at R267 are concrete carrier events. But five winners have more deaths than their opponents. Stalactites includes a287-gem bag lost, recovered and later banked; lifetime collection is not unique map output. Target visible threats by access and transferable assets, not K/D alone. Medium-confidence strategic framework; alternative fight outcomes are unsimulated.
+
+10. **Action/timer interpretation changes the inferred algorithm.** Event 23 is blocked movement, not a dash. Channels resolve at turn starts after zero, personal vision is not shared, and some elite controllers repeatedly cancel/restart recall around productive actions. Counting all channel-present rounds as idle invents a weakness. The fixed earlier-half first-emblem-family diagnostic predicts 89/103 later observations, showing repeatable policies with 14 useful exceptions, not a clean prospective validation. High confidence in semantics, low in hidden intent.
+
+## Strongest composition and item systems to investigate
+
+The safe starting *hypothesis* for ordinary repeated farming is Vesper/Heart/Vendetta with Marcella or Ryth as slots and access permit. Test Ryth/Vendetta/Marcella directly on constrained three-pick geometries rather than assuming the fashionable trio wins. The boss_battle Vesper/Vendetta/Prism/Willow/Varg system is the best documented specialised example, with separate damage and banking jobs. Its one-match evidence does not justify copying it everywhere.
+
+Successful build families include Jungle-led survival, Treasure-led compounding, and cluster-aware Prospector-led development. Marcella Treasure plus protection is an observed scoring loop; Varg's Tribute matters for large banks; Power/Bruiser supply efficient repeated stats when the immediate job benefits. All 14 families are analysed in [ITEM_META.md](ITEM_META.md). Recommendations use next-job conditions, not a single purchase table. None of these new recommendations is an experimentally validated A/B strength improvement.
+
+## Farming, combat and scoring together
+
+Farm where the coalition can complete the full group and claim its region, not merely where damage/reward looks attractive. Price travel, neutral damage, capture waiting, recovery and delivered score. Give reward ownership to the body whose marginal future output is worth the coordination cost. Extra allies without Capture do not speed the timer; a distant ideal receiver can be worse than a nearby adequate one. Account for cluster-only Prospector, integer remainder and respawn blocking.
+
+Fight when the threat removed or access opened repays lost farm and death risk. Preserve legal sequence constraints and personal uncertainty. Protect a bag when it is the shortest viable path to winning; retain it when its kit-specific power makes another delivery possible. Do not make the same body optimise both goals by the same threshold. [FARMING_ECONOMY.md](FARMING_ECONOMY.md), [COMBAT_META.md](COMBAT_META.md) and [MAP_MOVEMENT.md](MAP_MOVEMENT.md) develop the framework.
+
+The algorithmic consequence is a hierarchical, bounded controller: draft/static geometry; job/receiver allocation; role-conditioned equipment; access-aware delivery; local legal sequence search; compact claims and fuel-safe fallbacks. Existing DOOMSDAY already contains parts of this architecture. [META_TO_ALGORITHM.md](META_TO_ALGORITHM.md) specifies inputs, candidate actions, evaluation criteria, cost and failure modes without implementing a bot.
+
+## DOOMSDAY comparison and next priorities
+
+The newly supplied `bot (9).zip` is exact platform-v69 source across 33 files. Live metadata now reports platform 71,“V81”. A pre-existing V81 archive matches the current filename/size but lacks a fresh independently verified server archive hash; its source-specific review is conditional. Do not conflate these versions. The frozen snapshot places DOOMSDAY 47th/2013.05, without causal version attribution.
+
+The supplied-v69 source retains the previously reproduced winning-bag recall/disabled-bank conflict. The conditional-v71 archive no longer contains that branch, so it is not a proven unresolved v71 issue. Both already implement many item, claim, routing and recovery concepts. The most valuable new investigations are capture/tribute event-clock overlap, role-specific delivery completion, next-job/cluster-aware item valuation, repeated-production safety, and geometry-based generalisation. Enabling dormant search or copying a top draft is not an evidence-backed fix by itself.
+
+See [DOOMSDAY_GAP.md](DOOMSDAY_GAP.md) for exact version qualifications and source locations, and [IMPROVEMENT_PRIORITIES.md](IMPROVEMENT_PRIORITIES.md) for ranked opportunities and isolated experiment designs. No current-v71 behavioural advantage or regression has been measured here.
+
+## What could change the recommendations
+
+The sample is purposive and result-stratified, with 26 groups rather than 30 fully independent opponents. There are no rank 21–75 control games, no repeated-map controlled contrasts and no verified opponent source versions. The developer team is not an eligible-entrant strength estimate. Champion/body decisions within one match are not independent trials. The temporal first-emblem diagnostic is retrospective and may reflect submission or map changes.
+
+Replay mechanics and exact action order establish what happened, but hidden intent, rejected SDK calls, private opponent plans and alternative reactions are not recovered. No new counterfactual simulation was run. Further evidence could show that the gate timing interaction is rare, unsafe under informed denial, or already exploited by another controller. A new patch could change item economics or timer order. Source identity and current candidate reproduction must be rechecked before any implementation.
+
+The study therefore identifies strong actionable mechanisms and falsifiable policies, not a mathematically proven global optimum or a guaranteed ladder-winning bot. [VALIDATION.json](VALIDATION.json) and [EVIDENCE_INDEX.md](EVIDENCE_INDEX.md) distinguish verified coverage from these limitations.

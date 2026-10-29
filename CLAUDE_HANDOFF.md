@@ -1,33 +1,69 @@
-# Claude continuation handoff — resumed 2026-10-29
+# Claude continuation handoff — updated 2026-10-29 (late)
 
 ## Latest status (read first)
 
-Resumed in Claude on 2026-10-29 at the user's request. Done this session:
+Branch `build/pure-algorithm-zero`. The user authorises local builds/tests and
+pushes to this branch; **no submission, activation or ladder matches**. Old
+bots are opponents only. Since the elite-research delivery (2026-10-29) the
+user also authorises **map-specific and item tuning**, using
+`research/elite-meta-2026-10-29/` (30 elite ladder games; read META_REPORT.md
+first). Treat it as hypotheses, as it says itself.
 
-1. **Objective arithmetic validation finished.** Reran the three outstanding
-   cases under fresh names: `dz-objective-tribute-98-0-03`,
-   `dz-objective-vendetta-prospector-03`, `dz-objective-vesper-prospector-03`.
-   `tools/dz_objective_audit.py` now passes and wrote
-   `research/dz/OBJECTIVE_MATH_VALIDATION.json`: 38 current-header cells,
-   20 capture / 70 reward / 24 tribute episodes (now derived from assertion
-   names, not hand-entered), zero native faults/fuel-outs on both teams.
-   The header is still **inactive** in production.
-2. **CT-6 priority probe integrated, tested and observed.** See
-   `research/dz/PRIORITY_CONFORMANCE.md`. The never-run reader had a bug
-   (`awaitingInput` is false at phase-14 turns); fixed before any game.
-   Runs: `dz-ct6-priority-01`, `dz-ct6-priority-four-01` (truncated, faults
-   unmeasured), `dz-ct6-priority-full-01` (measured 0/0). No production change
-   needed.
-3. `tools/dz.py verify` treats `priority.repl26a` like `lifecycle.repl26a`
-   (extracted payload, byte-compared to the native bundle).
-4. Host tests, 25 measurement tests, full evidence verify and the assertion
-   audit (226 cells, 0 masked failures) pass after these runs.
+Session log with every run and verdict: `research/dz/FUNDAMENTALS_LOG_2026-10-29.md`.
+Economy design: `research/dz/ECONOMY_SELECTION.md`. CT-6: `PRIORITY_CONFORMANCE.md`.
 
-Production behavior is still the `069dfb0` checkpoint and still loses every
-contested game. See "Next: economy fundamentals" at the end of this file.
+### Current strength (140-game pools, paired SE ~6-11 gems)
 
-The sections below are the original pause handoff, kept for history. Where
-they say validation or CT-6 is unfinished, the status above supersedes them.
+| Opponent | Banked | Opp banked | Wins | Deaths | Faults / fuel-outs | Run |
+|---|---:|---:|---:|---:|---|---|
+| idle | 918 | 0 | 140 | 4.5 | 0 / 0 | dz-gear-idle-02 |
+| v65 | 215 | 1005 | 3 | 18.7 | 0 / 0 | dz-gear-v65-02 |
+| reference: v65 vs idle | 1003 (1000 by R928) | — | — | 1.1 | 0 / 114 | bench-v65-idle-01 |
+
+Started the session at idle 903 / v65 186. Still far behind v65.
+
+### Z-plan status (research/zero-bot-plan-2026-10-28/IMPLEMENTATION_PLAN.md)
+
+| Step | Status |
+|---|---|
+| Z0 conformance | Mostly observed; CT-6 done this session; CT-1/7/8/9/11/13 partial. New fact: damaged camps did not regenerate between siege waves (boss monolith, trace dz-trace-boss-03). |
+| Z1 kernel, Z2 world/observation, Z3 skeleton | Done. Z2 now has in-Wasm masks (`local_mask.h`): every SDK bitboard test/set is a host call. |
+| Z4 draft | Fixed prior: Vendetta, Varg, Marcella/Vesper first. No utility model, no per-map rows yet. |
+| Z5 memory/protocol | Done (soft claims). |
+| Z6 ObjModel | Arithmetic validated (OBJECTIVE_MATH_VALIDATION.json). `clear_risk.h` (aggregated, host-tested) prices solo/crew clears. V-M1 open. |
+| Z7 economy | Heuristic: rate selection, best-first pricing, survivability gate, leader crews, respawn waiting (<=15 rounds), contracts, starvation fallback. No auction. |
+| Z8 action scorer | Partial: approach/capture/bank/stuck fixes, post-move attack retarget. |
+| Z9 gear | Per-champion openers from elite purchases (gear.cpp); both variants neutral. No marginal-value planner. |
+| Z10 threat/EE | `fight.h` focus-fire sim + Fight goal; not calibrated. |
+| Z11 crews/race | Leader crews only. |
+| Z12-Z14 | Not started. Z14 (league tuning, per-map draft) is now authorised. |
+| Z15 hardening | 0 faults/fuel-outs on both pools; trace profiler `profile.h`. |
+
+### Next, in order
+
+1. **Per-map draft (Z14)** — strongest historical lever (memory: v70 per-map
+   draft +15..+169/game). Use elite DRAFT_EVIDENCE.md compositions as
+   candidates; evaluate 3-5 candidate drafts per map against v65; pick per map;
+   **confirm on a separate opponent or fresh seeds** (deterministic games make
+   best-of-K selection overfit). HOLDOUT.md is registered and unspent.
+2. Item model (Z9): research says choose milestones from the next jobs
+   (cluster-rich -> Prospector, camp-heavy -> Jungle/Monster). Openers alone
+   were neutral; condition on map composition next.
+3. Contested deaths: 15+ champion kills/game. Fight sim engaging on "wins" was
+   negative; retreat at reach is baseline. Needs calibrated EE (Z10).
+4. Siege for gated altars (01boss-battle, 02guardians) is map-specific work;
+   now falls back to the old policy.
+
+### Hard-won tooling lessons
+
+- Trace `printf` costs 10k-60k fuel per call in this runtime. Trace builds
+  distort fuel; `profile.h` keeps the worst sample and prints every 250 rounds.
+- `cambc::bitboard::is_set/set` are host calls. Use `LocalMask`/`RootSet`.
+- Bash heredocs in this environment collapse backslashes; write edit scripts
+  with a file writer, not inline heredocs, when strings contain `\n`.
+- Compare runs with `tools/dz_compare.py BASE CAND` (paired delta + SE).
+
+The sections below are older history.
 
 ## Repository and user intent
 

@@ -1,0 +1,5 @@
+# Selection implementation correction
+
+Before any new replay trajectory was decoded or reviewed, the initial metadata-only selector assigned all overlapping top-12 losses to ranks 13–20 to the elite stratum. This made the requested elite-loss stratum appear empty. Corrected precedence to reserve those eligible losses for the already registered elite-loss category. The protocol, ladder and available metadata did not change. The initial manifest and SHA are preserved as MANIFEST_INITIAL.json and MANIFEST_INITIAL.sha 256. Downloads begun from that initial selection are acquisition-only surplus, excluded unless present in the corrected frozen manifest.
+
+The bounded public catalog contains 325 eligible matches, all between top-20 teams. It contains no top-12 versus rank 21–75 matches. The registered fallback therefore replaces the six dominance games with additional elite games; it does not manufacture a weaker-opponent sample. This limits claims about systematic conversion against weaker teams. Current-rank losses are upset candidates, not historical pregame-rating upsets (pregame ratings are hidden).

@@ -28,3 +28,16 @@ treat |delta| < 2 SE as noise. Comparisons are against the named base run.
 
 Retained failures: `dz-fight-v65-01/02`, `dz-wait-idle-01/02`, the 60-round
 respawn horizon and spawn-tile exclusion for alive groups (blocked approaches).
+
+## Later the same day
+
+| Step | Evidence | Change | Result |
+|---|---|---|---|
+| Stuck bodies | `DZ_STUCK` detector: 215 episodes of 30+ turns in 140 idle games | roots from all live members (then a cached static boundary); altar gate check | 215 -> 89 episodes (dz-stuck-idle-01..03) |
+| Gated altars | only 01boss-battle and 02guardians; Bank re-selected forever | per-tile gate test; siege waves tried (dz-trace-boss-03..05: damage persisted between waves, but heavy camp deaths); final: legacy fallback when every altar is gated | boss-battle 589/562 (old policy 816/654) |
+| Fuel-outs | release v65 pools had 1-16 fuel-outs; profiler (`profile.h`) | in-Wasm masks (bitboard is_set/set are host calls), quantized+memoized risk keys, best-first pricing, aggregated clear risk, bounded boot/boundary/candidate budgets | dz-hard-v65-01 / dz-hard-idle-01: 0 faults, 0 fuel-outs, p99 63k |
+| Items | elite purchases: Treasure/Jungle openers; Marcella Focus | gear variant A (elite-like) / B (Treasure + Monster) | A: idle -12.8 (SE 5.8), v65 +7.3 (SE 10); B: idle -2.5 (SE 9.3), v65 -5.5 (SE 6.4). Both neutral; B kept |
+
+Failed/diagnostic runs retained: dz-fuel-pack-01..25 (profiling; several
+distorted by trace prints, see handoff), dz-masks-*, dz-gates-*, dz-trace-boss-*,
+dz-window-*, dz-altar-survey-01.
