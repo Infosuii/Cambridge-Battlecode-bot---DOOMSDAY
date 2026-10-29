@@ -11,7 +11,8 @@ Bots ship prebuilt in DIR/workspace/wasm (missing ones are built with the CLI). 
 
 The bot must read PLAN_ROUND / PLAN_ID from src/common.h (bots/v76p). For each seed, opponent, map and side it plays the
 baseline (PLAN_ROUND 5000, never reached) and every (round, plan) branch; a branch is identical to the baseline before its round, so only
-its result row is kept. NOVA_SEED is set to the seed for every bot, as tools/lab/screen120.py does. Branches whose round
+its result row is kept. NOVA_SEED is set to the seed for every bot, as tools/lab/screen120.py does. Baseline rows also carry
+'feat': {round: features()} (the position at each branch round). Branches whose round
 is at or after the baseline's last round are recorded as skipped without playing. Jobs run seed by seed, baselines
 first, then rounds in the configured order, shuffled across maps, so a partial run is still a balanced sample.
 """
@@ -55,6 +56,30 @@ def code_sha(path):
             return hashlib.sha256(raw[off:off + size]).hexdigest()
         off += size
     return ''
+
+
+FEAT = ('submittedGems', 'gems', 'gold', 'kills', 'deaths', 'collectedGems', 'earnedGold', 'championDamageDone')
+
+
+def features(d, us, op, rounds):
+    """Position at each branch round from a baseline summary: per team (us, then them) the team's submitted gems and,
+    summed over its champions, FEAT[1:] (timelines are run-length; a value past the last run is the final value)."""
+    vals = {}
+    for kind in ('teamTimelines', 'championTimelines'):
+        for tl in d.get(kind, []):
+            o = tl['owner']
+            team = o if isinstance(o, str) else o.get('team')
+            if tl['metric'] not in FEAT or (kind == 'teamTimelines') != (tl['metric'] == 'submittedGems'):
+                continue
+            ends, acc = [], 0
+            for r in tl['runs']:
+                acc += int(r['duration'])
+                ends.append((acc, float(r['value'])))
+            vals.setdefault((team, tl['metric']), []).append(ends)
+
+    def at(ends, rd):
+        return next((v for e, v in ends if rd < e), ends[-1][1] if ends else 0)
+    return {str(rd): [sum(at(e, rd) for e in vals.get((t, m), [])) for t in (us, op) for m in FEAT] for rd in rounds}
 
 
 def free_ram_gb():
@@ -220,6 +245,8 @@ class Farm:
         row.update(win=1.0 if outcome == us else 0.0 if outcome == op else 0.5, gems=gems[us], opp_gems=gems[op],
                    rounds=int(d['match']['roundsStarted']), faults=int(d['diagnostics']['botFaults'][us]),
                    fuel=fuel[us], opp_fuel=fuel[op])
+        if rd < 0:
+            row['feat'] = features(d, us, op, c['rounds'])
         self.add(row)
         return True
 
