@@ -22,7 +22,8 @@ bool channel_safe(const StaticWorld& world,const Observation& obs,const TurnCont
         if (g.strength<=0) continue;
         for (unsigned i=0;i<g.tiles.size();++i) {
             if ((i&15)==0&&!tc.allow(3500)) return false;
-            if (g.initial_strength[i]>0 && p.chebyshev_distance(g.tiles[i])<=g.attack_ranges[i] && awake.is_set(g.tiles[i])) return false;
+            if (g.initial_strength[i]>0 && p.chebyshev_distance(g.tiles[i])<=g.attack_ranges[i] &&
+                (awake.is_set(g.tiles[i]) || !cambc::vision::in_vision(g.tiles[i]))) return false;
         }
     }
     return true;

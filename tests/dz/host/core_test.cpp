@@ -31,6 +31,15 @@ int main() {
     try { require_current(4, [] { return 5u; }); action_ran = true; } catch (const StaleTurn&) { stale = true; }
     assert(stale && !action_ran);
     require_current(5, [] { return 5u; });
+    ModuleHealth broken,healthy; unsigned attempts=0,reports=0,healthy_runs=0;
+    for (unsigned i=0;i<8;++i) {
+        assert(!guarded_module(broken,[&] { ++attempts; throw std::runtime_error("controlled failure"); },[&](const char*) { ++reports; }));
+        assert(guarded_module(healthy,[&] { ++healthy_runs; },[](const char*) { assert(false); }));
+    }
+    assert(attempts==3 && reports==3 && !broken.enabled() && healthy_runs==8 && healthy.enabled());
+    try { guarded_module(healthy,[]{throw StaleTurn{};},[](const char*){assert(false);}); assert(false); }
+    catch (const StaleTurn&) {}
+    assert(healthy.failures==0); // Budget suspension is not a broken module.
     ActionHistory actions;
     assert(actions.may_cast(true, false, false, true));
     actions.record_move(false); // Hidden obstruction keeps the allowance.

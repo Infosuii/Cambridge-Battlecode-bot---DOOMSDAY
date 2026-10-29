@@ -45,7 +45,7 @@ missing, duplicate or changed values. Runtime metadata and SDK constants are
 labeled separately. Truncated diagnostics have no native fault total and mark it
 unmeasured. Fuel quantiles omit exactly draft/boosted turns in full games; native
 events determine exhaustions. R100/R250/R500 use native RLE without extrapolation.
-Six Python tests check measurement/gates; native C++ tests cover 1,536 codec cases,
+Eight Python tests check measurement/gates; native C++ tests cover 1,536 codec cases,
 stale guards, action history, contracts, generations and bounded escape paths.
 
 `dz-kernel-02-idle` completed its games before a parser error. `recover` validated
@@ -75,13 +75,40 @@ confirms the correction and long-group clearing. All frozen evidence is retained
 
 ## Still open before specialization
 
-- Tribute/lock timing, camp nearest-target/ties, enemy contest, hidden death,
-  Home emblem, bush/ward, deliberate-fault fixtures.
+- Tribute/lock timing and elk nearest-target/lower-handle ties now pass. Enemy
+  contest, hidden death, Home/item modifiers, bush/ward behavior and deliberate
+  uncaught-fault behavior still need their remaining controlled fixtures.
 - `08-v65-trace` passes all 140 cells: zero native faults/fuel-outs and zero
   printed caught action/module errors. Trace changes fuel and can change choices;
   use the uninstrumented 07 campaigns for strength comparisons.
-- Per-module disable-after-three; complete measured 5k fallback.
+- Per-module disable-after-three is implemented; controlled memory-failure
+  injection checks three errors per body, no retries afterwards and continued
+  round-100 safe turns. Host tests also prove unaffected modules keep running and
+  stale-turn suspension is not counted as failure. `module-isolation-02` and
+  `module-stale-01` complete native games with zero faults, and only the latter's
+  exact intended one fuel-out per body. Complete 5k fallback remains open.
 - Calibrated clear/arrival/damage/reward model, crews and one capturer.
 - Banking interruption and enemy burst models; validated EE.
 - Repeat stronger v76 comparison after fundamentals improve, then evaluate
   map-type and individual-map plans against that stronger baseline.
+
+## Current foundation checkpoint
+
+`dz-foundation-checkpoint-idle` and `dz-foundation-checkpoint-v65-trace` each pass
+140 cells with zero native faults/fuel-outs; the trace also has zero caught
+action/module errors. Idle mean banked 902.91, fuel p99 52,998. Contested trace
+fuel p99 53,041 and zero wins; it is diagnostic, not strength evidence. Current
+source hashes match the frozen idle source. Safety remains off.
+
+New tests extend observed per-round damage to wolves, golems and monoliths.
+Strict monolith attempts exposed a safety bug: camps can damage a champion while
+absent from its visible awake masks. Channel checks now refuse hidden potentially
+damaging camps in range; experimental observation marks that information incomplete.
+It does not infer safety from an empty visible mask. This model remains conservative.
+
+A separate open-ground monolith map, created and integrity-checked with the
+official engine MapBuilder, removes visibility and collateral confounds and passes
+five consecutive 200-damage samples on both sides. Its generation is byte-identical
+on repeat. It is outside the competition pool and is never used for strength claims.
+All failed attempts remain preserved. See `CONFORMANCE.md` and
+`FOUNDATION_CHECKPOINT.json` for exact scope. The fundamentals audit is not complete.

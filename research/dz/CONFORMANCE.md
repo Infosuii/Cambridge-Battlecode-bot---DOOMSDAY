@@ -65,13 +65,13 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-8 | Partial | Visible bags/items/cooldowns pass; hidden queries reject 97; channel-time pending |
 | CT-9 | Pending | Do not query hidden enemy liveness or infer death from invisibility |
 | CT-10 | Partial | Group visibility/state used through SDK; single-spawn-tile visibility fixture not isolated |
-| CT-11 | Partial | Every-round elk damage established; nearest-target/tie checks pending |
+| CT-11 | Partial | Every-round wolf/elk/golem/monolith damage; elk nearest/lower-handle ties verified |
 | CT-12 | Pending | Tribute passive not purchased or valued |
 | CT-13 | Pending | No model assumes Prospector benefits outside clusters |
 | CT-14 | Pending | Hunter not purchased or valued |
 | CT-15 | Pending | Skirmish/Collectors not purchased or valued |
 | CT-16 | Partial | Damage interruption, 5 owner ticks, arrival-before-heal verified; Home/spawn-start pending |
-| CT-17 | Pending | Basic tribute/lock handling exists; controlled lock/channel fixture required |
+| CT-17 | Observed | Lock cancellation, retained bag, simultaneous locks, five hits, range 3 rejection, tribute duration |
 | CT-18 | Pending | Teleport and dash disabled in the starter |
 | CT-19 | Partial | Two C&I instances/body slots established; linked death/order still needs a fixture |
 | CT-20 | Partial | Pick/reveal behavior observed for 3 and 5; missed-pick and 4-pick diagnostic fixture pending |
@@ -139,3 +139,57 @@ untested mechanics questions.
   pinned reference. The initial play-turn dump exceeded its budget and remains a
   failed diagnostic; the successful version dumps after picking on the first
   10M-budget draft turn. No production bot pays this diagnostic cost.
+- **CT-17:** `dz-ct17-tribute-04` passes eight assertions on 00ribs/00anvil,
+  both sides, against a separately compiled scripted locker. Enemy lock interrupts
+  an active tribute; the entire bag is retained; allied/enemy locks coexist;
+  submission into an enemy lock removes exactly one hit without starting a
+  tribute; five total hits remove it; subsequent tribute transfers the full bag
+  in `max(minimum, base + ceil(bag * multiplier))` owner ticks. Lock placement
+  from distance three rejects with code 119 and keeps inventory. The opponent
+  places from distance two. Both source trees/binaries are preserved.
+  `tribute-01` had invalid setup (no passive gold, and one map without harmless
+  groups); `tribute-02` passes the initial seven checks; `tribute-03` correctly
+  rejects two missing range checks; `tribute-04` explicitly visits the distance
+  three ring. These diagnostic failures are retained, not strength results.
+
+## Continuation: fault containment and camp targeting
+
+- CT-2 extended: `dz-module-stale-01` completes four native diagnostic games.
+  Each body deliberately exhausts fuel once and then throws after resumption.
+  There are exactly 3/3/5/5 deliberate fuel-outs, zero native faults, zero module
+  or action errors, and one recorded stale abort per body. Exception paths must
+  check the round before charging a module error, as successful paths already do.
+- `dz-module-isolation-02`: four completed native diagnostics, zero faults and
+  fuel-outs. Every body attempts the injected failing memory module exactly three
+  times, then quarantines it; round-100 observations/recovery continue. Host tests
+  also check unaffected modules continue and stale suspension is never quarantined.
+  Injection affects only frozen diagnostic copies, never production source.
+- CT-11 targeting: `targeting-03` and `targeting-04-reverse` each pass four cells
+  (00collision/00elkring, both sides). Swapping distances switches all elk damage
+  to the nearer champion. Equal-distance damage follows the lower handle after
+  reversing draft order and changing the last attacker. This disambiguates handle
+  order from champion type, original aggro and latest attacker in these fixtures.
+- Wolf cadence: `dz-ct11-wolf-cadence-02` passes four cells on 00collision and
+  00gem-fields. Golem: `dz-ct11-golem-cadence-04` passes both sides of 00crater,
+  eight consecutive 120-damage rounds. Stricter checks require the selected camp
+  to be visibly awake and in range, in addition to matching total incoming damage.
+- Monolith: `dz-ct11-monolith-isolated-01` passes both sides of a dedicated
+  correctness map: five consecutive 200-damage rounds. Ryth's 1,200 health permits
+  five living samples. The official MapBuilder generates/validates the separate
+  map in `tests/dz/maps/`; it is outside the 70-map competition pool.
+- Monolith attempts 01/03–06 on competition geometry remain failed diagnostics.
+  They exposed inaccessible setup, doubled incoming damage, and **damage from a
+  camp outside champion vision**. In 04–06, HP falls by 200 per round while visible
+  awake masks are empty; static exclusion isolates the possible source, but the
+  strict direct-observation gate correctly refuses a pass. Ward placement did
+  not fix the occlusion. The dedicated open fixture removes those confounds.
+  Golem Dunes attempts also remain failed unreachable setups. Two 02 attempts
+  failed compilation before games (diagnostic span/vector assignment, corrected).
+- Production channel safety now refuses a hidden potentially damaging camp in
+  range. Experimental camp observation marks that situation incomplete instead
+  of treating an empty visible awake mask as proof of safety. This is conservative
+  uncertainty handling, not a calibrated hidden-camp threat model; safety stays off.
+
+These observations do not complete all of G0. Other camp types' targeting ties,
+enemy capture contest, hidden death, Home/item modifiers and the other open table
+entries still need their own fixtures before a model relies on them.

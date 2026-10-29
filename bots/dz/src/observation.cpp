@@ -34,6 +34,12 @@ void Observation::read_camps(const StaticWorld& world,const TurnContext& tc) {
             auto tile=g.tiles[i];
             if (p.chebyshev_distance(tile)>12) continue;
             if (!tc.allow(5000) || budget-cambc::fuel_remaining()>10000 || camps.size()>=32) { camps_complete=false; return; }
+            // Awake masks contain visible camps only. A hidden damaging spawn in
+            // attack range is uncertainty, not evidence that no camp can hit us.
+            if (!cambc::vision::in_vision(tile)) {
+                if (p.chebyshev_distance(tile)<=g.attack_ranges[i]) { camps_complete=false; return; }
+                continue;
+            }
             if (!awake.is_set(tile)) continue;
             camps.push_back({{tile.x,tile.y},members[i].strength()*camp_factor,g.attack_ranges[i]});
         }

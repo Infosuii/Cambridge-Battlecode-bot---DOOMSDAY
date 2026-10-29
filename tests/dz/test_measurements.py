@@ -7,6 +7,25 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_targeting_requires_swaps_and_handle_sensitive_ties(self):
+        def transcript(a,b,wrong_tie=False):
+            lines=[f'CT11_HANDLES a={a} b={b}',f'CT11_SECOND_ATTACKER body={b} round=19']
+            for phase,start,dist in ((2,1,(1,2)),(4,10,(2,1)),(6,20,(1,1))):
+                a_hit=phase==2 or (phase==6 and (a<b)^wrong_tie)
+                for r in range(start,start+5):
+                    lines.append(f'CT11_TARGET phase={phase} round={r} da={60 if a_hit else 0} db={0 if a_hit else 60} ia=60 ib=60 dista={dist[0]} distb={dist[1]}')
+            return '\n'.join(lines)
+        self.assertTrue(dz.diagnostic_checks(transcript(0,1),'targeting')['passed'])
+        self.assertTrue(dz.diagnostic_checks(transcript(1,0),'targeting')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(0,1,True),'targeting')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(0,1).replace('CT11_SECOND_ATTACKER','absent'),'targeting')['passed'])
+    def test_module_quarantine_and_stale_diagnostics_are_distinct(self):
+        errors='\n'.join(f'DZ_MODULE_ERROR round={n} body=0 module=memory failures={n} disabled={int(n==3)}' for n in (1,2,3))
+        text=errors+'\nDZ_COUNTS round=100 slot=0 actions=0 modules=3 stale=0'
+        self.assertTrue(dz.diagnostic_checks(text,'module-failure')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+'\nDZ_MODULE_ERROR unclassified','module-failure')['passed'])
+        self.assertTrue(dz.diagnostic_checks('DZ_COUNTS round=100 slot=0 actions=0 modules=0 stale=1','module-stale')['passed'])
+        self.assertFalse(dz.diagnostic_checks('DZ_COUNTS round=100 slot=0 actions=0 modules=1 stale=0','module-stale')['passed'])
     def test_fingerprint_rejects_missing_changed_and_duplicate_fields(self):
         reference=json.loads((dz.ROOT/'research/dz/ENGINE_FINGERPRINT.json').read_text())
         lines=[f'CT27_FIELD {key} '+value.replace(':',' ') for key,value in reference['fields'].items()]
@@ -21,7 +40,7 @@ class Measurements(unittest.TestCase):
         self.assertEqual([dz.sample_at(runs,n) for n in range(6)], [0,0,7,7,7,None])
         with self.assertRaises(ValueError): dz.sample_at([{'duration':0,'value':1}],0)
     def test_noop_probe_must_fail(self):
-        text='\n'.join(f'CT11 round={r} hp=1000 delta=0 active=0 incoming=0' for r in range(20))
+        text='\n'.join(f'CT11 round={r} hp=1000 delta=0 active=0 incoming=0 target_awake=0 target_strength=0 target_in_range=0' for r in range(20))
         self.assertFalse(dz.diagnostic_checks(text,'camps')['passed'])
     def test_team_owner_is_a_string_and_early_end_is_explicit(self):
         summary=dict(match=dict(roundsStarted=120),
@@ -35,10 +54,11 @@ class Measurements(unittest.TestCase):
         self.assertEqual(got['250']['round'],120)
         self.assertTrue(got['250']['ended_before_checkpoint'])
     def test_repeated_per_round_damage_establishes_cadence(self):
-        text='\n'.join(f'CT11 round={r} hp={1000-60*r} delta=60 active=3 incoming=60' for r in range(1,9))
+        text='\n'.join(f'CT11 round={r} hp={1000-60*r} delta=60 active=3 incoming=60 target_awake=1 target_strength=60 target_in_range=1' for r in range(1,9))
         self.assertTrue(dz.diagnostic_checks(text,'camps')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('target_in_range=1','target_in_range=0'),'camps')['passed'])
     def test_half_rate_does_not_pass_full_rate_assertion(self):
-        text='\n'.join(f'CT11 round={r} hp=500 delta={60 if r%2 else 0} active=1 incoming=60' for r in range(1,15))
+        text='\n'.join(f'CT11 round={r} hp=500 delta={60 if r%2 else 0} active=1 incoming=60 target_awake=1 target_strength=60 target_in_range=1' for r in range(1,15))
         self.assertFalse(dz.diagnostic_checks(text,'camps')['passed'])
 
 if __name__=='__main__': unittest.main()

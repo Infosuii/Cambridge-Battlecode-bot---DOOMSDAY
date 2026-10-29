@@ -31,7 +31,12 @@ economy auction and crews; single capturer and timed cluster circuits; hazard ba
 gear utility; exhaustive map-aware draft; race controller; tested team-message freshness;
 opening schedule; dash/heal/consumable policies; meaningful parity/league/holdout gates.
 The low-fuel emergency path banks beside an altar or heads home; it is not the complete planned 5k-fuel SafeMode.
-Caught module errors are counted, but per-module disabling is not yet implemented.
+Observation, boot, shopping, camp scan, memory, planner, execution, communication
+and field modules are quarantined after three contained exceptions per instance.
+Budget suspension propagates separately and does not count as a module failure.
+Memory/planner/execution failure uses bounded bank/home recovery; failed
+observation or boot yields because the necessary state is unavailable. Allocation
+failures during object construction still use the outer catch/retry boundary.
 
 The fundamentals audit adds live allowance/history guards, transactional camp
 memory, known-dead frontier avoidance, respawn yielding, bounded loops, immediate

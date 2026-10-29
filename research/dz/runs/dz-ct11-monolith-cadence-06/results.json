@@ -1,0 +1,90 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 3338.4739583333335,
+  "fuel_p99": 30620,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00rows",
+      "map_sha256": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 100,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "595d868d464614858ea2eec84df1e8fe80b0e5d281314c880f22acfc33a3da96",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "770a485a403c5c840e93e3ca9e1ca9f6862016723067538722ba3a74ca1039fb",
+      "diagnostic_checks": {
+        "passed": false,
+        "consecutive_full_strength_damage_rounds": 0,
+        "matching_hits": 0,
+        "first_hits": [],
+        "setup_reached_damage": false,
+        "conclusion": "full in-range camp strength lost every round in this fixture; targeting not isolated"
+      }
+    },
+    {
+      "map": "00rows",
+      "map_sha256": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 100,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "595d868d464614858ea2eec84df1e8fe80b0e5d281314c880f22acfc33a3da96",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "5d14c1c4cfb686cac8b3c09416518d0053d2540f6ebc10d5e1e262908f4d3a6a",
+      "diagnostic_checks": {
+        "passed": false,
+        "consecutive_full_strength_damage_rounds": 0,
+        "matching_hits": 0,
+        "first_hits": [],
+        "setup_reached_damage": false,
+        "conclusion": "full in-range camp strength lost every round in this fixture; targeting not isolated"
+      }
+    }
+  ]
+}

@@ -15,6 +15,21 @@ struct TurnContext {
     }
 };
 struct Counters { unsigned action_errors = 0, module_errors = 0, stale = 0; };
+template<class Work>
+bool module_work(ModuleHealth& health,const TurnContext& tc,Counters& counts,[[maybe_unused]] const char* name,Work work) {
+    return guarded_module(health,[&] {
+        tc.guard();
+        try { work(); }
+        catch (...) { tc.guard(); throw; } // A resumed SDK error is still a stale turn.
+        tc.guard();
+    },[&]([[maybe_unused]] const char* error) {
+        ++counts.module_errors;
+#if DZ_TRACE
+        std::printf("DZ_MODULE_ERROR round=%u body=%d module=%s failures=%u disabled=%d %s\n",
+            tc.round,cambc::detail::cached_my_champion,name,health.failures,!health.enabled(),error);
+#endif
+    });
+}
 // Every bot-side SDK mutation (including draft and communication) passes through
 // this boundary. Callers check legality; the boundary rejects stale resumption.
 class Actuator {
@@ -54,6 +69,7 @@ public:
             tc_.guard();
             return success;
         } catch (const cambc::error& error) {
+            tc_.guard();
             ++failures_; ++counts_.action_errors;
 #if DZ_TRACE
             if (counts_.action_errors <= 20) std::printf("DZ_ACTION_ERROR round=%u action=%s code=%d %s\n", tc_.round, name, static_cast<int>(error.code()), error.what());
@@ -107,6 +123,8 @@ public:
         auto& me=cambc::self(); auto state=me.state();
         if (state.is_dead()||channel(state)||me.buffs().has_stun()||me.gem_count()==0 ||
             me.position().chebyshev_distance(p)>cambc::constants::submit_gems_range) return false;
+        for (const auto& lock:cambc::vision::altar_locks(cambc::team::enemy)) if (lock.position()==p &&
+            (!can_attack() || me.position().chebyshev_distance(p)>me.attack_range())) return false;
         tc_.guard(); me.submit_gems(p); return true;
     },"bank"); }
     bool buy(cambc::item_type item) { return attempt([&] { cambc::self().buy(item); }); }

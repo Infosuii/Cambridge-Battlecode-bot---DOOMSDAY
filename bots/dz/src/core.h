@@ -2,6 +2,7 @@
 #include "config.h"
 #include <algorithm>
 #include <cstdint>
+#include <exception>
 
 namespace dz {
 enum class Tier { Full, Lean, Fallback };
@@ -9,6 +10,19 @@ constexpr Tier tier_for(std::uint64_t fuel) {
     return fuel >= config::full_fuel ? Tier::Full : fuel >= config::lean_fuel ? Tier::Lean : Tier::Fallback;
 }
 struct StaleTurn {};
+struct ModuleHealth {
+    unsigned failures=0;
+    bool enabled() const { return failures<3; }
+};
+template<class Work,class OnError>
+bool guarded_module(ModuleHealth& health,Work work,OnError on_error) {
+    if (!health.enabled()) return false;
+    try { work(); return true; }
+    catch (const StaleTurn&) { throw; }
+    catch (const std::exception& error) { ++health.failures; on_error(error.what()); }
+    catch (...) { ++health.failures; on_error("unknown exception"); }
+    return false;
+}
 // History records only successful actions. Engine flags remain authoritative for
 // attack resets, ranged move-or-attack, stuns and other live restrictions.
 struct ActionHistory {

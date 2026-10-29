@@ -2,6 +2,24 @@
 #include "gear.h"
 #include "safemode.h"
 
+namespace {
+void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
+    auto& me=cambc::self(); auto state=me.state();
+    if (state.is_dead()||state.contains(cambc::champion_state::recalling)||
+        state.contains(cambc::champion_state::submitting_gems)||state.contains(cambc::champion_state::teleporting)) return;
+    const auto p=me.position();
+    if (me.gem_count()>0&&dz::channel_safe(world,obs,tc)) {
+        for (const auto& altar:world.altars) if (p.chebyshev_distance(altar.tile)<=cambc::constants::submit_gems_range) {
+            if (act.bank(altar.tile)) return;
+            break;
+        }
+    }
+    if (me.can_move()) for (auto delta:world.home.next_moves_from(p)) {
+        auto destination=p+delta;
+        if (!obs.occupied.is_set(destination)) { act.move(destination); break; }
+    }
+}
+}
 int main() {
     dz::Counters counts;
     if (cambc::is_draft()) dz::draft_loop(counts);
@@ -11,6 +29,8 @@ int main() {
     std::unique_ptr<dz::Memory> mem;
     std::unique_ptr<dz::Observation> obs;
     bool priority_set = false;
+    dz::ModuleHealth observation_health,boot_health,shop_health,camp_health,memory_health,
+        planner_health,execution_health,communication_health,field_health;
     for (;;) {
         auto tc = dz::TurnContext::begin(); dz::Actuator act(tc, counts);
 #if DZ_TRACE
@@ -21,40 +41,55 @@ int main() {
             if (!world) world = std::make_unique<dz::StaticWorld>();
             if (!mem) mem = std::make_unique<dz::Memory>();
             if (!obs) obs = std::make_unique<dz::Observation>();
-            obs->read(tc);
-            if (obs->state.is_dead()) { dz::fixed_shop(tc, act); }
+            if (!dz::module_work(observation_health,tc,counts,"observation",[&]{obs->read(tc);})) {
+                if (cambc::round_number()==tc.round) cambc::end_turn();
+                continue;
+            }
+            if (obs->state.is_dead()) { dz::module_work(shop_health,tc,counts,"shop",[&]{dz::fixed_shop(tc, act);}); }
             else {
                 const bool already_ready = world->ready;
-                world->boot(tc);
+                if (!dz::module_work(boot_health,tc,counts,"boot",[&]{world->boot(tc);})) {
+                    if (cambc::round_number()==tc.round) cambc::end_turn();
+                    continue;
+                }
 #if DZ_TRACE
                 if (tc.round <= 8) std::printf("DZ_BOOT round=%u slot=%u ready=%d fuel=%llu\n", tc.round, world->slot, world->ready,
                     static_cast<unsigned long long>(cambc::fuel_remaining()));
 #endif
                 if (world->ready && already_ready) {
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
-                    if (dz::fixed_shop(tc, act)) obs->refresh_self(tc);
-                    if constexpr (dz::config::camp_safety) obs->read_camps(*world,tc);
-                    if (dz::tier_for(cambc::fuel_remaining()) == dz::Tier::Fallback) {
-                        // Hard-budget escape: no memory scan, field build or full planner.
-                        bool banking=false;
-                        if (!obs->channel() && obs->bag>0 && dz::danger(obs->p,*obs)==0) {
-                            for (const auto& altar:world->altars) if (obs->p.chebyshev_distance(altar.tile)<=cambc::constants::submit_gems_range) {
-                                banking=act.bank(altar.tile); break;
-                            }
-                        }
-                        if (!banking && !obs->channel() && cambc::self().can_move()) {
-                            for (auto delta : world->home.next_moves_from(obs->p)) {
-                                auto p = obs->p + delta;
-                                if (!obs->occupied.is_set(p)) { act.move(p); break; }
-                            }
-                        }
+                    const bool shop_attempted=shop_health.enabled();
+                    const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::fixed_shop(tc,act)) obs->refresh_self(tc);});
+                    // A shop exception can follow a successful purchase. Refresh
+                    // before planning with stats that may have changed partially.
+                    if (shop_attempted&&!shop_ok && !dz::module_work(observation_health,tc,counts,"observation",[&]{obs->refresh_self(tc);})) {
+                        if (cambc::round_number()==tc.round) cambc::end_turn();
+                        continue;
+                    }
+                    auto clear_claim=[&] {
+                        dz::module_work(communication_health,tc,counts,"communication",[&]{
+                            act.publish(dz::protocol::with_slot(dz::shared_word(),world->slot,{dz::protocol::idle,false}));
+                        });
+                    };
+                    bool camps_ok=true;
+                    if constexpr (dz::config::camp_safety)
+                        camps_ok=dz::module_work(camp_health,tc,counts,"camps",[&]{obs->read_camps(*world,tc);});
+                    if (!camps_ok || dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback ||
+                        !dz::module_work(memory_health,tc,counts,"memory",[&]{mem->update(*world,tc);})) {
+                        emergency(*world,*obs,tc,act);
+                        clear_claim();
                     } else {
-                        mem->update(*world, tc);
 #if DZ_TRACE
                         if (tc.round <= 8) std::printf("DZ_MEMORY round=%u slot=%u fuel=%llu\n", tc.round, world->slot,
                             static_cast<unsigned long long>(cambc::fuel_remaining()));
 #endif
-                        const auto goal = dz::safe_goal(*world, *mem, *obs, tc);
+                        dz::Goal goal;
+                        if (!dz::module_work(planner_health,tc,counts,"planner",[&]{goal=dz::safe_goal(*world,*mem,*obs,tc);})) {
+                            emergency(*world,*obs,tc,act);
+                            clear_claim();
+                            if (cambc::round_number()==tc.round) cambc::end_turn();
+                            continue;
+                        }
 #if DZ_TRACE
                         if (tc.round <= 8 || tc.round % 100 == 0) std::printf("DZ_GOAL round=%u slot=%u kind=%d index=%d pos=%d,%d bag=%d hp=%.0f altar0=%d\n",
                             tc.round, world->slot, static_cast<int>(goal.kind), goal.index, obs->p.x, obs->p.y, obs->bag, obs->hp,
@@ -65,14 +100,17 @@ int main() {
                                 tc.round,world->slot,static_cast<int>(b.state),b.hp,b.capture,b.seen,mem->contract.checked);
                         }
 #endif
-                        if (obs->channel()) {
-                            if (goal.kind == dz::GoalKind::Retreat) {
-                                if (act.cancel_channel()) dz::execute(goal, *world, *mem, *obs, tc, act);
-                            }
-                        } else dz::execute(goal, *world, *mem, *obs, tc, act);
+                        bool executed=dz::module_work(execution_health,tc,counts,"executor",[&] {
+                            if (obs->channel()) {
+                                if (goal.kind==dz::GoalKind::Retreat && act.cancel_channel()) dz::execute(goal,*world,*mem,*obs,tc,act);
+                            } else dz::execute(goal,*world,*mem,*obs,tc,act);
+                        });
+                        if (!executed) emergency(*world,*obs,tc,act);
+                        dz::module_work(communication_health,tc,counts,"communication",[&] {
                         std::uint8_t objective = dz::protocol::idle;
                         bool onsite = false;
-                        if (goal.kind == dz::GoalKind::Farm) {
+                        if (!executed) objective=dz::protocol::idle;
+                        else if (goal.kind == dz::GoalKind::Farm) {
                             objective = dz::protocol::group_code(goal.index);
                             const auto position = cambc::self().position();
                             onsite = world->group_at(position)==goal.index;
@@ -80,12 +118,15 @@ int main() {
                         else if (goal.kind == dz::GoalKind::Home) objective = dz::protocol::shop;
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));
-                        world->build_one_field(tc, mem->contract.objective);
+                        });
+                        dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,mem->contract.objective);});
                     }
                 }
             }
             if (obs->state.is_dead() && world->ready)
-                act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {dz::protocol::dead, false}));
+                dz::module_work(communication_health,tc,counts,"communication",[&]{
+                    act.publish(dz::protocol::with_slot(dz::shared_word(),world->slot,{dz::protocol::dead,false}));
+                });
         } catch (const dz::StaleTurn&) { ++counts.stale; continue; }
         catch (const std::exception& error) {
             ++counts.module_errors;

@@ -1,0 +1,47 @@
+{
+  "created_utc": "2026-10-29T00:53:28.178816+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--name",
+    "dz-ct17-tribute-01",
+    "--fixture",
+    "tribute",
+    "--fixture-opponent",
+    "--maps",
+    "00collision",
+    "00gem-fields",
+    "--diagnostic-rounds",
+    "250",
+    "--workers",
+    "3"
+  ],
+  "git_head": "53e853e0fd106e8896ac02737501c2d3bddfaa50",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "source": {
+    "src/config.h": "451f34514a3e3ce1d1cd79c26f77b9db986ddf2632969aa877705f33ce080ef8",
+    "src/main.cpp": "1de4f3947cd7db7d92b3383329764355310caa0deeb9a6c71eaae8830c0d3e9c"
+  },
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "00collision": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+    "00gem-fields": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5"
+  },
+  "candidate_sha256": "8a2a952a3215a57918f69717f949be73677fcd0884ec3cfa43c1e79095e33e5d",
+  "opponent_sha256": "8493a4c67b8bbd1b915496c007896f76153e57fa784c3b26166ceaadf57dfb6b",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples"
+}

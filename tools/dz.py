@@ -83,6 +83,8 @@ def verify_evidence():
                     raise ValueError(f'{folder.name}: digest mismatch: {member}')
             check('candidate.wasm', provenance['candidate_sha256'])
             check('opponent.wasm', provenance['opponent_sha256'])
+            if 'runner_sha256' in provenance: check('runner/dz.py',provenance['runner_sha256'])
+            for name,digest in provenance.get('opponent_source',{}).items(): check('build/opponent/'+name,digest)
             for name, digest in provenance['source'].items(): check('build/candidate/'+name, digest)
             if json.loads(z.read('results.json')) != results: raise ValueError('external results differ from capsule')
             if json.loads(z.read('provenance.json')) != provenance: raise ValueError('external provenance differs from capsule')
@@ -141,6 +143,38 @@ def checkpoints(summary, side):
     return result
 
 def diagnostic_checks(stdout, fixture):
+    if fixture=='targeting':
+        handles=re.search(r'CT11_HANDLES a=(\d+) b=(\d+)',stdout)
+        rows=re.findall(r'CT11_TARGET phase=(\d+) round=(\d+) da=([\d.-]+) db=([\d.-]+) ia=([\d.-]+) ib=([\d.-]+) dista=(\d+) distb=(\d+)',stdout)
+        best={2:0,4:0,6:0}; streak=0; previous=None
+        for phase,round_no,da,db,ia,ib,dist_a,dist_b in rows:
+            phase,round_no,dist_a,dist_b=map(int,(phase,round_no,dist_a,dist_b)); da,db,ia,ib=map(float,(da,db,ia,ib))
+            a_hit=phase==2 or (phase==6 and handles and int(handles[1])<int(handles[2]))
+            good=ia>0 and ia==ib and (da,db)==((ia,0) if a_hit else (0,ib)) and (
+                (dist_a,dist_b)=={2:(1,2),4:(2,1),6:(1,1)}[phase])
+            streak=(streak+1 if previous==(phase,round_no-1) else 1) if good else 0
+            best[phase]=max(best[phase],streak); previous=(phase,round_no)
+        second_attacker=re.search(r'CT11_SECOND_ATTACKER body=(\d+) round=(\d+)',stdout)
+        return dict(passed=bool(handles and second_attacker and int(second_attacker[1])==int(handles[2]) and
+                    all(n>=4 for n in best.values()) and 'ERROR' not in stdout),
+                    consecutive_valid_rounds=best,tie_rule='lower champion handle',samples=len(rows))
+    if fixture=='module-stale':
+        counts=re.findall(r'DZ_COUNTS round=100 slot=(\d+) actions=(\d+) modules=(\d+) stale=(\d+)',stdout)
+        return dict(passed=bool(counts and all(int(a)==0 and int(m)==0 and int(s)==1 for _,a,m,s in counts)
+                    and 'DZ_MODULE_ERROR' not in stdout and 'DZ_ACTION_ERROR' not in stdout),
+                    bodies=len(counts),all_resumed_without_module_failure=bool(counts and all(int(m)==0 and int(s)==1 for _,_,m,s in counts)))
+    if fixture == 'module-failure':
+        errors=re.findall(r'DZ_MODULE_ERROR round=(\d+) body=(\d+) module=(\w+) failures=(\d+) disabled=(\d+)',stdout)
+        by_body={}
+        for round_no,body,module,failures,disabled in errors:
+            by_body.setdefault(body,[]).append((module,int(failures),int(disabled)))
+        expected=[('memory',1,0),('memory',2,0),('memory',3,1)]
+        counts=re.findall(r'DZ_COUNTS round=100 slot=(\d+) actions=(\d+) modules=(\d+) stale=(\d+)',stdout)
+        return dict(passed=bool(by_body and counts and len(by_body)==len(counts) and
+                    all(rows==expected for rows in by_body.values()) and
+                    all(int(actions)==0 and int(modules)==3 and int(stale)==0 for _,actions,modules,stale in counts)
+                    and 'DZ_ACTION_ERROR' not in stdout and stdout.count('DZ_MODULE_ERROR')==len(errors)),bodies=len(by_body),errors=len(errors),
+                    all_quarantined_after_three=bool(by_body and all(rows==expected for rows in by_body.values())))
     if fixture == 'fingerprint':
         records=re.findall(r'CT27_FIELD ([\w.]+) (u32|f32|f64) ([0-9a-f]+)',stdout)
         fields={key:kind+':'+value for key,kind,value in records}
@@ -148,9 +182,16 @@ def diagnostic_checks(stdout, fixture):
         digest=hashlib.sha256(canonical).hexdigest()
         reference=ROOT/'research/dz/ENGINE_FINGERPRINT.json'
         expected=json.loads(reference.read_text()) if reference.exists() else None
-        return dict(passed=bool(expected and fields==expected['fields'] and len(records)==len(fields)
+        return dict(passed=bool(expected and fields==expected['fields'] and digest==expected['sha256'] and
+                    len(fields)==expected['field_count'] and expected['schema']==1 and len(records)==len(fields)
                     and 'CT27_COMPLETE schema=1' in stdout and 'ERROR' not in stdout),
                     schema=1,field_count=len(fields),sha256=digest,reference_present=bool(expected))
+    if fixture == 'tribute':
+        checks={name:int(value) for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d)',stdout)}
+        required={'lock_interrupts_channel','lock_keeps_carried_gems','both_team_locks_visible',
+                  'submit_into_lock_hits_once','enemy_lock_removed_five_hits','tribute_completes','tribute_duration','lock_range_three_rejected'}
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()))
     if fixture == 'reset':
         match=re.search(r'CT_CHECK name=camp_kill_resets_both_cooldowns pass=(\d)',stdout)
         after=re.search(r'CT26 second_cast_after_kill=(\d) code=(\d+)',stdout)
@@ -184,11 +225,11 @@ def diagnostic_checks(stdout, fixture):
         return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
                     checks=checks,missing=sorted(required-checks.keys()))
     if fixture != 'camps': return {'automated_fixture_checks': 'not yet implemented'}
-    rows = re.findall(r'CT11 round=(\d+) hp=([\d.]+) delta=([-\d.]+) active=(\d+) incoming=([\d.]+)', stdout)
+    rows = re.findall(r'CT11 round=(\d+) hp=([\d.]+) delta=([-\d.]+) active=(\d+) incoming=([\d.]+)[^\n]*target_awake=(\d) target_strength=([\d.]+) target_in_range=(\d)', stdout)
     consecutive = best = 0; previous = None; hits = []
     for raw in rows:
-        round, hp, delta, active, incoming = map(float, raw)
-        matches = incoming > 0 and delta > 0 and abs(delta-incoming) < .01
+        round, hp, delta, active, incoming, target_awake, target_strength, target_in_range = map(float, raw)
+        matches = incoming > 0 and delta > 0 and abs(delta-incoming) < .01 and target_awake==1 and target_in_range==1 and 0<target_strength<=incoming
         consecutive = consecutive+1 if matches and previous is not None and round == previous+1 else int(matches)
         best = max(best, consecutive); previous = round
         if matches: hits.append(dict(round=int(round), delta=delta, in_range_strength=incoming))
@@ -216,6 +257,21 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             deaths=0, faults=0, faults_measured=False, opponent_faults=0, fuel_outs=sum(x>=100000 for x in fuel[20:]),
             fuel_budgets=budgets, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent), replay_sha256=sha(bundle))
         result['diagnostic_checks'] = diagnostic_checks(stdout, fixture)
+        if (folder/'summary.json').exists():
+            native=json.loads((folder/'summary.json').read_text(encoding='utf-8'))
+            owner='team'+side
+            result.update(outcome='completed-diagnostic',faults=int(native['diagnostics']['botFaults'][owner]),
+                faults_measured=True,opponent_faults=int(native['diagnostics']['botFaults']['team'+('B' if side=='A' else 'A')]),
+                fuel_outs=sum(len(e['entries']) for e in native['events'] if e['kind']=='fuelExhausted' and e['owner']['team']==owner),
+                summary_sha256=sha(folder/'summary.json'))
+            if fixture in ('module-failure','module-stale'):
+                bodies=sum(c['team']==owner for c in native['champions'])
+                expected_outs=bodies if fixture=='module-stale' else 0
+                checks=result['diagnostic_checks']
+                checks.update(expected_bodies=bodies,expected_deliberate_fuel_outs=expected_outs)
+                checks['passed'] &= checks['bodies']==bodies and result['fuel_outs']==expected_outs
+        if fixture not in ('kernel','module-stale') and result['fuel_outs']:
+            result['diagnostic_checks']['passed']=False
         write(folder/'receipt.json', result)
         return result, fuel[20:]
     d = json.loads((folder/'summary.json').read_text(encoding='utf-8'))
@@ -255,13 +311,28 @@ def experiment(args):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.name): raise ValueError('name must use letters, digits, dash or underscore')
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
-    fixtures = {'kernel':'conformance','camps':'camp_probe','actions':'actions_probe','channels':'channel_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe'}
-    source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' else 'bots/dz')
+    (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
+    fixtures = {'kernel':'conformance','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale')
+    source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
-    if args.trace:
+    if args.trace or injected:
         config = frozen/'src/config.h'
         config.write_text(config.read_text().replace('#define DZ_TRACE 0', '#define DZ_TRACE 1'))
+    if injected:
+        main=frozen/'src/main.cpp'; text=main.read_text(); needle='mem->update(*world,tc);'
+        if text.count(needle)!=1: raise ValueError('memory fault injection site changed')
+        injection='throw std::runtime_error("controlled memory failure");'
+        if args.fixture=='module-stale':
+            injection='''static bool injected=false;
+                if (!injected) {
+                    injected=true; volatile unsigned sink=1;
+                    while (cambc::round_number()==tc.round) for (unsigned n=0;n<100;++n) sink=sink*1664525u+1013904223u;
+                    throw std::runtime_error("controlled stale SDK error after suspension");
+                }
+                mem->update(*world,tc);'''
+        main.write_text(text.replace(needle,injection),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
         if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not re.fullmatch(r'[01]',value): raise ValueError('expected DZ_FLAG=0 or 1')
@@ -273,23 +344,37 @@ def experiment(args):
     if args.opponent_wasm:
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
-        source_opp = ROOT/'bots'/args.opponent
+        source_opp = ROOT/'tests/dz/tribute_probe' if args.fixture_opponent else ROOT/'bots'/args.opponent
+        if args.fixture_opponent and (args.command!='conformance' or args.fixture!='tribute'):
+            raise ValueError('scripted opponent currently supports the tribute diagnostic only')
         frozen_opp = out/'build/opponent'
         shutil.copytree(source_opp/'src', frozen_opp/'src')
+        if args.fixture_opponent:
+            config=frozen_opp/'src/config.h'
+            config.write_text('#define CT_OPPONENT 1\n',encoding='utf-8',newline='\n')
         opponent = build(frozen_opp, out/'opponent.wasm')
-    names = sorted(p.stem for p in MAPS.glob('*.map26a')) if args.pool else args.maps
+    map_directory=Path(args.map_dir) if args.map_dir else MAPS
+    if not map_directory.is_absolute(): map_directory=ROOT/map_directory
+    if args.map_dir and args.command!='conformance': raise ValueError('custom fixture maps are for conformance only')
+    names = sorted(p.stem for p in map_directory.glob('*.map26a')) if args.pool else args.maps
     diagnostic = args.command == 'conformance'
-    jobs = [(MAPS/(name+'.map26a'), side) for name in names for side in ('A','B')]
+    jobs = [(map_directory/(name+'.map26a'), side) for name in names for side in ('A','B')]
     provenance = dict(created_utc=dt.datetime.now(dt.timezone.utc).isoformat(), command=sys.argv,
-        git_head=run(['git','rev-parse','HEAD']).strip(), release=True, trace=args.trace, diagnostic=diagnostic,
+        git_head=run(['git','rev-parse','HEAD']).strip(), release=True,
+        trace=bool(args.trace or injected), diagnostic=diagnostic,
+        runner_sha256=sha(out/'runner/dz.py'),
         cli_sha256=sha(CLI), source={p.relative_to(frozen).as_posix():sha(p) for p in (frozen/'src').rglob('*') if p.is_file()},
         sdk={p.relative_to(ROOT).as_posix():sha(p) for p in (ROOT/'sdk/cpp').rglob('*') if p.is_file()},
         maps={p.stem:sha(p) for p,_ in jobs}, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent),
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
+    provenance['map_directory']=os.path.relpath(map_directory,ROOT)
+    if not args.opponent_wasm:
+        provenance['opponent_source']={p.relative_to(frozen_opp).as_posix():sha(p) for p in (frozen_opp/'src').rglob('*') if p.is_file()}
     write(out/'provenance.json', provenance)
     ledger = ROOT/'research/dz/SEED_LEDGER.md'
     with ledger.open('a', encoding='utf-8', newline='\n') as f:
-        f.write(f'| {args.name} | {dt.datetime.now(dt.timezone.utc).date()} | deterministic; Wasm {sha(candidate)[:12]} | {len(jobs)} cells; {args.opponent} | {args.command}; trace={args.trace} |\n')
+        opponent_label='scripted tribute locker' if args.fixture_opponent else args.opponent
+        f.write(f'| {args.name} | {dt.datetime.now(dt.timezone.utc).date()} | deterministic; Wasm {sha(candidate)[:12]} | {len(jobs)} cells; {opponent_label} | {args.command}; trace={args.trace} |\n')
     rows, fuel, errors = [], [], []
     with cf.ThreadPoolExecutor(max_workers=min(4, args.workers)) as executor:
         futures = [executor.submit(match, candidate, opponent, p, side, out/'games'/f'{p.stem}-{side}', diagnostic, args.diagnostic_rounds, args.fixture) for p,side in jobs]
@@ -322,7 +407,9 @@ def finish_report(name, out, rows, fuel, diagnostic):
             if p.is_file() and '.cambc' not in p.parts and not p.name.endswith('.obj'):
                 z.write(p, p.relative_to(out))
     print(json.dumps({k:v for k,v in result.items() if k!='per_game'}, indent=2), flush=True)
-    if result['faults'] or (not diagnostic and (result['fuel_outs'] or any(
+    provenance=json.loads((out/'provenance.json').read_text())
+    missing_trace=provenance.get('trace',False) and not diagnostic and any('caught_action_errors' not in r for r in rows)
+    if result['faults'] or missing_trace or (not diagnostic and (result['fuel_outs'] or any(
             r.get('caught_action_errors',0) or r.get('caught_module_errors',0) for r in rows))):
         raise SystemExit('runtime gate failed; evidence preserved')
     if diagnostic and any(row.get('diagnostic_checks',{}).get('passed') is False for row in rows):
@@ -339,7 +426,9 @@ def recover(args):
         raise ValueError('frozen binaries changed')
     rows, fuel = [], []
     for name,digest in sorted(provenance['maps'].items()):
-        path = MAPS/(name+'.map26a')
+        directory=Path(provenance.get('map_directory',str(MAPS)))
+        if not directory.is_absolute(): directory=ROOT/directory
+        path = directory/(name+'.map26a')
         if sha(path) != digest: raise ValueError('map changed')
         for side in ('A','B'):
             row, used = match(candidate,opponent,path,side,out/'games'/f'{name}-{side}',existing=True)
@@ -358,10 +447,12 @@ def main():
     for name in ('smoke','conformance'):
         p = sub.add_parser(name); p.add_argument('--name', required=True)
         p.add_argument('--maps', nargs='+', default=['00collision'])
+        p.add_argument('--map-dir', help='separate conformance fixture directory; never used for strength tests')
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','camps','actions','channels','visibility','capture','reset','fingerprint'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','camps','targeting','actions','channels','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture-opponent', action='store_true', help='use the scripted tribute locker opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
     args = parser.parse_args()

@@ -2,6 +2,60 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Continuation at 04:07, 2026-10-29
+
+The one-time wakeup fired; its automation was deleted after delivery. There is
+no remaining scheduled continuation. A usage-related approval-review failure
+previously prevented one local runtime command; after the reported reset it ran
+successfully as `dz-module-boundaries-03-runtime` (eight stress cells, zero native
+faults/fuel-outs/caught errors). No approval restriction was bypassed.
+
+New work since published checkpoint 53e853e:
+
+- CT-17 tribute/lock fixture passes eight assertions in four cells (`tribute-04`):
+  interruption, retained gems, simultaneous team locks, automatic hit on submit,
+  five hits, distance-three rejection, full transfer and exact duration.
+- Module quarantine now covers observation, boot, shop, camp scan, memory,
+  planner, executor, communication and fields after three contained exceptions.
+  Memory/planner/executor failures use bounded recovery and clear old claims.
+  Failed observation/boot yields; allocation construction still has catch/retry.
+- `dz-module-isolation-02`: four completed diagnostic games, zero native faults/
+  fuel-outs, exactly three injected exceptions per body and no further retries.
+- `dz-module-stale-01`: four completed diagnostic games, exactly one intentional
+  fuel-out per body (3/3/5/5), zero native faults and zero module/action errors.
+  A deliberately thrown post-resumption error becomes a stale-turn abort, not a
+  module failure. The exception path in module_work/Actuator now guards the round.
+- Full `module-boundaries-02-idle` and `02-v65-trace` each pass 140 cells with zero
+  native faults/fuel-outs; the trace has zero caught errors. Idle banked 901.09;
+  contested trace is diagnostic and loses all cells. These include the module
+  wrappers; `03-runtime` covers the subsequent stale-exception correction.
+- CT-11 `targeting-03` and `targeting-04-reverse` each pass four cells. Damage
+  follows the nearer champion after swapping positions. Equal-distance ties hit
+  the lower handle after reversing draft order and changing the last attacker;
+  neither champion type, original aggro nor last hit explains the result alone.
+- New runs include a frozen runner snapshot/hash and both source-tree hashes.
+  Completed diagnostics now report real native fault totals; truncated ones still
+  mark them unmeasured. Fault injection changes only frozen diagnostic copies.
+- `PORTABILITY_FUNDAMENTALS_VERIFIED.json` confirms clean source-only export of
+  53e853e rebuilds to the exact tested default 07-control binary on this host.
+
+Wolf/golem/monolith cadence now passes the stricter target-awake/in-range gate:
+`wolf-cadence-02` (4 cells), `golem-cadence-04` (2), `monolith-isolated-01` (2).
+The monolith map is a separate official-MapBuilder correctness fixture, never part
+of strength testing. Earlier attempts exposed damage from outside champion vision.
+Production channel checks now refuse hidden potentially damaging camps in range;
+experimental camp observation marks them incomplete. Safety remains off.
+
+Final current-source campaigns: `dz-foundation-checkpoint-idle` and
+`dz-foundation-checkpoint-v65-trace`, each 140 cells, zero native faults/fuel-outs;
+the trace has zero caught errors. Idle banked 902.91 / fuel p99 52,998; contested
+trace p99 53,041, zero wins (diagnostic). `FOUNDATION_CHECKPOINT.json` records exact
+source/binary identities. No calibrated clear/crew model or strong baseline yet.
+
+Next: remaining item/Home/hidden-death/contest fixtures, measured minimal recovery,
+then clear/arrival/damage calibration and crew basics. Keep per-map plans deferred.
+Eight Python measurement/gate tests and native host tests should pass.
+
 The user explicitly deferred map-specific plans until fundamentals are solid.
 Continue `FUNDAMENTALS_AUDIT.md`; no per-map tuning yet. G0 is incomplete and the
 bot is weak. Starter numbers below are historical, not current-source results.
@@ -145,15 +199,10 @@ identities as independent samples. Bug/geometry checks can use all maps; paramet
 selection must respect the held-out-map partition. No new top-team download was
 needed for this starter; existing data was enough.
 
-## Scheduled continuation
+## Checkpoint and continuation
 
-A single active heartbeat, `continue-dz-build-once`, is scheduled for **2026-10-29
-04:07 Europe/London** in this chat. It resumes this work once and creates no
-additional schedules. It depends on this machine/app being available and account
-usage being available. The original interval/count attempts were rejected; the
-successful schedule has one future occurrence only. Do not duplicate it.
-
-The starter checkpoint is intended to be committed and pushed on this branch;
-verify `git status` and the remote HEAD on resumption. Use the milestone list above
-for further implementation. The measured current Wasm SHA-256 is
+53e853e was pushed and its remote HEAD verified. Verify newer commits and working
+changes on resumption; use the latest audit above before the older starter list.
+The initial starter binary (historical, not current) was
 `c5486461a5f8704409f5cf9293a3ca20a49ba7f53152732ba20a068e2d2a9872`.
+No scheduled wakeup remains; the requested one-time continuation has fired.

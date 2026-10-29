@@ -1,0 +1,192 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1277.2924288617887,
+  "fuel_p99": 11425,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00anvil",
+      "map_sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 250,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "54af8618ee7e77ecb80b6e854f01048323fc6153bab03b4caea5547819d5bf93",
+      "opponent_sha256": "83ed7c061d0ca6b5f6bec83da4986b0558d44250bd2afdc25928a0c397eaea14",
+      "replay_sha256": "b5220b78fe28d8843858c8cf511a67fa3f3c63bb5c3f69f6b9bbe9d8eed90bbd",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "lock_interrupts_channel": 1,
+          "lock_keeps_carried_gems": 1,
+          "both_team_locks_visible": 1,
+          "submit_into_lock_hits_once": 1,
+          "enemy_lock_removed_five_hits": 1,
+          "tribute_completes": 1,
+          "tribute_duration": 1
+        },
+        "missing": [
+          "lock_range_three_rejected"
+        ]
+      }
+    },
+    {
+      "map": "00anvil",
+      "map_sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 250,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "54af8618ee7e77ecb80b6e854f01048323fc6153bab03b4caea5547819d5bf93",
+      "opponent_sha256": "83ed7c061d0ca6b5f6bec83da4986b0558d44250bd2afdc25928a0c397eaea14",
+      "replay_sha256": "fed8c7c052250e78126d41d57e80415acd114f604663f99afbb49c56953c652e",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "lock_interrupts_channel": 1,
+          "lock_keeps_carried_gems": 1,
+          "both_team_locks_visible": 1,
+          "submit_into_lock_hits_once": 1,
+          "enemy_lock_removed_five_hits": 1,
+          "tribute_completes": 1,
+          "tribute_duration": 1
+        },
+        "missing": [
+          "lock_range_three_rejected"
+        ]
+      }
+    },
+    {
+      "map": "00ribs",
+      "map_sha256": "ac8b03e975303908d08c098cc41f998a0bcfaf90bbcbcc2fda3f22a92c0c9d6f",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 250,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "54af8618ee7e77ecb80b6e854f01048323fc6153bab03b4caea5547819d5bf93",
+      "opponent_sha256": "83ed7c061d0ca6b5f6bec83da4986b0558d44250bd2afdc25928a0c397eaea14",
+      "replay_sha256": "bd18ab5ac3e7f8c0904ccadf91c7a747a8ee842684ad518f36cc25092463ecdf",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "lock_range_three_rejected": 1,
+          "lock_interrupts_channel": 1,
+          "lock_keeps_carried_gems": 1,
+          "both_team_locks_visible": 1,
+          "submit_into_lock_hits_once": 1,
+          "enemy_lock_removed_five_hits": 1,
+          "tribute_completes": 1,
+          "tribute_duration": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "00ribs",
+      "map_sha256": "ac8b03e975303908d08c098cc41f998a0bcfaf90bbcbcc2fda3f22a92c0c9d6f",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 250,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "54af8618ee7e77ecb80b6e854f01048323fc6153bab03b4caea5547819d5bf93",
+      "opponent_sha256": "83ed7c061d0ca6b5f6bec83da4986b0558d44250bd2afdc25928a0c397eaea14",
+      "replay_sha256": "cd4b79a27d22d51387cd831a6251d851d29890536fa4754e69cba2272c9a7946",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "lock_range_three_rejected": 1,
+          "lock_interrupts_channel": 1,
+          "lock_keeps_carried_gems": 1,
+          "both_team_locks_visible": 1,
+          "submit_into_lock_hits_once": 1,
+          "enemy_lock_removed_five_hits": 1,
+          "tribute_completes": 1,
+          "tribute_duration": 1
+        },
+        "missing": []
+      }
+    }
+  ]
+}
