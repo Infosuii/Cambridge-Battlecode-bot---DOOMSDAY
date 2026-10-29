@@ -100,6 +100,13 @@ action/module errors. Idle mean banked 902.91, fuel p99 52,998. Contested trace
 fuel p99 53,041 and zero wins; it is diagnostic, not strength evidence. Current
 source hashes match the frozen idle source. Safety remains off.
 
+The uninstrumented `dz-foundation-checkpoint-v65-release` supplies the matching
+contested baseline: 140 games, zero faults/fuel-outs, mean banked 190.76, collected
+282.29, fuel p99 52,114, zero wins. The 420 checkpoint games (idle, release v65,
+trace v65) are runtime evidence, not proof of competitive strength or completed G0.
+The same default binary rebuilds byte-for-byte from a clean source-only export of
+5df59b6; `PORTABILITY_CURRENT_VERIFIED.json` records the same-host limitation.
+
 New tests extend observed per-round damage to wolves, golems and monoliths.
 Strict monolith attempts exposed a safety bug: camps can damage a champion while
 absent from its visible awake masks. Channel checks now refuse hidden potentially

@@ -52,6 +52,14 @@ the trace has zero caught errors. Idle banked 902.91 / fuel p99 52,998; conteste
 trace p99 53,041, zero wins (diagnostic). `FOUNDATION_CHECKPOINT.json` records exact
 source/binary identities. No calibrated clear/crew model or strong baseline yet.
 
+The matching uninstrumented `dz-foundation-checkpoint-v65-release` also passes
+140 cells with zero faults/fuel-outs: mean collected 282.29, banked 190.76, fuel
+p99 52,114, zero wins. Both release campaigns use the exact same default Wasm
+`9148f834cc3612ed5e68a3924b4b4e7de4da0684776d5a25df11e36b8b33a000`.
+`PORTABILITY_CURRENT_VERIFIED.json` confirms source commit 5df59b6 rebuilds to that
+same binary from a clean source-only export (same host, no machine config/cache).
+5df59b6 is pushed; later metadata/evidence commits preserve the same bot source.
+
 Next: remaining item/Home/hidden-death/contest fixtures, measured minimal recovery,
 then clear/arrival/damage calibration and crew basics. Keep per-map plans deferred.
 Eight Python measurement/gate tests and native host tests should pass.

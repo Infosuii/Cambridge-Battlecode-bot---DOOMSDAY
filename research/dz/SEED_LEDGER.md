@@ -98,3 +98,4 @@ The registry was created before experiments. Entries below record actual use.
 | dz-foundation-checkpoint-idle | 2026-10-29 | deterministic; Wasm 9148f834cc36 | 140 cells; idle81 | smoke; trace=False |
 | dz-foundation-checkpoint-v65-trace | 2026-10-29 | deterministic; Wasm 8689b3705620 | 140 cells; v65 | smoke; trace=True |
 | dz-ct11-monolith-isolated-01 | 2026-10-29 | deterministic; Wasm 595d868d4646 | 2 cells; idle81 | conformance; trace=False |
+| dz-foundation-checkpoint-v65-release | 2026-10-29 | deterministic; Wasm 9148f834cc36 | 140 cells; v65 | smoke; trace=False |
