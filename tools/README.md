@@ -194,3 +194,19 @@ Run from repository root with NFS_REPLAY_ENGINE=2.0.0 and the pinned official CL
 | replay/audit_final_delivery.py | Check complete report/case/provenance/split boundaries, exact reproduction, final validation and frozen source. |
 
 Canonical paths and measured limitations are in research/deep-2026-10-28/STATE.md. Historical Session2 tools/receipts are retained as earlier checkpoints; final state supersedes their “still unfinished” notes.
+
+## Current v70 follow-up tools
+
+Separate namespace research/followup-v70-2026-10-29 and ignored artifacts/local-only/followup-v70-2026-10-29. Run from repo root; set NFS_REPLAY_ENGINE=2.0.0. No tool queues, uploads or activates anything.
+
+| Tool | Usage |
+|---|---|
+| replay/followup_v70_intake.py | `source --archive <official-download.zip>`, `metadata`, `ingest`. PLAN fixes17 UI-observed v70 groups; paced public metadata, immutable source hashes, two-layer ZIP CRC and official CAMSTAT-to-JSON conversion. All raw data ignored. |
+| replay/followup_v70_metrics.mjs | `validate` against five excluded old calibration files, then `extract` for the new85 only. SampleR25/50/75/100/150/250/500 and final; exact gold sources, physical ledgers, costed inventory, accepted loop actions. No old reserved mode. |
+| replay/followup_v70_analysis.py | Build raw-ID and replay-hash-deduplicated summaries, same-game hero pairs, native D3/M1 observable proxy, maps/faults/fuel. ANALYSIS_DATA keeps denominator/selection caveats. |
+| replay/followup_v70_reproduce.py | `prepare`, `validate --node <node.exe>`, `run`. Prepares a separate current allowlist and regenerates followup_v70_validate_inputs.mjs from the frozen validator with explicit study/path changes. Five excluded calibration checks precede four selected new input checks; run reproduces the original loss/win using exact enemy scripts. Official local build/run only. |
+| replay/followup_v70_validate_inputs.mjs | Generated, committed derivative with its own new-study receipt. Does not alter the old validator or its receipts. Inputs are local JSON paths. |
+| replay/followup_v70_trace.py | Two TRACE_PLAN cases, sparse bank-context logging only. Full replay/prefix fidelity and logical/emission-round cutoff; failed long-path run retained. |
+| replay/followup_v70_report.py | Regenerate fresh report/addendum/state and append-once knowledge/handoff entries; validate source/splits/receipts and output FOLLOWUP_VALIDATION. |
+
+The puppet generator additionally accepts independently validated `exploratory` scripts; prior script generation is unchanged. CLI builds need installed compiler-cache access. Keep short output names because long Windows bundle paths can fail after producing a summary.

@@ -23,3 +23,11 @@ This file is append-only research knowledge. Later dated entries may supersede o
 - Change one mechanism, use target maps plus full development/maps/both sides/seeds, compare map-cluster and Bayesian results.
 - Freeze before an untouched one-time candidate holdout; the165 research-confirmation games are spent.
 - Treat deployment, activation and shared-quota matches as separate authorized actions.
+
+## Current v70 follow-up — 2026-10-29
+
+Official source archive v70 “home side” downloaded;33 files,4 changed from v69. No V71 map profiles or V75 lone guard; A3_BACKOFF on while A3_ITEMS/FOCUS/NUMBERS/ONE_OWNER off. Two current original games reproduce byte-for-byte, both-scripted controls exact. Two sparse current traces also preserve complete raw bytes and confirm the bank-disable/recall conflict on split and collision (5/10 turns); both non-gated. No new candidate or win effect tested.
+
+Fresh85 IDs collapse to59 distinct trajectories;26 BattleCats duplicates. All70 BattleCats games sideA;32/70 raw versus18/44 unique. Ranked7/15. Primary deduplicated losses34: cost gapR100−33.5 (interval crosses0), R250−180.0 (map95[−292.5,−75.8]); paired Marcella deficit atR100−68.0 earned gold/−61.2 cost across25 losses. New guardians0-bank case:1389 collected/1265 lost,21 deaths, no fuel-out, despite early+90 cost lead. Fuel lead: ranked vault win28; one distinct islands loss10, repeated twice. These are diagnostic priorities, not proven improvements.
+
+Read docs/CURRENT_BOT_ADDENDUM.md and research/followup-v70-2026-10-29/REPORT.md / ANALYSIS_DATA.json. Old model/predictions/385-165 split remain frozen. Raw data and current-source copy stay local-only. No new matches queued, source policy changed, submission or activation performed.

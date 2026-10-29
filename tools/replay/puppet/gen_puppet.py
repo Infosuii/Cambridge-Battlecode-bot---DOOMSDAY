@@ -66,7 +66,7 @@ int main() {
 
 
 def generate(script, side, destination):
-    assert script['partition'] in ('calibration-excluded', 'examined')
+    assert script['partition'] in ('calibration-excluded', 'examined', 'exploratory')
     assert script['validation']['replay_bytes_identical']
     selected = [r for r in script['inputs'] if r['team'] == side]
     draft = [r['args'][1] for r in selected if r['tag'] == 4]

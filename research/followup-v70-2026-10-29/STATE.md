@@ -1,0 +1,13 @@
+# Current v70 follow-up: research complete
+
+Updated 2026-10-29T00:31:01.197589+00:00. Read REPORT.md / ANALYSIS_DATA.json, ../../docs/CURRENT_BOT_ADDENDUM.md, CURRENT_BANK_TRACES.json and SOURCE_FIDELITY.json. This supplements the completed historical v69 study; it does not replace or retune it.
+
+Completed: official current-source download (platform70, submission78116168-a5b6-42f3-bb19-1f7d1b17c45d, note home side),33 files/4 changed;17 groups/85 replay-native pairs, all validated. Native binary exports converted through official CLI4.0.0. Engine2.0.0; five excluded calibration equivalence checks,21,543 new resource-clock matches, zero unclassified sampled gold. Four new accepted-input scripts reapply byte-for-byte,4,318 round states. Two plain-source games and their both-scripted controls exact; two current sparse bank traces also full-game exact (19 trusted records,15 timer-conflict turns).
+
+Important:85 IDs are59 trajectories,26 deterministic duplicates. BattleCats70 games=44 trajectories, all sideA. Raw32/70 vs unique18/44; ranked7/15. Distinct losses34: R100 cost−33.5 uncertain, R250−180.0 clearer; Marcella paired25-loss deficit−68.0 earned/−61.2 cost. Current recall conflict confirmed on split/collision, not just gated guardians. New guardians loss0 banked/1389 collected/1265 lost deserves separate conversion diagnosis. Vault win28 fuel-outs; one islands loss10, duplicated.
+
+No policy changes, submissions, activations, account changes or new quota requests. Local unmodified-source compilation and diagnostic logging only. New source and raw data remain ignored under artifacts/local-only/followup-v70-2026-10-29; metrics/replay-inputs, source/src, summaries/, bundles/. Local builds under artifacts/tmp/followup-v70. Failed long UUID trace path preserved; successful map-based trace paths used. No credentials handled.
+
+Next research: warm tests for recall eligibility vs stale bank-disable timer; exact guardians carriers/altar routes; Marcella first-three capture assignments across25 loss/17 win pairs; vault/islands fuel and route profiling. No global threshold, draft copy, rollback or rank gain is established. The old research reserved165 are spent and must not be reopened for tuning. Existing old model/split/predictions/frozen source remain unchanged.
+
+Publication: same repository Infosuii/neural-networkk-battlecode and branch analysis/deep-2026-10-28, under the user's ongoing analysis-only push approval. Consult git log for the follow-up commit. Do not merge or publish raw replays/current-source blobs. Runtime paths remain in root project STATE.md; set NFS_REPLAY_ENGINE=2.0.0.

@@ -1,0 +1,11 @@
+{
+  "status": "fixed before trace runs; exploratory cases discovered by unchanged M1 proxy",
+  "selection": "Two distinct replay hashes with the winning-bag descriptor. A duplicate split trajectory is represented once.",
+  "cases": [
+    {"match_id": "9c7c4fcd-c4d5-4ed6-ad94-c21dc6a756ad", "actor": 0, "from": 930, "until": 938, "map": "00split"},
+    {"match_id": "951e9c30-fc77-4241-991c-23cac3abfd09", "actor": 0, "from": 1239, "until": 1252, "map": "00collision"}
+  ],
+  "prediction": "If the old cancellation inconsistency explains these proxy episodes, safe winning-bag recall restarts should coincide with no_bank or round<tribute_off_until. Otherwise the proxy has another cause; retain that result.",
+  "instrumentation": "One bank-context binary record at the normal decision tail, flush after Bot::play_turn. No policy changes. Trust only records before first accepted-input divergence, using logical and emission round.",
+  "limits": "Require exact raw replay or exact prefix covering the episode; discard later/perturbed records. No counterfactual match outcome or expected rank gain."
+}

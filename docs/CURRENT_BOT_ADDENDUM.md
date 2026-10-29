@@ -1,0 +1,11 @@
+# Current-bot research addendum — v70
+
+Read [the fresh report](../research/followup-v70-2026-10-29/REPORT.md) before applying the older v69 brief. Platform70 “home side” was independently downloaded from the official Submissions page; its policy and draft differ from the old study. Source files and all raw replays remain ignored locally.
+
+- **Current defect:** the safe winning-bag recall cancellation around bot.cpp6844 ignores the bank-disable check around4530. Exact logs confirm five affected turns on split and ten on collision, with full replay fidelity. Both are non-gated maps. The cancellation remedy was bounded-tested on v69; its v70 match benefit is untested. Preserve the existing dangerous-channel guard and distinguish cancelling less from safely reconsidering a stale bank timer.
+- **Current evidence:**85 IDs,59 distinct replay trajectories;70 BattleCats games represent44 trajectories, all sideA. Ranked record7/15, one-per-trajectory BattleCats18/44. Never call the70 games independent trials or mirrored-side coverage.
+- **New priority:** in34 distinct losses, cost gapR100−33.5 (map interval includes0) grows toR250−180.0 (map95[−292.5,−75.8]). Capture/kill/bank-bonus income accounts for most of the earned-gold gap, while unused cash is close. InspectR100–250 income/conversion rather than assuming a universal early-shopping defect.
+- **Specific role:** in25 same-game Marcella loss pairs, earned gold−68.0 and equipment cost−61.2 atR100; Vendetta leads+35.2/+22.2 in27 pairs. Inspect assignment/reward distribution first. This does not yet justify a global item/draft change.
+- **Specific maps:** new guardians loss banks0/1389 collected, loses1265, despite+90 R100 cost lead. Vault win has28 fuel-outs. One islands loss trajectory has10 fuel-outs and is repeated twice. Each requires exact private-state/call-cost diagnosis; no blanket rollback is established.
+
+Next steps are source-specific warm regressions, guardians conversion diagnosis, Marcella capture allocation and fuel profiling. No new policy was implemented or deployed in this follow-up. Use the existing benchmark gates and an untouched candidate holdout; do not tune on the spent old research-confirmation set.

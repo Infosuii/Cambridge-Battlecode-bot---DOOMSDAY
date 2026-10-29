@@ -1,5 +1,7 @@
 # Next bot brief — DOOMSDAY
 
+**Current-source update (29 October):** platform70 is now active. Read [CURRENT_BOT_ADDENDUM.md](CURRENT_BOT_ADDENDUM.md) for the new downloaded source, exact current recall traces and fresh85-game evidence before using the historical v69 recommendations below.
+
 Research frozen2026-10-28; study platform69 source, engine2.0.0. Read [REPORT](../research/deep-2026-10-28/REPORT.md), [MISTAKES](../research/deep-2026-10-28/MISTAKES.md) and [P6 deep track](../research/deep-2026-10-28/P6_DEEP_TRACK.md). These are recommendations. No production candidate is implemented or approved for release by this analysis.
 
 ## First concrete patch: M1 recall/bank eligibility
