@@ -119,6 +119,9 @@ int main() {
                             static_cast<unsigned long long>(cambc::fuel_remaining()));
 #endif
                         dz::Goal goal;
+#if DZ_TRACE
+                        const auto planner_fuel=cambc::fuel_remaining();
+#endif
                         if (!dz::module_work(planner_health,tc,counts,"planner",[&]{goal=dz::safe_goal(*world,*mem,*obs,tc);})) {
                             emergency(*world,*obs,tc,act);
                             clear_claim();
@@ -126,6 +129,9 @@ int main() {
                             continue;
                         }
 #if DZ_TRACE
+                        if (tc.round > 8 && planner_fuel-cambc::fuel_remaining() > 15000)
+                            std::printf("DZ_PLANNER_FUEL round=%u slot=%u used=%llu entry=%llu kind=%d\n",tc.round,world->slot,
+                                static_cast<unsigned long long>(planner_fuel-cambc::fuel_remaining()),static_cast<unsigned long long>(tc.fuel0),static_cast<int>(goal.kind));
                         if (tc.round <= 8 || tc.round % 100 == 0) std::printf("DZ_GOAL round=%u slot=%u kind=%d index=%d pos=%d,%d bag=%d hp=%.0f altar0=%d\n",
                             tc.round, world->slot, static_cast<int>(goal.kind), goal.index, obs->p.x, obs->p.y, obs->bag, obs->hp,
                             world->altars.empty() ? -1 : world->altar_distance(0, obs->p));

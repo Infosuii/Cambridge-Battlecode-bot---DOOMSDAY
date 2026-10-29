@@ -25,7 +25,7 @@ cambc::map::camp_group_state visible_group_state(const Group& group,const TurnCo
 }
 void Memory::init(const StaticWorld& world) {
     if (initialized) return;
-    groups.resize(world.groups.size()); member_hp.resize(world.groups.size());
+    groups.resize(world.groups.size()); member_hp.resize(world.groups.size()); hp_version.assign(world.groups.size(),0);
     for (unsigned g = 0; g < groups.size(); ++g) {
         groups[g].hp = world.groups[g].max_hp;
         member_hp[g] = world.groups[g].initial_hp;
@@ -60,7 +60,9 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
         }
     }
     apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
-    tc.guard(); groups[index] = next; member_hp[index]=std::move(hp);
+    tc.guard(); groups[index] = next;
+    if (hp!=member_hp[index]) ++hp_version[index];
+    member_hp[index]=std::move(hp);
 }
 void Memory::update(const StaticWorld& world, const TurnContext& tc) {
     init(world);
@@ -74,7 +76,9 @@ void Memory::update(const StaticWorld& world, const TurnContext& tc) {
 void Memory::release(int round) {
     if (contract.objective >= 0) {
         auto& g = groups[contract.objective];
-        g.avoid_until = round + (++g.failures > 1 ? 40 : config::avoid_rounds);
+        // Exponential back-off: a target that keeps failing (unreachable last
+        // member, stale memory) must not pull champions across the map forever.
+        g.avoid_until = round + (config::avoid_rounds << std::min(g.failures++, 4u));
     }
     contract.objective = -1;
 }

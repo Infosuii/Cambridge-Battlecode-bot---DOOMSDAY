@@ -4,6 +4,7 @@
 #include "ledger.h"
 #include "basic_clear.h"
 #include "objective_math.h"
+#include "clear_risk.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -191,5 +192,32 @@ int main() {
     assert(ledger.hp==220 && known[1]==120);
     apply_group_sample(ledger,known,initial,{GroupState::Respawning,30,65535,{std::nullopt,std::nullopt}},180);
     assert(ledger.ready==210 && ledger.hp==240);
+    {
+        // Native single-camp duels (BASIC_CLEAR_VALIDATION, CAMP_MODIFIER_CONFORMANCE).
+        const ClearMember wolf[]{{1350,20}};
+        auto r=solo_clear_risk(wolf,70); assert(r.complete()&&r.attacks==20&&r.damage==380);
+        assert(clear_survivable(r,1000,1000));
+        const ClearMember wolf_mjd[]{{1350,12.6f}};
+        r=solo_clear_risk(wolf_mjd,115); assert(r.attacks==12&&std::abs(r.damage-138.6)<1e-3);
+        const ClearMember elk[]{{2400,60}}, golem[]{{5000,120}};
+        r=solo_clear_risk(elk,70); assert(r.attacks==35&&r.damage==2040&&!clear_survivable(r,1000,1000));
+        r=solo_clear_risk(golem,70); assert(r.attacks==72&&!clear_survivable(r,1000,1000));
+        // Harmless cluster: per-member overkill, zero damage.
+        std::array<ClearMember,12> cluster{}; cluster.fill({120,0});
+        r=solo_clear_risk(cluster,70); assert(r.attacks==24&&r.damage==0&&clear_survivable(r,101,1000)&&!clear_survivable(r,100,1000));
+        // Smith order: kill the high-damage member first. 2 wolves (20 hits
+        // each) + elk (35): elk first = 60*34+20*54+20*74 = 4600.
+        const ClearMember mixed[]{{1350,20},{2400,60},{1350,20}};
+        r=solo_clear_risk(mixed,70); assert(r.attacks==75&&r.damage==4600);
+        // Dead members are free; invalid inputs and horizons are explicit.
+        const ClearMember dead[]{{0,60},{1350,20}};
+        assert(solo_clear_risk(dead,70).damage==380);
+        const ClearMember bad[]{{1350,-1}};
+        assert(solo_clear_risk(bad,70).status==WorkStatus::Invalid);
+        assert(solo_clear_risk(wolf,0).status==WorkStatus::Invalid);
+        assert(solo_clear_risk(wolf,70,19).status==WorkStatus::BeyondHorizon);
+        assert(!clear_survivable(r,0,1000)&&!clear_survivable({},1000,1000));
+        assert(!clear_survivable(solo_clear_risk(wolf,70),.1f*1000+475,1000)&&clear_survivable(solo_clear_risk(wolf,70),.1f*1000+476,1000));
+    }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

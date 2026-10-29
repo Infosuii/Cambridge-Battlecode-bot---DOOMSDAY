@@ -15,7 +15,7 @@ struct Observation {
     vec2 p;
     float hp = 0, max_hp = 1, strength = 0;
     int range = 1, bag = 0, gold = 0, submitted = 0;
-    float camp_factor = 1;
+    float camp_factor = 1, camp_damage = 1; // incoming / outgoing camp multipliers
     bool camps_complete = false;
     std::vector<CampThreat> camps;
     cambc::bitboard occupied;

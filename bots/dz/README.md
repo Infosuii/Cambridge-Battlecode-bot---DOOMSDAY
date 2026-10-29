@@ -19,7 +19,8 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
   bounded camp scans, six-round progress contracts, and avoid timers.
 - Tested six-slot claim codec; sorted body handles; unsupported group indices publish
   IDLE. Claims are soft hints. Team messages remain disabled because freshness is unresolved.
-- Research-prior legal draft for 3/4/5 picks; fixed role shopping; nearest-group farming;
+- Research-prior legal draft for 3/4/5 picks; fixed role shopping; reward-rate farming over
+  solo-survivable groups (`clear_risk.h`), leader-led crews and a starvation fallback to nearest-group farming;
   basic attack and metadata-driven reset/damage/CC/shield spells; basic banking, recall,
   camp-blocked altar prerequisites, and ward placement.
 - No output in the default release build. A separate `--trace` copy prints diagnostics.

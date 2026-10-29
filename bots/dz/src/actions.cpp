@@ -2,6 +2,25 @@
 #include <cmath>
 
 namespace dz {
+float crew_strength(const Observation& obs, vec2 around, int radius) {
+    float total=0;
+    for (const auto& a:obs.allies) if (a.hp>0 && a.p.chebyshev_distance(around)<=radius) total+=a.strength;
+    return total;
+}
+ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Observation& obs, int index, float extra) {
+    const auto& g=world.groups[index]; const auto& hp=mem.member_hp[index];
+    if (hp.size()>clear_risk_members||g.initial_strength.size()!=hp.size()) return {};
+    const float damage=obs.strength*obs.camp_damage+extra;
+    if (mem.risk_cache.size()!=world.groups.size()) mem.risk_cache.assign(world.groups.size(),{});
+    // Slot 0 holds the solo price, slot 1 the latest crew price.
+    auto& entry=mem.risk_cache[index][extra>0];
+    const unsigned version=mem.hp_version[index];
+    if (entry.version==version&&entry.damage==damage&&entry.factor==obs.camp_factor) return entry.risk;
+    std::array<ClearMember,clear_risk_members> members;
+    for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),g.initial_strength[k]*obs.camp_factor};
+    entry={version,damage,obs.camp_factor,solo_clear_risk(std::span<const ClearMember>(members.data(),hp.size()),damage)};
+    return entry.risk;
+}
 float enemy_danger(vec2 p, const Observation& obs) {
     float damage = 0;
     for (const auto& e : obs.enemies) {
@@ -168,10 +187,21 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         for (const auto& c : group.sdk.camps()) {
             if (!tc.allow(3500)) break;
             if (!c.is_visible() || c.is_dead()) continue;
+            // Damaging groups: strongest member first (cuts incoming damage
+            // soonest, and every crew member picks the same camp). Then nearest.
             float score = static_cast<float>(obs.p.chebyshev_distance(c.position())) * 1000 + c.health();
+            if (group.strength>0) score -= 1e6f * c.strength();
             if (score < best) { best = score; camp_target = &c; }
         }
         target = camp_target;
+        // Never wake a sleeping damaging group that the visible crew cannot
+        // clear: asleep camps do not attack, so waiting beside them is safe.
+        if (camp_target && group.strength>0 && camp_target->is_asleep() && !mem.legacy(tc.round)) {
+            unsigned crew=1;
+            for (const auto& a:obs.allies) if (a.hp>0 && a.p.chebyshev_distance(obs.p)<=4) ++crew;
+            auto risk=group_clear_risk(world,mem,obs,goal.index,crew_strength(obs,obs.p,4));
+            if (!clear_survivable(risk,obs.hp,obs.max_hp,crew_share(crew))) target=nullptr;
+        }
     }
     if constexpr (config::camp_safety) {
         if (camp_target && camp_target->is_visible() && camp_target->is_asleep()) {

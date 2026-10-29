@@ -20,6 +20,7 @@ inline void apply_group_sample(GroupBelief& belief,std::vector<float>& hp,const 
     if (sample.state==GroupState::Respawning) {
         hp=initial; belief.state=GroupState::Respawning;
         belief.ready=round+sample.respawn_timer; belief.capture=65535;
+        belief.failures=0; // Someone completed it; earlier failures are stale.
     } else if (sample.state==GroupState::Reward) {
         std::fill(hp.begin(),hp.end(),0); belief.state=GroupState::Reward;
         belief.capture=sample.capture_timer;

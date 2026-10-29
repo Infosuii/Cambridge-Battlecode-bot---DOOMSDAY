@@ -10,15 +10,20 @@ void Observation::refresh_self(const TurnContext& tc) {
     strength = me.strength(); range = me.attack_range(); bag = static_cast<int>(me.gem_count());
     restrictions = me.restrictions();
     submitted = static_cast<int>(cambc::global_submitted_gems(cambc::team::ally));
-    if constexpr (config::camp_safety) {
-        auto owned = me.item_count(); float jungle=0,durability=0;
+    {
+        // Objective selection prices camp fights with these. Jungle and
+        // Durability multiply; Monster scales damage after stat gains.
+        auto owned = me.item_count(); float jungle=0,durability=0,monster=0;
         for (auto stat:{cambc::item_stat::strength,cambc::item_stat::focus,cambc::item_stat::health}) {
             auto j=cambc::get_item_enum(cambc::item_family::jungle,stat,false);
             auto d=cambc::get_item_enum(cambc::item_family::durability,stat,false);
+            auto m=cambc::get_item_enum(cambc::item_family::monster,stat,false);
             if (owned[j]) jungle=std::max(jungle,j.passive_magnitude());
             if (owned[d]) durability=std::max(durability,d.passive_magnitude());
+            if (owned[m]) monster=std::max(monster,m.passive_magnitude());
         }
         camp_factor=(1-jungle)*(1-durability);
+        camp_damage=1+monster;
     }
     tc.guard();
 }

@@ -3,6 +3,12 @@
 **Runtime foundation works; strength is far below existing bots.** No promotion,
 idle parity, contested parity, model-validation or release-holdout claim is made.
 
+## Update 2026-10-29: feasibility-gated selection
+
+See ECONOMY_SELECTION.md. Current default (`dz-crew-idle-06` / `dz-crew-v65-06`):
+idle 918.4 banked, 3.8 deaths; v65 200.3 banked, 1/140 wins. Zero faults and
+fuel-outs. The tables below describe the earlier `069dfb0` starter.
+
 ## Current release candidate
 
 All three campaigns below used the same frozen DZ source and Wasm. They ran to

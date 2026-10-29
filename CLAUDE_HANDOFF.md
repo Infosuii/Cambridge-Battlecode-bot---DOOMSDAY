@@ -241,9 +241,27 @@ second cast, draft fuel suspension advances the round so existing guards work.
   continuation had already fired and been deleted. The user's explicit pause
   supersedes the earlier conditional request for autonomous continuation.
 
-## Next: economy fundamentals (added 2026-10-29)
+## Economy fundamentals (2026-10-29) — production changed
 
-Full-pool numbers show the main deficit is solo economy, not fighting. Against
-**idle**, DZ banks about 23 / 106 / 279 by R100/R250/R500 and dies ~15 times per
-game to camps. v65, while contested, banks ~1,034 in ~950 rounds. Farming rate
-and camp survival must improve before engagement work.
+Read `research/dz/ECONOMY_SELECTION.md`. The planner now prices solo clears
+with `clear_risk.h`, forms leader-led crews for groups nobody can solo, gates
+waking sleeping damaging camps on the present crew, backs off failing targets
+exponentially and falls back to the old nearest-group score after 150 rounds
+without income. New default Wasm `c4de5a1c…3bb1b`.
+
+- Idle pool `dz-crew-idle-06`: 918.4 banked (base 903.5), R500 306 (base 279),
+  deaths 3.8 (base 14.75), fuel p99 55.6k, 0 faults/fuel-outs.
+- v65 pool `dz-crew-v65-06`: 200.3 banked (base 186.0), 1 win of 140, deaths
+  17.4 (base 18.3), 0 faults/fuel-outs. **Still loses badly to v65 (~1,020).**
+
+`FOUNDATION_CHECKPOINT.json` still records the older `069dfb0` source set; it has
+not been relabelled. `objective_math.h` remains inactive.
+
+### Next, in order
+
+1. Contested deaths: 10.7/game are champion kills. Audit retreat/engagement
+   (`safe_goal` retreat rule, `enemy_danger`) against ladder/v65 replays.
+2. Worst idle cells after the change (01concentrated-wealth, 00ribs,
+   01the-farm) and 01islands routing (teleports?) — check general causes first.
+3. Tune the untuned constants (1.25 margin, crew share, fallback timings, gold
+   weight) on the development pool only; compare against v76 too.

@@ -46,14 +46,15 @@ template<class ReadRound> void require_current(std::uint32_t round, ReadRound re
 struct Contract {
     int objective = -1, checked = 0, distance = 65535, capture = 65535;
     float hp = 0;
-    void start(int g, int round, int dist, float health, int timer) {
-        *this = {g, round, dist, timer, health};
+    int window = config::contract_window; // Crew jobs wait longer for allies.
+    void start(int g, int round, int dist, float health, int timer, int no_progress = config::contract_window) {
+        *this = {g, round, dist, timer, health, no_progress};
     }
     bool progressing(int round, int dist, float health, int timer) {
         if (dist < distance || health + 0.01f < hp || timer < capture) {
             checked = round; distance = dist; hp = health; capture = timer;
         }
-        return round - checked < config::contract_window;
+        return round - checked < window;
     }
 };
 enum class GroupState : std::uint8_t { Alive, Partial, Reward, Respawning, Unknown };
