@@ -41,3 +41,19 @@ respawn horizon and spawn-tile exclusion for alive groups (blocked approaches).
 Failed/diagnostic runs retained: dz-fuel-pack-01..25 (profiling; several
 distorted by trace prints, see handoff), dz-masks-*, dz-gates-*, dz-trace-boss-*,
 dz-window-*, dz-altar-survey-01.
+
+## Per-map draft (Z14, authorised after the elite research)
+
+- Four lineups (`DZ_DRAFT_VARIANT`): 0 current; 1 Vesper/Heart/Vendetta/Marcella;
+  2 Ryth/Vendetta/Marcella; 3 Vesper/Vendetta/Varg. Pools vs v65:
+  dz-gear-v65-02 (0), dz-draftvar1/2/3-v65-01. Globally equal within SE
+  (+0.9 / +9.8 / +11.4, SE ~11).
+- `tools/dz_draft_select.py --margin 100` picks 34 map rows (in-sample +68/game,
+  optimistic: best of four per map).
+- Map identity: `map_signature.h` (FNV-1a of static geometry); dz-sig-survey-01
+  shows 70 distinct signatures, identical on both sides. Table in
+  `bots/dz/src/map_drafts.inc` (applies only when DZ_DRAFT_VARIANT=0).
+- **Out-of-sample check vs v76**: dz-mapdraft-v76-01 (table) vs
+  dz-mapdraft-off-v76-01 (DZ_DRAFT_VARIANT=4: same default lineup, table off):
+  240.8 vs 219.0 banked, +21.8 (paired SE 9.8), 38 better / 28 worse, 3 vs 1 wins.
+  Kept. Re-derive the table whenever the policy changes materially.

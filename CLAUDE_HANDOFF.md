@@ -28,7 +28,7 @@ Started the session at idle 903 / v65 186. Still far behind v65.
 |---|---|
 | Z0 conformance | Mostly observed; CT-6 done this session; CT-1/7/8/9/11/13 partial. New fact: damaged camps did not regenerate between siege waves (boss monolith, trace dz-trace-boss-03). |
 | Z1 kernel, Z2 world/observation, Z3 skeleton | Done. Z2 now has in-Wasm masks (`local_mask.h`): every SDK bitboard test/set is a host call. |
-| Z4 draft | Fixed prior: Vendetta, Varg, Marcella/Vesper first. No utility model, no per-map rows yet. |
+| Z4 draft | Prior lineup + per-map table (34 maps, `map_drafts.inc`, signature-keyed). Out-of-sample vs v76: +21.8 banked (SE 9.8). No utility model. |
 | Z5 memory/protocol | Done (soft claims). |
 | Z6 ObjModel | Arithmetic validated (OBJECTIVE_MATH_VALIDATION.json). `clear_risk.h` (aggregated, host-tested) prices solo/crew clears. V-M1 open. |
 | Z7 economy | Heuristic: rate selection, best-first pricing, survivability gate, leader crews, respawn waiting (<=15 rounds), contracts, starvation fallback. No auction. |
@@ -41,7 +41,8 @@ Started the session at idle 903 / v65 186. Still far behind v65.
 
 ### Next, in order
 
-1. **Per-map draft (Z14)** — strongest historical lever (memory: v70 per-map
+1. **Per-map draft (Z14)** — first table done (+21.8 vs v76 out of sample). Next: more
+   lineups (Willow/Prism/Tavi/duo), re-derive after policy changes. Strongest historical lever (memory: v70 per-map
    draft +15..+169/game). Use elite DRAFT_EVIDENCE.md compositions as
    candidates; evaluate 3-5 candidate drafts per map against v65; pick per map;
    **confirm on a separate opponent or fresh seeds** (deterministic games make

@@ -9,6 +9,9 @@
 #define DZ_TRACE_FROM 100
 #define DZ_TRACE_TO 160
 #endif
+#ifndef DZ_DRAFT_VARIANT
+#define DZ_DRAFT_VARIANT 0
+#endif
 #ifndef DZ_LOCAL_MASKS
 #define DZ_LOCAL_MASKS 1
 #endif

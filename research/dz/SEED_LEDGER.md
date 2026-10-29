@@ -308,3 +308,9 @@ The registry was created before experiments. Entries below record actual use.
 | dz-gear-v65-01 | 2026-10-29 | deterministic; Wasm ab07a9acd240 | 140 cells; v65 | smoke; trace=False |
 | dz-gear-idle-02 | 2026-10-29 | deterministic; Wasm 28077469fe20 | 140 cells; idle81 | smoke; trace=False |
 | dz-gear-v65-02 | 2026-10-29 | deterministic; Wasm 28077469fe20 | 140 cells; v65 | smoke; trace=False |
+| dz-draftvar1-v65-01 | 2026-10-29 | deterministic; Wasm 93f1a90e6762 | 140 cells; v65 | smoke; trace=False |
+| dz-draftvar2-v65-01 | 2026-10-29 | deterministic; Wasm c5797ab97002 | 140 cells; v65 | smoke; trace=False |
+| dz-draftvar3-v65-01 | 2026-10-29 | deterministic; Wasm c791e1036de2 | 140 cells; v65 | smoke; trace=False |
+| dz-sig-survey-01 | 2026-10-29 | deterministic; Wasm 4ce783cadaf2 | 140 cells; idle81 | smoke; trace=True |
+| dz-mapdraft-v76-01 | 2026-10-29 | deterministic; Wasm b6534e0555d2 | 140 cells; v76 | smoke; trace=False |
+| dz-mapdraft-off-v76-01 | 2026-10-29 | deterministic; Wasm b16d7fb09be3 | 140 cells; v76 | smoke; trace=False |
