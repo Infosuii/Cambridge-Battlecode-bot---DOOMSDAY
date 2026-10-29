@@ -7,10 +7,10 @@ WHAT IT DOES
   uploaded anywhere; the only output is one zip file that you send back once.
 
 TIMELINE (hours from when Rishik sends you the package)
-  Hour 0      You receive pack5060.zip (about 150 MB).
+  Hour 0      You receive pack5060.zip (about 100 MB).
   Hour 0      Set up (5 minutes, below) and leave it running.
-  Hour 0-1    First run downloads the official compiler once (about 600 MB) and builds the bots.
-  Hour 1-26   Games run. The window shows "games N / TOTAL". Keep the PC awake and plugged in.
+  Hour 0      The bots come prebuilt, so games start within a minute (no compiler download).
+  Hour 0-26   Games run. The window shows "games N / TOTAL". Keep the PC awake and plugged in.
   Hour 26     (or as soon as the window says ALL DONE, whichever comes first)
               Double-click ZIP_RESULTS.bat and send results_5060.zip to Rishik. THIS IS THE ONLY SEND.
               If you can't send at hour 26, send whenever you can; partial results are still useful.
@@ -18,7 +18,7 @@ TIMELINE (hours from when Rishik sends you the package)
 SETUP
   1. Unzip pack5060.zip to C:\pack5060  (a short path; NOT inside OneDrive or Desktop sync folders).
   2. Double-click C:\pack5060\RUN_ME.bat
-     - It needs internet only for the one-time compiler download.
+     - It needs no internet.
      - It needs about 15 GB free disk.
      - It uses all but 2 CPU threads; the PC stays usable for light work.
   3. Leave the window open.

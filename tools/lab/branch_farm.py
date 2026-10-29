@@ -10,7 +10,7 @@ Bots ship prebuilt in DIR/workspace/wasm (missing ones are built with the CLI). 
   DIR/results/rows.jsonl      one row per game (written here; nothing else is kept)
 
 The bot must read PLAN_ROUND / PLAN_ID from src/common.h (bots/v76p). For each seed, opponent, map and side it plays the
-baseline (PLAN_ROUND -1) and every (round, plan) branch; a branch is identical to the baseline before its round, so only
+baseline (PLAN_ROUND 5000, never reached) and every (round, plan) branch; a branch is identical to the baseline before its round, so only
 its result row is kept. NOVA_SEED is set to the seed for every bot, as tools/lab/screen120.py does. Branches whose round
 is at or after the baseline's last round are recorded as skipped without playing. Jobs run seed by seed, baselines
 first, then rounds in the configured order, shuffled across maps, so a partial run is still a balanced sample.
@@ -30,6 +30,10 @@ import time
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+
+# Baseline switch round: never reached (games end by round 2000) but positive, so the baseline compiles to the same
+# code section as the branches (PLAN_ROUND -1 does not, and code size changes fuel use and so the game).
+NEVER = 5000  # with PLAN_ID 6 (no such plan): a non-zero initialiser keeps the memory layout too
 
 
 def code_sha(path):
@@ -144,7 +148,7 @@ class Farm:
             seed = [('NOVA_SEED', s)]
             for o in c['opponents']:
                 todo.append((o, seed))
-            todo.append((c['bot'], [('PLAN_ROUND', -1), ('PLAN_ID', 0)] + seed))
+            todo.append((c['bot'], [('PLAN_ROUND', NEVER), ('PLAN_ID', 6)] + seed))
             for rd in c['rounds']:
                 for p in c['plans']:
                     todo.append((c['bot'], [('PLAN_ROUND', rd), ('PLAN_ID', p)] + seed))
@@ -187,7 +191,7 @@ class Farm:
             return False
         c = self.cfg
         seed = [('NOVA_SEED', s)]
-        me = self.ws / 'wasm' / f'{self.variant(c["bot"], [("PLAN_ROUND", rd), ("PLAN_ID", p)] + seed)}.wasm'
+        me = self.ws / 'wasm' / f'{self.variant(c["bot"], [("PLAN_ROUND", rd if rd >= 0 else NEVER), ("PLAN_ID", p if rd >= 0 else 6)] + seed)}.wasm'
         them = self.ws / 'wasm' / f'{self.variant(o, seed)}.wasm'
         a, b = (me, them) if side == 'A' else (them, me)
         folder = self.tmp / hashlib.sha1(key.encode()).hexdigest()[:16]
