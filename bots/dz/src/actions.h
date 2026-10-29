@@ -1,9 +1,10 @@
 #pragma once
 #include "clear_risk.h"
+#include "fight.h"
 #include "memory.h"
 
 namespace dz {
-enum class GoalKind { Farm, Bank, Home, Retreat, Idle, YieldSpawn };
+enum class GoalKind { Farm, Bank, Home, Retreat, Idle, YieldSpawn, Fight };
 struct Goal { GoalKind kind = GoalKind::Idle; int index = -1; std::optional<vec2> destination; };
 // Allied strength visible within radius of a tile (allies' own Monster bonus ignored).
 float crew_strength(const Observation&, vec2 around, int radius);

@@ -62,14 +62,31 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
     const bool legacy = mem.legacy(tc.round);
-    float ours = obs.hp * obs.strength, theirs = 0;
-    bool close = false;
-    for (const auto& a : obs.allies) if (obs.p.chebyshev_distance(a.p) <= 6) ours += a.hp * a.strength;
-    for (const auto& e : obs.enemies) {
-        if (obs.p.chebyshev_distance(e.p) <= 8) theirs += e.hp * e.strength;
-        if (obs.p.chebyshev_distance(e.p) <= e.range + 2) close = true;
+    // Local fight: we and allies within 6 against visible enemies within 8.
+    // Enemy HP carries a 25% margin for unseen reinforcements and spells.
+    // Win -> engage the weakest nearby enemy (this also joins allies' fights);
+    // lose -> leave before contact, or retreat once in reach.
+    {
+        std::array<Fighter,fight_units> ours{}, theirs{};
+        std::size_t n_ours=1, n_theirs=0;
+        ours[0]={obs.hp,obs.strength};
+        for (const auto& a : obs.allies)
+            if (a.hp>0 && n_ours<fight_units && obs.p.chebyshev_distance(a.p) <= 6) ours[n_ours++]={a.hp,a.strength};
+        bool reach=false, near=false; const SeenChampion* focus=nullptr;
+        for (const auto& e : obs.enemies) {
+            const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
+            if (d > 8 || n_theirs>=fight_units) continue;
+            theirs[n_theirs++]={1.25f*e.hp,e.strength};
+            if (d <= e.range + 1) reach=true;
+            if (d <= e.range + 3) near=true;
+            if (d <= 5 && (!focus || e.hp < focus->hp)) focus=&e;
+        }
+        if (n_theirs) {
+            auto fight=simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs));
+            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp) return {GoalKind::Fight,-1,focus->p};
+            if (!fight.won() && reach) return {GoalKind::Retreat};
+        }
     }
-    if (close && (obs.hp < .6f * obs.max_hp || theirs > ours * 1.2f)) return {GoalKind::Retreat};
     int altar = -1, altar_distance = 65535;
     for (unsigned a = 0; a < world.altars.size(); ++a) {
         int d = world.altar_distance(a, obs.p);
@@ -98,7 +115,18 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             auto risk=clear_risk(current,crew_strength(obs,obs.p,4));
             if (!risk.complete() || obs.hp<=1.1*risk.damage*crew_share(crew)) { mem.release(tc.round); current=-1; }
         }
-        if (current>=0 && belief.available(tc.round) && mem.contract.progressing(tc.round, dist, belief.hp, belief.capture))
+        // Standing on the cleared group is progress: a fresh capture takes the
+        // configured time plus an initialization phase in which the timer does
+        // not fall, which outlasted the six-round window and abandoned captures
+        // one round before completion. Bounded so a contested tile releases.
+        if (current>=0 && belief.state==GroupState::Reward && world.group_at(obs.p)==current) {
+            if (mem.contract.onsite_since<0) mem.contract.onsite_since=tc.round;
+            if (tc.round-mem.contract.onsite_since <= 2*cambc::constants::capture_time+4) mem.contract.checked=tc.round;
+        } else if (current>=0) mem.contract.onsite_since=-1;
+        // Waiting beside a known respawn is progress too.
+        const bool waiting=current>=0 && belief.waitable(tc.round,config::respawn_wait);
+        if (waiting && dist<=2) mem.contract.checked=tc.round;
+        if (current>=0 && (belief.available(tc.round)||waiting) && mem.contract.progressing(tc.round, dist, belief.hp, belief.capture))
             return {blocks_respawn&&current==occupied_group ? GoalKind::YieldSpawn : GoalKind::Farm, current};
         if (current>=0) {
             if (!belief.available(tc.round)) mem.contract.objective = -1;
@@ -111,9 +139,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     for (unsigned i = 0; i < world.groups.size(); ++i) {
         if (!tc.allow(3500)) break;
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
-        if (!belief.available(tc.round)) continue;
+        // A known respawn is priced at max(travel, wait) instead of ignored:
+        // walking 26 tiles past a cluster that returns in 10 rounds wastes time.
+        const bool waitable = belief.waitable(tc.round, config::respawn_wait) && g.sdk.gem_value()>0;
+        if (!belief.available(tc.round) && !waitable) continue;
         const int dist = world.distance(i, obs.p);
         if (dist >= 65535 || (!g.field && dist > 30)) continue;
+        const int wait = waitable ? belief.ready - tc.round : 0;
         int claims = 0;
         for (unsigned slot = 0; slot < world.allies.size() && slot < protocol::slots; ++slot)
             if (slot != world.slot && i < 112 && protocol::slot(word, slot).objective == i) ++claims;
@@ -121,7 +153,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
         const float value=(g.sdk.gem_value()+.1f*g.sdk.gold_value())/(1.f+claims);
         if (value<=0) continue;
-        const float fixed=dist+cambc::constants::capture_time+2.f;
+        const float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
         if (-value/fixed>=best) continue; // Cannot win even with a free clear.
         float clear_rounds=0;
         if (legacy) {

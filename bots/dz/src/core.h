@@ -47,6 +47,7 @@ struct Contract {
     int objective = -1, checked = 0, distance = 65535, capture = 65535;
     float hp = 0;
     int window = config::contract_window; // Crew jobs wait longer for allies.
+    int onsite_since = -1; // First round standing on the group while its reward is available.
     void start(int g, int round, int dist, float health, int timer, int no_progress = config::contract_window) {
         *this = {g, round, dist, timer, health, no_progress};
     }
@@ -64,6 +65,10 @@ struct GroupBelief {
     int seen = -1, ready = 0, avoid_until = 0, capture = 65535;
     unsigned failures = 0;
     bool available(int round) const { return round >= avoid_until && (state != GroupState::Respawning || ready <= round); }
+    // A respawn with a known timer, close enough to be worth walking to and waiting for.
+    bool waitable(int round, int horizon) const {
+        return round >= avoid_until && state == GroupState::Respawning && ready > round && ready - round <= horizon;
+    }
 };
 inline bool bank_now(int bag, int distance, int submitted, int winning) {
     return bag > 0 && (bag >= config::bank_bag || distance <= 8 || submitted + bag >= winning);

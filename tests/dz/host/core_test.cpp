@@ -5,6 +5,7 @@
 #include "basic_clear.h"
 #include "objective_math.h"
 #include "clear_risk.h"
+#include "fight.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -218,6 +219,21 @@ int main() {
         assert(solo_clear_risk(wolf,70,19).status==WorkStatus::BeyondHorizon);
         assert(!clear_survivable(r,0,1000)&&!clear_survivable({},1000,1000));
         assert(!clear_survivable(solo_clear_risk(wolf,70),.1f*1000+475,1000)&&clear_survivable(solo_clear_risk(wolf,70),.1f*1000+476,1000));
+    }
+    {
+        // Focus-fire simulator.
+        const Fighter v{1000,70};
+        const Fighter one[]{v}, two[]{v,v};
+        auto f=simulate_fight(one,one); assert(f.valid&&f.rounds==15&&!f.self_alive&&f.theirs_alive==0&&!f.won()); // Mutual kill.
+        f=simulate_fight(two,one); assert(f.won()&&f.rounds==8&&f.ours_alive==2);
+        f=simulate_fight(one,two); assert(!f.won()&&!f.self_alive&&f.theirs_alive==2);
+        // The enemy focuses our weakest member, so a healthy decider survives.
+        const Fighter mixed[]{{2400,30},{300,70}};
+        f=simulate_fight(mixed,one); assert(f.won()&&f.ours_alive==1);
+        const Fighter bad[]{{1000,-1}};
+        assert(!simulate_fight(bad,one).valid&&!simulate_fight({},one).valid);
+        assert(simulate_fight(one,{}).won()); // No enemy: trivially won.
+        assert(simulate_fight(one,one,3).rounds==3&&!simulate_fight(one,one,3).won());
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

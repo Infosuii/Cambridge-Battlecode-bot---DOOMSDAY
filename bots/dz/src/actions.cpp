@@ -257,6 +257,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     if (retreat) {
         if (goal.destination && world.walkable(*goal.destination) && !obs.occupied.is_set(*goal.destination)) roots.set(*goal.destination);
         else roots = cambc::map::spawn_region(cambc::team::ally) & ~blocked;
+    } else if (goal.kind == GoalKind::Fight && goal.destination) {
+        // Close to basic-attack range of the focus target.
+        const auto pos = *goal.destination;
+        for (int dx = -obs.range; dx <= obs.range; ++dx) for (int dy = -obs.range; dy <= obs.range; ++dy) {
+            auto p = pos + vec2{dx,dy};
+            if ((movable(p, world, obs) || p == obs.p) && p != pos) roots.set(p);
+        }
     } else if (goal.kind == GoalKind::Bank && goal.index >= 0) {
         auto altar = world.altars[goal.index].tile;
         for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
@@ -281,6 +288,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
             }
         } else {
             // Unseen group: route toward free spawn tiles or their adjacency.
+            const bool respawning = mem.groups[goal.index].state == GroupState::Respawning;
             vec2 nearest = obs.p; int distance = 65535;
             for (unsigned member=0;member<g.tiles.size();++member) {
                 if (!tc.allow(5000)) break;
@@ -290,9 +298,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
                 if (d < distance) { nearest = p; distance = d; }
             }
             if (distance < 65535) {
+                // Never wait on a spawn tile: any occupied spawn delays the
+                // whole group's respawn.
                 for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
                     auto p = nearest + vec2{dx,dy};
-                    if (movable(p, world, obs)) roots.set(p);
+                    if (movable(p, world, obs) && (!respawning || !world.camp_spawns.is_set(p))) roots.set(p);
                 }
             }
         }
@@ -304,7 +314,18 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
         if (!bank_blocked) step(field,world,obs,retreat,act);
+#if DZ_TRACE
+        if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
+            std::printf("DZ_EXEC round=%u kind=%d target=%d,%d visible_target=%d enemy=%d roots=%u dist_here=%d moved_to=%d,%d\n",tc.round,static_cast<int>(goal.kind),
+                target?target->position().x:-1,target?target->position().y:-1,camp_target!=nullptr,enemy,static_cast<unsigned>(roots.count()),
+                field.get(obs.p),me.position().x,me.position().y);
+#endif
     }
+#if DZ_TRACE
+    else if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
+        std::printf("DZ_EXEC round=%u kind=%d no_move roots=%u can_move=%d target=%d,%d\n",tc.round,static_cast<int>(goal.kind),
+            static_cast<unsigned>(roots.count()),me.can_move(),target?target->position().x:-1,target?target->position().y:-1);
+#endif
     if (bank_blocked && me.can_move()) {
             int prerequisite = -1, nearest = 65535;
             const auto& altar_field = *world.altars[goal.index].field;
@@ -332,6 +353,18 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     }
     // Refresh the attack allowance after movement: melee can close and hit in one
     // turn; ranged cannot. An exclusive spell also affects these live allowances.
+    // Re-pick an enemy that is now in reach: the pre-move choice only saw
+    // enemies that were already in range, so an approach never hit.
+    if (!attacked && me.can_attack() && (!retreat||obs.range==1)) {
+        const auto here=me.position();
+        float best_score=-1;
+        for (const auto& e:obs.enemies) {
+            if (!e.sdk.is_visible() || e.sdk.health()<=0 || here.chebyshev_distance(e.sdk.position())>me.attack_range()) continue;
+            const float hp=e.sdk.health();
+            const float score=1/std::max(1.f,hp)+(hp<=obs.strength?10.f:0.f);
+            if (score>best_score) { best_score=score; target=&e.sdk; enemy=true; }
+        }
+    }
     if (!attacked && target && (!retreat||obs.range==1) && target->is_visible() && target->health() > 0 && me.can_attack() &&
         me.position().chebyshev_distance(target->position()) <= me.attack_range()) {
         attacked = act.attack(*target);

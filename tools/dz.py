@@ -622,6 +622,11 @@ def experiment(args):
     fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
+    if args.candidate_bot:
+        # Benchmark another existing bot as the candidate (e.g. v65 against
+        # idle). Evaluation only: its code is never copied into bots/dz.
+        if args.command!='smoke' or args.trace or args.set: raise ValueError('--candidate-bot is for plain smoke benchmarks')
+        source = ROOT/'bots'/args.candidate_bot
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
     if args.command=='conformance' and args.fixture in ('capture-time','objective-capture'):
@@ -712,7 +717,7 @@ def experiment(args):
         main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
-        if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not re.fullmatch(r'[01]',value): raise ValueError('expected DZ_FLAG=0 or 1')
+        if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith('DZ_TRACE_') and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_* may be any integer)')
         config=frozen/'src/config.h'; source=config.read_text()
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
@@ -754,6 +759,7 @@ def experiment(args):
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
     provenance['map_directory']=os.path.relpath(map_directory,ROOT)
     provenance['fixture']=args.fixture if diagnostic else None
+    provenance['candidate_bot']=args.candidate_bot or 'dz'
     if args.command=='conformance' and args.fixture in ('death','linked','priority'):
         provenance['analysis_source']={p.relative_to(out/'runner').as_posix():sha(p) for p in (out/'runner').rglob('*') if p.is_file() and p.name!='dz.py'}
     if not args.opponent_wasm:
@@ -839,6 +845,7 @@ def main():
         p.add_argument('--map-dir', help='separate conformance fixture directory; never used for strength tests')
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
+        p.add_argument('--candidate-bot', help='benchmark bots/<name> instead of DZ (smoke only)')
         p.add_argument('--trace', action='store_true')
         p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')

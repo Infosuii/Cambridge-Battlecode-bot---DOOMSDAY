@@ -5,8 +5,8 @@ void draft_loop(Counters& counts) {
     using D = cambc::champion_draft;
     // Research prior only; map-conditioned exhaustive utility is a later gate.
     // All three sizes have a legal frontline, damage/reset kit and banker.
-    const std::array order3{D::heart_of_ruin, D::vendetta, D::marcella, D::vesper_vale, D::ryth};
-    const std::array order5{D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth};
+    const std::array order3{D::vendetta, D::varg, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth};
+    const std::array order5{D::vendetta, D::varg, D::vesper_vale, D::marcella, D::heart_of_ruin, D::ryth};
     bool initialized = false;
     for (;;) {
         const auto tc = TurnContext::begin(); Actuator act(tc, counts);
