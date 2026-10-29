@@ -73,8 +73,8 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-16 | Observed | Damage interruption, base 5 / Home 3 ticks, spawn-start recall, arrival-before-heal verified |
 | CT-17 | Observed | Lock cancellation, retained bag, simultaneous locks, five hits, range 3 rejection, tribute duration |
 | CT-18 | Pending | Teleport and dash disabled in the starter |
-| CT-19 | Partial | Two C&I instances/body slots established; linked death/order still needs a fixture |
-| CT-20 | Partial | Pick/reveal assertions pass for 3/4/5 picks; missed-pick behavior pending |
+| CT-19 | Observed | Linked death in either direction has exact native event identity; each body respawns at its own turn after 60 rounds |
+| CT-20 | Observed | 3/4/5 picks; own list commits next draft turn; missing first/second pick stops guest draft and fills remaining roster |
 | CT-21 | Observed | team_size=picks, not bodies |
 | CT-22 | Partial | Spawn healing and immediate health-purchase gain verified; blocked champion respawn pending |
 | CT-23 | Pending | Bush and ward visibility fixtures; no belief claims about hidden absence |
@@ -227,3 +227,10 @@ BASIC_CLEAR_VALIDATION.md for scope, failures and pending calibration.
 map: four draft picks yield five bodies with C&I, immediate shared writes and
 other kernel assertions pass, exact one deliberate fuel-out per cell. Missed-pick
 behavior and linked-death behavior remain open.
+
+## Linked death and draft omission
+
+LINKED_DRAFT_CONFORMANCE.md records four complete linked-death cells with exact
+native event identity and 12 complete missed-pick cells across all three team
+sizes. Zero native faults/fuel-outs. Both failure histories are preserved.
+Remaining later-position omissions and explicit priority-change timing stay open.

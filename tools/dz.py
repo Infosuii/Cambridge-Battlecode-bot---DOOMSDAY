@@ -160,6 +160,33 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='draft-miss':
+        skips=[tuple(map(int,r)) for r in re.findall(r'CT20_SKIP turn=(\d+) picks=(\d+) before=(\d+)',stdout)]
+        picks=[tuple(map(int,r)) for r in re.findall(r'CT20_PICK turn=(\d+) before=(\d+) after=(\d+) choice=(\d+)',stdout)]
+        bodies=re.findall(r'CT20_PLAY body=(\d+) type=(\d+) picks=(\d+) word=([0-9a-f]{16})',stdout)
+        skip,size,before=skips[0] if len(skips)==1 else (-1,0,-1)
+        word=int(bodies[0][3],16) if bodies else 0
+        recorded=(word>>32)&15
+        selected=[(word>>(4*i))&15 for i in range(recorded)]
+        expected=[]
+        for c in selected: expected.extend([3,4] if c==3 else [c if c<3 else c+1])
+        physical=[int(b[1]) for b in bodies]; linked=3 in physical or 4 in physical
+        valid=bool(3<=size<=5 and skip in (0,1) and recorded==before==skip and ((word>>48)&15)==skip and
+            len(set(selected))==recorded and all(c<12 for c in selected) and word>>62==3 and len(picks)==skip and
+            all((turn,prior,after)==(i,i,i) and value==selected[i] for i,(turn,prior,after,value) in enumerate(picks)) and
+            len(bodies)==size+int(linked) and len({b[0] for b in bodies})==len(bodies) and
+            len(set(physical))==len(physical) and all(0<=t<=12 for t in physical) and
+            (not linked or 3 in physical and 4 in physical) and all(t in physical for t in expected) and
+            all(int(b[2])==size and int(b[3],16)==word for b in bodies) and 'CT20_AFTER_SKIP' not in stdout)
+        return dict(passed=valid and 'ERROR' not in stdout,team_picks=size,missed_turn=skip,recorded_prefix=selected,
+                    champion_bodies=len(bodies),physical_types=physical,
+                    own_post_pick_list_delayed=bool(picks and all(prior==after for _,prior,after,_ in picks)),
+                    scope='missed first/second pick; guest not resumed for remaining draft; completed roster observed, autofill choices not assumed')
+    if fixture=='linked':
+        checks=transcript_assertions(stdout)
+        required={'linked_roster','linked_both_dead','linked_both_return','linked_partner_parked'}
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()))
     if fixture=='low-fuel':
         forced=[tuple(map(int,r)) for r in re.findall(r'CT_LOW_FUEL_FORCE round=(\d+) slot=(\d+) target=(\d+)',stdout)]
         rows=[tuple(map(int,r)) for r in re.findall(r'DZ_LOW_FUEL round=(\d+) slot=(\d+) entry=(\d+) remaining=(\d+) moved=(\d) cleared=(\d) before=(-?\d+) after=(-?\d+)',stdout)]
@@ -362,7 +389,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 opponent_stdout=z.read('team-'+('b' if side=='A' else 'a')+'.stdout').replace(b'\0',b'').decode('utf-8','replace')
             (folder/'opponent.stdout').write_text(opponent_stdout,encoding='utf-8')
         result['diagnostic_checks'] = diagnostic_checks(stdout, fixture, opponent_stdout)
-        if fixture=='death':
+        if fixture in ('death','linked'):
             inner=folder/'lifecycle.repl26a'
             with zipfile.ZipFile(bundle) as z: inner.write_bytes(z.read('replay.repl26a'))
             env=dict(os.environ); env['NFS_REPLAY_ENGINE']='2.0.0'
@@ -444,11 +471,11 @@ def experiment(args):
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
-    if args.command=='conformance' and args.fixture=='death':
+    if args.command=='conformance' and args.fixture in ('death','linked'):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
@@ -544,7 +571,7 @@ def experiment(args):
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
     provenance['map_directory']=os.path.relpath(map_directory,ROOT)
     provenance['fixture']=args.fixture if diagnostic else None
-    if args.command=='conformance' and args.fixture=='death':
+    if args.command=='conformance' and args.fixture in ('death','linked'):
         provenance['analysis_source']={p.relative_to(out/'runner').as_posix():sha(p) for p in (out/'runner').rglob('*') if p.is_file() and p.name!='dz.py'}
     if not args.opponent_wasm:
         provenance['opponent_source']={p.relative_to(frozen_opp).as_posix():sha(p) for p in (frozen_opp/'src').rglob('*') if p.is_file()}
@@ -630,7 +657,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

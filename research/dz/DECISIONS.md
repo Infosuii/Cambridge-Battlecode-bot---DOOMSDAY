@@ -53,3 +53,11 @@ checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
   heal by the maximum-health gain immediately; ordinary spawn healing follows.
 - Multiple assertions with one name are combined with AND. A later passing result
   must never overwrite an earlier failure. Prior passing transcripts are audited.
+
+- CT-19: both linked bodies die in the same exact native event, including when
+  their partner is parked safely at full health. Respawn remains at each body's
+  own turn, 60 rounds later in these fixtures.
+- CT-20: a missed first/second pick stops subsequent guest drafting and the engine
+  fills the remaining roster in the tested 3/4/5-pick cases. An own successful
+  pick appears in the committed list on the following draft turn, not immediately.
+  Preserve pick-before-optional-work ordering; do not predict autofill choices.

@@ -7,6 +7,20 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_missed_pick_gate_accepts_completed_roster_without_inventing_later_draft_turns(self):
+        text='CT20_SKIP turn=0 picks=3 before=0\n'+'\n'.join(f'CT20_PLAY body={i} type={i} picks=3 word=c000000000000000' for i in range(3))
+        self.assertTrue(dz.diagnostic_checks(text,'draft-miss')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+'\nCT20_AFTER_SKIP count=1','draft-miss')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('type=2','type=1'),'draft-miss')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('picks=3','picks=4'),'draft-miss')['passed'])
+        second='CT20_PICK turn=0 before=0 after=0 choice=3\nCT20_SKIP turn=1 picks=3 before=1\n'+'\n'.join(f'CT20_PLAY body={i} type={t} picks=3 word=c001000100000003' for i,t in enumerate([3,4,1,2]))
+        self.assertTrue(dz.diagnostic_checks(second,'draft-miss')['passed'])
+        self.assertFalse(dz.diagnostic_checks(second.replace('after=0','after=1'),'draft-miss')['passed'])
+    def test_linked_diagnostic_requires_both_directions_of_lifecycle(self):
+        names=['linked_roster','linked_both_dead','linked_both_return','linked_partner_parked']
+        text='\n'.join(f'CT_CHECK name={name} pass=1' for name in names)
+        self.assertTrue(dz.diagnostic_checks(text,'linked')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('name=linked_both_return','name=missing'),'linked')['passed'])
     def test_low_fuel_requires_real_movement_and_continuation(self):
         text='CT_LOW_FUEL_FORCE round=50 slot=0 target=5000\nDZ_LOW_FUEL round=50 slot=0 entry=4800 remaining=3000 moved=1 cleared=1 before=10 after=9\nDZ_COUNTS round=300 slot=0 actions=0 modules=0 stale=0'
         self.assertTrue(dz.diagnostic_checks(text,'low-fuel')['passed'])

@@ -136,3 +136,13 @@ The registry was created before experiments. Entries below record actual use.
 | dz-low-fuel-restart-regression-01 | 2026-10-29 | deterministic; Wasm 255883cee8fb | 4 cells; idle81 | conformance; trace=False |
 | dz-low-fuel-stale-regression-01 | 2026-10-29 | deterministic; Wasm 51d612842f54 | 4 cells; idle81 | conformance; trace=False |
 | dz-low-fuel-module-regression-01 | 2026-10-29 | deterministic; Wasm aea2e7a322b9 | 4 cells; idle81 | conformance; trace=False |
+| dz-ct19-linked-cassi-01 | 2026-10-29 | deterministic; Wasm b6fc9195e35f | 2 cells; idle81 | conformance; trace=False |
+| dz-ct19-linked-issac-01 | 2026-10-29 | deterministic; Wasm 9cb62df12463 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-01 | 2026-10-29 | deterministic; Wasm 36ee7937b17e | 4 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-02 | 2026-10-29 | deterministic; Wasm 9985b9720a6c | 4 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-second-01 | 2026-10-29 | deterministic; Wasm daadce128d90 | 4 cells; idle81 | conformance; trace=False |
+| dz-ct19-linked-cassi-02 | 2026-10-29 | deterministic; Wasm b6fc9195e35f | 2 cells; idle81 | conformance; trace=False |
+| dz-ct19-linked-issac-02 | 2026-10-29 | deterministic; Wasm 9cb62df12463 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-second-02 | 2026-10-29 | deterministic; Wasm daadce128d90 | 4 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-four-02 | 2026-10-29 | deterministic; Wasm 9985b9720a6c | 2 cells; idle81 | conformance; trace=False |
+| dz-ct20-draft-miss-four-second-02 | 2026-10-29 | deterministic; Wasm daadce128d90 | 2 cells; idle81 | conformance; trace=False |

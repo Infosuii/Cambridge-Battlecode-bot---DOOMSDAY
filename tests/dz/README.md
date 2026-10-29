@@ -12,6 +12,8 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-linked --fixture linked --map-dir tests/dz/maps --maps isolated-monolith --diagnostic-rounds 2000
+python tools/dz.py conformance --name new-missed-pick --fixture draft-miss --maps 00collision 01big-world --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-low-fuel --fixture low-fuel --maps 00collision 01big-world --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-clear --fixture clear --map-dir tests/dz/maps --maps isolated-wolf isolated-elk isolated-golem isolated-monolith cluster-line --diagnostic-rounds 2000
 python -m unittest discover -s tests/dz -p test_measurements.py
@@ -35,6 +37,11 @@ only the frozen diagnostic copy, not `bots/dz/src`.
 
 `maps/` contains tiny, official-MapBuilder-validated fixtures. They are excluded
 from the 70-map competition pool and cannot be used by `smoke --map-dir`.
+
+`linked` supports `--set DZ_ISSAC_DIES=1` to reverse the sacrificed linked body.
+It uses the frozen native lifecycle reader. `draft-miss` supports
+`--set DZ_SKIP_SECOND=1` to omit the second pick instead of the first. These
+probes establish engine behavior; their lineups are not production draft plans.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

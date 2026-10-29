@@ -5,11 +5,14 @@ import {engine,defaultAssets,verifyAssets} from './replay/engine.mjs';
 if (process.env.NFS_REPLAY_ENGINE!=='2.0.0') throw new Error('Select replay engine 2.0.0');
 const [replay,stdout]=process.argv.slice(2);
 const text=fs.readFileSync(stdout,'utf8');
-const views=[...text.matchAll(/CT_LIFEVIEW round=(\d+) observer=(\d+) enemy=(\d+) enemy_alive=(\d) ally=(\d+) ally_alive=(\d)/g)]
+const linked=text.includes('CT19_VIEW');
+const pattern=linked?/CT19_VIEW round=(\d+) observer=(\d+) first=(\d+) first_alive=(\d) second=(\d+) second_alive=(\d)/g:
+  /CT_LIFEVIEW round=(\d+) observer=(\d+) enemy=(\d+) enemy_alive=(\d) ally=(\d+) ally_alive=(\d)/g;
+const views=[...text.matchAll(pattern)]
   .map(m=>({round:+m[1],observer:+m[2],enemy:+m[3],enemyAlive:+m[4],ally:+m[5],allyAlive:+m[6]}));
 if (!views.length) throw new Error('Missing SDK lifecycle observations');
-const settings=[...text.matchAll(/CT_RESPAWN (?:enemy|ally)_ticks=\d+ base_setting=(\d+)/g)].map(m=>+m[1]);
-if (settings.length!==2||new Set(settings).size!==1) throw new Error('Missing/inconsistent respawn setting');
+const settings=[...text.matchAll(linked?/CT19_SETTING respawn=(\d+)/g:/CT_RESPAWN (?:enemy|ally)_ticks=\d+ base_setting=(\d+)/g)].map(m=>+m[1]);
+if (settings.length!==(linked?1:2)||new Set(settings).size!==1) throw new Error('Missing/inconsistent respawn setting');
 const assets=defaultAssets(); verifyAssets(assets);
 const E=await engine(assets); E.load(fs.readFileSync(replay));
 const {X,check,dv,out,tsnap}=E;
@@ -22,7 +25,7 @@ for (let n=0;n<20000;++n) {
   const s=E.PC.I(dv(),tsnap);
   for (const c of s.champions) {
     const id=c.entity.index;
-    if (old.has(id)&&old.get(id)!==c.alive) transitions.push({body:id,alive:c.alive,round:s.round,turn:s.turn,phase:s.phase});
+    if (old.has(id)&&old.get(id)!==c.alive) transitions.push({body:id,alive:c.alive,round:s.round,turn:s.turn,phase:s.phase,event:n});
     old.set(id,c.alive);
   }
   // snapshot.phase is the current phase; snapshot.step describes the previous
@@ -43,11 +46,17 @@ const intervals=[];
 for (const body of [views[0].enemy,views[0].ally]) {
   const events=transitions.filter(t=>t.body===body);
   if (events.length!==2||events[0].alive||!events[1].alive) throw new Error('Expected exactly one death/respawn per subject');
-  intervals.push({body,death_round:events[0].round,respawn_round:events[1].round,elapsed:events[1].round-events[0].round,
+  intervals.push({body,death_round:events[0].round,death_phase:events[0].phase,death_turn:events[0].turn,death_event:events[0].event,respawn_event:events[1].event,respawn_round:events[1].round,elapsed:events[1].round-events[0].round,
     respawn_phase:events[1].phase,respawn_turn:events[1].turn});
 }
 const result={passed:mismatches.length===0&&intervals.every(i=>i.elapsed===settings[0]&&i.respawn_phase===14),
   sdk_observations_checked:views.length,mismatches,base_respawn_setting:settings[0],intervals,
   conclusion:'Respawn occurs at the champion turn. A different champion may observe it in that round or the next.'};
+if (linked) {
+  result.linked_death_same_native_event=intervals[0].death_round===intervals[1].death_round&&
+    intervals[0].death_turn===intervals[1].death_turn&&intervals[0].death_phase===intervals[1].death_phase&&intervals[0].death_event===intervals[1].death_event;
+  result.passed&&=result.linked_death_same_native_event;
+  result.conclusion='Both linked bodies die in the same native event; each recorded SDK view matches native champion-turn state.';
+}
 console.log(JSON.stringify(result));
 E.destroy();

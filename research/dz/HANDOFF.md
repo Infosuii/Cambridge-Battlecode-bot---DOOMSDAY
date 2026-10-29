@@ -2,6 +2,24 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Linked-death and draft continuation after 8a0a51b
+
+Production source remains unchanged and the 420-game/clean-export low-fuel
+receipt still applies. New isolated conformance checks pass: four linked-death
+cells and 12 first/second missed-pick cells across 3/4/5-pick maps. Read
+LINKED_DRAFT_CONFORMANCE.md. Cassi/Issac die in one exact native event and return
+at their respective champion turns after 60 rounds. Missing a draft pick fills
+the remaining roster without resuming the guest for later draft rounds. An own
+pick is not listed immediately; it is committed by the next draft turn.
+
+Initial failed assumptions and weaker initial linked runs are retained. The new
+reader also passes offline regression against all four previous hidden-death
+replays. No map specialization or bot strategy change. Next fundamentals work:
+controlled Prospector/item modifiers used by fixed shopping, remaining vision/
+action cases, then expanded clear-model calibration. Full G0/V-M1/SafeMode and
+competitive strength remain unfinished.
+
+
 ### Latest low-fuel and basic-clear checkpoint
 
 - Restart checkpoint and clean export are pushed.

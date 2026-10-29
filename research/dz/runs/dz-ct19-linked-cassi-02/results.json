@@ -1,0 +1,164 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 341.9133157960666,
+  "fuel_p99": 6026,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "b6fc9195e35f4a7aa1ee4bebe9b321dd1648161e3ef2e2269d19c13adec7e09b",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "49ed0e9c6c40d7100bf24413068016728d5282c5440d4643932b961c2ad77b40",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "linked_roster": true,
+          "linked_partner_parked": true,
+          "linked_both_dead": true,
+          "linked_both_return": true
+        },
+        "missing": [],
+        "native_lifecycle": {
+          "passed": true,
+          "sdk_observations_checked": 93,
+          "mismatches": [],
+          "base_respawn_setting": 60,
+          "intervals": [
+            {
+              "body": 0,
+              "death_round": 33,
+              "death_phase": 9,
+              "death_turn": 4294967295,
+              "death_event": 2070,
+              "respawn_event": 5974,
+              "respawn_round": 93,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 0
+            },
+            {
+              "body": 1,
+              "death_round": 33,
+              "death_phase": 9,
+              "death_turn": 4294967295,
+              "death_event": 2070,
+              "respawn_event": 5991,
+              "respawn_round": 93,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 2
+            }
+          ],
+          "conclusion": "Both linked bodies die in the same native event; each recorded SDK view matches native champion-turn state.",
+          "linked_death_same_native_event": true
+        }
+      },
+      "summary_sha256": "7750faedcc2c9abe68c73b3080807c4d49db5f7cbed0abaffeaa65363fb44558"
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "b6fc9195e35f4a7aa1ee4bebe9b321dd1648161e3ef2e2269d19c13adec7e09b",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "bb6f899d6ee1fead4061796c8e3fe80c80eeb88141c59f4d31c0e049a85ef662",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "linked_roster": true,
+          "linked_partner_parked": true,
+          "linked_both_dead": true,
+          "linked_both_return": true
+        },
+        "missing": [],
+        "native_lifecycle": {
+          "passed": true,
+          "sdk_observations_checked": 93,
+          "mismatches": [],
+          "base_respawn_setting": 60,
+          "intervals": [
+            {
+              "body": 3,
+              "death_round": 33,
+              "death_phase": 9,
+              "death_turn": 4294967295,
+              "death_event": 2076,
+              "respawn_event": 5987,
+              "respawn_round": 93,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 1
+            },
+            {
+              "body": 4,
+              "death_round": 33,
+              "death_phase": 9,
+              "death_turn": 4294967295,
+              "death_event": 2076,
+              "respawn_event": 6004,
+              "respawn_round": 93,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 3
+            }
+          ],
+          "conclusion": "Both linked bodies die in the same native event; each recorded SDK view matches native champion-turn state.",
+          "linked_death_same_native_event": true
+        }
+      },
+      "summary_sha256": "e154114b60ddee1f960add5b4a4995415ad0bca750327e33818e211b4996a8f5"
+    }
+  ]
+}

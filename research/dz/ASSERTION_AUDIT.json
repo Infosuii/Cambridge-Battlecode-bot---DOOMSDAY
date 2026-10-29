@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T09:29:50.726998+00:00",
+  "verified_utc": "2026-10-29T09:46:18.752917+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 88,
+  "checked_passing_cells": 96,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -425,6 +425,62 @@
       "side": "B",
       "assertions": 8,
       "stdout_sha256": "0f502a3d7b2e76598d4f3634c87c97b81b86bd8b6f0773a0f3acefab1607be32"
+    },
+    {
+      "run": "dz-ct19-linked-cassi-01",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 4,
+      "stdout_sha256": "e8a0e1d4395f1642b6f47028eb361d876e0870996c4b8a41da0f0176bc5a3626"
+    },
+    {
+      "run": "dz-ct19-linked-cassi-01",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 4,
+      "stdout_sha256": "50e8f46129f6c1fba5296dffeb45bd2bc818842a96a38886876b7ff114a630be"
+    },
+    {
+      "run": "dz-ct19-linked-cassi-02",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 4,
+      "stdout_sha256": "e8a0e1d4395f1642b6f47028eb361d876e0870996c4b8a41da0f0176bc5a3626"
+    },
+    {
+      "run": "dz-ct19-linked-cassi-02",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 4,
+      "stdout_sha256": "50e8f46129f6c1fba5296dffeb45bd2bc818842a96a38886876b7ff114a630be"
+    },
+    {
+      "run": "dz-ct19-linked-issac-01",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 4,
+      "stdout_sha256": "a43178ca4a30de60f8883b9a0914c76df0b64f71ad65fcdbf569c71fceba17c3"
+    },
+    {
+      "run": "dz-ct19-linked-issac-01",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 4,
+      "stdout_sha256": "a2092b00d489b8562f38a0e1025d373dada89982b733bfe6655b75d7a9908948"
+    },
+    {
+      "run": "dz-ct19-linked-issac-02",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 4,
+      "stdout_sha256": "a43178ca4a30de60f8883b9a0914c76df0b64f71ad65fcdbf569c71fceba17c3"
+    },
+    {
+      "run": "dz-ct19-linked-issac-02",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 4,
+      "stdout_sha256": "a2092b00d489b8562f38a0e1025d373dada89982b733bfe6655b75d7a9908948"
     },
     {
       "run": "dz-ct24-capture-02",
