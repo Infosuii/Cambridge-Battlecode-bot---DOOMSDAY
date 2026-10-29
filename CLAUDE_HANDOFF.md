@@ -1,3 +1,37 @@
+# CONTINUING 2026-10-29 - Z14 refresh closed; restricted reset exposure validated
+
+Current selected default is still FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:
+release5cf28cb7, CARRIER_BANK_PRIORITY1. Read draft-refresh-2026-10-29/README.md
+and model-calibration-2026-10-29/RESET_DAMAGE.md. User requested continuous work;
+this is a recovery checkpoint, not a pause or a scheduled continuation.
+
+- 1212 new local games since the carrier checkpoint:1176 draft-study +36 model
+  diagnostics, zero candidate native faults/fuel-outs.49 local capsules verify.
+- Z14: all8 global lineups trained on56 development maps (896 games), no held-out
+  selection. Frozen18-row table v76 full140: banked+7.39/SE6.34, wins1 each;
+  development margin+8.82/SE8.50 narrowly passes the predeclared entry screen.
+  All104 unchanged cells match banking exactly, including28 held-out cells.
+- Productivity full140: same3 stuck episodes, but matched447 snapshots have
+  stall+0.07219pp/idle+0.02824pp. Frozen gate FAILS. MATRIX stays0; no further
+  mixed release-idle/v65 pools and no v76-based row pruning. Extra duo adds2
+  snapshots; full449 and matched447 metrics are separately retained.
+- Reset-aware stationary damage is DIAGNOSTIC ONLY.10,000 phase-reference cases
+  and14,544 clock cases pass via WASI/Node. Prospective36-game pooled sample:
+  23 unshared damage episodes bias1.18%, median error0, p90 20HP; constant-kit
+  timing68 cases bias0.89%, median0%, p90 one round. Full V-M1 remains OPEN.
+- New outcome audit excludes potential non-damaging tank bystanders. Old roles
+  retain33 unshared damaging cases with86.13% bias (Varg189.13%, Heart135.05%).
+  No global discount or survival relaxation.49 Python/10 Node tests pass.
+- Clean exported source reproduces selected release5cf28cb7 and traceb4bc106c
+  (same host/toolchain). All new source changes are disabled or diagnostic.
+  Original4ee9731c controls, config/paths.json and completed experiments retained.
+
+Next active Z6 work: verify Varg radius1 splash geometry/damage in native replay
+(the public SDK exposes the radius), then bounded model + prospective validation.
+Heart missing-health coefficient0.5 is public; shields and action timing remain.
+Keep MATRIX/EXTRA/CREW_REACH/JOB_GEAR/timing pricing0. Auction/EE/gear planner false.
+No submission, activation, ladder, release holdout or competitive parity claim.
+
 # CONTINUING 2026-10-29 - selected carrier-priority development checkpoint
 
 User requested continuous work; no pause or scheduled continuation. Current

@@ -1,6 +1,7 @@
 #pragma once
 #include "memory.h"
 #include "attack_clock.h"
+#include "timed_damage.h"
 
 namespace dz {
 struct ResetTiming { unsigned remaining=0,period=0;bool refresh_on_monster=false; };
@@ -17,7 +18,8 @@ inline ResetTiming reset_timing() {
 // A timing estimate only: executor-like initial target ordering, fixed damage,
 // no internal movement delay, no extra credit for spells or unseen helpers.
 inline AttackClock group_attack_clock(const StaticWorld& world,const Memory& mem,
-                                      const Observation& obs,int index,float damage,ResetTiming timing) {
+                                      const Observation& obs,int index,float damage,ResetTiming timing,
+                                      double* timed_loss=nullptr) {
     const auto& g=world.groups[index];const auto& hp=mem.member_hp[index];
     if(hp.size()>64||hp.size()!=g.tiles.size()||hp.size()!=g.initial_strength.size())return {};
     struct Target { TimedAttackJob job;float strength,hp;int distance; };
@@ -35,6 +37,13 @@ inline AttackClock group_attack_clock(const StaticWorld& world,const Memory& mem
     });
     std::array<TimedAttackJob,64> jobs;
     for(unsigned k=0;k<count;++k)jobs[k]=targets[k].job;
+    if(timed_loss) {
+        std::array<TimedDamageJob,64> risk;
+        for(unsigned k=0;k<count;++k)risk[k]={targets[k].job,targets[k].strength*obs.camp_factor};
+        const auto projection=timed_clear_damage(std::span<const TimedDamageJob>(risk.data(),count),timing.remaining,timing.period);
+        *timed_loss=projection.damage;
+        return projection.clock;
+    }
     return attack_clock(std::span<const TimedAttackJob>(jobs.data(),count),timing.remaining,timing.period);
 }
 }

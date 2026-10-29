@@ -15,15 +15,17 @@ export function parseQuotes(text) {
 }
 
 export class ModelAudit {
-  constructor(quotes,groups,lastRound=500) {
-    this.groups=groups;this.lastRound=lastRound;this.previous=null;this.frames=0;
+  constructor(quotes,groups,lastRound=500,campDesigns=null) {
+    this.groups=groups;this.lastRound=lastRound;this.previous=null;this.frames=0;this.campDesigns=campDesigns;
     this.records=quotes.filter(q=>q.kind===0).map(q=>{
       if(!groups[q.group]||groups[q.group].length!==q.members)throw new Error('Quote/native group membership mismatch');
       const next=quotes.find(n=>n.body===q.body&&n.round>q.round&&n.new===1);
       return {quote:q,end_round:next?.round??lastRound+1,started:false,outcome:null,
         arrival_round:null,first_attack_round:null,clear_round:null,own_basic_attacks:0,
         own_damage_events:0,own_nonbasic_damage_events:0,other_damage_events:0,unknown_damage_events:0,helpers:[],
-        hp_loss:0,target_camp_hp_loss:0,other_hp_loss:0,healing:0,basic_actions:[],reset_actions:[]};
+        hp_loss:0,target_camp_hp_loss:0,other_hp_loss:0,healing:0,basic_actions:[],reset_actions:[],
+        bystander_context_known:campDesigns!==null,potential_tank_bystanders:[],
+        target_camp_other_hp_loss:0,other_camp_targets:[]};
     });
   }
   consume(s,visibleCamp=()=>false) {
@@ -51,12 +53,29 @@ export class ModelAudit {
       }
       if(s.round>this.lastRound) { r.outcome='right_censored';continue; }
       if(s.round>=r.end_round&&ownTurn) { r.outcome='goal_changed';continue; }
+      // A non-damaging ally/enemy can still absorb a camp's attacks. Outcome
+      // context only: native positions never become inputs to bot predictions.
+      if(this.campDesigns)for(const id of memberIds) {
+        const camp=camps.get(id);if(!camp||camp.health<=0)continue;
+        const design=this.campDesigns.get(camp.type);
+        if(!design)throw new Error('Missing camp design for bystander classification');
+        if(design.strength<=0)continue;
+        for(const other of s.champions)if(other.entity.index!==q.body&&other.alive&&
+            Math.max(Math.abs(other.position.x-camp.position.x),Math.abs(other.position.y-camp.position.y))<=design.range&&
+            !r.potential_tank_bystanders.includes(other.entity.index))r.potential_tank_bystanders.push(other.entity.index);
+      }
       if(this.frames!==r.start_frame&&previous) {
         if(s.step?.kind===6&&s.step.actor.kind===1&&s.step.actor.index===q.body&&s.step.abilityType===1) {
           const action=`${s.step.round}:${s.step.inputPosition}`;
           if(!r.reset_actions.includes(action))r.reset_actions.push(action);
         }
         const prev=prevChamps.get(q.body);
+        if(s.step?.actor.kind===2&&memberIds.includes(s.step.actor.index))for(const other of s.champions) {
+          if(other.entity.index===q.body)continue;
+          const loss=Math.max(0,(prevChamps.get(other.entity.index)?.health??other.health)-other.health);
+          r.target_camp_other_hp_loss+=loss;
+          if(loss>0&&!r.other_camp_targets.includes(other.entity.index))r.other_camp_targets.push(other.entity.index);
+        }
         if(prev&&c) {
           const loss=Math.max(0,prev.health-c.health);r.hp_loss+=loss;r.healing+=Math.max(0,c.health-prev.health);
           if(s.step?.actor.kind===2&&memberIds.includes(s.step.actor.index))r.target_camp_hp_loss+=loss;

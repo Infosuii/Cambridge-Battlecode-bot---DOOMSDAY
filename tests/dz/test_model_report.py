@@ -52,5 +52,17 @@ class ModelReportTests(unittest.TestCase):
         s=report.summarize([r])
         self.assertEqual(s['cached_field_arrival']['median_absolute_error'],0)
 
+    def test_unshared_damage_requires_observed_spatial_context(self):
+        old=episode();isolated=episode()
+        isolated.update(bystander_context_known=True,potential_tank_bystanders=[],target_camp_other_hp_loss=0)
+        bystander=copy.deepcopy(isolated);bystander['potential_tank_bystanders']=[7]
+        tank=copy.deepcopy(isolated);tank['target_camp_other_hp_loss']=10
+        s=report.summarize([old,isolated,bystander,tank])
+        self.assertEqual(s['solo_target_damage']['n'],4)
+        self.assertEqual(s['damage_context_known'],3)
+        self.assertEqual(s['damage_potential_bystanders'],1)
+        self.assertEqual(s['damage_observed_other_tanking'],1)
+        self.assertEqual(s['solo_unshared_target_damage']['n'],1)
+
 
 if __name__=='__main__':unittest.main()

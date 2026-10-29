@@ -1,3 +1,13 @@
+# Active continuation - reset-exposure checkpoint
+
+Selected foundation remains research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json
+(default release5cf28cb7). Read the TOP of CLAUDE_HANDOFF.md, then
+research/dz/draft-refresh-2026-10-29/README.md and
+research/dz/model-calibration-2026-10-29/RESET_DAMAGE.md.
+Z14 frozen18-map refresh stays disabled after its productivity gate failed.
+Next active work is Z6 Varg splash mechanics, then prospective bounded-model
+validation; full V-M1 stays open. No pause or scheduled continuation requested.
+
 # Active selected checkpoint - carrier banking priority
 
 Read CLAUDE_HANDOFF.md's newest CONTINUING section, then

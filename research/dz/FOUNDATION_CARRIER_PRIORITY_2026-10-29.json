@@ -10,11 +10,11 @@
     "src/attack_clock.h": "d666e59ce4e6dd385536048565885b6c30966e5e1d3dabea97cd2f1d481bb5ea",
     "src/basic_clear.h": "08b5d8effa995d11468ff112fcdaa6f258877d1e0f6328cc9b4874193b34a496",
     "src/camp_threat.h": "e9a0902e2fae09c65c7a5a2ea832607d57ba3946f176d12b1115bca43d0b721d",
-    "src/clear_clock.h": "f30e343aafb1115f7ecd62a875c67e69509f458371185fdda32ecdf381439fdd",
+    "src/clear_clock.h": "de7d962399d9239c5a71a74f9a42f8e86ef0901a162508b2b4bcb82c9b7fb900",
     "src/clear_risk.h": "43781c686ece0b292c70565f716240dc0c4eeb4182462e4bf6ed25c188afc5d7",
-    "src/config.h": "787cba6288ca3508f80d9e1ef4f527b99efba93e895e21c7a676e0de1528f027",
+    "src/config.h": "ffa51de5c2d8b4859f6243093c366f26878840b92cfc2c1407d9b6e48b3ee15a",
     "src/core.h": "a347ae9d81482db403c67ce0098d7af6ed2ed85669069266c697f15c54700011",
-    "src/draft.cpp": "60768c5e19cf88b60e0567db6d11b67d1b09d86a2d8283b896a0daf695b4fbbe",
+    "src/draft.cpp": "cb938bb5c54d362d09de4a2dfd022208aab94e11bab0fc0a7010adc27bb4d290",
     "src/draft.h": "cda3163ececdf5c81496dc6827d07e86ca09c77a1e70f1f4b12785d5831d597d",
     "src/failed_moves.h": "a21942ae55ef51d13fa5f9318becfdbc7c7748c050c2a83981a87f4f825a02c0",
     "src/fight.h": "73d888fcfb616e4eaf37f3e32d885ce7ce5fdc53acde450c9314c8e6a0200b1b",
@@ -26,10 +26,11 @@
     "src/main.cpp": "8d94e1cf1263481c4f013aa5b142cc8e73bd639d9be3f40313bacb79d65604ca",
     "src/map_drafts.inc": "d372bebfdc42f96a79f6244680eb364cd313b090f04577fc07bf116a198d73db",
     "src/map_drafts_extra.inc": "111f932d7d52cd75b7f0edb80f697aec3b84f72e4574231e0206837889285ebc",
+    "src/map_drafts_matrix.inc": "2453a2d82432ed336e4051ba1fa9493fbf1947a2b47816db06648df580360157",
     "src/map_signature.h": "c39c977c4d28a24f21a4693b1a417ddcd0ff7f16832b1084e79812f7f1c3c83e",
     "src/memory.cpp": "44d96c155394dd0cdc4422e8731ff6fbb3524799a0342195df34d65d0acba280",
     "src/memory.h": "6eb552d57cd4b19cdf079f30e929b6de000a1d19b8ae4972461ed43bf736f132",
-    "src/model_audit.h": "2c866173abdcdb52775bd0442a042dc6ba176a282b3a8a0e720c98a1040e6d29",
+    "src/model_audit.h": "e06a0a505accd9ec76e39ef55ed17df20fcb1779ae9558f2bd60318011a6f0b9",
     "src/objective_math.h": "591b4a4e67698e2dd04c4a93c284cf2b9194d116102c86977cd3927714a98fb7",
     "src/observation.cpp": "808c37b2a5974f1ec3e33f32fccde7afb83d51bbfd3ea86143723e4079b7ea46",
     "src/observation.h": "b97242c51afdd67cc679656a084d162055f8b583840a39d1cbae962a6f8a0536",
@@ -39,6 +40,7 @@
     "src/safemode.h": "81e9c05d102a0fcc992e762013acbe8df5d7f5bd92a389923089c85ba639d027",
     "src/static_world.cpp": "d7f771c7ff98e7d1a65b5d037606d9246a4ec8d77322ea9dcd4f8c40095d24fd",
     "src/static_world.h": "e9014338b9fd20fa93fa764d24a0b639a34261be1f176a6b5676d09b80461128",
+    "src/timed_damage.h": "163c29d30457e855c0b982ab8986c00052be4deb0070f4eb355cc5d5ba1dee9d",
     "src/trace.h": "f9e8f8c0448cfce09f1ca00d47a439a4e5626312d500a09aec649301b7990d11",
     "src/trace_meter.h": "d346942d6ae8ecd113ee07ae03fb9d678f9a4a36303a0f369756eefdbf35fe41"
   },
@@ -283,13 +285,25 @@
     "selected_pools_games": 560,
     "native_candidate_faults": 0,
     "native_candidate_fuel_outs": 0,
-    "python_tests": 43,
-    "node_audit_tests": 8,
+    "python_tests": 49,
+    "node_audit_tests": 10,
     "core_wasi_reset_clock_cases": 14544,
     "clean_export": {
       "passed": true,
       "wasm_sha256": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
       "scope": "Clean source/SDK/CMake export without config or prior build caches, same Windows host and installed pinned toolchain; not a second physical device"
+    },
+    "core_wasi_reset_damage_cases": 10000,
+    "current_source_identities": {
+      "release": {
+        "sha256": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
+        "matched_selected_frozen_pool": true
+      },
+      "trace": {
+        "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
+        "matched_selected_frozen_pool": true
+      },
+      "scope": "Clean source/SDK/CMake export, same pinned host toolchain; release build starts without config or caches. Trace then rebuilds with TRACE1/TRACE_TO0, MODEL0/MATRIX0. Not another physical device."
     }
   },
   "limitations": [
@@ -299,5 +313,7 @@
     "V-M1 and advanced auction/EE/gear-planner gates remain open/disabled.",
     "Original strong foundation is preserved as a frozen control; configuration can override CARRIER_BANK_PRIORITY=0.",
     "Only default release binary identity connects current source to frozen release pools; trace is separate."
-  ]
+  ],
+  "current_source_verified_utc": "2026-10-29T22:47:58.197693+00:00",
+  "current_source_note": "Disabled draft-refresh and diagnostic timed-damage additions preserve selected default5cf28cb7; see draft-refresh DEFAULT_BUILD_AFTER_TIMED_DAMAGE.log. Frozen selected capsules retain their original source snapshots."
 }

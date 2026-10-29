@@ -456,3 +456,16 @@ The registry was created before experiments. Entries below record actual use.
 | dz-carrier-priority-productivity-01 | 2026-10-29 | deterministic; Wasm b4bc106c097b | 140 cells; idle81 | smoke; trace=True |
 | dz-capture-gear-v65-screen-01 | 2026-10-29 | deterministic; Wasm 6d44acdc576f | 16 cells; idle81 | smoke; trace=False |
 | dz-capture-fourth-v65-screen-01 | 2026-10-29 | deterministic; Wasm 1df28c45faf7 | 16 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v0-v65-01 | 2026-10-29 | deterministic; Wasm f92a6472c636 | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v1-v65-01 | 2026-10-29 | deterministic; Wasm ccf2088865d2 | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v2-v65-01 | 2026-10-29 | deterministic; Wasm e52a95491f18 | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v3-v65-01 | 2026-10-29 | deterministic; Wasm 087ac7c4a786 | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v4-v65-01 | 2026-10-29 | deterministic; Wasm 8dec0127e59d | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v5-v65-01 | 2026-10-29 | deterministic; Wasm 6cef32de78f1 | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v6-v65-01 | 2026-10-29 | deterministic; Wasm 67be810e441f | 112 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-v7-v65-01 | 2026-10-29 | deterministic; Wasm fe8b4d6a6bb0 | 112 cells; idle81 | smoke; trace=False |
+| dz-model-timed-damage-v76-01 | 2026-10-29 | deterministic; Wasm 6508e0175f64 | 12 cells; idle81 | smoke; trace=True |
+| dz-z14-refresh-v76-confirm-01 | 2026-10-29 | deterministic; Wasm be8c6c6b86bb | 140 cells; idle81 | smoke; trace=False |
+| dz-z14-refresh-productivity-01 | 2026-10-29 | deterministic; Wasm 028e6345325e | 140 cells; idle81 | smoke; trace=True |
+| dz-model-timed-damage-vesper-v76-01 | 2026-10-29 | deterministic; Wasm 76e59e2c0c20 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-timed-damage-vendetta-v76-01 | 2026-10-29 | deterministic; Wasm aaca01a95bb1 | 12 cells; idle81 | smoke; trace=True |

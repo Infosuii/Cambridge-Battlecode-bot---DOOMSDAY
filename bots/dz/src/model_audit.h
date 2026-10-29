@@ -37,16 +37,16 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
     unsigned nearby=0;
     for (const auto& a:obs.allies) nearby+=a.hp>0 && a.p.chebyshev_distance(obs.p)<=4;
     const auto timing=reset_timing();
-    AttackClock clock;
-    if(index>=0 && risk.complete())clock=group_attack_clock(world,mem,obs,index,mem.quantize_out,timing);
+    AttackClock clock;double timed_loss=0;
+    if(index>=0 && risk.complete())clock=group_attack_clock(world,mem,obs,index,mem.quantize_out,timing,&timed_loss);
     const auto body=static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(cambc::self()));
     // Retry a dropped record next turn. Never pretend a missing prediction
     // was issued at an earlier position or before an earlier attack.
-    if (trace("DZ_MODEL round=%u body=%u slot=%u kind=%d group=%d new=%d contact=%d x=%d y=%d state=%d seen=%d dist=%d field=%d attacks=%u loss=%.2f hp=%.2f camp_hp=%.2f raw=%.2f quant=%.2f range=%d cluster=%d members=%zu nearby=%u enemies=%zu status=%d reset_cd=%u reset_max=%u clock=%u clock_status=%d\n",
+    if (trace("DZ_MODEL round=%u body=%u slot=%u kind=%d group=%d new=%d contact=%d x=%d y=%d state=%d seen=%d dist=%d field=%d attacks=%u loss=%.2f hp=%.2f camp_hp=%.2f raw=%.2f quant=%.2f range=%d cluster=%d members=%zu nearby=%u enemies=%zu status=%d reset_cd=%u reset_max=%u clock=%u clock_status=%d timed_loss=%.2f\n",
               tc.round,body,world.slot,kind,index,changed,contact,obs.p.x,obs.p.y,state,seen,distance,field,
               risk.attacks,risk.damage,obs.hp,remembered,obs.strength*obs.camp_damage,
               index>=0?mem.quantize_out:0.f,obs.range,cluster,members,nearby,obs.enemies.size(),
-              index>=0?static_cast<int>(risk.status):-1,timing.remaining,timing.period,clock.rounds,static_cast<int>(clock.status))) {
+              index>=0?static_cast<int>(risk.status):-1,timing.remaining,timing.period,clock.rounds,static_cast<int>(clock.status),timed_loss)) {
         if (changed) contact_logged=false;
         contact_logged|=contact;last_kind=kind;last_group=index;
     }

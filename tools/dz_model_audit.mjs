@@ -26,7 +26,16 @@ for(const group of groupIds) {
   groups.push(ids);
 }
 X.Engine_Free(buffer);
-const audit=new ModelAudit(quotes,groups.map(g=>g.map(c=>c.id)),last);
+// SDK imports.h: unit_definition is88 bytes, camp_stats follows; range is
+// int32 at+8 and base strength float at+20. Query the pinned engine metadata.
+const campDesigns=new Map();
+for(let type=0;type<6;++type) {
+  check(X.Game_API_Camp_Design(E.h,type,E.buf));
+  const range=dv().getInt32(E.buf+96,true),strength=dv().getFloat32(E.buf+108,true);
+  if(!Number.isInteger(range)||range<0||range>100||!Number.isFinite(strength)||strength<0)throw new Error('Invalid camp design ABI');
+  campDesigns.set(type,{range,strength});
+}
+const audit=new ModelAudit(quotes,groups.map(g=>g.map(c=>c.id)),last,campDesigns);
 check(X.Game_Visualiser_Timeline_GetMain(E.h,out));check(X.Game_Visualiser_Timeline_Seek(E.h,dv().getBigUint64(out,true),0,0));
 let ended=false,verified=false,visibilityDenials=0;
 for(let n=0;n<2000000;++n) {
@@ -51,6 +60,7 @@ for(let n=0;n<2000000;++n) {
 }
 if(!ended||!verified)throw new Error('Audit timeline incomplete');
 const result=audit.finish();result.quote_count=quotes.length;result.last_round=last;result.personal_visibility_denials=visibilityDenials;
+result.camp_designs=Object.fromEntries(campDesigns);
 result.source={replay_sha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),
   stdout_sha256:crypto.createHash('sha256').update(fs.readFileSync(stdout)).digest('hex'),engine:'2.0.0',
   reader_sha256:crypto.createHash('sha256').update(fs.readFileSync(new URL(import.meta.url))).digest('hex'),

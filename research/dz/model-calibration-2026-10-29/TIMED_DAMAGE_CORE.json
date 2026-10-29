@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "scope": "WASI core invariants; not native host ABI",
+  "command": [
+    "C:\\Users\\ishan\\AppData\\Local\\cambc\\wasi-sdk-33\\bin\\clang++.exe",
+    "-std=c++20",
+    "-O2",
+    "-fwasm-exceptions",
+    "-mllvm",
+    "-wasm-use-legacy-eh=false",
+    "--no-wasm-opt",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I",
+    "C:\\Users\\ishan\\.codex\\.chatgpt-projects\\g-p-6ad14bd9b02481918601a95d4cc0e007\\work\\pure-zero-filtered\\bots\\dz\\src",
+    "-isystem",
+    "C:\\Users\\ishan\\AppData\\Local\\cambc\\wasi-sdk-33\\share\\wasi-sysroot\\include\\wasm32-wasip1\\eh\\c++\\v1",
+    "-LC:\\Users\\ishan\\AppData\\Local\\cambc\\wasi-sdk-33\\share\\wasi-sysroot\\lib\\wasm32-wasip1\\eh",
+    "-lunwind",
+    "C:\\Users\\ishan\\.codex\\.chatgpt-projects\\g-p-6ad14bd9b02481918601a95d4cc0e007\\work\\pure-zero-filtered\\tests\\dz\\host\\core_test.cpp",
+    "-o",
+    "C:\\Users\\ishan\\.codex\\.chatgpt-projects\\g-p-6ad14bd9b02481918601a95d4cc0e007\\work\\pure-zero-filtered\\artifacts\\tmp\\dz\\dz-timed-damage-core-01\\core_test.wasm"
+  ],
+  "compiler_sha256": "6d9b6b13a9d6c0e64765fe85c4ba86b605f9b65e49a0c28703c85ba66038a1df",
+  "wasm_sha256": "8cb24369f501adb83563ee1357bd452af967bea15c4e8fbcb1815063b1d6205f",
+  "test_sha256": "d714374fc9d2321ca9d60fd594d16074c04ce3244c705b561cebf790fe6bb526",
+  "stdout": "14544 reset-clock/reference cases passed\n10000 reset-damage/phase-reference cases passed\n1536 protocol cases; guard, contract, ledger and bank checks passed\n"
+}

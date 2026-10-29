@@ -9,6 +9,7 @@
 #include "clear_risk.h"
 #include "fight.h"
 #include "attack_clock.h"
+#include "timed_damage.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -326,6 +327,37 @@ int main() {
         assert(attack_clock(huge,0,8).status==WorkStatus::BeyondHorizon);
         assert(!attack_clock(one,2001,8).complete());
         std::cout << cases << " reset-clock/reference cases passed\n";
+    }
+    {
+        // Independent turn simulation: attack/reset, eliminate, then remaining
+        // camps hit before the next owner turn. No extra phase after a clear.
+        unsigned seed=74191;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            std::array<TimedDamageJob,8> jobs{};
+            const unsigned count=next()%9,period=next()%9,initial=period?next()%12:0;
+            for(unsigned k=0;k<count;++k)jobs[k]={{next()%30,bool(next()%2)},float(next()%40)/2};
+            const auto fast=timed_clear_damage(std::span<const TimedDamageJob>(jobs.data(),count),initial,period);
+            unsigned rounds=0,resets=0,cd=initial;double loss=0;
+            for(unsigned k=0;k<count;++k) {
+                unsigned n=jobs[k].attack.attacks;
+                while(n) {
+                    ++rounds;--n;
+                    if(n&&period&&!cd){--n;++resets;cd=period;}
+                    if(!n&&jobs[k].attack.refresh_on_kill)cd=0;
+                    if(cd)--cd;
+                    if(n)loss+=jobs[k].incoming;
+                    for(unsigned j=k+1;j<count;++j)if(jobs[j].attack.attacks)loss+=jobs[j].incoming;
+                }
+            }
+            assert(fast.clock.complete()&&fast.clock.rounds==rounds&&fast.clock.resets==resets&&fast.clock.remaining_cooldown==cd);
+            assert(fast.damage==loss);
+        }
+        const TimedDamageJob invalid[]{{{0,false},-1}},huge[]{{{2001,false},20}};
+        assert(!timed_clear_damage(invalid,0,8).clock.complete());
+        assert(timed_clear_damage(huge,0,8).clock.status==WorkStatus::BeyondHorizon);
+        assert(!timed_clear_damage({},1,0).clock.complete());
+        std::cout << "10000 reset-damage/phase-reference cases passed\n";
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

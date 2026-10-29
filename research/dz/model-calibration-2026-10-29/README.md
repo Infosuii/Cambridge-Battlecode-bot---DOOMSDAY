@@ -1,3 +1,7 @@
+Latest continuation: RESET_DAMAGE.md and TIMED_DAMAGE_POOLED.json describe the
+current diagnostic model. The original486-game study below is historical; its
+frozen source, results and original4ee9731c control remain intact.
+
 # Z6 model calibration, 2026-10-29
 
 Default release remains byte-identical to the selected foundation. Both timing

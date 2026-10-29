@@ -63,3 +63,27 @@ test('a successful post-move attack proves arrival in the quote turn',()=>{
   a.consume(frame(10,100,0,20));
   assert.equal(a.finish().records[0].arrival_round,10);
 });
+
+test('a non-damaging tank is separated from a fully isolated clear',()=>{
+  const a=new ModelAudit([quote],[[1,2]],20,new Map([[0,{range:3,strength:10}]]));
+  const withTank=(s,hp,x=2)=>{
+    s.camps.forEach(c=>c.type=0);
+    s.champions.push({entity:{index:7},position:{x,y:0},health:hp,alive:true,team:1});return s;
+  };
+  const s=withTank(frame(10,100,20,20),100);s.phase=14;a.consume(s,()=>true);
+  a.consume(withTank(frame(11,100,20,20,{kind:2,index:1}),90));
+  a.consume(withTank(frame(11,100,0,0),90));
+  const r=a.finish().records[0];
+  assert.equal(r.other_damage_events,0);assert.equal(r.target_camp_other_hp_loss,10);
+  assert.deepEqual(r.other_camp_targets,[7]);assert.deepEqual(r.potential_tank_bystanders,[7]);
+  assert.equal(r.bystander_context_known,true);
+});
+
+test('spatial context excludes distant or harmless bystanders and rejects missing designs',()=>{
+  const a=new ModelAudit([quote],[[1,2]],20,new Map([[0,{range:3,strength:0}],[1,{range:3,strength:10}]]));
+  const s=frame(10,100,20,20);s.phase=14;s.camps[0].type=0;s.camps[1].type=1;
+  s.champions.push({entity:{index:7},position:{x:4,y:-3},health:100,alive:true,team:0});
+  a.consume(s,()=>true);assert.deepEqual(a.finish().records[0].potential_tank_bystanders,[]);
+  const b=new ModelAudit([quote],[[1,2]],20,new Map());
+  assert.throws(()=>b.consume(s,()=>true),/Missing camp design/);
+});

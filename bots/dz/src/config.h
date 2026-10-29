@@ -24,6 +24,12 @@
 #ifndef DZ_DRAFT_VARIANT
 #define DZ_DRAFT_VARIANT 0
 #endif
+#ifndef DZ_MAP_DRAFT_TABLE
+#define DZ_MAP_DRAFT_TABLE 1 // Keep the confirmed incumbent table; disable only for global lineup trials.
+#endif
+#ifndef DZ_MAP_DRAFT_MATRIX
+#define DZ_MAP_DRAFT_MATRIX 0 // Frozen carrier-policy draft refresh; separate opponent confirmation required.
+#endif
 #ifndef DZ_MAP_DRAFT_EXTRA
 #define DZ_MAP_DRAFT_EXTRA 0 // Frozen four-map Z14 hypothesis; requires separate confirmation.
 #endif
