@@ -1,0 +1,3348 @@
+{
+  "status": "paused at user request; selected development foundation in FOUNDATION_RESUMED_2026-10-29.json",
+  "note": "All completed runs immutable, including failures. Detailed-window traces are not interchangeable with TRACE_TO=0. No strength gain claimed.",
+  "runs": [
+    {
+      "run": "dz-job-gear-build-check-01",
+      "trace": false,
+      "games": 4,
+      "banked": 1009.25,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 0.75,
+      "candidate_sha256": "b0efcbd1d35a24c1dec98831716b5a210944b1680802b42e0e8b0cf644278989",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-build-check-01",
+        "--maps",
+        "00collision",
+        "00swirl",
+        "--set",
+        "DZ_JOB_GEAR=1",
+        "--workers",
+        "2"
+      ]
+    },
+    {
+      "run": "dz-job-gear-control-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 916.1357142857142,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.707142857142857,
+      "candidate_sha256": "a40d534436a86cfba1b7e82850cf09f98148585cdad50539f52db6f4b9419c43",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-control-idle-01",
+        "--pool",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-job-gear-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 245.22857142857143,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.37857142857143,
+      "candidate_sha256": "a40d534436a86cfba1b7e82850cf09f98148585cdad50539f52db6f4b9419c43",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-job-gear-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 921.7142857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 1,
+      "deaths": 4.557142857142857,
+      "candidate_sha256": "b2976c36d2f1d04660f9d144229b5f8ed22e8f2249a44021247046bca8415ccc",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-idle-01",
+        "--pool",
+        "--set",
+        "DZ_JOB_GEAR=1",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-job-gear-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 919.4428571428572,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.542857142857143,
+      "candidate_sha256": "35f29142e52ad00c91a3e45e852832d9241ee726b80bdc40f79325e190c62d15",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_JOB_GEAR=1",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-job-gear-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 9,
+        "by_goal_state": {
+          "1,-1": 4,
+          "0,0": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "00split-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 435,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 410024,
+        "totals": {
+          "work": 149212,
+          "progress": 237346,
+          "stall": 11634,
+          "idle": 3228,
+          "other": 8604
+        },
+        "percentages": {
+          "work": 36.391040524457104,
+          "progress": 57.88587985093555,
+          "stall": 2.8373948842019003,
+          "idle": 0.7872709890152771,
+          "other": 2.0984137513901624
+        }
+      }
+    },
+    {
+      "run": "dz-job-gear-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 238.65714285714284,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.52857142857143,
+      "candidate_sha256": "b2976c36d2f1d04660f9d144229b5f8ed22e8f2249a44021247046bca8415ccc",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-job-gear-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_JOB_GEAR=1",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-ablate-both-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 271.2857142857143,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.057142857142857,
+      "candidate_sha256": "669cb4f0cc71627a19f42c6d971e673df02172b38a0289276c8fbf9258d9ad5d",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-ablate-both-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_FAILED_MOVE_MEMORY=0",
+        "--set",
+        "DZ_LATE_FIELD_GATE=0",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-ablate-gate-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 236.81428571428572,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.9,
+      "candidate_sha256": "7632551efa7d6a3884b1786104ac29e41be5059ae78af600b77cf29d40455998",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-ablate-gate-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_LATE_FIELD_GATE=0",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-ablate-nav-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 240.06428571428572,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.264285714285716,
+      "candidate_sha256": "99a07857cde11fa656af39906269658f6cb53c33ac0f82df2e1457991f408f29",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-ablate-nav-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_FAILED_MOVE_MEMORY=0",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-control-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 918.2357142857143,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.55,
+      "candidate_sha256": "4333dc2c99e22ab18a8abd69dd23c0a20d9222443338142d22db19286d842ddb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-control-idle-01",
+        "--pool",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-control-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 920.2071428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.535714285714286,
+      "candidate_sha256": "46dbccc565d17f4cf053d7b0bd29f7038769b10bdf1ffed74541e4563d251323",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-control-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-cold-retry-control-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 30,
+        "by_goal_state": {
+          "1,-1": 9,
+          "0,0": 14,
+          "0,1": 2,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            9
+          ],
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-B",
+            4
+          ],
+          [
+            "01corridors-A",
+            3
+          ],
+          [
+            "00breadcrumbs-A",
+            2
+          ],
+          [
+            "00pilgrimage-B",
+            2
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 416576,
+        "totals": {
+          "work": 150176,
+          "progress": 238796,
+          "stall": 13208,
+          "idle": 4800,
+          "other": 9596
+        },
+        "percentages": {
+          "work": 36.05008449838685,
+          "progress": 57.32351359655861,
+          "stall": 3.170609924719619,
+          "idle": 1.1522507297587956,
+          "other": 2.3035412505761252
+        }
+      }
+    },
+    {
+      "run": "dz-resume-cold-retry-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 262.7142857142857,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.978571428571428,
+      "candidate_sha256": "4333dc2c99e22ab18a8abd69dd23c0a20d9222443338142d22db19286d842ddb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-control-v76-01",
+      "trace": false,
+      "games": 140,
+      "banked": 225.14285714285714,
+      "wins": 1,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.864285714285714,
+      "candidate_sha256": "4333dc2c99e22ab18a8abd69dd23c0a20d9222443338142d22db19286d842ddb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-control-v76-01",
+        "--pool",
+        "--opponent",
+        "v76",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 919.4642857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.485714285714286,
+      "candidate_sha256": "4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-idle-01",
+        "--pool",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 919.5214285714286,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.578571428571428,
+      "candidate_sha256": "c2cd470bcff469846e921d99fb2cf8619663176231a65fd99c35b475b1dd2948",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-cold-retry-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 3,
+        "by_goal_state": {
+          "1,-1": 1,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 447,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 421237,
+        "totals": {
+          "work": 152177,
+          "progress": 241931,
+          "stall": 12568,
+          "idle": 4671,
+          "other": 9890
+        },
+        "percentages": {
+          "work": 36.126218731972735,
+          "progress": 57.433463822028926,
+          "stall": 2.983593558970366,
+          "idle": 1.1088769505052976,
+          "other": 2.34784693652267
+        }
+      }
+    },
+    {
+      "run": "dz-resume-cold-retry-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 260.8,
+      "wins": 3,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.064285714285713,
+      "candidate_sha256": "4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-cold-retry-v76-check-01",
+      "trace": false,
+      "games": 140,
+      "banked": 222.64285714285714,
+      "wins": 1,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 19.02857142857143,
+      "candidate_sha256": "4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-cold-retry-v76-check-01",
+        "--pool",
+        "--opponent",
+        "v76",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-coldfield-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 911.85,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.8428571428571425,
+      "candidate_sha256": "1f9fb56a50af3a5949ff213e583c77f36c858f12c0f4a6142b4169ba7554eff1",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-coldfield-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-coldfield-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 925.1714285714286,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.257142857142857,
+      "candidate_sha256": "704b54ca077a93a019346715681addaf498e13c133e1caac0d1c56425ea15595",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-coldfield-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-coldfield-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 7,
+        "by_goal_state": {
+          "0,0": 4,
+          "0,1": 2,
+          "1,-1": 1
+        },
+        "worst_maps": [
+          [
+            "00pilgrimage-B",
+            2
+          ],
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 433,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 409313,
+        "totals": {
+          "work": 148029,
+          "progress": 237781,
+          "stall": 11444,
+          "idle": 3320,
+          "other": 8739
+        },
+        "percentages": {
+          "work": 36.16523296352669,
+          "progress": 58.09270655952779,
+          "stall": 2.7959043568125126,
+          "idle": 0.8111152101203725,
+          "other": 2.135040910012631
+        }
+      }
+    },
+    {
+      "run": "dz-resume-coldfield-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 233.9857142857143,
+      "wins": 3,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.27857142857143,
+      "candidate_sha256": "1f9fb56a50af3a5949ff213e583c77f36c858f12c0f4a6142b4169ba7554eff1",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-coldfield-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-delayed-retry-control-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 920.2071428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.535714285714286,
+      "candidate_sha256": "7dd45bd74531af3c58e8dcd211c7e7e7d2b0f1d5ee09165e2682f2d2ae51515e",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-control-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-delayed-retry-control-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 30,
+        "by_goal_state": {
+          "1,-1": 9,
+          "0,0": 14,
+          "0,1": 2,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            9
+          ],
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-B",
+            4
+          ],
+          [
+            "01corridors-A",
+            3
+          ],
+          [
+            "00breadcrumbs-A",
+            2
+          ],
+          [
+            "00pilgrimage-B",
+            2
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 416576,
+        "totals": {
+          "work": 150176,
+          "progress": 238796,
+          "stall": 13208,
+          "idle": 4800,
+          "other": 9596
+        },
+        "percentages": {
+          "work": 36.05008449838685,
+          "progress": 57.32351359655861,
+          "stall": 3.170609924719619,
+          "idle": 1.1522507297587956,
+          "other": 2.3035412505761252
+        }
+      }
+    },
+    {
+      "run": "dz-resume-delayed-retry-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 262.7142857142857,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.978571428571428,
+      "candidate_sha256": "ae5a15a4865617997107dcad90179220b50c72c12dd3a33cc5507e6d87bc0835",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-delayed-retry-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 915.8071428571428,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.578571428571428,
+      "candidate_sha256": "c385ffce1fd72ad1df7bc3d7e5e5d89cac3dc179dd7a5e68e3fbc138a2f1ff30",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-idle-01",
+        "--pool",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-delayed-retry-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 919.2142857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 2,
+      "deaths": 4.692857142857143,
+      "candidate_sha256": "8c1f9cfb0e17394c8720012aa6174de7e908759aa5b76ac44e1265be6670cfbe",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-productivity-01",
+        "--pool",
+        "--trace",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-delayed-retry-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 11,
+        "by_goal_state": {
+          "1,-1": 5,
+          "0,0": 5,
+          "0,1": 1
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ],
+          [
+            "02the-pack-A",
+            1
+          ],
+          [
+            "02the-pack-B",
+            1
+          ]
+        ],
+        "snapshots": 436,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 410669,
+        "totals": {
+          "work": 149421,
+          "progress": 236014,
+          "stall": 12489,
+          "idle": 3673,
+          "other": 9072
+        },
+        "percentages": {
+          "work": 36.38477703454607,
+          "progress": 57.470615020856215,
+          "stall": 3.041135318224653,
+          "idle": 0.8943942688637321,
+          "other": 2.2090783575093322
+        }
+      }
+    },
+    {
+      "run": "dz-resume-delayed-retry-productivity-02",
+      "trace": true,
+      "games": 140,
+      "banked": 918.2428571428571,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.7214285714285715,
+      "candidate_sha256": "331aad5671245d8df9d1536379d6ab5c199c743377499533ef614c8c7cd60c98",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-productivity-02",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-delayed-retry-productivity-02",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 9,
+        "by_goal_state": {
+          "1,-1": 3,
+          "0,0": 5,
+          "0,1": 1
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ],
+          [
+            "02the-pond-A",
+            1
+          ]
+        ],
+        "snapshots": 447,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 421117,
+        "totals": {
+          "work": 152648,
+          "progress": 241809,
+          "stall": 12932,
+          "idle": 4073,
+          "other": 9655
+        },
+        "percentages": {
+          "work": 36.24835853218939,
+          "progress": 57.42085928613663,
+          "stall": 3.0708805391375793,
+          "idle": 0.9671896408836499,
+          "other": 2.292712001652747
+        }
+      }
+    },
+    {
+      "run": "dz-resume-delayed-retry-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 255.95714285714286,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.114285714285714,
+      "candidate_sha256": "c385ffce1fd72ad1df7bc3d7e5e5d89cac3dc179dd7a5e68e3fbc138a2f1ff30",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-delayed-retry-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-final-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 911.7071428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.4071428571428575,
+      "candidate_sha256": "179a4ac1720b161b2b9ba8bc3b1b6d3cec2e9f9a26d4b20183a6b33d659092a4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-final-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-final-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 926.1428571428571,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.235714285714286,
+      "candidate_sha256": "c49c4261efea68a6b9677a0528c97540e1988732f796e92b224cbc43d9faabaa",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-final-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-final-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 18,
+        "by_goal_state": {
+          "0,0": 15,
+          "0,1": 2,
+          "1,-1": 1
+        },
+        "worst_maps": [
+          [
+            "01big-world-A",
+            5
+          ],
+          [
+            "01big-world-B",
+            5
+          ],
+          [
+            "00pilgrimage-B",
+            2
+          ],
+          [
+            "01islands-A",
+            2
+          ],
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "01corridors-A",
+            1
+          ]
+        ],
+        "snapshots": 433,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 409214,
+        "totals": {
+          "work": 149034,
+          "progress": 235155,
+          "stall": 12693,
+          "idle": 3256,
+          "other": 9076
+        },
+        "percentages": {
+          "work": 36.41957508785134,
+          "progress": 57.4650427404732,
+          "stall": 3.1018000361668956,
+          "idle": 0.7956717023366747,
+          "other": 2.2179104331718857
+        }
+      }
+    },
+    {
+      "run": "dz-resume-final-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 231.53571428571428,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.271428571428572,
+      "candidate_sha256": "179a4ac1720b161b2b9ba8bc3b1b6d3cec2e9f9a26d4b20183a6b33d659092a4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-final-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-hidden-move-window-01",
+      "trace": true,
+      "games": 2,
+      "banked": 1009.5,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 1,
+      "candidate_sha256": "fb938986e447b75fb1b70745e5af06e4651050ab23592b70a3b36e16972fda92",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-hidden-move-window-01",
+        "--maps",
+        "02the-pond",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=40",
+        "--set",
+        "DZ_TRACE_TO=70",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-hidden-move-window-01",
+        "round": 1000,
+        "games": 2,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 0,
+        "by_goal_state": {},
+        "worst_maps": [],
+        "snapshots": 6,
+        "games_with_snapshots": 2,
+        "duplicate_snapshots": 0,
+        "body_turns": 5898,
+        "totals": {
+          "work": 2950,
+          "progress": 2372,
+          "stall": 232,
+          "idle": 187,
+          "other": 157
+        },
+        "percentages": {
+          "work": 50.01695489996609,
+          "progress": 40.21702271956595,
+          "stall": 3.9335367921329265,
+          "idle": 3.1705662936588674,
+          "other": 2.6619192946761614
+        }
+      }
+    },
+    {
+      "run": "dz-resume-idle-helper-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 920.9642857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.507142857142857,
+      "candidate_sha256": "b51d10c6954b914daaec7499dca2518669be74d20526d3699bc6e3bada4007b3",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-idle-helper-idle-01",
+        "--pool",
+        "--set",
+        "DZ_IDLE_HELPER=1",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-idle-helper-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 916.7142857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.6571428571428575,
+      "candidate_sha256": "ec03dd4633d2ee1400d8cc82d0aa816a1211c87acb92a37d3cfe309599ff03db",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-idle-helper-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_IDLE_HELPER=1",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-idle-helper-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 4,
+        "by_goal_state": {
+          "0,3": 1,
+          "1,-1": 1,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 415788,
+        "totals": {
+          "work": 149387,
+          "progress": 240113,
+          "stall": 12333,
+          "idle": 4423,
+          "other": 9532
+        },
+        "percentages": {
+          "work": 35.9286463293794,
+          "progress": 57.748900882180344,
+          "stall": 2.9661750699875897,
+          "idle": 1.0637632639710621,
+          "other": 2.2925144544816107
+        }
+      }
+    },
+    {
+      "run": "dz-resume-idle-helper-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 255.13571428571427,
+      "wins": 3,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.964285714285715,
+      "candidate_sha256": "b51d10c6954b914daaec7499dca2518669be74d20526d3699bc6e3bada4007b3",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-idle-helper-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_IDLE_HELPER=1",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-local-retry-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 913.9285714285714,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.7214285714285715,
+      "candidate_sha256": "0ba056a4138f7559b037845cd9da36ca5f4150ca01e3bf81c5b91a6250913b0a",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-local-retry-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-local-retry-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 922.3928571428571,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.485714285714286,
+      "candidate_sha256": "fbcdea166abcab22f9fef04966a45d0dcf50fbdee417a49cedaf7e8a6ad261eb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-local-retry-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-local-retry-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 9,
+        "by_goal_state": {
+          "1,-1": 4,
+          "0,0": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "00split-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 435,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 410935,
+        "totals": {
+          "work": 149579,
+          "progress": 237034,
+          "stall": 12035,
+          "idle": 3698,
+          "other": 8589
+        },
+        "percentages": {
+          "work": 36.39967391436602,
+          "progress": 57.68162848139,
+          "stall": 2.92868701862825,
+          "idle": 0.899899010792461,
+          "other": 2.090111574823269
+        }
+      }
+    },
+    {
+      "run": "dz-resume-local-retry-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 239.6642857142857,
+      "wins": 1,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.4,
+      "candidate_sha256": "0ba056a4138f7559b037845cd9da36ca5f4150ca01e3bf81c5b91a6250913b0a",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-local-retry-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-meter-idle-01",
+      "trace": true,
+      "games": 140,
+      "banked": 925.5071428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 15,
+      "deaths": 4.442857142857143,
+      "candidate_sha256": "6bcb5a413ac942f32c3a936937fccd4cdf1632d12458403944f7b16739f22ddc",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-meter-idle-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-meter-idle-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 29,
+        "by_goal_state": {
+          "1,-1": 6,
+          "0,0": 14,
+          "0,3": 8,
+          "0,1": 1
+        },
+        "worst_maps": [
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01shortcut-B",
+            3
+          ],
+          [
+            "00breadcrumbs-A",
+            2
+          ],
+          [
+            "00great-wall-A",
+            2
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "01fracture-A",
+            2
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 415508,
+        "totals": {
+          "work": 150332,
+          "progress": 236585,
+          "stall": 15146,
+          "idle": 4036,
+          "other": 9409
+        },
+        "percentages": {
+          "work": 36.18029015085149,
+          "progress": 56.938735234941326,
+          "stall": 3.6451765068301936,
+          "idle": 0.9713411053457455,
+          "other": 2.2644570020312487
+        }
+      }
+    },
+    {
+      "run": "dz-resume-meter-idle-02",
+      "trace": true,
+      "games": 140,
+      "banked": 914.9214285714286,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 9,
+      "deaths": 4.535714285714286,
+      "candidate_sha256": "01e88518434d1f758c60e655eb1a8397cb9123eedb7278b657c5aaef8bc02853",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-meter-idle-02",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-meter-idle-02",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 27,
+        "by_goal_state": {
+          "1,-1": 4,
+          "0,0": 16,
+          "0,1": 2,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-A",
+            4
+          ],
+          [
+            "01corridors-B",
+            3
+          ],
+          [
+            "00breadcrumbs-A",
+            2
+          ],
+          [
+            "01islands-A",
+            2
+          ],
+          [
+            "01islands-B",
+            2
+          ]
+        ],
+        "snapshots": 447,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 420367,
+        "totals": {
+          "work": 151667,
+          "progress": 239230,
+          "stall": 16251,
+          "idle": 4247,
+          "other": 8972
+        },
+        "percentages": {
+          "work": 36.07966372241398,
+          "progress": 56.90979548822814,
+          "stall": 3.8659076473652783,
+          "idle": 1.0103076597354217,
+          "other": 2.1343254822571707
+        }
+      }
+    },
+    {
+      "run": "dz-resume-meter-idle-03",
+      "trace": true,
+      "games": 140,
+      "banked": 916.7714285714286,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 2,
+      "deaths": 4.55,
+      "candidate_sha256": "07b579d3e5de61419390e3e7c0990f825d0eeff74b862292d7c62df82edce705",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-meter-idle-03",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-meter-idle-03",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 37,
+        "by_goal_state": {
+          "1,-1": 9,
+          "0,0": 20,
+          "0,1": 3,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            9
+          ],
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-B",
+            4
+          ],
+          [
+            "01corridors-A",
+            3
+          ],
+          [
+            "01islands-A",
+            3
+          ],
+          [
+            "00breadcrumbs-A",
+            2
+          ]
+        ],
+        "snapshots": 446,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 419803,
+        "totals": {
+          "work": 152008,
+          "progress": 239312,
+          "stall": 14793,
+          "idle": 3968,
+          "other": 9722
+        },
+        "percentages": {
+          "work": 36.20936486875987,
+          "progress": 57.005786047265026,
+          "stall": 3.5237956851189725,
+          "idle": 0.9452052510344138,
+          "other": 2.3158481478217166
+        }
+      }
+    },
+    {
+      "run": "dz-resume-meter-window-01",
+      "trace": true,
+      "games": 6,
+      "banked": 978.0,
+      "wins": 6,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 6.166666666666667,
+      "candidate_sha256": "92f5305567164c6c3947d225c2ccdab1d83c33889c47771d941b4f9e3d0a8f59",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-meter-window-01",
+        "--maps",
+        "02the-pond",
+        "01corridors",
+        "00packs",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=30",
+        "--set",
+        "DZ_TRACE_TO=105",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-meter-window-01",
+        "round": 1000,
+        "games": 6,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 27,
+        "by_goal_state": {
+          "0,0": 16,
+          "0,2": 1,
+          "0,1": 1,
+          "0,3": 6,
+          "1,-1": 3
+        },
+        "worst_maps": [
+          [
+            "00packs-A",
+            10
+          ],
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "00packs-B",
+            6
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "01corridors-A",
+            1
+          ]
+        ],
+        "snapshots": 22,
+        "games_with_snapshots": 6,
+        "duplicate_snapshots": 0,
+        "body_turns": 19912,
+        "totals": {
+          "work": 7578,
+          "progress": 8260,
+          "stall": 2248,
+          "idle": 952,
+          "other": 874
+        },
+        "percentages": {
+          "work": 38.05745279228606,
+          "progress": 41.482523101647246,
+          "stall": 11.289674568099638,
+          "idle": 4.781036560867818,
+          "other": 4.3893129770992365
+        }
+      }
+    },
+    {
+      "run": "dz-resume-meter-window-02",
+      "trace": true,
+      "games": 6,
+      "banked": 867.8333333333334,
+      "wins": 6,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 6,
+      "candidate_sha256": "e393a1d0a5898dde0288faa8331b4bf74bda3e5e60d0249b98a0b0c520bea929",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-meter-window-02",
+        "--maps",
+        "02the-pond",
+        "01corridors",
+        "00packs",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=30",
+        "--set",
+        "DZ_TRACE_TO=105",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-meter-window-02",
+        "round": 1000,
+        "games": 6,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 8,
+        "by_goal_state": {
+          "0,0": 2,
+          "0,1": 1,
+          "1,-1": 2,
+          "0,3": 3
+        },
+        "worst_maps": [
+          [
+            "02the-pond-A",
+            4
+          ],
+          [
+            "01corridors-A",
+            2
+          ],
+          [
+            "01corridors-B",
+            2
+          ]
+        ],
+        "snapshots": 16,
+        "games_with_snapshots": 5,
+        "duplicate_snapshots": 0,
+        "body_turns": 14075,
+        "totals": {
+          "work": 5335,
+          "progress": 6683,
+          "stall": 732,
+          "idle": 261,
+          "other": 1064
+        },
+        "percentages": {
+          "work": 37.90408525754884,
+          "progress": 47.48134991119005,
+          "stall": 5.200710479573712,
+          "idle": 1.8543516873889876,
+          "other": 7.559502664298401
+        }
+      }
+    },
+    {
+      "run": "dz-resume-obstruction-idle-01",
+      "trace": true,
+      "games": 140,
+      "banked": 926.0,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 5,
+      "deaths": 4.25,
+      "candidate_sha256": "a3c5fd8f4ee220831ca190f9da75c1eece5ba0405bfd1226fb8d1991d7267b3a",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-obstruction-idle-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-obstruction-idle-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 5,
+        "by_goal_state": {
+          "0,0": 1,
+          "1,-1": 1,
+          "0,1": 3
+        },
+        "worst_maps": [
+          [
+            "01islands-A",
+            3
+          ],
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ]
+        ],
+        "snapshots": 428,
+        "games_with_snapshots": 96,
+        "duplicate_snapshots": 0,
+        "body_turns": 404506,
+        "totals": {
+          "work": 145979,
+          "progress": 232967,
+          "stall": 13135,
+          "idle": 3581,
+          "other": 8844
+        },
+        "percentages": {
+          "work": 36.088216244011214,
+          "progress": 57.592965246498196,
+          "stall": 3.2471706229326633,
+          "idle": 0.8852773506449843,
+          "other": 2.186370535912941
+        }
+      }
+    },
+    {
+      "run": "dz-resume-obstruction-idle-02",
+      "trace": true,
+      "games": 140,
+      "banked": 927.1,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.014285714285714,
+      "candidate_sha256": "f6f91637ee6aef2e1d3346598dfd59f3ef32d1b0571af29ab8a69f017851886d",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-obstruction-idle-02",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-obstruction-idle-02",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 6,
+        "by_goal_state": {
+          "0,0": 3,
+          "1,-1": 1,
+          "0,1": 2
+        },
+        "worst_maps": [
+          [
+            "01islands-A",
+            2
+          ],
+          [
+            "01big-world-A",
+            1
+          ],
+          [
+            "01big-world-B",
+            1
+          ],
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 418816,
+        "totals": {
+          "work": 149911,
+          "progress": 242098,
+          "stall": 14207,
+          "idle": 3264,
+          "other": 9336
+        },
+        "percentages": {
+          "work": 35.7940002292176,
+          "progress": 57.80533694987775,
+          "stall": 3.3921817695599024,
+          "idle": 0.7793398533007335,
+          "other": 2.22914119804401
+        }
+      }
+    },
+    {
+      "run": "dz-resume-obstruction-release-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 917.2928571428571,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.564285714285714,
+      "candidate_sha256": "2cc4c789c85c6a04d1aa25e35bbcda83ad46baf2b728647807fec9ec928a8001",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-obstruction-release-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-obstruction-release-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 244.4142857142857,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 2,
+      "deaths": 17.942857142857143,
+      "candidate_sha256": "2cc4c789c85c6a04d1aa25e35bbcda83ad46baf2b728647807fec9ec928a8001",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-obstruction-release-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-path-control-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 917.5785714285714,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.457142857142857,
+      "candidate_sha256": "290a171e48a0a7c9735979c194612c0dc068bb71945f323d32ab3f251a9d4350",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-path-control-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-path-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 267.5642857142857,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.985714285714284,
+      "candidate_sha256": "290a171e48a0a7c9735979c194612c0dc068bb71945f323d32ab3f251a9d4350",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-path-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-persistent-nav-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 924.4,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.714285714285714,
+      "candidate_sha256": "177e97dda30830e26c7e514116e6b463e77816466e0973535012cb984c23a50c",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-persistent-nav-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-persistent-nav-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 933.5214285714286,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.214285714285714,
+      "candidate_sha256": "c8a7e4368bf3a91ea422caef6456780cf29a08fd761a1bf7c0b5633a079b92e9",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-persistent-nav-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-persistent-nav-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 8,
+        "by_goal_state": {
+          "0,0": 4,
+          "0,1": 3,
+          "1,-1": 1
+        },
+        "worst_maps": [
+          [
+            "00pilgrimage-B",
+            2
+          ],
+          [
+            "02famine-A",
+            2
+          ],
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "00swirl-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ]
+        ],
+        "snapshots": 442,
+        "games_with_snapshots": 99,
+        "duplicate_snapshots": 0,
+        "body_turns": 418008,
+        "totals": {
+          "work": 151493,
+          "progress": 240318,
+          "stall": 12285,
+          "idle": 4478,
+          "other": 9434
+        },
+        "percentages": {
+          "work": 36.24165087749517,
+          "progress": 57.49124418671413,
+          "stall": 2.9389389676752598,
+          "idle": 1.071271363227498,
+          "other": 2.2568946048879446
+        }
+      }
+    },
+    {
+      "run": "dz-resume-persistent-nav-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 246.64285714285714,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.87857142857143,
+      "candidate_sha256": "177e97dda30830e26c7e514116e6b463e77816466e0973535012cb984c23a50c",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-persistent-nav-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-personal-progress-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 907.8642857142858,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 6.75,
+      "candidate_sha256": "95424b34063d0aab1cb0358f0c2c693a33fb4b24dbf4ed352929aadc70813129",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-personal-progress-idle-01",
+        "--pool",
+        "--set",
+        "DZ_PERSONAL_PROGRESS=1",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-personal-progress-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 908.6571428571428,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 7.3428571428571425,
+      "candidate_sha256": "6ce62b6656412bde7a3069cecb6953f3a1204142d936d72a07ab015f517c34d3",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-personal-progress-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_PERSONAL_PROGRESS=1",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-personal-progress-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 4,
+        "by_goal_state": {
+          "1,-1": 2,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 438,
+        "games_with_snapshots": 98,
+        "duplicate_snapshots": 0,
+        "body_turns": 403246,
+        "totals": {
+          "work": 146838,
+          "progress": 232044,
+          "stall": 12427,
+          "idle": 2135,
+          "other": 9802
+        },
+        "percentages": {
+          "work": 36.41400038686063,
+          "progress": 57.54403019496784,
+          "stall": 3.081741666377348,
+          "idle": 0.5294534849694728,
+          "other": 2.4307742668247174
+        }
+      }
+    },
+    {
+      "run": "dz-resume-personal-progress-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 246.75,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.485714285714284,
+      "candidate_sha256": "95424b34063d0aab1cb0358f0c2c693a33fb4b24dbf4ed352929aadc70813129",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-personal-progress-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_PERSONAL_PROGRESS=1",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-physical-guard-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 265.87857142857143,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.021428571428572,
+      "candidate_sha256": "01df4de2e3fde0fec8cc2f25a577fa75424736d0e6392c8427e5c35454dde83b",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-physical-guard-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_FAILED_MOVE_MEMORY=0",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-release-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 921.9071428571428,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.378571428571429,
+      "candidate_sha256": "b97111fd6ba476fec336d750b8d5fb946b109f8cd44fcf823bf461dd871a9fa8",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-release-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-release-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 228.82142857142858,
+      "wins": 0,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.7,
+      "candidate_sha256": "b97111fd6ba476fec336d750b8d5fb946b109f8cd44fcf823bf461dd871a9fa8",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-release-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-retry-off-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 262.7142857142857,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.978571428571428,
+      "candidate_sha256": "dd914b7e27947b062912b5c4c25caf429376dcc715875d1de618a848bdaa3922",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-retry-off-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-retry-off-v76-check-01",
+      "trace": false,
+      "games": 140,
+      "banked": 225.14285714285714,
+      "wins": 1,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.864285714285714,
+      "candidate_sha256": "dd914b7e27947b062912b5c4c25caf429376dcc715875d1de618a848bdaa3922",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-retry-off-v76-check-01",
+        "--pool",
+        "--opponent",
+        "v76",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-retry-v76-check-01",
+      "trace": false,
+      "games": 140,
+      "banked": 224.61428571428573,
+      "wins": 1,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 19.37142857142857,
+      "candidate_sha256": "4a9ebcfdb609b5972a53b81d78a958c35e3870a0c21ec965158e00e3ce090dbb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-retry-v76-check-01",
+        "--pool",
+        "--opponent",
+        "v76",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-route-window-01",
+      "trace": true,
+      "games": 4,
+      "banked": 892.75,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 8.75,
+      "candidate_sha256": "efba867f0f6928785684b2d73d076ddcaa8c654256f1aa85e660de7c3793c991",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-route-window-01",
+        "--maps",
+        "02the-pond",
+        "01corridors",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=45",
+        "--set",
+        "DZ_TRACE_TO=76",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-route-window-01",
+        "round": 1000,
+        "games": 4,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 15,
+        "by_goal_state": {
+          "0,0": 7,
+          "1,-1": 3,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-B",
+            4
+          ],
+          [
+            "01corridors-A",
+            3
+          ]
+        ],
+        "snapshots": 16,
+        "games_with_snapshots": 4,
+        "duplicate_snapshots": 0,
+        "body_turns": 14174,
+        "totals": {
+          "work": 5023,
+          "progress": 6848,
+          "stall": 1079,
+          "idle": 431,
+          "other": 793
+        },
+        "percentages": {
+          "work": 35.43812614646536,
+          "progress": 48.31381402568083,
+          "stall": 7.6125299844786225,
+          "idle": 3.0407788909270494,
+          "other": 5.594750952448145
+        }
+      }
+    },
+    {
+      "run": "dz-resume-short-block-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 921.2857142857143,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.435714285714286,
+      "candidate_sha256": "2d41062fe9076089980f35cf6f44eb9d341c79f13fb35a290fb8f44aded365bf",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-short-block-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_SHORT_BLOCK_MEMORY=1",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-short-block-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 7,
+        "by_goal_state": {
+          "0,0": 3,
+          "0,1": 3,
+          "1,-1": 1
+        },
+        "worst_maps": [
+          [
+            "00pilgrimage-B",
+            2
+          ],
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 433,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 408140,
+        "totals": {
+          "work": 147291,
+          "progress": 236690,
+          "stall": 11424,
+          "idle": 3691,
+          "other": 9044
+        },
+        "percentages": {
+          "work": 36.088352036066055,
+          "progress": 57.992355564267164,
+          "stall": 2.7990395452540793,
+          "idle": 0.904346547753222,
+          "other": 2.2159063066594795
+        }
+      }
+    },
+    {
+      "run": "dz-resume-short-block-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 236.67142857142858,
+      "wins": 3,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.37857142857143,
+      "candidate_sha256": "806aeb2e11153e05133b1d978809b49ab3ba7225129753a31a064b52d0f1fcad",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-short-block-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_SHORT_BLOCK_MEMORY=1",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-shortcut-blockage-window-01",
+      "trace": true,
+      "games": 2,
+      "banked": 476.0,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 21,
+      "candidate_sha256": "aff5161fd3e9cfbbb3580d376858a0147170ad69b98146f66f36f33e364867c1",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-shortcut-blockage-window-01",
+        "--maps",
+        "01shortcut",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=830",
+        "--set",
+        "DZ_TRACE_TO=890",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-shortcut-blockage-window-01",
+        "round": 1000,
+        "games": 2,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 4,
+        "by_goal_state": {
+          "0,0": 3,
+          "1,-1": 1
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ]
+        ],
+        "snapshots": 8,
+        "games_with_snapshots": 2,
+        "duplicate_snapshots": 0,
+        "body_turns": 7414,
+        "totals": {
+          "work": 729,
+          "progress": 5558,
+          "stall": 351,
+          "idle": 122,
+          "other": 654
+        },
+        "percentages": {
+          "work": 9.832748853520368,
+          "progress": 74.9662800107904,
+          "stall": 4.734286485028325,
+          "idle": 1.6455354734286485,
+          "other": 8.821149177232263
+        }
+      }
+    },
+    {
+      "run": "dz-resume-stationary-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 919.8071428571428,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.6,
+      "candidate_sha256": "44f946d12b4aeb81df8510483c10b05a92c688ddd58c81c71edb7d205cae3f0a",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-stationary-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-stationary-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 918.7142857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.642857142857143,
+      "candidate_sha256": "1de7729d74f7f30da245583cb76f5ff5c3f43c95a6d62b8e8fbe114782e846bf",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-stationary-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-stationary-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 3,
+        "by_goal_state": {
+          "1,-1": 1,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 447,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 420758,
+        "totals": {
+          "work": 151965,
+          "progress": 241758,
+          "stall": 12491,
+          "idle": 4634,
+          "other": 9910
+        },
+        "percentages": {
+          "work": 36.11696034300002,
+          "progress": 57.45773104730035,
+          "stall": 2.968689840716041,
+          "idle": 1.1013456666302246,
+          "other": 2.355273102353372
+        }
+      }
+    },
+    {
+      "run": "dz-resume-stationary-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 255.32857142857142,
+      "wins": 3,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.071428571428573,
+      "candidate_sha256": "44f946d12b4aeb81df8510483c10b05a92c688ddd58c81c71edb7d205cae3f0a",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-stationary-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-strategic-nav-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 918.4571428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.478571428571429,
+      "candidate_sha256": "6e0561e803e8e09499cfb76ac984dcf22b5243998e40276d45f1dd53a94c1009",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-nav-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-strategic-nav-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 927.1071428571429,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.207142857142857,
+      "candidate_sha256": "a130c6a0067ff8abd495b4ace3f98227be559a24d5d6b258f7e9c02a69a11ea9",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-nav-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-strategic-nav-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 8,
+        "by_goal_state": {
+          "0,0": 4,
+          "0,1": 2,
+          "1,-1": 2
+        },
+        "worst_maps": [
+          [
+            "00pilgrimage-B",
+            2
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "01corridors-A",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 433,
+        "games_with_snapshots": 97,
+        "duplicate_snapshots": 0,
+        "body_turns": 409578,
+        "totals": {
+          "work": 148217,
+          "progress": 237854,
+          "stall": 11476,
+          "idle": 3320,
+          "other": 8711
+        },
+        "percentages": {
+          "work": 36.18773469278135,
+          "progress": 58.07294337098184,
+          "stall": 2.801908305621884,
+          "idle": 0.8105904125709877,
+          "other": 2.126823218043938
+        }
+      }
+    },
+    {
+      "run": "dz-resume-strategic-nav-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 246.59285714285716,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 2,
+      "deaths": 18.164285714285715,
+      "candidate_sha256": "6e0561e803e8e09499cfb76ac984dcf22b5243998e40276d45f1dd53a94c1009",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-nav-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-strategic-retry-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 916.1357142857142,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.707142857142857,
+      "candidate_sha256": "4a9ebcfdb609b5972a53b81d78a958c35e3870a0c21ec965158e00e3ce090dbb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-retry-idle-01",
+        "--pool",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-strategic-retry-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 916.6857142857143,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.492857142857143,
+      "candidate_sha256": "429b79f3709fde957198b053f795157224e16d0339d3165c5acde7829dde60c1",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-retry-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-strategic-retry-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 9,
+        "by_goal_state": {
+          "1,-1": 4,
+          "0,0": 5
+        },
+        "worst_maps": [
+          [
+            "01shortcut-B",
+            4
+          ],
+          [
+            "01corridors-B",
+            2
+          ],
+          [
+            "00split-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 440,
+        "games_with_snapshots": 98,
+        "duplicate_snapshots": 0,
+        "body_turns": 415595,
+        "totals": {
+          "work": 150773,
+          "progress": 240308,
+          "stall": 11840,
+          "idle": 3879,
+          "other": 8795
+        },
+        "percentages": {
+          "work": 36.278829148570125,
+          "progress": 57.82263982964184,
+          "stall": 2.848927441379227,
+          "idle": 0.9333606034721303,
+          "other": 2.116242976936681
+        }
+      }
+    },
+    {
+      "run": "dz-resume-strategic-retry-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 245.36428571428573,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.364285714285714,
+      "candidate_sha256": "4a9ebcfdb609b5972a53b81d78a958c35e3870a0c21ec965158e00e3ce090dbb",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-strategic-retry-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-trace-tangle-02",
+      "trace": true,
+      "games": 2,
+      "banked": 1032.0,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 2,
+      "deaths": 0.5,
+      "candidate_sha256": "8a80768a2ab47514db6692069b33f4f2e7376547150e2927243f975a039029d3",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-trace-tangle-02",
+        "--maps",
+        "02tangle",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--set",
+        "DZ_TRACE_PROFILE=1",
+        "--workers",
+        "2"
+      ],
+      "productivity_unavailable": "No productivity snapshots; a release/non-trace run cannot establish zero stalls"
+    },
+    {
+      "run": "dz-resume-transient-detour-control-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 262.7142857142857,
+      "wins": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 17.978571428571428,
+      "candidate_sha256": "ae5a15a4865617997107dcad90179220b50c72c12dd3a33cc5507e6d87bc0835",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-transient-detour-control-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--set",
+        "DZ_MOVE_RETRY=0",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-transient-detour-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 923.9642857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.5,
+      "candidate_sha256": "439467f1fafb9d05e910783ce9bfb8b5144abe4ac1e6b062c7ba8262c956b80f",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-transient-detour-idle-01",
+        "--pool",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-transient-detour-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 919.7785714285715,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.585714285714285,
+      "candidate_sha256": "509d8a5342875d3d772476422ff0a26636e6a189ba4e3b7a7a765bf913504f86",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-transient-detour-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "4"
+      ],
+      "productivity": {
+        "run": "dz-resume-transient-detour-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 3,
+        "by_goal_state": {
+          "1,-1": 1,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 447,
+        "games_with_snapshots": 100,
+        "duplicate_snapshots": 0,
+        "body_turns": 421117,
+        "totals": {
+          "work": 152279,
+          "progress": 242350,
+          "stall": 12633,
+          "idle": 4031,
+          "other": 9824
+        },
+        "percentages": {
+          "work": 36.160734427724364,
+          "progress": 57.54932714661246,
+          "stall": 2.999878893514154,
+          "idle": 0.9572161655786872,
+          "other": 2.3328433665703354
+        }
+      }
+    },
+    {
+      "run": "dz-resume-transient-detour-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 253.92857142857142,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.2,
+      "candidate_sha256": "439467f1fafb9d05e910783ce9bfb8b5144abe4ac1e6b062c7ba8262c956b80f",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-transient-detour-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "4"
+      ]
+    },
+    {
+      "run": "dz-resume-travel-only-idle-01",
+      "trace": false,
+      "games": 140,
+      "banked": 918.0642857142857,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.514285714285714,
+      "candidate_sha256": "7fee3c1933d55279433749f22965542772342d90f0057ce588429ac7a8c5b723",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-travel-only-idle-01",
+        "--pool",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-travel-only-productivity-01",
+      "trace": true,
+      "games": 140,
+      "banked": 928.8785714285714,
+      "wins": 140,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 4.478571428571429,
+      "candidate_sha256": "14a4eb252c74452b6fa5ffc0716ed72c2eacb3df69438d088c777a15f41dbe55",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-travel-only-productivity-01",
+        "--pool",
+        "--trace",
+        "--set",
+        "DZ_TRACE_TO=0",
+        "--workers",
+        "6"
+      ],
+      "productivity": {
+        "run": "dz-resume-travel-only-productivity-01",
+        "round": 1000,
+        "games": 140,
+        "source": "frozen capsule",
+        "runtime_clean": true,
+        "stuck_episodes": 4,
+        "by_goal_state": {
+          "0,1": 1,
+          "1,-1": 1,
+          "0,0": 2
+        },
+        "worst_maps": [
+          [
+            "00gem-fields-A",
+            1
+          ],
+          [
+            "01corridors-B",
+            1
+          ],
+          [
+            "01islands-A",
+            1
+          ],
+          [
+            "02famine-A",
+            1
+          ]
+        ],
+        "snapshots": 438,
+        "games_with_snapshots": 98,
+        "duplicate_snapshots": 0,
+        "body_turns": 412828,
+        "totals": {
+          "work": 148329,
+          "progress": 240222,
+          "stall": 11443,
+          "idle": 3550,
+          "other": 9284
+        },
+        "percentages": {
+          "work": 35.92997567994419,
+          "progress": 58.189367000300365,
+          "stall": 2.771856560117046,
+          "idle": 0.8599222920925906,
+          "other": 2.248878467545806
+        }
+      }
+    },
+    {
+      "run": "dz-resume-travel-only-v65-01",
+      "trace": false,
+      "games": 140,
+      "banked": 243.80714285714285,
+      "wins": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "deaths": 18.428571428571427,
+      "candidate_sha256": "7fee3c1933d55279433749f22965542772342d90f0057ce588429ac7a8c5b723",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-travel-only-v65-01",
+        "--pool",
+        "--opponent",
+        "v65",
+        "--workers",
+        "6"
+      ]
+    },
+    {
+      "run": "dz-resume-window-01",
+      "trace": true,
+      "games": 6,
+      "banked": 863.5,
+      "wins": 6,
+      "faults": 0,
+      "fuel_outs": 1,
+      "deaths": 5,
+      "candidate_sha256": "01c74ed9ac9c316e02aaddb7d9e363ce9509f2c168a7d7884b7d86cd19bb69b4",
+      "command": [
+        "tools/dz.py",
+        "smoke",
+        "--name",
+        "dz-resume-window-01",
+        "--maps",
+        "02the-pond",
+        "01corridors",
+        "01fracture",
+        "--trace",
+        "--set",
+        "DZ_TRACE_SLOT=1",
+        "--set",
+        "DZ_TRACE_FROM=30",
+        "--set",
+        "DZ_TRACE_TO=105",
+        "--workers",
+        "2"
+      ],
+      "productivity": {
+        "run": "dz-resume-window-01",
+        "round": 1000,
+        "games": 6,
+        "source": "frozen capsule",
+        "runtime_clean": false,
+        "stuck_episodes": 25,
+        "by_goal_state": {
+          "0,1": 4,
+          "1,-1": 5,
+          "0,0": 11,
+          "0,3": 5
+        },
+        "worst_maps": [
+          [
+            "01fracture-A",
+            11
+          ],
+          [
+            "02the-pond-A",
+            8
+          ],
+          [
+            "01corridors-B",
+            3
+          ],
+          [
+            "01corridors-A",
+            2
+          ],
+          [
+            "01fracture-B",
+            1
+          ]
+        ],
+        "snapshots": 25,
+        "games_with_snapshots": 6,
+        "duplicate_snapshots": 0,
+        "body_turns": 23327,
+        "totals": {
+          "work": 7865,
+          "progress": 11731,
+          "stall": 2202,
+          "idle": 589,
+          "other": 940
+        },
+        "percentages": {
+          "work": 33.716294422771895,
+          "progress": 50.28936425601235,
+          "stall": 9.43970506280276,
+          "idle": 2.524971063574399,
+          "other": 4.029665194838599
+        }
+      }
+    }
+  ]
+}

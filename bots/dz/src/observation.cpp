@@ -67,11 +67,12 @@ void Observation::read(const TurnContext& tc) {
     // Stale collision hints must not hard-block combat/escape routes while
     // enemies are visible. Use them only for strategic travel; current visible
     // occupancy remains authoritative during contact.
-    const int width=cambc::map::width();
-    failed_moves.clear(p.y*width+p.x);
-    if constexpr (DZ_FAILED_MOVE_MEMORY)
+    if constexpr (DZ_FAILED_MOVE_MEMORY) {
+        const int width=cambc::map::width();
+        failed_moves.clear(p.y*width+p.x);
         if (enemies.empty()) for (auto e:failed_moves.entries) if (e.tile>=0&&e.until>static_cast<int>(tc.round))
             occupied.set(vec2{e.tile%width,e.tile/width});
+    }
     if (local_masks_valid) occupied_mask.load(occupied);
     tc.guard();
 }

@@ -60,8 +60,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
         if (!obs.camps_complete) return {GoalKind::Home};
     }
-    if (obs.bag > mem.last_bag || obs.submitted > mem.last_submitted) mem.last_income = tc.round;
+    if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
+    mem.last_gold=obs.gold;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
     bool legacy = mem.legacy(tc.round);
     // Local fight: we and allies within 6 against visible enemies within 8.
@@ -250,7 +251,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if (slot==world.slot || protocol::slot(word,slot).objective!=protocol::dead) { leader=slot; break; }
     if (!legacy && leader!=world.slot && !blocks_respawn && obs.hp >= .9f * obs.max_hp) {
         const int job=protocol::slot(word,leader).objective;
-        if (job<static_cast<int>(world.groups.size()) && world.groups[job].strength>0 && mem.groups[job].available(tc.round) &&
+        if (protocol::is_group_code(job)&&job<static_cast<int>(world.groups.size()) && world.groups[job].strength>0 && mem.groups[job].available(tc.round) &&
             mem.groups[job].state!=GroupState::Reward && world.distance(job,obs.p)<65535 && job!=chosen) {
             auto solo=clear_risk(job);
             if (!clear_survivable(solo,obs.hp,obs.max_hp)) {
@@ -301,6 +302,33 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     DZ_PROF('L');
     if (chosen < 0) {
         if (blocks_respawn) return {GoalKind::YieldSpawn};
+        if constexpr (DZ_IDLE_HELPER) {
+            // No solo job won. Reinforce only a nearby, visibly active clear:
+            // real ally, matching soft claim, partially damaged awake group,
+            // and a survivable crew already present. Never scout/wander toward
+            // a stale claim or count proximity alone as productive support.
+            if (!legacy&&obs.enemies.empty()&&obs.hp>=.9f*obs.max_hp) {
+                LocalMask awake;awake.load(cambc::vision::awake_camp_tiles());
+                float best_help=1e30f;int help=-1;
+                for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots&&tc.allow(8000);++slot) {
+                    if (slot==world.slot) continue;
+                    const auto job=protocol::slot(word,slot).objective;
+                    if (!protocol::is_group_code(job)||job>=world.groups.size()||mem.groups[job].state!=GroupState::Partial||world.groups[job].strength<=0) continue;
+                    const auto ally=std::find_if(obs.allies.begin(),obs.allies.end(),[&](auto& a){return a.sdk==world.allies[slot];});
+                    if (ally==obs.allies.end()||ally->hp<.5f*ally->max_hp||obs.p.chebyshev_distance(ally->p)>4) continue;
+                    const int distance=world.distance(job,obs.p);
+                    if (distance>4||world.distance(job,ally->p)>4) continue;
+                    bool active=false;for(auto tile:world.groups[job].tiles) if(awake.test(tile)){active=true;break;}
+                    if (!active) continue;
+                    unsigned crew=1;for(auto& a:obs.allies) if(a.hp>0&&a.p.chebyshev_distance(obs.p)<=4) ++crew;
+                    const auto risk=clear_risk(job,crew_strength(obs,obs.p,4));
+                    if (!clear_survivable(risk,obs.hp,obs.max_hp,crew_share(crew))) continue;
+                    const float score=distance+risk.attacks;
+                    if(score<best_help){best_help=score;help=job;}
+                }
+                if(help>=0){auto& b=mem.groups[help];mem.contract.start(help,tc.round,world.distance(help,obs.p),b.hp,b.capture,config::crew_window);return {GoalKind::Farm,help};}
+            }
+        }
         // Nothing is survivable now: healing at home widens the feasible set.
         if (obs.hp < .9f * obs.max_hp) return {GoalKind::Home};
         mem.idle_until = tc.round + 4;

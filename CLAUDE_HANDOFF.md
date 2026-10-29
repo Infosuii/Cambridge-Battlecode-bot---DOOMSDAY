@@ -1,67 +1,148 @@
-# ACTIVE RESUMPTION 2026-10-29 — current work supersedes historical pause below
+# PAUSED 2026-10-29 - latest checkpoint (user requested wrap-up)
 
-The user resumed at a9723ba: validate idle/v65 release pools, then stuck <10
-without increased stall/idle, then the Z plan. Map/item tuning is authorized,
-with separate-opponent confirmation; no submit/activate/ladder. Preserve paths.json.
+Repository: https://github.com/Infosuii/neural-networkk-battlecode
+Branch: build/pure-algorithm-zero. Continue from the latest pushed checkpoint.
+User asked to stop and package a fresh-agent/fresh-device handoff. No scheduled
+continuation is active. Do not create one for this pause.
 
-Read `research/dz/RESUMED_FUNDAMENTALS_2026-10-29.md` for exact current runs.
-The paused candidate regressed v65 270.4 -> 228.8. Restoring earlier movement
-danger scoring while retaining enemy-spawn target exclusion recovers 267.6.
-DZ_PATH_REACH_ONLY defaults to 0; the paused score is rejected.
+## Selected development foundation
 
-New fixes: nested trace metering counted intervals twice; fixed with a host-tested
-pure meter. Production budget gates now use physical fuel, compensation only
-profiles. Trace-only target.position() after leaving vision could disable the
-executor; use cached/static coordinates. Profile flag moved to config.h; TIME
-formatting consolidated; temporary PRE/CALL/POST_EXEC prints removed.
+Current bots/dz source exactly matches the frozen cold-retry release source.
+A fresh local default build is byte-identical to all three release capsules:
+4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4
+Manifest: research/dz/FOUNDATION_RESUMED_2026-10-29.json.
+Older FOUNDATION_CHECKPOINT.json describes older code; do not substitute it.
 
-Hidden bush blockers caused repeated false moves. Eight short-lived failed-tile
-hints now route around an actual rejected SDK move. Six-round expiry, no hidden
-identity access. Field compute has a post-root fuel gate and deferred cold-field
-request. These are experimental until the v65 regression is resolved.
+The paused a9723ba changes were tested first: idle921.91, v65228.82 versus prior
+270.36. Reach-only path scoring caused the regression; it is disabled. Restoring
+old scoring recovered267.56. Strong frozen reference ablate-both-v65 scores271.29.
 
-`dz-resume-coldfield-{idle,v65,productivity}-01`: 420 games, zero candidate native
-faults/outs, trace caught errors zero; **7 stuck episodes**, stall 2.8%, idle .8%,
-progress 58.1%. But contested banked 234.0 vs prior 270.4 (-36.4, SE14.6).
-Do not promote/claim a strength improvement. Idle release 911.85 (-5.7, SE8.4).
-Current ablations: dz-resume-ablate-nav-v65-01 (DZ_FAILED_MOVE_MEMORY=0),
-dz-resume-ablate-gate-v65-01 (DZ_LATE_FIELD_GATE=0). Check their results next.
-Both flags default to 1 in the experimental current source. Host +25 Python
-measurement tests pass. No new gear/draft tuning implemented during this resumption.
-Default/source manifest update waits for a genuinely selected candidate.
+Latest source-matched full pools (70maps x both sides, 140games EACH):
+| Opponent / evidence | Selected | Retry-off control | Paired delta / descriptive SE |
+|---|---:|---:|---:|
+| idle release | 919.46 | 918.24 | +1.23 / 1.91 |
+| v65 release | 260.80 | 262.71 | -1.91 / 2.83 |
+| v76 release | 222.64 | 225.14 | -2.50 / 2.74 |
+| idle productivity trace | 3 stuck | 30 stuck | stall-.1815pp, idle-.0302pp |
 
-Latest ablations: nav disabled 240.06 banked, gate disabled 236.81, both with
-zero faults/outs. Neither alone restores the prior 270.4. Current pending runs:
-dz-resume-ablate-both-v65-01 (both disabled, including cold-field requests);
-dz-resume-short-block-v65-01 and dz-resume-short-block-productivity-01 (two-round
-expiry instead of six, DZ_SHORT_BLOCK_MEMORY=1). Default remains six while
-testing. Keep the strong prior release evidence; current source is WIP, not a
-promoted strength upgrade. No new Z9 work until this selection is resolved.
+Run prefix dz-resume-cold-retry-, suffixes idle-01, v65-01, v76-check-01,
+productivity-01. Controls: control-idle-01, control-v65-01, control-v76-01,
+control-productivity-01. All EIGHT pools (1120games) have zero native candidate
+faults/fuel-outs. Traces also report zero caught action/module errors. Matched
+productivity uses442 body snapshots, selected trace447 bodies in100 games at
+R1000. Other games ended earlier. Three stuck alarms count the FULL games.
+Trace settings are --trace --set DZ_TRACE_TO=0; detailed windows distort fuel.
 
-Update: both disabled restores 271.29 v65 banking (zero faults/outs). Short hint
-alone: 236.67, seven trace episodes, stall 2.8%, idle .9%; rejected as a strength
-remedy. Current pending candidate is dz-resume-strategic-nav-{idle,v65,productivity}-01:
-only use failed-tile hints when no enemies are visible, preserving live combat
-routes. DZ_LATE_FIELD_GATE now defaults 0 in release; trace builds always gate
-their extra work and request missing cold fields. Short hint defaults 0 (six
-rounds). No final selection yet. Full capsule verification completed successfully
-before this latest triplet; source and all intermediate failures are retained.
+Selected as a development foundation because it meets the requested productive
+movement target with close release banking to the control. This is NOT a
+strength gain or formal noninferiority/parity proof. Deterministic map-side
+cells are not independent random-seed trials. v65 wins3 versus control4; v76
+wins1 each. Keep the strong frozen control; we are far from finals strength.
 
-Old historical PAUSED sections below are retained as history, not current state.
+## What changed and what stayed disabled
 
-LATEST WIP (supersedes the pending candidate above): strategic-only hints still
-give v65 246.59 and two candidate fuel-outs; idle 918.46, trace 927.11, zero
-idle/trace faults/outs. Not accepted. Current source requires three consecutive
-same-tile failed moves before remembering a collision, and checks a minimal
-physical field budget in release (full reserve gate in trace). Cold-field
-requests are serviced when present. New pending triplet:
-dz-resume-persistent-nav-{idle,v65,productivity}-01. Inspect all three next;
-do not claim success or proceed to item tuning until strength and productivity
-both pass. Tests for persistent-failure evidence were added; rerun host after
-this last change. Current branch checkpoints are WIP preservation, not release
-promotion. Known stronger reference remains dz-resume-ablate-both-v65-01 (271.29).
+- Physical fuel governs every production gate. Nested trace costs are counted
+  once for profiling only; no double credit or wrapped unsigned cost reports.
+- Trace target diagnostics use cached/static coordinates. An out-of-vision
+  diagnostic used to throw and quarantine the executor. Stuck alarms retry if
+  the line was dropped. DZ_TIME is one formatting call; profiler is opt-in.
+- Protocol readers reject reserved objective codes before group indexing.
+- Cold goal fields can be requested before next planner work; root construction
+  is followed by a physical field-budget recheck. Fallback permits later attacks.
+- Rejected SDK moves preserve movement allowance. A retry needs20 consecutive
+  failed strategic Farm/Bank travel attempts from the same origin and no visible
+  enemies. Normal movement does no retry-list bookkeeping. After failure it
+  refreshes occupancy and tries other strictly improving steps. If necessary,
+  one bounded BFS routes to the SAME productive goal around tiles rejected in
+  THIS turn. Those inferred obstructions expire immediately at next observation.
+  No arbitrary wandering, permanent walls or productivity reclassification.
+- Persistent tile hints, own-income starvation fallback and visible-only helper
+  experiments failed income/death/idle gates. They remain disabled, with evidence.
+- Z9 experimental first-purchase rule replaces Treasure with same-stat Prospector
+  only when the two best home jobs are clusters. Trial01 had one fuel-out and
+  no reliable gain; disabled. Cached home inputs and a15k analysis cap are coded
+  but NOT retested with JOB_GEAR=1. Do not claim this revision is validated.
 
-# PAUSED 2026-10-29 (usage limit) — historical
+Defaults: PATH_REACH_ONLY=0, MOVE_RETRY=1, RETRY_STREAK=1, RETRY_DETOUR=1,
+FAILED_MOVE_MEMORY=0, SHORT_BLOCK_MEMORY=0, LATE_FIELD_GATE=0, PERSONAL_PROGRESS=0,
+IDLE_HELPER=0, JOB_GEAR=0, TRACE=0, TRACE_PROFILE=0. Trace always uses a stricter
+field reserve. Advanced auction/EE/gear-planner gates remain false. Map draft
+prior/table is unchanged in this resumption.
+
+## Exact next work, in order
+
+1. Verify setup using CONTINUE_HERE.md, read this manifest and
+   research/dz/RESUMED_FUNDAMENTALS_RESULTS.json. Preserve completed capsules;
+   every new experiment requires a fresh name. No need to repeat the paused
+   release tests: they are completed and preserved.
+2. Inspect the three remaining real pathologies before broad tuning:
+   - 01corridors B: slot3 Bank at28,3, R879, static altar distance29. Near enemy
+     spawn; proximity penalties can create a local minimum. Do not simply ignore
+     real enemy attack reach to force motion.
+   - 01islands A: slot4 Farm group36 at28,4, R45, cached distance65535.
+     Hypothesis: leader crew pass ranks by multi-source HOME distance, which does
+     not prove this body can reach the job; retained contracts can also survive
+     unreachable fields due teammate HP progress. Check current safemode.cpp
+     contract retention and leader crew pass. No reachability fix is coded yet.
+   - 02famine A: slot0 Farm group0 at10,64, R135, no cached field, budget30300,
+     approximate distance2. Investigate cold-field/approach selection; do not hide
+     the stall by calling it work.
+   Target <10 is already met on the clean idle trace; preserve lower stall/idle
+   and release strength while fixing these. Baseline command examples below.
+3. Then continue Z plan in historical status table: calibrated objective work
+   (V-M1 still open), conditional gear Z9, calibrated fight Z10, crews Z11, more
+   map-aware plans Z14. Research elite-meta-2026-10-29 supplies hypotheses, not
+   proof. Confirm map/item choices separately against v76; no opponent source copy.
+4. Keep updated handoff/evidence committed and pushed. Do not submit, activate,
+   create ladder match groups, or launch ladder duels.
+
+## Tools, reproducibility and pitfalls
+
+Python standard library suffices for DZ runner/analysis. On this laptop:
+../neural-gameplay/.venv/Scripts/python.exe. Fresh device: ordinary Python3.12+.
+Official tools/vendor/cambc.exe, SDK4.0.0, engine2.0.0. Packaged Windows runtime
+and2,931 supporting evidence files restore via CONTINUE_HERE.md. No credentials
+required for local matches. Git remote authentication is needed only to push.
+C++20 g++ is needed for host tests (DZ_CXX or MSYS2 UCRT64 auto-detection).
+
+Tools used are committed: tools/dz.py, dz_compare.py, dz_productivity.py,
+dz_scene.mjs, dz_trajectory.mjs, plus dz_extract_replay.py for clean-clone replay
+extraction. The optional Node24 readers use NFS_REPLAY_ENGINE=2.0.0 and pinned
+visualiser assets restored with the runtime. They inspect native full-world
+replays OFFLINE; the bot never gets that hidden information.
+
+python tools/dz.py host
+python -m unittest discover -s tests/dz -p "test_*.py"
+python tools/dz.py build
+python tools/dz_productivity.py dz-resume-cold-retry-productivity-01 --compare dz-resume-cold-retry-control-productivity-01 --json
+python tools/dz_compare.py dz-resume-cold-retry-control-v65-01 dz-resume-cold-retry-v65-01
+
+Example offline scene from a committed capsule:
+python tools/dz_extract_replay.py --run dz-resume-delayed-retry-productivity-01 --map 01shortcut --side B --output artifacts/tmp/shortcut.bin
+# PowerShell: $env:NFS_REPLAY_ENGINE='2.0.0'
+node --no-warnings tools/dz_scene.mjs artifacts/tmp/shortcut.bin 870 5 artifacts/tmp/shortcut-scene.json
+# Native body index is NOT always slot+5; some maps draft only3/4 bodies.
+# Use the frozen summary roster to map team/slot to native body index.
+
+Productivity reads frozen evidence.zip, works without ignored artifacts/tmp, and
+errors on missing/nontrace logs. Caught-error parser also reads cumulative counts
+so dropped individual error lines cannot manufacture zero. 29Python tests and
+C++host tests pass. Default build identity checked above. Both archive verifiers
+pass (23parts,2931files). Final full capsule verification PASSED (exit0). A clean export of the tracked
+bot/cmake/SDK, built without local config or caches, produces the SAME Wasm:
+research/dz/PORTABILITY_RESUMED_2026-10-29.json. This was tested on the same
+Windows host, not a second physical device. Detailed trace windows may still exhaust
+fuel; the selected productivity pools disable them. Trace/release are not identical.
+
+Preserve config/paths.json as machine-local; do not stage it. Unrelated untracked
+old release/compile files and bots/v81home were left untouched. New DZ evidence
+capsules include exact source, candidate/opponent binaries, native logs, summaries,
+replays and hashes; ignored temporary extraction outputs are reproducible with the
+committed tools. Previous frozen failures are preserved, not reinterpreted as passes.
+
+All historical sections below are history; this paused checkpoint takes precedence.
+
+# PAUSED 2026-10-29 (usage limit) - historical
 
 User's last instructions (in order): (1) erase stuck champions completely, but
 never by letting them wander: every body must always be doing productive work;
@@ -80,7 +161,7 @@ Stuck work (in progress):
   (`StaticWorld::in_enemy_spawn`). Stuck 123 -> 27 (dz-prod-idle-05);
   progress 57.5%, stall 3.6%, idle 0.9% (not worse).
 - Also changed: movement `step()` only penalises entering enemy reach (not
-  proximity) outside retreats. Effect not separately measured — verify.
+  proximity) outside retreats. Effect not separately measured - verify.
 - Remaining 27: 02the-pond-A (8: Farm group 7/8 dist 2-12, slot 1/0 at 25,15),
   Bank at dist 3-6 / 29-30 (9), scattered Farm. Next: window-trace those bodies
   (`--set DZ_TRACE_SLOT=s --set DZ_TRACE_FROM=a --set DZ_TRACE_TO=b`), find the
@@ -113,7 +194,7 @@ writer for edit scripts containing \n); every cambc::bitboard test/set is a
 host call (use LocalMask); compare runs with tools/dz_compare.py.
 
 
-# Claude continuation handoff — updated 2026-10-29 (late)
+# Claude continuation handoff - updated 2026-10-29 (late)
 
 ## Latest status (read first)
 
@@ -133,7 +214,7 @@ Economy design: `research/dz/ECONOMY_SELECTION.md`. CT-6: `PRIORITY_CONFORMANCE.
 |---|---:|---:|---:|---:|---|---|
 | idle | 918 | 0 | 140 | 4.5 | 0 / 0 | dz-gear-idle-02 |
 | v65 | 215 | 1005 | 3 | 18.7 | 0 / 0 | dz-gear-v65-02 |
-| reference: v65 vs idle | 1003 (1000 by R928) | — | — | 1.1 | 0 / 114 | bench-v65-idle-01 |
+| reference: v65 vs idle | 1003 (1000 by R928) | - | - | 1.1 | 0 / 114 | bench-v65-idle-01 |
 
 Started the session at idle 903 / v65 186. Still far behind v65.
 
@@ -156,7 +237,7 @@ Started the session at idle 903 / v65 186. Still far behind v65.
 
 ### Next, in order
 
-1. **Per-map draft (Z14)** — first table done (+21.8 vs v76 out of sample). Next: more
+1. **Per-map draft (Z14)** - first table done (+21.8 vs v76 out of sample). Next: more
    lineups (Willow/Prism/Tavi/duo), re-derive after policy changes. Strongest historical lever (memory: v70 per-map
    draft +15..+169/game). Use elite DRAFT_EVIDENCE.md compositions as
    candidates; evaluate 3-5 candidate drafts per map against v65; pick per map;
@@ -216,7 +297,7 @@ and remains byte-for-byte:
 
 `dcc75b76faa0751b4b7e38bc5740c9a2b99529dd01991df1bb131bc5e2a8378f`
 
-Latest full-pool campaigns (70 maps × both sides, 140 each):
+Latest full-pool campaigns (70 maps Ã— both sides, 140 each):
 
 | Run | Mean banked | Collected | Fuel p99 | Native faults / outs |
 |---|---:|---:|---:|---:|
@@ -265,7 +346,7 @@ New `bots/dz/src/objective_math.h` is SDK-free and unused by production decision
    multiplication to avoid a widened `0.1f` adding a decade-boundary round.
 3. `solo_reward`: pure gem/gold clusters and wolf, one Prospector/Vesper only.
    Gem flooring per award; cumulative gold rounding in units of 1/400. Known
-   history gives an exact award; unknown history gives a range of width ≤1.
+   history gives an exact award; unknown history gives a range of width â‰¤1.
    Splits, mixed groups, Treasure, other heroes and stacking remain unsupported
    caller contexts. Invalidate history across unknown awards/death until tested.
 
@@ -278,7 +359,7 @@ New conformance aliases: `objective-capture`, `objective-reward`,
 `objective-tribute`. They freeze the exact header into the existing probes and
 require model-specific assertions. `tools/dz.py` now records and gates opponent
 fuel-outs for all completed diagnostics (previously only visibility fixtures).
-Some older receipts lack this field: read the native summary; missing ≠ zero.
+Some older receipts lack this field: read the native summary; missing â‰  zero.
 
 `tools/dz_objective_audit.py` is written but **has not successfully run yet**:
 its intended 38-game final set is incomplete. Do not claim
@@ -393,13 +474,13 @@ second cast, draft fuel suspension advances the round so existing guards work.
   continuation had already fired and been deleted. The user's explicit pause
   supersedes the earlier conditional request for autonomous continuation.
 
-## Economy fundamentals (2026-10-29) — production changed
+## Economy fundamentals (2026-10-29) - production changed
 
 Read `research/dz/ECONOMY_SELECTION.md`. The planner now prices solo clears
 with `clear_risk.h`, forms leader-led crews for groups nobody can solo, gates
 waking sleeping damaging camps on the present crew, backs off failing targets
 exponentially and falls back to the old nearest-group score after 150 rounds
-without income. New default Wasm `c4de5a1c…3bb1b`.
+without income. New default Wasm `c4de5a1câ€¦3bb1b`.
 
 - Idle pool `dz-crew-idle-06`: 918.4 banked (base 903.5), R500 306 (base 279),
   deaths 3.8 (base 14.75), fuel p99 55.6k, 0 faults/fuel-outs.
@@ -414,6 +495,6 @@ not been relabelled. `objective_math.h` remains inactive.
 1. Contested deaths: 10.7/game are champion kills. Audit retreat/engagement
    (`safe_goal` retreat rule, `enemy_danger`) against ladder/v65 replays.
 2. Worst idle cells after the change (01concentrated-wealth, 00ribs,
-   01the-farm) and 01islands routing (teleports?) — check general causes first.
+   01the-farm) and 01islands routing (teleports?) - check general causes first.
 3. Tune the untuned constants (1.25 margin, crew share, fallback timings, gold
    weight) on the development pool only; compare against v76 too.

@@ -137,3 +137,46 @@ long corridor routes. They remain real work to improve; fewer than ten does not
 mean all progress pathologies or full V-M1 are solved. Continue Z9/Z10/Z11 only
 after the final release gates; keep deterministic training versus separate
 opponent validation explicit.
+
+## Later movement and purchase hypotheses (active checkpoint)
+
+Persistent hints, own-income starvation and visible-only helper variants did not
+pass all gates; their immutable capsules preserve the failures. Current active
+state is at the top of CLAUDE_HANDOFF.md. Hidden allied occupancy is confirmed by
+offline native scenes and failed-move diagnostics; rejected moves retain the
+movement allowance. Immediate same-turn retries reduce the stuck count but lose
+v65 banking. Narrowing them to persistent failed travel is the next controlled
+experiment, before accepting any purchase tuning. No candidate is promoted.
+
+Strategic retry triplet: idle916.14, v65245.36, trace9 stuck / stall2.8 / idle.9,
+zero native faults/outs. Matched idle delta is +.01pp (display rounds unchanged),
+not strict nonincrease proof. Retry-off source control v65262.71: delta-17.4,
+SE8.1. Same-source v76 retry224.61 vs off225.14: delta-.5, SE8.9; clean.
+
+Z9 first-purchase trial01 stays disabled: idle921.71 vs916.14, with one fuel-out
+(00rushbait-v2 B, Marcella R83); v65238.66 vs245.23, delta-6.6 SE7.8; trace9 stuck,
+stall2.8 idle.8 clean. Subsequent untested revision caches home distances during
+setup and caps cold shop analysis15k. It is not a calibrated marginal-value model.
+
+## Final paused selected development foundation
+
+User requested wrap-up. Selected cold-retry source has3 stuck versus clean
+source control30, matched stall-.1815pp and idle-.0302pp. Release banking:
+idle919.46 vs918.24; v65260.80 vs262.71; v76222.64 vs225.14. Both candidate and
+controls are clean across8 full pools (1120games). This selects a runtime and
+productivity repair, not a strength improvement. The strong frozen controls
+remain available. No map/item tuning was promoted in this resumption.
+
+Normal movement no longer builds a retry array. Retry bookkeeping starts only
+after persistent engine rejection; a bounded same-turn field recomputation
+routes toward the same goal around this turn's observed rejected tiles. This
+avoids cross-turn stale hard walls and arbitrary wandering. The earlier eager
+bookkeeping caused fuel/trajectory changes before retries could logically fire;
+offline trajectory observations are in RETRY_ROUTE_AUDIT_2026-10-29.json.
+
+Current source/binary and all results: FOUNDATION_RESUMED_2026-10-29.json.
+A clean source export (no local config/cache) builds byte-identically on this
+Windows host; PORTABILITY_RESUMED_2026-10-29.json. A physical second device was
+not tested. Runtime archive23parts and supporting2931files verified; full capsule
+verification passed.29 Python tests and C++host checks pass. Exact continuation,
+three remaining bugs and disabled hypotheses are at the top of CLAUDE_HANDOFF.md.

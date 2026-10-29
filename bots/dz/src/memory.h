@@ -20,6 +20,7 @@ struct Memory {
     // Starvation fallback: no team income for a while reverts this champion
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
+    int last_gold=0;
     bool legacy(int round) const { return round < legacy_until; } // An idle champion re-plans every few rounds, not every turn.
     bool initialized = false;
     void init(const StaticWorld&);

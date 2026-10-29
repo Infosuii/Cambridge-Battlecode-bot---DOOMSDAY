@@ -4,7 +4,9 @@ Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights
 learned policies, or old per-map decision tables are included. The official SDK
 and standard library are the only bot dependencies. Old bots are opponents only.
 
-Start with [the current handoff](../../research/dz/HANDOFF.md). The supplied research
+Start with [the current handoff](../../CLAUDE_HANDOFF.md).
+The resumed selected source and results are in
+[the foundation manifest](../../research/dz/FOUNDATION_RESUMED_2026-10-29.json). The supplied research
 is preserved under `research/zero-bot-plan-2026-10-28/` along with its supporting
 audit packages. Its planning sketches are inputs, not assertions of implemented behavior.
 

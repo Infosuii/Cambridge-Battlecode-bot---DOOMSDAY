@@ -22,9 +22,13 @@ struct Observation {
     cambc::bitboard occupied;
     LocalMask occupied_mask; // In-Wasm copy of `occupied`.
     FailedMoves failed_moves;
+    FailureStreak retry_streak;
     void remember_blocked(vec2 q,int round) {
         const int tile=q.y*cambc::map::width()+q.x;
-        if (!failed_moves.persistent_failure(tile,round)) return;
+        // Ordinary collision retries are part of active traffic/crew motion.
+        // Intervene only in persistent, stationary travel, before the 30-turn
+        // stuck alarm. Key the streak by origin, even if attempted tiles vary.
+        if (!failed_moves.persistent_failure(p.y*cambc::map::width()+p.x,round)) return;
         failed_moves.remember(tile,round,DZ_SHORT_BLOCK_MEMORY?2:6);
         occupied.set(q); if(local_masks_valid) occupied_mask.set(q);
     }

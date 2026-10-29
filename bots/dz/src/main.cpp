@@ -118,7 +118,7 @@ int main() {
                 ++dz_time[10];
                 }
 #endif
-                dz::module_work(shop_health,tc,counts,"shop",[&]{dz::fixed_shop(tc, act);});
+                dz::module_work(shop_health,tc,counts,"shop",[&]{dz::shop(tc, act,world.get());});
             }
             else {
                 const bool already_ready = world->ready;
@@ -135,7 +135,7 @@ int main() {
                 if (world->ready && already_ready) {
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
                     const bool shop_attempted=shop_health.enabled();
-                    const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::fixed_shop(tc,act)) obs->refresh_self(tc);});
+                    const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::shop(tc,act,world.get())) obs->refresh_self(tc);});
                     // A shop exception can follow a successful purchase. Refresh
                     // before planning with stats that may have changed partially.
                     if (shop_attempted&&!shop_ok && !dz::module_work(observation_health,tc,counts,"observation",[&]{obs->refresh_self(tc);})) {
@@ -267,8 +267,8 @@ int main() {
                             else { still=0; reported=false; }
                             last=here;
                             if (still>=30&&!reported) {
-                                reported=true;
-                                ::dz::trace("DZ_STUCK round=%u slot=%u kind=%d index=%d pos=%d,%d fuel=%llu field_budget=%llu has_field=%d dist=%d state=%d\n",
+                                // Retry on a fresh turn if the trace budget dropped the line.
+                                reported=::dz::trace("DZ_STUCK round=%u slot=%u kind=%d index=%d pos=%d,%d fuel=%llu field_budget=%llu has_field=%d dist=%d state=%d\n",
                                     tc.round,world->slot,static_cast<int>(goal.kind),goal.index,here.x,here.y,
                                     static_cast<unsigned long long>(cambc::fuel_remaining()),static_cast<unsigned long long>(world->field_budget()),
                                     goal.kind==dz::GoalKind::Farm?static_cast<bool>(world->groups[goal.index].field):-1,

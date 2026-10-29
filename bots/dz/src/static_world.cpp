@@ -82,6 +82,10 @@ void StaticWorld::boot(const TurnContext& tc) {
         if (tc.fuel0 - fuel_left() > 25000) return;
         if (!tc.allow(3000 + groups[stats_cursor_].tiles.size() * 500)) return;
         groups[stats_cursor_].init_stats();
+#if DZ_JOB_GEAR
+        auto& group=groups[stats_cursor_];group.home_distance=65535;group.home_reachable=true;
+        for(auto tile:group.tiles){const int distance=home.get(tile);group.home_distance=std::min(group.home_distance,distance);group.home_reachable&=distance<cambc::distance_field::unreachable;}
+#endif
         tc.guard(); ++stats_cursor_;
     }
     // Transactional field publication: no partially computed cache becomes usable.

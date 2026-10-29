@@ -7,6 +7,10 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_cumulative_error_counters_catch_dropped_error_lines(self):
+        text='DZ_COUNTS round=100 slot=0 actions=2 modules=1 stale=0\nDZ_COUNTS round=200 slot=0 actions=2 modules=1 stale=0\nDZ_COUNTS round=200 slot=1 actions=1 modules=0 stale=0'
+        self.assertEqual(dz.caught_errors(text),(3,1))
+        self.assertEqual(dz.caught_errors('DZ_ACTION_ERROR x\nDZ_ACTION_ERROR x\nDZ_COUNTS round=100 slot=0 actions=0 modules=0 stale=0'),(2,0))
     def test_objective_fixture_requires_its_exact_model_checks(self):
         names=['tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer','tribute_cancel_retains_bag','tribute_item_created','tribute_same_bag','tribute_completed','tribute_live_duration','tribute_passive_effect']
         text='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+'\nCT12_BASE bag=70 timer=7\nCT12_ITEM active=1 magnitude=0.330000013\nCT12_RESULT bag=70 base_timer=7 initial_timer=5 elapsed=5 banked_delta=70 gold_delta=0 active=1 magnitude=0.330000013'

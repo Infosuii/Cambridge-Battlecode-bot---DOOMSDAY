@@ -157,6 +157,17 @@ def checkpoints(summary, side):
             **{k:(v if k in available else None) for k,v in values.items()})
     return result
 
+def caught_errors(stdout):
+    # Formatting caps may drop individual error lines. Later cumulative body
+    # counters still expose the failure; never accept a false zero from prints.
+    bodies={}
+    for slot,actions,modules in re.findall(r'DZ_COUNTS round=\d+ slot=(\d+) actions=(\d+) modules=(\d+) stale=\d+',stdout):
+        previous=bodies.setdefault(slot,[0,0])
+        previous[0]=max(previous[0],int(actions));previous[1]=max(previous[1],int(modules))
+    return (max(len(re.findall(r'DZ_ACTION_ERROR ',stdout)),sum(v[0] for v in bodies.values())),
+            max(len(re.findall(r'DZ_MODULE_ERROR ',stdout)),sum(v[1] for v in bodies.values())))
+
+
 def transcript_assertions(stdout):
     checks={}
     for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d+)\b',stdout):
@@ -604,8 +615,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
         stdout = z.read(f'team-{side.lower()}.stdout').replace(b'\0', b'').decode('utf-8', 'replace')
     (folder/'candidate.stdout').write_text(stdout, encoding='utf-8')
     if 'DZ_COUNTS' in stdout:
-        result['caught_action_errors']=len(re.findall(r'DZ_ACTION_ERROR ',stdout))
-        result['caught_module_errors']=len(re.findall(r'DZ_MODULE_ERROR ',stdout))
+        result['caught_action_errors'],result['caught_module_errors']=caught_errors(stdout)
     write(folder/'receipt.json', result)
     return result, ordinary
 

@@ -1,3 +1,10 @@
+# Latest paused checkpoint - 2026-10-29
+
+Branch **build/pure-algorithm-zero**, latest pushed commit. Read **CLAUDE_HANDOFF.md**
+first. Current selected source/binary/results:
+`research/dz/FOUNDATION_RESUMED_2026-10-29.json`. Older manifests and result tables
+remain historical evidence. The setup sequence below is still applicable.
+
 # DOOMSDAY Zero: continue the pure algorithm bot build
 
 **Active branch: `build/pure-algorithm-zero`.** The user resumed work on 2026-10-28

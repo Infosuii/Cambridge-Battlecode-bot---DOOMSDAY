@@ -12,6 +12,9 @@ struct Group {
     std::vector<float> initial_strength;
     std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
+#if DZ_JOB_GEAR
+    int home_distance=65535; bool home_reachable=true;
+#endif
     bool cluster = true;
     vec2 center{}; int radius = 0; // Chebyshev bound of the spawn tiles.
     std::vector<vec2> approach; bool approach_ready = false; // Walkable non-spawn tiles touching the group.

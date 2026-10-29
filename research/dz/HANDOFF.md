@@ -1,3 +1,10 @@
+# Latest paused checkpoint - 2026-10-29
+
+Read ../../CLAUDE_HANDOFF.md FIRST. The selected resumed development foundation
+is recorded in FOUNDATION_RESUMED_2026-10-29.json (3 stuck versus30 control;
+1120 source-matched candidate/control games clean). The sections below describe
+OLDER checkpoints, not the current source or current map/item authorization.
+
 # Continue DOOMSDAY Zero
 
 **Paused at the user's explicit request on 2026-10-29 for continuation in Claude.**

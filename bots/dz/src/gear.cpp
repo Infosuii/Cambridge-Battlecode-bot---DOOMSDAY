@@ -1,4 +1,8 @@
 #include "gear.h"
+#if DZ_JOB_GEAR
+#include "basic_clear.h"
+#include <optional>
+#endif
 
 namespace dz {
 namespace {
@@ -22,10 +26,40 @@ Build build_for(cambc::champion_type type) {
     default: return {{{{F::monster,S::strength},{F::treasure,S::strength},{F::jungle,S::strength}}},S::strength};
     }
 }
+#if DZ_JOB_GEAR
+bool cluster_jobs(const StaticWorld& world,const TurnContext& tc,S stat) {
+    // A cold-path hypothesis, not calibrated ObjModel: rank full future groups
+    // from home with per-member attack rounding. Both best jobs must be pure
+    // clusters before changing a Treasure opener. No fitted map names/rows.
+    const auto stats=cambc::self().base_stats();
+    const float damage=stats.base_strength+(stat==S::strength?5*stats.strength_growth:0);
+    struct Job { float rate=-1;bool cluster=false; };
+    std::array<Job,2> best{};unsigned found=0;
+    const auto started=fuel_left();
+    std::array<BasicTarget,256> targets;
+    for (const auto& group:world.groups) {
+        if (started-fuel_left()>15000||!tc.allow(5000+500*group.tiles.size())||group.tiles.size()>256) return false;
+        const int distance=group.home_distance;
+        if (!group.home_reachable) continue;
+        for (unsigned k=0;k<group.tiles.size();++k) {
+            targets[k]={group.initial_hp[k],damage};
+        }
+        const auto work=basic_attack_work(std::span<const BasicTarget>(targets.data(),group.tiles.size()));
+        if (!work.complete()) continue;
+        const float value=group.sdk.gem_value()+.1f*group.sdk.gold_value();
+        if (value<=0) continue;
+        const Job job{value/(distance+work.attacks+cambc::constants::capture_time+1.f),group.cluster};
+        ++found;
+        if (job.rate>best[0].rate) { best[1]=best[0];best[0]=job; }
+        else if(job.rate>best[1].rate) best[1]=job;
+    }
+    return found>0&&best[0].cluster&&(found==1||best[1].cluster);
 }
-bool fixed_shop(const TurnContext& tc, Actuator& act) {
+#endif
+}
+namespace {
+bool buy_build(const TurnContext& tc,Actuator& act,const Build& build) {
     auto& me = cambc::self();
-    const auto build = build_for(me.champion_name());
     if (!me.can_buy(cambc::get_item_enum(build.emblems.front().family, build.emblems.front().stat))) return false;
     bool changed = false;
     for (int count = 0; count < 16 && tc.allow(2000); ++count) {
@@ -41,4 +75,35 @@ bool fixed_shop(const TurnContext& tc, Actuator& act) {
     }
     return changed;
 }
+}
+bool fixed_shop(const TurnContext& tc, Actuator& act) {
+    return buy_build(tc,act,build_for(cambc::self().champion_name()));
+}
+#if DZ_JOB_GEAR
+bool job_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
+    auto& me=cambc::self();
+    auto build=build_for(me.champion_name());
+    if (!me.can_buy(cambc::get_item_enum(build.emblems[0].family,build.emblems[0].stat))) return false;
+    static std::optional<Build> selected;
+    if(!selected) {
+        if(build.emblems[0].family==F::treasure) {
+            const auto owned=me.item_count();const auto stat=build.emblems[0].stat;
+            const auto treasure=cambc::get_item_enum(F::treasure,stat);
+            const auto prospector=cambc::get_item_enum(F::prospector,stat);
+            const bool started_treasure=owned[treasure]||owned[*treasure.result()];
+            const bool started_prospector=owned[prospector]||owned[*prospector.result()];
+            if(!started_treasure&&(started_prospector||(world&&world->ready&&cluster_jobs(*world,tc,stat))))
+                build.emblems[0].family=F::prospector;
+        }
+        tc.guard();selected=build; // Keep a partial purchase plan through visits.
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_JOB_GEAR selected_first_family=%d world_ready=%d\n",static_cast<int>(selected->emblems[0].family),world&&world->ready);}
+#endif
+    }
+#if DZ_TRACE
+    {TraceScope scope;if(tc.round%100==0)trace("DZ_JOB_GEAR round=%u slot_family=%d\n",tc.round,static_cast<int>(selected->emblems[0].family));}
+#endif
+    return buy_build(tc,act,*selected);
+}
+#endif
 }

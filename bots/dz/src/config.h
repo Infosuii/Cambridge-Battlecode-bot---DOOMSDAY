@@ -28,13 +28,31 @@
 #define DZ_PATH_REACH_ONLY 0 // Paused reach-only scoring regressed the v65 release pool.
 #endif
 #ifndef DZ_FAILED_MOVE_MEMORY
-#define DZ_FAILED_MOVE_MEMORY 1
+#define DZ_FAILED_MOVE_MEMORY 0 // Local failed-step retries avoid stale hard obstacles.
+#endif
+#ifndef DZ_MOVE_RETRY
+#define DZ_MOVE_RETRY 1
+#endif
+#ifndef DZ_RETRY_STREAK
+#define DZ_RETRY_STREAK 1 // Repair persistent travel blockages, not ordinary traffic.
+#endif
+#ifndef DZ_RETRY_DETOUR
+#define DZ_RETRY_DETOUR 1 // Re-route around SDK-rejected tiles in this turn only.
 #endif
 #ifndef DZ_SHORT_BLOCK_MEMORY
 #define DZ_SHORT_BLOCK_MEMORY 0
 #endif
 #ifndef DZ_LATE_FIELD_GATE
 #define DZ_LATE_FIELD_GATE 0 // Trace builds always gate their added work below.
+#endif
+#ifndef DZ_PERSONAL_PROGRESS
+#define DZ_PERSONAL_PROGRESS 0 // Experimental: a teammate's banking is not this body's work.
+#endif
+#ifndef DZ_IDLE_HELPER
+#define DZ_IDLE_HELPER 0 // Experimental: reinforce a visible active clear instead of idling.
+#endif
+#ifndef DZ_JOB_GEAR
+#define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif
 
 // Advanced models are deliberately unavailable until their research gates pass.

@@ -1,3 +1,13 @@
+# Latest resumed foundation - 2026-10-29
+
+Selected development source: FOUNDATION_RESUMED_2026-10-29.json. Release banking
+idle919.46 / v65260.80 / v76222.64; clean productivity3 stuck versus control30,
+matched stalled/idle time lower. All8 candidate/control pools clean (1120games).
+This is a runtime/productivity repair, not a competitive strength gain. Full
+history: RESUMED_FUNDAMENTALS_RESULTS.json and ../../CLAUDE_HANDOFF.md.
+
+The following result tables describe historical checkpoints.
+
 # DZ starter results — 2026-10-28
 
 **Runtime foundation works; strength is far below existing bots.** No promotion,

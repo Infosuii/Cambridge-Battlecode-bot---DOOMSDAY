@@ -14,12 +14,19 @@
 
 int main() {
     using namespace dz;
+    for (unsigned code=0;code<256;++code) assert(protocol::is_group_code(code)==(code<112));
+    assert(!protocol::is_group_code(protocol::idle)&&!protocol::is_group_code(protocol::shop));
     FailedMoves blocked_moves;
-    assert(!blocked_moves.persistent_failure(42,1));
-    assert(!blocked_moves.persistent_failure(42,2));
-    assert(blocked_moves.persistent_failure(42,3));
-    assert(!blocked_moves.persistent_failure(42,5)); // Gap or different tile resets evidence.
-    assert(!blocked_moves.persistent_failure(43,6));
+    FailureStreak retry_streak;
+    for(int round=1;round<20;++round) assert(!retry_streak.repeated(42,round));
+    assert(retry_streak.repeated(42,20));
+    assert(retry_streak.repeated(42,20)); // Duplicate cannot erase the streak.
+    assert(!retry_streak.repeated(42,22));
+    assert(!retry_streak.repeated(43,23));
+    for (int round=1;round<20;++round) assert(!blocked_moves.persistent_failure(42,round));
+    assert(blocked_moves.persistent_failure(42,20));
+    assert(!blocked_moves.persistent_failure(42,22)); // Gap or different tile resets evidence.
+    assert(!blocked_moves.persistent_failure(43,23));
     blocked_moves.remember(42,10);
     assert(blocked_moves.blocks(42,10)&&blocked_moves.blocks(42,15));
     assert(!blocked_moves.blocks(42,16)&&!blocked_moves.blocks(41,10));

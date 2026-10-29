@@ -77,20 +77,20 @@ inline void put_fixed(double v, int decimals) {
 }
 }
 
-inline void trace(const char* format, ...) {
+inline bool trace(const char* format, ...) {
     using namespace trace_detail;
 #if DZ_TRACE
     TraceScope scope;
 #endif
     auto& b = trace_buffer;
     // Keep whole lines: refuse a line that may not fit (lines are < 512 bytes).
-    if (b.size + 512 > TraceBuffer::capacity) { ++b.dropped; return; }
+    if (b.size + 512 > TraceBuffer::capacity) { ++b.dropped; return false; }
 #if DZ_TRACE
     // Bound formatting work and leave physical fuel for production logic.
     // Drop lines instead; the count is reported.
     const bool line_open = b.size && b.data[b.size-1] != '\n';
     const auto real=cambc::fuel_remaining();
-    if (!line_open && (trace_overhead+trace_meter.pending(real,cambc::round_number()) > trace_cap || real < (trace_cap > 3000 ? 5000u : 25000u))) { ++b.dropped; return; }
+    if (!line_open && (trace_overhead+trace_meter.pending(real,cambc::round_number()) > trace_cap || real < (trace_cap > 3000 ? 5000u : 25000u))) { ++b.dropped; return false; }
 #endif
     const auto line_start_fuel = cambc::fuel_remaining();
     const auto line_round = cambc::round_number();
@@ -126,10 +126,11 @@ inline void trace(const char* format, ...) {
     }
     va_end(args);
     const auto remaining = cambc::fuel_remaining();
-    if (cambc::round_number()!=line_round||remaining>line_start_fuel) return;
+    if (cambc::round_number()!=line_round||remaining>line_start_fuel) return false;
     const auto spent = line_start_fuel - remaining;
     if (spent > trace_line_cost_max) trace_line_cost_max = spent;
     trace_line_cost_sum += spent; ++trace_lines;
+    return true;
 }
 
 // Write buffered lines only from otherwise-discarded fuel: call immediately

@@ -146,7 +146,7 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
     }
 }
 bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
-          bool retreat, Actuator& act) {
+          bool retreat, Actuator& act,bool remember_failures=false) {
     if (!cambc::self().can_move()) return false;
     const auto origin = cambc::self().position();
     vec2 best = origin;
@@ -160,30 +160,83 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
         return d;
     };
     const float here_reach = retreat ? 0.f : reach_danger(origin);
+    auto score_at=[&](vec2 p,int distance) {
+        float score=static_cast<float>(distance);
+        if constexpr (DZ_PATH_REACH_ONLY) {
+            if(retreat) score+=danger(p,obs)*.08f;
+            else if(reach_danger(p)>here_reach) score+=3.f;
+        } else score+=danger(p,obs)*(retreat?.08f:.015f);
+        if(p==origin&&distance!=0) score+=.2f;
+        if(world.is_bush(p)) score-=.02f;
+        return score;
+    };
     // Prefer a strictly improving distance. Static fields are not used for collision avoidance.
     for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
         auto p = origin + vec2{dx,dy};
         if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
-        float score = static_cast<float>(d);
-        if constexpr (DZ_PATH_REACH_ONLY) {
-            if (retreat) score += danger(p, obs) * .08f;
-            else if (reach_danger(p) > here_reach) score += 3.f;
-        } else score += danger(p, obs) * (retreat ? .08f : .015f);
-        if (p == origin && d != 0) score += .2f;
-        if (world.is_bush(p)) score -= .02f;
+        const float score=score_at(p,d);
         if (score < score_best) { score_best = score; best = p; }
     }
     bool moved=false;
     if (best != origin) moved=act.move(best);
+    if constexpr (DZ_MOVE_RETRY) {
+        // CT-7: a rejected hidden-obstruction move preserves the move flag.
+        // Refresh newly revealed occupancy and try another improving step in
+        // this same turn. Never create a cross-turn hard wall or wander after
+        // a failure. The first successful move ends the bounded search.
+        if (remember_failures&&obs.enemies.empty()&&!moved&&best!=origin&&act.last_move_blocked()) {
+            if constexpr (DZ_RETRY_STREAK) {
+                if(!obs.retry_streak.repeated(origin.y*cambc::map::width()+origin.x,cambc::round_number())) return false;
+            }
+            obs.occupied=cambc::vision::champion_tiles()|cambc::vision::camp_tiles()|cambc::vision::teleport_tiles();
+            obs.occupied.set(origin,false);
+#if DZ_RETRY_DETOUR
+            obs.occupied.set(best); // A rejection proves occupancy for this attempt, not its identity.
+#endif
+            if(local_masks_valid) obs.occupied_mask.load(obs.occupied);
+            const int before=field.get(origin);
+            // Build the retry list only after a persistent SDK rejection.
+            // Normal movement keeps the original scorer's small fuel cost.
+            struct Choice { vec2 tile;float score;int distance;bool tried=false; };
+            std::array<Choice,8> choices{};unsigned count=0;
+            for(int dx=-1;dx<=1;++dx) for(int dy=-1;dy<=1;++dy) {
+                const auto p=origin+vec2{dx,dy};
+                if(p==origin||p==best||!world.walkable(p)||obs.is_occupied(p)) continue;
+                const int distance=field.get(p);
+                if(distance==cambc::distance_field::unreachable) continue;
+                choices[count++]={p,score_at(p,distance),distance,false};
+            }
+            const auto staying=score_at(origin,before);
+            for(unsigned attempt=0;attempt<count&&cambc::self().can_move()&&fuel_left()>config::reserve+3000;++attempt) {
+                int next=-1;float score=staying;
+                // Staying remains an option: no retry may score worse than it.
+                for(unsigned i=0;i<count;++i) {
+                    const auto& choice=choices[i];
+                    if(choice.tried||choice.tile==origin||obs.is_occupied(choice.tile)||(!retreat&&choice.distance>=before)) continue;
+                    if(choice.score<score){next=static_cast<int>(i);score=choice.score;}
+                }
+                if(next<0) break;
+                auto& choice=choices[next];choice.tried=true;best=choice.tile;score_best=choice.score;
+                if (cambc::vision::has_champion(best)||cambc::vision::has_camp(best)||cambc::vision::has_teleport(best)) continue;
+                moved=act.move(best);
+                if(moved||!act.last_move_blocked()) break;
+#if DZ_RETRY_DETOUR
+                obs.occupied.set(best);if(local_masks_valid) obs.occupied_mask.set(best);
+#endif
+            }
+        }
+    }
     if constexpr (DZ_FAILED_MOVE_MEMORY)
-        if (!moved&&best!=origin&&act.last_move_blocked()&&obs.enemies.empty()) obs.remember_blocked(best,cambc::round_number());
+        if (remember_failures&&!moved&&best!=origin&&act.last_move_blocked()&&obs.enemies.empty()) obs.remember_blocked(best,cambc::round_number());
 #if DZ_TRACE
     { TraceScope scope;const auto round=cambc::round_number();
     if (world.slot==DZ_TRACE_SLOT&&round>=DZ_TRACE_FROM&&round<DZ_TRACE_TO&&round%5==0)
         trace("DZ_STEP round=%u slot=%u from=%d,%d best=%d,%d dfrom=%d dto=%d score=%.2f moved=%d fuel=%llu\n",round,world.slot,
             origin.x,origin.y,best.x,best.y,field.get(origin),field.get(best),score_best,moved,static_cast<unsigned long long>(cambc::fuel_remaining()));
+    if (world.slot==DZ_TRACE_SLOT&&round>=DZ_TRACE_FROM&&round<DZ_TRACE_TO&&best!=origin&&!moved&&act.last_move_blocked())
+        trace("DZ_REJECTED_MOVE round=%u slot=%u destination=%d,%d can_move_after=%d\n",round,world.slot,best.x,best.y,cambc::self().can_move());
     }
 #endif
     if (moved) return field.get(best)<field.get(origin);
@@ -212,6 +265,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     DZ_PROF(static_cast<char>('0'+static_cast<int>(goal.kind)));
     const bool retreat = goal.kind == GoalKind::Retreat || goal.kind == GoalKind::Home;
+    // Repair failed travel, not optional repositioning during productive work.
+    // In particular a melee clearer can attack and attempt a blocked step in
+    // the same turn; that does not justify changing its working route.
+    const bool remember_failures=goal.kind==GoalKind::Bank || (goal.kind==GoalKind::Farm&&
+        world.group_at(obs.p)!=goal.index&&world.distance(goal.index,obs.p)>std::max(1,obs.range));
     const cambc::unit* target = nullptr;
     bool enemy = false;
     struct SpellReach { bool ready=false,exclusive=false,zero_stun=false; float range=0; };
@@ -320,7 +378,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         else if (goal.kind==GoalKind::Bank) field=world.altars[goal.index].field.get();
         else if (goal.kind==GoalKind::Farm) field=world.groups[goal.index].field.get();
         if (field&&me.can_move()&&tc.allow(5000+300*obs.camps.size())) {
-            step(*field,world,obs,retreat,act);
+            step(*field,world,obs,retreat,act,remember_failures);
         }
         bank_here(goal,world,act);
         return;
@@ -391,7 +449,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     // Last resort for a farm job: follow the group's static field.
     if (roots.is_empty() && goal.kind == GoalKind::Farm && world.groups[goal.index].field && me.can_move())
-        step(*world.groups[goal.index].field, world, obs, false, act);
+        step(*world.groups[goal.index].field, world, obs, false, act,remember_failures);
     DZ_PROF('r');
     bool bank_blocked = goal.kind == GoalKind::Bank && roots.is_empty();
 #if DZ_TRACE
@@ -412,13 +470,30 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             else if (goal.kind==GoalKind::Bank) cached=world.altars[goal.index].field.get();
             else if (goal.kind==GoalKind::Farm) cached=world.groups[goal.index].field.get();
             if (goal.kind==GoalKind::Farm&&!cached) mem.field_needed=goal.index;
-            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act);
+            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act,remember_failures);
         } else {
         cambc::distance_field field;
         field.compute(blocked, roots.board(), world.visited);
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
-        if (!bank_blocked) step(field,world,obs,retreat,act);
+        if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures);
+#if DZ_MOVE_RETRY && DZ_RETRY_DETOUR
+        // Strictly descending the old field cannot go around a hidden body
+        // across a one-tile lane. Recompute once using only this turn's proven
+        // rejected tiles. Then descend the real detour to the same job; never
+        // take an arbitrary lateral move or preserve a stale wall next turn.
+        if(remember_failures&&obs.enemies.empty()&&me.can_move()&&act.last_move_blocked()&&
+           (!DZ_RETRY_STREAK||obs.retry_streak.count>=20)&&tc.allow(world.field_budget()+6000)) {
+            auto detour_blocked=world.blocked|obs.occupied;
+            auto detour_roots=roots.board()&~detour_blocked;
+            if(!detour_roots.is_empty()) {
+                cambc::distance_field detour;
+                detour.compute(detour_blocked,detour_roots,world.visited);tc.guard();
+                if(detour.get(me.position())<cambc::distance_field::unreachable)
+                    step(detour,world,obs,retreat,act);
+            }
+        }
+#endif
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;
         if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
@@ -462,7 +537,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
                 return;
             }
             // Until the blocking camp is visible, advance along the static route.
-            step(altar_field, world, obs, false, act);
+            step(altar_field, world, obs, false, act,remember_failures);
     }
     // Refresh the attack allowance after movement: melee can close and hit in one
     // turn; ranged cannot. An exclusive spell also affects these live allowances.
