@@ -1,3 +1,44 @@
+# CONTINUED 2026-10-29 — bounded pathology check, Z14 draft screen
+
+Latest work: research/dz/next-2026-10-29/REPORT.md and RESULTS.json.
+Branch build/pure-algorithm-zero; resumed from0160ec73. This section supersedes
+older next-work status below. The selected default foundation is unchanged:
+fresh release Wasm4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4.
+
+-88 new full local games, zero candidate native faults/fuel-outs.33 Python tests
+ pass;13 locally restored/new capsules verify. Native g++ absent; host checks
+ were not rerun. Production release builds succeed.
+-DZ_CREW_REACH is an OFF-by-default experiment. It removes islands-A's alarm,
+ but islands-B adds another; total3. Matched stall/idle fell on six trace cells,
+ but release banking regressed45.5 vs v65 and38.33 vs v76 (six cells each).
+ Do not enable it. Corridors proximity minimum and famine cold-root/field stall
+ remain open. See the report for an offline R135/body0 famine scene check.
+-Z14 now has opt-in variants4 Willow,5 Prism/Tavi,6 linked duo,7 Ryth/Tavi.
+ Four14-cell v65 screens exclude registered held-out maps. Aggregate winner7
+ confirms only+8.0 banked/game (descriptive SE15.48) on14 v76 cells: inconclusive,
+ not promoted. Default draft/table and JOB_GEAR=0 remain unchanged.
+-The per-map v65 shortlist (7 dunes/eight/expanse;5 treasure-box) is UNVALIDATED
+ as a mixed table. No map-table change is installed. Explicit variant IDs,
+ complete-side/runtime checks and held-out-map exclusion now guard the selector.
+-Next Z work: close Z6/V-M1 clear/arrival/damage calibration on executed jobs;
+ the objective arithmetic receipts do not close that gate. Mixed-table Z14
+ confirmation is a separate optional experiment; require v76 then productivity
+ and broader release checks. Keep auction/EE/gear planner disabled.
+
+Fresh-device notes: checkout is now work/pure-zero-filtered under the current
+Battlecode project workspace; the supplied C:/projects checkout did not exist.
+Sparse partial clone; remote experiments preserved. Restored2931 supporting
+files and five foundation capsules (including productivity/control and frozen
+opponents). Installed runtime checked against the pinned manifest; see
+research/dz/next-2026-10-29/RUNTIME_VERIFICATION.json. All build-toolchain entries match;40 files from an old asset bundle remain
+unrestored after188 were recovered to a workspace overlay. Relevant engine2
+identities and pinned replay assets match; this is not full archive restoration.
+Original23-part archive not re-downloaded wholesale. config/paths.json preserved. All new evidence is
+frozen under dz-next-* fresh run names. No submit/activate/ladder action.
+
+Read the report before repeating experiments. Historical sections below retain
+the foundation and older evidence; no scheduled continuation was created.
+
 # PAUSED 2026-10-29 - latest checkpoint (user requested wrap-up)
 
 Repository: https://github.com/Infosuii/neural-networkk-battlecode

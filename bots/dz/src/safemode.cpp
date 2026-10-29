@@ -166,7 +166,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         // Waiting beside a known respawn is progress too.
         const bool waiting=current>=0 && belief.waitable(tc.round,config::respawn_wait);
         if (waiting && dist<=2) mem.contract.checked=tc.round;
-        if (current>=0 && (belief.available(tc.round)||waiting) && mem.contract.progressing(tc.round, dist, belief.hp, belief.capture))
+        if (current>=0 && (!DZ_CREW_REACH || dist<cambc::distance_field::unreachable) && (belief.available(tc.round)||waiting) && mem.contract.progressing(tc.round, dist, belief.hp, belief.capture))
             return {blocks_respawn&&current==occupied_group ? GoalKind::YieldSpawn : GoalKind::Farm, current};
         if (current>=0) {
             if (!belief.available(tc.round)) mem.contract.objective = -1;
@@ -277,6 +277,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (!tc.allow(8000)) break;
             const auto& belief=mem.groups[i]; const auto& g=world.groups[i];
             if (g.strength<=0 || belief.state==GroupState::Reward || !belief.available(tc.round)) continue;
+            if constexpr (DZ_CREW_REACH) {
+                if (g.field && g.field->get(obs.p)>=cambc::distance_field::unreachable) continue;
+            }
             const int home=world.home.get(g.tiles.front());
             if (home>=cambc::distance_field::unreachable) continue;
             int claims=0;
@@ -293,7 +296,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             const float score=-value/(fixed+risk.attacks);
             if (score<crew_best) { crew_best=score; crew_choice=static_cast<int>(i); }
         }
-        if (crew_choice>=0 && crew_best<best) {
+        if (crew_choice>=0 && crew_best<best &&
+            (!DZ_CREW_REACH || world.distance(crew_choice,obs.p)<cambc::distance_field::unreachable)) {
             auto& b=mem.groups[crew_choice];
             mem.contract.start(crew_choice,tc.round,world.distance(crew_choice,obs.p),b.hp,b.capture,config::crew_window);
             return {GoalKind::Farm,crew_choice};

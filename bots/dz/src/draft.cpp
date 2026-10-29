@@ -7,21 +7,37 @@ void draft_loop(Counters& counts) {
     // Research prior only; map-conditioned exhaustive utility is a later gate.
     // All three sizes have a legal frontline, damage/reset kit and banker.
     // Candidate lineups for the per-map draft study (DZ_DRAFT_VARIANT):
+    // 4 Willow core; 5 Prism/Tavi; 6 linked duo core; 7 Ryth/Tavi.
+    // Research sets define candidates only; defaults/table remain unchanged.
     // 0 current prior; 1 elite core Vesper/Heart/Vendetta/Marcella; 2 Ryth/
     // Vendetta/Marcella (beat the core on arena/fragment); 3 Vesper/Vendetta/Varg.
     using Order = std::array<D,6>;
-    const std::array<Order,4> variants{{
+    const std::array<Order,(DZ_DRAFT_VARIANT>=4 ? 8 : 4)> variants{{
         {D::vendetta, D::varg, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth},
         {D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth, D::varg},
         {D::ryth, D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::varg},
-        {D::vesper_vale, D::vendetta, D::varg, D::marcella, D::heart_of_ruin, D::ryth}}};
+        {D::vesper_vale, D::vendetta, D::varg, D::marcella, D::heart_of_ruin, D::ryth}
+#if DZ_DRAFT_VARIANT >= 4
+        ,{D::vesper_vale, D::vendetta, D::marcella, D::willow, D::heart_of_ruin, D::ryth},
+        {D::vesper_vale, D::prism, D::marcella, D::tavi, D::heart_of_ruin, D::vendetta},
+        {D::vesper_vale, D::vendetta, D::cassi_and_issac, D::marcella, D::heart_of_ruin, D::ryth},
+        {D::ryth, D::vendetta, D::marcella, D::tavi, D::heart_of_ruin, D::vesper_vale}
+#endif
+    }};
     // Per-map variant table (signature -> variant), chosen by
     // tools/dz_draft_select.py and confirmed out of sample. Empty = default.
     struct MapDraft { std::uint32_t signature; std::uint8_t variant; };
     static constexpr MapDraft map_drafts[] = {
 #include "map_drafts.inc"
     };
-    int variant = DZ_DRAFT_VARIANT % 4;
+    // A future table must not index an experiment compiled out of this build.
+    static_assert([] {
+        for (const auto& row : map_drafts)
+            if (row.variant >= (DZ_DRAFT_VARIANT>=4 ? 8 : 4)) return false;
+        return true;
+    }());
+    static_assert(DZ_DRAFT_VARIANT >= 0 && DZ_DRAFT_VARIANT < 8);
+    int variant = DZ_DRAFT_VARIANT;
     try {
         const auto signature = map_signature(); // First draft turn: 10x budget.
         for (const auto& row : map_drafts) if (row.signature == signature && DZ_DRAFT_VARIANT == 0) variant = row.variant;

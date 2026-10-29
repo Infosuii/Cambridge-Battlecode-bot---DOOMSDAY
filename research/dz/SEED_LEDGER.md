@@ -425,3 +425,11 @@ The registry was created before experiments. Entries below record actual use.
 | dz-resume-cold-retry-control-v76-01 | 2026-10-29 | deterministic; Wasm 4333dc2c99e2 | 140 cells; v76 | smoke; trace=False |
 | dz-resume-cold-retry-control-idle-01 | 2026-10-29 | deterministic; Wasm 4333dc2c99e2 | 140 cells; idle81 | smoke; trace=False |
 | dz-resume-cold-retry-control-productivity-01 | 2026-10-29 | deterministic; Wasm 46dbccc565d1 | 140 cells; idle81 | smoke; trace=True |
+| dz-next-crew-reach-trace-01 | 2026-10-29 | deterministic; Wasm 8a94e2130599 | 6 cells; idle81 | smoke; trace=True |
+| dz-next-draft-4-v65-screen-01 | 2026-10-29 | deterministic; Wasm 146da0bb1f05 | 14 cells; idle81 | smoke; trace=False |
+| dz-next-draft-5-v65-screen-01 | 2026-10-29 | deterministic; Wasm 09dfc4a06e90 | 14 cells; idle81 | smoke; trace=False |
+| dz-next-draft-6-v65-screen-01 | 2026-10-29 | deterministic; Wasm 095ce487b9b9 | 14 cells; idle81 | smoke; trace=False |
+| dz-next-draft-7-v65-screen-01 | 2026-10-29 | deterministic; Wasm c209f35ab2bf | 14 cells; idle81 | smoke; trace=False |
+| dz-next-draft-7-v76-confirm-01 | 2026-10-29 | deterministic; Wasm c209f35ab2bf | 14 cells; idle81 | smoke; trace=False |
+| dz-next-crew-reach-v65-01 | 2026-10-29 | deterministic; Wasm 5129658de3ba | 6 cells; idle81 | smoke; trace=False |
+| dz-next-crew-reach-v76-01 | 2026-10-29 | deterministic; Wasm 5129658de3ba | 6 cells; idle81 | smoke; trace=False |

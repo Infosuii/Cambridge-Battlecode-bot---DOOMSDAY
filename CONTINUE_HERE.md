@@ -1,3 +1,12 @@
+# Latest continuation — 2026-10-29
+
+Read the new CONTINUED section at the top of CLAUDE_HANDOFF.md first, then
+research/dz/next-2026-10-29/REPORT.md and RESULTS.json. Selected default remains
+the byte-identical resumed foundation. New reachability/draft candidates remain
+disabled/unpromoted after88 local games. Z6/V-M1 remains the next model gate.
+The source-first sparse checkout and verified installed runtime are described
+there; original archive setup below remains applicable on a clean machine.
+
 # Latest paused checkpoint - 2026-10-29
 
 Branch **build/pure-algorithm-zero**, latest pushed commit. Read **CLAUDE_HANDOFF.md**

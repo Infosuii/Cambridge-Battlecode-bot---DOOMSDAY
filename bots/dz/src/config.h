@@ -51,6 +51,9 @@
 #ifndef DZ_IDLE_HELPER
 #define DZ_IDLE_HELPER 0 // Experimental: reinforce a visible active clear instead of idling.
 #endif
+#ifndef DZ_CREW_REACH
+#define DZ_CREW_REACH 0 // Experiment: reject proven unreachable crew jobs and contracts.
+#endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif
