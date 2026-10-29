@@ -8,6 +8,8 @@ struct Group {
     cambc::map::camp_group sdk;
     std::vector<vec2> tiles;
     std::vector<float> initial_hp;
+    std::vector<float> initial_strength;
+    std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
     bool cluster = true;
     std::unique_ptr<cambc::distance_field> field;
@@ -20,8 +22,10 @@ class StaticWorld {
     std::size_t fields_cursor_ = 0;
     std::size_t stats_cursor_ = 0;
     bool home_ready_ = false;
+    std::size_t tile_group_cursor_=0,tile_member_cursor_=0;
 public:
-    cambc::bitboard blocked, visited, roots;
+    cambc::bitboard blocked, visited, roots, camp_spawns;
+    std::vector<int> tile_groups;
     cambc::distance_field home;
     std::vector<Group> groups;
     std::vector<Altar> altars;
@@ -38,5 +42,8 @@ public:
         return 3000 + 4 * cambc::map::width() * cambc::map::height();
     }
     bool walkable(vec2 p) const { return cambc::map::is_in_bounds(p) && !blocked.is_set(p); }
+    int group_at(vec2 p) const {
+        return cambc::map::is_in_bounds(p) && !tile_groups.empty() ? tile_groups[p.y*cambc::map::width()+p.x] : -1;
+    }
 };
 }

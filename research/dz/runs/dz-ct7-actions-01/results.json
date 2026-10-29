@@ -1,0 +1,192 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 588.046052631579,
+  "fuel_p99": 11357,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 80,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "725767d60fb2c368e0b0d39af3321abf51b27b1b0b8d14c1d9658f9cda4dda89",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "989cebfe7b42c24f9d9c998af20234440be42ac8265d7ea67212dece8ca5bb0d",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "melee_move_then_attack": 1,
+          "ranged_move_blocks_attack": 1,
+          "move_blocks_exclusive_cast": 1,
+          "melee_attack_then_move": 1,
+          "ranged_attack_blocks_move": 1,
+          "reset_restores_attack": 1,
+          "one_cast_per_turn": 1,
+          "exclusive_cast_blocks_move": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 80,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "725767d60fb2c368e0b0d39af3321abf51b27b1b0b8d14c1d9658f9cda4dda89",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "aabea75e5539d0ddb001b474d79a297ff474eeca1dc52671a169b5b75f2e5e38",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "move_blocks_exclusive_cast": 1,
+          "melee_move_then_attack": 1,
+          "ranged_move_blocks_attack": 1,
+          "melee_attack_then_move": 1,
+          "ranged_attack_blocks_move": 1,
+          "reset_restores_attack": 1,
+          "one_cast_per_turn": 1,
+          "exclusive_cast_blocks_move": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 80,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "725767d60fb2c368e0b0d39af3321abf51b27b1b0b8d14c1d9658f9cda4dda89",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "8c2ccd1edf4d446bd30d255b715a528ac1971b0c5620c9ffe1bba6cc1750b4dc",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_then_move": 1,
+          "move_blocks_exclusive_cast": 1,
+          "melee_move_then_attack": 1,
+          "ranged_move_blocks_attack": 1,
+          "melee_attack_then_move": 1,
+          "ranged_attack_blocks_move": 1,
+          "reset_restores_attack": 1,
+          "one_cast_per_turn": 1,
+          "exclusive_cast_blocks_move": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 80,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "725767d60fb2c368e0b0d39af3321abf51b27b1b0b8d14c1d9658f9cda4dda89",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "3365546d83596c7c7f55c6dedae44f134f6a975600377ecc4c45ce897a394401",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_then_move": 1,
+          "move_blocks_exclusive_cast": 1,
+          "melee_move_then_attack": 1,
+          "ranged_move_blocks_attack": 1,
+          "exclusive_cast_blocks_move": 1,
+          "melee_attack_then_move": 1,
+          "ranged_attack_blocks_move": 1,
+          "reset_restores_attack": 1,
+          "one_cast_per_turn": 1
+        },
+        "missing": []
+      }
+    }
+  ]
+}

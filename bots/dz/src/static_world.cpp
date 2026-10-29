@@ -5,10 +5,12 @@ Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
     for (const auto& camp : sdk.camps()) tiles.push_back(camp.spawn_position());
 }
 void Group::init_stats() {
-    max_hp = 0; strength = 0; cluster = true; initial_hp.clear();
+    max_hp = 0; strength = 0; cluster = true; initial_hp.clear(); initial_strength.clear(); attack_ranges.clear();
     for (const auto& camp : sdk.camps()) {
         const auto stats = camp.base_stats();
         initial_hp.push_back(stats.base_health);
+        initial_strength.push_back(stats.base_strength);
+        attack_ranges.push_back(stats.base_attack_range);
         max_hp += stats.base_health;
         strength += stats.base_strength;
         cluster &= camp.is_gem_cluster() || camp.is_gold_cluster();
@@ -21,6 +23,7 @@ void StaticWorld::boot(const TurnContext& tc) {
         auto source = cambc::map::camp_groups();
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
+        tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
         allies = cambc::champions(cambc::team::ally);
         std::sort(allies.begin(), allies.end(), [](const auto& a, const auto& b) {
             return static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(a)) <
@@ -32,6 +35,16 @@ void StaticWorld::boot(const TurnContext& tc) {
         loaded_ = true;
         tc.guard();
         return; // Budget metadata, home, designs and altar fields on separate turns.
+    }
+    while (tile_group_cursor_<groups.size()) {
+        const auto& tiles=groups[tile_group_cursor_].tiles;
+        while (tile_member_cursor_<tiles.size()) {
+            if (!tc.allow(2000)||tc.fuel0-cambc::fuel_remaining()>25000) return;
+            auto p=tiles[tile_member_cursor_++];
+            tile_groups[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_group_cursor_);
+            camp_spawns.set(p);
+        }
+        ++tile_group_cursor_; tile_member_cursor_=0;
     }
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
@@ -72,7 +85,10 @@ void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
     }
     if (selected < 0) return;
     roots.clear();
-    for (auto p : groups[selected].tiles) if (walkable(p)) roots.set(p);
+    for (auto p : groups[selected].tiles) {
+        if (!tc.allow(field_budget()+3000)) return;
+        if (walkable(p)) roots.set(p);
+    }
     auto field = std::make_unique<cambc::distance_field>();
     field->compute(blocked, roots, visited);
     tc.guard(); groups[selected].field = std::move(field);

@@ -1,5 +1,7 @@
 #include "core.h"
 #include "protocol.h"
+#include "camp_threat.h"
+#include "ledger.h"
 #include <cassert>
 #include <iostream>
 
@@ -29,6 +31,29 @@ int main() {
     try { require_current(4, [] { return 5u; }); action_ran = true; } catch (const StaleTurn&) { stale = true; }
     assert(stale && !action_ran);
     require_current(5, [] { return 5u; });
+    ActionHistory actions;
+    assert(actions.may_cast(true, false, false, true));
+    actions.record_move(false); // Hidden obstruction keeps the allowance.
+    assert(actions.may_cast(true, false, false, true));
+    actions.record_move(true);
+    assert(!actions.may_cast(true, false, false, true));
+    assert(actions.may_cast(true, false, false, false)); // Shield/reset can follow movement.
+    actions = {};
+    actions.record_cast(false, true);
+    assert(actions.may_move(true, false, false));
+    actions.record_cast(true, true);
+    assert(!actions.may_move(true, false, false));
+    assert(!actions.may_cast(true, false, false, false));
+    actions = {};
+    actions.record_cast(true, false);
+    assert(actions.may_move(true, false, false));
+    assert(!actions.may_move(false, false, false)); // Ranged attack removed engine move allowance.
+    assert(!actions.may_move(true, true, false));
+    assert(!actions.may_move(true, false, true));
+    actions = {};
+    assert(!actions.may_cast(false, false, false, false));
+    assert(!actions.may_cast(true, true, false, false));
+    assert(!actions.may_cast(true, false, true, false));
     Contract contract;
     contract.start(2, 0, 20, 500, 5);
     assert(contract.progressing(5, 20, 500, 5));
@@ -46,5 +71,34 @@ int main() {
     assert(bank_now(30, 40, 0, 1000));
     assert(bank_now(1, 8, 0, 1000));
     assert(!bank_now(29, 9, 0, 1000));
+    std::array threats{CampThreat{{0,0},60,4}};
+    auto exit=camp_escape(Tile{1,0},threats,[](Tile,int){return true;});
+    assert(exit.found && exit.steps==4 && exit.damage==180);
+    assert(camp_damage(exit.exit,threats)==0);
+    assert(must_escape_camps(240,60,180) && !must_escape_camps(241,60,180));
+    auto no_exit=camp_escape(Tile{1,0},threats,[](Tile,int){return false;});
+    assert(!no_exit.found);
+    auto blocked_exit=camp_escape(Tile{1,0},threats,[](Tile p,int){return !(p.x==3 && p.y==0);});
+    assert((blocked_exit.found && blocked_exit.exit!=Tile{5,0}));
+    auto no_budget=camp_escape(Tile{1,0},threats,[](Tile,int){return true;},[]{return false;});
+    assert(!no_budget.found && no_budget.truncated);
+    std::array pair{CampThreat{{0,0},60,4},CampThreat{{0,0},120,4}};
+    assert(camp_damage({1,1},pair)==180);
+    assert(camp_damage({5,1},pair)==0);
+    GroupBelief ledger; std::vector<float> initial{120,120},known=initial;
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{10.f,std::nullopt}},10);
+    assert(ledger.state==GroupState::Partial && ledger.hp==130);
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{std::nullopt,20.f}},20);
+    assert(ledger.hp==30 && known[0]==10);
+    // Unseen capture+respawn: HP increasing proves a new generation; hidden
+    // members must not retain old generation damage.
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{120.f,std::nullopt}},100);
+    assert(ledger.state==GroupState::Alive && ledger.hp==240 && known[1]==120);
+    apply_group_sample(ledger,known,initial,{GroupState::Reward,0,3,{std::nullopt,std::nullopt}},110);
+    assert(ledger.hp==0 && known[0]==0 && known[1]==0 && ledger.capture==3);
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{100.f,std::nullopt}},170);
+    assert(ledger.hp==220 && known[1]==120);
+    apply_group_sample(ledger,known,initial,{GroupState::Respawning,30,65535,{std::nullopt,std::nullopt}},180);
+    assert(ledger.ready==210 && ledger.hp==240);
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

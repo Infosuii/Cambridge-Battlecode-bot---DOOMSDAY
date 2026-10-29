@@ -1,7 +1,28 @@
 #include "memory.h"
+#include "ledger.h"
 #include <numeric>
 
 namespace dz {
+namespace {
+cambc::map::camp_group_state visible_group_state(const Group& group,const TurnContext& tc) {
+    // The caller already proved current visibility. Avoid the convenience
+    // wrapper's second unbounded spawn-tile visibility scan on large groups.
+    // These are official SDK imports; no hidden state is queried.
+    tc.guard();
+    std::uint32_t state{};
+    cambc::detail::check(cambc::detail::sdk_camp_group_state(static_cast<std::uint32_t>(
+        static_cast<cambc::handle_camp_group_t>(group.sdk)),&state));
+    if (state==1) return cambc::map::camp_group_alive{};
+    if (state==2) return cambc::map::camp_group_reward_available{};
+    if (state==3) {
+        std::int32_t timer{};
+        cambc::detail::check(cambc::detail::sdk_camp_group_cooldown(static_cast<std::uint32_t>(
+            static_cast<cambc::handle_camp_group_t>(group.sdk)),&timer));
+        return cambc::map::camp_group_respawning{timer};
+    }
+    throw cambc::error(cambc::error_code::api_not_in_vision,"visible camp-group query unavailable");
+}
+}
 void Memory::init(const StaticWorld& world) {
     if (initialized) return;
     groups.resize(world.groups.size()); member_hp.resize(world.groups.size());
@@ -19,29 +40,27 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
         if (cambc::vision::in_vision(p)) { visible = true; break; }
     }
     if (!visible) return;
-    const auto state = g.sdk.state();
+    const auto state = visible_group_state(g,tc);
     auto next = groups[index];
-    next.seen = tc.round;
+    auto hp=member_hp[index];
+    GroupSample sample; sample.members.resize(hp.size());
     if (auto* respawn = std::get_if<cambc::map::camp_group_respawning>(&state)) {
-        next.state = GroupState::Respawning; next.ready = tc.round + respawn->timer;
-        next.hp = g.max_hp; next.capture = 65535;
-        // A new generation must not inherit last generation's partial damage.
-        member_hp[index] = g.initial_hp;
+        sample.state=GroupState::Respawning; sample.respawn_timer=respawn->timer;
     } else if (std::holds_alternative<cambc::map::camp_group_reward_available>(state)) {
-        next.state = GroupState::Reward; next.hp = 0;
-        next.capture = g.sdk.capture_state().timer;
+        sample.state=GroupState::Reward; sample.capture_timer=g.sdk.capture_state().timer;
     } else {
         unsigned i = 0;
         for (const auto& camp : g.sdk.camps()) {
             if (!tc.allow(3500)) break;
-            if (camp.is_visible()) member_hp[index][i] = camp.is_dead() ? 0 : camp.health();
+            // A defeated camp may have no live entity view. Its state is still
+            // readable when its static spawn tile is visible; do not confuse
+            // an absent live view with an unobserved dead member.
+            if (cambc::vision::in_vision(camp.spawn_position())) sample.members[i] = camp.is_dead() ? 0 : camp.health();
             ++i;
         }
-        next.hp = std::accumulate(member_hp[index].begin(), member_hp[index].end(), 0.0f);
-        next.state = next.hp + .01f < g.max_hp ? GroupState::Partial : GroupState::Alive;
-        next.capture = 65535;
     }
-    tc.guard(); groups[index] = next;
+    apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
+    tc.guard(); groups[index] = next; member_hp[index]=std::move(hp);
 }
 void Memory::update(const StaticWorld& world, const TurnContext& tc) {
     init(world);

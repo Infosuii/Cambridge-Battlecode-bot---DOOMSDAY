@@ -1,7 +1,7 @@
 #include "gear.h"
 
 namespace dz {
-void fixed_shop(const TurnContext& tc, Actuator& act) {
+bool fixed_shop(const TurnContext& tc, Actuator& act) {
     auto& me = cambc::self();
     // Fixed SafeMode build. The marginal-value gear model is not yet validated.
     const auto type = me.champion_name();
@@ -11,6 +11,8 @@ void fixed_shop(const TurnContext& tc, Actuator& act) {
     const std::array<cambc::item_family, 5> build = runner ?
         std::array{cambc::item_family::capture, cambc::item_family::prospector, cambc::item_family::jungle, cambc::item_family::monster, cambc::item_family::durability} :
         std::array{cambc::item_family::monster, cambc::item_family::jungle, cambc::item_family::durability, cambc::item_family::capture, cambc::item_family::home};
+    if (!me.can_buy(cambc::get_item_enum(build.front(), stat))) return false;
+    bool changed = false;
     for (int count = 0; count < 16 && tc.allow(2000); ++count) {
         auto owned = me.item_count();
         auto selected = cambc::get_item_enum(cambc::item_family::power, stat);
@@ -20,6 +22,8 @@ void fixed_shop(const TurnContext& tc, Actuator& act) {
             if (!result || owned[*result] == 0) { selected = shard; break; }
         }
         if (!me.can_buy(selected) || !act.buy(selected)) break;
+        changed = true;
     }
+    return changed;
 }
 }

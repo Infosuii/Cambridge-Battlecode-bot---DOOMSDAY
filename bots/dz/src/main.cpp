@@ -32,11 +32,17 @@ int main() {
 #endif
                 if (world->ready && already_ready) {
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
-                    dz::fixed_shop(tc, act); // Before leaving spawn; also Tavi's field shopping.
-                    obs->read(tc); // Health/shards bought on spawn may change this turn's stats.
+                    if (dz::fixed_shop(tc, act)) obs->refresh_self(tc);
+                    if constexpr (dz::config::camp_safety) obs->read_camps(*world,tc);
                     if (dz::tier_for(cambc::fuel_remaining()) == dz::Tier::Fallback) {
                         // Hard-budget escape: no memory scan, field build or full planner.
-                        if (!obs->channel() && cambc::self().can_move()) {
+                        bool banking=false;
+                        if (!obs->channel() && obs->bag>0 && dz::danger(obs->p,*obs)==0) {
+                            for (const auto& altar:world->altars) if (obs->p.chebyshev_distance(altar.tile)<=cambc::constants::submit_gems_range) {
+                                banking=act.bank(altar.tile); break;
+                            }
+                        }
+                        if (!banking && !obs->channel() && cambc::self().can_move()) {
                             for (auto delta : world->home.next_moves_from(obs->p)) {
                                 auto p = obs->p + delta;
                                 if (!obs->occupied.is_set(p)) { act.move(p); break; }
@@ -53,9 +59,14 @@ int main() {
                         if (tc.round <= 8 || tc.round % 100 == 0) std::printf("DZ_GOAL round=%u slot=%u kind=%d index=%d pos=%d,%d bag=%d hp=%.0f altar0=%d\n",
                             tc.round, world->slot, static_cast<int>(goal.kind), goal.index, obs->p.x, obs->p.y, obs->bag, obs->hp,
                             world->altars.empty() ? -1 : world->altar_distance(0, obs->p));
+                        if (tc.round%100==0 && goal.kind==dz::GoalKind::Farm) {
+                            const auto& b=mem->groups[goal.index];
+                            std::printf("DZ_FARM round=%u slot=%u state=%d hp=%.0f capture=%d seen=%d checked=%d\n",
+                                tc.round,world->slot,static_cast<int>(b.state),b.hp,b.capture,b.seen,mem->contract.checked);
+                        }
 #endif
                         if (obs->channel()) {
-                            if (goal.kind == dz::GoalKind::Retreat && dz::danger(obs->p, *obs) > obs->hp * .5f) {
+                            if (goal.kind == dz::GoalKind::Retreat) {
                                 if (act.cancel_channel()) dz::execute(goal, *world, *mem, *obs, tc, act);
                             }
                         } else dz::execute(goal, *world, *mem, *obs, tc, act);
@@ -63,7 +74,8 @@ int main() {
                         bool onsite = false;
                         if (goal.kind == dz::GoalKind::Farm) {
                             objective = dz::protocol::group_code(goal.index);
-                            for (auto p : world->groups[goal.index].tiles) if (p == cambc::self().position()) onsite = true;
+                            const auto position = cambc::self().position();
+                            onsite = world->group_at(position)==goal.index;
                         } else if (goal.kind == dz::GoalKind::Bank) objective = goal.index < 8 ? 112 + goal.index : dz::protocol::idle;
                         else if (goal.kind == dz::GoalKind::Home) objective = dz::protocol::shop;
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;

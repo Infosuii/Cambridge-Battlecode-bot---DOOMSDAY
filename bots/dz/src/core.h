@@ -9,6 +9,19 @@ constexpr Tier tier_for(std::uint64_t fuel) {
     return fuel >= config::full_fuel ? Tier::Full : fuel >= config::lean_fuel ? Tier::Lean : Tier::Fallback;
 }
 struct StaleTurn {};
+// History records only successful actions. Engine flags remain authoritative for
+// attack resets, ranged move-or-attack, stuns and other live restrictions.
+struct ActionHistory {
+    bool moved = false, cast = false, exclusive_cast = false;
+    bool may_move(bool engine_allows, bool restricted, bool channel) const {
+        return engine_allows && !restricted && !channel && !exclusive_cast;
+    }
+    bool may_cast(bool engine_allows, bool restricted, bool channel, bool exclusive) const {
+        return engine_allows && !restricted && !channel && !cast && !(exclusive && moved);
+    }
+    void record_move(bool success) { moved |= success; }
+    void record_cast(bool success, bool exclusive) { if (success) { cast = true; exclusive_cast = exclusive; } }
+};
 template<class ReadRound> void require_current(std::uint32_t round, ReadRound read) {
     if (read() != round) throw StaleTurn{};
 }

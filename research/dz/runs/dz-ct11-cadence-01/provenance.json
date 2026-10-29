@@ -1,0 +1,43 @@
+{
+  "created_utc": "2026-10-28T23:33:13.376312+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--name",
+    "dz-ct11-cadence-01",
+    "--fixture",
+    "camps",
+    "--diagnostic-rounds",
+    "100",
+    "--maps",
+    "00elkring",
+    "01elk-arena"
+  ],
+  "git_head": "e664d25449434fe4b996f389bee980a8425a9b77",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "source": {
+    "src/main.cpp": "227d82ade5467d99c8218b18132006cfff92685100921ccd67b6127252f9624a"
+  },
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "00elkring": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+    "01elk-arena": "72b8e03bc4378d5f988f9c1c07609848bfb42fd8a883cce01820d96212f21c0a"
+  },
+  "candidate_sha256": "82a257324d151106d75f605ea7ec473c3373cb61e06123850427856f5e16677a",
+  "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples"
+}

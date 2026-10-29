@@ -2,7 +2,7 @@
 #include <cmath>
 
 namespace dz {
-float danger(vec2 p, const Observation& obs) {
+float enemy_danger(vec2 p, const Observation& obs) {
     float damage = 0;
     for (const auto& e : obs.enemies) {
         int distance = static_cast<int>(e.p.chebyshev_distance(p));
@@ -11,18 +11,67 @@ float danger(vec2 p, const Observation& obs) {
     }
     return damage;
 }
+float danger(vec2 p, const Observation& obs) {
+    return enemy_danger(p,obs)+(config::camp_safety ? camp_damage({p.x,p.y},obs.camps) : 0);
+}
+bool channel_safe(const StaticWorld& world,const Observation& obs,const TurnContext& tc) {
+    if (enemy_danger(cambc::self().position(),obs)>0) return false;
+    const auto p=cambc::self().position();
+    const auto awake=cambc::vision::awake_camp_tiles();
+    for (const auto& g:world.groups) {
+        if (g.strength<=0) continue;
+        for (unsigned i=0;i<g.tiles.size();++i) {
+            if ((i&15)==0&&!tc.allow(3500)) return false;
+            if (g.initial_strength[i]>0 && p.chebyshev_distance(g.tiles[i])<=g.attack_ranges[i] && awake.is_set(g.tiles[i])) return false;
+        }
+    }
+    return true;
+}
 namespace {
 bool movable(vec2 p, const StaticWorld& w, const Observation& o) { return w.walkable(p) && !o.occupied.is_set(p); }
 bool actionable(cambc::champion_state state) {
     return !state.is_dead() && !state.contains(cambc::champion_state::recalling) &&
         !state.contains(cambc::champion_state::submitting_gems) && !state.contains(cambc::champion_state::teleporting);
 }
+void ward_here(const Observation& obs,const TurnContext& tc,Actuator& act) {
+    auto& me=cambc::self();
+    if (me.ward_cooldown()!=0 || !tc.allow(2500) || obs.restrictions.contains(cambc::buff_restrictions::ward) || !actionable(me.state())) return;
+    auto p=me.position();
+    if (!cambc::map::altars().is_set(p) && !cambc::vision::ward_tiles(cambc::team::ally).is_set(p)) act.ward(p);
+}
+bool bank_here(Goal goal,const StaticWorld& world,Actuator& act) {
+    if (goal.kind!=GoalKind::Bank || goal.index<0) return false;
+    auto& me=cambc::self(); auto altar=world.altars[goal.index].tile;
+    if (me.position().chebyshev_distance(altar)>cambc::constants::submit_gems_range) return false;
+    // Query the enemy set explicitly: the convenience lookup prefers an allied
+    // lock when both teams have a lock on the same altar.
+    for (const auto& lock:cambc::vision::altar_locks(cambc::team::enemy)) if (lock.position()==altar) {
+        if (me.can_attack()) act.attack(lock);
+        return true;
+    }
+    act.bank(altar); return true;
+}
 // A bounded payload policy for SafeMode, independent of the later engagement model.
+bool collateral_safe(vec2 center,float radius,int intended_group,const StaticWorld& world,const TurnContext& tc) {
+    const int extent=static_cast<int>(std::ceil(radius));
+    for (int dx=-extent;dx<=extent;++dx) {
+        if (!tc.allow(3500)) return false;
+        for (int dy=-extent;dy<=extent;++dy) {
+            if (std::max(std::abs(dx),std::abs(dy))>radius) continue;
+            int group=world.group_at(center+vec2{dx,dy});
+            // Until multi-group pulls have a validated model, an area spell
+            // must not wake an additional damaging group.
+            if (group>=0 && group!=intended_group && world.groups[group].strength>0) return false;
+        }
+    }
+    return true;
+}
 void spells(const cambc::unit* target, bool enemy, bool attacked, const Observation& obs,
-            const TurnContext& tc, Actuator& act) {
+            const StaticWorld& world,int intended_group,const TurnContext& tc, Actuator& act, bool preserve_move) {
     auto& me = cambc::self();
     for (auto ability : me.abilities()) {
         if (!tc.allow(3500) || !ability.is_ready() || !actionable(me.state())) continue;
+        if (preserve_move && ability.info() && std::visit([](const auto& p) { return p.exclusive_with_movement; }, *ability.info())) continue;
         if (ability.is_attack_reset()) {
             if (attacked && target && target->is_visible() && target->health() > 0 &&
                 me.position().chebyshev_distance(target->position()) <= me.attack_range()) {
@@ -31,7 +80,8 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
             continue;
         }
         if (ability.is_shield()) {
-            if (target && obs.hp < .85f * obs.max_hp && !me.buffs().has<cambc::buff_shield>()) act.cast(ability);
+            const bool damaging_target=target && (enemy || (intended_group>=0 && world.groups[intended_group].strength>0));
+            if ((damaging_target || danger(obs.p,obs)>0) && obs.hp < .85f * obs.max_hp && !me.buffs().has<cambc::buff_shield>()) act.cast(ability);
             continue;
         }
         if (!target || !target->is_visible() || target->health() <= 0 || (!enemy && !obs.enemies.empty())) continue;
@@ -39,6 +89,8 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         if (enemy ? !ability.can_target_enemies() : !ability.can_target_camps()) continue;
         const auto p = target->position();
         if (!ability.valid_tiles().is_set(p)) continue;
+        if (ability.is_aoe_damage() && !collateral_safe(p,std::get<cambc::ability_aoe_damage>(*ability.info()).radius,
+            intended_group,world,tc)) continue;
         // CC against stun-immune Marcella has no control value; damaging CC still works.
         if (ability.is_cc() && ability.damage_amount() == 0 && enemy) {
             auto* c = dynamic_cast<const cambc::champion*>(target);
@@ -48,9 +100,9 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         else act.cast(ability, *target);
     }
 }
-void step(const cambc::distance_field& field, const StaticWorld& world, const Observation& obs,
+bool step(const cambc::distance_field& field, const StaticWorld& world, const Observation& obs,
           bool retreat, Actuator& act) {
-    if (!cambc::self().can_move()) return;
+    if (!cambc::self().can_move()) return false;
     const auto origin = cambc::self().position();
     vec2 best = origin;
     float score_best = 1e30f;
@@ -65,19 +117,46 @@ void step(const cambc::distance_field& field, const StaticWorld& world, const Ob
         if (cambc::map::bushes().is_set(p)) score -= .02f;
         if (score < score_best) { score_best = score; best = p; }
     }
-    if (best != origin) act.move(best);
+    if (best != origin && act.move(best)) return field.get(best)<field.get(origin);
+    return false;
 }
 }
 void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc, Actuator& act) {
     auto& me = cambc::self();
     if (!actionable(me.state())) return;
+    if (goal.kind==GoalKind::YieldSpawn) {
+        if (me.can_move()&&tc.allow(world.field_budget()+4000)) {
+            auto blocked=world.blocked|obs.occupied;
+            auto roots=~(blocked|world.camp_spawns);
+            cambc::distance_field field; field.compute(blocked,roots,world.visited);
+            tc.guard(); step(field,world,obs,false,act);
+        }
+        return;
+    }
     const bool retreat = goal.kind == GoalKind::Retreat || goal.kind == GoalKind::Home;
     const cambc::unit* target = nullptr;
     bool enemy = false;
+    struct SpellReach { bool ready=false,exclusive=false,zero_stun=false; float range=0; };
+    std::array<SpellReach,2> reach;
+    unsigned spell=0;
+    for (auto ability:me.abilities()) {
+        auto& r=reach[spell++];
+        if (!(ability.is_damage()||ability.is_cc()||ability.is_aoe_damage()) || !ability.can_target_enemies() || !ability.is_ready()) continue;
+        std::visit([&](const auto& info) {
+            r.ready=true; r.exclusive=info.exclusive_with_movement;
+            if constexpr (requires{info.range;}) r.range=info.range;
+            if constexpr (std::is_same_v<std::decay_t<decltype(info)>,cambc::ability_cc>) r.zero_stun=info.modifier==0;
+        },*ability.info());
+    }
     // Free melee hit while leaving; ranged attacks must not consume the escape move.
     float target_score = -1;
     for (auto& e : obs.enemies) {
-        if (obs.p.chebyshev_distance(e.p) > obs.range || (retreat && obs.range > 1)) continue;
+        const auto distance=obs.p.chebyshev_distance(e.p);
+        bool can_spell=false;
+        for (auto r:reach) if (r.ready && distance<=r.range && !(retreat&&r.exclusive) &&
+            !(r.zero_stun&&e.sdk.champion_name()==cambc::champion_type::marcella)) can_spell=true;
+        const bool can_basic=distance<=obs.range && (!retreat||obs.range==1);
+        if (!can_basic&&!can_spell) continue;
         float score = 1 / std::max(1.f, e.hp) + (e.hp <= obs.strength ? 10.f : 0.f);
         if (score > target_score) { target_score = score; target = &e.sdk; enemy = true; }
     }
@@ -93,18 +172,60 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         }
         target = camp_target;
     }
+    if constexpr (config::camp_safety) {
+        if (camp_target && camp_target->is_visible() && camp_target->is_asleep()) {
+            const auto& g=world.groups[goal.index];
+            float wake_damage=0;
+            for (unsigned i=0;i<g.tiles.size();++i) {
+                if (!tc.allow(5000)) return;
+                if (mem.member_hp[goal.index][i]>0 && obs.p.chebyshev_distance(g.tiles[i])<=g.attack_ranges[i])
+                    wake_damage+=g.initial_strength[i]*obs.camp_factor;
+            }
+            if (wake_damage>=obs.hp) {
+                mem.release(tc.round);
+                execute({GoalKind::Retreat},world,mem,obs,tc,act);
+                return;
+            }
+        }
+    }
     bool attacked = false;
-    if (target && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
+    if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
         obs.p.chebyshev_distance(target->position()) <= obs.range) attacked = act.attack(*target);
-    spells(target, enemy, attacked, obs, tc, act);
-    if (!tc.allow(world.field_budget())) return;
+    spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
+    if (bank_here(goal,world,act)) return;
+    if (goal.kind==GoalKind::Farm && mem.groups[goal.index].state==GroupState::Reward && world.group_at(me.position())==goal.index) {
+        ward_here(obs,tc,act); return;
+    }
+    if (goal.kind==GoalKind::Home) {
+        auto p=me.position();
+        if (cambc::map::spawn_region(cambc::team::ally).is_set(p)) { ward_here(obs,tc,act); return; }
+        if (world.home.get(p)>cambc::constants::recall_time+1 && channel_safe(world,obs,tc)) { act.recall(); return; }
+    }
+    if (goal.kind==GoalKind::Retreat && goal.destination && me.can_move()) {
+        auto p=me.position(), end=*goal.destination;
+        auto sign=[](int x){return (x>0)-(x<0);};
+        auto next=p+vec2{sign(end.x-p.x),sign(end.y-p.y)};
+        if (world.walkable(next) && !obs.occupied.is_set(next) && act.move(next)) return;
+    }
+    if (!tc.allow(world.field_budget())) {
+        const cambc::distance_field* field=nullptr;
+        if (goal.kind==GoalKind::Home||goal.kind==GoalKind::Retreat) field=&world.home;
+        else if (goal.kind==GoalKind::Bank) field=world.altars[goal.index].field.get();
+        else if (goal.kind==GoalKind::Farm) field=world.groups[goal.index].field.get();
+        if (field&&me.can_move()&&tc.allow(5000+300*obs.camps.size())) {
+            step(*field,world,obs,retreat,act);
+        }
+        bank_here(goal,world,act);
+        return;
+    }
 
     // Movement roots encode the role. Dynamic occupancy is included so a crowd
     // cannot cause permanent oscillation around a blocked shortest-path step.
     cambc::bitboard roots;
     auto blocked = world.blocked | obs.occupied;
     if (retreat) {
-        roots = cambc::map::spawn_region(cambc::team::ally) & ~blocked;
+        if (goal.destination && world.walkable(*goal.destination) && !obs.occupied.is_set(*goal.destination)) roots.set(*goal.destination);
+        else roots = cambc::map::spawn_region(cambc::team::ally) & ~blocked;
     } else if (goal.kind == GoalKind::Bank && goal.index >= 0) {
         auto altar = world.altars[goal.index].tile;
         for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
@@ -115,7 +236,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         auto& g = world.groups[goal.index];
         if (mem.groups[goal.index].state == GroupState::Reward) {
             vec2 nearest = obs.p; int distance = 65535;
-            for (auto p : g.tiles) {
+            for (auto p:g.tiles) {
                 if (!tc.allow(5000)) break;
                 const auto d = static_cast<int>(p.chebyshev_distance(obs.p));
                 if (d < distance && (movable(p, world, obs) || p == obs.p)) { nearest = p; distance = d; }
@@ -130,8 +251,10 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         } else {
             // Unseen group: route toward free spawn tiles or their adjacency.
             vec2 nearest = obs.p; int distance = 65535;
-            for (auto p : g.tiles) {
+            for (unsigned member=0;member<g.tiles.size();++member) {
                 if (!tc.allow(5000)) break;
+                if (mem.member_hp[goal.index][member]<=0) continue;
+                auto p=g.tiles[member];
                 const auto d = static_cast<int>(p.chebyshev_distance(obs.p));
                 if (d < distance) { nearest = p; distance = d; }
             }
@@ -149,7 +272,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         field.compute(blocked, roots, world.visited);
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
-        if (!bank_blocked) step(field, world, obs, retreat, act);
+        if (!bank_blocked) step(field,world,obs,retreat,act);
     }
     if (bank_blocked && me.can_move()) {
             int prerequisite = -1, nearest = 65535;
@@ -178,26 +301,14 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     }
     // Refresh the attack allowance after movement: melee can close and hit in one
     // turn; ranged cannot. An exclusive spell also affects these live allowances.
-    if (!attacked && target && target->is_visible() && target->health() > 0 && me.can_attack() &&
+    if (!attacked && target && (!retreat||obs.range==1) && target->is_visible() && target->health() > 0 && me.can_attack() &&
         me.position().chebyshev_distance(target->position()) <= me.attack_range()) {
         attacked = act.attack(*target);
-        spells(target, enemy, attacked, obs, tc, act);
+        spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
     }
-    if (goal.kind == GoalKind::Bank) {
-        auto p = me.position(); auto altar = world.altars[goal.index].tile;
-        if (p.chebyshev_distance(altar) <= cambc::constants::submit_gems_range) {
-            if (cambc::vision::has_altar_lock(altar)) {
-                auto lock = cambc::vision::altar_lock_at(altar);
-                if (lock.is_enemy() && me.can_attack()) act.attack(lock);
-                else if (!lock.is_enemy()) act.bank(altar);
-            } else act.bank(altar);
-        }
-    }
+    if (bank_here(goal,world,act)) return;
     if (goal.kind == GoalKind::Home && !cambc::map::spawn_region(cambc::team::ally).is_set(me.position()) &&
-        danger(me.position(), obs) == 0 && world.home.get(me.position()) > cambc::constants::recall_time + 1) act.recall();
-    if (me.ward_cooldown() == 0 && tc.allow(2500) && !obs.restrictions.contains(cambc::buff_restrictions::ward) && actionable(me.state())) {
-        auto p = me.position();
-        if (!cambc::map::altars().is_set(p) && !cambc::vision::ward_tiles(cambc::team::ally).is_set(p)) act.ward(p);
-    }
+        world.home.get(me.position()) > cambc::constants::recall_time + 1 && channel_safe(world,obs,tc)) act.recall();
+    ward_here(obs,tc,act);
 }
 }

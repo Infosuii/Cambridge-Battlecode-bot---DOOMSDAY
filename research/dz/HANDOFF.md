@@ -1,4 +1,35 @@
-# Continue DOOMSDAY Zero — 2026-10-28
+# Continue DOOMSDAY Zero — 2026-10-29
+
+## Latest steering and audit checkpoint (read first)
+
+The user explicitly deferred map-specific plans until fundamentals are solid.
+Continue `FUNDAMENTALS_AUDIT.md`; no per-map tuning yet. G0 is incomplete and the
+bot is weak. Starter numbers below are historical, not current-source results.
+
+Latest frozen campaigns: `dz-fundamentals-07-{idle,v65}-{control,safety}`, each
+140 games, all zero native faults/fuel-outs. Safety changes mean banked idle
+902.94→917.39 and v65 191.14→187.04; deaths 14.88→7.07 and 18.35→14.76. Both
+contested campaigns lose all games. Safety stays default OFF. Full-pool strict
+trace audit `dz-fundamentals-08-v65-trace` passes 140 cells with zero native faults,
+fuel-outs and printed caught action/module errors. It is diagnostic evidence only.
+
+New fixtures: actions, camps, channels, visibility, capture, reset, fingerprint.
+Select with `python tools/dz.py conformance --fixture NAME ...`; use fresh names.
+Checks fail missing setup/assertions and unexpected errors. Six Python measurement
+tests: `python -m unittest discover -s tests/dz -p test_measurements.py`.
+
+Research correction: **elks attack every round**, not half-rate. CT-24 even/odd
+splits and occupied respawn pass on 2/3/23-member groups. CT-26 resets cooldowns
+but grants no second cast. CT-27 now pins 1,311 fields in `ENGINE_FINGERPRINT.json`,
+checked on two maps/both sides. Remaining limits are explicit in `CONFORMANCE.md`.
+
+Audit fixed action allowances, stunned recall, duplicate observations, camp
+generations/dead members, long-group frontier, spawn yielding, cheap immediate
+actions, bounded loops and shield/collateral policy. Two introduced regressions
+were caught and corrected: repeated camp-interrupted recalls and contract renewal
+on oscillation. Preserve failures; do not reintroduce unconditional step renewals.
+
+No map-specific rules, submission, activation or ladder actions were added.
 
 ## Current authorization and branch
 

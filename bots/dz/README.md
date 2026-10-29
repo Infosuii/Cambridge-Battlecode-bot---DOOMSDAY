@@ -26,12 +26,20 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
 
 ## Still required
 
-Most of Z0's 27 conformance tests; full fingerprint; calibrated ObjModel and EE;
+Remaining portions of Z0's 27 conformance tests; calibrated ObjModel and EE;
 economy auction and crews; single capturer and timed cluster circuits; hazard banking;
 gear utility; exhaustive map-aware draft; race controller; tested team-message freshness;
 opening schedule; dash/heal/consumable policies; meaningful parity/league/holdout gates.
-The low-fuel emergency path currently heads home; it is not the complete planned 5k-fuel SafeMode.
+The low-fuel emergency path banks beside an altar or heads home; it is not the complete planned 5k-fuel SafeMode.
 Caught module errors are counted, but per-module disabling is not yet implemented.
+
+The fundamentals audit adds live allowance/history guards, transactional camp
+memory, known-dead frontier avoidance, respawn yielding, bounded loops, immediate
+role actions, and conservative spell collateral checks. Experimental camp safety
+remains off: it improves survival but has not improved final contested banking.
+The full 1,311-field engine fingerprint is pinned and automatically checked by a
+separate diagnostic; production does not dump metadata. See
+`research/dz/FUNDAMENTALS_AUDIT.md` for current results and unresolved work.
 
 This is a walking skeleton, not a finals candidate. Read `research/dz/RESULTS.md` for
 known weak maps and failed experiments. A win against idle can come from the gold
