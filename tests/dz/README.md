@@ -12,6 +12,7 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-tribute-passive --fixture tribute-passive --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-capture-time --fixture capture-time --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-camp-mods --fixture camp-mods --map-dir tests/dz/maps --maps camp-modifiers --diagnostic-rounds 2000 --set DZ_MONSTER=1 --set DZ_JUNGLE=1 --set DZ_DURABILITY=1
 python tools/dz.py conformance --name new-prospector --fixture prospector --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
@@ -61,6 +62,13 @@ damage. The runner freezes the exact `basic_clear.h`. See
 logging in the reward fixture. Use `--set DZ_CAPTURE_ITEM=0` for its Power-item
 control. It verifies the 5/3 configured timers and the extra initialization
 phase, not just a last-kill-to-reward gap; see CAPTURE_TIMING_CONFORMANCE.md.
+
+`tribute-passive` compares the same bag before/after an item. `DZ_TRIBUTE=0`
+selects its Power-item control; `DZ_SMALL_BAG=1` requests 7 gems and
+`DZ_BIG_BAG=1` requests 21 instead of 14. For 98 use map `tribute-passive` with
+`DZ_LARGE_BAG=1`; for 35 use `tribute-passive-mid` with `DZ_LARGE_BAG=1` and
+`DZ_MID_BAG=1`. `DZ_OBSERVE_ONLY=1` deliberately leaves conformance unaccepted.
+See TRIBUTE_PASSIVE_CONFORMANCE.md for timing and scope.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

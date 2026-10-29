@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T10:39:50.974013+00:00",
+  "verified_utc": "2026-10-29T11:09:52.639060+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 144,
+  "checked_passing_cells": 164,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -453,6 +453,146 @@
       "side": "B",
       "assertions": 34,
       "stdout_sha256": "0a3dbcb94c32b1202b6c9e2760ab507d73fa4d9b3731f2df71a33ea1f261ceba"
+    },
+    {
+      "run": "dz-ct12-power-14-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "589196aeb901bf0697ce536d2335dfb1a286951c27553549d756a8a07c92556c"
+    },
+    {
+      "run": "dz-ct12-power-14-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "6764e62ca764a6a76dc37851e45be2bdfe591a56843880616f05e30c7d30af35"
+    },
+    {
+      "run": "dz-ct12-power-21-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "da5338b89335416df07c86014d5aa77a9d5051a6bebd9286e7dcf63bf333982a"
+    },
+    {
+      "run": "dz-ct12-power-21-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "da5338b89335416df07c86014d5aa77a9d5051a6bebd9286e7dcf63bf333982a"
+    },
+    {
+      "run": "dz-ct12-power-35-03",
+      "map": "tribute-passive-mid",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "e8e65b392c6ec67e0d674cd5a1660ddadf403d1f8156431e50e4e160a9bc36e9"
+    },
+    {
+      "run": "dz-ct12-power-35-03",
+      "map": "tribute-passive-mid",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "e8e65b392c6ec67e0d674cd5a1660ddadf403d1f8156431e50e4e160a9bc36e9"
+    },
+    {
+      "run": "dz-ct12-power-7-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "369520ba6d27c0bd4ed996898e90291fb385da8ca481b5b4d2d578247e15aabb"
+    },
+    {
+      "run": "dz-ct12-power-7-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "369520ba6d27c0bd4ed996898e90291fb385da8ca481b5b4d2d578247e15aabb"
+    },
+    {
+      "run": "dz-ct12-power-98-03",
+      "map": "tribute-passive",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "d8bf445cb2cfdfa5387f99b339e5c32e68563b2f4d701ef847cb7f9ec8a9238b"
+    },
+    {
+      "run": "dz-ct12-power-98-03",
+      "map": "tribute-passive",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "d8bf445cb2cfdfa5387f99b339e5c32e68563b2f4d701ef847cb7f9ec8a9238b"
+    },
+    {
+      "run": "dz-ct12-tribute-14-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "2657aba19c013cee7c4221902e6f31093f0dcca5df0ad33500205a9296cb134f"
+    },
+    {
+      "run": "dz-ct12-tribute-14-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "3b1d258aaa0096ab44acd37fe837e5bd48956e7976316e6521de86c6a0a1da9e"
+    },
+    {
+      "run": "dz-ct12-tribute-21-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "64b4c7a0c4069bc0e144ade319c660b83a788f83106ef4d3eb73c540c5ac9c39"
+    },
+    {
+      "run": "dz-ct12-tribute-21-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "64b4c7a0c4069bc0e144ade319c660b83a788f83106ef4d3eb73c540c5ac9c39"
+    },
+    {
+      "run": "dz-ct12-tribute-35-03",
+      "map": "tribute-passive-mid",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "8b6305be412874c0edde0cd6d8296b35d515f90aa406be923fe7c76c39cea07a"
+    },
+    {
+      "run": "dz-ct12-tribute-35-03",
+      "map": "tribute-passive-mid",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "8b6305be412874c0edde0cd6d8296b35d515f90aa406be923fe7c76c39cea07a"
+    },
+    {
+      "run": "dz-ct12-tribute-7-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "35fa170a714e02c853f06a583c528d5ae121e12c4f7b978dd59596a36fd7d2f1"
+    },
+    {
+      "run": "dz-ct12-tribute-7-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "35fa170a714e02c853f06a583c528d5ae121e12c4f7b978dd59596a36fd7d2f1"
+    },
+    {
+      "run": "dz-ct12-tribute-98-03",
+      "map": "tribute-passive",
+      "side": "A",
+      "assertions": 10,
+      "stdout_sha256": "7c0844a738ab4ad4823de44a21bf61238354cb5681097062d2966ea0a7637c88"
+    },
+    {
+      "run": "dz-ct12-tribute-98-03",
+      "map": "tribute-passive",
+      "side": "B",
+      "assertions": 10,
+      "stdout_sha256": "7c0844a738ab4ad4823de44a21bf61238354cb5681097062d2966ea0a7637c88"
     },
     {
       "run": "dz-ct13-power-control-02",

@@ -2,6 +2,26 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Tribute-passive continuation after ef779c5
+
+Production remains unchanged, matching the low-fuel 420-game and clean-export
+receipt. Ten final CT-12 campaigns pass 20 complete native games, zero faults/
+fuel-outs. Read TRIBUTE_PASSIVE_CONFORMANCE.md. The emblem reduces the rounded
+base channel timer: max(min, ceil(base_timer × (1 − .33))). Bags 7/14/21 stay
+1/2/3 rounds; 35 goes 4→3 and 98 goes 10→7. Gem/gold transfers are unchanged.
+Matched Power controls and same-bag baseline cancel/retry rule out a bag-size
+confound. Initial 14/98 observations deliberately remained unaccepted until the
+effect was asserted; all raw evidence is retained. No policy promotion.
+
+Next investigation: draft fuel-suspension boundaries. Existing guards compare
+round_number; verify whether that value changes between draft turns before
+assuming it detects a resumed draft epoch. Inject a bounded diagnostic burn
+after a successful pick and assert the entire intended roster survives, without
+skipping a fresh pick. Do not change production based on an untested hypothesis.
+Then remaining item/action/vision conformance and calibrated objective modules.
+Map-specific plans and advanced model decisions remain deferred.
+
+
 ### Capture-time continuation after d1d8337
 
 Production source remains unchanged and matches the 420-game / clean-export

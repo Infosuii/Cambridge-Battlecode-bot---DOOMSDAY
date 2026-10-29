@@ -74,3 +74,8 @@ checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
   physical entry. Native entry-to-reward is 6/4. capture_available's generic
   timer 5 does not reveal a Capture emblem; ally_capturing is the initialized
   countdown. Preserve status in future model inputs and compose offsets carefully.
+
+- CT-12: Tribute's observed banking effect is ceil(rounded_base_timer × .67),
+  clamped to minimum. It leaves 1/2/3-round bases unchanged; 4→3, 10→7. It does
+  not add banked gems or gold in the tested healthy/uncontested cases. Bank
+  channels start immediately; do not add the camp-capture initialization phase.

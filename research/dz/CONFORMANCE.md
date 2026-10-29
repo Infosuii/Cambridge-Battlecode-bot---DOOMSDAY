@@ -66,7 +66,7 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-9 | Partial | Hidden alive/dead/respawn reads pass; native respawn occurs 60 rounds after death at champion turn; no respawn-timer API |
 | CT-10 | Partial | Group visibility/state used through SDK; single-spawn-tile visibility fixture not isolated |
 | CT-11 | Partial | Every-round wolf/elk/golem/monolith damage; elk nearest/lower-handle ties verified |
-| CT-12 | Pending | Tribute passive not purchased or valued |
+| CT-12 | Observed | Tribute reduces rounded base timer, with ceiling/minimum; matched 7/14/21/35/98-bag controls pass; gear utility still disabled |
 | CT-13 | Partial | Gem and gold clusters, wolf, Vesper combination and rounding pass; larger camps/mixed/crew/other stacking still open |
 | CT-14 | Pending | Hunter not purchased or valued |
 | CT-15 | Pending | Skirmish/Collectors not purchased or valued |
@@ -260,3 +260,10 @@ of 6/4 rounds. Entry-turn capture_available still shows generic timer 5, then
 the next phase initializes the active timer without decrementing it. The future
 model must retain capture status and distinguish new arrival from active progress.
 Mixed ownership and post-contest timing remain outside this fixture.
+
+## Tribute passive
+
+TRIBUTE_PASSIVE_CONFORMANCE.md records 20 complete native cases, zero faults/
+fuel-outs. Apply the 0.33 reduction after rounding base duration, then ceil and
+clamp to minimum. Small base timers do not speed up. Transfers remain unchanged
+in these cases. Other interactions and duplicate stacking remain outside scope.

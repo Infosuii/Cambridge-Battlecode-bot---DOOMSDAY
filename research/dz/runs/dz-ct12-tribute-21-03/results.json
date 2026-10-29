@@ -1,0 +1,138 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 354.3227477853919,
+  "fuel_p99": 5111,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "30369fc2f94fe1876b5a328cee44ece3af0b8f6f073727941ec6a042650302d7",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "52c496d6ec6811c58ef5a6d72326fe091be100327468b7bccc96238bf6717af7",
+      "diagnostic_checks": {
+        "passed": true,
+        "mechanical_setup_passed": true,
+        "observation_only": false,
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true,
+          "tribute_passive_effect": true
+        },
+        "results": [
+          [
+            "21",
+            "3",
+            "3",
+            "3",
+            "21",
+            "0",
+            "1",
+            "0.330000013"
+          ]
+        ],
+        "missing": [],
+        "scope": "uncontested banking: ceil(base rounded timer * (1 - tribute magnitude)); rewards unchanged"
+      },
+      "summary_sha256": "ebb716f7ce64a77f306471d434cf8114649faa5a64ce3a549ed4ae86412795b4"
+    },
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "30369fc2f94fe1876b5a328cee44ece3af0b8f6f073727941ec6a042650302d7",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "51ad3ffe244bb132c3389e44e71f49f412688ec996cbadc7f87d3f226fab6648",
+      "diagnostic_checks": {
+        "passed": true,
+        "mechanical_setup_passed": true,
+        "observation_only": false,
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true,
+          "tribute_passive_effect": true
+        },
+        "results": [
+          [
+            "21",
+            "3",
+            "3",
+            "3",
+            "21",
+            "0",
+            "1",
+            "0.330000013"
+          ]
+        ],
+        "missing": [],
+        "scope": "uncontested banking: ceil(base rounded timer * (1 - tribute magnitude)); rewards unchanged"
+      },
+      "summary_sha256": "8cc5aab65fb87cd35d2683ad095e1065765c0b672af0ebd3bf30e072321fca56"
+    }
+  ]
+}

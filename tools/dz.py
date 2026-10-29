@@ -161,6 +161,21 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='tribute-passive':
+        checks=transcript_assertions(stdout)
+        required={'tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer',
+                  'tribute_cancel_retains_bag','tribute_item_created','tribute_same_bag','tribute_completed','tribute_live_duration'}
+        results=re.findall(r'CT12_RESULT bag=(\d+) base_timer=(\d+) initial_timer=(\d+) elapsed=(\d+) banked_delta=(\d+) gold_delta=(-?\d+) active=([01]) magnitude=([0-9.eE+-]+)',stdout)
+        observed='CT12_OBSERVATION_ONLY effect_not_asserted=1' in stdout
+        structural=not(required-checks.keys()) and all(checks.values()) and len(results)==1 and 'ERROR' not in stdout
+        effect=False
+        bases=re.findall(r'CT12_BASE bag=(\d+) timer=(\d+)',stdout)
+        items=re.findall(r'CT12_ITEM active=([01]) magnitude=([0-9.eE+-]+)',stdout)
+        if len(results)==len(bases)==len(items)==1:
+            bag,base,live,elapsed,banked,gold,active=map(int,results[0][:7]);mag=float(results[0][7])
+            effect=math.isfinite(mag) and bag>0 and base==max(1,(bag+9)//10) and live==elapsed==max(1,math.ceil(base*(1-mag))) and banked==bag and gold==0 and abs(mag-(.33 if active else 0))<.000001 and tuple(map(int,bases[0]))==(bag,base) and int(items[0][0])==active and float(items[0][1])==mag
+        return dict(passed=bool(structural and effect and not observed and checks.get('tribute_passive_effect') is True),mechanical_setup_passed=structural,observation_only=observed,
+                    checks=checks,results=results,missing=sorted(required-checks.keys()),scope='uncontested banking: ceil(base rounded timer * (1 - tribute magnitude)); rewards unchanged')
     if fixture=='capture-time':
         base=diagnostic_checks(stdout,'prospector')
         items=re.findall(r'CT_CAP_ITEM active=([01]) timer=(\d+)',stdout)
@@ -534,7 +549,7 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
@@ -722,7 +737,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

@@ -172,3 +172,15 @@ The registry was created before experiments. Entries below record actual use.
 | dz-camp-mods-focus-111-01 | 2026-10-29 | deterministic; Wasm b3b95fb5da0d | 2 cells; idle81 | conformance; trace=False |
 | dz-capture-timing-emblem-01 | 2026-10-29 | deterministic; Wasm 285bcbcaf381 | 2 cells; idle81 | conformance; trace=False |
 | dz-capture-timing-control-01 | 2026-10-29 | deterministic; Wasm 79f9bcd46b8d | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-observe-01 | 2026-10-29 | deterministic; Wasm d3cde2a88029 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-observe-large-02 | 2026-10-29 | deterministic; Wasm f011196d97d2 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-7-03 | 2026-10-29 | deterministic; Wasm e185c04fe6c0 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-power-7-03 | 2026-10-29 | deterministic; Wasm 725c8e0861a7 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-14-03 | 2026-10-29 | deterministic; Wasm 3763997020a2 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-power-14-03 | 2026-10-29 | deterministic; Wasm a2ffc88fcb47 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-21-03 | 2026-10-29 | deterministic; Wasm 30369fc2f94f | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-power-21-03 | 2026-10-29 | deterministic; Wasm eef3e07f09e6 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-35-03 | 2026-10-29 | deterministic; Wasm 20f43a6e6ac9 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-power-35-03 | 2026-10-29 | deterministic; Wasm 71458a92f558 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-tribute-98-03 | 2026-10-29 | deterministic; Wasm be37879c81d8 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct12-power-98-03 | 2026-10-29 | deterministic; Wasm 285ca2ad79c1 | 2 cells; idle81 | conformance; trace=False |

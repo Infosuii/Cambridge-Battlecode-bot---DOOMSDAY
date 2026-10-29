@@ -7,6 +7,17 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_tribute_rounds_base_timer_before_applying_reduction(self):
+        names=['tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer','tribute_cancel_retains_bag','tribute_item_created','tribute_same_bag','tribute_completed','tribute_live_duration','tribute_passive_effect']
+        def transcript(bag,base,live,active=1):
+            mag='0.330000013' if active else '0'
+            return '\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+f'\nCT12_BASE bag={bag} timer={base}\nCT12_ITEM active={active} magnitude={mag}\nCT12_RESULT bag={bag} base_timer={base} initial_timer={live} elapsed={live} banked_delta={bag} gold_delta=0 active={active} magnitude={mag}'
+        for bag,base,live in [(7,1,1),(14,2,2),(21,3,3),(35,4,3),(98,10,7)]:
+            self.assertTrue(dz.diagnostic_checks(transcript(bag,base,live),'tribute-passive')['passed'])
+            self.assertTrue(dz.diagnostic_checks(transcript(bag,base,base,0),'tribute-passive')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(14,2,1),'tribute-passive')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(98,10,7).replace('gold_delta=0','gold_delta=1'),'tribute-passive')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(98,10,7)+'\nCT12_OBSERVATION_ONLY effect_not_asserted=1','tribute-passive')['passed'])
     def test_capture_timer_requires_initialization_phase_and_complete_progress(self):
         rows=[('baseline_gold',0,0,0,240,240,240),('gem_7_floor',7,7,7,0,0,0),('gem_14_floor',14,14,14,0,0,0),('gold_cluster_bonus',0,0,0,20,20,20),('wolf_reward_unchanged',4,4,4,40,40,40)]
         text='CT13_ACTOR vesper=0 bonus_gold_percent=0\nCT13_ITEM prospector=0\nCT_CAP_ITEM active=1 timer=3\n'+'\n'.join('CT13_REWARD label=%s base_gems=%d actual_gems=%d expected_gems=%d base_gold=%d actual_gold=%d expected_gold=%d'%r for r in rows)+'\n'+'\n'.join(f'CT_CHECK name={n} pass=1' for n in [r[0] for r in rows]+['item_created','prospector_setup'])
