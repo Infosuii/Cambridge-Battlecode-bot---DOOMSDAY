@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T12:00:00.343465+00:00",
+  "verified_utc": "2026-10-29T12:29:31.764695+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 168,
+  "checked_passing_cells": 226,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -1120,6 +1120,76 @@
       "stdout_sha256": "236f1193c57e88632bd0bbf8ea7464c635840f446bb1d8d6525b7af1f7ae0cac"
     },
     {
+      "run": "dz-ct6-priority-01",
+      "map": "00collision",
+      "side": "A",
+      "assertions": 148,
+      "stdout_sha256": "f01a09a9602976e6395de7129449d9f939e34dc5ae7d1d814d6022bf12043102"
+    },
+    {
+      "run": "dz-ct6-priority-01",
+      "map": "00collision",
+      "side": "B",
+      "assertions": 148,
+      "stdout_sha256": "44b9d72b1b4007d9ffa9445cf79e1c37ae636a93a6636b8c9f49ae1bb9248689"
+    },
+    {
+      "run": "dz-ct6-priority-01",
+      "map": "01big-world",
+      "side": "A",
+      "assertions": 222,
+      "stdout_sha256": "70f9eed67e13d144a6333a05b44201e46be8c77251d786fce9864fdecd857485"
+    },
+    {
+      "run": "dz-ct6-priority-01",
+      "map": "01big-world",
+      "side": "B",
+      "assertions": 222,
+      "stdout_sha256": "e52568c1375a4862ce5363060d2352bcee49d1bd9b465ca091dcf1b092766e98"
+    },
+    {
+      "run": "dz-ct6-priority-four-01",
+      "map": "four-pick",
+      "side": "A",
+      "assertions": 185,
+      "stdout_sha256": "9283511ad8b644db67cef36288f07749df0b8177412855859ddd254944c84098"
+    },
+    {
+      "run": "dz-ct6-priority-four-01",
+      "map": "four-pick",
+      "side": "B",
+      "assertions": 185,
+      "stdout_sha256": "00116d8c2b825cb6005b66e8d38ae814affc3e15886859ea7def8dfd7aa097bb"
+    },
+    {
+      "run": "dz-ct6-priority-full-01",
+      "map": "00collision",
+      "side": "A",
+      "assertions": 148,
+      "stdout_sha256": "f01a09a9602976e6395de7129449d9f939e34dc5ae7d1d814d6022bf12043102"
+    },
+    {
+      "run": "dz-ct6-priority-full-01",
+      "map": "00collision",
+      "side": "B",
+      "assertions": 148,
+      "stdout_sha256": "44b9d72b1b4007d9ffa9445cf79e1c37ae636a93a6636b8c9f49ae1bb9248689"
+    },
+    {
+      "run": "dz-ct6-priority-full-01",
+      "map": "01big-world",
+      "side": "A",
+      "assertions": 222,
+      "stdout_sha256": "70f9eed67e13d144a6333a05b44201e46be8c77251d786fce9864fdecd857485"
+    },
+    {
+      "run": "dz-ct6-priority-full-01",
+      "map": "01big-world",
+      "side": "B",
+      "assertions": 222,
+      "stdout_sha256": "e52568c1375a4862ce5363060d2352bcee49d1bd9b465ca091dcf1b092766e98"
+    },
+    {
       "run": "dz-ct7-actions-01",
       "map": "00collision",
       "side": "A",
@@ -1181,6 +1251,342 @@
       "side": "B",
       "assertions": 4,
       "stdout_sha256": "ac8fcb107ff385b31a547d839c5377d891c1b19f8f4bb5e019152bccf972e18f"
+    },
+    {
+      "run": "dz-objective-capture-01",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 71,
+      "stdout_sha256": "deaff25555981f226cb14b02563f20f2377ea8594405f4b0ae222c412dc45add"
+    },
+    {
+      "run": "dz-objective-capture-01",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 71,
+      "stdout_sha256": "0151cd076da7d9b1e926782aa52c5ec7dd0080b136a898febc514a17618a3e4e"
+    },
+    {
+      "run": "dz-objective-capture-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 71,
+      "stdout_sha256": "deaff25555981f226cb14b02563f20f2377ea8594405f4b0ae222c412dc45add"
+    },
+    {
+      "run": "dz-objective-capture-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 71,
+      "stdout_sha256": "0151cd076da7d9b1e926782aa52c5ec7dd0080b136a898febc514a17618a3e4e"
+    },
+    {
+      "run": "dz-objective-capture-control-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 87,
+      "stdout_sha256": "c965627eaf04dbb16592a14384e19096117b39a8fb98a741710d8fdcea5a8653"
+    },
+    {
+      "run": "dz-objective-capture-control-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 87,
+      "stdout_sha256": "d09126dc43fc1af718a7d9e264416a6f0f884a0764f545c2368dbc9eaaa5bb1e"
+    },
+    {
+      "run": "dz-objective-tribute-14-0-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "03eced179bf82ca48a86d7db21c7723a5080e60e12aba1534bc6e7088ca7187b"
+    },
+    {
+      "run": "dz-objective-tribute-14-0-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "41f901e314cd88167e04640b12ddc6cd68c8a42f6cd78b95ef8c6747e2012a42"
+    },
+    {
+      "run": "dz-objective-tribute-14-1-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "164b881579c85b1cf52201c5ca999983408f8da6d6206efe572c27781348e982"
+    },
+    {
+      "run": "dz-objective-tribute-14-1-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "90ca8161f9931ee4836870e70c70c99dd768d8405f05b73d8b30bf6ad7a12846"
+    },
+    {
+      "run": "dz-objective-tribute-21-0-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "723f29cf951d7ef0d029c1b767561ff7a86c0819ce1076edfc11a0b9950eeb8f"
+    },
+    {
+      "run": "dz-objective-tribute-21-0-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "723f29cf951d7ef0d029c1b767561ff7a86c0819ce1076edfc11a0b9950eeb8f"
+    },
+    {
+      "run": "dz-objective-tribute-21-1-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "d5e379f9273a123470cc0118910ac244dd4070bb24993a40aa67b86c7f21f211"
+    },
+    {
+      "run": "dz-objective-tribute-21-1-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "d5e379f9273a123470cc0118910ac244dd4070bb24993a40aa67b86c7f21f211"
+    },
+    {
+      "run": "dz-objective-tribute-35-0-02",
+      "map": "tribute-passive-mid",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "a1ae400986b76e70b12c064bf41db54243f981a53ce10c7420e4362a0db394a1"
+    },
+    {
+      "run": "dz-objective-tribute-35-0-02",
+      "map": "tribute-passive-mid",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "a1ae400986b76e70b12c064bf41db54243f981a53ce10c7420e4362a0db394a1"
+    },
+    {
+      "run": "dz-objective-tribute-35-1-02",
+      "map": "tribute-passive-mid",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "d3bcefe76ac099f5626f4eec8f1c32125f96912cd50337c02f8588ad9aff10a1"
+    },
+    {
+      "run": "dz-objective-tribute-35-1-02",
+      "map": "tribute-passive-mid",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "d3bcefe76ac099f5626f4eec8f1c32125f96912cd50337c02f8588ad9aff10a1"
+    },
+    {
+      "run": "dz-objective-tribute-7-0-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "b0552c02b61326b4342d4b2d80f14332839d363751ac8166754713d4eb5d97d2"
+    },
+    {
+      "run": "dz-objective-tribute-7-0-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "b0552c02b61326b4342d4b2d80f14332839d363751ac8166754713d4eb5d97d2"
+    },
+    {
+      "run": "dz-objective-tribute-7-1-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "c7cd6bf616b51c12d13c95269a672e02aab433fd121651d41b1cdca120be1a0f"
+    },
+    {
+      "run": "dz-objective-tribute-7-1-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "c7cd6bf616b51c12d13c95269a672e02aab433fd121651d41b1cdca120be1a0f"
+    },
+    {
+      "run": "dz-objective-tribute-70-0-02",
+      "map": "tribute-passive-boundary",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "c0a6e6194518647d5bbc90d22ed087095a28d9743daa7188fc9085f816586fb7"
+    },
+    {
+      "run": "dz-objective-tribute-70-0-02",
+      "map": "tribute-passive-boundary",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "c0a6e6194518647d5bbc90d22ed087095a28d9743daa7188fc9085f816586fb7"
+    },
+    {
+      "run": "dz-objective-tribute-70-01",
+      "map": "tribute-passive-boundary",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "6d29f36276310dcb4296e2d723d2951b0a345a5600ff7228f4ba5e3161254637"
+    },
+    {
+      "run": "dz-objective-tribute-70-01",
+      "map": "tribute-passive-boundary",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "6d29f36276310dcb4296e2d723d2951b0a345a5600ff7228f4ba5e3161254637"
+    },
+    {
+      "run": "dz-objective-tribute-70-1-02",
+      "map": "tribute-passive-boundary",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "6d29f36276310dcb4296e2d723d2951b0a345a5600ff7228f4ba5e3161254637"
+    },
+    {
+      "run": "dz-objective-tribute-70-1-02",
+      "map": "tribute-passive-boundary",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "6d29f36276310dcb4296e2d723d2951b0a345a5600ff7228f4ba5e3161254637"
+    },
+    {
+      "run": "dz-objective-tribute-98-0-03",
+      "map": "tribute-passive",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "6aeb71c3bef4e4fa9e73cdfa77006769106279512b273afccec83688872a0f2c"
+    },
+    {
+      "run": "dz-objective-tribute-98-0-03",
+      "map": "tribute-passive",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "6aeb71c3bef4e4fa9e73cdfa77006769106279512b273afccec83688872a0f2c"
+    },
+    {
+      "run": "dz-objective-tribute-98-1-02",
+      "map": "tribute-passive",
+      "side": "A",
+      "assertions": 11,
+      "stdout_sha256": "898ee1a13b262904d272b9041624bde8b8b652bd717da7e659bdb06b02acd8fc"
+    },
+    {
+      "run": "dz-objective-tribute-98-1-02",
+      "map": "tribute-passive",
+      "side": "B",
+      "assertions": 11,
+      "stdout_sha256": "898ee1a13b262904d272b9041624bde8b8b652bd717da7e659bdb06b02acd8fc"
+    },
+    {
+      "run": "dz-objective-vendetta-control-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "da30b2399edc1aacdd06567fd9881066671c30a1610f2b9c3097f91f0f56cb29"
+    },
+    {
+      "run": "dz-objective-vendetta-control-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "98679728d030e013aacf1fb507610dc1248e37befee9a9a5e9cef82f9c8b1104"
+    },
+    {
+      "run": "dz-objective-vendetta-prospector-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "ce012c6213960ce3aca4b1a039ee8b9089ee59f0bbd11e6df40731a03837e976"
+    },
+    {
+      "run": "dz-objective-vendetta-prospector-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "a54ddcc0d5332b4b6b2a257e9b8f076c18803fc24da6c77a51ea25e9e7f0edaa"
+    },
+    {
+      "run": "dz-objective-vendetta-prospector-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "ce012c6213960ce3aca4b1a039ee8b9089ee59f0bbd11e6df40731a03837e976"
+    },
+    {
+      "run": "dz-objective-vendetta-prospector-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "a54ddcc0d5332b4b6b2a257e9b8f076c18803fc24da6c77a51ea25e9e7f0edaa"
+    },
+    {
+      "run": "dz-objective-vesper-control-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "2b875fe5148b20335ee545351f2313eec0ba034b7123f08e0f381a2008bc595c"
+    },
+    {
+      "run": "dz-objective-vesper-control-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "2b875fe5148b20335ee545351f2313eec0ba034b7123f08e0f381a2008bc595c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-01",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-01",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-prospector-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "16da02fb90497c8aab4c6766f26dd928bba6b4b8bcf13a0e67275dcf6bf4829c"
+    },
+    {
+      "run": "dz-objective-vesper-reversed-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 17,
+      "stdout_sha256": "e25882cceffc7f0e9650ea0562f31be6429af8666fa2b221b252d1038692a2d9"
+    },
+    {
+      "run": "dz-objective-vesper-reversed-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 17,
+      "stdout_sha256": "d3e640a4ec0f30ff9a21a3b2d531def810b2ad69bd389cd4f8e8fe663eb4389d"
     }
   ]
 }

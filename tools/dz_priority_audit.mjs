@@ -18,8 +18,10 @@ for (let n=0;n<20000;++n) {
   const s=E.PC.I(dv(),tsnap);
   for (const c of s.champions) teams.set(c.entity.index,c.team);
   if (s.round>12) { ended=true;break; }
-  const key=`${s.round}:${s.currentChampion}`;
-  if (s.phase===14&&s.awaitingInput&&s.currentChampion!==4294967295&&key!==last) {
+  // Measured on a native replay: awaitingInput is false at phase-14 champion
+  // turns, so the first draft of this reader recorded nothing. Key by turn.
+  const key=`${s.round}:${s.turn}`;
+  if (s.phase===14&&s.currentChampion!==4294967295&&key!==last) {
     if (!orders.has(s.round)) orders.set(s.round,[]);
     orders.get(s.round).push(s.currentChampion);last=key;
   }

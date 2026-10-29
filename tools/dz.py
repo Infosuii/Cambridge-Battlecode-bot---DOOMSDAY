@@ -60,9 +60,11 @@ def host_tests():
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
     print(run([exe], env=env).strip(), flush=True)
 
+# Engine payloads extracted for offline readers; not second matches.
+EXTRACTED_PAYLOADS=('lifecycle.repl26a','priority.repl26a')
+
 def native_replay(members):
-    # lifecycle.repl26a is the extracted engine payload, not a second match.
-    bundles=[name for name in members if str(name).endswith('.repl26a') and Path(name).name!='lifecycle.repl26a']
+    bundles=[name for name in members if str(name).endswith('.repl26a') and Path(name).name not in EXTRACTED_PAYLOADS]
     if len(bundles)!=1: raise ValueError('expected exactly one native replay bundle per cell')
     return bundles[0]
 
@@ -105,11 +107,12 @@ def verify_evidence():
                 if 'summary_sha256' in game: check(prefix+'summary.json', game['summary_sha256'])
                 bundle=native_replay([name for name in z.namelist() if name.startswith(prefix)])
                 check(bundle, game['replay_sha256'])
-                if prefix+'lifecycle.repl26a' in z.namelist():
+                for payload in EXTRACTED_PAYLOADS:
+                    if prefix+payload not in z.namelist(): continue
                     import io
                     with zipfile.ZipFile(io.BytesIO(z.read(bundle))) as native:
-                        if z.read(prefix+'lifecycle.repl26a')!=native.read('replay.repl26a'):
-                            raise ValueError('lifecycle payload differs from native replay')
+                        if z.read(prefix+payload)!=native.read('replay.repl26a'):
+                            raise ValueError(payload+' differs from native replay')
                 if game['candidate_sha256'] != provenance['candidate_sha256']: raise ValueError('candidate changed within run')
         print(f'{folder.name}: verified {len(cells)} cells, frozen source, binaries, summaries and replays', flush=True)
         count += 1
@@ -170,6 +173,15 @@ def diagnostic_checks(stdout, fixture, opponent_stdout=''):
         if fixture=='objective-capture': required|={prefix+label for prefix in ('math_capture_step_','math_capture_receipt_') for label in labels}
         return dict(passed=base['passed'] and stdout.count('CT_MATH enabled=1')==1 and not(required-checks.keys()) and all(checks.values()),
                     underlying=base,checks=checks,missing=sorted(required-checks.keys()),scope='exact production objective_math.h; restricted solo inputs, no strategy activation')
+    if fixture=='priority':
+        # SDK-side receipts only; native order is gated separately by the
+        # pinned replay reader in match().
+        checks=transcript_assertions(stdout);opponent_checks=transcript_assertions(opponent_stdout)
+        required={'priority_roster','priority_once_per_round','priority_deferred_current','priority_next_visible'}
+        missing=sorted((required-checks.keys())|{'opponent_'+n for n in required-opponent_checks.keys()})
+        return dict(passed=not missing and all(checks.values()) and all(opponent_checks.values()) and
+                    'ERROR' not in stdout and 'ERROR' not in opponent_stdout,
+                    checks=checks,opponent_checks=opponent_checks,missing=missing)
     if fixture in ('group-visibility','group-visibility-first'):
         checks=transcript_assertions(stdout);opponent_checks=transcript_assertions(opponent_stdout)
         required={'single_spawn_setup','single_spawn_position','visible_camp_full_health'}
@@ -498,7 +510,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             deaths=0, faults=0, faults_measured=False, opponent_faults=0, fuel_outs=sum(x>=100000 for x in fuel[20:]),
             fuel_budgets=budgets, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent), replay_sha256=sha(bundle))
         opponent_stdout=''
-        if fixture in ('contest','group-visibility','group-visibility-first'):
+        if fixture in ('contest','group-visibility','group-visibility-first','priority'):
             with zipfile.ZipFile(bundle) as z:
                 opponent_stdout=z.read('team-'+('b' if side=='A' else 'a')+'.stdout').replace(b'\0',b'').decode('utf-8','replace')
             (folder/'opponent.stdout').write_text(opponent_stdout,encoding='utf-8')
@@ -512,6 +524,17 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             audit=json.loads(run(['node','--disable-warning=MODULE_TYPELESS_PACKAGE_JSON',script,inner,folder/'candidate.stdout'],env=env))
             write(folder/'lifecycle_audit.json',audit)
             result['diagnostic_checks']['native_lifecycle']=audit
+            result['diagnostic_checks']['passed'] &= audit['passed']
+        if fixture=='priority':
+            inner=folder/'priority.repl26a'
+            with zipfile.ZipFile(bundle) as z: inner.write_bytes(z.read('replay.repl26a'))
+            env=dict(os.environ); env['NFS_REPLAY_ENGINE']='2.0.0'
+            script=folder.parents[1]/'runner/dz_priority_audit.mjs'
+            if not script.exists(): script=ROOT/'tools/dz_priority_audit.mjs'
+            audit=json.loads(run(['node','--disable-warning=MODULE_TYPELESS_PACKAGE_JSON',script,inner,
+                folder/'candidate.stdout',folder/'opponent.stdout'],env=env))
+            write(folder/'priority_audit.json',audit)
+            result['diagnostic_checks']['native_priority']=audit
             result['diagnostic_checks']['passed'] &= audit['passed']
         if (folder/'summary.json').exists():
             native=json.loads((folder/'summary.json').read_text(encoding='utf-8'))
@@ -591,11 +614,12 @@ def experiment(args):
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
-    if args.command=='conformance' and args.fixture in ('death','linked'):
+    if args.command=='conformance' and args.fixture in ('death','linked','priority'):
         (out/'runner/replay').mkdir()
-        shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
+        reader='dz_priority_audit.mjs' if args.fixture=='priority' else 'dz_lifecycle_audit.mjs'
+        shutil.copyfile(ROOT/'tools'/reader,out/'runner'/reader)
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
@@ -693,12 +717,14 @@ def experiment(args):
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
         config.write_text(source,encoding='utf-8',newline='\n')
+    if args.command=='conformance' and args.fixture=='priority' and not args.fixture_opponent:
+        raise ValueError('priority audit needs the scripted opponent transcript (--fixture-opponent)')
     candidate = build(frozen, out/'candidate.wasm')
     if args.opponent_wasm:
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
         source_opp = ROOT/'tests/dz'/fixtures[args.fixture] if args.fixture_opponent else ROOT/'bots'/args.opponent
-        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest','group-visibility','group-visibility-first')):
+        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest','group-visibility','group-visibility-first','priority')):
             raise ValueError('scripted opponent is unavailable for this fixture')
         frozen_opp = out/'build/opponent'
         shutil.copytree(source_opp/'src', frozen_opp/'src')
@@ -728,7 +754,7 @@ def experiment(args):
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
     provenance['map_directory']=os.path.relpath(map_directory,ROOT)
     provenance['fixture']=args.fixture if diagnostic else None
-    if args.command=='conformance' and args.fixture in ('death','linked'):
+    if args.command=='conformance' and args.fixture in ('death','linked','priority'):
         provenance['analysis_source']={p.relative_to(out/'runner').as_posix():sha(p) for p in (out/'runner').rglob('*') if p.is_file() and p.name!='dz.py'}
     if not args.opponent_wasm:
         provenance['opponent_source']={p.relative_to(frozen_opp).as_posix():sha(p) for p in (frozen_opp/'src').rglob('*') if p.is_file()}
@@ -814,7 +840,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

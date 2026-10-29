@@ -212,3 +212,9 @@ The registry was created before experiments. Entries below record actual use.
 | dz-objective-tribute-70-1-02 | 2026-10-29 | deterministic; Wasm cb4270b2aff7 | 2 cells; idle81 | conformance; trace=False |
 | dz-objective-tribute-70-0-02 | 2026-10-29 | deterministic; Wasm b801a498c6ee | 2 cells; idle81 | conformance; trace=False |
 | dz-objective-tribute-98-1-02 | 2026-10-29 | deterministic; Wasm 90d4a54aad98 | 2 cells; idle81 | conformance; trace=False |
+| dz-objective-tribute-98-0-03 | 2026-10-29 | deterministic; Wasm 83fc293a2f5f | 2 cells; idle81 | conformance; trace=False |
+| dz-objective-vendetta-prospector-03 | 2026-10-29 | deterministic; Wasm c34f92f016ce | 2 cells; idle81 | conformance; trace=False |
+| dz-objective-vesper-prospector-03 | 2026-10-29 | deterministic; Wasm e92eeb956473 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct6-priority-01 | 2026-10-29 | deterministic; Wasm f0d7e4ec01bf | 4 cells; scripted priority opponent | conformance; trace=False |
+| dz-ct6-priority-four-01 | 2026-10-29 | deterministic; Wasm f0d7e4ec01bf | 2 cells; scripted priority opponent | conformance; trace=False |
+| dz-ct6-priority-full-01 | 2026-10-29 | deterministic; Wasm f0d7e4ec01bf | 4 cells; scripted priority opponent | conformance; trace=False |

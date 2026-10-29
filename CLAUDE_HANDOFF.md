@@ -1,8 +1,33 @@
-# Claude continuation handoff — explicitly paused by user, 2026-10-29
+# Claude continuation handoff — resumed 2026-10-29
 
-The user requested: **“your usage is up please pause and write handoff so i can
-continue in claude.”** Work and the remaining test queue were stopped. Do not
-start an automatic continuation from this checkpoint. Resume when the user asks.
+## Latest status (read first)
+
+Resumed in Claude on 2026-10-29 at the user's request. Done this session:
+
+1. **Objective arithmetic validation finished.** Reran the three outstanding
+   cases under fresh names: `dz-objective-tribute-98-0-03`,
+   `dz-objective-vendetta-prospector-03`, `dz-objective-vesper-prospector-03`.
+   `tools/dz_objective_audit.py` now passes and wrote
+   `research/dz/OBJECTIVE_MATH_VALIDATION.json`: 38 current-header cells,
+   20 capture / 70 reward / 24 tribute episodes (now derived from assertion
+   names, not hand-entered), zero native faults/fuel-outs on both teams.
+   The header is still **inactive** in production.
+2. **CT-6 priority probe integrated, tested and observed.** See
+   `research/dz/PRIORITY_CONFORMANCE.md`. The never-run reader had a bug
+   (`awaitingInput` is false at phase-14 turns); fixed before any game.
+   Runs: `dz-ct6-priority-01`, `dz-ct6-priority-four-01` (truncated, faults
+   unmeasured), `dz-ct6-priority-full-01` (measured 0/0). No production change
+   needed.
+3. `tools/dz.py verify` treats `priority.repl26a` like `lifecycle.repl26a`
+   (extracted payload, byte-compared to the native bundle).
+4. Host tests, 25 measurement tests, full evidence verify and the assertion
+   audit (226 cells, 0 masked failures) pass after these runs.
+
+Production behavior is still the `069dfb0` checkpoint and still loses every
+contested game. See "Next: economy fundamentals" at the end of this file.
+
+The sections below are the original pause handoff, kept for history. Where
+they say validation or CT-6 is unfinished, the status above supersedes them.
 
 ## Repository and user intent
 
@@ -215,3 +240,10 @@ second cast, draft fuel suspension advances the round so existing guards work.
 - No active scheduling was intentionally created. The previous one-shot
   continuation had already fired and been deleted. The user's explicit pause
   supersedes the earlier conditional request for autonomous continuation.
+
+## Next: economy fundamentals (added 2026-10-29)
+
+Full-pool numbers show the main deficit is solo economy, not fighting. Against
+**idle**, DZ banks about 23 / 106 / 279 by R100/R250/R500 and dies ~15 times per
+game to camps. v65, while contested, banks ~1,034 in ~950 rounds. Farming rate
+and camp survival must improve before engagement work.

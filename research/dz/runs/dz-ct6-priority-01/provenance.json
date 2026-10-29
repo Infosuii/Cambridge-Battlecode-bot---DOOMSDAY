@@ -1,0 +1,58 @@
+{
+  "created_utc": "2026-10-29T12:26:39.240071+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--fixture",
+    "priority",
+    "--fixture-opponent",
+    "--name",
+    "dz-ct6-priority-01",
+    "--maps",
+    "00collision",
+    "01big-world",
+    "--diagnostic-rounds",
+    "20",
+    "--workers",
+    "4"
+  ],
+  "git_head": "95db566b74624dc5a6084039f03f4a76477f5479",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "runner_sha256": "85404aa72f20306081b135590fda57d85746d0f13cc175566a2a0514a077ef44",
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "source": {
+    "src/config.h": "f0f129d50bc4aeb0f502da1fa418eb42d09257a32534861168c36be108408df4",
+    "src/main.cpp": "5a06a53de2f2d4684959f0d74570080587ceaef52f9a7d58022baf960c3c8326"
+  },
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "00collision": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+    "01big-world": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5"
+  },
+  "candidate_sha256": "f0d7e4ec01bf94bb60576dd6939471530b50b08770501844f1e0bb9ad8ac7478",
+  "opponent_sha256": "47d7d8499577d77eacaf59a66e1b534197ddabe2f9bbe32e2dc3a909d1db685e",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples",
+  "map_directory": "maps\\local-benchmarks",
+  "fixture": "priority",
+  "analysis_source": {
+    "dz_priority_audit.mjs": "0a4ee494ed3c190f88be86f7d90337ad6e1b5a202242f203b36c28b6399c4035",
+    "replay/engine.mjs": "80361cd47c2fb232d222d397a3bab29363b5c4e10f54d47a61dcf5c2efe2882b"
+  },
+  "opponent_source": {
+    "src/config.h": "7d283947d4c325ea7fc7547ab29309b4dfdb339907a83f5490812eb22ffa4107",
+    "src/main.cpp": "5a06a53de2f2d4684959f0d74570080587ceaef52f9a7d58022baf960c3c8326"
+  }
+}

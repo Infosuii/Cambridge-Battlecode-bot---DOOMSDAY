@@ -60,7 +60,7 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-3 | Observed | Budget trace words match; first-query startup overhead documented |
 | CT-4 | Observed | Guest restarts next round, local state resets, shared state persists; forced production restart passes |
 | CT-5 | Observed | Immediate same-round allied writes strictly asserted |
-| CT-6 | Partial | Allied handle order observed; enemy interleaving and priority-change timing not isolated |
+| CT-6 | Observed | PRIORITY_CONFORMANCE.md: change applies next round and persists; high first, ties by lower handle; teams alternate, A starts odd rounds; dead/respawning order untested |
 | CT-7 | Partial | Ranged, melee, reset, exclusive cast and shield order checks pass; hidden collision/dash pending |
 | CT-8 | Partial | Visible bags/items/cooldowns pass; hidden queries reject 97; channel-time pending |
 | CT-9 | Partial | Hidden alive/dead/respawn reads pass; native respawn occurs 60 rounds after death at champion turn; no respawn-timer API |
@@ -233,7 +233,8 @@ behavior and linked-death behavior remain open.
 LINKED_DRAFT_CONFORMANCE.md records four complete linked-death cells with exact
 native event identity and 12 complete missed-pick cells across all three team
 sizes. Zero native faults/fuel-outs. Both failure histories are preserved.
-Remaining later-position omissions and explicit priority-change timing stay open.
+Remaining later-position omissions stay open. Priority-change timing is now
+recorded in PRIORITY_CONFORMANCE.md.
 
 ## Prospector and gold rounding
 

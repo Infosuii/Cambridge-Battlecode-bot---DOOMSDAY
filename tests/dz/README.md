@@ -88,3 +88,9 @@ is not used for production decisions; its scope and validation gaps are in
 `research/dz/BASIC_CLEAR_VALIDATION.md`. `four-pick` is a separate kernel map for
 the four-draft-picks / five-linked-bodies case. A full diagnostic needs 2000
 rounds; zero rounds runs no turns and is rejected.
+
+`priority` (CT-6) requires `--fixture-opponent`. Both teams run the priority
+probe; the pinned replay reader `tools/dz_priority_audit.mjs` (frozen into each
+run) compares native phase-14 turn order with both transcripts. Use
+`--diagnostic-rounds 20` for a quick order check (faults unmeasured) or 2000 for
+measured native faults. See PRIORITY_CONFORMANCE.md.

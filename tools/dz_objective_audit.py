@@ -12,7 +12,10 @@ def main():
     header=hashlib.sha256((ROOT/'bots/dz/src/objective_math.h').read_bytes()).hexdigest()
     names=['dz-objective-capture-02','dz-objective-capture-control-02']
     names += [f'dz-objective-{name}-'+('03' if name.endswith('prospector') else '02') for name in ('vendetta-prospector','vendetta-control','vesper-prospector','vesper-control','vesper-reversed')]
-    names += [f'dz-objective-tribute-{bag}-{active}-02' for bag in (7,14,21,35,70,98) for active in (1,0)]
+    # The original 98/0 control was stopped mid-run at the 2026-10-29 pause;
+    # its rerun has a fresh name.
+    names += [f'dz-objective-tribute-{bag}-{active}-'+('03' if (bag,active)==(98,0) else '02')
+              for bag in (7,14,21,35,70,98) for active in (1,0)]
     cells=[]
     for name in names:
         folder=ROOT/'research/dz/runs'/name
@@ -45,7 +48,11 @@ def main():
                         key for key in checks['checks'] if key.startswith('math_'))))
     result=dict(verified_utc=dt.datetime.now(dt.timezone.utc).isoformat(),passed=True,
         model_sha256=header,checker_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        games=len(cells),capture_episodes=20,reward_episodes=70,tribute_episodes=24,
+        games=len(cells),
+        # Derived from the frozen assertion names, never hand-entered.
+        capture_episodes=sum(n.startswith('math_capture_step_') for c in cells for n in c['model_assertion_names']),
+        reward_episodes=sum(n.startswith('math_reward_') for c in cells for n in c['model_assertion_names']),
+        tribute_episodes=sum(n=='math_tribute_delay' for c in cells for n in c['model_assertion_names']),
         native_faults_both_teams=0,native_fuel_outs_both_teams=0,cells=cells,
         scope='restricted solo capture, reward and tribute primitives; not full ObjModel or V-M1; no production decision activation')
     target=ROOT/'research/dz/OBJECTIVE_MATH_VALIDATION.json'

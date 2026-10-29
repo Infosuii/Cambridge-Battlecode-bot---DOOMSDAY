@@ -35,9 +35,12 @@ compare predictions with actual receipts and countdown samples, and retain
 both exact-history and unknown-history reward checks. The audit script reads
 native summaries directly to verify both teams' faults and fuel-outs.
 
-The planned `OBJECTIVE_MATH_VALIDATION.json` will record accepted current-header
-campaigns and content hashes. Validation is paused and incomplete; read
-`../../CLAUDE_HANDOFF.md` and `PAUSED_WORK.json`. Earlier 01 tests precede an additional active-timer input
+`OBJECTIVE_MATH_VALIDATION.json` (written by `tools/dz_objective_audit.py`)
+now verifies 38 current-header native cells: 20 capture, 70 reward and 24
+tribute episodes, counted from frozen assertion names. Both teams show zero
+native faults/fuel-outs, read from native summaries. The interrupted
+`dz-objective-tribute-98-0-02` never completed and is not evidence; its rerun is
+`dz-objective-tribute-98-0-03`. Earlier 01 tests precede an additional active-timer input
 guard. The initial 02 Prospector probes passed an already filtered applicability
 flag; 03 passes actual item ownership even for the wolf, exercising the
 primitive's responsibility to exclude a non-cluster bonus. All are retained.
