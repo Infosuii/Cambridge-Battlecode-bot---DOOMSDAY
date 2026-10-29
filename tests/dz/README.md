@@ -12,6 +12,7 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-draft-suspension --fixture draft-stale --maps 00collision 01big-world --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-tribute-passive --fixture tribute-passive --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-capture-time --fixture capture-time --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-camp-mods --fixture camp-mods --map-dir tests/dz/maps --maps camp-modifiers --diagnostic-rounds 2000 --set DZ_MONSTER=1 --set DZ_JUNGLE=1 --set DZ_DURABILITY=1
@@ -69,6 +70,12 @@ selects its Power-item control; `DZ_SMALL_BAG=1` requests 7 gems and
 `DZ_LARGE_BAG=1`; for 35 use `tribute-passive-mid` with `DZ_LARGE_BAG=1` and
 `DZ_MID_BAG=1`. `DZ_OBSERVE_ONLY=1` deliberately leaves conformance unaccepted.
 See TRIBUTE_PASSIVE_CONFORMANCE.md for timing and scope.
+
+`draft-stale` intentionally exhausts one draft budget after a valid pick.
+`--set DZ_DRAFT_BURN_SECOND=1` selects the ordinary second-turn budget instead
+of the boosted first turn. It must preserve every intended pick/body and an
+advancing draft round. These injected binaries are diagnostic only; see
+DRAFT_SUSPENSION_CONFORMANCE.md.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

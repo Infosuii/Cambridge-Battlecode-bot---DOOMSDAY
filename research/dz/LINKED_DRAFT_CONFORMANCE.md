@@ -32,7 +32,7 @@ The following final runs pass 12 complete native cells with zero faults/fuel-out
 - `dz-ct20-draft-miss-four-02`: first pick omitted, 4-pick fixture, both sides.
 - `dz-ct20-draft-miss-four-second-02`: second pick omitted, 4-pick fixture/sides.
 
-In these cases, after a missing pick the draft guest is not resumed for later
+In these cases, after yielding without a pick the draft guest is not resumed for later
 draft rounds. The engine completes the remaining roster. Existing selected picks
 are retained. The probe authenticates the saved draft prefix against every
 spawned body's type, team size and shared marker. It does not assume particular
@@ -52,3 +52,7 @@ the observed timing and complete roster rather than labeling quiet output a pass
 Remaining CT-19/20 scope includes explicit priority-change timing and omissions
 at later draft positions; these results do not establish those cases. No draft
 strategy change or map-specific plan was introduced.
+
+DRAFT_SUSPENSION_CONFORMANCE.md separately tests fuel suspension after a valid
+pick request. It resumes correctly and preserves the full roster; the yield-without-
+a-pick result is not a general description of all draft interruptions.

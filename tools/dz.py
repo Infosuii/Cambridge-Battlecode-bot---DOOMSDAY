@@ -161,6 +161,21 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='draft-stale':
+        choices=[tuple(map(int,r)) for r in re.findall(r'CT_DRAFT_CHOICE prefix=(\d+) pick=(\d+)',stdout)]
+        bodies=[tuple(map(int,r)) for r in re.findall(r'CT_DRAFT_PLAY body=(\d+) type=(\d+) picks=(\d+)',stdout)]
+        burns=[tuple(map(int,r)) for r in re.findall(r'CT_DRAFT_BURN prefix=(\d+) round=(\d+)',stdout)]
+        resumes=re.findall(r'CT_DRAFT_RESUME prefix=(\d+) round=(\d+) original_round=(\d+)',stdout)
+        size=bodies[0][2] if bodies else 0
+        desired={3:[11,2,6],4:[1,11,2,6],5:[1,11,2,6,0]}.get(size,[])
+        physical=[c if c<3 else c+1 for c in desired]
+        clock_ok=bool(len(burns)==len(resumes)==1 and burns[0][0] in (0,1) and int(resumes[0][0])==burns[0][0]+1 and int(resumes[0][2])==burns[0][1] and int(resumes[0][1])==int(resumes[0][2])+1)
+        valid=bool(desired and clock_ok and choices==list(enumerate(desired)) and
+            len(bodies)==size and len({r[0] for r in bodies})==size and sorted(r[1] for r in bodies)==sorted(physical) and all(r[2]==size for r in bodies))
+        return dict(passed=valid and 'DZ_ACTION_ERROR' not in stdout and 'DZ_MODULE_ERROR' not in stdout,
+                    choices=choices,body_types=bodies,burns=burns,resumes=resumes,
+                    draft_round_number_changed=bool(resumes and resumes[0][1]!=resumes[0][2]),
+                    scope='one deliberate fuel suspension after first/second successful pick request; intended complete roster must survive')
     if fixture=='tribute-passive':
         checks=transcript_assertions(stdout)
         required={'tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer',
@@ -490,6 +505,9 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 bodies=sum(c['team']==owner for c in native['champions'])
                 result['diagnostic_checks']['expected_bodies']=bodies
                 result['diagnostic_checks']['passed'] &= result['diagnostic_checks']['bodies']==bodies
+            if fixture=='draft-stale':
+                result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
+                result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
             if fixture=='kernel':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
@@ -499,11 +517,11 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 checks['passed'] &= result['faults']==1 and result['fuel_outs']==0 and faults==[(checks['subject_body'],50)]
                 checks['expected_deliberate_faults']=1
                 checks['native_faults']=faults
-        if fixture in ('uncaught','restart') and not result['faults_measured']:
+        if fixture in ('uncaught','restart','draft-stale') and not result['faults_measured']:
             result['diagnostic_checks']['passed']=False
         if fixture=='kernel':
             result['diagnostic_checks']['passed'] &= budgets==tuple([10000000,100000,200000,100000]*2)
-        if fixture not in ('kernel','module-stale') and result['fuel_outs']:
+        if fixture not in ('kernel','module-stale','draft-stale') and result['fuel_outs']:
             result['diagnostic_checks']['passed']=False
         write(folder/'receipt.json', result)
         return result, fuel[20:]
@@ -550,7 +568,7 @@ def experiment(args):
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
     fixtures = {'kernel':'conformance','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
-    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
+    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
@@ -565,6 +583,28 @@ def experiment(args):
     if args.trace or injected:
         config = frozen/'src/config.h'
         config.write_text(config.read_text().replace('#define DZ_TRACE 0', '#define DZ_TRACE 1'))
+    if args.command=='conformance' and args.fixture=='draft-stale':
+        config=frozen/'src/config.h'
+        config.write_text(config.read_text()+'\n#define DZ_DRAFT_BURN_SECOND 0\n',encoding='utf-8',newline='\n')
+        draft=frozen/'src/draft.cpp'; source_text=draft.read_text()
+        needle='            if (!initialized) initialized = act.publish(protocol::empty_word());'
+        if source_text.count(needle)!=1: raise ValueError('draft suspension injection boundary changed')
+        injection=r'''            std::printf("CT_DRAFT_CHOICE prefix=%zu pick=%d\n",picks.size(),static_cast<int>(next));
+            static bool forced=false;
+            if (!forced&&picks.size()==(DZ_DRAFT_BURN_SECOND?1u:0u)) {
+                forced=true;
+                std::printf("CT_DRAFT_BURN prefix=%zu round=%u\n",picks.size(),tc.round); std::fflush(stdout);
+                while (cambc::draft::current_draft(cambc::team::ally).size()==picks.size()) { }
+                std::printf("CT_DRAFT_RESUME prefix=%zu round=%u original_round=%u\n",cambc::draft::current_draft(cambc::team::ally).size(),cambc::round_number(),tc.round);
+            }
+'''
+        draft.write_text(source_text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
+        main=frozen/'src/main.cpp'; source_text=main.read_text(); needle='    if (cambc::is_draft()) dz::draft_loop(counts);'
+        if source_text.count(needle)!=1: raise ValueError('draft roster diagnostic boundary changed')
+        source_text=source_text.replace(needle,needle+r'''
+    std::printf("CT_DRAFT_PLAY body=%u type=%d picks=%u\n",static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),static_cast<int>(cambc::self().champion_name()),cambc::draft::team_size());
+''')
+        main.write_text(source_text,encoding='utf-8',newline='\n')
     if args.command=='conformance' and args.fixture=='low-fuel':
         main=frozen/'src/main.cpp'; source_text=main.read_text()
         needle='            if (world->ready&&dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback) {'
@@ -737,7 +777,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

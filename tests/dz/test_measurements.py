@@ -7,6 +7,13 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_draft_suspension_requires_a_new_round_and_all_intended_picks(self):
+        text='CT_DRAFT_BURN prefix=0 round=0\nCT_DRAFT_RESUME prefix=1 round=1 original_round=0\n'+'\n'.join(f'CT_DRAFT_CHOICE prefix={i} pick={p}' for i,p in enumerate([11,2,6]))+'\n'+'\n'.join(f'CT_DRAFT_PLAY body={i} type={t} picks=3' for i,t in enumerate([12,2,7]))
+        self.assertTrue(dz.diagnostic_checks(text,'draft-stale')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('prefix=1 pick=2','prefix=1 pick=0'),'draft-stale')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('round=1 original_round=0','round=0 original_round=0'),'draft-stale')['passed'])
+        second=text.replace('BURN prefix=0 round=0','BURN prefix=1 round=1').replace('RESUME prefix=1 round=1 original_round=0','RESUME prefix=2 round=2 original_round=1')
+        self.assertTrue(dz.diagnostic_checks(second,'draft-stale')['passed'])
     def test_tribute_rounds_base_timer_before_applying_reduction(self):
         names=['tribute_passive_setup','tribute_financed','tribute_bag_prepared','tribute_baseline_timer','tribute_cancel_retains_bag','tribute_item_created','tribute_same_bag','tribute_completed','tribute_live_duration','tribute_passive_effect']
         def transcript(bag,base,live,active=1):

@@ -267,3 +267,11 @@ TRIBUTE_PASSIVE_CONFORMANCE.md records 20 complete native cases, zero faults/
 fuel-outs. Apply the 0.33 reduction after rounding base duration, then ceil and
 clamp to minimum. Small base timers do not speed up. Transfers remain unchanged
 in these cases. Other interactions and duplicate stacking remain outside scope.
+
+## Draft fuel suspension
+
+DRAFT_SUSPENSION_CONFORMANCE.md records 12 final full native games across
+3/4/5-pick maps, both first and second draft turns. Each deliberately exhausts
+fuel once, with zero native faults/caught errors and every intended pick/body
+preserved. round_number advances between draft turns, so existing guards work.
+No production change was needed. Keep this separate from yielding without a pick.

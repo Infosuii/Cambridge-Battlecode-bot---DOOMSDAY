@@ -184,3 +184,8 @@ The registry was created before experiments. Entries below record actual use.
 | dz-ct12-power-35-03 | 2026-10-29 | deterministic; Wasm 71458a92f558 | 2 cells; idle81 | conformance; trace=False |
 | dz-ct12-tribute-98-03 | 2026-10-29 | deterministic; Wasm be37879c81d8 | 2 cells; idle81 | conformance; trace=False |
 | dz-ct12-power-98-03 | 2026-10-29 | deterministic; Wasm 285ca2ad79c1 | 2 cells; idle81 | conformance; trace=False |
+| dz-draft-suspension-01 | 2026-10-29 | deterministic; Wasm a93cb5e4d5cf | 4 cells; idle81 | conformance; trace=False |
+| dz-draft-suspension-02 | 2026-10-29 | deterministic; Wasm 8b1323a840bb | 4 cells; idle81 | conformance; trace=False |
+| dz-draft-suspension-second-02 | 2026-10-29 | deterministic; Wasm 2738cc9a3da4 | 4 cells; idle81 | conformance; trace=False |
+| dz-draft-suspension-four-02 | 2026-10-29 | deterministic; Wasm 8b1323a840bb | 2 cells; idle81 | conformance; trace=False |
+| dz-draft-suspension-four-second-02 | 2026-10-29 | deterministic; Wasm 2738cc9a3da4 | 2 cells; idle81 | conformance; trace=False |
