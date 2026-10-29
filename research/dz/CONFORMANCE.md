@@ -67,7 +67,7 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-10 | Partial | Group visibility/state used through SDK; single-spawn-tile visibility fixture not isolated |
 | CT-11 | Partial | Every-round wolf/elk/golem/monolith damage; elk nearest/lower-handle ties verified |
 | CT-12 | Pending | Tribute passive not purchased or valued |
-| CT-13 | Pending | No model assumes Prospector benefits outside clusters |
+| CT-13 | Partial | Gem and gold clusters, wolf, Vesper combination and rounding pass; larger camps/mixed/crew/other stacking still open |
 | CT-14 | Pending | Hunter not purchased or valued |
 | CT-15 | Pending | Skirmish/Collectors not purchased or valued |
 | CT-16 | Observed | Damage interruption, base 5 / Home 3 ticks, spawn-start recall, arrival-before-heal verified |
@@ -234,3 +234,12 @@ LINKED_DRAFT_CONFORMANCE.md records four complete linked-death cells with exact
 native event identity and 12 complete missed-pick cells across all three team
 sizes. Zero native faults/fuel-outs. Both failure histories are preserved.
 Remaining later-position omissions and explicit priority-change timing stay open.
+
+## Prospector and gold rounding
+
+PROSPECTOR_REWARD_CONFORMANCE.md records ten complete native controls, zero
+faults/fuel-outs. Prospector boosts both gem- and gold-cluster rewards; Vesper
+gold matches cumulative percentage carry rather than independent reward floors.
+The reversed reward order moves the carried unit to the later event. Gem
+Prospector bonuses floor per award. Larger camps and other combinations remain
+open; no advanced model was enabled.

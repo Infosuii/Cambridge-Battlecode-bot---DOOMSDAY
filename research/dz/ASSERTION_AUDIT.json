@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T09:46:18.752917+00:00",
+  "verified_utc": "2026-10-29T10:10:48.349424+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 96,
+  "checked_passing_cells": 120,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -285,6 +285,174 @@
       "side": "B",
       "assertions": 6,
       "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
+    {
+      "run": "dz-ct13-power-control-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "0236d82c02bf043d36744e44231e7a6d6c6833ce29b89cebaa497d51d38a2f8d"
+    },
+    {
+      "run": "dz-ct13-power-control-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "33144a4012113a3af08fc6565e74bd8c3e8ca7d88f9a7aaf826f3e3182870a9f"
+    },
+    {
+      "run": "dz-ct13-power-control-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "0236d82c02bf043d36744e44231e7a6d6c6833ce29b89cebaa497d51d38a2f8d"
+    },
+    {
+      "run": "dz-ct13-power-control-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "33144a4012113a3af08fc6565e74bd8c3e8ca7d88f9a7aaf826f3e3182870a9f"
+    },
+    {
+      "run": "dz-ct13-power-control-04",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "b097591ceec2405889f93ce1f0ba320e0ed7dede92823444d3eb5a85b53b5455"
+    },
+    {
+      "run": "dz-ct13-power-control-04",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "15dcd0e49996369ed76ed4158b137ed80d9967ece1a1d6f086066729dd345611"
+    },
+    {
+      "run": "dz-ct13-power-control-05",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "b097591ceec2405889f93ce1f0ba320e0ed7dede92823444d3eb5a85b53b5455"
+    },
+    {
+      "run": "dz-ct13-power-control-05",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "15dcd0e49996369ed76ed4158b137ed80d9967ece1a1d6f086066729dd345611"
+    },
+    {
+      "run": "dz-ct13-prospector-02",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "db68dba1357696dd9308a21609186e3ce67944353fa3d0dd5c32adb45d35b7a4"
+    },
+    {
+      "run": "dz-ct13-prospector-02",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "3266cd8a52a1e214d1877b0023fdb66409664b2e7e21ebcfb7d7e9f5fe888fcc"
+    },
+    {
+      "run": "dz-ct13-prospector-03",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "db68dba1357696dd9308a21609186e3ce67944353fa3d0dd5c32adb45d35b7a4"
+    },
+    {
+      "run": "dz-ct13-prospector-03",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "3266cd8a52a1e214d1877b0023fdb66409664b2e7e21ebcfb7d7e9f5fe888fcc"
+    },
+    {
+      "run": "dz-ct13-prospector-04",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "9badcdccc8d2d14c063114297c2b4ab330c3a3c9569987f84c870eeec2ced4cb"
+    },
+    {
+      "run": "dz-ct13-prospector-04",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "8d100066bf2cffa3fa6cd611cf2a52f87cbaa052968a60d123e416077125ad57"
+    },
+    {
+      "run": "dz-ct13-prospector-05",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "9badcdccc8d2d14c063114297c2b4ab330c3a3c9569987f84c870eeec2ced4cb"
+    },
+    {
+      "run": "dz-ct13-prospector-05",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "8d100066bf2cffa3fa6cd611cf2a52f87cbaa052968a60d123e416077125ad57"
+    },
+    {
+      "run": "dz-ct13-vesper-power-control-05",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "6c1d0d97e0dc85fdc55b075daf8fa9be50f4e547cbf0ce958b21b17f69387a9f"
+    },
+    {
+      "run": "dz-ct13-vesper-power-control-05",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "6c1d0d97e0dc85fdc55b075daf8fa9be50f4e547cbf0ce958b21b17f69387a9f"
+    },
+    {
+      "run": "dz-ct13-vesper-power-reversed-05",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "de6383cb08969d1f2121b946b4c79d7f92a2d3095aebcbfaf670e4d96947b9be"
+    },
+    {
+      "run": "dz-ct13-vesper-power-reversed-05",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "1c2be056d0af3a859b6b84701f31a7a0a2f1abe5376a06137bd7c4259ded3e5d"
+    },
+    {
+      "run": "dz-ct13-vesper-prospector-04",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "d78b92935427219ea83e9af76fd906c0cbdcc3e14d78e8782c256aed9deb6d2c"
+    },
+    {
+      "run": "dz-ct13-vesper-prospector-04",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "d78b92935427219ea83e9af76fd906c0cbdcc3e14d78e8782c256aed9deb6d2c"
+    },
+    {
+      "run": "dz-ct13-vesper-prospector-05",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 7,
+      "stdout_sha256": "d78b92935427219ea83e9af76fd906c0cbdcc3e14d78e8782c256aed9deb6d2c"
+    },
+    {
+      "run": "dz-ct13-vesper-prospector-05",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 7,
+      "stdout_sha256": "d78b92935427219ea83e9af76fd906c0cbdcc3e14d78e8782c256aed9deb6d2c"
     },
     {
       "run": "dz-ct16-channels-01",

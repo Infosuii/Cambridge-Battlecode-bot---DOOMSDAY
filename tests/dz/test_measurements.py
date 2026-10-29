@@ -7,6 +7,21 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_vesper_reward_order_moves_the_carried_gold_unit(self):
+        data=[('baseline_gold',0,0,0,240,319,319),('gem_7_floor',7,7,7,0,0,0),('gem_14_floor',14,14,14,0,0,0),('gold_cluster_bonus',0,0,0,20,26,26),('wolf_reward_unchanged',4,4,4,40,54,54)]
+        def transcript(rows):
+            return 'CT13_ACTOR vesper=1 bonus_gold_percent=33\nCT13_ITEM prospector=0\n'+'\n'.join('CT13_REWARD label=%s base_gems=%d actual_gems=%d expected_gems=%d base_gold=%d actual_gold=%d expected_gold=%d'%r for r in rows)+'\n'+'\n'.join(f'CT_CHECK name={n} pass=1' for n in [r[0] for r in rows]+['item_created','prospector_setup'])
+        self.assertTrue(dz.diagnostic_checks(transcript(data),'prospector')['passed'])
+        self.assertFalse(dz.diagnostic_checks(transcript(data).replace('actual_gold=54 expected_gold=54','actual_gold=53 expected_gold=53'),'prospector')['passed'])
+        reverse=data[:3]+[('wolf_reward_unchanged',4,4,4,40,53,53),('gold_cluster_bonus',0,0,0,20,27,27)]
+        self.assertTrue(dz.diagnostic_checks(transcript(reverse),'prospector')['passed'])
+    def test_prospector_gold_and_gems_are_checked_independently_of_printed_pass_flags(self):
+        data=[('baseline_gold',0,0,0,240,240,240),('gem_7_floor',7,8,8,0,0,0),('gem_14_floor',14,17,17,0,0,0),('gold_cluster_bonus',0,0,0,20,25,25),('wolf_reward_unchanged',4,4,4,40,40,40)]
+        text='CT13_ACTOR vesper=0 bonus_gold_percent=0\nCT13_ITEM prospector=1\n'+'\n'.join('CT13_REWARD label=%s base_gems=%d actual_gems=%d expected_gems=%d base_gold=%d actual_gold=%d expected_gold=%d'%r for r in data)
+        text+='\n'+'\n'.join(f'CT_CHECK name={n} pass=1' for n in [r[0] for r in data]+['item_created','prospector_setup'])
+        self.assertTrue(dz.diagnostic_checks(text,'prospector')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('actual_gold=25','actual_gold=20'),'prospector')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('prospector=1','prospector=0'),'prospector')['passed'])
     def test_missed_pick_gate_accepts_completed_roster_without_inventing_later_draft_turns(self):
         text='CT20_SKIP turn=0 picks=3 before=0\n'+'\n'.join(f'CT20_PLAY body={i} type={i} picks=3 word=c000000000000000' for i in range(3))
         self.assertTrue(dz.diagnostic_checks(text,'draft-miss')['passed'])

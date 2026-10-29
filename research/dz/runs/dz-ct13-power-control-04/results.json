@@ -1,0 +1,202 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 361.89186027076715,
+  "fuel_p99": 5193,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "25fd7452bc762b1523efc10cf7eb0859e1326dbc340a607f1c4b5c3d9318bf2d",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "458d8adf7bcec5ec7e0f7bc57070c06e1706670a04dff480d62966c5fa5658e1",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "prospector_setup": true,
+          "baseline_gold": true,
+          "item_created": true,
+          "gem_7_floor": true,
+          "gem_14_floor": true,
+          "gold_cluster_bonus": true,
+          "wolf_reward_unchanged": true
+        },
+        "rewards": [
+          [
+            "baseline_gold",
+            "0",
+            "0",
+            "0",
+            "240",
+            "240",
+            "240"
+          ],
+          [
+            "gem_7_floor",
+            "7",
+            "7",
+            "7",
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "gem_14_floor",
+            "14",
+            "14",
+            "14",
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "gold_cluster_bonus",
+            "0",
+            "0",
+            "0",
+            "20",
+            "20",
+            "20"
+          ],
+          [
+            "wolf_reward_unchanged",
+            "4",
+            "4",
+            "4",
+            "40",
+            "40",
+            "40"
+          ]
+        ],
+        "prospector": false,
+        "vesper": false,
+        "missing": [],
+        "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+      },
+      "summary_sha256": "9c62ac6e6b924ac59e2bbdc078c27a59a81c36197d2d79999fc49b22330842e2"
+    },
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "25fd7452bc762b1523efc10cf7eb0859e1326dbc340a607f1c4b5c3d9318bf2d",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ca43110a05097a462746d1986dc1276c22c75aa3cd349557ff86bbedecf054cc",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "prospector_setup": true,
+          "baseline_gold": true,
+          "item_created": true,
+          "gem_7_floor": true,
+          "gem_14_floor": true,
+          "gold_cluster_bonus": true,
+          "wolf_reward_unchanged": true
+        },
+        "rewards": [
+          [
+            "baseline_gold",
+            "0",
+            "0",
+            "0",
+            "240",
+            "240",
+            "240"
+          ],
+          [
+            "gem_7_floor",
+            "7",
+            "7",
+            "7",
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "gem_14_floor",
+            "14",
+            "14",
+            "14",
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "gold_cluster_bonus",
+            "0",
+            "0",
+            "0",
+            "20",
+            "20",
+            "20"
+          ],
+          [
+            "wolf_reward_unchanged",
+            "4",
+            "4",
+            "4",
+            "40",
+            "40",
+            "40"
+          ]
+        ],
+        "prospector": false,
+        "vesper": false,
+        "missing": [],
+        "scope": "cluster rounding, gold and wolf only; golem/monolith remain open"
+      },
+      "summary_sha256": "d8942298e21885bc81b19e1e4725d242270f9fda9bfafa298507ba54ac14bf5b"
+    }
+  ]
+}

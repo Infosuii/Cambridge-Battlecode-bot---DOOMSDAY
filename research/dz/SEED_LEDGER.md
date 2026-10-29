@@ -146,3 +146,17 @@ The registry was created before experiments. Entries below record actual use.
 | dz-ct20-draft-miss-second-02 | 2026-10-29 | deterministic; Wasm daadce128d90 | 4 cells; idle81 | conformance; trace=False |
 | dz-ct20-draft-miss-four-02 | 2026-10-29 | deterministic; Wasm 9985b9720a6c | 2 cells; idle81 | conformance; trace=False |
 | dz-ct20-draft-miss-four-second-02 | 2026-10-29 | deterministic; Wasm daadce128d90 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-prospector-01 | 2026-10-29 | deterministic; Wasm e80bc86aba23 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-prospector-02 | 2026-10-29 | deterministic; Wasm 884623fb65d4 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-power-control-02 | 2026-10-29 | deterministic; Wasm ecfab3faf813 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-prospector-03 | 2026-10-29 | deterministic; Wasm 884623fb65d4 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-power-control-03 | 2026-10-29 | deterministic; Wasm ecfab3faf813 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-prospector-04 | 2026-10-29 | deterministic; Wasm 7b4d76128602 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-power-control-04 | 2026-10-29 | deterministic; Wasm 25fd7452bc76 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-vesper-prospector-04 | 2026-10-29 | deterministic; Wasm 870aed7088e0 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-vesper-power-control-04 | 2026-10-29 | deterministic; Wasm 19fe5a6c4f38 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-prospector-05 | 2026-10-29 | deterministic; Wasm ff5641e6e3f6 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-power-control-05 | 2026-10-29 | deterministic; Wasm 56c1e2ec1889 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-vesper-prospector-05 | 2026-10-29 | deterministic; Wasm c14cdb502d6e | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-vesper-power-control-05 | 2026-10-29 | deterministic; Wasm 619521ae38d0 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct13-vesper-power-reversed-05 | 2026-10-29 | deterministic; Wasm 0d766dc5cc51 | 2 cells; idle81 | conformance; trace=False |

@@ -12,6 +12,7 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-prospector --fixture prospector --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-linked --fixture linked --map-dir tests/dz/maps --maps isolated-monolith --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-missed-pick --fixture draft-miss --maps 00collision 01big-world --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-low-fuel --fixture low-fuel --maps 00collision 01big-world --diagnostic-rounds 2000
@@ -42,6 +43,12 @@ from the 70-map competition pool and cannot be used by `smoke --map-dir`.
 It uses the frozen native lifecycle reader. `draft-miss` supports
 `--set DZ_SKIP_SECOND=1` to omit the second pick instead of the first. These
 probes establish engine behavior; their lineups are not production draft plans.
+
+`prospector` supports `DZ_PROSPECTOR=0` for its Power-item control,
+`DZ_VESPER=1` for the gold-passive actor, and `DZ_WOLF_FIRST=1` to reverse
+the last two awards. Use `--set` for these booleans. See
+`research/dz/PROSPECTOR_REWARD_CONFORMANCE.md` for the supported scope and
+the order-dependent gold rounding; these are not strategy match results.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

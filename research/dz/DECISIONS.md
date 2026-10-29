@@ -61,3 +61,11 @@ checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
   fills the remaining roster in the tested 3/4/5-pick cases. An own successful
   pick appears in the committed list on the following draft turn, not immediately.
   Preserve pick-before-optional-work ordering; do not predict autofill choices.
+
+- CT-13 reward correction: Prospector boosts gold clusters as well as gem
+  clusters. Its tested gold effect combines multiplicatively with Vesper. The
+  supplied objective formula omitted this gold benefit.
+- Vesper's tested gold increments require cumulative fractional-bonus carry:
+  reversing wolf/gold awards moves the extra unit to the later event. Do not
+  floor each event independently, or infer a hidden remainder without its prior
+  reward history. Internal storage, other stacking and death behavior are open.

@@ -16,6 +16,7 @@ const layouts={
   'isolated-elk':[[1,10,10]],
   'isolated-golem':[[5,10,10]],
   'cluster-line':Array.from({length:12},(_,i)=>[3,6+i,6]),
+  'prospector':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[2,8,12],[2,8,16],[2,9,16],[3,5,15],[0,8,22]],
   'recovery-shop':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[0,10,12]],
   'capture-contest':[[2,14,15],[2,15,15]],
 };

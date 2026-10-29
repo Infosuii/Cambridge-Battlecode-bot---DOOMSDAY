@@ -160,6 +160,32 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='prospector':
+        checks=transcript_assertions(stdout)
+        rewards=re.findall(r'CT13_REWARD label=(\w+) base_gems=(\d+) actual_gems=(\d+) expected_gems=(\d+) base_gold=(\d+) actual_gold=(\d+) expected_gold=(\d+)',stdout)
+        labels={'baseline_gold','gem_7_floor','gem_14_floor','gold_cluster_bonus','wolf_reward_unchanged'}
+        required=labels|{'item_created','prospector_setup'}
+        items=re.findall(r'CT13_ITEM prospector=([01])',stdout)
+        actors=re.findall(r'CT13_ACTOR vesper=([01]) bonus_gold_percent=(\d+)',stdout)
+        vesper=bool(actors and actors[0][0]=='1')
+        arithmetic_ok=True
+        cumulative_gold_units=0
+        for label,bg,ag,eg,bo,ao,eo in rewards:
+            bg,ag,eg,bo,ao,eo=map(int,(bg,ag,eg,bo,ao,eo))
+            boosted=items==['1'] and label in ('gem_7_floor','gem_14_floor','gold_cluster_bonus')
+            expected_gems=bg*5//4 if boosted else bg
+            units=bo*(5 if boosted else 4)*(133 if vesper else 100)
+            expected_gold=(cumulative_gold_units+units)//400-cumulative_gold_units//400
+            cumulative_gold_units+=units
+            arithmetic_ok &= ag==eg==expected_gems and ao==eo==expected_gold
+            if label=='gem_7_floor': arithmetic_ok &= bg==7 and bo==0
+            if label=='gem_14_floor': arithmetic_ok &= bg==14 and bo==0
+            if label=='baseline_gold': arithmetic_ok &= bg==0 and bo>=150
+            if label=='gold_cluster_bonus': arithmetic_ok &= bg==0 and bo>0
+            if label=='wolf_reward_unchanged': arithmetic_ok &= bg>0 and bo>0
+        actor_ok=len(actors)==1 and int(actors[0][1])==(33 if vesper else 0)
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and arithmetic_ok and actor_ok and len(items)==1 and len(rewards)==5 and {r[0] for r in rewards}==labels and 'ERROR' not in stdout,
+                    checks=checks,rewards=rewards,prospector=bool(items and items[0]=='1'),vesper=vesper,missing=sorted(required-checks.keys()),scope='cluster rounding, gold and wolf only; golem/monolith remain open')
     if fixture=='draft-miss':
         skips=[tuple(map(int,r)) for r in re.findall(r'CT20_SKIP turn=(\d+) picks=(\d+) before=(\d+)',stdout)]
         picks=[tuple(map(int,r)) for r in re.findall(r'CT20_PICK turn=(\d+) before=(\d+) after=(\d+) choice=(\d+)',stdout)]
@@ -475,7 +501,7 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
@@ -657,7 +683,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

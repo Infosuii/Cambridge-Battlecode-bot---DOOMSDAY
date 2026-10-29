@@ -2,6 +2,28 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Prospector / reward continuation after 59974a2
+
+Production remains unchanged: exact low-fuel binary, 420-game receipt and clean
+export still apply. New CT-13 controls pass ten complete native cells (all five
+05 campaigns), zero faults/fuel-outs. Read PROSPECTOR_REWARD_CONFORMANCE.md.
+
+Prospector boosts gold clusters too (20→25), omitted by the supplied reward
+formula. With Vesper the tested boost is multiplicative (20→33 in this sequence).
+Vesper's gold reward increments match cumulative fractional-bonus carry: after
+an initial 240→319 award, gold20 then wolf40 give 26/54; reversed gives 53/27.
+Do not floor each event independently or invent a hidden remainder. Gem bonuses
+floor individually (7→8, 14→17). Current receipt scope excludes Golem/Monolith,
+mixed/crew rewards, other stacking and death/respawn carry.
+
+Earlier failed assumptions and weaker initial runs remain immutable evidence.
+The final parser independently checks every reward using integer rational units.
+Next fundamentals work: Monster/Jungle/Durability effects used in fixed shopping,
+Tribute and remaining item modifiers, pending action/vision cases, then expanded
+clear/arrival/damage calibration. Advanced modules and map-specific plans remain
+deferred; the production bot still loses every contested v65 regression game.
+
+
 ### Linked-death and draft continuation after 8a0a51b
 
 Production source remains unchanged and the 420-game/clean-export low-fuel
