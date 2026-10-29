@@ -1,4 +1,11 @@
-# Latest continuation — 2026-10-29
+# Active continuation - Z6 calibration checkpoint
+
+Read the newest CONTINUING section in CLAUDE_HANDOFF.md, then
+research/dz/model-calibration-2026-10-29/README.md. User requested continuous
+work. Default foundation remains byte-identical; both timing policies are off.
+Next active experiment is the frozen Z14 mixed-table confirmation against v76.
+
+# Latest continuation â€” 2026-10-29
 
 Read the new CONTINUED section at the top of CLAUDE_HANDOFF.md first, then
 research/dz/next-2026-10-29/REPORT.md and RESULTS.json. Selected default remains

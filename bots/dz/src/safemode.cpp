@@ -1,5 +1,8 @@
 #include "safemode.h"
 #include "clear_risk.h"
+#if DZ_CLEAR_TIME_CLOCK
+#include "clear_clock.h"
+#endif
 
 namespace dz {
 void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
@@ -202,6 +205,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
     std::sort(candidates.begin(), candidates.end(), [](const Candidate& x, const Candidate& y) { return x.bound > y.bound; });
     unsigned priced = 0;
+#if DZ_CLEAR_TIME_CLOCK
+    const auto timing=reset_timing();
+#endif
     for (const auto& candidate : candidates) {
         // Each budget check is two SDK host calls; check every eighth group.
         // Check before each pricing: an unpriced cold cache can cost several
@@ -234,7 +240,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             auto risk=clear_risk(static_cast<int>(i));
             DZ_ACC_END(1,acc_r);
             if (!risk.complete() || (g.strength>0 && !clear_survivable(risk,obs.hp,obs.max_hp))) continue;
-            clear_rounds=risk.attacks+.25f*g.tiles.size();
+            clear_rounds=risk.attacks+(DZ_CLEAR_TIME_WORK_ONLY ? 0.f : .25f*g.tiles.size());
+#if DZ_CLEAR_TIME_CLOCK
+            if(tc.allow(6000+150*g.tiles.size())) {
+                const auto clock=group_attack_clock(world,mem,obs,static_cast<int>(i),mem.quantize_out,timing);
+                if(clock.complete())clear_rounds=clock.rounds;
+            }
+#endif
         }
         float score=-value/(fixed+clear_rounds);
         // Enemy within 6 of the group's tile hull (centre + radius): an

@@ -433,3 +433,14 @@ The registry was created before experiments. Entries below record actual use.
 | dz-next-draft-7-v76-confirm-01 | 2026-10-29 | deterministic; Wasm c209f35ab2bf | 14 cells; idle81 | smoke; trace=False |
 | dz-next-crew-reach-v65-01 | 2026-10-29 | deterministic; Wasm 5129658de3ba | 6 cells; idle81 | smoke; trace=False |
 | dz-next-crew-reach-v76-01 | 2026-10-29 | deterministic; Wasm 5129658de3ba | 6 cells; idle81 | smoke; trace=False |
+| dz-model-calibration-idle-pilot-01 | 2026-10-29 | deterministic; Wasm 415cd9b32ebb | 6 cells; idle81 | smoke; trace=True |
+| dz-model-work-only-idle-01 | 2026-10-29 | deterministic; Wasm eb8f2b3cce36 | 140 cells; idle81 | smoke; trace=False |
+| dz-model-work-only-v65-01 | 2026-10-29 | deterministic; Wasm eb8f2b3cce36 | 140 cells; idle81 | smoke; trace=False |
+| dz-model-calibration-role-1-01 | 2026-10-29 | deterministic; Wasm eb67078f7efb | 6 cells; idle81 | smoke; trace=True |
+| dz-model-calibration-role-2-01 | 2026-10-29 | deterministic; Wasm 53a06243f1e1 | 6 cells; idle81 | smoke; trace=True |
+| dz-model-calibration-role-3-01 | 2026-10-29 | deterministic; Wasm edcdaaa2bc9f | 6 cells; idle81 | smoke; trace=True |
+| dz-model-work-only-v76-01 | 2026-10-29 | deterministic; Wasm eb8f2b3cce36 | 140 cells; idle81 | smoke; trace=False |
+| dz-model-calibration-role-4-01 | 2026-10-29 | deterministic; Wasm 9da774b1720b | 6 cells; idle81 | smoke; trace=True |
+| dz-model-calibration-v76-validation-01 | 2026-10-29 | deterministic; Wasm ab806a4e2e10 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-clock-diagnostics-v76-01 | 2026-10-29 | deterministic; Wasm d6bfda37f602 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-clock-release-screen-01 | 2026-10-29 | deterministic; Wasm 8cef8c7be565 | 12 cells; idle81 | smoke; trace=False |

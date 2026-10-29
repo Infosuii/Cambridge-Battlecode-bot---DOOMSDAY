@@ -8,6 +8,7 @@
 #include "failed_moves.h"
 #include "clear_risk.h"
 #include "fight.h"
+#include "attack_clock.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -294,6 +295,37 @@ int main() {
         assert(!simulate_fight(bad,one).valid&&!simulate_fight({},one).valid);
         assert(simulate_fight(one,{}).won()); // No enemy: trivially won.
         assert(simulate_fight(one,one,3).rounds==3&&!simulate_fight(one,one,3).won());
+    }
+    {
+        // Compare the closed-form reset clock with explicit owner-turn ticks.
+        auto reference=[](std::span<const TimedAttackJob> jobs,unsigned cd,unsigned period) {
+            unsigned rounds=0,resets=0;
+            for(auto job:jobs) {
+                unsigned n=job.attacks;
+                while(n) {
+                    ++rounds;--n;
+                    if(n&&period&&cd==0) { --n;++resets;cd=period; }
+                    if(!n&&job.refresh_on_kill)cd=0;
+                    if(cd)--cd;
+                }
+            }
+            return AttackClock{WorkStatus::Complete,rounds,resets,cd};
+        };
+        unsigned cases=0;
+        for(unsigned period=1;period<=8;++period)for(unsigned cd=0;cd<=8;++cd)
+            for(unsigned n=0;n<=100;++n)for(bool refresh:{false,true}) {
+                const TimedAttackJob jobs[]{{n,refresh},{n%7,!refresh}};
+                const auto fast=attack_clock(jobs,cd,period),slow=reference(jobs,cd,period);
+                assert(fast.complete()&&fast.rounds==slow.rounds&&fast.resets==slow.resets&&fast.remaining_cooldown==slow.remaining_cooldown);
+                ++cases;
+            }
+        const TimedAttackJob one[]{{1,true}},two[]{{2,true}},huge[]{{2001,false}};
+        assert(attack_clock(one,0,8).rounds==1&&attack_clock(one,0,8).resets==0);
+        assert(attack_clock(two,0,8).rounds==1&&attack_clock(two,0,8).remaining_cooldown==0);
+        assert(attack_clock(two,0,0).rounds==2);
+        assert(attack_clock(huge,0,8).status==WorkStatus::BeyondHorizon);
+        assert(!attack_clock(one,2001,8).complete());
+        std::cout << cases << " reset-clock/reference cases passed\n";
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

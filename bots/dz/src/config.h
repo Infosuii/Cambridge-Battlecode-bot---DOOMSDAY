@@ -15,6 +15,12 @@
 #ifndef DZ_TRACE_PROFILE
 #define DZ_TRACE_PROFILE 0 // Opt-in profiler; runner overrides live in config.h.
 #endif
+#ifndef DZ_TRACE_MODEL
+#define DZ_TRACE_MODEL 0 // Diagnostic predictions; never enabled in release.
+#endif
+#ifndef DZ_TRACE_MODEL_TO
+#define DZ_TRACE_MODEL_TO 500
+#endif
 #ifndef DZ_DRAFT_VARIANT
 #define DZ_DRAFT_VARIANT 0
 #endif
@@ -53,6 +59,12 @@
 #endif
 #ifndef DZ_CREW_REACH
 #define DZ_CREW_REACH 0 // Experiment: reject proven unreachable crew jobs and contracts.
+#endif
+#ifndef DZ_CLEAR_TIME_WORK_ONLY
+#define DZ_CLEAR_TIME_WORK_ONLY 0 // Experiment: omit uncalibrated per-member time padding.
+#endif
+#ifndef DZ_CLEAR_TIME_CLOCK
+#define DZ_CLEAR_TIME_CLOCK 0 // Experimental attack/reset elapsed clock; survival gate unchanged.
 #endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.

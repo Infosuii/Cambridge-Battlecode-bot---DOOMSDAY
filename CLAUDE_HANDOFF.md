@@ -1,4 +1,37 @@
-# CONTINUED 2026-10-29 — bounded pathology check, Z14 draft screen
+# CONTINUING 2026-10-29 - Z6 calibration checkpoint (work remains active)
+
+User requested continuous work, no pause. This checkpoint is committed while
+continuing; do not treat older PAUSED headings as a new stop instruction.
+Latest evidence: research/dz/model-calibration-2026-10-29/README.md and RESULTS.json.
+Default release remains EXACT foundation4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4.
+
+- 486 additional local full games, zero candidate native faults/fuel-outs.
+  All24 locally available capsules verify.38 Python tests,8 Node audit tests,
+  and the full C++ core suite via WASI/Node24 pass (14,544 reset-clock cases).
+  Native host ABI is not exercised; tools/dz_core_wasi.py is reproducible.
+- Added diagnostic-only timestamped quotes and offline replay calibration.
+  Mirrored physical groups come from SDK Map API, not map-editor templates.
+  Fog code97 is false, matching SDK semantics. Incomplete first reader analyses
+  are preserved; corrected fresh analyses use the same frozen games.
+- Work-only timing policy regressed full idle/v65/v76 banking; keep it OFF.
+- Mechanistic attack/reset clock improves prospective v76 solo timing:30 cases,
+  median error0%, aggregate bias4.26%, p90 absolute1 round. Constant kits26 cases.
+  But release screen lost43.5 banked/game vs v65 on12 cells. Keep clock policy OFF.
+  Prediction accuracy alone does not justify changing objective selection.
+- Full V-M1 remains OPEN: other-role damage bias95.43% on50 selected solo cases;
+  splash/shields/health-dependent damage and crews are not calibrated. No global
+  survivability discount. Preserve existing survival gating and all advanced gates.
+- Current disabled flags: JOB_GEAR=0, CREW_REACH=0, CLEAR_TIME_WORK_ONLY=0,
+  CLEAR_TIME_CLOCK=0; TRACE_MODEL=0 in default release. No draft-table promotion.
+
+Next active work: Z14 mixed-table hypothesis frozen in next-2026-10-29:
+variant7 on dunes/eight/expanse, variant5 on treasure-box. Test that exact mixed
+policy against v76, then productivity/idle and broader release gates if warranted.
+Do not claim variant7's prior aggregate screen validates this mixed policy.
+Preserve holdout exclusions, fresh names, config/paths.json, completed experiments,
+and use dz_compare.py. No submission/activation/ladder action is authorized.
+
+# CONTINUED 2026-10-29 â€” bounded pathology check, Z14 draft screen
 
 Latest work: research/dz/next-2026-10-29/REPORT.md and RESULTS.json.
 Branch build/pure-algorithm-zero; resumed from0160ec73. This section supersedes

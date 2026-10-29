@@ -1,6 +1,7 @@
 #include "draft.h"
 #include "gear.h"
 #include "safemode.h"
+#include "model_audit.h"
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -180,6 +181,9 @@ int main() {
                             continue;
                         }
                         DZ_PROF('q');
+#if DZ_TRACE && DZ_TRACE_MODEL
+                        dz::audit_model(goal,*world,*mem,*obs,tc);
+#endif
 #if DZ_TRACE
                         { ::dz::TraceScope dz_trace_scope;
 #if DZ_TRACE_PROFILE
