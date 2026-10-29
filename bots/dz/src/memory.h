@@ -14,6 +14,7 @@ struct Memory {
     std::vector<unsigned> hp_version; // Bumped only when remembered member HP changes.
     struct RiskEntry { unsigned version=~0u; float damage=-1, factor=-1; ClearRisk risk; };
     mutable std::vector<std::array<RiskEntry,2>> risk_cache;
+    mutable float quantize_raw=-1, quantize_out=0; // Last damage quantization (libm is costly).
     int idle_until = 0;
     // Starvation fallback: no team income for a while reverts this champion
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.

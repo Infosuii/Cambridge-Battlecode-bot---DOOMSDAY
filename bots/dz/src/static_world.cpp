@@ -3,6 +3,11 @@
 namespace dz {
 Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
     for (const auto& camp : sdk.camps()) tiles.push_back(camp.spawn_position());
+    if (tiles.empty()) return;
+    int x0=tiles[0].x,x1=x0,y0=tiles[0].y,y1=y0;
+    for (auto t:tiles) { x0=std::min(x0,t.x); x1=std::max(x1,t.x); y0=std::min(y0,t.y); y1=std::max(y1,t.y); }
+    center={(x0+x1)/2,(y0+y1)/2};
+    for (auto t:tiles) radius=std::max(radius,static_cast<int>(t.chebyshev_distance(center)));
 }
 void Group::init_stats() {
     max_hp = 0; strength = 0; cluster = true; initial_hp.clear(); initial_strength.clear(); attack_ranges.clear();
@@ -53,6 +58,17 @@ void StaticWorld::boot(const TurnContext& tc) {
         }
         ++tile_group_cursor_; tile_member_cursor_=0;
     }
+    if (!masks_ready_) {
+        if (!tc.allow(30000)) return;
+        // One export per static mask, then a one-time layout self-check.
+        blocked_mask.load(blocked); spawns_mask.load(camp_spawns); bushes_mask.load(cambc::map::bushes());
+        local_masks_valid = DZ_LOCAL_MASKS && blocked_mask.agrees_with(blocked) && spawns_mask.agrees_with(camp_spawns);
+#if DZ_TRACE
+        std::printf("DZ_MASKS valid=%d blocked=%u spawns=%u\n",local_masks_valid,blocked_mask.count(),spawns_mask.count());
+#endif
+        tc.guard(); masks_ready_ = true;
+        return;
+    }
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
         home.compute(blocked, cambc::map::spawn_region(cambc::team::ally), visited);
@@ -70,10 +86,22 @@ void StaticWorld::boot(const TurnContext& tc) {
         if (altar.field) continue;
         if (!tc.allow(field_budget())) return;
         roots.clear();
+        bool open=false; altar.gates.clear(); altar.gate_members.clear();
         for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
             vec2 p = altar.tile + vec2{dx,dy};
-            if (walkable(p)) roots.set(p);
+            if (!walkable(p)) continue;
+            roots.set(p);
+            const int g=group_at(p);
+            if (g<0) { open=true; continue; }
+            if (std::find(altar.gates.begin(),altar.gates.end(),g)==altar.gates.end()) altar.gates.push_back(g);
+            const auto& tiles=groups[g].tiles;
+            const int member=static_cast<int>(std::find(tiles.begin(),tiles.end(),p)-tiles.begin());
+            altar.gate_members.push_back({g,member});
         }
+        if (open) { altar.gates.clear(); altar.gate_members.clear(); }
+        altar.near_groups.clear();
+        for (unsigned g=0;g<groups.size();++g)
+            for (auto t:groups[g].tiles) if (t.chebyshev_distance(altar.tile)<=3) { altar.near_groups.push_back(static_cast<int>(g)); break; }
         auto field = std::make_unique<cambc::distance_field>();
         field->compute(blocked, roots, visited);
         tc.guard(); altar.field = std::move(field);
@@ -99,6 +127,24 @@ void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
     auto field = std::make_unique<cambc::distance_field>();
     field->compute(blocked, roots, visited);
     tc.guard(); groups[selected].field = std::move(field);
+}
+const std::vector<vec2>* StaticWorld::approach_tiles(int index, const TurnContext& tc) {
+    auto& group = groups[index];
+    if (group.approach_ready) return &group.approach;
+    // Roughly 1k fuel per member tile (nine neighbour checks). Building a
+    // large vault group in one go exhausted every body on 00vault.
+    if (!tc.allow(3000 + 1200 * group.tiles.size())) return nullptr;
+    // Static boundary, computed once: the per-turn scan of every member's
+    // neighbourhood cost ~63k fuel for large wolf packs (02the-pack).
+    LocalMask seen; seen.resize();
+    for (auto t : group.tiles)
+        for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
+            const vec2 p = t + vec2{dx,dy};
+            if (seen.test(p) || !walkable(p) || is_spawn(p)) continue;
+            seen.set(p); group.approach.push_back(p);
+        }
+    tc.guard(); group.approach_ready = true;
+    return &group.approach;
 }
 int StaticWorld::distance(int g, vec2 p) const {
     const auto& group = groups[g];

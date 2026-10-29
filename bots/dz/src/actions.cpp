@@ -10,12 +10,29 @@ float crew_strength(const Observation& obs, vec2 around, int radius) {
 ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Observation& obs, int index, float extra) {
     const auto& g=world.groups[index]; const auto& hp=mem.member_hp[index];
     if (hp.size()>clear_risk_members||g.initial_strength.size()!=hp.size()) return {};
-    const float damage=obs.strength*obs.camp_damage+extra;
+    // Quantize damage down to a 5% grid. Heart of Ruin and Ryth strength moves
+    // with health almost every turn; an exact key missed the cache constantly
+    // and repricing every group cost ~50k fuel per turn. Rounding down never
+    // overstates our damage, so feasibility stays conservative.
+    const float raw=obs.strength*obs.camp_damage+extra;
+    if (raw!=mem.quantize_raw) {
+        mem.quantize_raw=raw;
+        mem.quantize_out=raw>1 ? std::pow(1.05f,std::floor(std::log(raw)/std::log(1.05f))) : raw;
+    }
+    const float damage=mem.quantize_out;
     if (mem.risk_cache.size()!=world.groups.size()) mem.risk_cache.assign(world.groups.size(),{});
     // Slot 0 holds the solo price, slot 1 the latest crew price.
     auto& entry=mem.risk_cache[index][extra>0];
     const unsigned version=mem.hp_version[index];
-    if (entry.version==version&&entry.damage==damage&&entry.factor==obs.camp_factor) return entry.risk;
+    if (entry.version==version&&entry.damage==damage&&entry.factor==obs.camp_factor) {
+#if DZ_TRACE
+        ++::dz::turn_profile.acc[3];
+#endif
+        return entry.risk;
+    }
+#if DZ_TRACE
+    ++::dz::turn_profile.acc[2];
+#endif
     std::array<ClearMember,clear_risk_members> members;
     for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),g.initial_strength[k]*obs.camp_factor};
     entry={version,damage,obs.camp_factor,solo_clear_risk(std::span<const ClearMember>(members.data(),hp.size()),damage)};
@@ -48,7 +65,7 @@ bool channel_safe(const StaticWorld& world,const Observation& obs,const TurnCont
     return true;
 }
 namespace {
-bool movable(vec2 p, const StaticWorld& w, const Observation& o) { return w.walkable(p) && !o.occupied.is_set(p); }
+bool movable(vec2 p, const StaticWorld& w, const Observation& o) { return w.walkable(p) && !o.is_occupied(p); }
 bool actionable(cambc::champion_state state) {
     return !state.is_dead() && !state.contains(cambc::champion_state::recalling) &&
         !state.contains(cambc::champion_state::submitting_gems) && !state.contains(cambc::champion_state::teleporting);
@@ -129,12 +146,12 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, const Ob
     // Prefer a strictly improving distance. Static fields are not used for collision avoidance.
     for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
         auto p = origin + vec2{dx,dy};
-        if (!world.walkable(p) || (p != origin && obs.occupied.is_set(p))) continue;
+        if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
         float score = static_cast<float>(d) + danger(p, obs) * (retreat ? .08f : .015f);
         if (p == origin && d != 0) score += .2f;
-        if (cambc::map::bushes().is_set(p)) score -= .02f;
+        if (world.is_bush(p)) score -= .02f;
         if (score < score_best) { score_best = score; best = p; }
     }
     if (best != origin && act.move(best)) return field.get(best)<field.get(origin);
@@ -143,6 +160,11 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, const Ob
 }
 void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc, Actuator& act) {
     auto& me = cambc::self();
+#if DZ_TRACE
+    if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
+        std::printf("DZ_EXEC round=%u enter kind=%d actionable=%d can_move=%d can_attack=%d fuel=%llu\n",tc.round,static_cast<int>(goal.kind),
+            actionable(me.state()),me.can_move(),me.can_attack(),static_cast<unsigned long long>(cambc::fuel_remaining()));
+#endif
     if (!actionable(me.state())) return;
     if (goal.kind==GoalKind::YieldSpawn) {
         if (me.can_move()&&tc.allow(world.field_budget()+4000)) {
@@ -153,6 +175,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         }
         return;
     }
+    DZ_PROF(static_cast<char>('0'+static_cast<int>(goal.kind)));
     const bool retreat = goal.kind == GoalKind::Retreat || goal.kind == GoalKind::Home;
     const cambc::unit* target = nullptr;
     bool enemy = false;
@@ -183,15 +206,23 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     const cambc::camp* camp_target = nullptr;
     if (!target && goal.kind == GoalKind::Farm) {
         const auto& group = world.groups[goal.index];
-        float best = 1e30f;
-        for (const auto& c : group.sdk.camps()) {
-            if (!tc.allow(3500)) break;
-            if (!c.is_visible() || c.is_dead()) continue;
-            // Damaging groups: strongest member first (cuts incoming damage
-            // soonest, and every crew member picks the same camp). Then nearest.
-            float score = static_cast<float>(obs.p.chebyshev_distance(c.position())) * 1000 + c.health();
-            if (group.strength>0) score -= 1e6f * c.strength();
-            if (score < best) { best = score; camp_target = &c; }
+        // Choose from static tiles, remembered HP and one visible-camp mask,
+        // then query only the chosen camp. Five SDK calls per member made big
+        // wolf packs cost tens of thousands of fuel per turn (02the-pack).
+        // Damaging groups: strongest member first (cuts incoming damage soonest;
+        // every crew member picks the same camp), then nearest, then weakest.
+        LocalMask visible_camps; visible_camps.load(cambc::vision::camp_tiles());
+        const auto& hp = mem.member_hp[goal.index];
+        float best = 1e30f; int chosen = -1;
+        for (unsigned k = 0; k < group.tiles.size() && k < hp.size(); ++k) {
+            if (hp[k] <= 0 || !visible_camps.test(group.tiles[k])) continue;
+            float score = static_cast<float>(obs.p.chebyshev_distance(group.tiles[k])) * 1000 + hp[k];
+            if (group.strength > 0) score -= 1e6f * group.initial_strength[k];
+            if (score < best) { best = score; chosen = static_cast<int>(k); }
+        }
+        if (chosen >= 0 && tc.allow(3500)) {
+            const auto& c = group.sdk.camps()[chosen];
+            if (c.is_visible() && !c.is_dead()) camp_target = &c;
         }
         target = camp_target;
         // Never wake a sleeping damaging group that the visible crew cannot
@@ -219,6 +250,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
             }
         }
     }
+    DZ_PROF('t');
     bool attacked = false;
     if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
         obs.p.chebyshev_distance(target->position()) <= obs.range) attacked = act.attack(*target);
@@ -236,9 +268,14 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         auto p=me.position(), end=*goal.destination;
         auto sign=[](int x){return (x>0)-(x<0);};
         auto next=p+vec2{sign(end.x-p.x),sign(end.y-p.y)};
-        if (world.walkable(next) && !obs.occupied.is_set(next) && act.move(next)) return;
+        if (world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
     if (!tc.allow(world.field_budget())) {
+#if DZ_TRACE
+        if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
+            std::printf("DZ_EXEC round=%u low_budget fuel=%llu need=%llu\n",tc.round,
+                static_cast<unsigned long long>(cambc::fuel_remaining()),static_cast<unsigned long long>(world.field_budget()));
+#endif
         const cambc::distance_field* field=nullptr;
         if (goal.kind==GoalKind::Home||goal.kind==GoalKind::Retreat) field=&world.home;
         else if (goal.kind==GoalKind::Bank) field=world.altars[goal.index].field.get();
@@ -252,10 +289,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
 
     // Movement roots encode the role. Dynamic occupancy is included so a crowd
     // cannot cause permanent oscillation around a blocked shortest-path step.
-    cambc::bitboard roots;
+    DZ_PROF('a');
+    RootSet roots;
     auto blocked = world.blocked | obs.occupied;
     if (retreat) {
-        if (goal.destination && world.walkable(*goal.destination) && !obs.occupied.is_set(*goal.destination)) roots.set(*goal.destination);
+        if (goal.destination && world.walkable(*goal.destination) && !obs.is_occupied(*goal.destination)) roots.set(*goal.destination);
         else roots = cambc::map::spawn_region(cambc::team::ally) & ~blocked;
     } else if (goal.kind == GoalKind::Fight && goal.destination) {
         // Close to basic-attack range of the focus target.
@@ -268,14 +306,15 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         auto altar = world.altars[goal.index].tile;
         for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
             auto p = altar + vec2{dx,dy};
-            if (world.walkable(p) && (!obs.occupied.is_set(p) || p == obs.p)) roots.set(p);
+            if (world.walkable(p) && (!obs.is_occupied(p) || p == obs.p)) roots.set(p);
         }
     } else if (goal.kind == GoalKind::Farm) {
         auto& g = world.groups[goal.index];
         if (mem.groups[goal.index].state == GroupState::Reward) {
             vec2 nearest = obs.p; int distance = 65535;
-            for (auto p:g.tiles) {
-                if (!tc.allow(5000)) break;
+            for (unsigned k=0;k<g.tiles.size();++k) {
+                if ((k&15)==0 && !tc.allow(5000)) break;
+                const auto p=g.tiles[k];
                 const auto d = static_cast<int>(p.chebyshev_distance(obs.p));
                 if (d < distance && (movable(p, world, obs) || p == obs.p)) { nearest = p; distance = d; }
             }
@@ -287,30 +326,38 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
                 if ((movable(p, world, obs) || p == obs.p) && p != pos) roots.set(p);
             }
         } else {
-            // Unseen group: route toward free spawn tiles or their adjacency.
-            const bool respawning = mem.groups[goal.index].state == GroupState::Respawning;
-            vec2 nearest = obs.p; int distance = 65535;
-            for (unsigned member=0;member<g.tiles.size();++member) {
-                if (!tc.allow(5000)) break;
-                if (mem.member_hp[goal.index][member]<=0) continue;
-                auto p=g.tiles[member];
-                const auto d = static_cast<int>(p.chebyshev_distance(obs.p));
-                if (d < distance) { nearest = p; distance = d; }
-            }
-            if (distance < 65535) {
-                // Never wait on a spawn tile: any occupied spawn delays the
-                // whole group's respawn.
-                for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
-                    auto p = nearest + vec2{dx,dy};
-                    if (movable(p, world, obs) && (!respawning || !world.camp_spawns.is_set(p))) roots.set(p);
+            // Unseen group: route toward the free neighbours of every live
+            // member. Only the straight-line nearest member was used before;
+            // behind a wall it had no walkable neighbour, roots were empty and
+            // the champion never moved (DZ_STUCK, 02fields). Never wait on a
+            // spawn tile of a respawning group: it delays the whole respawn.
+            // The static boundary already excludes every spawn tile.
+            if (const auto* approach = world.approach_tiles(goal.index, tc)) {
+                for (auto p : *approach) if (!obs.is_occupied(p)) roots.set(p);
+            } else {
+                // Not built yet: the bounded nearest-member frontier (<= 9 roots).
+                vec2 nearest = obs.p; int distance = 65535;
+                for (unsigned member=0;member<g.tiles.size();++member) {
+                    if (mem.member_hp[goal.index][member]<=0) continue;
+                    const auto d = static_cast<int>(g.tiles[member].chebyshev_distance(obs.p));
+                    if (d < distance) { nearest = g.tiles[member]; distance = d; }
                 }
+                if (distance < 65535)
+                    for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
+                        auto p = nearest + vec2{dx,dy};
+                        if (movable(p, world, obs) && !world.is_spawn(p)) roots.set(p);
+                    }
             }
         }
     }
+    // Last resort for a farm job: follow the group's static field.
+    if (roots.is_empty() && goal.kind == GoalKind::Farm && world.groups[goal.index].field && me.can_move())
+        step(*world.groups[goal.index].field, world, obs, false, act);
+    DZ_PROF('r');
     bool bank_blocked = goal.kind == GoalKind::Bank && roots.is_empty();
     if (!roots.is_empty() && me.can_move()) {
         cambc::distance_field field;
-        field.compute(blocked, roots, world.visited);
+        field.compute(blocked, roots.board(), world.visited);
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
         if (!bank_blocked) step(field,world,obs,retreat,act);
@@ -326,10 +373,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         std::printf("DZ_EXEC round=%u kind=%d no_move roots=%u can_move=%d target=%d,%d\n",tc.round,static_cast<int>(goal.kind),
             static_cast<unsigned>(roots.count()),me.can_move(),target?target->position().x:-1,target?target->position().y:-1);
 #endif
+    DZ_PROF('d');
     if (bank_blocked && me.can_move()) {
             int prerequisite = -1, nearest = 65535;
             const auto& altar_field = *world.altars[goal.index].field;
-            for (unsigned index = 0; index < world.groups.size(); ++index) {
+            // Only groups beside the altar can block it. Scanning every camp of
+            // every group through the SDK cost up to 70k fuel (02the-pack).
+            for (int index : world.altars[goal.index].near_groups) {
                 if (!tc.allow(3000)) break;
                 for (auto& c : world.groups[index].sdk.camps()) {
                     if (!tc.allow(3500)) break;
@@ -341,7 +391,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
                     }
                 }
             }
-            if (prerequisite >= 0 && tc.allow(15000)) {
+            if (prerequisite >= 0 && tc.allow(world.field_budget() + 8000)) {
                 mem.observe_group(world, prerequisite, tc);
                 auto& b = mem.groups[prerequisite];
                 mem.contract.start(prerequisite, tc.round, world.distance(prerequisite, obs.p), b.hp, b.capture);

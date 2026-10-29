@@ -48,7 +48,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             const auto enemy_before=enemy_danger(obs.p,obs);
             auto route=camp_escape(Tile{obs.p.x,obs.p.y},obs.camps,[&](Tile p,int step) {
                 vec2 tile{p.x,p.y};
-                return world.walkable(tile) && !obs.occupied.is_set(tile) && enemy_danger(tile,obs)<=enemy_before;
+                return world.walkable(tile) && !obs.is_occupied(tile) && enemy_danger(tile,obs)<=enemy_before;
             },[&] {
                 return tc.allow(1000+150*obs.camps.size()) && fuel_start-cambc::fuel_remaining()<20000;
             });
@@ -61,7 +61,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (obs.bag > mem.last_bag || obs.submitted > mem.last_submitted) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
-    const bool legacy = mem.legacy(tc.round);
+    bool legacy = mem.legacy(tc.round);
     // Local fight: we and allies within 6 against visible enemies within 8.
     // Enemy HP carries a 25% margin for unseen reinforcements and spells.
     // Win -> engage the weakest nearby enemy (this also joins allies' fights);
@@ -81,20 +81,55 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (d <= e.range + 3) near=true;
             if (d <= 5 && (!focus || e.hp < focus->hp)) focus=&e;
         }
+        DZ_PROF('f');
         if (n_theirs) {
             auto fight=simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs));
+            DZ_PROF('g');
             if (fight.won() && focus && obs.hp >= .3f * obs.max_hp) return {GoalKind::Fight,-1,focus->p};
             if (!fight.won() && reach) return {GoalKind::Retreat};
         }
     }
-    int altar = -1, altar_distance = 65535;
+    DZ_PROF('F');
+    // Bank only at an altar whose gating groups are not alive. A gated altar
+    // used to send everyone to bank, find no free tile, refuse to wake the gate
+    // and re-select Bank forever (DZ_STUCK, 01boss-battle).
+    auto altar_open=[&](unsigned a) {
+        const auto& gm=world.altars[a].gate_members;
+        if (gm.empty()) return true;
+        for (auto [g,k]:gm) {
+            const auto st=mem.groups[g].state;
+            if (st==GroupState::Reward || st==GroupState::Respawning) return true;
+            if (k<static_cast<int>(mem.member_hp[g].size()) && mem.member_hp[g][k]<=0) return true;
+        }
+        return false;
+    };
+    int altar = -1, altar_distance = 65535, gated_altar = -1, gated_distance = 65535;
     for (unsigned a = 0; a < world.altars.size(); ++a) {
         int d = world.altar_distance(a, obs.p);
+        if (!altar_open(a)) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
         if (d < altar_distance) { altar = a; altar_distance = d; }
+    }
+#if DZ_TRACE
+    if (world.slot==0 && tc.round%200==20) for (unsigned a=0;a<world.altars.size();++a) {
+        std::printf("DZ_ALTAR round=%u altar=%u tile=%d,%d open=%d gates=%zu",tc.round,a,world.altars[a].tile.x,world.altars[a].tile.y,altar_open(a),world.altars[a].gate_members.size());
+        for (auto [g,k]:world.altars[a].gate_members) std::printf(" g%d/m%d:st%d:hp%.0f:str%.0f",g,k,static_cast<int>(mem.groups[g].state),
+            k<static_cast<int>(mem.member_hp[g].size())?mem.member_hp[g][k]:-1.f,world.groups[g].strength);
+        std::printf("\n");
+    }
+#endif
+    // Every altar gated by a live group (only 01boss-battle and 02guardians in
+    // the pool): the reachability logic above cannot bank at all, so fall back
+    // to the pre-gate policy, whose blocked-altar path clears the gate by
+    // repeated waves. A dedicated siege plan is map-specific work, deferred.
+    if (altar < 0 && gated_altar >= 0) {
+        if (!legacy) mem.legacy_until = tc.round + 100;
+        legacy = true;
+        altar = gated_altar; altar_distance = gated_distance;
     }
     if (altar >= 0 && bank_now(obs.bag, altar_distance, obs.submitted, cambc::constants::winning_gems)) return {GoalKind::Bank, altar};
     if (obs.hp < .3f * obs.max_hp || obs.gold >= 150) return {GoalKind::Home};
 
+    DZ_PROF('A');
     auto clear_risk=[&](int index,float extra=0) { return group_clear_risk(world,mem,obs,index,extra); };
     const int occupied_group=world.group_at(obs.p);
     const bool blocks_respawn=occupied_group>=0&&mem.groups[occupied_group].state==GroupState::Respawning;
@@ -134,15 +169,43 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
     if (tc.round < mem.idle_until && obs.hp >= .9f * obs.max_hp) return {GoalKind::Idle};
+    DZ_PROF('K');
     auto word = shared_word();
     float best = 1e30f; int chosen = -1;
+    // Best-first: rank groups by a cheap upper bound on their rate (claims and
+    // clear time only lower it; the distance floor never exceeds the exact
+    // distance), then price them in that order and stop once no remaining
+    // bound can beat the best. Same optimum, but only a few groups are priced:
+    // repricing every group each turn cost 30-50k fuel (02the-pack).
+    struct Candidate { float bound; unsigned index; bool waitable; };
+    static std::vector<Candidate> candidates;
+    candidates.clear();
     for (unsigned i = 0; i < world.groups.size(); ++i) {
-        if (!tc.allow(3500)) break;
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
         // A known respawn is priced at max(travel, wait) instead of ignored:
         // walking 26 tiles past a cluster that returns in 10 rounds wastes time.
         const bool waitable = belief.waitable(tc.round, config::respawn_wait) && g.sdk.gem_value()>0;
         if (!belief.available(tc.round) && !waitable) continue;
+        const int floor = world.distance_floor(i, obs.p);
+        if (!g.field && floor > 30) continue;
+        const int wait = waitable ? belief.ready - tc.round : 0;
+        const float value = g.sdk.gem_value()+.1f*g.sdk.gold_value();
+        if (value<=0) continue;
+        // Legacy (starvation) scoring is nearest-first: rank by the floor.
+        const float bound = legacy ? -static_cast<float>(floor) : value/(std::max(floor,wait)+cambc::constants::capture_time+2.f);
+        candidates.push_back({bound, i, waitable});
+    }
+    std::sort(candidates.begin(), candidates.end(), [](const Candidate& x, const Candidate& y) { return x.bound > y.bound; });
+    unsigned priced = 0;
+    for (const auto& candidate : candidates) {
+        // Each budget check is two SDK host calls; check every eighth group.
+        // Check before each pricing: an unpriced cold cache can cost several
+        // thousand fuel per group (00vault exhausted with every-eighth checks).
+        if (!tc.allow(8000)) break;
+        if (!legacy && -candidate.bound >= best) break; // Nothing left can win.
+        const unsigned i = candidate.index;
+        const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
+        const bool waitable = candidate.waitable;
         const int dist = world.distance(i, obs.p);
         if (dist >= 65535 || (!g.field && dist > 30)) continue;
         const int wait = waitable ? belief.ready - tc.round : 0;
@@ -152,33 +215,30 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         // Reward per round of travel, clear and capture, over solo-survivable
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
         const float value=(g.sdk.gem_value()+.1f*g.sdk.gold_value())/(1.f+claims);
-        if (value<=0) continue;
         const float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
-        if (-value/fixed>=best) continue; // Cannot win even with a free clear.
-        float clear_rounds=0;
         if (legacy) {
             // The pre-gate nearest-group score, used only while starving.
             float score = dist + .03f * g.strength + (g.cluster ? claims * 10.f : claims * 2.f) - (belief.state == GroupState::Reward ? 8.f : 0.f);
             if (score < best) { best = score; chosen = i; }
             continue;
         }
+        if (-value/fixed>=best) continue; // Cannot win even with a free clear.
+        float clear_rounds=0;
         if (belief.state!=GroupState::Reward) {
+            DZ_ACC_BEGIN(acc_r);
             auto risk=clear_risk(static_cast<int>(i));
+            DZ_ACC_END(1,acc_r);
             if (!risk.complete() || (g.strength>0 && !clear_survivable(risk,obs.hp,obs.max_hp))) continue;
             clear_rounds=risk.attacks+.25f*g.tiles.size();
         }
         float score=-value/(fixed+clear_rounds);
-        bool complete=true;
-        for (const auto& e : obs.enemies) {
-            for (unsigned tile=0;tile<g.tiles.size();++tile) {
-                if ((tile&15)==0&&!tc.allow(4000)) { complete=false; break; }
-                if (e.p.chebyshev_distance(g.tiles[tile])<=6) { score*=.33f; break; }
-            }
-            if (!complete) break;
-        }
-        if (!complete) break; // Never commit a partly scored candidate.
+        // Enemy within 6 of the group's tile hull (centre + radius): an
+        // enemy x tile x group scan was ~50k fuel per turn on 02the-pack.
+        for (const auto& e : obs.enemies)
+            if (static_cast<int>(e.p.chebyshev_distance(g.center)) <= 6 + g.radius) { score*=.33f; break; }
         if (score < best) { best = score; chosen = i; }
     }
+    DZ_PROF('S');
     // One crew decision per team: the lowest living slot leads. A follower
     // that cannot solo the leader's damaging target joins it.
     unsigned leader=world.slot;
@@ -209,10 +269,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         const float extra=(living-1)*obs.strength*obs.camp_damage;
         float crew_best=1e30f; int crew_choice=-1;
         for (unsigned i=0;i<world.groups.size()&&living>=2;++i) {
-            if (!tc.allow(3500)) break;
+            if (!tc.allow(8000)) break;
             const auto& belief=mem.groups[i]; const auto& g=world.groups[i];
             if (g.strength<=0 || belief.state==GroupState::Reward || !belief.available(tc.round)) continue;
-            if (world.distance(i,obs.p)>=65535) continue;
             const int home=world.home.get(g.tiles.front());
             if (home>=cambc::distance_field::unreachable) continue;
             int claims=0;
@@ -235,6 +294,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             return {GoalKind::Farm,crew_choice};
         }
     }
+    DZ_PROF('L');
     if (chosen < 0) {
         if (blocks_respawn) return {GoalKind::YieldSpawn};
         // Nothing is survivable now: healing at home widens the feasible set.

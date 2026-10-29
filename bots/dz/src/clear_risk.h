@@ -19,7 +19,8 @@ struct ClearRisk {
     bool complete() const { return status==WorkStatus::Complete; }
 };
 inline constexpr std::size_t clear_risk_members=64;
-inline ClearRisk solo_clear_risk(std::span<const ClearMember> members,float damage_per_attack,std::uint32_t horizon=2000) {
+// Reference implementation: one job per member. Kept for host equivalence tests.
+inline ClearRisk solo_clear_risk_reference(std::span<const ClearMember> members,float damage_per_attack,std::uint32_t horizon=2000) {
     if (members.size()>clear_risk_members||horizon>2000) return {};
     struct Job { std::uint32_t attacks; float incoming; };
     std::array<Job,clear_risk_members> jobs{};
@@ -34,8 +35,6 @@ inline ClearRisk solo_clear_risk(std::span<const ClearMember> members,float dama
         total+=work.attacks;
         jobs[count++]={work.attacks,m.incoming};
     }
-    // Smith's rule: kill the most incoming damage per attack first. This order
-    // minimizes the summed exposure of a single stationary attacker.
     std::sort(jobs.begin(),jobs.begin()+count,[](const Job& a,const Job& b) {
         return static_cast<double>(a.incoming)*b.attacks>static_cast<double>(b.incoming)*a.attacks;
     });
@@ -43,9 +42,43 @@ inline ClearRisk solo_clear_risk(std::span<const ClearMember> members,float dama
     std::uint32_t elapsed=0;
     for (std::size_t i=0;i<count;++i) {
         elapsed+=jobs[i].attacks;
-        // The first attack wakes the group after this turn's camp phase, and a
-        // kill prevents that member's next phase: N attacks, N-1 future phases.
         damage+=static_cast<double>(jobs[i].incoming)*(elapsed-1);
+    }
+    return {WorkStatus::Complete,total,damage};
+}
+// Production version: identical members (a full wolf pack) are merged and
+// priced in closed form, k identical jobs of a attacks after E elapsed attacks
+// expose k(E-1) + a*k(k+1)/2 phases. Same result as the reference; repricing a
+// 64-member pack one member at a time cost several thousand fuel.
+inline ClearRisk solo_clear_risk(std::span<const ClearMember> members,float damage_per_attack,std::uint32_t horizon=2000) {
+    if (members.size()>clear_risk_members||horizon>2000) return {};
+    if (!std::isfinite(damage_per_attack)||damage_per_attack<0) return {};
+    struct Job { std::uint32_t attacks; float incoming; std::uint32_t count; };
+    std::array<Job,clear_risk_members> jobs;
+    std::size_t distinct=0;
+    std::uint32_t total=0;
+    for (auto m:members) {
+        if (!std::isfinite(m.incoming)||m.incoming<0||!std::isfinite(m.hp)||m.hp<0) return {};
+        if (m.hp==0) continue;
+        if (damage_per_attack==0) return {};
+        // Widen before dividing, as basic_attack_work does; bound the quotient.
+        const auto remaining=horizon-total;
+        if (static_cast<double>(m.hp)>static_cast<double>(damage_per_attack)*remaining) return {WorkStatus::BeyondHorizon,total,0};
+        const auto attacks=static_cast<std::uint32_t>(std::ceil(static_cast<double>(m.hp)/damage_per_attack));
+        total+=attacks;
+        std::size_t k=0;
+        while (k<distinct&&!(jobs[k].attacks==attacks&&jobs[k].incoming==m.incoming)) ++k;
+        if (k==distinct) jobs[distinct++]={attacks,m.incoming,1};
+        else ++jobs[k].count;
+    }
+    std::sort(jobs.begin(),jobs.begin()+distinct,[](const Job& a,const Job& b) {
+        return static_cast<double>(a.incoming)*b.attacks>static_cast<double>(b.incoming)*a.attacks;
+    });
+    double damage=0, elapsed=0;
+    for (std::size_t i=0;i<distinct;++i) {
+        const double k=jobs[i].count, a=jobs[i].attacks;
+        damage+=static_cast<double>(jobs[i].incoming)*(k*(elapsed-1)+a*k*(k+1)/2);
+        elapsed+=a*k;
     }
     return {WorkStatus::Complete,total,damage};
 }

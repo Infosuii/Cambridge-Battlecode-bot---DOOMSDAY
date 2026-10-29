@@ -17,7 +17,7 @@ void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz:
     }
     if (me.can_move()) for (auto delta:world.home.next_moves_from(p)) {
         auto destination=p+delta;
-        if (!obs.occupied.is_set(destination)) { act.move(destination); break; }
+        if (!obs.is_occupied(destination)) { act.move(destination); break; }
     }
 }
 }
@@ -39,6 +39,9 @@ int main() {
         planner_health,execution_health,communication_health,field_health,recovery_health;
     for (;;) {
         auto tc = dz::TurnContext::begin(); dz::Actuator act(tc, counts);
+#if DZ_TRACE
+        dz::turn_profile.flush(world ? world->slot : 0); dz::turn_profile.begin(tc.round);
+#endif
 #if DZ_TRACE
         if (dz::recovery_sample.valid) {
             const auto& s=dz::recovery_sample;
@@ -86,6 +89,7 @@ int main() {
                 dz::module_work(recovery_health,tc,counts,"recovery",[&]{dz::quick_home(*world,tc,act);});
                 tc.guard(); cambc::end_turn(); continue;
             }
+            DZ_PROF('s');
             if (!dz::module_work(observation_health,tc,counts,"observation",[&]{obs->read(tc);})) {
                 if (cambc::round_number()==tc.round) cambc::end_turn();
                 continue;
@@ -124,6 +128,7 @@ int main() {
                     bool camps_ok=true;
                     if constexpr (dz::config::camp_safety)
                         camps_ok=dz::module_work(camp_health,tc,counts,"camps",[&]{obs->read_camps(*world,tc);});
+                    DZ_PROF('o');
                     if (!camps_ok || dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback ||
                         !dz::module_work(memory_health,tc,counts,"memory",[&]{mem->update(*world,tc);})) {
                         emergency(*world,*obs,tc,act);
@@ -133,6 +138,7 @@ int main() {
                         if (tc.round <= 8) std::printf("DZ_MEMORY round=%u slot=%u fuel=%llu\n", tc.round, world->slot,
                             static_cast<unsigned long long>(cambc::fuel_remaining()));
 #endif
+                        DZ_PROF('m');
                         dz::Goal goal;
 #if DZ_TRACE
                         const auto planner_fuel=cambc::fuel_remaining();
@@ -143,11 +149,12 @@ int main() {
                             if (cambc::round_number()==tc.round) cambc::end_turn();
                             continue;
                         }
+                        DZ_PROF('q');
 #if DZ_TRACE
                         if (tc.round > 8 && planner_fuel-cambc::fuel_remaining() > 15000)
                             std::printf("DZ_PLANNER_FUEL round=%u slot=%u used=%llu entry=%llu kind=%d\n",tc.round,world->slot,
                                 static_cast<unsigned long long>(planner_fuel-cambc::fuel_remaining()),static_cast<unsigned long long>(tc.fuel0),static_cast<int>(goal.kind));
-                        if (!obs->enemies.empty()) {
+                        if (!obs->enemies.empty() && world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
                             int nearest=99; unsigned allies6=0; float reach_str=0,reach_hp=0;
                             for (const auto& e:obs->enemies) {
                                 const int d=obs->p.chebyshev_distance(e.p);
@@ -161,18 +168,26 @@ int main() {
                         if (tc.round <= 8 || tc.round % 100 == 0 || (world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)) std::printf("DZ_GOAL round=%u slot=%u kind=%d index=%d pos=%d,%d bag=%d hp=%.0f altar0=%d\n",
                             tc.round, world->slot, static_cast<int>(goal.kind), goal.index, obs->p.x, obs->p.y, obs->bag, obs->hp,
                             world->altars.empty() ? -1 : world->altar_distance(0, obs->p));
-                        if (tc.round%100==0 && goal.kind==dz::GoalKind::Farm) {
+                        if ((tc.round%100==0 || (world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)) && goal.kind==dz::GoalKind::Farm) {
                             const auto& b=mem->groups[goal.index];
-                            std::printf("DZ_FARM round=%u slot=%u state=%d hp=%.0f capture=%d seen=%d checked=%d\n",
-                                tc.round,world->slot,static_cast<int>(b.state),b.hp,b.capture,b.seen,mem->contract.checked);
+                            std::printf("DZ_FARM round=%u slot=%u state=%d hp=%.0f capture=%d seen=%d checked=%d ready=%d avoid=%d\n",
+                                tc.round,world->slot,static_cast<int>(b.state),b.hp,b.capture,b.seen,mem->contract.checked,b.ready,b.avoid_until);
                         }
 #endif
+#if DZ_TRACE
+                        const auto exec_fuel=cambc::fuel_remaining();
+#endif
+                        DZ_PROF('p');
                         bool executed=dz::module_work(execution_health,tc,counts,"executor",[&] {
                             if (obs->channel()) {
                                 if (goal.kind==dz::GoalKind::Retreat && act.cancel_channel()) dz::execute(goal,*world,*mem,*obs,tc,act);
                             } else dz::execute(goal,*world,*mem,*obs,tc,act);
                         });
+                        DZ_PROF('e');
                         if (!executed) emergency(*world,*obs,tc,act);
+#if DZ_TRACE
+                        if (exec_fuel-cambc::fuel_remaining()>30000) std::printf("DZ_EXEC_FUEL round=%u slot=%u used=%llu kind=%d index=%d\n",tc.round,world->slot,static_cast<unsigned long long>(exec_fuel-cambc::fuel_remaining()),static_cast<int>(goal.kind),goal.index);
+#endif
 #if DZ_TRACE
                         if (obs->channel()) ++dz_time[9];
                         else if (goal.kind==dz::GoalKind::Farm) {
@@ -180,6 +195,26 @@ int main() {
                             const bool site=world->distance(goal.index,here)<=std::max(1,obs->range)||world->group_at(here)==goal.index;
                             ++dz_time[!site?0:mem->groups[goal.index].state==dz::GroupState::Reward?2:1];
                         } else ++dz_time[std::min<std::size_t>(10,static_cast<std::size_t>(goal.kind)+2)];
+                        {
+                            // Stuck detector: same tile for 30 turns while farming or banking,
+                            // excluding legitimate on-site work (clearing, capturing, waiting).
+                            static cambc::vec2 last{-1,-1}; static int still=0; static bool reported=false;
+                            const auto here=cambc::self().position();
+                            const bool working=goal.kind==dz::GoalKind::Farm&&(world->group_at(here)==goal.index||
+                                world->distance(goal.index,here)<=std::max(1,obs->range));
+                            if (here==last&&!obs->channel()&&(goal.kind==dz::GoalKind::Farm||goal.kind==dz::GoalKind::Bank)&&!working) ++still;
+                            else { still=0; reported=false; }
+                            last=here;
+                            if (still>=30&&!reported) {
+                                reported=true;
+                                std::printf("DZ_STUCK round=%u slot=%u kind=%d index=%d pos=%d,%d fuel=%llu field_budget=%llu has_field=%d dist=%d state=%d\n",
+                                    tc.round,world->slot,static_cast<int>(goal.kind),goal.index,here.x,here.y,
+                                    static_cast<unsigned long long>(cambc::fuel_remaining()),static_cast<unsigned long long>(world->field_budget()),
+                                    goal.kind==dz::GoalKind::Farm?static_cast<bool>(world->groups[goal.index].field):-1,
+                                    goal.kind==dz::GoalKind::Farm?world->distance(goal.index,here):world->altar_distance(goal.index,here),
+                                    goal.kind==dz::GoalKind::Farm?static_cast<int>(mem->groups[goal.index].state):-1);
+                            }
+                        }
 #endif
                         dz::module_work(communication_health,tc,counts,"communication",[&] {
                         std::uint8_t objective = dz::protocol::idle;
@@ -194,6 +229,7 @@ int main() {
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));
                         });
+                        DZ_PROF('c');
                         dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,mem->contract.objective);});
                     }
                 }

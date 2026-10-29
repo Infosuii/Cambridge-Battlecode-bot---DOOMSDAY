@@ -57,6 +57,7 @@ void Observation::read(const TurnContext& tc) {
     if (state.is_dead()) return;
     occupied = cambc::vision::champion_tiles() | cambc::vision::camp_tiles() | cambc::vision::teleport_tiles();
     occupied.set(p, false);
+    if (local_masks_valid) occupied_mask.load(occupied);
     for (auto side : {cambc::team::ally, cambc::team::enemy}) {
         auto& out = side == cambc::team::ally ? allies : enemies;
         for (const auto& c : cambc::vision::champions(side)) {

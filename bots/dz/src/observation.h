@@ -19,6 +19,8 @@ struct Observation {
     bool camps_complete = false;
     std::vector<CampThreat> camps;
     cambc::bitboard occupied;
+    LocalMask occupied_mask; // In-Wasm copy of `occupied`.
+    bool is_occupied(vec2 q) const { return local_masks_valid ? occupied_mask.test(q) : occupied.is_set(q); }
     std::vector<SeenChampion> allies, enemies;
     void refresh_self(const TurnContext&);
     void read_camps(const StaticWorld&, const TurnContext&);

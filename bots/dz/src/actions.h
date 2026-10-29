@@ -1,6 +1,7 @@
 #pragma once
 #include "clear_risk.h"
 #include "fight.h"
+#include "profile.h"
 #include "memory.h"
 
 namespace dz {

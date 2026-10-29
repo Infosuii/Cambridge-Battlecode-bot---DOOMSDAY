@@ -221,6 +221,27 @@ int main() {
         assert(!clear_survivable(solo_clear_risk(wolf,70),.1f*1000+475,1000)&&clear_survivable(solo_clear_risk(wolf,70),.1f*1000+476,1000));
     }
     {
+        // Aggregated clear risk equals the per-member reference, including
+        // horizon and invalid-input outcomes.
+        unsigned seed=12345;
+        auto next=[&]{ seed=seed*1664525u+1013904223u; return seed>>8; };
+        for (int trial=0;trial<20000;++trial) {
+            std::array<ClearMember,clear_risk_members> m{};
+            const unsigned n=next()%40;
+            for (unsigned i=0;i<n;++i) {
+                const float hps[]{0,120,1350,2400,5000,700.5f,1.f};
+                const float inc[]{0,20,60,120,12.6f,18};
+                m[i]={hps[next()%7],inc[next()%6]};
+            }
+            const float dmg=next()%5==0 ? 115.f : 30.f+next()%90;
+            const unsigned horizon=next()%3==0 ? next()%200 : 2000;
+            std::span<const ClearMember> span(m.data(),n);
+            auto a=solo_clear_risk(span,dmg,horizon), b=solo_clear_risk_reference(span,dmg,horizon);
+            assert(a.status==b.status);
+            if (a.complete()) assert(a.attacks==b.attacks&&std::abs(a.damage-b.damage)<=1e-6*std::max(1.,b.damage));
+        }
+    }
+    {
         // Focus-fire simulator.
         const Fighter v{1000,70};
         const Fighter one[]{v}, two[]{v,v};
