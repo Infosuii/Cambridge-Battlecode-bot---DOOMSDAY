@@ -14,5 +14,6 @@ ClearRisk group_clear_risk(const StaticWorld&, const Memory&, const Observation&
 float danger(vec2 p, const Observation&);
 float enemy_danger(vec2 p, const Observation&);
 bool channel_safe(const StaticWorld&,const Observation&,const TurnContext&);
+inline unsigned execute_entries = 0; // Trace-only counter.
 void execute(Goal, StaticWorld&, Memory&, const Observation&, const TurnContext&, Actuator&);
 }

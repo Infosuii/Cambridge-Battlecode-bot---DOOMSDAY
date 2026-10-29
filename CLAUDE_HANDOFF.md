@@ -1,3 +1,55 @@
+# PAUSED 2026-10-29 (usage limit) — read this first, then the sections below
+
+User's last instructions (in order): (1) erase stuck champions completely, but
+never by letting them wander: every body must always be doing productive work;
+(2) fix trace builds distorting fuel; (3) then continue the Z plan. Authorised:
+local builds/tests, pushes to this branch, map-specific and item tuning (see
+research/elite-meta-2026-10-29). NOT authorised: submit/activate/ladder.
+
+## State at pause (all committed; release build compiles, host tests pass)
+
+Stuck work (in progress):
+- Metric tool: `tools/dz_productivity.py RUN [ROUND]` on a trace pool
+  (`smoke --pool --trace --set DZ_TRACE_TO=0`). Reports DZ_STUCK episodes and
+  body-turn split work/progress/stall/idle/other.
+- Fixed this session: champions targeting enemies inside the enemy spawn
+  (healed every turn; a Vesper shot an idle Varg all game) -> never target them
+  (`StaticWorld::in_enemy_spawn`). Stuck 123 -> 27 (dz-prod-idle-05);
+  progress 57.5%, stall 3.6%, idle 0.9% (not worse).
+- Also changed: movement `step()` only penalises entering enemy reach (not
+  proximity) outside retreats. Effect not separately measured — verify.
+- Remaining 27: 02the-pond-A (8: Farm group 7/8 dist 2-12, slot 1/0 at 25,15),
+  Bank at dist 3-6 / 29-30 (9), scattered Farm. Next: window-trace those bodies
+  (`--set DZ_TRACE_SLOT=s --set DZ_TRACE_FROM=a --set DZ_TRACE_TO=b`), find the
+  cause, fix generally, require stuck -> 0 with stall/idle not rising.
+- NOT yet run on release pools: run idle + v65 release pools and compare with
+  `tools/dz_compare.py dz-parity-release-v65-01 NEW` before keeping.
+
+Trace system (done, see bots/dz/src/trace.h):
+- printf replaced by dz::trace (integer formatter, ~1-2k fuel/line vs 10-60k),
+  buffered, flushed before end_turn from spare fuel (~81 fuel per write).
+- Fuel-neutral: trace work metered (TraceScope); bot logic uses dz::fuel_left()
+  = real + this turn's trace overhead; profile/fuel lines exclude trace cost.
+- Per-turn trace cap 3k (60k inside the trace window); lines beyond it are
+  dropped and counted (DZ_TRACE_DROPPED). Trace vs release parity: ~70% of
+  games identical; remaining diverge chaotically (different binary). A trace
+  build can still fuel-out where release had < ~3k spare: treat as a warning.
+- Profiler is opt-in: `--set DZ_TRACE_PROFILE=1`. Fight lines: DZ_TRACE_FIGHT=1.
+- Temporary diagnostics still present (trace-only, harmless): DZ_PRE_EXEC,
+  DZ_CALL_EXEC, DZ_POST_EXEC, exec=/linecost in DZ_TIME. Remove when done.
+
+Strength at last release measurement: dz-parity-release-v65-01 (per-map draft
+table active, in-sample for v65): 270.4 banked vs v65 1-? ; v76 out-of-sample
+table gain +21.8 (SE 9.8). Idle ~918.
+
+Then continue Z plan per the table below (Z9 conditional items, Z10 calibrated
+fight model, Z11 crews, Z14 more draft lineups confirmed out of sample).
+
+Environment gotchas: bash heredocs here collapse backslashes (use a file
+writer for edit scripts containing \n); every cambc::bitboard test/set is a
+host call (use LocalMask); compare runs with tools/dz_compare.py.
+
+
 # Claude continuation handoff — updated 2026-10-29 (late)
 
 ## Latest status (read first)

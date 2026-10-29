@@ -26,7 +26,9 @@ void draft_loop(Counters& counts) {
         const auto signature = map_signature(); // First draft turn: 10x budget.
         for (const auto& row : map_drafts) if (row.signature == signature && DZ_DRAFT_VARIANT == 0) variant = row.variant;
 #if DZ_TRACE
-        std::printf("DZ_SIG signature=%u variant=%d\n", signature, variant);
+        { ::dz::TraceScope dz_trace_scope;
+        ::dz::trace("DZ_SIG signature=%u variant=%d\n", signature, variant);
+        }
 #endif
     } catch (...) {}
     const Order order3 = variants[variant];
@@ -46,17 +48,21 @@ void draft_loop(Counters& counts) {
         catch (const std::exception& error) {
             ++counts.module_errors;
 #if DZ_TRACE
-            std::printf("DZ_MODULE_ERROR round=%u module=draft %s\n",tc.round,error.what());
+            { ::dz::TraceScope dz_trace_scope;
+            ::dz::trace("DZ_MODULE_ERROR round=%u module=draft %s\n",tc.round,error.what());
+            }
 #endif
         }
         catch (...) {
             ++counts.module_errors;
 #if DZ_TRACE
-            std::printf("DZ_MODULE_ERROR round=%u module=draft unknown exception\n",tc.round);
+            { ::dz::TraceScope dz_trace_scope;
+            ::dz::trace("DZ_MODULE_ERROR round=%u module=draft unknown exception\n",tc.round);
+            }
 #endif
         }
         if (cambc::round_number() != tc.round) continue;
-        cambc::end_turn();
+        dz::end_turn_traced();
     }
 }
 }

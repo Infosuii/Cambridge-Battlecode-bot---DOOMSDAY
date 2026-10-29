@@ -51,7 +51,7 @@ void StaticWorld::boot(const TurnContext& tc) {
     while (tile_group_cursor_<groups.size()) {
         const auto& tiles=groups[tile_group_cursor_].tiles;
         while (tile_member_cursor_<tiles.size()) {
-            if (!tc.allow(2000)||tc.fuel0-cambc::fuel_remaining()>25000) return;
+            if (!tc.allow(2000)||tc.fuel0-fuel_left()>25000) return;
             auto p=tiles[tile_member_cursor_++];
             tile_groups[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_group_cursor_);
             camp_spawns.set(p);
@@ -62,9 +62,12 @@ void StaticWorld::boot(const TurnContext& tc) {
         if (!tc.allow(30000)) return;
         // One export per static mask, then a one-time layout self-check.
         blocked_mask.load(blocked); spawns_mask.load(camp_spawns); bushes_mask.load(cambc::map::bushes());
+        enemy_spawn_mask.load(cambc::map::spawn_region(cambc::team::enemy));
         local_masks_valid = DZ_LOCAL_MASKS && blocked_mask.agrees_with(blocked) && spawns_mask.agrees_with(camp_spawns);
 #if DZ_TRACE
-        std::printf("DZ_MASKS valid=%d blocked=%u spawns=%u\n",local_masks_valid,blocked_mask.count(),spawns_mask.count());
+        { ::dz::TraceScope dz_trace_scope;
+        ::dz::trace("DZ_MASKS valid=%d blocked=%u spawns=%u\n",local_masks_valid,blocked_mask.count(),spawns_mask.count());
+        }
 #endif
         tc.guard(); masks_ready_ = true;
         return;
@@ -76,7 +79,7 @@ void StaticWorld::boot(const TurnContext& tc) {
         return;
     }
     while (stats_cursor_ < groups.size()) {
-        if (tc.fuel0 - cambc::fuel_remaining() > 25000) return;
+        if (tc.fuel0 - fuel_left() > 25000) return;
         if (!tc.allow(3000 + groups[stats_cursor_].tiles.size() * 500)) return;
         groups[stats_cursor_].init_stats();
         tc.guard(); ++stats_cursor_;
@@ -109,7 +112,7 @@ void StaticWorld::boot(const TurnContext& tc) {
     ready = true;
 }
 void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
-    if (!tc.allow(field_budget()) || tier_for(cambc::fuel_remaining()) != Tier::Full || groups.empty()) return;
+    if (!tc.allow(field_budget()) || tier_for(fuel_left()) != Tier::Full || groups.empty()) return;
     int selected = -1;
     if (preferred >= 0 && preferred < static_cast<int>(groups.size()) && !groups[preferred].field) selected = preferred;
     else {

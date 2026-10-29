@@ -30,7 +30,7 @@ void Observation::refresh_self(const TurnContext& tc) {
 void Observation::read_camps(const StaticWorld& world,const TurnContext& tc) {
     camps.clear(); camps_complete=true;
     auto awake=cambc::vision::awake_camp_tiles();
-    auto budget=cambc::fuel_remaining();
+    auto budget=fuel_left();
     for (const auto& g:world.groups) {
         if (g.strength<=0) continue;
         auto members=g.sdk.camps();
@@ -38,7 +38,7 @@ void Observation::read_camps(const StaticWorld& world,const TurnContext& tc) {
             if (g.initial_strength[i]<=0) continue;
             auto tile=g.tiles[i];
             if (p.chebyshev_distance(tile)>12) continue;
-            if (!tc.allow(5000) || budget-cambc::fuel_remaining()>10000 || camps.size()>=32) { camps_complete=false; return; }
+            if (!tc.allow(5000) || budget-fuel_left()>10000 || camps.size()>=32) { camps_complete=false; return; }
             // Awake masks contain visible camps only. A hidden damaging spawn in
             // attack range is uncertainty, not evidence that no camp can hit us.
             if (!cambc::vision::in_vision(tile)) {

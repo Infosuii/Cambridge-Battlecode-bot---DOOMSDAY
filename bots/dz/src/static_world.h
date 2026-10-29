@@ -35,7 +35,7 @@ class StaticWorld {
     std::size_t tile_group_cursor_=0,tile_member_cursor_=0;
 public:
     cambc::bitboard blocked, visited, roots, camp_spawns;
-    LocalMask blocked_mask, spawns_mask, bushes_mask; // In-Wasm copies (see local_mask.h).
+    LocalMask blocked_mask, spawns_mask, bushes_mask, enemy_spawn_mask; // In-Wasm copies (see local_mask.h).
     std::vector<int> tile_groups;
     cambc::distance_field home;
     std::vector<Group> groups;
@@ -65,6 +65,12 @@ public:
         return cambc::map::is_in_bounds(p) && !blocked.is_set(p);
     }
     bool is_spawn(vec2 p) const { return local_masks_valid ? spawns_mask.test(p) : camp_spawns.is_set(p); }
+    // A champion inside its own spawn is fully healed every turn: attacking it
+    // only burns our attack (and a ranged body's move). 00reverse-spiral: a
+    // Vesper dealt 100,935 damage to an idle Varg healed 102,135, all game.
+    bool in_enemy_spawn(vec2 p) const {
+        return local_masks_valid ? enemy_spawn_mask.test(p) : cambc::map::spawn_region(cambc::team::enemy).is_set(p);
+    }
     bool is_bush(vec2 p) const { return local_masks_valid ? bushes_mask.test(p) : cambc::map::bushes().is_set(p); }
     int group_at(vec2 p) const {
         return cambc::map::is_in_bounds(p) && !tile_groups.empty() ? tile_groups[p.y*cambc::map::width()+p.x] : -1;

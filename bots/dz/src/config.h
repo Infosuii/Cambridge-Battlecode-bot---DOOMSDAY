@@ -9,6 +9,9 @@
 #define DZ_TRACE_FROM 100
 #define DZ_TRACE_TO 160
 #endif
+#ifndef DZ_TRACE_FIGHT
+#define DZ_TRACE_FIGHT 0 // Per-turn enemy-contact lines in the trace window.
+#endif
 #ifndef DZ_DRAFT_VARIANT
 #define DZ_DRAFT_VARIANT 0
 #endif

@@ -2,16 +2,24 @@
 #include "core.h"
 #include "protocol.h"
 #include <cambc.h>
+#include "trace.h"
 
 namespace dz {
+// End the turn; trace builds first write buffered trace lines from spare fuel.
+inline void end_turn_traced() {
+#if DZ_TRACE
+    trace_flush();
+#endif
+    cambc::end_turn();
+}
 struct TurnContext {
     std::uint32_t round;
     std::uint64_t fuel0;
-    static TurnContext begin() { return {cambc::round_number(), cambc::fuel_remaining()}; }
+    static TurnContext begin() { trace_overhead = 0; return {cambc::round_number(), fuel_left()}; }
     void guard() const { require_current(round, [] { return cambc::round_number(); }); }
     bool allow(std::uint64_t cost) const {
         guard();
-        return cambc::fuel_remaining() > cost + config::reserve;
+        return fuel_left() > cost + config::reserve;
     }
 };
 struct Counters { unsigned action_errors = 0, module_errors = 0, stale = 0; };
@@ -25,7 +33,7 @@ bool module_work(ModuleHealth& health,const TurnContext& tc,Counters& counts,[[m
     },[&]([[maybe_unused]] const char* error) {
         ++counts.module_errors;
 #if DZ_TRACE
-        std::printf("DZ_MODULE_ERROR round=%u body=%d module=%s failures=%u disabled=%d %s\n",
+        ::dz::trace("DZ_MODULE_ERROR round=%u body=%d module=%s failures=%u disabled=%d %s\n",
             tc.round,cambc::detail::cached_my_champion,name,health.failures,!health.enabled(),error);
 #endif
     });
@@ -63,7 +71,7 @@ public:
     void use_emergency_budget() { budget_=ActionBudget::Emergency; }
     template<class F> bool attempt(F action,[[maybe_unused]] const char* name="action") {
         tc_.guard();
-        if (failures_ >= config::max_action_errors || !action_budget_available(cambc::fuel_remaining(),budget_)) return false;
+        if (failures_ >= config::max_action_errors || !action_budget_available(fuel_left(),budget_)) return false;
         try {
             tc_.guard();
             bool success = true;
@@ -75,7 +83,7 @@ public:
             tc_.guard();
             ++failures_; ++counts_.action_errors;
 #if DZ_TRACE
-            if (counts_.action_errors <= 20) std::printf("DZ_ACTION_ERROR round=%u action=%s code=%d %s\n", tc_.round, name, static_cast<int>(error.code()), error.what());
+            if (counts_.action_errors <= 20) ::dz::trace("DZ_ACTION_ERROR round=%u action=%s code=%d %s\n", tc_.round, name, static_cast<int>(error.code()), error.what());
 #endif
             return false;
         }

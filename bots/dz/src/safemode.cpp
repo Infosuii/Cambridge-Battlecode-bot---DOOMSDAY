@@ -4,7 +4,7 @@
 namespace dz {
 void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
     tc.guard();
-    const auto entry=cambc::fuel_remaining();
+    const auto entry=fuel_left();
     if (!world.ready||entry<=2800) return;
     // Bounded emergency recovery: no observation rebuild, group/enemy scan,
     // allocation proportional to map size, field computation, shopping or cast.
@@ -23,7 +23,7 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) 
                 vec2::south,vec2::south_west,vec2::west,vec2::north_west};
             for (auto delta:directions) { // Fixed stack storage, no route-vector allocation.
                 tc.guard();
-                if (cambc::fuel_remaining()<=2500) break;
+                if (fuel_left()<=2500) break;
                 auto next=p+delta;
                 if (!world.walkable(next)||world.home.get(next)>=before||cambc::vision::has_champion(next)||cambc::vision::has_camp(next)||
                     cambc::vision::has_teleport(next)) continue;
@@ -33,9 +33,11 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) 
     }
     tc.guard();
 #if DZ_TRACE
+    { ::dz::TraceScope dz_trace_scope;
     // Formatting a diagnostic can itself spend thousands of fuel. Print this
     // compact local record on the next fresh turn, outside the emergency budget.
     recovery_sample={tc.round,entry,cambc::fuel_remaining(),true,moved,cleared,before,after};
+    }
 #else
     (void)entry; (void)moved; (void)cleared; (void)after;
 #endif
@@ -44,13 +46,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if constexpr (config::camp_safety) {
         auto incoming=camp_damage({obs.p.x,obs.p.y},obs.camps);
         if (incoming>0) {
-            const auto fuel_start=cambc::fuel_remaining();
+            const auto fuel_start=fuel_left();
             const auto enemy_before=enemy_danger(obs.p,obs);
             auto route=camp_escape(Tile{obs.p.x,obs.p.y},obs.camps,[&](Tile p,int step) {
                 vec2 tile{p.x,p.y};
                 return world.walkable(tile) && !obs.is_occupied(tile) && enemy_danger(tile,obs)<=enemy_before;
             },[&] {
-                return tc.allow(1000+150*obs.camps.size()) && fuel_start-cambc::fuel_remaining()<20000;
+                return tc.allow(1000+150*obs.camps.size()) && fuel_start-fuel_left()<20000;
             });
             if (route.found && must_escape_camps(obs.hp,incoming,route.damage))
                 return {GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};
@@ -79,7 +81,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             theirs[n_theirs++]={1.25f*e.hp,e.strength};
             if (d <= e.range + 1) reach=true;
             if (d <= e.range + 3) near=true;
-            if (d <= 5 && (!focus || e.hp < focus->hp)) focus=&e;
+            if (d <= 5 && !world.in_enemy_spawn(e.p) && (!focus || e.hp < focus->hp)) focus=&e;
         }
         DZ_PROF('f');
         if (n_theirs) {
@@ -110,11 +112,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if (d < altar_distance) { altar = a; altar_distance = d; }
     }
 #if DZ_TRACE
+    { ::dz::TraceScope dz_trace_scope;
     if (world.slot==0 && tc.round%200==20) for (unsigned a=0;a<world.altars.size();++a) {
-        std::printf("DZ_ALTAR round=%u altar=%u tile=%d,%d open=%d gates=%zu",tc.round,a,world.altars[a].tile.x,world.altars[a].tile.y,altar_open(a),world.altars[a].gate_members.size());
-        for (auto [g,k]:world.altars[a].gate_members) std::printf(" g%d/m%d:st%d:hp%.0f:str%.0f",g,k,static_cast<int>(mem.groups[g].state),
+        ::dz::trace("DZ_ALTAR round=%u altar=%u tile=%d,%d open=%d gates=%zu",tc.round,a,world.altars[a].tile.x,world.altars[a].tile.y,altar_open(a),world.altars[a].gate_members.size());
+        for (auto [g,k]:world.altars[a].gate_members) ::dz::trace(" g%d/m%d:st%d:hp%.0f:str%.0f",g,k,static_cast<int>(mem.groups[g].state),
             k<static_cast<int>(mem.member_hp[g].size())?mem.member_hp[g][k]:-1.f,world.groups[g].strength);
-        std::printf("\n");
+        ::dz::trace("\n");
+    }
     }
 #endif
     // Every altar gated by a live group (only 01boss-battle and 02guardians in

@@ -26,12 +26,20 @@ ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Ob
     const unsigned version=mem.hp_version[index];
     if (entry.version==version&&entry.damage==damage&&entry.factor==obs.camp_factor) {
 #if DZ_TRACE
+        { ::dz::TraceScope dz_trace_scope;
+#if DZ_TRACE_PROFILE
         ++::dz::turn_profile.acc[3];
+#endif
+        }
 #endif
         return entry.risk;
     }
 #if DZ_TRACE
+    { ::dz::TraceScope dz_trace_scope;
+#if DZ_TRACE_PROFILE
     ++::dz::turn_profile.acc[2];
+#endif
+    }
 #endif
     std::array<ClearMember,clear_risk_members> members;
     for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),g.initial_strength[k]*obs.camp_factor};
@@ -143,13 +151,24 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, const Ob
     const auto origin = cambc::self().position();
     vec2 best = origin;
     float score_best = 1e30f;
+    // Outside a retreat only *entering* an enemy's attack reach is a hazard.
+    // Penalising mere proximity froze champions whose route passes an enemy
+    // spawn (00reverse-spiral: stuck all game beside idle enemies).
+    auto reach_danger = [&](vec2 p) {
+        float d = 0;
+        for (const auto& e : obs.enemies) if (static_cast<int>(e.p.chebyshev_distance(p)) <= e.range + 1) d += e.strength;
+        return d;
+    };
+    const float here_reach = retreat ? 0.f : reach_danger(origin);
     // Prefer a strictly improving distance. Static fields are not used for collision avoidance.
     for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
         auto p = origin + vec2{dx,dy};
         if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
-        float score = static_cast<float>(d) + danger(p, obs) * (retreat ? .08f : .015f);
+        float score = static_cast<float>(d);
+        if (retreat) score += danger(p, obs) * .08f;
+        else if (reach_danger(p) > here_reach) score += 3.f; // Walk into reach only if nothing else improves.
         if (p == origin && d != 0) score += .2f;
         if (world.is_bush(p)) score -= .02f;
         if (score < score_best) { score_best = score; best = p; }
@@ -161,9 +180,12 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, const Ob
 void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc, Actuator& act) {
     auto& me = cambc::self();
 #if DZ_TRACE
+    ++execute_entries;
+    { ::dz::TraceScope dz_trace_scope;
     if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
-        std::printf("DZ_EXEC round=%u enter kind=%d actionable=%d can_move=%d can_attack=%d fuel=%llu\n",tc.round,static_cast<int>(goal.kind),
+        ::dz::trace("DZ_EXEC round=%u enter kind=%d actionable=%d can_move=%d can_attack=%d fuel=%llu\n",tc.round,static_cast<int>(goal.kind),
             actionable(me.state()),me.can_move(),me.can_attack(),static_cast<unsigned long long>(cambc::fuel_remaining()));
+    }
 #endif
     if (!actionable(me.state())) return;
     if (goal.kind==GoalKind::YieldSpawn) {
@@ -194,6 +216,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     // Free melee hit while leaving; ranged attacks must not consume the escape move.
     float target_score = -1;
     for (auto& e : obs.enemies) {
+        if (world.in_enemy_spawn(e.p)) continue; // Healed every turn: never a target.
         const auto distance=obs.p.chebyshev_distance(e.p);
         bool can_spell=false;
         for (auto r:reach) if (r.ready && distance<=r.range && !(retreat&&r.exclusive) &&
@@ -272,9 +295,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
     }
     if (!tc.allow(world.field_budget())) {
 #if DZ_TRACE
+        { ::dz::TraceScope dz_trace_scope;
         if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
-            std::printf("DZ_EXEC round=%u low_budget fuel=%llu need=%llu\n",tc.round,
+            ::dz::trace("DZ_EXEC round=%u low_budget fuel=%llu need=%llu\n",tc.round,
                 static_cast<unsigned long long>(cambc::fuel_remaining()),static_cast<unsigned long long>(world.field_budget()));
+        }
 #endif
         const cambc::distance_field* field=nullptr;
         if (goal.kind==GoalKind::Home||goal.kind==GoalKind::Retreat) field=&world.home;
@@ -362,16 +387,20 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
         if (!bank_blocked) step(field,world,obs,retreat,act);
 #if DZ_TRACE
+        { ::dz::TraceScope dz_trace_scope;
         if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
-            std::printf("DZ_EXEC round=%u kind=%d target=%d,%d visible_target=%d enemy=%d roots=%u dist_here=%d moved_to=%d,%d\n",tc.round,static_cast<int>(goal.kind),
+            ::dz::trace("DZ_EXEC round=%u kind=%d target=%d,%d visible_target=%d enemy=%d roots=%u dist_here=%d moved_to=%d,%d\n",tc.round,static_cast<int>(goal.kind),
                 target?target->position().x:-1,target?target->position().y:-1,camp_target!=nullptr,enemy,static_cast<unsigned>(roots.count()),
                 field.get(obs.p),me.position().x,me.position().y);
+        }
 #endif
     }
 #if DZ_TRACE
-    else if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
-        std::printf("DZ_EXEC round=%u kind=%d no_move roots=%u can_move=%d target=%d,%d\n",tc.round,static_cast<int>(goal.kind),
+    else if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
+        ::dz::TraceScope dz_trace_scope;
+        ::dz::trace("DZ_EXEC round=%u kind=%d no_move roots=%u can_move=%d target=%d,%d\n",tc.round,static_cast<int>(goal.kind),
             static_cast<unsigned>(roots.count()),me.can_move(),target?target->position().x:-1,target?target->position().y:-1);
+    }
 #endif
     DZ_PROF('d');
     if (bank_blocked && me.can_move()) {
@@ -409,6 +438,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         const auto here=me.position();
         float best_score=-1;
         for (const auto& e:obs.enemies) {
+            if (world.in_enemy_spawn(e.p)) continue;
             if (!e.sdk.is_visible() || e.sdk.health()<=0 || here.chebyshev_distance(e.sdk.position())>me.attack_range()) continue;
             const float hp=e.sdk.health();
             const float score=1/std::max(1.f,hp)+(hp<=obs.strength?10.f:0.f);
