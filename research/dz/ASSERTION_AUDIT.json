@@ -1,11 +1,291 @@
 {
-  "verified_utc": "2026-10-29T09:02:50.252299+00:00",
+  "verified_utc": "2026-10-29T09:29:50.726998+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 48,
+  "checked_passing_cells": 88,
   "masked_failures": 0,
   "failures": [],
   "cells": [
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "cluster-line",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "a7bddd9842dd145125cf7d475a7163f6a31a8a6bfb98e742b7e38cf1009e0562"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "cluster-line",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "a7bddd9842dd145125cf7d475a7163f6a31a8a6bfb98e742b7e38cf1009e0562"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-elk",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "abe4e50e996454e26e72835d92c2236fc7b222dd2bf59819104719d54d7a006d"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-elk",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "abe4e50e996454e26e72835d92c2236fc7b222dd2bf59819104719d54d7a006d"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-golem",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "62d41075e30812a26accd960ac09768bd314684423e50f7975fb2900401bb70b"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-golem",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "62d41075e30812a26accd960ac09768bd314684423e50f7975fb2900401bb70b"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "9832a334e99c4c6629516aa491855c9efa01413997100eb674bf3a596bebe9cc"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "9832a334e99c4c6629516aa491855c9efa01413997100eb674bf3a596bebe9cc"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-wolf",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "4fdf0744ec7ea9027699bc360696dde72a2078fe9824fd3e8488d41e53dca497"
+    },
+    {
+      "run": "dz-basic-clear-melee-01",
+      "map": "isolated-wolf",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "4fdf0744ec7ea9027699bc360696dde72a2078fe9824fd3e8488d41e53dca497"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "cluster-line",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "a7bddd9842dd145125cf7d475a7163f6a31a8a6bfb98e742b7e38cf1009e0562"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "cluster-line",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "a7bddd9842dd145125cf7d475a7163f6a31a8a6bfb98e742b7e38cf1009e0562"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-elk",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "abe4e50e996454e26e72835d92c2236fc7b222dd2bf59819104719d54d7a006d"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-elk",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "abe4e50e996454e26e72835d92c2236fc7b222dd2bf59819104719d54d7a006d"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-golem",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "62d41075e30812a26accd960ac09768bd314684423e50f7975fb2900401bb70b"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-golem",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "62d41075e30812a26accd960ac09768bd314684423e50f7975fb2900401bb70b"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "9832a334e99c4c6629516aa491855c9efa01413997100eb674bf3a596bebe9cc"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "9832a334e99c4c6629516aa491855c9efa01413997100eb674bf3a596bebe9cc"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-wolf",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "4fdf0744ec7ea9027699bc360696dde72a2078fe9824fd3e8488d41e53dca497"
+    },
+    {
+      "run": "dz-basic-clear-melee-03",
+      "map": "isolated-wolf",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "4fdf0744ec7ea9027699bc360696dde72a2078fe9824fd3e8488d41e53dca497"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "cluster-line",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "2a7c5c00ad63f60b43a9d1f1a87317187bca1e8270b3dbf3ad51106beef52168"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "cluster-line",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "4538948a6a14455943dc454825e597dbf9b9fe603fd17bdbb69e7548d6b7898e"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-elk",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "df984604d8c56e9b7d6c1e3d3f8b353ab43fbe20b165b4a3460a3094630a3130"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-elk",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "df984604d8c56e9b7d6c1e3d3f8b353ab43fbe20b165b4a3460a3094630a3130"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-golem",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "816b304b0ce3b713df1d456d191b4c72230744779692b0b02fe8e63851b8110d"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-golem",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "816b304b0ce3b713df1d456d191b4c72230744779692b0b02fe8e63851b8110d"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "35904c69184d7d5fbbaa4cb7d55ce413b11347f17a6174ad5133b5865d418c5f"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "35904c69184d7d5fbbaa4cb7d55ce413b11347f17a6174ad5133b5865d418c5f"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-wolf",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
+    {
+      "run": "dz-basic-clear-ranged-01",
+      "map": "isolated-wolf",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "cluster-line",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "2a7c5c00ad63f60b43a9d1f1a87317187bca1e8270b3dbf3ad51106beef52168"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "cluster-line",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "4538948a6a14455943dc454825e597dbf9b9fe603fd17bdbb69e7548d6b7898e"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-elk",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "df984604d8c56e9b7d6c1e3d3f8b353ab43fbe20b165b4a3460a3094630a3130"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-elk",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "df984604d8c56e9b7d6c1e3d3f8b353ab43fbe20b165b4a3460a3094630a3130"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-golem",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "816b304b0ce3b713df1d456d191b4c72230744779692b0b02fe8e63851b8110d"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-golem",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "816b304b0ce3b713df1d456d191b4c72230744779692b0b02fe8e63851b8110d"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-monolith",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "35904c69184d7d5fbbaa4cb7d55ce413b11347f17a6174ad5133b5865d418c5f"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-monolith",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "35904c69184d7d5fbbaa4cb7d55ce413b11347f17a6174ad5133b5865d418c5f"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-wolf",
+      "side": "A",
+      "assertions": 6,
+      "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
+    {
+      "run": "dz-basic-clear-ranged-03",
+      "map": "isolated-wolf",
+      "side": "B",
+      "assertions": 6,
+      "stdout_sha256": "f341793473b03aeab451dbcde151870b8130721cc404de9c3604d34f250baf3b"
+    },
     {
       "run": "dz-ct16-channels-01",
       "map": "00collision",

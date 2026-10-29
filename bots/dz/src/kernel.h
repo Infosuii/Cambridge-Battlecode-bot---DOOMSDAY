@@ -35,6 +35,7 @@ bool module_work(ModuleHealth& health,const TurnContext& tc,Counters& counts,[[m
 class Actuator {
     const TurnContext& tc_;
     Counters& counts_;
+    ActionBudget budget_;
     unsigned failures_ = 0;
     ActionHistory history_;
     static bool channel(cambc::champion_state s) {
@@ -58,9 +59,11 @@ class Actuator {
         });
     }
 public:
-    Actuator(const TurnContext& tc, Counters& counts) : tc_(tc), counts_(counts) {}
+    Actuator(const TurnContext& tc, Counters& counts) : tc_(tc), counts_(counts),budget_(ActionBudget::Normal) {}
+    void use_emergency_budget() { budget_=ActionBudget::Emergency; }
     template<class F> bool attempt(F action,[[maybe_unused]] const char* name="action") {
-        if (failures_ >= config::max_action_errors || !tc_.allow(1500)) return false;
+        tc_.guard();
+        if (failures_ >= config::max_action_errors || !action_budget_available(cambc::fuel_remaining(),budget_)) return false;
         try {
             tc_.guard();
             bool success = true;

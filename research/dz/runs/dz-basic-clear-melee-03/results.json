@@ -1,0 +1,664 @@
+{
+  "games": 10,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 378.4949022229651,
+  "fuel_p99": 440,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "cluster-line",
+      "map_sha256": "4d0c19eefceef3440414ea13b160a2380de8b48e27c438a6079f7c9055b81f5e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "169eeba7a136a2b044e2290ed63cd65616592e52cff9e14091c46cc5a970243f",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "5",
+            "12",
+            "1000",
+            "120",
+            "70",
+            "0",
+            "24",
+            "1"
+          ]
+        ],
+        "result": [
+          [
+            "kill",
+            "24",
+            "24",
+            "34",
+            "11"
+          ]
+        ]
+      },
+      "summary_sha256": "687f6097104c1c81242e5750a33751348e57dfdcb273c15e95903a30cc9b91fc"
+    },
+    {
+      "map": "cluster-line",
+      "map_sha256": "4d0c19eefceef3440414ea13b160a2380de8b48e27c438a6079f7c9055b81f5e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "645b6fb2f8d025fd092ca682fcdd678b565c9ad4ceff527a913fac41be94504b",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "5",
+            "12",
+            "1000",
+            "120",
+            "70",
+            "0",
+            "24",
+            "1"
+          ]
+        ],
+        "result": [
+          [
+            "kill",
+            "24",
+            "24",
+            "34",
+            "11"
+          ]
+        ]
+      },
+      "summary_sha256": "46e86439fbc415fdb07f2589b24d2e2c200e41357e4710ce0e623b356a4f0a5c"
+    },
+    {
+      "map": "isolated-elk",
+      "map_sha256": "5bb4fd2112fdf377e0ce5651d7869161dc3a6900f48aad26825e778fd066187f",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "eec4b8200ae0b9e64c5252de7f8674b536b2db7636fa491cd82c6a0d9b2f576f",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "2400",
+            "70",
+            "60",
+            "35",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "17",
+            "35",
+            "17",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "574668f430b27fdbb7d3ea7add03e9fbcf2e49338f58099782e4134cc2e01703"
+    },
+    {
+      "map": "isolated-elk",
+      "map_sha256": "5bb4fd2112fdf377e0ce5651d7869161dc3a6900f48aad26825e778fd066187f",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "453dd88d346541dc72f750bb0071a736dee173693cddc5156e4790c305cb7d68",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "2400",
+            "70",
+            "60",
+            "35",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "17",
+            "35",
+            "17",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "2d94f6ff825c31cb37d837d33da4361eb3af875a07fb7a62042974e870320a00"
+    },
+    {
+      "map": "isolated-golem",
+      "map_sha256": "a4d2fa2dcb46904be65447ef9fc679b3dec08319c482c05e6c5cf13a84350096",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "42b675f3f934efe5257aa46db2fe11a006ff7bc23db0947a9d4496247be78c46",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "5000",
+            "70",
+            "120",
+            "72",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "9",
+            "72",
+            "9",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "52d9f163de5b660ce0dddbe687b888cbb3810f77b6515b917f4121ac711d199a"
+    },
+    {
+      "map": "isolated-golem",
+      "map_sha256": "a4d2fa2dcb46904be65447ef9fc679b3dec08319c482c05e6c5cf13a84350096",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "b25c4dd852e69c4c7e9a8852d1c9048ba18e9623fee7b57f29847c8d40281fc5",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "5000",
+            "70",
+            "120",
+            "72",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "9",
+            "72",
+            "9",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "10b1635ed19e3258b024f00b4ec789418c41b99adbd6e414eab0b7ae1f346f9e"
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ae0002c20be67e3b0a1d8c4c9af144e963d9a1ddf303cfc430044f690be67f32",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "20000",
+            "70",
+            "200",
+            "286",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "5",
+            "286",
+            "5",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "50289679d9a746fc85dd4979c419fe8313e46d565ba8e971ab0110f510337644"
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "b46796c1337cd428c635fb9f30a4caef6602d2aff8fcb23c8e8d9410a0d47160",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "20000",
+            "70",
+            "200",
+            "286",
+            "0"
+          ]
+        ],
+        "result": [
+          [
+            "dead",
+            "5",
+            "286",
+            "5",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "ec791a31e5160f302b0de60744c0cf5d39c9477f45b45b078a08177618371821"
+    },
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "d65966e24ca1d3c4adbd4f0ee3bebde0d9c68a610b63bf468148004e5bb76c66",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "1350",
+            "70",
+            "20",
+            "20",
+            "1"
+          ]
+        ],
+        "result": [
+          [
+            "kill",
+            "20",
+            "20",
+            "19",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "807adc63a209416654a3295d8fc48c45ea52caa90e00d9b923db44473a260df3"
+    },
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "bc7358ca340ffec8e0336ef11abb532c8e1a3618e7986c8506bbc152d4dbd298",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "0bf68778c9a777fba388b1e9937ea90be7bc2b6339a5f7d1c17a8ce87dedfbe2",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "clear_outcome": true,
+          "clear_attack_count": true,
+          "clear_elapsed": true,
+          "clear_damage": true,
+          "clear_hit_damage": true,
+          "clear_isolated": true
+        },
+        "missing": [],
+        "start": [
+          [
+            "0",
+            "10",
+            "1",
+            "1000",
+            "1350",
+            "70",
+            "20",
+            "20",
+            "1"
+          ]
+        ],
+        "result": [
+          [
+            "kill",
+            "20",
+            "20",
+            "19",
+            "0"
+          ]
+        ]
+      },
+      "summary_sha256": "d0cda1527236117815fb5e94483855cb7247f6f896b880f80b4be52e49f83d75"
+    }
+  ]
+}

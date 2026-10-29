@@ -12,6 +12,8 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-low-fuel --fixture low-fuel --maps 00collision 01big-world --diagnostic-rounds 2000
+python tools/dz.py conformance --name new-clear --fixture clear --map-dir tests/dz/maps --maps isolated-wolf isolated-elk isolated-golem isolated-monolith cluster-line --diagnostic-rounds 2000
 python -m unittest discover -s tests/dz -p test_measurements.py
 python tools/dz_assertions.py
 python tools/dz.py conformance --name new-core --fixture kernel --maps 00collision 01big-world --diagnostic-rounds 2000
@@ -33,3 +35,10 @@ only the frozen diagnostic copy, not `bots/dz/src`.
 
 `maps/` contains tiny, official-MapBuilder-validated fixtures. They are excluded
 from the 70-map competition pool and cannot be used by `smoke --map-dir`.
+
+`clear` freezes the exact production `basic_clear.h` into its diagnostic source.
+Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive
+is not used for production decisions; its scope and validation gaps are in
+`research/dz/BASIC_CLEAR_VALIDATION.md`. `four-pick` is a separate kernel map for
+the four-draft-picks / five-linked-bodies case. A full diagnostic needs 2000
+rounds; zero rounds runs no turns and is rejected.

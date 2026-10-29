@@ -7,6 +7,17 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_low_fuel_requires_real_movement_and_continuation(self):
+        text='CT_LOW_FUEL_FORCE round=50 slot=0 target=5000\nDZ_LOW_FUEL round=50 slot=0 entry=4800 remaining=3000 moved=1 cleared=1 before=10 after=9\nDZ_COUNTS round=300 slot=0 actions=0 modules=0 stale=0'
+        self.assertTrue(dz.diagnostic_checks(text,'low-fuel')['passed'])
+        for a,b in [('moved=1','moved=0'),('entry=4800','entry=5001'),('after=9','after=10'),('stale=0','stale=1')]:
+            self.assertFalse(dz.diagnostic_checks(text.replace(a,b),'low-fuel')['passed'])
+    def test_clear_gate_requires_a_real_started_and_completed_experiment(self):
+        text='\n'.join(f'CT_CHECK name={name} pass=1' for name in ('clear_outcome','clear_attack_count','clear_elapsed','clear_damage','clear_hit_damage','clear_isolated'))
+        self.assertFalse(dz.diagnostic_checks(text,'clear')['passed'])
+        valid=text+'\nCT_CLEAR_START ranged=0 round=10 members=1 hp=1000 camp_hp=1350 hit=70 incoming=20 predicted=20 survives=1\nCT_CLEAR_RESULT outcome=kill attacks=20 predicted=20 elapsed=19 moves=0'
+        self.assertTrue(dz.diagnostic_checks(valid,'clear')['passed'])
+        self.assertFalse(dz.diagnostic_checks(valid+'\nCT_CHECK name=clear_damage pass=0','clear')['passed'])
     def test_extracted_lifecycle_payload_is_not_a_second_match(self):
         self.assertEqual(dz.native_replay(['lifecycle.repl26a','candidate-vs-opponent.repl26a']), 'candidate-vs-opponent.repl26a')
         with self.assertRaises(ValueError): dz.native_replay(['lifecycle.repl26a'])

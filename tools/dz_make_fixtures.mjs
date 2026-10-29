@@ -11,6 +11,11 @@ const destination=path.resolve(process.argv[2]??'tests/dz/maps');
 const key=process.argv[3]??'isolated-monolith';
 const layouts={
   'isolated-monolith':[[4,10,10]],
+  'isolated-wolf':[[0,10,10]],
+  'four-pick':[[0,10,10]],
+  'isolated-elk':[[1,10,10]],
+  'isolated-golem':[[5,10,10]],
+  'cluster-line':Array.from({length:12},(_,i)=>[3,6+i,6]),
   'recovery-shop':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[0,10,12]],
   'capture-contest':[[2,14,15],[2,15,15]],
 };
@@ -19,7 +24,8 @@ fs.mkdirSync(destination,{recursive:true});
 check(X.MapBuilder_Create(31,31,2,out)); // Rotational180, matching official editor enum.
 const builder=dv().getBigUint64(out,true);
 try {
-  check(X.MapBuilder_SetNumChampsPerTeam(builder,3));
+  const picks=key==='four-pick'?4:3;
+  check(X.MapBuilder_SetNumChampsPerTeam(builder,picks));
   [1,1,4,4].forEach((value,index)=>dv().setInt32(out+index*4,value,true));
   check(X.MapBuilder_SetTeamASpawnArea(builder,out));
   const altar=key==='capture-contest'?[15,10]:[15,15];
@@ -33,7 +39,7 @@ try {
   fs.writeFileSync(path.join(destination,name),bytes,{flag:'wx'});
   const manifest={purpose:'controlled engine conformance only; no strategy or strength claims',engine:'2.0.0',
     generator_sha256:crypto.createHash('sha256').update(fs.readFileSync(new URL(import.meta.url))).digest('hex'),
-    official_assets:PINNED,width:31,height:31,symmetry:'rotational180',picks:3,spawnA:[1,1,4,4],
+    official_assets:PINNED,width:31,height:31,symmetry:'rotational180',picks,spawnA:[1,1,4,4],
     altar,camps:layouts[key],automatic_symmetry:true,terrain:'open ground; no walls, bushes or holes',
     file:name,bytes:length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')};
   fs.writeFileSync(path.join(destination,key==='isolated-monolith'?'manifest.json':key+'.manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});

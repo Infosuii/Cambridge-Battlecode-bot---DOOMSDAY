@@ -160,6 +160,23 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='low-fuel':
+        forced=[tuple(map(int,r)) for r in re.findall(r'CT_LOW_FUEL_FORCE round=(\d+) slot=(\d+) target=(\d+)',stdout)]
+        rows=[tuple(map(int,r)) for r in re.findall(r'DZ_LOW_FUEL round=(\d+) slot=(\d+) entry=(\d+) remaining=(\d+) moved=(\d) cleared=(\d) before=(-?\d+) after=(-?\d+)',stdout)]
+        selected=[r for r in rows if (r[0],r[1]) in {(f[0],f[1]) for f in forced}]
+        good=bool(forced and len(selected)==len(forced) and len({f[1] for f in forced})==len(forced) and
+            all(0<end<entry<=5000 and moved and cleared and 0<=after<before for _,_,entry,end,moved,cleared,before,after in selected))
+        continued=bool(re.search(r'DZ_COUNTS round=300 slot=0 actions=0 modules=0 stale=0',stdout))
+        return dict(passed=good and continued and 'DZ_ACTION_ERROR' not in stdout and 'DZ_MODULE_ERROR' not in stdout,
+                    forced=forced,measured=selected,bodies=len(forced),continued_at_round_300=continued,
+                    scope='bounded cached-home movement and claim clearing; not full planned SafeMode')
+    if fixture=='clear':
+        checks=transcript_assertions(stdout)
+        required={'clear_outcome','clear_attack_count','clear_elapsed','clear_damage','clear_hit_damage','clear_isolated'}
+        starts=re.findall(r'CT_CLEAR_START ranged=(\d) round=(\d+) members=(\d+) hp=([\d.]+) camp_hp=([\d.]+) hit=([\d.]+) incoming=([\d.]+) predicted=(\d+) survives=(\d)',stdout)
+        results=re.findall(r'CT_CLEAR_RESULT outcome=(kill|dead) attacks=(\d+) predicted=(\d+) elapsed=(\d+) moves=(\d+)',stdout)
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and len(starts)==len(results)==1 and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()),start=starts,result=results)
     if fixture=='restart':
         forced=re.findall(r'CT_RESTART_FORCE round=50 slot=0 body=(\d+) wrote=1 objective=55 onsite=1',stdout)
         cleared=bool(re.search(r'DZ_BOOT_CLAIM round=51 slot=0 objective=127 onsite=0',stdout))
@@ -368,6 +385,10 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 checks=result['diagnostic_checks']
                 checks.update(expected_bodies=bodies,expected_deliberate_fuel_outs=expected_outs)
                 checks['passed'] &= checks['bodies']==bodies and result['fuel_outs']==expected_outs
+            if fixture=='low-fuel':
+                bodies=sum(c['team']==owner for c in native['champions'])
+                result['diagnostic_checks']['expected_bodies']=bodies
+                result['diagnostic_checks']['passed'] &= result['diagnostic_checks']['bodies']==bodies
             if fixture=='kernel':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
@@ -427,15 +448,40 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
-    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart')
+    fixtures = {'kernel':'conformance','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
+    if args.command=='conformance' and args.fixture=='clear':
+        shutil.copyfile(ROOT/'bots/dz/src/basic_clear.h',frozen/'src/basic_clear.h')
     if args.trace or injected:
         config = frozen/'src/config.h'
         config.write_text(config.read_text().replace('#define DZ_TRACE 0', '#define DZ_TRACE 1'))
-    if injected and args.fixture!='restart':
+    if args.command=='conformance' and args.fixture=='low-fuel':
+        main=frozen/'src/main.cpp'; source_text=main.read_text()
+        needle='            if (world->ready&&dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback) {'
+        if source_text.count(needle)!=1: raise ValueError('low-fuel fixture injection boundary changed')
+        injection=r'''            static bool forced_low=false;
+            if (!forced_low&&world->ready&&tc.round>=50&&tc.round<250) {
+                auto& me=cambc::self(); auto state=me.state();
+                if (!state.is_dead()&&!me.is_recalling()&&!me.is_submitting_gems()&&!me.is_teleporting()&&me.can_move()) {
+                    auto p=me.position(); bool available=false;
+                    if (world->home.get(p)>0&&world->home.get(p)<cambc::distance_field::unreachable)
+                        for (auto delta:world->home.next_moves_from(p)) {
+                            auto q=p+delta;
+                            if (world->walkable(q)&&!cambc::vision::has_champion(q)&&!cambc::vision::has_camp(q)&&!cambc::vision::has_teleport(q)) available=true;
+                        }
+                    if (available) {
+                        forced_low=true;
+                        std::printf("CT_LOW_FUEL_FORCE round=%u slot=%u target=5000\n",tc.round,world->slot);
+                        while (cambc::fuel_remaining()>5000) { }
+                    }
+                }
+            }
+'''
+        main.write_text(source_text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
+    if injected and args.fixture in ('module-failure','module-stale'):
         main=frozen/'src/main.cpp'; text=main.read_text(); needle='mem->update(*world,tc);'
         if text.count(needle)!=1: raise ValueError('memory fault injection site changed')
         injection='throw std::runtime_error("controlled memory failure");'
@@ -584,11 +630,14 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
     args = parser.parse_args()
+    if args.command in ('smoke','conformance'):
+        if args.workers<1: parser.error('--workers must be positive')
+        if args.diagnostic_rounds<1: parser.error('--diagnostic-rounds must be positive; zero runs no turns')
     if args.command == 'host': host_tests()
     elif args.command == 'verify': verify_evidence()
     elif args.command == 'recover': recover(args)

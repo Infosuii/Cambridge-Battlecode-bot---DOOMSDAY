@@ -6,6 +6,10 @@
 
 namespace dz {
 enum class Tier { Full, Lean, Fallback };
+enum class ActionBudget { Normal, Emergency };
+constexpr bool action_budget_available(std::uint64_t fuel,ActionBudget budget) {
+    return fuel>(budget==ActionBudget::Emergency?1800:1500+config::reserve);
+}
 constexpr Tier tier_for(std::uint64_t fuel) {
     return fuel >= config::full_fuel ? Tier::Full : fuel >= config::lean_fuel ? Tier::Lean : Tier::Fallback;
 }

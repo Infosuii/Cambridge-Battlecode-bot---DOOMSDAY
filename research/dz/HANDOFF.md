@@ -1,6 +1,38 @@
-# Continue DOOMSDAY Zero â€” 2026-10-29
+# Continue DOOMSDAY Zero — 2026-10-29
 
 ## Latest steering and audit checkpoint (read first)
+
+### Latest low-fuel and basic-clear checkpoint
+
+- Restart checkpoint and clean export are pushed.
+- `basic_clear.h` is an SDK-free work/single-duel primitive, not used for
+  decisions. Read BASIC_CLEAR_VALIDATION.md. Full native melee/ranged 03
+  campaigns pass 20 cells, zero faults/fuel-outs. 01 were truncated; melee 02
+  accidentally ran zero turns and was rejected. All evidence is retained.
+- `dz-core-four-pick-01` passes two complete native games: four picks/five
+  bodies with C&I, exact one deliberate fuel-out each, zero faults.
+- Low-fuel recovery now passes `dz-low-fuel-home-05`: all 16 bodies across four
+  full native games enter below 5k fuel, clear their old claim, make one legal
+  cached-home step and continue at R300; zero native/caught errors or fuel-outs.
+  It preserves existing action history. Directions use fixed stack storage;
+  diagnostics are deferred to the next fresh turn. This is not full SafeMode.
+- Retained low-fuel failures: 01 mixed memory injection (harness bug); 02 spent
+  budget on its own marker; 03 moved but sometimes could not clear its claim;
+  04 passed the eligible 15 bodies but missed the fifth side-B large-map body,
+  which was dead throughout the first window. 05 waits for its respawn.
+- Fresh 420-game pool checks now pass: `dz-low-fuel-regression-idle-01`,
+  `dz-low-fuel-regression-v65-release-01`, `dz-low-fuel-regression-v65-trace-01`.
+  All have zero native faults/fuel-outs; trace has zero caught errors. Idle
+  banked 903.54, collected 953.59, p99 53,220. Release v65 banked 185.99,
+  collected 280.90, p99 52,358, 0/140 wins. Trace v65 banked 186.21 (diagnostic).
+- Fresh restart/stale/module regression diagnostics all pass. Preserve exact
+  intentional fault/exhaustion counts; never use injected binaries as releases.
+- Current source matches the new frozen idle source; map-specific tuning stays
+  deferred. See FOUNDATION_CHECKPOINT.json and LOW_FUEL_RECOVERY.md.
+- Next work: remaining linked death/draft/action/item/vision conformance, then
+  expanded clear/arrival/damage calibration. Full ObjModel/EE and full 5k
+  SafeMode remain unfinished. The bot is still weak against v65.
+
 
 ### Restart-safe continuation checkpoint
 
@@ -18,7 +50,7 @@ FOUNDATION_CHECKPOINT.json records the current source and exact tested binary.
   hidden health reads reject 97. Offline official replay analysis checks every
   SDK observation against its actual champion-turn state. Actual respawn is 60
   rounds after death at the champion turn; another champion can first see it that
-  round or the next. Earlier 01â€“03 wrongly assumed an observer delay always 60 or
+  round or the next. Earlier 01–03 wrongly assumed an observer delay always 60 or
   always 61; 04/05 had a reader phase/previous-event mix-up. Failures preserved.
   Bundled SDK exposes no champion respawn-timer wrapper/import; don't invent one.
 - Contest: `dz-ct24-enemy-contest-02` passes: prior capture progress is confirmed
@@ -131,7 +163,7 @@ bot is weak. Starter numbers below are historical, not current-source results.
 
 Latest frozen campaigns: `dz-fundamentals-07-{idle,v65}-{control,safety}`, each
 140 games, all zero native faults/fuel-outs. Safety changes mean banked idle
-902.94â†’917.39 and v65 191.14â†’187.04; deaths 14.88â†’7.07 and 18.35â†’14.76. Both
+902.94→917.39 and v65 191.14→187.04; deaths 14.88→7.07 and 18.35→14.76. Both
 contested campaigns lose all games. Safety stays default OFF. Full-pool strict
 trace audit `dz-fundamentals-08-v65-trace` passes 140 cells with zero native faults,
 fuel-outs and printed caught action/module errors. It is diagnostic evidence only.
@@ -197,7 +229,7 @@ This is a tested walking skeleton. It is not a strong bot or a release candidate
 ## Next implementation milestone (do this before tuning)
 
 1. Finish CT-11 camp cadence/targeting and CT-7 movement/spell allowances; CT-8/9
-   visibility; CT-16/17 channels; CT-24â€“26 capture/credit/reset. Add automatic
+   visibility; CT-16/17 channels; CT-24–26 capture/credit/reset. Add automatic
    diagnostic transcript assertions and the complete canonical CT-27 fingerprint.
    Keep deliberate-fault/fuel-out tests isolated from candidates.
 2. Extract objective arrival/clear/camp damage/capture data from the preserved
@@ -261,8 +293,8 @@ python tools/dz.py smoke --name UNIQUE-V65-RUN --pool --opponent v65
 
 ## Evaluation discipline
 
-Read `HOLDOUT.md` and `SEED_LEDGER.md` before experiments. Seeds 101â€“110 dev,
-111â€“120 validation, 121â€“124 once-only frozen release holdout; 3/4 prohibited.
+Read `HOLDOUT.md` and `SEED_LEDGER.md` before experiments. Seeds 101–110 dev,
+111–120 validation, 121–124 once-only frozen release holdout; 3/4 prohibited.
 DZ v0 is deterministic and does not consume a seed. Do not relabel duplicate
 identities as independent samples. Bug/geometry checks can use all maps; parameter
 selection must respect the held-out-map partition. No new top-team download was

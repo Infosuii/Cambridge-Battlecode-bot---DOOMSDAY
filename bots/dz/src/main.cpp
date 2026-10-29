@@ -4,6 +4,7 @@
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
+    if (dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback) { dz::quick_home(world,tc,act); return; }
     auto& me=cambc::self(); auto state=me.state();
     if (state.is_dead()||state.contains(cambc::champion_state::recalling)||
         state.contains(cambc::champion_state::submitting_gems)||state.contains(cambc::champion_state::teleporting)) return;
@@ -30,10 +31,16 @@ int main() {
     std::unique_ptr<dz::Observation> obs;
     bool priority_set = false, claim_initialized=false, first_frame=true;
     dz::ModuleHealth observation_health,boot_health,shop_health,camp_health,memory_health,
-        planner_health,execution_health,communication_health,field_health;
+        planner_health,execution_health,communication_health,field_health,recovery_health;
     for (;;) {
         auto tc = dz::TurnContext::begin(); dz::Actuator act(tc, counts);
 #if DZ_TRACE
+        if (dz::recovery_sample.valid) {
+            const auto& s=dz::recovery_sample;
+            std::printf("DZ_LOW_FUEL round=%u slot=%u entry=%llu remaining=%llu moved=%d cleared=%d before=%d after=%d\n",
+                s.round,world?world->slot:0,static_cast<unsigned long long>(s.entry),static_cast<unsigned long long>(s.remaining),s.moved,s.cleared,s.before,s.after);
+            dz::recovery_sample.valid=false;
+        }
         if (tc.round % 100 == 0) std::printf("DZ_COUNTS round=%u slot=%u actions=%u modules=%u stale=%u\n",
             tc.round, world ? world->slot : 0, counts.action_errors, counts.module_errors, counts.stale);
 #endif
@@ -64,6 +71,10 @@ int main() {
 #endif
                     tc.guard(); cambc::end_turn(); continue;
                 }
+            }
+            if (world->ready&&dz::tier_for(cambc::fuel_remaining())==dz::Tier::Fallback) {
+                dz::module_work(recovery_health,tc,counts,"recovery",[&]{dz::quick_home(*world,tc,act);});
+                tc.guard(); cambc::end_turn(); continue;
             }
             if (!dz::module_work(observation_health,tc,counts,"observation",[&]{obs->read(tc);})) {
                 if (cambc::round_number()==tc.round) cambc::end_turn();

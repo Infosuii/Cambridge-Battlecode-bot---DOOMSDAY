@@ -1,4 +1,4 @@
-# DOOMSDAY Zero â€” pure algorithmic bot
+# DOOMSDAY Zero — pure algorithmic bot
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
@@ -31,6 +31,10 @@ economy auction and crews; single capturer and timed cluster circuits; hazard ba
 gear utility; exhaustive map-aware draft; race controller; tested team-message freshness;
 opening schedule; dash/heal/consumable policies; meaningful parity/league/holdout gates.
 The low-fuel emergency path banks beside an altar or heads home; it is not the complete planned 5k-fuel SafeMode.
+Below the normal reserve, a separate bounded path clears its claim and attempts
+one cached-home step. It preserves this turn's action history, uses no route
+allocation or full observations, and passes forced sub-5k native checks for all
+16 bodies on the two stress maps. See `research/dz/LOW_FUEL_RECOVERY.md` for scope.
 Observation, boot, shopping, camp scan, memory, planner, execution, communication
 and field modules are quarantined after three contained exceptions per instance.
 Budget suspension propagates separately and does not count as a module failure.

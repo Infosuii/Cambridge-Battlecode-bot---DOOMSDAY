@@ -1,6 +1,44 @@
 #include "safemode.h"
 
 namespace dz {
+void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
+    tc.guard();
+    const auto entry=cambc::fuel_remaining();
+    if (!world.ready||entry<=2800) return;
+    // Bounded emergency recovery: no observation rebuild, group/enemy scan,
+    // allocation proportional to map size, field computation, shopping or cast.
+    quick.use_emergency_budget(); // Preserve this turn's move/cast/error history.
+    auto& me=cambc::self(); const auto state=me.state();
+    bool moved=false,cleared=false;
+    int before=-1,after=-1;
+    // Publish before movement so a costly successful move cannot leave an old
+    // job claim behind. This is still only a soft claim, without a lease.
+    cleared=quick.publish(protocol::with_slot(shared_word(),world.slot,{protocol::idle,false}));
+    if (!state.is_dead()&&!state.contains(cambc::champion_state::recalling)&&
+        !state.contains(cambc::champion_state::submitting_gems)&&!state.contains(cambc::champion_state::teleporting)) {
+        const auto p=me.position(); before=world.home.get(p); after=before;
+        if (before>0&&before<cambc::distance_field::unreachable&&state.contains(cambc::champion_state::can_move)) {
+            const std::array<vec2,8> directions{vec2::north,vec2::north_east,vec2::east,vec2::south_east,
+                vec2::south,vec2::south_west,vec2::west,vec2::north_west};
+            for (auto delta:directions) { // Fixed stack storage, no route-vector allocation.
+                tc.guard();
+                if (cambc::fuel_remaining()<=2500) break;
+                auto next=p+delta;
+                if (!world.walkable(next)||world.home.get(next)>=before||cambc::vision::has_champion(next)||cambc::vision::has_camp(next)||
+                    cambc::vision::has_teleport(next)) continue;
+                if (quick.move(next)) { moved=true; after=world.home.get(me.position()); break; }
+            }
+        }
+    }
+    tc.guard();
+#if DZ_TRACE
+    // Formatting a diagnostic can itself spend thousands of fuel. Print this
+    // compact local record on the next fresh turn, outside the emergency budget.
+    recovery_sample={tc.round,entry,cambc::fuel_remaining(),true,moved,cleared,before,after};
+#else
+    (void)entry; (void)moved; (void)cleared; (void)after;
+#endif
+}
 Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
     if constexpr (config::camp_safety) {
         auto incoming=camp_damage({obs.p.x,obs.p.y},obs.camps);

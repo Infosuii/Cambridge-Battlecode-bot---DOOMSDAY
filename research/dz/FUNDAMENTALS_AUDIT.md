@@ -1,4 +1,4 @@
-# Fundamentals audit â€” continuing 2026-10-29
+# Fundamentals audit — continuing 2026-10-29
 
 User direction: defer map-specific plans/tuning until fundamentals are solid.
 Map selections below are correctness/stress fixtures. No map-name rules or per-map
@@ -53,7 +53,7 @@ frozen binaries/maps and reanalyzed the same raw games. Finished runs are immuta
 
 ## Latest paired release results
 
-Same source/schedule, only `DZ_CAMP_SAFETY` differs. Each campaign is 70 maps Ã—
+Same source/schedule, only `DZ_CAMP_SAFETY` differs. Each campaign is 70 maps ×
 both sides. Deterministic cells are not independent randomized samples.
 
 | Campaign | Mean collected | Mean banked | Mean deaths | Fuel p99 | Faults / fuel-outs |
@@ -64,8 +64,8 @@ both sides. Deterministic cells are not independent randomized samples.
 | 07 v65 safety | 284.28 | 187.04 | 14.76 | 60,590 | 0 / 0 |
 
 Safety reduces deaths and improves idle income but slightly reduces contested
-final banking. **It stays off by default.** At R500 idle banked 278.43â†’300.76,
-deaths 5.68â†’2.36; v65 banked 102.01â†’103.14, deaths 9.50â†’7.28. Both v65 campaigns
+final banking. **It stays off by default.** At R500 idle banked 278.43→300.76,
+deaths 5.68→2.36; v65 banked 102.01→103.14, deaths 9.50→7.28. Both v65 campaigns
 lose all 140 games; this is not a strong baseline yet.
 
 Retained regressions: `fundamentals-05-idle` banked 839.74 with zero engine faults/
@@ -143,3 +143,17 @@ incomplete: enemy contest, hidden liveness/respawn and Home recall are now teste
 but blocked champion respawn, bush/wards, item modifiers, calibrated clear/arrival/
 damage prediction, crews and economic planning remain. Map plans stay deferred.
 Exact source/binary identities and limitations are in FOUNDATION_CHECKPOINT.json.
+
+## Bounded low-fuel recovery and restricted clear work
+
+LOW_FUEL_RECOVERY.md records 16 successful sub-5k forced recovery samples and
+fresh restart/stale/module regressions. BASIC_CLEAR_VALIDATION.md records 20
+complete native controlled clear checks; the pure primitive remains unused by
+production decisions. Full SafeMode and V-M1 are still incomplete.
+
+The matching new 420-game regression has zero native faults/fuel-outs; the v65
+trace has zero caught errors. Idle mean banked 903.54, collected 953.59, p99
+53,220. Uninstrumented v65 mean banked 185.99, collected 280.90, p99 52,358,
+0/140 wins. These remain runtime checks, not strength evidence. The new action
+boundary changes fuel costs and therefore may alter when lazy fields build; no
+map parameter tuning or performance-based selection was done.

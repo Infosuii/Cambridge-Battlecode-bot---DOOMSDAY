@@ -1,4 +1,4 @@
-# DZ engine conformance â€” partial, 2026-10-29
+# DZ engine conformance — partial, 2026-10-29
 
 Pinned CLI/SDK 4.0.0, local engine 2.0.0. **G0 is not complete.** The 27-test
 design is a work queue, not a claimed completed suite. Instrumented games are
@@ -16,7 +16,7 @@ was fixed and the experiment repeated as ct-02, preserving the same observations
 
 CT-1 single-sample wrapper costs, guest fuel including wrapper/loop/query overhead:
 
-| Primitive | 41Ã—41 (00collision) | 100Ã—100 (01big-world) |
+| Primitive | 41×41 (00collision) | 100×100 (01big-world) |
 |---|---:|---:|
 | `distance_field.compute` (home roots) | 2,370 | 29,943 |
 | all allied champion handles/views | 2,779 | 3,830 |
@@ -74,7 +74,7 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-17 | Observed | Lock cancellation, retained bag, simultaneous locks, five hits, range 3 rejection, tribute duration |
 | CT-18 | Pending | Teleport and dash disabled in the starter |
 | CT-19 | Partial | Two C&I instances/body slots established; linked death/order still needs a fixture |
-| CT-20 | Partial | Pick/reveal behavior observed for 3 and 5; missed-pick and 4-pick diagnostic fixture pending |
+| CT-20 | Partial | Pick/reveal assertions pass for 3/4/5 picks; missed-pick behavior pending |
 | CT-21 | Observed | team_size=picks, not bodies |
 | CT-22 | Partial | Spawn healing and immediate health-purchase gain verified; blocked champion respawn pending |
 | CT-23 | Pending | Bush and ward visibility fixtures; no belief claims about hidden absence |
@@ -177,9 +177,9 @@ untested mechanics questions.
   correctness map: five consecutive 200-damage rounds. Ryth's 1,200 health permits
   five living samples. The official MapBuilder generates/validates the separate
   map in `tests/dz/maps/`; it is outside the 70-map competition pool.
-- Monolith attempts 01/03â€“06 on competition geometry remain failed diagnostics.
+- Monolith attempts 01/03–06 on competition geometry remain failed diagnostics.
   They exposed inaccessible setup, doubled incoming damage, and **damage from a
-  camp outside champion vision**. In 04â€“06, HP falls by 200 per round while visible
+  camp outside champion vision**. In 04–06, HP falls by 200 per round while visible
   awake masks are empty; static exclusion isolates the possible source, but the
   strict direct-observation gate correctly refuses a pass. Ward placement did
   not fix the occlusion. The dedicated open fixture removes those confounds.
@@ -215,3 +215,15 @@ entries still need their own fixtures before a model relies on them.
 
 Earlier failed fixtures are retained and explained in HANDOFF.md. These new results
 resolve historical pending statements above only within their stated scope.
+
+## Restricted basic-clear and four-pick continuation
+
+`dz-basic-clear-melee-03` / `dz-basic-clear-ranged-03`: 20 complete native games,
+zero faults/fuel-outs. Per-member integer attack work and restricted single-camp
+survival match all controlled outcomes. This is not V-M1 completion; see
+BASIC_CLEAR_VALIDATION.md for scope, failures and pending calibration.
+
+`dz-core-four-pick-01` passes two completed native games on a separate correctness
+map: four draft picks yield five bodies with C&I, immediate shared writes and
+other kernel assertions pass, exact one deliberate fuel-out per cell. Missed-pick
+behavior and linked-death behavior remain open.

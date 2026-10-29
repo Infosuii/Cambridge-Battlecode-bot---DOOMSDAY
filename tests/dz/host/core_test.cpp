@@ -2,11 +2,52 @@
 #include "protocol.h"
 #include "camp_threat.h"
 #include "ledger.h"
+#include "basic_clear.h"
 #include <cassert>
 #include <iostream>
+#include <limits>
 
 int main() {
     using namespace dz;
+    assert(!action_budget_available(5000,ActionBudget::Normal));
+    assert(action_budget_available(5000,ActionBudget::Emergency));
+    assert(!action_budget_available(1800,ActionBudget::Emergency));
+    assert(action_budget_available(1801,ActionBudget::Emergency));
+    std::array<BasicTarget,12> cluster;
+    cluster.fill({120,80});
+    assert(basic_attack_work(cluster).attacks==24); // Aggregated HP / damage wrongly gives 18.
+    assert(basic_attack_work(cluster,23).status==WorkStatus::BeyondHorizon);
+    assert(basic_attack_work(std::span<const BasicTarget>{},0).complete());
+    const BasicTarget dead[]{ {0,0} };
+    assert(basic_attack_work(dead,0).complete());
+    for (float hp:{-1.f,std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}) {
+        const BasicTarget bad[]{ {hp,80} };
+        assert(basic_attack_work(bad).status==WorkStatus::Invalid);
+    }
+    for (float damage:{0.f,-1.f,std::numeric_limits<float>::infinity()}) {
+        const BasicTarget bad[]{ {120,damage} };
+        assert(basic_attack_work(bad).status==WorkStatus::Invalid);
+    }
+    const BasicTarget huge[]{ {std::numeric_limits<float>::max(),std::numeric_limits<float>::denorm_min()} };
+    assert(basic_attack_work(huge).status==WorkStatus::BeyondHorizon);
+    const BasicTarget invalid_tail[]{ {1e30f,1.f},{-1,1} };
+    assert(basic_attack_work(invalid_tail).status==WorkStatus::Invalid);
+    for (int hp=1;hp<=400;++hp) for (int damage=1;damage<=90;++damage) {
+        int remaining=hp,count=0;
+        while (remaining>0) { remaining-=damage; ++count; }
+        const BasicTarget target[]{ {static_cast<float>(hp),static_cast<float>(damage)} };
+        auto got=basic_attack_work(target);
+        assert(got.complete()&&got.attacks==static_cast<unsigned>(count));
+    }
+    const BasicTarget below[]{ {std::nextafter(160.f,0.f),80} },exact[]{ {160,80} },above[]{ {std::nextafter(160.f,200.f),80} };
+    assert(basic_attack_work(below).attacks==2&&basic_attack_work(exact).attacks==2&&basic_attack_work(above).attacks==3);
+    auto wolf=stationary_duel(1000,{1350,70},20);
+    assert(wolf.work.attacks==20&&wolf.future_damage_for_clear==380&&wolf.survives);
+    auto boundary=stationary_duel(60,{140,70},60);
+    assert(!boundary.survives&&stationary_duel(61,{140,70},60).survives);
+    assert(stationary_duel(1,{70,70},200).survives); // A kill this turn prevents retaliation next turn.
+    assert(!stationary_duel(1000,{2400,70},60).survives);
+    assert(stationary_duel(0,{70,70},0).work.status==WorkStatus::Invalid);
     static_assert(tier_for(60000) == Tier::Full);
     static_assert(tier_for(59999) == Tier::Lean);
     static_assert(tier_for(24999) == Tier::Fallback);

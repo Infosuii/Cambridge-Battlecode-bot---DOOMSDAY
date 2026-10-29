@@ -1,67 +1,68 @@
 {
-  "verified_utc": "2026-10-29T09:04:13.011619+00:00",
+  "verified_utc": "2026-10-29T09:29:50.209939+00:00",
   "fundamentals_complete": false,
   "map_specific_plans_deferred": true,
   "current_source_matches_frozen_idle": true,
   "source": {
     "src/actions.cpp": "98d7e1a65eaf541895cdfde67353e3a19a6508dfcff4e46d7d76c86f9110f25b",
     "src/actions.h": "13d1d706fea1db3b659f37a36bcd46deaa467f064813e2e92b8f2ea6258cc767",
+    "src/basic_clear.h": "08b5d8effa995d11468ff112fcdaa6f258877d1e0f6328cc9b4874193b34a496",
     "src/camp_threat.h": "e9a0902e2fae09c65c7a5a2ea832607d57ba3946f176d12b1115bca43d0b721d",
     "src/config.h": "0c3f8583f52572fe7ebf62d51b08227ad292326f1852927fae970fad3a34f3cb",
-    "src/core.h": "23ff1a255997dc3d65f1a0b7a78ac2b101a7e68a4c5218020b1a4790396bb0a4",
+    "src/core.h": "635d1253a8160303eeab399ed7aeb2f4b14803e509e8c558882060a802e54c4c",
     "src/draft.cpp": "1d7ec15cf7edb3860f33e65ab73355d8908c77a5842df90a1f479327f2db081f",
     "src/draft.h": "cda3163ececdf5c81496dc6827d07e86ca09c77a1e70f1f4b12785d5831d597d",
     "src/gear.cpp": "375643dc3c1b680a770c5b15e5ce65f92a3093a2d16e856f731b24700e56833c",
     "src/gear.h": "d139bec7c7ed5886328f132f3b1dce15dd761c1ab6e6bad8df9f6d7a2a4ab860",
-    "src/kernel.h": "d48d9ce996c82cd07690b157e0617e21043d971b74a4a78a1c449c39f091c1b8",
+    "src/kernel.h": "9c4414e11480abe8f6f66641dc4f1ce0fa849826ce7cdbf98fc1b049c353dd36",
     "src/ledger.h": "6f60ab52cc5ee520a871923397f61c3de10bc76889caee386bd491e9fead6fe4",
-    "src/main.cpp": "5aebbecdea3bffa932c27e6347a00f243cb0376e3d8258019fcd4cb95b30bd2e",
+    "src/main.cpp": "1bdda5394e8178aef1871f9ab1dbb9af13ed0a07ddf8bd224974d89cd8b196fb",
     "src/memory.cpp": "8c915737fda2de7b45770f5ed5307301245f44e2455ff93b8ffa9eb6e2847fee",
     "src/memory.h": "931e345b43196751246f82faa9e9953d702fbadaefdba9536b71e0d57f472504",
     "src/observation.cpp": "917017f6075d5092e2be94c8da7fae80c1cac7fef431275b77b19f1606fc0557",
     "src/observation.h": "cf8ac1f3b87cb4fcbb0492f17bb9894b7605241d66a70b22b0e609d737cfee3c",
     "src/protocol.h": "8e5bb63cd8fe636cd4edd088bb889754859eef4796e25d1dd9dd25f695234846",
-    "src/safemode.cpp": "b687e410d09f56bd619d5193e709dd38a86d08343219f1a076b40ca8886a0512",
-    "src/safemode.h": "3e01826b871dda57af80224cd609fb668ec168e2892ec550017695b4294febea",
+    "src/safemode.cpp": "b18d6ad82b5dc0ac552a55304b5e49e9ac9c42d68bb640e8214ac3c96bced29b",
+    "src/safemode.h": "81e9c05d102a0fcc992e762013acbe8df5d7f5bd92a389923089c85ba639d027",
     "src/static_world.cpp": "7465eb4933b44ba229fa7aaf9673edce6cf54bfebe95017ada067d0f2848062b",
     "src/static_world.h": "a0ed42b1db152dadd00f25d88a71ce275d5e49ef56c35adf49be11495ba71e97"
   },
-  "default_candidate_sha256": "950d86628935e4c361567ca1f54873da6dad221f1b05e818877205144a014b5a",
+  "default_candidate_sha256": "dcc75b76faa0751b4b7e38bc5740c9a2b99529dd01991df1bb131bc5e2a8378f",
   "campaigns": {
-    "dz-restart-safe-idle-01": {
+    "dz-low-fuel-regression-idle-01": {
       "games": 140,
       "wins": 140,
       "faults": 0,
       "opponent_faults": 0,
       "fuel_outs": 0,
-      "mean_collected": 953.6857142857143,
-      "mean_banked": 903.3357142857143,
-      "fuel_mean": 24819.750576963947,
-      "fuel_p99": 53054,
+      "mean_collected": 953.5857142857143,
+      "mean_banked": 903.5357142857143,
+      "fuel_mean": 24948.797650625238,
+      "fuel_p99": 53220,
       "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
     },
-    "dz-restart-safe-v65-release-01": {
+    "dz-low-fuel-regression-v65-release-01": {
       "games": 140,
       "wins": 0,
       "faults": 0,
       "opponent_faults": 0,
       "fuel_outs": 0,
-      "mean_collected": 280.65,
-      "mean_banked": 187.3357142857143,
-      "fuel_mean": 22348.839645356595,
-      "fuel_p99": 52234,
+      "mean_collected": 280.9,
+      "mean_banked": 185.9857142857143,
+      "fuel_mean": 22460.269047866514,
+      "fuel_p99": 52358,
       "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
     },
-    "dz-restart-safe-v65-trace-01": {
+    "dz-low-fuel-regression-v65-trace-01": {
       "games": 140,
       "wins": 0,
       "faults": 0,
       "opponent_faults": 0,
       "fuel_outs": 0,
-      "mean_collected": 277.89285714285717,
-      "mean_banked": 185.45,
-      "fuel_mean": 22404.781942966172,
-      "fuel_p99": 53120,
+      "mean_collected": 279.3142857142857,
+      "mean_banked": 186.20714285714286,
+      "fuel_mean": 22410.665390432652,
+      "fuel_p99": 53108,
       "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
     }
   },
@@ -161,6 +162,48 @@
       "native_faults_measured": true,
       "faults": 4,
       "fuel_outs": 0
+    },
+    "dz-basic-clear-melee-03": {
+      "cells": 10,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 0
+    },
+    "dz-basic-clear-ranged-03": {
+      "cells": 10,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 0
+    },
+    "dz-core-four-pick-01": {
+      "cells": 2,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 2
+    },
+    "dz-low-fuel-home-05": {
+      "cells": 4,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 0
+    },
+    "dz-low-fuel-restart-regression-01": {
+      "cells": 4,
+      "native_faults_measured": true,
+      "faults": 4,
+      "fuel_outs": 0
+    },
+    "dz-low-fuel-stale-regression-01": {
+      "cells": 4,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 16
+    },
+    "dz-low-fuel-module-regression-01": {
+      "cells": 4,
+      "native_faults_measured": true,
+      "faults": 0,
+      "fuel_outs": 0
     }
   },
   "limits": [
@@ -169,8 +212,10 @@
     "Truncated diagnostics have no native fault total",
     "Experimental camp safety is disabled",
     "No calibrated ObjModel/EE/crew model",
-    "Native module-stale diagnostic intentionally exhausts fuel once per body"
+    "Native module-stale diagnostic intentionally exhausts fuel once per body",
+    "Basic-clear primitive is not used in production decisions",
+    "Sub-5k recovery covers claim clearing and one cached-home step only"
   ],
-  "clean_export_receipt": "PORTABILITY_RESTART_VERIFIED.json",
-  "clean_export_pending": false
+  "clean_export_receipt": "PORTABILITY_LOW_FUEL_VERIFIED.json",
+  "clean_export_pending": true
 }
