@@ -24,6 +24,9 @@
 #ifndef DZ_DRAFT_VARIANT
 #define DZ_DRAFT_VARIANT 0
 #endif
+#ifndef DZ_MAP_DRAFT_EXTRA
+#define DZ_MAP_DRAFT_EXTRA 0 // Frozen four-map Z14 hypothesis; requires separate confirmation.
+#endif
 #ifndef DZ_LOCAL_MASKS
 #define DZ_LOCAL_MASKS 1
 #endif
@@ -65,6 +68,24 @@
 #endif
 #ifndef DZ_CLEAR_TIME_CLOCK
 #define DZ_CLEAR_TIME_CLOCK 0 // Experimental attack/reset elapsed clock; survival gate unchanged.
+#endif
+#ifndef DZ_BANK_AWARE_RATE
+#define DZ_BANK_AWARE_RATE 0 // Experiment: amortize static delivery travel in solo job pricing.
+#endif
+#ifndef DZ_CARRIER_BANK_PRIORITY
+#define DZ_CARRIER_BANK_PRIORITY 1 // Bankable carriers retain banking priority; full preservation pools passed.
+#endif
+#ifndef DZ_ENGAGE_IN_RANGE
+#define DZ_ENGAGE_IN_RANGE 0 // Experiment: voluntary fights count only allies in range of the focus.
+#endif
+#ifndef DZ_GEM_TARGET_PRIORITY
+#define DZ_GEM_TARGET_PRIORITY 0 // Experiment: visible carried gems contribute to local target value.
+#endif
+#ifndef DZ_CAPTURE_GEAR
+#define DZ_CAPTURE_GEAR 0 // Experiment: Vesper's third same-stat emblem is Capture instead of Jungle.
+#endif
+#ifndef DZ_CAPTURE_FOURTH
+#define DZ_CAPTURE_FOURTH 0 // Experiment: retain the first3 emblems, then one Capture before Power.
 #endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.

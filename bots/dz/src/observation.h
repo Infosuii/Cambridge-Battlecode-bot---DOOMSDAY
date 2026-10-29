@@ -9,6 +9,9 @@ struct SeenChampion {
     vec2 p;
     float hp, max_hp, strength;
     int range;
+#if DZ_GEM_TARGET_PRIORITY
+    int bag=0;
+#endif
 };
 struct Observation {
     cambc::champion_state state;

@@ -295,6 +295,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         const bool can_basic=distance<=obs.range && (!retreat||obs.range==1);
         if (!can_basic&&!can_spell) continue;
         float score = 1 / std::max(1.f, e.hp) + (e.hp <= obs.strength ? 10.f : 0.f);
+#if DZ_GEM_TARGET_PRIORITY
+        // A local basic can remove a carrier's banked-score opportunity as
+        // well as transfer its bag. No new chase target or wider fight range.
+        if(can_basic)score+=static_cast<float>(e.bag)/std::max(1.f,e.hp);
+#endif
         if (score > target_score) { target_score = score; target = &e.sdk; enemy = true; }
     }
     const cambc::camp* camp_target = nullptr;

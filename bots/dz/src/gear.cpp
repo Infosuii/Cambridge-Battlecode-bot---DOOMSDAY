@@ -18,7 +18,7 @@ struct Build { std::array<Step,3> emblems; S power; };
 Build build_for(cambc::champion_type type) {
     using T = cambc::champion_type;
     switch (type) {
-    case T::vesper_vale: return {{{{F::treasure,S::strength},{F::monster,S::strength},{F::jungle,S::strength}}},S::strength};
+    case T::vesper_vale: return {{{{F::treasure,S::strength},{F::monster,S::strength},{DZ_CAPTURE_GEAR?F::capture:F::jungle,S::strength}}},S::strength};
     case T::marcella: return {{{{F::treasure,S::strength},{F::monster,S::strength},{F::durability,S::health}}},S::strength};
     case T::heart_of_ruin: return {{{{F::jungle,S::health},{F::treasure,S::health},{F::monster,S::health}}},S::health};
     case T::ryth: return {{{{F::treasure,S::health},{F::jungle,S::health},{F::monster,S::health}}},S::health};
@@ -70,6 +70,17 @@ bool buy_build(const TurnContext& tc,Actuator& act,const Build& build) {
             auto result = shard.result();
             if (!result || owned[*result] == 0) { selected = shard; break; }
         }
+#if DZ_CAPTURE_FOURTH
+        // Preserve Treasure/Monster/Jungle and their survival/DPS effects.
+        // The pinned metadata prices both at five same-stat shards: Capture
+        // trades Power's sixth growth point for two capture-timer ticks.
+        if(selected==cambc::get_item_enum(F::power,build.power) &&
+            me.champion_name()==cambc::champion_type::vesper_vale) {
+            const auto capture=cambc::get_item_enum(F::capture,build.power);
+            const auto emblem=capture.result();
+            if(emblem && !owned[*emblem])selected=capture;
+        }
+#endif
         if (!me.can_buy(selected) || !act.buy(selected)) break;
         changed = true;
     }

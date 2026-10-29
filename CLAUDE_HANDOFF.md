@@ -1,3 +1,38 @@
+# CONTINUING 2026-10-29 - selected carrier-priority development checkpoint
+
+User requested continuous work; no pause or scheduled continuation. Current
+selected default is research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json.
+Read research/dz/carrier-priority-2026-10-29/README.md before the older sections.
+Default release5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d.
+
+CARRIER_BANK_PRIORITY=1 is selected: an ordinary bankable load does not volunteer
+for a Fight chase before Bank. Losing-contact retreats and local attacks remain.
+Three source-matched release pools and one trace pool (560 games) are clean:
+- idle919.46, identical to the prior selected foundation;
+- v65261.56 versus260.80, +0.76/descriptive SE9.80, wins3 each;
+- v76225.75 versus222.64, +3.11/SE6.43, wins1 each;
+- productivity3 stuck, all447 matching R1000 body snapshots IDENTICAL;
+- zero candidate native faults/fuel-outs; trace caught errors0.
+This preserves measured aggregate release/productivity, not formal parity or a
+competitive-strength gain. Some winning cells change and uncertainty is wide.
+Clean source/SDK/CMake export (same host, no config/caches) reproduces5cf28cb7.
+The original4ee9731c foundation and its controls remain frozen for rollback.
+
+Other new experiments stay OFF: frozen four-map mixed draft (v76 failed),
+BANK_AWARE_RATE (negative v65 screen), ENGAGE_IN_RANGE (negative), GEM_TARGET_PRIORITY
+(negative/inconclusive), CAPTURE_GEAR (third emblem negative), CAPTURE_FOURTH
+(negative). JOB_GEAR/Prospector, CREW_REACH and both timing policies remain OFF.
+Only CARRIER_BANK_PRIORITY changed as a default.43 Python tests pass; prior
+8 Node audit and14,544 WASI clock/core checks also pass. Config paths preserved.
+
+Next active Z14 work: re-evaluate lineups0..7 on the CURRENT selected policy,
+using ONLY56 development maps for selection. Existing table was trained before
+later policy/runtime repairs. Freeze a replacement/override before v76 testing;
+retain the existing14 held-out-map rows unchanged. Do not cherry-pick the failed
+four-map table after seeing v76 and call that an independent confirmation.
+For Z6, full V-M1 remains open despite improved restricted attack-clock timing.
+Advanced auction/EE/gear-planner gates stay false. No submit/activate/ladder.
+
 # CONTINUING 2026-10-29 - Z6 calibration checkpoint (work remains active)
 
 User requested continuous work, no pause. This checkpoint is committed while

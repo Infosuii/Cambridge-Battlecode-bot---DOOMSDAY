@@ -1,3 +1,12 @@
+# Active selected checkpoint - carrier banking priority
+
+Read CLAUDE_HANDOFF.md's newest CONTINUING section, then
+research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json and
+research/dz/carrier-priority-2026-10-29/README.md. Default release is5cf28cb7,
+with unchanged idle productivity and close contested release performance.
+Original4ee9731c remains a frozen control. User requested continuous work.
+Next active work: refresh draft selection on56 development maps, then v76.
+
 # Active continuation - Z6 calibration checkpoint
 
 Read the newest CONTINUING section in CLAUDE_HANDOFF.md, then

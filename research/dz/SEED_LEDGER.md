@@ -444,3 +444,15 @@ The registry was created before experiments. Entries below record actual use.
 | dz-model-calibration-v76-validation-01 | 2026-10-29 | deterministic; Wasm ab806a4e2e10 | 12 cells; idle81 | smoke; trace=True |
 | dz-model-clock-diagnostics-v76-01 | 2026-10-29 | deterministic; Wasm d6bfda37f602 | 12 cells; idle81 | smoke; trace=True |
 | dz-model-clock-release-screen-01 | 2026-10-29 | deterministic; Wasm 8cef8c7be565 | 12 cells; idle81 | smoke; trace=False |
+| dz-z14-mixed-v76-confirm-01 | 2026-10-29 | deterministic; Wasm dafe6a6ab9b5 | 140 cells; idle81 | smoke; trace=False |
+| dz-delivery-rate-v65-screen-01 | 2026-10-29 | deterministic; Wasm 1c8b05371ca9 | 12 cells; idle81 | smoke; trace=False |
+| dz-carrier-priority-v65-screen-01 | 2026-10-29 | deterministic; Wasm dcbd1840ee35 | 16 cells; idle81 | smoke; trace=False |
+| dz-carrier-priority-v76-check-01 | 2026-10-29 | deterministic; Wasm 5cf28cb74612 | 140 cells; idle81 | smoke; trace=False |
+| dz-carrier-priority-v65-full-01 | 2026-10-29 | deterministic; Wasm 5cf28cb74612 | 140 cells; idle81 | smoke; trace=False |
+| dz-engage-range-v65-screen-01 | 2026-10-29 | deterministic; Wasm ea66d03418fd | 16 cells; idle81 | smoke; trace=False |
+| dz-carrier-priority-idle-01 | 2026-10-29 | deterministic; Wasm 5cf28cb74612 | 140 cells; idle81 | smoke; trace=False |
+| dz-gem-target-trace-pilot-01 | 2026-10-29 | deterministic; Wasm de954f53d440 | 4 cells; idle81 | smoke; trace=True |
+| dz-gem-target-v65-screen-01 | 2026-10-29 | deterministic; Wasm b4982d195cdb | 16 cells; idle81 | smoke; trace=False |
+| dz-carrier-priority-productivity-01 | 2026-10-29 | deterministic; Wasm b4bc106c097b | 140 cells; idle81 | smoke; trace=True |
+| dz-capture-gear-v65-screen-01 | 2026-10-29 | deterministic; Wasm 6d44acdc576f | 16 cells; idle81 | smoke; trace=False |
+| dz-capture-fourth-v65-screen-01 | 2026-10-29 | deterministic; Wasm 1df28c45faf7 | 16 cells; idle81 | smoke; trace=False |

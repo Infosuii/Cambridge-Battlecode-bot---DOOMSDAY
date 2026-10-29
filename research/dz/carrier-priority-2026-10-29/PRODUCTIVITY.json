@@ -1,0 +1,70 @@
+{
+  "run": "dz-carrier-priority-productivity-01",
+  "round": 1000,
+  "games": 140,
+  "source": "frozen capsule",
+  "runtime_clean": true,
+  "stuck_episodes": 3,
+  "by_goal_state": {
+    "1,-1": 1,
+    "0,0": 2
+  },
+  "worst_maps": [
+    [
+      "01corridors-B",
+      1
+    ],
+    [
+      "01islands-A",
+      1
+    ],
+    [
+      "02famine-A",
+      1
+    ]
+  ],
+  "snapshots": 447,
+  "games_with_snapshots": 100,
+  "duplicate_snapshots": 0,
+  "body_turns": 421237,
+  "totals": {
+    "work": 152177,
+    "progress": 241931,
+    "stall": 12568,
+    "idle": 4671,
+    "other": 9890
+  },
+  "percentages": {
+    "work": 36.126218731972735,
+    "progress": 57.433463822028926,
+    "stall": 2.983593558970366,
+    "idle": 1.1088769505052976,
+    "other": 2.34784693652267
+  },
+  "comparison": {
+    "base_run": "dz-resume-cold-retry-productivity-01",
+    "base_runtime_clean": true,
+    "matching_body_snapshots": 447,
+    "base_percentages": {
+      "work": 36.126218731972735,
+      "progress": 57.433463822028926,
+      "stall": 2.983593558970366,
+      "idle": 1.1088769505052976,
+      "other": 2.34784693652267
+    },
+    "candidate_percentages": {
+      "work": 36.126218731972735,
+      "progress": 57.433463822028926,
+      "stall": 2.983593558970366,
+      "idle": 1.1088769505052976,
+      "other": 2.34784693652267
+    },
+    "percentage_point_change": {
+      "work": 0.0,
+      "progress": 0.0,
+      "stall": 0.0,
+      "idle": 0.0,
+      "other": 0.0
+    }
+  }
+}

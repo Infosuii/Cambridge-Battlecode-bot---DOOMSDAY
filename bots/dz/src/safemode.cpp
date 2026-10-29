@@ -91,7 +91,28 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if (n_theirs) {
             auto fight=simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs));
             DZ_PROF('g');
-            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp) return {GoalKind::Fight,-1,focus->p};
+            // Banking already outranks farming below. Test whether it should
+            // also outrank a voluntary fight: the executor still takes legal
+            // local attacks, and an unsafe losing contact can still retreat.
+            const bool bankable=DZ_CARRIER_BANK_PRIORITY &&
+                bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
+            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp && !bankable) {
+                bool engage=true;
+#if DZ_ENGAGE_IN_RANGE
+                // The old simulation gave every ally within six instant DPS,
+                // even when its own attack range could not reach the focus.
+                // Only filter voluntary engagements. Keep the established
+                // losing-contact retreat decision unchanged below.
+                std::array<Fighter,fight_units> present{};std::size_t n_present=1;
+                present[0]=ours[0];
+                for(const auto& a:obs.allies)if(a.hp>0&&n_present<fight_units&&
+                    obs.p.chebyshev_distance(a.p)<=6&&a.p.chebyshev_distance(focus->p)<=a.range)
+                    present[n_present++]={a.hp,a.strength};
+                engage=tc.allow(6000)&&simulate_fight(std::span<const Fighter>(present.data(),n_present),
+                    std::span<const Fighter>(theirs.data(),n_theirs)).won();
+#endif
+                if(engage)return {GoalKind::Fight,-1,focus->p};
+            }
             if (!fight.won() && reach) return {GoalKind::Retreat};
         }
     }
@@ -226,7 +247,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         // Reward per round of travel, clear and capture, over solo-survivable
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
         const float value=(g.sdk.gem_value()+.1f*g.sdk.gold_value())/(1.f+claims);
-        const float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
+        float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
         if (legacy) {
             // The pre-gate nearest-group score, used only while starving.
             float score = dist + .03f * g.strength + (g.cluster ? claims * 10.f : claims * 2.f) - (belief.state == GroupState::Reward ? 8.f : 0.f);
@@ -234,6 +255,24 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             continue;
         }
         if (-value/fixed>=best) continue; // Cannot win even with a free clear.
+#if DZ_BANK_AWARE_RATE
+        int delivery=cambc::distance_field::unreachable;bool unknown_delivery=false;
+        for(unsigned a=0;a<world.altars.size();++a)if(altar_open(a)) {
+            const int distance=world.delivery_distance(i,a,tc);
+            if(distance<0) { unknown_delivery=true;break; }
+            delivery=std::min(delivery,distance);
+        }
+        // A cold/unreachable estimate never invents a hard feasibility veto.
+        // Small payouts amortize one bank trip over the configured bag target;
+        // current claims divide the expected personal reward. This is a static
+        // optimistic travel cost, not a calibrated channel/contest model.
+        if(!unknown_delivery&&delivery<cambc::distance_field::unreachable) {
+            const float share=g.sdk.gem_value()/(1.f+claims);
+            const float fraction=std::clamp((obs.bag+share)/config::bank_bag,0.f,1.f);
+            fixed+=fraction*delivery;
+        }
+        if(-value/fixed>=best)continue;
+#endif
         float clear_rounds=0;
         if (belief.state!=GroupState::Reward) {
             DZ_ACC_BEGIN(acc_r);

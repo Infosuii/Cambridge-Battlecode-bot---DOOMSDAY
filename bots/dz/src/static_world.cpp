@@ -163,4 +163,16 @@ int StaticWorld::distance(int g, vec2 p) const {
 int StaticWorld::altar_distance(unsigned a, vec2 p) const {
     return altars[a].field ? altars[a].field->get(p) : 65535;
 }
+#if DZ_BANK_AWARE_RATE
+int StaticWorld::delivery_distance(unsigned index,unsigned altar,const TurnContext& tc) {
+    auto& g=groups[index];
+    if(g.delivery_distances.size()!=altars.size())g.delivery_distances.assign(altars.size(),-1);
+    auto& cached=g.delivery_distances[altar];
+    if(cached>=0)return cached;
+    if(!tc.allow(4000+200*g.tiles.size()))return -1;
+    int nearest=cambc::distance_field::unreachable;
+    for(auto tile:g.tiles)nearest=std::min(nearest,altar_distance(altar,tile));
+    tc.guard();cached=nearest;return cached;
+}
+#endif
 }

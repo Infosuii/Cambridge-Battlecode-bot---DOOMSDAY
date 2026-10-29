@@ -12,6 +12,9 @@ struct Group {
     std::vector<float> initial_strength;
     std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
+#if DZ_BANK_AWARE_RATE
+    std::vector<int> delivery_distances; // Per-altar static distance from the nearest reward tile.
+#endif
 #if DZ_JOB_GEAR
     int home_distance=65535; bool home_reachable=true;
 #endif
@@ -58,6 +61,9 @@ public:
         return std::max(0, static_cast<int>(p.chebyshev_distance(group.center)) - group.radius);
     }
     int altar_distance(unsigned a, vec2 p) const;
+#if DZ_BANK_AWARE_RATE
+    int delivery_distance(unsigned group,unsigned altar,const TurnContext&);
+#endif
     std::uint64_t field_budget() const {
         // CT-1: ~30k on the measured 100x100 case; provisional conservative
         // envelope, still checked by release fuel traces over the whole pool.

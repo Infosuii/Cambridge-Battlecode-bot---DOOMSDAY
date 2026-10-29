@@ -62,6 +62,10 @@ void Observation::read(const TurnContext& tc) {
         for (const auto& c : cambc::vision::champions(side)) {
             if (c == cambc::self()) continue;
             out.push_back({c, c.position(), c.health(), c.max_health(), c.strength(), c.attack_range()});
+#if DZ_GEM_TARGET_PRIORITY
+            // Only current personal enemy views: no hidden inventory queries.
+            if(side==cambc::team::enemy)out.back().bag=static_cast<int>(c.gem_count());
+#endif
         }
     }
     // Stale collision hints must not hard-block combat/escape routes while
