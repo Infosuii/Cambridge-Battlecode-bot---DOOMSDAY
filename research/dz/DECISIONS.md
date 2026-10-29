@@ -25,4 +25,31 @@ working starter behavior, incomplete conformance and unvalidated future models.
 The user explicitly approved the named GitHub push after the initial automatic
 approval review requested destination/payload authorization. The branch is published.
 Support evidence was added so fresh agents have raw calibration replays rather than
-only reports. A one-time continuation is active for 04:07 London on 2026-10-29.
+only reports. The one-time 04:07 London continuation fired on 2026-10-29 and its
+automation was deleted after delivery. No scheduled continuation remains.
+
+## Subsequent engine corrections
+
+The supplied planning sketches are not executable authority. Controlled engine
+checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
+
+- Camp attacks occur every round in the tested wolf/elk/golem/monolith fixtures.
+  The proposed half-rate would substantially underpredict incoming damage.
+- Hidden champion liveness can be queried, including death and respawn. Hidden
+  health still rejects 97. The public bundled SDK has no champion respawn-timer
+  wrapper/import. Observe liveness transitions rather than inventing one.
+- Respawn occurs at the champion turn, 60 rounds after death in the controlled
+  native timeline. Another champion can observe the change later in the round or
+  next round; a first-observed death is not automatically an exact death timestamp.
+- Uncaught exceptions restart the guest. A local static counter resets, the main
+  function re-enters, and shared team memory persists; the champion remains alive.
+  The permanent-inactivity hypothesis was wrong. Catching failures preserves
+  local map memory and avoids repeated startup. A restarted bot clears its own old
+  shared claim before rebuilding map state, and splits an ordinary-budget cold
+  start across turns.
+- Fatal-turn stdout can be lost. Native fault events determine fault count/time;
+  diagnostic prints alone cannot establish the absence or number of faults.
+- Home recall takes three ticks versus five base ticks. Health purchases on spawn
+  heal by the maximum-health gain immediately; ordinary spawn healing follows.
+- Multiple assertions with one name are combined with AND. A later passing result
+  must never overwrite an earlier failure. Prior passing transcripts are audited.

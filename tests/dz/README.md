@@ -1,0 +1,35 @@
+# DZ mechanical correctness checks
+
+These probes are separate from the production bot. They establish engine facts
+and validate recovery paths; instrumented and synthetic games are not strength
+comparisons. The current status and retained failures are in
+`research/dz/CONFORMANCE.md` and `research/dz/HANDOFF.md`.
+
+Use a fresh name for every run. The runner freezes candidate/opponent source,
+binary, runner and (when relevant) replay-reader code before producing evidence.
+Completed native diagnostics have real fault totals. Truncated ones mark them
+unmeasured.
+
+```powershell
+python tools/dz.py host
+python -m unittest discover -s tests/dz -p test_measurements.py
+python tools/dz_assertions.py
+python tools/dz.py conformance --name new-core --fixture kernel --maps 00collision 01big-world --diagnostic-rounds 2000
+python tools/dz.py conformance --name new-recovery --fixture recovery --map-dir tests/dz/maps --maps recovery-shop --diagnostic-rounds 140
+python tools/dz.py conformance --name new-contest --fixture contest --fixture-opponent --map-dir tests/dz/maps --maps capture-contest --diagnostic-rounds 110
+python tools/dz.py conformance --name new-hidden-death --fixture death --fixture-opponent --map-dir tests/dz/maps --maps isolated-monolith --diagnostic-rounds 130
+```
+
+The death probe uses Node 24 and the pinned official replay assets to compare
+each SDK reading against native turn states. That reader is frozen in its
+capsule. Ordinary builds, host tests and other probes use Python standard library
+and the official CLI; the host test also needs a native C++20 compiler.
+
+`uncaught` and `restart` intentionally cause one native fault per game; run to a
+completed game (`--diagnostic-rounds 2000`). `kernel` and `module-stale` deliberately
+exhaust fuel. `module-failure` injects contained exceptions. These candidates must
+never be submitted or treated as release/strength evidence. Fault injection edits
+only the frozen diagnostic copy, not `bots/dz/src`.
+
+`maps/` contains tiny, official-MapBuilder-validated fixtures. They are excluded
+from the 70-map competition pool and cannot be used by `smoke --map-dir`.

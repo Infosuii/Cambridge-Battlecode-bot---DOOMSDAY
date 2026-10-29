@@ -1,0 +1,226 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 4,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 156.00388276553107,
+  "fuel_p99": 2881,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 1,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "e13b2e145629128cb8d10704a83bb0383bd2a327a8e7910ae2e69f49a6d83ba4",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "8d6574cd133246c6ac4a54866b68c1332634ba2033b6aafa62784266cb07a96b",
+      "diagnostic_checks": {
+        "passed": true,
+        "subject_body": 0,
+        "throw_logs": 1,
+        "main_restarted_next_round": true,
+        "local_static_reset": true,
+        "shared_memory_persisted": true,
+        "healthy_bodies_at_round_100": 3,
+        "faulted_body_resumed": true,
+        "faulted_actor_alive_observations": [
+          1,
+          1
+        ],
+        "expected_deliberate_faults": 1,
+        "native_faults": [
+          [
+            0,
+            50
+          ]
+        ]
+      },
+      "summary_sha256": "7c5e90366202bb33f0c2976c4333ab0b864a88895d406d551ad6bd678a54d158"
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 1,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "e13b2e145629128cb8d10704a83bb0383bd2a327a8e7910ae2e69f49a6d83ba4",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "8d9e4fe3e72870111c204f24dfbdbb75c32a38f4f199b3c2e78284d356e387b2",
+      "diagnostic_checks": {
+        "passed": true,
+        "subject_body": 3,
+        "throw_logs": 1,
+        "main_restarted_next_round": true,
+        "local_static_reset": true,
+        "shared_memory_persisted": true,
+        "healthy_bodies_at_round_100": 3,
+        "faulted_body_resumed": true,
+        "faulted_actor_alive_observations": [
+          1,
+          1
+        ],
+        "expected_deliberate_faults": 1,
+        "native_faults": [
+          [
+            3,
+            50
+          ]
+        ]
+      },
+      "summary_sha256": "c05480b30a687d3f5e670a4fa0ae25761810881313ec6b9b6d50adc023b859fc"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 1,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "e13b2e145629128cb8d10704a83bb0383bd2a327a8e7910ae2e69f49a6d83ba4",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "08525a772b929e2c80118297de74a339dc2227ebd933537195ffd48181ffe213",
+      "diagnostic_checks": {
+        "passed": true,
+        "subject_body": 0,
+        "throw_logs": 1,
+        "main_restarted_next_round": true,
+        "local_static_reset": true,
+        "shared_memory_persisted": true,
+        "healthy_bodies_at_round_100": 5,
+        "faulted_body_resumed": true,
+        "faulted_actor_alive_observations": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "expected_deliberate_faults": 1,
+        "native_faults": [
+          [
+            0,
+            50
+          ]
+        ]
+      },
+      "summary_sha256": "d75ae3ecedacf3f5cf58784caaba203efd73eecf0955378429c8f474dab478f5"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 1,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "e13b2e145629128cb8d10704a83bb0383bd2a327a8e7910ae2e69f49a6d83ba4",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ee225db1513b502af8f0f9a4023981195cf2dc0677bd5749d7d303b0ec1fabdc",
+      "diagnostic_checks": {
+        "passed": true,
+        "subject_body": 5,
+        "throw_logs": 1,
+        "main_restarted_next_round": true,
+        "local_static_reset": true,
+        "shared_memory_persisted": true,
+        "healthy_bodies_at_round_100": 5,
+        "faulted_body_resumed": true,
+        "faulted_actor_alive_observations": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "expected_deliberate_faults": 1,
+        "native_faults": [
+          [
+            5,
+            50
+          ]
+        ]
+      },
+      "summary_sha256": "aee278b54e7bbc9960edb6fad6988df7886e3f93714333ccc032f5066c9d9e24"
+    }
+  ]
+}

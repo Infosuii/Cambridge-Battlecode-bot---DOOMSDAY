@@ -14,6 +14,7 @@ inline constexpr bool engagement_evaluator = false;
 inline constexpr bool gear_planner = false;
 inline constexpr bool camp_safety = DZ_CAMP_SAFETY != 0;
 inline constexpr std::uint64_t full_fuel = 60000, lean_fuel = 25000, reserve = 12000;
+inline constexpr std::uint64_t ordinary_turn_fuel = 100000; // CT-3 pinned budget.
 inline constexpr int bank_bag = 30, contract_window = 6, avoid_rounds = 15;
 inline constexpr int max_action_errors = 3;
 }

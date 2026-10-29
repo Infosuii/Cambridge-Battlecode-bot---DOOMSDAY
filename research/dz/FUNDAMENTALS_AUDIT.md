@@ -1,4 +1,4 @@
-# Fundamentals audit — continuing 2026-10-29
+# Fundamentals audit â€” continuing 2026-10-29
 
 User direction: defer map-specific plans/tuning until fundamentals are solid.
 Map selections below are correctness/stress fixtures. No map-name rules or per-map
@@ -53,7 +53,7 @@ frozen binaries/maps and reanalyzed the same raw games. Finished runs are immuta
 
 ## Latest paired release results
 
-Same source/schedule, only `DZ_CAMP_SAFETY` differs. Each campaign is 70 maps ×
+Same source/schedule, only `DZ_CAMP_SAFETY` differs. Each campaign is 70 maps Ã—
 both sides. Deterministic cells are not independent randomized samples.
 
 | Campaign | Mean collected | Mean banked | Mean deaths | Fuel p99 | Faults / fuel-outs |
@@ -64,8 +64,8 @@ both sides. Deterministic cells are not independent randomized samples.
 | 07 v65 safety | 284.28 | 187.04 | 14.76 | 60,590 | 0 / 0 |
 
 Safety reduces deaths and improves idle income but slightly reduces contested
-final banking. **It stays off by default.** At R500 idle banked 278.43→300.76,
-deaths 5.68→2.36; v65 banked 102.01→103.14, deaths 9.50→7.28. Both v65 campaigns
+final banking. **It stays off by default.** At R500 idle banked 278.43â†’300.76,
+deaths 5.68â†’2.36; v65 banked 102.01â†’103.14, deaths 9.50â†’7.28. Both v65 campaigns
 lose all 140 games; this is not a strong baseline yet.
 
 Retained regressions: `fundamentals-05-idle` banked 839.74 with zero engine faults/
@@ -119,3 +119,27 @@ five consecutive 200-damage samples on both sides. Its generation is byte-identi
 on repeat. It is outside the competition pool and is never used for strength claims.
 All failed attempts remain preserved. See `CONFORMANCE.md` and
 `FOUNDATION_CHECKPOINT.json` for exact scope. The fundamentals audit is not complete.
+
+## Restart-safe checkpoint, 2026-10-29
+
+The guest restarts after an uncaught exception; local memory resets while team
+shared memory survives. Production now loads its small roster and clears its old
+claim before expensive initialization. A restarted guest receives an ordinary
+budget, so it defers map initialization to the next fresh turn. Four native forced
+restart games pass on collision/large-world, both sides, without extra fuel-outs.
+Draft exceptions are also included in trace diagnostics.
+
+The matching 420 full-pool games pass with zero native faults or fuel-outs:
+
+| Campaign | Mean collected | Mean banked | Fuel p99 | Wins |
+|---|---:|---:|---:|---:|
+| restart-safe idle | 953.69 | 903.34 | 53,054 | 140/140 |
+| restart-safe v65 release | 280.65 | 187.34 | 52,234 | 0/140 |
+| restart-safe v65 trace | 277.89 | 185.45 | 53,120 | 0/140 |
+
+The trace reports zero caught action/module errors. Idle wins can include gold
+tiebreaks. These checks establish runtime reliability only. Fundamentals remain
+incomplete: enemy contest, hidden liveness/respawn and Home recall are now tested,
+but blocked champion respawn, bush/wards, item modifiers, calibrated clear/arrival/
+damage prediction, crews and economic planning remain. Map plans stay deferred.
+Exact source/binary identities and limitations are in FOUNDATION_CHECKPOINT.json.

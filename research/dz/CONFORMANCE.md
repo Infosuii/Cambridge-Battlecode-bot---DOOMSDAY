@@ -1,4 +1,4 @@
-# DZ engine conformance — partial, 2026-10-28
+# DZ engine conformance â€” partial, 2026-10-29
 
 Pinned CLI/SDK 4.0.0, local engine 2.0.0. **G0 is not complete.** The 27-test
 design is a work queue, not a claimed completed suite. Instrumented games are
@@ -16,7 +16,7 @@ was fixed and the experiment repeated as ct-02, preserving the same observations
 
 CT-1 single-sample wrapper costs, guest fuel including wrapper/loop/query overhead:
 
-| Primitive | 41×41 (00collision) | 100×100 (01big-world) |
+| Primitive | 41Ã—41 (00collision) | 100Ã—100 (01big-world) |
 |---|---:|---:|
 | `distance_field.compute` (home roots) | 2,370 | 29,943 |
 | all allied champion handles/views | 2,779 | 3,830 |
@@ -56,29 +56,29 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | ID | Status | Remaining work / resulting policy |
 |---|---|---|
 | CT-1 | Partial | Repeat bounded samples; add compute_to/BFS/shadowcast/visibility/damage/move_towards/write costs and more roots/maps |
-| CT-2 | Observed | Suspension/resumption established; guard host test passes; add automated transcript assertions |
+| CT-2 | Observed | Strict suspension assertions pass, including post-resumption exception guards |
 | CT-3 | Observed | Budget trace words match; first-query startup overhead documented |
-| CT-4 | Pending | Deliberate uncaught-exception fixture must be isolated from candidates |
-| CT-5 | Observed | Immediate same-round allied writes; add assertions rather than manual transcript review |
+| CT-4 | Observed | Guest restarts next round, local state resets, shared state persists; forced production restart passes |
+| CT-5 | Observed | Immediate same-round allied writes strictly asserted |
 | CT-6 | Partial | Allied handle order observed; enemy interleaving and priority-change timing not isolated |
 | CT-7 | Partial | Ranged, melee, reset, exclusive cast and shield order checks pass; hidden collision/dash pending |
 | CT-8 | Partial | Visible bags/items/cooldowns pass; hidden queries reject 97; channel-time pending |
-| CT-9 | Pending | Do not query hidden enemy liveness or infer death from invisibility |
+| CT-9 | Partial | Hidden alive/dead/respawn reads pass; native respawn occurs 60 rounds after death at champion turn; no respawn-timer API |
 | CT-10 | Partial | Group visibility/state used through SDK; single-spawn-tile visibility fixture not isolated |
 | CT-11 | Partial | Every-round wolf/elk/golem/monolith damage; elk nearest/lower-handle ties verified |
 | CT-12 | Pending | Tribute passive not purchased or valued |
 | CT-13 | Pending | No model assumes Prospector benefits outside clusters |
 | CT-14 | Pending | Hunter not purchased or valued |
 | CT-15 | Pending | Skirmish/Collectors not purchased or valued |
-| CT-16 | Partial | Damage interruption, 5 owner ticks, arrival-before-heal verified; Home/spawn-start pending |
+| CT-16 | Observed | Damage interruption, base 5 / Home 3 ticks, spawn-start recall, arrival-before-heal verified |
 | CT-17 | Observed | Lock cancellation, retained bag, simultaneous locks, five hits, range 3 rejection, tribute duration |
 | CT-18 | Pending | Teleport and dash disabled in the starter |
 | CT-19 | Partial | Two C&I instances/body slots established; linked death/order still needs a fixture |
 | CT-20 | Partial | Pick/reveal behavior observed for 3 and 5; missed-pick and 4-pick diagnostic fixture pending |
 | CT-21 | Observed | team_size=picks, not bodies |
-| CT-22 | Pending | Spawn healing/health purchase/blocked respawn fixtures |
+| CT-22 | Partial | Spawn healing and immediate health-purchase gain verified; blocked champion respawn pending |
 | CT-23 | Pending | Bush and ward visibility fixtures; no belief claims about hidden absence |
-| CT-24 | Partial | Even/odd split, occupied respawn and vacating verified; enemy contest pending |
+| CT-24 | Observed | Split, occupied camp respawn, contest timer reset / denied reward / full reward after leaving verified |
 | CT-25 | Pending | Controlled kill-credit fixture |
 | CT-26 | Observed | Camp kill resets both CDs; it does not restore a second cast |
 | CT-27 | Observed | 1,311 named fields, exact typed numeric bits; automatic mismatch gate |
@@ -177,9 +177,9 @@ untested mechanics questions.
   correctness map: five consecutive 200-damage rounds. Ryth's 1,200 health permits
   five living samples. The official MapBuilder generates/validates the separate
   map in `tests/dz/maps/`; it is outside the 70-map competition pool.
-- Monolith attempts 01/03–06 on competition geometry remain failed diagnostics.
+- Monolith attempts 01/03â€“06 on competition geometry remain failed diagnostics.
   They exposed inaccessible setup, doubled incoming damage, and **damage from a
-  camp outside champion vision**. In 04–06, HP falls by 200 per round while visible
+  camp outside champion vision**. In 04â€“06, HP falls by 200 per round while visible
   awake masks are empty; static exclusion isolates the possible source, but the
   strict direct-observation gate correctly refuses a pass. Ward placement did
   not fix the occlusion. The dedicated open fixture removes those confounds.
@@ -193,3 +193,25 @@ untested mechanics questions.
 These observations do not complete all of G0. Other camp types' targeting ties,
 enemy capture contest, hidden death, Home/item modifiers and the other open table
 entries still need their own fixtures before a model relies on them.
+
+## Restart and recovery continuation
+
+- `dz-core-kernel-asserted-01`: four completed games, exact one intentional
+  fuel-out per cell, zero faults, strict CT-1/2/3/5 and draft/body assertions.
+- `dz-ct4-uncaught-03`: four completed games, exact one deliberate fault at R50,
+  guest restarts at R51, local counter resets, shared flag persists, champion alive.
+  Unflushed fatal-turn output may be lost; native fault events are authoritative.
+- `dz-production-restart-02`: four completed games, exact one injected fault at
+  R50, shared claim cleared at R51, no extra fuel-out, normal R100 execution.
+- `dz-ct16-recovery-02`: Home recall 3 ticks, base 5, spawn-start accepted,
+  arrival before healing, next spawn turn full heal, health purchase adds its
+  max-health gain immediately. Both controlled sides pass.
+- `dz-ct9-hidden-death-06` / `07-reverse`: four cells; hidden enemy liveness
+  remains readable alive/dead/respawn; private health rejects 97. Every recorded SDK
+  lifecycle view is checked against native champion-turn snapshots. Actual respawn
+  is death +60 rounds; an observer can first see it that round or next due to order.
+- `dz-ct24-enemy-contest-02`: both sides assert prior capture progress, contested
+  reset/no reward, then full reward and resumed capture after enemy leaves.
+
+Earlier failed fixtures are retained and explained in HANDOFF.md. These new results
+resolve historical pending statements above only within their stated scope.

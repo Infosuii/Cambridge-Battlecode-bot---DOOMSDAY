@@ -28,7 +28,7 @@ int main() {
     std::unique_ptr<dz::StaticWorld> world;
     std::unique_ptr<dz::Memory> mem;
     std::unique_ptr<dz::Observation> obs;
-    bool priority_set = false;
+    bool priority_set = false, claim_initialized=false, first_frame=true;
     dz::ModuleHealth observation_health,boot_health,shop_health,camp_health,memory_health,
         planner_health,execution_health,communication_health,field_health;
     for (;;) {
@@ -41,6 +41,30 @@ int main() {
             if (!world) world = std::make_unique<dz::StaticWorld>();
             if (!mem) mem = std::make_unique<dz::Memory>();
             if (!obs) obs = std::make_unique<dz::Observation>();
+            if (!claim_initialized && dz::module_work(boot_health,tc,counts,"roster",[&]{world->load_roster(tc);})) {
+                dz::module_work(communication_health,tc,counts,"communication",[&]{
+                    // Guest-local state resets after a fault; shared claims do
+                    // not. Clear our old claim before expensive map startup.
+                    claim_initialized=act.publish(dz::protocol::with_slot(dz::shared_word(),world->slot,{dz::protocol::idle,false}));
+#if DZ_TRACE
+                    if (claim_initialized) {
+                        auto seen=dz::protocol::slot(dz::shared_word(),world->slot);
+                        std::printf("DZ_BOOT_CLAIM round=%u slot=%u objective=%u onsite=%d\n",tc.round,world->slot,static_cast<unsigned>(seen.objective),seen.onsite);
+                    }
+#endif
+                });
+            }
+            if (first_frame) {
+                first_frame=false;
+                // A replacement guest gets an ordinary budget. Its SDK startup
+                // has already spent part of it; map loading uses the next turn.
+                if (tc.fuel0<=dz::config::ordinary_turn_fuel) {
+#if DZ_TRACE
+                    std::printf("DZ_BOOT_DEFER round=%u slot=%u fuel_at_entry=%llu\n",tc.round,world->slot,static_cast<unsigned long long>(tc.fuel0));
+#endif
+                    tc.guard(); cambc::end_turn(); continue;
+                }
+            }
             if (!dz::module_work(observation_health,tc,counts,"observation",[&]{obs->read(tc);})) {
                 if (cambc::round_number()==tc.round) cambc::end_turn();
                 continue;

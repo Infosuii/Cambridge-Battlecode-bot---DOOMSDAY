@@ -1,4 +1,4 @@
-# DOOMSDAY Zero — pure algorithmic bot
+# DOOMSDAY Zero â€” pure algorithmic bot
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
@@ -76,3 +76,9 @@ have no match outcome; their fault counts are not measured. The fuel resumption 
 deliberately exhausts fuel and must never be evaluated as a release candidate.
 
 No automatic submission, activation, or ladder duel occurs in these commands.
+
+After an uncaught fault the engine starts a new guest next round. DZ clears its
+own surviving shared claim before map initialization, then gives a replacement
+guest a fresh turn for map work if startup received only the ordinary budget.
+A forced-restart fixture checks both small and largest-map recovery. This does
+not make shared claims fresh; they remain soft hints without a freshness protocol.

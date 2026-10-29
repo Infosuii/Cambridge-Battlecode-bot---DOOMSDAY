@@ -59,6 +59,12 @@ def host_tests():
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
     print(run([exe], env=env).strip(), flush=True)
 
+def native_replay(members):
+    # lifecycle.repl26a is the extracted engine payload, not a second match.
+    bundles=[name for name in members if str(name).endswith('.repl26a') and Path(name).name!='lifecycle.repl26a']
+    if len(bundles)!=1: raise ValueError('expected exactly one native replay bundle per cell')
+    return bundles[0]
+
 def verify_evidence():
     count = 0
     for folder in sorted((ROOT/'research/dz/runs').glob('*')):
@@ -83,6 +89,7 @@ def verify_evidence():
                     raise ValueError(f'{folder.name}: digest mismatch: {member}')
             check('candidate.wasm', provenance['candidate_sha256'])
             check('opponent.wasm', provenance['opponent_sha256'])
+            for name,digest in provenance.get('analysis_source',{}).items(): check('runner/'+name,digest)
             if 'runner_sha256' in provenance: check('runner/dz.py',provenance['runner_sha256'])
             for name,digest in provenance.get('opponent_source',{}).items(): check('build/opponent/'+name,digest)
             for name, digest in provenance['source'].items(): check('build/candidate/'+name, digest)
@@ -95,9 +102,13 @@ def verify_evidence():
                 cells.add(cell)
                 prefix = f"games/{game['map']}-{game['side']}/"
                 if 'summary_sha256' in game: check(prefix+'summary.json', game['summary_sha256'])
-                bundles = [name for name in z.namelist() if name.startswith(prefix) and name.endswith('.repl26a')]
-                if len(bundles) != 1: raise ValueError('expected exactly one replay per cell')
-                check(bundles[0], game['replay_sha256'])
+                bundle=native_replay([name for name in z.namelist() if name.startswith(prefix)])
+                check(bundle, game['replay_sha256'])
+                if prefix+'lifecycle.repl26a' in z.namelist():
+                    import io
+                    with zipfile.ZipFile(io.BytesIO(z.read(bundle))) as native:
+                        if z.read(prefix+'lifecycle.repl26a')!=native.read('replay.repl26a'):
+                            raise ValueError('lifecycle payload differs from native replay')
                 if game['candidate_sha256'] != provenance['candidate_sha256']: raise ValueError('candidate changed within run')
         print(f'{folder.name}: verified {len(cells)} cells, frozen source, binaries, summaries and replays', flush=True)
         count += 1
@@ -142,7 +153,77 @@ def checkpoints(summary, side):
             **{k:(v if k in available else None) for k,v in values.items()})
     return result
 
-def diagnostic_checks(stdout, fixture):
+def transcript_assertions(stdout):
+    checks={}
+    for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d+)\b',stdout):
+        checks[name]=bool(checks.get(name,True) and value=='1')
+    return checks
+
+def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='restart':
+        forced=re.findall(r'CT_RESTART_FORCE round=50 slot=0 body=(\d+) wrote=1 objective=55 onsite=1',stdout)
+        cleared=bool(re.search(r'DZ_BOOT_CLAIM round=51 slot=0 objective=127 onsite=0',stdout))
+        continued=bool(re.search(r'DZ_COUNTS round=100 slot=0 actions=0 modules=0 stale=0',stdout))
+        return dict(passed=len(forced)==1 and cleared and continued and 'DZ_ACTION_ERROR' not in stdout and 'DZ_MODULE_ERROR' not in stdout,
+                    subject_body=int(forced[0]) if forced else -1,old_claim_cleared_on_restart=cleared,continued_at_round_100=continued)
+    if fixture=='uncaught':
+        thrown=re.findall(r'CT4_THROW round=(\d+) body=(\d+)',stdout)
+        beats=re.findall(r'CT4_HEARTBEAT round=(\d+) body=(\d+)',stdout)
+        boots=re.findall(r'CT4_BOOT round=(\d+) body=(\d+) local=(\d+) shared=(\d+) flag=(\d+)',stdout)
+        subject=int(boots[0][1]) if boots else -1
+        reset=bool(len(boots)==2 and tuple(map(int,boots[0]))==(1,subject,1,1,0) and
+            tuple(map(int,boots[1]))==(51,subject,1,2,1))
+        marker_valid=len(thrown)<=1 and all(int(r)==50 and int(b)==subject for r,b in thrown)
+        others={body for round_no,body in beats if int(round_no)==100}
+        resumed=str(subject) in others
+        return dict(passed=reset and resumed and marker_valid and len(others)>=3,subject_body=subject,throw_logs=len(thrown),
+                    main_restarted_next_round=reset,local_static_reset=reset,shared_memory_persisted=reset,
+                    healthy_bodies_at_round_100=len(others),faulted_body_resumed=resumed,
+                    faulted_actor_alive_observations=[int(x) for x in re.findall(r'CT4_STATUS actor_alive=(\d)',stdout)])
+    if fixture=='kernel':
+        drafts=re.findall(r'CT20 draft_turn=(\d+) fuel=(\d+) team_size=(\d+) ours=(\d+) theirs=(\d+)',stdout)
+        bodies=re.findall(r'CT3 round=(\d+) slot=(\d+) play_turn=(\d+) fuel=(\d+) bodies=(\d+) type=(\d+)',stdout)
+        samples=re.findall(r'CT1 ([\w.]+) round=(\d+) stable=(\d) fuel=(\d+) samples=1',stdout)
+        stale=re.findall(r'CT2 before=(\d+) resumed=(\d+) stale_refused=(\d)',stdout)
+        writes=re.findall(r'CT5 round=(\d+) slot=(\d+) observed_round=(\d+) observed_mask=(\d+)',stdout)
+        count=int(bodies[0][4]) if bodies else 0
+        first_round=min((int(row[0]) for row in bodies),default=-1)
+        first=[tuple(map(int,row)) for row in writes if int(row[0])==first_round]
+        shared_ok=len(first)==count and count>0 and all(slot==0 or (seen==round_no and mask==(1<<slot)-1) for round_no,slot,seen,mask in first)
+        draft_ok=bool(drafts and len(drafts)==int(drafts[0][2]) and all(int(row[0])==i and int(row[3])==i for i,row in enumerate(drafts)))
+        suspension_ok=len(stale)==1 and int(stale[0][1])==int(stale[0][0])+1 and stale[0][2]=='1'
+        primitives={'field.compute','champions','visible.camps','camp_groups','champion.state','shared.read','bitboard.union'}
+        samples_ok={row[0] for row in samples}==primitives and all(row[2]=='1' for row in samples)
+        bodies_ok=bool(drafts and count==int(drafts[0][2])+1 and {int(row[1]) for row in bodies if row[2]=='0'}==set(range(count)))
+        fingerprint=bool(re.search(r'CT27 partial_fingerprint=[0-9a-f]{8}',stdout))
+        return dict(passed=all((shared_ok,draft_ok,suspension_ok,samples_ok,bodies_ok,fingerprint)) and 'ERROR' not in stdout,
+                    same_round_shared_writes=shared_ok,draft_pick_count=draft_ok,suspension_guard=suspension_ok,
+                    bounded_primitive_samples=samples_ok,linked_body_count=bodies_ok,partial_fingerprint_present=fingerprint)
+    if fixture=='contest':
+        checks=transcript_assertions(stdout)
+        required={'contest_resets_capture_timer','contest_preserves_unclaimed_gems','full_reward_after_enemy_leaves','capture_progress_resumed'}
+        progress=re.findall(r'CT_CONTEST_PROGRESS round=(\d+) timer=(\d+) max=(\d+) enemy_capturing=1',opponent_stdout)
+        prior=any(0<int(timer)<int(maximum) for _,timer,maximum in progress)
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and prior and 'ERROR' not in stdout and 'ERROR' not in opponent_stdout,
+                    checks=checks,missing=sorted(required-checks.keys()),prior_progress_confirmed_by_opponent=prior)
+    if fixture=='death':
+        checks=transcript_assertions(stdout)
+        required={'enemy_hidden_before_death','enemy_hidden_during_death','enemy_respawn_observation_bound','ally_respawn_observation_bound'}
+        queries={name:(int(ok),int(value),int(code)) for name,ok,value,code in re.findall(r'CT_QUERY name=(\w+) accepted=(\d) value=(-?\d+) code=(\d+)',stdout)}
+        expected={'hidden_alive_before':1,'hidden_enemy_dead_alive':0,'hidden_enemy_respawn_alive':1,'ally_dead_alive':0,'ally_respawn_alive':1}
+        live_ok=all(queries.get(name)==(1,value,0) for name,value in expected.items())
+        denied=all(queries.get(name)==(0,0,97) for name in ('hidden_health_before','hidden_health_dead'))
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and live_ok and denied and 'ERROR' not in stdout,
+                    checks=checks,queries=queries,missing=sorted(required-checks.keys()))
+    if fixture=='recovery':
+        checks=transcript_assertions(stdout)
+        required={'injury_established','base_recall_five_ticks','arrival_before_healing','health_purchase_heals_gain',
+                  'home_emblem_created','next_spawn_turn_full_heal','home_recall_three_ticks'}
+        spawn=re.search(r'CT_HOME_SPAWN accepted=(\d) active=(\d) timer=(-?\d+) code=(\d+)',stdout)
+        spawn_ok=bool(spawn and tuple(map(int,spawn.groups()))==(1,1,3,0))
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and spawn_ok and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()),
+                    recall_on_spawn={key:int(value) for key,value in zip(('accepted','active','timer','code'),spawn.groups())} if spawn else None)
     if fixture=='targeting':
         handles=re.search(r'CT11_HANDLES a=(\d+) b=(\d+)',stdout)
         rows=re.findall(r'CT11_TARGET phase=(\d+) round=(\d+) da=([\d.-]+) db=([\d.-]+) ia=([\d.-]+) ib=([\d.-]+) dista=(\d+) distb=(\d+)',stdout)
@@ -187,7 +268,7 @@ def diagnostic_checks(stdout, fixture):
                     and 'CT27_COMPLETE schema=1' in stdout and 'ERROR' not in stdout),
                     schema=1,field_count=len(fields),sha256=digest,reference_present=bool(expected))
     if fixture == 'tribute':
-        checks={name:int(value) for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d)',stdout)}
+        checks=transcript_assertions(stdout)
         required={'lock_interrupts_channel','lock_keeps_carried_gems','both_team_locks_visible',
                   'submit_into_lock_hits_once','enemy_lock_removed_five_hits','tribute_completes','tribute_duration','lock_range_three_rejected'}
         return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
@@ -199,7 +280,7 @@ def diagnostic_checks(stdout, fixture):
                     camp_reset_observed=bool(match and int(match[1])),
                     second_cast_after_kill_accepted=bool(after and int(after[1])),second_cast_code=int(after[2]) if after else None)
     if fixture == 'capture':
-        checks={name:int(value) for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d)',stdout)}
+        checks=transcript_assertions(stdout)
         required={'split_primary_low_handle_remainder','split_partner_share','occupied_spawn_delays_respawn','vacated_spawn_respawns'}
         return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout and 'CT_SETUP_FAILURE' not in stdout,
                     checks=checks,missing=sorted(required-checks.keys()))
@@ -209,16 +290,18 @@ def diagnostic_checks(stdout, fixture):
         required={'hidden_alive','hidden_gems','hidden_items','hidden_cooldown','visible_alive','visible_gems',
                   'visible_items','visible_cooldown0','visible_cooldown1'}
         visible_ok=all(records.get(name,{}).get('accepted')==1 for name in required if name.startswith('visible_'))
-        return dict(passed=not(required-records.keys()) and visible_ok and 'ERROR' not in stdout,
+        hidden_ok=all(records.get(name,{}).get('accepted')==0 and records.get(name,{}).get('code')==97 for name in ('hidden_gems','hidden_items','hidden_cooldown'))
+        alive_ok=records.get('hidden_alive',{}).get('accepted')==1 and records.get('hidden_alive',{}).get('value')==1
+        return dict(passed=not(required-records.keys()) and visible_ok and hidden_ok and alive_ok and 'ERROR' not in stdout,
                     queries=records,missing=sorted(required-records.keys()))
     if fixture == 'channels':
-        checks={name:int(value) for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d)',stdout)}
+        checks=transcript_assertions(stdout)
         required={'recall_starts_in_camp_range','camp_damage_interrupts_recall','base_recall_duration_five',
                   'spawn_arrival_precedes_heal','one_spawn_turn_full_heal'}
         return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout and 'CT_SETUP_FAILURE' not in stdout,
                     checks=checks,missing=sorted(required-checks.keys()))
     if fixture == 'actions':
-        checks = {name:int(value) for name,value in re.findall(r'CT_CHECK name=(\w+) pass=(\d)',stdout)}
+        checks = transcript_assertions(stdout)
         required = {'ranged_move_blocks_attack','ranged_attack_blocks_move','reset_restores_attack','one_cast_per_turn',
                     'move_blocks_exclusive_cast','exclusive_cast_blocks_move','melee_move_then_attack','melee_attack_then_move'}
         if 'CT7_ACTOR type=12' in stdout: required.add('shield_then_move')
@@ -246,7 +329,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
         if diagnostic: command += ['--rounds', str(diagnostic_rounds)]
         log = run(command, timeout=300)
         (folder/'runner.log').write_text(log, encoding='utf-8')
-    bundle = next(folder.glob('*.repl26a'))
+    bundle = native_replay(list(folder.glob('*.repl26a')))
     if diagnostic:
         budgets, fuel = fuel_values(bundle, side)
         with zipfile.ZipFile(bundle) as z:
@@ -256,7 +339,22 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             rounds=diagnostic_rounds, outcome='unfinished-diagnostic', banked=0, opponent_banked=0, collected=0, gold=0,
             deaths=0, faults=0, faults_measured=False, opponent_faults=0, fuel_outs=sum(x>=100000 for x in fuel[20:]),
             fuel_budgets=budgets, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent), replay_sha256=sha(bundle))
-        result['diagnostic_checks'] = diagnostic_checks(stdout, fixture)
+        opponent_stdout=''
+        if fixture=='contest':
+            with zipfile.ZipFile(bundle) as z:
+                opponent_stdout=z.read('team-'+('b' if side=='A' else 'a')+'.stdout').replace(b'\0',b'').decode('utf-8','replace')
+            (folder/'opponent.stdout').write_text(opponent_stdout,encoding='utf-8')
+        result['diagnostic_checks'] = diagnostic_checks(stdout, fixture, opponent_stdout)
+        if fixture=='death':
+            inner=folder/'lifecycle.repl26a'
+            with zipfile.ZipFile(bundle) as z: inner.write_bytes(z.read('replay.repl26a'))
+            env=dict(os.environ); env['NFS_REPLAY_ENGINE']='2.0.0'
+            script=folder.parents[1]/'runner/dz_lifecycle_audit.mjs'
+            if not script.exists(): script=ROOT/'tools/dz_lifecycle_audit.mjs'
+            audit=json.loads(run(['node','--disable-warning=MODULE_TYPELESS_PACKAGE_JSON',script,inner,folder/'candidate.stdout'],env=env))
+            write(folder/'lifecycle_audit.json',audit)
+            result['diagnostic_checks']['native_lifecycle']=audit
+            result['diagnostic_checks']['passed'] &= audit['passed']
         if (folder/'summary.json').exists():
             native=json.loads((folder/'summary.json').read_text(encoding='utf-8'))
             owner='team'+side
@@ -270,6 +368,19 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
                 checks=result['diagnostic_checks']
                 checks.update(expected_bodies=bodies,expected_deliberate_fuel_outs=expected_outs)
                 checks['passed'] &= checks['bodies']==bodies and result['fuel_outs']==expected_outs
+            if fixture=='kernel':
+                result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
+                result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
+            if fixture in ('uncaught','restart'):
+                faults=[(e['owner']['id'],entry['timestamp']['round']) for e in native['events'] if e['kind']=='botFault' and e['owner']['team']==owner for entry in e['entries']]
+                checks=result['diagnostic_checks']
+                checks['passed'] &= result['faults']==1 and result['fuel_outs']==0 and faults==[(checks['subject_body'],50)]
+                checks['expected_deliberate_faults']=1
+                checks['native_faults']=faults
+        if fixture in ('uncaught','restart') and not result['faults_measured']:
+            result['diagnostic_checks']['passed']=False
+        if fixture=='kernel':
+            result['diagnostic_checks']['passed'] &= budgets==tuple([10000000,100000,200000,100000]*2)
         if fixture not in ('kernel','module-stale') and result['fuel_outs']:
             result['diagnostic_checks']['passed']=False
         write(folder/'receipt.json', result)
@@ -312,15 +423,19 @@ def experiment(args):
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
-    fixtures = {'kernel':'conformance','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
-    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale')
+    if args.command=='conformance' and args.fixture=='death':
+        (out/'runner/replay').mkdir()
+        shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
+        shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
+    fixtures = {'kernel':'conformance','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
     if args.trace or injected:
         config = frozen/'src/config.h'
         config.write_text(config.read_text().replace('#define DZ_TRACE 0', '#define DZ_TRACE 1'))
-    if injected:
+    if injected and args.fixture!='restart':
         main=frozen/'src/main.cpp'; text=main.read_text(); needle='mem->update(*world,tc);'
         if text.count(needle)!=1: raise ValueError('memory fault injection site changed')
         injection='throw std::runtime_error("controlled memory failure");'
@@ -333,6 +448,18 @@ def experiment(args):
                 }
                 mem->update(*world,tc);'''
         main.write_text(text.replace(needle,injection),encoding='utf-8',newline='\n')
+    if injected and args.fixture=='restart':
+        main=frozen/'src/main.cpp'; text=main.read_text(); needle='        try {\n            if (!world)'
+        if text.count(needle)!=1: raise ValueError('uncaught restart injection site changed')
+        injection=r'''        if (tc.round==50 && world && world->ready && world->slot==0) {
+            bool wrote=act.publish(dz::protocol::with_slot(dz::shared_word(),world->slot,{55,true}));
+            std::printf("CT_RESTART_FORCE round=50 slot=0 body=%u wrote=%d objective=55 onsite=1\n",
+                static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),wrote);
+            std::fflush(stdout);
+            throw std::runtime_error("controlled production restart diagnostic");
+        }
+'''
+        main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
         if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not re.fullmatch(r'[01]',value): raise ValueError('expected DZ_FLAG=0 or 1')
@@ -344,14 +471,16 @@ def experiment(args):
     if args.opponent_wasm:
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
-        source_opp = ROOT/'tests/dz/tribute_probe' if args.fixture_opponent else ROOT/'bots'/args.opponent
-        if args.fixture_opponent and (args.command!='conformance' or args.fixture!='tribute'):
-            raise ValueError('scripted opponent currently supports the tribute diagnostic only')
+        source_opp = ROOT/'tests/dz'/fixtures[args.fixture] if args.fixture_opponent else ROOT/'bots'/args.opponent
+        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest')):
+            raise ValueError('scripted opponent is unavailable for this fixture')
         frozen_opp = out/'build/opponent'
         shutil.copytree(source_opp/'src', frozen_opp/'src')
         if args.fixture_opponent:
             config=frozen_opp/'src/config.h'
-            config.write_text('#define CT_OPPONENT 1\n',encoding='utf-8',newline='\n')
+            text=config.read_text()
+            if text.count('#define CT_OPPONENT 0')!=1: raise ValueError('scripted opponent configuration changed')
+            config.write_text(text.replace('#define CT_OPPONENT 0','#define CT_OPPONENT 1'),encoding='utf-8',newline='\n')
         opponent = build(frozen_opp, out/'opponent.wasm')
     map_directory=Path(args.map_dir) if args.map_dir else MAPS
     if not map_directory.is_absolute(): map_directory=ROOT/map_directory
@@ -368,12 +497,15 @@ def experiment(args):
         maps={p.stem:sha(p) for p,_ in jobs}, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent),
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
     provenance['map_directory']=os.path.relpath(map_directory,ROOT)
+    provenance['fixture']=args.fixture if diagnostic else None
+    if args.command=='conformance' and args.fixture=='death':
+        provenance['analysis_source']={p.relative_to(out/'runner').as_posix():sha(p) for p in (out/'runner').rglob('*') if p.is_file() and p.name!='dz.py'}
     if not args.opponent_wasm:
         provenance['opponent_source']={p.relative_to(frozen_opp).as_posix():sha(p) for p in (frozen_opp/'src').rglob('*') if p.is_file()}
     write(out/'provenance.json', provenance)
     ledger = ROOT/'research/dz/SEED_LEDGER.md'
     with ledger.open('a', encoding='utf-8', newline='\n') as f:
-        opponent_label='scripted tribute locker' if args.fixture_opponent else args.opponent
+        opponent_label='scripted '+args.fixture+' opponent' if args.fixture_opponent else args.opponent
         f.write(f'| {args.name} | {dt.datetime.now(dt.timezone.utc).date()} | deterministic; Wasm {sha(candidate)[:12]} | {len(jobs)} cells; {opponent_label} | {args.command}; trace={args.trace} |\n')
     rows, fuel, errors = [], [], []
     with cf.ThreadPoolExecutor(max_workers=min(4, args.workers)) as executor:
@@ -409,7 +541,8 @@ def finish_report(name, out, rows, fuel, diagnostic):
     print(json.dumps({k:v for k,v in result.items() if k!='per_game'}, indent=2), flush=True)
     provenance=json.loads((out/'provenance.json').read_text())
     missing_trace=provenance.get('trace',False) and not diagnostic and any('caught_action_errors' not in r for r in rows)
-    if result['faults'] or missing_trace or (not diagnostic and (result['fuel_outs'] or any(
+    expected_faults=len(rows) if diagnostic and provenance.get('fixture') in ('uncaught','restart') else 0
+    if result['faults']!=expected_faults or missing_trace or (not diagnostic and (result['fuel_outs'] or any(
             r.get('caught_action_errors',0) or r.get('caught_module_errors',0) for r in rows))):
         raise SystemExit('runtime gate failed; evidence preserved')
     if diagnostic and any(row.get('diagnostic_checks',{}).get('passed') is False for row in rows):
@@ -451,8 +584,8 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','camps','targeting','actions','channels','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
-        p.add_argument('--fixture-opponent', action='store_true', help='use the scripted tribute locker opponent')
+        p.add_argument('--fixture', choices=['kernel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
     args = parser.parse_args()

@@ -32,6 +32,7 @@ public:
     std::vector<cambc::champion> allies;
     unsigned slot = 0;
     bool ready = false;
+    void load_roster(const TurnContext&);
     void boot(const TurnContext&);
     void build_one_field(const TurnContext&, int preferred = -1);
     int distance(int g, vec2 p) const;

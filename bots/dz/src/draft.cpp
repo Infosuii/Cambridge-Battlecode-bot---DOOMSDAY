@@ -18,7 +18,18 @@ void draft_loop(Counters& counts) {
             act.pick(next); // Pick before any optional work, including shared initialization.
             if (!initialized) initialized = act.publish(protocol::empty_word());
         } catch (const StaleTurn&) { ++counts.stale; continue; }
-        catch (...) { ++counts.module_errors; }
+        catch (const std::exception& error) {
+            ++counts.module_errors;
+#if DZ_TRACE
+            std::printf("DZ_MODULE_ERROR round=%u module=draft %s\n",tc.round,error.what());
+#endif
+        }
+        catch (...) {
+            ++counts.module_errors;
+#if DZ_TRACE
+            std::printf("DZ_MODULE_ERROR round=%u module=draft unknown exception\n",tc.round);
+#endif
+        }
         if (cambc::round_number() != tc.round) continue;
         cambc::end_turn();
     }

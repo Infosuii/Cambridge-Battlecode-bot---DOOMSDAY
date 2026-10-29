@@ -7,6 +7,28 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_extracted_lifecycle_payload_is_not_a_second_match(self):
+        self.assertEqual(dz.native_replay(['lifecycle.repl26a','candidate-vs-opponent.repl26a']), 'candidate-vs-opponent.repl26a')
+        with self.assertRaises(ValueError): dz.native_replay(['lifecycle.repl26a'])
+        with self.assertRaises(ValueError): dz.native_replay(['first.repl26a','second.repl26a','lifecycle.repl26a'])
+    def test_kernel_diagnostic_cannot_pass_without_its_observations(self):
+        self.assertFalse(dz.diagnostic_checks('','kernel')['passed'])
+    def test_contest_gate_requires_capture_progress_before_enemy_entry(self):
+        text='\n'.join(f'CT_CHECK name={name} pass=1' for name in ('contest_resets_capture_timer','contest_preserves_unclaimed_gems','full_reward_after_enemy_leaves','capture_progress_resumed'))
+        self.assertFalse(dz.diagnostic_checks(text,'contest')['passed'])
+        self.assertTrue(dz.diagnostic_checks(text,'contest','CT_CONTEST_PROGRESS round=21 timer=4 max=5 enemy_capturing=1')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text,'contest','CT_CONTEST_PROGRESS round=21 timer=5 max=5 enemy_capturing=1')['passed'])
+    def test_visibility_gate_requires_hidden_private_reads_to_be_denied(self):
+        names=['visible_alive','visible_gems','visible_items','visible_cooldown0','visible_cooldown1','hidden_alive']
+        text='\n'.join(f'CT_QUERY name={name} accepted=1 value={int(name.endswith("alive"))} code=0' for name in names)
+        text+='\n'+'\n'.join(f'CT_QUERY name={name} accepted=0 value=0 code=97' for name in ('hidden_gems','hidden_items','hidden_cooldown'))
+        self.assertTrue(dz.diagnostic_checks(text,'visibility')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('name=hidden_gems accepted=0 value=0 code=97','name=hidden_gems accepted=1 value=0 code=0'),'visibility')['passed'])
+    def test_later_success_cannot_erase_an_earlier_failed_assertion(self):
+        names=['split_primary_low_handle_remainder','split_partner_share','occupied_spawn_delays_respawn','vacated_spawn_respawns']
+        valid='\n'.join(f'CT_CHECK name={name} pass=1' for name in names)
+        self.assertTrue(dz.diagnostic_checks(valid,'capture')['passed'])
+        self.assertFalse(dz.diagnostic_checks('CT_CHECK name=split_partner_share pass=0\n'+valid,'capture')['passed'])
     def test_targeting_requires_swaps_and_handle_sensitive_ties(self):
         def transcript(a,b,wrong_tie=False):
             lines=[f'CT11_HANDLES a={a} b={b}',f'CT11_SECOND_ATTACKER body={b} round=19']

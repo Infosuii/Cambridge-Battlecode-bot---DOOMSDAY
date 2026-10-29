@@ -16,20 +16,27 @@ void Group::init_stats() {
         cluster &= camp.is_gem_cluster() || camp.is_gold_cluster();
     }
 }
+void StaticWorld::load_roster(const TurnContext& tc) {
+    if (!allies.empty()) return;
+    auto roster=cambc::champions(cambc::team::ally);
+    std::sort(roster.begin(),roster.end(),[](const auto& a,const auto& b) {
+        return static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(a)) <
+            static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(b));
+    });
+    unsigned own=0;
+    while (own<roster.size()&&roster[own]!=cambc::self()) ++own;
+    if (own==roster.size()) throw std::logic_error("self missing from allied roster");
+    tc.guard(); allies=std::move(roster); slot=own;
+}
 void StaticWorld::boot(const TurnContext& tc) {
     if (ready) return;
+    load_roster(tc);
     if (!loaded_) {
         blocked = cambc::map::walls() | cambc::map::holes() | cambc::map::altars() | cambc::map::spawn_region(cambc::team::enemy);
         auto source = cambc::map::camp_groups();
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
         tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
-        allies = cambc::champions(cambc::team::ally);
-        std::sort(allies.begin(), allies.end(), [](const auto& a, const auto& b) {
-            return static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(a)) <
-                   static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(b));
-        });
-        for (unsigned i = 0; i < allies.size(); ++i) if (allies[i] == cambc::self()) slot = i;
         altars.clear();
         for (auto p : cambc::map::altars().positions()) altars.push_back({p, nullptr});
         loaded_ = true;

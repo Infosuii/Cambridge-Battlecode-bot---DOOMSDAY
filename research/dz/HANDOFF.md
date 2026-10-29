@@ -1,6 +1,67 @@
-# Continue DOOMSDAY Zero — 2026-10-29
+# Continue DOOMSDAY Zero â€” 2026-10-29
 
 ## Latest steering and audit checkpoint (read first)
+
+### Restart-safe continuation checkpoint
+
+The user said **continue** after the wakeup. c706ff3 is pushed; new work below is
+now validated by 420 new full-pool games. Keep map-specific plans deferred.
+FOUNDATION_CHECKPOINT.json records the current source and exact tested binary.
+
+- Recovery: `dz-ct16-recovery-02` passes two controlled cells: base recall 5,
+  Home recall 3, health purchase heals by maximum-health gain immediately,
+  arrival precedes spawn healing, next spawn turn full-heals, recalling on spawn
+  is accepted and starts a 3-tick channel with Home. `recovery-01` was a failed
+  fixture that wrongly expected to escape a range-three wolf in one step.
+- Hidden death: `dz-ct9-hidden-death-06` / `07-reverse` pass both sides, with an
+  observer-order reversal. Hidden enemy alive/dead/respawn liveness reads work;
+  hidden health reads reject 97. Offline official replay analysis checks every
+  SDK observation against its actual champion-turn state. Actual respawn is 60
+  rounds after death at the champion turn; another champion can first see it that
+  round or the next. Earlier 01â€“03 wrongly assumed an observer delay always 60 or
+  always 61; 04/05 had a reader phase/previous-event mix-up. Failures preserved.
+  Bundled SDK exposes no champion respawn-timer wrapper/import; don't invent one.
+- Contest: `dz-ct24-enemy-contest-02` passes: prior capture progress is confirmed
+  by the scripted opponent, contest resets timer, prevents rewards, then leaving
+  permits full reward and resumed progress. 01 missed an interleaved observation.
+- Kernel: `dz-core-kernel-asserted-01` passes four completed native games, one
+  deliberate fuel-out each, zero faults. CT-1 stable primitive samples, CT-2
+  suspension, CT-3 budgets, CT-5 immediate shared writes, draft count and linked
+  body count now have strict automatic assertions. Empty diagnostics cannot pass.
+- **CT-4 research correction:** an uncaught exception restarts the guest; the
+  champion stays alive. Local/static state resets, shared team memory persists.
+  `dz-ct4-uncaught-03` passes four complete native games, exactly one deliberate
+  fault each at round 50, boot at 51, fresh local counter, retained shared flag,
+  and healthy round-100 execution. Fatal-turn stdout can be lost; native fault
+  events are authoritative. 01 had 1,951 deliberate faults per cell under the
+  incorrect permanent-inactivity hypothesis; 02 lost its unflushed marker.
+- Production now loads its cheap roster and clears its own old shared claim
+  before map initialization. `dz-production-restart-01` proved round-51 cleanup,
+  but large-map cold startup exhausted an ordinary budget once. A new first-frame
+  rule clears the claim then defers expensive map startup to a fresh turn when
+  no boosted budget is available. `dz-production-restart-02` is the current test;
+  `dz-restart-safe-idle-01` is the full 140-cell normal regression check.
+- Trace now includes draft module exceptions. `tools/dz.py` aggregates repeated
+  CT_CHECK names with AND so a later pass cannot hide an earlier failure. Hidden
+  private-query denials are asserted. Twelve Python measurement tests pass.
+  `tools/dz_assertions.py` audits all previously passing assertion transcripts.
+- Death diagnostics optionally need Node 24 and pinned engine assets. Their
+  replay reader and loader are frozen and hashed in each new capsule. Other
+  experiments still use Python standard library plus the official CLI.
+
+`dz-production-restart-02` now passes four complete games: exactly the one forced
+round-50 fault, old claim cleared at 51, ordinary-budget startup deferred, zero
+fuel-outs and healthy counters at 100. `dz-restart-safe-idle-01` passes all 140
+cells: zero faults/fuel-outs, mean banked 903.34, fuel p99 53,054.
+Both contested checks finished: `dz-restart-safe-v65-release-01` and
+`dz-restart-safe-v65-trace-01`, 140 games each, zero native faults/fuel-outs;
+the trace has zero caught errors. Release mean collected 280.65, banked 187.34,
+fuel p99 52,234. All 140 contested release games are losses. The current bot is
+still weak; these are runtime checks, not evidence of competitive strength.
+The archive verifier now distinguishes extracted lifecycle payloads from match
+bundles and checks that each extracted payload matches its authenticated bundle.
+No map tuning has begun. Next: controlled basic-clear prediction/measurement,
+remaining action/respawn/item conformance, then calibrated objective selection.
 
 ### Continuation at 04:07, 2026-10-29
 
@@ -70,7 +131,7 @@ bot is weak. Starter numbers below are historical, not current-source results.
 
 Latest frozen campaigns: `dz-fundamentals-07-{idle,v65}-{control,safety}`, each
 140 games, all zero native faults/fuel-outs. Safety changes mean banked idle
-902.94→917.39 and v65 191.14→187.04; deaths 14.88→7.07 and 18.35→14.76. Both
+902.94â†’917.39 and v65 191.14â†’187.04; deaths 14.88â†’7.07 and 18.35â†’14.76. Both
 contested campaigns lose all games. Safety stays default OFF. Full-pool strict
 trace audit `dz-fundamentals-08-v65-trace` passes 140 cells with zero native faults,
 fuel-outs and printed caught action/module errors. It is diagnostic evidence only.
@@ -136,7 +197,7 @@ This is a tested walking skeleton. It is not a strong bot or a release candidate
 ## Next implementation milestone (do this before tuning)
 
 1. Finish CT-11 camp cadence/targeting and CT-7 movement/spell allowances; CT-8/9
-   visibility; CT-16/17 channels; CT-24–26 capture/credit/reset. Add automatic
+   visibility; CT-16/17 channels; CT-24â€“26 capture/credit/reset. Add automatic
    diagnostic transcript assertions and the complete canonical CT-27 fingerprint.
    Keep deliberate-fault/fuel-out tests isolated from candidates.
 2. Extract objective arrival/clear/camp damage/capture data from the preserved
@@ -200,8 +261,8 @@ python tools/dz.py smoke --name UNIQUE-V65-RUN --pool --opponent v65
 
 ## Evaluation discipline
 
-Read `HOLDOUT.md` and `SEED_LEDGER.md` before experiments. Seeds 101–110 dev,
-111–120 validation, 121–124 once-only frozen release holdout; 3/4 prohibited.
+Read `HOLDOUT.md` and `SEED_LEDGER.md` before experiments. Seeds 101â€“110 dev,
+111â€“120 validation, 121â€“124 once-only frozen release holdout; 3/4 prohibited.
 DZ v0 is deterministic and does not consume a seed. Do not relabel duplicate
 identities as independent samples. Bug/geometry checks can use all maps; parameter
 selection must respect the held-out-map partition. No new top-team download was
