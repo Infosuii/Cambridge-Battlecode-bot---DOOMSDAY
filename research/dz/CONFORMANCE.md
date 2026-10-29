@@ -251,3 +251,12 @@ fuel-outs. Monster +15%, multiplicative Jungle/Durability mitigation and the
 restricted basic-clear primitive all match per-hit/per-phase/total observations,
 including 80.5 basic hits and 12.6 incoming damage. Other combatants and variable
 stats/abilities remain open; this is not full V-M1 or strategy evidence.
+
+## Solo capture timer initialization
+
+CAPTURE_TIMING_CONFORMANCE.md records four full native games / 20 episodes,
+zero faults/fuel-outs. Configured 5/3 timers correspond to physical-entry waits
+of 6/4 rounds. Entry-turn capture_available still shows generic timer 5, then
+the next phase initializes the active timer without decrementing it. The future
+model must retain capture status and distinguish new arrival from active progress.
+Mixed ownership and post-contest timing remain outside this fixture.

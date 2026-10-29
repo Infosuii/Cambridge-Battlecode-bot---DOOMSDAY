@@ -170,3 +170,5 @@ The registry was created before experiments. Entries below record actual use.
 | dz-camp-mods-110-01 | 2026-10-29 | deterministic; Wasm 8e4238243f67 | 2 cells; idle81 | conformance; trace=False |
 | dz-camp-mods-focus-100-01 | 2026-10-29 | deterministic; Wasm 23c419752631 | 2 cells; idle81 | conformance; trace=False |
 | dz-camp-mods-focus-111-01 | 2026-10-29 | deterministic; Wasm b3b95fb5da0d | 2 cells; idle81 | conformance; trace=False |
+| dz-capture-timing-emblem-01 | 2026-10-29 | deterministic; Wasm 285bcbcaf381 | 2 cells; idle81 | conformance; trace=False |
+| dz-capture-timing-control-01 | 2026-10-29 | deterministic; Wasm 79f9bcd46b8d | 2 cells; idle81 | conformance; trace=False |

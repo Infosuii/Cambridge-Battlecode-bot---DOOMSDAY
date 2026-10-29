@@ -12,6 +12,7 @@ unmeasured.
 
 ```powershell
 python tools/dz.py host
+python tools/dz.py conformance --name new-capture-time --fixture capture-time --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-camp-mods --fixture camp-mods --map-dir tests/dz/maps --maps camp-modifiers --diagnostic-rounds 2000 --set DZ_MONSTER=1 --set DZ_JUNGLE=1 --set DZ_DURABILITY=1
 python tools/dz.py conformance --name new-prospector --fixture prospector --map-dir tests/dz/maps --maps prospector --diagnostic-rounds 2000
 python tools/dz.py conformance --name new-linked --fixture linked --map-dir tests/dz/maps --maps isolated-monolith --diagnostic-rounds 2000
@@ -55,6 +56,11 @@ the order-dependent gold rounding; these are not strategy match results.
 combination. `DZ_MONSTER_FOCUS=1` uses the focus version for fractional basic
 damage. The runner freezes the exact `basic_clear.h`. See
 `research/dz/CAMP_MODIFIER_CONFORMANCE.md` for scope and measured tolerances.
+
+`capture-time` selects the Capture emblem and enables physical-entry/progress
+logging in the reward fixture. Use `--set DZ_CAPTURE_ITEM=0` for its Power-item
+control. It verifies the 5/3 configured timers and the extra initialization
+phase, not just a last-kill-to-reward gap; see CAPTURE_TIMING_CONFORMANCE.md.
 
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive

@@ -2,6 +2,25 @@
 
 ## Latest steering and audit checkpoint (read first)
 
+### Capture-time continuation after d1d8337
+
+Production source remains unchanged and matches the 420-game / clean-export
+receipt. Four new complete native games pass (`dz-capture-timing-emblem-01`,
+`dz-capture-timing-control-01`), zero native faults/fuel-outs. They record 20
+solo capture episodes with every on-site timer/status. Read
+CAPTURE_TIMING_CONFORMANCE.md: physical entry after all camps die costs 6 rounds
+without the emblem, 4 with it. Configured 5/3 excludes the initialization phase.
+The entry-turn SDK capture_available timer is 5 even when equipped; the next
+phase initializes active 3, then 2/1, then reward. Preserve status as well as
+timer in the future model. Avoid double counting attack/move/initialization
+offsets. No strategy change or full V-M1 claim.
+
+Next fundamentals: Tribute passive (not currently bought), remaining item/
+action/vision mechanics, full SafeMode and expanded clear/arrival/reward model
+calibration. Models and map-specific tuning remain deferred. All branch work
+and raw evidence must continue to be committed/pushed for fresh-system handoff.
+
+
 ### Camp-modifier continuation after c83a2f9
 
 Production remains unchanged and still matches the low-fuel 420-game / clean

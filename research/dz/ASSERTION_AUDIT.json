@@ -1,8 +1,8 @@
 {
-  "verified_utc": "2026-10-29T10:29:46.234531+00:00",
+  "verified_utc": "2026-10-29T10:39:50.974013+00:00",
   "purpose": "Check that a reported pass never masks an earlier failed assertion of the same name",
   "checker_sha256": "1ba93cee348adfe0c8c2c16c0f633009f96bd974471ceff08fb70823cd51cbc6",
-  "checked_passing_cells": 140,
+  "checked_passing_cells": 144,
   "masked_failures": 0,
   "failures": [],
   "cells": [
@@ -425,6 +425,34 @@
       "side": "B",
       "assertions": 10,
       "stdout_sha256": "9a9014839ddb2ef053c8396971f37d98221d88182157402a9a211ca572bbbed4"
+    },
+    {
+      "run": "dz-capture-timing-control-01",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 42,
+      "stdout_sha256": "01cfa8cabb454e58517ae909c18a82f9d53240ab56296971f54ae6bb986123dc"
+    },
+    {
+      "run": "dz-capture-timing-control-01",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 42,
+      "stdout_sha256": "0513c91f0a9d33db26bb63bfa26adf0c70f3558efbe89d799affee8df78b0088"
+    },
+    {
+      "run": "dz-capture-timing-emblem-01",
+      "map": "prospector",
+      "side": "A",
+      "assertions": 34,
+      "stdout_sha256": "db63202efbea48ce7e2b46a33ca7914d8bb1e5da98e4f6de99f3dda47c5e11ba"
+    },
+    {
+      "run": "dz-capture-timing-emblem-01",
+      "map": "prospector",
+      "side": "B",
+      "assertions": 34,
+      "stdout_sha256": "0a3dbcb94c32b1202b6c9e2760ab507d73fa4d9b3731f2df71a33ea1f261ceba"
     },
     {
       "run": "dz-ct13-power-control-02",

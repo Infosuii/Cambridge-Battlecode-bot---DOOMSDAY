@@ -69,3 +69,8 @@ checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
   reversing wolf/gold awards moves the extra unit to the later event. Do not
   floor each event independently, or infer a hidden remainder without its prior
   reward history. Internal storage, other stacking and death behavior are open.
+
+- Solo capture: configured 5/3 excludes one initialization phase after new
+  physical entry. Native entry-to-reward is 6/4. capture_available's generic
+  timer 5 does not reveal a Capture emblem; ally_capturing is the initialized
+  countdown. Preserve status in future model inputs and compose offsets carefully.

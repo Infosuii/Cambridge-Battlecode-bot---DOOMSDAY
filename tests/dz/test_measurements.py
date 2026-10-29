@@ -7,6 +7,18 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_capture_timer_requires_initialization_phase_and_complete_progress(self):
+        rows=[('baseline_gold',0,0,0,240,240,240),('gem_7_floor',7,7,7,0,0,0),('gem_14_floor',14,14,14,0,0,0),('gold_cluster_bonus',0,0,0,20,20,20),('wolf_reward_unchanged',4,4,4,40,40,40)]
+        text='CT13_ACTOR vesper=0 bonus_gold_percent=0\nCT13_ITEM prospector=0\nCT_CAP_ITEM active=1 timer=3\n'+'\n'.join('CT13_REWARD label=%s base_gems=%d actual_gems=%d expected_gems=%d base_gold=%d actual_gold=%d expected_gold=%d'%r for r in rows)+'\n'+'\n'.join(f'CT_CHECK name={n} pass=1' for n in [r[0] for r in rows]+['item_created','prospector_setup'])
+        for i,row in enumerate(rows):
+            label=row[0];entered=20*i+10;timer=5 if i==0 else 3
+            text+=f'\nCT_CAP_ENTER label={label} round={entered} all_dead=1 onsite=1\nCT_CAP_RESULT label={label} entered={entered} captured={entered+timer+1} elapsed={timer+1} configured={timer}'
+            text+=f'\nCT_CAP_STEP label={label} round={entered} timer=5 state=4'
+            text+='\n'+'\n'.join(f'CT_CAP_STEP label={label} round={entered+j+1} timer={timer-j} state=1' for j in range(timer))
+        self.assertTrue(dz.diagnostic_checks(text,'capture-time')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('elapsed=4','elapsed=3'),'capture-time')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('timer=2 state=1','timer=3 state=1'),'capture-time')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('CT_CAP_ENTER','missing'),'capture-time')['passed'])
     def test_camp_modifiers_need_real_samples_and_multiplicative_reductions(self):
         names=['modifier_setup','modifier_gold_captured','modifier_items_created','modifier_feasible','modifier_hit_damage','modifier_phase_damage','modifier_attack_count','modifier_elapsed','modifier_total_damage','modifier_isolated_fixed_stats']
         checks='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)

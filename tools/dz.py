@@ -161,6 +161,21 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture=='capture-time':
+        base=diagnostic_checks(stdout,'prospector')
+        items=re.findall(r'CT_CAP_ITEM active=([01]) timer=(\d+)',stdout)
+        entries=re.findall(r'CT_CAP_ENTER label=(\w+) round=(\d+) all_dead=1 onsite=1',stdout)
+        results=re.findall(r'CT_CAP_RESULT label=(\w+) entered=(\d+) captured=(\d+) elapsed=(\d+) configured=(\d+)',stdout)
+        steps=re.findall(r'CT_CAP_STEP label=(\w+) round=(\d+) timer=(-?\d+) state=(\d+)',stdout)
+        labels={'baseline_gold','gem_7_floor','gem_14_floor','gold_cluster_bonus','wolf_reward_unchanged'}
+        valid=bool(len(items)==1 and int(items[0][1])==(3 if items[0][0]=='1' else 5) and len(entries)==len(results)==5 and {r[0] for r in entries}==labels and {r[0] for r in results}==labels)
+        for label,entered,captured,elapsed,configured in results:
+            entered,captured,elapsed,configured=map(int,(entered,captured,elapsed,configured))
+            timer=3 if items and items[0][0]=='1' and label!='baseline_gold' else 5
+            progress=[tuple(map(int,r[1:])) for r in steps if r[0]==label]
+            valid &= configured==timer and elapsed==captured-entered==timer+1 and (label,str(entered)) in entries and len(progress)==elapsed and [r[0] for r in progress]==list(range(entered,captured)) and [r[1] for r in progress[1:]]==list(range(timer,0,-1)) and all(r[2]==1 for r in progress[1:])
+        return dict(passed=base['passed'] and valid,underlying_rewards=base,capture_item=items,entries=entries,results=results,steps=steps,
+                    scope='solo physical on-site entry after all members defeated; configured timer plus first initialization phase')
     if fixture=='camp-mods':
         checks=transcript_assertions(stdout)
         required={'modifier_setup','modifier_gold_captured','modifier_items_created','modifier_feasible','modifier_hit_damage',
@@ -519,11 +534,17 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
     shutil.copytree(source/'src', frozen/'src')
+    if args.command=='conformance' and args.fixture=='capture-time':
+        config=frozen/'src/config.h'; source_text=config.read_text()
+        for flag,value in [('DZ_CAPTURE_TEST',1),('DZ_CAPTURE_ITEM',1),('DZ_PROSPECTOR',0)]:
+            source_text,n=re.subn(r'^#define '+flag+r'\s+[01]$',f'#define {flag} {value}',source_text,flags=re.MULTILINE)
+            if n!=1: raise ValueError('capture fixture flag changed: '+flag)
+        config.write_text(source_text,encoding='utf-8',newline='\n')
     if args.command=='conformance' and args.fixture in ('clear','camp-mods'):
         shutil.copyfile(ROOT/'bots/dz/src/basic_clear.h',frozen/'src/basic_clear.h')
     if args.trace or injected:
@@ -701,7 +722,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
