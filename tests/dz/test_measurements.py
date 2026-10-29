@@ -7,6 +7,15 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_group_visibility_requires_dead_member_and_hidden_capturer_evidence(self):
+        text='\n'.join(f'CT_CHECK name={n} pass=1' for n in ['single_spawn_setup','single_spawn_position','visible_camp_full_health'])+'\nCT10_QUERY name=visible_camp_health accepted=1 value=120 code=0\nCT10_QUERY name=hidden_camp_health accepted=0 value=0 code=97\n'
+        text+='\n'.join(f'CT10_SAMPLE round={r} spawns=1 live=1 group=1 capture=0 timer=5 actor_visible=0' for r in range(1,7))+'\n'
+        text+='\n'.join(f'CT10_SAMPLE round={r} spawns=1 live=0 group=1 capture=0 timer=5 actor_visible=0' for r in range(7,13))+'\nCT10_SAMPLE round=13 spawns=1 live=0 group=2 capture=3 timer=2 actor_visible=0\nCT10_SAMPLE round=14 spawns=1 live=0 group=3 capture=0 timer=5 actor_visible=0'
+        opponent='CT_CHECK name=single_spawn_actor_receipt pass=1\nCT10_ORDER seen_member_first=1'
+        self.assertTrue(dz.diagnostic_checks(text,'group-visibility-first',opponent)['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('live=0 group=1','live=1 group=1'),'group-visibility-first',opponent)['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('capture=3 timer=2 actor_visible=0','capture=3 timer=2 actor_visible=1'),'group-visibility-first',opponent)['passed'])
+        self.assertFalse(dz.diagnostic_checks(text,'group-visibility-first','')['passed'])
     def test_draft_suspension_requires_a_new_round_and_all_intended_picks(self):
         text='CT_DRAFT_BURN prefix=0 round=0\nCT_DRAFT_RESUME prefix=1 round=1 original_round=0\n'+'\n'.join(f'CT_DRAFT_CHOICE prefix={i} pick={p}' for i,p in enumerate([11,2,6]))+'\n'+'\n'.join(f'CT_DRAFT_PLAY body={i} type={t} picks=3' for i,t in enumerate([12,2,7]))
         self.assertTrue(dz.diagnostic_checks(text,'draft-stale')['passed'])

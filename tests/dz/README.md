@@ -77,6 +77,11 @@ of the boosted first turn. It must preserve every intended pick/body and an
 advancing draft round. These injected binaries are diagnostic only; see
 DRAFT_SUSPENSION_CONFORMANCE.md.
 
+`group-visibility` uses its same-named map and `--fixture-opponent` to test one
+visible spawn among twelve members, including hidden capture. The
+`group-visibility-first` variant makes the scripted enemy defeat that member
+first, leaving hidden live members. See GROUP_VISIBILITY_CONFORMANCE.md.
+
 `clear` freezes the exact production `basic_clear.h` into its diagnostic source.
 Use `--set DZ_RANGED=1` for Vesper instead of Vendetta. This restricted primitive
 is not used for production decisions; its scope and validation gaps are in

@@ -1,0 +1,146 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 483.71937155273275,
+  "fuel_p99": 8694,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "group-visibility",
+      "map_sha256": "1155b1eedfc8ecc941a943e5c1eabbef315c268a543b785aa0243cf11ebcaca6",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a24357285c2cc78c430b169955604e7d4312998e221c0abd4a21af9303744d8c",
+      "opponent_sha256": "6b3d1e6fdab4025aebd85f70a314a538923abe8c5a28c4253af8281221b9a536",
+      "replay_sha256": "1bc8b88474a1c8e316246cbc999545f2daf3b7c97b6e275964f77eaa7d459087",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "single_spawn_setup": true,
+          "single_spawn_position": true,
+          "visible_camp_full_health": true
+        },
+        "opponent_checks": {
+          "single_spawn_setup": true,
+          "single_spawn_actor_receipt": true
+        },
+        "missing": [],
+        "single_visible_alive": 89,
+        "single_visible_reward": 6,
+        "hidden_capturer_samples": 5,
+        "single_visible_cooldown": 17,
+        "queries": {
+          "hidden": [
+            [
+              "0",
+              "0",
+              "97"
+            ]
+          ],
+          "visible": [
+            [
+              "1",
+              "120",
+              "0"
+            ]
+          ]
+        },
+        "samples": 112
+      },
+      "summary_sha256": "eac066c5aa07d59fae6f8f95def78c7239c92ff58887b79da0d6b31dee91882a",
+      "opponent_fuel_outs": 0
+    },
+    {
+      "map": "group-visibility",
+      "map_sha256": "1155b1eedfc8ecc941a943e5c1eabbef315c268a543b785aa0243cf11ebcaca6",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a24357285c2cc78c430b169955604e7d4312998e221c0abd4a21af9303744d8c",
+      "opponent_sha256": "6b3d1e6fdab4025aebd85f70a314a538923abe8c5a28c4253af8281221b9a536",
+      "replay_sha256": "5f4fe3abfccc65e4f20f8f19b598712dd1d3990d1283a53ab776a3554f89a43e",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "single_spawn_setup": true,
+          "single_spawn_position": true,
+          "visible_camp_full_health": true
+        },
+        "opponent_checks": {
+          "single_spawn_setup": true,
+          "single_spawn_actor_receipt": true
+        },
+        "missing": [],
+        "single_visible_alive": 89,
+        "single_visible_reward": 6,
+        "hidden_capturer_samples": 5,
+        "single_visible_cooldown": 17,
+        "queries": {
+          "hidden": [
+            [
+              "0",
+              "0",
+              "97"
+            ]
+          ],
+          "visible": [
+            [
+              "1",
+              "120",
+              "0"
+            ]
+          ]
+        },
+        "samples": 112
+      },
+      "summary_sha256": "9530eba444aa9a37043e5ad7d5b1e5e2db9aafda06aa5855c335316eb05dc124",
+      "opponent_fuel_outs": 0
+    }
+  ]
+}

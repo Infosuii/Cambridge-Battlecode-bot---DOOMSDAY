@@ -161,6 +161,22 @@ def transcript_assertions(stdout):
     return checks
 
 def diagnostic_checks(stdout, fixture, opponent_stdout=''):
+    if fixture in ('group-visibility','group-visibility-first'):
+        checks=transcript_assertions(stdout);opponent_checks=transcript_assertions(opponent_stdout)
+        required={'single_spawn_setup','single_spawn_position','visible_camp_full_health'}
+        rows=[tuple(map(int,r)) for r in re.findall(r'CT10_SAMPLE round=(\d+) spawns=(\d+) live=(\d+) group=(\d+) capture=(\d+) timer=(-?\d+) actor_visible=([01])',stdout)]
+        alive=sum(spawns==1 and live==1 and state==1 for _,spawns,live,state,_,_,_ in rows)
+        dead_alive=sum(spawns==1 and live==0 and state==1 for _,spawns,live,state,_,_,_ in rows)
+        reward=sum(spawns==1 and live==0 and state==2 for _,spawns,live,state,_,_,_ in rows)
+        hidden_capture=sum(spawns==1 and live==0 and state==2 and capture==3 and actor==0 for _,spawns,live,state,capture,_,actor in rows)
+        cooldown=sum(spawns==1 and live==0 and state==3 for _,spawns,live,state,_,_,_ in rows)
+        hidden=re.findall(r'CT10_QUERY name=hidden_camp_health accepted=(\d) value=([0-9.eE+-]+) code=(\d+)',stdout)
+        visible=re.findall(r'CT10_QUERY name=visible_camp_health accepted=(\d) value=([0-9.eE+-]+) code=(\d+)',stdout)
+        query_ok=hidden==[('0','0','97')] and len(visible)==1 and visible[0][0]=='1' and float(visible[0][1])>0 and visible[0][2]=='0'
+        first=fixture=='group-visibility-first'
+        order_ok=not first or 'CT10_ORDER seen_member_first=1' in opponent_stdout and dead_alive>=5
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and opponent_checks.get('single_spawn_actor_receipt') is True and order_ok and alive>=5 and reward>0 and hidden_capture>0 and cooldown>0 and query_ok and 'ERROR' not in stdout and 'ERROR' not in opponent_stdout,
+                    checks=checks,opponent_checks=opponent_checks,missing=sorted(required-checks.keys()),single_visible_alive=alive,dead_visible_member_group_alive=dead_alive,single_visible_reward=reward,hidden_capturer_samples=hidden_capture,single_visible_cooldown=cooldown,queries=dict(hidden=hidden,visible=visible),samples=len(rows))
     if fixture=='draft-stale':
         choices=[tuple(map(int,r)) for r in re.findall(r'CT_DRAFT_CHOICE prefix=(\d+) pick=(\d+)',stdout)]
         bodies=[tuple(map(int,r)) for r in re.findall(r'CT_DRAFT_PLAY body=(\d+) type=(\d+) picks=(\d+)',stdout)]
@@ -473,7 +489,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             deaths=0, faults=0, faults_measured=False, opponent_faults=0, fuel_outs=sum(x>=100000 for x in fuel[20:]),
             fuel_budgets=budgets, candidate_sha256=sha(candidate), opponent_sha256=sha(opponent), replay_sha256=sha(bundle))
         opponent_stdout=''
-        if fixture=='contest':
+        if fixture in ('contest','group-visibility','group-visibility-first'):
             with zipfile.ZipFile(bundle) as z:
                 opponent_stdout=z.read('team-'+('b' if side=='A' else 'a')+'.stdout').replace(b'\0',b'').decode('utf-8','replace')
             (folder/'opponent.stdout').write_text(opponent_stdout,encoding='utf-8')
@@ -508,6 +524,10 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
             if fixture=='draft-stale':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
+            if fixture in ('group-visibility','group-visibility-first'):
+                other='team'+('B' if side=='A' else 'A')
+                result['opponent_fuel_outs']=sum(len(e['entries']) for e in native['events'] if e['kind']=='fuelExhausted' and e['owner']['team']==other)
+                result['diagnostic_checks']['passed'] &= result['opponent_faults']==result['opponent_fuel_outs']==0
             if fixture=='kernel':
                 result['diagnostic_checks']['passed'] &= result['fuel_outs']==1
                 result['diagnostic_checks']['expected_deliberate_fuel_outs']=1
@@ -567,7 +587,7 @@ def experiment(args):
         (out/'runner/replay').mkdir()
         shutil.copyfile(ROOT/'tools/dz_lifecycle_audit.mjs',out/'runner/dz_lifecycle_audit.mjs')
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'kernel':'conformance','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
+    fixtures = {'kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     frozen = out / 'build/candidate'
@@ -665,7 +685,7 @@ def experiment(args):
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
         source_opp = ROOT/'tests/dz'/fixtures[args.fixture] if args.fixture_opponent else ROOT/'bots'/args.opponent
-        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest')):
+        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest','group-visibility','group-visibility-first')):
             raise ValueError('scripted opponent is unavailable for this fixture')
         frozen_opp = out/'build/opponent'
         shutil.copytree(source_opp/'src', frozen_opp/'src')
@@ -674,6 +694,10 @@ def experiment(args):
             text=config.read_text()
             if text.count('#define CT_OPPONENT 0')!=1: raise ValueError('scripted opponent configuration changed')
             config.write_text(text.replace('#define CT_OPPONENT 0','#define CT_OPPONENT 1'),encoding='utf-8',newline='\n')
+            if args.fixture=='group-visibility-first':
+                text=config.read_text()
+                if text.count('#define DZ_SEEN_MEMBER_FIRST 0')!=1: raise ValueError('visible-member-first configuration changed')
+                config.write_text(text.replace('#define DZ_SEEN_MEMBER_FIRST 0','#define DZ_SEEN_MEMBER_FIRST 1'),encoding='utf-8',newline='\n')
         opponent = build(frozen_opp, out/'opponent.wasm')
     map_directory=Path(args.map_dir) if args.map_dir else MAPS
     if not map_directory.is_absolute(): map_directory=ROOT/map_directory
@@ -777,7 +801,7 @@ def main():
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['kernel','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
+        p.add_argument('--fixture', choices=['kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

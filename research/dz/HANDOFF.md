@@ -90,6 +90,11 @@ Read the linked files for exact scope, raw run names and retained failures:
 - `DRAFT_SUSPENSION_CONFORMANCE.md`: 12 final native cases preserve every fixed
   pick through first/second draft fuel suspension. round_number advances 0 to 1
   or 1 to 2, so existing guards work. **No production fix was needed.**
+- `GROUP_VISIBILITY_CONFORMANCE.md`: four full native games. One visible spawn
+  permits group/capture state queries even when its member is defeated and other
+  hidden members remain alive. Hidden enemy capture is observable through group
+  state. Hidden member health still rejects 97. Production spawn-visibility
+  memory behavior is supported; bush/ward behavior remains separate.
 
 Other established facts: damaging wolf/elk/golem/monolith camps hit every round;
 empty visible awake masks do not prove safety from hidden camps. Elk nearest-
@@ -113,10 +118,8 @@ Do not add hard leases/crew assignments without a tested protocol extension.
 No test process remains active after the current batch. Before repeating a run,
 check its results file: completed names/evidence are immutable.
 
-1. Isolate CT-10/8: group state/capture queries with exactly one visible spawn
-   tile, including a defeated visible member and a hidden capturer. Prefer a
-   scripted enemy clearing the group, with other allies parked far away, to avoid
-   assuming shared-vision behavior. Use separate correctness geometry.
+1. Audit current production invariants against the now-tested visibility and
+   timing rules; correct concrete mistakes before expanding strategy.
 2. Remaining priority/hidden-collision, bush/ward, champion respawn blocking,
    kill-credit, Hunter/Skirmish/Collectors and larger/mixed reward cases.
 3. Expand clear/arrival/damage/reward model calibration before decisions use it.

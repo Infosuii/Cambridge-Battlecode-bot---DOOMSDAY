@@ -64,7 +64,7 @@ uses a bounded nearest-frontier scan and at most nine roots.
 | CT-7 | Partial | Ranged, melee, reset, exclusive cast and shield order checks pass; hidden collision/dash pending |
 | CT-8 | Partial | Visible bags/items/cooldowns pass; hidden queries reject 97; channel-time pending |
 | CT-9 | Partial | Hidden alive/dead/respawn reads pass; native respawn occurs 60 rounds after death at champion turn; no respawn-timer API |
-| CT-10 | Partial | Group visibility/state used through SDK; single-spawn-tile visibility fixture not isolated |
+| CT-10 | Observed | One visible spawn permits state/capture queries, including defeated visible member and hidden capturer; bush/ward behavior remains CT-23 |
 | CT-11 | Partial | Every-round wolf/elk/golem/monolith damage; elk nearest/lower-handle ties verified |
 | CT-12 | Observed | Tribute reduces rounded base timer, with ceiling/minimum; matched 7/14/21/35/98-bag controls pass; gear utility still disabled |
 | CT-13 | Partial | Gem and gold clusters, wolf, Vesper combination and rounding pass; larger camps/mixed/crew/other stacking still open |

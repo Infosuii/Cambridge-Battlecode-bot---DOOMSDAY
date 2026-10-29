@@ -189,3 +189,5 @@ The registry was created before experiments. Entries below record actual use.
 | dz-draft-suspension-second-02 | 2026-10-29 | deterministic; Wasm 2738cc9a3da4 | 4 cells; idle81 | conformance; trace=False |
 | dz-draft-suspension-four-02 | 2026-10-29 | deterministic; Wasm 8b1323a840bb | 2 cells; idle81 | conformance; trace=False |
 | dz-draft-suspension-four-second-02 | 2026-10-29 | deterministic; Wasm 2738cc9a3da4 | 2 cells; idle81 | conformance; trace=False |
+| dz-ct10-single-spawn-01 | 2026-10-29 | deterministic; Wasm a24357285c2c | 2 cells; scripted group-visibility opponent | conformance; trace=False |
+| dz-ct10-single-spawn-first-02 | 2026-10-29 | deterministic; Wasm a24357285c2c | 2 cells; scripted group-visibility-first opponent | conformance; trace=False |
