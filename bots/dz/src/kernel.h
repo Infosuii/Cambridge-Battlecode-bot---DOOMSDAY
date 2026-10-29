@@ -15,7 +15,7 @@ inline void end_turn_traced() {
 struct TurnContext {
     std::uint32_t round;
     std::uint64_t fuel0;
-    static TurnContext begin() { trace_overhead = 0; return {cambc::round_number(), fuel_left()}; }
+    static TurnContext begin() { trace_meter.reset(); return {cambc::round_number(), fuel_left()}; }
     void guard() const { require_current(round, [] { return cambc::round_number(); }); }
     bool allow(std::uint64_t cost) const {
         guard();
@@ -46,6 +46,7 @@ class Actuator {
     ActionBudget budget_;
     unsigned failures_ = 0;
     ActionHistory history_;
+    bool last_move_blocked_=false;
     static bool channel(cambc::champion_state s) {
         return s.contains(cambc::champion_state::recalling) || s.contains(cambc::champion_state::submitting_gems) ||
             s.contains(cambc::champion_state::teleporting);
@@ -89,14 +90,17 @@ public:
         }
     }
     bool move(cambc::vec2 p) {
+        last_move_blocked_=false;
         return attempt([&] {
             auto& me = cambc::self(); auto s = me.state();
             if (s.is_dead() || !cambc::map::is_in_bounds(p) || me.position().chebyshev_distance(p) != 1 ||
                 !history_.may_move(s.contains(cambc::champion_state::can_move),
                     me.restrictions().contains(cambc::buff_restrictions::move), channel(s))) return false;
-            tc_.guard(); bool success = me.move_absolute(p); history_.record_move(success); return success;
+            tc_.guard(); bool success = me.move_absolute(p); last_move_blocked_=!success;
+            history_.record_move(success); return success;
         });
     }
+    bool last_move_blocked() const { return last_move_blocked_; }
     bool attack(const cambc::unit& u) {
         return attempt([&] {
             if (!can_attack() || !u.is_visible() || u.health() <= 0 ||

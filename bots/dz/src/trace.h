@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <unistd.h>
 #include "config.h"
+#include "trace_meter.h"
 
 namespace dz {
 // Trace output for diagnostic builds only (release builds print nothing).
@@ -22,35 +23,24 @@ struct TraceBuffer {
     unsigned dropped = 0; // Lines discarded because the buffer was full.
 };
 inline TraceBuffer trace_buffer;
-// Fuel-neutral tracing: trace-only work is metered and added back, so bot
-// logic reading fuel_left() makes the same budget decisions as a release
-// build. Reset at every turn start (TurnContext::begin).
-inline std::uint64_t trace_overhead = 0;
+// Trace work is metered once for profiling, including nested trace() calls.
+// The governor still uses physical fuel. Instrumented and release behavior can
+// differ, so strength decisions always require an uninstrumented release pool.
+inline TraceMeter trace_meter;
+inline auto& trace_overhead = trace_meter.credited;
 inline std::uint64_t trace_cap = 3000;
-inline std::uint64_t trace_line_cost_max = 0, trace_line_cost_sum = 0, trace_lines = 0; // Measured formatting cost. // Per-turn credited trace budget; raised in the trace window.
+inline std::uint64_t trace_line_cost_max = 0, trace_line_cost_sum = 0, trace_lines = 0;
 #if DZ_TRACE
-inline std::uint64_t fuel_query_cost() {
-    static std::uint64_t cost = [] {
-        const auto a = cambc::fuel_remaining(); const auto b = cambc::fuel_remaining();
-        return a > b ? a - b : 0;
-    }();
-    return cost;
-}
 struct TraceScope {
-    std::uint64_t start;
-    TraceScope() : start(cambc::fuel_remaining()) {}
+    TraceScope() { trace_meter.begin(cambc::fuel_remaining(),cambc::round_number()); }
     ~TraceScope() {
-        const auto end = cambc::fuel_remaining();
-        // Credit only the measured span: over-crediting let trace builds
-        // spend fuel they did not have (30 fuel-outs, dz-parity-trace-v65-03).
-        if (start > end) trace_overhead += start - end;
+        trace_meter.finish(cambc::fuel_remaining(),cambc::round_number());
     }
 };
-// Bot logic reads real fuel plus this turn's metered trace work, so its budget
-// decisions match a release build. A trace build still fuel-outs where release
-// had less spare than the (capped, <=3k) trace overhead: treat those as
-// warnings that the release turn ran close to the limit.
-inline std::uint64_t fuel_left() { return cambc::fuel_remaining() + trace_overhead; }
+// Scheduling and action gates must use physical fuel. Adding diagnostic costs
+// back here can authorize work that exhausts the real budget. Compensation is
+// for offline profiling only, never for spending decisions.
+inline std::uint64_t fuel_left() { return cambc::fuel_remaining(); }
 #else
 inline std::uint64_t fuel_left() { return cambc::fuel_remaining(); }
 #endif
@@ -96,13 +86,14 @@ inline void trace(const char* format, ...) {
     // Keep whole lines: refuse a line that may not fit (lines are < 512 bytes).
     if (b.size + 512 > TraceBuffer::capacity) { ++b.dropped; return; }
 #if DZ_TRACE
-    // Overhead is credited back to bot logic, so it must stay well inside the
-    // 12k reserve or trace builds exhaust real fuel (110 fuel-outs in
-    // dz-parity-trace-v65-01). Drop lines instead; the count is reported.
+    // Bound formatting work and leave physical fuel for production logic.
+    // Drop lines instead; the count is reported.
     const bool line_open = b.size && b.data[b.size-1] != '\n';
-    if (!line_open && (trace_overhead > trace_cap || cambc::fuel_remaining() < (trace_cap > 3000 ? 5000u : 25000u))) { ++b.dropped; return; }
+    const auto real=cambc::fuel_remaining();
+    if (!line_open && (trace_overhead+trace_meter.pending(real,cambc::round_number()) > trace_cap || real < (trace_cap > 3000 ? 5000u : 25000u))) { ++b.dropped; return; }
 #endif
     const auto line_start_fuel = cambc::fuel_remaining();
+    const auto line_round = cambc::round_number();
     va_list args; va_start(args, format);
     for (const char* p = format; *p; ++p) {
         if (*p != '%') { put(*p); continue; }
@@ -134,7 +125,9 @@ inline void trace(const char* format, ...) {
         }
     }
     va_end(args);
-    const auto spent = line_start_fuel - cambc::fuel_remaining();
+    const auto remaining = cambc::fuel_remaining();
+    if (cambc::round_number()!=line_round||remaining>line_start_fuel) return;
+    const auto spent = line_start_fuel - remaining;
     if (spent > trace_line_cost_max) trace_line_cost_max = spent;
     trace_line_cost_sum += spent; ++trace_lines;
 }
@@ -165,6 +158,6 @@ inline std::uint64_t trace_fuel_mark() {
 #if DZ_TRACE
     TraceScope scope;
 #endif
-    return fuel_left(); // Compensated: trace work never shows up in fuel deltas.
+    return trace_meter.available(cambc::fuel_remaining(),cambc::round_number());
 }
 }

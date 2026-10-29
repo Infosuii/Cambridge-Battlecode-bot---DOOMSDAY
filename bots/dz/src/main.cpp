@@ -60,13 +60,11 @@ int main() {
             dz::recovery_sample.valid=false;
         }
         if (tc.round % 250 == 0) {
-            ::dz::trace("DZ_TIME round=%u slot=%u",tc.round,world?world->slot:0);
-            for (auto t:dz_time) ::dz::trace(" %u",t);
-            ::dz::trace(" exec=%u/%u", dz_exec_calls, dz::execute_entries);
-            ::dz::trace(" linecost_max=%llu mean=%llu", static_cast<unsigned long long>(dz::trace_line_cost_max), static_cast<unsigned long long>(dz::trace_lines ? dz::trace_line_cost_sum/dz::trace_lines : 0));
-            ::dz::trace(" prod");
-            for (auto t:dz_prod) ::dz::trace(" %u",t);
-            ::dz::trace("\n");
+            ::dz::trace("DZ_TIME round=%u slot=%u %u %u %u %u %u %u %u %u %u %u %u exec=%u/%u linecost_max=%llu mean=%llu prod %u %u %u %u %u\n",
+                tc.round,world?world->slot:0,dz_time[0],dz_time[1],dz_time[2],dz_time[3],dz_time[4],dz_time[5],dz_time[6],dz_time[7],dz_time[8],dz_time[9],dz_time[10],
+                dz_exec_calls,dz::execute_entries,static_cast<unsigned long long>(dz::trace_line_cost_max),
+                static_cast<unsigned long long>(dz::trace_lines?dz::trace_line_cost_sum/dz::trace_lines:0),
+                dz_prod[0],dz_prod[1],dz_prod[2],dz_prod[3],dz_prod[4]);
         }
         if (tc.round % 50 == 0 && dz::trace_flush_cost.bytes) ::dz::trace("DZ_FLUSH bytes=%zu fuel=%llu\n",dz::trace_flush_cost.bytes,static_cast<unsigned long long>(dz::trace_flush_cost.fuel));
         if (tc.round % 100 == 0) ::dz::trace("DZ_COUNTS round=%u slot=%u actions=%u modules=%u stale=%u\n",
@@ -165,8 +163,14 @@ int main() {
                         }
 #endif
                         DZ_PROF('m');
+                        if (mem->field_needed>=0) {
+                            const int requested=mem->field_needed;
+                            if (!world->groups[requested].field)
+                                dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,requested);});
+                            if (world->groups[requested].field) mem->field_needed=-1;
+                        }
                         dz::Goal goal;
-#if DZ_TRACE
+#if DZ_TRACE && DZ_TRACE_PROFILE
                         const auto planner_fuel=::dz::trace_fuel_mark();
 #endif
                         if (!dz::module_work(planner_health,tc,counts,"planner",[&]{goal=dz::safe_goal(*world,*mem,*obs,tc);})) {
@@ -178,9 +182,11 @@ int main() {
                         DZ_PROF('q');
 #if DZ_TRACE
                         { ::dz::TraceScope dz_trace_scope;
-                        if (tc.round > 8 && planner_fuel-::dz::fuel_left() > 15000)
+#if DZ_TRACE_PROFILE
+                        if (tc.round > 8 && planner_fuel-::dz::trace_fuel_mark() > 15000)
                             ::dz::trace("DZ_PLANNER_FUEL round=%u slot=%u used=%llu entry=%llu kind=%d\n",tc.round,world->slot,
-                                static_cast<unsigned long long>(planner_fuel-::dz::fuel_left()),static_cast<unsigned long long>(tc.fuel0),static_cast<int>(goal.kind));
+                                static_cast<unsigned long long>(planner_fuel-::dz::trace_fuel_mark()),static_cast<unsigned long long>(tc.fuel0),static_cast<int>(goal.kind));
+#endif
                         if (DZ_TRACE_FIGHT && !obs->enemies.empty() && world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
                             int nearest=99; unsigned allies6=0; float reach_str=0,reach_hp=0;
                             for (const auto& e:obs->enemies) {
@@ -202,42 +208,25 @@ int main() {
                         }
                         }
 #endif
-#if DZ_TRACE
+#if DZ_TRACE && DZ_TRACE_PROFILE
                         const auto exec_fuel=::dz::trace_fuel_mark();
 #endif
                         DZ_PROF('p');
-#if DZ_TRACE
-                        if (world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
-                            ::dz::TraceScope dz_trace_scope;
-                            ::dz::trace("DZ_PRE_EXEC round=%u channel=%d executor_enabled=%d state=%u overhead=%llu cap=%llu real=%llu\n",tc.round,obs->channel(),
-                                execution_health.enabled(),static_cast<unsigned>(obs->state.bits()),static_cast<unsigned long long>(dz::trace_overhead),static_cast<unsigned long long>(dz::trace_cap),static_cast<unsigned long long>(cambc::fuel_remaining()));
-                        }
-#endif
                         bool executed=dz::module_work(execution_health,tc,counts,"executor",[&] {
                             if (obs->channel()) {
                                 if (goal.kind==dz::GoalKind::Retreat && act.cancel_channel()) dz::execute(goal,*world,*mem,*obs,tc,act);
                             } else {
 #if DZ_TRACE
-                                if (world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
-                                    ::dz::TraceScope dz_trace_scope;
-                                    ::dz::trace("DZ_CALL_EXEC round=%u fuel=%llu overhead=%llu\n",tc.round,static_cast<unsigned long long>(cambc::fuel_remaining()),static_cast<unsigned long long>(dz::trace_overhead));
-                                }
                                 ++dz_exec_calls;
 #endif
                                 dz::execute(goal,*world,*mem,*obs,tc,act);
                             }
                         });
                         DZ_PROF('e');
-#if DZ_TRACE
-                        if (world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
-                            ::dz::TraceScope dz_trace_scope;
-                            ::dz::trace("DZ_POST_EXEC round=%u executed=%d buffer=%zu dropped=%u fuel=%llu\n",tc.round,executed,dz::trace_buffer.size,dz::trace_buffer.dropped,static_cast<unsigned long long>(cambc::fuel_remaining()));
-                        }
-#endif
                         if (!executed) emergency(*world,*obs,tc,act);
-#if DZ_TRACE
+#if DZ_TRACE && DZ_TRACE_PROFILE
                         { ::dz::TraceScope dz_trace_scope;
-                        if (exec_fuel-::dz::fuel_left()>30000) ::dz::trace("DZ_EXEC_FUEL round=%u slot=%u used=%llu kind=%d index=%d\n",tc.round,world->slot,static_cast<unsigned long long>(exec_fuel-::dz::fuel_left()),static_cast<int>(goal.kind),goal.index);
+                        if (exec_fuel-::dz::trace_fuel_mark()>30000) ::dz::trace("DZ_EXEC_FUEL round=%u slot=%u used=%llu kind=%d index=%d\n",tc.round,world->slot,static_cast<unsigned long long>(exec_fuel-::dz::trace_fuel_mark()),static_cast<int>(goal.kind),goal.index);
                         }
 #endif
 #if DZ_TRACE

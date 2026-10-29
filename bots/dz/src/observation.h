@@ -1,6 +1,7 @@
 #pragma once
 #include "static_world.h"
 #include "camp_threat.h"
+#include "failed_moves.h"
 
 namespace dz {
 struct SeenChampion {
@@ -20,6 +21,13 @@ struct Observation {
     std::vector<CampThreat> camps;
     cambc::bitboard occupied;
     LocalMask occupied_mask; // In-Wasm copy of `occupied`.
+    FailedMoves failed_moves;
+    void remember_blocked(vec2 q,int round) {
+        const int tile=q.y*cambc::map::width()+q.x;
+        if (!failed_moves.persistent_failure(tile,round)) return;
+        failed_moves.remember(tile,round,DZ_SHORT_BLOCK_MEMORY?2:6);
+        occupied.set(q); if(local_masks_valid) occupied_mask.set(q);
+    }
     bool is_occupied(vec2 q) const { return local_masks_valid ? occupied_mask.test(q) : occupied.is_set(q); }
     std::vector<SeenChampion> allies, enemies;
     void refresh_self(const TurnContext&);

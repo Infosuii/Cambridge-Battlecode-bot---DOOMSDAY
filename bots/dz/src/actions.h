@@ -15,5 +15,5 @@ float danger(vec2 p, const Observation&);
 float enemy_danger(vec2 p, const Observation&);
 bool channel_safe(const StaticWorld&,const Observation&,const TurnContext&);
 inline unsigned execute_entries = 0; // Trace-only counter.
-void execute(Goal, StaticWorld&, Memory&, const Observation&, const TurnContext&, Actuator&);
+void execute(Goal, StaticWorld&, Memory&, Observation&, const TurnContext&, Actuator&);
 }

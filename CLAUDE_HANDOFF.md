@@ -1,4 +1,67 @@
-# PAUSED 2026-10-29 (usage limit) — read this first, then the sections below
+# ACTIVE RESUMPTION 2026-10-29 — current work supersedes historical pause below
+
+The user resumed at a9723ba: validate idle/v65 release pools, then stuck <10
+without increased stall/idle, then the Z plan. Map/item tuning is authorized,
+with separate-opponent confirmation; no submit/activate/ladder. Preserve paths.json.
+
+Read `research/dz/RESUMED_FUNDAMENTALS_2026-10-29.md` for exact current runs.
+The paused candidate regressed v65 270.4 -> 228.8. Restoring earlier movement
+danger scoring while retaining enemy-spawn target exclusion recovers 267.6.
+DZ_PATH_REACH_ONLY defaults to 0; the paused score is rejected.
+
+New fixes: nested trace metering counted intervals twice; fixed with a host-tested
+pure meter. Production budget gates now use physical fuel, compensation only
+profiles. Trace-only target.position() after leaving vision could disable the
+executor; use cached/static coordinates. Profile flag moved to config.h; TIME
+formatting consolidated; temporary PRE/CALL/POST_EXEC prints removed.
+
+Hidden bush blockers caused repeated false moves. Eight short-lived failed-tile
+hints now route around an actual rejected SDK move. Six-round expiry, no hidden
+identity access. Field compute has a post-root fuel gate and deferred cold-field
+request. These are experimental until the v65 regression is resolved.
+
+`dz-resume-coldfield-{idle,v65,productivity}-01`: 420 games, zero candidate native
+faults/outs, trace caught errors zero; **7 stuck episodes**, stall 2.8%, idle .8%,
+progress 58.1%. But contested banked 234.0 vs prior 270.4 (-36.4, SE14.6).
+Do not promote/claim a strength improvement. Idle release 911.85 (-5.7, SE8.4).
+Current ablations: dz-resume-ablate-nav-v65-01 (DZ_FAILED_MOVE_MEMORY=0),
+dz-resume-ablate-gate-v65-01 (DZ_LATE_FIELD_GATE=0). Check their results next.
+Both flags default to 1 in the experimental current source. Host +25 Python
+measurement tests pass. No new gear/draft tuning implemented during this resumption.
+Default/source manifest update waits for a genuinely selected candidate.
+
+Latest ablations: nav disabled 240.06 banked, gate disabled 236.81, both with
+zero faults/outs. Neither alone restores the prior 270.4. Current pending runs:
+dz-resume-ablate-both-v65-01 (both disabled, including cold-field requests);
+dz-resume-short-block-v65-01 and dz-resume-short-block-productivity-01 (two-round
+expiry instead of six, DZ_SHORT_BLOCK_MEMORY=1). Default remains six while
+testing. Keep the strong prior release evidence; current source is WIP, not a
+promoted strength upgrade. No new Z9 work until this selection is resolved.
+
+Update: both disabled restores 271.29 v65 banking (zero faults/outs). Short hint
+alone: 236.67, seven trace episodes, stall 2.8%, idle .9%; rejected as a strength
+remedy. Current pending candidate is dz-resume-strategic-nav-{idle,v65,productivity}-01:
+only use failed-tile hints when no enemies are visible, preserving live combat
+routes. DZ_LATE_FIELD_GATE now defaults 0 in release; trace builds always gate
+their extra work and request missing cold fields. Short hint defaults 0 (six
+rounds). No final selection yet. Full capsule verification completed successfully
+before this latest triplet; source and all intermediate failures are retained.
+
+Old historical PAUSED sections below are retained as history, not current state.
+
+LATEST WIP (supersedes the pending candidate above): strategic-only hints still
+give v65 246.59 and two candidate fuel-outs; idle 918.46, trace 927.11, zero
+idle/trace faults/outs. Not accepted. Current source requires three consecutive
+same-tile failed moves before remembering a collision, and checks a minimal
+physical field budget in release (full reserve gate in trace). Cold-field
+requests are serviced when present. New pending triplet:
+dz-resume-persistent-nav-{idle,v65,productivity}-01. Inspect all three next;
+do not claim success or proceed to item tuning until strength and productivity
+both pass. Tests for persistent-failure evidence were added; rerun host after
+this last change. Current branch checkpoints are WIP preservation, not release
+promotion. Known stronger reference remains dz-resume-ablate-both-v65-01 (271.29).
+
+# PAUSED 2026-10-29 (usage limit) — historical
 
 User's last instructions (in order): (1) erase stuck champions completely, but
 never by letting them wander: every body must always be doing productive work;

@@ -12,6 +12,9 @@
 #ifndef DZ_TRACE_FIGHT
 #define DZ_TRACE_FIGHT 0 // Per-turn enemy-contact lines in the trace window.
 #endif
+#ifndef DZ_TRACE_PROFILE
+#define DZ_TRACE_PROFILE 0 // Opt-in profiler; runner overrides live in config.h.
+#endif
 #ifndef DZ_DRAFT_VARIANT
 #define DZ_DRAFT_VARIANT 0
 #endif
@@ -20,6 +23,18 @@
 #endif
 #ifndef DZ_CAMP_SAFETY
 #define DZ_CAMP_SAFETY 0
+#endif
+#ifndef DZ_PATH_REACH_ONLY
+#define DZ_PATH_REACH_ONLY 0 // Paused reach-only scoring regressed the v65 release pool.
+#endif
+#ifndef DZ_FAILED_MOVE_MEMORY
+#define DZ_FAILED_MOVE_MEMORY 1
+#endif
+#ifndef DZ_SHORT_BLOCK_MEMORY
+#define DZ_SHORT_BLOCK_MEMORY 0
+#endif
+#ifndef DZ_LATE_FIELD_GATE
+#define DZ_LATE_FIELD_GATE 0 // Trace builds always gate their added work below.
 #endif
 
 // Advanced models are deliberately unavailable until their research gates pass.

@@ -7,6 +7,7 @@ struct Memory {
     std::vector<GroupBelief> groups;
     std::vector<std::vector<float>> member_hp;
     Contract contract;
+    int field_needed=-1; // Deferred cold goal field, built before next planner work.
     std::size_t cursor = 0;
     // Memoized clear risk per group and per damage key. Member HP and own
     // damage rarely change between turns; recomputing every group each turn

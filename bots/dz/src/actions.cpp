@@ -145,7 +145,7 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         else act.cast(ability, *target);
     }
 }
-bool step(const cambc::distance_field& field, const StaticWorld& world, const Observation& obs,
+bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
           bool retreat, Actuator& act) {
     if (!cambc::self().can_move()) return false;
     const auto origin = cambc::self().position();
@@ -167,17 +167,30 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, const Ob
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
         float score = static_cast<float>(d);
-        if (retreat) score += danger(p, obs) * .08f;
-        else if (reach_danger(p) > here_reach) score += 3.f; // Walk into reach only if nothing else improves.
+        if constexpr (DZ_PATH_REACH_ONLY) {
+            if (retreat) score += danger(p, obs) * .08f;
+            else if (reach_danger(p) > here_reach) score += 3.f;
+        } else score += danger(p, obs) * (retreat ? .08f : .015f);
         if (p == origin && d != 0) score += .2f;
         if (world.is_bush(p)) score -= .02f;
         if (score < score_best) { score_best = score; best = p; }
     }
-    if (best != origin && act.move(best)) return field.get(best)<field.get(origin);
+    bool moved=false;
+    if (best != origin) moved=act.move(best);
+    if constexpr (DZ_FAILED_MOVE_MEMORY)
+        if (!moved&&best!=origin&&act.last_move_blocked()&&obs.enemies.empty()) obs.remember_blocked(best,cambc::round_number());
+#if DZ_TRACE
+    { TraceScope scope;const auto round=cambc::round_number();
+    if (world.slot==DZ_TRACE_SLOT&&round>=DZ_TRACE_FROM&&round<DZ_TRACE_TO&&round%5==0)
+        trace("DZ_STEP round=%u slot=%u from=%d,%d best=%d,%d dfrom=%d dto=%d score=%.2f moved=%d fuel=%llu\n",round,world.slot,
+            origin.x,origin.y,best.x,best.y,field.get(origin),field.get(best),score_best,moved,static_cast<unsigned long long>(cambc::fuel_remaining()));
+    }
+#endif
+    if (moved) return field.get(best)<field.get(origin);
     return false;
 }
 }
-void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc, Actuator& act) {
+void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const TurnContext& tc, Actuator& act) {
     auto& me = cambc::self();
 #if DZ_TRACE
     ++execute_entries;
@@ -294,6 +307,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         if (world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
     if (!tc.allow(world.field_budget())) {
+        if ((DZ_TRACE||DZ_LATE_FIELD_GATE)&&goal.kind==GoalKind::Farm&&!world.groups[goal.index].field) mem.field_needed=goal.index;
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;
         if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
@@ -380,7 +394,26 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         step(*world.groups[goal.index].field, world, obs, false, act);
     DZ_PROF('r');
     bool bank_blocked = goal.kind == GoalKind::Bank && roots.is_empty();
+#if DZ_TRACE
+    // Logging must not query a target that died or left personal vision after
+    // movement. Such a trace-only API error used to quarantine the executor.
+    vec2 trace_target{-1,-1};
+    if (camp_target) trace_target=camp_target->spawn_position();
+    else for (const auto& e:obs.enemies) if (target==&e.sdk) { trace_target=e.p; break; }
+#endif
     if (!roots.is_empty() && me.can_move()) {
+        // Root construction spends fuel after the earlier field gate. Recheck
+        // immediately before the SDK compute, leaving room for step/attack and
+        // the footer. Otherwise a busy planner + roots could exhaust here.
+        const bool can_compute=DZ_TRACE||DZ_LATE_FIELD_GATE ? tc.allow(world.field_budget()+4000) : fuel_left()>world.field_budget()+4000;
+        if (!can_compute) {
+            const cambc::distance_field* cached=nullptr;
+            if (retreat) cached=&world.home;
+            else if (goal.kind==GoalKind::Bank) cached=world.altars[goal.index].field.get();
+            else if (goal.kind==GoalKind::Farm) cached=world.groups[goal.index].field.get();
+            if (goal.kind==GoalKind::Farm&&!cached) mem.field_needed=goal.index;
+            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act);
+        } else {
         cambc::distance_field field;
         field.compute(blocked, roots.board(), world.visited);
         tc.guard();
@@ -390,16 +423,17 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, const Observation& obs,
         { ::dz::TraceScope dz_trace_scope;
         if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO)
             ::dz::trace("DZ_EXEC round=%u kind=%d target=%d,%d visible_target=%d enemy=%d roots=%u dist_here=%d moved_to=%d,%d\n",tc.round,static_cast<int>(goal.kind),
-                target?target->position().x:-1,target?target->position().y:-1,camp_target!=nullptr,enemy,static_cast<unsigned>(roots.count()),
+                trace_target.x,trace_target.y,camp_target!=nullptr,enemy,static_cast<unsigned>(roots.count()),
                 field.get(obs.p),me.position().x,me.position().y);
         }
 #endif
+        }
     }
 #if DZ_TRACE
     else if (world.slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO) {
         ::dz::TraceScope dz_trace_scope;
         ::dz::trace("DZ_EXEC round=%u kind=%d no_move roots=%u can_move=%d target=%d,%d\n",tc.round,static_cast<int>(goal.kind),
-            static_cast<unsigned>(roots.count()),me.can_move(),target?target->position().x:-1,target?target->position().y:-1);
+            static_cast<unsigned>(roots.count()),me.can_move(),trace_target.x,trace_target.y);
     }
 #endif
     DZ_PROF('d');

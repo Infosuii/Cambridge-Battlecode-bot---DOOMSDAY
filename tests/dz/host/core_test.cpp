@@ -4,6 +4,8 @@
 #include "ledger.h"
 #include "basic_clear.h"
 #include "objective_math.h"
+#include "trace_meter.h"
+#include "failed_moves.h"
 #include "clear_risk.h"
 #include "fight.h"
 #include <cassert>
@@ -12,6 +14,36 @@
 
 int main() {
     using namespace dz;
+    FailedMoves blocked_moves;
+    assert(!blocked_moves.persistent_failure(42,1));
+    assert(!blocked_moves.persistent_failure(42,2));
+    assert(blocked_moves.persistent_failure(42,3));
+    assert(!blocked_moves.persistent_failure(42,5)); // Gap or different tile resets evidence.
+    assert(!blocked_moves.persistent_failure(43,6));
+    blocked_moves.remember(42,10);
+    assert(blocked_moves.blocks(42,10)&&blocked_moves.blocks(42,15));
+    assert(!blocked_moves.blocks(42,16)&&!blocked_moves.blocks(41,10));
+    blocked_moves.remember(42,20);blocked_moves.clear(42);
+    assert(!blocked_moves.blocks(42,20));
+    blocked_moves.remember(42,20,2);
+    assert(blocked_moves.blocks(42,21)&&!blocked_moves.blocks(42,22));
+    for (int i=0;i<9;++i) blocked_moves.remember(100+i,30+i);
+    assert(!blocked_moves.blocks(100,38)&&blocked_moves.blocks(108,38));
+    TraceMeter meter;
+    meter.begin(1000,1);
+    assert(meter.available(900,1)==1000);
+    meter.begin(900,1);
+    meter.finish(850,1);
+    assert(meter.credited==0&&meter.available(850,1)==1000);
+    meter.finish(800,1);
+    assert(meter.credited==200&&meter.available(780,1)==980); // 20 actual bot work.
+    assert(meter.available(780,1,100)==880); // Compensation cannot exhaust the reserve.
+    meter.begin(780,1); meter.finish(750,1);
+    assert(meter.credited==230&&meter.available(730,1)==960);
+    meter.reset(); meter.begin(1000,1); meter.begin(900,1);
+    assert(meter.available(500,2)==500); // Suspension never credits the new turn.
+    meter.finish(500,2); meter.finish(450,2);
+    assert(meter.credited==0&&meter.depth==0);
     assert(solo_capture_delay(CapturePhase::Available,5,3,true,true).rounds==4);
     assert(solo_capture_delay(CapturePhase::Available,5,5,true,true).rounds==6);
     assert(solo_capture_delay(CapturePhase::AllyActive,3,3,true,true).rounds==3);

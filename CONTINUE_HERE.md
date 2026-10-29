@@ -4,7 +4,8 @@
 and authorized a clean-slate algorithmic bot, local tests, read-only replay downloads,
 and pushing this build branch to `Infosuii/neural-networkk-battlecode`.
 
-Read [the active DZ handoff](research/dz/HANDOFF.md),
+Read [the current continuation state](CLAUDE_HANDOFF.md) first, then
+[the DZ architecture handoff](research/dz/HANDOFF.md),
 [results and failures](research/dz/RESULTS.md), and
 [the bot guide](bots/dz/README.md). Build work and all supplied research are committed
 on this branch. Historical "paused / not yet approved" statements below and in the

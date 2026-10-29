@@ -7,9 +7,6 @@
 #include "trace.h"
 
 namespace dz {
-#ifndef DZ_TRACE_PROFILE
-#define DZ_TRACE_PROFILE 0 // Opt-in: --set DZ_TRACE_PROFILE=1 (trace builds only).
-#endif
 // Trace-only fuel profile of one turn. Marks are stored during the turn and
 // printed at the start of the next one, so a profile never spends the budget
 // it measures. Samples that crossed a fuel suspension are discarded.
@@ -19,11 +16,11 @@ struct TurnProfile {
     std::array<std::uint64_t,16> at{}; std::array<char,16> tag{};
     bool crossed=false; unsigned cross_index=0;
     std::array<std::uint64_t,4> acc{};
-    void begin(unsigned r) { round=r; start=fuel_left(); n=0; crossed=false; acc={}; }
+    void begin(unsigned r) { round=r; start=trace_fuel_mark(); n=0; crossed=false; acc={}; }
     void mark(char t) {
         TraceScope scope;
         if (n>=at.size()) return;
-        const auto f=fuel_left(); // Excludes metered trace work.
+        const auto f=trace_fuel_mark(); // Excludes metered trace work, for reports only.
         if (!crossed && (f>(n?at[n-1]:start)+5000 || cambc::round_number()!=round)) { crossed=true; cross_index=n; }
         at[n]=f; tag[n++]=t;
     }
@@ -58,8 +55,8 @@ struct TurnProfile {
 };
 inline TurnProfile turn_profile;
 #define DZ_PROF(t) ::dz::turn_profile.mark(t)
-#define DZ_ACC_BEGIN(v) const auto v=::dz::fuel_left()
-#define DZ_ACC_END(i,v) (::dz::turn_profile.acc[i]+=v-::dz::fuel_left())
+#define DZ_ACC_BEGIN(v) const auto v=::dz::trace_fuel_mark()
+#define DZ_ACC_END(i,v) (::dz::turn_profile.acc[i]+=v-::dz::trace_fuel_mark())
 #else
 #define DZ_PROF(t) (void)0
 #define DZ_ACC_BEGIN(v) (void)0

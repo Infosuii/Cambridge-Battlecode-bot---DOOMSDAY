@@ -57,7 +57,6 @@ void Observation::read(const TurnContext& tc) {
     if (state.is_dead()) return;
     occupied = cambc::vision::champion_tiles() | cambc::vision::camp_tiles() | cambc::vision::teleport_tiles();
     occupied.set(p, false);
-    if (local_masks_valid) occupied_mask.load(occupied);
     for (auto side : {cambc::team::ally, cambc::team::enemy}) {
         auto& out = side == cambc::team::ally ? allies : enemies;
         for (const auto& c : cambc::vision::champions(side)) {
@@ -65,6 +64,15 @@ void Observation::read(const TurnContext& tc) {
             out.push_back({c, c.position(), c.health(), c.max_health(), c.strength(), c.attack_range()});
         }
     }
+    // Stale collision hints must not hard-block combat/escape routes while
+    // enemies are visible. Use them only for strategic travel; current visible
+    // occupancy remains authoritative during contact.
+    const int width=cambc::map::width();
+    failed_moves.clear(p.y*width+p.x);
+    if constexpr (DZ_FAILED_MOVE_MEMORY)
+        if (enemies.empty()) for (auto e:failed_moves.entries) if (e.tile>=0&&e.until>static_cast<int>(tc.round))
+            occupied.set(vec2{e.tile%width,e.tile/width});
+    if (local_masks_valid) occupied_mask.load(occupied);
     tc.guard();
 }
 }
