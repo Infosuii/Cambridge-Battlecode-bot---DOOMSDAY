@@ -476,3 +476,10 @@ The registry was created before experiments. Entries below record actual use.
 | dz-model-varg-shield-quad-atomic-01 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 2 cells; idle81 | smoke; trace=True |
 | dz-model-varg-shield-v76-03 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 10 cells; idle81 | smoke; trace=True |
 | dz-model-varg-shield-idle-01 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-quad-01 | 2026-10-30 | deterministic; Wasm f8747acd5491 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-idle-01 | 2026-10-30 | deterministic; Wasm f8747acd5491 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-v76-01 | 2026-10-30 | deterministic; Wasm f8747acd5491 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-admission-01 | 2026-10-30 | deterministic; Wasm 46ee7da2b1d4 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-gate-01 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-idle-02 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-splash-v76-02 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 12 cells; idle81 | smoke; trace=True |

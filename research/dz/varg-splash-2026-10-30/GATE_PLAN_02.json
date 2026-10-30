@@ -1,0 +1,35 @@
+{
+  "status": "Frozen before fresh reduced-gate games; diagnostic math unchanged",
+  "finding": "All five logged late refusals on two idle quadrants games are budget code4: available62249..75379; cost65000 + reserve12000 requires>77000. Original PLAN physical65000 label was inaccurate; it was cost65000.",
+  "old_gate": {
+    "cost": 65000,
+    "reserve": 12000,
+    "physical": 77000
+  },
+  "new_gate": {
+    "cost": 55000,
+    "reserve": 12000,
+    "physical": 67000
+  },
+  "basis": "Existing singleton helper costs1438..4105 on idle-01; reduction/visibility bounded64 members. Keep ten thousand extra fuel over singleton cost45000. New runtime pilot required; no production change.",
+  "pilot": {
+    "run": "dz-model-varg-splash-gate-01",
+    "maps": [
+      "00quadrants"
+    ],
+    "opponent": "idle"
+  },
+  "validation": {
+    "idle": "dz-model-varg-splash-idle-02",
+    "v76": "dz-model-varg-splash-v76-02",
+    "maps": [
+      "00great-wall",
+      "00interlock",
+      "00packs",
+      "00pilgrimage",
+      "00quadrants",
+      "00reverse-spiral"
+    ]
+  },
+  "scoring": "Same frozen math/domain and strict exclusions. Pilot separate from validation; duplicated cells are not independent. No predictions inferred from native state; prior n0/null cohorts preserved."
+}

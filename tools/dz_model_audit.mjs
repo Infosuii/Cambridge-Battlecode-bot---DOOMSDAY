@@ -35,7 +35,8 @@ for(let type=0;type<6;++type) {
   if(!Number.isInteger(range)||range<0||range>100||!Number.isFinite(strength)||strength<0)throw new Error('Invalid camp design ABI');
   campDesigns.set(type,{range,strength});
 }
-const audit=new ModelAudit(quotes,groups.map(g=>g.map(c=>c.id)),last,campDesigns);
+const audit=new ModelAudit(quotes,groups.map(g=>g.map(c=>c.id)),last,campDesigns,
+  new Map(groups.flat().map(c=>[c.id,{x:c.x,y:c.y}])));
 check(X.Game_Visualiser_Timeline_GetMain(E.h,out));check(X.Game_Visualiser_Timeline_Seek(E.h,dv().getBigUint64(out,true),0,0));
 let ended=false,verified=false,visibilityDenials=0;
 for(let n=0;n<2000000;++n) {

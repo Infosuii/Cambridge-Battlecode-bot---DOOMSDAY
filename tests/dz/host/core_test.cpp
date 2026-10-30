@@ -11,6 +11,7 @@
 #include "attack_clock.h"
 #include "timed_damage.h"
 #include "shield_clear.h"
+#include "splash_reduction.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -396,6 +397,41 @@ int main() {
             assert(bare.loss==incoming*(clock.rounds-1)&&shielded.loss>=0&&shielded.loss<=bare.loss);
         }
         std::cout << "10000 shield/reset coupling and exposure invariants passed\n";
+    }
+    {
+        unsigned seed=921111;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        const Tile positions[]{{1,-1},{1,1},{2,0},{2,-1},{2,1},{0,-1},{0,1}};
+        for(unsigned trial=0;trial<10000;++trial) {
+            std::array<SplashMember,8> members{};
+            const float hit=1.f+next()%80,health=hit*(1+next()%60);
+            const unsigned count=2+next()%7;
+            members[0]={{1,0},health,20,3};
+            for(unsigned k=1;k<count;++k)members[k]={positions[k-1],float(1+next()%static_cast<unsigned>(health)),0,3};
+            const auto reduction=splash_reduction(std::span<const SplashMember>(members.data(),count),{0,0},1);
+            assert(reduction.supported&&reduction.target==0&&reduction.live==count);
+            // Explicit basic-hit sequence checks both target priority and
+            // collateral survival. All resources vanish by the monster's hit.
+            while(members[0].hp>0) {
+                int chosen=-1;float best=1e30f;
+                for(unsigned k=0;k<count;++k)if(members[k].hp>0) {
+                    const float score=cheb({0,0},members[k].position)*1000.f+members[k].hp-1e6f*members[k].strength;
+                    if(score<best){best=score;chosen=static_cast<int>(k);}
+                }
+                assert(chosen==0);
+                for(unsigned k=0;k<count;++k)if(cheb(members[k].position,members[0].position)<=1)
+                    members[k].hp=std::max(0.f,members[k].hp-hit);
+            }
+            for(unsigned k=0;k<count;++k)assert(members[k].hp==0);
+        }
+        SplashMember pair[]{{{1,0},1000,20,3},{{2,1},120,0,3}};
+        assert(splash_reduction(pair,{0,0},1).supported); // diagonal radius1
+        pair[1].hp=1001;assert(!splash_reduction(pair,{0,0},1).supported);
+        pair[1].hp=120;pair[1].position={3,1};assert(!splash_reduction(pair,{0,0},1).supported);
+        pair[1].position={2,1};pair[1].strength=20;assert(!splash_reduction(pair,{0,0},1).supported);
+        const float a[]{10,20},b[]{20,10},c[]{10,20};
+        assert(member_hp_hash(a)==member_hp_hash(c)&&member_hp_hash(a)!=member_hp_hash(b));
+        std::cout << "10000 splash-reduction/explicit-hit cases passed\n";
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

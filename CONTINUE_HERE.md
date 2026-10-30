@@ -1,3 +1,11 @@
+# Active continuation - restricted splash checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/varg-splash-2026-10-30/README.md.
+54 new local games are runtime clean, but strict mixed-group accuracy remains
+insufficient (n0/null). Next active work is Heart mechanics; V-M1 stays open.
+User requested continuous work, no pause or scheduled continuation.
+
 # Active continuation - Varg shield checkpoint
 
 Current default stays release5cf28cb7, ordinary traceb4bc106c. Read the TOP of

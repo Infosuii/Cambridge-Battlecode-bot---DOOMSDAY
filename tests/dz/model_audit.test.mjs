@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {ModelAudit,parseQuotes} from '../../tools/replay/model_audit_core.mjs';
+import {ModelAudit,parseQuotes,memberHpHash} from '../../tools/replay/model_audit_core.mjs';
 
 const quote={round:10,body:0,slot:0,kind:0,group:0,new:1,contact:1,x:0,y:0,state:0,seen:10,
   dist:1,field:1,attacks:2,loss:10,hp:100,camp_hp:40,raw:20,quant:20,range:1,
@@ -107,4 +107,26 @@ test('compact atomic quotes preserve fields and reject unknown versions',()=>{
   assert.throws(()=>parseQuotes(line.replace('v=2','v=3')),/Unsupported/);
   assert.throws(()=>parseQuotes(line+' zz=1'),/Unexpected compact/);
   assert.throws(()=>parseQuotes(line.replace('r=10 ','')),/Incomplete model/);
+});
+
+test('mixed-group HP identity, stationary context and damaging target are independent checks',()=>{
+  assert.notEqual(memberHpHash([10,20]),memberHpHash([20,10]));
+  assert.equal(memberHpHash([-0,20]),memberHpHash([0,20]));
+  const designs=new Map([[0,{range:3,strength:20}],[1,{range:0,strength:0}]]);
+  const spawns=new Map([[1,{x:1,y:0}],[2,{x:1,y:1}]]);
+  const q={...quote,shield_member:0,shield_mode:1,member_hp_hash:memberHpHash([20,20])};
+  const s=frame(10,100,20,20);s.phase=14;s.camps[0].type=0;s.camps[1].type=1;
+  const a=new ModelAudit([q],[[1,2]],20,designs,spawns);a.consume(s,()=>true);
+  const next=structuredClone(s);next.phase=10;next.round=11;next.champions[0].position.x=-1;
+  next.camps[0].position.x=2;a.consume(next);
+  const r=a.finish().records[0];
+  assert.equal(r.member_hp_hash_matches,true);assert.equal(r.native_static_positions,true);
+  assert.equal(r.native_damaging_live_members,1);assert.equal(r.shield_target_matches,true);
+  assert.equal(r.own_movement_events,1);assert.equal(r.camp_movement_events,1);
+  const b=new ModelAudit([{...q,member_hp_hash:memberHpHash([10,30]),shield_member:1}],[[1,2]],20,designs,spawns);
+  b.consume(s,()=>true);const wrong=b.finish().records[0];
+  assert.equal(wrong.memory_hp_difference,0);assert.equal(wrong.member_hp_hash_matches,false);
+  assert.equal(wrong.shield_target_matches,false);
+  const line='DZ_MODEL '+Object.entries(q).map(([k,v])=>`${k}=${v}`).join(' ');
+  assert.equal(parseQuotes(line)[0].member_hp_hash,q.member_hp_hash);
 });

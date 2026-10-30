@@ -1,4 +1,11 @@
 // Pure event accounting shared by the pinned replay reader and synthetic tests.
+export function memberHpHash(hp) {
+  const bytes=new DataView(new ArrayBuffer(4));let h=2166136261;
+  hp.forEach((value,index)=>{
+    bytes.setFloat32(0,Math.max(0,value),true);
+    h=Math.imul(h^index,16777619)>>>0;h=Math.imul(h^bytes.getUint32(0,true),16777619)>>>0;
+  });return h;
+}
 export function parseQuotes(text) {
   const quotes=[];const seen=new Set();
   const required=['round','body','slot','kind','group','new','contact','x','y','state','seen','dist','field',
@@ -10,7 +17,7 @@ export function parseQuotes(text) {
       const aliases={r:'round',b:'body',s:'slot',k:'kind',g:'group',n:'new',c:'contact',x:'x',y:'y',st:'state',sn:'seen',
         d:'dist',f:'field',a:'attacks',l:'loss',h:'hp',ch:'camp_hp',rw:'raw',q:'quant',rg:'range',cl:'cluster',m:'members',
         na:'nearby',ne:'enemies',ok:'status',rc:'reset_cd',rm:'reset_max',t:'clock',ts:'clock_status',tl:'timed_loss',ss:'shield_sample',
-        ps:'shield_status',pt:'shield_rounds',pl:'shield_loss',pc:'shield_casts',pn:'shield_live',pi:'shield_member',cd:'shield_cd',
+        sk:'shield_skip',af:'shield_available',pm:'shield_mode',ph:'member_hp_hash',ps:'shield_status',pt:'shield_rounds',pl:'shield_loss',pc:'shield_casts',pn:'shield_live',pi:'shield_member',cd:'shield_cd',
         cp:'shield_period',ca:'shield_amount',ct:'shield_duration',ex:'shield_existing',ev:'shield_value',et:'shield_timer',
         inc:'shield_incoming',cast:'shield_can_cast',fuel:'shield_fuel'};
       const expanded={};
@@ -29,8 +36,8 @@ export function parseQuotes(text) {
 }
 
 export class ModelAudit {
-  constructor(quotes,groups,lastRound=500,campDesigns=null) {
-    this.groups=groups;this.lastRound=lastRound;this.previous=null;this.frames=0;this.campDesigns=campDesigns;
+  constructor(quotes,groups,lastRound=500,campDesigns=null,campSpawns=null) {
+    this.groups=groups;this.lastRound=lastRound;this.previous=null;this.frames=0;this.campDesigns=campDesigns;this.campSpawns=campSpawns;
     this.records=quotes.filter(q=>q.kind===0).map(q=>{
       if(!groups[q.group]||groups[q.group].length!==q.members)throw new Error('Quote/native group membership mismatch');
       const next=quotes.find(n=>n.body===q.body&&n.round>q.round&&n.new===1);
@@ -39,7 +46,7 @@ export class ModelAudit {
         own_damage_events:0,own_nonbasic_damage_events:0,other_damage_events:0,unknown_damage_events:0,helpers:[],
         hp_loss:0,target_camp_hp_loss:0,other_hp_loss:0,healing:0,basic_actions:[],reset_actions:[],shield_actions:[],
         bystander_context_known:campDesigns!==null,potential_tank_bystanders:[],
-        target_camp_other_hp_loss:0,other_camp_targets:[]};
+        target_camp_other_hp_loss:0,other_camp_targets:[],own_movement_events:0,camp_movement_events:0};
     });
   }
   consume(s,visibleCamp=()=>false) {
@@ -63,6 +70,19 @@ export class ModelAudit {
           r.native_initial_camp_hp=memberIds.reduce((n,id)=>n+(camps.get(id)?.health??0),0);
           const live=memberIds.filter(id=>(camps.get(id)?.health??0)>0);
           r.native_initial_live_members=live.length;
+          if(live.length>1)r.native_initial_members=live.map(id=>{
+            const m=camps.get(id);return {id,hp:m.health,type:m.type,x:m.position.x,y:m.position.y};
+          });
+          if(this.campDesigns!==null) {
+            const damaging=live.filter(id=>this.campDesigns.get(camps.get(id).type)?.strength>0);
+            r.native_damaging_live_members=damaging.length;
+            r.shield_target_matches=damaging.length===1&&memberIds[q.shield_member]===damaging[0];
+          }
+          r.native_member_hp_hash=memberHpHash(memberIds.map(id=>camps.get(id)?.health??0));
+          if('member_hp_hash' in q)r.member_hp_hash_matches=q.member_hp_hash===r.native_member_hp_hash;
+          r.native_static_positions=this.campSpawns!==null&&live.every(id=>{
+            const p=this.campSpawns.get(id),c=camps.get(id);return p&&c.position.x===p.x&&c.position.y===p.y;
+          });
           if('shield_member' in q)r.shield_member_matches=live.length===1&&memberIds[q.shield_member]===live[0];
           r.memory_hp_difference=q.camp_hp-r.native_initial_camp_hp;
         } else if(s.round>q.round)r.outcome='unmatched_quote';
@@ -91,6 +111,11 @@ export class ModelAudit {
           if(!r.shield_actions.includes(action))r.shield_actions.push(action);
         }
         const prev=prevChamps.get(q.body);
+        if(prev?.alive&&c?.alive&&(prev.position.x!==c.position.x||prev.position.y!==c.position.y))++r.own_movement_events;
+        for(const id of memberIds) {
+          const p=prevCamps.get(id),camp=camps.get(id);
+          if(p?.health>0&&camp?.health>0&&(p.position.x!==camp.position.x||p.position.y!==camp.position.y))++r.camp_movement_events;
+        }
         if(s.step?.actor.kind===2&&memberIds.includes(s.step.actor.index))for(const other of s.champions) {
           if(other.entity.index===q.body)continue;
           const loss=Math.max(0,(prevChamps.get(other.entity.index)?.health??other.health)-other.health);

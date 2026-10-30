@@ -21,6 +21,9 @@
 #ifndef DZ_TRACE_SHIELD
 #define DZ_TRACE_SHIELD 0 // Opt-in single-live Varg shield diagnostic; not production policy.
 #endif
+#ifndef DZ_TRACE_SPLASH
+#define DZ_TRACE_SPLASH 0 // Opt-in exact mixed-group splash reduction; diagnostic only.
+#endif
 #ifndef DZ_TRACE_MODEL_TO
 #define DZ_TRACE_MODEL_TO 500
 #endif

@@ -1,3 +1,35 @@
+# CONTINUING 2026-10-30 - splash diagnostic checkpoint; native accuracy insufficient
+
+Selected foundation remains FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:
+release5cf28cb7 and ordinary traceb4bc106c reproduce from final clean export.
+Read research/dz/varg-splash-2026-10-30/README.md and RESULTS.json first.
+User requested continuous work; no pause or scheduled continuation requested.
+
+-54 new local diagnostic games since55feb7a, zero native faults/fuel-outs and
+ zero caught trace errors. All63 local capsules verify.51 Python/13 Node tests
+ pass;10,000 explicit splash-hit cases plus earlier core checks pass via WASI.
+-Restricted exact reduction: one stationary damaging primary, harmless resources
+ all within Chebyshev1 and HP<=primary; actual additive executor score guarantees
+ target preference.64 members/96 turns. No production or admission change.
+-Initial26 games issued no mixed predictions. Refusal pilot identified cost65k
+ PLUS12k reserve, so physical admission was77k. New cost55k+12k gate is67k;
+ older singleton cost45k+12k is57k (earlier physical45k wording was inaccurate).
+-Adjusted-gate final idle12/v7612 issue1/7 mixed forecasts. All eight native HP
+ vector hashes/targets/initial positions match, but zero pass frozen stationary,
+ unshared, no-healing context. Accuracy n0/null: INSUFFICIENT, not zero error.
+ Example quadrants-A R138 matches23-round clear but moves twice, takes180 other
+ HP loss and casts3 shields versus2; do not count its time coincidence as success.
+-All same-cell diagnostic banking comparisons are identical. This is runtime
+ control, not release-strength or competitive-parity evidence. Source-only
+ export03 reproduces default release/trace; initial copied-cache export failed.
+-TRACE_MODEL/SHIELD/SPLASH0. MATRIX/EXTRA/CREW_REACH/JOB_GEAR/timing-pricing0.
+ Auction/EE/advanced gear false. Prospector remains off; paths/config preserved.
+
+Next active Z6: Heart's public missing-health damage/shield mechanics, then
+bounded prospective quotes. Mixed Varg native validation needs controlled
+stationary geometry or explicit movement/multi-monster modeling; do not relax
+isolation filters to get a pass. Full V-M1 remains open. No ladder/submission.
+
 # CONTINUING 2026-10-30 - restricted Varg shield model, production unchanged
 
 Selected foundation remains FOUNDATION_CARRIER_PRIORITY_2026-10-29.json.

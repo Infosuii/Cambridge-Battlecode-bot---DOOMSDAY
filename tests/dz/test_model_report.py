@@ -64,6 +64,26 @@ class ModelReportTests(unittest.TestCase):
         self.assertEqual(s['damage_observed_other_tanking'],1)
         self.assertEqual(s['solo_unshared_target_damage']['n'],1)
 
+    def test_mixed_splash_requires_full_identity_and_stationary_unshared_context(self):
+        good=episode();good.update(champion_type=10,healing=0,bystander_context_known=True,
+            potential_tank_bystanders=[],target_camp_other_hp_loss=0,member_hp_hash_matches=True,
+            native_static_positions=True,own_movement_events=0,camp_movement_events=0,
+            native_damaging_live_members=1,shield_target_matches=True,shield_actions=['11:9'])
+        good['quote'].update(shield_mode=1,shield_status=0,shield_live=2,shield_rounds=4,
+                             shield_loss=20,shield_casts=1,enemies=0)
+        invalid=[]
+        for key,value in [('member_hp_hash_matches',False),('native_static_positions',False),
+                          ('own_movement_events',1),('camp_movement_events',1),
+                          ('native_damaging_live_members',2),('shield_target_matches',False)]:
+            r=copy.deepcopy(good);r[key]=value;invalid.append(r)
+        s=report.summarize([good,*invalid])
+        self.assertEqual(s['varg_mixed_splash_time']['n'],1)
+        self.assertEqual(s['varg_mixed_splash_shield_damage']['aggregate_signed_bias'],0)
+        self.assertEqual(s['mixed_shield_casts'],dict(predicted=1,observed=1))
+        self.assertEqual(s['varg_single_live_shield_time']['n'],0)
+        del good['member_hp_hash_matches']
+        self.assertIsNone(report.summarize([good])['varg_mixed_splash_time']['aggregate_signed_bias'])
+
     def test_shield_model_requires_same_single_live_member_and_no_healing(self):
         good=episode();good.update(champion_type=10,healing=0,bystander_context_known=True,
                                   potential_tank_bystanders=[],target_camp_other_hp_loss=0,

@@ -2,24 +2,46 @@
 #include "actions.h"
 #include "clear_clock.h"
 #include "shield_clear.h"
+#include "splash_reduction.h"
 
 #if DZ_TRACE && DZ_TRACE_MODEL
 namespace dz {
 struct AuditShield {
     ShieldClearProjection result;
     ShieldClearInput input;
-    int member=-1,live=0;
-    std::uint64_t fuel=0;
+    int member=-1,live=0,mode=0,skip=0;
+    std::uint32_t hp_hash=0;
+    std::uint64_t fuel=0,available=0;
 };
 inline AuditShield audit_single_shield(const StaticWorld& world,const Memory& mem,
                                       const Observation& obs,int group,ResetTiming reset,const TurnContext& tc) {
     AuditShield quote;
     if(group<0||cambc::self().champion_name()!=cambc::champion_type::varg)return quote;
     const auto& hp=mem.member_hp[group];const auto& g=world.groups[group];
-    if(hp.size()>64||hp.size()!=g.initial_strength.size())return quote;
+    if(hp.size()>64||hp.size()!=g.initial_strength.size()){quote.skip=3;return quote;}
+    const auto fuel=cambc::fuel_remaining();quote.available=fuel;
     for(unsigned k=0;k<hp.size();++k)if(hp[k]>0){++quote.live;quote.member=static_cast<int>(k);}
-    if(quote.live!=1||g.initial_strength[quote.member]<=0||!tc.allow(45000))return quote;
-    const auto fuel=cambc::fuel_remaining();
+    if(quote.live!=1) {
+#if DZ_TRACE_SPLASH
+        if(quote.live<2){quote.skip=2;return quote;}
+        if(!tc.allow(55000)){quote.skip=4;return quote;}
+        if(!obs.enemies.empty()){quote.skip=5;return quote;}
+        if(world.is_spawn(obs.p)||cambc::map::spawn_region(cambc::team::ally).is_set(obs.p)){quote.skip=6;return quote;}
+        if(hp.size()!=g.tiles.size()||hp.size()!=g.attack_ranges.size()){quote.skip=7;return quote;}
+        std::array<SplashMember,64> members;
+        for(unsigned k=0;k<hp.size();++k)members[k]={{g.tiles[k].x,g.tiles[k].y},std::max(0.f,hp[k]),g.initial_strength[k],g.attack_ranges[k]};
+        const auto reduction=splash_reduction(std::span<const SplashMember>(members.data(),hp.size()),{obs.p.x,obs.p.y},obs.range);
+        if(!reduction.supported){quote.skip=8;return quote;}
+        LocalMask visible;visible.load(cambc::vision::camp_tiles());
+        for(unsigned k=0;k<hp.size();++k)if(hp[k]>0&&!visible.test(g.tiles[k])){quote.skip=9;return quote;}
+        quote.member=reduction.target;quote.mode=1;
+#else
+        return quote;
+#endif
+    }
+    if(quote.member<0||g.initial_strength[quote.member]<=0){quote.skip=10;return quote;}
+    if(!tc.allow(45000)){quote.skip=11;return quote;}
+    quote.hp_hash=member_hp_hash(hp);
     auto& in=quote.input;
     in.hp=obs.hp;in.max_hp=obs.max_hp;in.target_hp=hp[quote.member];
     in.damage=obs.strength*obs.camp_damage; // raw constant-kit damage; risk quantization is unchanged
@@ -48,6 +70,9 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
     static bool contact_logged=false;
 #if DZ_TRACE_SHIELD
     static bool shield_logged=false;
+#if DZ_TRACE_SPLASH
+    static bool splash_refusal_logged=false;
+#endif
 #endif
     const int kind=static_cast<int>(goal.kind);
     const int index=goal.kind==GoalKind::Farm?goal.index:-1;
@@ -59,7 +84,7 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
         if(shield_logged||cambc::self().champion_name()!=cambc::champion_type::varg)return;
         if(mem.member_hp[index].size()>64)return;
         unsigned live=0;for(float hp:mem.member_hp[index])live+=hp>0;
-        if(live!=1)return;
+        if(live!=1&&!DZ_TRACE_SPLASH)return;
 #else
         return;
 #endif
@@ -91,7 +116,13 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
 #if DZ_TRACE_SHIELD
     AuditShield shield;
     if(contact)shield=audit_single_shield(world,mem,obs,index,timing,tc);
-    if(late_shield&&shield.result.status==ShieldClearStatus::NotQuoted)return;
+    if(late_shield&&shield.result.status==ShieldClearStatus::NotQuoted) {
+#if DZ_TRACE_SPLASH
+        if(!contact||splash_refusal_logged)return;
+#else
+        return;
+#endif
+    }
 #endif
     const auto body=static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(cambc::self()));
     // Retry a dropped record next turn. Never pretend a missing prediction
@@ -109,13 +140,19 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
 #if DZ_TRACE_SHIELD
     bool logged=false;
     if(shield.result.status!=ShieldClearStatus::NotQuoted)
-        logged=emit(DZ_MODEL_LINE " ss=%d ps=%d pt=%u pl=%.2f pc=%u pn=%d pi=%d cd=%u cp=%u ca=%.2f ct=%u ex=%d ev=%.2f et=%u inc=%.2f cast=%d fuel=%llu\n",
-                    late_shield,static_cast<int>(shield.result.status),shield.result.rounds,shield.result.loss,
+        logged=emit(DZ_MODEL_LINE " ss=%d pm=%d ph=%u ps=%d pt=%u pl=%.2f pc=%u pn=%d pi=%d cd=%u cp=%u ca=%.2f ct=%u ex=%d ev=%.2f et=%u inc=%.2f cast=%d fuel=%llu\n",
+                    late_shield,shield.mode,shield.hp_hash,static_cast<int>(shield.result.status),shield.result.rounds,shield.result.loss,
                     shield.result.shields,shield.live,shield.member,shield.input.shield_cd,shield.input.shield_period,
                     shield.input.shield_amount,shield.input.shield_duration,shield.input.existing,
                     shield.input.existing_value,shield.input.existing_duration,shield.input.incoming,
                     shield.input.can_cast,static_cast<unsigned long long>(shield.fuel));
-    else logged=emit(DZ_MODEL_LINE " ss=%d\n",late_shield);
+    else {
+#if DZ_TRACE_SPLASH
+        logged=emit(DZ_MODEL_LINE " ss=%d sk=%d af=%llu\n",late_shield,shield.skip,static_cast<unsigned long long>(shield.available));
+#else
+        logged=emit(DZ_MODEL_LINE " ss=%d\n",late_shield);
+#endif
+    }
 #else
     const bool logged=emit(DZ_MODEL_LINE "\n");
 #endif
@@ -123,6 +160,10 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
     if(logged) {
 #if DZ_TRACE_SHIELD
         if(changed)shield_logged=false;
+#if DZ_TRACE_SPLASH
+        if(changed)splash_refusal_logged=false;
+        if(late_shield&&shield.result.status==ShieldClearStatus::NotQuoted)splash_refusal_logged=true;
+#endif
         shield_logged|=shield.result.status!=ShieldClearStatus::NotQuoted;
 #endif
         if (changed) contact_logged=false;
