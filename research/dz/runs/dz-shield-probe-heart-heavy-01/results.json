@@ -1,0 +1,406 @@
+{
+  "games": 6,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 691.236861051116,
+  "fuel_p99": 6971,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-elk",
+      "map_sha256": "5bb4fd2112fdf377e0ce5651d7869161dc3a6900f48aad26825e778fd066187f",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "f4f62f0590b3b2c535beb7f22e63b1b63a63fd4fd700caa26a6b1c3dd4951c0c",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "14",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-elk",
+      "map_sha256": "5bb4fd2112fdf377e0ce5651d7869161dc3a6900f48aad26825e778fd066187f",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "98fc26a7b13689f557f162253bc7da9d99663e24a419d575ba6afe3bf90d3b56",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": false
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "14",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-golem",
+      "map_sha256": "a4d2fa2dcb46904be65447ef9fc679b3dec08319c482c05e6c5cf13a84350096",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ebc3c925bc22133006c607011a93d1eac3a7bf01dcffcd465025c0250ad6e8f8",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "13",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-golem",
+      "map_sha256": "a4d2fa2dcb46904be65447ef9fc679b3dec08319c482c05e6c5cf13a84350096",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "1cdac0e0b132302185411ef269b11d6d9f5404b2fccf50a96ef35998396774f1",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": false
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "13",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "69403de94321ed1d42c37c5c48026df0dfa9b566dd3c8379cfa99396a6d2bc66",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ab312941244dd09e2c97bab3a5563911b66e3c7c48e5a365e59e4c1e0496423f",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": false
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "1"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    }
+  ]
+}

@@ -17,7 +17,7 @@ export function parseQuotes(text) {
       const aliases={r:'round',b:'body',s:'slot',k:'kind',g:'group',n:'new',c:'contact',x:'x',y:'y',st:'state',sn:'seen',
         d:'dist',f:'field',a:'attacks',l:'loss',h:'hp',ch:'camp_hp',rw:'raw',q:'quant',rg:'range',cl:'cluster',m:'members',
         na:'nearby',ne:'enemies',ok:'status',rc:'reset_cd',rm:'reset_max',t:'clock',ts:'clock_status',tl:'timed_loss',ss:'shield_sample',
-        sk:'shield_skip',af:'shield_available',pm:'shield_mode',ph:'member_hp_hash',ps:'shield_status',pt:'shield_rounds',pl:'shield_loss',pc:'shield_casts',pn:'shield_live',pi:'shield_member',cd:'shield_cd',
+        hb:'missing_health_bonus',sk:'shield_skip',af:'shield_available',pm:'shield_mode',ph:'member_hp_hash',ps:'shield_status',pt:'shield_rounds',pl:'shield_loss',pc:'shield_casts',pn:'shield_live',pi:'shield_member',cd:'shield_cd',
         cp:'shield_period',ca:'shield_amount',ct:'shield_duration',ex:'shield_existing',ev:'shield_value',et:'shield_timer',
         inc:'shield_incoming',cast:'shield_can_cast',fuel:'shield_fuel'};
       const expanded={};

@@ -59,6 +59,13 @@ def summarize(records):
            and r['quote'].get('shield_live',0)>1 and r.get('member_hp_hash_matches') and r.get('native_static_positions')
            and r.get('native_damaging_live_members')==1 and r.get('shield_target_matches') and r['quote'].get('enemies')==0
            and r.get('own_movement_events',1)==0 and r.get('camp_movement_events',1)==0 and r['healing']<.03]
+    heart=[r for r in all_contacts if solo_clear(r) and r['other_hp_loss']<.03 and r['quote']['loss']>0
+           and r.get('bystander_context_known') and not r['potential_tank_bystanders'] and r['target_camp_other_hp_loss']<.03
+           and r['champion_type']==12 and r['quote'].get('shield_status')==0 and r['quote'].get('shield_mode')==2
+           and r['quote'].get('missing_health_bonus')==.5 and r['quote'].get('shield_live')==1
+           and r.get('native_initial_live_members')==1 and r.get('shield_member_matches') and r.get('member_hp_hash_matches')
+           and r.get('native_damaging_live_members')==1 and r.get('shield_target_matches') and r.get('native_static_positions')
+           and r.get('own_movement_events',1)==0 and r.get('camp_movement_events',1)==0 and r['healing']<.03]
     clocks=[r for r in solo if r['quote'].get('clock_status')==0 and 'clock' in r['quote']]
     # These kits have no HP-dependent basic strength or splash in the pinned
     # metadata. This restricted stratum is not a full-role model gate.
@@ -89,6 +96,10 @@ def summarize(records):
                 varg_mixed_splash_time=errors([(r['quote']['shield_rounds'],r['clear_round']-r['quote']['round']+1) for r in mixed]),
                 varg_mixed_splash_naive_time=errors(clear_pairs(mixed)),
                 mixed_shield_casts=dict(predicted=sum(r['quote']['shield_casts'] for r in mixed),observed=sum(len(r.get('shield_actions',[])) for r in mixed)),
+                heart_single_live_shield_time=errors([(r['quote']['shield_rounds'],r['clear_round']-r['quote']['round']+1) for r in heart]),
+                heart_single_live_shield_damage=errors([(r['quote']['shield_loss'],r['target_camp_hp_loss']) for r in heart],unit='HP'),
+                heart_single_live_unshielded_damage=errors([(r['quote']['loss'],r['target_camp_hp_loss']) for r in heart],unit='HP'),
+                heart_shield_casts=dict(predicted=sum(r['quote']['shield_casts'] for r in heart),observed=sum(len(r.get('shield_actions',[])) for r in heart)),
                 late_shield_contact_predictions=sum(bool(r['quote'].get('shield_sample',0)) for r in all_contacts),
                 shield_status_outcomes=dict(collections.Counter(f"{r['quote']['shield_status']}:{r['outcome']}"
                                            for r in all_contacts if 'shield_status' in r['quote'])),

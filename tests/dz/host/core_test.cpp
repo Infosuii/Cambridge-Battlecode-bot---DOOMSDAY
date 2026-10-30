@@ -399,6 +399,33 @@ int main() {
         std::cout << "10000 shield/reset coupling and exposure invariants passed\n";
     }
     {
+        ShieldClearInput in{1000,1000,310,100,100};in.missing_health_bonus=.5f;
+        auto p=shield_clear(in);assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==200);
+        in={800,1000,620,100,100,0,0,0,8,5,150};in.missing_health_bonus=.5f;
+        p=shield_clear(in);assert(p.status==ShieldClearStatus::Cleared&&p.rounds==6&&p.loss==350&&p.shields==1);
+        in.missing_health_bonus=-.1f;assert(shield_clear(in).status==ShieldClearStatus::Invalid);
+        in.missing_health_bonus=1.1f;assert(shield_clear(in).status==ShieldClearStatus::Invalid);
+        unsigned seed=300914;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            const float hp=1000.f+next()%1000;
+            ShieldClearInput input{hp,hp+next()%1000,float(1+next()%3000),float(5+next()%70),float(next()%30),
+                0,0,next()%8,8,1+next()%5,float(50+next()%300)};
+            input.can_cast=next()%4!=0;input.existing=next()%3==0;
+            input.existing_value=float(1+next()%200);input.existing_duration=next()%6;
+            const auto base=shield_clear(input);input.missing_health_bonus=.5f;const auto heart=shield_clear(input);
+            assert(heart.loss>=0&&heart.loss<=hp);
+            // With the same single survivor, HP/shield phase histories are
+            // identical until the earlier clear. Extra damage cannot delay a
+            // completed base clear, add incoming exposure or extra casts.
+            if(base.status==ShieldClearStatus::Cleared) {
+                assert(heart.status==ShieldClearStatus::Cleared&&heart.rounds<=base.rounds);
+                assert(heart.loss<=base.loss&&heart.shields<=base.shields);
+            }
+        }
+        std::cout << "10000 missing-health/shield dominance cases passed\n";
+    }
+    {
         unsigned seed=921111;
         auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
         const Tile positions[]{{1,-1},{1,1},{2,0},{2,-1},{2,1},{0,-1},{0,1}};

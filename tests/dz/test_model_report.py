@@ -84,6 +84,23 @@ class ModelReportTests(unittest.TestCase):
         del good['member_hp_hash_matches']
         self.assertIsNone(report.summarize([good])['varg_mixed_splash_time']['aggregate_signed_bias'])
 
+    def test_heart_requires_issued_passive_forecast_and_stationary_identity(self):
+        good=episode();good.update(champion_type=12,healing=0,bystander_context_known=True,
+            potential_tank_bystanders=[],target_camp_other_hp_loss=0,member_hp_hash_matches=True,
+            native_static_positions=True,own_movement_events=0,camp_movement_events=0,
+            native_damaging_live_members=1,native_initial_live_members=1,shield_target_matches=True,
+            shield_member_matches=True,shield_actions=['11:9'])
+        good['quote'].update(shield_mode=2,missing_health_bonus=.5,shield_status=0,shield_live=1,
+                             shield_rounds=4,shield_loss=20,shield_casts=1)
+        missing=copy.deepcopy(good);del missing['quote']['missing_health_bonus']
+        moved=copy.deepcopy(good);moved['own_movement_events']=1
+        wrong=copy.deepcopy(good);wrong['member_hp_hash_matches']=False
+        s=report.summarize([good,missing,moved,wrong])
+        self.assertEqual(s['heart_single_live_shield_time']['n'],1)
+        self.assertEqual(s['heart_single_live_shield_damage']['aggregate_signed_bias'],0)
+        self.assertEqual(s['heart_shield_casts'],dict(predicted=1,observed=1))
+        self.assertEqual(s['varg_single_live_shield_time']['n'],0)
+
     def test_shield_model_requires_same_single_live_member_and_no_healing(self):
         good=episode();good.update(champion_type=10,healing=0,bystander_context_known=True,
                                   potential_tank_bystanders=[],target_camp_other_hp_loss=0,

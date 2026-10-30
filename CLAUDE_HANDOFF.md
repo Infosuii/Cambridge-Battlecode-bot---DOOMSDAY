@@ -1,3 +1,38 @@
+# CONTINUING 2026-10-30 - Heart mechanism conformance; production unchanged
+
+Selected foundation stays FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:
+release5cf28cb7 and ordinary traceb4bc106c reproduce from clean source export.
+Read research/dz/heart-mechanics-2026-10-30/README.md and RESULTS.json first.
+User requested continuous work; no pause or scheduled continuation requested.
+
+-999 camp basics in six earlier role games verify public Heart missing-health
+ coefficient0.5,944 with missing HP;0 anomalies.92 shields:85 zero-duration
+ expiry,7 positive-duration depletion. Correct03 audits authoritative; old
+ tagged-metadata attempts retained. No Monster-emblem attack observations.
+-shield_clear optional bonus defaults0; diagnostic Heart mode2 recomputes
+ damage each basic, couples shield phases, one damaging survivor/horizon96.
+ New10,000 dominance cases and earlier core suites pass via WASI/Node.
+-Current-source controlled Heart8/Varg8 on four isolated fixtures pass all six
+ assertions in30 overlapping windows:8 clear/22 die/14 existing shield. Initial
+ heavy sideB setup failed isolation due parking; fixed actual-spawn parking,
+ preserved failure, no model/criterion relaxation. Total24 truncated tests have
+ fuel-outs0; native fault totals UNMEASURED, not the printed zero placeholder.
+-50 new FULL games (pilot, field validation, matched controls) have measured
+ faults/fuel-outs0 and caught errors0. Field idle12/v7612 issue3/5 forecasts;
+ all eight have tank bystanders, seven helper damage. Strict accuracy n0/null.
+ Controlled conformance does NOT close field V-M1 or validate new-job admission.
+-Matched Heart-on/off diagnostic banking identical on every idle/v76 cell.
+ All72 capsules verify identities, including failed attempts.53 Python/13 Node
+ tests pass. Same-host clean export reproduces selected production/trace.
+-TRACE_HEART/MODEL/SHIELD/SPLASH0; all prior experimental policies remain0;
+ carrier banking priority1. Auction/EE/advanced gear false, Prospector off.
+ Config paths and completed experiments remain preserved. No ladder/submission.
+
+Next active work: limited Z10 RELEASE screen of voluntary chases with no enemy
+carried-gem value. Keep losing-contact retreats and local attacks; experiment
+flag off until full release/productivity preservation. Do not enable EE or
+claim full V-M1 from these restricted mechanisms. Movement/crew models remain.
+
 # CONTINUING 2026-10-30 - splash diagnostic checkpoint; native accuracy insufficient
 
 Selected foundation remains FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:

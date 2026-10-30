@@ -7,6 +7,15 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_shield_fixture_requires_complete_matched_successful_checks(self):
+        names=['shield_outcome','shield_elapsed','shield_hp','shield_basics','shield_casts','shield_isolated']
+        text='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+'\nCT_SHIELD_QUOTE sample=0 heart=1 existing=0 round=10 status=0 rounds=40\nCT_SHIELD_RESULT sample=0 cleared=1 rounds=40'
+        self.assertTrue(dz.diagnostic_checks(text,'shield')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('CT_CHECK name=shield_hp pass=1',''),'shield')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+'\nCT_CHECK name=shield_hp pass=0','shield')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('cleared=1','cleared=0'),'shield')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+'\nCT_SHIELD_RESULT sample=0 cleared=1 ','shield')['passed'])
+
     def test_cumulative_error_counters_catch_dropped_error_lines(self):
         text='DZ_COUNTS round=100 slot=0 actions=2 modules=1 stale=0\nDZ_COUNTS round=200 slot=0 actions=2 modules=1 stale=0\nDZ_COUNTS round=200 slot=1 actions=1 modules=0 stale=0'
         self.assertEqual(dz.caught_errors(text),(3,1))

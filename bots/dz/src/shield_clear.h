@@ -11,21 +11,24 @@ struct ShieldClearInput {
     float shield_amount=0,existing_value=0;
     unsigned existing_duration=0;
     bool existing=false,can_cast=true;
+    float missing_health_bonus=0; // Heart's public maximum; zero preserves constant-kit behavior.
 };
 struct ShieldClearProjection {
     ShieldClearStatus status=ShieldClearStatus::NotQuoted;
     unsigned rounds=0,attacks=0,resets=0,shields=0;
     float loss=0,remaining_hp=0;
 };
-// Diagnostic single stationary target, fixed outgoing/incoming damage. Sample
+// Diagnostic single stationary target, fixed base outgoing/incoming damage. Sample
 // after the current camp phase. Reset has cast priority; at most one cast/turn.
 // Native duration0 shields absorb the camp phase, then expire at owner start.
-// No splash, movement, healing, other actors or health-dependent damage.
+// Optional missing-health scaling is recomputed before each basic. No movement,
+// healing, other actors or generic splash simulation.
 inline ShieldClearProjection shield_clear(ShieldClearInput in,unsigned horizon=96) {
     auto valid=[](float x){return std::isfinite(x)&&x>=0;};
     if(!horizon||horizon>2000||!valid(in.hp)||!in.hp||!valid(in.max_hp)||in.max_hp<in.hp||
        !valid(in.target_hp)||!in.target_hp||!valid(in.damage)||!in.damage||!valid(in.incoming)||
        !valid(in.shield_amount)||!valid(in.existing_value)||in.reset_cd>2000||in.reset_period>2000||
+       !valid(in.missing_health_bonus)||in.missing_health_bonus>1||
        in.shield_cd>2000||in.shield_period>2000||in.shield_duration>2000||in.existing_duration>2000||
        (!in.reset_period&&in.reset_cd)||(!in.shield_period&&in.shield_cd)||
        (in.shield_period&&(!in.shield_duration||!in.shield_amount)))return {ShieldClearStatus::Invalid};
@@ -35,9 +38,11 @@ inline ShieldClearProjection shield_clear(ShieldClearInput in,unsigned horizon=9
     for(unsigned turn=0;turn<horizon;++turn) {
         if(active&&(duration<=0||value<=0))active=false; // owner-start expiry, after camp phase
         bool cast=false;const bool may_cast=turn>0||in.can_cast;
-        in.target_hp-=in.damage;++result.attacks;
+        const float damage=in.missing_health_bonus>0?
+            in.damage*(1.f+in.missing_health_bonus*(1.f-in.hp/in.max_hp)):in.damage;
+        in.target_hp-=damage;++result.attacks;
         if(in.target_hp>0&&may_cast&&in.reset_period&&in.reset_cd==0) {
-            in.target_hp-=in.damage;++result.attacks;++result.resets;
+            in.target_hp-=damage;++result.attacks;++result.resets;
             in.reset_cd=in.reset_period;cast=true;
         }
         result.rounds=turn+1;

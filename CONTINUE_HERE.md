@@ -1,3 +1,10 @@
+# Active continuation - Heart mechanism checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/heart-mechanics-2026-10-30/README.md.
+Controlled coupling checks pass; strict field accuracy remains insufficient.
+Next active work is a limited Z10 fight-value release screen. No pause requested.
+
 # Active continuation - restricted splash checkpoint
 
 Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP

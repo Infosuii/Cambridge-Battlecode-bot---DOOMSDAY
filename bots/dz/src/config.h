@@ -24,6 +24,9 @@
 #ifndef DZ_TRACE_SPLASH
 #define DZ_TRACE_SPLASH 0 // Opt-in exact mixed-group splash reduction; diagnostic only.
 #endif
+#ifndef DZ_TRACE_HEART
+#define DZ_TRACE_HEART 0 // Opt-in single-target missing-health/shield diagnostic.
+#endif
 #ifndef DZ_TRACE_MODEL_TO
 #define DZ_TRACE_MODEL_TO 500
 #endif

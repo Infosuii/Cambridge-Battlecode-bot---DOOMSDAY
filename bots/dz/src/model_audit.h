@@ -16,12 +16,14 @@ struct AuditShield {
 inline AuditShield audit_single_shield(const StaticWorld& world,const Memory& mem,
                                       const Observation& obs,int group,ResetTiming reset,const TurnContext& tc) {
     AuditShield quote;
-    if(group<0||cambc::self().champion_name()!=cambc::champion_type::varg)return quote;
+    const bool heart=DZ_TRACE_HEART&&cambc::self().champion_name()==cambc::champion_type::heart_of_ruin;
+    if(group<0||(!heart&&cambc::self().champion_name()!=cambc::champion_type::varg))return quote;
     const auto& hp=mem.member_hp[group];const auto& g=world.groups[group];
     if(hp.size()>64||hp.size()!=g.initial_strength.size()){quote.skip=3;return quote;}
     const auto fuel=cambc::fuel_remaining();quote.available=fuel;
     for(unsigned k=0;k<hp.size();++k)if(hp[k]>0){++quote.live;quote.member=static_cast<int>(k);}
     if(quote.live!=1) {
+        if(heart)return quote; // Heart's initial extension never reduces mixed groups.
 #if DZ_TRACE_SPLASH
         if(quote.live<2){quote.skip=2;return quote;}
         if(!tc.allow(55000)){quote.skip=4;return quote;}
@@ -43,6 +45,7 @@ inline AuditShield audit_single_shield(const StaticWorld& world,const Memory& me
     if(!tc.allow(45000)){quote.skip=11;return quote;}
     quote.hp_hash=member_hp_hash(hp);
     auto& in=quote.input;
+    if(heart){quote.mode=2;in.missing_health_bonus=cambc::constants::passive_abilities::heart_of_ruin_missing_health_damage_max_bonus;}
     in.hp=obs.hp;in.max_hp=obs.max_hp;in.target_hp=hp[quote.member];
     in.damage=obs.strength*obs.camp_damage; // raw constant-kit damage; risk quantization is unchanged
     in.incoming=g.initial_strength[quote.member]*obs.camp_factor;
@@ -81,7 +84,8 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
     const bool late_shield=!changed&&contact_logged;
     if(late_shield) {
 #if DZ_TRACE_SHIELD
-        if(shield_logged||cambc::self().champion_name()!=cambc::champion_type::varg)return;
+        const auto type=cambc::self().champion_name();
+        if(shield_logged||(type!=cambc::champion_type::varg&&!(DZ_TRACE_HEART&&type==cambc::champion_type::heart_of_ruin)))return;
         if(mem.member_hp[index].size()>64)return;
         unsigned live=0;for(float hp:mem.member_hp[index])live+=hp>0;
         if(live!=1&&!DZ_TRACE_SPLASH)return;
@@ -140,8 +144,8 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
 #if DZ_TRACE_SHIELD
     bool logged=false;
     if(shield.result.status!=ShieldClearStatus::NotQuoted)
-        logged=emit(DZ_MODEL_LINE " ss=%d pm=%d ph=%u ps=%d pt=%u pl=%.2f pc=%u pn=%d pi=%d cd=%u cp=%u ca=%.2f ct=%u ex=%d ev=%.2f et=%u inc=%.2f cast=%d fuel=%llu\n",
-                    late_shield,shield.mode,shield.hp_hash,static_cast<int>(shield.result.status),shield.result.rounds,shield.result.loss,
+        logged=emit(DZ_MODEL_LINE " ss=%d pm=%d ph=%u hb=%.2f ps=%d pt=%u pl=%.2f pc=%u pn=%d pi=%d cd=%u cp=%u ca=%.2f ct=%u ex=%d ev=%.2f et=%u inc=%.2f cast=%d fuel=%llu\n",
+                    late_shield,shield.mode,shield.hp_hash,shield.input.missing_health_bonus,static_cast<int>(shield.result.status),shield.result.rounds,shield.result.loss,
                     shield.result.shields,shield.live,shield.member,shield.input.shield_cd,shield.input.shield_period,
                     shield.input.shield_amount,shield.input.shield_duration,shield.input.existing,
                     shield.input.existing_value,shield.input.existing_duration,shield.input.incoming,

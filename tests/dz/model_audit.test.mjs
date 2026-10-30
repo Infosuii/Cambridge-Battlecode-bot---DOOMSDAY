@@ -106,6 +106,8 @@ test('compact atomic quotes preserve fields and reject unknown versions',()=>{
   assert.equal(q.round,10);assert.equal(q.members,2);assert.equal(q.state,0);
   assert.throws(()=>parseQuotes(line.replace('v=2','v=3')),/Unsupported/);
   assert.throws(()=>parseQuotes(line+' zz=1'),/Unexpected compact/);
+  const heart=parseQuotes(line+' hb=0.50 pm=2 ph=3000000000')[0];
+  assert.equal(heart.missing_health_bonus,.5);assert.equal(heart.shield_mode,2);assert.equal(heart.member_hp_hash,3000000000);
   assert.throws(()=>parseQuotes(line.replace('r=10 ','')),/Incomplete model/);
 });
 

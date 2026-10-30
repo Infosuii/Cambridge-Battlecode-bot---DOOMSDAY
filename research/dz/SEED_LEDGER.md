@@ -483,3 +483,12 @@ The registry was created before experiments. Entries below record actual use.
 | dz-model-varg-splash-gate-01 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 2 cells; idle81 | smoke; trace=True |
 | dz-model-varg-splash-idle-02 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 12 cells; idle81 | smoke; trace=True |
 | dz-model-varg-splash-v76-02 | 2026-10-30 | deterministic; Wasm c65217fc13e3 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-heart-shield-quad-01 | 2026-10-30 | deterministic; Wasm 4cfd4357c734 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-heart-shield-idle-01 | 2026-10-30 | deterministic; Wasm 4cfd4357c734 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-heart-shield-v76-01 | 2026-10-30 | deterministic; Wasm 4cfd4357c734 | 12 cells; idle81 | smoke; trace=True |
+| dz-shield-probe-heart-wolf-01 | 2026-10-30 | deterministic; Wasm 7bff89807614 | 2 cells; idle81 | conformance; trace=False |
+| dz-shield-probe-heart-heavy-01 | 2026-10-30 | deterministic; Wasm 7bff89807614 | 6 cells; idle81 | conformance; trace=False |
+| dz-shield-probe-heart-all-02 | 2026-10-30 | deterministic; Wasm f0d5d23c1079 | 8 cells; idle81 | conformance; trace=False |
+| dz-shield-probe-varg-all-01 | 2026-10-30 | deterministic; Wasm f8af01690e29 | 8 cells; idle81 | conformance; trace=False |
+| dz-model-heart-off-idle-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |
+| dz-model-heart-off-v76-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |

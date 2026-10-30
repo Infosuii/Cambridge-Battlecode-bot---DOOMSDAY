@@ -1,0 +1,28 @@
+{
+  "scope": "Primitive engine conformance only; existing isolated maps, no field accuracy/strength inference",
+  "controller": "Fixed adjacent tile; exact same basic/reset/shield priority as model. Other bodies park away. No purchases, dashes, movement after first quote or helper damage. Quote initial state and first existing-shield window.",
+  "pilot": "dz-shield-probe-heart-wolf-01",
+  "remaining_runs": {
+    "dz-shield-probe-heart-heavy-01": [
+      "isolated-elk",
+      "isolated-golem",
+      "isolated-monolith"
+    ],
+    "dz-shield-probe-varg-all-01": [
+      "isolated-wolf",
+      "isolated-elk",
+      "isolated-golem",
+      "isolated-monolith"
+    ]
+  },
+  "round_limit": 160,
+  "assertions": [
+    "outcome",
+    "inclusive elapsed rounds",
+    "HP loss within0.03",
+    "basic count",
+    "shield/reset cast counts",
+    "isolation/stationarity"
+  ],
+  "limit": "Truncated conformance runs do not measure native fault totals; fuel and explicit fixture assertions are reported separately. Repeated mirrored/overlapping windows are not independent samples. Original prospective n0/null remains open."
+}
