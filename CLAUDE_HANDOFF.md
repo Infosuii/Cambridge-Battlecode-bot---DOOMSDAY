@@ -1,3 +1,18 @@
+# CONTINUING 2026-10-30 - enemy cast policy confirmed out of opponent
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. No new games.
+Read research/dz/enemy-policy-2026-10-30/README.md. Frozen v65 observations
+confirmed on v76: Varg pre-basic shields329/329, post-basic resets189/189;
+Heart pre-basic shields184/188 and306 dash casts. All frozen patterns pass.
+These owner-view replay observations are retrospective, not live legal inputs,
+causal intent, strength or EE admission. No old bot code inspected/copied.
+Controlled duel policy omits dash and orders shield differently; keep it bounded.
+
+Next active Z3/Z10: native adapter conformance for Heart ground dash, followed
+by a guarded camp-only release experiment if mechanics pass. Preserve default
+carrier priority1, experimental policies0, Prospector/JOB_GEAR off, no ladder.
+User requested continuous work; no pause or scheduling requested.
+
 # CONTINUING 2026-10-30 - bounded duel primitive, production unchanged
 
 Selected release5cf28cb7 and ordinary productivity traceb4bc106c reproduce from

@@ -1,0 +1,48 @@
+{
+  "status": "Frozen after v65 discovery and before v76 analysis",
+  "created_utc": "2026-10-30T13:10:32.236193+00:00",
+  "training": "TRAINING_SUMMARY.json",
+  "confirmation_run": "dz-carrier-priority-v76-check-01",
+  "same_six_development_maps": true,
+  "reader_sha256": "702c4b6de4f377aa7633b95debfdeacf30e1835a6fc1e032496e93265ed1ff87",
+  "hypotheses": [
+    {
+      "id": "shield_pre_basic",
+      "kits": [
+        10,
+        12
+      ],
+      "criterion": "At least95% of observed shield casts precede the first basic; n0 is unmeasured."
+    },
+    {
+      "id": "varg_reset_post_basic",
+      "kits": [
+        10
+      ],
+      "criterion": "At least95% of observed reset casts follow a basic; n0 unmeasured."
+    },
+    {
+      "id": "shield_low_hp_pattern",
+      "kits": [
+        10,
+        12
+      ],
+      "criterion": "No shield at>=85% HP unless HP or maxHP increased within that owner turn. This is an observational bound, not identification of the exact threshold."
+    },
+    {
+      "id": "competing_varg_priority",
+      "kits": [
+        10
+      ],
+      "criterion": "At least90% shield-first among owner-start ready/low-HP/both-CD0 turns whose first basic leaves its target alive; n0 unmeasured. Does not establish an intended target or force a cast."
+    },
+    {
+      "id": "heart_dash_used",
+      "kits": [
+        12
+      ],
+      "criterion": "At least one dash cast when Heart is observed; no damage/value inference from cast count alone."
+    }
+  ],
+  "scope": "Descriptive out-of-opponent confirmation on existing deterministic replay cells, not policy causality, field EE or strength evidence. Preserve exceptions; do not tune thresholds after v76."
+}
