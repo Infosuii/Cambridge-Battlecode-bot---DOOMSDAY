@@ -12,7 +12,7 @@
     "src/camp_threat.h": "e9a0902e2fae09c65c7a5a2ea832607d57ba3946f176d12b1115bca43d0b721d",
     "src/clear_clock.h": "de7d962399d9239c5a71a74f9a42f8e86ef0901a162508b2b4bcb82c9b7fb900",
     "src/clear_risk.h": "43781c686ece0b292c70565f716240dc0c4eeb4182462e4bf6ed25c188afc5d7",
-    "src/config.h": "d6956c01cfbe09e2a8dc67f6df49a23a24bc3f1e44695d8181d1f948394e5bc0",
+    "src/config.h": "0dcba268b1c9e7824b4db70e6b5778a2abe703a9e2eaba719a60a9d3f596ecb6",
     "src/core.h": "a347ae9d81482db403c67ce0098d7af6ed2ed85669069266c697f15c54700011",
     "src/draft.cpp": "cb938bb5c54d362d09de4a2dfd022208aab94e11bab0fc0a7010adc27bb4d290",
     "src/draft.h": "cda3163ececdf5c81496dc6827d07e86ca09c77a1e70f1f4b12785d5831d597d",
@@ -36,7 +36,7 @@
     "src/observation.h": "b97242c51afdd67cc679656a084d162055f8b583840a39d1cbae962a6f8a0536",
     "src/profile.h": "26d84c9b38e4540076c5f62dcc8cb9eb52525dbd4468317c0a7a393bc63e581b",
     "src/protocol.h": "2062cd09671991138999385e6e4393d8a6b69738c3b91ad76435f93d2bdd8f6d",
-    "src/safemode.cpp": "dea6ad0c04cd353c79e14e6a4dcd5d8b62efb642ad9f106ca3a61a1f08fbd944",
+    "src/safemode.cpp": "5261a9b64aa61e765dbcfcc7f9bfba7d54c9054e349ecb3baaa7ba861b715365",
     "src/safemode.h": "81e9c05d102a0fcc992e762013acbe8df5d7f5bd92a389923089c85ba639d027",
     "src/shield_clear.h": "4d1c00e69491ee5348526dd60db7cd55e81428d61a33f6290ad62df26f9190d6",
     "src/splash_reduction.h": "31af06ea69fc848c080a0091ab47f425948396de62a7eda19d19ceb754199aa9",
@@ -305,7 +305,7 @@
         "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
         "matched_selected_frozen_pool": true
       },
-      "scope": "Source-only export/SDK/CMake; no config/caches initially. Same pinned host/toolchain, not another physical device. All model flags off."
+      "scope": "Source-only export, SDK/CMake, no initial config/caches. Same pinned host/toolchain. All experimental policies/model flags disabled except selected carrier priority."
     },
     "core_wasi_shield_coupling_cases": 10000,
     "current_tests": {
@@ -322,9 +322,18 @@
     "Original strong foundation is preserved as a frozen control; configuration can override CARRIER_BANK_PRIORITY=0.",
     "Only default release binary identity connects current source to frozen release pools; trace is separate."
   ],
-  "current_source_verified_utc": "2026-10-30T11:34:07.555718+00:00",
-  "current_source_note": "Disabled Heart coupled diagnostic and conformance probe additions preserve selected release/ordinary trace. Controlled primitive passes, strict field accuracy remains insufficient; no pricing/survival promotion.",
+  "current_source_verified_utc": "2026-10-30T11:48:56.636722+00:00",
+  "current_source_note": "Fight-value trial fails entry and remains disabled. Clean source-only export preserves selected release and ordinary trace. No production policy change.",
   "latest_diagnostic_study": {
+    "path": "research/dz/fight-value-2026-10-30",
+    "games": 12,
+    "faults": 0,
+    "fuel_outs": 0,
+    "delta_banked": -7.5,
+    "entry": "fail",
+    "production_unchanged": true
+  },
+  "prior_diagnostic_study": {
     "path": "research/dz/heart-mechanics-2026-10-30",
     "full_games": 50,
     "full_faults": 0,
@@ -333,14 +342,6 @@
     "truncated_native_faults": null,
     "controlled_windows": 30,
     "field_accuracy": "insufficient; strict n0/null",
-    "production_unchanged": true
-  },
-  "prior_diagnostic_study": {
-    "path": "research/dz/varg-splash-2026-10-30",
-    "games": 54,
-    "faults": 0,
-    "fuel_outs": 0,
-    "accuracy": "insufficient; n0 strict mixed cases",
     "production_unchanged": true
   },
   "diagnostic_studies": [
@@ -369,6 +370,15 @@
       "truncated_native_faults": null,
       "controlled_windows": 30,
       "field_accuracy": "insufficient; strict n0/null",
+      "production_unchanged": true
+    },
+    {
+      "path": "research/dz/fight-value-2026-10-30",
+      "games": 12,
+      "faults": 0,
+      "fuel_outs": 0,
+      "delta_banked": -7.5,
+      "entry": "fail",
       "production_unchanged": true
     }
   ]

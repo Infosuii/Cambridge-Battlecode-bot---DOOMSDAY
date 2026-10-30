@@ -98,6 +98,12 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
             if (fight.won() && focus && obs.hp >= .3f * obs.max_hp && !bankable) {
                 bool engage=true;
+#if DZ_FIGHT_GEM_VALUE
+                // Query only the already-visible chosen focus, after the
+                // existing fight/survival/carrier checks. Test immediate gem
+                // denial as a reason to chase rather than price kill gold.
+                engage=tc.allow(2000)&&focus->sdk.gem_count()>0;
+#endif
 #if DZ_ENGAGE_IN_RANGE
                 // The old simulation gave every ally within six instant DPS,
                 // even when its own attack range could not reach the focus.
@@ -108,7 +114,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 for(const auto& a:obs.allies)if(a.hp>0&&n_present<fight_units&&
                     obs.p.chebyshev_distance(a.p)<=6&&a.p.chebyshev_distance(focus->p)<=a.range)
                     present[n_present++]={a.hp,a.strength};
-                engage=tc.allow(6000)&&simulate_fight(std::span<const Fighter>(present.data(),n_present),
+                engage=engage&&tc.allow(6000)&&simulate_fight(std::span<const Fighter>(present.data(),n_present),
                     std::span<const Fighter>(theirs.data(),n_theirs)).won();
 #endif
                 if(engage)return {GoalKind::Fight,-1,focus->p};

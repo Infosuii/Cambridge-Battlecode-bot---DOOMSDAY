@@ -1,3 +1,10 @@
+# Active continuation - fight-value screen
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/fight-value-2026-10-30/README.md.
+The12-game fight-value screen fails entry; flag stays0. Next active work is
+stationary duel phase modeling, with EE disabled. No pause requested.
+
 # Active continuation - Heart mechanism checkpoint
 
 Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP

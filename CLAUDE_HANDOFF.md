@@ -1,3 +1,29 @@
+# CONTINUING 2026-10-30 - fight-value release screen rejected
+
+Selected release5cf28cb7 and ordinary traceb4bc106c remain byte-identical.
+Read research/dz/fight-value-2026-10-30/README.md and RESULTS.json first.
+User requested continuous work, no pause or scheduled continuation.
+
+-DZ_FIGHT_GEM_VALUE0 is an unpromoted experiment: voluntary chase needs a
+ nonempty carried bag on the already-chosen visible enemy. One guarded SDK
+ query; retreat/local attacks, survivor rules, draft/gear unchanged.
+-Predeclared six-development-map v65 RELEASE screen12 cells: bank274.17 versus
+ 281.67, delta-7.5/descriptive SE39.2. Wins0 each; native faults/fuel-outs0.
+ Six cells improve/four worsen/two tie. Entry positive-mean gate FAILS; no
+ full pools, v76 tuning or map pruning. Not a significant harm/parity result.
+-53 Python tests pass;73 local capsules verify identities. Fresh source-only
+ export reproduces release/ordinary trace with flag0. Selected foundation and
+ config/paths.json preserved. All other experimental policies remain off.
+-Previous Heart/Varg coupled primitive passes controlled native phases, but
+ strict field accuracy and full V-M1 remain open. Do not enable auction/EE/
+ advanced gear or relax admission. Prospector remains disabled.
+
+Next active Z10: bounded stationary two-actor duel primitive using the now-
+verified shield expiry/depletion, resets and Heart curve; validate phase order
+in isolated native fixtures before any production decision. Count a duration0
+DEFENDER shield until that defender's next owner-start; it can protect against
+an earlier actor. Preserve winning-bank priority and all current controls.
+
 # CONTINUING 2026-10-30 - Heart mechanism conformance; production unchanged
 
 Selected foundation stays FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:

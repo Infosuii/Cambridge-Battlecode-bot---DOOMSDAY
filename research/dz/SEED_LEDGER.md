@@ -492,3 +492,4 @@ The registry was created before experiments. Entries below record actual use.
 | dz-shield-probe-varg-all-01 | 2026-10-30 | deterministic; Wasm f8af01690e29 | 8 cells; idle81 | conformance; trace=False |
 | dz-model-heart-off-idle-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |
 | dz-model-heart-off-v76-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |
+| dz-fight-value-v65-screen-01 | 2026-10-30 | deterministic; Wasm cab64e37f5e2 | 12 cells; idle81 | smoke; trace=False |

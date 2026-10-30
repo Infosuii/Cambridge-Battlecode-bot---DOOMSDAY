@@ -1,0 +1,37 @@
+{
+  "status": "Frozen before release screen, experiment flag OFF by default",
+  "baseline": "dz-carrier-priority-v65-full-01",
+  "baseline_wasm": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
+  "change": "Require the already-selected visible fight focus to carry >0 gems before a voluntary chase. One SDK query only after existing won/HP/carrier checks. Keep retreats, local attacks, all survival/ranking/purchase rules.",
+  "hypothesis": "Empty-carrier chases can consume collection/delivery time. Kill gold and access denial may still make them useful; test, do not assume.",
+  "screen": {
+    "run": "dz-fight-value-v65-screen-01",
+    "maps": [
+      "00great-wall",
+      "00interlock",
+      "00packs",
+      "00pilgrimage",
+      "00quadrants",
+      "00reverse-spiral"
+    ],
+    "games": 12,
+    "baseline_mean_banked": 281.6666666666667,
+    "baseline_wins": 0,
+    "flag": "DZ_FIGHT_GEM_VALUE=1",
+    "entry": "Native faults/fuel-outs0, mean paired banked delta>0, no loss of screen wins. Entry is only a reason for full pools, not evidence for promotion."
+  },
+  "confirmation": "If entry passes, freeze same mechanism/source and run full140 v65,140 idle,140 v76 release plus140 productivity trace; compare with tools/dz_compare.py. Do not prune rows using v76.",
+  "selection_gates": {
+    "release": "Same release binary across pools. Mean banking >= selected controls for idle/v65/v76, wins >= selected controls (v653/v761). No native faults/fuel-outs.",
+    "productivity": "Stuck<=3; matched447 R1000 snapshots stall/idle no worse than selected control; trace caught errors0.",
+    "scope": "Development selection with descriptive paired uncertainty; no formal parity/strength or independent-seed claim."
+  },
+  "kept_disabled": [
+    "Prospector/JOB_GEAR",
+    "timing prices",
+    "auction",
+    "EE",
+    "advanced gear planner",
+    "other trials"
+  ]
+}

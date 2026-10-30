@@ -93,6 +93,9 @@
 #ifndef DZ_ENGAGE_IN_RANGE
 #define DZ_ENGAGE_IN_RANGE 0 // Experiment: voluntary fights count only allies in range of the focus.
 #endif
+#ifndef DZ_FIGHT_GEM_VALUE
+#define DZ_FIGHT_GEM_VALUE 0 // Experiment: voluntary chase requires carried gems on its chosen target.
+#endif
 #ifndef DZ_GEM_TARGET_PRIORITY
 #define DZ_GEM_TARGET_PRIORITY 0 // Experiment: visible carried gems contribute to local target value.
 #endif
