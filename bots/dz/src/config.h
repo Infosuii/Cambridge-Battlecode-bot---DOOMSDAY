@@ -18,6 +18,9 @@
 #ifndef DZ_TRACE_MODEL
 #define DZ_TRACE_MODEL 0 // Diagnostic predictions; never enabled in release.
 #endif
+#ifndef DZ_TRACE_SHIELD
+#define DZ_TRACE_SHIELD 0 // Opt-in single-live Varg shield diagnostic; not production policy.
+#endif
 #ifndef DZ_TRACE_MODEL_TO
 #define DZ_TRACE_MODEL_TO 500
 #endif

@@ -1,20 +1,69 @@
 #pragma once
 #include "actions.h"
 #include "clear_clock.h"
+#include "shield_clear.h"
 
 #if DZ_TRACE && DZ_TRACE_MODEL
 namespace dz {
+struct AuditShield {
+    ShieldClearProjection result;
+    ShieldClearInput input;
+    int member=-1,live=0;
+    std::uint64_t fuel=0;
+};
+inline AuditShield audit_single_shield(const StaticWorld& world,const Memory& mem,
+                                      const Observation& obs,int group,ResetTiming reset,const TurnContext& tc) {
+    AuditShield quote;
+    if(group<0||cambc::self().champion_name()!=cambc::champion_type::varg)return quote;
+    const auto& hp=mem.member_hp[group];const auto& g=world.groups[group];
+    if(hp.size()>64||hp.size()!=g.initial_strength.size())return quote;
+    for(unsigned k=0;k<hp.size();++k)if(hp[k]>0){++quote.live;quote.member=static_cast<int>(k);}
+    if(quote.live!=1||g.initial_strength[quote.member]<=0||!tc.allow(45000))return quote;
+    const auto fuel=cambc::fuel_remaining();
+    auto& in=quote.input;
+    in.hp=obs.hp;in.max_hp=obs.max_hp;in.target_hp=hp[quote.member];
+    in.damage=obs.strength*obs.camp_damage; // raw constant-kit damage; risk quantization is unchanged
+    in.incoming=g.initial_strength[quote.member]*obs.camp_factor;
+    in.reset_cd=reset.remaining;in.reset_period=reset.period;
+    auto& me=cambc::self();in.can_cast=me.can_cast();
+    const auto buffs=me.buffs();
+    if(buffs.has<cambc::buff_shield>()) {
+        const auto buff=buffs.get<cambc::buff_shield>();
+        in.existing=true;in.existing_value=buff.value;in.existing_duration=static_cast<unsigned>(std::max(0,buff.duration));
+    }
+    for(auto ability:me.abilities())if(ability.is_shield()&&ability.info()) {
+        const auto info=std::get<cambc::ability_shield>(*ability.info());
+        in.shield_cd=static_cast<unsigned>(std::max(0,ability.cooldown()));
+        in.shield_period=static_cast<unsigned>(std::max(0,info.max_cooldown));
+        in.shield_duration=static_cast<unsigned>(std::max(0,info.duration));in.shield_amount=ability.shield_amount();
+    }
+    quote.result=shield_clear(in,96);quote.fuel=fuel-cambc::fuel_remaining();return quote;
+}
 // Diagnostic only. Quotes use personal observation and remembered HP; the
 // separate offline reader supplies outcomes, never inputs to the live bot.
 inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& mem,
                         const Observation& obs,const TurnContext& tc) {
-    if (world.slot!=DZ_TRACE_SLOT || tc.round>DZ_TRACE_MODEL_TO || !tc.allow(22000)) return;
+    if (world.slot!=DZ_TRACE_SLOT || tc.round>DZ_TRACE_MODEL_TO || !tc.allow(45000)) return;
     static int last_kind=-1,last_group=-1;
     static bool contact_logged=false;
+#if DZ_TRACE_SHIELD
+    static bool shield_logged=false;
+#endif
     const int kind=static_cast<int>(goal.kind);
     const int index=goal.kind==GoalKind::Farm?goal.index:-1;
     const bool changed=kind!=last_kind || index!=last_group;
-    if (!changed && (index<0 || contact_logged)) return;
+    if(!changed&&index<0)return;
+    const bool late_shield=!changed&&contact_logged;
+    if(late_shield) {
+#if DZ_TRACE_SHIELD
+        if(shield_logged||cambc::self().champion_name()!=cambc::champion_type::varg)return;
+        if(mem.member_hp[index].size()>64)return;
+        unsigned live=0;for(float hp:mem.member_hp[index])live+=hp>0;
+        if(live!=1)return;
+#else
+        return;
+#endif
+    }
     bool contact=false;
     if (index>=0 && cambc::self().can_attack()) {
         const auto& g=world.groups[index];
@@ -39,14 +88,43 @@ inline void audit_model(const Goal& goal,const StaticWorld& world,const Memory& 
     const auto timing=reset_timing();
     AttackClock clock;double timed_loss=0;
     if(index>=0 && risk.complete())clock=group_attack_clock(world,mem,obs,index,mem.quantize_out,timing,&timed_loss);
+#if DZ_TRACE_SHIELD
+    AuditShield shield;
+    if(contact)shield=audit_single_shield(world,mem,obs,index,timing,tc);
+    if(late_shield&&shield.result.status==ShieldClearStatus::NotQuoted)return;
+#endif
     const auto body=static_cast<std::uint32_t>(static_cast<cambc::handle_champion_t>(cambc::self()));
     // Retry a dropped record next turn. Never pretend a missing prediction
     // was issued at an earlier position or before an earlier attack.
-    if (trace("DZ_MODEL round=%u body=%u slot=%u kind=%d group=%d new=%d contact=%d x=%d y=%d state=%d seen=%d dist=%d field=%d attacks=%u loss=%.2f hp=%.2f camp_hp=%.2f raw=%.2f quant=%.2f range=%d cluster=%d members=%zu nearby=%u enemies=%zu status=%d reset_cd=%u reset_max=%u clock=%u clock_status=%d timed_loss=%.2f\n",
-              tc.round,body,world.slot,kind,index,changed,contact,obs.p.x,obs.p.y,state,seen,distance,field,
-              risk.attacks,risk.damage,obs.hp,remembered,obs.strength*obs.camp_damage,
-              index>=0?mem.quantize_out:0.f,obs.range,cluster,members,nearby,obs.enemies.size(),
-              index>=0?static_cast<int>(risk.status):-1,timing.remaining,timing.period,clock.rounds,static_cast<int>(clock.status),timed_loss)) {
+#define DZ_MODEL_LINE "DZ_MODEL v=2 r=%u b=%u s=%u k=%d g=%d n=%d c=%d x=%d y=%d st=%d sn=%d d=%d f=%d a=%u l=%.2f h=%.2f ch=%.2f rw=%.2f q=%.2f rg=%d cl=%d m=%zu na=%u ne=%zu ok=%d rc=%u rm=%u t=%u ts=%d tl=%.2f"
+    // One compact record stays within trace.h's512-byte reservation and avoids
+    // a second trace call being suppressed by the per-turn formatting cap.
+    const auto emit=[&](const char* format,auto... extra) {
+        return trace(format,tc.round,body,world.slot,kind,index,changed,contact,obs.p.x,obs.p.y,state,seen,distance,field,
+                     risk.attacks,risk.damage,obs.hp,remembered,obs.strength*obs.camp_damage,
+                     index>=0?mem.quantize_out:0.f,obs.range,cluster,members,nearby,obs.enemies.size(),
+                     index>=0?static_cast<int>(risk.status):-1,timing.remaining,timing.period,clock.rounds,
+                     static_cast<int>(clock.status),timed_loss,extra...);
+    };
+#if DZ_TRACE_SHIELD
+    bool logged=false;
+    if(shield.result.status!=ShieldClearStatus::NotQuoted)
+        logged=emit(DZ_MODEL_LINE " ss=%d ps=%d pt=%u pl=%.2f pc=%u pn=%d pi=%d cd=%u cp=%u ca=%.2f ct=%u ex=%d ev=%.2f et=%u inc=%.2f cast=%d fuel=%llu\n",
+                    late_shield,static_cast<int>(shield.result.status),shield.result.rounds,shield.result.loss,
+                    shield.result.shields,shield.live,shield.member,shield.input.shield_cd,shield.input.shield_period,
+                    shield.input.shield_amount,shield.input.shield_duration,shield.input.existing,
+                    shield.input.existing_value,shield.input.existing_duration,shield.input.incoming,
+                    shield.input.can_cast,static_cast<unsigned long long>(shield.fuel));
+    else logged=emit(DZ_MODEL_LINE " ss=%d\n",late_shield);
+#else
+    const bool logged=emit(DZ_MODEL_LINE "\n");
+#endif
+#undef DZ_MODEL_LINE
+    if(logged) {
+#if DZ_TRACE_SHIELD
+        if(changed)shield_logged=false;
+        shield_logged|=shield.result.status!=ShieldClearStatus::NotQuoted;
+#endif
         if (changed) contact_logged=false;
         contact_logged|=contact;last_kind=kind;last_group=index;
     }

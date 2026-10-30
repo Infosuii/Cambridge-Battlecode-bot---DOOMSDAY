@@ -1,0 +1,28 @@
+{
+  "run": "dz-model-varg-shield-v76-02",
+  "maps": [
+    "00great-wall",
+    "00interlock",
+    "00packs",
+    "00pilgrimage",
+    "00quadrants",
+    "00reverse-spiral"
+  ],
+  "source": "New Varg quotes on six development maps separate from expanse/fracture mechanics discovery; fixed global prior0, slot1, map table off.",
+  "model": "Raw constant damage, one live damaging member, reset priority, one cast/turn, shield0-duration camp absorption then owner-start expiry, 96-turn horizon. No splash, movement, healing, other actors, Heart or production safety/pricing change.",
+  "budget": "Only issue shield projection with at least32k remaining; retain NotQuoted/BeyondHorizon/death and unmatched outcomes.",
+  "runtime_repair": "45k admission; extended fields only for issued contact projection; TRACE_SHIELD1; at most one extra late-singleton quote per goal, separate from baseline timing cohort.",
+  "runs": {
+    "dz-model-varg-shield-quad-atomic-01": [
+      "00quadrants"
+    ],
+    "dz-model-varg-shield-v76-03": [
+      "00great-wall",
+      "00interlock",
+      "00packs",
+      "00pilgrimage",
+      "00reverse-spiral"
+    ]
+  },
+  "logger": "Version2 compact atomic quote, <=512 bytes, old protocol still readable. Late singleton samples are a separate cohort."
+}

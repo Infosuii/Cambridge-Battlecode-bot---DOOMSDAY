@@ -469,3 +469,10 @@ The registry was created before experiments. Entries below record actual use.
 | dz-z14-refresh-productivity-01 | 2026-10-29 | deterministic; Wasm 028e6345325e | 140 cells; idle81 | smoke; trace=True |
 | dz-model-timed-damage-vesper-v76-01 | 2026-10-29 | deterministic; Wasm 76e59e2c0c20 | 12 cells; idle81 | smoke; trace=True |
 | dz-model-timed-damage-vendetta-v76-01 | 2026-10-29 | deterministic; Wasm aaca01a95bb1 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-v76-01 | 2026-10-29 | deterministic; Wasm 9fa089b468e5 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-quad-control-01 | 2026-10-29 | deterministic; Wasm 533abae89543 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-quad-gate-01 | 2026-10-29 | deterministic; Wasm 24a74a0763b9 | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-v76-02 | 2026-10-29 | deterministic; Wasm 846c812bf435 | 12 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-quad-atomic-01 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 2 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-v76-03 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 10 cells; idle81 | smoke; trace=True |
+| dz-model-varg-shield-idle-01 | 2026-10-29 | deterministic; Wasm 7eb11b67192e | 12 cells; idle81 | smoke; trace=True |

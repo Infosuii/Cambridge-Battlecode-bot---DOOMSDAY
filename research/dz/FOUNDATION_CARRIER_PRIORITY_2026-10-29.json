@@ -12,7 +12,7 @@
     "src/camp_threat.h": "e9a0902e2fae09c65c7a5a2ea832607d57ba3946f176d12b1115bca43d0b721d",
     "src/clear_clock.h": "de7d962399d9239c5a71a74f9a42f8e86ef0901a162508b2b4bcb82c9b7fb900",
     "src/clear_risk.h": "43781c686ece0b292c70565f716240dc0c4eeb4182462e4bf6ed25c188afc5d7",
-    "src/config.h": "ffa51de5c2d8b4859f6243093c366f26878840b92cfc2c1407d9b6e48b3ee15a",
+    "src/config.h": "dba9c998be7b22884f60ee0554b52e73b1f5b7f213bfa2846c0f3638c999d4d9",
     "src/core.h": "a347ae9d81482db403c67ce0098d7af6ed2ed85669069266c697f15c54700011",
     "src/draft.cpp": "cb938bb5c54d362d09de4a2dfd022208aab94e11bab0fc0a7010adc27bb4d290",
     "src/draft.h": "cda3163ececdf5c81496dc6827d07e86ca09c77a1e70f1f4b12785d5831d597d",
@@ -30,7 +30,7 @@
     "src/map_signature.h": "c39c977c4d28a24f21a4693b1a417ddcd0ff7f16832b1084e79812f7f1c3c83e",
     "src/memory.cpp": "44d96c155394dd0cdc4422e8731ff6fbb3524799a0342195df34d65d0acba280",
     "src/memory.h": "6eb552d57cd4b19cdf079f30e929b6de000a1d19b8ae4972461ed43bf736f132",
-    "src/model_audit.h": "e06a0a505accd9ec76e39ef55ed17df20fcb1779ae9558f2bd60318011a6f0b9",
+    "src/model_audit.h": "a899a7096c9b3331bf4e27d81aefeb1a96c91d5669bfe8b73b0c35abec9756fb",
     "src/objective_math.h": "591b4a4e67698e2dd04c4a93c284cf2b9194d116102c86977cd3927714a98fb7",
     "src/observation.cpp": "808c37b2a5974f1ec3e33f32fccde7afb83d51bbfd3ea86143723e4079b7ea46",
     "src/observation.h": "b97242c51afdd67cc679656a084d162055f8b583840a39d1cbae962a6f8a0536",
@@ -38,6 +38,7 @@
     "src/protocol.h": "2062cd09671991138999385e6e4393d8a6b69738c3b91ad76435f93d2bdd8f6d",
     "src/safemode.cpp": "dea6ad0c04cd353c79e14e6a4dcd5d8b62efb642ad9f106ca3a61a1f08fbd944",
     "src/safemode.h": "81e9c05d102a0fcc992e762013acbe8df5d7f5bd92a389923089c85ba639d027",
+    "src/shield_clear.h": "12523b1df5ea31f9f22c9e77d05d20668797ae3ea32722ae8ebb1e19f17b894b",
     "src/static_world.cpp": "d7f771c7ff98e7d1a65b5d037606d9246a4ec8d77322ea9dcd4f8c40095d24fd",
     "src/static_world.h": "e9014338b9fd20fa93fa764d24a0b639a34261be1f176a6b5676d09b80461128",
     "src/timed_damage.h": "163c29d30457e855c0b982ab8986c00052be4deb0070f4eb355cc5d5ba1dee9d",
@@ -285,8 +286,8 @@
     "selected_pools_games": 560,
     "native_candidate_faults": 0,
     "native_candidate_fuel_outs": 0,
-    "python_tests": 49,
-    "node_audit_tests": 10,
+    "python_tests": 50,
+    "node_audit_tests": 12,
     "core_wasi_reset_clock_cases": 14544,
     "clean_export": {
       "passed": true,
@@ -303,8 +304,9 @@
         "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
         "matched_selected_frozen_pool": true
       },
-      "scope": "Clean source/SDK/CMake export, same pinned host toolchain; release build starts without config or caches. Trace then rebuilds with TRACE1/TRACE_TO0, MODEL0/MATRIX0. Not another physical device."
-    }
+      "scope": "Exported source/SDK/CMake with no config/caches initially; same pinned host toolchain, not another physical device. Model and shield diagnostics remain disabled."
+    },
+    "core_wasi_shield_coupling_cases": 10000
   },
   "limitations": [
     "Deterministic map-side cells are not independent random seeds.",
@@ -314,6 +316,14 @@
     "Original strong foundation is preserved as a frozen control; configuration can override CARRIER_BANK_PRIORITY=0.",
     "Only default release binary identity connects current source to frozen release pools; trace is separate."
   ],
-  "current_source_verified_utc": "2026-10-29T22:47:58.197693+00:00",
-  "current_source_note": "Disabled draft-refresh and diagnostic timed-damage additions preserve selected default5cf28cb7; see draft-refresh DEFAULT_BUILD_AFTER_TIMED_DAMAGE.log. Frozen selected capsules retain their original source snapshots."
+  "current_source_verified_utc": "2026-10-30T00:06:36.549536+00:00",
+  "current_source_note": "Varg diagnostic and compact logger additions preserve selected release5cf28cb7 and ordinary productivity traceb4bc106c. New model diagnostics are off by default. Initial failed instrumented pilot is preserved separately and never counted as clean calibration.",
+  "latest_diagnostic_study": {
+    "path": "research/dz/varg-mechanics-2026-10-29",
+    "games": 52,
+    "faults": 0,
+    "fuel_outs": 2,
+    "rejected_pilot": "dz-model-varg-shield-v76-01",
+    "production_unchanged": true
+  }
 }

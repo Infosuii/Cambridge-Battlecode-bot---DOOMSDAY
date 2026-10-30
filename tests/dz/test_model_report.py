@@ -64,5 +64,24 @@ class ModelReportTests(unittest.TestCase):
         self.assertEqual(s['damage_observed_other_tanking'],1)
         self.assertEqual(s['solo_unshared_target_damage']['n'],1)
 
+    def test_shield_model_requires_same_single_live_member_and_no_healing(self):
+        good=episode();good.update(champion_type=10,healing=0,bystander_context_known=True,
+                                  potential_tank_bystanders=[],target_camp_other_hp_loss=0,
+                                  native_initial_live_members=1,shield_member_matches=True,shield_actions=['11:9'])
+        good['quote'].update(shield_status=0,shield_live=1,shield_rounds=4,shield_loss=20,shield_casts=1)
+        wrong=copy.deepcopy(good);wrong['shield_member_matches']=False
+        healed=copy.deepcopy(good);healed['healing']=1
+        unfinished=copy.deepcopy(good);unfinished['quote']['shield_status']=2
+        r=report.summarize([good,wrong,healed,unfinished])
+        self.assertEqual(r['varg_single_live_shield_damage']['n'],1)
+        self.assertEqual(r['varg_single_live_shield_damage']['aggregate_signed_bias'],0)
+        self.assertEqual(r['shield_casts'],dict(predicted=1,observed=1))
+        good['quote']['shield_sample']=1
+        late=report.summarize([good])
+        self.assertEqual(late['contact_predictions'],0)
+        self.assertEqual(late['solo_basic_clear']['n'],0)
+        self.assertEqual(late['varg_single_live_shield_damage']['n'],1)
+        self.assertEqual(late['late_shield_contact_predictions'],1)
+
 
 if __name__=='__main__':unittest.main()

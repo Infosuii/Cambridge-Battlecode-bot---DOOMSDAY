@@ -1,3 +1,12 @@
+# Active continuation - Varg shield checkpoint
+
+Current default stays release5cf28cb7, ordinary traceb4bc106c. Read the TOP of
+CLAUDE_HANDOFF.md and research/dz/varg-mechanics-2026-10-29/README.md.
+The restricted shield diagnostic is validated; production settings stay intact.
+Initial failed/insufficient pilots are preserved. Full V-M1 remains open.
+Next active work: bounded Varg splash groups, then Heart/movement/crews.
+No pause or scheduled continuation requested.
+
 # Active continuation - reset-exposure checkpoint
 
 Selected foundation remains research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json

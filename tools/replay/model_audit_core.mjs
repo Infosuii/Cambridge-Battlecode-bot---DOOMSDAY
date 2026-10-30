@@ -4,7 +4,21 @@ export function parseQuotes(text) {
   const required=['round','body','slot','kind','group','new','contact','x','y','state','seen','dist','field',
     'attacks','loss','hp','camp_hp','raw','quant','range','cluster','members','nearby','enemies','status'];
   for(const line of text.split('\n').filter(x=>x.startsWith('DZ_MODEL '))) {
-    const q=Object.fromEntries([...line.matchAll(/(\w+)=(-?\d+(?:\.\d+)?)/g)].map(m=>[m[1],Number(m[2])]));
+    let q=Object.fromEntries([...line.matchAll(/(\w+)=(-?\d+(?:\.\d+)?)/g)].map(m=>[m[1],Number(m[2])]));
+    if('v' in q) {
+      if(q.v!==2)throw new Error('Unsupported model quote version');
+      const aliases={r:'round',b:'body',s:'slot',k:'kind',g:'group',n:'new',c:'contact',x:'x',y:'y',st:'state',sn:'seen',
+        d:'dist',f:'field',a:'attacks',l:'loss',h:'hp',ch:'camp_hp',rw:'raw',q:'quant',rg:'range',cl:'cluster',m:'members',
+        na:'nearby',ne:'enemies',ok:'status',rc:'reset_cd',rm:'reset_max',t:'clock',ts:'clock_status',tl:'timed_loss',ss:'shield_sample',
+        ps:'shield_status',pt:'shield_rounds',pl:'shield_loss',pc:'shield_casts',pn:'shield_live',pi:'shield_member',cd:'shield_cd',
+        cp:'shield_period',ca:'shield_amount',ct:'shield_duration',ex:'shield_existing',ev:'shield_value',et:'shield_timer',
+        inc:'shield_incoming',cast:'shield_can_cast',fuel:'shield_fuel'};
+      const expanded={};
+      for(const [key,value] of Object.entries(q))if(key!=='v') {
+        if(!aliases[key])throw new Error('Unexpected compact model field');expanded[aliases[key]]=value;
+      }
+      q=expanded;
+    }
     if(required.some(k=>!Number.isFinite(q[k])))throw new Error('Incomplete model quote');
     const key=`${q.round}:${q.body}`;
     if(seen.has(key))throw new Error('Duplicate model quote');
@@ -23,7 +37,7 @@ export class ModelAudit {
       return {quote:q,end_round:next?.round??lastRound+1,started:false,outcome:null,
         arrival_round:null,first_attack_round:null,clear_round:null,own_basic_attacks:0,
         own_damage_events:0,own_nonbasic_damage_events:0,other_damage_events:0,unknown_damage_events:0,helpers:[],
-        hp_loss:0,target_camp_hp_loss:0,other_hp_loss:0,healing:0,basic_actions:[],reset_actions:[],
+        hp_loss:0,target_camp_hp_loss:0,other_hp_loss:0,healing:0,basic_actions:[],reset_actions:[],shield_actions:[],
         bystander_context_known:campDesigns!==null,potential_tank_bystanders:[],
         target_camp_other_hp_loss:0,other_camp_targets:[]};
     });
@@ -47,6 +61,9 @@ export class ModelAudit {
           r.started=true;r.start_frame=this.frames;
           r.champion_type=c.type;
           r.native_initial_camp_hp=memberIds.reduce((n,id)=>n+(camps.get(id)?.health??0),0);
+          const live=memberIds.filter(id=>(camps.get(id)?.health??0)>0);
+          r.native_initial_live_members=live.length;
+          if('shield_member' in q)r.shield_member_matches=live.length===1&&memberIds[q.shield_member]===live[0];
           r.memory_hp_difference=q.camp_hp-r.native_initial_camp_hp;
         } else if(s.round>q.round)r.outcome='unmatched_quote';
         if(!r.started)continue;
@@ -68,6 +85,10 @@ export class ModelAudit {
         if(s.step?.kind===6&&s.step.actor.kind===1&&s.step.actor.index===q.body&&s.step.abilityType===1) {
           const action=`${s.step.round}:${s.step.inputPosition}`;
           if(!r.reset_actions.includes(action))r.reset_actions.push(action);
+        }
+        if(s.step?.kind===6&&s.step.actor.kind===1&&s.step.actor.index===q.body&&s.step.abilityType===7) {
+          const action=`${s.step.round}:${s.step.inputPosition}`;
+          if(!r.shield_actions.includes(action))r.shield_actions.push(action);
         }
         const prev=prevChamps.get(q.body);
         if(s.step?.actor.kind===2&&memberIds.includes(s.step.actor.index))for(const other of s.champions) {

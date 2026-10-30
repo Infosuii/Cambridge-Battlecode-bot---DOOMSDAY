@@ -87,3 +87,24 @@ test('spatial context excludes distant or harmless bystanders and rejects missin
   const b=new ModelAudit([quote],[[1,2]],20,new Map());
   assert.throws(()=>b.consume(s,()=>true),/Missing camp design/);
 });
+
+test('shield casts deduplicate by input and single-live memory matches physical identity',()=>{
+  const a=new ModelAudit([{...quote,shield_member:1}],[[1,2]],20);
+  const s=frame(10,100,0,40);s.phase=14;a.consume(s,()=>true);
+  const cast=frame(10,100,0,40,{kind:1,index:0},6,9);cast.step.abilityType=7;
+  a.consume(cast);a.consume(cast);a.consume(frame(11,100,0,0));
+  const r=a.finish().records[0];
+  assert.equal(r.native_initial_live_members,1);assert.equal(r.shield_member_matches,true);
+  assert.deepEqual(r.shield_actions,['10:9']);
+  const b=new ModelAudit([{...quote,shield_member:0}],[[1,2]],20);b.consume(s,()=>true);
+  assert.equal(b.finish().records[0].shield_member_matches,false);
+});
+
+test('compact atomic quotes preserve fields and reject unknown versions',()=>{
+  const line='DZ_MODEL v=2 r=10 b=0 s=0 k=0 g=0 n=1 c=1 x=0 y=0 st=0 sn=10 d=1 f=1 a=2 l=10 h=100 ch=40 rw=20 q=20 rg=1 cl=0 m=2 na=0 ne=0 ok=0 ss=1 ps=0 pt=2 pl=10 pc=1 pn=1 pi=0 cd=0 cp=8 ca=250 ct=5 ex=0 ev=0 et=0 inc=20 cast=1 fuel=2000';
+  const q=parseQuotes(line)[0];assert.equal(q.shield_loss,10);assert.equal(q.shield_sample,1);
+  assert.equal(q.round,10);assert.equal(q.members,2);assert.equal(q.state,0);
+  assert.throws(()=>parseQuotes(line.replace('v=2','v=3')),/Unsupported/);
+  assert.throws(()=>parseQuotes(line+' zz=1'),/Unexpected compact/);
+  assert.throws(()=>parseQuotes(line.replace('r=10 ','')),/Incomplete model/);
+});

@@ -10,6 +10,7 @@
 #include "fight.h"
 #include "attack_clock.h"
 #include "timed_damage.h"
+#include "shield_clear.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -358,6 +359,43 @@ int main() {
         assert(timed_clear_damage(huge,0,8).clock.status==WorkStatus::BeyondHorizon);
         assert(!timed_clear_damage({},1,0).clock.complete());
         std::cout << "10000 reset-damage/phase-reference cases passed\n";
+    }
+    {
+        // Native Varg expanse-A R155: raw80.5, wolf1189, reset7/8,
+        // shield250 for5 rounds at cooldown0/8. Two shields absorb10 phases.
+        ShieldClearInput sample{820,1000,1189,80.5f,20,7,8,0,8,5,250};
+        auto p=shield_clear(sample);
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==14&&p.attacks==15&&p.resets==1&&p.shields==2&&p.loss==60);
+        // Duration1 protects one future camp phase even when decremented to0.
+        p=shield_clear({100,100,30,10,20,0,0,0,8,1,100});
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==20);
+        // Reset wins the one available cast, delaying the shield by one turn.
+        p=shield_clear({80,100,50,10,20,0,2,0,8,2,100});
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==20&&p.resets==2&&p.shields==1);
+        // Depletion permits another cast despite the old buff's long duration.
+        p=shield_clear({80,100,30,10,20,0,0,0,1,5,10});
+        assert(p.status==ShieldClearStatus::Cleared&&p.loss==20&&p.shields==2);
+        auto bad=sample;bad.damage=0;
+        assert(shield_clear(bad).status==ShieldClearStatus::Invalid);
+        assert(shield_clear(sample,2).status==ShieldClearStatus::BeyondHorizon);
+        auto doomed=sample;doomed.hp=1;doomed.shield_cd=8;
+        assert(shield_clear(doomed).status==ShieldClearStatus::Dead);
+        unsigned seed=89111;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            const unsigned n=1+next()%60,period=next()%9,cd=period?next()%12:0;
+            const float hit=1.f+next()%100,incoming=next()%500;
+            ShieldClearInput input{80000,100000,n*hit,hit,incoming,cd,period,0,8,1+next()%8,float(1+next()%2000)};
+            const auto shielded=shield_clear(input);
+            input.shield_period=0;input.shield_duration=0;input.shield_amount=0;
+            const auto bare=shield_clear(input);
+            const TimedAttackJob job[]{ {n,false} };const auto clock=attack_clock(job,cd,period);
+            assert(bare.status==ShieldClearStatus::Cleared&&shielded.status==ShieldClearStatus::Cleared);
+            assert(bare.rounds==clock.rounds&&bare.resets==clock.resets&&bare.attacks==n);
+            assert(shielded.rounds==bare.rounds&&shielded.attacks==bare.attacks&&shielded.resets==bare.resets);
+            assert(bare.loss==incoming*(clock.rounds-1)&&shielded.loss>=0&&shielded.loss<=bare.loss);
+        }
+        std::cout << "10000 shield/reset coupling and exposure invariants passed\n";
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }

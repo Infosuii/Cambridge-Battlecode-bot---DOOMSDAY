@@ -1,3 +1,40 @@
+# CONTINUING 2026-10-30 - restricted Varg shield model, production unchanged
+
+Selected foundation remains FOUNDATION_CARRIER_PRIORITY_2026-10-29.json.
+Release5cf28cb7 and ordinary traceb4bc106c reproduce from clean exported source.
+Read research/dz/varg-mechanics-2026-10-29/README.md and RESULTS.json first.
+User requested continuous work; no pause or scheduled continuation requested.
+
+-52 new diagnostic games since7ceab10. Native faults0; the first12-game pilot
+ has2 fuel-outs on quadrants R10 before any shield projection. Rejected pilot
+ retained. All subsequent40 games are runtime clean. Do not claim all52 clean.
+-4 older role games reanalyzed:413 camp basics,168 collateral hits,41 diagonal;
+ all153 eligible full-damage checks match. Varg splash is Chebyshev radius1.
+ 53 shield casts: duration0 protects the camp phase, expires at owner start;
+ two positive-duration depletions disappear immediately. Corrected sideB body6
+ comes from SDK quotes; first-pass wrong-body/failed outputs stay preserved.
+-shield_clear.h is DIAGNOSTIC ONLY: one live damaging target, raw constant damage,
+ reset priority, one cast/turn, existing shield/cooldowns,96-turn horizon.
+ 10,000 shield invariants plus14,544 clock/10,000 reset-damage cases pass via WASI.
+-The first guarded logger produced no shield records due the trace cap. Its
+ n0/null metrics remain insufficient. Compact atomic version2 now logs all
+ fields in <300 bytes, with45k physical-fuel admission. Old format still parses.
+-Late singleton windows are separate from baseline timing. Final v76 cohort12
+ games has only1 eligible positive-damage strict solo case (exact); most others
+ have real helper damage/tanking. Unchanged model on12 idle games gives11
+ eligible positive-damage cases: time/HP exact, shield casts15/15, observed1226HP.
+ Old unshielded bias128.71% on those same11. Contested/general coverage remains
+ sparse; no full V-M1 closure, safety relaxation or objective-price change.
+-56 local capsules verify.50 Python/12 Node tests pass. TRACE_MODEL/TRACE_SHIELD0
+ by default; MATRIX/EXTRA/CREW_REACH/JOB_GEAR/timing-pricing0. Auction/EE/gear false.
+ Selected production560-game evidence and original4ee9731c controls unchanged.
+ No submit/activate/ladder, release holdout or competitive parity claim.
+
+Next active Z6: bounded stationary Varg splash-group forecast using remembered
+per-member HP/public spawn geometry; validate separately and preserve fuel gates.
+Then Heart missing-health damage/shielding, movement and crews. Do not promote
+from the single-live result or count assisted clears as solo model validation.
+
 # CONTINUING 2026-10-29 - Z14 refresh closed; restricted reset exposure validated
 
 Current selected default is still FOUNDATION_CARRIER_PRIORITY_2026-10-29.json:

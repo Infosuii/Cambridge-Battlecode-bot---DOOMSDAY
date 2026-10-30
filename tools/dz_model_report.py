@@ -34,15 +34,25 @@ def errors(pairs,unit='rounds'):
 
 
 def summarize(records):
-    contacts=[r for r in records if r['quote']['contact'] and r['quote']['status']==0 and r['quote']['state'] in (0,1)]
+    all_contacts=[r for r in records if r['quote']['contact'] and r['quote']['status']==0 and r['quote']['state'] in (0,1)]
+    # A separate late single-live quote can overlap the baseline clear window.
+    # It belongs to the shield cohort only, never another baseline timing case.
+    contacts=[r for r in all_contacts if not r['quote'].get('shield_sample',0)]
     completed=[r for r in contacts if r['outcome']=='cleared']
-    solo=[r for r in completed if r['own_basic_attacks']>0 and r['other_damage_events']==0
-          and r['unknown_damage_events']==0 and r['own_nonbasic_damage_events']==0
-          and abs(r['memory_hp_difference'])<.03 and r['quote']['seen']==r['quote']['round']]
+    def solo_clear(r):
+        return (r['outcome']=='cleared' and r['own_basic_attacks']>0 and r['other_damage_events']==0
+                and r['unknown_damage_events']==0 and r['own_nonbasic_damage_events']==0
+                and abs(r['memory_hp_difference'])<.03 and r['quote']['seen']==r['quote']['round'])
+    solo=[r for r in completed if solo_clear(r)]
     damage=[r for r in solo if r['other_hp_loss']<.03 and r['quote']['loss']>0]
     unshared_damage=[r for r in damage if r.get('bystander_context_known') and
                      not r['potential_tank_bystanders'] and r['target_camp_other_hp_loss']<.03]
     timed_damage=[r for r in unshared_damage if r['quote'].get('clock_status')==0 and 'timed_loss' in r['quote']]
+    shield=[r for r in all_contacts if solo_clear(r) and r['other_hp_loss']<.03 and r['quote']['loss']>0
+            and r.get('bystander_context_known') and not r['potential_tank_bystanders'] and r['target_camp_other_hp_loss']<.03
+            and r['champion_type']==10 and r['quote'].get('shield_status')==0
+            and r['quote'].get('shield_live')==1 and r.get('native_initial_live_members')==1
+            and r.get('shield_member_matches') and r['healing']<.03]
     clocks=[r for r in solo if r['quote'].get('clock_status')==0 and 'clock' in r['quote']]
     # These kits have no HP-dependent basic strength or splash in the pinned
     # metadata. This restricted stratum is not a full-role model gate.
@@ -65,6 +75,14 @@ def summarize(records):
                 solo_unshared_target_damage=errors([(r['quote']['loss'],r['target_camp_hp_loss']) for r in unshared_damage],unit='HP'),
                 solo_unshared_timed_damage=errors([(r['quote']['timed_loss'],r['target_camp_hp_loss']) for r in timed_damage],unit='HP'),
                 constant_kit_unshared_timed_damage=errors([(r['quote']['timed_loss'],r['target_camp_hp_loss']) for r in timed_damage if r['champion_type'] in (1,2,7)],unit='HP'),
+                varg_single_live_shield_damage=errors([(r['quote']['shield_loss'],r['target_camp_hp_loss']) for r in shield],unit='HP'),
+                varg_single_live_unshielded_damage=errors([(r['quote']['loss'],r['target_camp_hp_loss']) for r in shield],unit='HP'),
+                varg_single_live_shield_time=errors([(r['quote']['shield_rounds'],r['clear_round']-r['quote']['round']+1) for r in shield]),
+                late_shield_contact_predictions=sum(bool(r['quote'].get('shield_sample',0)) for r in all_contacts),
+                shield_status_outcomes=dict(collections.Counter(f"{r['quote']['shield_status']}:{r['outcome']}"
+                                           for r in all_contacts if 'shield_status' in r['quote'])),
+                shield_casts=dict(predicted=sum(r['quote']['shield_casts'] for r in shield),
+                                  observed=sum(len(r.get('shield_actions',[])) for r in shield)),
                 # Quote is before this turn's move. D moves first permit
                 # post-move contact on quote_round + D - 1, not + D.
                 cached_field_arrival=errors([(max(0,r['quote']['dist']-r['quote']['range']-1),r['arrival_round']-r['quote']['round']) for r in arrivals]),

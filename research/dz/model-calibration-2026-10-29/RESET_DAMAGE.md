@@ -1,3 +1,6 @@
+Latest continuation: ../varg-mechanics-2026-10-29/README.md adds the restricted
+shield forecast. This reset-exposure study and its frozen data remain intact.
+
 # Reset-aware exposure diagnostics
 
 The production survival gate and objective pricing remain unchanged. New

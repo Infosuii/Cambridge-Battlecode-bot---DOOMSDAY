@@ -1,0 +1,167 @@
+{
+  "status": "Restricted Varg single-live diagnostic mechanism validated; no production policy/safety change and no full V-M1 closure.",
+  "games": 52,
+  "faults": 0,
+  "fuel_outs": 2,
+  "runs": {
+    "dz-model-varg-shield-v76-01": {
+      "games": 12,
+      "faults": 0,
+      "fuel_outs": 2,
+      "fuel_p99": 65028,
+      "candidate_sha256": "9fa089b468e5cf0c606304e6695b7ffa2a885017c65c29ef32975d46e71ac097",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-quad-control-01": {
+      "games": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 73316,
+      "candidate_sha256": "533abae89543006bf7814ff8537625bcc55ccecb73be3e64afecbc3d095fcb71",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-quad-gate-01": {
+      "games": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 73448,
+      "candidate_sha256": "24a74a0763b9ca330ebab0046563dab764fa0ddcdecfb6e2e9570279716e4222",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-v76-02": {
+      "games": 12,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 63599,
+      "candidate_sha256": "846c812bf43514f31660f9b0327bf0baa506ecb2dffa02fa30a08e89bf6d5ae2",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-quad-atomic-01": {
+      "games": 2,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 72230,
+      "candidate_sha256": "7eb11b67192e5347c327d113d8811fa688aabe1bdf9807c095ffcb166f2c2021",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-v76-03": {
+      "games": 10,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 58690,
+      "candidate_sha256": "7eb11b67192e5347c327d113d8811fa688aabe1bdf9807c095ffcb166f2c2021",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    },
+    "dz-model-varg-shield-idle-01": {
+      "games": 12,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 60039,
+      "candidate_sha256": "7eb11b67192e5347c327d113d8811fa688aabe1bdf9807c095ffcb166f2c2021",
+      "caught_action_errors": 0,
+      "caught_module_errors": 0
+    }
+  },
+  "metrics": {
+    "contested": {
+      "varg_single_live_shield_damage": {
+        "n": 1,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": 0.0,
+        "median_absolute_error": 0,
+        "unit": "HP",
+        "p90_absolute_error": 0
+      },
+      "varg_single_live_unshielded_damage": {
+        "n": 1,
+        "median_absolute_relative_error": 1.1,
+        "aggregate_signed_bias": 1.1,
+        "median_absolute_error": 220,
+        "unit": "HP",
+        "p90_absolute_error": 220
+      },
+      "varg_single_live_shield_time": {
+        "n": 1,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": 0.0,
+        "median_absolute_error": 0,
+        "unit": "rounds",
+        "p90_absolute_error": 0
+      },
+      "shield_casts": {
+        "predicted": 2,
+        "observed": 2
+      },
+      "shield_status_outcomes": {
+        "0:cleared": 20,
+        "0:goal_changed": 6,
+        "1:goal_changed": 1
+      },
+      "late_shield_contact_predictions": 22
+    },
+    "idle": {
+      "varg_single_live_shield_damage": {
+        "n": 11,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": 0.0,
+        "median_absolute_error": 0,
+        "unit": "HP",
+        "p90_absolute_error": 0
+      },
+      "varg_single_live_unshielded_damage": {
+        "n": 11,
+        "median_absolute_relative_error": 1.5,
+        "aggregate_signed_bias": 1.2871125611745513,
+        "median_absolute_error": 140,
+        "unit": "HP",
+        "p90_absolute_error": 220
+      },
+      "varg_single_live_shield_time": {
+        "n": 11,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": 0.0,
+        "median_absolute_error": 0,
+        "unit": "rounds",
+        "p90_absolute_error": 0
+      },
+      "shield_casts": {
+        "predicted": 15,
+        "observed": 15
+      },
+      "shield_status_outcomes": {
+        "0:cleared": 40,
+        "0:right_censored": 1
+      },
+      "late_shield_contact_predictions": 17
+    }
+  },
+  "mechanics": {
+    "games_reanalyzed": 4,
+    "new_matches": 0,
+    "summary": {
+      "camp_target_basics": 413,
+      "collateral_camp_hits": 168,
+      "diagonal_camp_hits": 41,
+      "full_damage_checks": 153,
+      "anomalies": 0,
+      "shield_casts": 53,
+      "vanished_after_zero_duration": 51,
+      "vanished_with_positive_duration": 2
+    },
+    "scope": "Corrected body IDs from frozen candidate quotes. Original first-pass wrong-body/failed outputs retained; retrospective mechanics only."
+  },
+  "limitations": [
+    "First12-game pilot rejected for2 fuel-outs; later40 games runtime clean.",
+    "The next12-game v76 cohort had no recorded shield projections; n0/null remains calibration-insufficient.",
+    "Final compact cohorts24 games: v76 has only one eligible positive-damage clear; idle has11.",
+    "Baseline first-contact metrics exclude overlapping late-singleton samples.",
+    "No splash-group/Heart/movement/crew/external-spell model or competitive-strength validation.",
+    "Production release and ordinary productivity-trace binaries remain exact selected identities."
+  ]
+}
