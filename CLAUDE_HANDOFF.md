@@ -1,3 +1,37 @@
+# CONTINUING 2026-10-30 - bounded duel primitive, production unchanged
+
+Selected release5cf28cb7 and ordinary productivity traceb4bc106c reproduce from
+clean exported source. Read research/dz/duel-2026-10-30/README.md and RESULTS.json.
+User requested continuous work; no pause or scheduled continuation requested.
+
+-duel.h is UNUSED by production. Two stationary Varg/Heart actors, prescribed
+ basic/reset/shield policy, no items/CC/dash/healing/movement/other damage.
+ Required explicit DuelOrder; default horizon96, hard maximum2000 owner turns.
+-20,000 independent closed-form bare cases pass (10k strict alternation,10k
+ alternating-round lead), plus all earlier core checks through WASI/Node.
+-Initial altar-landing pilot has no quotes. Next pilot wins match but time/HP
+ fail. Both failed capsules retained. Native22-state phase audit establishes
+ first-team alternation (A odd/B even) and owner-end timers. Equal-rank controlled
+ pairs take0/2 enemy turns between own turns; differing ranks validate1 reply.
+-After that correction, all four kit matchups, existing-shield/duration0 and
+ unequal-subject-slot checks pass:14 accepted truncated games/28 overlapping
+ windows;4 duration0 defender windows. Total18 truncated games includes4 rejected.
+ Observed fuel-outs0; native fault totals UNMEASURED, not printed zero placeholder.
+-Old raw fight heuristic disagrees9 windows, all conservative false negatives
+ (false positives0); its25% margin is intentional. No strategy-improvement claim.
+-54 Python/13 Node tests pass. All82 local capsules verify identities including
+ failures. Source-only export preserves default release/trace. Configuration
+ paths, selected560-game evidence and all completed experiments preserved.
+-All experimental flags0 except selected carrier priority1. Auction/EE/advanced
+ gear false; Prospector/JOB_GEAR off. No ladder/submission or policy promotion.
+
+Next active Z10: audit reset/shield choices from frozen native opponent replays,
+without reading/copying old bot code. Freeze any policy hypotheses before
+confirmation; then diagnostic field forecasts must represent legal input,
+scheduling and opponent-policy uncertainty. Do not treat the scripted controller
+as a validated enemy policy or use round parity alone for arbitrary priorities.
+Full V-M1/EE/new-job admission and release/productivity gates remain open.
+
 # CONTINUING 2026-10-30 - fight-value release screen rejected
 
 Selected release5cf28cb7 and ordinary traceb4bc106c remain byte-identical.

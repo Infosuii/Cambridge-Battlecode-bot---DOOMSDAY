@@ -334,6 +334,17 @@ def diagnostic_checks(stdout, fixture, opponent_stdout=''):
         return dict(passed=good and continued and 'DZ_ACTION_ERROR' not in stdout and 'DZ_MODULE_ERROR' not in stdout,
                     forced=forced,measured=selected,bodies=len(forced),continued_at_round_300=continued,
                     scope='bounded cached-home movement and claim clearing; not full planned SafeMode')
+    if fixture=='duel':
+        checks=transcript_assertions(stdout)
+        required={'duel_outcome','duel_elapsed','duel_hp','duel_basics','duel_casts','duel_isolated'}
+        quotes=re.findall(r'CT_DUEL_QUOTE sample=(\d+) heart=([01]) other=([01]) round=(\d+) status=([01]) ',stdout)
+        results=re.findall(r'CT_DUEL_RESULT sample=(\d+) won=([01]) ',stdout)
+        matching=(1<=len(quotes)<=3 and [int(q[0]) for q in quotes]==list(range(len(quotes)))
+                  and [q[0] for q in quotes]==[r[0] for r in results]
+                  and all(int(q[4])+int(r[1])==1 for q,r in zip(quotes,results)))
+        return dict(passed=matching and not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()),quotes=quotes,results=results,
+                    scope='Controlled stationary two-actor primitive, not live EE/strategy validation')
     if fixture=='shield':
         checks=transcript_assertions(stdout)
         required={'shield_outcome','shield_elapsed','shield_hp','shield_basics','shield_casts','shield_isolated'}
@@ -641,7 +652,7 @@ def experiment(args):
         reader='dz_priority_audit.mjs' if args.fixture=='priority' else 'dz_lifecycle_audit.mjs'
         shutil.copyfile(ROOT/'tools'/reader,out/'runner'/reader)
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','shield':'shield_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
+    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','duel':'duel_probe','shield':'shield_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     if args.candidate_bot:
@@ -657,6 +668,8 @@ def experiment(args):
             source_text,n=re.subn(r'^#define '+flag+r'\s+[01]$',f'#define {flag} {value}',source_text,flags=re.MULTILINE)
             if n!=1: raise ValueError('capture fixture flag changed: '+flag)
         config.write_text(source_text,encoding='utf-8',newline='\n')
+    if args.command=='conformance' and args.fixture=='duel':
+        for header in ('duel.h','fight.h'):shutil.copyfile(ROOT/'bots/dz/src'/header,frozen/'src'/header)
     if args.command=='conformance' and args.fixture=='shield':
         shutil.copyfile(ROOT/'bots/dz/src/shield_clear.h',frozen/'src/shield_clear.h')
     if args.command=='conformance' and args.fixture in ('clear','camp-mods'):
@@ -746,18 +759,21 @@ def experiment(args):
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
         config.write_text(source,encoding='utf-8',newline='\n')
-    if args.command=='conformance' and args.fixture=='priority' and not args.fixture_opponent:
-        raise ValueError('priority audit needs the scripted opponent transcript (--fixture-opponent)')
+    if args.command=='conformance' and args.fixture in ('priority','duel') and not args.fixture_opponent:
+        raise ValueError(f'{args.fixture} audit needs a scripted opponent (--fixture-opponent)')
     candidate = build(frozen, out/'candidate.wasm')
     if args.opponent_wasm:
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
         source_opp = ROOT/'tests/dz'/fixtures[args.fixture] if args.fixture_opponent else ROOT/'bots'/args.opponent
-        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest','group-visibility','group-visibility-first','priority')):
+        if args.fixture_opponent and (args.command!='conformance' or args.fixture not in ('tribute','death','contest','group-visibility','group-visibility-first','priority','duel')):
             raise ValueError('scripted opponent is unavailable for this fixture')
         frozen_opp = out/'build/opponent'
         shutil.copytree(source_opp/'src', frozen_opp/'src')
         if args.fixture_opponent:
+            if args.fixture=='duel':
+                shutil.copyfile(frozen/'src/config.h',frozen_opp/'src/config.h')
+                for header in ('duel.h','fight.h'):shutil.copyfile(ROOT/'bots/dz/src'/header,frozen_opp/'src'/header)
             config=frozen_opp/'src/config.h'
             text=config.read_text()
             if text.count('#define CT_OPPONENT 0')!=1: raise ValueError('scripted opponent configuration changed')
@@ -871,7 +887,7 @@ def main():
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--candidate-bot', help='benchmark bots/<name> instead of DZ (smoke only)')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','shield','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
+        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','duel','shield','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

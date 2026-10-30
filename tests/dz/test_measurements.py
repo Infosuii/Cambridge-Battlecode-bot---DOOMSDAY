@@ -7,6 +7,14 @@ spec = importlib.util.spec_from_file_location('dz_runner', Path(__file__).resolv
 dz = importlib.util.module_from_spec(spec); spec.loader.exec_module(dz)
 
 class Measurements(unittest.TestCase):
+    def test_duel_fixture_rejects_missing_or_mismatched_outcomes(self):
+        names=['duel_outcome','duel_elapsed','duel_hp','duel_basics','duel_casts','duel_isolated']
+        text='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+'\nCT_DUEL_QUOTE sample=0 heart=1 other=0 round=10 status=1 rounds=20\nCT_DUEL_RESULT sample=0 won=0 rounds=20'
+        self.assertTrue(dz.diagnostic_checks(text,'duel')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('won=0','won=1'),'duel')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text.replace('CT_CHECK name=duel_hp pass=1',''),'duel')['passed'])
+        self.assertFalse(dz.diagnostic_checks(text+'\nCT_CHECK name=duel_hp pass=0','duel')['passed'])
+
     def test_shield_fixture_requires_complete_matched_successful_checks(self):
         names=['shield_outcome','shield_elapsed','shield_hp','shield_basics','shield_casts','shield_isolated']
         text='\n'.join(f'CT_CHECK name={n} pass=1' for n in names)+'\nCT_SHIELD_QUOTE sample=0 heart=1 existing=0 round=10 status=0 rounds=40\nCT_SHIELD_RESULT sample=0 cleared=1 rounds=40'

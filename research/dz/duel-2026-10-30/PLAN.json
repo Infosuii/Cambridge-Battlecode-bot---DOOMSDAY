@@ -1,0 +1,28 @@
+{
+  "status": "Frozen before controlled native duels; production EE remains disabled",
+  "scope": "Stationary two actors, Varg/Heart, no items/CC/healing/dash/other damage. Alternate basic/reset/shield turns with each defender expiry at its own start.",
+  "input_rule": "Personal visible SDK stats/buffs/cooldowns. Enemy first_can_cast is next-owner availability under the fixed no-CC controller, not a general field inference.",
+  "clock": "Win visible in our current turn; lethal enemy reply measured at our next owner observation. Inclusive own-turn count.",
+  "pilot": {
+    "run": "dz-duel-heart-varg-01",
+    "candidate_heart": 1,
+    "opponent_heart": 0,
+    "map": "isolated-wolf",
+    "round_limit": 160
+  },
+  "future": "If pilot passes, all four fixed kit matchups, both mirrored sides; retain all failures. Native primitive conformance is not field EE validation.",
+  "samples": "Initial, first active shield, first duration0 defender shield; overlapping, not independent",
+  "bounds": {
+    "owner_turns": 96,
+    "hard_max": 2000
+  },
+  "assertions": [
+    "winner",
+    "owner-observed elapsed rounds",
+    "both HP values under no-heal controller",
+    "own basic count",
+    "own reset/shield casts",
+    "stationary isolation"
+  ],
+  "limitations": "Truncated tests do not measure native fault totals. No production decision consumes this model."
+}

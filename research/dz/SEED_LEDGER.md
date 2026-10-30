@@ -493,3 +493,12 @@ The registry was created before experiments. Entries below record actual use.
 | dz-model-heart-off-idle-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |
 | dz-model-heart-off-v76-01 | 2026-10-30 | deterministic; Wasm 3becad00179a | 12 cells; idle81 | smoke; trace=True |
 | dz-fight-value-v65-screen-01 | 2026-10-30 | deterministic; Wasm cab64e37f5e2 | 12 cells; idle81 | smoke; trace=False |
+| dz-duel-heart-varg-01 | 2026-10-30 | deterministic; Wasm c3e8e30193b3 | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-heart-varg-02 | 2026-10-30 | deterministic; Wasm cd018d4e4f41 | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-heart-varg-03 | 2026-10-30 | deterministic; Wasm c1b9e0334691 | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-varg-varg-01 | 2026-10-30 | deterministic; Wasm 5f3aa67cb35f | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-varg-heart-01 | 2026-10-30 | deterministic; Wasm 0c7586e845fc | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-heart-heart-01 | 2026-10-30 | deterministic; Wasm 35c427c2b03e | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-warm-varg-varg-01 | 2026-10-30 | deterministic; Wasm be64657af7c2 | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-warm-varg-varg-02 | 2026-10-30 | deterministic; Wasm 1298e4db4e5c | 2 cells; scripted duel opponent | conformance; trace=False |
+| dz-duel-unequal-varg-varg-01 | 2026-10-30 | deterministic; Wasm 7f877d2400f0 | 2 cells; scripted duel opponent | conformance; trace=False |

@@ -1,0 +1,11 @@
+{
+  "purpose": "Native validation of the fixed one-reply schedule branch when subject ranks differ",
+  "run": "dz-duel-unequal-varg-varg-01",
+  "kits": "Varg/Varg",
+  "candidate_slot": 0,
+  "opponent_slot": 1,
+  "map": "isolated-wolf",
+  "round_limit": 160,
+  "change": "Only move one subject from draft slot0 to slot1 by swapping its nonacting Vesper pick. No priorities published; spectators remain on spawn. Default interleaving now keeps the pair order fixed, so one enemy turn lies between own turns.",
+  "assertions": "Same outcome/time/HP/own-action/isolation checks; keep failed cases. Still no field EE or priority inference."
+}

@@ -1,0 +1,104 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 2248.866090712743,
+  "fuel_p99": 11020,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "c3e8e30193b3bcca90b361aa116dad750615c99c3e3833a80f647dba13cda853",
+      "opponent_sha256": "ea1151b68d11afdfdb966af62c680f0e1a47b8c403a3ea5fbb43c9469768018d",
+      "replay_sha256": "b06069212fb20f0f0522ec492c9259295e0c1e8fb4499b92aae505762c295058",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {},
+        "missing": [
+          "duel_basics",
+          "duel_casts",
+          "duel_elapsed",
+          "duel_hp",
+          "duel_isolated",
+          "duel_outcome"
+        ],
+        "quotes": [],
+        "results": [],
+        "scope": "Controlled stationary two-actor primitive, not live EE/strategy validation"
+      }
+    },
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "c3e8e30193b3bcca90b361aa116dad750615c99c3e3833a80f647dba13cda853",
+      "opponent_sha256": "ea1151b68d11afdfdb966af62c680f0e1a47b8c403a3ea5fbb43c9469768018d",
+      "replay_sha256": "2aa99a3e028699aa2385b21b7050c1c40ee2b0516d11a40ff5a28ab813e2a330",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {},
+        "missing": [
+          "duel_basics",
+          "duel_casts",
+          "duel_elapsed",
+          "duel_hp",
+          "duel_isolated",
+          "duel_outcome"
+        ],
+        "quotes": [],
+        "results": [],
+        "scope": "Controlled stationary two-actor primitive, not live EE/strategy validation"
+      }
+    }
+  ]
+}

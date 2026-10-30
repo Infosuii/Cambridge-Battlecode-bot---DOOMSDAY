@@ -1,0 +1,152 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1017.7127429805615,
+  "fuel_p99": 8722,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "0c7586e845fc59c7c44e2127429768485ce01797680a451d2cf8d052b93fbd2b",
+      "opponent_sha256": "c1b9e033469142a4a073337e1b9dfb845012479aef95fda9b48ecb5f35945aac",
+      "replay_sha256": "f12cadd6115fe7109ce3f40bd4971aa7a4f015368672a8302b0c4626954b5dd9",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "duel_outcome": true,
+          "duel_elapsed": true,
+          "duel_hp": true,
+          "duel_basics": true,
+          "duel_casts": true,
+          "duel_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "0",
+            "1",
+            "16",
+            "0"
+          ],
+          [
+            "1",
+            "0",
+            "1",
+            "20",
+            "0"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ],
+        "scope": "Controlled stationary two-actor primitive, not live EE/strategy validation"
+      }
+    },
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "0c7586e845fc59c7c44e2127429768485ce01797680a451d2cf8d052b93fbd2b",
+      "opponent_sha256": "c1b9e033469142a4a073337e1b9dfb845012479aef95fda9b48ecb5f35945aac",
+      "replay_sha256": "254d2b44f010c29379f59cb2a5c0ce4ed6cfefa778dcef6721ac2d53d213de3f",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "duel_outcome": true,
+          "duel_elapsed": true,
+          "duel_hp": true,
+          "duel_basics": true,
+          "duel_casts": true,
+          "duel_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "0",
+            "1",
+            "16",
+            "0"
+          ],
+          [
+            "1",
+            "0",
+            "1",
+            "19",
+            "0"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ],
+        "scope": "Controlled stationary two-actor primitive, not live EE/strategy validation"
+      }
+    }
+  ]
+}

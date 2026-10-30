@@ -1,0 +1,934 @@
+{
+  "status": "Restricted stationary duel primitive native conformance passes; production decisions/EE unchanged",
+  "truncated_games": 18,
+  "native_faults": null,
+  "native_faults_measured": false,
+  "observed_fuel_outs": 0,
+  "passed_games": 14,
+  "rejected_games": 4,
+  "validated_windows": 28,
+  "windows_independent": false,
+  "duration_zero_defender_windows": 4,
+  "old_heuristic_winner_mismatches": 9,
+  "phase_audit": {
+    "owner_starts": 22,
+    "pinned_assets_verified": true,
+    "initial_and_verified_reads_identical": true
+  },
+  "core_cases": {
+    "strict_alternation": 10000,
+    "alternating_round_lead": 10000
+  },
+  "python_tests": 54,
+  "node_tests": 13,
+  "runs": {
+    "dz-duel-heart-varg-01": {
+      "games": 2,
+      "fixture_passes": 0,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "c3e8e30193b3bcca90b361aa116dad750615c99c3e3833a80f647dba13cda853",
+      "opponent_sha256": "ea1151b68d11afdfdb966af62c680f0e1a47b8c403a3ea5fbb43c9469768018d"
+    },
+    "dz-duel-heart-varg-02": {
+      "games": 2,
+      "fixture_passes": 0,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "cd018d4e4f4136bec6db0fa93e73acdd53053088d648b590348dcd5ee8c7c12a",
+      "opponent_sha256": "0b079e56b913cc0a582392183f57076f2eac850ff696c150bfcb70684b629f73"
+    },
+    "dz-duel-heart-varg-03": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "c1b9e033469142a4a073337e1b9dfb845012479aef95fda9b48ecb5f35945aac",
+      "opponent_sha256": "0c7586e845fc59c7c44e2127429768485ce01797680a451d2cf8d052b93fbd2b"
+    },
+    "dz-duel-varg-varg-01": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "5f3aa67cb35fc465f557f8fe718f8bacbd02fc66f8b0521ab39f1cee3af028e3",
+      "opponent_sha256": "5f3aa67cb35fc465f557f8fe718f8bacbd02fc66f8b0521ab39f1cee3af028e3"
+    },
+    "dz-duel-varg-heart-01": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "0c7586e845fc59c7c44e2127429768485ce01797680a451d2cf8d052b93fbd2b",
+      "opponent_sha256": "c1b9e033469142a4a073337e1b9dfb845012479aef95fda9b48ecb5f35945aac"
+    },
+    "dz-duel-heart-heart-01": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "35c427c2b03e6ca088cccfe5feeffffe818149202335e01775b07d60b5ec1d16",
+      "opponent_sha256": "35c427c2b03e6ca088cccfe5feeffffe818149202335e01775b07d60b5ec1d16"
+    },
+    "dz-duel-warm-varg-varg-01": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "be64657af7c21c9128e2e9d7614db58968a44ed7f6f4d95a3b5412f803c0746f",
+      "opponent_sha256": "be64657af7c21c9128e2e9d7614db58968a44ed7f6f4d95a3b5412f803c0746f"
+    },
+    "dz-duel-warm-varg-varg-02": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "1298e4db4e5c2a8fb49cbec64cc7618c88fcb9536e7b763ee785a7940b0bfd5e",
+      "opponent_sha256": "1298e4db4e5c2a8fb49cbec64cc7618c88fcb9536e7b763ee785a7940b0bfd5e"
+    },
+    "dz-duel-unequal-varg-varg-01": {
+      "games": 2,
+      "fixture_passes": 2,
+      "fuel_outs": 0,
+      "native_faults_measured": false,
+      "candidate_sha256": "7f877d2400f06758505b1c59a831b36f026fd4049d10a0a8f5c56a61c4335d61",
+      "opponent_sha256": "e8abc07ddf6480b3058784c235bcb4291bd25429d545a7f9f3a9b748c1cdfe82"
+    }
+  },
+  "windows": [
+    {
+      "run": "dz-duel-heart-varg-03",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "1",
+        "other": "0",
+        "round": "16",
+        "status": "1",
+        "rounds": "33",
+        "hp": "0.0000",
+        "enemy_hp": "322.3000",
+        "basics": "32",
+        "shields": "4",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "33",
+        "hp": "0.0000",
+        "enemy_hp": "322.3000",
+        "basics": "32",
+        "shields": "4",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-varg-03",
+      "side": "A",
+      "prediction": {
+        "sample": "1",
+        "heart": "1",
+        "other": "0",
+        "round": "19",
+        "status": "1",
+        "rounds": "30",
+        "hp": "0.0000",
+        "enemy_hp": "322.3000",
+        "basics": "29",
+        "shields": "3",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "30",
+        "hp": "0.0000",
+        "enemy_hp": "322.3000",
+        "basics": "29",
+        "shields": "3",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-varg-03",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "1",
+        "other": "0",
+        "round": "16",
+        "status": "1",
+        "rounds": "32",
+        "hp": "0.0000",
+        "enemy_hp": "354.9999",
+        "basics": "31",
+        "shields": "4",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "32",
+        "hp": "0.0000",
+        "enemy_hp": "354.9999",
+        "basics": "31",
+        "shields": "4",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-varg-03",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "1",
+        "other": "0",
+        "round": "20",
+        "status": "1",
+        "rounds": "28",
+        "hp": "0.0000",
+        "enemy_hp": "354.9999",
+        "basics": "27",
+        "shields": "3",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "28",
+        "hp": "0.0000",
+        "enemy_hp": "354.9999",
+        "basics": "27",
+        "shields": "3",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "16",
+        "status": "0",
+        "rounds": "34",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "39",
+        "shields": "4",
+        "resets": "5",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "34",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "39",
+        "shields": "4",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "19",
+        "status": "0",
+        "rounds": "31",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "35",
+        "shields": "3",
+        "resets": "4",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "1",
+        "rounds": "31",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "35",
+        "shields": "3",
+        "resets": "4"
+      }
+    },
+    {
+      "run": "dz-duel-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "16",
+        "status": "1",
+        "rounds": "34",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "38",
+        "shields": "4",
+        "resets": "5",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "34",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "38",
+        "shields": "4",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "19",
+        "status": "1",
+        "rounds": "31",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "34",
+        "shields": "4",
+        "resets": "4",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "31",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "34",
+        "shields": "4",
+        "resets": "4"
+      }
+    },
+    {
+      "run": "dz-duel-varg-heart-01",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "1",
+        "round": "16",
+        "status": "0",
+        "rounds": "32",
+        "hp": "354.9999",
+        "enemy_hp": "0.0000",
+        "basics": "36",
+        "shields": "4",
+        "resets": "4",
+        "defender_zero": "0",
+        "old_won": "1"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "32",
+        "hp": "354.9999",
+        "enemy_hp": "0.0000",
+        "basics": "36",
+        "shields": "4",
+        "resets": "4"
+      }
+    },
+    {
+      "run": "dz-duel-varg-heart-01",
+      "side": "A",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "1",
+        "round": "20",
+        "status": "0",
+        "rounds": "28",
+        "hp": "354.9999",
+        "enemy_hp": "0.0000",
+        "basics": "31",
+        "shields": "4",
+        "resets": "3",
+        "defender_zero": "0",
+        "old_won": "1"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "1",
+        "rounds": "28",
+        "hp": "354.9999",
+        "enemy_hp": "0.0000",
+        "basics": "31",
+        "shields": "4",
+        "resets": "3"
+      }
+    },
+    {
+      "run": "dz-duel-varg-heart-01",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "1",
+        "round": "16",
+        "status": "0",
+        "rounds": "32",
+        "hp": "322.3000",
+        "enemy_hp": "0.0000",
+        "basics": "36",
+        "shields": "4",
+        "resets": "4",
+        "defender_zero": "0",
+        "old_won": "1"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "32",
+        "hp": "322.3000",
+        "enemy_hp": "0.0000",
+        "basics": "36",
+        "shields": "4",
+        "resets": "4"
+      }
+    },
+    {
+      "run": "dz-duel-varg-heart-01",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "1",
+        "round": "19",
+        "status": "0",
+        "rounds": "29",
+        "hp": "322.3000",
+        "enemy_hp": "0.0000",
+        "basics": "32",
+        "shields": "4",
+        "resets": "3",
+        "defender_zero": "0",
+        "old_won": "1"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "1",
+        "rounds": "29",
+        "hp": "322.3000",
+        "enemy_hp": "0.0000",
+        "basics": "32",
+        "shields": "4",
+        "resets": "3"
+      }
+    },
+    {
+      "run": "dz-duel-heart-heart-01",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "1",
+        "other": "1",
+        "round": "16",
+        "status": "0",
+        "rounds": "50",
+        "hp": "35.7080",
+        "enemy_hp": "0.0000",
+        "basics": "50",
+        "shields": "6",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "50",
+        "hp": "35.7080",
+        "enemy_hp": "0.0000",
+        "basics": "50",
+        "shields": "6",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-heart-01",
+      "side": "A",
+      "prediction": {
+        "sample": "1",
+        "heart": "1",
+        "other": "1",
+        "round": "21",
+        "status": "0",
+        "rounds": "45",
+        "hp": "35.7080",
+        "enemy_hp": "0.0000",
+        "basics": "45",
+        "shields": "5",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "1",
+        "rounds": "45",
+        "hp": "35.7080",
+        "enemy_hp": "0.0000",
+        "basics": "45",
+        "shields": "5",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-heart-01",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "1",
+        "other": "1",
+        "round": "16",
+        "status": "1",
+        "rounds": "50",
+        "hp": "0.0000",
+        "enemy_hp": "35.7080",
+        "basics": "49",
+        "shields": "6",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "50",
+        "hp": "0.0000",
+        "enemy_hp": "35.7080",
+        "basics": "49",
+        "shields": "6",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-heart-heart-01",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "1",
+        "other": "1",
+        "round": "21",
+        "status": "1",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "35.7080",
+        "basics": "44",
+        "shields": "6",
+        "resets": "0",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "35.7080",
+        "basics": "44",
+        "shields": "6",
+        "resets": "0"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "30",
+        "status": "0",
+        "rounds": "47",
+        "hp": "115.0000",
+        "enemy_hp": "0.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "47",
+        "hp": "115.0000",
+        "enemy_hp": "0.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "30",
+        "status": "1",
+        "rounds": "48",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "48",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "33",
+        "status": "1",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "49",
+        "shields": "5",
+        "resets": "5",
+        "defender_zero": "1",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "49",
+        "shields": "5",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-02",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "30",
+        "status": "0",
+        "rounds": "47",
+        "hp": "115.0000",
+        "enemy_hp": "0.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "47",
+        "hp": "115.0000",
+        "enemy_hp": "0.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-02",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "30",
+        "status": "1",
+        "rounds": "48",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "48",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "53",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-warm-varg-varg-02",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "33",
+        "status": "1",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "49",
+        "shields": "5",
+        "resets": "5",
+        "defender_zero": "1",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "45",
+        "hp": "0.0000",
+        "enemy_hp": "115.0000",
+        "basics": "49",
+        "shields": "5",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "16",
+        "status": "0",
+        "rounds": "42",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "48",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "1",
+        "rounds": "42",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "48",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "19",
+        "status": "0",
+        "rounds": "39",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "44",
+        "shields": "5",
+        "resets": "5",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "1",
+        "rounds": "39",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "44",
+        "shields": "5",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "A",
+      "prediction": {
+        "sample": "2",
+        "heart": "0",
+        "other": "0",
+        "round": "23",
+        "status": "0",
+        "rounds": "35",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "40",
+        "shields": "4",
+        "resets": "5",
+        "defender_zero": "1",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "2",
+        "won": "1",
+        "rounds": "35",
+        "hp": "10.0000",
+        "enemy_hp": "0.0000",
+        "basics": "40",
+        "shields": "4",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "0",
+        "heart": "0",
+        "other": "0",
+        "round": "16",
+        "status": "1",
+        "rounds": "42",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "47",
+        "shields": "5",
+        "resets": "6",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "0",
+        "won": "0",
+        "rounds": "42",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "47",
+        "shields": "5",
+        "resets": "6"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "1",
+        "heart": "0",
+        "other": "0",
+        "round": "19",
+        "status": "1",
+        "rounds": "39",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "43",
+        "shields": "4",
+        "resets": "5",
+        "defender_zero": "0",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "1",
+        "won": "0",
+        "rounds": "39",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "43",
+        "shields": "4",
+        "resets": "5"
+      }
+    },
+    {
+      "run": "dz-duel-unequal-varg-varg-01",
+      "side": "B",
+      "prediction": {
+        "sample": "2",
+        "heart": "0",
+        "other": "0",
+        "round": "23",
+        "status": "1",
+        "rounds": "35",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "39",
+        "shields": "4",
+        "resets": "5",
+        "defender_zero": "1",
+        "old_won": "0"
+      },
+      "observed": {
+        "sample": "2",
+        "won": "0",
+        "rounds": "35",
+        "hp": "0.0000",
+        "enemy_hp": "10.0000",
+        "basics": "39",
+        "shields": "4",
+        "resets": "5"
+      }
+    }
+  ],
+  "default_identities": {
+    "release": {
+      "sha256": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
+      "matched_selected_frozen_pool": true
+    },
+    "trace": {
+      "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
+      "matched_selected_frozen_pool": true
+    },
+    "scope": "Source-only export/SDK/CMake, no initial config/caches; same pinned host/toolchain. Duel header unused by production; all experimental policy/model flags off."
+  },
+  "limitations": [
+    "Only Varg/Heart and prescribed basic/reset/shield policies",
+    "No items, movement after contact, CC, dashes, healing, projectiles, crew or other damage",
+    "Explicit scheduling required; draft-slot/default no-priority controller does not infer arbitrary live priorities",
+    "Enemy first-can-cast availability assumed from fixed no-CC controller",
+    "Enemy HP on death checked from last personal view under no-heal controller",
+    "No field EE accuracy, robust opponent-policy, new-job or strength claim"
+  ],
+  "old_heuristic_false_positive_windows": 0,
+  "old_heuristic_false_negative_windows": 9,
+  "verified_capsules": 82
+}

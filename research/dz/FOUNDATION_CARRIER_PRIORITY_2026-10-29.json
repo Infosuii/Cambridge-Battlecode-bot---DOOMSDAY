@@ -16,6 +16,7 @@
     "src/core.h": "a347ae9d81482db403c67ce0098d7af6ed2ed85669069266c697f15c54700011",
     "src/draft.cpp": "cb938bb5c54d362d09de4a2dfd022208aab94e11bab0fc0a7010adc27bb4d290",
     "src/draft.h": "cda3163ececdf5c81496dc6827d07e86ca09c77a1e70f1f4b12785d5831d597d",
+    "src/duel.h": "34e58e7b7eea984972e5879f1a02ee1f751e1b5036a948f09e50ddcffbf9e43d",
     "src/failed_moves.h": "a21942ae55ef51d13fa5f9318becfdbc7c7748c050c2a83981a87f4f825a02c0",
     "src/fight.h": "73d888fcfb616e4eaf37f3e32d885ce7ce5fdc53acde450c9314c8e6a0200b1b",
     "src/gear.cpp": "581993db7c2af7d9c0559575f6adb635741e840cc7db68b57748dcc7a5f51e8b",
@@ -287,7 +288,7 @@
     "selected_pools_games": 560,
     "native_candidate_faults": 0,
     "native_candidate_fuel_outs": 0,
-    "python_tests": 53,
+    "python_tests": 54,
     "node_audit_tests": 13,
     "core_wasi_reset_clock_cases": 14544,
     "clean_export": {
@@ -305,13 +306,13 @@
         "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
         "matched_selected_frozen_pool": true
       },
-      "scope": "Source-only export, SDK/CMake, no initial config/caches. Same pinned host/toolchain. All experimental policies/model flags disabled except selected carrier priority."
+      "scope": "Source-only export/SDK/CMake, no initial config/caches; same pinned host/toolchain. Duel header unused by production; all experimental policy/model flags off."
     },
     "core_wasi_shield_coupling_cases": 10000,
     "current_tests": {
-      "python": 53,
+      "python": 54,
       "node": 13,
-      "core_wasi_heart_dominance_cases": 10000
+      "core_duel_bare_cases": 20000
     }
   },
   "limitations": [
@@ -322,26 +323,26 @@
     "Original strong foundation is preserved as a frozen control; configuration can override CARRIER_BANK_PRIORITY=0.",
     "Only default release binary identity connects current source to frozen release pools; trace is separate."
   ],
-  "current_source_verified_utc": "2026-10-30T11:48:56.636722+00:00",
-  "current_source_note": "Fight-value trial fails entry and remains disabled. Clean source-only export preserves selected release and ordinary trace. No production policy change.",
+  "current_source_verified_utc": "2026-10-30T12:48:59.548970+00:00",
+  "current_source_note": "Unused duel primitive and controlled conformance added. Explicit schedules required. Clean source export preserves production release/trace; no EE/policy promotion.",
   "latest_diagnostic_study": {
+    "path": "research/dz/duel-2026-10-30",
+    "truncated_games": 18,
+    "native_faults": null,
+    "faults_measured": false,
+    "observed_fuel_outs": 0,
+    "fixture_pass_games": 14,
+    "rejected_games": 4,
+    "overlapping_windows": 28,
+    "production_unchanged": true
+  },
+  "prior_diagnostic_study": {
     "path": "research/dz/fight-value-2026-10-30",
     "games": 12,
     "faults": 0,
     "fuel_outs": 0,
     "delta_banked": -7.5,
     "entry": "fail",
-    "production_unchanged": true
-  },
-  "prior_diagnostic_study": {
-    "path": "research/dz/heart-mechanics-2026-10-30",
-    "full_games": 50,
-    "full_faults": 0,
-    "full_fuel_outs": 0,
-    "truncated_games": 24,
-    "truncated_native_faults": null,
-    "controlled_windows": 30,
-    "field_accuracy": "insufficient; strict n0/null",
     "production_unchanged": true
   },
   "diagnostic_studies": [
@@ -379,6 +380,17 @@
       "fuel_outs": 0,
       "delta_banked": -7.5,
       "entry": "fail",
+      "production_unchanged": true
+    },
+    {
+      "path": "research/dz/duel-2026-10-30",
+      "truncated_games": 18,
+      "native_faults": null,
+      "faults_measured": false,
+      "observed_fuel_outs": 0,
+      "fixture_pass_games": 14,
+      "rejected_games": 4,
+      "overlapping_windows": 28,
       "production_unchanged": true
     }
   ]

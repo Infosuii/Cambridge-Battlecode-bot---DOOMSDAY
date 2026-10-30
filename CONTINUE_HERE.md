@@ -1,3 +1,10 @@
+# Active continuation - stationary duel checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/duel-2026-10-30/README.md. Restricted native
+phase conformance passes; production EE stays disabled. Next active work is
+opponent ability-policy evidence and diagnostic input uncertainty. No pause.
+
 # Active continuation - fight-value screen
 
 Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP

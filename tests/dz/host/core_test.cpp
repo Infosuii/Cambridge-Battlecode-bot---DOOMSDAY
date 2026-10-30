@@ -11,6 +11,7 @@
 #include "attack_clock.h"
 #include "timed_damage.h"
 #include "shield_clear.h"
+#include "duel.h"
 #include "splash_reduction.h"
 #include <cassert>
 #include <iostream>
@@ -459,6 +460,46 @@ int main() {
         const float a[]{10,20},b[]{20,10},c[]{10,20};
         assert(member_hp_hash(a)==member_hp_hash(c)&&member_hp_hash(a)!=member_hp_hash(b));
         std::cout << "10000 splash-reduction/explicit-hit cases passed\n";
+    }
+    {
+        DuelActor a{1000,1000,100},b{1000,1000,100};
+        auto p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Won&&p.owner_rounds==10&&p.our_hp==100);
+        // Simultaneous damage loses initiative: the old heuristic kills both.
+        const Fighter old[]{ {1000,100} };assert(!simulate_fight(old,old).won());
+        a={1000,1000,100};b={100,100,1};b.existing=true;b.existing_value=100;b.existing_duration=0;
+        p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Won&&p.owner_rounds==2&&p.our_hp==999);
+        a={50,50,1};a.existing=true;a.existing_value=100;a.existing_duration=0;b={1000,1000,100};
+        p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Dead&&p.owner_rounds==2&&p.our_hp==0);
+        unsigned seed=301015;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial){
+            a={float(1+next()%1000),1000,float(1+next()%100)};b={float(1+next()%1000),1000,float(1+next()%100)};
+            const unsigned need_a=static_cast<unsigned>(std::ceil(b.hp/a.damage)),need_b=static_cast<unsigned>(std::ceil(a.hp/b.damage));
+            p=stationary_duel(a,b,{});
+            if(need_a<=need_b&&need_a<=96){
+                assert(p.status==DuelStatus::Won&&p.owner_rounds==need_a&&p.ours.basics==need_a&&p.theirs.basics==need_a-1);
+                assert(p.our_hp==a.hp-(need_a-1)*b.damage&&p.enemy_hp==0);
+            }else if(need_b<need_a&&need_b<96){
+                assert(p.status==DuelStatus::Dead&&p.owner_rounds==need_b+1&&p.ours.basics==need_b&&p.theirs.basics==need_b);
+                assert(p.our_hp==0&&p.enemy_hp==b.hp-need_b*a.damage);
+            }else assert(p.status==DuelStatus::Horizon);
+        }
+        std::cout << "10000 alternating-duel/closed-form bare cases passed\n";
+        for(unsigned trial=0;trial<10000;++trial){
+            a={float(1+next()%1000),1000,float(1+next()%100)};b={float(1+next()%1000),1000,float(1+next()%100)};
+            const bool first=next()%2;const unsigned need_a=static_cast<unsigned>(std::ceil(b.hp/a.damage)),need_b=static_cast<unsigned>(std::ceil(a.hp/b.damage));
+            const unsigned enemy_before_win=first?2*(need_a/2):2*((need_a-1)/2);
+            const unsigned our_before_loss=first?2*((need_b-1)/2)+1:2*((need_b+1)/2);
+            p=stationary_duel(a,b,{true,first},96);
+            if(need_b>enemy_before_win&&need_a<=96){
+                assert(p.status==DuelStatus::Won&&p.owner_rounds==need_a&&p.ours.basics==need_a&&p.theirs.basics==enemy_before_win);
+                assert(p.our_hp==a.hp-enemy_before_win*b.damage&&p.enemy_hp==0);
+            }else if(need_b<=enemy_before_win&&our_before_loss<96){
+                assert(p.status==DuelStatus::Dead&&p.owner_rounds==our_before_loss+1&&p.ours.basics==our_before_loss&&p.theirs.basics==need_b);
+                assert(p.our_hp==0&&p.enemy_hp==b.hp-our_before_loss*a.damage);
+            }else assert(p.status==DuelStatus::Horizon);
+        }
+        std::cout << "10000 alternating-round-lead/closed-form bare cases passed\n";
     }
     std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
 }
