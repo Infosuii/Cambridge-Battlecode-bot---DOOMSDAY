@@ -168,7 +168,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
 #endif
 #if DZ_HAS(EE3)
-        if (DZ_ON(EE3) && n_theirs && tc.allow(30000)) {
+        // Surplus only: after EE3 (~15k with DZ_FAST_FIGHT) the executor must still afford a fresh whole-map field.
+        if (DZ_ON(EE3) && n_theirs && tc.allow(world.field_budget()+25000)) {
             // B1 v2: expected exchange from two calibrated contact models: ee_model (this body dies within 4 rounds)
             // and ee_enemy_model (a given enemy dies within 4, from its own side). Only adds engagements with a
             // positive expected exchange; everything else falls through to the incumbent fight/retreat rule. v1
@@ -183,6 +184,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (n_close) {
                 const float pd=sigmoid(death_logit(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(close.data(),n_close),
                     obs.hp/std::max(1.f,obs.max_hp),nearest,reach_damage));
+                DZ_PROF('3');
                 const float tempo=.25f*cambc::constants::respawn_time; // Rounds of lost work at DZ's ~0.25 gems/round.
                 const float death_cost=obs.bag+tempo;
                 float best_ev=-1e30f; const SeenChampion* target=nullptr; int priced=0;
@@ -207,6 +209,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                     const float ev=pk*(carried+gold_weight(tc.round)*cambc::constants::kill_gold+tempo)-pd*death_cost;
                     if (ev>best_ev) { best_ev=ev; target=&e; }
                 }
+                DZ_PROF('4');
                 const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
                 if (target && best_ev>0 && pd<.3f && obs.hp>=.3f*obs.max_hp && !bankable) return {GoalKind::Fight,-1,target->p};
             }

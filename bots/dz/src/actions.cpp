@@ -161,6 +161,39 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         else act.cast(ability, *target);
     }
 }
+#if DZ_HAS(LOCAL_FIGHT)
+// Fight goals chase a target within a few tiles, yet the executor built a whole-map field for each one (00dunes,
+// 00vault fuel-outs once fights became common, dz-ee3*). BFS outward from this body, inside a radius-7 window, to
+// the nearest tile within basic range of the target; take the first step of that path. Returns false (use the
+// field) when no such tile is within the window. Visits at most 225 tiles.
+bool local_fight_step(const StaticWorld& world, const Observation& obs, vec2 target, Actuator& act) {
+    constexpr int R = 7, W = 2 * R + 1;
+    const auto origin = cambc::self().position();
+    auto root = [&](vec2 p) { return p != target && static_cast<int>(p.chebyshev_distance(target)) <= obs.range; };
+    if (root(origin)) return true; // Already in range: stay; the attack phase acts.
+    std::array<signed char, W * W> first{}; first.fill(-1); // First-step direction (0-8) per window tile; -1 unseen.
+    std::array<unsigned char, W * W> queue{};
+    unsigned head = 0, tail = 0;
+    auto index = [&](vec2 p) { return (p.y - origin.y + R) * W + (p.x - origin.x + R); };
+    first[index(origin)] = 9; queue[tail++] = static_cast<unsigned char>(index(origin));
+    int found = -1;
+    while (head < tail && found < 0) {
+        const int i = queue[head++];
+        const vec2 p{origin.x + i % W - R, origin.y + i / W - R};
+        for (int dx = -1; dx <= 1 && found < 0; ++dx) for (int dy = -1; dy <= 1; ++dy) {
+            const vec2 q = p + vec2{dx, dy};
+            if ((dx == 0 && dy == 0) || std::abs(q.x - origin.x) > R || std::abs(q.y - origin.y) > R) continue;
+            const int j = index(q);
+            if (first[j] >= 0 || !world.walkable(q) || obs.is_occupied(q)) continue;
+            first[j] = first[i] == 9 ? static_cast<signed char>((dx + 1) * 3 + dy + 1) : first[i];
+            if (root(q)) { found = first[j]; break; }
+            queue[tail++] = static_cast<unsigned char>(j);
+        }
+    }
+    if (found < 0) return false;
+    return act.move(origin + vec2{found / 3 - 1, found % 3 - 1});
+}
+#endif
 bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
           bool retreat, Actuator& act,bool remember_failures=false
 #if DZ_ECONOMY_V2
@@ -645,6 +678,10 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     vec2 trace_target{-1,-1};
     if (camp_target) trace_target=camp_target->spawn_position();
     else for (const auto& e:obs.enemies) if (target==&e.sdk) { trace_target=e.p; break; }
+#endif
+#if DZ_HAS(LOCAL_FIGHT)
+    if (DZ_ON(LOCAL_FIGHT) && !retreat && goal.kind == GoalKind::Fight && goal.destination && !roots.is_empty() && me.can_move() &&
+        tc.allow(12000) && local_fight_step(world, obs, *goal.destination, act)) roots = cambc::bitboard{};
 #endif
     if (!roots.is_empty() && me.can_move()) {
         // Root construction spends fuel after the earlier field gate. Recheck
