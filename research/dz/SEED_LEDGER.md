@@ -726,3 +726,16 @@ The registry was created before experiments. Entries below record actual use.
 | dz-z14b-gates4-v76-02 | 2026-10-31 | deterministic; Wasm 31730b1676ab | 140 cells; v76 | smoke; trace=False |
 | dz-ee3-smoke-v76-01 | 2026-10-31 | deterministic; Wasm feae99df4856 | 4 cells; v76 | smoke; trace=False |
 | dz-z14b-dvg2-v65-02 | 2026-10-31 | deterministic; Wasm dbb86e6444e8 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-gates4-v65-02 | 2026-10-31 | deterministic; Wasm 31730b1676ab | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-homegs-v76-02 | 2026-10-31 | deterministic; Wasm c25509ae9588 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-int1b-v76-02 | 2026-10-31 | deterministic; Wasm 027b9e1ed981 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-homegs-v65-02 | 2026-10-31 | deterministic; Wasm c25509ae9588 | 140 cells; v65 | smoke; trace=False |
+| dz-ee3-v76-01 | 2026-10-31 | deterministic; Wasm feae99df4856 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-int1b-v65-02 | 2026-10-31 | deterministic; Wasm 027b9e1ed981 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-fight-v76-02 | 2026-10-31 | deterministic; Wasm 3695e330ccc9 | 140 cells; v76 | smoke; trace=False |
+| dz-ee3-v65-01 | 2026-10-31 | deterministic; Wasm feae99df4856 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-dv7-v76-02 | 2026-10-31 | deterministic; Wasm eef47e752f15 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-fight-v65-02 | 2026-10-31 | deterministic; Wasm 3695e330ccc9 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-dv7-v65-02 | 2026-10-31 | deterministic; Wasm eef47e752f15 | 140 cells; v65 | smoke; trace=False |
+| dz-ee3v2-v76-01 | 2026-10-31 | deterministic; Wasm 568de12d2aae | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-dvg1-v76-02 | 2026-10-31 | deterministic; Wasm ed06eda428f9 | 140 cells; v76 | smoke; trace=False |

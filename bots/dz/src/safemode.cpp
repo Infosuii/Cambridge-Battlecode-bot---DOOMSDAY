@@ -11,6 +11,7 @@
 #include "clear_clock.h"
 #endif
 #include "team_plan.h"
+#include "market.h"
 
 namespace dz {
 void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
@@ -167,10 +168,11 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
 #endif
 #if DZ_HAS(EE3)
-        if (DZ_ON(EE3) && n_theirs && tc.allow(15000)) {
-            // B1: expected exchange from two calibrated contact models: ee_model (this body dies within 4 rounds)
-            // and ee_enemy_model (a given enemy dies within 4, from its own side). Engage the best positive-value
-            // target; leave a negative exchange that is likely to kill us; otherwise keep working.
+        if (DZ_ON(EE3) && n_theirs && tc.allow(30000)) {
+            // B1 v2: expected exchange from two calibrated contact models: ee_model (this body dies within 4 rounds)
+            // and ee_enemy_model (a given enemy dies within 4, from its own side). Only adds engagements with a
+            // positive expected exchange; everything else falls through to the incumbent fight/retreat rule. v1
+            // (dz-ee3-*-01) also overrode retreats and kept working below P 0.15: deaths 19.0 -> 21.1, -12.8 banked.
             std::array<Fighter,fight_units> close{}; std::size_t n_close=0; int nearest=99; float reach_damage=0;
             for (const auto& e : obs.enemies) {
                 const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
@@ -185,7 +187,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 const float death_cost=obs.bag+tempo;
                 float best_ev=-1e30f; const SeenChampion* target=nullptr; int priced=0;
                 for (const auto& e : obs.enemies) {
-                    if (static_cast<int>(obs.p.chebyshev_distance(e.p))>5 || world.in_enemy_spawn(e.p) || priced>=3) continue;
+                    if (static_cast<int>(obs.p.chebyshev_distance(e.p))>5 || world.in_enemy_spawn(e.p) || priced>=2) continue;
                     ++priced;
                     std::array<Fighter,fight_units> side{}, foes{}; std::size_t n_side=1, n_foes=0; int en=99; float er=0;
                     side[0]={e.hp,e.strength};
@@ -207,8 +209,6 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 }
                 const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
                 if (target && best_ev>0 && pd<.3f && obs.hp>=.3f*obs.max_hp && !bankable) return {GoalKind::Fight,-1,target->p};
-                if (pd>.15f && best_ev<=0) return {GoalKind::Retreat};
-                n_theirs=0; // Neither: keep working; the executor still takes local attacks.
             }
         }
 #endif
@@ -500,6 +500,17 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         int claims = 0;
         for (unsigned slot = 0; slot < world.allies.size() && slot < protocol::slots; ++slot)
             if (slot != world.slot && i < 112 && protocol::slot(word, slot).objective == i) ++claims;
+#if DZ_HAS(MARKET) && !DZ_ECONOMY_V2
+        if (DZ_ON(MARKET) && claims) {
+            // C1: the best bid keeps the group at full value; an outbid body looks elsewhere.
+            const unsigned mine=market::bucket(dist);
+            bool lost=false;
+            for (unsigned slot = 0; slot < world.allies.size() && slot < protocol::slots; ++slot)
+                if (slot != world.slot && protocol::slot(word, slot).objective == i && market::outbid(market::bid(word,slot),slot,mine,world.slot)) lost=true;
+            if (lost) continue;
+            claims=0;
+        }
+#endif
         // Reward per round of travel, clear and capture, over solo-survivable
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
         const float value=(g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())*half_weight(world,i)/(1.f+claims);

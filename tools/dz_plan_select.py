@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BITS = ['EE', 'EE_REGROUP', 'GEAR_SURVIVE', 'GEAR_PROSPECT', 'GEAR_HEALTH', 'CREWS', 'CREW_ALL', 'BANK_NEAR_MIN',
-        'BANK_BIG', 'RING_GATES', 'OPENING_GOLD', 'GOLD_VALUE', 'EE2', 'EE2_BOLD', 'HOME', 'HOARD', 'FIGHT', 'TURTLE', 'EE3']  # Order of dz::PlanBit (plan.h).
+        'BANK_BIG', 'RING_GATES', 'OPENING_GOLD', 'GOLD_VALUE', 'EE2', 'EE2_BOLD', 'HOME', 'HOARD', 'FIGHT', 'TURTLE', 'EE3', 'MARKET']  # Order of dz::PlanBit (plan.h).
 
 
 def signatures():

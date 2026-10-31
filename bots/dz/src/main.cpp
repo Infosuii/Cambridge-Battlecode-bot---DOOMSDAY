@@ -3,6 +3,7 @@
 #include "safemode.h"
 #include "model_audit.h"
 #include "crew.h"
+#include "market.h"
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -346,6 +347,11 @@ int main() {
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
                         else if(old_lease.leader==world->slot)
                             message=dz::protocol::compact::with_lease(message,0,0,tc.round,false);
+                        act.publish(message);
+#elif DZ_HAS(MARKET)
+                        auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
+                        if (DZ_ON(MARKET)) message=dz::market::with_bid(message,world->slot,dz::protocol::is_group_code(objective)?
+                            dz::market::bucket(world->distance(objective,obs->p)):dz::market::none);
                         act.publish(message);
 #else
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));

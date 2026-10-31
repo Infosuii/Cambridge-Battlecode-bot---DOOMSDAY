@@ -171,6 +171,9 @@
 #ifndef DZ_EE3
 #define DZ_EE3 0 // Unvalidated B1: engage/retreat on the expected exchange of two contact models (ours, enemy's).
 #endif
+#ifndef DZ_MARKET
+#define DZ_MARKET 0 // Unvalidated C1: group claims carry a distance bid; outbid bodies drop the group (market.h).
+#endif
 #ifndef DZ_HOME
 #define DZ_HOME 0 // Unvalidated A1 team plan: enemy-half groups priced x0.3, engage aggression x0.8 (lab home plan).
 #endif
