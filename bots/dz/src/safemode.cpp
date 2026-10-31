@@ -63,13 +63,37 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
         if (!obs.camps_complete) return {GoalKind::Home};
     }
+#if DZ_STYLE == 1
+    {
+        const SeenChampion* prey=nullptr;
+        for (const auto& e:obs.enemies)
+            if (!world.in_enemy_spawn(e.p) && (!prey || obs.p.chebyshev_distance(e.p)<obs.p.chebyshev_distance(prey->p))) prey=&e;
+        if (prey && obs.hp>=.25f*obs.max_hp) return {GoalKind::Fight,-1,prey->p};
+        if (obs.hp>=.6f*obs.max_hp && !world.altars.empty() && obs.bag<config::bank_bag) {
+            static int target=-1;
+            if (target<0) {
+                const auto spawns=cambc::map::spawn_region(cambc::team::enemy).positions();
+                int best=1<<30;
+                for (unsigned a=0;a<world.altars.size()&&!spawns.empty();++a) {
+                    const int d=static_cast<int>(world.altars[a].tile.chebyshev_distance(spawns.front()));
+                    if (d<best) { best=d; target=static_cast<int>(a); }
+                }
+            }
+            if (target>=0 && obs.p.chebyshev_distance(world.altars[target].tile)>3) return {GoalKind::Fight,-1,world.altars[target].tile};
+        }
+    }
+#endif
+#if DZ_STYLE == 2
+    // Turtle: leave any visible enemy, never chase.
+    for (const auto& e:obs.enemies) if (obs.p.chebyshev_distance(e.p)<=8) return {GoalKind::Retreat};
+#endif
     if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     mem.last_gold=obs.gold;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
     bool legacy = mem.legacy(tc.round);
-#if DZ_EE
-    mem.remember_enemies(obs,tc.round);
+#if DZ_HAS(EE)
+    if (DZ_ON(EE)) mem.remember_enemies(obs,tc.round);
 #endif
     // Local fight: we and allies within 6 against visible enemies within 8.
     // Enemy HP carries a 25% margin for unseen reinforcements and spells.
@@ -84,13 +108,35 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         bool reach=false, near=false; const SeenChampion* focus=nullptr;
         for (const auto& e : obs.enemies) {
             const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
-            if (d > (DZ_EE ? DZ_EE_SCAN : 8) || n_theirs>=fight_units) continue;
+            if (d > (DZ_ON(EE) ? DZ_EE_SCAN : 8) || n_theirs>=fight_units) continue;
             theirs[n_theirs++]={1.25f*e.hp,e.strength};
             if (d <= e.range + 1) reach=true;
-            if (d <= e.range + (DZ_EE ? DZ_EE_NEAR : 3)) near=true;
+            if (d <= e.range + (DZ_ON(EE) ? DZ_EE_NEAR : 3)) near=true;
             if (d <= 5 && !world.in_enemy_spawn(e.p) && (!focus || e.hp < focus->hp)) focus=&e;
         }
         DZ_PROF('f');
+#if DZ_HAS(EE2)
+        if (DZ_ON(EE2) && n_theirs) {
+            // V-M2 model: the old !won rule retreated from ~62% of contacts while 7% ended in death.
+            std::array<Fighter,fight_units> close{}; std::size_t n_close=0; int nearest=99; float reach_damage=0;
+            for (const auto& e : obs.enemies) {
+                const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
+                if (d>8 || n_close>=fight_units) continue;
+                close[n_close++]={e.hp,e.strength}; nearest=std::min(nearest,d);
+                if (d<=2) reach_damage+=e.strength;
+            }
+            if (n_close) {
+                const float z=death_logit(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(close.data(),n_close),
+                    obs.hp/std::max(1.f,obs.max_hp),nearest,reach_damage);
+                const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
+                if (z > (DZ_ON(EE2_BOLD) ? -0.8473f : -1.7346f)) return {GoalKind::Retreat}; // logit(.30) / logit(.15)
+                if (focus && z < -3.1781f && obs.hp>=.3f*obs.max_hp && !bankable && // logit(.04)
+                    simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs)).won())
+                    return {GoalKind::Fight,-1,focus->p};
+                n_theirs=0; // Neither: keep working; the executor still takes local attacks.
+            }
+        }
+#endif
         if (n_theirs) {
             auto fight=simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs));
             DZ_PROF('g');
@@ -99,7 +145,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             // local attacks, and an unsafe losing contact can still retreat.
             const bool bankable=DZ_CARRIER_BANK_PRIORITY &&
                 bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
-            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp && !bankable) {
+            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp && !bankable && DZ_STYLE != 2) {
                 bool engage=true;
 #if DZ_FIGHT_GEM_VALUE
                 // Query only the already-visible chosen focus, after the
@@ -122,8 +168,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
 #endif
                 if(engage)return {GoalKind::Fight,-1,focus->p};
             }
-            if (!fight.won() && (DZ_EE ? near : reach)) {
-#if DZ_EE_REGROUP
+            if (!fight.won() && (DZ_ON(EE) ? near : reach)) {
+#if DZ_HAS(EE_REGROUP)
+                if (DZ_ON(EE_REGROUP)) {
                 // A same-speed chaser keeps hitting a body that flees alone (00ambush R204-221
                 // replay); run toward help instead, where the joint fight can be won.
                 const SeenChampion* help=nullptr;
@@ -132,6 +179,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                     if (!help || obs.p.chebyshev_distance(a.p)<obs.p.chebyshev_distance(help->p)) help=&a;
                 }
                 if (help) return {GoalKind::Retreat,-1,help->p};
+                }
 #endif
                 return {GoalKind::Retreat};
             }
@@ -171,8 +219,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // the pool): the reachability logic above cannot bank at all, so fall back
     // to the pre-gate policy, whose blocked-altar path clears the gate by
     // repeated waves. A dedicated siege plan is map-specific work, deferred.
-#if DZ_RING_GATES
-    if (altar < 0 && gated_altar >= 0 && !world.altars[gated_altar].gates.empty() && obs.hp >= .5f*obs.max_hp) {
+#if DZ_HAS(RING_GATES)
+    if (DZ_ON(RING_GATES) && altar < 0 && gated_altar >= 0 && !world.altars[gated_altar].gates.empty() && obs.hp >= .5f*obs.max_hp) {
         int pick=-1; float weakest=1e30f;
         unsigned living=1;
         {
@@ -209,7 +257,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     auto clear_risk=[&](int index,float extra=0) { return group_clear_risk(world,mem,obs,index,extra); };
     const int occupied_group=world.group_at(obs.p);
     const bool blocks_respawn=occupied_group>=0&&mem.groups[occupied_group].state==GroupState::Respawning;
-#if DZ_CREWS
+#if DZ_HAS(CREWS)
     // Z11 v1: slots pair as (0,1), (2,3), ...; the lower living slot leads. The
     // follower joins the leader's group job while healthy; banking, recovery and
     // fight/retreat decisions above stay individual. Unvalidated hypothesis.
@@ -218,7 +266,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         const auto word=shared_word();
         unsigned mate=world.slot^1u;
         bool mate_alive=mate<world.allies.size()&&mate<protocol::slots&&protocol::slot(word,mate).objective!=protocol::dead;
-        if constexpr (DZ_CREW_ALL != 0) {
+        if (DZ_ON(CREW_ALL)) {
             // Whole team: the lowest living slot leads; everyone else follows it.
             mate_alive=false;
             for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots;++slot)
@@ -229,7 +277,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (mate_alive && mate>world.slot) mate=world.slot; // This body leads.
             mate_alive=mate_alive&&mate!=world.slot;
         } else crew_size+=mate_alive;
-        if (mate_alive && mate<world.slot && !legacy && !blocks_respawn && obs.hp>=.6f*obs.max_hp) {
+        if (DZ_ON(CREWS) && mate_alive && mate<world.slot && !legacy && !blocks_respawn && obs.hp>=.6f*obs.max_hp) {
             const int job=protocol::slot(word,mate).objective;
             if (protocol::is_group_code(job) && job<static_cast<int>(world.groups.size()) && mem.groups[job].available(tc.round) &&
                 world.distance(job,obs.p)<cambc::distance_field::unreachable) {
@@ -298,8 +346,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         const int floor = world.distance_floor(i, obs.p);
         if (!g.field && floor > 30) continue;
         const int wait = waitable ? belief.ready - tc.round : 0;
-        const float value = g.sdk.gem_value()+.1f*g.sdk.gold_value();
+        const float value = g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value();
         if (value<=0) continue;
+#if DZ_STYLE == 2
+        if (world.home.get(g.tiles.front())>14) continue;
+#elif DZ_STYLE == 3
+        if (!g.cluster) continue;
+#endif
         // Legacy (starvation) scoring is nearest-first: rank by the floor.
         const float bound = legacy ? -static_cast<float>(floor) : value/(std::max(floor,wait)+cambc::constants::capture_time+2.f);
         candidates.push_back({bound, i, waitable});
@@ -326,7 +379,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (slot != world.slot && i < 112 && protocol::slot(word, slot).objective == i) ++claims;
         // Reward per round of travel, clear and capture, over solo-survivable
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
-        const float value=(g.sdk.gem_value()+.1f*g.sdk.gold_value())/(1.f+claims);
+        const float value=(g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())/(1.f+claims);
         float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
         if (legacy) {
             // The pre-gate nearest-group score, used only while starving.
@@ -356,8 +409,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         float clear_rounds=0;
         if (belief.state!=GroupState::Reward) {
             DZ_ACC_BEGIN(acc_r);
-#if DZ_CREWS
-            auto risk=clear_risk(static_cast<int>(i),DZ_CREW_ALL ? (crew_size-1)*obs.strength*obs.camp_damage :
+#if DZ_HAS(CREWS)
+            auto risk=clear_risk(static_cast<int>(i),!DZ_ON(CREWS) ? 0.f : DZ_ON(CREW_ALL) ? (crew_size-1)*obs.strength*obs.camp_damage :
                 crew_size>1&&(world.slot&1u)==0 ? obs.strength*obs.camp_damage : 0.f);
 #else
             auto risk=clear_risk(static_cast<int>(i));
@@ -378,8 +431,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         bool contested=false;
         for (const auto& e : obs.enemies)
             if (static_cast<int>(e.p.chebyshev_distance(g.center)) <= 6 + g.radius) { contested=true; break; }
-#if DZ_EE
-        contested=contested||mem.recently_seen_near(g.center,6+g.radius,tc.round,DZ_EE_MEMORY);
+#if DZ_HAS(EE)
+        if (DZ_ON(EE)) contested=contested||mem.recently_seen_near(g.center,6+g.radius,tc.round,DZ_EE_MEMORY);
 #endif
         if (contested) score*=.33f;
         if (score < best) { best = score; chosen = i; }
@@ -426,7 +479,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             int claims=0;
             for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots;++slot)
                 if (slot!=world.slot && i<112 && protocol::slot(word,slot).objective==i) ++claims;
-            const float value=(g.sdk.gem_value()+.1f*g.sdk.gold_value())*(claims?4.f:1.f)/living;
+            const float value=(g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())*(claims?4.f:1.f)/living;
             const float fixed=home+cambc::constants::capture_time+2.f;
             if (value<=0 || -value/fixed>=crew_best) continue;
             auto risk=clear_risk(static_cast<int>(i),extra);

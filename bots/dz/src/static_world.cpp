@@ -114,11 +114,11 @@ void StaticWorld::boot(const TurnContext& tc) {
         field->compute(blocked, roots, visited);
         tc.guard(); altar.field = std::move(field);
     }
-#if DZ_RING_GATES
+#if DZ_HAS(RING_GATES)
     // Resumable over turns: one pocket field per altar, then a budgeted group scan.
     for (auto& altar : altars) {
         if (altar.ring_checked) continue;
-        if (!altar.gates.empty()) { altar.ring_checked=true; continue; }
+        if (!DZ_ON(RING_GATES) || !altar.gates.empty()) { altar.ring_checked=true; continue; }
         if (!altar.pocket) {
             if (!tc.allow(field_budget()+5000)) return;
             roots.clear();

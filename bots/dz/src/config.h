@@ -144,6 +144,24 @@
 #ifndef DZ_EE_REGROUP
 #define DZ_EE_REGROUP 0 // Unvalidated Z10 v1: retreat from a losing contact toward the nearest healthy ally within 12, not home.
 #endif
+#ifndef DZ_PLAN_TABLE
+#define DZ_PLAN_TABLE 0 // Unvalidated Z14 v1: per-map draft variant and experiment bits from map_plans.inc (plan.h).
+#endif
+#ifndef DZ_STYLE
+#define DZ_STYLE 0 // Z13 evaluation opponents only (tools/dz_styles.py): 1 rusher, 2 turtle, 3 cluster farmer. Never a candidate.
+#endif
+#ifndef DZ_OPENING_GOLD
+#define DZ_OPENING_GOLD 0 // Unvalidated Z12 v1: jobs value gold at 0.5 per gem before round 250 (then 0.1).
+#endif
+#ifndef DZ_GOLD_VALUE
+#define DZ_GOLD_VALUE 0 // Unvalidated Z6 v1 lambda_gold: jobs value gold at 0.3 per gem all game.
+#endif
+#ifndef DZ_EE2
+#define DZ_EE2 0 // Z10 v2 (V-M2 model): retreat only above P(death within 4 rounds) 0.15; engage won fights below 0.04.
+#endif
+#ifndef DZ_EE2_BOLD
+#define DZ_EE2_BOLD 0 // Z10 v2 variant (with DZ_EE2): retreat threshold 0.30 instead of 0.15.
+#endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif

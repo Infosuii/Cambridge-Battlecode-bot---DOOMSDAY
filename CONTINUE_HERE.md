@@ -1,3 +1,23 @@
+# PAUSED 2026-10-31 - read research/dz/COMBINED_PLAN_2026-10-31.md FIRST
+
+Selected release 5cf28cb7 unchanged (every new flag defaults to 0; default build byte-identical).
+The combined plan merges the Z plan, the lab/v76 plan (branch lab/box), the 24-paper research
+review, lab4 branching evidence and the elite-meta study into one ordered task list with gates.
+
+Done since the previous section:
+- Runtime per-map plans: DZ_PLAN_TABLE + plan.h (DZ_ON/DZ_HAS), map_plans.inc rows {signature,
+  draft, bits}, tools/dz_plan_select.py, 70 signatures in research/dz/z-integration-2026-10-31/.
+- Z13 style opponents: DZ_STYLE + tools/dz_styles.py (rusher/turtle/farmer, git-ignored bots/dzs-*).
+- Z12/Z6 gold weight: DZ_OPENING_GOLD, DZ_GOLD_VALUE (R100 gold is 180 vs v76's 329).
+- Z10 V-M2 PASSES: tools/dz_contacts.mjs + dz_contacts_build.py + dz_vm2.py; 140 games, 150,742
+  contacts, Brier 0.0379 vs baseline 0.0398 (CI below 0). Old rule called 64% of contacts lost,
+  6.5% died. Model in bots/dz/src/ee_model.h; DZ_EE2 / DZ_EE2_BOLD use it (screens in RESULTS).
+- Z14 screen 26/58 runs done; resume with tools/dz_z14_screen.sh (section 3 of the plan).
+
+Fresh laptop: follow CONTINUE_HERE.md setup; host tests need g++ (WinLibs GCC 16 works with the
+committed -Wno-misleading-indentation); dz_vm2.py needs numpy + scikit-learn; decoders need Node 24
+and NFS_REPLAY_ENGINE=2.0.0. Continuation prompt: CONTINUATION_PROMPT.md. No ladder/submission.
+
 # CONTINUING 2026-10-31 - first integrated Z pass
 
 Selected release 5cf28cb7 unchanged (all new DZ_* flags default 0). Read the TOP of

@@ -1,5 +1,6 @@
 #pragma once
 #include "config.h"
+#include "plan.h"
 #include <algorithm>
 #include <cstdint>
 #include <exception>
@@ -71,7 +72,7 @@ struct GroupBelief {
     }
 };
 inline bool bank_now(int bag, int distance, int submitted, int winning) {
-    return bag > 0 && (bag >= (DZ_BANK_BIG ? 45 : config::bank_bag) || (distance <= 8 && bag >= (DZ_BANK_NEAR_MIN ? 15 : 1)) ||
+    return bag > 0 && (bag >= (DZ_ON(BANK_BIG) ? 45 : config::bank_bag) || (distance <= 8 && bag >= (DZ_ON(BANK_NEAR_MIN) ? 15 : 1)) ||
         submitted + bag >= winning);
 }
 }

@@ -21,7 +21,7 @@ struct Memory {
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
     int last_gold=0;
-#if DZ_EE
+#if DZ_HAS(EE)
     // DZ_EE: recent personal enemy sightings (position, round), oldest replaced first.
     struct Sighting { vec2 p{-1,-1}; int round=-100000; };
     std::array<Sighting,8> sightings{};
