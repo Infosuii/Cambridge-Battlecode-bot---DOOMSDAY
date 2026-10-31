@@ -743,3 +743,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-crew-market-single-pass-04 | 2026-10-31 | deterministic; Wasm 4f0580a31e85 | 2 cells; idle81 | scenario; trace=True |
 | dz-crew-market-stall-trace-05 | 2026-10-31 | deterministic; Wasm 3df8bba1b0ab | 2 cells; idle81 | scenario; trace=True |
 | dz-crew-market-layered-06 | 2026-10-31 | deterministic; Wasm 4f0580a31e85 | 2 cells; idle81 | scenario; trace=True |
+| dz-crew-augment-01 | 2026-10-31 | deterministic; Wasm ad44f262e1ae | 2 cells; idle81 | scenario; trace=True |
+| dz-crew-augment-probe-02 | 2026-10-31 | deterministic; Wasm d4332607ee3e | 2 cells; idle81 | scenario; trace=True |
+| dz-crew-augment-coherent-03 | 2026-10-31 | deterministic; Wasm 12562c48e980 | 6 cells; idle81 | scenario; trace=True |
+| dz-crew-augment-publish-04 | 2026-10-31 | deterministic; Wasm aab6c73fd606 | 4 cells; idle81 | scenario; trace=True |

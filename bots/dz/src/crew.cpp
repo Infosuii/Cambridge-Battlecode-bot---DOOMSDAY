@@ -153,9 +153,11 @@ void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int
 #endif
     }
 }
-CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc) {
-    if(!tc.allow(19000)||given.size()<2||given.size()>crew::max_units)return {};
-    auto& cache=m.crew_proposal();
+CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc,bool investments) {
+    if(!tc.allow(19000)||given.empty()||given.size()>crew::max_units)return {};
+    // A free planner uses the otherwise idle live workspace for the incumbent
+    // counterfactual. Keep its geometry while the augmented roster is priced.
+    auto& cache=investments?m.crew_proposal():m.crew_layout();
     std::array<crew::Unit,crew::max_units> ordered{};std::copy(given.begin(),given.end(),ordered.begin());
     std::sort(ordered.begin(),ordered.begin()+given.size(),[](auto a,auto b){return a.slot<b.slot;});
     const auto units=std::span<const crew::Unit>(ordered.data(),given.size());
@@ -184,7 +186,8 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
     if(!q.complete)return {false,0,0,q.reason==crew::SequenceReason::Budget?CrewQuoteStatus::Budget:CrewQuoteStatus::Model};
     if(arrival+q.finish>static_cast<int>(cambc::constants::max_rounds-tc.round))return {false,0,0,CrewQuoteStatus::Horizon};
     cache.progression_work=arrival+q.finish;
-    price_progression(w,m,cache,group,arrival+q.finish,tc);
+    if(investments)price_progression(w,m,cache,group,arrival+q.finish,tc);
+    else cache.progression.stage=crew::Progression::Stage::Done;
     if(cache.progression.pending()||cache.progression.stage==crew::Progression::Stage::Empty)
         return {false,0,0,CrewQuoteStatus::Budget};
     unsigned mask=0;for(unsigned u=0;u<units.size();++u)mask|=1u<<units[u].slot;
@@ -262,7 +265,9 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         auto owner=m.team.cohort(goal.index,traffic_word,tc.round,w.allies.size());
         const auto invitation=protocol::compact::lease(traffic_word,tc.round);
         if(invitation.valid&&invitation.objective==goal.index)owner=invitation;
-        if(owner.valid&&owner.objective==goal.index&&!(owner.members&(1u<<w.slot))) {
+        const bool extending=team::extends(owner,w.slot,m.economic_crew,m.economic_capturer)&&
+            m.contract.objective==goal.index&&tc.round<=static_cast<unsigned>(m.rendezvous_until)&&m.groups[goal.index].state!=GroupState::Reward;
+        if(owner.valid&&owner.objective==goal.index&&!(owner.members&(1u<<w.slot))&&!extending) {
             // A recovered former leader or legacy solo task cannot take back a
             // camp/payout already handed to a fresh crew that excludes it.
             m.contract.objective=-1;m.leave_crew();
@@ -290,6 +295,9 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     bool promised=(lease.valid&&lease.objective==g&&lease.members==expected)||state.joined||
         (cohort.valid&&cohort.members==expected);
     const unsigned leader=m.economic_capturer;
+    const auto& sent=m.crew_publication;
+    if(leader==w.slot&&(sent.group!=g||sent.members!=expected||sent.capturer!=leader))
+        return goal; // Publish the invitation before changing any incumbent's live formation.
     if(!promised&&leader!=w.slot) {
         // Local recovery handoff uses CURRENT visible job claimants. A remote
         // expired lease never establishes their presence or combat power.

@@ -71,6 +71,13 @@ struct WorkRecord {
         return now>=progress&&now-progress<window;
     }
 };
+// An allocator may OFFER an extension while the retained owner still names the
+// old crew. It must preserve every incumbent and name itself as coordinator;
+// this is not permission to take an unrelated camp or its completed payout.
+constexpr bool extends(const protocol::compact::Lease& owner,unsigned self,unsigned crew,unsigned capturer) {
+    return owner.valid&&self<protocol::slots&&crew<64&&capturer==self&&
+        !(owner.members&(1u<<self))&&(crew&(1u<<self))&&!(owner.members&~crew);
+}
 struct Ledger {
     std::array<Cash,protocol::slots> cash{};
     std::array<Project,protocol::slots> projects{};

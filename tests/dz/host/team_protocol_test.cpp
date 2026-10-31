@@ -97,6 +97,10 @@ int main() {
     accepted.observe(invitation,11,3);assert(accepted.cohort(7,invitation,11,3).leader==2);
     invitation=protocol::compact::with_lease(invitation,7,0,12);accepted.observe(invitation,12,3);
     assert(accepted.cohort(7,invitation,12,3).leader==0&&accepted.cohort(7,invitation,12,3).members==7);
+    const auto existing=protocol::compact::lease(protocol::compact::with_lease(invitation,3,0,12),12);
+    assert(team::extends(existing,2,7,2));
+    assert(!team::extends(existing,2,5,2)&&!team::extends(existing,2,7,0));
+    assert(!team::extends(existing,0,7,0)&&!team::extends({},2,7,2)&&!team::extends(existing,6,127,6));
     auto stale=team::publish(0,12,3,team::publisher(12,3),100,1,team::Intent::Active);
     assert(team::decode(stale,12,3).valid);
     assert(!team::decode(stale,1036,3).valid); // No modulo-age alias after 1024 rounds.

@@ -1,3 +1,19 @@
+# ACTIVE 2026-10-31 — marginal reinforcement and fallback liveness; unpromoted
+
+Read research/dz/augmentation-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added fixed-worker reservations/marginal income, spatial incumbent baselines,
+coherent observation pricing and bounded fallback probes. An incumbent extension
+survives old ownership until publication; coordinator holds before changing roles.
+Fifteen host suites/400 exhaustive fixed allocations pass. Four capsules/14 cells
+verify. Final04 elk banks300/510, layered233/162; zero deaths/faults/fuel-outs.
+Layered rows pass strict33/24 cycles; mixed-map overall audit is FALSE (ordinary
+cells have no siege cycles), retained unchanged. Native03 records11 positive
+reinforcement bids, but useful accepted augmentation/exact role agreement remain
+UNCONFIRMED. No competitive acceptance. Selected/default Mac437f91c3 and Windows
+5cf28cb7 preserved. Next: explicit roster/phase agreement and follow-through,
+then bank/deadline conversion and joint ability/combat/opening/map work. No
+validation/holdout/online actions. Goal active; .vscode/ untouched.
+
 # ACTIVE 2026-10-31 — competing crew market; unpromoted
 
 Read research/dz/market-2026-10-31/README.md and research/dz/BACKLOG.md.

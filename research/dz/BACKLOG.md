@@ -1,18 +1,19 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z7/Z9 coalition allocation and equipment progression.** Dated resources,
-   real-work/project freshness, cohort/capture ownership and conditional Power
-   counterfactuals exist. Latest crew market04 is12/432: side A stops after one payout.
-   A bounded pair/triple market now compares alternatives; jobs with visible
-   incumbents remain excluded. Support adding free workers without reselling
-   fixed workers or crediting their income as a new gain. Native-check an actual
-   funded reward visit and multiple-emblem continuation. Base rewards can split;
-   Marcella has delayed extra gold. Private ally gold remains illegal. Famine's
-   last screen77/7 vs selected400/236 still fails. No larger screens.
+1. **Z7/Z11 role agreement and reinforcement follow-through.** Bounded coalition
+   alternatives, fixed-worker reservations, spatial incumbent baselines and marginal
+   income comparison are implemented. Native03 selects11 positive augmentation
+   bids; a publication conflict was fixed, but useful accepted augmentation remains
+   unconfirmed. Task claims do not acknowledge an exact roster/phase. Add explicit
+   role agreement and execute a real reinforcement through conversion. Current04
+   elk300/510, layered233/162 have clean runtime, not competitive acceptance.
+   Native-check an actual funded reward visit and multiple-emblem continuation.
+   Private ally gold remains illegal. Famine's last77/7 vs selected400/236 still
+   fails. No larger screens before these execution/model blockers are resolved.
 2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
    serial routes/staging, paid entry/recovery and actual live readiness are integrated.
    Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement
