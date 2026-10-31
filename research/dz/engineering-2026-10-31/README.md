@@ -1,3 +1,5 @@
+Current continuation: persistent siege/access is implemented but unpromoted; see ../siege-2026-10-31/README.md. Shared Z14/EE work is merged. The next queue below is historical where superseded.
+
 # DZ native continuation — 2026-10-31
 
 Starting remote: fca7b34. macOS arm64, official PyPI cambc 4.0.0 installed

@@ -1,3 +1,24 @@
+# ACTIVE 2026-10-31 — native siege checkpoint; release unchanged
+
+Current authorised continuation is active; older PAUSED entries below are historical.
+Merged shared remote 247641f with native siege implementation 330cac1 in 0629a74.
+Read research/dz/siege-2026-10-31/README.md and the combined plan below.
+Persistent escape/heal-return, current committed-ally tank credit and cached actual
+altar access are built under DZ_SIEGE / DZ_ECONOMY_V2, both default 0. Corrected
+four-cell native fixture audit passes 169 completed cycles with no recorded
+withdrawal deaths, faults or fuel-outs. Small three-map v65 screen loses banking
+(1.17 vs paired control 13.0); not promoted. Broad economy integration is runtime
+clean but strategically unaccepted (one side banks zero). Do not scale these screens.
+Default merged Mac build SHA437f91c3 remains unchanged; all host suites and six
+negative/parser audit tests pass. Windows selected SHA5cf28cb7 is unchanged.
+Native CLI works: DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc; use Homebrew Python3.14.
+Next: common macro action/gear-visit scoring, progression before expensive gates,
+real multi-turn tank/rear crews and conditional enemy exposure. Shared EE2/table
+results are preserved; their reported calibration has not been independently
+reaudited here. Full ObjModel/EE/competitive release gates remain open. Preserve
+reserved release seeds; no submission, activation or online matches authorised.
+Untracked .vscode/ settings belong to the workspace and were left untouched.
+
 # PAUSED 2026-10-31 - read research/dz/COMBINED_PLAN_2026-10-31.md FIRST
 
 Selected release 5cf28cb7 unchanged (every new flag defaults to 0; default build byte-identical).
