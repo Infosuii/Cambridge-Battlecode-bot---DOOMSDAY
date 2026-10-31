@@ -171,6 +171,9 @@
 #ifndef DZ_EE3
 #define DZ_EE3 0 // Unvalidated B1: engage/retreat on the expected exchange of two contact models (ours, enemy's).
 #endif
+#ifndef DZ_GOLD_FIT
+#define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
+#endif
 #ifndef DZ_MARKET
 #define DZ_MARKET 0 // Unvalidated C1: group claims carry a distance bid; outbid bodies drop the group (market.h).
 #endif
