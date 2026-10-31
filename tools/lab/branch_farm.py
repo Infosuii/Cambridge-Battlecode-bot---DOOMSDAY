@@ -158,10 +158,14 @@ class Farm:
         common.write_bytes((head + text).encode('utf-8'))
         wasm.parent.mkdir(exist_ok=True)
         part = wasm.with_suffix('.part')
-        r = subprocess.run([self.cli, 'build', str(work), '--release', '--output', str(part)], cwd=self.ws,
-                           capture_output=True, text=True, encoding='utf-8', errors='replace')
-        if r.returncode or not part.exists():
-            raise RuntimeError(f'build {name} failed:\n{((r.stdout or "") + (r.stderr or ""))[-3000:]}')
+        for attempt in (1, 2, 3):  # Windows can refuse a process start under load ("CreateProcess: Access is denied")
+            r = subprocess.run([self.cli, 'build', str(work), '--release', '--output', str(part)], cwd=self.ws,
+                               capture_output=True, text=True, encoding='utf-8', errors='replace')
+            if not r.returncode and part.exists():
+                break
+            if attempt == 3:
+                raise RuntimeError(f'build {name} failed:\n{((r.stdout or "") + (r.stderr or ""))[-3000:]}')
+            time.sleep(10)
         part.replace(wasm)
         shutil.rmtree(work, ignore_errors=True)
         return wasm
