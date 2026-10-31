@@ -223,7 +223,12 @@ bool planned_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) 
             visit_intent.valid&&proposal.item==visit_intent.item,me.gold_count());}
 #endif
         if(visit_intent.valid&&proposal.item==visit_intent.item) {
-            --visit_intent.purchases;++visit_intent.shards;
+            --visit_intent.purchases;
+            // A purchase can combine its ingredients immediately. Keep the
+            // actual post-transaction inventory for batches crossing emblems.
+            const auto owned=me.item_count();const auto result=visit_intent.item.result();
+            visit_intent.shards=owned[visit_intent.item];
+            if(result)visit_intent.emblems=owned[*result];
             if(!visit_intent.purchases)visit_intent={};
         }
         changed=true;context.gold=me.gold_count();last_gold=context.gold;

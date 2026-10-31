@@ -12,6 +12,8 @@
 #include "formation.h"
 #include "formation_search.h"
 #include "crew_sequence.h"
+#include "crew_progression.h"
+#include "team_protocol.h"
 #endif
 
 namespace dz {
@@ -46,6 +48,7 @@ struct Memory {
     } access_build;
 #endif
 #if DZ_ECONOMY_V2
+    team::Ledger team;
     unsigned economic_crew=0, economic_capturer=0;
     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
     struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
@@ -95,8 +98,19 @@ struct Memory {
         std::array<crew::Unit,crew::max_units> roster{};
         std::array<crew::Monster,crew::max_camps> scene{};
         crew::SequenceSearch search;
+        crew::Progression progression;
+        int progression_work=-1;
+        bool pending() const {return search.pending()||progression.pending()||
+            (search.stage==crew::SequenceSearch::Stage::Done&&progression.stage==crew::Progression::Stage::Empty);}
     };
     mutable FormationCache crew_layout;
+    struct CrewReward {
+        int group=-1,round=-1,gold=0,bag=0;
+        unsigned generation=0,stat=0;
+        unsigned required_gold=0,required_gems=0;
+        float value=0;
+        bool priced=false,promised=false;
+    } crew_reward;
     struct CrewField {
         std::unique_ptr<cambc::distance_field> field;
         Tile root{};int expires=-1;bool pending=false;

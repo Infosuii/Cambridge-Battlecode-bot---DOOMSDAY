@@ -1,3 +1,19 @@
+# ACTIVE 2026-10-31 — resource reports and funded progression; unpromoted
+
+Read research/dz/progression-2026-10-31/README.md and research/dz/BACKLOG.md.
+Integrated remote through f56779d. Added dated cash/project reports within the
+eight-byte shared word, lease priority and expiry, visible project reservations,
+bounded Power investment/recipient counterfactuals, own-credit receipt guards and
+actual post-combination shopping continuation. All 13 host suites pass. Native
+02/03/04 capsules (six cells) verify; final04 banks24/348 with zero deaths/faults/
+fuel-outs, p99 fuel74562. Partial crews still stall; no competitive acceptance.
+Funded reward pledge and multi-emblem native execution remain unconfirmed. Final
+full-credit guard is compile-checked after04. Defaults/Mac437f91c3/Windows5cf28cb7
+preserved; selected/combined builds compile. No new opponent campaign, validation/
+holdout or online action. Next: partial-crew liveness, disjoint task/capture ownership,
+funded native continuation, then joint ability/combat/action and opening/map work.
+Goal active; CLI works. Untracked .vscode/ remains untouched.
+
 # ACTIVE 2026-10-31 — sequential crew projects; unpromoted
 
 Read research/dz/sequences-2026-10-31/README.md and research/dz/BACKLOG.md.

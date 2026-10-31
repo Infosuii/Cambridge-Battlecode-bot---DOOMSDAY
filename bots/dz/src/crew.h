@@ -10,5 +10,6 @@ CrewQuote crew_quote(const StaticWorld&,const Memory&,int group,std::span<const 
 Goal crew_action(Goal,StaticWorld&,Memory&,const Observation&,const TurnContext&);
 bool build_crew_field(StaticWorld&,Memory&,const Observation&,const TurnContext&);
 void progress_crew_layout(const StaticWorld&,const Memory&,const TurnContext&);
+void prepare_crew_reward(const StaticWorld&,Memory&,const Observation&,int group,const TurnContext&);
 }
 #endif

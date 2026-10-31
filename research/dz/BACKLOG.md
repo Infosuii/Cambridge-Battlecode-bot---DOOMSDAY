@@ -1,15 +1,17 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
 1. **Z7/Z9 contested resource and equipment progression.** Sequential crews now
    execute real three-monster phases; final fixture 48/300 exposes side asymmetry.
    Famine remains only 77/7 vs selected control 400/236. Complete legal per-body
-   project/resource freshness, disjoint allocation, useful reward distribution and
-   equipment progression. Verify native crew reward-credit mechanics before changing
-   recipient policy; private ally gold is not a legal observation. No larger screens.
+   project/resource reports and conditional funded Power counterfactuals now exist.
+   Final fixture is 24/348 with clean runtime but stalled partial crews on side A.
+   Repair disjoint project/capture ownership and liveness; native-check an actual
+   funded reward visit and multiple-emblem continuation. Base payouts can split;
+   Marcella's extra gold arrives later. Private ally gold remains illegal. No larger screens.
 2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
    serial routes/staging, paid entry/recovery and actual live readiness are integrated.
    Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement

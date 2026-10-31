@@ -346,7 +346,11 @@ int main() {
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
                         else if(old_lease.leader==world->slot)
                             message=dz::protocol::compact::with_lease(message,0,0,tc.round,false);
-                        act.publish(message);
+                        const bool working=goal.kind==dz::GoalKind::Farm&&mem->contract.objective==goal.index&&
+                            (std::popcount(mem->economic_crew)>1||static_cast<int>(tc.round)-mem->contract.checked<mem->contract.window);
+                        const auto intent=recovering_project?dz::team::Intent::Recover:working?dz::team::Intent::Active:dz::team::Intent::Released;
+                        message=dz::team::publish(message,tc.round,world->allies.size(),world->slot,cambc::self().gold_count(),objective,intent);
+                        if(act.publish(message))mem->team.observe(message,tc.round,world->allies.size());
 #else
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));
 #endif

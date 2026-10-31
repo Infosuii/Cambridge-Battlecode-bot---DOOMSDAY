@@ -8,6 +8,23 @@
 #include <bit>
 
 namespace dz {
+objective::Actor economic_growth(const SeenChampion& c) {
+    // Intrinsic stats are immutable but belong to a body handle: linked bodies
+    // need not have interchangeable growth. Only actually observed bodies enter.
+    struct Growth { unsigned id=~0u;float health=0,damage=0,health_damage=0; };
+    static std::array<Growth,objective::max_crew> cache{};
+    const unsigned id=static_cast<unsigned>(static_cast<cambc::handle_champion_t>(c.sdk));
+    auto it=std::find_if(cache.begin(),cache.end(),[&](auto v){return v.id==id;});
+    if(it==cache.end()) {
+        it=std::find_if(cache.begin(),cache.end(),[](auto v){return v.id==~0u;});
+        if(it==cache.end())it=cache.begin();
+        const auto design=c.sdk.base_stats();
+        *it={id,design.health_growth,design.strength_growth,
+            c.sdk.champion_name()==cambc::champion_type::ryth?.01f*design.health_growth:0};
+    }
+    objective::Actor a{c.hp,c.max_hp,c.strength};
+    a.health_growth=it->health;a.damage_growth=it->damage;a.health_damage_growth=it->health_damage;return a;
+}
 objective::Actor economic_actor(const SeenChampion& c) {
     // Each visible inventory is decoded once per planning turn. Macro quotes,
     // crew layout and gear counterfactuals used to repeat the same SDK scans.
@@ -21,8 +38,10 @@ objective::Actor economic_actor(const SeenChampion& c) {
     if(entry->id==id&&entry->round==round&&entry->strength==c.strength&&entry->max_hp==c.max_hp) {
         auto actor=entry->actor;actor.hp=c.hp;return actor;
     }
-    objective::Actor actor{c.hp,c.max_hp,c.strength};
+    objective::Actor actor=economic_growth(c);
     auto owned=c.sdk.item_count();
+    actor.power_health=owned[cambc::get_item_enum(cambc::item_family::power,cambc::item_stat::health)];
+    actor.power_strength=owned[cambc::get_item_enum(cambc::item_family::power,cambc::item_stat::strength)];actor.inventory_known=true;
     float jungle=0,durable=0,monster=0;
     for(auto stat:{cambc::item_stat::strength,cambc::item_stat::focus,cambc::item_stat::health}) {
         auto j=cambc::get_item_enum(cambc::item_family::jungle,stat,false);
@@ -39,7 +58,8 @@ objective::Actor economic_actor(const SeenChampion& c) {
         if(owned[treasure])actor.gold_multiplier+=treasure.passive_magnitude();
     }
     if(c.sdk.champion_name()==cambc::champion_type::vesper_vale)actor.gold_multiplier+=.33f;
-    actor.damage*=1+monster;actor.incoming_factor=(1-jungle)*(1-durable);
+    actor.damage*=1+monster;actor.damage_growth*=1+monster;actor.health_damage_growth*=1+monster;
+    actor.incoming_factor=(1-jungle)*(1-durable);
     // Existing shields are deliberately ignored by the economic admission gate:
     // travel/round order could expire them before the rendezvous.
     *entry={id,round,c.strength,c.max_hp,actor};return actor;
@@ -119,7 +139,9 @@ bool reserved_job(const StaticWorld& w,const Memory& m,const Observation& o,int 
         const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
         if(it==w.allies.end())continue;
         const unsigned slot=it-w.allies.begin();
-        if(protocol::slot(word,slot).objective==g&&w.distance(g,ally.p)<=ally.range+1&&
+        const auto intent=protocol::slot(word,slot).objective;
+        const bool declared=m.team.reservation(slot,intent,tc.round,w.allies.size())==g;
+        if(intent==g&&(declared||w.distance(g,ally.p)<=ally.range+1)&&
             (m.groups[g].state==GroupState::Partial||m.groups[g].state==GroupState::Reward||m.groups[g].state==GroupState::Respawning)&&
             (m.contract.objective!=g||w.distance(g,o.p)>o.range+1||slot<w.slot))return true;
     }
@@ -583,6 +605,33 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     float bags=o.bag;for(const auto& a:o.allies)bags+=a.sdk.gem_count();
     const int remaining=m.race.remaining(tc.round,cambc::constants::max_rounds,cambc::constants::winning_gems,bags);
     const float gold_price=objective::gold_price(remaining);
+    const int reward_group=m.contract.objective;
+    if(reward_group>=0&&m.groups[reward_group].state==GroupState::Reward&&m.economic_capturer==w.slot)
+        prepare_crew_reward(w,m,o,reward_group,tc);
+    auto& receipt=m.crew_reward;
+    if(receipt.group>=0&&(static_cast<int>(tc.round)>receipt.round+40||o.state.is_dead()))receipt={};
+    if(receipt.group>=0&&receipt.promised&&m.conversions[receipt.group]!=receipt.generation) {
+        // A team reward event alone proves neither our credit nor affordability.
+        // Require both own observed increases, then build the actual funded batch.
+        if(o.gold>receipt.gold&&o.bag>receipt.bag&&static_cast<unsigned>(o.gold-receipt.gold)>=receipt.required_gold&&
+            static_cast<unsigned>(o.bag-receipt.bag)>=receipt.required_gems&&o.enemies.empty()&&tc.allow(14000)) {
+            const auto item=cambc::get_item_enum(cambc::item_family::power,receipt.stat?cambc::item_stat::health:cambc::item_stat::strength);
+            const auto info=item.info();const auto owned=cambc::self().item_count();
+            const unsigned count=info.cost?std::min(16u,static_cast<unsigned>(o.gold)/info.cost):0;
+            const int home=w.home.get(o.p),cost=count*info.cost;
+            if(info.result&&count&&home<65535&&2*home+1<remaining&&receipt.value>gold_price*cost) {
+                ShopVisit shop{item,count,owned[item],owned[*info.result],cost,static_cast<int>(tc.round),receipt.value,true};
+                commit_shop_visit(shop);m.shopping_since=tc.round;m.shopping_deadline=tc.round+home+15;
+                m.delivery_trip={};m.contract.objective=-1;m.leave_crew();
+#if DZ_TRACE
+                {TraceScope scope;trace("DZ_CREW_REWARD_FUNDED round=%u group=%d slot=%u gold=%d delta=%d count=%u cost=%d stat=%u\n",
+                    tc.round,receipt.group,w.slot,o.gold,o.gold-receipt.gold,count,cost,receipt.stat);}
+#endif
+                receipt={};return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
+            }
+        }
+        receipt={};
+    }
     if(crew.recovering&&crew.group>=0&&crew.group<static_cast<int>(m.groups.size())&&std::popcount(m.economic_crew)>1) {
         if(o.bag>0&&altar>=0&&altar_distance<65535) {
             const auto bank=tribute_delay(o.bag,cambc::constants::submit_gem_base_duration,cambc::constants::submit_gem_minimum_duration,
@@ -680,6 +729,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         // Gold is self-only in the SDK; shopping intent comes from the visible
         // body's claim. Visible carried bags are legal to read.
         if(ally.sdk.gem_count()>=config::bank_bag)continue;
+        const int declared=m.team.reservation(slot,claim.objective,tc.round,w.allies.size());
+        if(declared>=0&&declared<static_cast<int>(m.groups.size())&&m.groups[declared].available(tc.round))reserved[slot]=declared;
         if(protocol::is_group_code(claim.objective)&&claim.objective<w.groups.size()&&
             w.distance(claim.objective,ally.p)<=std::max(1,ally.range)+1&&
             (m.groups[claim.objective].state==GroupState::Partial||m.groups[claim.objective].state==GroupState::Reward||
@@ -689,7 +740,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         // Visible basic strength/HP with no armour or Monster credit is a legal
         // conservative bid. Decoding every ally's inventory here exhausted the
         // first-quote budget on five-body maps and produced no bids at all.
-        objective::Actor observed{ally.hp,ally.max_hp,ally.strength};
+        objective::Actor observed=economic_growth(ally);
         if(ally.sdk.champion_name()==cambc::champion_type::vesper_vale)observed.gold_multiplier=1.33f;
         team[n++]={observed,ally.p,slot,ally.range,static_cast<unsigned>(static_cast<cambc::handle_champion_t>(ally.sdk))};
         if(reserved[slot]<0)available|=1u<<slot;
@@ -772,14 +823,16 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         std::array<unsigned,objective::max_crew> crew_slots{};unsigned count=0;
         unsigned eligible_count=0;
         for(unsigned a=0;a<n;++a)if((eligible&(1u<<a))&&team[a].slot>=w.slot)++eligible_count;
-        const unsigned trial=m.crew_layout.group==g&&m.crew_layout.search.pending()?m.crew_layout.units:m.coalition_cursor[g];
+        const unsigned trial=m.crew_layout.group==g&&m.crew_layout.pending()?m.crew_layout.units:m.coalition_cursor[g];
         const unsigned first_trial=std::clamp(trial,2u,std::max(2u,eligible_count));
         for(unsigned k=0;k<n;++k) {
             if(!tc.allow(18000+200*e.members.size())||start-fuel_left()>18000)break;
             const auto a=order[k];if(!(eligible&(1u<<a))||team[a].slot<w.slot)continue;
             crew_slots[count]=team[a].slot;crew_actors[count]=actors[a];
             spatial[count]={team[a].slot,team[a].handle,{team[a].p.x,team[a].p.y},actors[a].hp,actors[a].max_hp,actors[a].damage,
-                actors[a].incoming_factor,team[a].range,actors[a].arrival};
+                actors[a].incoming_factor,team[a].range,actors[a].arrival,actors[a].gold_multiplier,actors[a].capture_rounds,
+                actors[a].health_growth,actors[a].damage_growth,actors[a].health_damage_growth,
+                actors[a].power_health,actors[a].power_strength,actors[a].inventory_known,actors[a].prospector};
             ++count;
             if(count<first_trial)continue;
             if(spatial_quotes>=2)break;
@@ -791,14 +844,16 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             if(quote.status==CrewQuoteStatus::Budget)break;
             m.coalition_cursor[g]=economy::next_coalition_size(count,eligible_count);
             if(!quote.complete||!(quote.members&(1u<<w.slot)))continue;
-            unsigned cap=0;bool have_cap=false;
+            unsigned cap=0;bool have_cap=false;float value=0;
             for(unsigned c=0;c<count;++c)if(quote.members&(1u<<crew_slots[c])) {
-                if(!have_cap||crew_actors[c].gold_multiplier>crew_actors[cap].gold_multiplier||
-                    (crew_actors[c].gold_multiplier==crew_actors[cap].gold_multiplier&&crew_actors[c].capture_rounds<crew_actors[cap].capture_rounds)){cap=c;have_cap=true;}
+                const float boost=group.cluster&&crew_actors[c].prospector?1.25f:1.f;
+                const float gold=std::floor(group.reward_gold*boost*crew_actors[c].gold_multiplier);
+                const auto investment=m.crew_layout.progression.best(crew_slots[c],tc.round);
+                const float candidate=std::floor(group.reward_gems*boost)+std::max(gold_price*gold,investment.gain);
+                if(!have_cap||candidate>value||(candidate==value&&crew_actors[c].capture_rounds<crew_actors[cap].capture_rounds))
+                    {cap=c;have_cap=true;value=candidate;}
             }
             if(!have_cap)continue;
-            const float boost=group.cluster&&crew_actors[cap].prospector?1.25f:1.f;
-            const float value=std::floor(group.reward_gems*boost)+gold_price*std::floor(group.reward_gold*boost*crew_actors[cap].gold_multiplier);
             bids.push_back({g,quote.members,crew_slots[cap],contested*value,static_cast<float>(quote.finish)});
             break; // First viable priced coalition; omitted helpers are never committed.
         }

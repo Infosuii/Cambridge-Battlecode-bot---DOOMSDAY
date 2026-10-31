@@ -142,6 +142,7 @@ void Memory::update(const StaticWorld& world, const TurnContext& tc) {
     init(world);
 #if DZ_ECONOMY_V2
     const auto started=fuel_left();
+    team.observe(shared_word(),tc.round,world.allies.size());
 #endif
     if (contract.objective >= 0) observe_group(world, contract.objective, tc);
     // Bound the scan independently of unusually large camp counts.

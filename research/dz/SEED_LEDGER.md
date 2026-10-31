@@ -726,3 +726,6 @@ The registry was created before experiments. Entries below record actual use.
 | dz-z14b-gates4-v76-02 | 2026-10-31 | deterministic; Wasm 31730b1676ab | 140 cells; v76 | smoke; trace=False |
 | dz-ee3-smoke-v76-01 | 2026-10-31 | deterministic; Wasm feae99df4856 | 4 cells; v76 | smoke; trace=False |
 | dz-z14b-dvg2-v65-02 | 2026-10-31 | deterministic; Wasm dbb86e6444e8 | 140 cells; v65 | smoke; trace=False |
+| dz-progression-crew-02 | 2026-10-31 | deterministic; Wasm 3d1f83750b49 | 2 cells; idle81 | scenario; trace=True |
+| dz-progression-crew-03 | 2026-10-31 | deterministic; Wasm 1b41bca81e07 | 2 cells; idle81 | scenario; trace=True |
+| dz-progression-reward-04 | 2026-10-31 | deterministic; Wasm 31a91775c586 | 2 cells; idle81 | scenario; trace=True |

@@ -228,11 +228,12 @@ enum class SequenceReason { None, Scene, Damage, Capacity, Horizon, Budget };
 struct SequenceQuote { bool complete=false;int finish=0,visits=0;SequenceReason reason=SequenceReason::Scene; };
 template<class Budget=Unlimited>
 SequenceQuote quote(std::span<const Unit> units,std::span<const Monster> remaining,const SequenceSearch& search,
-                    unsigned first,int capture,int recall,int horizon,Budget budget={}) {
+                    unsigned first,int capture,int recall,int horizon,Budget budget={},bool projection=false) {
     SequenceQuote q;
     if(search.stage!=SequenceSearch::Stage::Done||first>search.count||remaining.size()!=search.count-first||search.count>search.phases.size()||
         units.empty()||units.size()>max_units||units.size()!=search.actors||capture<0||capture>2000||recall<0||recall>2000||horizon<1||horizon>2000||
-        !same_roles(units,std::span<const Unit>(search.roster.data(),search.actors)))return q;
+        !(projection?stronger_roles(units,std::span<const Unit>(search.roster.data(),search.actors)):
+            same_roles(units,std::span<const Unit>(search.roster.data(),search.actors))))return q;
     for(auto unit:units)if(!std::isfinite(unit.hp)||unit.hp>unit.max_hp)return q;
     std::array<double,max_units> hp{};for(unsigned u=0;u<units.size();++u)hp[u]=units[u].hp;
     long long elapsed=0;

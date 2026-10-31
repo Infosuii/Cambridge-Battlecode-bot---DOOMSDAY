@@ -22,6 +22,7 @@ constexpr std::uint64_t with_slot(std::uint64_t word,unsigned index,Slot value) 
 struct Lease { unsigned members=0,capturer=0,round=0,leader=slots;int objective=-1;bool valid=false; };
 constexpr Lease lease(std::uint64_t word,unsigned now,unsigned maximum_age=3) {
     Lease result;
+    if((word&(std::uint64_t{1}<<63))||!(word&(std::uint64_t{1}<<62)))return result;
     result.members=(word>>42)&63;result.capturer=(word>>48)&7;result.round=(word>>51)&2047;
     for(unsigned i=0;i<slots;++i)if(result.members&(1u<<i)){result.leader=i;break;}
     result.objective=result.leader<slots?slot(word,result.leader).objective:idle;
@@ -30,7 +31,7 @@ constexpr Lease lease(std::uint64_t word,unsigned now,unsigned maximum_age=3) {
     return result;
 }
 constexpr std::uint64_t with_lease(std::uint64_t word,unsigned members,unsigned capturer,unsigned round,bool valid=true) {
-    constexpr auto mask=((std::uint64_t{1}<<63)-1)^((std::uint64_t{1}<<42)-1);
+    constexpr auto mask=~((std::uint64_t{1}<<42)-1);
     word&=~mask;
     if(!valid||round>2047||members==0||members>63||capturer>=slots||!(members&(1u<<capturer)))return word;
     return word|(std::uint64_t{members}<<42)|(std::uint64_t{capturer}<<48)|(std::uint64_t{round}<<51)|(std::uint64_t{1}<<62);

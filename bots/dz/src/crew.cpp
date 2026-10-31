@@ -2,13 +2,15 @@
 #if DZ_ECONOMY_V2
 #include "economy.h"
 #include "access_route.h"
+#include "objective_math.h"
 #include <bit>
 
 namespace dz {
 crew::Unit crew_unit(const SeenChampion& seen,unsigned slot) {
     const auto actor=economic_actor(seen);
     return {slot,static_cast<unsigned>(static_cast<cambc::handle_champion_t>(seen.sdk)),{seen.p.x,seen.p.y},
-        actor.hp,actor.max_hp,actor.damage,actor.incoming_factor,seen.range,actor.arrival,actor.gold_multiplier,actor.capture_rounds};
+        actor.hp,actor.max_hp,actor.damage,actor.incoming_factor,seen.range,actor.arrival,actor.gold_multiplier,actor.capture_rounds,
+        actor.health_growth,actor.damage_growth,actor.health_damage_growth,actor.power_health,actor.power_strength,actor.inventory_known,actor.prospector};
 }
 namespace {
 struct CampSet { std::array<crew::Monster,crew::max_camps> camps{};unsigned count=0;bool complete=true; };
@@ -32,13 +34,15 @@ int layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::
     if(matches&&cache.search.stage==crew::SequenceSearch::Stage::Done)return offset;
     // A different speculative quote cannot erase the unfinished job. A changed
     // roster/scene for the SAME job invalidates it; an expired job is replaceable.
-    if(!matches&&cache.group!=group&&cache.expires>static_cast<int>(tc.round)&&cache.search.pending())return -1;
+    if(!matches&&cache.group!=group&&cache.expires>static_cast<int>(tc.round)&&
+        cache.pending())return -1;
     if(!matches) {
         // Mutate the logical job, never copy the BFS's unvisited storage.
         tc.guard();cache.group=group;cache.topology=outside;cache.generation=m.conversions[group];cache.expires=tc.round+config::crew_window;
         cache.units=units.size();cache.camps=camps.size();
         std::copy(units.begin(),units.end(),cache.roster.begin());std::copy(camps.begin(),camps.end(),cache.scene.begin());
         cache.search.begin(units,camps,cambc::map::width(),cambc::map::height());
+        cache.progression={};cache.progression_work=-1;
     }
     const auto started=fuel_left();unsigned operations=0;
     const bool complete=cache.search.resume(units,std::span<const crew::Monster>(cache.scene.data(),cache.camps),[&](Tile tile,unsigned cleared) {
@@ -55,12 +59,94 @@ int layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::
     tc.guard();if(operations)cache.expires=tc.round+config::crew_window;
     return complete?static_cast<int>(cache.camps-camps.size()):-1;
 }
+void price_progression(const StaticWorld& w,const Memory& m,int g,int work,const TurnContext& tc) {
+    auto& cache=m.crew_layout;auto& p=cache.progression;
+    if(p.stage==crew::Progression::Stage::Empty) {
+        if(!tc.allow(16000))return;
+        const auto& group=w.groups[g];p.stage=crew::Progression::Stage::Done;
+        // Only a complete catalog can price the next full renewable objective.
+        // Partial suffixes, large jobs or unavailable delivery retain raw value.
+        if(cache.camps!=group.tiles.size()||cache.camps>8||group.tiles.empty())return;
+        int delivery=65535;
+        for(unsigned a=0;a<w.altars.size();++a) {
+            int d=0;for(auto tile:group.tiles)d=std::max(d,w.altar_distance(a,tile));
+            delivery=std::min(delivery,d);
+        }
+        const auto bank=tribute_delay(group.reward_gems,cambc::constants::submit_gem_base_duration,
+            cambc::constants::submit_gem_minimum_duration,cambc::constants::submit_gem_duration_multiplier,0);
+        if(delivery>=65535||!bank.supported())return;
+        std::array<team::Cash,crew::max_units> reports{};
+        unsigned until=tc.round+team::lifetime(w.allies.size());
+        for(unsigned u=0;u<cache.units;++u) {
+            reports[u]=m.team.budget(cache.roster[u].slot,tc.round,w.allies.size());
+            if(cache.roster[u].slot==w.slot) {
+                const unsigned gold=cambc::self().gold_count();reports[u]={tc.round,gold,gold,true};
+            }
+        }
+        std::array<crew::Shard,2> shards{};
+        for(unsigned s=0;s<2;++s) {
+            const auto info=cambc::get_item_enum(cambc::item_family::power,s?cambc::item_stat::health:cambc::item_stat::strength).info();
+            if(!info.result)continue;const auto result=info.result->info();
+            const int points=s?info.health_points:info.strength_points,result_points=s?result.health_points:result.strength_points;
+            if(points<=0||result_points<0)continue;
+            shards[s]={info.cost,info.combine_count,static_cast<unsigned>(points),static_cast<unsigned>(result_points)};
+        }
+        p.begin(std::span<const crew::Unit>(cache.roster.data(),cache.units),std::span<const team::Cash>(reports.data(),cache.units),shards,
+            tc.round,until,std::max(0,static_cast<int>(cambc::constants::max_rounds-tc.round)-work),
+            2*cache.search.phases[0].return_rounds+cambc::constants::recall_time+1,delivery+bank.rounds,
+            group.sdk.max_respawn_timer(),cambc::constants::recall_time,group.reward_gems,group.reward_gold,group.cluster);
+    }
+    if(tc.round>p.expires){p.stage=crew::Progression::Stage::Done;return;}
+    std::array<crew::Monster,crew::max_camps> full{};
+    for(unsigned c=0;c<cache.camps;++c){full[c]=cache.scene[c];full[c].hp=w.groups[g].initial_hp[full[c].member];}
+    const auto started=fuel_left();
+    if(p.pending())cache.expires=tc.round+config::crew_window;
+    p.resume(std::span<const crew::Unit>(cache.roster.data(),cache.units),std::span<const crew::Monster>(full.data(),cache.camps),cache.search,
+        [&]{return tc.allow(10000)&&started-fuel_left()<6000;});
+}
 }
 void progress_crew_layout(const StaticWorld& w,const Memory& m,const TurnContext& tc) {
     auto& c=m.crew_layout;
-    if(!c.search.pending()||c.group<0||c.group>=static_cast<int>(m.groups.size())||!tc.allow(25000))return;
+    if(!c.pending()||c.group<0||c.group>=static_cast<int>(m.groups.size())||!tc.allow(25000))return;
     if(c.expires<=static_cast<int>(tc.round)||c.topology!=m.topology_revision-m.group_topology[c.group]||c.generation!=m.conversions[c.group])return;
-    layout(w,m,c.group,std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),tc);
+    if(c.search.pending())layout(w,m,c.group,std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),tc);
+    else {
+        if(c.progression_work<0) {
+            const auto started=fuel_left();
+            const auto q=crew::quote(std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),c.search,
+                0,cambc::constants::capture_time+1,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
+                [&]{return tc.allow(10000)&&started-fuel_left()<6000;});
+            if(q.reason==crew::SequenceReason::Budget)return;
+            if(!q.complete){c.progression.stage=crew::Progression::Stage::Done;return;}
+            int arrival=0;for(unsigned u=0;u<c.units;++u)arrival=std::max(arrival,c.roster[u].arrival);
+            c.progression_work=arrival+q.finish;
+        }
+        price_progression(w,m,c.group,c.progression_work,tc);
+    }
+}
+void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int g,const TurnContext& tc) {
+    auto& reward=m.crew_reward;auto& cache=m.crew_layout;
+    if(cache.group!=g||cache.generation!=m.conversions[g]||cache.camps!=w.groups[g].tiles.size()||
+        cache.topology!=m.topology_revision-m.group_topology[g]||cache.search.stage!=crew::SequenceSearch::Stage::Done)return;
+    if(reward.group!=g||reward.generation!=m.conversions[g]) {
+        reward={g,static_cast<int>(tc.round),o.gold,o.bag,m.conversions[g]};
+        cache.progression={}; // Reprice at the actual payout, with today's own cash.
+    }
+    if(reward.priced||!tc.allow(18000))return;
+    price_progression(w,m,g,0,tc);
+    if(cache.progression.pending())return;
+    const auto plan=cache.progression.best(w.slot,tc.round);
+    reward.priced=true;
+    if(plan.valid&&plan.purchases) {
+        const auto me=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
+        const auto& group=w.groups[g];const float boost=group.cluster&&me.prospector?1.25f:1.f;
+        reward.required_gold=std::floor(group.reward_gold*boost*me.gold_multiplier);
+        reward.required_gems=std::floor(group.reward_gems*boost);
+        reward.stat=plan.stat;reward.value=plan.gain;reward.promised=true;
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_CREW_REWARD_PLAN round=%u group=%d slot=%u stat=%u gain=%.2f cash=%d\n",tc.round,g,w.slot,plan.stat,plan.gain,o.gold);}
+#endif
+    }
 }
 CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc) {
     if(!tc.allow(19000)||given.size()<2||given.size()>crew::max_units)return {};
@@ -88,6 +174,10 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
 #endif
     if(!q.complete)return {false,0,0,CrewQuoteStatus::Model};
     if(arrival+q.finish>static_cast<int>(cambc::constants::max_rounds-tc.round))return {false,0,0,CrewQuoteStatus::Horizon};
+    m.crew_layout.progression_work=arrival+q.finish;
+    price_progression(w,m,group,arrival+q.finish,tc);
+    if(m.crew_layout.progression.pending()||m.crew_layout.progression.stage==crew::Progression::Stage::Empty)
+        return {false,0,0,CrewQuoteStatus::Budget};
     unsigned mask=0;for(unsigned u=0;u<units.size();++u)mask|=1u<<units[u].slot;
     return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready};
 }
