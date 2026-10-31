@@ -69,7 +69,19 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
         }
     }
     apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    bool topology_changed=(next.state==GroupState::Respawning)!=(groups[index].state==GroupState::Respawning);
+    for(unsigned k=0;k<hp.size()&&!topology_changed;++k)topology_changed=(hp[k]>0)!=(member_hp[index][k]>0);
+    if(next.state==GroupState::Respawning&&groups[index].state==GroupState::Respawning)
+        topology_changed|=(next.ready>static_cast<int>(tc.round))!=(groups[index].ready>static_cast<int>(tc.round));
+    if(groups[index].seen+g.sdk.max_respawn_timer()<=static_cast<int>(tc.round)&&
+        std::any_of(member_hp[index].begin(),member_hp[index].end(),[](float value){return value<=0;}))
+        topology_changed=true; // Freshly re-observed dead cells replace expired uncertainty.
+#endif
     tc.guard(); groups[index] = next;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    if(topology_changed)++topology_revision;
+#endif
     if (hp!=member_hp[index]) ++hp_version[index];
     member_hp[index]=std::move(hp);
 }

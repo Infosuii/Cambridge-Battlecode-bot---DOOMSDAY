@@ -150,6 +150,9 @@
 #ifndef DZ_ECONOMY_V2
 #define DZ_ECONOMY_V2 0 // Integrated Z6-Z11 economy/gear/combat/lease candidate; unpromoted development only.
 #endif
+#ifndef DZ_SIEGE
+#define DZ_SIEGE 0 // Persistent gate waves with a reserved escape and heal-return; development only.
+#endif
 
 // Selected release keeps these off. Development candidates do not establish
 // model calibration, competitive parity or release admission.

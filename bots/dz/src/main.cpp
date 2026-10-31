@@ -114,6 +114,9 @@ int main() {
                 continue;
             }
             if (obs->state.is_dead()) {
+#if DZ_SIEGE || DZ_ECONOMY_V2
+                if(mem->siege_task.active())mem->siege_task.reset(tc.round,15);
+#endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;
                 ++dz_time[10];

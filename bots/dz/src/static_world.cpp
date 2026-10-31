@@ -70,6 +70,9 @@ void StaticWorld::boot(const TurnContext& tc) {
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
         tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        tile_members.assign(tile_groups.size(),-1);
+#endif
         altars.clear();
         for (auto p : cambc::map::altars().positions()) altars.push_back({p, nullptr});
         loaded_ = true;
@@ -86,6 +89,9 @@ void StaticWorld::boot(const TurnContext& tc) {
 #endif
             auto p=tiles[tile_member_cursor_++];
             tile_groups[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_group_cursor_);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            tile_members[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_member_cursor_-1);
+#endif
             camp_spawns.set(p);
         }
         ++tile_group_cursor_; tile_member_cursor_=0;
@@ -150,8 +156,11 @@ void StaticWorld::boot(const TurnContext& tc) {
         auto field = std::make_unique<cambc::distance_field>();
         field->compute(blocked, roots, visited);
         tc.guard(); altar.field = std::move(field);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        altar.distances=altar.field->export_linear_buffer();
+#endif
     }
-#if DZ_RING_GATES || DZ_ECONOMY_V2
+#if DZ_RING_GATES || DZ_ECONOMY_V2 || DZ_SIEGE
     // Resumable over turns: one pocket field per altar, then a budgeted group scan.
     const auto ring_start=fuel_left();
     for (auto& altar : altars) {

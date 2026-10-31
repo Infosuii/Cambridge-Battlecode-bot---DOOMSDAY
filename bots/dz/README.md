@@ -32,11 +32,14 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
 `DZ_ECONOMY_V2=1` enables bounded objective quotes, dynamic crew allocation,
 timestamped crew leases, single capturers, cluster follow-up valuation, marginal
 gear projects, a bounded four-turn combat forecast, common action values and a
-near-finish race clock. Gate-member access and startup scans are resumable.
+near-finish race clock. `DZ_SIEGE=1` separately enables persistent gate waves,
+checked escapes, heal-return, first-phase shields, committed ally protection and
+cached actual altar reachability. See the
+[siege checkpoint](../../research/dz/siege-2026-10-31/README.md).
 The default is **0**: development screens have not established a banking gain.
 See [the implementation checkpoint](../../research/dz/engineering-2026-10-31/README.md)
 for exact model assumptions, failed runs, validation and the ordered backlog.
-Full ObjModel/EE calibration, tank positioning, siege recovery, joint action
+Full ObjModel/EE calibration, tank positioning, competitive siege conversion, joint action
 enumeration, opening rollout and release promotion remain unfinished.
 
 On macOS/Linux install official `cambc==4.0.0` and put it on PATH, or set

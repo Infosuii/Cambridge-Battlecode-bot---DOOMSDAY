@@ -1,6 +1,9 @@
 #pragma once
 #include "observation.h"
 #include "clear_risk.h"
+#if DZ_SIEGE || DZ_ECONOMY_V2
+#include "siege_model.h"
+#endif
 #if DZ_ECONOMY_V2
 #include "race.h"
 #endif
@@ -24,6 +27,18 @@ struct Memory {
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
     int last_gold=0;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    siege::Task siege_task;
+    std::array<std::pair<int,int>,8> route_gates{};
+    unsigned route_gate_count=0;
+    unsigned topology_revision=0;
+    struct AccessField { std::unique_ptr<cambc::distance_field> field;unsigned revision=~0u;int expires=0;bool closed=false; };
+    std::vector<AccessField> access_fields;
+    struct AccessBuild {
+        LocalMask mask;int altar=-1,expires=0;unsigned revision=~0u;
+        std::size_t group=0,member=0;
+    } access_build;
+#endif
 #if DZ_ECONOMY_V2
     unsigned economic_crew=0, economic_capturer=0;
     int rendezvous_until=0;

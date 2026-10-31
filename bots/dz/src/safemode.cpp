@@ -2,6 +2,7 @@
 #include "clear_risk.h"
 #include "economy.h"
 #include "engage.h"
+#include "siege.h"
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -164,9 +165,21 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         return false;
     };
     int altar = -1, altar_distance = 65535, gated_altar = -1, gated_distance = 65535;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    mem.route_gate_count=0;
+#endif
     for (unsigned a = 0; a < world.altars.size(); ++a) {
         int d = world.altar_distance(a, obs.p);
-        if (!altar_open(a)) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
+        bool open=altar_open(a);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        const auto route=altar_route(world,mem,obs,a,tc);
+        if(route.status==access::Status::Blocked) {
+            if(const auto reachable=altar_access(world,mem,obs,a,tc))open=*reachable;
+            if(mem.route_gate_count<mem.route_gates.size())mem.route_gates[mem.route_gate_count++]={route.blocker.group,route.blocker.member};
+        } else if(route.status==access::Status::Clear)open=true;
+        else if(route.status==access::Status::Unreachable)continue;
+#endif
+        if (!open) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
         if (d < altar_distance) { altar = a; altar_distance = d; }
     }
 #if DZ_TRACE
@@ -209,6 +222,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
 #endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    if(auto goal=siege_goal(world,mem,obs,tc,altar>=0))return *goal;
+#endif
 #if DZ_ECONOMY_V2
     if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
     // An interrupted expensive forecast cannot immediately launch another full
@@ -220,9 +236,11 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
 #endif
     if (altar < 0 && gated_altar >= 0) {
+#if !(DZ_SIEGE || DZ_ECONOMY_V2)
         if (!legacy) mem.legacy_until = tc.round + 100;
         legacy = true;
         altar = gated_altar; altar_distance = gated_distance;
+#endif
     }
     if (altar >= 0 && bank_now(obs.bag, altar_distance, obs.submitted, cambc::constants::winning_gems)) return {GoalKind::Bank, altar};
     if (obs.hp < .3f * obs.max_hp || obs.gold >= 150) return {GoalKind::Home};

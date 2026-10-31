@@ -1,6 +1,7 @@
 #include "actions.h"
 #include <cmath>
 #include "economy.h"
+#include "siege.h"
 #if DZ_ECONOMY_V2
 #include "action_value.h"
 #endif
@@ -277,6 +278,25 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     DZ_PROF(static_cast<char>('0'+static_cast<int>(goal.kind)));
     const bool retreat = goal.kind == GoalKind::Retreat || goal.kind == GoalKind::Home;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    // A shield-funded strike is transactional: create/check the shield BEFORE
+    // any camp damage. A failed cast consumes no unprotected attack commitment.
+    if(goal.kind==GoalKind::Farm&&mem.siege_task.active()&&mem.siege_task.group==goal.index&&
+        mem.siege_task.last_round==static_cast<int>(tc.round)&&mem.siege_task.required_shield>0) {
+        const float required=mem.siege_task.required_shield;
+        auto protected_now=[&] {
+            const auto buffs=me.buffs();
+            return buffs.has_shield()&&buffs.get<cambc::buff_shield>().duration>0&&buffs.get<cambc::buff_shield>().value>=required;
+        };
+        if(!protected_now())for(const auto& ability:me.abilities())
+            if(ability.is_shield()&&ability.is_ready()&&ability.can_target_self()&&ability.shield_amount()>=required)
+                if(act.cast(ability))break;
+        if(!protected_now()) {
+            const auto exit=mem.siege_task.exit;mem.siege_task.phase=siege::Phase::Escape;
+            execute({GoalKind::Retreat,-1,vec2{exit.x,exit.y}},world,mem,obs,tc,act);return;
+        }
+    }
+#endif
     // Repair failed travel, not optional repositioning during productive work.
     // In particular a melee clearer can attack and attempt a blocked step in
     // the same turn; that does not justify changing its working route.
@@ -338,6 +358,9 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
 #if DZ_ECONOMY_V2
             if(mem.access_group==goal.index&&mem.access_member==static_cast<int>(k))score-=1e12f;
 #endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            if(mem.siege_task.active()&&mem.siege_task.group==goal.index&&mem.siege_task.member==static_cast<int>(k))score-=1e13f;
+#endif
             if (score < best) { best = score; chosen = static_cast<int>(k); }
         }
         if (chosen >= 0 && tc.allow(3500)) {
@@ -345,9 +368,17 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             if (c.is_visible() && !c.is_dead()) camp_target = &c;
         }
         target = camp_target;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        const bool siege_job=mem.siege_task.active()&&mem.siege_task.group==goal.index;
+        if(siege_job&&!siege_strike_allowed(mem,obs,goal.index,tc))target=nullptr;
+#endif
         // Never wake a sleeping damaging group that the visible crew cannot
         // clear: asleep camps do not attack, so waiting beside them is safe.
-        if (camp_target && group.strength>0 && camp_target->is_asleep() && !mem.legacy(tc.round)) {
+        if (camp_target && group.strength>0 && camp_target->is_asleep() && !mem.legacy(tc.round)
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            &&!siege_job
+#endif
+            ) {
 #if DZ_ECONOMY_V2
             if(!crew_ready(world,mem,obs,goal.index,tc))target=nullptr;
 #else
@@ -448,6 +479,14 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         }
     } else if (goal.kind == GoalKind::Farm) {
         auto& g = world.groups[goal.index];
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        if(mem.siege_task.active()&&mem.siege_task.group==goal.index&&mem.siege_task.phase!=siege::Phase::Recover&&
+            mem.siege_task.phase!=siege::Phase::Escape) {
+            const auto tile=mem.siege_task.attack;
+            const vec2 p{tile.x,tile.y};
+            if(movable(p,world,obs)||p==obs.p)roots.set(p);
+        } else
+#endif
         if (mem.groups[goal.index].state == GroupState::Reward) {
             vec2 nearest = obs.p; int distance = 65535;
             for (unsigned k=0;k<g.tiles.size();++k) {

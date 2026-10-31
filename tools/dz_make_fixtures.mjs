@@ -24,6 +24,8 @@ const layouts={
   'group-visibility':Array.from({length:12},(_,i)=>[3,6+i,12]),
   'recovery-shop':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[0,10,12]],
   'capture-contest':[[2,14,15],[2,15,15]],
+  'siege-ring-golem':[[5,14,15]],
+  'siege-two-layer':[[2,12,15],[5,14,15]],
 };
 if (!Object.hasOwn(layouts,key)) throw new Error('Unknown fixture '+key);
 fs.mkdirSync(destination,{recursive:true});
@@ -36,6 +38,9 @@ try {
   check(X.MapBuilder_SetTeamASpawnArea(builder,out));
   const altar=key==='capture-contest'?[15,10]:[15,15];
   check(X.MapBuilder_AddAltar(builder,...altar));
+  const walls=key==='siege-ring-golem'?[[14,14],[15,14],[16,14],[14,16],[15,16],[16,16]]:
+    key==='siege-two-layer'?Array.from({length:7},(_,i)=>[[12+i,14],[12+i,16]]).flat():[];
+  for(const tile of walls)check(X.MapBuilder_AddWall(builder,...tile));
   for (const [kind,x,y] of layouts[key]) check(X.MapBuilder_AddCamp(builder,kind,x,y,out));
   check(X.MapBuilder_VerifyIntegrity(builder));
   check(X.MapBuilder_Encode(builder,out,out+4));
@@ -46,7 +51,8 @@ try {
   const manifest={purpose:'controlled engine conformance only; no strategy or strength claims',engine:'2.0.0',
     generator_sha256:crypto.createHash('sha256').update(fs.readFileSync(new URL(import.meta.url))).digest('hex'),
     official_assets:PINNED,width:31,height:31,symmetry:'rotational180',picks,spawnA:[1,1,4,4],
-    altar,camps:layouts[key],automatic_symmetry:true,terrain:'open ground; no walls, bushes or holes',
+    altar,camps:layouts[key],automatic_symmetry:true,terrain:walls.length?'walled altar pocket; see exact camps and walls below':'open ground; no walls, bushes or holes',
+    ...(walls.length?{walls}:{}),
     file:name,bytes:length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')};
   fs.writeFileSync(path.join(destination,key==='isolated-monolith'?'manifest.json':key+'.manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});
   console.log(JSON.stringify(manifest));

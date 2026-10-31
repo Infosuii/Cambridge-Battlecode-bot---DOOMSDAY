@@ -555,3 +555,16 @@ The registry was created before experiments. Entries below record actual use.
 | dz-economy2-compressed-pack-01 | 2026-10-31 | deterministic; Wasm 0cacee51d325 | 2 cells; v65 | smoke; trace=False |
 | dz-economy2-final-dev-02 | 2026-10-31 | deterministic; Wasm 0a194b268a36 | 12 cells; v65 | smoke; trace=False |
 | dz-economy2-lease-dev-03 | 2026-10-31 | deterministic; Wasm 595bf1b14450 | 12 cells; v65 | smoke; trace=False |
+| dz-siege-ring-golem-01 | 2026-10-31 | deterministic; Wasm 7f4b11cdc317 | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-ring-golem-02 | 2026-10-31 | deterministic; Wasm c3ee294de790 | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-ring-golem-03 | 2026-10-31 | deterministic; Wasm e1ac26bee962 | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-ring-golem-04 | 2026-10-31 | deterministic; Wasm bea391d5722d | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-access-dev-01 | 2026-10-31 | deterministic; Wasm ffc73f15d0da | 6 cells; v65 | smoke; trace=False |
+| dz-siege-support-golem-05 | 2026-10-31 | deterministic; Wasm cff23723bc66 | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-support-access-02 | 2026-10-31 | deterministic; Wasm 03795f41eb10 | 6 cells; v65 | smoke; trace=False |
+| dz-siege-shield-golem-06 | 2026-10-31 | deterministic; Wasm c4aeb5bd2332 | 2 cells; idle81 | scenario; trace=True |
+| dz-siege-access-fixtures-07 | 2026-10-31 | deterministic; Wasm f6ea3f87f880 | 4 cells; idle81 | scenario; trace=True |
+| dz-siege-route-access-03 | 2026-10-31 | deterministic; Wasm 99b72a2abf2d | 6 cells; v65 | smoke; trace=False |
+| dz-siege-access-fixtures-08 | 2026-10-31 | deterministic; Wasm f0e0efb78d76 | 4 cells; idle81 | scenario; trace=True |
+| dz-siege-access-fixtures-09 | 2026-10-31 | deterministic; Wasm 91ff4494f9a6 | 4 cells; idle81 | scenario; trace=True |
+| dz-siege-economy-integration-10 | 2026-10-31 | deterministic; Wasm 6cfabd8be185 | 2 cells; idle81 | scenario; trace=True |
