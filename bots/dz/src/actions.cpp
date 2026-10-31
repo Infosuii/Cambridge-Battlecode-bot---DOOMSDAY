@@ -407,6 +407,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
 #if DZ_ECONOMY_V2
         if(mem.crew_execution.managed&&mem.crew_execution.round==static_cast<int>(tc.round)&&mem.crew_execution.group==goal.index&&
             (mem.crew_execution.focus!=chosen||mem.crew_execution.focus<0))target=nullptr;
+        if(mem.crew_execution.managed&&mem.crew_execution.round==static_cast<int>(tc.round)&&!mem.crew_execution.fire)target=nullptr;
         if(mem.crew_execution.managed&&goal.destination&&obs.range>1&&obs.p!=*goal.destination)target=nullptr;
 #endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
@@ -510,6 +511,15 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         if (world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
 #if DZ_ECONOMY_V2
+    if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&
+        (mem.crew_execution.direct_step||*goal.destination==obs.p)) {
+        const auto next=*goal.destination;const int dx=next.x-obs.p.x,dy=next.y-obs.p.y;
+        const bool guarded=mem.neutral_moves.round==static_cast<int>(tc.round)&&mem.neutral_moves.origin==Tile{obs.p.x,obs.p.y};
+        if(mem.crew_execution.direct_step&&std::max(std::abs(dx),std::abs(dy))==1&&
+            (!guarded||(mem.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))&&world.walkable(next)&&!obs.is_occupied(next)&&tc.allow(3500))
+            act.move(next);
+        return;
+    }
     if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&mem.crew_field.field&&
         mem.crew_field.root==Tile{goal.destination->x,goal.destination->y}&&mem.crew_field.expires>static_cast<int>(tc.round)) {
         if(me.can_move()&&tc.allow(6000))step(*mem.crew_field.field,world,obs,false,act,remember_failures,&mem);

@@ -327,14 +327,20 @@ int main() {
                         }
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
 #if DZ_ECONOMY_V2
+                        const bool recovering_project=mem->crew_execution.recovering&&mem->crew_execution.group>=0&&
+                            mem->crew_execution.group==mem->contract.objective&&tc.round<=static_cast<unsigned>(mem->crew_execution.recovery_deadline)&&
+                            (goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat);
+                        if(recovering_project)objective=dz::protocol::group_code(mem->crew_execution.group);
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
                         const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
                         const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
                         unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
-                        if(executed&&goal.kind==dz::GoalKind::Farm&&leader==world->slot&&goal.index<112&&
-                            mem->economic_crew!=(1u<<leader)&&mem->contract.objective==goal.index&&
-                            !(mem->crew_execution.joined&&mem->crew_execution.group==goal.index&&
-                              mem->groups[goal.index].state==dz::GroupState::Partial)&&
+                        const int offered=goal.kind==dz::GoalKind::Farm?goal.index:recovering_project?mem->crew_execution.group:-1;
+                        if(executed&&offered>=0&&leader==world->slot&&offered<112&&
+                            mem->economic_crew!=(1u<<leader)&&mem->contract.objective==offered&&
+                            !(mem->crew_execution.joined&&mem->crew_execution.group==offered&&
+                              !mem->crew_execution.recovering&&
+                              mem->groups[offered].state==dz::GroupState::Partial)&&
                             (!fresh_lease.valid||fresh_lease.leader==world->slot))
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
                         else if(old_lease.leader==world->slot)
@@ -345,7 +351,12 @@ int main() {
 #endif
                         });
                         DZ_PROF('c');
-                        dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,mem->contract.objective);});
+                        dz::module_work(field_health,tc,counts,"fields",[&]{
+#if DZ_ECONOMY_V2
+                            dz::progress_crew_layout(*world,*mem,tc);
+#endif
+                            world->build_one_field(tc,mem->contract.objective);
+                        });
                     }
                 }
             }

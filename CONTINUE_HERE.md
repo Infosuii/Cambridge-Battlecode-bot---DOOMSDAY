@@ -1,3 +1,20 @@
+# ACTIVE 2026-10-31 — sequential crew projects; unpromoted
+
+Read research/dz/sequences-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented per-monster formations, resumable checked BFS/serial role routes,
+parking cycles, safe staging/re-entry, planned entry exposure, live formation fire
+on awake targets, prefix/generation caching and background geometry. Recovery
+retains project ownership/partial work; fresh reassignment and bank deadlines win.
+ELEVEN host suites pass; ten capsules/32 cells verify. Final three-wolf fixture
+banks48/300 with zero deaths/faults/fuel-outs and actual phase1/2 advances. Strong
+side asymmetry remains. Final layered416/127 strict audit passes50/22 cycles.
+Famine FAILS77/7 vs selected400/236 despite clean runtime. Do not promote/scale.
+Next: legal per-body project/resource freshness, disjoint/reward/gear progression,
+then joint ability-aware phases, combat/action and opening/map integration. General
+model/conformance/release acceptance remains open. Defaults/Mac437f91c3 and Windows
+5cf28cb7 unchanged. No validation/holdout/online actions. Goal active; CLI works.
+Untracked .vscode/ is untouched. Native traces/capsules are in the checkpoint.
+
 # ACTIVE 2026-10-31 — resumable geometry and cast-aware work; unpromoted
 
 Read research/dz/cast-crew-2026-10-31/README.md and research/dz/BACKLOG.md.

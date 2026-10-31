@@ -11,6 +11,7 @@
 #include "economy_trip.h"
 #include "formation.h"
 #include "formation_search.h"
+#include "crew_sequence.h"
 #endif
 
 namespace dz {
@@ -70,6 +71,7 @@ struct Memory {
     std::vector<unsigned> member_cursor;
     std::vector<unsigned> coalition_cursor;
     std::vector<unsigned> conversions; // Observed transition into respawning, never a shifting ready tick.
+    std::vector<unsigned> group_topology;
     struct NeutralFrame {
         int round=-1;Tile origin{};float factor=1;
         std::array<CampThreat,64> camps{};unsigned count=0;bool complete=false,uncertain=false;
@@ -79,16 +81,20 @@ struct Memory {
     } neutral;
     struct CrewExecution {
         int round=-1,group=-1,focus=-1,since=-1;
+        int recovery_deadline=-1;
+        int last_progress=0;
+        std::array<Tile,crew::max_units> last_positions{};
+        unsigned position_count=0;
+        Tile last_self{};bool has_self=false;
         unsigned members=0,tank=6;
         Tile destination{};
-        bool managed=false,formed=false,fire=false,joined=false;
+        bool managed=false,formed=false,fire=false,joined=false,recovering=false,direct_step=false;
     } crew_execution;
     struct FormationCache {
-        int group=-1,expires=-1;unsigned topology=0,units=0,camps=0;
+        int group=-1,expires=-1;unsigned topology=0,generation=0,units=0,camps=0;
         std::array<crew::Unit,crew::max_units> roster{};
         std::array<crew::Monster,crew::max_camps> scene{};
-        crew::Formation formation;
-        crew::FormationSearch search;
+        crew::SequenceSearch search;
     };
     mutable FormationCache crew_layout;
     struct CrewField {

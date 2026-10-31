@@ -21,5 +21,14 @@ int main() {
         ++cases;
     }
     assert(!compact::lease(compact::with_lease(0,1,0,2048),2048).valid);
+    // Recovering actors keep their project objective while heading Home. The
+    // leader can renew a finite lease without advertising free shopping capacity.
+    auto recovering=compact::with_slot(0,1,{9,false});recovering=compact::with_slot(recovering,2,{9,false});
+    recovering=compact::with_lease(recovering,6,2,100);
+    const auto project=compact::lease(recovering,102);assert(project.valid&&project.objective==9&&project.members==6);
+    recovering=compact::with_slot(recovering,0,{shop,false});assert(compact::lease(recovering,102).objective==9);
+    assert(!compact::lease(recovering,104).valid);
+    auto reassigned=compact::with_slot(recovering,0,{10,false});reassigned=compact::with_lease(reassigned,3,0,103);
+    assert(compact::lease(reassigned,103).valid&&compact::lease(reassigned,103).members==3&&compact::lease(reassigned,103).objective==10);
     std::cout<<cases<<" compact crew-lease preservation/freshness cases passed\n";
 }
