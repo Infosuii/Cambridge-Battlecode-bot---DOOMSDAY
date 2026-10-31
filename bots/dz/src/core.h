@@ -71,6 +71,7 @@ struct GroupBelief {
     }
 };
 inline bool bank_now(int bag, int distance, int submitted, int winning) {
-    return bag > 0 && (bag >= config::bank_bag || distance <= 8 || submitted + bag >= winning);
+    return bag > 0 && (bag >= (DZ_BANK_BIG ? 45 : config::bank_bag) || (distance <= 8 && bag >= (DZ_BANK_NEAR_MIN ? 15 : 1)) ||
+        submitted + bag >= winning);
 }
 }

@@ -17,6 +17,18 @@ struct Build { std::array<Step,3> emblems; S power; };
 // (dz-gear-idle-01). Our clear model prices basic attacks, so Strength.
 Build build_for(cambc::champion_type type) {
     using T = cambc::champion_type;
+#if DZ_GEAR_HEALTH
+    // Z9 v1 variant: contested deaths are lost even trades against higher max HP (00ambush R206-221 replay).
+    (void)type;
+    return {{{{F::jungle,S::health},{F::durability,S::health},{F::prospector,S::health}}},S::health};
+#endif
+#if DZ_GEAR_SURVIVE
+    // Z9 v1 hypothesis: bigger groups need survivable clears more than early gold.
+    switch (type) {
+    case T::heart_of_ruin: case T::ryth: return {{{{F::jungle,S::health},{F::durability,S::health},{F::monster,S::health}}},S::health};
+    default: return {{{{F::jungle,S::strength},{F::monster,S::strength},{F::durability,S::health}}},S::strength};
+    }
+#endif
     switch (type) {
     case T::vesper_vale: return {{{{F::treasure,S::strength},{F::monster,S::strength},{DZ_CAPTURE_GEAR?F::capture:F::jungle,S::strength}}},S::strength};
     case T::marcella: return {{{{F::treasure,S::strength},{F::monster,S::strength},{F::durability,S::health}}},S::strength};
@@ -90,6 +102,20 @@ bool buy_build(const TurnContext& tc,Actuator& act,const Build& build) {
 bool fixed_shop(const TurnContext& tc, Actuator& act) {
     return buy_build(tc,act,build_for(cambc::self().champion_name()));
 }
+#if DZ_GEAR_PROSPECT
+bool map_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
+    // Z9 v1 hypothesis: Prospector pays only on cluster rewards, so take it as the
+    // third emblem when this map has gem-paying cluster groups. Decided once.
+    static int clusters=-1;
+    if (clusters<0 && world && world->ready) {
+        clusters=0;
+        for (const auto& g:world->groups) if (g.cluster && g.sdk.gem_value()>0) { clusters=1; break; }
+    }
+    auto build=build_for(cambc::self().champion_name());
+    if (clusters==1) build.emblems[2]={F::prospector,build.power};
+    return buy_build(tc,act,build);
+}
+#endif
 #if DZ_JOB_GEAR
 bool job_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
     auto& me=cambc::self();

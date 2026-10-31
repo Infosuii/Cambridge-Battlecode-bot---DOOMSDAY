@@ -1,3 +1,10 @@
+# CONTINUING 2026-10-31 - first integrated Z pass
+
+Selected release 5cf28cb7 unchanged (all new DZ_* flags default 0). Read the TOP of
+CLAUDE_HANDOFF.md and research/dz/z-integration-2026-10-31/README.md. Z9/Z10/Z11/
+Z14 v1 components exist behind flags; none confirmed on a separate opponent.
+Host tests on GCC 16 need tools/dz.py's -Wno-misleading-indentation (committed).
+
 # CONTINUING 2026-10-30 - enemy cast policy confirmed out of opponent
 
 Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. No new games.

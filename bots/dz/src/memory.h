@@ -21,6 +21,22 @@ struct Memory {
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
     int last_gold=0;
+#if DZ_EE
+    // DZ_EE: recent personal enemy sightings (position, round), oldest replaced first.
+    struct Sighting { vec2 p{-1,-1}; int round=-100000; };
+    std::array<Sighting,8> sightings{};
+    void remember_enemies(const Observation& obs,int round) {
+        for (const auto& e:obs.enemies) {
+            auto slot=std::min_element(sightings.begin(),sightings.end(),[](auto& a,auto& b){return a.round<b.round;});
+            for (auto it=sightings.begin();it!=sightings.end();++it) if (it->p.chebyshev_distance(e.p)<=2) { slot=it; break; }
+            *slot={e.p,round};
+        }
+    }
+    bool recently_seen_near(vec2 c,int radius,int round,int horizon) const {
+        for (const auto& s:sightings) if (round-s.round<=horizon && static_cast<int>(s.p.chebyshev_distance(c))<=radius) return true;
+        return false;
+    }
+#endif
     bool legacy(int round) const { return round < legacy_until; } // An idle champion re-plans every few rounds, not every turn.
     bool initialized = false;
     void init(const StaticWorld&);

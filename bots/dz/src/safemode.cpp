@@ -68,6 +68,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     mem.last_gold=obs.gold;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
     bool legacy = mem.legacy(tc.round);
+#if DZ_EE
+    mem.remember_enemies(obs,tc.round);
+#endif
     // Local fight: we and allies within 6 against visible enemies within 8.
     // Enemy HP carries a 25% margin for unseen reinforcements and spells.
     // Win -> engage the weakest nearby enemy (this also joins allies' fights);
@@ -81,10 +84,10 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         bool reach=false, near=false; const SeenChampion* focus=nullptr;
         for (const auto& e : obs.enemies) {
             const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
-            if (d > 8 || n_theirs>=fight_units) continue;
+            if (d > (DZ_EE ? DZ_EE_SCAN : 8) || n_theirs>=fight_units) continue;
             theirs[n_theirs++]={1.25f*e.hp,e.strength};
             if (d <= e.range + 1) reach=true;
-            if (d <= e.range + 3) near=true;
+            if (d <= e.range + (DZ_EE ? DZ_EE_NEAR : 3)) near=true;
             if (d <= 5 && !world.in_enemy_spawn(e.p) && (!focus || e.hp < focus->hp)) focus=&e;
         }
         DZ_PROF('f');
@@ -119,7 +122,19 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
 #endif
                 if(engage)return {GoalKind::Fight,-1,focus->p};
             }
-            if (!fight.won() && reach) return {GoalKind::Retreat};
+            if (!fight.won() && (DZ_EE ? near : reach)) {
+#if DZ_EE_REGROUP
+                // A same-speed chaser keeps hitting a body that flees alone (00ambush R204-221
+                // replay); run toward help instead, where the joint fight can be won.
+                const SeenChampion* help=nullptr;
+                for (const auto& a:obs.allies) {
+                    if (a.hp<.5f*a.max_hp || obs.p.chebyshev_distance(a.p)>12 || obs.p.chebyshev_distance(a.p)<2) continue;
+                    if (!help || obs.p.chebyshev_distance(a.p)<obs.p.chebyshev_distance(help->p)) help=&a;
+                }
+                if (help) return {GoalKind::Retreat,-1,help->p};
+#endif
+                return {GoalKind::Retreat};
+            }
         }
     }
     DZ_PROF('F');
@@ -156,6 +171,32 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // the pool): the reachability logic above cannot bank at all, so fall back
     // to the pre-gate policy, whose blocked-altar path clears the gate by
     // repeated waves. A dedicated siege plan is map-specific work, deferred.
+#if DZ_RING_GATES
+    if (altar < 0 && gated_altar >= 0 && !world.altars[gated_altar].gates.empty() && obs.hp >= .5f*obs.max_hp) {
+        int pick=-1; float weakest=1e30f;
+        unsigned living=1;
+        {
+            const auto word=shared_word();
+            for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots;++slot)
+                if (slot!=world.slot && protocol::slot(word,slot).objective!=protocol::dead) ++living;
+        }
+        for (int g:world.altars[gated_altar].gates) {
+            if (!mem.groups[g].available(tc.round) || world.distance(g,obs.p)>=cambc::distance_field::unreachable) continue;
+            if (world.groups[g].strength>=weakest) continue;
+            // Only a gate the whole living team can survive clearing (tank rule shares damage).
+            const auto risk=group_clear_risk(world,mem,obs,g,(living-1)*obs.strength*obs.camp_damage);
+            if (!clear_survivable(risk,obs.hp,obs.max_hp,crew_share(living))) continue;
+            weakest=world.groups[g].strength; pick=g;
+        }
+        if (pick>=0) {
+            if (mem.contract.objective!=pick) {
+                auto& b=mem.groups[pick];
+                mem.contract.start(pick,tc.round,world.distance(pick,obs.p),b.hp,b.capture,config::crew_window);
+            }
+            return {GoalKind::Farm,pick};
+        }
+    }
+#endif
     if (altar < 0 && gated_altar >= 0) {
         if (!legacy) mem.legacy_until = tc.round + 100;
         legacy = true;
@@ -168,6 +209,39 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     auto clear_risk=[&](int index,float extra=0) { return group_clear_risk(world,mem,obs,index,extra); };
     const int occupied_group=world.group_at(obs.p);
     const bool blocks_respawn=occupied_group>=0&&mem.groups[occupied_group].state==GroupState::Respawning;
+#if DZ_CREWS
+    // Z11 v1: slots pair as (0,1), (2,3), ...; the lower living slot leads. The
+    // follower joins the leader's group job while healthy; banking, recovery and
+    // fight/retreat decisions above stay individual. Unvalidated hypothesis.
+    unsigned crew_size=1;
+    {
+        const auto word=shared_word();
+        unsigned mate=world.slot^1u;
+        bool mate_alive=mate<world.allies.size()&&mate<protocol::slots&&protocol::slot(word,mate).objective!=protocol::dead;
+        if constexpr (DZ_CREW_ALL != 0) {
+            // Whole team: the lowest living slot leads; everyone else follows it.
+            mate_alive=false;
+            for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots;++slot)
+                if (slot!=world.slot && protocol::slot(word,slot).objective!=protocol::dead) {
+                    ++crew_size;
+                    if (!mate_alive || slot<mate) { if (slot<world.slot||!mate_alive) mate=slot; mate_alive=true; }
+                }
+            if (mate_alive && mate>world.slot) mate=world.slot; // This body leads.
+            mate_alive=mate_alive&&mate!=world.slot;
+        } else crew_size+=mate_alive;
+        if (mate_alive && mate<world.slot && !legacy && !blocks_respawn && obs.hp>=.6f*obs.max_hp) {
+            const int job=protocol::slot(word,mate).objective;
+            if (protocol::is_group_code(job) && job<static_cast<int>(world.groups.size()) && mem.groups[job].available(tc.round) &&
+                world.distance(job,obs.p)<cambc::distance_field::unreachable) {
+                if (mem.contract.objective!=job) {
+                    auto& b=mem.groups[job];
+                    mem.contract.start(job,tc.round,world.distance(job,obs.p),b.hp,b.capture,config::crew_window);
+                }
+                return {GoalKind::Farm,job};
+            }
+        }
+    }
+#endif
     int current = mem.contract.objective;
     if (current >= 0) {
         const auto& belief = mem.groups[current];
@@ -282,7 +356,12 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         float clear_rounds=0;
         if (belief.state!=GroupState::Reward) {
             DZ_ACC_BEGIN(acc_r);
+#if DZ_CREWS
+            auto risk=clear_risk(static_cast<int>(i),DZ_CREW_ALL ? (crew_size-1)*obs.strength*obs.camp_damage :
+                crew_size>1&&(world.slot&1u)==0 ? obs.strength*obs.camp_damage : 0.f);
+#else
             auto risk=clear_risk(static_cast<int>(i));
+#endif
             DZ_ACC_END(1,acc_r);
             if (!risk.complete() || (g.strength>0 && !clear_survivable(risk,obs.hp,obs.max_hp))) continue;
             clear_rounds=risk.attacks+(DZ_CLEAR_TIME_WORK_ONLY ? 0.f : .25f*g.tiles.size());
@@ -296,8 +375,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         float score=-value/(fixed+clear_rounds);
         // Enemy within 6 of the group's tile hull (centre + radius): an
         // enemy x tile x group scan was ~50k fuel per turn on 02the-pack.
+        bool contested=false;
         for (const auto& e : obs.enemies)
-            if (static_cast<int>(e.p.chebyshev_distance(g.center)) <= 6 + g.radius) { score*=.33f; break; }
+            if (static_cast<int>(e.p.chebyshev_distance(g.center)) <= 6 + g.radius) { contested=true; break; }
+#if DZ_EE
+        contested=contested||mem.recently_seen_near(g.center,6+g.radius,tc.round,DZ_EE_MEMORY);
+#endif
+        if (contested) score*=.33f;
         if (score < best) { best = score; chosen = i; }
     }
     DZ_PROF('S');

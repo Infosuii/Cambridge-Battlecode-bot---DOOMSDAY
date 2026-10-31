@@ -32,6 +32,11 @@ struct Altar {
     std::vector<int> gates;
     std::vector<std::pair<int,int>> gate_members;
     std::vector<int> near_groups; // Groups with a tile within 3 of the altar.
+#if DZ_RING_GATES
+    bool ring_checked=false; // Camp-ring pocket check done (DZ_RING_GATES).
+    std::unique_ptr<cambc::distance_field> pocket; std::size_t ring_cursor=0;
+    std::vector<std::pair<int,int>> ring_members;
+#endif
 };
 class StaticWorld {
     bool loaded_ = false;

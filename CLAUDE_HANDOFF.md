@@ -1,3 +1,31 @@
+# CONTINUING 2026-10-31 - first integrated Z pass: components built, none promoted
+
+Selected release 5cf28cb7 is unchanged: every new flag defaults to 0 and the default
+build is byte-identical. Read research/dz/z-integration-2026-10-31/README.md and
+RESULTS.json first. User asked to prioritise a first integrated Z version; the
+three remaining stuck episodes were left for later.
+
+- Built (all unvalidated, default 0): Z10 DZ_EE (earlier losing-contact retreat,
+  wider scan, personal sighting memory pricing jobs) and DZ_EE_REGROUP; Z9
+  DZ_GEAR_SURVIVE / DZ_GEAR_PROSPECT (map-conditional Prospector) / DZ_GEAR_HEALTH;
+  Z11 DZ_CREWS (+DZ_CREW_ALL); Z6 DZ_BANK_NEAR_MIN / DZ_BANK_BIG; Z14
+  DZ_RING_GATES (camp-ringed altar pockets become gates, resumable boot pass).
+- 36 new local runs, 140 cells each for pools. Faults 0. Fuel-outs 0 except the
+  first two ring-gate builds (boot loop, fixed). Best v76 screen was gear
+  survive+prospect +22.5 (SE 7.7), but it fails confirmation on v65 (-6.9, SE 9.6);
+  integrated gear+EE+gates is -2.2 vs v76 and -35.7 vs v65. Nothing promoted.
+- Diagnosis: vs v76 DZ gets 1.1 kills vs 15.7 deaths, half the champion damage and
+  a third of the gold; deaths are lost even trades against higher-max-HP bodies
+  (00ambush-A replay R204-221). Idle economy: v76 finishes at R914 vs DZ R1333,
+  13.4 vs 8.8 gems per collection; the gap concentrates on ~10 maps (boss-battle,
+  guardians, the-pack, islands, corridors, concentrated-wealth, harvest, ribs, farm).
+- Setup on this PC: WinLibs GCC 16.2; tools/dz.py host adds
+  -Wno-misleading-indentation (GCC 16 flags duel.h). Config paths preserved.
+
+Next: combat needs real stat/ability state (duel.h primitive, abilities, focus),
+not more retreat thresholds; 02guardians gate and 01boss-battle siege remain;
+always screen on one opponent and confirm on another. No ladder/submission.
+
 # CONTINUING 2026-10-30 - enemy cast policy confirmed out of opponent
 
 Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. No new games.

@@ -1,0 +1,597 @@
+{
+ "selected_release_sha256_prefix": "5cf28cb74612",
+ "note": "All new flags default 0; no component promoted. Paired baselines: dz-carrier-priority-{v76-check,idle,v65-full}-01.",
+ "runs": {
+  "dz-bb-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 933.16,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.49,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "9852a9b60986184d9d7fd86efaba66b12b9b23636ec98f6b770584a76d6c5f41",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_BANK_BIG=1"
+   ],
+   "trace": false
+  },
+  "dz-bb-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 223.76,
+   "mean_opponent_banked": 1023.57,
+   "deaths": 18.94,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "9852a9b60986184d9d7fd86efaba66b12b9b23636ec98f6b770584a76d6c5f41",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_BANK_BIG=1"
+   ],
+   "trace": false
+  },
+  "dz-bn-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 921.93,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.69,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "48172c9f5c92793d87d8b08ddca8b0d72632b9725e8104d727888dabd28250e9",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_BANK_NEAR_MIN=1"
+   ],
+   "trace": false
+  },
+  "dz-bn-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 195.66,
+   "mean_opponent_banked": 1025.69,
+   "deaths": 18.85,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "48172c9f5c92793d87d8b08ddca8b0d72632b9725e8104d727888dabd28250e9",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_BANK_NEAR_MIN=1"
+   ],
+   "trace": false
+  },
+  "dz-crew1-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 891.06,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.52,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "56b437617516e07c972d0c0054d46d3fb05f4ff40af3c40fcfe66ba905ae719b",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_CREWS=1"
+   ],
+   "trace": false
+  },
+  "dz-crew1-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 200.89,
+   "mean_opponent_banked": 1021.79,
+   "deaths": 18.68,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "56b437617516e07c972d0c0054d46d3fb05f4ff40af3c40fcfe66ba905ae719b",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_CREWS=1"
+   ],
+   "trace": false
+  },
+  "dz-crewall-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 841.69,
+   "mean_opponent_banked": 0.0,
+   "deaths": 5.04,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "a804a6a9f1bfde642a32d3b7af097631ae8d5b7e91c468459d1c32c022add796",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_CREWS=1",
+    "DZ_CREW_ALL=1"
+   ],
+   "trace": false
+  },
+  "dz-crewall-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 189.04,
+   "mean_opponent_banked": 1017.88,
+   "deaths": 18.85,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "a804a6a9f1bfde642a32d3b7af097631ae8d5b7e91c468459d1c32c022add796",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_CREWS=1",
+    "DZ_CREW_ALL=1"
+   ],
+   "trace": false
+  },
+  "dz-diag-fight-trace-01": {
+   "games": 2,
+   "wins": 0,
+   "mean_banked": 205.0,
+   "mean_opponent_banked": 1038.5,
+   "deaths": 18.0,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "55ce94ba1b1c55e3a1a7f9261d7df70a90f7ba112117bf7e9d83d2e46e8c95e9",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_TRACE_FIGHT=1"
+   ],
+   "trace": true
+  },
+  "dz-diag-harvest-gates-01": {
+   "games": 4,
+   "wins": 4,
+   "mean_banked": 763.75,
+   "mean_opponent_banked": 0.0,
+   "deaths": 18.5,
+   "faults": 0,
+   "fuel_outs": 6,
+   "candidate_sha256": "e70c0f30e0f8e28e68b4c33a9eae5aa881a0971baf9314fb305ba081dc210278",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": true
+  },
+  "dz-diag-pack-trace-01": {
+   "games": 2,
+   "wins": 2,
+   "mean_banked": 403.5,
+   "mean_opponent_banked": 0.0,
+   "deaths": 34.5,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "373b440dcd276f6abcfb59410d559f508e478a1a02911959255132f041281353",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [],
+   "trace": true
+  },
+  "dz-ee1-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 215.38,
+   "mean_opponent_banked": 1027.85,
+   "deaths": 16.09,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "a782409471a096bdabeed327b390a196a9cdec220c071229c9e71ef35649fbc7",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_EE=1"
+   ],
+   "trace": false
+  },
+  "dz-eerg-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 204.24,
+   "mean_opponent_banked": 1029.67,
+   "deaths": 17.7,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "70bb2decc19569531d3422f80cbdcc458120ef35ec729c8c552d71236388a8f0",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_EE=1",
+    "DZ_EE_REGROUP=1"
+   ],
+   "trace": false
+  },
+  "dz-gates1-worst-idle-01": {
+   "games": 18,
+   "wins": 14,
+   "mean_banked": 375.61,
+   "mean_opponent_banked": 0.0,
+   "deaths": 23.17,
+   "faults": 0,
+   "fuel_outs": 24462,
+   "candidate_sha256": "3930aed4365577be6daa112536bdee8d41cfe06680aeea677073410509816006",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates2-idle-01": {
+   "games": 140,
+   "wins": 139,
+   "mean_banked": 927.29,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.67,
+   "faults": 0,
+   "fuel_outs": 66,
+   "candidate_sha256": "27b79949b32502a30d8cefec2207613dcdc06b513a5c2d3281518607ee48bf27",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates2-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 221.97,
+   "mean_opponent_banked": 1021.3,
+   "deaths": 19.32,
+   "faults": 0,
+   "fuel_outs": 66,
+   "candidate_sha256": "27b79949b32502a30d8cefec2207613dcdc06b513a5c2d3281518607ee48bf27",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates3-check-01": {
+   "games": 8,
+   "wins": 7,
+   "mean_banked": 258.12,
+   "mean_opponent_banked": 0.0,
+   "deaths": 60.25,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "cd3f974abbe300230fbb52c1ea9228482994eef5f9903a79ceb071deb1b86451",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates4-check-01": {
+   "games": 8,
+   "wins": 8,
+   "mean_banked": 354.0,
+   "mean_opponent_banked": 0.0,
+   "deaths": 50.62,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "4f908fbce4803691b1332060775c532b4960943e218035dcd6334c626c7f36ed",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates4-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 925.94,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.07,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "4f908fbce4803691b1332060775c532b4960943e218035dcd6334c626c7f36ed",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-gates4-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 217.39,
+   "mean_opponent_banked": 1022.79,
+   "deaths": 19.38,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "4f908fbce4803691b1332060775c532b4960943e218035dcd6334c626c7f36ed",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-ghp-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 869.65,
+   "mean_opponent_banked": 0.0,
+   "deaths": 3.36,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "bb52e654ffd813f054296f07b0cdbe3fcf43934d86290d1a8bb987b808b12a5a",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_GEAR_HEALTH=1"
+   ],
+   "trace": false
+  },
+  "dz-ghp-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 206.49,
+   "mean_opponent_banked": 1027.45,
+   "deaths": 17.31,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "bb52e654ffd813f054296f07b0cdbe3fcf43934d86290d1a8bb987b808b12a5a",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_HEALTH=1"
+   ],
+   "trace": false
+  },
+  "dz-gp-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 911.73,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.54,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "60cf319466483f722b2366f533e1bb0c297931d2666ba5f0e6effeac77ee6256",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_GEAR_PROSPECT=1"
+   ],
+   "trace": false
+  },
+  "dz-gp-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 226.37,
+   "mean_opponent_banked": 1027.52,
+   "deaths": 19.06,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "60cf319466483f722b2366f533e1bb0c297931d2666ba5f0e6effeac77ee6256",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_PROSPECT=1"
+   ],
+   "trace": false
+  },
+  "dz-gs-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 942.33,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.11,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "55dbcdcaa6cda58c166ea5872939d59e0ae01effb5359f532ac51c10382518e3",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1"
+   ],
+   "trace": false
+  },
+  "dz-gs-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 238.4,
+   "mean_opponent_banked": 1027.02,
+   "deaths": 18.5,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "55dbcdcaa6cda58c166ea5872939d59e0ae01effb5359f532ac51c10382518e3",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1"
+   ],
+   "trace": false
+  },
+  "dz-gsp-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 935.06,
+   "mean_opponent_banked": 0.0,
+   "deaths": 4.21,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "38bbac25157cf51b141b8910398e27d736f54a11c4fd907aafce09260de8580c",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1"
+   ],
+   "trace": false
+  },
+  "dz-gsp-v65-confirm-01": {
+   "games": 140,
+   "wins": 3,
+   "mean_banked": 254.62,
+   "mean_opponent_banked": 1018.34,
+   "deaths": 17.99,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "38bbac25157cf51b141b8910398e27d736f54a11c4fd907aafce09260de8580c",
+   "candidate": "dz",
+   "opponent": "v65",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1"
+   ],
+   "trace": false
+  },
+  "dz-gsp-v76-01": {
+   "games": 140,
+   "wins": 2,
+   "mean_banked": 248.26,
+   "mean_opponent_banked": 1023.08,
+   "deaths": 18.64,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "38bbac25157cf51b141b8910398e27d736f54a11c4fd907aafce09260de8580c",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1"
+   ],
+   "trace": false
+  },
+  "dz-int1-idle-01": {
+   "games": 140,
+   "wins": 139,
+   "mean_banked": 929.66,
+   "mean_opponent_banked": 0.0,
+   "deaths": 3.74,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "3efe4396f7e5a291918b4bb1d89a9a973b22606880cdccb18d0c430515dfb772",
+   "candidate": "dz",
+   "opponent": "idle",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1",
+    "DZ_EE=1",
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-int1-v65-confirm-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 225.81,
+   "mean_opponent_banked": 1017.92,
+   "deaths": 15.24,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "3efe4396f7e5a291918b4bb1d89a9a973b22606880cdccb18d0c430515dfb772",
+   "candidate": "dz",
+   "opponent": "v65",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1",
+    "DZ_EE=1",
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-int1-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 223.57,
+   "mean_opponent_banked": 1023.94,
+   "deaths": 15.73,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "3efe4396f7e5a291918b4bb1d89a9a973b22606880cdccb18d0c430515dfb772",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1",
+    "DZ_EE=1",
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-int1b-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 227.97,
+   "mean_opponent_banked": 1022.11,
+   "deaths": 18.98,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "9343751357a1bb9c3dec1702987037aac4e29a80ea03e2315eba0aa19b359b28",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1",
+    "DZ_RING_GATES=1"
+   ],
+   "trace": false
+  },
+  "dz-int1c-v76-01": {
+   "games": 140,
+   "wins": 0,
+   "mean_banked": 227.19,
+   "mean_opponent_banked": 1022.53,
+   "deaths": 15.73,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "66deab0603a22e7be9ce87ab177d196963636d87065d2a104ed0a611438788b3",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_GEAR_SURVIVE=1",
+    "DZ_GEAR_PROSPECT=1",
+    "DZ_EE=1"
+   ],
+   "trace": false
+  },
+  "dz-ref-v76-idle-01": {
+   "games": 140,
+   "wins": 140,
+   "mean_banked": 1012.89,
+   "mean_opponent_banked": 0.0,
+   "deaths": 0.86,
+   "faults": 0,
+   "fuel_outs": 72,
+   "candidate_sha256": "42071fa685aeabd7f074e86bbe73598db51ab9a0fae4d0bca62be2e2803d3cfb",
+   "candidate": "v76",
+   "opponent": "idle",
+   "flags": [],
+   "trace": false
+  },
+  "dz-rg-v76-01": {
+   "games": 140,
+   "wins": 1,
+   "mean_banked": 216.7,
+   "mean_opponent_banked": 1016.05,
+   "deaths": 19.92,
+   "faults": 0,
+   "fuel_outs": 0,
+   "candidate_sha256": "07f604274082f6137267746d0a73fff7ea3b61bcd4611ca771bc28c77513a197",
+   "candidate": "dz",
+   "opponent": "v76",
+   "flags": [
+    "DZ_EE_REGROUP=1"
+   ],
+   "trace": false
+  }
+ }
+}

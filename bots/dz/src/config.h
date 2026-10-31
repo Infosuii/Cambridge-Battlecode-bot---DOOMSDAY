@@ -105,6 +105,45 @@
 #ifndef DZ_CAPTURE_FOURTH
 #define DZ_CAPTURE_FOURTH 0 // Experiment: retain the first3 emblems, then one Capture before Power.
 #endif
+#ifndef DZ_EE
+#define DZ_EE 0 // Unvalidated Z10 v1: retreat from losing contact earlier; avoid groups near recent enemy sightings.
+#endif
+#ifndef DZ_EE_NEAR
+#define DZ_EE_NEAR 3 // DZ_EE: retreat once a losing enemy is within its attack range plus this many tiles.
+#endif
+#ifndef DZ_EE_SCAN
+#define DZ_EE_SCAN 10 // DZ_EE: enemies within this Chebyshev distance enter the local fight estimate.
+#endif
+#ifndef DZ_EE_MEMORY
+#define DZ_EE_MEMORY 20 // DZ_EE: rounds a personal enemy sighting keeps pricing nearby jobs down.
+#endif
+#ifndef DZ_GEAR_SURVIVE
+#define DZ_GEAR_SURVIVE 0 // Unvalidated Z9 v1: Jungle-first survival/clear openers instead of Treasure-first.
+#endif
+#ifndef DZ_GEAR_PROSPECT
+#define DZ_GEAR_PROSPECT 0 // Unvalidated Z9 v1: third emblem is Prospector on maps with cluster groups.
+#endif
+#ifndef DZ_CREWS
+#define DZ_CREWS 0 // Unvalidated Z11 v1: fixed slot pairs; the follower takes its leader's camp job, the leader prices pair damage.
+#endif
+#ifndef DZ_BANK_NEAR_MIN
+#define DZ_BANK_NEAR_MIN 0 // Unvalidated Z6 v1: the near-altar bank needs at least 15 gems (not any bag).
+#endif
+#ifndef DZ_BANK_BIG
+#define DZ_BANK_BIG 0 // Unvalidated Z6 v1: the ordinary trip bag is 45 instead of 30.
+#endif
+#ifndef DZ_RING_GATES
+#define DZ_RING_GATES 0 // Unvalidated Z14 v1: an altar whose pocket is ringed by camps (not only its 8 neighbours) is gated.
+#endif
+#ifndef DZ_CREW_ALL
+#define DZ_CREW_ALL 0 // Unvalidated Z11 v1 variant (with DZ_CREWS): one whole-team crew led by the lowest living slot.
+#endif
+#ifndef DZ_GEAR_HEALTH
+#define DZ_GEAR_HEALTH 0 // Unvalidated Z9 v1 variant: health-stat survival emblems (Jungle, Durability, Prospector) for every body.
+#endif
+#ifndef DZ_EE_REGROUP
+#define DZ_EE_REGROUP 0 // Unvalidated Z10 v1: retreat from a losing contact toward the nearest healthy ally within 12, not home.
+#endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif

@@ -106,6 +106,7 @@ void StaticWorld::boot(const TurnContext& tc) {
             altar.gate_members.push_back({g,member});
         }
         if (open) { altar.gates.clear(); altar.gate_members.clear(); }
+
         altar.near_groups.clear();
         for (unsigned g=0;g<groups.size();++g)
             for (auto t:groups[g].tiles) if (t.chebyshev_distance(altar.tile)<=3) { altar.near_groups.push_back(static_cast<int>(g)); break; }
@@ -113,6 +114,51 @@ void StaticWorld::boot(const TurnContext& tc) {
         field->compute(blocked, roots, visited);
         tc.guard(); altar.field = std::move(field);
     }
+#if DZ_RING_GATES
+    // Resumable over turns: one pocket field per altar, then a budgeted group scan.
+    for (auto& altar : altars) {
+        if (altar.ring_checked) continue;
+        if (!altar.gates.empty()) { altar.ring_checked=true; continue; }
+        if (!altar.pocket) {
+            if (!tc.allow(field_budget()+5000)) return;
+            roots.clear();
+            for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
+                vec2 q = altar.tile + vec2{dx,dy};
+                if (walkable(q)) roots.set(q);
+            }
+            auto pocket=std::make_unique<cambc::distance_field>();
+            pocket->compute(blocked|camp_spawns, roots, visited);
+            bool reached=false;
+            for (auto s:cambc::map::spawn_region(cambc::team::ally).positions())
+                if (pocket->get(s)<cambc::distance_field::unreachable) { reached=true; break; }
+            tc.guard();
+            if (reached) { altar.ring_checked=true; continue; }
+            altar.pocket=std::move(pocket); altar.ring_cursor=0;
+            return; // Scan on later turns.
+        }
+        std::vector<std::pair<int,int>> found;
+        while (altar.ring_cursor<groups.size()) {
+            const auto& tiles=groups[altar.ring_cursor].tiles;
+            if (!tc.allow(3000+400*tiles.size())) return;
+            for (unsigned k=0;k<tiles.size();++k) {
+                bool borders=false;
+                for (int dx=-1;dx<=1&&!borders;++dx) for (int dy=-1;dy<=1;++dy) {
+                    const vec2 n=tiles[k]+vec2{dx,dy};
+                    if (n.x<0||n.y<0||n.x>=cambc::map::width()||n.y>=cambc::map::height()) continue;
+                    if (altar.pocket->get(n)<cambc::distance_field::unreachable) { borders=true; break; }
+                }
+                if (borders) altar.ring_members.push_back({static_cast<int>(altar.ring_cursor),static_cast<int>(k)});
+            }
+            tc.guard(); ++altar.ring_cursor;
+        }
+        // Publish only a complete gate set.
+        for (auto [g,k]:altar.ring_members) {
+            if (std::find(altar.gates.begin(),altar.gates.end(),g)==altar.gates.end()) altar.gates.push_back(g);
+            altar.gate_members.push_back({g,k});
+        }
+        altar.pocket.reset(); altar.ring_checked=true;
+    }
+#endif
     ready = true;
 }
 void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
