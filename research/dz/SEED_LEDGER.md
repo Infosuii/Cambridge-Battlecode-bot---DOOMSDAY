@@ -652,3 +652,12 @@ The registry was created before experiments. Entries below record actual use.
 | dz-crew-cold-navigation-famine-08 | 2026-10-31 | deterministic; Wasm dc537ddb8084 | 2 cells; v65 | smoke; trace=False |
 | dz-crew-coverage-famine-09 | 2026-10-31 | deterministic; Wasm b337383fe4b6 | 2 cells; v65 | smoke; trace=False |
 | dz-crew-checkpoint-fixtures-10 | 2026-10-31 | deterministic; Wasm 9280a19d1f6f | 6 cells; idle81 | scenario; trace=True |
+| dz-trip-integration-01 | 2026-10-31 | deterministic; Wasm 6491abe92400 | 4 cells; idle81 | scenario; trace=True |
+| dz-trip-shop-integration-02 | 2026-10-31 | deterministic; Wasm 699fb7116790 | 4 cells; idle81 | scenario; trace=True |
+| dz-trip-progression-03 | 2026-10-31 | deterministic; Wasm 5624edc1bbbb | 4 cells; idle81 | scenario; trace=True |
+| dz-trip-gear-schedule-04 | 2026-10-31 | deterministic; Wasm 150d680025a9 | 4 cells; idle81 | scenario; trace=True |
+| dz-trip-gear-cache-05 | 2026-10-31 | deterministic; Wasm 6b8bd88d37dd | 2 cells; idle81 | scenario; trace=True |
+| dz-trip-gear-frontier-06 | 2026-10-31 | deterministic; Wasm ae3bd2d6034a | 6 cells; idle81 | scenario; trace=True |
+| dz-trip-income-famine-08 | 2026-10-31 | deterministic; Wasm 25f4d558dd14 | 2 cells; idle81 | smoke; trace=False |
+| dz-trip-layered-check-07 | 2026-10-31 | deterministic; Wasm ae3bd2d6034a | 2 cells; idle81 | scenario; trace=True |
+| dz-trip-recovery-latch-09 | 2026-10-31 | deterministic; Wasm 4c4d29e40e70 | 2 cells; idle81 | scenario; trace=True |

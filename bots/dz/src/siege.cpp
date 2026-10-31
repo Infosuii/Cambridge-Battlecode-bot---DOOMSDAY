@@ -233,11 +233,12 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     m.neutral.risks=hazards.camps;m.neutral.risk_count=hazards.count;
     m.neutral_moves={static_cast<int>(tc.round),{o.p.x,o.p.y},511};
     const float raw=camp_damage({o.p.x,o.p.y},hazards.view());
+    const bool recovering=m.neutral_recovery.update(false,w.home.get(o.p)==0,o.hp,o.max_hp);
     if(!scene.complete) {
         if(raw>0)return Goal{GoalKind::Retreat};
         return Goal{GoalKind::Home};
     }
-    if(!hazards.count)return std::nullopt;
+    if(!hazards.count)return recovering?std::optional<Goal>{Goal{GoalKind::Home}}:std::nullopt;
     const auto route=escape(w,m,o,o.p,hazards,tc,started);
     if(route.found) {
         m.neutral_moves.allowed=0;
@@ -250,13 +251,15 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     // The siege controller retains its precise first-phase shield and committed
     // ally admission. Every OTHER macro/legacy path gets the same camp reserve.
     if(m.siege_task.active())return std::nullopt;
-    if(raw>0&&(!route.found||o.hp<=.15f*o.max_hp+1.25f*route.damage+2*raw)) {
+    if(raw>0&&(recovering||!route.found||o.hp<=.15f*o.max_hp+1.25f*route.damage+2*raw)) {
+        m.neutral_recovery.update(true,false,o.hp,o.max_hp);
 #if DZ_TRACE
         {TraceScope scope;trace("DZ_NEUTRAL_ESCAPE round=%u body=%u hp=%.0f incoming=%.0f escape=%.0f route=%d\n",tc.round,
             static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.hp,raw,route.damage,route.found);}
 #endif
         return Goal{GoalKind::Retreat,-1,route.found?std::optional<vec2>{vec2{route.exit.x,route.exit.y}}:std::nullopt};
     }
+    if(recovering)return Goal{GoalKind::Home};
     return std::nullopt;
 }
 void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {

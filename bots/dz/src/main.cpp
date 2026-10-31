@@ -122,7 +122,7 @@ int main() {
                 if(mem->siege_task.active())mem->siege_task.reset(tc.round,15);
 #endif
 #if DZ_ECONOMY_V2
-                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;
+                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};
 #endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;

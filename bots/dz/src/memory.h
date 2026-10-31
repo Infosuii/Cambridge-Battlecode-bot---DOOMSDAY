@@ -8,6 +8,7 @@
 #include "race.h"
 #include "gear.h"
 #include "gate_plan.h"
+#include "economy_trip.h"
 #endif
 
 namespace dz {
@@ -49,12 +50,16 @@ struct Memory {
     ShopVisit shop_quote;
     int shop_quote_round=-10000,shop_quote_gold=-1;
     int shopping_since=-1,shopping_deadline=-1;
+    trip::Commitment delivery_trip;
+    ShopVisit delivery_shop;
+    float shop_quote_income=-1,shop_quote_gold_income=-1;
     std::vector<gate::Plan> openings;
     gate::Commitment opening_commitment;
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
     struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
     SiegeMoves neutral_moves;
+    siege::RecoveryLatch neutral_recovery;
     std::vector<std::vector<float>> member_strength;
     LocalMask memory_visible;
     int memory_visible_round=-1;

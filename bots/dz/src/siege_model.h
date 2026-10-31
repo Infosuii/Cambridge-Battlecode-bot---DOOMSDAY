@@ -28,6 +28,14 @@ EscapeRoute escape_route(Tile origin,std::span<const CampThreat> camps,std::span
     return best;
 }
 enum class Phase : std::uint8_t { None, Approach, Strike, Escape, Recover };
+struct RecoveryLatch {
+    bool active=false;
+    bool update(bool escape,bool at_home,float hp,float max_hp) {
+        active|=escape;
+        if(at_home&&std::isfinite(hp)&&std::isfinite(max_hp)&&max_hp>0&&hp>=max_hp-.01f)active=false;
+        return active;
+    }
+};
 inline bool backtrack_safe(float hp,float max_hp,float here,float next,float escape) {
     for(auto x:{hp,max_hp,here,next,escape})if(!std::isfinite(x)||x<0)return false;
     // After the next camp phase, retain a step back to the checked origin,

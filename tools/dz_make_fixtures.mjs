@@ -27,6 +27,7 @@ const layouts={
   'siege-ring-golem':[[5,14,15]],
   'siege-two-layer':[[2,12,15],[5,14,15]],
   'crew-double-wolf':[[3,6,6],[3,6,8],[3,8,6],[3,8,8],[0,10,12],[0,11,12]],
+  'collection-circuit':[...[6,10,14].flatMap(x=>[6,10,14].map(y=>[2,x,y])),[3,8,8],[3,8,12],[3,12,8],[3,12,12]],
 };
 if (!Object.hasOwn(layouts,key)) throw new Error('Unknown fixture '+key);
 fs.mkdirSync(destination,{recursive:true});

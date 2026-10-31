@@ -1,3 +1,22 @@
+# ACTIVE 2026-10-31 — collection/delivery and gear checkpoint; unpromoted
+
+Read research/dz/trips-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded three-job circuits, fixed conversion/delivery commitments,
+explicit funded gear-visit/defer schedules, actual combination stats, conditional
+job-unlock estimates, common production accounting and bounded gear frontier.
+Native06 confirms multi-job circuits and planned purchases (earlier searches
+silently discarded every over-budget ranking). All nine host suites/28 measurement/
+six audit tests pass. Selected and combined Wasm build. Release defaults preserved.
+Failed pre-latch Famine08 banks63/11 vs400/236 control. Do not scale or promote.
+Layered07 strict audit FAILS with three deaths in two withdrawal intervals. Final
+persistent ordinary recovery latch09 repairs the observed re-entry defect: scoped
+strict audit passes62/43 cycles, banks354/170, no recorded withdrawal deaths/faults/
+fuel-outs. Final source has targeted layered validation only; general acceptance
+and competition remain open. Next: sparse renewable circuits/bank scheduling,
+contested production, siege/crew roles and joint combat/action/model calibration.
+Keep the goal active. No holdout/online actions. Python3.14 + DZ_CAMBC work.
+Untracked .vscode/ belongs to the workspace and is untouched.
+
 # ACTIVE 2026-10-31 — spatial crew and production checkpoint; unpromoted
 
 Read research/dz/crew-2026-10-31/README.md and research/dz/BACKLOG.md.

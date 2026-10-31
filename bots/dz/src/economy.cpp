@@ -59,6 +59,178 @@ objective::Encounter encounter(const StaticWorld& w,const Memory& m,int g,std::s
     e.reposition_rounds=group.radius*2;
     return e;
 }
+bool reserved_job(const StaticWorld& w,const Memory& m,const Observation& o,int g,const TurnContext& tc) {
+    const auto word=shared_word();const auto lease=protocol::compact::lease(word,tc.round);
+    if(lease.valid&&lease.objective==g&&!(lease.members&(1u<<w.slot)))return true;
+    for(const auto& ally:o.allies) {
+        const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+        if(it==w.allies.end())continue;
+        const unsigned slot=it-w.allies.begin();
+        if(protocol::slot(word,slot).objective==g&&w.distance(g,ally.p)<=ally.range+1&&m.groups[g].available(tc.round)&&
+            (w.distance(g,o.p)>o.range+1||slot<w.slot))return true;
+    }
+    return false;
+}
+float upgraded_job_value(const ShopVisit& shop,const StaticWorld& w,const Memory& m,const Observation& o,const TurnContext& tc,int horizon) {
+    if(!shop.valid||!tc.allow(16000)||horizon<=0)return 0;
+    auto before=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
+    before.hp=before.max_hp;auto after=before;const auto design=cambc::self().base_stats();
+    const auto info=shop.item.info();if(!info.result||shop.purchases>info.combine_count)return 0;
+    const auto result=info.result->info();const bool complete=shop.shards+shop.purchases==info.combine_count;
+    const int strength_points=shop.purchases*info.strength_points+(complete?std::max(0,static_cast<int>(result.strength_points)-static_cast<int>(info.combine_count)*info.strength_points):0);
+    const int health_points=shop.purchases*info.health_points+(complete?std::max(0,static_cast<int>(result.health_points)-static_cast<int>(info.combine_count)*info.health_points):0);
+    const float health=health_points*design.health_growth;
+    const float strength=strength_points*design.strength_growth+(cambc::self().champion_name()==cambc::champion_type::ryth?.01f*health:0);
+    after.hp=after.max_hp=before.max_hp+health;after.damage*=1+strength/std::max(1.f,o.strength);
+    if(complete&&result.passive) {
+        using P=cambc::item_passive;const auto magnitude=result.passive_magnitude;
+        switch(*result.passive) {
+        case P::monster:after.damage*=1+magnitude;break;
+        case P::jungle:case P::durability:after.incoming_factor*=1-magnitude;break;
+        case P::treasure:after.gold_multiplier+=magnitude;break;
+        case P::prospector:after.prospector=true;break;
+        case P::capture:after.capture_rounds=3;break;
+        default:break;
+        }
+    }
+    float value=0;unsigned checked=0;const auto started=fuel_left();
+    const float baseline=m.economic_gem_rate+objective::gold_price(horizon)*m.economic_gold_rate;
+    for(unsigned g=0;g<w.groups.size()&&checked<4;++g) {
+        if(!tc.allow(11000)||started-fuel_left()>5000)break;
+        const auto& group=w.groups[g];
+        if(!group.field||group.strength<=0||group.tiles.empty()||group.tiles.size()>8||!m.groups[g].available(tc.round))continue;
+        ++checked;
+        int home=0,delivery=65535;
+        for(auto p:group.tiles)home=std::max(home,static_cast<int>(w.home.get(p)));
+        for(unsigned a=0;a<w.altars.size();++a) {
+            int distance=0;for(auto p:group.tiles)distance=std::max(distance,w.altar_distance(a,p));
+            delivery=std::min(delivery,distance);
+        }
+        if(home>=65535||delivery>=65535)continue;
+        before.arrival=after.arrival=home;
+        std::array<ClearMember,clear_risk_members> members{};std::array<unsigned,clear_risk_members> counts{};
+        auto e=encounter(w,m,g,members,counts,tc.round,horizon);
+        const auto old=objective::forecast(e,std::span<const objective::Actor>(&before,1),0);
+        if(old.complete()&&old.survivable)continue; // Generic utility already prices speed/health on existing work.
+        const auto improved=objective::forecast(e,std::span<const objective::Actor>(&after,1),0);
+        if(!improved.complete()||!improved.survivable)continue;
+        const auto bank=tribute_delay(static_cast<int>(improved.gems),cambc::constants::submit_gem_base_duration,
+            cambc::constants::submit_gem_minimum_duration,cambc::constants::submit_gem_duration_multiplier,0);
+        if(!bank.supported())continue;
+        const int cycle=std::max(improved.finish+2*delivery+bank.rounds,group.sdk.max_respawn_timer()+improved.clear+improved.capture);
+        const float rate=improved.reward(objective::gold_price(horizon))/std::max(1,cycle)/(1+m.pressure(group.center,6+group.radius,tc.round));
+        value=std::max(value,std::max(0.f,rate-baseline)*std::max(0,horizon-improved.finish-delivery-bank.rounds));
+    }
+    return value; // Conditional access/unlock estimate, not certified future ownership.
+}
+void refresh_shop_quote(const StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int remaining) {
+    if(o.gold<static_cast<int>(cambc::item_type::monster_shard_of_strength.cost())||!o.enemies.empty()||!tc.allow(20000))return;
+    if(m.shop_quote_gold==o.gold&&m.shop_quote_income==m.economic_gem_rate&&m.shop_quote_gold_income==m.economic_gold_rate&&
+        static_cast<int>(tc.round)-m.shop_quote_round<16)return;
+    const int home=w.home.get(o.p);if(home>=65535)return;
+    // Scheduled before objective/circuit search; their bounded work must not
+    // make the gear alternative permanently disappear from the action set.
+    const int visit=2*home+1;
+    auto quote=shop_visit(tc,o,std::max(0,remaining-visit),m.economic_gem_rate,m.economic_gold_rate);
+    quote.value=std::max(quote.value,upgraded_job_value(quote,w,m,o,tc,std::max(0,remaining-visit)));
+    m.shop_quote=quote;m.shop_quote_gold=o.gold;m.shop_quote_round=tc.round;
+    m.shop_quote_income=m.economic_gem_rate;m.shop_quote_gold_income=m.economic_gold_rate;
+#if DZ_TRACE
+    {TraceScope scope;trace("DZ_SHOP_QUOTE round=%u body=%u valid=%d searched=%u value=%.2f cost=%d gold=%d income=%.3f gold_income=%.3f fuel=%llu\n",tc.round,
+        static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),quote.valid,quote.searched,quote.value,quote.cost,o.gold,
+        m.economic_gem_rate,m.economic_gold_rate,static_cast<unsigned long long>(fuel_left()));}
+#endif
+}
+std::optional<Goal> resume_trip(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar) {
+    auto& route=m.delivery_trip;if(!route.active())return std::nullopt;
+    // Access/topology changes invalidate the static delivery quote; gates and
+    // emergency recovery can then take ownership through their existing paths.
+    if(altar!=route.plan.altar){route={};return std::nullopt;}
+    for(unsigned skipped=0;skipped<=trip::max_jobs&&route.active();++skipped) {
+        const int g=route.job();
+        if(g<0) {
+            route.advance(tc.round,o.bag,false,true,w.home.get(o.p)==0);
+            if(route.phase==trip::Phase::Deliver) {m.contract.objective=-1;m.economic_crew=0;return Goal{GoalKind::Bank,altar};}
+            if(route.phase==trip::Phase::Shop) {
+                // The counterfactual future visit is an executable itinerary,
+                // not a promise that can be pushed back by every new capture.
+                auto quote=m.delivery_shop;quote.round=tc.round;commit_shop_visit(quote);
+#if DZ_TRACE
+                if(tc.round%10==0){TraceScope scope;trace("DZ_TRIP_HOME round=%u body=%u item=%u purchases=%u\n",tc.round,
+                    static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),static_cast<unsigned>(quote.item),quote.purchases);}
+#endif
+                m.contract.objective=-1;m.economic_crew=0;return Goal{GoalKind::Home};
+            }
+            break;
+        }
+        if(g>=static_cast<int>(m.groups.size())){route={};break;}
+        const auto& b=m.groups[g];
+        const bool converted=b.state==GroupState::Respawning&&b.ready>route.generations[route.next]&&b.ready>route.started;
+        const bool available=b.available(tc.round)&&!reserved_job(w,m,o,g,tc);
+        const int distance=w.distance(g,o.p);
+        const bool stalled=m.contract.objective==g&&!m.contract.progressing(tc.round,distance,b.hp,b.capture);
+        const unsigned old=route.next;route.advance(tc.round,o.bag,converted,available&&!stalled&&distance<65535);
+#if DZ_TRACE
+        if(old!=route.next||route.phase!=trip::Phase::Work) {TraceScope scope;trace("DZ_TRIP_STEP round=%u body=%u group=%d next=%u phase=%d bag=%d converted=%d available=%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,route.next,static_cast<int>(route.phase),o.bag,converted,available&&!stalled);}
+#endif
+        if(!route.active()){m.contract.objective=-1;break;}
+        if(route.phase==trip::Phase::Deliver) {m.contract.objective=-1;m.economic_crew=0;return Goal{GoalKind::Bank,altar};}
+        if(old!=route.next){m.contract.objective=-1;continue;}
+        if(m.contract.objective!=g)m.contract.start(g,tc.round,distance,b.hp,b.capture,config::contract_window);
+        m.economic_crew=1u<<w.slot;m.economic_capturer=w.slot;
+        return Goal{GoalKind::Farm,g};
+    }
+    return std::nullopt;
+}
+template<class BankTime>
+trip::Plan collection_trip(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,
+                           const macro::Context& context,int first,int altar,const objective::Quote& initial,BankTime bank_time) {
+    trip::Network graph;
+    if(first<0||altar<0||!w.groups[first].field||w.groups[first].tiles.empty()||w.groups[first].tiles.size()>8||
+        std::popcount(m.economic_crew)>1||!initial.complete()||!initial.survivable||!tc.allow(19000))return {};
+    auto actor=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
+    auto add=[&](int g,const objective::Quote& q) {
+        const auto& group=w.groups[g];const unsigned i=graph.count++;
+        graph.nodes[i]={g,q.clear+q.capture,0,q.gems,q.gold_low,
+            1-1/(1+m.pressure(group.center,6+group.radius,tc.round))};
+        graph.arrival[i]=q.arrival;graph.delivery[i]=0;
+        // Worst static exit over all supported capture tiles, not one arbitrarily
+        // chosen favourable corner. Dynamic camps/actors remain executor checks.
+        for(auto p:group.tiles)graph.delivery[i]=std::max(graph.delivery[i],w.altar_distance(altar,p));
+    };
+    add(first,initial);
+    const auto started=fuel_left();
+    // Only known, ready, harmless jobs enter follow-up circuits. Combat jobs
+    // need joint HP/crew progression before they can be safely chained.
+    std::array<int,trip::max_nodes-1> shortlist{};std::array<float,trip::max_nodes-1> rates{};unsigned found=0;
+    for(unsigned g=0;g<w.groups.size();++g) {
+        if(!tc.allow(16000)||started-fuel_left()>5500)break;
+        const auto& group=w.groups[g];const auto& b=m.groups[g];
+        if(static_cast<int>(g)==first||group.strength>0||!group.field||group.tiles.empty()||group.tiles.size()>8||
+            b.state==GroupState::Respawning||!b.available(tc.round)||reserved_job(w,m,o,g,tc))continue;
+        const int d=w.distance(g,w.groups[first].tiles.front());if(d>=65535)continue;
+        const float rate=(group.reward_gems+context.gold_price*group.reward_gold)/(d+6.f);
+        unsigned at=0;while(at<found&&rates[at]>=rate)++at;
+        if(at==shortlist.size())continue;
+        found=std::min<unsigned>(found+1,shortlist.size());
+        for(unsigned k=found-1;k>at;--k){shortlist[k]=shortlist[k-1];rates[k]=rates[k-1];}
+        shortlist[at]=g;rates[at]=rate;
+    }
+    for(unsigned k=0;k<found&&tc.allow(15000)&&started-fuel_left()<8500;++k) {
+        const int g=shortlist[k];std::array<ClearMember,clear_risk_members> members{};std::array<unsigned,clear_risk_members> counts{};
+        auto e=encounter(w,m,g,members,counts,tc.round,context.horizon);actor.arrival=0;
+        const auto q=objective::forecast(e,std::span<const objective::Actor>(&actor,1),0);
+        if(q.complete()&&q.survivable)add(g,q);
+    }
+    for(unsigned i=0;i<graph.count;++i)for(unsigned j=0;j<graph.count;++j)if(i!=j) {
+        int distance=0;
+        for(auto p:w.groups[graph.nodes[i].id].tiles)distance=std::max(distance,w.distance(graph.nodes[j].id,p));
+        graph.travel[i][j]=distance;
+    }
+    unsigned calls=0;
+    return trip::best(context,graph,0,altar,bank_time,[&]{return (++calls&7u)||tc.allow(10000);});
+}
 // The macro planner orders complete farm/delivery/equipment itineraries in the
 // same finite-horizon currency. It does not replace the executor's admission
 // checks, or turn an estimated delivery/risk cost into a safety certificate.
@@ -81,7 +253,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         return delay.supported()?delay.rounds:65535;
     };
     auto relinquish=[&](Goal goal) {
-        m.contract.objective=-1;m.economic_crew=0;
+        m.contract.objective=-1;m.economic_crew=0;m.delivery_trip={};
         return goal;
     };
     const int direct_bank=o.bag>0&&altar>=0&&altar_distance<65535?altar_distance+bank_time(o.bag):65535;
@@ -94,6 +266,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         m.shopping_since=-1;m.shopping_deadline=-1;
     }
     if(o.hp<.3f*o.max_hp)return {GoalKind::Home};
+    if(auto retained=resume_trip(w,m,o,tc,altar))return *retained;
     auto& commitment=m.opening_commitment;
     if(altar>=0) {
         const bool convert=commitment.executing;commitment={};
@@ -114,6 +287,8 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     const int homeward=home<65535?std::min(home,cambc::constants::recall_time)+1:65535;
     const macro::Context context{remaining,static_cast<float>(o.bag),m.economic_gem_rate,objective::gold_price(remaining),m.economic_gold_rate};
     std::array<macro::Option,4> choices{};
+    trip::Plan circuit;
+    ShopVisit circuit_shop;
     choices[0].kind=macro::Kind::Farm;
     // Refresh the actual retained job instead of subtracting elapsed wall time
     // from a stale quote while the body was blocked, healing or interrupted.
@@ -151,28 +326,51 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
             }
             choices[0]={macro::Kind::Farm,g,q.finish,delivery,discount*q.gems,discount*q.gold_low,0,
                 (1-discount)*o.bag,true};
+            if(altar>=0&&!commitment.active()) {
+                circuit=collection_trip(w,m,o,tc,context,g,altar,q,[&](float bag){return bank_time(static_cast<int>(std::ceil(bag)));});
+                if(circuit.count)choices[0]=circuit.option;
+            }
         } else if(roster&&q.quality==objective::Quality::BeyondHorizon&&direct_bank<=remaining)
             return relinquish({GoalKind::Bank,altar});
         // A missing crew view / incomplete quote retains the contract. It does
         // not invent zero work and induce a spurious bank/shop interruption.
     }
     const float local_loss=enemy_danger(o.p,o);
+    if(circuit.count&&o.enemies.empty()&&m.shop_quote.valid&&m.shop_quote_gold==o.gold) {
+        const int from_bank=w.home.get(w.altars[altar].tile);
+        if(from_bank<65535&&circuit.finish+2*from_bank+1<remaining) {
+            // Compare bank->continue with bank->home/shop->return to the same
+            // continuation position. Cash spent is an explicit opportunity cost.
+            auto quote=m.shop_quote;
+            quote.value*=std::clamp((remaining-circuit.finish-from_bank-1)/static_cast<float>(std::max(1,quote.horizon)),0.f,1.f);
+            auto upgraded=choices[0];upgraded.delivery+=2*from_bank+1;
+            const float net=quote.value-context.gold_price*quote.cost;
+            if(quote.valid&&net>0) {
+                upgraded.equipment=net;
+                if(macro::value(context,upgraded)>macro::value(context,choices[0])) {
+                    circuit_shop=quote;circuit.shop=true;circuit.option=upgraded;
+                    circuit.finish=upgraded.work+upgraded.delivery;choices[0]=upgraded;
+                }
+            }
+        }
+    }
     if(direct_bank<=remaining)choices[1]={macro::Kind::Bank,altar,direct_bank,0,0,0,0,
         std::min(1.f,local_loss*direct_bank/std::max(1.f,o.hp))*o.bag,true};
-    if(home<65535&&o.enemies.empty()&&o.gold>=static_cast<int>(cambc::item_type::monster_shard_of_strength.cost())&&tc.allow(7000)) {
+    if(home<65535&&o.enemies.empty()&&m.shop_quote.valid&&o.gold>=static_cast<int>(cambc::item_type::monster_shard_of_strength.cost())) {
         const int recall=std::max(1,static_cast<int>(std::ceil(cambc::constants::recall_time*(1-reduction(cambc::item_family::home)))));
         const int outward=home>recall&&channel_safe(w,o,tc)?recall:home;
         const int visit=opening?outward+1:outward+home+1;
-        if((m.shop_quote_gold!=o.gold||static_cast<int>(tc.round)-m.shop_quote_round>=16)&&tc.allow(17000)) {
-            const auto quote=shop_visit(tc,o,std::max(0,remaining-visit));
-            m.shop_quote=quote;m.shop_quote_gold=o.gold;m.shop_quote_round=tc.round;
-        }
         if(m.shop_quote.valid&&m.shop_quote_gold==o.gold&&visit<=remaining) {
             // A cached value cannot retain more horizon than its original quote.
-            const float age_scale=std::clamp((remaining-visit)/static_cast<float>(std::max(1,remaining-visit+static_cast<int>(tc.round)-m.shop_quote_round)),0.f,1.f);
+            const float age_scale=std::clamp((remaining-visit)/static_cast<float>(std::max(1,m.shop_quote.horizon)),0.f,1.f);
             const int after=altar>=0?altar_distance+bank_time(std::max(1,o.bag)):
                 opening&&opening->quality==gate::Quality::Ready?opening_work+opening->delivery+bank_time(std::max(1,o.bag)):-1;
-            choices[2]={macro::Kind::Shop,-1,visit,o.bag>0?after:(altar>=0?0:after),0,0,m.shop_quote.value*age_scale,0,true};
+            // Both paths now price their actual inventory at its actual arrival:
+            // choices[0] includes a deferred batch only when its home visit is
+            // queued. Comparing the two full schedules yields the advance value
+            // without repeatedly inventing an unexecuted future purchase.
+            const float net=std::max(0.f,m.shop_quote.value*age_scale-context.gold_price*m.shop_quote.cost);
+            choices[2]={macro::Kind::Shop,-1,visit,o.bag>0?after:(altar>=0?0:after),0,0,net,0,true};
         }
     }
     if(opening) {
@@ -214,6 +412,16 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         return relinquish({GoalKind::Home});
     }
     if(selected==3)if(auto goal=begin_opening(w,m,o,tc,choices[3].id))return *goal;
+    if(selected==0&&circuit.count) {
+        m.delivery_trip.start(circuit,tc.round,o.bag,2*config::contract_window);
+        m.delivery_shop=circuit_shop;
+        for(unsigned i=0;i<circuit.count;++i)m.delivery_trip.generations[i]=m.groups[circuit.jobs[i]].ready;
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_TRIP round=%u body=%u jobs=%u first=%d second=%d third=%d altar=%d finish=%d deadline=%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),circuit.count,circuit.jobs[0],circuit.jobs[1],circuit.jobs[2],
+            circuit.altar,circuit.finish,m.delivery_trip.deadline);}
+#endif
+    }
     if(selected==0&&opening&&opening->quality==gate::Quality::Ready&&!commitment.active()&&
         choices[0].delivery>=0&&choices[0].work+choices[0].delivery<=remaining&&std::isfinite(macro::value(context,choices[3]))) {
         commitment.start(opening->altar,work.index,o.bag,o.gold,tc.round+choices[0].work);
@@ -267,12 +475,16 @@ bool crew_ready(const StaticWorld& w,const Memory& m,const Observation& o,int g,
 }
 std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar,int altar_distance) {
     const auto incoming_lease=protocol::compact::lease(shared_word(),tc.round);
-    if(m.legacy(tc.round)&&altar>=0&&std::popcount(m.economic_crew)<2&&
-        !(incoming_lease.valid&&(incoming_lease.members&(1u<<w.slot))))return std::nullopt;
     m.race.observe(tc.round,o.submitted,cambc::global_submitted_gems(cambc::team::enemy));
     float bags=o.bag;for(const auto& a:o.allies)bags+=a.sdk.gem_count();
     const int remaining=m.race.remaining(tc.round,cambc::constants::max_rounds,cambc::constants::winning_gems,bags);
     const float gold_price=objective::gold_price(remaining);
+    if(m.delivery_trip.active()&&incoming_lease.valid&&incoming_lease.leader!=w.slot&&(incoming_lease.members&(1u<<w.slot)))
+        m.delivery_trip={}; // A fresh coordinated crew can reassign a solo circuit.
+    if(m.delivery_trip.active())return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
+    refresh_shop_quote(w,m,o,tc,remaining);
+    if(m.legacy(tc.round)&&altar>=0&&std::popcount(m.economic_crew)<2&&
+        !(incoming_lease.valid&&(incoming_lease.members&(1u<<w.slot))))return std::nullopt;
     m.access_group=-1;m.access_member=-1;
     if(altar<0&&o.enemies.empty())quote_opening(w,m,o,tc);
     if(m.shopping_since>=0||o.hp<.3f*o.max_hp)
@@ -402,8 +614,16 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             alternatives[team[a].slot]=std::max(alternatives[team[a].slot],rate);
             if(team[a].slot==w.slot&&rate>continuation_rate) {
                 continuation_rate=rate;
-                gem_rate=contested*quote.gems/std::max(1,quote.finish);
-                gold_rate=contested*quote.gold_low/std::max(1,quote.finish);
+                // Continuation needs delivery, return travel and replenishment;
+                // a camp's clear-only rate cannot run forever without those costs.
+                int delivery=65535;
+                if(altar>=0&&!group.tiles.empty())delivery=w.altar_distance(altar,group.tiles.front());
+                const auto bank=tribute_delay(static_cast<int>(quote.gems),cambc::constants::submit_gem_base_duration,
+                    cambc::constants::submit_gem_minimum_duration,cambc::constants::submit_gem_duration_multiplier,0);
+                const int cycle=delivery<65535&&bank.supported()?std::max(quote.finish+2*delivery+bank.rounds,
+                    group.sdk.max_respawn_timer()+quote.clear+quote.capture):std::max(quote.finish,group.sdk.max_respawn_timer()+quote.clear+quote.capture);
+                gem_rate=delivery<65535?contested*quote.gems/std::max(1,cycle):0;
+                gold_rate=contested*quote.gold_low/std::max(1,cycle);
             }
             float followup=0;unsigned circuit=0;
             if(group.cluster)for(unsigned next=0;next<limit;++next) {

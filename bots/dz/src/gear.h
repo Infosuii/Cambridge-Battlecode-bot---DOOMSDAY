@@ -9,8 +9,10 @@ struct ShopVisit {
     int cost=0,round=0;
     float value=0;
     bool valid=false;
+    int horizon=0;
+    unsigned searched=0;
 };
-ShopVisit shop_visit(const TurnContext&,const Observation&,int horizon);
+ShopVisit shop_visit(const TurnContext&,const Observation&,int horizon,float income,float gold_income);
 void commit_shop_visit(const ShopVisit&);
 bool planned_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
