@@ -20,7 +20,17 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / 'tools/vendor/cambc.exe'
+def resolve_cli():
+    """Prefer an explicit official executable, then the native platform CLI."""
+    configured = os.environ.get('DZ_CAMBC')
+    if configured:
+        return Path(shutil.which(configured) or configured).expanduser().resolve()
+    if os.name == 'nt':
+        return ROOT / 'tools/vendor/cambc.exe'
+    native = shutil.which('cambc')
+    return Path(native) if native else Path('cambc')
+
+CLI = resolve_cli()
 MAPS = ROOT / 'maps/local-benchmarks'
 TMP = ROOT / 'artifacts/tmp/dz'
 
@@ -28,6 +38,8 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def run(command, timeout=900, env=None):
+    if command and str(command[0]) == str(CLI) and not shutil.which(str(CLI)):
+        raise RuntimeError('Official cambc CLI missing. Install cambc==4.0.0 or set DZ_CAMBC to its executable.')
     p = subprocess.run([str(x) for x in command], cwd=ROOT, capture_output=True,
                        encoding='utf-8', errors='replace', timeout=timeout, env=env)
     output = p.stdout + p.stderr
@@ -54,11 +66,12 @@ def host_tests():
     if not cxx:
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
-    exe = out / ('core_test.exe' if os.name == 'nt' else 'core_test')
-    run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
-         ROOT/'tests/dz/host/core_test.cpp', '-o', exe])
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    print(run([exe], env=env).strip(), flush=True)
+    for name in ('core_test', 'economy_test'):
+        exe = out / (name + ('.exe' if os.name == 'nt' else ''))
+        run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
+             ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
+        print(run([exe], env=env).strip(), flush=True)
 
 # Engine payloads extracted for offline readers; not second matches.
 EXTRACTED_PAYLOADS=('lifecycle.repl26a','priority.repl26a')

@@ -1,5 +1,6 @@
 #include "actions.h"
 #include <cmath>
+#include "economy.h"
 
 namespace dz {
 float crew_strength(const Observation& obs, vec2 around, int radius) {
@@ -327,10 +328,14 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         // Never wake a sleeping damaging group that the visible crew cannot
         // clear: asleep camps do not attack, so waiting beside them is safe.
         if (camp_target && group.strength>0 && camp_target->is_asleep() && !mem.legacy(tc.round)) {
+#if DZ_ECONOMY_V2
+            if(!crew_ready(world,mem,obs,goal.index,tc))target=nullptr;
+#else
             unsigned crew=1;
             for (const auto& a:obs.allies) if (a.hp>0 && a.p.chebyshev_distance(obs.p)<=4) ++crew;
             auto risk=group_clear_risk(world,mem,obs,goal.index,crew_strength(obs,obs.p,4));
             if (!clear_survivable(risk,obs.hp,obs.max_hp,crew_share(crew))) target=nullptr;
+#endif
         }
     }
     if constexpr (config::camp_safety) {

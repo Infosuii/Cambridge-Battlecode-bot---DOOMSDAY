@@ -1,5 +1,6 @@
 #include "safemode.h"
 #include "clear_risk.h"
+#include "economy.h"
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -196,6 +197,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             return {GoalKind::Farm,pick};
         }
     }
+#endif
+#if DZ_ECONOMY_V2
+    if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
 #endif
     if (altar < 0 && gated_altar >= 0) {
         if (!legacy) mem.legacy_until = tc.round + 100;

@@ -147,6 +147,9 @@
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif
+#ifndef DZ_ECONOMY_V2
+#define DZ_ECONOMY_V2 0 // Integrated dynamic economy/crew candidate; requires native admission and promotion gates.
+#endif
 
 // Advanced models are deliberately unavailable until their research gates pass.
 namespace dz::config {

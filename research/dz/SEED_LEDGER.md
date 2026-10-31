@@ -538,3 +538,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-eerg-v76-01 | 2026-10-31 | deterministic; Wasm 70bb2decc195 | 140 cells; v76 | smoke; trace=False |
 | dz-gsp-v65-confirm-01 | 2026-10-31 | deterministic; Wasm 38bbac25157c | 140 cells; v65 | smoke; trace=False |
 | dz-int1-v65-confirm-01 | 2026-10-31 | deterministic; Wasm 3efe4396f7e5 | 140 cells; v65 | smoke; trace=False |
+| dz-economy2-collision-02 | 2026-10-31 | deterministic; Wasm 3d762f7409fd | 2 cells; idle81 | smoke; trace=False |
+| dz-mac-control-collision-02 | 2026-10-31 | deterministic; Wasm 437f91c3a6ab | 2 cells; idle81 | smoke; trace=False |
+| dz-economy2-collision-trace-01 | 2026-10-31 | deterministic; Wasm 9e0a4118305c | 2 cells; idle81 | smoke; trace=True |
+| dz-economy2-collision-03 | 2026-10-31 | deterministic; Wasm 624dca4b6b72 | 2 cells; idle81 | smoke; trace=False |

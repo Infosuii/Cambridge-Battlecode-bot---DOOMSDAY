@@ -12,6 +12,9 @@ struct Group {
     std::vector<float> initial_strength;
     std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
+#if DZ_ECONOMY_V2
+    float reward_gems=0,reward_gold=0;
+#endif
 #if DZ_BANK_AWARE_RATE
     std::vector<int> delivery_distances; // Per-altar static distance from the nearest reward tile.
 #endif

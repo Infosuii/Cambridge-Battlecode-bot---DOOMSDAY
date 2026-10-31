@@ -21,6 +21,11 @@ struct Memory {
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
     int last_gold=0;
+#if DZ_ECONOMY_V2
+    unsigned economic_crew=0, economic_capturer=0;
+    int rendezvous_until=0;
+    float economic_rate=0;
+#endif
 #if DZ_EE
     // DZ_EE: recent personal enemy sightings (position, round), oldest replaced first.
     struct Sighting { vec2 p{-1,-1}; int round=-100000; };

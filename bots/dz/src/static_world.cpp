@@ -10,6 +10,9 @@ Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
     for (auto t:tiles) radius=std::max(radius,static_cast<int>(t.chebyshev_distance(center)));
 }
 void Group::init_stats() {
+#if DZ_ECONOMY_V2
+    reward_gems=sdk.gem_value();reward_gold=sdk.gold_value();
+#endif
     max_hp = 0; strength = 0; cluster = true; initial_hp.clear(); initial_strength.clear(); attack_ranges.clear();
     for (const auto& camp : sdk.camps()) {
         const auto stats = camp.base_stats();

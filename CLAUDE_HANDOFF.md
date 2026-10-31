@@ -1,3 +1,13 @@
+# CONTINUING 2026-10-31 — native Mac dynamic economy implementation
+
+Remote starting point fca7b34, selected Windows release unchanged. Read
+research/dz/engineering-2026-10-31/README.md for live queue and exact evidence.
+Official cambc 4.0.0 works on arm64 macOS, installed at artifacts/tmp/dz-env/bin/cambc.
+Use DZ_CAMBC and explicit Homebrew Python 3.14 (checkout shell resolves Python 3.9).
+New objective bounds/dynamic crew auction are under DZ_ECONOMY_V2=0, unpromoted.
+Host checks and corrected two-cell collision execution pass; V-M1/parity remain open.
+Continue gear/combat integration, then lean development screens. No online actions.
+
 # CONTINUING 2026-10-31 - first integrated Z pass: components built, none promoted
 
 Selected release 5cf28cb7 is unchanged: every new flag defaults to 0 and the default
