@@ -214,3 +214,33 @@ their economy path: the combined smoke matches ECONOMY_V2 alone exactly. Integra
 - route its objective quotes through `gold_weight()` and its combat through `ee_model` where they overlap;
 - treat their crew leases as the C1 market-claims implementation (bids = their objective quotes) and screen it with
   the gates in section 1.
+
+## 7. First per-map table (Z14 v1): partial selection and v74 confirmation (2026-10-31 evening)
+
+`bots/dz/src/map_plans.inc` now holds the selector's table from the 26 completed configs (dv7 and eerg missing):
+52 of 56 development maps get a row, with an in-sample gain of +100.8 margin per cell over v76+v65. It is only
+compiled with `DZ_PLAN_TABLE=1`, so the default stays 5cf28cb7.
+
+Confirmation against **v74** (never used for selection): `dz-base-v74-01` vs `dz-z14table1-v74-confirm-01`.
+
+| Cells | Margin Δ | Banked Δ |
+|---|---|---|
+| All 140 | | **+24.2 (SE 12.9)**, 69 better / 37 worse |
+| Development 112 | **+43.0 (SE 21.6)** | +36.5 |
+| Holdout 28 (no rows) | −14 (SE 21.1) | −25.2 |
+
+This is the first gain that holds on a separate opponent, at about 2 SE on development maps. It is about 40% of the
+in-sample gain, which is the expected shrinkage of best-of-K. It does not pass:
+- **G5** needs Δ ≥ +50.
+- **G6** needs the holdout ≥ 0. The holdout loss comes only from the table build's runtime path, since those maps
+  have no rows.
+- **G2:** the table build has 22 fuel-outs: 00road-of-riches (`bb` row, 5 per side), 01boss-battle (`dvg2`, 1 per
+  side) and 01islands (no row, 5 per side; the runtime-path overhead pushes this fuel-tight map over).
+
+Next:
+1. Profile 01islands under `DZ_PLAN_TABLE=1` and cut the always-compiled runtime work (the crew-size scan, the
+   sighting memory and the draft table only when their bit is set).
+2. Exclude configs with any fuel-out on a map from that map's choice (already done for the selection runs; the
+   fuel-outs here are new).
+3. Finish the screen and re-select with margin 150 to cut overfitting.
+4. Confirm on v74 and v71, and look at the holdout again.

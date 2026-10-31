@@ -13,6 +13,8 @@ Done since the previous section:
   contacts, Brier 0.0379 vs baseline 0.0398 (CI below 0). Old rule called 64% of contacts lost,
   6.5% died. Model in bots/dz/src/ee_model.h; DZ_EE2 / DZ_EE2_BOLD use it (screens in RESULTS).
 - Z14 screen 26/58 runs done; resume with tools/dz_z14_screen.sh (section 3 of the plan).
+- First per-map table (26 configs) confirmed vs unseen v74: +24.2 banked overall (SE 12.9),
+  development +43 margin (SE 21.6), holdout -14; 22 fuel-outs. Not promoted; see plan section 7.
 
 Fresh laptop: follow CONTINUE_HERE.md setup; host tests need g++ (WinLibs GCC 16 works with the
 committed -Wno-misleading-indentation); dz_vm2.py needs numpy + scikit-learn; decoders need Node 24

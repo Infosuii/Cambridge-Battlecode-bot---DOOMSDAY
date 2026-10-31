@@ -615,3 +615,5 @@ The registry was created before experiments. Entries below record actual use.
 | dz-merge-econ2-check-01 | 2026-10-31 | deterministic; Wasm 4d17051a3430 | 4 cells; v76 | smoke; trace=False |
 | dz-merge-plantable-check-01 | 2026-10-31 | deterministic; Wasm 4fab4787c2db | 4 cells; v76 | smoke; trace=False |
 | dz-merge-both-check-01 | 2026-10-31 | deterministic; Wasm 3bcefdd1656a | 4 cells; v76 | smoke; trace=False |
+| dz-base-v74-01 | 2026-10-31 | deterministic; Wasm 5cf28cb74612 | 140 cells; v74 | smoke; trace=False |
+| dz-z14table1-v74-confirm-01 | 2026-10-31 | deterministic; Wasm 4ab74e445143 | 140 cells; v74 | smoke; trace=False |

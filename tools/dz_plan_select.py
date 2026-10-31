@@ -50,10 +50,16 @@ def main():
     held_out = set(pool[4::5])
     sig = dict(line.split() for line in (ROOT / 'research/dz/z-integration-2026-10-31/map_signatures.txt').read_text().splitlines())
     cand = {}
+    missing = []
     for name, c in spec['configs'].items():
         if set(c['runs']) != set(opponents) or any(b not in BITS for b in c['bits']):
             raise ValueError(f'{name}: needs a run per opponent and known bits')
+        if any(not (ROOT / 'research/dz/runs' / c['runs'][o] / 'results.json').exists() for o in opponents):
+            missing.append(name)  # Not screened yet (tools/dz_z14_screen.sh); excluded from this table.
+            continue
         cand[name] = {o: per_map(c['runs'][o]) for o in opponents}
+    if missing:
+        print('configs without complete runs, skipped:', ' '.join(sorted(missing)))
     table, gain, chosen = {}, 0.0, {}
     for m in sorted(maps - held_out):
         b = sum(base[o][0][m] for o in opponents)
