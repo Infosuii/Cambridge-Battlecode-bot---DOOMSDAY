@@ -144,6 +144,11 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         if (!(ability.is_damage() || ability.is_cc() || ability.is_aoe_damage())) continue;
         if (enemy ? !ability.can_target_enemies() : !ability.can_target_camps()) continue;
         const auto p = target->position();
+#if DZ_ECONOMY_V2
+        // valid_tiles constructs a map-sized legal-target board. A cheap cast
+        // gate is insufficient after an expensive first objective quote.
+        if(!tc.allow(world.field_budget()+4000))continue;
+#endif
         if (!ability.valid_tiles().is_set(p)) continue;
         if (ability.is_aoe_damage() && !collateral_safe(p,std::get<cambc::ability_aoe_damage>(*ability.info()).radius,
             intended_group,world,tc)) continue;
@@ -459,6 +464,9 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
 #endif
     if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
         obs.p.chebyshev_distance(target->position()) <= obs.range) attacked = act.attack(*target);
+#if DZ_ECONOMY_V2
+    if(attacked&&!enemy)mem.last_work=tc.round;
+#endif
 #if DZ_TRACE && DZ_ECONOMY_V2
     if(attacked&&!enemy&&mem.crew_execution.managed){TraceScope scope;trace("DZ_CREW_ATTACK round=%u body=%u group=%d focus=%d formed=%d\n",tc.round,
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,mem.crew_execution.focus,mem.crew_execution.formed);}
@@ -466,6 +474,9 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
     if (bank_here(goal,world,act)) return;
     if (goal.kind==GoalKind::Farm && mem.groups[goal.index].state==GroupState::Reward && world.group_at(me.position())==goal.index) {
+#if DZ_ECONOMY_V2
+        if(mem.economic_capturer==world.slot&&mem.contract.checked==static_cast<int>(tc.round))mem.last_work=tc.round;
+#endif
         ward_here(obs,tc,act); return;
     }
     if (goal.kind==GoalKind::Home) {

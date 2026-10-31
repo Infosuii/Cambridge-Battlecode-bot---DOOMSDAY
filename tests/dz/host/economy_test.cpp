@@ -63,5 +63,45 @@ int main() {
     assigned=economy::allocate(viable_crew,3);
     assert(assigned[0].objective==2&&assigned[1].objective==2&&assigned[0].capturer==1);
     assigned=economy::allocate(viable_crew,1);assert(assigned[0].objective==0&&assigned[1].objective==-1);
+    // No solo can clear the opening camp. All healthy bodies fell back Home;
+    // that state must still supply a publishable crew instead of being absorbing.
+    auto word=protocol::empty_word();unsigned free=0;
+    for(unsigned slot=0;slot<3;++slot) {
+        word=protocol::with_slot(word,slot,{protocol::shop,false});
+        if(economy::available_for_offer(protocol::slot(word,slot).objective,true))free|=1u<<slot;
+    }
+    const Bid opening[]{{2,7,0,40,100}};
+    assigned=economy::allocate(opening,free);
+    assert(assigned[0].crew==7&&assigned[1].objective==2&&assigned[2].objective==2);
+    assert(!economy::available_for_offer(protocol::shop,false)&&!economy::available_for_offer(protocol::retreat,false));
+    assert(!economy::starved(200,0,180)&&economy::starved(151,0,0)&&!economy::starved(151,100,0));
+    const Bid scarce[]{{0,1,0,10,20},{0,2,1,10,20},{0,4,2,10,20},{0,3,0,10,10}};
+    assigned=economy::allocate(scarce,7);assert(assigned[0].crew==3&&assigned[1].crew==3&&assigned[2].objective==-1);
+    const Bid split[]{{0,1,0,9,10},{1,2,1,9,10},{2,3,0,15,10}};
+    assigned=economy::allocate(split,3);assert(assigned[0].objective==0&&assigned[1].objective==1);
+    assigned=economy::allocate(split,3,[]{return false;});assert(assigned[0].objective==-1&&assigned[1].objective==-1);
+    const Bid sparse[]{{2,48,5,20,10},{3,4,2,9,10}};
+    assigned=economy::allocate(sparse,52);
+    assert(assigned[4].objective==2&&assigned[5].crew==48&&assigned[2].objective==3&&assigned[0].objective==-1);
+    for(unsigned trial=0;trial<200;++trial) {
+        std::array<Bid,12> choices{};
+        for(unsigned g=0;g<3;++g)for(unsigned option=0;option<4;++option) {
+            const unsigned mask=option<3?1u<<option:7u;
+            choices[g*4+option]={static_cast<int>(g),mask,option<3?option:0,static_cast<float>(1+rng()%100),static_cast<float>(1+rng()%20)};
+        }
+        const unsigned free=rng()%8;float reference=0;
+        for(int a=-1;a<4;++a)for(int b=-1;b<4;++b)for(int c=-1;c<4;++c) {
+            unsigned used=0;float value=0;bool valid=true;const std::array<int,3> pick{{a,b,c}};
+            for(unsigned g=0;g<3;++g)if(pick[g]>=0) {
+                const auto& bid=choices[g*4+pick[g]];
+                if((bid.crew&~free)||(used&bid.crew)){valid=false;break;}
+                used|=bid.crew;value+=bid.utility();
+            }
+            if(valid)reference=std::max(reference,value);
+        }
+        assigned=economy::allocate(choices,free);float value=0;unsigned seen=0;
+        for(const auto& job:assigned)if(job.objective>=0&&!(seen&(1u<<job.objective))){seen|=1u<<job.objective;value+=job.utility;}
+        assert(std::abs(reference-value)<.0001f);
+    }
     std::cout<<cases<<" objective exposure/order cases; crew allocation, horizon, reward and invalid-input checks passed\n";
 }

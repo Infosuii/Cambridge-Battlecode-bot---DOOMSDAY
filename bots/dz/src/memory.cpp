@@ -30,6 +30,7 @@ void Memory::init(const StaticWorld& world) {
     member_strength.resize(world.groups.size());
     member_cursor.assign(world.groups.size(),0);
     coalition_cursor.assign(world.groups.size(),2);
+    conversions.assign(world.groups.size(),0);
 #endif
     for (unsigned g = 0; g < groups.size(); ++g) {
         groups[g].hp = world.groups[g].max_hp;
@@ -108,6 +109,9 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     }
     apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
+#if DZ_ECONOMY_V2
+    if(conversion_observed(groups[index].state,sample.state))++conversions[index];
+#endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
     bool topology_changed=(next.state==GroupState::Respawning)!=(groups[index].state==GroupState::Respawning);
     for(unsigned k=0;k<hp.size()&&!topology_changed;++k)topology_changed=(hp[k]>0)!=(member_hp[index][k]>0);
@@ -151,5 +155,8 @@ void Memory::release(int round) {
         g.avoid_until = round + (config::avoid_rounds << std::min(g.failures++, 4u));
     }
     contract.objective = -1;
+#if DZ_ECONOMY_V2
+    leave_crew();
+#endif
 }
 }

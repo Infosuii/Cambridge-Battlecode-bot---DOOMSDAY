@@ -4,6 +4,9 @@
 #include "engage.h"
 #include "siege.h"
 #include "crew.h"
+#if DZ_ECONOMY_V2
+#include "allocation.h"
+#endif
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -103,7 +106,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS||DZ_ECONOMY_V2 ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     mem.last_gold=obs.gold;
-    if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
+    if (
+#if DZ_ECONOMY_V2
+        economy::starved(tc.round,mem.last_income,mem.last_work)
+#else
+        tc.round-mem.last_income>150
+#endif
+        &&!mem.legacy(tc.round)) { mem.legacy_until=tc.round+300;mem.last_income=tc.round; }
     bool legacy = mem.legacy(tc.round);
 #if DZ_HAS(EE)
     if (DZ_ON(EE)) mem.remember_enemies(obs,tc.round);

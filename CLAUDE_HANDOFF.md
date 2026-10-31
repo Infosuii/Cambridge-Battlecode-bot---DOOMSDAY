@@ -1,3 +1,21 @@
+# ACTIVE 2026-10-31 — owned crews and renewable allocation; unpromoted
+
+Read research/dz/team-economy-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded six-actor task DP, renewable collection/delivery schedules,
+observed conversion identity, caller-owned offers, fixed working reservations,
+partial-clear crew visits, reusable role geometry and real-work starvation recovery.
+Nine host suites, 28 measurement and six audit checks pass; all 24 development
+capsules verify. Selected and integrated-table Wasm build. Defaults are unchanged.
+Final fixture source banks 585/30 (elk), 234/92 (layered), zero faults/fuel-outs;
+scoped strict layered audit passes 43/24 cycles. This is narrow execution evidence.
+Famine still FAILS: 21/41 vs selected control 400/236 and one Vesper R9 fuel-out
+on each side. Intrusive profiling stalls production and does not clear that fault.
+Do not promote or scale competitive screens. Next: fix the cold path, integrate
+ability-aware objective work, siege/crew roles, then joint combat/action models.
+Full Z6–Z15 acceptance/parity remains open; no validation/release pool was used in
+this checkpoint. Keep the goal active. No online actions. Native CLI works with
+explicit Homebrew Python 3.14 + DZ_CAMBC. Untracked .vscode/ is untouched.
+
 # ACTIVE 2026-10-31 — collection/delivery and gear checkpoint; unpromoted
 
 Read research/dz/trips-2026-10-31/README.md and research/dz/BACKLOG.md.

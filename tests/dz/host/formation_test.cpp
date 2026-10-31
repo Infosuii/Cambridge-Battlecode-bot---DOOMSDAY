@@ -45,6 +45,27 @@ int main() {
         if(quote.complete&&quote.survivable)accepted=count;
     }
     assert(accepted==4&&attempts==3);
+    std::array<crew::Unit,2> melee{{{0,1,{},1000,1000,100,1,1},{1,2,{},2000,2000,20,1,1}}};
+    const crew::Monster strong[]{{0,{0,0},4000,10,3}};
+    const auto discarded=crew::arrange(melee,strong,0,open,home);
+    assert(!(discarded.active&1u)&&!crew::forecast(melee,strong,discarded).survivable);
+    auto selected=crew::choose(melee,strong,0,open,home);
+    assert(selected.valid&&selected.tank==0&&selected.active==3&&crew::forecast(melee,strong,selected).survivable);
+    melee[0].hp=400;const auto fixed_role=crew::choose(melee,strong,0,open,home);
+    auto moving=melee;moving[0].p={12,12};moving[0].arrival=20;moving[0].hp=200;
+    assert(crew::same_roles(moving,melee));moving[0].damage+=1;assert(!crew::same_roles(moving,melee));
+    const crew::Monster wounded[]{{0,{0,0},200,10,3}};assert(crew::same_scene(wounded,strong));
+    const crew::Monster dead[]{{0,{0,0},0,10,3}};assert(!crew::same_scene(dead,strong));
+    assert(fixed_role.positions==selected.positions&&fixed_role.tank==selected.tank&&!crew::forecast(melee,strong,fixed_role).survivable);
+    melee={{{0,1,{},1000,1000,30,1,1},{1,2,{},1000,1000,30,1,1}}};
+    const crew::Monster elk[]{{0,{0,0},2400,60,3}};
+    selected=crew::choose(melee,elk,0,open,home);assert(selected.valid&&!crew::forecast(melee,elk,selected).survivable);
+    auto visit=crew::visit(melee,elk,selected,5,open,home);
+    assert(visit.complete&&visit.attacks>0&&visit.waves>1&&visit.ready==3&&visit.finish>crew::forecast(melee,elk,selected).finish);
+    melee[0].hp=200;visit=crew::visit(melee,elk,selected,5,open,home);
+    assert(visit.complete&&visit.attacks==0&&visit.ready==2); // Only the exhausted actor must heal.
+    assert(!crew::visit(melee,elk,selected,5,[](Tile){return false;},home).complete);
+    assert(!crew::visit(melee,elk,selected,5,open,home,[]{return false;}).complete);
     // Exact independent camp-phase simulator for every order of three targets.
     // The closed form uses a different worst order for each actor; every actual
     // order must stay below all those actor bounds.

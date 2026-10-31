@@ -9,6 +9,7 @@
 #include "gear.h"
 #include "gate_plan.h"
 #include "economy_trip.h"
+#include "formation.h"
 #endif
 
 namespace dz {
@@ -44,6 +45,7 @@ struct Memory {
 #endif
 #if DZ_ECONOMY_V2
     unsigned economic_crew=0, economic_capturer=0;
+    int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
     int rendezvous_until=0;
     int economic_retry_after=0;
     float economic_rate=0;
@@ -65,6 +67,7 @@ struct Memory {
     int memory_visible_round=-1;
     std::vector<unsigned> member_cursor;
     std::vector<unsigned> coalition_cursor;
+    std::vector<unsigned> conversions; // Observed transition into respawning, never a shifting ready tick.
     struct NeutralFrame {
         int round=-1;Tile origin{};float factor=1;
         std::array<CampThreat,64> camps{};unsigned count=0;bool complete=false,uncertain=false;
@@ -76,12 +79,22 @@ struct Memory {
         int round=-1,group=-1,focus=-1,since=-1;
         unsigned members=0,tank=6;
         Tile destination{};
-        bool managed=false,formed=false,fire=false;
+        bool managed=false,formed=false,fire=false,joined=false;
     } crew_execution;
+    struct FormationCache {
+        int group=-1,expires=-1;unsigned topology=0,units=0,camps=0;
+        std::array<crew::Unit,crew::max_units> roster{};
+        std::array<crew::Monster,crew::max_camps> scene{};
+        crew::Formation formation;
+    };
+    mutable FormationCache crew_layout;
     struct CrewField {
         std::unique_ptr<cambc::distance_field> field;
         Tile root{};int expires=-1;bool pending=false;
     } crew_field;
+    void leave_crew() {
+        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_field.pending=false;
+    }
     unsigned opening_cursor=0;
     float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;

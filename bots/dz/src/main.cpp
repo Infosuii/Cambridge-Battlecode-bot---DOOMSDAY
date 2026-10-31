@@ -315,7 +315,15 @@ int main() {
                             const auto position = cambc::self().position();
                             onsite = world->group_at(position)==goal.index;
                         } else if (goal.kind == dz::GoalKind::Bank) objective = goal.index < 8 ? 112 + goal.index : dz::protocol::idle;
-                        else if (goal.kind == dz::GoalKind::Home) objective = dz::protocol::shop;
+                        else if (goal.kind == dz::GoalKind::Home) {
+                            objective=dz::protocol::shop;
+#if DZ_ECONOMY_V2
+                            // Waiting safely at full-health spawn is available
+                            // capacity, not a committed equipment/recovery trip.
+                            if(mem->shopping_since<0&&!mem->neutral_recovery.active&&world->home.get(cambc::self().position())==0&&
+                                obs->hp>=obs->max_hp-.01f)objective=dz::protocol::idle;
+#endif
+                        }
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
 #if DZ_ECONOMY_V2
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
@@ -324,6 +332,8 @@ int main() {
                         unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
                         if(executed&&goal.kind==dz::GoalKind::Farm&&leader==world->slot&&goal.index<112&&
                             mem->economic_crew!=(1u<<leader)&&mem->contract.objective==goal.index&&
+                            !(mem->crew_execution.joined&&mem->crew_execution.group==goal.index&&
+                              mem->groups[goal.index].state==dz::GroupState::Partial)&&
                             (!fresh_lease.valid||fresh_lease.leader==world->slot))
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
                         else if(old_lease.leader==world->slot)

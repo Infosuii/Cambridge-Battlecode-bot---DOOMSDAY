@@ -1,12 +1,12 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
-Latest development: default-off spatial crews, bounded collection/delivery
-circuits, funded gear-visit schedules and persistent ordinary recovery. See
-[the trip checkpoint](../../research/dz/trips-2026-10-31/README.md) and
-[live backlog](../../research/dz/BACKLOG.md). Native multi-job routes and planned
-purchases execute; final targeted layered recovery audit passes. Competitive
-Famine screening still fails. General model calibration, siege/crew integration
-and release acceptance remain open. Selected release defaults are unchanged.
+Latest development: default-off task allocation, renewable collection/delivery
+schedules, owned spatial crews, partial-clear visits and cached role geometry. See
+[the current checkpoint](../../research/dz/team-economy-2026-10-31/README.md) and
+[live backlog](../../research/dz/BACKLOG.md). Targeted crew/recovery fixtures execute;
+Famine screening still fails production and cold-turn fuel gates. General ability-
+aware objective work, siege/crew integration, combat and release acceptance remain
+open. Selected release defaults are unchanged.
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
