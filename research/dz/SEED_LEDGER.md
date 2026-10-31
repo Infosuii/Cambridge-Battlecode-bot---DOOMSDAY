@@ -691,3 +691,13 @@ The registry was created before experiments. Entries below record actual use.
 | dz-resumable-geometry-04 | 2026-10-31 | deterministic; Wasm 831cfe75ee8f | 4 cells; idle81 | scenario; trace=True |
 | dz-resumable-cast-economy-05 | 2026-10-31 | deterministic; Wasm d8bd9be74a89 | 2 cells; idle81 | smoke; trace=False |
 | dz-cast-and-crew-final-06 | 2026-10-31 | deterministic; Wasm 8ff73eb3b282 | 6 cells; idle81 | scenario; trace=True |
+| dz-sequential-crews-01 | 2026-10-31 | deterministic; Wasm ee82b5f4ebd3 | 4 cells; idle81 | scenario; trace=True |
+| dz-sequence-pricing-02 | 2026-10-31 | deterministic; Wasm 9e0f0a1cf1ab | 2 cells; idle81 | scenario; trace=True |
+| dz-sequence-entry-order-03 | 2026-10-31 | deterministic; Wasm fe683569bec6 | 4 cells; idle81 | scenario; trace=True |
+| dz-sequence-background-04 | 2026-10-31 | deterministic; Wasm 04585a921c6a | 4 cells; idle81 | scenario; trace=True |
+| dz-sequence-recovery-05 | 2026-10-31 | deterministic; Wasm ee15952c118b | 4 cells; idle81 | scenario; trace=True |
+| dz-owned-sequence-recovery-06 | 2026-10-31 | deterministic; Wasm 59cf29d646b2 | 4 cells; idle81 | scenario; trace=True |
+| dz-sequence-lifecycle-07 | 2026-10-31 | deterministic; Wasm 026609ddfe2a | 4 cells; idle81 | scenario; trace=True |
+| dz-sequence-economy-screen-08 | 2026-10-31 | deterministic; Wasm e5a227597bf5 | 2 cells; idle81 | smoke; trace=False |
+| dz-sequence-layered-recovery-09 | 2026-10-31 | deterministic; Wasm 026609ddfe2a | 2 cells; idle81 | scenario; trace=True |
+| dz-sequence-final-10 | 2026-10-31 | deterministic; Wasm 026609ddfe2a | 2 cells; idle81 | scenario; trace=True |

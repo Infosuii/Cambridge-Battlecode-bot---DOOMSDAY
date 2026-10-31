@@ -31,6 +31,7 @@ void Memory::init(const StaticWorld& world) {
     member_cursor.assign(world.groups.size(),0);
     coalition_cursor.assign(world.groups.size(),2);
     conversions.assign(world.groups.size(),0);
+    group_topology.assign(world.groups.size(),0);
 #endif
     for (unsigned g = 0; g < groups.size(); ++g) {
         groups[g].hp = world.groups[g].max_hp;
@@ -123,7 +124,12 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     tc.guard(); groups[index] = next;
 #if DZ_SIEGE || DZ_ECONOMY_V2
-    if(topology_changed)++topology_revision;
+    if(topology_changed) {
+        ++topology_revision;
+#if DZ_ECONOMY_V2
+        ++group_topology[index];
+#endif
+    }
 #endif
     if (hp!=member_hp[index]) ++hp_version[index];
 #if DZ_ECONOMY_V2

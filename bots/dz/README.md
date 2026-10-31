@@ -1,11 +1,11 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
-Latest development: default-off resumable crew geometry, bounded cast-aware
-single-monster objective work and a checked first-shield wake policy. See
-[the current checkpoint](../../research/dz/cast-crew-2026-10-31/README.md) and
-[live backlog](../../research/dz/BACKLOG.md). Targeted crews/recovery execute with
-clean runtime; Famine still fails competitive banking. Mixed-monster geometry,
-general ability/crew modelling and release acceptance remain open. Selected
+Latest development: default-off sequential crew projects with per-monster
+formations, resumable checked role routes, safe regrouping and retained recovery
+ownership. See [the checkpoint](../../research/dz/sequences-2026-10-31/README.md)
+and [live backlog](../../research/dz/BACKLOG.md). Native phases and scoped recovery
+execute; Famine still fails competitive banking. Resource/equipment allocation,
+joint ability/combat modelling and release acceptance remain open. Selected
 release defaults are unchanged.
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,

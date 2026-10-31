@@ -9,5 +9,6 @@ struct CrewQuote { bool complete=false;unsigned members=0;int finish=0;CrewQuote
 CrewQuote crew_quote(const StaticWorld&,const Memory&,int group,std::span<const crew::Unit>,int capture,const TurnContext&);
 Goal crew_action(Goal,StaticWorld&,Memory&,const Observation&,const TurnContext&);
 bool build_crew_field(StaticWorld&,Memory&,const Observation&,const TurnContext&);
+void progress_crew_layout(const StaticWorld&,const Memory&,const TurnContext&);
 }
 #endif

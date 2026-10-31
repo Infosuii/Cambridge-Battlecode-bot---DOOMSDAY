@@ -1,27 +1,26 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z6/Z7 sequential mixed-camp access and income.** The observed R9 fuel fault
-   is fixed; resumable front/exit/helper search restores native elk crews (570/570).
-   Final Famine remains only 14/17 vs control 400/236. Current whole-group fixed-
-   pose forecasts reject later monsters outside initial attack reach. Implement
-   sequential focus/reposition, paid regrouping and retained partial work; couple
-   this to real gold/equipment progression. Do not scale the failed screen.
-2. **Z6 ability-aware general objective work.** Conditional single-live-monster
-   reset/shield/direct-cast quotes and the first-shield wake check are integrated;
-   1,500 independent ordered reset/exposure references pass. Native cast quotes
-   execute, but no funded-shield trace was retained: explicitly phase-check that
-   transaction. Extend to dynamic multi-monster/crew geometry with uncertainty,
-   legal cooldowns/capture and abandonment. Restricted checks are not V-M1.
-3. **Z7/Z11 siege/crew economy.** Six-actor task DP, caller-owned consenting crews,
-   fixed worker reservations, partial visits and renewable three-visit circuits are
-   implemented. Native elk formed attacks and strict layered recovery execute;
-   final layered audit passes 45/22 cycles. Join siege ownership to spatial roles,
-   independent crews, focus/support, capture, handoff and shared bank schedules.
-   Concurrent crews and recovery handoff still lack native confirmation.
+1. **Z7/Z9 contested resource and equipment progression.** Sequential crews now
+   execute real three-monster phases; final fixture 48/300 exposes side asymmetry.
+   Famine remains only 77/7 vs selected control 400/236. Complete legal per-body
+   project/resource freshness, disjoint allocation, useful reward distribution and
+   equipment progression. Verify native crew reward-credit mechanics before changing
+   recipient policy; private ally gold is not a legal observation. No larger screens.
+2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
+   serial routes/staging, paid entry/recovery and actual live readiness are integrated.
+   Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement
+   power and enemy uncertainty still need modelling/calibration. 120 independent BFS
+   references and controlled phase advances are not V-M1. Explicitly native-check the
+   earlier first-shield admission transaction (no funded trace previously retained).
+3. **Z11 independent crews and recovery/handoff.** Recovery now retains its objective
+   and finite fresh lease while healing, and respects reassignment. General concurrent
+   crews, focus/support, capture/recipient handoff and bank schedules still need native
+   confirmation. Final layered strict audit passes 50/22 cycles; scoped siege recovery
+   is not a general crew guarantee. Keep fixing structural allocation/liveness gaps.
 4. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    actual cooldowns/CC/shields, exchange and kill-gold value, retreat paths, support
    and lost task income. Replace blanket task interruption with common decisions.

@@ -571,16 +571,51 @@ bool crew_ready(const StaticWorld& w,Memory& m,const Observation& o,int g,const 
 }
 std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar,int altar_distance) {
     const auto incoming_lease=protocol::compact::lease(shared_word(),tc.round);
+    auto& crew=m.crew_execution;
+    if(crew.recovering&&incoming_lease.valid&&incoming_lease.leader!=w.slot&&
+        (((incoming_lease.members&(1u<<w.slot))&&(incoming_lease.members!=m.economic_crew||incoming_lease.objective!=crew.group))||
+         (incoming_lease.objective==crew.group&&!(incoming_lease.members&(1u<<w.slot))))) {
+        // A new exact-round assignment replaces the old recovery project.
+        // Otherwise one champion could promise two different crews at once.
+        m.contract.objective=-1;m.leave_crew();
+    }
     m.race.observe(tc.round,o.submitted,cambc::global_submitted_gems(cambc::team::enemy));
     float bags=o.bag;for(const auto& a:o.allies)bags+=a.sdk.gem_count();
     const int remaining=m.race.remaining(tc.round,cambc::constants::max_rounds,cambc::constants::winning_gems,bags);
     const float gold_price=objective::gold_price(remaining);
+    if(crew.recovering&&crew.group>=0&&crew.group<static_cast<int>(m.groups.size())&&std::popcount(m.economic_crew)>1) {
+        if(o.bag>0&&altar>=0&&altar_distance<65535) {
+            const auto bank=tribute_delay(o.bag,cambc::constants::submit_gem_base_duration,cambc::constants::submit_gem_minimum_duration,
+                cambc::constants::submit_gem_duration_multiplier,0);
+            if(bank_now(o.bag,altar_distance,o.submitted,cambc::constants::winning_gems)||
+                (bank.supported()&&altar_distance+bank.rounds<=remaining&&remaining-altar_distance-bank.rounds<=config::contract_window)) {
+                m.contract.objective=-1;m.leave_crew();m.delivery_trip={};return Goal{GoalKind::Bank,altar};
+            }
+        }
+        if(static_cast<int>(tc.round)<=crew.recovery_deadline&&m.groups[crew.group].available(tc.round)) {
+            const int distance=w.distance(crew.group,o.p);
+            m.contract.start(crew.group,tc.round,distance,m.groups[crew.group].hp,m.groups[crew.group].capture,config::crew_window);
+            return Goal{GoalKind::Farm,crew.group};
+        }
+        m.contract.objective=-1;m.leave_crew();
+    }
     if(m.delivery_trip.active()&&incoming_lease.valid&&incoming_lease.leader!=w.slot&&(incoming_lease.members&(1u<<w.slot)))
         m.delivery_trip={}; // A fresh coordinated crew can reassign a solo circuit.
     if(m.delivery_trip.active())return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     refresh_shop_quote(w,m,o,tc,remaining);
+    const auto& geometry=m.crew_layout;
+    const bool priced_crew=geometry.group>=0&&geometry.group<static_cast<int>(m.groups.size())&&
+        geometry.search.stage==crew::SequenceSearch::Stage::Done&&m.groups[geometry.group].available(tc.round)&&
+        geometry.topology==m.topology_revision-m.group_topology[geometry.group]&&geometry.generation==m.conversions[geometry.group];
     if(m.legacy(tc.round)&&altar>=0&&(m.contract.objective<0||std::popcount(m.economic_crew)<2)&&
-        !(incoming_lease.valid&&(incoming_lease.members&(1u<<w.slot))))return std::nullopt;
+        !(incoming_lease.valid&&(incoming_lease.members&(1u<<w.slot)))) {
+        if(!priced_crew)return std::nullopt;
+        // Legacy navigation is still the fallback. A completed coordinated
+        // alternative gets an auction instead of waiting out a 300-turn latch.
+        if(std::popcount(m.economic_crew)<2&&static_cast<int>(tc.round)-m.last_work>config::crew_window) {
+            m.contract.objective=-1;m.leave_crew();
+        }
+    }
     m.access_group=-1;m.access_member=-1;
     if(altar<0&&o.enemies.empty())quote_opening(w,m,o,tc);
     if(m.shopping_since>=0||o.hp<.3f*o.max_hp)
@@ -609,6 +644,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     }
     if(current>=0) {
         const auto& b=m.groups[current];const int distance=w.distance(current,o.p);
+        if(m.crew_execution.group==current&&std::popcount(m.economic_crew)>1)
+            m.contract.checked=std::max(m.contract.checked,m.crew_execution.last_progress);
         const bool helper_done=b.state==GroupState::Reward&&m.economic_capturer!=w.slot;
         const bool timed_out=std::popcount(m.economic_crew)>1&&static_cast<int>(tc.round)>m.rendezvous_until&&
             b.state!=GroupState::Partial&&b.state!=GroupState::Reward;
@@ -819,6 +856,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         m.leave_crew();
         if(cold_resource>=0)m.field_needed=cold_resource;
         m.economic_retry_after=tc.round+(cold_resource>=0?1:8);
+        if(m.legacy(tc.round))return std::nullopt;
         return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     }
     const auto& belief=m.groups[chosen.objective];
