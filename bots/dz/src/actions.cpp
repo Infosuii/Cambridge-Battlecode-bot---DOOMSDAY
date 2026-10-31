@@ -151,9 +151,17 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
     }
 }
 bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
-          bool retreat, Actuator& act,bool remember_failures=false) {
+          bool retreat, Actuator& act,bool remember_failures=false
+#if DZ_ECONOMY_V2
+          ,const Memory* memory=nullptr
+#endif
+          ) {
     if (!cambc::self().can_move()) return false;
     const auto origin = cambc::self().position();
+#if DZ_ECONOMY_V2
+    const bool guard_siege=memory&&memory->siege_task.active()&&!retreat&&
+        memory->siege_moves.round==static_cast<int>(cambc::round_number())&&memory->siege_moves.origin==Tile{origin.x,origin.y};
+#endif
     vec2 best = origin;
     float score_best = 1e30f;
     // Outside a retreat only *entering* an enemy's attack reach is a hazard.
@@ -186,6 +194,9 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
     // Prefer a strictly improving distance. Static fields are not used for collision avoidance.
     for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
         auto p = origin + vec2{dx,dy};
+#if DZ_ECONOMY_V2
+        if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+#endif
         if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
@@ -215,6 +226,9 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
             struct Choice { vec2 tile;float score;int distance;bool tried=false; };
             std::array<Choice,8> choices{};unsigned count=0;
             for(int dx=-1;dx<=1;++dx) for(int dy=-1;dy<=1;++dy) {
+#if DZ_ECONOMY_V2
+                if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+#endif
                 const auto p=origin+vec2{dx,dy};
                 if(p==origin||p==best||!world.walkable(p)||obs.is_occupied(p)) continue;
                 const int distance=field.get(p);
@@ -450,7 +464,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         else if (goal.kind==GoalKind::Bank) field=world.altars[goal.index].field.get();
         else if (goal.kind==GoalKind::Farm) field=world.groups[goal.index].field.get();
         if (field&&me.can_move()&&tc.allow(5000+300*obs.camps.size())) {
-            step(*field,world,obs,retreat,act,remember_failures);
+            step(*field,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
         }
         bank_here(goal,world,act);
         return;
@@ -529,7 +547,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     // Last resort for a farm job: follow the group's static field.
     if (roots.is_empty() && goal.kind == GoalKind::Farm && world.groups[goal.index].field && me.can_move())
-        step(*world.groups[goal.index].field, world, obs, false, act,remember_failures);
+        step(*world.groups[goal.index].field, world, obs, false, act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
     DZ_PROF('r');
     bool bank_blocked = goal.kind == GoalKind::Bank && roots.is_empty();
 #if DZ_TRACE
@@ -550,13 +572,21 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             else if (goal.kind==GoalKind::Bank) cached=world.altars[goal.index].field.get();
             else if (goal.kind==GoalKind::Farm) cached=world.groups[goal.index].field.get();
             if (goal.kind==GoalKind::Farm&&!cached) mem.field_needed=goal.index;
-            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act,remember_failures);
+            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
         } else {
         cambc::distance_field field;
         field.compute(blocked, roots.board(), world.visited);
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
-        if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures);
+        if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
 #if DZ_MOVE_RETRY && DZ_RETRY_DETOUR
         // Strictly descending the old field cannot go around a hidden body
         // across a one-tile lane. Recompute once using only this turn's proven
@@ -570,7 +600,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
                 cambc::distance_field detour;
                 detour.compute(detour_blocked,detour_roots,world.visited);tc.guard();
                 if(detour.get(me.position())<cambc::distance_field::unreachable)
-                    step(detour,world,obs,retreat,act);
+                    step(detour,world,obs,retreat,act,false
+#if DZ_ECONOMY_V2
+                        ,&mem
+#endif
+                    );
             }
         }
 #endif

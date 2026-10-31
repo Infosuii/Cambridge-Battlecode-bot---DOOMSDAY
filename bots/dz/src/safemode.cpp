@@ -199,6 +199,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
     DZ_PROF('F');
+#if DZ_ECONOMY_V2
+    if(auto goal=yield_siege_lane(world,mem,obs,tc))return *goal;
+#endif
     // Bank only at an altar whose gating groups are not alive. A gated altar
     // used to send everyone to bank, find no free tile, refuse to wake the gate
     // and re-select Bank forever (DZ_STUCK, 01boss-battle).
@@ -244,7 +247,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // the pool): the reachability logic above cannot bank at all, so fall back
     // to the pre-gate policy, whose blocked-altar path clears the gate by
     // repeated waves. A dedicated siege plan is map-specific work, deferred.
-#if DZ_HAS(RING_GATES)
+#if DZ_HAS(RING_GATES) && !DZ_ECONOMY_V2
     if (DZ_ON(RING_GATES) && altar < 0 && gated_altar >= 0 && !world.altars[gated_altar].gates.empty() && obs.hp >= .5f*obs.max_hp) {
         int pick=-1; float weakest=1e30f;
         unsigned living=1;
@@ -271,7 +274,10 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
 #endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
-    if(auto goal=siege_goal(world,mem,obs,tc,altar>=0))return *goal;
+    // The economy chooses NEW openings against income and gear. A live siege
+    // keeps its checked strike/withdraw/recovery controller until completion.
+    if(!DZ_ECONOMY_V2||mem.siege_task.active())
+        if(auto goal=siege_goal(world,mem,obs,tc,altar>=0))return *goal;
 #endif
 #if DZ_ECONOMY_V2
     if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;

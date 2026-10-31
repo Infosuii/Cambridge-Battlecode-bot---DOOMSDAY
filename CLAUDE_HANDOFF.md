@@ -1,3 +1,19 @@
+# ACTIVE 2026-10-31 — opening projects and retreat lanes; unpromoted
+
+Read research/dz/opening-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented under DZ_ECONOMY_V2=0: resumable multi-layer opening quotes, economy/
+gear competition, concrete follow-through commitments, dependency stack/resume,
+arrival-tick respawn occupancy, approach safeguards and visible ally lane yielding.
+Final four-cell native fixture banks340/247 (layered gate),228/240 (shop), zero
+faults/fuel-outs, p99 fuel73,083. All host,28 measurement and six audit checks pass.
+STRICT WITHDRAWAL AUDIT STILL FAILS; scenario banking is not release acceptance.
+Next: real tank/rear/escape crew positions, focus/capture roles, fatal-withdrawal/
+legacy interaction, then full combat/macro calibration and action integration.
+No competitive campaign was run this checkpoint. Release defaults restored to
+prior Mac SHA437f91c3; Windows selected5cf28cb7 unchanged. No holdout/online actions.
+Native CLI works. Use explicit Homebrew Python3.14 and DZ_CAMBC as below.
+Older PAUSED/status sections are historical. Untracked .vscode/ remains untouched.
+
 # ACTIVE 2026-10-31 — macro and gear-visit checkpoint, unpromoted
 
 Siege/shared-work merge is pushed through d16f779. Current continuation is active.

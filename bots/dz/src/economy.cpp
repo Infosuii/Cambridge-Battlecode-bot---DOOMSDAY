@@ -3,6 +3,7 @@
 #include "allocation.h"
 #include "macro_value.h"
 #include "objective_math.h"
+#include "siege.h"
 #include <bit>
 
 namespace dz {
@@ -92,8 +93,26 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         m.shopping_since=-1;m.shopping_deadline=-1;
     }
     if(o.hp<.3f*o.max_hp)return {GoalKind::Home};
-    const macro::Context context{remaining,static_cast<float>(o.bag),std::max(.05f,m.economic_rate),objective::gold_price(remaining)};
-    std::array<macro::Option,3> choices{};
+    auto& commitment=m.opening_commitment;
+    if(altar>=0) {
+        const bool convert=commitment.executing;commitment={};
+        if(convert&&o.bag>0)return relinquish({GoalKind::Bank,altar});
+    }
+    if(commitment.active()) {
+        const int resource=commitment.resource;
+        const bool done=resource>=0&&resource<static_cast<int>(m.groups.size())&&m.groups[resource].state==GroupState::Respawning;
+        if(commitment.advance(tc.round,o.bag,o.gold,done)) {
+            if(auto goal=begin_opening(w,m,o,tc,commitment.altar))return *goal;
+            // A changed route/equipment quote may still be rebuilding. Keep the
+            // bounded commitment while doing useful work; never re-promise it
+            // indefinitely after one more farm job.
+        }
+    }
+    const auto* opening=altar<0?best_opening(m,o,tc):nullptr;
+    const int opening_work=opening?opening->rounds:65535;
+    const int homeward=home<65535?std::min(home,cambc::constants::recall_time)+1:65535;
+    const macro::Context context{remaining,static_cast<float>(o.bag),m.economic_gem_rate,objective::gold_price(remaining),m.economic_gold_rate};
+    std::array<macro::Option,4> choices{};
     choices[0].kind=macro::Kind::Farm;
     // Refresh the actual retained job instead of subtracting elapsed wall time
     // from a stale quote while the body was blocked, healing or interrupted.
@@ -123,6 +142,11 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
                 // The current access planner and executor still check camps.
                 const int distance=w.altar_distance(altar,group.tiles.front());
                 if(distance<65535)delivery=distance+bank_time(o.bag+static_cast<int>(q.gems));
+            } else if(opening&&opening->quality==gate::Quality::Ready) {
+                // Farm -> Home -> opening -> delivery. The opening quote keeps
+                // current equipment, so a funded upgrade is not invented here.
+                const int home_after=std::min<int>(w.home.get(group.tiles.front()),cambc::constants::recall_time)+1;
+                delivery=home_after+opening_work+opening->delivery+bank_time(o.bag+static_cast<int>(q.gems));
             }
             choices[0]={macro::Kind::Farm,g,q.finish,delivery,discount*q.gems,discount*q.gold_low,0,
                 (1-discount)*o.bag,true};
@@ -137,7 +161,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     if(home<65535&&o.enemies.empty()&&o.gold>=static_cast<int>(cambc::item_type::monster_shard_of_strength.cost())&&tc.allow(7000)) {
         const int recall=std::max(1,static_cast<int>(std::ceil(cambc::constants::recall_time*(1-reduction(cambc::item_family::home)))));
         const int outward=home>recall&&channel_safe(w,o,tc)?recall:home;
-        const int visit=outward+home+1;
+        const int visit=opening?outward+1:outward+home+1;
         if((m.shop_quote_gold!=o.gold||static_cast<int>(tc.round)-m.shop_quote_round>=16)&&tc.allow(17000)) {
             const auto quote=shop_visit(tc,o,std::max(0,remaining-visit));
             m.shop_quote=quote;m.shop_quote_gold=o.gold;m.shop_quote_round=tc.round;
@@ -145,9 +169,26 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         if(m.shop_quote.valid&&m.shop_quote_gold==o.gold&&visit<=remaining) {
             // A cached value cannot retain more horizon than its original quote.
             const float age_scale=std::clamp((remaining-visit)/static_cast<float>(std::max(1,remaining-visit+static_cast<int>(tc.round)-m.shop_quote_round)),0.f,1.f);
-            const int after=altar>=0?altar_distance+bank_time(std::max(1,o.bag)):-1;
-            choices[2]={macro::Kind::Shop,-1,visit,o.bag>0?after:(altar>=0?0:-1),0,0,m.shop_quote.value*age_scale,0,true};
+            const int after=altar>=0?altar_distance+bank_time(std::max(1,o.bag)):
+                opening&&opening->quality==gate::Quality::Ready?opening_work+opening->delivery+bank_time(std::max(1,o.bag)):-1;
+            choices[2]={macro::Kind::Shop,-1,visit,o.bag>0?after:(altar>=0?0:after),0,0,m.shop_quote.value*age_scale,0,true};
         }
+    }
+    if(opening) {
+        bool reserved=false;
+        const auto word=shared_word();
+        if(opening->count)for(const auto& ally:o.allies) {
+            const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+            if(it==w.allies.end())continue;const unsigned slot=it-w.allies.begin();
+            // Only a visible, physically committed worker reserves the cut.
+            // An unchanged old claim cannot prove remote liveness or freshness.
+            if(protocol::slot(word,slot).objective==opening->cuts[0].group&&
+                w.distance(opening->cuts[0].group,ally.p)<=ally.range+1&&ally.hp>.5f*ally.max_hp)reserved=true;
+        }
+        if(!reserved&&opening->quality==gate::Quality::Ready)
+            choices[3]={macro::Kind::Gate,opening->altar,homeward+opening_work,opening->delivery+bank_time(std::max(1,o.bag)),0,0,0,0,true};
+        else if(!reserved&&opening->quality==gate::Quality::Scout)
+            choices[3]={macro::Kind::Gate,opening->altar,homeward+opening_work,-1,0,0,0,0,true};
     }
     // Only compare a full contract quote with interruptions. If the forecast
     // was cut short, preserve the productive fallback; a certain-win bank above
@@ -155,12 +196,14 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     if(work.kind==GoalKind::Farm&&!choices[0].feasible)return work;
     const int selected=macro::choose(context,choices,choices[0].feasible?0:-1);
 #if DZ_TRACE
-    if(selected>=0&&tc.round%20==0){TraceScope scope;trace("DZ_MACRO round=%u body=%u action=%d farm=%.1f bank=%.1f shop=%.1f bag=%d gold=%d horizon=%d\n",
+    if(selected>=0&&tc.round%20==0){TraceScope scope;trace("DZ_MACRO round=%u body=%u action=%d farm=%.1f bank=%.1f shop=%.1f gate=%.1f bag=%d gold=%d horizon=%d\n",
         tc.round,static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),selected,
-        macro::value(context,choices[0]),macro::value(context,choices[1]),macro::value(context,choices[2]),o.bag,o.gold,remaining);}
+        macro::value(context,choices[0]),macro::value(context,choices[1]),macro::value(context,choices[2]),macro::value(context,choices[3]),o.bag,o.gold,remaining);}
 #endif
     if(selected==1)return relinquish({GoalKind::Bank,altar});
     if(selected==2) {
+        if(opening&&opening->quality==gate::Quality::Ready&&!commitment.active())
+            commitment.start(opening->altar,-1,o.bag,o.gold,tc.round+choices[2].work);
         commit_shop_visit(m.shop_quote);m.shopping_since=tc.round;m.shopping_deadline=tc.round+home+15;
 #if DZ_TRACE
         {TraceScope scope;trace("DZ_SHOP_PLAN round=%u body=%u item=%u purchases=%u cost=%d value=%.2f gold=%d\n",
@@ -168,6 +211,15 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
             m.shop_quote.purchases,m.shop_quote.cost,m.shop_quote.value,o.gold);}
 #endif
         return relinquish({GoalKind::Home});
+    }
+    if(selected==3)if(auto goal=begin_opening(w,m,o,tc,choices[3].id))return *goal;
+    if(selected==0&&opening&&opening->quality==gate::Quality::Ready&&!commitment.active()&&
+        choices[0].delivery>=0&&choices[0].work+choices[0].delivery<=remaining&&std::isfinite(macro::value(context,choices[3]))) {
+        commitment.start(opening->altar,work.index,o.bag,o.gold,tc.round+choices[0].work);
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_OPENING_COMMIT round=%u body=%u altar=%d after=%d deadline=%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),commitment.altar,work.index,commitment.deadline);}
+#endif
     }
     return work;
 }
@@ -211,43 +263,13 @@ bool crew_ready(const StaticWorld& w,const Memory& m,const Observation& o,int g,
     return quote.complete()&&quote.survivable;
 }
 std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar,int altar_distance) {
-    if(m.legacy(tc.round))return std::nullopt; // Preserve the productive starvation escape.
+    if(m.legacy(tc.round)&&altar>=0)return std::nullopt; // Preserve the productive starvation escape on accessible maps.
     m.race.observe(tc.round,o.submitted,cambc::global_submitted_gems(cambc::team::enemy));
     float bags=o.bag;for(const auto& a:o.allies)bags+=a.sdk.gem_count();
     const int remaining=m.race.remaining(tc.round,cambc::constants::max_rounds,cambc::constants::winning_gems,bags);
     const float gold_price=objective::gold_price(remaining);
-    if(altar>=0) {m.access_group=-1;m.access_member=-1;}
-    else if(o.enemies.empty()&&tc.allow(14000)) {
-        // Price the actual cut member, not a full boss group. Killing one gate
-        // can open delivery for the whole team; unrelated monsters still count
-        // in incoming exposure until we leave. No map-name special cases.
-        int chosen_group=-1,chosen_member=-1;float best=0;
-        for(const auto& blocked:w.altars)for(auto [g,k]:blocked.gate_members) {
-            if(!tc.allow(10000))break;
-            if(!m.groups[g].available(tc.round)||m.member_hp[g][k]<=0)continue;
-            const int travel=w.distance(g,o.p);if(travel>=65535)continue;
-            const float attacks=std::ceil(m.member_hp[g][k]/std::max(1.f,o.strength*o.camp_damage));
-            float incoming=0;
-            for(unsigned member=0;member<m.member_hp[g].size();++member)
-                if(m.member_hp[g][member]>0)incoming+=w.groups[g].initial_strength[member]*o.camp_factor;
-            // Reserve enough HP to walk out of maximum camp range. If this
-            // cannot fit, ordinary dynamic crew allocation may take the group.
-            int escape=1;for(auto r:w.groups[g].attack_ranges)escape=std::max(escape,r+1);
-            if(o.hp<=1.25f*incoming*(attacks+escape)+.15f*o.max_hp)continue;
-            const float value=(60+bags+w.groups[g].reward_gems)/((travel+attacks+escape+1.f)*(1+m.pressure(w.groups[g].center,6+w.groups[g].radius,tc.round)));
-            if(value>best){best=value;chosen_group=g;chosen_member=k;}
-        }
-        if(chosen_group>=0) {
-            const bool continuing=m.access_group==chosen_group&&m.access_member==chosen_member&&m.contract.objective==chosen_group;
-            if(continuing&&!m.contract.progressing(tc.round,w.distance(chosen_group,o.p),m.groups[chosen_group].hp,m.groups[chosen_group].capture)) {
-                m.release(tc.round);m.access_group=-1;m.access_member=-1;return std::nullopt;
-            }
-            m.access_group=chosen_group;m.access_member=chosen_member;m.economic_crew=1u<<w.slot;m.economic_capturer=w.slot;
-            const auto& b=m.groups[chosen_group];
-            if(!continuing)m.contract.start(chosen_group,tc.round,w.distance(chosen_group,o.p),b.hp,b.capture);
-            return Goal{GoalKind::Farm,chosen_group};
-        }
-    }
+    m.access_group=-1;m.access_member=-1;
+    if(altar<0&&o.enemies.empty())quote_opening(w,m,o,tc);
     if(m.shopping_since>=0||o.hp<.3f*o.max_hp)
         return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     const int occupied=w.group_at(o.p);
@@ -282,7 +304,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         if(helper_done||!b.available(tc.round))m.contract.objective=-1;
         else m.release(tc.round);
     }
-    if(static_cast<int>(tc.round)<m.economic_retry_after||!tc.allow(28000))return std::nullopt;
+    if(static_cast<int>(tc.round)<m.economic_retry_after||!tc.allow(28000))
+        return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     const auto start=fuel_left();
     std::array<Participant,objective::max_crew> team{};unsigned n=0,available=0;
     std::array<int,objective::max_crew> reserved;reserved.fill(-1);
@@ -320,6 +343,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     }
     std::sort(candidates.begin(),candidates.end(),[](auto a,auto b){return a.bound>b.bound||(a.bound==b.bound&&a.g<b.g);});
     std::array<float,objective::max_crew> alternatives{};
+    float gem_rate=0,gold_rate=0,continuation_rate=-1;
     std::vector<economy::Bid> bids;bids.reserve(48);
     const unsigned limit=std::min<unsigned>(8,candidates.size());
     std::array<ClearMember,clear_risk_members> members{};
@@ -360,6 +384,11 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             if(!quote.complete()||!quote.survivable)continue;
             const float rate=contested*quote.reward(gold_price)/std::max(1,quote.finish);
             alternatives[team[a].slot]=std::max(alternatives[team[a].slot],rate);
+            if(team[a].slot==w.slot&&rate>continuation_rate) {
+                continuation_rate=rate;
+                gem_rate=contested*quote.gems/std::max(1,quote.finish);
+                gold_rate=contested*quote.gold_low/std::max(1,quote.finish);
+            }
             float followup=0;unsigned circuit=0;
             if(group.cluster)for(unsigned next=0;next<limit;++next) {
                 const int other=candidates[next].g;if(other==g||!w.groups[other].cluster)continue;
@@ -400,6 +429,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         for(unsigned slot=0;slot<alternatives.size();++slot)if(bid.crew&(1u<<slot)){total+=alternatives[slot];best=std::max(best,alternatives[slot]);}
         bid.opportunity=total-best;
     }
+    m.economic_gem_rate=gem_rate;m.economic_gold_rate=gold_rate;
     const auto assignments=economy::allocate(bids,available);const auto chosen=assignments[w.slot];
     if(chosen.objective<0){m.economic_retry_after=tc.round+8;return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);}
     const auto& belief=m.groups[chosen.objective];

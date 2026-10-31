@@ -4,15 +4,16 @@ Release remains unchanged; no experimental strategy has passed promotion. Native
 Mac CLI works. Current source and evidence: macro-2026-10-31/, siege-2026-10-31/,
 engineering-2026-10-31/, plus the inherited COMBINED_PLAN_2026-10-31.md.
 
-1. **Z6/Z7/Z8/Z12 gate investment and progression.** Gate selection currently
-   pre-empts income/gear. Price the complete opening, repeated visits and recovery;
-   compare basic income and equipment milestones before selecting an expensive
-   gate. Track multiple layers and partial HP. Use the macro itineraries and actual
-   executable purchasing project; preserve checked strike/escape admission.
-2. **Z11 actual crew execution.** Deterministic shared focus, tank/rear positions,
-   committed-position safety, rally/rotation and recovery handoff. Avoid fixed
-   pairs, whole-team grouping, assumed equal damage sharing and helpers that
-   arrive only in a quote. Release helpers after conversion.
+1. **Z11 actual crew execution and strict withdrawal safety.** Current opening
+   projects, dependency recovery and lane yield are implemented (see opening-
+   2026-10-31/), but the native strict withdrawal audit FAILS. Implement actual
+   tank/rear/escape positions, deterministic shared focus, capture roles and
+   recovery handoff. Resolve fatal withdrawals/legacy interaction. Avoid fixed
+   pairs, whole-team grouping, assumed damage sharing and stationary exit blockers.
+2. **Z6/Z7/Z8/Z12 progression and opening forecasts.** Multi-layer opening projects
+   now compete with income/gear and execute bounded queued plans. Improve actual
+   upgrade-to-job feasibility, maintenance/traffic/respawn cost, role-aware capture
+   and partial-clear scheduling. Current static quotes are not general V-M1.
 3. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    exchange/kill-gold value, retreat path, ally support and lost task income.
    Replace the camp-only blanket contact interruption; do not tune retreat ranges.

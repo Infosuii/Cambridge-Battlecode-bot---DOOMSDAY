@@ -28,6 +28,16 @@ EscapeRoute escape_route(Tile origin,std::span<const CampThreat> camps,std::span
     return best;
 }
 enum class Phase : std::uint8_t { None, Approach, Strike, Escape, Recover };
+inline bool backtrack_safe(float hp,float max_hp,float here,float next,float escape) {
+    for(auto x:{hp,max_hp,here,next,escape})if(!std::isfinite(x)||x<0)return false;
+    // After the next camp phase, retain a step back to the checked origin,
+    // its complete escape, and one raw surprise phase. No future ally/shield.
+    return hp>.15f*max_hp+1.25f*(escape+here)+next+std::max(here,next);
+}
+inline bool yield_lane(Tile self,Tile ally,float hp,float max_hp,float ally_hp,float ally_max,int home,int ally_home) {
+    return max_hp>0&&ally_max>0&&ally_hp>0&&cheb(self,ally)<=2&&home<ally_home&&
+        ally_hp/ally_max<hp/max_hp;
+}
 struct Support { Tile p;unsigned handle;float hp,max_hp; };
 struct Incoming { float raw=0,current=0;unsigned protected_camps=0;bool valid=false; };
 // Other actors are admitted only by the SDK adapter after their turn is done.
@@ -93,7 +103,8 @@ struct Task {
     float last_target_hp=0,escape_loss=0,incoming=0;
     float visit_hp=0;
     float shield_credit=0,required_shield=0;
-    bool struck=false,finished=false,support_seen=false;
+    bool struck=false,finished=false,support_seen=false,restock=false;
+    bool planned_approach=false;
     int checked=0,distance=65535,last_round=-1,retry_after=0,visits=0,failures=0;
     bool active() const { return group>=0&&member>=0&&phase!=Phase::None; }
     void reset(int round,int cooldown=0) { *this={};retry_after=round+cooldown; }

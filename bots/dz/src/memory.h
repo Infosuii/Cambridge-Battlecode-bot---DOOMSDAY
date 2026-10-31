@@ -7,6 +7,7 @@
 #if DZ_ECONOMY_V2
 #include "race.h"
 #include "gear.h"
+#include "gate_plan.h"
 #endif
 
 namespace dz {
@@ -48,6 +49,13 @@ struct Memory {
     ShopVisit shop_quote;
     int shop_quote_round=-10000,shop_quote_gold=-1;
     int shopping_since=-1,shopping_deadline=-1;
+    std::vector<gate::Plan> openings;
+    gate::Commitment opening_commitment;
+    std::array<siege::Task,gate::max_cuts> siege_parents{};
+    unsigned siege_depth=0;
+    struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
+    unsigned opening_cursor=0;
+    float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;
     int access_group=-1,access_member=-1;
     struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000; };

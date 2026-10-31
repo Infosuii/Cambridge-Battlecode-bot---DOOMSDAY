@@ -634,3 +634,12 @@ The registry was created before experiments. Entries below record actual use.
 | dz-macro-shop-integration-12 | 2026-10-31 | deterministic; Wasm 3815b357a352 | 2 cells; idle81 | scenario; trace=True |
 | dz-macro-income-dev-13 | 2026-10-31 | deterministic; Wasm ddeabce2532e | 4 cells; v65 | smoke; trace=False |
 | dz-macro-final-fixtures-14 | 2026-10-31 | deterministic; Wasm 1f5713d6f836 | 4 cells; idle81 | scenario; trace=True |
+| dz-opening-integration-02 | 2026-10-31 | deterministic; Wasm e3c6b1c99ef4 | 4 cells; idle81 | scenario; trace=True |
+| dz-opening-commitment-03 | 2026-10-31 | deterministic; Wasm b3acdaa09161 | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-dependencies-04 | 2026-10-31 | deterministic; Wasm ec7a66fc5e7c | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-guard-05 | 2026-10-31 | deterministic; Wasm 4c7933306dfc | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-respawn-path-06 | 2026-10-31 | deterministic; Wasm 3fd77bdd56a5 | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-rally-safety-07 | 2026-10-31 | deterministic; Wasm 2c2199e89b02 | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-final-fixtures-08 | 2026-10-31 | deterministic; Wasm 021dcbce78c5 | 4 cells; idle81 | scenario; trace=True |
+| dz-opening-lane-yield-09 | 2026-10-31 | deterministic; Wasm 05d05ccaf79e | 2 cells; idle81 | scenario; trace=True |
+| dz-opening-checkpoint-10 | 2026-10-31 | deterministic; Wasm 835f54957e66 | 4 cells; idle81 | scenario; trace=True |

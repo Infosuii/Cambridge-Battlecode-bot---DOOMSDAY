@@ -1,5 +1,11 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
+Latest development: resumable multi-layer opening projects, progression choices,
+parent/dependency recovery, arrival-tick respawn occupancy and retreat-lane yielding
+are integrated under `DZ_ECONOMY_V2=0`. See [the opening checkpoint](../../research/dz/opening-2026-10-31/README.md).
+Native scenario banking works; strict withdrawal audit still fails. Do not promote.
+Real tank/rear crew execution is next. Default release output is unchanged.
+
 Current development: `DZ_ECONOMY_V2` includes finite-horizon farm, delivery and
 equipment-visit scoring (`macro_value.h`), with the same project quoted and
 purchased. See [the macro checkpoint](../../research/dz/macro-2026-10-31/README.md)
