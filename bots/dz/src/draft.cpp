@@ -12,12 +12,12 @@ void draft_loop(Counters& counts) {
     // 0 current prior; 1 elite core Vesper/Heart/Vendetta/Marcella; 2 Ryth/
     // Vendetta/Marcella (beat the core on arena/fragment); 3 Vesper/Vendetta/Varg.
     using Order = std::array<D,6>;
-    const std::array<Order,((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX) ? 8 : 4)> variants{{
+    const std::array<Order,((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX||DZ_PLAN_TABLE) ? 8 : 4)> variants{{
         {D::vendetta, D::varg, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth},
         {D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth, D::varg},
         {D::ryth, D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::varg},
         {D::vesper_vale, D::vendetta, D::varg, D::marcella, D::heart_of_ruin, D::ryth}
-#if DZ_DRAFT_VARIANT >= 4 || DZ_MAP_DRAFT_EXTRA || DZ_MAP_DRAFT_MATRIX
+#if DZ_DRAFT_VARIANT >= 4 || DZ_MAP_DRAFT_EXTRA || DZ_MAP_DRAFT_MATRIX || DZ_PLAN_TABLE
         ,{D::vesper_vale, D::vendetta, D::marcella, D::willow, D::heart_of_ruin, D::ryth},
         {D::vesper_vale, D::prism, D::marcella, D::tavi, D::heart_of_ruin, D::vendetta},
         {D::vesper_vale, D::vendetta, D::cassi_and_issac, D::marcella, D::heart_of_ruin, D::ryth},
@@ -33,7 +33,7 @@ void draft_loop(Counters& counts) {
     // A future table must not index an experiment compiled out of this build.
     static_assert([] {
         for (const auto& row : map_drafts)
-            if (row.variant >= ((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX) ? 8 : 4)) return false;
+            if (row.variant >= ((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX||DZ_PLAN_TABLE) ? 8 : 4)) return false;
         return true;
     }());
     static_assert(!(DZ_MAP_DRAFT_EXTRA && DZ_MAP_DRAFT_MATRIX));
@@ -55,6 +55,10 @@ void draft_loop(Counters& counts) {
         };
         static_assert([] { for(const auto& row:extra)if(row.variant>=8)return false;return true; }());
         for(const auto& row:extra)if(row.signature==signature && DZ_DRAFT_VARIANT==0)variant=row.variant;
+#endif
+#if DZ_PLAN_TABLE
+        load_plan();
+        if (DZ_DRAFT_VARIANT == 0 && plan_draft >= 0 && plan_draft < 8) variant = plan_draft;
 #endif
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;

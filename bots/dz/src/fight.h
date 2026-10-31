@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstddef>
 #include <span>
+#include "ee_model.h"
 
 namespace dz {
 // Local champion-fight estimate for engage / join / avoid decisions. Every
@@ -45,5 +46,26 @@ inline FightResult simulate_fight(std::span<const Fighter> ours,std::span<const 
         ++round;
     }
     return {true,alive(a,ours.size()),alive(b,theirs.size()),round,a[0]>0};
+}
+// V-M2 calibrated logit of the deciding body (ours[0]) dying within 4 rounds; tools/dz_vm2.py fits the
+// weights from replay contacts. ours: the body plus allies within 6; theirs: enemies within 8 at true HP.
+inline float death_logit(std::span<const Fighter> ours,std::span<const Fighter> theirs,float hp_fraction,int nearest,
+                         float reach_damage) {
+    if (ours.empty()||theirs.empty()||theirs.size()>fight_units) return 0;
+    std::array<Fighter,fight_units> inflated{};
+    float po=0,pt=0,top=0;
+    for (std::size_t i=0;i<theirs.size();++i) {
+        inflated[i]={1.25f*theirs[i].hp,theirs[i].damage};
+        pt+=theirs[i].hp*theirs[i].damage; top=std::max(top,theirs[i].damage);
+    }
+    for (const auto& f:ours) po+=f.hp*f.damage;
+    const auto sim=simulate_fight(ours,std::span<const Fighter>(inflated.data(),theirs.size()));
+    const float x[10]={hp_fraction,static_cast<float>(ours.size()-1),static_cast<float>(theirs.size()),nearest/8.f,
+        sim.won()?1.f:0.f,sim.self_alive?1.f:0.f,sim.rounds/40.f,po+pt>0?po/(po+pt):.5f,
+        reach_damage>0?std::min(ours[0].hp/reach_damage,20.f)/20.f:1.f,
+        ours[0].damage+top>0?ours[0].damage/(ours[0].damage+top):.5f};
+    float z=ee_model::intercept;
+    for (int i=0;i<10;++i) z+=ee_model::weights[i]*x[i];
+    return z;
 }
 }

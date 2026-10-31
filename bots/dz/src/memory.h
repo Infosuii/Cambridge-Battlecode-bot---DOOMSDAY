@@ -67,7 +67,7 @@ struct Memory {
         return exposure;
     }
 #endif
-#if DZ_EE
+#if DZ_HAS(EE)
     // DZ_EE: recent personal enemy sightings (position, round), oldest replaced first.
     struct Sighting { vec2 p{-1,-1}; int round=-100000; };
     std::array<Sighting,8> sightings{};

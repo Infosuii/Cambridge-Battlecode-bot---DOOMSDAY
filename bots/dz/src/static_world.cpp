@@ -160,12 +160,12 @@ void StaticWorld::boot(const TurnContext& tc) {
         altar.distances=altar.field->export_linear_buffer();
 #endif
     }
-#if DZ_RING_GATES || DZ_ECONOMY_V2 || DZ_SIEGE
+#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE
     // Resumable over turns: one pocket field per altar, then a budgeted group scan.
     const auto ring_start=fuel_left();
     for (auto& altar : altars) {
         if (altar.ring_checked) continue;
-        if (!altar.gates.empty()) { altar.ring_checked=true; continue; }
+        if (!(DZ_ON(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE) || !altar.gates.empty()) { altar.ring_checked=true; continue; }
         if (!altar.pocket) {
             if (!tc.allow(field_budget()+5000)) return;
             roots.clear();

@@ -74,6 +74,9 @@ int main() {
 #endif
         try {
             if (!world) world = std::make_unique<dz::StaticWorld>();
+#if DZ_PLAN_TABLE
+            dz::load_plan();
+#endif
             if (!mem) mem = std::make_unique<dz::Memory>();
             if (!obs) obs = std::make_unique<dz::Observation>();
             if (!claim_initialized && dz::module_work(boot_health,tc,counts,"roster",[&]{world->load_roster(tc);})) {

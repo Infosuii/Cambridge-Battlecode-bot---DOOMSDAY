@@ -41,7 +41,7 @@ struct Altar {
     std::vector<int> gates;
     std::vector<std::pair<int,int>> gate_members;
     std::vector<int> near_groups; // Groups with a tile within 3 of the altar.
-#if DZ_RING_GATES || DZ_ECONOMY_V2 || DZ_SIEGE
+#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE
     bool ring_checked=false; // Camp-ring pocket check done (DZ_RING_GATES).
     std::unique_ptr<cambc::distance_field> pocket; std::size_t ring_cursor=0;
     std::size_t ring_member_cursor=0;
