@@ -45,6 +45,28 @@ int main() {
     const Tile direction{(fast.exit.x>1)-(fast.exit.x<1),(fast.exit.y>0)-(fast.exit.y<0)};
     float sum=0;for(int step=1;step<=fast.steps;++step)sum+=camp_damage({1+step*direction.x,step*direction.y},threats);
     assert(sum==fast.damage&&fast.damage==360);
+    // Frozen native death geometry: a recovering body at(20,15) must take the
+    // checked diagonal to zero exposure, not bounce toward the occupied east tile.
+    const std::array native_camps{CampThreat{{14,15},120,4},CampThreat{{16,15},120,4}};
+    auto native_open=[](Tile p) {
+        return p.x>=0&&p.y>=0&&p.x<31&&p.y<31&&p!=Tile{21,15}&&
+            !((p.y==14||p.y==16)&&p.x>=12&&p.x<=18);
+    };
+    const std::array native_directions{Tile{1,1},Tile{1,-1},Tile{1,0},Tile{-1,1},Tile{-1,0},Tile{-1,-1},Tile{0,1},Tile{0,-1}};
+    const auto native_exit=siege::escape_route({20,15},native_camps,native_directions,native_open);
+    assert((native_exit.found&&native_exit.exit==Tile{21,16}&&native_exit.damage==0));
+    siege::EscapeStep certified;assert(certified.arm(1230,{20,15},native_exit));
+    assert((certified.round==1230&&certified.origin==Tile{20,15}&&certified.next==Tile{21,16}));
+    assert(!certified.arm(1231,{20,15},{{22,16},0,2,true,false})); // Non-ray endpoint cannot authorize a direct step.
+    const auto kept=siege::retained_escape({16,15},{21,15},native_camps,[](Tile){return true;});
+    assert(kept.found&&kept.damage==720&&kept.steps==5);
+    assert(!siege::retained_escape({16,15},{21,15},native_camps,[](Tile p){return p!=Tile{19,15};}).found);
+    assert(!siege::retained_escape({16,15},{21,16},native_camps,[](Tile){return true;}).found);
+    const auto cut=siege::retained_escape({16,15},{21,15},native_camps,[](Tile){return true;},[]{return false;});
+    assert(!cut.found&&cut.truncated);
+    assert(!siege::withdrawal_safe(530,0,120)); // Observed R1377 safe-cell re-entry.
+    assert(siege::withdrawal_safe(530,0,0)&&siege::withdrawal_safe(530,240,120));
+    assert(!siege::withdrawal_safe(120,240,120)&&!siege::withdrawal_safe(530,120,240));
     int calls=0;
     auto interrupted=siege::escape_route({1,0},threats,directions,[](Tile){return true;},[&]{return ++calls<3;});
     assert(interrupted.found&&interrupted.truncated&&camp_damage(interrupted.exit,threats)==0);

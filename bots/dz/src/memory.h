@@ -73,7 +73,8 @@ struct Memory {
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
     struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
-    SiegeMoves neutral_moves;
+    struct NeutralMoves { int round=-1;Tile origin{};unsigned allowed=0,withdrawal=0; } neutral_moves;
+    siege::EscapeStep neutral_escape;
     siege::RecoveryLatch neutral_recovery;
     std::vector<std::vector<float>> member_strength;
     LocalMask memory_visible;

@@ -433,7 +433,10 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
 #endif
         if(!state.recovering)state.recovery_deadline=tc.round+2*phase.return_rounds+cambc::constants::recall_time+config::crew_window;
         state.recovering=true;m.neutral_recovery.update(true,false,o.hp,o.max_hp);state.managed=false;
-        if(formed)return Goal{GoalKind::Retreat,-1,vec2{phase.staging[self].x,phase.staging[self].y}};
+        if(formed) {
+            m.neutral_escape.arm(tc.round,here,{phase.staging[self],static_cast<float>(phase.escape[self]),cheb(here,phase.staging[self]),true,false});
+            return Goal{GoalKind::Retreat,-1,vec2{phase.staging[self].x,phase.staging[self].y}};
+        }
         if(transfer&&first)return Goal{GoalKind::Retreat,-1,vec2{sequence.phases[first-1].staging[self].x,sequence.phases[first-1].staging[self].y}};
         return Goal{GoalKind::Home};
     };

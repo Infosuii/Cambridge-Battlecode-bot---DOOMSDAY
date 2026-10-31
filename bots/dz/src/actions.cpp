@@ -172,8 +172,10 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
 #if DZ_ECONOMY_V2
     const bool guard_siege=memory&&memory->siege_task.active()&&!retreat&&
         memory->siege_moves.round==static_cast<int>(cambc::round_number())&&memory->siege_moves.origin==Tile{origin.x,origin.y};
-    const bool guard_neutral=memory&&!retreat&&memory->neutral_moves.round==static_cast<int>(cambc::round_number())&&
+    const bool guard_neutral=memory&&(!retreat||obs.enemies.empty()||memory->neutral_recovery.active)&&
+        memory->neutral_moves.round==static_cast<int>(cambc::round_number())&&
         memory->neutral_moves.origin==Tile{origin.x,origin.y};
+    const unsigned neutral_allowed=guard_neutral?(retreat?memory->neutral_moves.withdrawal:memory->neutral_moves.allowed):511;
 #endif
     vec2 best = origin;
     float score_best = 1e30f;
@@ -209,7 +211,7 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
         auto p = origin + vec2{dx,dy};
 #if DZ_ECONOMY_V2
         if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
-        if(guard_neutral&&!(memory->neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+        if(guard_neutral&&!(neutral_allowed&(1u<<((dx+1)*3+dy+1))))continue;
 #endif
         if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
@@ -242,7 +244,7 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
             for(int dx=-1;dx<=1;++dx) for(int dy=-1;dy<=1;++dy) {
 #if DZ_ECONOMY_V2
                 if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
-                if(guard_neutral&&!(memory->neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+                if(guard_neutral&&!(neutral_allowed&(1u<<((dx+1)*3+dy+1))))continue;
 #endif
                 const auto p=origin+vec2{dx,dy};
                 if(p==origin||p==best||!world.walkable(p)||obs.is_occupied(p)) continue;
@@ -301,6 +303,17 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
 #endif
     if (!actionable(me.state())) return;
+#if DZ_ECONOMY_V2
+    const auto& escape=mem.neutral_escape;
+    if(goal.kind==GoalKind::Retreat&&goal.destination&&escape.round==static_cast<int>(tc.round)&&
+        escape.origin==Tile{obs.p.x,obs.p.y}&&*goal.destination==vec2{escape.exit.x,escape.exit.y}) {
+        // The planner certified this exact first step. Do not spend its move on
+        // an optional action or replace it with a generic Home/retreat score.
+        const vec2 next{escape.next.x,escape.next.y};
+        if(me.can_move()&&world.walkable(next)&&!obs.is_occupied(next)&&tc.allow(3500))act.move(next);
+        return;
+    }
+#endif
     if (goal.kind==GoalKind::YieldSpawn) {
 #if DZ_ECONOMY_V2
         if(goal.destination) {
@@ -519,7 +532,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         auto p=me.position(), end=*goal.destination;
         auto sign=[](int x){return (x>0)-(x<0);};
         auto next=p+vec2{sign(end.x-p.x),sign(end.y-p.y)};
-        if (world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
+        bool allowed=true;
+#if DZ_ECONOMY_V2
+        if((obs.enemies.empty()||mem.neutral_recovery.active)&&mem.neutral_moves.round==static_cast<int>(tc.round)&&mem.neutral_moves.origin==Tile{p.x,p.y}) {
+            const int dx=next.x-p.x,dy=next.y-p.y;allowed=mem.neutral_moves.withdrawal&(1u<<((dx+1)*3+dy+1));
+        }
+#endif
+        if (allowed&&world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
 #if DZ_ECONOMY_V2
     if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&

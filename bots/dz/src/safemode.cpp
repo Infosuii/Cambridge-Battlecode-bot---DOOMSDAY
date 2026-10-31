@@ -74,8 +74,12 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             },[&] {
                 return tc.allow(1000+150*obs.camps.size()) && fuel_start-fuel_left()<20000;
             });
-            if (route.found && must_escape_camps(obs.hp,incoming,route.damage))
+            if (route.found && must_escape_camps(obs.hp,incoming,route.damage)) {
+#if DZ_ECONOMY_V2
+                mem.neutral_escape.arm(tc.round,{obs.p.x,obs.p.y},route);
+#endif
                 return {GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};
+            }
             if (!route.found && obs.hp<=2*incoming) return {GoalKind::Retreat};
         }
         if (!obs.camps_complete) return {GoalKind::Home};

@@ -227,19 +227,28 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     // Visible awake camps are actual hazards. Hidden spawns are uncertain and
     // stay in the full admission scene, but are not declared awake merely from
     // design HP. A new unexplained HP loss activates that conservative scene.
+    const bool recovering=m.neutral_recovery.update(false,w.home.get(o.p)==0,o.hp,o.max_hp);
     LocalMask visible;visible.load(cambc::vision::visible_tiles());
     Exposure hazards;
-    for(const auto& camp:scene.view())if(visible.test({camp.p.x,camp.p.y})||injured)hazards.camps[hazards.count++]=camp;
+    for(const auto& camp:scene.view())if(visible.test({camp.p.x,camp.p.y})||injured||recovering)hazards.camps[hazards.count++]=camp;
     m.neutral.risks=hazards.camps;m.neutral.risk_count=hazards.count;
-    m.neutral_moves={static_cast<int>(tc.round),{o.p.x,o.p.y},511};
+    m.neutral_moves={static_cast<int>(tc.round),{o.p.x,o.p.y},511,0};
     const float raw=camp_damage({o.p.x,o.p.y},hazards.view());
-    const bool recovering=m.neutral_recovery.update(false,w.home.get(o.p)==0,o.hp,o.max_hp);
+    for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy)
+        if(siege::withdrawal_safe(o.hp,raw,camp_damage({o.p.x+dx,o.p.y+dy},hazards.view())))
+            m.neutral_moves.withdrawal|=1u<<((dx+1)*3+dy+1);
     if(!scene.complete) {
         if(raw>0)return Goal{GoalKind::Retreat};
         return Goal{GoalKind::Home};
     }
     if(!hazards.count)return recovering?std::optional<Goal>{Goal{GoalKind::Home}}:std::nullopt;
-    const auto route=escape(w,m,o,o.p,hazards,tc,started);
+    auto route=escape(w,m,o,o.p,hazards,tc,started);
+    if(recovering&&m.neutral_escape.round==static_cast<int>(tc.round)-1) {
+        const auto retained=siege::retained_escape({o.p.x,o.p.y},m.neutral_escape.exit,hazards.view(),[&](Tile p) {
+            return free(w,m,o,{p.x,p.y},tc.round+cheb({o.p.x,o.p.y},p))&&enemy_danger({p.x,p.y},o)<=enemy_danger(o.p,o);
+        },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
+        if(retained.found&&o.hp>retained.damage)route=retained;
+    }
     if(route.found) {
         m.neutral_moves.allowed=0;
         for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
@@ -253,9 +262,10 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     if(m.siege_task.active())return std::nullopt;
     if(raw>0&&(recovering||!route.found||o.hp<=.15f*o.max_hp+1.25f*route.damage+2*raw)) {
         m.neutral_recovery.update(true,false,o.hp,o.max_hp);
+        if(route.found)m.neutral_escape.arm(tc.round,{o.p.x,o.p.y},route);
 #if DZ_TRACE
-        {TraceScope scope;trace("DZ_NEUTRAL_ESCAPE round=%u body=%u hp=%.0f incoming=%.0f escape=%.0f route=%d\n",tc.round,
-            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.hp,raw,route.damage,route.found);}
+        {TraceScope scope;trace("DZ_NEUTRAL_ESCAPE round=%u body=%u hp=%.0f incoming=%.0f escape=%.0f route=%d from=%d,%d exit=%d,%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.hp,raw,route.damage,route.found,o.p.x,o.p.y,route.exit.x,route.exit.y);}
 #endif
         return Goal{GoalKind::Retreat,-1,route.found?std::optional<vec2>{vec2{route.exit.x,route.exit.y}}:std::nullopt};
     }
@@ -464,7 +474,11 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
         }
         if(!threats.complete||!tc.allow(9000))return Goal{GoalKind::Retreat};
         const auto route=escape(w,m,o,o.p,threats,tc,started);
-        if(route.found){task.exit=route.exit;return Goal{GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};}
+        if(route.found){task.exit=route.exit;
+#if DZ_ECONOMY_V2
+            m.neutral_escape.arm(tc.round,{o.p.x,o.p.y},route);
+#endif
+            return Goal{GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};}
         return Goal{GoalKind::Retreat};
     }
     // Visible enemy contact is handled by EE/SafeMode, never by a camp-only

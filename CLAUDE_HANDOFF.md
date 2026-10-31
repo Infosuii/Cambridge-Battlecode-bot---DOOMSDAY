@@ -1,3 +1,18 @@
+# ACTIVE 2026-10-31 — certified recovery and no re-entry; unpromoted
+
+Read research/dz/escape-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added frame-local checked escape steps, revalidated retained rays, persistent
+hazards during healing and a separate withdrawal mask for Home/Retreat. All16
+host suites plus added siege checks pass. Both capsules/six cells verify.
+Final02 crew72/84, layered240/42 from423/407 collected, ZERO deaths/faults/fuel-outs;
+ordinary layered-B27/27 recorded steps match native movement. Strict layered
+rows pass40/18; mixed overall audit stays FALSE (crew has no siege cycles).
+BANKING IS WORSE than prior325/108; do not promote or scale. Next: Z8/Z14 bank
+endpoint/channel survivability versus physical reachability, threatening cuts
+and delivery commitments. Then agreement efficiency, joint abilities/combat and
+opening/map work. Selected Mac437f91c3/Windows5cf28cb7 defaults/holdout preserved.
+No online actions. Goal active; .vscode/ untouched.
+
 # ACTIVE 2026-10-31 — explicit formation agreement and funded receipt evidence; unpromoted
 
 Read research/dz/agreement-2026-10-31/README.md and research/dz/BACKLOG.md.

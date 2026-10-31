@@ -749,3 +749,5 @@ The registry was created before experiments. Entries below record actual use.
 | dz-crew-augment-publish-04 | 2026-10-31 | deterministic; Wasm aab6c73fd606 | 4 cells; idle81 | scenario; trace=True |
 | dz-crew-agreement-01 | 2026-10-31 | deterministic; Wasm d32d3b17fb78 | 4 cells; idle81 | scenario; trace=True |
 | dz-crew-agreement-gear-02 | 2026-10-31 | deterministic; Wasm 73ccd3505434 | 6 cells; idle81 | scenario; trace=True |
+| dz-neutral-escape-01 | 2026-10-31 | deterministic; Wasm 17b398c1e995 | 2 cells; idle81 | scenario; trace=True |
+| dz-neutral-escape-final-02 | 2026-10-31 | deterministic; Wasm 03ce62404a80 | 4 cells; idle81 | scenario; trace=True |
