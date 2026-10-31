@@ -67,7 +67,7 @@ def host_tests():
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    for name in ('core_test', 'economy_test'):
+    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test'):
         exe = out / (name + ('.exe' if os.name == 'nt' else ''))
         run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
              ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
@@ -81,9 +81,12 @@ def native_replay(members):
     if len(bundles)!=1: raise ValueError('expected exactly one native replay bundle per cell')
     return bundles[0]
 
-def verify_evidence():
+def verify_evidence(names=None):
     count = 0
-    for folder in sorted((ROOT/'research/dz/runs').glob('*')):
+    folders = sorted((ROOT/'research/dz/runs').glob('*')) if names is None else [ROOT/'research/dz/runs'/name for name in names]
+    if names is not None and any(not re.fullmatch(r'[A-Za-z0-9_-]+',name) or not folder.is_dir() for name,folder in zip(names,folders)):
+        raise ValueError('unknown or invalid evidence run name')
+    for folder in folders:
         if (folder/'manual-manifest.json').exists():
             manifest = json.loads((folder/'manual-manifest.json').read_text())
             with zipfile.ZipFile(folder/'evidence.zip') as z:
@@ -890,7 +893,8 @@ def main():
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('host')
     sub.add_parser('build')
-    sub.add_parser('verify')
+    verification = sub.add_parser('verify')
+    verification.add_argument('--names',nargs='+',help='verify only these immutable run capsules')
     p = sub.add_parser('recover'); p.add_argument('--name',required=True)
     for name in ('smoke','conformance'):
         p = sub.add_parser(name); p.add_argument('--name', required=True)
@@ -909,7 +913,7 @@ def main():
         if args.workers<1: parser.error('--workers must be positive')
         if args.diagnostic_rounds<1: parser.error('--diagnostic-rounds must be positive; zero runs no turns')
     if args.command == 'host': host_tests()
-    elif args.command == 'verify': verify_evidence()
+    elif args.command == 'verify': verify_evidence(args.names)
     elif args.command == 'recover': recover(args)
     elif args.command == 'build': print(build(ROOT/'bots/dz', TMP/'dz.wasm'))
     else: experiment(args)

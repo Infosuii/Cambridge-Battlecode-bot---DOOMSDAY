@@ -14,6 +14,9 @@ struct Group {
     float max_hp = 0, strength = 0;
 #if DZ_ECONOMY_V2
     float reward_gems=0,reward_gold=0;
+    std::size_t stats_read=0;
+    bool stats_started=false;
+    bool init_stats_step(const TurnContext&);
 #endif
 #if DZ_BANK_AWARE_RATE
     std::vector<int> delivery_distances; // Per-altar static distance from the nearest reward tile.
@@ -35,9 +38,10 @@ struct Altar {
     std::vector<int> gates;
     std::vector<std::pair<int,int>> gate_members;
     std::vector<int> near_groups; // Groups with a tile within 3 of the altar.
-#if DZ_RING_GATES
+#if DZ_RING_GATES || DZ_ECONOMY_V2
     bool ring_checked=false; // Camp-ring pocket check done (DZ_RING_GATES).
     std::unique_ptr<cambc::distance_field> pocket; std::size_t ring_cursor=0;
+    std::size_t ring_member_cursor=0;
     std::vector<std::pair<int,int>> ring_members;
 #endif
 };

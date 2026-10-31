@@ -542,3 +542,16 @@ The registry was created before experiments. Entries below record actual use.
 | dz-mac-control-collision-02 | 2026-10-31 | deterministic; Wasm 437f91c3a6ab | 2 cells; idle81 | smoke; trace=False |
 | dz-economy2-collision-trace-01 | 2026-10-31 | deterministic; Wasm 9e0a4118305c | 2 cells; idle81 | smoke; trace=True |
 | dz-economy2-collision-03 | 2026-10-31 | deterministic; Wasm 624dca4b6b72 | 2 cells; idle81 | smoke; trace=False |
+| dz-economy2-gear-collision-01 | 2026-10-31 | deterministic; Wasm f95fbb7c26da | 2 cells; idle81 | smoke; trace=False |
+| dz-economy2-combat-pilot-01 | 2026-10-31 | deterministic; Wasm 65dec9e91ec5 | 4 cells; v65 | smoke; trace=False |
+| dz-economy2-combat-pilot-02 | 2026-10-31 | deterministic; Wasm 6b7cf5bdaf3a | 2 cells; v65 | smoke; trace=False |
+| dz-economy2-combat-profile-01 | 2026-10-31 | deterministic; Wasm 491ce2716e78 | 2 cells; v65 | smoke; trace=True |
+| dz-economy2-runtime-03 | 2026-10-31 | deterministic; Wasm 96b1714f2b03 | 2 cells; v65 | smoke; trace=False |
+| dz-economy2-runtime-04 | 2026-10-31 | deterministic; Wasm e5b221a20415 | 2 cells; v65 | smoke; trace=False |
+| dz-mac-control-dev-01 | 2026-10-31 | deterministic; Wasm 437f91c3a6ab | 12 cells; v65 | smoke; trace=False |
+| dz-economy2-integrated-dev-01 | 2026-10-31 | deterministic; Wasm 5c4d6aff7171 | 12 cells; v65 | smoke; trace=False |
+| dz-economy2-pack-profile-01 | 2026-10-31 | deterministic; Wasm 8f1c92983061 | 2 cells; v65 | smoke; trace=True |
+| dz-economy2-access-dev-02 | 2026-10-31 | deterministic; Wasm 957e17e8dea4 | 6 cells; v65 | smoke; trace=False |
+| dz-economy2-compressed-pack-01 | 2026-10-31 | deterministic; Wasm 0cacee51d325 | 2 cells; v65 | smoke; trace=False |
+| dz-economy2-final-dev-02 | 2026-10-31 | deterministic; Wasm 0a194b268a36 | 12 cells; v65 | smoke; trace=False |
+| dz-economy2-lease-dev-03 | 2026-10-31 | deterministic; Wasm 595bf1b14450 | 12 cells; v65 | smoke; trace=False |

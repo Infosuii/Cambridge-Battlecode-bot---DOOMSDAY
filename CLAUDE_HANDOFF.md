@@ -1,3 +1,15 @@
+# CONTINUING 2026-10-31 — integrated native candidate, promotion rejected
+
+Read research/dz/engineering-2026-10-31/README.md and RESULTS.json. New bounded
+objective/allocation, gear, four-turn combat, action values, race clock, exact-
+round crew leases and resumable gate boot are integrated under DZ_ECONOMY_V2=0.
+Latest lease screen is runtime-clean but loses banking (113.83 vs control144.75
+on12 development cells). Do not promote it or launch larger confirmation pools.
+Next: implement persistent partial-clear siege/escape/heal-return, real tank
+positioning and objective conversion. Full V-M1/V-M2/Z milestones remain open.
+Selected release preserved; no holdout, submission, ladder or activation used.
+Use explicit Homebrew Python3.14 plus DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc.
+
 # CONTINUING 2026-10-31 — native Mac dynamic economy implementation
 
 Remote starting point fca7b34, selected Windows release unchanged. Read

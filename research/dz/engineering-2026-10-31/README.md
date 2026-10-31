@@ -45,3 +45,87 @@ Candidate collision-02 and trace-01 quarantined the planner after querying allie
 gold (self-only); fixed by using current visible shopping claims and gem counts.
 Trace caught module errors correctly fails the runtime gate. Do not count zero
 native faults as an otherwise successful run.
+
+## Checkpoint 2: integrated implementation, NOT a competitive improvement
+
+All new strategy stays under DZ_ECONOMY_V2=0. Existing selected defaults and
+frozen Windows artifact are not promoted/relabelled. New modules:
+
+- Objective quotes now compress identical monsters exactly (64 distinct types,
+  multiplicity up to 4096, hard 2000-round horizon), retain partial HP, and bound
+  worst-order exposure including harmless members cleared before threats. Host
+  tests compare 1000 compressed/expanded encounters and 60,000 clear orders.
+- Dynamic allocation prices real visible actor items/stats and helper foregone
+  income, reserves physical work, uses one capturer and actual active countdown,
+  releases noncapturers after clearing and yields blocked respawn tiles. Cluster
+  circuits use a bounded follow-up term. No complete opening rollout exists.
+- gear_value.h/gear.cpp compare marginal stat/passive projects over remaining
+  time, observed income and map mix. Finish partial emblems unless a materially
+  better project exists; no Hunter/Skirmish/Collectors assumptions.
+- engagement.h/engage.cpp implement four-turn actual HP/range/cooldown/shield/CC,
+  dash approach, ranged move-or-attack, support arrival, linked death, Heart,
+  Varg splash and Ren retaliation approximations. Legal current SDK views only;
+  action-order variants, hard interruptible budget, no partial-result admission.
+  This is NOT V-M2 calibrated or general native combat conformance.
+- action_value.h supplies GE damage/tempo/bag-risk scores to movement/targeting;
+  executor can shield before the first hit at full HP and follows chosen focus.
+  Full joint move/attack/cast enumeration, heal/support and dash execution remain.
+- race.h estimates near-finish clocks from public banking; personal sightings
+  supply a reachable-envelope exposure index, never a calibrated probability.
+- Compact candidate protocol fits six 7-bit goals, six crew members, one
+  capturer and an exact 11-bit round into 8 bytes. Only a crew's leader refreshes
+  its lease. Followers reject future/expired records, dead leaders, invalid
+  rosters and unrelated crews; onsite comes from visible physical positions.
+  54,912 host freshness/preservation cases pass; no parity-wrap freshness claim.
+- Candidate boot reads group designs incrementally and budgets from module
+  entry, so observation cost cannot starve it. Ring scanning resumes per member
+  rather than requiring an entire group to fit in one turn. Full gate-member
+  clearing is valued for delivery access; a true heal-and-return siege remains.
+
+### Executed results and limits
+
+All six screen maps are development maps (sorted positions 1,4,37,54,58,62).
+01islands and 01corridors are held-out maps and were not used for selection.
+The holdout seed set is untouched. See RESULTS.json and immutable run capsules.
+
+The first combat pilots fail runtime badly (2480 / 183 / 101 own fuel-outs);
+retain them. Whole-planner budget arbitration, interrupted quotes and local
+collision work fix the repeated overload. The gear pilot has one fuel-out.
+The initial integrated screen has 14 outs on the-pack and is rejected.
+Later access-dev-02 and compressed-pack-01 are runtime-clean, but banking is
+weak. final-dev-02: 126.08 banked versus same-machine control 144.75 (12 cells).
+lease-dev-03: 113.83, 0 own native faults/fuel-outs, p99 82,906. It regresses
+collision and improves pack-A; neither integrated candidate is promoted.
+No second-opponent confirmation is warranted after this failed development gate.
+
+28 Python measurement tests and all host suites passed at this checkpoint.
+The exposure test caught an optimization bug that omitted harmless work from
+worst-order damage; corrected before the compression native run. Native screens
+do not prove the full objective/combat models or lease coordination optimality.
+
+## Next work, in order
+
+1. Implement an actual persistent partial-clear siege with escape HP reserved,
+   recall/heal and return to the same cut member. Current full-clear feasibility
+   cannot open guardians and still yields poor boss delivery. Do not rerun full
+   pools or loosen survival margins as a substitute.
+2. Complete crew rendezvous/tank positioning and explicit bank preemption under
+   the timestamped lease. Existing all-actors-as-tank bound is conservative and
+   expensive crews still fail to produce competitive objective conversion.
+3. Calibrate ability-aware clear time/exposure against legal-input native quotes
+   before using optimistic throughput for job admission. V-M1 remains OPEN.
+4. Finish the common action enumerator and native dash/heal conformance, then
+   genuine opening rollouts and reusable mobility routing. V-M2, remaining CTs,
+   full parity, separate-opponent validation and final release checks remain OPEN.
+
+Continue engineering, not large campaigns. Current branch is a reproducible
+implementation checkpoint, not completion of the Z architecture or a strong bot.
+
+Final checkpoint verification: default Mac Wasm remains byte-identical to the
+initial 437f91c3a6abb160ea151be081c4d410e9e3161d4ef8042c73df2db4063581f0 control.
+All 17 new/control capsules were verified for source/binary/runner/summary/replay
+identity, including rejected runs. Latest host suites and 28 measurement tests
+pass. The compact protocol is candidate-only; the selected 6x8-bit codec remains
+unchanged. The compiler initially changed code layout when a temporary was
+hoisted into the release branch; conditionalizing that temporary restores exact
+identity. Do not confuse a semantic-equivalence assumption with a hash check.

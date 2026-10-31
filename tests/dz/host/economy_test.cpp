@@ -41,6 +41,21 @@ int main() {
         assert(protected_quote.loss_upper[0]<=upper.loss_upper[0]);
     }
     using economy::Bid;
+    for(unsigned trial=0;trial<1000;++trial) {
+        std::array<ClearMember,4> compressed{};std::array<unsigned,4> counts{};
+        std::array<ClearMember,64> expanded{};unsigned size=0;
+        for(unsigned type=0;type<4;++type) {
+            compressed[type]={float(1+rng()%300),float(rng()%70)};counts[type]=1+rng()%8;
+            for(unsigned k=0;k<counts[type];++k)expanded[size++]=compressed[type];
+        }
+        Encounter one{compressed,14,240};one.multiplicities=counts;
+        Encounter many{std::span<const ClearMember>(expanded.data(),size),14,240};
+        const auto a=forecast(one,std::span<const Actor>(&solo,1),0),b=forecast(many,std::span<const Actor>(&solo,1),0);
+        assert(a.clear==b.clear&&a.loss_upper==b.loss_upper&&a.survivable==b.survivable);
+    }
+    ClearMember resource[]{ {1,0} };unsigned hundred[]{100};
+    Encounter large{resource,100,100};large.multiplicities=hundred;
+    const auto cluster=forecast(large,std::span<const Actor>(&solo,1),0);assert(cluster.clear==100&&cluster.loss_upper[0]==0);
     const Bid bids[]{ {0,1,0,20,10}, {0,2,1,20,10}, {1,2,1,15,10}, {2,3,0,50,10,4} };
     auto assigned=economy::allocate(bids,3);
     assert(assigned[0].objective==0&&assigned[1].objective==1);

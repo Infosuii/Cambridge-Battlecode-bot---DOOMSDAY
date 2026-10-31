@@ -19,6 +19,7 @@ struct Encounter {
     int ready_in=0, capture_remaining=-1, reposition_rounds=0;
     bool cluster=false, contested=false, exact_arrival=true;
     int horizon=2000;
+    std::span<const unsigned> multiplicities{}; // Optional exact compression of identical monsters.
 };
 enum class Quality { Invalid, Bounded, Conservative, Contested, BeyondHorizon };
 struct Quote {
@@ -42,6 +43,7 @@ inline float gold_price(int remaining) { return std::clamp(remaining*.25f/900.f,
 inline Quote forecast(const Encounter& e,std::span<const Actor> crew,unsigned capturer) {
     Quote q;
     if(crew.empty()||crew.size()>max_crew||capturer>=crew.size()||e.members.size()>clear_risk_members||
+        (!e.multiplicities.empty()&&e.multiplicities.size()!=e.members.size())||
         e.ready_in<0||e.reposition_rounds<0||e.horizon<1||e.horizon>2000||
         !std::isfinite(e.gems)||!std::isfinite(e.gold)||e.gems<0||e.gold<0) return q;
     if(e.contested) { q.quality=Quality::Contested;return q; }
@@ -54,25 +56,34 @@ inline Quote forecast(const Encounter& e,std::span<const Actor> crew,unsigned ca
         damage+=a.damage;q.arrival=std::max(q.arrival,a.arrival);
     }
     q.arrival=std::max(q.arrival,e.ready_in);
-    struct Job { int rounds;float incoming; };
+    struct Job { int rounds;float incoming;unsigned count; };
     std::array<Job,clear_risk_members> jobs{};
-    unsigned n=0;double incoming=0;
+    unsigned n=0;double incoming=0;int harmless_work=0;
+    unsigned member_index=0;
     for(auto m:e.members) {
+        const unsigned count=e.multiplicities.empty()?1:e.multiplicities[member_index];++member_index;
+        if(count==0||count>4096)return {};
         if(!std::isfinite(m.hp)||!std::isfinite(m.incoming)||m.hp<0||m.incoming<0) return {};
         if(m.hp==0) continue;
         if(damage<=0) return {};
         const double rounds=std::ceil(static_cast<double>(m.hp)/damage);
-        if(rounds>e.horizon||q.clear+rounds>e.horizon) { q.quality=Quality::BeyondHorizon;return q; }
+        if(rounds>e.horizon||q.clear+rounds*count>e.horizon) { q.quality=Quality::BeyondHorizon;return q; }
         const int work=static_cast<int>(rounds);
-        jobs[n++]={work,m.incoming};q.clear+=work;incoming+=m.incoming;
+        if(m.incoming>0)jobs[n++]={work,m.incoming,count};else harmless_work+=work*count;
+        q.clear+=work*count;incoming+=m.incoming*count;
     }
     std::sort(jobs.begin(),jobs.begin()+n,[](auto a,auto b) {
         return static_cast<double>(a.incoming)*b.rounds<static_cast<double>(b.incoming)*a.rounds;
     });
-    double exposure=0;int elapsed=0;
-    for(unsigned i=0;i<n;++i) { elapsed+=jobs[i].rounds;exposure+=jobs[i].incoming*(elapsed-1); }
+    // In the worst order every harmless resource is cleared before any
+    // damaging monster; compression must retain that exposure time too.
+    double exposure=0;int elapsed=harmless_work;
+    for(unsigned i=0;i<n;++i) {
+        const double k=jobs[i].count,a=jobs[i].rounds;
+        exposure+=jobs[i].incoming*(k*(elapsed-1)+a*k*(k+1)/2);elapsed+=jobs[i].rounds*jobs[i].count;
+    }
     // Member travel and round-order ambiguity each add full living-group exposure.
-    if(n) { q.clear+=e.reposition_rounds;exposure+=incoming*(e.reposition_rounds+1); }
+    if(q.clear) { q.clear+=e.reposition_rounds;exposure+=incoming*(e.reposition_rounds+1); }
     q.capture=e.capture_remaining>=0 ? e.capture_remaining : crew[capturer].capture_rounds+1;
     if(q.capture>2000) return {};
     q.finish=q.arrival+q.clear+q.capture;

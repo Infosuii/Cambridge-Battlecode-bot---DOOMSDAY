@@ -64,6 +64,9 @@ struct GroupBelief {
     float hp = 0;
     int seen = -1, ready = 0, avoid_until = 0, capture = 65535;
     unsigned failures = 0;
+#if DZ_ECONOMY_V2
+    int capture_phase=-1;
+#endif
     bool available(int round) const { return round >= avoid_until && (state != GroupState::Respawning || ready <= round); }
     // A respawn with a known timer, close enough to be worth walking to and waiting for.
     bool waitable(int round, int horizon) const {

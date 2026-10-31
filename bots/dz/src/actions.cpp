@@ -1,6 +1,9 @@
 #include "actions.h"
 #include <cmath>
 #include "economy.h"
+#if DZ_ECONOMY_V2
+#include "action_value.h"
+#endif
 
 namespace dz {
 float crew_strength(const Observation& obs, vec2 around, int radius) {
@@ -163,10 +166,18 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
     const float here_reach = retreat ? 0.f : reach_danger(origin);
     auto score_at=[&](vec2 p,int distance) {
         float score=static_cast<float>(distance);
+#if DZ_ECONOMY_V2
+        ActionValue value;
+        value.rounds_saved=-static_cast<float>(distance);value.income=.45f;
+        value.incoming=danger(p,obs)*(retreat?2.f:1.f);value.hp=obs.hp;
+        value.death_cost=obs.bag+60*value.income;
+        score=-action_value(value);
+#else
         if constexpr (DZ_PATH_REACH_ONLY) {
             if(retreat) score+=danger(p,obs)*.08f;
             else if(reach_danger(p)>here_reach) score+=3.f;
         } else score+=danger(p,obs)*(retreat?.08f:.015f);
+#endif
         if(p==origin&&distance!=0) score+=.2f;
         if(world.is_bush(p)) score-=.02f;
         return score;
@@ -296,6 +307,12 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         const bool can_basic=distance<=obs.range && (!retreat||obs.range==1);
         if (!can_basic&&!can_spell) continue;
         float score = 1 / std::max(1.f, e.hp) + (e.hp <= obs.strength ? 10.f : 0.f);
+#if DZ_ECONOMY_V2
+        ActionValue value;value.damage=obs.strength;value.target_hp=e.hp;value.kill_value=35;
+        value.kills=e.hp<=obs.strength;
+        score=action_value(value);
+        if(goal.kind==GoalKind::Fight&&goal.destination&&e.p==*goal.destination)score+=1;
+#endif
 #if DZ_GEM_TARGET_PRIORITY
         // A local basic can remove a carrier's banked-score opportunity as
         // well as transfer its bag. No new chase target or wider fight range.
@@ -318,6 +335,9 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             if (hp[k] <= 0 || !visible_camps.test(group.tiles[k])) continue;
             float score = static_cast<float>(obs.p.chebyshev_distance(group.tiles[k])) * 1000 + hp[k];
             if (group.strength > 0) score -= 1e6f * group.initial_strength[k];
+#if DZ_ECONOMY_V2
+            if(mem.access_group==goal.index&&mem.access_member==static_cast<int>(k))score-=1e12f;
+#endif
             if (score < best) { best = score; chosen = static_cast<int>(k); }
         }
         if (chosen >= 0 && tc.allow(3500)) {
@@ -356,6 +376,17 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     DZ_PROF('t');
     bool attacked = false;
+#if DZ_ECONOMY_V2
+    // Absorb the FIRST incoming hit, including at full HP, before spending the
+    // one cast on a reset. Only legal ready self shields; no unseen buffs.
+    if(target&&!retreat&&!me.buffs().has_shield()) {
+        float incoming=enemy_danger(obs.p,obs);
+        if(!enemy&&goal.index>=0)for(unsigned k=0;k<mem.member_hp[goal.index].size();++k)
+            if(mem.member_hp[goal.index][k]>0)incoming+=world.groups[goal.index].initial_strength[k]*obs.camp_factor;
+        for(auto ability:me.abilities())if(tc.allow(3500)&&ability.is_shield()&&ability.is_ready()&&incoming>=.5f*ability.shield_amount())
+            if(act.cast(ability))break;
+    }
+#endif
     if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
         obs.p.chebyshev_distance(target->position()) <= obs.range) attacked = act.attack(*target);
     spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
@@ -473,7 +504,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         // Root construction spends fuel after the earlier field gate. Recheck
         // immediately before the SDK compute, leaving room for step/attack and
         // the footer. Otherwise a busy planner + roots could exhaust here.
-        const bool can_compute=DZ_TRACE||DZ_LATE_FIELD_GATE ? tc.allow(world.field_budget()+4000) : fuel_left()>world.field_budget()+4000;
+        const bool can_compute=DZ_TRACE||DZ_LATE_FIELD_GATE||DZ_ECONOMY_V2 ? tc.allow(world.field_budget()+4000) : fuel_left()>world.field_budget()+4000;
         if (!can_compute) {
             const cambc::distance_field* cached=nullptr;
             if (retreat) cached=&world.home;
