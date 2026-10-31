@@ -107,9 +107,57 @@ bool fixed_shop(const TurnContext& tc, Actuator& act) {
     return buy_build(tc,act,build_for(cambc::self().champion_name()));
 }
 #if DZ_ECONOMY_V2
+namespace {
+gear::Context purchase_context;
+ShopVisit visit_intent;
+// Used by both the visit planner and the live shop. SDK item metadata is cached
+// by the official wrapper. No different fixed purchasing list hides behind a
+// quoted economic visit.
+ShopVisit purchase_project(const TurnContext& tc,gear::Context context,float strength,float health) {
+    auto& me=cambc::self();const auto design=me.base_stats();const auto owned=me.item_count();
+    const std::array<F,8> families{F::monster,F::jungle,F::durability,F::treasure,F::prospector,F::capture,F::home,F::power};
+    const std::array<gear::Passive,8> passives{gear::Passive::Monster,gear::Passive::Jungle,gear::Passive::Durability,
+        gear::Passive::Treasure,gear::Passive::Prospector,gear::Passive::Capture,gear::Passive::Home,gear::Passive::Power};
+    unsigned unfinished=0;
+    for(auto family:families)for(auto stat:{S::strength,S::health})unfinished+=owned[cambc::get_item_enum(family,stat)]>0;
+    float best=-1,committed=-1;ShopVisit result,finish;
+    const auto started=fuel_left();
+    for(unsigned f=0;f<families.size();++f)for(auto stat:{S::strength,S::health}) {
+        // A partial search is not a complete quote. The caller keeps its last
+        // valid visit and retry on a later turn until we can finish.
+        if(!tc.allow(6000)||started-fuel_left()>12000)return {};
+        const auto shard=cambc::get_item_enum(families[f],stat);const auto info=shard.info();
+        if(!info.result||!info.combine_count||info.cost==0||context.gold<static_cast<int>(info.cost))continue;
+        bool passive_owned=false;
+        for(auto s:{S::strength,S::focus,S::health})passive_owned|=owned[cambc::get_item_enum(families[f],s,false)]>0;
+        if(families[f]!=F::power&&passive_owned)continue;
+        if(unfinished>=2&&!owned[shard])continue;
+        if(owned[shard]>=info.combine_count)continue;
+        gear::Project project;
+        project.passive=passives[f];project.magnitude=info.result->passive_magnitude();
+        project.cost=info.cost;project.owned=owned[shard];project.shards_left=info.combine_count-owned[shard];
+        project.damage_growth=stat==S::strength?design.strength_growth/std::max(1.f,strength):
+            me.champion_name()==cambc::champion_type::ryth?.01f*design.health_growth/std::max(1.f,strength):0;
+        project.health_growth=stat==S::health?design.health_growth/std::max(1.f,health):0;
+        const float utility=gear::utility(context,project);
+        const unsigned count=std::min<unsigned>(project.shards_left,context.gold/info.cost);
+        ShopVisit quote{shard,count,owned[shard],owned[*info.result],static_cast<int>(count*info.cost),static_cast<int>(tc.round),
+            utility*count*info.cost,utility>0&&count>0};
+        if(utility>best){best=utility;result=quote;}
+        if(owned[shard]>=2&&utility>committed){committed=utility;finish=quote;}
+    }
+    if(committed>=0&&best<1.5f*committed)result=finish;
+    return result;
+}
+}
+ShopVisit shop_visit(const TurnContext& tc,const Observation& o,int horizon) {
+    auto context=purchase_context;context.gold=o.gold;context.remaining=std::max(0,horizon);
+    return purchase_project(tc,context,o.strength,o.max_hp);
+}
+void commit_shop_visit(const ShopVisit& quote) { visit_intent=quote; }
 bool planned_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
     auto& me=cambc::self();
-    static gear::Context context;
+    auto& context=purchase_context;
     static int last_round=-1,last_gold=0,last_bag=0,last_submitted=0;
     static bool was_dead=false,map_read=false;
     const bool dead=me.state().is_dead();const int gold=me.gold_count();
@@ -139,37 +187,28 @@ bool planned_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) 
     // Dead units can shop, but live-only health/stat queries are unavailable.
     const float strength=dead?design.base_strength:me.strength();
     const float health=dead?design.base_health:me.max_health();
-    const bool health_role=me.champion_name()==cambc::champion_type::ryth||me.champion_name()==cambc::champion_type::heart_of_ruin;
-    const std::array<F,8> families{F::monster,F::jungle,F::durability,F::treasure,F::prospector,F::capture,F::home,F::power};
-    const std::array<gear::Passive,8> passives{gear::Passive::Monster,gear::Passive::Jungle,gear::Passive::Durability,
-        gear::Passive::Treasure,gear::Passive::Prospector,gear::Passive::Capture,gear::Passive::Home,gear::Passive::Power};
     bool changed=false;
     const auto purchase_start=fuel_left();
     for(unsigned purchase=0;purchase<16&&tc.allow(7000);++purchase) {
-        auto owned=me.item_count();float best=-1,committed=-1;
-        auto selected=cambc::get_item_enum(F::power,health_role?S::health:S::strength),finish=selected;
-        unsigned unfinished=0;
-        for(auto family:families)for(auto stat:{S::strength,S::health})unfinished+=owned[cambc::get_item_enum(family,stat)]>0;
-        for(unsigned f=0;f<families.size();++f)for(auto stat:{S::strength,S::health}) {
-            if(!tc.allow(7000)||purchase_start-fuel_left()>16000)return changed;
-            const auto shard=cambc::get_item_enum(families[f],stat);const auto info=shard.info();
-            if(!info.result||!info.combine_count)continue;
-            bool passive_owned=false;
-            for(auto s:{S::strength,S::focus,S::health})passive_owned|=owned[cambc::get_item_enum(families[f],s,false)]>0;
-            if(families[f]!=F::power&&passive_owned)continue;
-            if(unfinished>=2&&!owned[shard])continue;
-            gear::Project project;
-            project.passive=passives[f];project.magnitude=info.result->passive_magnitude();
-            project.cost=info.cost;project.owned=owned[shard];project.shards_left=info.combine_count-owned[shard];
-            project.damage_growth=stat==S::strength?design.strength_growth/std::max(1.f,strength):
-                me.champion_name()==cambc::champion_type::ryth?.01f*design.health_growth/std::max(1.f,strength):0;
-            project.health_growth=stat==S::health?design.health_growth/std::max(1.f,health):0;
-            const float value=gear::utility(context,project);
-            if(value>best){best=value;selected=shard;}
-            if(owned[shard]>=2&&value>committed){committed=value;finish=shard;}
+        if(purchase_start-fuel_left()>16000)break;
+        if(visit_intent.valid&&tc.round>static_cast<unsigned>(visit_intent.round+80))visit_intent={};
+        ShopVisit proposal;
+        if(visit_intent.valid&&visit_intent.purchases&&tc.round<=static_cast<unsigned>(visit_intent.round+80)) {
+            const auto owned=me.item_count();const auto result=visit_intent.item.result();
+            if(result&&owned[visit_intent.item]==visit_intent.shards&&owned[*result]==visit_intent.emblems)proposal=visit_intent;
+            else visit_intent={}; // Inventory changed: never execute a stale project.
         }
-        if(committed>=0&&best<1.5f*committed)selected=finish;
-        if(best<0||!me.can_buy(selected)||!act.buy(selected))break;
+        if(!proposal.valid)proposal=purchase_project(tc,context,dead?strength:me.strength(),dead?health:me.max_health());
+        if(!proposal.valid||!me.can_buy(proposal.item)||!act.buy(proposal.item))break;
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_SHOP_BUY round=%u body=%u item=%u planned=%d gold=%u\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),static_cast<unsigned>(proposal.item),
+            visit_intent.valid&&proposal.item==visit_intent.item,me.gold_count());}
+#endif
+        if(visit_intent.valid&&proposal.item==visit_intent.item) {
+            --visit_intent.purchases;++visit_intent.shards;
+            if(!visit_intent.purchases)visit_intent={};
+        }
         changed=true;context.gold=me.gold_count();last_gold=context.gold;
     }
     return changed;

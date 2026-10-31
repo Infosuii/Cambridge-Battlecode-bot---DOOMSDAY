@@ -1,5 +1,12 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
+Current development: `DZ_ECONOMY_V2` includes finite-horizon farm, delivery and
+equipment-visit scoring (`macro_value.h`), with the same project quoted and
+purchased. See [the macro checkpoint](../../research/dz/macro-2026-10-31/README.md)
+and [live backlog](../../research/dz/BACKLOG.md). Native correctness fixtures pass;
+the preliminary strategy screen fails banking. Defaults remain unchanged. Full
+Z8, gate investment and real tank formation are unfinished.
+
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
 and standard library are the only bot dependencies. Old bots are opponents only.

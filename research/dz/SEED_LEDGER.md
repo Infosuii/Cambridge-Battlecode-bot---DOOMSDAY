@@ -630,3 +630,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-merge-both-check-01 | 2026-10-31 | deterministic; Wasm 3bcefdd1656a | 4 cells; v76 | smoke; trace=False |
 | dz-base-v74-01 | 2026-10-31 | deterministic; Wasm 5cf28cb74612 | 140 cells; v74 | smoke; trace=False |
 | dz-z14table1-v74-confirm-01 | 2026-10-31 | deterministic; Wasm 4ab74e445143 | 140 cells; v74 | smoke; trace=False |
+| dz-macro-integration-11 | 2026-10-31 | deterministic; Wasm e135fb8f1e9e | 2 cells; idle81 | scenario; trace=True |
+| dz-macro-shop-integration-12 | 2026-10-31 | deterministic; Wasm 3815b357a352 | 2 cells; idle81 | scenario; trace=True |
+| dz-macro-income-dev-13 | 2026-10-31 | deterministic; Wasm ddeabce2532e | 4 cells; v65 | smoke; trace=False |
+| dz-macro-final-fixtures-14 | 2026-10-31 | deterministic; Wasm 1f5713d6f836 | 4 cells; idle81 | scenario; trace=True |

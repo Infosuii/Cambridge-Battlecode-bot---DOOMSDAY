@@ -1,0 +1,153 @@
+{
+  "promoted": false,
+  "scope": "Finite-horizon macro/gear integration; correctness fixtures and one failed development screen; no release holdout",
+  "runs": {
+    "dz-macro-integration-11": {
+      "games": 2,
+      "mean_banked": 167.0,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 52500,
+      "candidate_sha256": "e135fb8f1e9e1986a82a3abb31cfd92e8500f14096e59dbe5b10db09734bf3e0",
+      "cells": [
+        {
+          "map": "siege-two-layer",
+          "side": "A",
+          "banked": 206,
+          "collected": 227,
+          "gold": 608,
+          "deaths": 3
+        },
+        {
+          "map": "siege-two-layer",
+          "side": "B",
+          "banked": 128,
+          "collected": 191,
+          "gold": 593,
+          "deaths": 8
+        }
+      ]
+    },
+    "dz-macro-shop-integration-12": {
+      "games": 2,
+      "mean_banked": 236.0,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 78244,
+      "candidate_sha256": "3815b357a3528edf7e04f3b5254d6685820a54a9a013dd46f406a35fbc8a628b",
+      "cells": [
+        {
+          "map": "recovery-shop",
+          "side": "A",
+          "banked": 236,
+          "collected": 240,
+          "gold": 18113,
+          "deaths": 0
+        },
+        {
+          "map": "recovery-shop",
+          "side": "B",
+          "banked": 236,
+          "collected": 236,
+          "gold": 18976,
+          "deaths": 0
+        }
+      ]
+    },
+    "dz-macro-income-dev-13": {
+      "games": 4,
+      "mean_banked": 169.25,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 84566,
+      "candidate_sha256": "ddeabce2532e332a3c325ff906126e0cda5792fcd3b365627785ab8c46147231",
+      "cells": [
+        {
+          "map": "00collision",
+          "side": "A",
+          "banked": 167,
+          "collected": 217,
+          "gold": 2455,
+          "deaths": 2
+        },
+        {
+          "map": "00collision",
+          "side": "B",
+          "banked": 82,
+          "collected": 114,
+          "gold": 1797,
+          "deaths": 7
+        },
+        {
+          "map": "02famine",
+          "side": "A",
+          "banked": 169,
+          "collected": 263,
+          "gold": 1498,
+          "deaths": 34
+        },
+        {
+          "map": "02famine",
+          "side": "B",
+          "banked": 259,
+          "collected": 280,
+          "gold": 1823,
+          "deaths": 26
+        }
+      ]
+    },
+    "dz-macro-final-fixtures-14": {
+      "games": 4,
+      "mean_banked": 194.75,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 73344,
+      "candidate_sha256": "1f5713d6f83650ae9a33e770b5863c9af0c67c8f2e7190c9b04e0f756fdcb7f3",
+      "cells": [
+        {
+          "map": "recovery-shop",
+          "side": "A",
+          "banked": 260,
+          "collected": 260,
+          "gold": 12345,
+          "deaths": 0
+        },
+        {
+          "map": "recovery-shop",
+          "side": "B",
+          "banked": 228,
+          "collected": 228,
+          "gold": 19170,
+          "deaths": 0
+        },
+        {
+          "map": "siege-two-layer",
+          "side": "A",
+          "banked": 206,
+          "collected": 227,
+          "gold": 608,
+          "deaths": 3
+        },
+        {
+          "map": "siege-two-layer",
+          "side": "B",
+          "banked": 85,
+          "collected": 198,
+          "gold": 499,
+          "deaths": 8
+        }
+      ]
+    }
+  },
+  "failed_screen_control": {
+    "name": "dz-mac-control-dev-01",
+    "maps": [
+      "00collision",
+      "02famine"
+    ],
+    "mean_banked": 294.5,
+    "previous_economy2_mean_banked": 173.0,
+    "candidate_mean_banked": 169.25,
+    "note": "13 precedes final correctness/fuel/valuation fixes. Final source only has correctness fixtures, not a strength screen. No positive competitive conclusion."
+  }
+}

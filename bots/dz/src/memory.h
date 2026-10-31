@@ -6,6 +6,7 @@
 #endif
 #if DZ_ECONOMY_V2
 #include "race.h"
+#include "gear.h"
 #endif
 
 namespace dz {
@@ -44,6 +45,9 @@ struct Memory {
     int rendezvous_until=0;
     int economic_retry_after=0;
     float economic_rate=0;
+    ShopVisit shop_quote;
+    int shop_quote_round=-10000,shop_quote_gold=-1;
+    int shopping_since=-1,shopping_deadline=-1;
     RaceClock race;
     int access_group=-1,access_member=-1;
     struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000; };

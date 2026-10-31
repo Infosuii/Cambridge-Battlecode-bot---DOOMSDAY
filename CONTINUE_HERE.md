@@ -1,3 +1,18 @@
+# ACTIVE 2026-10-31 — macro and gear-visit checkpoint, unpromoted
+
+Siege/shared-work merge is pushed through d16f779. Current continuation is active.
+Read research/dz/macro-2026-10-31/README.md and research/dz/BACKLOG.md.
+Common finite-horizon farm/bank/shop scoring and matching executable gear visits
+are implemented in DZ_ECONOMY_V2 (default 0). All host suites, 28 measurement and
+six audit checks pass. Final-source four-cell native fixtures bank positively with
+zero faults/fuel-outs, p99 fuel73,344; default Mac Wasm remains SHA437f91c3.
+Preliminary four-cell v65 screen fails:169.25 vs selected-source294.5. Later source
+fixes have fixture checks only; no candidate is promoted or competitively confirmed.
+Next code: integrate gate investment/progression with macro choices, actual tank/
+rear crew focus and recovery handoff, then combat/capture/ward opportunity costs.
+Do not scale failed benchmarks or spend reserved release seeds. Native CLI works.
+Older PAUSED/status entries below are preserved history, not current instructions.
+
 # ACTIVE 2026-10-31 — native siege checkpoint; release unchanged
 
 Current authorised continuation is active; older PAUSED entries below are historical.

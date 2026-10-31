@@ -67,7 +67,7 @@ def host_tests():
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test', 'siege_test'):
+    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test', 'siege_test', 'macro_test'):
         exe = out / (name + ('.exe' if os.name == 'nt' else ''))
         run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
              ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
