@@ -743,3 +743,6 @@ The registry was created before experiments. Entries below record actual use.
 | dz-market-idle81-01 | 2026-10-31 | deterministic; Wasm 1d916af38770 | 140 cells; idle81 | smoke; trace=False |
 | dz-z14b-dvg1-v65-02 | 2026-10-31 | deterministic; Wasm ed06eda428f9 | 140 cells; v65 | smoke; trace=False |
 | dz-ee3v2-v65-01 | 2026-10-31 | deterministic; Wasm 568de12d2aae | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-dv6-v65-02 | 2026-10-31 | deterministic; Wasm 4249da3eb3f8 | 140 cells; v65 | smoke; trace=False |
+| dz-market-v76-01 | 2026-10-31 | deterministic; Wasm 1d916af38770 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-gsp-v76-02 | 2026-10-31 | deterministic; Wasm 8c265a5b1630 | 140 cells; v76 | smoke; trace=False |
