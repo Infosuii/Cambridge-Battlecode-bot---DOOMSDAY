@@ -193,3 +193,24 @@ scene balancing. C-priority: do it after A2 produces labels.
 4. A3 λ_gold fit and kill-gold value; C1 market claims; C2 big groups; C3 elite experiments one at a time.
 5. Combine the passing flags greedily, run a leave-one-out ablation, then G5/G6/G2 on the combined candidate,
    Z15 hardening, and G7 once. Report to the user; only they can authorise a submission or duel set.
+
+## 6. Parallel line merged at pause: DZ_ECONOMY_V2 (Tamim Atiqur, macOS)
+
+Commits 7db7169 and 258879d (2026-10-31) add, under `DZ_ECONOMY_V2=0`:
+- bounded objective quotes (`objective_model.h`);
+- dynamic economic crew allocation and leases (`economy.cpp`, `allocation.h`, `protocol.h` v2);
+- four-turn bounded combat (`engagement.h`, `engage.cpp`) and action values (`action_value.h`);
+- marginal gear utility (`gear_value.h`, `planned_shop`);
+- a race clock (`race.h`) and resumable gate boot.
+
+Their notes: research/dz/engineering-2026-10-31/README.md. Their lease screen loses banking (113.8 vs control 144.8
+on 12 development cells), so it isn't promoted. They run official cambc 4.0.0 on arm64 macOS via `DZ_CAMBC`.
+
+The merge (this commit) keeps both lines. The default build is still 5cf28cb7, all host tests pass (theirs
+included), and 4-cell smokes of `DZ_ECONOMY_V2`, `DZ_PLAN_TABLE` and both together run with 0 faults and 0 fuel-outs.
+With `DZ_ECONOMY_V2=1` the planner flags of this plan (EE2, ring-gate targeting, crews, gold weight) are bypassed by
+their economy path: the combined smoke matches ECONOMY_V2 alone exactly. Integration task (do this before A1/C1):
+- make ECONOMY_V2 a plan bit (`plan_ECONOMY_V2`) so per-map tables can choose it;
+- route its objective quotes through `gold_weight()` and its combat through `ee_model` where they overlap;
+- treat their crew leases as the C1 market-claims implementation (bids = their objective quotes) and screen it with
+  the gates in section 1.

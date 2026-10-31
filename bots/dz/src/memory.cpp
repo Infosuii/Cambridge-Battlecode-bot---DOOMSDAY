@@ -42,12 +42,21 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
     if (!visible) return;
     const auto state = visible_group_state(g,tc);
     auto next = groups[index];
+#if DZ_ECONOMY_V2
+    next.capture_phase=-1;
+#endif
     auto hp=member_hp[index];
     GroupSample sample; sample.members.resize(hp.size());
     if (auto* respawn = std::get_if<cambc::map::camp_group_respawning>(&state)) {
         sample.state=GroupState::Respawning; sample.respawn_timer=respawn->timer;
     } else if (std::holds_alternative<cambc::map::camp_group_reward_available>(state)) {
+#if DZ_ECONOMY_V2
+        const auto capture=g.sdk.capture_state();
+        sample.state=GroupState::Reward; sample.capture_timer=capture.timer;
+        next.capture_phase=static_cast<int>(capture.state);
+#else
         sample.state=GroupState::Reward; sample.capture_timer=g.sdk.capture_state().timer;
+#endif
     } else {
         unsigned i = 0;
         for (const auto& camp : g.sdk.camps()) {

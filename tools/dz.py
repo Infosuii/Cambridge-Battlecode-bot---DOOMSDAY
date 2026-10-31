@@ -20,7 +20,17 @@ import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / 'tools/vendor/cambc.exe'
+def resolve_cli():
+    """Prefer an explicit official executable, then the native platform CLI."""
+    configured = os.environ.get('DZ_CAMBC')
+    if configured:
+        return Path(shutil.which(configured) or configured).expanduser().resolve()
+    if os.name == 'nt':
+        return ROOT / 'tools/vendor/cambc.exe'
+    native = shutil.which('cambc')
+    return Path(native) if native else Path('cambc')
+
+CLI = resolve_cli()
 MAPS = ROOT / 'maps/local-benchmarks'
 TMP = ROOT / 'artifacts/tmp/dz'
 
@@ -28,6 +38,8 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def run(command, timeout=900, env=None):
+    if command and str(command[0]) == str(CLI) and not shutil.which(str(CLI)):
+        raise RuntimeError('Official cambc CLI missing. Install cambc==4.0.0 or set DZ_CAMBC to its executable.')
     p = subprocess.run([str(x) for x in command], cwd=ROOT, capture_output=True,
                        encoding='utf-8', errors='replace', timeout=timeout, env=env)
     output = p.stdout + p.stderr
@@ -54,11 +66,12 @@ def host_tests():
     if not cxx:
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
-    exe = out / ('core_test.exe' if os.name == 'nt' else 'core_test')
-    run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
-         ROOT/'tests/dz/host/core_test.cpp', '-o', exe])
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    print(run([exe], env=env).strip(), flush=True)
+    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test'):
+        exe = out / (name + ('.exe' if os.name == 'nt' else ''))
+        run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
+             ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
+        print(run([exe], env=env).strip(), flush=True)
 
 # Engine payloads extracted for offline readers; not second matches.
 EXTRACTED_PAYLOADS=('lifecycle.repl26a','priority.repl26a')
@@ -68,9 +81,12 @@ def native_replay(members):
     if len(bundles)!=1: raise ValueError('expected exactly one native replay bundle per cell')
     return bundles[0]
 
-def verify_evidence():
+def verify_evidence(names=None):
     count = 0
-    for folder in sorted((ROOT/'research/dz/runs').glob('*')):
+    folders = sorted((ROOT/'research/dz/runs').glob('*')) if names is None else [ROOT/'research/dz/runs'/name for name in names]
+    if names is not None and any(not re.fullmatch(r'[A-Za-z0-9_-]+',name) or not folder.is_dir() for name,folder in zip(names,folders)):
+        raise ValueError('unknown or invalid evidence run name')
+    for folder in folders:
         if (folder/'manual-manifest.json').exists():
             manifest = json.loads((folder/'manual-manifest.json').read_text())
             with zipfile.ZipFile(folder/'evidence.zip') as z:
@@ -877,7 +893,8 @@ def main():
     sub = parser.add_subparsers(dest='command', required=True)
     sub.add_parser('host')
     sub.add_parser('build')
-    sub.add_parser('verify')
+    verification = sub.add_parser('verify')
+    verification.add_argument('--names',nargs='+',help='verify only these immutable run capsules')
     p = sub.add_parser('recover'); p.add_argument('--name',required=True)
     for name in ('smoke','conformance'):
         p = sub.add_parser(name); p.add_argument('--name', required=True)
@@ -896,7 +913,7 @@ def main():
         if args.workers<1: parser.error('--workers must be positive')
         if args.diagnostic_rounds<1: parser.error('--diagnostic-rounds must be positive; zero runs no turns')
     if args.command == 'host': host_tests()
-    elif args.command == 'verify': verify_evidence()
+    elif args.command == 'verify': verify_evidence(args.names)
     elif args.command == 'recover': recover(args)
     elif args.command == 'build': print(build(ROOT/'bots/dz', TMP/'dz.wasm'))
     else: experiment(args)

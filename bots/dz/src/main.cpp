@@ -296,7 +296,21 @@ int main() {
                         } else if (goal.kind == dz::GoalKind::Bank) objective = goal.index < 8 ? 112 + goal.index : dz::protocol::idle;
                         else if (goal.kind == dz::GoalKind::Home) objective = dz::protocol::shop;
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
+#if DZ_ECONOMY_V2
+                        auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
+                        const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
+                        const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
+                        unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
+                        if(executed&&goal.kind==dz::GoalKind::Farm&&leader==world->slot&&goal.index<112&&
+                            mem->economic_crew!=(1u<<leader)&&mem->contract.objective==goal.index&&
+                            (!fresh_lease.valid||fresh_lease.leader==world->slot))
+                            message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
+                        else if(old_lease.leader==world->slot)
+                            message=dz::protocol::compact::with_lease(message,0,0,tc.round,false);
+                        act.publish(message);
+#else
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));
+#endif
                         });
                         DZ_PROF('c');
                         dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,mem->contract.objective);});

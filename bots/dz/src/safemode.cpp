@@ -1,5 +1,7 @@
 #include "safemode.h"
 #include "clear_risk.h"
+#include "economy.h"
+#include "engage.h"
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -46,6 +48,10 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) 
 #endif
 }
 Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
+#if DZ_ECONOMY_V2
+    const auto planner_start=fuel_left();
+    mem.track_enemies(obs,tc.round);
+#endif
     if constexpr (config::camp_safety) {
         auto incoming=camp_damage({obs.p.x,obs.p.y},obs.camps);
         if (incoming>0) {
@@ -87,7 +93,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // Turtle: leave any visible enemy, never chase.
     for (const auto& e:obs.enemies) if (obs.p.chebyshev_distance(e.p)<=8) return {GoalKind::Retreat};
 #endif
-    if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
+    if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS||DZ_ECONOMY_V2 ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     mem.last_gold=obs.gold;
     if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
@@ -99,7 +105,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // Enemy HP carries a 25% margin for unseen reinforcements and spells.
     // Win -> engage the weakest nearby enemy (this also joins allies' fights);
     // lose -> leave before contact, or retreat once in reach.
+#if DZ_ECONOMY_V2
+    const auto engagement=engagement_goal(world,mem,obs,tc);
+    if(engagement&&engagement->kind!=GoalKind::Idle)return *engagement;
+    if(!engagement) {
+#else
     {
+#endif
         std::array<Fighter,fight_units> ours{}, theirs{};
         std::size_t n_ours=1, n_theirs=0;
         ours[0]={obs.hp,obs.strength};
@@ -245,6 +257,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
 #endif
+#if DZ_ECONOMY_V2
+    if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
+    // An interrupted expensive forecast cannot immediately launch another full
+    // search. Preserve execution/communication fuel and the proven contract.
+    if(planner_start-fuel_left()>32000||!tc.allow(18000)) {
+        const int job=mem.contract.objective;
+        if(job>=0&&mem.groups[job].available(tc.round))return {GoalKind::Farm,job};
+        return {GoalKind::Home};
+    }
+#endif
     if (altar < 0 && gated_altar >= 0) {
         if (!legacy) mem.legacy_until = tc.round + 100;
         legacy = true;
@@ -366,7 +388,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         // Each budget check is two SDK host calls; check every eighth group.
         // Check before each pricing: an unpriced cold cache can cost several
         // thousand fuel per group (00vault exhausted with every-eighth checks).
-        if (!tc.allow(8000)) break;
+        if (!tc.allow(DZ_ECONOMY_V2?18000:8000)) break;
         if (!legacy && -candidate.bound >= best) break; // Nothing left can win.
         const unsigned i = candidate.index;
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
@@ -468,7 +490,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         const float extra=(living-1)*obs.strength*obs.camp_damage;
         float crew_best=1e30f; int crew_choice=-1;
         for (unsigned i=0;i<world.groups.size()&&living>=2;++i) {
-            if (!tc.allow(8000)) break;
+            if (!tc.allow(DZ_ECONOMY_V2?18000:8000)) break;
             const auto& belief=mem.groups[i]; const auto& g=world.groups[i];
             if (g.strength<=0 || belief.state==GroupState::Reward || !belief.available(tc.round)) continue;
             if constexpr (DZ_CREW_REACH) {

@@ -18,6 +18,32 @@ Fresh laptop: follow CONTINUE_HERE.md setup; host tests need g++ (WinLibs GCC 16
 committed -Wno-misleading-indentation); dz_vm2.py needs numpy + scikit-learn; decoders need Node 24
 and NFS_REPLAY_ENGINE=2.0.0. Continuation prompt: CONTINUATION_PROMPT.md. No ladder/submission.
 
+Parallel line on this branch: Tamim Atiqur's native Mac work (DZ_ECONOMY_V2: objective quotes,
+economic crew leases, four-turn combat, marginal gear, race clock), described in the sections below
+and research/dz/engineering-2026-10-31/. Both lines are default-off; integrate them per the combined plan.
+
+# CONTINUING 2026-10-31 — integrated native candidate, promotion rejected
+
+Read research/dz/engineering-2026-10-31/README.md and RESULTS.json. New bounded
+objective/allocation, gear, four-turn combat, action values, race clock, exact-
+round crew leases and resumable gate boot are integrated under DZ_ECONOMY_V2=0.
+Latest lease screen is runtime-clean but loses banking (113.83 vs control144.75
+on12 development cells). Do not promote it or launch larger confirmation pools.
+Next: implement persistent partial-clear siege/escape/heal-return, real tank
+positioning and objective conversion. Full V-M1/V-M2/Z milestones remain open.
+Selected release preserved; no holdout, submission, ladder or activation used.
+Use explicit Homebrew Python3.14 plus DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc.
+
+# CONTINUING 2026-10-31 — native Mac dynamic economy implementation
+
+Remote starting point fca7b34, selected Windows release unchanged. Read
+research/dz/engineering-2026-10-31/README.md for live queue and exact evidence.
+Official cambc 4.0.0 works on arm64 macOS, installed at artifacts/tmp/dz-env/bin/cambc.
+Use DZ_CAMBC and explicit Homebrew Python 3.14 (checkout shell resolves Python 3.9).
+New objective bounds/dynamic crew auction are under DZ_ECONOMY_V2=0, unpromoted.
+Host checks and corrected two-cell collision execution pass; V-M1/parity remain open.
+Continue gear/combat integration, then lean development screens. No online actions.
+
 # CONTINUING 2026-10-31 - first integrated Z pass
 
 Selected release 5cf28cb7 unchanged (all new DZ_* flags default 0). Read the TOP of

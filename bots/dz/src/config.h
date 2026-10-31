@@ -165,12 +165,16 @@
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif
+#ifndef DZ_ECONOMY_V2
+#define DZ_ECONOMY_V2 0 // Integrated Z6-Z11 economy/gear/combat/lease candidate; unpromoted development only.
+#endif
 
-// Advanced models are deliberately unavailable until their research gates pass.
+// Selected release keeps these off. Development candidates do not establish
+// model calibration, competitive parity or release admission.
 namespace dz::config {
-inline constexpr bool economy_auction = false;
-inline constexpr bool engagement_evaluator = false;
-inline constexpr bool gear_planner = false;
+inline constexpr bool economy_auction = DZ_ECONOMY_V2 != 0;
+inline constexpr bool engagement_evaluator = DZ_ECONOMY_V2 != 0;
+inline constexpr bool gear_planner = DZ_ECONOMY_V2 != 0;
 inline constexpr bool camp_safety = DZ_CAMP_SAFETY != 0;
 inline constexpr std::uint64_t full_fuel = 60000, lean_fuel = 25000, reserve = 12000;
 inline constexpr std::uint64_t ordinary_turn_fuel = 100000; // CT-3 pinned budget.

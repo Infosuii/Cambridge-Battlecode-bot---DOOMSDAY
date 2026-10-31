@@ -27,7 +27,24 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
   camp-blocked altar prerequisites, and ward placement.
 - No output in the default release build. A separate `--trace` copy prints diagnostics.
 
-## Still required
+## Integrated development candidate (unpromoted)
+
+`DZ_ECONOMY_V2=1` enables bounded objective quotes, dynamic crew allocation,
+timestamped crew leases, single capturers, cluster follow-up valuation, marginal
+gear projects, a bounded four-turn combat forecast, common action values and a
+near-finish race clock. Gate-member access and startup scans are resumable.
+The default is **0**: development screens have not established a banking gain.
+See [the implementation checkpoint](../../research/dz/engineering-2026-10-31/README.md)
+for exact model assumptions, failed runs, validation and the ordered backlog.
+Full ObjModel/EE calibration, tank positioning, siege recovery, joint action
+enumeration, opening rollout and release promotion remain unfinished.
+
+On macOS/Linux install official `cambc==4.0.0` and put it on PATH, or set
+`DZ_CAMBC` to its executable. Use Python 3.12+ explicitly if the system Python
+is older. `tools/dz.py verify --names <run> ...` verifies selected immutable
+capsules without repeating the historical archive audit.
+
+## Still required for a validated release
 
 Remaining portions of Z0's 27 conformance tests; calibrated ObjModel and EE;
 economy auction and crews; single capturer and timed cluster circuits; hazard banking;
