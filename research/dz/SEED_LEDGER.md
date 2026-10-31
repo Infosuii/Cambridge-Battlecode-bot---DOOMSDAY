@@ -617,3 +617,15 @@ The registry was created before experiments. Entries below record actual use.
 | dz-merge-both-check-01 | 2026-10-31 | deterministic; Wasm 3bcefdd1656a | 4 cells; v76 | smoke; trace=False |
 | dz-base-v74-01 | 2026-10-31 | deterministic; Wasm 5cf28cb74612 | 140 cells; v74 | smoke; trace=False |
 | dz-z14table1-v74-confirm-01 | 2026-10-31 | deterministic; Wasm 4ab74e445143 | 140 cells; v74 | smoke; trace=False |
+| dz-dv7-v76-01 | 2026-10-31 | deterministic; Wasm fe8b4d6a6bb0 | 140 cells; v76 | smoke; trace=False |
+| dz-eerg-v65-z14-01 | 2026-10-31 | deterministic; Wasm 70bb2decc195 | 140 cells; v65 | smoke; trace=False |
+| dz-z14fuel-fix1-v74-01 | 2026-10-31 | deterministic; Wasm 5fb59d32d857 | 6 cells; v74 | smoke; trace=False |
+| dz-diag-z14fuel-trace-01 | 2026-10-31 | deterministic; Wasm 17d5b9ed77c0 | 2 cells; v74 | smoke; trace=True |
+| dz-v81hl-check-01 | 2026-10-31 | deterministic; Wasm 5cf28cb74612 | 2 cells; v81hl | smoke; trace=False |
+| dz-z14fuel-fix2-v74-01 | 2026-10-31 | deterministic; Wasm c09e3c2354b7 | 6 cells; v74 | smoke; trace=False |
+| dz-z14b-base-v76-01 | 2026-10-31 | deterministic; Wasm 0807b9a64608 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-crewall-v76-01 | 2026-10-31 | deterministic; Wasm d04b049fa691 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-crew1-v76-01 | 2026-10-31 | deterministic; Wasm 6a3b90d8b5c3 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-gs-v76-01 | 2026-10-31 | deterministic; Wasm ca76640d36a9 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-base-v76-02 | 2026-10-31 | deterministic; Wasm accfffd0bda5 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-ee2-v76-02 | 2026-10-31 | deterministic; Wasm bcc761e69b85 | 140 cells; v76 | smoke; trace=False |

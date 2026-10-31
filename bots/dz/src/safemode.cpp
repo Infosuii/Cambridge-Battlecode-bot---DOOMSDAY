@@ -5,6 +5,7 @@
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
+#include "team_plan.h"
 
 namespace dz {
 void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
@@ -157,7 +158,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             // local attacks, and an unsafe losing contact can still retreat.
             const bool bankable=DZ_CARRIER_BANK_PRIORITY &&
                 bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
-            if (fight.won() && focus && obs.hp >= .3f * obs.max_hp && !bankable && DZ_STYLE != 2) {
+            bool engage_won=fight.won();
+#if DZ_HAS(HOME) || DZ_HAS(FIGHT) || DZ_HAS(TURTLE)
+            if (const float k=aggression(); k!=1.f && focus) {
+                // Team plan: engage as if our side were k times as strong; the retreat test keeps the plain result.
+                std::array<Fighter,fight_units> scaled=ours;
+                for (std::size_t i=0;i<n_ours;++i) scaled[i].damage*=k;
+                engage_won=simulate_fight(std::span<const Fighter>(scaled.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs)).won();
+            }
+#endif
+            if (engage_won && focus && obs.hp >= .3f * obs.max_hp && !bankable && DZ_STYLE != 2) {
                 bool engage=true;
 #if DZ_FIGHT_GEM_VALUE
                 // Query only the already-visible chosen focus, after the
@@ -368,7 +378,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         const int floor = world.distance_floor(i, obs.p);
         if (!g.field && floor > 30) continue;
         const int wait = waitable ? belief.ready - tc.round : 0;
-        const float value = g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value();
+        const float value = (g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())*half_weight(world,i);
         if (value<=0) continue;
 #if DZ_STYLE == 2
         if (world.home.get(g.tiles.front())>14) continue;
@@ -401,7 +411,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             if (slot != world.slot && i < 112 && protocol::slot(word, slot).objective == i) ++claims;
         // Reward per round of travel, clear and capture, over solo-survivable
         // groups only. A heuristic rate, not the unvalidated ObjModel/auction.
-        const float value=(g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())/(1.f+claims);
+        const float value=(g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())*half_weight(world,i)/(1.f+claims);
         float fixed=std::max(dist,wait)+cambc::constants::capture_time+2.f;
         if (legacy) {
             // The pre-gate nearest-group score, used only while starving.

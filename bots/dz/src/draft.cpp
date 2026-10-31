@@ -57,7 +57,7 @@ void draft_loop(Counters& counts) {
         for(const auto& row:extra)if(row.signature==signature && DZ_DRAFT_VARIANT==0)variant=row.variant;
 #endif
 #if DZ_PLAN_TABLE
-        load_plan();
+        load_plan(signature);
         if (DZ_DRAFT_VARIANT == 0 && plan_draft >= 0 && plan_draft < 8) variant = plan_draft;
 #endif
 #if DZ_TRACE

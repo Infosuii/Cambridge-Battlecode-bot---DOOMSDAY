@@ -75,7 +75,8 @@ int main() {
         try {
             if (!world) world = std::make_unique<dz::StaticWorld>();
 #if DZ_PLAN_TABLE
-            dz::load_plan();
+            // The turn after boot loads the camps (never the boosted first turn, which can't afford a second camp walk).
+            if (!dz::plan_loaded && world->loaded()) dz::load_plan(dz::map_signature(world->groups));
 #endif
             if (!mem) mem = std::make_unique<dz::Memory>();
             if (!obs) obs = std::make_unique<dz::Observation>();

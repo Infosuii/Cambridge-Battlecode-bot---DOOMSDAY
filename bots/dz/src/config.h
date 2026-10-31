@@ -162,6 +162,18 @@
 #ifndef DZ_EE2_BOLD
 #define DZ_EE2_BOLD 0 // Z10 v2 variant (with DZ_EE2): retreat threshold 0.30 instead of 0.15.
 #endif
+#ifndef DZ_HOME
+#define DZ_HOME 0 // Unvalidated A1 team plan: enemy-half groups priced x0.3, engage aggression x0.8 (lab home plan).
+#endif
+#ifndef DZ_HOARD
+#define DZ_HOARD 0 // Unvalidated A1 team plan: carry 48 gems (bank bag x1.6) before an ordinary bank trip.
+#endif
+#ifndef DZ_FIGHT
+#define DZ_FIGHT 0 // Unvalidated A1 team plan: engage aggression x1.25 (no unseen-reinforcement margin).
+#endif
+#ifndef DZ_TURTLE
+#define DZ_TURTLE 0 // Unvalidated A1 team plan: own-half groups only, engage aggression x0.65.
+#endif
 #ifndef DZ_JOB_GEAR
 #define DZ_JOB_GEAR 0 // Experimental: cluster jobs can justify Prospector over Treasure.
 #endif

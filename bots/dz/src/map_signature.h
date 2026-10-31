@@ -18,4 +18,16 @@ inline std::uint32_t map_signature() {
     for (const auto& g : groups) for (const auto& c : g.camps()) { mix(c.spawn_position().x); mix(c.spawn_position().y); }
     return h;
 }
+// Same value from spawn tiles already loaded in SDK order (StaticWorld groups): the camp walk above costs ~65k fuel
+// on 01islands, which pushed the plan-table build's boosted first play turn past its budget.
+template <class Groups> std::uint32_t map_signature(const Groups& groups) {
+    std::uint32_t h = 2166136261u;
+    auto mix = [&](std::int64_t v) { for (int i = 0; i < 8; ++i) { h ^= static_cast<std::uint8_t>(v >> (8 * i)); h *= 16777619u; } };
+    mix(cambc::map::width()); mix(cambc::map::height());
+    mix(cambc::map::walls().count()); mix(cambc::map::holes().count());
+    for (auto p : cambc::map::altars().positions()) { mix(p.x); mix(p.y); }
+    mix(static_cast<std::int64_t>(groups.size()));
+    for (const auto& g : groups) for (auto t : g.tiles) { mix(t.x); mix(t.y); }
+    return h;
+}
 }

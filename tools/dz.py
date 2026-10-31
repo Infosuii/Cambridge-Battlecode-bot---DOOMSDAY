@@ -677,7 +677,15 @@ def experiment(args):
         if args.command!='smoke' or args.trace or args.set: raise ValueError('--candidate-bot is for plain smoke benchmarks')
         source = ROOT/'bots'/args.candidate_bot
     frozen = out / 'build/candidate'
+    if args.command=='smoke' and args.source:
+        # A long screen builds every run from one frozen snapshot, so edits to bots/dz during it never mix in.
+        if args.candidate_bot: raise ValueError('--source replaces bots/dz; not with --candidate-bot')
+        source = Path(args.source)
     shutil.copytree(source/'src', frozen/'src')
+    if args.command=='smoke' and args.plan_rows:
+        # Z14 screens: a whole-pool table (tools/dz_plan_select.py --uniform) in the frozen copy only, so a screened
+        # config runs the same code as the final table build; only table data differs.
+        shutil.copyfile(Path(args.plan_rows), frozen/'src/map_plans.inc')
     if args.command=='conformance' and args.fixture in ('capture-time','objective-capture'):
         config=frozen/'src/config.h'; source_text=config.read_text()
         for flag,value in [('DZ_CAPTURE_TEST',1),('DZ_CAPTURE_ITEM',1),('DZ_PROSPECTOR',0)]:
@@ -908,6 +916,8 @@ def main():
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')
+        p.add_argument('--plan-rows', help='replace map_plans.inc in the frozen copy (DZ_PLAN_TABLE screens)')
+        p.add_argument('--source', help='build DZ from DIR/src (a frozen snapshot) instead of bots/dz')
     args = parser.parse_args()
     if args.command in ('smoke','conformance'):
         if args.workers<1: parser.error('--workers must be positive')

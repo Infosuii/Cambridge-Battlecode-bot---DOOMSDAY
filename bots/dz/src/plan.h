@@ -9,18 +9,20 @@
 // come from tools/dz_plan_select.py; an absent map plays the default (0 bits).
 // With DZ_PLAN_TABLE 0, DZ_ON(X) is the compile-time DZ_X and nothing here runs.
 namespace dz {
-enum PlanBit : unsigned { plan_EE, plan_EE_REGROUP, plan_GEAR_SURVIVE, plan_GEAR_PROSPECT, plan_GEAR_HEALTH, plan_CREWS, plan_CREW_ALL, plan_BANK_NEAR_MIN, plan_BANK_BIG, plan_RING_GATES, plan_OPENING_GOLD, plan_GOLD_VALUE, plan_EE2, plan_EE2_BOLD };
+enum PlanBit : unsigned { plan_EE, plan_EE_REGROUP, plan_GEAR_SURVIVE, plan_GEAR_PROSPECT, plan_GEAR_HEALTH, plan_CREWS, plan_CREW_ALL, plan_BANK_NEAR_MIN, plan_BANK_BIG, plan_RING_GATES, plan_OPENING_GOLD, plan_GOLD_VALUE, plan_EE2, plan_EE2_BOLD, plan_HOME, plan_HOARD, plan_FIGHT, plan_TURTLE };
 #if DZ_PLAN_TABLE
 struct PlanRow { std::uint32_t signature; int draft; std::uint32_t bits; };
 inline constexpr PlanRow plan_rows[] = {
 #include "map_plans.inc"
 };
+// One row per pool map, always: the lookup then runs the same instructions whatever the table holds, so a screen
+// build (every row one config) and the final table play identical code; only data differs.
+static_assert(sizeof(plan_rows) / sizeof(plan_rows[0]) == 70, "map_plans.inc needs exactly 70 rows (dz_plan_select.py)");
 inline std::uint32_t plan_bits = 0;
 inline int plan_draft = -1;
 inline bool plan_loaded = false;
-inline void load_plan() {
+inline void load_plan(std::uint32_t signature) {
     if (plan_loaded) return;
-    const auto signature = map_signature();
     for (const auto& row : plan_rows) if (row.signature == signature) { plan_bits = row.bits; plan_draft = row.draft; }
     plan_loaded = true;
 }

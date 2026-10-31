@@ -47,6 +47,11 @@ struct Altar {
 };
 class StaticWorld {
     bool loaded_ = false;
+#if DZ_PLAN_TABLE
+public:
+    bool loaded() const { return loaded_; }
+private:
+#endif
     std::size_t fields_cursor_ = 0;
     std::size_t stats_cursor_ = 0;
     bool home_ready_ = false, masks_ready_ = false;
