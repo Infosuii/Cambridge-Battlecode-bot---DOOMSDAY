@@ -13,6 +13,7 @@
 #include "formation_search.h"
 #include "crew_sequence.h"
 #include "crew_progression.h"
+#include "crew_market.h"
 #include "team_protocol.h"
 #endif
 
@@ -76,7 +77,6 @@ struct Memory {
     LocalMask memory_visible;
     int memory_visible_round=-1;
     std::vector<unsigned> member_cursor;
-    std::vector<unsigned> coalition_cursor;
     std::vector<unsigned> conversions; // Observed transition into respawning, never a shifting ready tick.
     std::vector<unsigned> group_topology;
     struct NeutralFrame {
@@ -108,7 +108,27 @@ struct Memory {
         bool pending() const {return search.pending()||progression.pending()||
             (search.stage==crew::SequenceSearch::Stage::Done&&progression.stage==crew::Progression::Stage::Empty);}
     };
-    mutable FormationCache crew_layout;
+    mutable std::unique_ptr<FormationCache> crew_live,crew_draft;
+    FormationCache& crew_layout() const {
+        if(!crew_live)crew_live.reset(new FormationCache);
+        return *crew_live;
+    }
+    FormationCache& crew_proposal() const {
+        if(!crew_draft)crew_draft.reset(new FormationCache);
+        return *crew_draft;
+    }
+    void accept_crew_offer(int group,unsigned mask) {
+        if(!crew_draft||crew_draft->group!=group||crew_draft->search.stage!=crew::SequenceSearch::Stage::Done||
+            crew_draft->generation!=conversions[group]||crew_draft->topology!=topology_revision-group_topology[group])return;
+        unsigned proposed=0;for(unsigned u=0;u<crew_draft->units;++u)proposed|=1u<<crew_draft->roster[u].slot;
+        if(proposed==mask) {
+            crew_live.swap(crew_draft); // Only owning pointers move, never unvisited BFS storage.
+            if(crew_draft&&crew_draft->pending()) {
+                crew_draft->expires=0;crew_draft->search.stage=crew::SequenceSearch::Stage::Empty;crew_draft->progression={};
+            }
+        }
+    }
+    economy::CrewMarket crew_market;
     struct CrewReward {
         int group=-1,round=-1,gold=0,bag=0;
         unsigned generation=0,stat=0;

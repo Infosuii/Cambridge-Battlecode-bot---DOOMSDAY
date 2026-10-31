@@ -29,7 +29,6 @@ void Memory::init(const StaticWorld& world) {
 #if DZ_ECONOMY_V2
     member_strength.resize(world.groups.size());
     member_cursor.assign(world.groups.size(),0);
-    coalition_cursor.assign(world.groups.size(),2);
     conversions.assign(world.groups.size(),0);
     group_topology.assign(world.groups.size(),0);
 #endif

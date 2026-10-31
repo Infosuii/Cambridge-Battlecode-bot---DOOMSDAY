@@ -24,7 +24,10 @@ constexpr Lease lease(std::uint64_t word,unsigned now,unsigned maximum_age=3) {
     Lease result;
     if((word&(std::uint64_t{1}<<63))||!(word&(std::uint64_t{1}<<62)))return result;
     result.members=(word>>42)&63;result.capturer=(word>>48)&7;result.round=(word>>51)&2047;
-    for(unsigned i=0;i<slots;++i)if(result.members&(1u<<i)){result.leader=i;break;}
+    // The recipient coordinates this offer. Its own task claim names the job,
+    // so any member can initiate a crew without waiting for a lower slot to
+    // publish an objective it has not yet accepted. Joined crews can hand off.
+    result.leader=result.capturer;
     result.objective=result.leader<slots?slot(word,result.leader).objective:idle;
     result.valid=(word&(std::uint64_t{1}<<62))&&now<=2047&&result.round<=now&&now-result.round<=maximum_age&&
         result.leader<slots&&result.capturer<slots&&(result.members&(1u<<result.capturer))&&is_group_code(result.objective);

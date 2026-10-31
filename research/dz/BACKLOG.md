@@ -1,14 +1,14 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
 1. **Z7/Z9 coalition allocation and equipment progression.** Dated resources,
    real-work/project freshness, cohort/capture ownership and conditional Power
-   counterfactuals exist. Latest crew07 is still24/396: side A fails production.
-   The market stops at its first viable small crew and excludes incumbent jobs;
-   compare useful alternatives and support adding free workers without reselling
+   counterfactuals exist. Latest crew market04 is12/432: side A stops after one payout.
+   A bounded pair/triple market now compares alternatives; jobs with visible
+   incumbents remain excluded. Support adding free workers without reselling
    fixed workers or crediting their income as a new gain. Native-check an actual
    funded reward visit and multiple-emblem continuation. Base rewards can split;
    Marcella has delayed extra gold. Private ally gold remains illegal. Famine's

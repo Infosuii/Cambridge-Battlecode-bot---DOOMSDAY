@@ -82,6 +82,21 @@ int main() {
         assert(!readers[0].cohort(9,changed,251,count).valid&&!readers[0].cohort(11,changed,251,count).valid);
         assert(!readers[0].cohort(9,capture,250+team::lifetime(count)+1,count).valid);
     }
+    // A higher-slot initiator can invite lower slots that have not accepted
+    // yet; it names the job through its own claim. Only actual acceptance
+    // establishes the retained cohort, then a formed crew can relay capture.
+    auto invitation=protocol::compact::with_slot(0,2,{7,false});
+    invitation=protocol::compact::with_slot(invitation,0,{protocol::idle,false});
+    invitation=protocol::compact::with_slot(invitation,1,{protocol::idle,false});
+    invitation=protocol::compact::with_lease(invitation,7,2,10);
+    const auto offer=protocol::compact::lease(invitation,10);
+    assert(offer.valid&&offer.leader==2&&offer.objective==7);
+    team::Ledger accepted;accepted.observe(invitation,10,3);
+    assert(!accepted.cohort(7,invitation,10,3).valid);
+    for(unsigned s=0;s<2;++s)invitation=protocol::compact::with_slot(invitation,s,{7,false});
+    accepted.observe(invitation,11,3);assert(accepted.cohort(7,invitation,11,3).leader==2);
+    invitation=protocol::compact::with_lease(invitation,7,0,12);accepted.observe(invitation,12,3);
+    assert(accepted.cohort(7,invitation,12,3).leader==0&&accepted.cohort(7,invitation,12,3).members==7);
     auto stale=team::publish(0,12,3,team::publisher(12,3),100,1,team::Intent::Active);
     assert(team::decode(stale,12,3).valid);
     assert(!team::decode(stale,1036,3).valid); // No modulo-age alias after 1024 rounds.

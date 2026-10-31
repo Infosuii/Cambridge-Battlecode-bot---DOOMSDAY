@@ -339,13 +339,14 @@ int main() {
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
                         const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
                         const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
-                        unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
+                        const unsigned leader=mem->economic_capturer;
                         const int offered=goal.kind==dz::GoalKind::Farm?goal.index:recovering_project?mem->crew_execution.group:-1;
                         const bool capture=offered>=0&&mem->groups[offered].state==dz::GroupState::Reward;
-                        const bool offering=executed&&offered>=0&&leader==world->slot&&offered<112&&mem->contract.objective==offered&&
+                        const auto& sent=mem->crew_publication;
+                        const bool relaying=sent.group==offered&&sent.members==mem->economic_crew&&sent.capturer==world->slot&&leader!=world->slot;
+                        const bool offering=executed&&offered>=0&&(leader==world->slot||relaying)&&offered<112&&mem->contract.objective==offered&&
                             (std::popcount(mem->economic_crew)>1||capture);
                         const bool joined=mem->crew_execution.joined&&mem->crew_execution.group==offered&&!recovering_project;
-                        const auto& sent=mem->crew_publication;
                         const bool changed=sent.group!=offered||sent.members!=mem->economic_crew||sent.capturer!=mem->economic_capturer;
                         const bool pulse=dz::team::publisher(tc.round,world->allies.size())==world->slot&&
                             (!joined||dz::team::scheduled(tc.round)==dz::team::Kind::Lease);

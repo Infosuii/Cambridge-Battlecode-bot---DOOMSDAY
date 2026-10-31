@@ -24,8 +24,7 @@ CampSet camp_set(const StaticWorld& w,const Memory& m,int g) {
     }
     return result;
 }
-int layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc) {
-    auto& cache=m.crew_layout;
+int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc) {
     const unsigned outside=m.topology_revision-m.group_topology[group];
     const unsigned offset=cache.camps>=camps.size()?cache.camps-camps.size():cache.camps;
     const bool matches=cache.group==group&&(cache.expires>static_cast<int>(tc.round)||cache.search.stage==crew::SequenceSearch::Stage::Done)&&cache.topology==outside&&
@@ -35,7 +34,8 @@ int layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::
     if(matches&&cache.search.stage==crew::SequenceSearch::Stage::Done)return offset;
     // A different speculative quote cannot erase the unfinished job. A changed
     // roster/scene for the SAME job invalidates it; an expired job is replaceable.
-    if(!matches&&cache.group!=group&&cache.expires>static_cast<int>(tc.round)&&
+    if(!matches&&cache.group!=group&&cache.group>=0&&cache.expires>static_cast<int>(tc.round)&&
+        cache.generation==m.conversions[cache.group]&&cache.topology==m.topology_revision-m.group_topology[cache.group]&&
         cache.pending())return -1;
     if(!matches) {
         // Mutate the logical job, never copy the BFS's unvisited storage.
@@ -60,8 +60,8 @@ int layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::
     tc.guard();if(operations)cache.expires=tc.round+config::crew_window;
     return complete?static_cast<int>(cache.camps-camps.size()):-1;
 }
-void price_progression(const StaticWorld& w,const Memory& m,int g,int work,const TurnContext& tc) {
-    auto& cache=m.crew_layout;auto& p=cache.progression;
+void price_progression(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int g,int work,const TurnContext& tc) {
+    auto& p=cache.progression;
     if(p.stage==crew::Progression::Stage::Empty) {
         if(!tc.allow(16000))return;
         const auto& group=w.groups[g];p.stage=crew::Progression::Stage::Done;
@@ -107,26 +107,30 @@ void price_progression(const StaticWorld& w,const Memory& m,int g,int work,const
 }
 }
 void progress_crew_layout(const StaticWorld& w,const Memory& m,const TurnContext& tc) {
-    auto& c=m.crew_layout;
-    if(!c.pending()||c.group<0||c.group>=static_cast<int>(m.groups.size())||!tc.allow(25000))return;
-    if(c.expires<=static_cast<int>(tc.round)||c.topology!=m.topology_revision-m.group_topology[c.group]||c.generation!=m.conversions[c.group])return;
-    if(c.search.pending())layout(w,m,c.group,std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),tc);
-    else {
-        if(c.progression_work<0) {
-            const auto started=fuel_left();
-            const auto q=crew::quote(std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),c.search,
-                0,cambc::constants::capture_time+1,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
-                [&]{return tc.allow(10000)&&started-fuel_left()<6000;});
-            if(q.reason==crew::SequenceReason::Budget)return;
-            if(!q.complete){c.progression.stage=crew::Progression::Stage::Done;return;}
-            int arrival=0;for(unsigned u=0;u<c.units;++u)arrival=std::max(arrival,c.roster[u].arrival);
-            c.progression_work=arrival+q.finish;
+    auto advance=[&](Memory::FormationCache& c) {
+        if(!c.pending()||c.group<0||c.group>=static_cast<int>(m.groups.size())||!tc.allow(25000))return;
+        if(c.expires<=static_cast<int>(tc.round)||c.topology!=m.topology_revision-m.group_topology[c.group]||c.generation!=m.conversions[c.group])return;
+        if(c.search.pending())layout(w,m,c,c.group,std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),tc);
+        else {
+            if(c.progression_work<0) {
+                const auto started=fuel_left();
+                const auto q=crew::quote(std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),c.search,
+                    0,cambc::constants::capture_time+1,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
+                    [&]{return tc.allow(10000)&&started-fuel_left()<6000;});
+                if(q.reason==crew::SequenceReason::Budget)return;
+                if(!q.complete){c.progression.stage=crew::Progression::Stage::Done;return;}
+                int arrival=0;for(unsigned u=0;u<c.units;++u)arrival=std::max(arrival,c.roster[u].arrival);
+                c.progression_work=arrival+q.finish;
+            }
+            price_progression(w,m,c,c.group,c.progression_work,tc);
         }
-        price_progression(w,m,c.group,c.progression_work,tc);
-    }
+    };
+    if(m.crew_live)advance(*m.crew_live);
+    if(m.crew_draft)advance(*m.crew_draft);
 }
+
 void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int g,const TurnContext& tc) {
-    auto& reward=m.crew_reward;auto& cache=m.crew_layout;
+    auto& reward=m.crew_reward;auto& cache=m.crew_layout();
     if(cache.group!=g||cache.generation!=m.conversions[g]||cache.camps!=w.groups[g].tiles.size()||
         cache.topology!=m.topology_revision-m.group_topology[g]||cache.search.stage!=crew::SequenceSearch::Stage::Done)return;
     if(reward.group!=g||reward.generation!=m.conversions[g]) {
@@ -134,7 +138,7 @@ void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int
         cache.progression={}; // Reprice at the actual payout, with today's own cash.
     }
     if(reward.priced||!tc.allow(18000))return;
-    price_progression(w,m,g,0,tc);
+    price_progression(w,m,cache,g,0,tc);
     if(cache.progression.pending())return;
     const auto plan=cache.progression.best(w.slot,tc.round);
     reward.priced=true;
@@ -151,6 +155,7 @@ void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int
 }
 CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc) {
     if(!tc.allow(19000)||given.size()<2||given.size()>crew::max_units)return {};
+    auto& cache=m.crew_proposal();
     std::array<crew::Unit,crew::max_units> ordered{};std::copy(given.begin(),given.end(),ordered.begin());
     std::sort(ordered.begin(),ordered.begin()+given.size(),[](auto a,auto b){return a.slot<b.slot;});
     const auto units=std::span<const crew::Unit>(ordered.data(),given.size());
@@ -159,31 +164,31 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
         return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto set=camp_set(w,m,group);if(!set.complete||!set.count)return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto camps=std::span<const crew::Monster>(set.camps.data(),set.count);
-    const int first=layout(w,m,group,units,camps,tc);
+    const int first=layout(w,m,cache,group,units,camps,tc);
     if(first<0)return {false,0,0,
-        m.crew_layout.search.pending()?CrewQuoteStatus::Budget:CrewQuoteStatus::Formation};
+        cache.pending()?CrewQuoteStatus::Budget:CrewQuoteStatus::Formation};
     int arrival=0;
     for(unsigned u=0;u<units.size();++u)arrival=std::max(arrival,units[u].arrival);
     const auto model_start=fuel_left();
-    const auto q=crew::quote(units,camps,m.crew_layout.search,first,capture,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
+    const auto q=crew::quote(units,camps,cache.search,first,capture,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
         [&]{return tc.allow(10000)&&model_start-fuel_left()<6000;});
 #if DZ_TRACE
     static unsigned next_price_trace=0;
     if(w.slot==0&&tc.round>=next_price_trace) {
-        next_price_trace=tc.round+50;const auto& p=m.crew_layout.search.phases[first];TraceScope scope;
+        next_price_trace=tc.round+50;const auto& p=cache.search.phases[first];TraceScope scope;
         trace("DZ_CREW_PRICE round=%u group=%d reason=%d finish=%d count=%u first=%d n=%zu hp=%.0f,%.0f damage=%.0f,%.0f raw=%.0f,%.0f escape=%.0f,%.0f approach=%.0f,%.0f\n",
-            tc.round,group,static_cast<int>(q.reason),q.finish,m.crew_layout.search.count,first,units.size(),units[0].hp,units[1].hp,units[0].damage,units[1].damage,
+            tc.round,group,static_cast<int>(q.reason),q.finish,cache.search.count,first,units.size(),units[0].hp,units[1].hp,units[0].damage,units[1].damage,
             p.raw[0],p.raw[1],p.escape[0],p.escape[1],p.approach_loss[0],p.approach_loss[1]);
     }
 #endif
-    if(!q.complete)return {false,0,0,CrewQuoteStatus::Model};
+    if(!q.complete)return {false,0,0,q.reason==crew::SequenceReason::Budget?CrewQuoteStatus::Budget:CrewQuoteStatus::Model};
     if(arrival+q.finish>static_cast<int>(cambc::constants::max_rounds-tc.round))return {false,0,0,CrewQuoteStatus::Horizon};
-    m.crew_layout.progression_work=arrival+q.finish;
-    price_progression(w,m,group,arrival+q.finish,tc);
-    if(m.crew_layout.progression.pending()||m.crew_layout.progression.stage==crew::Progression::Stage::Empty)
+    cache.progression_work=arrival+q.finish;
+    price_progression(w,m,cache,group,arrival+q.finish,tc);
+    if(cache.progression.pending()||cache.progression.stage==crew::Progression::Stage::Empty)
         return {false,0,0,CrewQuoteStatus::Budget};
     unsigned mask=0;for(unsigned u=0;u<units.size();++u)mask|=1u<<units[u].slot;
-    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready};
+    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready,arrival};
 }
 bool build_crew_field(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     auto& cache=m.crew_field;
@@ -284,7 +289,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     const auto cohort=m.team.cohort(g,word,tc.round,w.allies.size());
     bool promised=(lease.valid&&lease.objective==g&&lease.members==expected)||state.joined||
         (cohort.valid&&cohort.members==expected);
-    unsigned leader=0;while(leader<protocol::slots&&!(expected&(1u<<leader)))++leader;
+    const unsigned leader=m.economic_capturer;
     if(!promised&&leader!=w.slot) {
         // Local recovery handoff uses CURRENT visible job claimants. A remote
         // expired lease never establishes their presence or combat power.
@@ -297,7 +302,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         }
         unsigned owner=0;while(owner<protocol::slots&&!(replacement&(1u<<owner)))++owner;
         if(std::popcount(replacement)>=2&&owner==w.slot) {
-            expected=replacement;m.economic_crew=replacement;state.members=replacement;state.since=tc.round;promised=true;
+            expected=replacement;m.economic_crew=replacement;m.economic_capturer=w.slot;state.members=replacement;state.since=tc.round;promised=true;
 #if DZ_TRACE
             {TraceScope scope;trace("DZ_CREW_HANDOFF round=%u body=%u group=%d members=%u\n",tc.round,
                 static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,replacement);}
@@ -352,7 +357,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         }
         // An unseen ally contributes no damage/HP. A previously accepted crew
         // may still navigate to its cached safe staging tile and reunite there.
-        const auto& cache=m.crew_layout;
+        const auto& cache=m.crew_layout();
         if(cache.group==g&&cache.topology==m.topology_revision-m.group_topology[g]&&cache.generation==m.conversions[g]&&
             cache.search.stage==crew::SequenceSearch::Stage::Done&&cache.camps>=set.count) {
             const unsigned first=cache.camps-set.count;
@@ -377,11 +382,11 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
             (units[u].gold_multiplier==units[cap].gold_multiplier&&units[u].capture_rounds<units[cap].capture_rounds))cap=u;
         m.economic_capturer=units[cap].slot;
     }
-    const int first=layout(w,m,g,std::span<const crew::Unit>(units.data(),n),camps,tc);
+    const int first=layout(w,m,m.crew_layout(),g,std::span<const crew::Unit>(units.data(),n),camps,tc);
     DZ_PROF('L');
     if(first<0)return goal;
-    m.crew_layout.expires=tc.round+config::crew_window;
-    const auto& sequence=m.crew_layout.search;const auto& phase=sequence.phases[first];const auto& plan=phase.formation;
+    m.crew_layout().expires=tc.round+config::crew_window;
+    const auto& sequence=m.crew_layout().search;const auto& phase=sequence.phases[first];const auto& plan=phase.formation;
 #if DZ_TRACE
     if(previous_focus!=state.focus){TraceScope scope;trace("DZ_CREW_ADVANCE round=%u body=%u group=%d member=%d phase=%d\n",tc.round,
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,state.focus,first);}
@@ -401,6 +406,16 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     bool formed=true,ready=true;int attacks=2000;
     for(unsigned u=0;u<n;++u){formed&=units[u].p==plan.positions[u];const int cap=crew::capacity(units[u],units[u].hp,phase,u);ready&=cap>0;attacks=std::min(attacks,cap);}
     state.destination=phase.staging[self];state.tank=units[plan.tank].slot;state.formed=formed;state.joined|=formed;
+    if(formed&&m.economic_capturer==w.slot&&(!team::protected_lease(word,tc.round,w.allies.size())||lease.leader==w.slot)) {
+        unsigned cap=self;const auto& group=w.groups[g];
+        auto value=[&](unsigned u) {
+            const float boost=group.cluster&&units[u].prospector?1.25f:1.f;
+            return std::floor(group.reward_gems*boost)+objective::gold_price(cambc::constants::max_rounds-tc.round)*
+                std::floor(group.reward_gold*boost*units[u].gold_multiplier);
+        };
+        for(unsigned u=0;u<n;++u)if(value(u)>value(cap)||(value(u)==value(cap)&&units[u].capture_rounds<units[cap].capture_rounds))cap=u;
+        m.economic_capturer=units[cap].slot;
+    }
     auto recover=[&]() {
 #if DZ_TRACE
         if(!state.recovering){TraceScope scope;trace("DZ_CREW_RECOVER round=%u body=%u group=%d member=%d hp=%.0f\n",tc.round,

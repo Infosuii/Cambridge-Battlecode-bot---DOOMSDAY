@@ -598,12 +598,15 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     const auto current_word=shared_word();const auto incoming_lease=protocol::compact::lease(current_word,tc.round);
     auto& crew=m.crew_execution;
     if(m.contract.objective>=0) {
-        const auto owner=m.team.cohort(m.contract.objective,current_word,tc.round,w.allies.size());
+        auto owner=m.team.cohort(m.contract.objective,current_word,tc.round,w.allies.size());
+        if(incoming_lease.valid&&incoming_lease.objective==m.contract.objective&&(incoming_lease.members&(1u<<w.slot))&&
+            (!owner.valid||incoming_lease.round>owner.round))owner=incoming_lease;
         if(owner.valid&&!(owner.members&(1u<<w.slot))){m.contract.objective=-1;m.leave_crew();}
         else if(owner.valid&&(owner.members!=m.economic_crew||owner.capturer!=m.economic_capturer)) {
             // We already volunteered for this task. Adopt its newest retained
             // roster even if another packet replaced the short invitation.
-            m.leave_crew();m.economic_crew=owner.members;m.economic_capturer=owner.capturer;
+            if(owner.members!=m.economic_crew)m.leave_crew();
+            m.economic_crew=owner.members;m.economic_capturer=owner.capturer;
             m.rendezvous_until=tc.round+config::crew_window;
         }
     }
@@ -665,10 +668,10 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         m.delivery_trip={}; // A fresh coordinated crew can reassign a solo circuit.
     if(m.delivery_trip.active())return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     refresh_shop_quote(w,m,o,tc,remaining);
-    const auto& geometry=m.crew_layout;
-    const bool priced_crew=geometry.group>=0&&geometry.group<static_cast<int>(m.groups.size())&&
+    const auto& geometry=m.crew_proposal();
+    const bool priced_crew=m.crew_market.active(tc.round)||(geometry.group>=0&&geometry.group<static_cast<int>(m.groups.size())&&
         geometry.search.stage==crew::SequenceSearch::Stage::Done&&m.groups[geometry.group].available(tc.round)&&
-        geometry.topology==m.topology_revision-m.group_topology[geometry.group]&&geometry.generation==m.conversions[geometry.group];
+        geometry.topology==m.topology_revision-m.group_topology[geometry.group]&&geometry.generation==m.conversions[geometry.group]);
     if(m.legacy(tc.round)&&altar>=0&&(m.contract.objective<0||std::popcount(m.economic_crew)<2)&&
         !(incoming_lease.valid&&(incoming_lease.members&(1u<<w.slot)))) {
         if(!priced_crew)return std::nullopt;
@@ -793,8 +796,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     // while a reachable non-damaging production job is never even priced.
     const auto production=std::find_if(candidates.begin(),candidates.end(),[&](auto c){return w.groups[c.g].strength<=0&&w.groups[c.g].field&&w.distance(c.g,o.p)<65535;});
     if(production!=candidates.end())std::rotate(candidates.begin(),production,production+1);
-    if(m.crew_layout.search.pending()&&m.crew_layout.expires>static_cast<int>(tc.round)) {
-        const auto pending=std::find_if(candidates.begin(),candidates.end(),[&](auto c){return c.g==m.crew_layout.group;});
+    if(m.crew_proposal().pending()&&m.crew_proposal().expires>static_cast<int>(tc.round)) {
+        const auto pending=std::find_if(candidates.begin(),candidates.end(),[&](auto c){return c.g==m.crew_proposal().group;});
         if(pending!=candidates.end())std::rotate(candidates.begin(),pending,pending+1);
     }
     DZ_PROF('C');
@@ -804,7 +807,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     const unsigned limit=std::min<unsigned>(8,candidates.size());
     std::array<ClearMember,clear_risk_members> members{};
     std::array<unsigned,clear_risk_members> counts{};
-    unsigned spatial_quotes=0;
+    unsigned spatial_quotes=0;bool market_changed=false;
     for(unsigned index=0;index<limit;++index) {
         if(!tc.allow(22000)||start-fuel_left()>18000)break;
         const int g=candidates[index].g;const auto& group=w.groups[g];
@@ -817,6 +820,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             if(arrival[a]>=65535)continue;
             if(!group.field&&arrival[a]>30)continue;
             actors[a].arrival=arrival[a]+(group.field?0:arrival[a]/3);
+            actors[a].arrival=std::max(actors[a].arrival,e.ready_in);
             eligible|=1u<<a;
         }
         float contested=1;
@@ -828,57 +832,6 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             const auto claim=protocol::slot(word,team[a].slot);
             if(team[a].slot!=w.slot&&claim.objective!=g)continue;
             if(active_capturer<0||team[a].slot<team[active_capturer].slot)active_capturer=a;
-        }
-        // Price a real owned crew before all allied solo counterfactuals.
-        // Otherwise their SDK/model work can exhaust the entire budget before
-        // the crew alternative is ever admitted to the auction.
-        if(group.strength>0&&m.groups[g].state!=GroupState::Reward&&n>=2&&(eligible&1u)) {
-        // Nearby crew subsets, up to six actors. Each gets real damage and its
-        // own incoming mitigation, not the caller's stats multiplied by count.
-        std::array<unsigned,objective::max_crew> order{};for(unsigned a=0;a<n;++a)order[a]=a;
-        std::sort(order.begin(),order.begin()+n,[&](auto a,auto b){
-            if(a==0||b==0)return a==0&&b!=0;
-            return arrival[a]<arrival[b]||(arrival[a]==arrival[b]&&team[a].slot<team[b].slot);
-        });
-        std::array<objective::Actor,objective::max_crew> crew_actors{};
-        std::array<crew::Unit,objective::max_crew> spatial{};
-        std::array<unsigned,objective::max_crew> crew_slots{};unsigned count=0;
-        unsigned eligible_count=0;
-        for(unsigned a=0;a<n;++a)if((eligible&(1u<<a))&&team[a].slot>=w.slot)++eligible_count;
-        const unsigned trial=m.crew_layout.group==g&&m.crew_layout.pending()?m.crew_layout.units:m.coalition_cursor[g];
-        const unsigned first_trial=std::clamp(trial,2u,std::max(2u,eligible_count));
-        for(unsigned k=0;k<n;++k) {
-            if(!tc.allow(18000+200*e.members.size())||start-fuel_left()>18000)break;
-            const auto a=order[k];if(!(eligible&(1u<<a))||team[a].slot<w.slot)continue;
-            crew_slots[count]=team[a].slot;crew_actors[count]=actors[a];
-            spatial[count]={team[a].slot,team[a].handle,{team[a].p.x,team[a].p.y},actors[a].hp,actors[a].max_hp,actors[a].damage,
-                actors[a].incoming_factor,team[a].range,actors[a].arrival,actors[a].gold_multiplier,actors[a].capture_rounds,
-                actors[a].health_growth,actors[a].damage_growth,actors[a].health_damage_growth,
-                actors[a].power_health,actors[a].power_strength,actors[a].inventory_known,actors[a].prospector};
-            ++count;
-            if(count<first_trial)continue;
-            if(spatial_quotes>=2)break;
-            ++spatial_quotes;
-            const auto quote=crew_quote(w,m,g,std::span<const crew::Unit>(spatial.data(),count),cambc::constants::capture_time+1,tc);
-#if DZ_TRACE
-            if(trace_auction){TraceScope scope;trace("DZ_CREW_BID round=%u group=%d units=%u result=%d fuel=%llu\n",tc.round,g,count,static_cast<int>(quote.status),static_cast<unsigned long long>(fuel_left()));}
-#endif
-            if(quote.status==CrewQuoteStatus::Budget)break;
-            m.coalition_cursor[g]=economy::next_coalition_size(count,eligible_count);
-            if(!quote.complete||!(quote.members&(1u<<w.slot)))continue;
-            unsigned cap=0;bool have_cap=false;float value=0;
-            for(unsigned c=0;c<count;++c)if(quote.members&(1u<<crew_slots[c])) {
-                const float boost=group.cluster&&crew_actors[c].prospector?1.25f:1.f;
-                const float gold=std::floor(group.reward_gold*boost*crew_actors[c].gold_multiplier);
-                const auto investment=m.crew_layout.progression.best(crew_slots[c],tc.round);
-                const float candidate=std::floor(group.reward_gems*boost)+std::max(gold_price*gold,investment.gain);
-                if(!have_cap||candidate>value||(candidate==value&&crew_actors[c].capture_rounds<crew_actors[cap].capture_rounds))
-                    {cap=c;have_cap=true;value=candidate;}
-            }
-            if(!have_cap)continue;
-            bids.push_back({g,quote.members,crew_slots[cap],contested*value,static_cast<float>(quote.finish)});
-            break; // First viable priced coalition; omitted helpers are never committed.
-        }
         }
         for(unsigned a=0;a<n;++a)if(eligible&(1u<<a)) {
             if(!tc.allow(18000+200*e.members.size())||start-fuel_left()>18000)break;
@@ -918,6 +871,62 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             }
             bids.push_back({g,1u<<team[a].slot,team[a].slot,contested*quote.reward(gold_price),static_cast<float>(quote.finish),0,circuit>=3?.5f*followup:0});
         }
+        // Quote completion is cached separately from the live execution plan.
+        // Solos above retain their turn budget; a cold speculative crew cannot
+        // silently delete the opportunity costs against which it competes.
+        if(group.strength>0&&m.groups[g].state!=GroupState::Reward&&n>=2&&(eligible&1u)) {
+            std::array<crew::Unit,crew::max_units> visible{};unsigned count=0;
+            for(unsigned a=0;a<n;++a)if(eligible&(1u<<a)) {
+                const auto& x=actors[a];
+                visible[count++]={team[a].slot,team[a].handle,{team[a].p.x,team[a].p.y},x.hp,x.max_hp,x.damage,x.incoming_factor,
+                    team[a].range,x.arrival,x.gold_multiplier,x.capture_rounds,x.health_growth,x.damage_growth,x.health_damage_growth,
+                    x.power_health,x.power_strength,x.inventory_known,x.prospector};
+            }
+            std::sort(visible.begin(),visible.begin()+count,[](auto a,auto b){return a.slot<b.slot;});
+            const auto pool=std::span<const crew::Unit>(visible.data(),count);
+            const auto market_start=fuel_left();
+            auto market_budget=[&]{return tc.allow(10000)&&market_start-fuel_left()<6000;};
+            const economy::CrewEpoch epoch{g,m.conversions[g],m.hp_version[g],m.topology_revision-m.group_topology[g]};
+            if(m.crew_decline.group==g&&m.crew_decline.until>static_cast<int>(tc.round))
+                m.crew_market.decline(g,m.crew_decline.members,m.crew_decline.until);
+            const auto primary=m.crew_market.primary(epoch,pool,w.slot,tc.round,m.groups[g].hp);
+            const auto menu=m.crew_market.review(epoch,primary,pool,w.slot,tc.round,remaining,m.groups[g].hp,
+                group.reward_gems,group.reward_gold,group.cluster,gold_price,contested,market_budget);
+            if(menu.ready)for(unsigned b=0;b<menu.count;++b)bids.push_back(menu.bids[b]);
+            unsigned request=menu.request;
+            auto& pending=m.crew_proposal();
+            if(pending.group==g&&pending.pending()&&pending.expires>static_cast<int>(tc.round)) {
+                unsigned mask=0;bool present=true;
+                for(unsigned u=0;u<pending.units;++u) {
+                    const auto& old=pending.roster[u];
+                    const auto it=std::find_if(pool.begin(),pool.end(),[&](auto actor){return actor.slot==old.slot;});
+                    if(it==pool.end()){present=false;break;}mask|=1u<<old.slot;
+                }
+                if(present)request=mask;else pending.expires=tc.round;
+            }
+            if(request&&spatial_quotes<1&&tc.allow(19000)) {
+                std::array<crew::Unit,crew::max_units> subset{};unsigned size=0;int arrival=0;
+                for(auto unit:pool)if(request&(1u<<unit.slot)){subset[size++]=unit;arrival=std::max(arrival,unit.arrival);}
+                ++spatial_quotes;
+                const auto roster=std::span<const crew::Unit>(subset.data(),size);
+                const auto quote=crew_quote(w,m,g,roster,cambc::constants::capture_time+1,tc);
+#if DZ_TRACE
+                if(trace_auction||quote.complete){TraceScope scope;trace("DZ_CREW_BID round=%u group=%d units=%u mask=%u result=%d fuel=%llu\n",tc.round,g,size,request,static_cast<int>(quote.status),static_cast<unsigned long long>(fuel_left()));}
+#endif
+                if(quote.status!=CrewQuoteStatus::Budget) {
+                    std::array<float,crew::max_units> gains{};
+                    if(quote.complete)for(unsigned a=0;a<size;++a)gains[a]=pending.progression.best(subset[a].slot,tc.round).gain;
+                    const int ttl=m.crew_decline.group==g&&m.crew_decline.members==request&&m.crew_decline.until>static_cast<int>(tc.round)?
+                        m.crew_decline.until-tc.round:config::crew_window;
+                    m.crew_market.put(epoch,request,roster,tc.round,remaining,quote.complete?quote.finish:arrival,arrival,
+                        quote.complete,std::span<const float>(gains.data(),size),pending.progression.expires,ttl);
+                    market_changed=true;
+                }
+            }
+#if DZ_TRACE
+            if(trace_auction){TraceScope scope;trace("DZ_CREW_MENU round=%u group=%d pair=%u triple=%u ready=%d offers=%u request=%u checked=%d\n",tc.round,g,primary[0],primary[1],menu.ready,menu.ready?menu.count:0,request,menu.complete);}
+#endif
+        }
 
     }
     m.economic_gem_rate=gem_rate;m.economic_gold_rate=gold_rate;
@@ -932,11 +941,12 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     if(chosen.objective<0){
         m.leave_crew();
         if(cold_resource>=0)m.field_needed=cold_resource;
-        m.economic_retry_after=tc.round+(cold_resource>=0?1:8);
+        m.economic_retry_after=tc.round+(cold_resource>=0||market_changed||m.crew_proposal().pending()?1:8);
         if(m.legacy(tc.round))return std::nullopt;
         return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     }
     const auto& belief=m.groups[chosen.objective];
+    if(std::popcount(chosen.crew)>1)m.accept_crew_offer(chosen.objective,chosen.crew);
     m.economic_crew=chosen.crew;m.economic_capturer=chosen.capturer;m.economic_rate=alternatives[w.slot];
     m.rendezvous_until=tc.round+std::min(40,w.distance(chosen.objective,o.p)+8);
     m.contract.start(chosen.objective,tc.round,w.distance(chosen.objective,o.p),belief.hp,belief.capture,

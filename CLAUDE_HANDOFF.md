@@ -1,3 +1,17 @@
+# ACTIVE 2026-10-31 — competing crew market; unpromoted
+
+Read research/dz/market-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added compact competing coalition quotes, independent live/speculative geometry
+workspaces, any-member initiation and formed capture relay. Single-pass review
+fixes02/03 starvation (both0/0); final crew04 banks12/432, no deaths/faults/fuel-outs,
+but side A stalls after one payout. Layered06 banks205/57 from415/337 collected;
+strict audit passes35/24 cycles, no withdrawal deaths; one other death remains. Fifteen host suites pass;
+all six capsules/12 cells verify. No competitive/general model acceptance.
+Selected Mac437f91c3/Windows5cf28cb7 and all defaults preserved. Next: safe marginal
+augmentation of incumbent projects, bank/deadline conversion, then joint ability/
+combat/action and opening/map work. No validation/holdout or online action. Goal
+active; native CLI works; untracked .vscode/ untouched.
+
 # ACTIVE 2026-10-31 — cohort ownership and guarded yielding; unpromoted
 
 Read research/dz/cohorts-2026-10-31/README.md and research/dz/BACKLOG.md.
