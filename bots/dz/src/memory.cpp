@@ -83,7 +83,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     } else {
 #if DZ_ECONOMY_V2
-        const auto started=fuel_left();const auto& members=g.sdk.camps();unsigned checked=0;
+        const auto started=fuel_left();const auto& members=g.members();unsigned checked=0;
         while(checked<members.size()) {
             if(!tc.allow(17000)||started-fuel_left()>6000)break;
             const unsigned i=member_cursor[index]++%members.size();++checked;
@@ -94,7 +94,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
         }
 #else
         unsigned i = 0;
-        for (const auto& camp : g.sdk.camps()) {
+        for (const auto& camp : g.members()) {
             if (!tc.allow(3500)) break;
             // A defeated camp may have no live entity view. Its state is still
             // readable when its static spawn tile is visible; do not confuse
@@ -156,6 +156,9 @@ void Memory::update(const StaticWorld& world, const TurnContext& tc) {
 }
 void Memory::release(int round) {
     if (contract.objective >= 0) {
+#if DZ_ECONOMY_V2
+        crew_failure={contract.objective,economic_crew,conversions[contract.objective]};
+#endif
         auto& g = groups[contract.objective];
         // Exponential back-off: a target that keeps failing (unreachable last
         // member, stale memory) must not pull champions across the map forever.

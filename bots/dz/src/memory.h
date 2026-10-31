@@ -49,7 +49,11 @@ struct Memory {
 #endif
 #if DZ_ECONOMY_V2
     team::Ledger team;
+    team::WorkRecord project_work;
     unsigned economic_crew=0, economic_capturer=0;
+    struct CrewPublication { int group=-1;unsigned members=0,capturer=0; } crew_publication;
+    struct CrewFailure { int group=-1;unsigned members=0,generation=0; } crew_failure;
+    struct CrewDecline { int group=-1,until=0;unsigned members=0; } crew_decline;
     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
     struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
     int rendezvous_until=0;
@@ -86,6 +90,7 @@ struct Memory {
         int round=-1,group=-1,focus=-1,since=-1;
         int recovery_deadline=-1;
         int last_progress=0;
+        int blocked_since=-1;Tile blocked_tile{};
         std::array<Tile,crew::max_units> last_positions{};
         unsigned position_count=0;
         Tile last_self{};bool has_self=false;

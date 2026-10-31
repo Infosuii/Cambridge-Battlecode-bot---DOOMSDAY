@@ -135,6 +135,8 @@ objective::Encounter encounter(const StaticWorld& w,const Memory& m,int g,std::s
 bool reserved_job(const StaticWorld& w,const Memory& m,const Observation& o,int g,const TurnContext& tc) {
     const auto word=shared_word();const auto lease=protocol::compact::lease(word,tc.round);
     if(lease.valid&&lease.objective==g&&!(lease.members&(1u<<w.slot)))return true;
+    const auto owner=m.team.cohort(g,word,tc.round,w.allies.size());
+    if(owner.valid&&!(owner.members&(1u<<w.slot)))return true;
     for(const auto& ally:o.allies) {
         const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
         if(it==w.allies.end())continue;
@@ -403,8 +405,9 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         std::array<objective::Actor,objective::max_crew> actors{};unsigned n=1,cap=0;
         actors[0]=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
         actors[0].arrival=w.distance(g,o.p);
-        bool roster=true;
+        bool roster=true;const auto claims=shared_word();
         for(unsigned slot=0;slot<w.allies.size();++slot)if(slot!=w.slot&&(m.economic_crew&(1u<<slot))) {
+            if(protocol::slot(claims,slot).objective!=g){roster=false;break;}
             const auto ally=std::find_if(o.allies.begin(),o.allies.end(),[&](const auto& a){return a.sdk==w.allies[slot];});
             if(ally==o.allies.end()||n==actors.size()||!tc.allow(11000)){roster=false;break;}
             if(slot==m.economic_capturer)cap=n;
@@ -592,8 +595,18 @@ bool crew_ready(const StaticWorld& w,Memory& m,const Observation& o,int g,const 
     return quote.complete()&&quote.survivable;
 }
 std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar,int altar_distance) {
-    const auto incoming_lease=protocol::compact::lease(shared_word(),tc.round);
+    const auto current_word=shared_word();const auto incoming_lease=protocol::compact::lease(current_word,tc.round);
     auto& crew=m.crew_execution;
+    if(m.contract.objective>=0) {
+        const auto owner=m.team.cohort(m.contract.objective,current_word,tc.round,w.allies.size());
+        if(owner.valid&&!(owner.members&(1u<<w.slot))){m.contract.objective=-1;m.leave_crew();}
+        else if(owner.valid&&(owner.members!=m.economic_crew||owner.capturer!=m.economic_capturer)) {
+            // We already volunteered for this task. Adopt its newest retained
+            // roster even if another packet replaced the short invitation.
+            m.leave_crew();m.economic_crew=owner.members;m.economic_capturer=owner.capturer;
+            m.rendezvous_until=tc.round+config::crew_window;
+        }
+    }
     if(crew.recovering&&incoming_lease.valid&&incoming_lease.leader!=w.slot&&
         (((incoming_lease.members&(1u<<w.slot))&&(incoming_lease.members!=m.economic_crew||incoming_lease.objective!=crew.group))||
          (incoming_lease.objective==crew.group&&!(incoming_lease.members&(1u<<w.slot))))) {
@@ -675,14 +688,21 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     }
     int current=m.contract.objective;
     const auto lease=protocol::compact::lease(shared_word(),tc.round);
+    const bool offered_group=lease.objective>=0&&lease.objective<static_cast<int>(w.groups.size());
+    const bool new_coalition=offered_group&&(m.crew_failure.group!=lease.objective||m.crew_failure.members!=lease.members||
+        m.crew_failure.generation!=m.conversions[lease.objective]);
+    const bool offer_ready=offered_group&&(m.groups[lease.objective].state!=GroupState::Respawning||m.groups[lease.objective].ready<=static_cast<int>(tc.round));
     if(lease.valid&&lease.leader!=w.slot&&(lease.members&(1u<<w.slot))&&
         lease.leader<w.allies.size()&&lease.capturer<w.allies.size()&&
         !(lease.members&~((1u<<w.allies.size())-1u))&&
-        lease.objective<static_cast<int>(w.groups.size())&&m.groups[lease.objective].available(tc.round)&&
+        offer_ready&&(m.groups[lease.objective].available(tc.round)||new_coalition)&&
         !(m.groups[lease.objective].state==GroupState::Reward&&lease.capturer!=w.slot)&&
         w.allies[lease.leader].is_alive()) {
         const int distance=w.distance(lease.objective,o.p);
         if(distance<65535&&o.hp>=.5f*o.max_hp) {
+            // A solo/old-roster failure does not forbid a genuinely new crew.
+            // The identical failed roster still respects its finite back-off.
+            if(new_coalition)m.groups[lease.objective].avoid_until=tc.round;
             if(current!=lease.objective) {
                 const auto& b=m.groups[lease.objective];
                 m.contract.start(lease.objective,tc.round,distance,b.hp,b.capture,config::crew_window);
@@ -752,6 +772,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     for(unsigned g=0;g<w.groups.size();++g) {
         auto& b=m.groups[g];auto& group=w.groups[g];
         if(lease.valid&&lease.objective==static_cast<int>(g)&&!(lease.members&(1u<<w.slot)))continue;
+        const auto owner=m.team.cohort(g,word,tc.round,w.allies.size());
+        if(owner.valid&&!(owner.members&(1u<<w.slot)))continue;
         // A visible worker's progressing task is fixed. In particular a live
         // gate worker cannot be sold into a crew whose role controller it never
         // joined. The existing exact-round invitation path handles consent.

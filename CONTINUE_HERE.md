@@ -1,3 +1,23 @@
+# ACTIVE 2026-10-31 — cohort ownership and guarded yielding; unpromoted
+
+Read research/dz/cohorts-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added fair dated cohort records beside resource reports, singleton capture
+ownership, revocation, actual task consent, declined-roster re-auction, real-work
+freshness across Contract resets, canonical public group/member identities and
+safe outsider yielding. Siege recovery remains owned; lane yields now execute
+one guarded step. All 14 host suites pass; eight capsules/20 cells verify. Runtime
+faults/fuel-outs are zero, but survival/production are NOT generally accepted.
+06 fails strict withdrawal (one death); 07 has two layered-B deaths. Final08
+strict audit passes31/30 cycles with no recorded withdrawal deaths; one death
+elsewhere remains. Layered08 banks233/71 vs collected450/358. Crew07 banks24/396,
+still asymmetric; it predates only the final siege-lane change. No strength claim.
+Selected/default Mac437f91c3 and Windows5cf28cb7 preserved; selected/combined builds
+compile. No new opponent campaign, validation/holdout or online action. Next:
+dynamic coalition alternatives, safe augmentation of incumbent jobs, banking/
+deadline conversion; then full joint models/combat/opening/map work. Exact role
+acknowledgements and general independent crew execution remain open. Keep goal
+active; CLI works. Untracked .vscode/ is untouched.
+
 # ACTIVE 2026-10-31 — resource reports and funded progression; unpromoted
 
 Read research/dz/progression-2026-10-31/README.md and research/dz/BACKLOG.md.

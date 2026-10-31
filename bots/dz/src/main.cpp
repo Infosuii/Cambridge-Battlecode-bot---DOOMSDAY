@@ -332,25 +332,47 @@ int main() {
                             mem->crew_execution.group==mem->contract.objective&&tc.round<=static_cast<unsigned>(mem->crew_execution.recovery_deadline)&&
                             (goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat);
                         if(recovering_project)objective=dz::protocol::group_code(mem->crew_execution.group);
+                        const bool siege_project=mem->siege_task.active()&&
+                            ((goal.kind==dz::GoalKind::Home&&mem->siege_task.phase==dz::siege::Phase::Recover)||
+                             (goal.kind==dz::GoalKind::YieldSpawn&&goal.destination));
+                        if(siege_project)objective=dz::protocol::group_code(mem->siege_task.group);
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
                         const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
                         const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
                         unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
                         const int offered=goal.kind==dz::GoalKind::Farm?goal.index:recovering_project?mem->crew_execution.group:-1;
-                        if(executed&&offered>=0&&leader==world->slot&&offered<112&&
-                            mem->economic_crew!=(1u<<leader)&&mem->contract.objective==offered&&
-                            !(mem->crew_execution.joined&&mem->crew_execution.group==offered&&
-                              !mem->crew_execution.recovering&&
-                              mem->groups[offered].state==dz::GroupState::Partial)&&
-                            (!fresh_lease.valid||fresh_lease.leader==world->slot))
+                        const bool capture=offered>=0&&mem->groups[offered].state==dz::GroupState::Reward;
+                        const bool offering=executed&&offered>=0&&leader==world->slot&&offered<112&&mem->contract.objective==offered&&
+                            (std::popcount(mem->economic_crew)>1||capture);
+                        const bool joined=mem->crew_execution.joined&&mem->crew_execution.group==offered&&!recovering_project;
+                        const auto& sent=mem->crew_publication;
+                        const bool changed=sent.group!=offered||sent.members!=mem->economic_crew||sent.capturer!=mem->economic_capturer;
+                        const bool pulse=dz::team::publisher(tc.round,world->allies.size())==world->slot&&
+                            (!joined||dz::team::scheduled(tc.round)==dz::team::Kind::Lease);
+                        const bool handoff=capture&&fresh_lease.valid&&fresh_lease.objective==offered&&fresh_lease.capturer==world->slot;
+                        bool announced=false;
+                        if(offering&&(changed||pulse)&&(!dz::team::protected_lease(message,tc.round,world->allies.size())||
+                            fresh_lease.leader==world->slot||handoff)) {
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
-                        else if(old_lease.leader==world->slot)
+                            announced=true;
+                        } else if(old_lease.leader==world->slot&&(!offering||old_lease.objective!=offered||
+                            old_lease.members!=mem->economic_crew||old_lease.capturer!=mem->economic_capturer))
                             message=dz::protocol::compact::with_lease(message,0,0,tc.round,false);
-                        const bool working=goal.kind==dz::GoalKind::Farm&&mem->contract.objective==goal.index&&
-                            (std::popcount(mem->economic_crew)>1||static_cast<int>(tc.round)-mem->contract.checked<mem->contract.window);
-                        const auto intent=recovering_project?dz::team::Intent::Recover:working?dz::team::Intent::Active:dz::team::Intent::Released;
+                        bool working=false;
+                        if(goal.kind==dz::GoalKind::Farm&&mem->contract.objective==goal.index) {
+                            const auto& group=mem->groups[goal.index];
+                            const bool progress=mem->project_work.update(goal.index,mem->conversions[goal.index],tc.round,
+                                world->distance(goal.index,cambc::self().position()),group.hp,group.capture,
+                                mem->last_work==static_cast<int>(tc.round),dz::config::contract_window);
+                            working=std::popcount(mem->economic_crew)>1||progress;
+                        }
+                        const auto intent=recovering_project||siege_project?dz::team::Intent::Recover:working?dz::team::Intent::Active:dz::team::Intent::Released;
                         message=dz::team::publish(message,tc.round,world->allies.size(),world->slot,cambc::self().gold_count(),objective,intent);
-                        if(act.publish(message))mem->team.observe(message,tc.round,world->allies.size());
+                        if(act.publish(message)) {
+                            mem->team.observe(message,tc.round,world->allies.size());
+                            if(announced)mem->crew_publication={offered,mem->economic_crew,mem->economic_capturer};
+                            else if(!offering)mem->crew_publication={};
+                        }
 #else
                         act.publish(dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite}));
 #endif

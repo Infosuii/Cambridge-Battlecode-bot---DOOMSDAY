@@ -302,6 +302,17 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
 #endif
     if (!actionable(me.state())) return;
     if (goal.kind==GoalKind::YieldSpawn) {
+#if DZ_ECONOMY_V2
+        if(goal.destination) {
+            const auto p=*goal.destination;
+            const int dx=p.x-obs.p.x,dy=p.y-obs.p.y;
+            const bool guarded=mem.neutral_moves.round==static_cast<int>(tc.round)&&mem.neutral_moves.origin==Tile{obs.p.x,obs.p.y};
+            if(me.can_move()&&std::max(std::abs(dx),std::abs(dy))==1&&
+                (!guarded||(mem.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))&&world.walkable(p)&&
+                !obs.is_occupied(p)&&tc.allow(3500))act.move(p);
+            return;
+        }
+#endif
         if (me.can_move()&&tc.allow(world.field_budget()+4000)) {
             auto blocked=world.blocked|obs.occupied;
             auto roots=~(blocked|world.camp_spawns);
@@ -400,7 +411,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             if (score < best) { best = score; chosen = static_cast<int>(k); }
         }
         if (chosen >= 0 && tc.allow(3500)) {
-            const auto& c = group.sdk.camps()[chosen];
+            const auto& c = group.members()[chosen];
             if (c.is_visible() && !c.is_dead()) camp_target = &c;
         }
         target = camp_target;
@@ -718,7 +729,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             // every group through the SDK cost up to 70k fuel (02the-pack).
             for (int index : world.altars[goal.index].near_groups) {
                 if (!tc.allow(3000)) break;
-                for (auto& c : world.groups[index].sdk.camps()) {
+                for (auto& c : world.groups[index].members()) {
                     if (!tc.allow(3500)) break;
                     if (!c.is_visible() || c.is_dead()) continue;
                     auto p = c.position();

@@ -54,7 +54,7 @@ Exposure exposure(const StaticWorld& w,const Memory& m,int group,vec2 p,float fa
 #endif
             if(!visible&&p.chebyshev_distance(design.tiles[k])<=design.attack_ranges[k])result.uncertain=true;
             if(visible) {
-                const auto& camp=design.sdk.camps()[k];
+                const auto& camp=design.members()[k];
                 if(camp.is_dead())continue;
                 if(camp.is_visible())strength=std::max(strength,camp.strength());
             }
@@ -396,6 +396,8 @@ std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation&
     vec2 best=o.p;int distance=home;float damage=1e30f;
     for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
         const auto p=o.p+vec2{dx,dy};if(p==o.p||!free(w,m,o,p,tc.round+1))continue;
+        const bool guarded=m.neutral_moves.round==static_cast<int>(tc.round)&&m.neutral_moves.origin==Tile{o.p.x,o.p.y};
+        if(guarded&&!(m.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
         const int d=w.home.get(p);if(d>=home)continue;
         const float incoming=camp_damage({p.x,p.y},threats.view());
         if(o.hp<=incoming+.15f*o.max_hp)continue;
@@ -406,7 +408,9 @@ std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation&
     {TraceScope scope;trace("DZ_LANE_YIELD round=%u body=%u from=%d,%d to=%d,%d\n",tc.round,
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.p.x,o.p.y,best.x,best.y);}
 #endif
-    return Goal{GoalKind::Retreat,-1,best};
+    // Yield exactly this step. Generic Retreat can recall/cast first and leave
+    // the planned lane occupied while the injured worker keeps taking hits.
+    return Goal{GoalKind::YieldSpawn,-1,best};
 }
 std::optional<Goal> begin_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,int altar) {
     if(altar<0||altar>=static_cast<int>(m.openings.size()))return std::nullopt;

@@ -3,6 +3,7 @@
 #include "economy.h"
 #include "access_route.h"
 #include "objective_math.h"
+#include "crew_traffic.h"
 #include <bit>
 
 namespace dz {
@@ -153,6 +154,9 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
     std::array<crew::Unit,crew::max_units> ordered{};std::copy(given.begin(),given.end(),ordered.begin());
     std::sort(ordered.begin(),ordered.begin()+given.size(),[](auto a,auto b){return a.slot<b.slot;});
     const auto units=std::span<const crew::Unit>(ordered.data(),given.size());
+    unsigned proposed=0;for(auto unit:units)proposed|=1u<<unit.slot;
+    if(m.crew_decline.group==group&&m.crew_decline.members==proposed&&static_cast<int>(tc.round)<m.crew_decline.until)
+        return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto set=camp_set(w,m,group);if(!set.complete||!set.count)return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto camps=std::span<const crew::Monster>(set.camps.data(),set.count);
     const int first=layout(w,m,group,units,camps,tc);
@@ -206,11 +210,53 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     auto& state=m.crew_execution;
     [[maybe_unused]] const int previous_focus=state.focus;
     state.direct_step=false;
+    const auto traffic_word=shared_word();
+    // Fair, dated cohort records outlive the single transient invitation word.
+    // An idle/redundant body must not park on another crew's roles or capture.
+    if(!m.siege_task.active()&&!o.channel()&&o.enemies.empty()&&o.camps_complete&&tc.allow(12000)&&
+        (goal.kind==GoalKind::Idle||goal.kind==GoalKind::YieldSpawn||goal.kind==GoalKind::Farm||
+         (goal.kind==GoalKind::Home&&o.hp>=o.max_hp-.01f&&m.shopping_since<0))) {
+        for(const auto& record:m.team.cohorts) {
+            if(!record.valid||record.objective<0||record.objective>=static_cast<int>(w.groups.size()))continue;
+            const int job=record.objective;const auto owner=m.team.cohort(job,traffic_word,tc.round,w.allies.size());
+            if(!owner.valid||(owner.members&(1u<<w.slot))||m.groups[job].state==GroupState::Respawning||
+                (goal.kind==GoalKind::Farm&&goal.index!=job))continue;
+            // Require an actual visible claimant nearby. A dated plan without
+            // observed presence cannot force an outsider's movement.
+            bool present=false,adjacent=false;int member_range=1;
+            for(const auto& ally:o.allies) {
+                const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+                if(it!=w.allies.end()&&(owner.members&(1u<<(it-w.allies.begin())))&&w.distance(job,ally.p)<=6) {
+                    present=true;adjacent|=ally.p.chebyshev_distance(o.p)<=1;member_range=std::max(member_range,ally.range);
+                }
+            }
+            if(!present)continue;
+            const auto& group=w.groups[job];if(group.tiles.size()>64)continue;
+            std::array<Tile,64> workspace{};int radius=member_range;
+            for(unsigned k=0;k<group.tiles.size();++k){workspace[k]={group.tiles[k].x,group.tiles[k].y};radius=std::max(radius,group.attack_ranges[k]);}
+            const auto area=std::span<const Tile>(workspace.data(),group.tiles.size());
+            if(adjacent)radius=std::max(radius,crew::clearance({o.p.x,o.p.y},area));
+            const auto next=crew::yield_step({o.p.x,o.p.y},area,radius,
+                [&](Tile p){const vec2 q{p.x,p.y};const int dx=p.x-o.p.x,dy=p.y-o.p.y;
+                    const bool guarded=m.neutral_moves.round==static_cast<int>(tc.round)&&m.neutral_moves.origin==Tile{o.p.x,o.p.y};
+                    return (!guarded||(m.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))&&w.walkable(q)&&!o.is_occupied(q)&&!w.is_spawn(q);},
+                [&](Tile p){return w.home_distance(p);},[&](Tile p){return danger({p.x,p.y},o);});
+            if(goal.kind==GoalKind::Farm&&goal.index==job){m.contract.objective=-1;m.leave_crew();goal={GoalKind::Idle};}
+            if(next) {
+#if DZ_TRACE
+                {TraceScope scope;trace("DZ_CREW_YIELD round=%u slot=%u group=%d owner=%u from=%d,%d to=%d,%d\n",tc.round,w.slot,job,owner.members,o.p.x,o.p.y,next->x,next->y);}
+#endif
+                return {GoalKind::YieldSpawn,-1,vec2{next->x,next->y}};
+            }
+        }
+    }
     if(goal.kind!=GoalKind::Farm&&state.joined&&state.group>=0&&m.neutral_recovery.active&&!state.recovering) {
         state.recovering=true;state.recovery_deadline=tc.round+2*std::min<int>(w.home.get(o.p),2000)+cambc::constants::recall_time+config::crew_window;
     }
     if(goal.kind==GoalKind::Farm&&!m.siege_task.active()&&goal.index>=0) {
-        const auto owner=protocol::compact::lease(shared_word(),tc.round);
+        auto owner=m.team.cohort(goal.index,traffic_word,tc.round,w.allies.size());
+        const auto invitation=protocol::compact::lease(traffic_word,tc.round);
+        if(invitation.valid&&invitation.objective==goal.index)owner=invitation;
         if(owner.valid&&owner.objective==goal.index&&!(owner.members&(1u<<w.slot))) {
             // A recovered former leader or legacy solo task cannot take back a
             // camp/payout already handed to a fresh crew that excludes it.
@@ -235,7 +281,9 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     }
     const auto word=shared_word();
     const auto lease=protocol::compact::lease(word,tc.round);
-    bool promised=(lease.valid&&lease.objective==g&&lease.members==expected)||state.joined;
+    const auto cohort=m.team.cohort(g,word,tc.round,w.allies.size());
+    bool promised=(lease.valid&&lease.objective==g&&lease.members==expected)||state.joined||
+        (cohort.valid&&cohort.members==expected);
     unsigned leader=0;while(leader<protocol::slots&&!(expected&(1u<<leader)))++leader;
     if(!promised&&leader!=w.slot) {
         // Local recovery handoff uses CURRENT visible job claimants. A remote
@@ -254,9 +302,15 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
             {TraceScope scope;trace("DZ_CREW_HANDOFF round=%u body=%u group=%d members=%u\n",tc.round,
                 static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,replacement);}
 #endif
-        } else {m.contract.objective=-1;m.leave_crew();return {GoalKind::Idle};}
+        } else {
+#if DZ_TRACE
+            {TraceScope scope;trace("DZ_CREW_NO_PROMISE round=%u slot=%u group=%d expected=%u claims=%u,%u,%u cohort=%u\n",tc.round,w.slot,g,expected,
+                protocol::slot(word,0).objective,protocol::slot(word,1).objective,protocol::slot(word,2).objective,cohort.members);}
+#endif
+            m.contract.objective=-1;m.leave_crew();return {GoalKind::Idle};
+        }
     }
-    if(static_cast<int>(tc.round)-state.last_progress>config::crew_window&&m.groups[g].state!=GroupState::Partial) {
+    if(static_cast<int>(tc.round)-state.last_progress>config::crew_window) {
         m.release(tc.round);m.economic_crew=0;state.managed=false;return {GoalKind::Idle};
     }
     std::array<crew::Unit,crew::max_units> units{};unsigned n=0,self=0,consented=1u<<w.slot;
@@ -266,15 +320,36 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         if(it==w.allies.end()||n==units.size())continue;
         const unsigned slot=it-w.allies.begin();
         const auto claim=protocol::slot(word,slot).objective;
-        const bool recovered=(state.joined||(lease.valid&&lease.objective==g&&lease.members==expected))&&state.recovering&&ally.hp>=ally.max_hp-.01f&&w.home.get(ally.p)==0&&
-            (claim==protocol::shop||claim==protocol::idle);
-        if(!(expected&(1u<<slot))||(claim!=g&&!recovered)||!tc.allow(14000))continue;
+        // Home/shopping capacity is not consent to this project. A returning
+        // member publishes the objective through its recovery commitment.
+        if(!(expected&(1u<<slot))||claim!=g||!tc.allow(14000))continue;
         units[n++]=crew_unit(ally,slot);consented|=1u<<slot;
+    }
+    if(state.joined)for(unsigned slot=0;slot<w.allies.size();++slot)if(slot!=w.slot&&(expected&(1u<<slot))&&
+        protocol::slot(word,slot).objective!=g) {
+        // An acknowledged worker has explicitly left. Preserve partial camp
+        // memory and re-auction a fresh cohort instead of pricing it as support.
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_CREW_WITHDRAW round=%u slot=%u group=%d missing=%u claim=%u\n",tc.round,w.slot,g,slot,protocol::slot(word,slot).objective);}
+#endif
+        m.contract.objective=-1;m.leave_crew();return {GoalKind::Home};
     }
     const auto set=camp_set(w,m,g);if(!set.complete||!set.count)return goal;
     const auto camps=std::span<const crew::Monster>(set.camps.data(),set.count);
     state.focus=camps[0].member;
     if((consented&expected)!=expected||!tc.allow(17000)) {
+        unsigned acknowledged=0;
+        for(unsigned slot=0;slot<w.allies.size();++slot)if(protocol::slot(word,slot).objective==g)acknowledged|=1u<<slot;
+        if((acknowledged&expected)!=expected&&static_cast<int>(tc.round)-state.since>=config::contract_window) {
+            // An offer is not an accepted assignment. A body can legitimately
+            // decline for a private recovery/shop/failure reason. Re-auction
+            // another roster instead of renewing a phantom helper indefinitely.
+            m.crew_decline={g,static_cast<int>(tc.round)+config::crew_window,expected};
+#if DZ_TRACE
+            {TraceScope scope;trace("DZ_CREW_DECLINED round=%u slot=%u group=%d proposed=%u accepted=%u\n",tc.round,w.slot,g,expected,acknowledged);}
+#endif
+            m.contract.objective=-1;m.leave_crew();return {GoalKind::Home};
+        }
         // An unseen ally contributes no damage/HP. A previously accepted crew
         // may still navigate to its cached safe staging tile and reunite there.
         const auto& cache=m.crew_layout;
@@ -316,6 +391,13 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     auto march=first?crew::march(sequence.phases[first-1],phase,positions):crew::March{};
     bool transfer=march.valid;
     if(!march.valid)march=crew::approach(phase,positions);
+    if(march.valid&&!march.complete&&o.is_occupied({march.next.x,march.next.y})&&
+        std::none_of(units.begin(),units.begin()+n,[&](auto u){return u.p==march.next;})) {
+        if(state.blocked_since<0||state.blocked_tile!=march.next){state.blocked_since=tc.round;state.blocked_tile=march.next;}
+        if(static_cast<int>(tc.round)-state.blocked_since>=config::contract_window) {
+            m.release(tc.round);return {GoalKind::Home};
+        }
+    } else state.blocked_since=-1;
     bool formed=true,ready=true;int attacks=2000;
     for(unsigned u=0;u<n;++u){formed&=units[u].p==plan.positions[u];const int cap=crew::capacity(units[u],units[u].hp,phase,u);ready&=cap>0;attacks=std::min(attacks,cap);}
     state.destination=phase.staging[self];state.tank=units[plan.tank].slot;state.formed=formed;state.joined|=formed;
@@ -351,8 +433,9 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
 #if DZ_TRACE
     if(tc.round%10==0){TraceScope scope;trace("DZ_CREW round=%u body=%u group=%d focus=%d tank=%u members=%u formed=%d fire=%d pose=%d,%d\n",tc.round,
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,state.focus,state.tank,expected,formed,state.fire,state.destination.x,state.destination.y);}
-    if(tc.round%25==0){TraceScope scope;trace("DZ_CREW_PHASE round=%u body=%u group=%d phase=%d march=%d direct=%d attacks=%d\n",tc.round,
-        static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,first,march.valid,state.direct_step,attacks);}
+    if(tc.round%25==0){TraceScope scope;trace("DZ_CREW_PHASE round=%u body=%u group=%d phase=%d march=%d direct=%d attacks=%d n=%u p0=%d,%d p1=%d,%d s0=%d,%d s1=%d,%d\n",tc.round,
+        static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,first,march.valid,state.direct_step,attacks,n,
+        units[0].p.x,units[0].p.y,units[1].p.x,units[1].p.y,phase.staging[0].x,phase.staging[0].y,phase.staging[1].x,phase.staging[1].y);}
 #endif
     return goal;
 }

@@ -408,6 +408,14 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
 #endif
     int current = mem.contract.objective;
+#if DZ_ECONOMY_V2
+    const auto reservation_word=shared_word();
+    auto crew_reserved=[&](int group) {
+        const auto owner=mem.team.cohort(group,reservation_word,tc.round,world.allies.size());
+        return owner.valid&&!(owner.members&(1u<<world.slot));
+    };
+    if(current>=0&&crew_reserved(current)){mem.contract.objective=-1;mem.leave_crew();current=-1;}
+#endif
     if (current >= 0) {
         const auto& belief = mem.groups[current];
         const auto dist = world.distance(current, obs.p);
@@ -460,6 +468,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     for (unsigned i = 0; i < world.groups.size(); ++i) {
 #if DZ_ECONOMY_V2
         if(reserved_crew.valid&&reserved_crew.objective==static_cast<int>(i)&&!(reserved_crew.members&(1u<<world.slot)))continue;
+        if(crew_reserved(i))continue;
 #endif
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
         // A known respawn is priced at max(travel, wait) instead of ignored:
@@ -570,6 +579,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (!legacy && leader!=world.slot && !blocks_respawn && obs.hp >= .9f * obs.max_hp) {
         const int job=protocol::slot(word,leader).objective;
         if (protocol::is_group_code(job)&&job<static_cast<int>(world.groups.size()) && world.groups[job].strength>0 && mem.groups[job].available(tc.round) &&
+#if DZ_ECONOMY_V2
+            !crew_reserved(job)&&
+#endif
             mem.groups[job].state!=GroupState::Reward && world.distance(job,obs.p)<65535 && job!=chosen) {
             auto solo=clear_risk(job);
             if (!clear_survivable(solo,obs.hp,obs.max_hp)) {
@@ -593,6 +605,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         float crew_best=1e30f; int crew_choice=-1;
         for (unsigned i=0;i<world.groups.size()&&living>=2;++i) {
             if (!tc.allow(DZ_ECONOMY_V2?18000:8000)) break;
+#if DZ_ECONOMY_V2
+            if(crew_reserved(i))continue;
+#endif
             const auto& belief=mem.groups[i]; const auto& g=world.groups[i];
             if (g.strength<=0 || belief.state==GroupState::Reward || !belief.available(tc.round)) continue;
             if constexpr (DZ_CREW_REACH) {
@@ -637,6 +652,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                     if (slot==world.slot) continue;
                     const auto job=protocol::slot(word,slot).objective;
                     if (!protocol::is_group_code(job)||job>=world.groups.size()||mem.groups[job].state!=GroupState::Partial||world.groups[job].strength<=0) continue;
+#if DZ_ECONOMY_V2
+                    if(crew_reserved(job))continue;
+#endif
                     const auto ally=std::find_if(obs.allies.begin(),obs.allies.end(),[&](auto& a){return a.sdk==world.allies[slot];});
                     if (ally==obs.allies.end()||ally->hp<.5f*ally->max_hp||obs.p.chebyshev_distance(ally->p)>4) continue;
                     const int distance=world.distance(job,obs.p);

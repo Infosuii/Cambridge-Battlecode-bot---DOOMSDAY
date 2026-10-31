@@ -16,6 +16,7 @@ struct Group {
     std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
 #if DZ_ECONOMY_V2
+    std::vector<cambc::camp> ordered_members;
     float reward_gems=0,reward_gold=0;
     std::size_t stats_read=0;
     bool stats_started=false;
@@ -32,6 +33,13 @@ struct Group {
     std::vector<vec2> approach; bool approach_ready = false; // Walkable non-spawn tiles touching the group.
     std::unique_ptr<cambc::distance_field> field;
     explicit Group(cambc::map::camp_group g);
+    std::span<const cambc::camp> members() const {
+#if DZ_ECONOMY_V2
+        return ordered_members;
+#else
+        return sdk.camps();
+#endif
+    }
     void init_stats();
 };
 struct Altar {

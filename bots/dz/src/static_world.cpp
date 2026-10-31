@@ -2,7 +2,13 @@
 
 namespace dz {
 Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
-    for (const auto& camp : sdk.camps()) tiles.push_back(camp.spawn_position());
+#if DZ_ECONOMY_V2
+    const auto raw=sdk.camps();ordered_members.assign(raw.begin(),raw.end());
+    std::sort(ordered_members.begin(),ordered_members.end(),[](const auto& a,const auto& b){
+        return static_cast<unsigned>(static_cast<cambc::handle_camp_t>(a))<static_cast<unsigned>(static_cast<cambc::handle_camp_t>(b));
+    });
+#endif
+    for (const auto& camp : members()) tiles.push_back(camp.spawn_position());
     if (tiles.empty()) return;
     int x0=tiles[0].x,x1=x0,y0=tiles[0].y,y1=y0;
     for (auto t:tiles) { x0=std::min(x0,t.x); x1=std::max(x1,t.x); y0=std::min(y0,t.y); y1=std::max(y1,t.y); }
@@ -14,7 +20,7 @@ void Group::init_stats() {
     reward_gems=sdk.gem_value();reward_gold=sdk.gold_value();
 #endif
     max_hp = 0; strength = 0; cluster = true; initial_hp.clear(); initial_strength.clear(); attack_ranges.clear();
-    for (const auto& camp : sdk.camps()) {
+    for (const auto& camp : members()) {
         const auto stats = camp.base_stats();
         initial_hp.push_back(stats.base_health);
         initial_strength.push_back(stats.base_strength);
@@ -33,11 +39,11 @@ bool Group::init_stats_step(const TurnContext& tc) {
         reward_gems=sdk.gem_value();reward_gold=sdk.gold_value();
         max_hp=0;strength=0;cluster=true;stats_read=0;stats_started=true;
     }
-    const auto& members=sdk.camps();
-    while(stats_read<members.size()) {
+    const auto camps=members();
+    while(stats_read<camps.size()) {
         if(!tc.allow(2500)||started-fuel_left()>18000)return false;
-        const auto stats=members[stats_read].base_stats();
-        const bool resource=members[stats_read].is_gem_cluster()||members[stats_read].is_gold_cluster();
+        const auto stats=camps[stats_read].base_stats();
+        const bool resource=camps[stats_read].is_gem_cluster()||camps[stats_read].is_gold_cluster();
         tc.guard();
         initial_hp[stats_read]=stats.base_health;initial_strength[stats_read]=stats.base_strength;
         attack_ranges[stats_read]=stats.base_attack_range;
@@ -67,6 +73,13 @@ void StaticWorld::boot(const TurnContext& tc) {
     if (!loaded_) {
         blocked = cambc::map::walls() | cambc::map::holes() | cambc::map::altars() | cambc::map::spawn_region(cambc::team::enemy);
         auto source = cambc::map::camp_groups();
+#if DZ_ECONOMY_V2
+        // Shared objective/member ordinals must identify the same public
+        // handles in every body, independent of SDK enumeration order.
+        std::sort(source.begin(),source.end(),[](const auto& a,const auto& b){
+            return static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(a))<static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(b));
+        });
+#endif
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
         tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
@@ -214,6 +227,13 @@ void StaticWorld::boot(const TurnContext& tc) {
     }
 #endif
     ready = true;
+#if DZ_TRACE && DZ_ECONOMY_V2
+    for(unsigned g=0;g<std::min<std::size_t>(groups.size(),2);++g) {
+        TraceScope scope;trace("DZ_GROUP_ID slot=%u group=%u handle=%u center=%d,%d first=%u\n",slot,g,
+            static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(groups[g].sdk)),groups[g].center.x,groups[g].center.y,
+            groups[g].members().empty()?~0u:static_cast<unsigned>(static_cast<cambc::handle_camp_t>(groups[g].members()[0])));
+    }
+#endif
 }
 void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
 #if DZ_ECONOMY_V2

@@ -1,32 +1,36 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z7/Z9 contested resource and equipment progression.** Sequential crews now
-   execute real three-monster phases; final fixture 48/300 exposes side asymmetry.
-   Famine remains only 77/7 vs selected control 400/236. Complete legal per-body
-   project/resource reports and conditional funded Power counterfactuals now exist.
-   Final fixture is 24/348 with clean runtime but stalled partial crews on side A.
-   Repair disjoint project/capture ownership and liveness; native-check an actual
-   funded reward visit and multiple-emblem continuation. Base payouts can split;
-   Marcella's extra gold arrives later. Private ally gold remains illegal. No larger screens.
+1. **Z7/Z9 coalition allocation and equipment progression.** Dated resources,
+   real-work/project freshness, cohort/capture ownership and conditional Power
+   counterfactuals exist. Latest crew07 is still24/396: side A fails production.
+   The market stops at its first viable small crew and excludes incumbent jobs;
+   compare useful alternatives and support adding free workers without reselling
+   fixed workers or crediting their income as a new gain. Native-check an actual
+   funded reward visit and multiple-emblem continuation. Base rewards can split;
+   Marcella has delayed extra gold. Private ally gold remains illegal. Famine's
+   last screen77/7 vs selected400/236 still fails. No larger screens.
 2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
    serial routes/staging, paid entry/recovery and actual live readiness are integrated.
    Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement
    power and enemy uncertainty still need modelling/calibration. 120 independent BFS
    references and controlled phase advances are not V-M1. Explicitly native-check the
    earlier first-shield admission transaction (no funded trace previously retained).
-3. **Z11 independent crews and recovery/handoff.** Recovery now retains its objective
-   and finite fresh lease while healing, and respects reassignment. General concurrent
-   crews, focus/support, capture/recipient handoff and bank schedules still need native
-   confirmation. Final layered strict audit passes 50/22 cycles; scoped siege recovery
-   is not a general crew guarantee. Keep fixing structural allocation/liveness gaps.
+3. **Z11 independent crews and recovery/handoff.** Fair dated per-leader records,
+   singleton capture, negative-claim revocation, task acknowledgements and guarded
+   yielding are integrated. Home capacity no longer supplies phantom helpers.
+   Exact role acknowledgement and general concurrent crews/focus/support remain
+   unconfirmed. Strict final08 siege audit passes31/30 cycles, but one death outside
+   withdrawal remains; this is not a general crew guarantee. Keep allocation/liveness open.
 4. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    actual cooldowns/CC/shields, exchange and kill-gold value, retreat paths, support
    and lost task income. Replace blanket task interruption with common decisions.
    Current bounded stationary/four-turn models are not a general combat evaluator.
+   Repair banking/deadline priority: layered08 collects450/358 but banks233/71;
+   safe cycles do not establish objective conversion or a competitive economy.
 5. **Z9/Z12/Z14 progression and map integration.** Conditional funded gear trips,
    bounded gear frontier and route commitments exist; wider economic calibration
    and map access/opening/draft integration remain. Full move/attack/cast/ward/

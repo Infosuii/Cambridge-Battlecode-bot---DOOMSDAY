@@ -729,3 +729,11 @@ The registry was created before experiments. Entries below record actual use.
 | dz-progression-crew-02 | 2026-10-31 | deterministic; Wasm 3d1f83750b49 | 2 cells; idle81 | scenario; trace=True |
 | dz-progression-crew-03 | 2026-10-31 | deterministic; Wasm 1b41bca81e07 | 2 cells; idle81 | scenario; trace=True |
 | dz-progression-reward-04 | 2026-10-31 | deterministic; Wasm 31a91775c586 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-traffic-01 | 2026-10-31 | deterministic; Wasm c18ec1ebfe11 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-helper-diag-02 | 2026-10-31 | deterministic; Wasm 7376a69a8d79 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-consent-03 | 2026-10-31 | deterministic; Wasm 13f310bdb605 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-explicit-consent-04 | 2026-10-31 | deterministic; Wasm 54429ed47880 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-identity-05 | 2026-10-31 | deterministic; Wasm 5ec70b6afe68 | 2 cells; idle81 | scenario; trace=True |
+| dz-cohort-work-06 | 2026-10-31 | deterministic; Wasm 0987999b94e3 | 4 cells; idle81 | scenario; trace=True |
+| dz-cohort-safety-07 | 2026-10-31 | deterministic; Wasm 2160022c1345 | 4 cells; idle81 | scenario; trace=True |
+| dz-cohort-withdrawal-08 | 2026-10-31 | deterministic; Wasm 081cfd691ea5 | 2 cells; idle81 | scenario; trace=True |
