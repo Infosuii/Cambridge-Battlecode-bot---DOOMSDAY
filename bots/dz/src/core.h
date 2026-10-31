@@ -14,6 +14,9 @@ constexpr bool action_budget_available(std::uint64_t fuel,ActionBudget budget) {
 constexpr Tier tier_for(std::uint64_t fuel) {
     return fuel >= config::full_fuel ? Tier::Full : fuel >= config::lean_fuel ? Tier::Lean : Tier::Fallback;
 }
+constexpr bool requested_navigation_fits(std::uint64_t fuel,std::uint64_t cost,bool requested) {
+    return fuel>cost+config::reserve+4000&&(requested||tier_for(fuel)==Tier::Full);
+}
 struct StaleTurn {};
 struct ModuleHealth {
     unsigned failures=0;

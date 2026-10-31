@@ -3,6 +3,7 @@
 #include "economy.h"
 #include "engage.h"
 #include "siege.h"
+#include "crew.h"
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -48,10 +49,15 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) 
     (void)entry; (void)moved; (void)cleared; (void)after;
 #endif
 }
+#if DZ_ECONOMY_V2
+static Goal strategic_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
+#else
 Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
+#endif
 #if DZ_ECONOMY_V2
     const auto planner_start=fuel_left();
     mem.track_enemies(obs,tc.round);
+    if(auto goal=neutral_recovery(world,mem,obs,tc))return *goal;
 #endif
     if constexpr (config::camp_safety) {
         auto incoming=camp_damage({obs.p.x,obs.p.y},obs.camps);
@@ -374,6 +380,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (tc.round < mem.idle_until && obs.hp >= .9f * obs.max_hp) return {GoalKind::Idle};
     DZ_PROF('K');
     auto word = shared_word();
+#if DZ_ECONOMY_V2
+    const auto reserved_crew=protocol::compact::lease(word,tc.round);
+#endif
     float best = 1e30f; int chosen = -1;
     // Best-first: rank groups by a cheap upper bound on their rate (claims and
     // clear time only lower it; the distance floor never exceeds the exact
@@ -384,6 +393,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     static std::vector<Candidate> candidates;
     candidates.clear();
     for (unsigned i = 0; i < world.groups.size(); ++i) {
+#if DZ_ECONOMY_V2
+        if(reserved_crew.valid&&reserved_crew.objective==static_cast<int>(i)&&!(reserved_crew.members&(1u<<world.slot)))continue;
+#endif
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
         // A known respawn is priced at max(travel, wait) instead of ignored:
         // walking 26 tiles past a cluster that returns in 10 rounds wastes time.
@@ -484,6 +496,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if (score < best) { best = score; chosen = i; }
     }
     DZ_PROF('S');
+#if !DZ_ECONOMY_V2
     // One crew decision per team: the lowest living slot leads. A follower
     // that cannot solo the leader's damaging target joins it.
     unsigned leader=world.slot;
@@ -543,6 +556,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             return {GoalKind::Farm,crew_choice};
         }
     }
+#endif
     DZ_PROF('L');
     if (chosen < 0) {
         if (blocks_respawn) return {GoalKind::YieldSpawn};
@@ -583,4 +597,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     mem.contract.start(chosen, tc.round, world.distance(chosen, obs.p), b.hp, b.capture);
     return {GoalKind::Farm, chosen};
 }
+#if DZ_ECONOMY_V2
+Goal safe_goal(StaticWorld& world,Memory& mem,const Observation& obs,const TurnContext& tc) {
+    return crew_action(strategic_goal(world,mem,obs,tc),world,mem,obs,tc);
+}
+#endif
 }

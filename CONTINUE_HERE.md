@@ -1,3 +1,19 @@
+# ACTIVE 2026-10-31 — spatial crew and production checkpoint; unpromoted
+
+Read research/dz/crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented actual tank/rear/escape geometry, consenting roster/focus/capture roles,
+local handoff code (native handoff unverified), shared legal neutral recovery,
+observation budgets, cached role navigation, production coverage and resumable crews.
+All host suites/28 measurement/four parser tests pass; three flag combinations build.
+Final six native fixture cells have zero deaths/faults/fuel-outs. Scoped layered
+strict audit passes51/43 cycles; not general V-M1/Z11/release acceptance. Final double
+wolf uses solo progression, so final-source multi-member crew exercise remains open.
+Preliminary v65 screen fails41.75 vs294.5; later Famine repairs84/78 vs400/236 control.
+Next source: deferred gear-trip counterfactuals and concrete circuit/delivery plans,
+then siege/crew integration, combat and full action/model calibration. Do not scale
+failed benchmarks. Defaults/Mac SHA437f91c3/Windows5cf28cb7 preserved. No holdout or
+online actions. Explicit Homebrew Python3.14 + DZ_CAMBC work. .vscode/ untouched.
+
 # ACTIVE 2026-10-31 — opening projects and retreat lanes; unpromoted
 
 Read research/dz/opening-2026-10-31/README.md and research/dz/BACKLOG.md.

@@ -643,3 +643,12 @@ The registry was created before experiments. Entries below record actual use.
 | dz-opening-final-fixtures-08 | 2026-10-31 | deterministic; Wasm 021dcbce78c5 | 4 cells; idle81 | scenario; trace=True |
 | dz-opening-lane-yield-09 | 2026-10-31 | deterministic; Wasm 05d05ccaf79e | 2 cells; idle81 | scenario; trace=True |
 | dz-opening-checkpoint-10 | 2026-10-31 | deterministic; Wasm 835f54957e66 | 4 cells; idle81 | scenario; trace=True |
+| dz-neutral-scene-integration-01 | 2026-10-31 | deterministic; Wasm e0130750a612 | 2 cells; idle81 | scenario; trace=True |
+| dz-crew-formation-wolf-03 | 2026-10-31 | deterministic; Wasm 032034199655 | 2 cells; idle81 | scenario; trace=True |
+| dz-crew-handoff-integration-04 | 2026-10-31 | deterministic; Wasm a10108cdf197 | 4 cells; idle81 | scenario; trace=True |
+| dz-crew-runtime-reserve-05 | 2026-10-31 | deterministic; Wasm 42f5b2d78a46 | 4 cells; idle81 | scenario; trace=True |
+| dz-crew-income-dev-06 | 2026-10-31 | deterministic; Wasm 30cf17526534 | 4 cells; v65 | smoke; trace=False |
+| dz-crew-observation-famine-07 | 2026-10-31 | deterministic; Wasm f538f57f9fb9 | 2 cells; v65 | smoke; trace=False |
+| dz-crew-cold-navigation-famine-08 | 2026-10-31 | deterministic; Wasm dc537ddb8084 | 2 cells; v65 | smoke; trace=False |
+| dz-crew-coverage-famine-09 | 2026-10-31 | deterministic; Wasm b337383fe4b6 | 2 cells; v65 | smoke; trace=False |
+| dz-crew-checkpoint-fixtures-10 | 2026-10-31 | deterministic; Wasm 9280a19d1f6f | 6 cells; idle81 | scenario; trace=True |

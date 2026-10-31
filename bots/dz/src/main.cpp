@@ -2,6 +2,7 @@
 #include "gear.h"
 #include "safemode.h"
 #include "model_audit.h"
+#include "crew.h"
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -173,7 +174,13 @@ int main() {
                         }
 #endif
                         DZ_PROF('m');
+#if DZ_ECONOMY_V2
+                        bool built_crew_route=false;
+                        dz::module_work(field_health,tc,counts,"crew-fields",[&]{built_crew_route=dz::build_crew_field(*world,*mem,*obs,tc);});
+                        if (!built_crew_route&&mem->field_needed>=0) {
+#else
                         if (mem->field_needed>=0) {
+#endif
                             const int requested=mem->field_needed;
                             if (!world->groups[requested].field)
                                 dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,requested);});
@@ -225,6 +232,14 @@ int main() {
                         const auto exec_fuel=::dz::trace_fuel_mark();
 #endif
                         DZ_PROF('p');
+#if DZ_ECONOMY_V2
+                        // Re-check PHYSICAL headroom after diagnostics and crew
+                        // layout, before the executor's unconditional SDK reads.
+                        if(!tc.allow(8000)) {
+                            emergency(*world,*obs,tc,act);clear_claim();
+                            tc.guard();dz::end_turn_traced();continue;
+                        }
+#endif
                         bool executed=dz::module_work(execution_health,tc,counts,"executor",[&] {
                             if (obs->channel()) {
                                 if (goal.kind==dz::GoalKind::Retreat && act.cancel_channel()) dz::execute(goal,*world,*mem,*obs,tc,act);

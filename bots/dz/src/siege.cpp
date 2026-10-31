@@ -7,7 +7,7 @@ namespace dz {
 namespace {
 struct Exposure {
     std::array<CampThreat,64> camps{};
-    unsigned count=0;bool complete=true;
+    unsigned count=0;bool complete=true,uncertain=false;
     std::span<const CampThreat> view() const { return {camps.data(),count}; }
 };
 // Include the whole pull plus other awake/hidden damaging camps near it.
@@ -16,9 +16,19 @@ Exposure exposure(const StaticWorld& w,const Memory& m,int group,vec2 p,float fa
                   std::span<const gate::Cut> cleared={}) {
     Exposure result;
     const auto started=fuel_left();
+#if DZ_ECONOMY_V2
+    const bool cached=cleared.empty()&&m.neutral.round==static_cast<int>(tc.round)&&m.neutral.origin==Tile{p.x,p.y}&&m.neutral.factor==factor;
+    if(cached) {
+        result.camps=m.neutral.camps;result.count=m.neutral.count;result.complete=m.neutral.complete;result.uncertain=m.neutral.uncertain;
+        if(group<0||!result.complete)return result;
+    }
+#endif
     LocalMask awake;awake.load(cambc::vision::awake_camp_tiles());
     for(unsigned g=0;g<w.groups.size();++g) {
         const auto& design=w.groups[g];
+#if DZ_ECONOMY_V2
+        if(cached&&g!=static_cast<unsigned>(group))continue;
+#endif
         if(m.groups[g].state==GroupState::Respawning&&m.groups[g].ready>static_cast<int>(tc.round))continue;
         if(design.strength<=0||w.distance_floor(g,p)>12)continue;
         if(!tc.allow(7000)){result.complete=false;return result;}
@@ -30,13 +40,23 @@ Exposure exposure(const StaticWorld& w,const Memory& m,int group,vec2 p,float fa
             if(!tc.allow(6000)||started-fuel_left()>8000){result.complete=false;return result;}
             const bool visible=cambc::vision::in_vision(design.tiles[k]);
             if(g!=static_cast<unsigned>(group)&&visible&&!awake.test(design.tiles[k]))continue;
+#if DZ_ECONOMY_V2
+            if(cached&&std::any_of(result.view().begin(),result.view().end(),[&](const auto& camp){return camp.p==Tile{design.tiles[k].x,design.tiles[k].y};}))continue;
+#endif
             if(result.count==result.camps.size()){result.complete=false;return result;}
             // Current visible strength is legal and avoids relying on an old
             // design snapshot. Unseen members retain their conservative design.
-            float strength=design.initial_strength[k];
+            float strength=
+#if DZ_ECONOMY_V2
+                m.member_strength[g][k];
+#else
+                design.initial_strength[k];
+#endif
+            if(!visible&&p.chebyshev_distance(design.tiles[k])<=design.attack_ranges[k])result.uncertain=true;
             if(visible) {
                 const auto& camp=design.sdk.camps()[k];
-                if(camp.is_visible()&&!camp.is_dead())strength=std::max(strength,camp.strength());
+                if(camp.is_dead())continue;
+                if(camp.is_visible())strength=std::max(strength,camp.strength());
             }
             result.camps[result.count++]={{design.tiles[k].x,design.tiles[k].y},strength*factor,design.attack_ranges[k]};
         }
@@ -196,6 +216,48 @@ bool opening_geometry_current(const gate::Plan& p,const Memory& m,const TurnCont
 bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,const TurnContext& tc) {
     return opening_geometry_current(p,m,tc)&&p.matches(tc.round,m.topology_revision,o.max_hp,o.strength*o.camp_damage,o.camp_factor,o.range);
 }
+}
+std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
+    const auto started=fuel_left();
+    const auto scene=exposure(w,m,-1,o.p,o.camp_factor,tc);
+    const bool injured=m.neutral.round==static_cast<int>(tc.round)-1&&m.neutral.hp+o.max_hp-m.neutral.max_hp>o.hp+.01f;
+    tc.guard();m.neutral.round=tc.round;m.neutral.origin={o.p.x,o.p.y};m.neutral.factor=o.camp_factor;
+    m.neutral.camps=scene.camps;m.neutral.count=scene.count;m.neutral.complete=scene.complete;m.neutral.uncertain=scene.uncertain;
+    m.neutral.hp=o.hp;m.neutral.max_hp=o.max_hp;m.neutral.risk_count=0;
+    // Visible awake camps are actual hazards. Hidden spawns are uncertain and
+    // stay in the full admission scene, but are not declared awake merely from
+    // design HP. A new unexplained HP loss activates that conservative scene.
+    LocalMask visible;visible.load(cambc::vision::visible_tiles());
+    Exposure hazards;
+    for(const auto& camp:scene.view())if(visible.test({camp.p.x,camp.p.y})||injured)hazards.camps[hazards.count++]=camp;
+    m.neutral.risks=hazards.camps;m.neutral.risk_count=hazards.count;
+    m.neutral_moves={static_cast<int>(tc.round),{o.p.x,o.p.y},511};
+    const float raw=camp_damage({o.p.x,o.p.y},hazards.view());
+    if(!scene.complete) {
+        if(raw>0)return Goal{GoalKind::Retreat};
+        return Goal{GoalKind::Home};
+    }
+    if(!hazards.count)return std::nullopt;
+    const auto route=escape(w,m,o,o.p,hazards,tc,started);
+    if(route.found) {
+        m.neutral_moves.allowed=0;
+        for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
+            const Tile next{o.p.x+dx,o.p.y+dy};
+            if(siege::backtrack_safe(o.hp,o.max_hp,raw,camp_damage(next,hazards.view()),route.damage))
+                m.neutral_moves.allowed|=1u<<((dx+1)*3+dy+1);
+        }
+    }
+    // The siege controller retains its precise first-phase shield and committed
+    // ally admission. Every OTHER macro/legacy path gets the same camp reserve.
+    if(m.siege_task.active())return std::nullopt;
+    if(raw>0&&(!route.found||o.hp<=.15f*o.max_hp+1.25f*route.damage+2*raw)) {
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_NEUTRAL_ESCAPE round=%u body=%u hp=%.0f incoming=%.0f escape=%.0f route=%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.hp,raw,route.damage,route.found);}
+#endif
+        return Goal{GoalKind::Retreat,-1,route.found?std::optional<vec2>{vec2{route.exit.x,route.exit.y}}:std::nullopt};
+    }
+    return std::nullopt;
 }
 void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     if(w.altars.empty()||!local_masks_valid||!tc.allow(13000))return;

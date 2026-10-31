@@ -113,6 +113,9 @@ void StaticWorld::boot(const TurnContext& tc) {
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
         home.compute(blocked, cambc::map::spawn_region(cambc::team::ally), visited);
+#if DZ_ECONOMY_V2
+        home_distances=home.export_linear_buffer();
+#endif
         tc.guard(); home_ready_ = true;
         return;
     }
@@ -213,7 +216,11 @@ void StaticWorld::boot(const TurnContext& tc) {
     ready = true;
 }
 void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
+#if DZ_ECONOMY_V2
+    if(!requested_navigation_fits(fuel_left(),field_budget(),preferred>=0)||groups.empty())return;
+#else
     if (!tc.allow(field_budget()) || tier_for(fuel_left()) != Tier::Full || groups.empty()) return;
+#endif
     int selected = -1;
     if (preferred >= 0 && preferred < static_cast<int>(groups.size()) && !groups[preferred].field) selected = preferred;
     else {

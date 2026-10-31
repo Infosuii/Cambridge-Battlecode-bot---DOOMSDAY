@@ -1,19 +1,20 @@
 # DZ live implementation backlog — 2026-10-31
 
 Release remains unchanged; no experimental strategy has passed promotion. Native
-Mac CLI works. Current source and evidence: macro-2026-10-31/, siege-2026-10-31/,
+Mac CLI works. Current source and evidence: crew-2026-10-31/, macro-2026-10-31/, siege-2026-10-31/,
 engineering-2026-10-31/, plus the inherited COMBINED_PLAN_2026-10-31.md.
 
-1. **Z11 actual crew execution and strict withdrawal safety.** Current opening
-   projects, dependency recovery and lane yield are implemented (see opening-
-   2026-10-31/), but the native strict withdrawal audit FAILS. Implement actual
-   tank/rear/escape positions, deterministic shared focus, capture roles and
-   recovery handoff. Resolve fatal withdrawals/legacy interaction. Avoid fixed
-   pairs, whole-team grouping, assumed damage sharing and stationary exit blockers.
-2. **Z6/Z7/Z8/Z12 progression and opening forecasts.** Multi-layer opening projects
-   now compete with income/gear and execute bounded queued plans. Improve actual
-   upgrade-to-job feasibility, maintenance/traffic/respawn cost, role-aware capture
-   and partial-clear scheduling. Current static quotes are not general V-M1.
+1. **Z7/Z8/Z9 concrete economy trips and gear counterfactuals.** Spatial camp crews,
+   actual poses/focus/capture roles, neutral recovery and cold navigation are now
+   integrated (crew-2026-10-31/). Preliminary competitiveness is still weak. Replace
+   full-horizon partial-shard amortisation with visit/defer project comparisons;
+   implement retained delivery/circuit schedules that execute the bank promised by
+   the rollout. Avoid repeated home visits and infinite one-more-job promises.
+2. **Z11/Z6 siege/crew integration and uncertainty.** Formation bounds and actual
+   isolated-wolf formed attacks work; handoff has no native event. Final double-wolf
+   cells use solo progression, not crew proof. Join spatial roles to persistent siege
+   recovery, independent crews, fresh task focus and safe replanning. Final layered
+   strict audit passes51/43 cycles, but stationary forecasts are not general V-M1.
 3. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    exchange/kill-gold value, retreat path, ally support and lost task income.
    Replace the camp-only blanket contact interruption; do not tune retreat ranges.

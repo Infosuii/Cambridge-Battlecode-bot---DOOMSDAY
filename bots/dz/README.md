@@ -1,17 +1,11 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
-Latest development: resumable multi-layer opening projects, progression choices,
-parent/dependency recovery, arrival-tick respawn occupancy and retreat-lane yielding
-are integrated under `DZ_ECONOMY_V2=0`. See [the opening checkpoint](../../research/dz/opening-2026-10-31/README.md).
-Native scenario banking works; strict withdrawal audit still fails. Do not promote.
-Real tank/rear crew execution is next. Default release output is unchanged.
-
-Current development: `DZ_ECONOMY_V2` includes finite-horizon farm, delivery and
-equipment-visit scoring (`macro_value.h`), with the same project quoted and
-purchased. See [the macro checkpoint](../../research/dz/macro-2026-10-31/README.md)
-and [live backlog](../../research/dz/BACKLOG.md). Native correctness fixtures pass;
-the preliminary strategy screen fails banking. Defaults remain unchanged. Full
-Z8, gate investment and real tank formation are unfinished.
+Latest development: default-off spatial tank/rear crews, checked escape lanes,
+current consenting rosters, focus/capture roles, shared neutral recovery and bounded
+observation/navigation are integrated. See [the crew checkpoint](../../research/dz/crew-2026-10-31/README.md)
+and [live backlog](../../research/dz/BACKLOG.md). Controlled native fixtures are
+runtime-clean; preliminary competitiveness remains weak. Local handoff is unverified,
+siege/crew integration and general model calibration remain open. Release unchanged.
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
@@ -52,7 +46,7 @@ cached actual altar reachability. See the
 The default is **0**: development screens have not established a banking gain.
 See [the implementation checkpoint](../../research/dz/engineering-2026-10-31/README.md)
 for exact model assumptions, failed runs, validation and the ordered backlog.
-Full ObjModel/EE calibration, tank positioning, competitive siege conversion, joint action
+Full ObjModel/EE calibration, siege/crew integration, competitive conversion, joint action
 enumeration, opening rollout and release promotion remain unfinished.
 
 On macOS/Linux install official `cambc==4.0.0` and put it on PATH, or set

@@ -1,6 +1,9 @@
 #pragma once
 #include "kernel.h"
 #include "local_mask.h"
+#if DZ_ECONOMY_V2
+#include "camp_threat.h"
+#endif
 #include <memory>
 
 namespace dz {
@@ -62,6 +65,13 @@ public:
     std::vector<int> tile_members;
 #endif
     cambc::distance_field home;
+#if DZ_ECONOMY_V2
+    std::vector<std::uint16_t> home_distances;
+    int home_distance(Tile p) const {
+        const int width=cambc::map::width(),height=cambc::map::height();
+        return p.x>=0&&p.y>=0&&p.x<width&&p.y<height&&home_distances.size()==static_cast<unsigned>(width*height)?home_distances[p.y*width+p.x]:65535;
+    }
+#endif
     std::vector<Group> groups;
     std::vector<Altar> altars;
     std::vector<cambc::champion> allies;

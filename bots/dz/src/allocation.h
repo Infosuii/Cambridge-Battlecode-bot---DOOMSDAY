@@ -2,6 +2,9 @@
 #include "objective_model.h"
 
 namespace dz::economy {
+constexpr unsigned next_coalition_size(unsigned tested,unsigned eligible) {
+    return eligible<=2||tested>=eligible?2:tested+1;
+}
 struct Bid {
     int objective=-1;
     unsigned crew=0, capturer=0;

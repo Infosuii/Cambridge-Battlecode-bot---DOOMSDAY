@@ -54,6 +54,29 @@ struct Memory {
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
     struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
+    SiegeMoves neutral_moves;
+    std::vector<std::vector<float>> member_strength;
+    LocalMask memory_visible;
+    int memory_visible_round=-1;
+    std::vector<unsigned> member_cursor;
+    std::vector<unsigned> coalition_cursor;
+    struct NeutralFrame {
+        int round=-1;Tile origin{};float factor=1;
+        std::array<CampThreat,64> camps{};unsigned count=0;bool complete=false,uncertain=false;
+        std::array<CampThreat,64> risks{};unsigned risk_count=0;float hp=0,max_hp=0;
+        std::span<const CampThreat> view() const { return {camps.data(),count}; }
+        std::span<const CampThreat> risk_view() const { return {risks.data(),risk_count}; }
+    } neutral;
+    struct CrewExecution {
+        int round=-1,group=-1,focus=-1,since=-1;
+        unsigned members=0,tank=6;
+        Tile destination{};
+        bool managed=false,formed=false,fire=false;
+    } crew_execution;
+    struct CrewField {
+        std::unique_ptr<cambc::distance_field> field;
+        Tile root{};int expires=-1;bool pending=false;
+    } crew_field;
     unsigned opening_cursor=0;
     float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;

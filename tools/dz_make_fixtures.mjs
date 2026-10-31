@@ -26,6 +26,7 @@ const layouts={
   'capture-contest':[[2,14,15],[2,15,15]],
   'siege-ring-golem':[[5,14,15]],
   'siege-two-layer':[[2,12,15],[5,14,15]],
+  'crew-double-wolf':[[3,6,6],[3,6,8],[3,8,6],[3,8,8],[0,10,12],[0,11,12]],
 };
 if (!Object.hasOwn(layouts,key)) throw new Error('Unknown fixture '+key);
 fs.mkdirSync(destination,{recursive:true});
