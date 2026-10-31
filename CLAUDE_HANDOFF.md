@@ -1,3 +1,19 @@
+# ACTIVE 2026-10-31 — resumable geometry and cast-aware work; unpromoted
+
+Read research/dz/cast-crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Fixed observed Vesper R9 fuel exhaustion; the diagnostic returned from crew quote
+with 34 fuel. Added persistent front/exit/helper geometry search and pending auction
+work. Added bounded reset/shield/direct-cast phase model, conditional single-monster
+self quotes, and a checked first-shield wake transaction. TEN host suites pass.
+Final native fixtures: wolf272/272, elk570/570, layered502/127; zero faults/fuel-outs;
+strict layered recovery passes45/22 cycles. General model/cast-transaction native
+coverage remains open. Final Famine FAILS14/17 vs selected400/236 despite clean
+runtime. Do not scale or promote. Next: sequential multi-monster crew geometry,
+ability/phase validation, contested conversion/progression, siege and joint combat.
+All six capsules verify; selected and combined Wasm build. Defaults/Mac437f91c3
+and Windows5cf28cb7 preserved. No validation/release pool or online actions used.
+Goal remains active; native CLI works. .vscode/ belongs to workspace; untouched.
+
 # ACTIVE 2026-10-31 — owned crews and renewable allocation; unpromoted
 
 Read research/dz/team-economy-2026-10-31/README.md and research/dz/BACKLOG.md.

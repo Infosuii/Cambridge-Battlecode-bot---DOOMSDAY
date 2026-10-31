@@ -23,26 +23,31 @@ CampSet camp_set(const StaticWorld& w,const Memory& m,int g) {
 }
 crew::Formation layout(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc) {
     auto& cache=m.crew_layout;
-    if(cache.group==group&&cache.expires>static_cast<int>(tc.round)&&cache.topology==m.topology_revision&&
+    const bool matches=cache.group==group&&cache.expires>static_cast<int>(tc.round)&&cache.topology==m.topology_revision&&
         crew::same_roles(units,std::span<const crew::Unit>(cache.roster.data(),cache.units))&&
-        crew::same_scene(camps,std::span<const crew::Monster>(cache.scene.data(),cache.camps)))return cache.formation;
-    const auto started=fuel_left();unsigned checks=0;
-    const auto formation=crew::choose(units,camps,0,[&](Tile tile) {
-        const vec2 p{tile.x,tile.y};if(!w.walkable(p))return false;
-        const int g=w.group_at(p);if(g<0)return true;
-        const int member=w.tile_members[tile.y*cambc::map::width()+tile.x];
-        const auto& b=m.groups[g];
-        return member>=0&&!access::member_blocks(m.member_hp[g][member]>0,b.state==GroupState::Respawning,b.ready,tc.round+1);
-    },[&](Tile p){return w.home_distance(p);},[&]{return (++checks&15u)|| (tc.allow(7000)&&started-fuel_left()<14000);});
-    if(formation.valid) {
+        crew::same_scene(camps,std::span<const crew::Monster>(cache.scene.data(),cache.camps));
+    if(matches&&cache.formation.valid)return cache.formation;
+    // A different speculative quote cannot erase the unfinished job. A changed
+    // roster/scene for the SAME job invalidates it; an expired job is replaceable.
+    if(!matches&&cache.group!=group&&cache.expires>static_cast<int>(tc.round)&&cache.search.pending())return {};
+    if(!matches) {
         Memory::FormationCache next;next.group=group;next.topology=m.topology_revision;next.expires=tc.round+config::crew_window;
-        next.units=units.size();next.camps=camps.size();next.formation=formation;
+        next.units=units.size();next.camps=camps.size();next.search.begin(units,camps);
         std::copy(units.begin(),units.end(),next.roster.begin());std::copy(camps.begin(),camps.end(),next.scene.begin());
         for(unsigned g=0;g<w.groups.size();++g)if(m.groups[g].state==GroupState::Respawning&&
             m.groups[g].ready>static_cast<int>(tc.round)&&w.groups[g].center.chebyshev_distance(w.groups[group].center)<=16)
             next.expires=std::min(next.expires,m.groups[g].ready);
         tc.guard();cache=next;
     }
+    const auto started=fuel_left();
+    const auto formation=cache.search.resume(units,camps,[&](Tile tile) {
+        const vec2 p{tile.x,tile.y};if(!w.walkable(p))return false;
+        const int g=w.group_at(p);if(g<0)return true;
+        const int member=w.tile_members[tile.y*cambc::map::width()+tile.x];
+        const auto& b=m.groups[g];
+        return member>=0&&!access::member_blocks(m.member_hp[g][member]>0,b.state==GroupState::Respawning,b.ready,tc.round+1);
+    },[&](Tile p){return w.home_distance(p);},[&]{return tc.allow(8000)&&started-fuel_left()<14000;});
+    tc.guard();if(formation.valid)cache.formation=formation;
     return formation;
 }
 crew::Visit wave(const StaticWorld& w,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const crew::Formation& f,const TurnContext& tc) {
@@ -57,7 +62,9 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
     if(!tc.allow(19000)||units.size()<2)return {};
     const auto set=camp_set(w,m,group);if(!set.complete||!set.count)return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto camps=std::span<const crew::Monster>(set.camps.data(),set.count);
-    const auto plan=layout(w,m,group,units,camps,tc);if(!plan.valid||std::popcount(plan.active)<2)return {false,0,0,CrewQuoteStatus::Formation};
+    const auto plan=layout(w,m,group,units,camps,tc);
+    if(!plan.valid||std::popcount(plan.active)<2)return {false,0,0,
+        m.crew_layout.search.pending()?CrewQuoteStatus::Budget:CrewQuoteStatus::Formation};
     int arrival=0;
     for(unsigned u=0;u<units.size();++u)if(plan.active&(1u<<u))arrival=std::max(arrival,units[u].arrival);
     const auto model_start=fuel_left();unsigned checks=0;

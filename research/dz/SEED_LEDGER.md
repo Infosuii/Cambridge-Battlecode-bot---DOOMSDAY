@@ -685,3 +685,9 @@ The registry was created before experiments. Entries below record actual use.
 | dz-spell-budget-fixtures-23 | 2026-10-31 | deterministic; Wasm a30cafd8260f | 4 cells; idle81 | scenario; trace=True |
 | dz-spell-budget-famine-22 | 2026-10-31 | deterministic; Wasm 2afe613d8105 | 2 cells; idle81 | smoke; trace=False |
 | dz-first-quote-profile-24 | 2026-10-31 | deterministic; Wasm 9e01597797e8 | 2 cells; idle81 | smoke; trace=True |
+| dz-interruptible-geometry-01 | 2026-10-31 | deterministic; Wasm 4c7d4da9f8a0 | 2 cells; idle81 | smoke; trace=False |
+| dz-cast-economy-02 | 2026-10-31 | deterministic; Wasm 770b07cf3950 | 2 cells; idle81 | smoke; trace=False |
+| dz-cast-execution-03 | 2026-10-31 | deterministic; Wasm 4593e7893e5d | 6 cells; idle81 | scenario; trace=True |
+| dz-resumable-geometry-04 | 2026-10-31 | deterministic; Wasm 831cfe75ee8f | 4 cells; idle81 | scenario; trace=True |
+| dz-resumable-cast-economy-05 | 2026-10-31 | deterministic; Wasm d8bd9be74a89 | 2 cells; idle81 | smoke; trace=False |
+| dz-cast-and-crew-final-06 | 2026-10-31 | deterministic; Wasm 8ff73eb3b282 | 6 cells; idle81 | scenario; trace=True |

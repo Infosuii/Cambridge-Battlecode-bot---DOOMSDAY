@@ -5,6 +5,6 @@
 namespace dz {
 objective::Actor economic_actor(const SeenChampion&);
 std::optional<Goal> economic_goal(StaticWorld&,Memory&,const Observation&,const TurnContext&,int altar,int altar_distance);
-bool crew_ready(const StaticWorld&,const Memory&,const Observation&,int group,const TurnContext&);
+bool crew_ready(const StaticWorld&,Memory&,const Observation&,int group,const TurnContext&);
 }
 #endif

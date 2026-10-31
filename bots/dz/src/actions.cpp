@@ -457,9 +457,28 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     if(target&&!retreat&&!me.buffs().has_shield()) {
         float incoming=enemy_danger(obs.p,obs);
         if(!enemy&&goal.index>=0)for(unsigned k=0;k<mem.member_hp[goal.index].size();++k)
-            if(mem.member_hp[goal.index][k]>0)incoming+=world.groups[goal.index].initial_strength[k]*obs.camp_factor;
-        for(auto ability:me.abilities())if(tc.allow(3500)&&ability.is_shield()&&ability.is_ready()&&incoming>=.5f*ability.shield_amount())
+            if(mem.member_hp[goal.index][k]>0&&obs.p.chebyshev_distance(world.groups[goal.index].tiles[k])<=world.groups[goal.index].attack_ranges[k])
+                incoming+=mem.member_strength[goal.index][k]*obs.camp_factor;
+        const bool funded_wake=mem.cast_admission.round==static_cast<int>(tc.round)&&mem.cast_admission.group==goal.index&&
+            mem.cast_admission.shield>0&&target->position().chebyshev_distance(obs.p)<=obs.range;
+        const bool solo_policy=goal.kind==GoalKind::Farm&&!enemy&&std::popcount(mem.economic_crew)<=1&&
+            goal.index>=0&&world.groups[goal.index].strength>0;
+        for(auto ability:me.abilities())if(tc.allow(3500)&&ability.is_shield()&&ability.can_target_self()&&ability.is_ready()&&
+            (incoming>0||funded_wake)&&(funded_wake||solo_policy||incoming>=.5f*ability.shield_amount()))
             if(act.cast(ability))break;
+    }
+    if(target&&!enemy&&mem.cast_admission.round==static_cast<int>(tc.round)&&mem.cast_admission.group==goal.index&&
+        mem.cast_admission.shield>0&&target->position().chebyshev_distance(obs.p)<=obs.range) {
+        const auto buffs=me.buffs();
+        if(!buffs.has_shield()||buffs.get<cambc::buff_shield>().value<mem.cast_admission.shield) {
+            // A forecast-funded wake never becomes an unprotected attack when
+            // the required cast failed (legality, resource or fuel budget).
+            return;
+        }
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_CAST_FUNDED round=%u body=%u group=%d shield=%.1f\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,buffs.get<cambc::buff_shield>().value);}
+#endif
     }
 #endif
     if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&

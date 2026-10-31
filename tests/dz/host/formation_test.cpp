@@ -1,4 +1,5 @@
 #include "formation.h"
+#include "formation_search.h"
 #include "core.h"
 #include "allocation.h"
 #include <cassert>
@@ -15,6 +16,19 @@ int main() {
     auto open=[](Tile p){return std::abs(p.x)<=20&&std::abs(p.y)<=20;};
     auto home=[](Tile p){return cheb(p,{-10,-10});};
     auto f=crew::arrange(units,monster,0,open,home);
+    crew::FormationSearch search;search.begin(units,monster);crew::Formation resumed;
+    unsigned slices=0;
+    while(search.pending()&&slices<1000) {
+        unsigned ops=0;resumed=search.resume(units,monster,open,home,[&]{return ++ops<=2;});++slices;
+        if(search.pending())assert(!resumed.valid);
+    }
+    assert(resumed.valid&&slices>2&&slices<1000);
+    assert(crew::camp_target(monster[0],units,resumed)==static_cast<int>(resumed.tank));
+    assert(crew::forecast(units,monster,resumed).complete);
+    const auto done=search.resume(units,monster,open,home,[]{return false;});assert(done.positions==resumed.positions);
+    search.begin(units,monster);
+    unsigned turns=0;while(search.pending()&&turns++<1000){unsigned ops=0;search.resume(units,monster,[](Tile){return false;},home,[&]{return ++ops<=1;});}
+    assert(!search.pending()&&!search.result.valid&&search.stage==crew::FormationSearch::Stage::Failed);
     assert(f.valid&&f.tank==2&&(f.active&5)==5&&!(f.active&2));
     assert(crew::camp_target(monster[0],units,f)==2);
     assert(cheb(f.positions[0],monster[0].p)<=units[0].range&&cheb(f.positions[2],monster[0].p)==1);

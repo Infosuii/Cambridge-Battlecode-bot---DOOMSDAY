@@ -1,5 +1,6 @@
 #pragma once
 #include "clear_risk.h"
+#include "objective_cast.h"
 #include <limits>
 
 namespace dz::objective {
@@ -28,6 +29,8 @@ struct Quote {
     float champion_rounds=0, gems=0, gold_low=0, gold_high=0;
     std::array<double,max_crew> loss_upper{};
     bool survivable=false;
+    bool cast_policy=false;
+    float opening_shield=0;
     bool complete() const { return quality==Quality::Bounded||quality==Quality::Conservative; }
     float reward(float gold_price) const { return gems+gold_price*gold_low; }
     float rate(float gold_price) const { return complete()&&survivable ? reward(gold_price)/std::max(1.f,champion_rounds) : 0; }
@@ -106,6 +109,45 @@ inline Quote forecast(const Encounter& e,std::span<const Actor> crew,unsigned ca
     // Unknown accumulated fractional gold remainder: never invent a carry.
     q.gold_low=static_cast<float>(std::floor(gold));q.gold_high=static_cast<float>(std::ceil(gold));
     q.quality=e.exact_arrival ? Quality::Conservative : Quality::Bounded;
+    return q;
+}
+// Refine one stationary monster using a concrete executable cast schedule.
+// Multi-monster ordering/traffic and large compressed groups retain the existing
+// all-order bound. cast_clear supports ordered multi-target diagnostics, but that
+// alone cannot certify the production executor's changing focus or movement.
+template<class Budget=UnlimitedCast>
+Quote forecast_casts(const Encounter& e,const Actor& actor,Kit kit,Budget budget={}) {
+    const auto fallback=forecast(e,std::span<const Actor>(&actor,1),0);
+    if(!kit.useful()||e.contested||fallback.quality==Quality::Invalid)return fallback;
+    unsigned live=0;ClearMember target;
+    for(unsigned k=0;k<e.members.size();++k)if(e.members[k].hp>0) {
+        const unsigned count=e.multiplicities.empty()?1:e.multiplicities[k];
+        if(count!=1||++live>1)return fallback;
+        target=e.members[k];
+    }
+    if(!live)return fallback;
+    const int arrival=std::max(actor.arrival,e.ready_in);
+    for(auto& c:kit.casts)c.cooldown-=std::min<unsigned>(c.cooldown,arrival);
+    kit.shield_duration-=std::min<unsigned>(kit.shield_duration,arrival);
+    if(!kit.shield_duration)kit.shield=0;
+    if(arrival)kit.can_cast=true;
+    target.incoming*=actor.incoming_factor;
+    const auto projection=cast_clear(std::span<const ClearMember>(&target,1),actor.hp,actor.max_hp,actor.damage,kit,
+        std::min(96,std::max(1,e.horizon-arrival)),budget);
+    if(projection.status!=CastStatus::Complete)return fallback;
+    auto captured=e;captured.members={};captured.multiplicities={};captured.reposition_rounds=0;
+    auto q=forecast(captured,std::span<const Actor>(&actor,1),0);
+    if(!q.complete())return fallback;
+    q.clear=projection.rounds+e.reposition_rounds;q.finish=q.arrival+q.clear+q.capture;
+    if(q.finish>e.horizon)return fallback;
+    q.champion_rounds=q.finish;
+    // Fund unprotected travel/phase ambiguity separately. No future shield
+    // subtracts the checked retreat reserve maintained by the executor.
+    q.loss_upper[0]=projection.loss+target.incoming*(e.reposition_rounds+1);
+    q.survivable=actor.hp>1.25*q.loss_upper[0]+.15*actor.max_hp;
+    q.cast_policy=true;
+    if(kit.can_cast&&kit.shield<=0&&target.incoming>0)for(auto c:kit.casts)
+        if(c.kind==CastKind::Shield&&!c.cooldown){q.opening_shield=c.amount;break;}
     return q;
 }
 }

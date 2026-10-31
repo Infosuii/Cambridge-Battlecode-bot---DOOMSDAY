@@ -45,6 +45,47 @@ objective::Actor economic_actor(const SeenChampion& c) {
     *entry={id,round,c.strength,c.max_hp,actor};return actor;
 }
 namespace {
+objective::Kit self_kit(const TurnContext& tc) {
+    static int round=-1;static objective::Kit saved;
+    if(round==static_cast<int>(tc.round))return saved;
+    if(!tc.allow(12000))return {};
+    auto& me=cambc::self();objective::Kit kit;
+    if(me.restrictions().contains(cambc::buff_restrictions::cast))return {};
+    kit.can_cast=me.state().contains(cambc::champion_state::can_cast);
+    kit.refresh_on_monster=me.champion_name()==cambc::champion_type::vendetta;
+    const auto buffs=me.buffs();
+    if(buffs.has_shield()){const auto b=buffs.get<cambc::buff_shield>();kit.shield=b.value;kit.shield_duration=std::max(0,b.duration);}
+    unsigned slot=0;bool earlier_unmodelled=false;
+    for(const auto& ability:me.abilities()) {
+        auto& c=kit.casts[slot++];if(!ability.info())continue;
+        const auto& info=*ability.info();bool exclusive=false;float range=0;
+        std::visit([&](auto p){
+            c.period=std::max(0,p.max_cooldown);exclusive=p.exclusive_with_movement;
+            if constexpr(requires{p.range;})range=p.range;
+            if constexpr(requires{p.duration;})c.duration=std::max(0,p.duration);
+        },info);
+        if(ability.is_attack_reset())c.kind=objective::CastKind::Reset;
+        else if(ability.is_shield()&&ability.can_target_self()){c.kind=objective::CastKind::Shield;c.amount=ability.shield_amount();}
+        else if(!exclusive&&range>=me.attack_range()&&ability.can_target_camps()&&ability.is_damage()) {
+            c.kind=objective::CastKind::Damage;c.amount=ability.damage_amount();
+        }
+        if(earlier_unmodelled&&(c.kind==objective::CastKind::Reset||c.kind==objective::CastKind::Damage))c.kind=objective::CastKind::None;
+        earlier_unmodelled|=(ability.is_damage()||ability.is_cc()||ability.is_aoe_damage())&&c.kind==objective::CastKind::None;
+        // AoE/CC/dash and enhanced-attack passives get no speculative credit.
+        if(c.kind!=objective::CastKind::None)c.cooldown=std::max(0,ability.cooldown());
+    }
+    tc.guard();saved=kit;round=tc.round;return saved;
+}
+objective::Quote self_quote(const objective::Encounter& e,const objective::Actor& actor,const TurnContext& tc,bool future=false) {
+    if(!tc.allow(14000))return objective::forecast(e,std::span<const objective::Actor>(&actor,1),0);
+    auto kit=self_kit(tc);
+    if(future) {
+        kit.shield=0;kit.shield_duration=0;kit.can_cast=true;
+        for(auto& c:kit.casts)c.cooldown=c.period;
+    }
+    const auto started=fuel_left();
+    return objective::forecast_casts(e,actor,kit,[&]{return tc.allow(10000)&&started-fuel_left()<4500;});
+}
 struct Participant { objective::Actor actor;vec2 p;unsigned slot;int range=1;unsigned handle=0; };
 objective::Encounter encounter(const StaticWorld& w,const Memory& m,int g,std::span<ClearMember> members,std::span<unsigned> counts,int round,int horizon,bool full_generation=false) {
     const auto& group=w.groups[g];const auto& belief=m.groups[g];
@@ -229,7 +270,7 @@ trip::Plan collection_trip(StaticWorld& w,Memory& m,const Observation& o,const T
             std::array<ClearMember,clear_risk_members> members{};std::array<unsigned,clear_risk_members> counts{};
             auto full=encounter(w,m,g,members,counts,tc.round,context.horizon,true);
             auto fresh=actor;fresh.arrival=0;
-            const auto repeat=objective::forecast(full,std::span<const objective::Actor>(&fresh,1),0);
+            const auto repeat=self_quote(full,fresh,tc,true);
             if(repeat.complete()&&repeat.survivable&&group.sdk.max_respawn_timer()>0) {
                 node.renewal=group.sdk.max_respawn_timer();node.repeat_work=repeat.clear+repeat.capture;
                 node.repeat_loss=1.25f*repeat.loss_upper[0];
@@ -258,7 +299,7 @@ trip::Plan collection_trip(StaticWorld& w,Memory& m,const Observation& o,const T
     for(unsigned k=0;k<found&&tc.allow(15000)&&started-fuel_left()<8500;++k) {
         const int g=shortlist[k];std::array<ClearMember,clear_risk_members> members{};std::array<unsigned,clear_risk_members> counts{};
         auto e=encounter(w,m,g,members,counts,tc.round,context.horizon);actor.arrival=0;
-        const auto q=objective::forecast(e,std::span<const objective::Actor>(&actor,1),0);
+        const auto q=self_quote(e,actor,tc);
         if(q.complete()&&q.survivable)add(g,q);
     }
     const auto matrix_start=fuel_left();
@@ -350,7 +391,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
         if(m.groups[g].state==GroupState::Reward&&w.group_at(o.p)==g&&m.economic_capturer==w.slot&&
             m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::ally_capturing))
             e.capture_remaining=m.groups[g].capture;
-        const auto q=objective::forecast(e,std::span<const objective::Actor>(actors.data(),n),cap);
+        const auto q=n==1?self_quote(e,actors[0],tc):objective::forecast(e,std::span<const objective::Actor>(actors.data(),n),cap);
         if(roster&&q.complete()&&q.survivable) {
             float discount=1/(1+m.pressure(group.center,6+group.radius,tc.round));
             int delivery=-1;
@@ -475,7 +516,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     return work;
 }
 }
-bool crew_ready(const StaticWorld& w,const Memory& m,const Observation& o,int g,const TurnContext& tc) {
+bool crew_ready(const StaticWorld& w,Memory& m,const Observation& o,int g,const TurnContext& tc) {
     if(m.crew_execution.managed&&m.crew_execution.round==static_cast<int>(tc.round)&&m.crew_execution.group==g)
         return m.crew_execution.fire;
     if(m.access_group==g&&m.access_member>=0) {
@@ -502,6 +543,19 @@ bool crew_ready(const StaticWorld& w,const Memory& m,const Observation& o,int g,
         damage+=actor.damage;present|=1u<<slot;
     }
     if((present&m.economic_crew)!=m.economic_crew)return false;
+    if(std::popcount(present)==1&&tc.allow(14000)) {
+        std::array<ClearMember,clear_risk_members> members{};std::array<unsigned,clear_risk_members> counts{};
+        const auto e=encounter(w,m,g,members,counts,tc.round,cambc::constants::max_rounds-tc.round);
+        const objective::Actor tank{o.hp,o.max_hp,damage,o.camp_factor};
+        const auto q=self_quote(e,tank,tc);
+        if(q.cast_policy&&q.complete()&&q.survivable) {
+#if DZ_TRACE
+            {TraceScope scope;trace("DZ_CAST_WAKE round=%u body=%u group=%d clear=%d loss=%.1f shield=%.1f\n",tc.round,
+                static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,q.clear,q.loss_upper[0],q.opening_shield);}
+#endif
+            m.cast_admission={static_cast<int>(tc.round),g,q.opening_shield};return true;
+        }
+    }
     // All expected crew members must actually be here. The old wake gate counted
     // any nearby ally and used an assumed damage share, even on another job.
     if(m.member_hp[g].size()<=clear_risk_members) {
@@ -629,6 +683,10 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     // while a reachable non-damaging production job is never even priced.
     const auto production=std::find_if(candidates.begin(),candidates.end(),[&](auto c){return w.groups[c.g].strength<=0&&w.groups[c.g].field&&w.distance(c.g,o.p)<65535;});
     if(production!=candidates.end())std::rotate(candidates.begin(),production,production+1);
+    if(m.crew_layout.search.pending()&&m.crew_layout.expires>static_cast<int>(tc.round)) {
+        const auto pending=std::find_if(candidates.begin(),candidates.end(),[&](auto c){return c.g==m.crew_layout.group;});
+        if(pending!=candidates.end())std::rotate(candidates.begin(),pending,pending+1);
+    }
     DZ_PROF('C');
     std::array<float,objective::max_crew> alternatives{};
     float gem_rate=0,gold_rate=0,continuation_rate=-1;
@@ -677,7 +735,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         std::array<unsigned,objective::max_crew> crew_slots{};unsigned count=0;
         unsigned eligible_count=0;
         for(unsigned a=0;a<n;++a)if((eligible&(1u<<a))&&team[a].slot>=w.slot)++eligible_count;
-        const unsigned first_trial=std::clamp(m.coalition_cursor[g],2u,std::max(2u,eligible_count));
+        const unsigned trial=m.crew_layout.group==g&&m.crew_layout.search.pending()?m.crew_layout.units:m.coalition_cursor[g];
+        const unsigned first_trial=std::clamp(trial,2u,std::max(2u,eligible_count));
         for(unsigned k=0;k<n;++k) {
             if(!tc.allow(18000+200*e.members.size())||start-fuel_left()>18000)break;
             const auto a=order[k];if(!(eligible&(1u<<a))||team[a].slot<w.slot)continue;
@@ -688,11 +747,12 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             if(count<first_trial)continue;
             if(spatial_quotes>=2)break;
             ++spatial_quotes;
-            m.coalition_cursor[g]=economy::next_coalition_size(count,eligible_count);
             const auto quote=crew_quote(w,m,g,std::span<const crew::Unit>(spatial.data(),count),cambc::constants::capture_time+1,tc);
 #if DZ_TRACE
             if(trace_auction){TraceScope scope;trace("DZ_CREW_BID round=%u group=%d units=%u result=%d fuel=%llu\n",tc.round,g,count,static_cast<int>(quote.status),static_cast<unsigned long long>(fuel_left()));}
 #endif
+            if(quote.status==CrewQuoteStatus::Budget)break;
+            m.coalition_cursor[g]=economy::next_coalition_size(count,eligible_count);
             if(!quote.complete||!(quote.members&(1u<<w.slot)))continue;
             unsigned cap=0;bool have_cap=false;
             for(unsigned c=0;c<count;++c)if(quote.members&(1u<<crew_slots[c])) {
@@ -714,7 +774,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
                 solo_encounter.capture_remaining=m.groups[g].capture;
             if(m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::contested)||
                 m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::enemy_capturing))solo_encounter.contested=true;
-            auto quote=objective::forecast(solo_encounter,std::span<const objective::Actor>(&actors[a],1),0);
+            auto quote=team[a].slot==w.slot?self_quote(solo_encounter,actors[a],tc):
+                objective::forecast(solo_encounter,std::span<const objective::Actor>(&actors[a],1),0);
             if(!quote.complete()||!quote.survivable)continue;
             const float rate=contested*quote.reward(gold_price)/std::max(1,quote.finish);
             alternatives[team[a].slot]=std::max(alternatives[team[a].slot],rate);

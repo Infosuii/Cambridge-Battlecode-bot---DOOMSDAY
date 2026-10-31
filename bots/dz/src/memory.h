@@ -10,6 +10,7 @@
 #include "gate_plan.h"
 #include "economy_trip.h"
 #include "formation.h"
+#include "formation_search.h"
 #endif
 
 namespace dz {
@@ -46,6 +47,7 @@ struct Memory {
 #if DZ_ECONOMY_V2
     unsigned economic_crew=0, economic_capturer=0;
     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
+    struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
     int rendezvous_until=0;
     int economic_retry_after=0;
     float economic_rate=0;
@@ -86,6 +88,7 @@ struct Memory {
         std::array<crew::Unit,crew::max_units> roster{};
         std::array<crew::Monster,crew::max_camps> scene{};
         crew::Formation formation;
+        crew::FormationSearch search;
     };
     mutable FormationCache crew_layout;
     struct CrewField {

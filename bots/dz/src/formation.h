@@ -80,11 +80,20 @@ Formation arrange(std::span<const Unit> units,std::span<const Monster> camps,uns
     });
     EscapeRoute route;
     for(unsigned i=0;i<count;++i) {
+        if(!budget())return f;
         const auto p=front[i].p;
-        std::array<Tile,8> directions{{{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}}};
-        std::sort(directions.begin(),directions.end(),[&](auto a,auto b){
-            return home({p.x+a.x,p.y+a.y})<home({p.x+b.x,p.y+b.y});
-        });
+        const std::array<Tile,8> steps{{{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}}};
+        std::array<std::pair<int,Tile>,8> ordered{};
+        for(unsigned d=0;d<steps.size();++d) {
+            if(!budget())return f;
+            ordered[d]={home({p.x+steps[d].x,p.y+steps[d].y}),steps[d]};
+        }
+        // The adapter's home lookup is not free. Never put it in a comparator:
+        // one uninterruptible sort used to re-read it dozens of times between
+        // budget checks, including after a previous route exhausted its slice.
+        std::sort(ordered.begin(),ordered.end(),[](const auto& a,const auto& b){return a.first<b.first;});
+        std::array<Tile,8> directions{};
+        for(unsigned d=0;d<steps.size();++d)directions[d]=ordered[d].second;
         route=siege::escape_route(p,scene,directions,open,budget);
         if(route.truncated)return f;
         if(route.found){f.positions[f.tank]=p;break;}
