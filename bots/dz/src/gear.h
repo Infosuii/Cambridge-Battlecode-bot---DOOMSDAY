@@ -14,6 +14,7 @@ struct ShopVisit {
 };
 ShopVisit shop_visit(const TurnContext&,const Observation&,int horizon,float income,float gold_income);
 void commit_shop_visit(const ShopVisit&);
+bool shop_visit_pending(unsigned round);
 bool planned_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
 #if DZ_HAS(GEAR_PROSPECT)

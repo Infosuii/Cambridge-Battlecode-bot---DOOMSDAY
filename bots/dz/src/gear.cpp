@@ -172,12 +172,16 @@ ShopVisit shop_visit(const TurnContext& tc,const Observation& o,int horizon,floa
     auto result=purchase_project(tc,context,o.strength,o.max_hp);result.horizon=context.remaining;return result;
 }
 void commit_shop_visit(const ShopVisit& quote) { visit_intent=quote; }
+bool shop_visit_pending(unsigned round) {
+    return visit_intent.valid&&visit_intent.purchases&&round<=static_cast<unsigned>(visit_intent.round+80);
+}
 bool planned_shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
     auto& me=cambc::self();
     auto& context=purchase_context;
     static int last_round=-1,last_gold=0,last_bag=0,last_submitted=0;
     static bool was_dead=false,map_read=false;
     const bool dead=me.state().is_dead();const int gold=me.gold_count();
+    if(visit_intent.valid&&(tc.round>static_cast<unsigned>(visit_intent.round+80)||gold<static_cast<int>(visit_intent.item.cost())))visit_intent={};
     const int submitted=cambc::global_submitted_gems(cambc::team::ally);
     const int bag=dead?0:static_cast<int>(me.gem_count());
     if(last_round>=0&&static_cast<int>(tc.round)>last_round) {

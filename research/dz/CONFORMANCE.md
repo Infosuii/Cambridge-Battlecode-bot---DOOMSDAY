@@ -276,3 +276,15 @@ DRAFT_SUSPENSION_CONFORMANCE.md records 12 final full native games across
 fuel once, with zero native faults/caught errors and every intended pick/body
 preserved. round_number advances between draft turns, so existing guards work.
 No production change was needed. Keep this separate from yielding without a pick.
+
+
+## 2026-10-31 — explicit v2 formation certificates (development)
+
+See agreement-2026-10-31/. The8-byte experimental metadata codec now has disjoint
+prefixes, absolute scheduled timestamps, exact roster/member/offset declarations
+and dated Ready barriers. 13824 wire checks and100 shuffled handshakes (30 two-crew)
+pass; native paired/triple commits and firing occur. This does not close general
+combat/model conformance. Final layered-B has two ordinary camp deaths; scoped
+withdrawal rows pass51/34. No release promotion. Full funded three-shard spending
+and one-emblem continuation are confirmed by native owner events; multiple-emblem
+single batches and partial-fuel shopping remain open.

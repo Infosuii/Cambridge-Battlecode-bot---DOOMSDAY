@@ -15,6 +15,7 @@
 #include "crew_progression.h"
 #include "crew_market.h"
 #include "team_protocol.h"
+#include "crew_agreement.h"
 #endif
 
 namespace dz {
@@ -50,6 +51,7 @@ struct Memory {
 #endif
 #if DZ_ECONOMY_V2
     team::Ledger team;
+    crew::Agreement crew_agreement;
     team::WorkRecord project_work;
     unsigned economic_crew=0, economic_capturer=0;
     struct CrewPublication { int group=-1;unsigned members=0,capturer=0; } crew_publication;
@@ -141,7 +143,7 @@ struct Memory {
         Tile root{};int expires=-1;bool pending=false;
     } crew_field;
     void leave_crew() {
-        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_field.pending=false;
+        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_agreement={};crew_field.pending=false;
     }
     unsigned opening_cursor=0;
     float economic_gem_rate=0,economic_gold_rate=0;

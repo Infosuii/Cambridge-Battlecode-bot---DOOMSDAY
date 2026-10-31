@@ -280,7 +280,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     if(state.group!=g||state.members!=expected){state={};state.group=g;state.members=expected;state.since=state.last_progress=tc.round;}
     const Tile here{o.p.x,o.p.y};if(state.has_self&&state.last_self!=here)state.last_progress=tc.round;
     state.last_self=here;state.has_self=true;
-    state.round=tc.round;state.managed=true;state.formed=false;state.fire=false;state.focus=-1;
+    state.round=tc.round;state.managed=true;state.formed=false;state.fire=false;state.focus=-1;state.direct_step=false;
     goal.destination=o.p; // Pending geometry/consent holds; it cannot attack or drift into the camp.
     if(m.groups[g].state==GroupState::Reward) {
         if(m.economic_capturer!=w.slot) {
@@ -323,7 +323,9 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
             m.contract.objective=-1;m.leave_crew();return {GoalKind::Idle};
         }
     }
-    if(static_cast<int>(tc.round)-state.last_progress>config::crew_window) {
+    const int assembly_end=state.since+team::agreement_window(w.allies.size())+config::crew_window;
+    if(static_cast<int>(tc.round)-state.last_progress>config::crew_window&&
+        (m.crew_agreement.committed||static_cast<int>(tc.round)>assembly_end)) {
         m.release(tc.round);m.economic_crew=0;state.managed=false;return {GoalKind::Idle};
     }
     std::array<crew::Unit,crew::max_units> units{};unsigned n=0,self=0,consented=1u<<w.slot;
@@ -436,6 +438,35 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         return Goal{GoalKind::Home};
     };
     if(!ready)return recover();
+    std::array<team::Role,protocol::slots> roles{};
+    for(unsigned u=0;u<n;++u)roles[units[u].slot]={plan.positions[u].x-camps[0].p.x,plan.positions[u].y-camps[0].p.y};
+    auto& agreement=m.crew_agreement;
+    const bool previously_committed=agreement.committed;
+    agreement.plan(g,m.conversions[g],expected,state.focus,roles,tc.round,w.allies.size());
+    agreement.inspect(m.team,word,tc.round,w.allies.size());
+    if(!agreement.committed) {
+        if(static_cast<int>(tc.round)>agreement.deadline) {
+            m.crew_decline={g,static_cast<int>(tc.round)+config::crew_window,expected};
+            m.contract.objective=-1;m.leave_crew();return {GoalKind::Home};
+        }
+        m.rendezvous_until=std::max(m.rendezvous_until,agreement.deadline);
+        // Certification waits at the checked, distinct staging tiles. Holding
+        // inside an awake monster's range while metadata rotates is not free.
+        state.destination=phase.staging[self];goal.destination=vec2{state.destination.x,state.destination.y};
+        if(!m.crew_field.field||m.crew_field.root!=state.destination||m.crew_field.expires<=static_cast<int>(tc.round)) {
+            m.crew_field.field.reset();m.crew_field.root=state.destination;m.crew_field.pending=true;
+        }
+#if DZ_TRACE
+        if(tc.round%20==0){TraceScope scope;trace("DZ_CREW_AGREEMENT round=%u slot=%u group=%d members=%u phase=%d declared=%u ready=%u stage=%d,%d\n",
+            tc.round,w.slot,g,expected,state.focus,agreement.status.declared,agreement.status.ready,state.destination.x,state.destination.y);}
+#endif
+        return goal;
+    }
+#if DZ_TRACE
+    if(!previously_committed){TraceScope scope;trace("DZ_CREW_COMMIT round=%u slot=%u group=%d members=%u phase=%d\n",tc.round,w.slot,g,expected,state.focus);}
+#else
+    (void)previously_committed;
+#endif
     if(march.valid&&!march.complete) {
         const auto& start=transfer?sequence.phases[first-1].formation.positions:phase.staging;
         bool beginning=true;for(unsigned u=0;u<n;++u)beginning&=actual[u]==start[u];

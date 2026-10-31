@@ -26,6 +26,7 @@ struct CrewPrice {
     float hp=0,gems=0,gold=0,gold_price=0,contested=1;
     bool cluster=false;
     unsigned incumbent_capturer=6;
+    int setup=0; // Bounded roster/role agreement, paid by a newly formed crew.
 };
 // Compact completed economic quotes, never copies of the large route search.
 // Two geometry workspaces can therefore compare alternatives without erasing
@@ -143,7 +144,7 @@ public:
                     int now,int horizon,const CrewPrice& price,Budget budget={}) const {
         CrewMenu result;
         if(proposer>=6||!valid_units(units)||!std::isfinite(price.hp)||price.hp<0||(epoch.fixed&(1u<<proposer))||
-            (epoch.fixed&~roster(units))||!(roster(units)&(1u<<proposer))||
+            price.setup<0||(epoch.fixed&~roster(units))||!(roster(units)&(1u<<proposer))||
             (epoch.fixed&&(price.incumbent_capturer>=6||!(epoch.fixed&(1u<<price.incumbent_capturer))))||!budget())return result;
         std::uint64_t known=0;unsigned checked=0;
         float incumbent=epoch.fixed?-1:0;
@@ -158,8 +159,9 @@ public:
                 incumbent=payout(offer,price.incumbent_capturer,price,now,false)/std::max(1,finish);continue;
             }
             if(!(offer.mask&(1u<<proposer))||(epoch.fixed&~offer.mask))continue;
+            if(price.setup>horizon-finish)continue;
             const float value=payout(offer,proposer,price,now,true);
-            if(value>0)result.bids[result.count++]={epoch.group,offer.mask,proposer,price.contested*value,static_cast<float>(finish),0,0,epoch.fixed};
+            if(value>0)result.bids[result.count++]={epoch.group,offer.mask,proposer,price.contested*value,static_cast<float>(finish+price.setup),0,0,epoch.fixed};
         }
         result.complete=true;
         if(epoch.fixed&&(!std::isfinite(incumbent)||incumbent<0)) {

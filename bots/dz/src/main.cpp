@@ -346,10 +346,9 @@ int main() {
                         const bool relaying=sent.group==offered&&sent.members==mem->economic_crew&&sent.capturer==world->slot&&leader!=world->slot;
                         const bool offering=executed&&offered>=0&&(leader==world->slot||relaying)&&offered<112&&mem->contract.objective==offered&&
                             (std::popcount(mem->economic_crew)>1||capture);
-                        const bool joined=mem->crew_execution.joined&&mem->crew_execution.group==offered&&!recovering_project;
                         const bool changed=sent.group!=offered||sent.members!=mem->economic_crew||sent.capturer!=mem->economic_capturer;
                         const bool pulse=dz::team::publisher(tc.round,world->allies.size())==world->slot&&
-                            (!joined||dz::team::scheduled(tc.round)==dz::team::Kind::Lease);
+                            dz::team::scheduled(tc.round)==dz::team::Kind::Lease;
                         const bool handoff=capture&&fresh_lease.valid&&fresh_lease.objective==offered&&fresh_lease.capturer==world->slot;
                         bool announced=false;
                         if(offering&&(changed||pulse)&&(!dz::team::protected_lease(message,tc.round,world->allies.size())||
@@ -369,6 +368,15 @@ int main() {
                         }
                         const auto intent=recovering_project||siege_project?dz::team::Intent::Recover:working?dz::team::Intent::Active:dz::team::Intent::Released;
                         message=dz::team::publish(message,tc.round,world->allies.size(),world->slot,cambc::self().gold_count(),objective,intent);
+                        const auto& agreement=mem->crew_agreement;
+                        const bool agreement_frame=executed&&!recovering_project&&offered>=0&&agreement.group==offered&&
+                            agreement.members==mem->economic_crew&&agreement.announce(tc.round,world->allies.size())&&
+                            (!agreement.committed||dz::team::scheduled(tc.round)==dz::team::Kind::Lease);
+                        if(agreement_frame&&(!announced||!changed)) {
+                            const auto role=agreement.roles[world->slot];
+                            message=dz::team::acknowledge(message,tc.round,world->allies.size(),world->slot,
+                                agreement.members,agreement.phase,role.dx,role.dy,agreement.can_ready||agreement.committed);
+                        }
                         if(act.publish(message)) {
                             mem->team.observe(message,tc.round,world->allies.size());
                             if(announced)mem->crew_publication={offered,mem->economic_crew,mem->economic_capturer};

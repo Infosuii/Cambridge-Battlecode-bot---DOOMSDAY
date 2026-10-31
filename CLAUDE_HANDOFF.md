@@ -1,3 +1,20 @@
+# ACTIVE 2026-10-31 — explicit formation agreement and funded receipt evidence; unpromoted
+
+Read research/dz/agreement-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added dated exact roster/member/offset declarations and a Ready barrier; bounded
+safe staging, setup costs, revocation and superseded-coordinator protection.
+Fixed stale direct-step mode and retained partial shopping batches. All16 host
+suites pass; two capsules/10 cells verify. Native triple crews agree and fire.
+Final02 banks72/84 crew,405/210 elk,325/108 layered; zero faults/fuel-outs. Strict
+layered rows pass51/34 cycles, but TWO ordinary camp deaths remain on layered-B
+(body4,R1236/R1389,camp3). Mixed overall audit is FALSE (ordinary maps have no
+siege cycles), retained unchanged. Native purchases now confirm a full funded
+three-shard batch plus one-emblem continuation; multiple-emblem/partial-fuel cases
+remain open. Selected Mac437f91c3/Windows5cf28cb7 defaults and holdout preserved.
+Next: ordinary travel/bank deaths and conversion, efficient agreement, joint
+ability/combat/action and opening/map work. No competitive acceptance or online
+action. Goal active; native CLI works; .vscode/ untouched.
+
 # ACTIVE 2026-10-31 — marginal reinforcement and fallback liveness; unpromoted
 
 Read research/dz/augmentation-2026-10-31/README.md and research/dz/BACKLOG.md.

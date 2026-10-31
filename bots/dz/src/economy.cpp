@@ -227,6 +227,7 @@ std::optional<Goal> resume_trip(StaticWorld& w,Memory& m,const Observation& o,co
     for(unsigned skipped=0;skipped<=trip::max_jobs&&route.active();++skipped) {
         const int g=route.job();
         if(g<0) {
+            if(route.phase==trip::Phase::Shop&&shop_visit_pending(tc.round))return Goal{GoalKind::Home};
             route.advance(tc.round,o.bag,false,true,w.home.get(o.p)==0);
             if(route.phase==trip::Phase::Deliver) {m.contract.objective=-1;m.economic_crew=0;return Goal{GoalKind::Bank,altar};}
             if(route.phase==trip::Phase::Shop) {
@@ -368,10 +369,11 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     if(direct_bank<=remaining&&remaining-direct_bank<=config::contract_window)
         return relinquish({GoalKind::Bank,altar}); // No room for another finite contract before delivery.
     if(m.shopping_since>=0) {
-        if(home>0&&static_cast<int>(tc.round)<=m.shopping_deadline)return {GoalKind::Home};
+        if((home>0||shop_visit_pending(tc.round))&&static_cast<int>(tc.round)<=m.shopping_deadline)return {GoalKind::Home};
         m.shopping_since=-1;m.shopping_deadline=-1;
     }
     if(o.hp<.3f*o.max_hp)return {GoalKind::Home};
+    if(work.kind==GoalKind::Farm&&m.crew_agreement.group==work.index&&m.crew_agreement.pending(tc.round))return work;
     if(auto retained=resume_trip(w,m,o,tc,altar))return *retained;
     auto& commitment=m.opening_commitment;
     if(altar>=0) {
@@ -728,8 +730,10 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         const bool helper_done=b.state==GroupState::Reward&&m.economic_capturer!=w.slot;
         const bool timed_out=std::popcount(m.economic_crew)>1&&static_cast<int>(tc.round)>m.rendezvous_until&&
             b.state!=GroupState::Partial&&b.state!=GroupState::Reward;
+        const bool assembling=std::popcount(m.economic_crew)>1&&crew.group==current&&!m.crew_agreement.committed&&
+            tc.round<=crew.since+team::agreement_window(w.allies.size())+config::crew_window;
         if(!helper_done&&!timed_out&&b.available(tc.round)&&
-            m.contract.progressing(tc.round,distance,b.hp,b.capture)) return macro_goal(w,m,o,tc,{GoalKind::Farm,current},altar,altar_distance,remaining);
+            (assembling||m.contract.progressing(tc.round,distance,b.hp,b.capture))) return macro_goal(w,m,o,tc,{GoalKind::Farm,current},altar,altar_distance,remaining);
         if(helper_done||!b.available(tc.round)){m.contract.objective=-1;m.leave_crew();}
         else m.release(tc.round);
     }
@@ -936,7 +940,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
             if(m.crew_decline.group==g&&m.crew_decline.until>static_cast<int>(tc.round))
                 m.crew_market.decline(g,m.crew_decline.members,m.crew_decline.until);
             const auto primary=m.crew_market.primary(epoch,pool,w.slot,tc.round,m.groups[g].hp);
-            const economy::CrewPrice price{m.groups[g].hp,group.reward_gems,group.reward_gold,gold_price,contested,group.cluster,candidates[index].capturer};
+            const economy::CrewPrice price{m.groups[g].hp,group.reward_gems,group.reward_gold,gold_price,contested,group.cluster,candidates[index].capturer,
+                static_cast<int>(2*team::lifetime(w.allies.size()))};
             const auto market_start=fuel_left();
             auto market_budget=[&]{return tc.allow(10000)&&market_start-fuel_left()<6000;};
             auto menu=m.crew_market.review(epoch,primary,pool,w.slot,tc.round,remaining,price,market_budget);
@@ -993,7 +998,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
 #endif
     if(std::popcount(chosen.crew)>1)m.accept_crew_offer(chosen.objective,chosen.crew);
     m.economic_crew=chosen.crew;m.economic_capturer=chosen.capturer;m.economic_rate=alternatives[w.slot];
-    m.rendezvous_until=tc.round+std::min(40,w.distance(chosen.objective,o.p)+8);
+    m.rendezvous_until=tc.round+(std::popcount(chosen.crew)>1?team::agreement_window(w.allies.size())+config::crew_window:
+        std::min(40,w.distance(chosen.objective,o.p)+8));
     m.contract.start(chosen.objective,tc.round,w.distance(chosen.objective,o.p),belief.hp,belief.capture,
         std::popcount(chosen.crew)>1?config::crew_window:config::contract_window);
     tc.guard();return macro_goal(w,m,o,tc,{GoalKind::Farm,chosen.objective},altar,altar_distance,remaining);
