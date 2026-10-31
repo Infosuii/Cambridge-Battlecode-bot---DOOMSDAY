@@ -703,3 +703,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-resumable-geometry-04 | 2026-10-31 | deterministic; Wasm 831cfe75ee8f | 4 cells; idle81 | scenario; trace=True |
 | dz-resumable-cast-economy-05 | 2026-10-31 | deterministic; Wasm d8bd9be74a89 | 2 cells; idle81 | smoke; trace=False |
 | dz-cast-and-crew-final-06 | 2026-10-31 | deterministic; Wasm 8ff73eb3b282 | 6 cells; idle81 | scenario; trace=True |
+| dz-z14b-base-v65-02 | 2026-10-31 | deterministic; Wasm accfffd0bda5 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-ee2-v65-02 | 2026-10-31 | deterministic; Wasm bcc761e69b85 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-home-v76-02 | 2026-10-31 | deterministic; Wasm cede10e14238 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-gv-v76-02 | 2026-10-31 | deterministic; Wasm c22a4dc1e8b4 | 140 cells; v76 | smoke; trace=False |
