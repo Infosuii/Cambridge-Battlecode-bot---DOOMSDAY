@@ -70,6 +70,9 @@ void StaticWorld::boot(const TurnContext& tc) {
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
         tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        tile_members.assign(tile_groups.size(),-1);
+#endif
         altars.clear();
         for (auto p : cambc::map::altars().positions()) altars.push_back({p, nullptr});
         loaded_ = true;
@@ -86,6 +89,9 @@ void StaticWorld::boot(const TurnContext& tc) {
 #endif
             auto p=tiles[tile_member_cursor_++];
             tile_groups[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_group_cursor_);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            tile_members[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_member_cursor_-1);
+#endif
             camp_spawns.set(p);
         }
         ++tile_group_cursor_; tile_member_cursor_=0;
@@ -107,6 +113,9 @@ void StaticWorld::boot(const TurnContext& tc) {
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
         home.compute(blocked, cambc::map::spawn_region(cambc::team::ally), visited);
+#if DZ_ECONOMY_V2
+        home_distances=home.export_linear_buffer();
+#endif
         tc.guard(); home_ready_ = true;
         return;
     }
@@ -150,13 +159,16 @@ void StaticWorld::boot(const TurnContext& tc) {
         auto field = std::make_unique<cambc::distance_field>();
         field->compute(blocked, roots, visited);
         tc.guard(); altar.field = std::move(field);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        altar.distances=altar.field->export_linear_buffer();
+#endif
     }
-#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2
+#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE
     // Resumable over turns: one pocket field per altar, then a budgeted group scan.
     const auto ring_start=fuel_left();
     for (auto& altar : altars) {
         if (altar.ring_checked) continue;
-        if (!(DZ_ON(RING_GATES) || DZ_ECONOMY_V2) || !altar.gates.empty()) { altar.ring_checked=true; continue; }
+        if (!(DZ_ON(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE) || !altar.gates.empty()) { altar.ring_checked=true; continue; }
         if (!altar.pocket) {
             if (!tc.allow(field_budget()+5000)) return;
             roots.clear();
@@ -204,7 +216,11 @@ void StaticWorld::boot(const TurnContext& tc) {
     ready = true;
 }
 void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
+#if DZ_ECONOMY_V2
+    if(!requested_navigation_fits(fuel_left(),field_budget(),preferred>=0)||groups.empty())return;
+#else
     if (!tc.allow(field_budget()) || tier_for(fuel_left()) != Tier::Full || groups.empty()) return;
+#endif
     int selected = -1;
     if (preferred >= 0 && preferred < static_cast<int>(groups.size()) && !groups[preferred].field) selected = preferred;
     else {

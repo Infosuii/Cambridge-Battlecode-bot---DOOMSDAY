@@ -1,5 +1,13 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
+Latest development: default-off resumable crew geometry, bounded cast-aware
+single-monster objective work and a checked first-shield wake policy. See
+[the current checkpoint](../../research/dz/cast-crew-2026-10-31/README.md) and
+[live backlog](../../research/dz/BACKLOG.md). Targeted crews/recovery execute with
+clean runtime; Famine still fails competitive banking. Mixed-monster geometry,
+general ability/crew modelling and release acceptance remain open. Selected
+release defaults are unchanged.
+
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
 and standard library are the only bot dependencies. Old bots are opponents only.
@@ -32,11 +40,14 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
 `DZ_ECONOMY_V2=1` enables bounded objective quotes, dynamic crew allocation,
 timestamped crew leases, single capturers, cluster follow-up valuation, marginal
 gear projects, a bounded four-turn combat forecast, common action values and a
-near-finish race clock. Gate-member access and startup scans are resumable.
+near-finish race clock. `DZ_SIEGE=1` separately enables persistent gate waves,
+checked escapes, heal-return, first-phase shields, committed ally protection and
+cached actual altar reachability. See the
+[siege checkpoint](../../research/dz/siege-2026-10-31/README.md).
 The default is **0**: development screens have not established a banking gain.
 See [the implementation checkpoint](../../research/dz/engineering-2026-10-31/README.md)
 for exact model assumptions, failed runs, validation and the ordered backlog.
-Full ObjModel/EE calibration, tank positioning, siege recovery, joint action
+Full ObjModel/EE calibration, siege/crew integration, competitive conversion, joint action
 enumeration, opening rollout and release promotion remain unfinished.
 
 On macOS/Linux install official `cambc==4.0.0` and put it on PATH, or set

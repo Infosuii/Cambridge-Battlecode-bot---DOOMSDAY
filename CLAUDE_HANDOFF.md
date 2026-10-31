@@ -1,3 +1,124 @@
+# ACTIVE 2026-10-31 — resumable geometry and cast-aware work; unpromoted
+
+Read research/dz/cast-crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Fixed observed Vesper R9 fuel exhaustion; the diagnostic returned from crew quote
+with 34 fuel. Added persistent front/exit/helper geometry search and pending auction
+work. Added bounded reset/shield/direct-cast phase model, conditional single-monster
+self quotes, and a checked first-shield wake transaction. TEN host suites pass.
+Final native fixtures: wolf272/272, elk570/570, layered502/127; zero faults/fuel-outs;
+strict layered recovery passes45/22 cycles. General model/cast-transaction native
+coverage remains open. Final Famine FAILS14/17 vs selected400/236 despite clean
+runtime. Do not scale or promote. Next: sequential multi-monster crew geometry,
+ability/phase validation, contested conversion/progression, siege and joint combat.
+All six capsules verify; selected and combined Wasm build. Defaults/Mac437f91c3
+and Windows5cf28cb7 preserved. No validation/release pool or online actions used.
+Goal remains active; native CLI works. .vscode/ belongs to workspace; untouched.
+
+# ACTIVE 2026-10-31 — owned crews and renewable allocation; unpromoted
+
+Read research/dz/team-economy-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded six-actor task DP, renewable collection/delivery schedules,
+observed conversion identity, caller-owned offers, fixed working reservations,
+partial-clear crew visits, reusable role geometry and real-work starvation recovery.
+Nine host suites, 28 measurement and six audit checks pass; all 24 development
+capsules verify. Selected and integrated-table Wasm build. Defaults are unchanged.
+Final fixture source banks 585/30 (elk), 234/92 (layered), zero faults/fuel-outs;
+scoped strict layered audit passes 43/24 cycles. This is narrow execution evidence.
+Famine still FAILS: 21/41 vs selected control 400/236 and one Vesper R9 fuel-out
+on each side. Intrusive profiling stalls production and does not clear that fault.
+Do not promote or scale competitive screens. Next: fix the cold path, integrate
+ability-aware objective work, siege/crew roles, then joint combat/action models.
+Full Z6–Z15 acceptance/parity remains open; no validation/release pool was used in
+this checkpoint. Keep the goal active. No online actions. Native CLI works with
+explicit Homebrew Python 3.14 + DZ_CAMBC. Untracked .vscode/ is untouched.
+
+# ACTIVE 2026-10-31 — collection/delivery and gear checkpoint; unpromoted
+
+Read research/dz/trips-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded three-job circuits, fixed conversion/delivery commitments,
+explicit funded gear-visit/defer schedules, actual combination stats, conditional
+job-unlock estimates, common production accounting and bounded gear frontier.
+Native06 confirms multi-job circuits and planned purchases (earlier searches
+silently discarded every over-budget ranking). All nine host suites/28 measurement/
+six audit tests pass. Selected and combined Wasm build. Release defaults preserved.
+Failed pre-latch Famine08 banks63/11 vs400/236 control. Do not scale or promote.
+Layered07 strict audit FAILS with three deaths in two withdrawal intervals. Final
+persistent ordinary recovery latch09 repairs the observed re-entry defect: scoped
+strict audit passes62/43 cycles, banks354/170, no recorded withdrawal deaths/faults/
+fuel-outs. Final source has targeted layered validation only; general acceptance
+and competition remain open. Next: sparse renewable circuits/bank scheduling,
+contested production, siege/crew roles and joint combat/action/model calibration.
+Keep the goal active. No holdout/online actions. Python3.14 + DZ_CAMBC work.
+Untracked .vscode/ belongs to the workspace and is untouched.
+
+# ACTIVE 2026-10-31 — spatial crew and production checkpoint; unpromoted
+
+Read research/dz/crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented actual tank/rear/escape geometry, consenting roster/focus/capture roles,
+local handoff code (native handoff unverified), shared legal neutral recovery,
+observation budgets, cached role navigation, production coverage and resumable crews.
+All host suites/28 measurement/four parser tests pass; three flag combinations build.
+Final six native fixture cells have zero deaths/faults/fuel-outs. Scoped layered
+strict audit passes51/43 cycles; not general V-M1/Z11/release acceptance. Final double
+wolf uses solo progression, so final-source multi-member crew exercise remains open.
+Preliminary v65 screen fails41.75 vs294.5; later Famine repairs84/78 vs400/236 control.
+Next source: deferred gear-trip counterfactuals and concrete circuit/delivery plans,
+then siege/crew integration, combat and full action/model calibration. Do not scale
+failed benchmarks. Defaults/Mac SHA437f91c3/Windows5cf28cb7 preserved. No holdout or
+online actions. Explicit Homebrew Python3.14 + DZ_CAMBC work. .vscode/ untouched.
+
+# ACTIVE 2026-10-31 — opening projects and retreat lanes; unpromoted
+
+Read research/dz/opening-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented under DZ_ECONOMY_V2=0: resumable multi-layer opening quotes, economy/
+gear competition, concrete follow-through commitments, dependency stack/resume,
+arrival-tick respawn occupancy, approach safeguards and visible ally lane yielding.
+Final four-cell native fixture banks340/247 (layered gate),228/240 (shop), zero
+faults/fuel-outs, p99 fuel73,083. All host,28 measurement and six audit checks pass.
+STRICT WITHDRAWAL AUDIT STILL FAILS; scenario banking is not release acceptance.
+Next: real tank/rear/escape crew positions, focus/capture roles, fatal-withdrawal/
+legacy interaction, then full combat/macro calibration and action integration.
+No competitive campaign was run this checkpoint. Release defaults restored to
+prior Mac SHA437f91c3; Windows selected5cf28cb7 unchanged. No holdout/online actions.
+Native CLI works. Use explicit Homebrew Python3.14 and DZ_CAMBC as below.
+Older PAUSED/status sections are historical. Untracked .vscode/ remains untouched.
+
+# ACTIVE 2026-10-31 — macro and gear-visit checkpoint, unpromoted
+
+Siege/shared-work merge is pushed through d16f779. Current continuation is active.
+Read research/dz/macro-2026-10-31/README.md and research/dz/BACKLOG.md.
+Common finite-horizon farm/bank/shop scoring and matching executable gear visits
+are implemented in DZ_ECONOMY_V2 (default 0). All host suites, 28 measurement and
+six audit checks pass. Final-source four-cell native fixtures bank positively with
+zero faults/fuel-outs, p99 fuel73,344; default Mac Wasm remains SHA437f91c3.
+Preliminary four-cell v65 screen fails:169.25 vs selected-source294.5. Later source
+fixes have fixture checks only; no candidate is promoted or competitively confirmed.
+Next code: integrate gate investment/progression with macro choices, actual tank/
+rear crew focus and recovery handoff, then combat/capture/ward opportunity costs.
+Do not scale failed benchmarks or spend reserved release seeds. Native CLI works.
+Older PAUSED/status entries below are preserved history, not current instructions.
+
+# ACTIVE 2026-10-31 — native siege checkpoint; release unchanged
+
+Current authorised continuation is active; older PAUSED entries below are historical.
+Merged shared remote 247641f with native siege implementation 330cac1 in 0629a74.
+Read research/dz/siege-2026-10-31/README.md and the combined plan below.
+Persistent escape/heal-return, current committed-ally tank credit and cached actual
+altar access are built under DZ_SIEGE / DZ_ECONOMY_V2, both default 0. Corrected
+four-cell native fixture audit passes 169 completed cycles with no recorded
+withdrawal deaths, faults or fuel-outs. Small three-map v65 screen loses banking
+(1.17 vs paired control 13.0); not promoted. Broad economy integration is runtime
+clean but strategically unaccepted (one side banks zero). Do not scale these screens.
+Default merged Mac build SHA437f91c3 remains unchanged; all host suites and six
+negative/parser audit tests pass. Windows selected SHA5cf28cb7 is unchanged.
+Native CLI works: DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc; use Homebrew Python3.14.
+Next: common macro action/gear-visit scoring, progression before expensive gates,
+real multi-turn tank/rear crews and conditional enemy exposure. Shared EE2/table
+results are preserved; their reported calibration has not been independently
+reaudited here. Full ObjModel/EE/competitive release gates remain open. Preserve
+reserved release seeds; no submission, activation or online matches authorised.
+Untracked .vscode/ settings belong to the workspace and were left untouched.
+
 # PAUSED 2026-10-31 - read research/dz/COMBINED_PLAN_2026-10-31.md FIRST
 
 Selected release 5cf28cb7 unchanged (every new flag defaults to 0; default build byte-identical).

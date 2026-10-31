@@ -1,0 +1,3580 @@
+{
+  "scope": "Unmodified strict siege audit. The two final layered cells pass43/24 cycles; non-siege elk cells correctly have zero siege cycles, so mixed full-run pass is false. No general crew/competitive safety claim.",
+  "report": {
+    "run": "dz-spell-budget-fixtures-23",
+    "passed": false,
+    "cells": [
+      {
+        "map": "isolated-elk",
+        "side": "A",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 585,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "4468d52efd7662832c3e6b380c1d5861a67c4c9effdf8f47ad845fd83c4bee2b",
+        "summary_sha256": "77efe4bd3e4669fe20f61d9fb655afb2b47ea912251f3171aa870e0675a768d0"
+      },
+      {
+        "map": "isolated-elk",
+        "side": "B",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 30,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "f08640f5adbe2aae8e2a445e474dc37449ee8fc3a0709359de7112778f3dea73",
+        "summary_sha256": "9432b8bcd32a35d60743a49e3aea9140373eb61c30e6f91f9b1a021664f6ba0a"
+      },
+      {
+        "map": "siege-two-layer",
+        "side": "A",
+        "completed_cycles": 43,
+        "cycles": [
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 83,
+            "escape": 100,
+            "recover": 104,
+            "returned": 110,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 110,
+            "escape": 127,
+            "recover": 131,
+            "returned": 137,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 172,
+            "escape": 191,
+            "recover": 195,
+            "returned": 201,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 201,
+            "escape": 226,
+            "recover": 230,
+            "returned": 236,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 220,
+            "escape": 241,
+            "recover": 245,
+            "returned": 251,
+            "own_camp_damage": 345.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 236,
+            "escape": 255,
+            "recover": 259,
+            "returned": 265,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 251,
+            "escape": 269,
+            "recover": 273,
+            "returned": 279,
+            "own_camp_damage": 255.0,
+            "native_healing": 120.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 265,
+            "escape": 288,
+            "recover": 292,
+            "returned": 298,
+            "own_camp_damage": 330.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 279,
+            "escape": 301,
+            "recover": 305,
+            "returned": 311,
+            "own_camp_damage": 345.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 298,
+            "escape": 316,
+            "recover": 320,
+            "returned": 326,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 311,
+            "escape": 338,
+            "recover": 342,
+            "returned": 348,
+            "own_camp_damage": 345.0,
+            "native_healing": 600.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 326,
+            "escape": 350,
+            "recover": 354,
+            "returned": 360,
+            "own_camp_damage": 140.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 339,
+            "escape": 365,
+            "recover": 370,
+            "returned": 376,
+            "own_camp_damage": 225.0,
+            "native_healing": 710.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 348,
+            "escape": 377,
+            "recover": 382,
+            "returned": 388,
+            "own_camp_damage": 90.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 468,
+            "escape": 489,
+            "recover": 493,
+            "returned": 499,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 479,
+            "escape": 515,
+            "recover": 520,
+            "returned": 526,
+            "own_camp_damage": 180.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 499,
+            "escape": 531,
+            "recover": 536,
+            "returned": 542,
+            "own_camp_damage": 260.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 511,
+            "escape": 543,
+            "recover": 548,
+            "returned": 554,
+            "own_camp_damage": 90.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 526,
+            "escape": 558,
+            "recover": 563,
+            "returned": 569,
+            "own_camp_damage": 180.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 542,
+            "escape": 571,
+            "recover": 576,
+            "returned": 582,
+            "own_camp_damage": 140.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 554,
+            "escape": 585,
+            "recover": 590,
+            "returned": 596,
+            "own_camp_damage": 300.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 569,
+            "escape": 598,
+            "recover": 603,
+            "returned": 609,
+            "own_camp_damage": 90.0,
+            "native_healing": 350.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 809,
+            "escape": 831,
+            "recover": 835,
+            "returned": 841,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 841,
+            "escape": 858,
+            "recover": 862,
+            "returned": 868,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 868,
+            "escape": 889,
+            "recover": 893,
+            "returned": 899,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 899,
+            "escape": 916,
+            "recover": 920,
+            "returned": 926,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 926,
+            "escape": 948,
+            "recover": 952,
+            "returned": 958,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 958,
+            "escape": 975,
+            "recover": 979,
+            "returned": 985,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 985,
+            "escape": 1005,
+            "recover": 1009,
+            "returned": 1015,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1015,
+            "escape": 1039,
+            "recover": 1043,
+            "returned": 1049,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1037,
+            "escape": 1057,
+            "recover": 1061,
+            "returned": 1067,
+            "own_camp_damage": 345.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1049,
+            "escape": 1068,
+            "recover": 1072,
+            "returned": 1078,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1067,
+            "escape": 1095,
+            "recover": 1099,
+            "returned": 1105,
+            "own_camp_damage": 345.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1078,
+            "escape": 1108,
+            "recover": 1112,
+            "returned": 1118,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1094,
+            "escape": 1121,
+            "recover": 1125,
+            "returned": 1131,
+            "own_camp_damage": 225.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1105,
+            "escape": 1134,
+            "recover": 1139,
+            "returned": 1145,
+            "own_camp_damage": 345.0,
+            "native_healing": 840.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1213,
+            "escape": 1236,
+            "recover": 1241,
+            "returned": 1247,
+            "own_camp_damage": 225.0,
+            "native_healing": 710.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1527,
+            "escape": 1548,
+            "recover": 1552,
+            "returned": 1558,
+            "own_camp_damage": 862.5,
+            "native_healing": 960.0,
+            "return_hp": 1400.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1558,
+            "escape": 1575,
+            "recover": 1579,
+            "returned": 1585,
+            "own_camp_damage": 207.0,
+            "native_healing": 360.0,
+            "return_hp": 1400.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1585,
+            "escape": 1608,
+            "recover": 1612,
+            "returned": 1618,
+            "own_camp_damage": 862.5,
+            "native_healing": 960.0,
+            "return_hp": 1400.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1618,
+            "escape": 1639,
+            "recover": 1643,
+            "returned": 1649,
+            "own_camp_damage": 862.5,
+            "native_healing": 960.0,
+            "return_hp": 1400.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1649,
+            "escape": 1672,
+            "recover": 1676,
+            "returned": 1682,
+            "own_camp_damage": 862.5,
+            "native_healing": 960.0,
+            "return_hp": 1400.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1682,
+            "escape": 1703,
+            "recover": 1707,
+            "returned": 1713,
+            "own_camp_damage": 862.5,
+            "native_healing": 960.0,
+            "return_hp": 1400.0
+          }
+        ],
+        "escape_deaths": [],
+        "withdrawals": [
+          {
+            "body": 0,
+            "start": 100,
+            "stop": 110,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 127,
+            "stop": 137,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 144,
+            "stop": 144,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 161,
+            "stop": 172,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 191,
+            "stop": 201,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 206,
+            "stop": 236,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 241,
+            "stop": 251,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 255,
+            "stop": 265,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 269,
+            "stop": 279,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 280,
+            "stop": 282,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 288,
+            "stop": 298,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 301,
+            "stop": 311,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 316,
+            "stop": 326,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 338,
+            "stop": 348,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 350,
+            "stop": 360,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 365,
+            "stop": 376,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 377,
+            "stop": 388,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 388,
+            "stop": 390,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 382,
+            "stop": 425,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 394,
+            "stop": 431,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 489,
+            "stop": 499,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 515,
+            "stop": 526,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 525,
+            "stop": 526,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 526,
+            "stop": 527,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 531,
+            "stop": 542,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 543,
+            "stop": 554,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 558,
+            "stop": 569,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 571,
+            "stop": 582,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 585,
+            "stop": 596,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 598,
+            "stop": 609,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 611,
+            "stop": 777,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 792,
+            "stop": 809,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 831,
+            "stop": 841,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 858,
+            "stop": 868,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 874,
+            "stop": 899,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 916,
+            "stop": 926,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 931,
+            "stop": 958,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 975,
+            "stop": 985,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 994,
+            "stop": 1015,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 613,
+            "stop": 1032,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1039,
+            "stop": 1049,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1057,
+            "stop": 1067,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1068,
+            "stop": 1078,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 628,
+            "stop": 1094,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1079,
+            "stop": 1105,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1083,
+            "stop": 1118,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1121,
+            "stop": 1131,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1134,
+            "stop": 1145,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1145,
+            "stop": 1146,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1137,
+            "stop": 1185,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1204,
+            "stop": 1213,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1236,
+            "stop": 1247,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1249,
+            "stop": 1303,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1548,
+            "stop": 1558,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1575,
+            "stop": 1585,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1591,
+            "stop": 1618,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1639,
+            "stop": 1649,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1655,
+            "stop": 1682,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1703,
+            "stop": 1713,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1262,
+            "stop": 1726,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1740,
+            "stop": 1775,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1719,
+            "stop": 2000,
+            "censored": true
+          },
+          {
+            "body": 0,
+            "start": 1752,
+            "stop": 2000,
+            "censored": true
+          }
+        ],
+        "banked": 234,
+        "runtime_clean": true,
+        "passed": true,
+        "stdout_sha256": "0cccc1d1072e30d4f797fa6ab3626f5b341e476fad5652a3d0d54361c94c2cc7",
+        "summary_sha256": "0453ba570dfd15121622e0738915fa3f0b65c75fb3d05028ec10871f1ca2ed82"
+      },
+      {
+        "map": "siege-two-layer",
+        "side": "B",
+        "completed_cycles": 24,
+        "cycles": [
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 34,
+            "escape": 51,
+            "recover": 55,
+            "returned": 61,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 205,
+            "escape": 227,
+            "recover": 231,
+            "returned": 237,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 257,
+            "escape": 277,
+            "recover": 282,
+            "returned": 288,
+            "own_camp_damage": 260.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 288,
+            "escape": 305,
+            "recover": 310,
+            "returned": 316,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 319,
+            "escape": 338,
+            "recover": 342,
+            "returned": 348,
+            "own_camp_damage": 345.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 348,
+            "escape": 378,
+            "recover": 382,
+            "returned": 388,
+            "own_camp_damage": 345.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 388,
+            "escape": 404,
+            "recover": 408,
+            "returned": 414,
+            "own_camp_damage": 90.0,
+            "native_healing": 120.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 414,
+            "escape": 438,
+            "recover": 442,
+            "returned": 448,
+            "own_camp_damage": 465.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 448,
+            "escape": 470,
+            "recover": 474,
+            "returned": 480,
+            "own_camp_damage": 345.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 481,
+            "escape": 501,
+            "recover": 505,
+            "returned": 511,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 480,
+            "escape": 525,
+            "recover": 530,
+            "returned": 536,
+            "own_camp_damage": 285.0,
+            "native_healing": 360.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 536,
+            "escape": 553,
+            "recover": 558,
+            "returned": 564,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 536,
+            "escape": 562,
+            "recover": 566,
+            "returned": 572,
+            "own_camp_damage": 255.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 564,
+            "escape": 583,
+            "recover": 587,
+            "returned": 593,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 593,
+            "escape": 612,
+            "recover": 616,
+            "returned": 622,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 599,
+            "escape": 620,
+            "recover": 624,
+            "returned": 630,
+            "own_camp_damage": 255.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 622,
+            "escape": 641,
+            "recover": 645,
+            "returned": 651,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 651,
+            "escape": 670,
+            "recover": 674,
+            "returned": 680,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 657,
+            "escape": 678,
+            "recover": 682,
+            "returned": 688,
+            "own_camp_damage": 255.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 680,
+            "escape": 699,
+            "recover": 703,
+            "returned": 709,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 1191,
+            "escape": 1219,
+            "recover": 1223,
+            "returned": 1229,
+            "own_camp_damage": 547.5,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 1229,
+            "escape": 1271,
+            "recover": 1275,
+            "returned": 1281,
+            "own_camp_damage": 547.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 1310,
+            "escape": 1333,
+            "recover": 1337,
+            "returned": 1343,
+            "own_camp_damage": 667.5,
+            "native_healing": 360.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 4,
+            "task": [
+              3,
+              0
+            ],
+            "start": 1314,
+            "escape": 1376,
+            "recover": 1380,
+            "returned": 1386,
+            "own_camp_damage": 225.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          }
+        ],
+        "escape_deaths": [],
+        "withdrawals": [
+          {
+            "body": 3,
+            "start": 51,
+            "stop": 61,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 76,
+            "stop": 94,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 100,
+            "stop": 103,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 103,
+            "stop": 106,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 106,
+            "stop": 109,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 109,
+            "stop": 112,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 112,
+            "stop": 115,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 115,
+            "stop": 118,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 118,
+            "stop": 121,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 121,
+            "stop": 124,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 124,
+            "stop": 127,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 127,
+            "stop": 130,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 130,
+            "stop": 133,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 133,
+            "stop": 136,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 136,
+            "stop": 139,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 139,
+            "stop": 142,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 142,
+            "stop": 145,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 145,
+            "stop": 148,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 148,
+            "stop": 151,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 151,
+            "stop": 154,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 154,
+            "stop": 157,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 157,
+            "stop": 160,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 206,
+            "stop": 237,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 249,
+            "stop": 257,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 252,
+            "stop": 260,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 271,
+            "stop": 273,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 273,
+            "stop": 274,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 277,
+            "stop": 288,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 282,
+            "stop": 291,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 305,
+            "stop": 316,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 310,
+            "stop": 319,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 338,
+            "stop": 348,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 341,
+            "stop": 349,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 378,
+            "stop": 388,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 381,
+            "stop": 389,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 404,
+            "stop": 414,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 406,
+            "stop": 415,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 429,
+            "stop": 431,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 438,
+            "stop": 448,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 441,
+            "stop": 449,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 470,
+            "stop": 480,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 455,
+            "stop": 481,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 501,
+            "stop": 511,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 507,
+            "stop": 515,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 495,
+            "stop": 521,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 519,
+            "stop": 536,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 525,
+            "stop": 536,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 521,
+            "stop": 539,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 553,
+            "stop": 564,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 557,
+            "stop": 566,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 562,
+            "stop": 572,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 583,
+            "stop": 593,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 586,
+            "stop": 595,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 590,
+            "stop": 599,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 612,
+            "stop": 622,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 615,
+            "stop": 624,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 620,
+            "stop": 630,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 641,
+            "stop": 651,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 644,
+            "stop": 653,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 648,
+            "stop": 657,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 670,
+            "stop": 680,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 673,
+            "stop": 682,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 678,
+            "stop": 688,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 699,
+            "stop": 709,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 702,
+            "stop": 711,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 706,
+            "stop": 715,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 731,
+            "stop": 740,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 754,
+            "stop": 820,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 736,
+            "stop": 987,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1017,
+            "stop": 1023,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1194,
+            "stop": 1229,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1252,
+            "stop": 1254,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1271,
+            "stop": 1281,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1306,
+            "stop": 1314,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1324,
+            "stop": 1326,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1333,
+            "stop": 1343,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1334,
+            "stop": 1345,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1376,
+            "stop": 1386,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1388,
+            "stop": 1395,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1413,
+            "stop": 1415,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1413,
+            "stop": 1416,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1417,
+            "stop": 1419,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1418,
+            "stop": 1420,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1421,
+            "stop": 1423,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1422,
+            "stop": 1424,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1425,
+            "stop": 1427,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1426,
+            "stop": 1428,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1429,
+            "stop": 1431,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1430,
+            "stop": 1432,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1433,
+            "stop": 1435,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1434,
+            "stop": 1436,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1437,
+            "stop": 1439,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1438,
+            "stop": 1440,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1441,
+            "stop": 1443,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1442,
+            "stop": 1444,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1445,
+            "stop": 1447,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1446,
+            "stop": 1448,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1449,
+            "stop": 1451,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1450,
+            "stop": 1452,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1453,
+            "stop": 1455,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1454,
+            "stop": 1456,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1457,
+            "stop": 1459,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1458,
+            "stop": 1460,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1461,
+            "stop": 1463,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1462,
+            "stop": 1464,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1465,
+            "stop": 1467,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1466,
+            "stop": 1468,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1469,
+            "stop": 1471,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1470,
+            "stop": 1472,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1473,
+            "stop": 1475,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1474,
+            "stop": 1476,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1477,
+            "stop": 1479,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1478,
+            "stop": 1480,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1481,
+            "stop": 1483,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1482,
+            "stop": 1484,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1485,
+            "stop": 1487,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1486,
+            "stop": 1488,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1489,
+            "stop": 1491,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1490,
+            "stop": 1492,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1493,
+            "stop": 1495,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1494,
+            "stop": 1496,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1497,
+            "stop": 1499,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1501,
+            "stop": 1503,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1498,
+            "stop": 1504,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1505,
+            "stop": 1507,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1506,
+            "stop": 1508,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1509,
+            "stop": 1511,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1510,
+            "stop": 1512,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1513,
+            "stop": 1515,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1514,
+            "stop": 1516,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1517,
+            "stop": 1519,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1518,
+            "stop": 1520,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1521,
+            "stop": 1523,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1522,
+            "stop": 1524,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1525,
+            "stop": 1527,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1526,
+            "stop": 1528,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1529,
+            "stop": 1531,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1530,
+            "stop": 1532,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1533,
+            "stop": 1535,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1534,
+            "stop": 1536,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1537,
+            "stop": 1539,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1538,
+            "stop": 1540,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1541,
+            "stop": 1543,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1542,
+            "stop": 1544,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1545,
+            "stop": 1547,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1546,
+            "stop": 1548,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1549,
+            "stop": 1551,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1550,
+            "stop": 1552,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1553,
+            "stop": 1555,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1554,
+            "stop": 1556,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1557,
+            "stop": 1559,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1558,
+            "stop": 1560,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1561,
+            "stop": 1563,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1562,
+            "stop": 1564,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1565,
+            "stop": 1567,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1566,
+            "stop": 1568,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1569,
+            "stop": 1571,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1570,
+            "stop": 1572,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1573,
+            "stop": 1575,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1574,
+            "stop": 1576,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1577,
+            "stop": 1579,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1578,
+            "stop": 1580,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1581,
+            "stop": 1583,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1582,
+            "stop": 1584,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1585,
+            "stop": 1587,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1586,
+            "stop": 1588,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1589,
+            "stop": 1591,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1590,
+            "stop": 1592,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1593,
+            "stop": 1595,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1594,
+            "stop": 1596,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1597,
+            "stop": 1599,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1601,
+            "stop": 1603,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1598,
+            "stop": 1604,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1605,
+            "stop": 1607,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1606,
+            "stop": 1608,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1609,
+            "stop": 1611,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1610,
+            "stop": 1612,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1613,
+            "stop": 1615,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1614,
+            "stop": 1616,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1617,
+            "stop": 1619,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1618,
+            "stop": 1620,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1621,
+            "stop": 1623,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1622,
+            "stop": 1624,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1625,
+            "stop": 1627,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1626,
+            "stop": 1628,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1629,
+            "stop": 1631,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1630,
+            "stop": 1632,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1633,
+            "stop": 1635,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1634,
+            "stop": 1636,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1637,
+            "stop": 1639,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1638,
+            "stop": 1640,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1641,
+            "stop": 1643,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1642,
+            "stop": 1644,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1645,
+            "stop": 1647,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1646,
+            "stop": 1648,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1649,
+            "stop": 1651,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1650,
+            "stop": 1652,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1653,
+            "stop": 1655,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1654,
+            "stop": 1656,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1657,
+            "stop": 1659,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1658,
+            "stop": 1660,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1661,
+            "stop": 1663,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1662,
+            "stop": 1664,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1665,
+            "stop": 1667,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1666,
+            "stop": 1668,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1669,
+            "stop": 1671,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1670,
+            "stop": 1672,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1673,
+            "stop": 1675,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1674,
+            "stop": 1676,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1677,
+            "stop": 1679,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1678,
+            "stop": 1680,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1681,
+            "stop": 1683,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1682,
+            "stop": 1684,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1685,
+            "stop": 1687,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1686,
+            "stop": 1688,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1689,
+            "stop": 1691,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1690,
+            "stop": 1692,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1693,
+            "stop": 1695,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1694,
+            "stop": 1696,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1697,
+            "stop": 1699,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1701,
+            "stop": 1703,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1698,
+            "stop": 1704,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1705,
+            "stop": 1707,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1706,
+            "stop": 1708,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1709,
+            "stop": 1711,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1710,
+            "stop": 1712,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1713,
+            "stop": 1715,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1714,
+            "stop": 1716,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1717,
+            "stop": 1719,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1718,
+            "stop": 1720,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1721,
+            "stop": 1723,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1722,
+            "stop": 1724,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1725,
+            "stop": 1727,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1726,
+            "stop": 1728,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1729,
+            "stop": 1731,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1730,
+            "stop": 1732,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1733,
+            "stop": 1735,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1734,
+            "stop": 1736,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1737,
+            "stop": 1739,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1738,
+            "stop": 1740,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1741,
+            "stop": 1743,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1742,
+            "stop": 1744,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1745,
+            "stop": 1747,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1746,
+            "stop": 1748,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1749,
+            "stop": 1751,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1753,
+            "stop": 1755,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1754,
+            "stop": 1756,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1757,
+            "stop": 1759,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1758,
+            "stop": 1760,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1761,
+            "stop": 1763,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1762,
+            "stop": 1764,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1765,
+            "stop": 1767,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1766,
+            "stop": 1768,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1769,
+            "stop": 1771,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1770,
+            "stop": 1772,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1773,
+            "stop": 1775,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1774,
+            "stop": 1776,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1777,
+            "stop": 1779,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1778,
+            "stop": 1780,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1781,
+            "stop": 1783,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1782,
+            "stop": 1784,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1785,
+            "stop": 1787,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1786,
+            "stop": 1788,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1789,
+            "stop": 1791,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1790,
+            "stop": 1792,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1793,
+            "stop": 1795,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1794,
+            "stop": 1796,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1797,
+            "stop": 1799,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1801,
+            "stop": 1803,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1798,
+            "stop": 1804,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1805,
+            "stop": 1807,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1806,
+            "stop": 1808,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1809,
+            "stop": 1811,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1810,
+            "stop": 1812,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1813,
+            "stop": 1815,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1814,
+            "stop": 1816,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1817,
+            "stop": 1819,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1818,
+            "stop": 1820,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1821,
+            "stop": 1823,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1822,
+            "stop": 1824,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1825,
+            "stop": 1827,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1826,
+            "stop": 1828,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1829,
+            "stop": 1831,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1830,
+            "stop": 1832,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1833,
+            "stop": 1835,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1834,
+            "stop": 1836,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1837,
+            "stop": 1839,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1838,
+            "stop": 1840,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1841,
+            "stop": 1843,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1842,
+            "stop": 1844,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1845,
+            "stop": 1847,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1846,
+            "stop": 1848,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1849,
+            "stop": 1851,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1850,
+            "stop": 1852,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1853,
+            "stop": 1855,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1854,
+            "stop": 1856,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1857,
+            "stop": 1859,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1858,
+            "stop": 1860,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1861,
+            "stop": 1863,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1862,
+            "stop": 1864,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1865,
+            "stop": 1867,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1866,
+            "stop": 1868,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1869,
+            "stop": 1871,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1870,
+            "stop": 1872,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1873,
+            "stop": 1875,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1874,
+            "stop": 1876,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1877,
+            "stop": 1879,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1878,
+            "stop": 1880,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1881,
+            "stop": 1883,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1882,
+            "stop": 1884,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1885,
+            "stop": 1887,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1886,
+            "stop": 1888,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1889,
+            "stop": 1891,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1890,
+            "stop": 1892,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1893,
+            "stop": 1895,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1894,
+            "stop": 1896,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1897,
+            "stop": 1899,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1901,
+            "stop": 1903,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1898,
+            "stop": 1904,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1905,
+            "stop": 1907,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1906,
+            "stop": 1908,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1909,
+            "stop": 1911,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1910,
+            "stop": 1912,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1913,
+            "stop": 1915,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1914,
+            "stop": 1916,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1917,
+            "stop": 1919,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1918,
+            "stop": 1920,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1921,
+            "stop": 1923,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1922,
+            "stop": 1924,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1925,
+            "stop": 1927,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1926,
+            "stop": 1928,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1929,
+            "stop": 1931,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1930,
+            "stop": 1932,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1933,
+            "stop": 1935,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1934,
+            "stop": 1936,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1937,
+            "stop": 1939,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1938,
+            "stop": 1940,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1941,
+            "stop": 1943,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1942,
+            "stop": 1944,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1945,
+            "stop": 1947,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1946,
+            "stop": 1948,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1949,
+            "stop": 1951,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1950,
+            "stop": 1952,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1953,
+            "stop": 1955,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1954,
+            "stop": 1956,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1957,
+            "stop": 1959,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1958,
+            "stop": 1960,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1961,
+            "stop": 1963,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1962,
+            "stop": 1964,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1965,
+            "stop": 1967,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1966,
+            "stop": 1968,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1969,
+            "stop": 1971,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1970,
+            "stop": 1972,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1973,
+            "stop": 1975,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1974,
+            "stop": 1976,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1977,
+            "stop": 1979,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1978,
+            "stop": 1980,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1981,
+            "stop": 1983,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1982,
+            "stop": 1984,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1985,
+            "stop": 1987,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1986,
+            "stop": 1988,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 1989,
+            "stop": 1991,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1990,
+            "stop": 1992,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 1994,
+            "stop": 1996,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 728,
+            "stop": 2000,
+            "censored": true
+          },
+          {
+            "body": 4,
+            "start": 1998,
+            "stop": 2000,
+            "censored": true
+          }
+        ],
+        "banked": 92,
+        "runtime_clean": true,
+        "passed": true,
+        "stdout_sha256": "3467f5335ad464db9607be1dfbf8f98c218cb497ca47e73d93345f5031430001",
+        "summary_sha256": "f3e49c436a9e3ec648be3a740670263702bf7e9b6c6f126f1b1bd1d2e0cca65e"
+      }
+    ],
+    "candidate_sha256": "a30cafd8260f08f6e606c7cb19a2dc289b37cd8b231cde8b804a583434a71c0e",
+    "scope": "Audit repeated production siege visits on frozen correctness fixtures.\n\nScope: retained target, own camp damage, native healing, and deaths during\nexplicit withdrawals, including ones that never return. Not strength evidence.\n",
+    "auditor_sha256": "cda5a92457c3293a54fc560afcabf02e360772cf7236a8d232bb29a53064c49b"
+  }
+}

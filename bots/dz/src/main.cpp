@@ -2,6 +2,7 @@
 #include "gear.h"
 #include "safemode.h"
 #include "model_audit.h"
+#include "crew.h"
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -118,6 +119,12 @@ int main() {
                 continue;
             }
             if (obs->state.is_dead()) {
+#if DZ_SIEGE || DZ_ECONOMY_V2
+                if(mem->siege_task.active())mem->siege_task.reset(tc.round,15);
+#endif
+#if DZ_ECONOMY_V2
+                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};
+#endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;
                 ++dz_time[10];
@@ -168,7 +175,13 @@ int main() {
                         }
 #endif
                         DZ_PROF('m');
+#if DZ_ECONOMY_V2
+                        bool built_crew_route=false;
+                        dz::module_work(field_health,tc,counts,"crew-fields",[&]{built_crew_route=dz::build_crew_field(*world,*mem,*obs,tc);});
+                        if (!built_crew_route&&mem->field_needed>=0) {
+#else
                         if (mem->field_needed>=0) {
+#endif
                             const int requested=mem->field_needed;
                             if (!world->groups[requested].field)
                                 dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,requested);});
@@ -220,6 +233,14 @@ int main() {
                         const auto exec_fuel=::dz::trace_fuel_mark();
 #endif
                         DZ_PROF('p');
+#if DZ_ECONOMY_V2
+                        // Re-check PHYSICAL headroom after diagnostics and crew
+                        // layout, before the executor's unconditional SDK reads.
+                        if(!tc.allow(8000)) {
+                            emergency(*world,*obs,tc,act);clear_claim();
+                            tc.guard();dz::end_turn_traced();continue;
+                        }
+#endif
                         bool executed=dz::module_work(execution_health,tc,counts,"executor",[&] {
                             if (obs->channel()) {
                                 if (goal.kind==dz::GoalKind::Retreat && act.cancel_channel()) dz::execute(goal,*world,*mem,*obs,tc,act);
@@ -295,7 +316,15 @@ int main() {
                             const auto position = cambc::self().position();
                             onsite = world->group_at(position)==goal.index;
                         } else if (goal.kind == dz::GoalKind::Bank) objective = goal.index < 8 ? 112 + goal.index : dz::protocol::idle;
-                        else if (goal.kind == dz::GoalKind::Home) objective = dz::protocol::shop;
+                        else if (goal.kind == dz::GoalKind::Home) {
+                            objective=dz::protocol::shop;
+#if DZ_ECONOMY_V2
+                            // Waiting safely at full-health spawn is available
+                            // capacity, not a committed equipment/recovery trip.
+                            if(mem->shopping_since<0&&!mem->neutral_recovery.active&&world->home.get(cambc::self().position())==0&&
+                                obs->hp>=obs->max_hp-.01f)objective=dz::protocol::idle;
+#endif
+                        }
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
 #if DZ_ECONOMY_V2
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
@@ -304,6 +333,8 @@ int main() {
                         unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
                         if(executed&&goal.kind==dz::GoalKind::Farm&&leader==world->slot&&goal.index<112&&
                             mem->economic_crew!=(1u<<leader)&&mem->contract.objective==goal.index&&
+                            !(mem->crew_execution.joined&&mem->crew_execution.group==goal.index&&
+                              mem->groups[goal.index].state==dz::GroupState::Partial)&&
                             (!fresh_lease.valid||fresh_lease.leader==world->slot))
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
                         else if(old_lease.leader==world->slot)

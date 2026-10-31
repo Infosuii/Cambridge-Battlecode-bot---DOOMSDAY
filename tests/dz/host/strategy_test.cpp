@@ -42,13 +42,35 @@ int main() {
     result=combat::project(scene,1,false,open,1);assert(result.their_loss==200);
     scene={me,enemy,me};scene[2].x=-2;scene[0].hp=50;scene[0].linked=2;scene[2].linked=0;
     result=combat::project(scene,1,true,open,1);assert(result.our_dead==2&&result.self_hp==0);
-    gear::Context context;gear::Project project;project.damage_growth=.1f;
+    gear::Context context;context.gold=150;gear::Project project;project.damage_growth=.1f;
     const auto long_value=gear::utility(context,project);context.remaining=20;
     assert(gear::utility(context,project)<long_value);
     context.remaining=1000;project.passive=gear::Passive::Prospector;project.magnitude=.25f;project.damage_growth=0;
     context.cluster_fraction=0;assert(gear::utility(context,project)==0);
     context.cluster_fraction=1;assert(gear::utility(context,project)>0);
     project.shards_left=0;assert(gear::utility(context,project)==0);
+    project.shards_left=5;project.passive=gear::Passive::Treasure;project.magnitude=.25f;
+    context.gold=30;
+    assert(gear::utility(context,project)==0); // One shard creates no passive.
+    assert(gear::batch_value(context,project,4)==0);
+    assert(gear::batch_value(context,project,5)>0);
+    project.damage_growth=.1f;
+    const auto shard=gear::batch_value(context,project,1);
+    assert(shard>0&&gear::advance_value(context,project,1,0)==0);
+    assert(std::abs(gear::advance_value(context,project,1,100)-.1f*shard)<.001f);
+    assert(gear::advance_value(context,project,1,2000)==shard);
+    // Sequentially purchased shards do not award the same emblem repeatedly.
+    float sequential=0;auto stat_only=project;stat_only.magnitude=0;
+    const float passive=gear::batch_value(context,project,5)-gear::batch_value(context,stat_only,5);
+    for(unsigned left=5;left;--left) {
+        project.shards_left=left;
+        sequential+=gear::batch_value(context,project,1);
+    }
+    project.shards_left=5;
+    assert(std::abs(sequential-(5*shard+passive))<.01f);
+    project.completion_damage=.1f;
+    assert(gear::batch_value(context,project,5)>sequential); // Actual result bonus.
+    context.income=std::numeric_limits<float>::quiet_NaN();assert(gear::batch_value(context,project,1)==0);
     RaceClock race;race.observe(0,0,0);race.observe(100,100,100);
     assert(race.remaining(100,2000,1000,0)==1900);
     race.observe(200,800,900);assert(race.remaining(200,2000,1000,0)<150);

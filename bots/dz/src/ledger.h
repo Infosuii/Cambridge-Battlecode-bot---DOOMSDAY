@@ -11,6 +11,9 @@ struct GroupSample {
     int respawn_timer=0, capture_timer=65535;
     std::vector<std::optional<float>> members;
 };
+inline bool conversion_observed(GroupState before,GroupState after) {
+    return before!=GroupState::Respawning&&after==GroupState::Respawning;
+}
 inline void apply_group_sample(GroupBelief& belief,std::vector<float>& hp,const std::vector<float>& initial,
                                const GroupSample& sample,int round) {
     if (hp.size()!=initial.size()||sample.members.size()!=initial.size()) throw std::logic_error("camp ledger member mismatch");

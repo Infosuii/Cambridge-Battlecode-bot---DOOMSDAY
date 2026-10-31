@@ -1,8 +1,16 @@
 #pragma once
 #include "observation.h"
 #include "clear_risk.h"
+#if DZ_SIEGE || DZ_ECONOMY_V2
+#include "siege_model.h"
+#endif
 #if DZ_ECONOMY_V2
 #include "race.h"
+#include "gear.h"
+#include "gate_plan.h"
+#include "economy_trip.h"
+#include "formation.h"
+#include "formation_search.h"
 #endif
 
 namespace dz {
@@ -24,11 +32,74 @@ struct Memory {
     // to the plain nearest-group policy (no feasibility/crew gates) for a spell.
     int last_income = 0, last_bag = 0, last_submitted = 0, legacy_until = 0;
     int last_gold=0;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    siege::Task siege_task;
+    std::array<std::pair<int,int>,8> route_gates{};
+    unsigned route_gate_count=0;
+    unsigned topology_revision=0;
+    struct AccessField { std::unique_ptr<cambc::distance_field> field;unsigned revision=~0u;int expires=0;bool closed=false; };
+    std::vector<AccessField> access_fields;
+    struct AccessBuild {
+        LocalMask mask;int altar=-1,expires=0;unsigned revision=~0u;
+        std::size_t group=0,member=0;
+    } access_build;
+#endif
 #if DZ_ECONOMY_V2
     unsigned economic_crew=0, economic_capturer=0;
+    int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
+    struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
     int rendezvous_until=0;
     int economic_retry_after=0;
     float economic_rate=0;
+    ShopVisit shop_quote;
+    int shop_quote_round=-10000,shop_quote_gold=-1;
+    int shopping_since=-1,shopping_deadline=-1;
+    trip::Commitment delivery_trip;
+    ShopVisit delivery_shop;
+    float shop_quote_income=-1,shop_quote_gold_income=-1;
+    std::vector<gate::Plan> openings;
+    gate::Commitment opening_commitment;
+    std::array<siege::Task,gate::max_cuts> siege_parents{};
+    unsigned siege_depth=0;
+    struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
+    SiegeMoves neutral_moves;
+    siege::RecoveryLatch neutral_recovery;
+    std::vector<std::vector<float>> member_strength;
+    LocalMask memory_visible;
+    int memory_visible_round=-1;
+    std::vector<unsigned> member_cursor;
+    std::vector<unsigned> coalition_cursor;
+    std::vector<unsigned> conversions; // Observed transition into respawning, never a shifting ready tick.
+    struct NeutralFrame {
+        int round=-1;Tile origin{};float factor=1;
+        std::array<CampThreat,64> camps{};unsigned count=0;bool complete=false,uncertain=false;
+        std::array<CampThreat,64> risks{};unsigned risk_count=0;float hp=0,max_hp=0;
+        std::span<const CampThreat> view() const { return {camps.data(),count}; }
+        std::span<const CampThreat> risk_view() const { return {risks.data(),risk_count}; }
+    } neutral;
+    struct CrewExecution {
+        int round=-1,group=-1,focus=-1,since=-1;
+        unsigned members=0,tank=6;
+        Tile destination{};
+        bool managed=false,formed=false,fire=false,joined=false;
+    } crew_execution;
+    struct FormationCache {
+        int group=-1,expires=-1;unsigned topology=0,units=0,camps=0;
+        std::array<crew::Unit,crew::max_units> roster{};
+        std::array<crew::Monster,crew::max_camps> scene{};
+        crew::Formation formation;
+        crew::FormationSearch search;
+    };
+    mutable FormationCache crew_layout;
+    struct CrewField {
+        std::unique_ptr<cambc::distance_field> field;
+        Tile root{};int expires=-1;bool pending=false;
+    } crew_field;
+    void leave_crew() {
+        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_field.pending=false;
+    }
+    unsigned opening_cursor=0;
+    float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;
     int access_group=-1,access_member=-1;
     struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000; };

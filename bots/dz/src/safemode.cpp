@@ -2,6 +2,11 @@
 #include "clear_risk.h"
 #include "economy.h"
 #include "engage.h"
+#include "siege.h"
+#include "crew.h"
+#if DZ_ECONOMY_V2
+#include "allocation.h"
+#endif
 #if DZ_CLEAR_TIME_CLOCK
 #include "clear_clock.h"
 #endif
@@ -48,10 +53,15 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) 
     (void)entry; (void)moved; (void)cleared; (void)after;
 #endif
 }
+#if DZ_ECONOMY_V2
+static Goal strategic_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
+#else
 Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const TurnContext& tc) {
+#endif
 #if DZ_ECONOMY_V2
     const auto planner_start=fuel_left();
     mem.track_enemies(obs,tc.round);
+    if(auto goal=neutral_recovery(world,mem,obs,tc))return *goal;
 #endif
     if constexpr (config::camp_safety) {
         auto incoming=camp_damage({obs.p.x,obs.p.y},obs.camps);
@@ -97,7 +107,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (obs.bag > mem.last_bag || (DZ_PERSONAL_PROGRESS||DZ_ECONOMY_V2 ? obs.gold > mem.last_gold : obs.submitted > mem.last_submitted)) mem.last_income = tc.round;
     mem.last_bag = obs.bag; mem.last_submitted = obs.submitted;
     mem.last_gold=obs.gold;
-    if (tc.round - mem.last_income > 150 && !mem.legacy(tc.round)) { mem.legacy_until = tc.round + 300; mem.last_income = tc.round; }
+    if (
+#if DZ_ECONOMY_V2
+        economy::starved(tc.round,mem.last_income,mem.last_work)
+#else
+        tc.round-mem.last_income>150
+#endif
+        &&!mem.legacy(tc.round)) { mem.legacy_until=tc.round+300;mem.last_income=tc.round; }
     bool legacy = mem.legacy(tc.round);
 #if DZ_HAS(EE)
     if (DZ_ON(EE)) mem.remember_enemies(obs,tc.round);
@@ -208,6 +224,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
     DZ_PROF('F');
+#if DZ_ECONOMY_V2
+    if(auto goal=yield_siege_lane(world,mem,obs,tc))return *goal;
+#endif
     // Bank only at an altar whose gating groups are not alive. A gated altar
     // used to send everyone to bank, find no free tile, refuse to wake the gate
     // and re-select Bank forever (DZ_STUCK, 01boss-battle).
@@ -222,9 +241,21 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         return false;
     };
     int altar = -1, altar_distance = 65535, gated_altar = -1, gated_distance = 65535;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    mem.route_gate_count=0;
+#endif
     for (unsigned a = 0; a < world.altars.size(); ++a) {
         int d = world.altar_distance(a, obs.p);
-        if (!altar_open(a)) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
+        bool open=altar_open(a);
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        const auto route=altar_route(world,mem,obs,a,tc);
+        if(route.status==access::Status::Blocked) {
+            if(const auto reachable=altar_access(world,mem,obs,a,tc))open=*reachable;
+            if(mem.route_gate_count<mem.route_gates.size())mem.route_gates[mem.route_gate_count++]={route.blocker.group,route.blocker.member};
+        } else if(route.status==access::Status::Clear)open=true;
+        else if(route.status==access::Status::Unreachable)continue;
+#endif
+        if (!open) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
         if (d < altar_distance) { altar = a; altar_distance = d; }
     }
 #if DZ_TRACE
@@ -241,7 +272,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // the pool): the reachability logic above cannot bank at all, so fall back
     // to the pre-gate policy, whose blocked-altar path clears the gate by
     // repeated waves. A dedicated siege plan is map-specific work, deferred.
-#if DZ_HAS(RING_GATES)
+#if DZ_HAS(RING_GATES) && !DZ_ECONOMY_V2
     if (DZ_ON(RING_GATES) && altar < 0 && gated_altar >= 0 && !world.altars[gated_altar].gates.empty() && obs.hp >= .5f*obs.max_hp) {
         int pick=-1; float weakest=1e30f;
         unsigned living=1;
@@ -267,6 +298,12 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
 #endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    // The economy chooses NEW openings against income and gear. A live siege
+    // keeps its checked strike/withdraw/recovery controller until completion.
+    if(!DZ_ECONOMY_V2||mem.siege_task.active())
+        if(auto goal=siege_goal(world,mem,obs,tc,altar>=0))return *goal;
+#endif
 #if DZ_ECONOMY_V2
     if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
     // An interrupted expensive forecast cannot immediately launch another full
@@ -278,9 +315,11 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
 #endif
     if (altar < 0 && gated_altar >= 0) {
+#if !(DZ_SIEGE || DZ_ECONOMY_V2)
         if (!legacy) mem.legacy_until = tc.round + 100;
         legacy = true;
         altar = gated_altar; altar_distance = gated_distance;
+#endif
     }
     if (altar >= 0 && bank_now(obs.bag, altar_distance, obs.submitted, cambc::constants::winning_gems)) return {GoalKind::Bank, altar};
     if (obs.hp < .3f * obs.max_hp || obs.gold >= 150) return {GoalKind::Home};
@@ -360,6 +399,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     if (tc.round < mem.idle_until && obs.hp >= .9f * obs.max_hp) return {GoalKind::Idle};
     DZ_PROF('K');
     auto word = shared_word();
+#if DZ_ECONOMY_V2
+    const auto reserved_crew=protocol::compact::lease(word,tc.round);
+#endif
     float best = 1e30f; int chosen = -1;
     // Best-first: rank groups by a cheap upper bound on their rate (claims and
     // clear time only lower it; the distance floor never exceeds the exact
@@ -370,6 +412,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     static std::vector<Candidate> candidates;
     candidates.clear();
     for (unsigned i = 0; i < world.groups.size(); ++i) {
+#if DZ_ECONOMY_V2
+        if(reserved_crew.valid&&reserved_crew.objective==static_cast<int>(i)&&!(reserved_crew.members&(1u<<world.slot)))continue;
+#endif
         const auto& belief = mem.groups[i]; const auto& g = world.groups[i];
         // A known respawn is priced at max(travel, wait) instead of ignored:
         // walking 26 tiles past a cluster that returns in 10 rounds wastes time.
@@ -470,6 +515,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if (score < best) { best = score; chosen = i; }
     }
     DZ_PROF('S');
+#if !DZ_ECONOMY_V2
     // One crew decision per team: the lowest living slot leads. A follower
     // that cannot solo the leader's damaging target joins it.
     unsigned leader=world.slot;
@@ -529,6 +575,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             return {GoalKind::Farm,crew_choice};
         }
     }
+#endif
     DZ_PROF('L');
     if (chosen < 0) {
         if (blocks_respawn) return {GoalKind::YieldSpawn};
@@ -569,4 +616,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     mem.contract.start(chosen, tc.round, world.distance(chosen, obs.p), b.hp, b.capture);
     return {GoalKind::Farm, chosen};
 }
+#if DZ_ECONOMY_V2
+Goal safe_goal(StaticWorld& world,Memory& mem,const Observation& obs,const TurnContext& tc) {
+    return crew_action(strategic_goal(world,mem,obs,tc),world,mem,obs,tc);
+}
+#endif
 }

@@ -67,9 +67,9 @@ def host_tests():
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test'):
+    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test', 'siege_test', 'macro_test', 'gate_plan_test', 'formation_test', 'trip_test', 'objective_cast_test'):
         exe = out / (name + ('.exe' if os.name == 'nt' else ''))
-        run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-I', ROOT/'bots/dz/src',
+        run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-Wno-array-bounds', '-I', ROOT/'bots/dz/src',
              ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
         print(run([exe], env=env).strip(), flush=True)
 
@@ -660,6 +660,8 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
 
 def experiment(args):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.name): raise ValueError('name must use letters, digits, dash or underscore')
+    if args.map_dir and args.command not in ('conformance','scenario'): raise ValueError('custom fixture maps are for conformance/scenario only')
+    if args.command=='scenario' and not args.map_dir: raise ValueError('production scenarios require a separate --map-dir')
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
@@ -809,7 +811,6 @@ def experiment(args):
         opponent = build(frozen_opp, out/'opponent.wasm')
     map_directory=Path(args.map_dir) if args.map_dir else MAPS
     if not map_directory.is_absolute(): map_directory=ROOT/map_directory
-    if args.map_dir and args.command!='conformance': raise ValueError('custom fixture maps are for conformance only')
     names = sorted(p.stem for p in map_directory.glob('*.map26a')) if args.pool else args.maps
     diagnostic = args.command == 'conformance'
     jobs = [(map_directory/(name+'.map26a'), side) for name in names for side in ('A','B')]
@@ -823,6 +824,7 @@ def experiment(args):
         seed='deterministic; no seed parameter; duplicate identities are not independent samples')
     provenance['map_directory']=os.path.relpath(map_directory,ROOT)
     provenance['fixture']=args.fixture if diagnostic else None
+    if args.command=='scenario': provenance['scope']='Production bot on correctness fixture; not strength or promotion evidence'
     provenance['candidate_bot']=args.candidate_bot or 'dz'
     if args.command=='conformance' and args.fixture in ('death','linked','priority'):
         provenance['analysis_source']={p.relative_to(out/'runner').as_posix():sha(p) for p in (out/'runner').rglob('*') if p.is_file() and p.name!='dz.py'}
@@ -904,7 +906,7 @@ def main():
     verification = sub.add_parser('verify')
     verification.add_argument('--names',nargs='+',help='verify only these immutable run capsules')
     p = sub.add_parser('recover'); p.add_argument('--name',required=True)
-    for name in ('smoke','conformance'):
+    for name in ('smoke','conformance','scenario'):
         p = sub.add_parser(name); p.add_argument('--name', required=True)
         p.add_argument('--maps', nargs='+', default=['00collision'])
         p.add_argument('--map-dir', help='separate conformance fixture directory; never used for strength tests')
@@ -919,7 +921,7 @@ def main():
         p.add_argument('--plan-rows', help='replace map_plans.inc in the frozen copy (DZ_PLAN_TABLE screens)')
         p.add_argument('--source', help='build DZ from DIR/src (a frozen snapshot) instead of bots/dz')
     args = parser.parse_args()
-    if args.command in ('smoke','conformance'):
+    if args.command in ('smoke','conformance','scenario'):
         if args.workers<1: parser.error('--workers must be positive')
         if args.diagnostic_rounds<1: parser.error('--diagnostic-rounds must be positive; zero runs no turns')
     if args.command == 'host': host_tests()

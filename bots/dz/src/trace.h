@@ -90,7 +90,13 @@ inline bool trace(const char* format, ...) {
     // Drop lines instead; the count is reported.
     const bool line_open = b.size && b.data[b.size-1] != '\n';
     const auto real=cambc::fuel_remaining();
-    if (!line_open && (trace_overhead+trace_meter.pending(real,cambc::round_number()) > trace_cap || real < (trace_cap > 3000 ? 5000u : 25000u))) { ++b.dropped; return false; }
+    const std::uint64_t minimum_real=
+#if DZ_ECONOMY_V2
+        std::max<std::uint64_t>(trace_cap>3000?5000:25000,config::reserve+12000);
+#else
+        trace_cap > 3000 ? 5000u : 25000u;
+#endif
+    if (!line_open && (trace_overhead+trace_meter.pending(real,cambc::round_number()) > trace_cap || real < minimum_real)) { ++b.dropped; return false; }
 #endif
     const auto line_start_fuel = cambc::fuel_remaining();
     const auto line_round = cambc::round_number();

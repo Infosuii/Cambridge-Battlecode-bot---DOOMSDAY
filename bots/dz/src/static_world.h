@@ -1,6 +1,9 @@
 #pragma once
 #include "kernel.h"
 #include "local_mask.h"
+#if DZ_ECONOMY_V2
+#include "camp_threat.h"
+#endif
 #include <memory>
 
 namespace dz {
@@ -33,12 +36,15 @@ struct Group {
 };
 struct Altar {
     vec2 tile; std::unique_ptr<cambc::distance_field> field;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    std::vector<std::uint16_t> distances;
+#endif
     // When every walkable neighbour is a camp spawn tile: the groups and the
     // (group, member) on each neighbour. One dead member opens the altar.
     std::vector<int> gates;
     std::vector<std::pair<int,int>> gate_members;
     std::vector<int> near_groups; // Groups with a tile within 3 of the altar.
-#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2
+#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE
     bool ring_checked=false; // Camp-ring pocket check done (DZ_RING_GATES).
     std::unique_ptr<cambc::distance_field> pocket; std::size_t ring_cursor=0;
     std::size_t ring_member_cursor=0;
@@ -60,7 +66,17 @@ public:
     cambc::bitboard blocked, visited, roots, camp_spawns;
     LocalMask blocked_mask, spawns_mask, bushes_mask, enemy_spawn_mask; // In-Wasm copies (see local_mask.h).
     std::vector<int> tile_groups;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    std::vector<int> tile_members;
+#endif
     cambc::distance_field home;
+#if DZ_ECONOMY_V2
+    std::vector<std::uint16_t> home_distances;
+    int home_distance(Tile p) const {
+        const int width=cambc::map::width(),height=cambc::map::height();
+        return p.x>=0&&p.y>=0&&p.x<width&&p.y<height&&home_distances.size()==static_cast<unsigned>(width*height)?home_distances[p.y*width+p.x]:65535;
+    }
+#endif
     std::vector<Group> groups;
     std::vector<Altar> altars;
     std::vector<cambc::champion> allies;

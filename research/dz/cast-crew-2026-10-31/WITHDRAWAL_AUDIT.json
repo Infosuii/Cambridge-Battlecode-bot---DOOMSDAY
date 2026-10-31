@@ -1,0 +1,1955 @@
+{
+  "scope": "Unmodified strict auditor: layered cells pass 45/22 cycles. Mixed full-run pass is false because wolf/elk have no siege cycles. No general safety claim.",
+  "report": {
+    "run": "dz-cast-and-crew-final-06",
+    "passed": false,
+    "cells": [
+      {
+        "map": "isolated-elk",
+        "side": "A",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 570,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "e615483f442ee64530f6ea332ab77cb0b363292eee98e5a85e2c62e26a594a7c",
+        "summary_sha256": "278c5f6a9875c334f106e75f1c15e9cc6c435ccc4dd08f385e3d78c00e12cd69"
+      },
+      {
+        "map": "isolated-elk",
+        "side": "B",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 570,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "cd29d9b210187dbb5f1bec8538f7d28fb252b35a6f84b82a336d034a8ce9c23b",
+        "summary_sha256": "0abfb19cc87f4ece5c7e6258e0d9116540101b1ffa20a0db5d6354738a2a51c1"
+      },
+      {
+        "map": "isolated-wolf",
+        "side": "A",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 272,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "52a6915d6820ad3919b521329dfa384d04c75d533932dcd07998c181779d8ba0",
+        "summary_sha256": "a7f6dd7957d6b0bd40ca94dae746753992d08b0bac4e9e99630e9e109c81dce0"
+      },
+      {
+        "map": "isolated-wolf",
+        "side": "B",
+        "completed_cycles": 0,
+        "cycles": [],
+        "escape_deaths": [],
+        "withdrawals": [],
+        "banked": 272,
+        "runtime_clean": true,
+        "passed": false,
+        "stdout_sha256": "173242e7db85d665983a597dbaacc41dfd4df6769b9ac7d90a1f262723c3a5b5",
+        "summary_sha256": "e0f00539184a8c1fc18b80bdaff0223a90f8b4b812cb9638a25d77bc50cd3c4f"
+      },
+      {
+        "map": "siege-two-layer",
+        "side": "A",
+        "completed_cycles": 45,
+        "cycles": [
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 83,
+            "escape": 100,
+            "recover": 104,
+            "returned": 110,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 110,
+            "escape": 127,
+            "recover": 131,
+            "returned": 137,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 171,
+            "escape": 188,
+            "recover": 192,
+            "returned": 198,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 198,
+            "escape": 222,
+            "recover": 226,
+            "returned": 232,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 232,
+            "escape": 251,
+            "recover": 255,
+            "returned": 261,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              0,
+              0
+            ],
+            "start": 219,
+            "escape": 276,
+            "recover": 277,
+            "returned": 283,
+            "own_camp_damage": 345.0,
+            "native_healing": 840.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 318,
+            "escape": 345,
+            "recover": 349,
+            "returned": 355,
+            "own_camp_damage": 345.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 355,
+            "escape": 377,
+            "recover": 381,
+            "returned": 387,
+            "own_camp_damage": 345.0,
+            "native_healing": 600.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 374,
+            "escape": 397,
+            "recover": 401,
+            "returned": 407,
+            "own_camp_damage": 225.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 387,
+            "escape": 411,
+            "recover": 416,
+            "returned": 422,
+            "own_camp_damage": 300.0,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 365,
+            "escape": 424,
+            "recover": 429,
+            "returned": 435,
+            "own_camp_damage": 260.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 407,
+            "escape": 439,
+            "recover": 444,
+            "returned": 450,
+            "own_camp_damage": 225.0,
+            "native_healing": 710.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 422,
+            "escape": 451,
+            "recover": 456,
+            "returned": 462,
+            "own_camp_damage": 90.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 435,
+            "escape": 465,
+            "recover": 469,
+            "returned": 475,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 450,
+            "escape": 478,
+            "recover": 482,
+            "returned": 488,
+            "own_camp_damage": 225.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 462,
+            "escape": 491,
+            "recover": 496,
+            "returned": 502,
+            "own_camp_damage": 345.0,
+            "native_healing": 840.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 475,
+            "escape": 505,
+            "recover": 510,
+            "returned": 516,
+            "own_camp_damage": 210.0,
+            "native_healing": 720.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 488,
+            "escape": 519,
+            "recover": 524,
+            "returned": 530,
+            "own_camp_damage": 180.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 754,
+            "escape": 771,
+            "recover": 775,
+            "returned": 781,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 781,
+            "escape": 804,
+            "recover": 808,
+            "returned": 814,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 814,
+            "escape": 831,
+            "recover": 835,
+            "returned": 841,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 841,
+            "escape": 865,
+            "recover": 869,
+            "returned": 875,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 875,
+            "escape": 892,
+            "recover": 896,
+            "returned": 902,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 902,
+            "escape": 922,
+            "recover": 926,
+            "returned": 932,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 918,
+            "escape": 939,
+            "recover": 943,
+            "returned": 949,
+            "own_camp_damage": 367.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 932,
+            "escape": 953,
+            "recover": 957,
+            "returned": 963,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 949,
+            "escape": 976,
+            "recover": 980,
+            "returned": 986,
+            "own_camp_damage": 487.5,
+            "native_healing": 600.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 963,
+            "escape": 988,
+            "recover": 992,
+            "returned": 998,
+            "own_camp_damage": 200.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1026,
+            "escape": 1042,
+            "recover": 1047,
+            "returned": 1053,
+            "own_camp_damage": 200.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1026,
+            "escape": 1055,
+            "recover": 1060,
+            "returned": 1066,
+            "own_camp_damage": 268.5,
+            "native_healing": 600.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1053,
+            "escape": 1071,
+            "recover": 1075,
+            "returned": 1081,
+            "own_camp_damage": 300.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1066,
+            "escape": 1086,
+            "recover": 1090,
+            "returned": 1096,
+            "own_camp_damage": 367.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1096,
+            "escape": 1116,
+            "recover": 1120,
+            "returned": 1126,
+            "own_camp_damage": 367.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1243,
+            "escape": 1267,
+            "recover": 1271,
+            "returned": 1277,
+            "own_camp_damage": 731.3999633789062,
+            "native_healing": 960.0,
+            "return_hp": 1500.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1277,
+            "escape": 1297,
+            "recover": 1301,
+            "returned": 1307,
+            "own_camp_damage": 731.3999633789062,
+            "native_healing": 960.0,
+            "return_hp": 1500.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1307,
+            "escape": 1329,
+            "recover": 1333,
+            "returned": 1339,
+            "own_camp_damage": 731.3999633789062,
+            "native_healing": 960.0,
+            "return_hp": 1500.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1339,
+            "escape": 1366,
+            "recover": 1370,
+            "returned": 1376,
+            "own_camp_damage": 731.3999633789062,
+            "native_healing": 960.0,
+            "return_hp": 1500.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1406,
+            "escape": 1428,
+            "recover": 1432,
+            "returned": 1438,
+            "own_camp_damage": 731.3999633789062,
+            "native_healing": 960.0,
+            "return_hp": 1500.0
+          },
+          {
+            "body": 1,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1435,
+            "escape": 1453,
+            "recover": 1458,
+            "returned": 1464,
+            "own_camp_damage": 180.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1574,
+            "escape": 1598,
+            "recover": 1602,
+            "returned": 1608,
+            "own_camp_damage": 1720.3999328613281,
+            "native_healing": 1008.0,
+            "return_hp": 1600.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1608,
+            "escape": 1641,
+            "recover": 1645,
+            "returned": 1651,
+            "own_camp_damage": 2033.1999206542969,
+            "native_healing": 1176.0,
+            "return_hp": 1600.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1789,
+            "escape": 1812,
+            "recover": 1817,
+            "returned": 1823,
+            "own_camp_damage": 609.9000091552734,
+            "native_healing": 504.0,
+            "return_hp": 2100.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1796,
+            "escape": 1827,
+            "recover": 1831,
+            "returned": 1837,
+            "own_camp_damage": 457.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 0,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1823,
+            "escape": 1851,
+            "recover": 1856,
+            "returned": 1862,
+            "own_camp_damage": 2449.500045776367,
+            "native_healing": 1344.0,
+            "return_hp": 2100.0
+          },
+          {
+            "body": 2,
+            "task": [
+              2,
+              0
+            ],
+            "start": 1837,
+            "escape": 1866,
+            "recover": 1870,
+            "returned": 1876,
+            "own_camp_damage": 457.5,
+            "native_healing": 720.0,
+            "return_hp": 1200.0
+          }
+        ],
+        "escape_deaths": [],
+        "withdrawals": [
+          {
+            "body": 0,
+            "start": 100,
+            "stop": 110,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 127,
+            "stop": 137,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 147,
+            "stop": 147,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 161,
+            "stop": 171,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 188,
+            "stop": 198,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 205,
+            "stop": 232,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 251,
+            "stop": 261,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 240,
+            "stop": 283,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 267,
+            "stop": 292,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 299,
+            "stop": 301,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 307,
+            "stop": 318,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 299,
+            "stop": 331,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 345,
+            "stop": 355,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 358,
+            "stop": 365,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 366,
+            "stop": 374,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 377,
+            "stop": 387,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 387,
+            "stop": 394,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 386,
+            "stop": 407,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 411,
+            "stop": 422,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 424,
+            "stop": 435,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 439,
+            "stop": 450,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 451,
+            "stop": 462,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 465,
+            "stop": 475,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 478,
+            "stop": 488,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 491,
+            "stop": 502,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 505,
+            "stop": 516,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 519,
+            "stop": 530,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 533,
+            "stop": 749,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 771,
+            "stop": 781,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 788,
+            "stop": 814,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 831,
+            "stop": 841,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 846,
+            "stop": 875,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 892,
+            "stop": 902,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 531,
+            "stop": 918,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 922,
+            "stop": 932,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 939,
+            "stop": 949,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 953,
+            "stop": 963,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 966,
+            "stop": 968,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 976,
+            "stop": 986,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 970,
+            "stop": 998,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1019,
+            "stop": 1026,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1016,
+            "stop": 1026,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1042,
+            "stop": 1053,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1055,
+            "stop": 1066,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1071,
+            "stop": 1081,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1086,
+            "stop": 1096,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 550,
+            "stop": 1104,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1116,
+            "stop": 1126,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1129,
+            "stop": 1238,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1267,
+            "stop": 1277,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1297,
+            "stop": 1307,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1329,
+            "stop": 1339,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1366,
+            "stop": 1376,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1396,
+            "stop": 1406,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1129,
+            "stop": 1430,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1412,
+            "stop": 1438,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1453,
+            "stop": 1464,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1464,
+            "stop": 1466,
+            "censored": false
+          },
+          {
+            "body": 1,
+            "start": 1478,
+            "stop": 1547,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1473,
+            "stop": 1569,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1598,
+            "stop": 1608,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1619,
+            "stop": 1651,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1140,
+            "stop": 1736,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1673,
+            "stop": 1789,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1786,
+            "stop": 1796,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1795,
+            "stop": 1806,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1812,
+            "stop": 1823,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1803,
+            "stop": 1837,
+            "censored": false
+          },
+          {
+            "body": 0,
+            "start": 1851,
+            "stop": 1862,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1866,
+            "stop": 1876,
+            "censored": false
+          },
+          {
+            "body": 2,
+            "start": 1894,
+            "stop": 2000,
+            "censored": true
+          },
+          {
+            "body": 0,
+            "start": 1919,
+            "stop": 2000,
+            "censored": true
+          }
+        ],
+        "banked": 502,
+        "runtime_clean": true,
+        "passed": true,
+        "stdout_sha256": "f33bf28b6651715a907283c5ab2d3f5fa81fd42f3040db759b8c1a4c823b3ed2",
+        "summary_sha256": "171bd4ab4087b6aa44c53d90a01edb2bf1e55d3592a066dac9b511e05922f9c2"
+      },
+      {
+        "map": "siege-two-layer",
+        "side": "B",
+        "completed_cycles": 22,
+        "cycles": [
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 34,
+            "escape": 51,
+            "recover": 55,
+            "returned": 61,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 162,
+            "escape": 178,
+            "recover": 182,
+            "returned": 188,
+            "own_camp_damage": 90.0,
+            "native_healing": 360.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 183,
+            "escape": 213,
+            "recover": 217,
+            "returned": 223,
+            "own_camp_damage": 330.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 249,
+            "escape": 266,
+            "recover": 270,
+            "returned": 276,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 276,
+            "escape": 293,
+            "recover": 298,
+            "returned": 304,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 304,
+            "escape": 321,
+            "recover": 326,
+            "returned": 332,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 332,
+            "escape": 349,
+            "recover": 354,
+            "returned": 360,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 360,
+            "escape": 377,
+            "recover": 382,
+            "returned": 388,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 388,
+            "escape": 413,
+            "recover": 417,
+            "returned": 423,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 423,
+            "escape": 440,
+            "recover": 444,
+            "returned": 450,
+            "own_camp_damage": 210.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 4,
+            "task": [
+              3,
+              0
+            ],
+            "start": 448,
+            "escape": 474,
+            "recover": 478,
+            "returned": 484,
+            "own_camp_damage": 225.0,
+            "native_healing": 350.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 468,
+            "escape": 492,
+            "recover": 496,
+            "returned": 502,
+            "own_camp_damage": 345.0,
+            "native_healing": 600.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 504,
+            "escape": 525,
+            "recover": 529,
+            "returned": 535,
+            "own_camp_damage": 330.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 502,
+            "escape": 559,
+            "recover": 563,
+            "returned": 569,
+            "own_camp_damage": 255.0,
+            "native_healing": 120.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 733,
+            "escape": 752,
+            "recover": 756,
+            "returned": 762,
+            "own_camp_damage": 345.0,
+            "native_healing": 360.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 762,
+            "escape": 779,
+            "recover": 783,
+            "returned": 789,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 4,
+            "task": [
+              3,
+              0
+            ],
+            "start": 734,
+            "escape": 786,
+            "recover": 789,
+            "returned": 795,
+            "own_camp_damage": 120.0,
+            "native_healing": 590.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 789,
+            "escape": 806,
+            "recover": 810,
+            "returned": 816,
+            "own_camp_damage": 210.0,
+            "native_healing": 480.0,
+            "return_hp": 1000.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 802,
+            "escape": 825,
+            "recover": 829,
+            "returned": 835,
+            "own_camp_damage": 345.0,
+            "native_healing": 480.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 835,
+            "escape": 852,
+            "recover": 857,
+            "returned": 863,
+            "own_camp_damage": 90.0,
+            "native_healing": 240.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 5,
+            "task": [
+              3,
+              0
+            ],
+            "start": 891,
+            "escape": 908,
+            "recover": 913,
+            "returned": 919,
+            "own_camp_damage": 255.0,
+            "native_healing": 360.0,
+            "return_hp": 1200.0
+          },
+          {
+            "body": 3,
+            "task": [
+              3,
+              0
+            ],
+            "start": 914,
+            "escape": 926,
+            "recover": 930,
+            "returned": 936,
+            "own_camp_damage": 140.0,
+            "native_healing": 600.0,
+            "return_hp": 1000.0
+          }
+        ],
+        "escape_deaths": [],
+        "withdrawals": [
+          {
+            "body": 3,
+            "start": 51,
+            "stop": 61,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 76,
+            "stop": 94,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 100,
+            "stop": 103,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 103,
+            "stop": 106,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 106,
+            "stop": 109,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 109,
+            "stop": 112,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 112,
+            "stop": 115,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 115,
+            "stop": 118,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 118,
+            "stop": 121,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 121,
+            "stop": 124,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 124,
+            "stop": 127,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 127,
+            "stop": 130,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 130,
+            "stop": 133,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 133,
+            "stop": 136,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 136,
+            "stop": 139,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 139,
+            "stop": 142,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 142,
+            "stop": 145,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 145,
+            "stop": 148,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 148,
+            "stop": 151,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 151,
+            "stop": 154,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 154,
+            "stop": 157,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 157,
+            "stop": 160,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 178,
+            "stop": 188,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 206,
+            "stop": 208,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 203,
+            "stop": 208,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 213,
+            "stop": 223,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 242,
+            "stop": 249,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 239,
+            "stop": 249,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 266,
+            "stop": 276,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 270,
+            "stop": 279,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 293,
+            "stop": 304,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 298,
+            "stop": 307,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 321,
+            "stop": 332,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 326,
+            "stop": 335,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 349,
+            "stop": 360,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 354,
+            "stop": 363,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 377,
+            "stop": 388,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 382,
+            "stop": 391,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 407,
+            "stop": 412,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 413,
+            "stop": 423,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 440,
+            "stop": 450,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 456,
+            "stop": 484,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 456,
+            "stop": 485,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 492,
+            "stop": 502,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 496,
+            "stop": 504,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 497,
+            "stop": 505,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 513,
+            "stop": 515,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 517,
+            "stop": 519,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 519,
+            "stop": 520,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 521,
+            "stop": 523,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 525,
+            "stop": 527,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 529,
+            "stop": 531,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 525,
+            "stop": 535,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 528,
+            "stop": 537,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 533,
+            "stop": 539,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 554,
+            "stop": 559,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 560,
+            "stop": 569,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 545,
+            "stop": 569,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 584,
+            "stop": 621,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 753,
+            "stop": 762,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 752,
+            "stop": 762,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 762,
+            "stop": 770,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 768,
+            "stop": 789,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 786,
+            "stop": 795,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 794,
+            "stop": 802,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 806,
+            "stop": 816,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 810,
+            "stop": 818,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 825,
+            "stop": 835,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 831,
+            "stop": 838,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 833,
+            "stop": 841,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 852,
+            "stop": 863,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 858,
+            "stop": 866,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 863,
+            "stop": 872,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 886,
+            "stop": 895,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 889,
+            "stop": 897,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 911,
+            "stop": 914,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 908,
+            "stop": 919,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 915,
+            "stop": 924,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 926,
+            "stop": 936,
+            "censored": false
+          },
+          {
+            "body": 4,
+            "start": 943,
+            "stop": 950,
+            "censored": false
+          },
+          {
+            "body": 5,
+            "start": 943,
+            "stop": 950,
+            "censored": false
+          },
+          {
+            "body": 3,
+            "start": 952,
+            "stop": 2000,
+            "censored": true
+          }
+        ],
+        "banked": 127,
+        "runtime_clean": true,
+        "passed": true,
+        "stdout_sha256": "1d95b245b8735084940110328feed57db09d47215371d571083aab97da79931c",
+        "summary_sha256": "27e7adf9a009e0454050997dea6fb3e3decbdbb2110edf03eaa90d803a41b432"
+      }
+    ],
+    "candidate_sha256": "8ff73eb3b282305fdbf655ede8a0490c60f2328b89a98bae8974de630228d44b",
+    "scope": "Audit repeated production siege visits on frozen correctness fixtures.\n\nScope: retained target, own camp damage, native healing, and deaths during\nexplicit withdrawals, including ones that never return. Not strength evidence.\n"
+  }
+}

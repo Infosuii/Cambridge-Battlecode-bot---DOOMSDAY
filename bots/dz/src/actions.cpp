@@ -1,6 +1,7 @@
 #include "actions.h"
 #include <cmath>
 #include "economy.h"
+#include "siege.h"
 #if DZ_ECONOMY_V2
 #include "action_value.h"
 #endif
@@ -46,7 +47,13 @@ ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Ob
     }
 #endif
     std::array<ClearMember,clear_risk_members> members;
-    for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),g.initial_strength[k]*obs.camp_factor};
+    for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),
+#if DZ_ECONOMY_V2
+        mem.member_strength[index][k]*obs.camp_factor
+#else
+        g.initial_strength[k]*obs.camp_factor
+#endif
+    };
     entry={version,damage,obs.camp_factor,solo_clear_risk(std::span<const ClearMember>(members.data(),hp.size()),damage)};
     return entry.risk;
 }
@@ -60,7 +67,7 @@ float enemy_danger(vec2 p, const Observation& obs) {
     return damage;
 }
 float danger(vec2 p, const Observation& obs) {
-    return enemy_danger(p,obs)+(config::camp_safety ? camp_damage({p.x,p.y},obs.camps) : 0);
+    return enemy_danger(p,obs)+((config::camp_safety||DZ_ECONOMY_V2) ? camp_damage({p.x,p.y},obs.camps) : 0);
 }
 bool channel_safe(const StaticWorld& world,const Observation& obs,const TurnContext& tc) {
     if (enemy_danger(cambc::self().position(),obs)>0) return false;
@@ -137,6 +144,11 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
         if (!(ability.is_damage() || ability.is_cc() || ability.is_aoe_damage())) continue;
         if (enemy ? !ability.can_target_enemies() : !ability.can_target_camps()) continue;
         const auto p = target->position();
+#if DZ_ECONOMY_V2
+        // valid_tiles constructs a map-sized legal-target board. A cheap cast
+        // gate is insufficient after an expensive first objective quote.
+        if(!tc.allow(world.field_budget()+4000))continue;
+#endif
         if (!ability.valid_tiles().is_set(p)) continue;
         if (ability.is_aoe_damage() && !collateral_safe(p,std::get<cambc::ability_aoe_damage>(*ability.info()).radius,
             intended_group,world,tc)) continue;
@@ -150,9 +162,19 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
     }
 }
 bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
-          bool retreat, Actuator& act,bool remember_failures=false) {
+          bool retreat, Actuator& act,bool remember_failures=false
+#if DZ_ECONOMY_V2
+          ,const Memory* memory=nullptr
+#endif
+          ) {
     if (!cambc::self().can_move()) return false;
     const auto origin = cambc::self().position();
+#if DZ_ECONOMY_V2
+    const bool guard_siege=memory&&memory->siege_task.active()&&!retreat&&
+        memory->siege_moves.round==static_cast<int>(cambc::round_number())&&memory->siege_moves.origin==Tile{origin.x,origin.y};
+    const bool guard_neutral=memory&&!retreat&&memory->neutral_moves.round==static_cast<int>(cambc::round_number())&&
+        memory->neutral_moves.origin==Tile{origin.x,origin.y};
+#endif
     vec2 best = origin;
     float score_best = 1e30f;
     // Outside a retreat only *entering* an enemy's attack reach is a hazard.
@@ -185,6 +207,10 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
     // Prefer a strictly improving distance. Static fields are not used for collision avoidance.
     for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
         auto p = origin + vec2{dx,dy};
+#if DZ_ECONOMY_V2
+        if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+        if(guard_neutral&&!(memory->neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+#endif
         if (!world.walkable(p) || (p != origin && obs.is_occupied(p))) continue;
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
@@ -214,6 +240,10 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
             struct Choice { vec2 tile;float score;int distance;bool tried=false; };
             std::array<Choice,8> choices{};unsigned count=0;
             for(int dx=-1;dx<=1;++dx) for(int dy=-1;dy<=1;++dy) {
+#if DZ_ECONOMY_V2
+                if(guard_siege&&!(memory->siege_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+                if(guard_neutral&&!(memory->neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+#endif
                 const auto p=origin+vec2{dx,dy};
                 if(p==origin||p==best||!world.walkable(p)||obs.is_occupied(p)) continue;
                 const int distance=field.get(p);
@@ -256,6 +286,11 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
 }
 }
 void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const TurnContext& tc, Actuator& act) {
+#if DZ_ECONOMY_V2
+    if(mem.neutral.round==static_cast<int>(tc.round)) {
+        obs.camps.assign(mem.neutral.risk_view().begin(),mem.neutral.risk_view().end());obs.camps_complete=mem.neutral.complete;
+    }
+#endif
     auto& me = cambc::self();
 #if DZ_TRACE
     ++execute_entries;
@@ -277,6 +312,25 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     }
     DZ_PROF(static_cast<char>('0'+static_cast<int>(goal.kind)));
     const bool retreat = goal.kind == GoalKind::Retreat || goal.kind == GoalKind::Home;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    // A shield-funded strike is transactional: create/check the shield BEFORE
+    // any camp damage. A failed cast consumes no unprotected attack commitment.
+    if(goal.kind==GoalKind::Farm&&mem.siege_task.active()&&mem.siege_task.group==goal.index&&
+        mem.siege_task.last_round==static_cast<int>(tc.round)&&mem.siege_task.required_shield>0) {
+        const float required=mem.siege_task.required_shield;
+        auto protected_now=[&] {
+            const auto buffs=me.buffs();
+            return buffs.has_shield()&&buffs.get<cambc::buff_shield>().duration>0&&buffs.get<cambc::buff_shield>().value>=required;
+        };
+        if(!protected_now())for(const auto& ability:me.abilities())
+            if(ability.is_shield()&&ability.is_ready()&&ability.can_target_self()&&ability.shield_amount()>=required)
+                if(act.cast(ability))break;
+        if(!protected_now()) {
+            const auto exit=mem.siege_task.exit;mem.siege_task.phase=siege::Phase::Escape;
+            execute({GoalKind::Retreat,-1,vec2{exit.x,exit.y}},world,mem,obs,tc,act);return;
+        }
+    }
+#endif
     // Repair failed travel, not optional repositioning during productive work.
     // In particular a melee clearer can attack and attempt a blocked step in
     // the same turn; that does not justify changing its working route.
@@ -337,6 +391,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             if (group.strength > 0) score -= 1e6f * group.initial_strength[k];
 #if DZ_ECONOMY_V2
             if(mem.access_group==goal.index&&mem.access_member==static_cast<int>(k))score-=1e12f;
+            if(mem.crew_execution.managed&&mem.crew_execution.round==static_cast<int>(tc.round)&&mem.crew_execution.group==goal.index&&
+                mem.crew_execution.focus==static_cast<int>(k))score-=1e14f;
+#endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            if(mem.siege_task.active()&&mem.siege_task.group==goal.index&&mem.siege_task.member==static_cast<int>(k))score-=1e13f;
 #endif
             if (score < best) { best = score; chosen = static_cast<int>(k); }
         }
@@ -345,9 +404,25 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             if (c.is_visible() && !c.is_dead()) camp_target = &c;
         }
         target = camp_target;
+#if DZ_ECONOMY_V2
+        if(mem.crew_execution.managed&&mem.crew_execution.round==static_cast<int>(tc.round)&&mem.crew_execution.group==goal.index&&
+            (mem.crew_execution.focus!=chosen||mem.crew_execution.focus<0))target=nullptr;
+        if(mem.crew_execution.managed&&goal.destination&&obs.range>1&&obs.p!=*goal.destination)target=nullptr;
+#endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        const bool siege_job=mem.siege_task.active()&&mem.siege_task.group==goal.index;
+        if(siege_job&&!siege_strike_allowed(mem,obs,goal.index,tc))target=nullptr;
+#endif
         // Never wake a sleeping damaging group that the visible crew cannot
         // clear: asleep camps do not attack, so waiting beside them is safe.
-        if (camp_target && group.strength>0 && camp_target->is_asleep() && !mem.legacy(tc.round)) {
+        if (camp_target && group.strength>0 && camp_target->is_asleep()
+#if !DZ_ECONOMY_V2
+            && !mem.legacy(tc.round)
+#endif
+#if DZ_SIEGE || DZ_ECONOMY_V2
+            &&!siege_job
+#endif
+            ) {
 #if DZ_ECONOMY_V2
             if(!crew_ready(world,mem,obs,goal.index,tc))target=nullptr;
 #else
@@ -382,16 +457,45 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
     if(target&&!retreat&&!me.buffs().has_shield()) {
         float incoming=enemy_danger(obs.p,obs);
         if(!enemy&&goal.index>=0)for(unsigned k=0;k<mem.member_hp[goal.index].size();++k)
-            if(mem.member_hp[goal.index][k]>0)incoming+=world.groups[goal.index].initial_strength[k]*obs.camp_factor;
-        for(auto ability:me.abilities())if(tc.allow(3500)&&ability.is_shield()&&ability.is_ready()&&incoming>=.5f*ability.shield_amount())
+            if(mem.member_hp[goal.index][k]>0&&obs.p.chebyshev_distance(world.groups[goal.index].tiles[k])<=world.groups[goal.index].attack_ranges[k])
+                incoming+=mem.member_strength[goal.index][k]*obs.camp_factor;
+        const bool funded_wake=mem.cast_admission.round==static_cast<int>(tc.round)&&mem.cast_admission.group==goal.index&&
+            mem.cast_admission.shield>0&&target->position().chebyshev_distance(obs.p)<=obs.range;
+        const bool solo_policy=goal.kind==GoalKind::Farm&&!enemy&&std::popcount(mem.economic_crew)<=1&&
+            goal.index>=0&&world.groups[goal.index].strength>0;
+        for(auto ability:me.abilities())if(tc.allow(3500)&&ability.is_shield()&&ability.can_target_self()&&ability.is_ready()&&
+            (incoming>0||funded_wake)&&(funded_wake||solo_policy||incoming>=.5f*ability.shield_amount()))
             if(act.cast(ability))break;
+    }
+    if(target&&!enemy&&mem.cast_admission.round==static_cast<int>(tc.round)&&mem.cast_admission.group==goal.index&&
+        mem.cast_admission.shield>0&&target->position().chebyshev_distance(obs.p)<=obs.range) {
+        const auto buffs=me.buffs();
+        if(!buffs.has_shield()||buffs.get<cambc::buff_shield>().value<mem.cast_admission.shield) {
+            // A forecast-funded wake never becomes an unprotected attack when
+            // the required cast failed (legality, resource or fuel budget).
+            return;
+        }
+#if DZ_TRACE
+        {TraceScope scope;trace("DZ_CAST_FUNDED round=%u body=%u group=%d shield=%.1f\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,buffs.get<cambc::buff_shield>().value);}
+#endif
     }
 #endif
     if (target && (!retreat||obs.range==1) && me.can_attack() && !obs.restrictions.contains(cambc::buff_restrictions::attack) &&
         obs.p.chebyshev_distance(target->position()) <= obs.range) attacked = act.attack(*target);
+#if DZ_ECONOMY_V2
+    if(attacked&&!enemy)mem.last_work=tc.round;
+#endif
+#if DZ_TRACE && DZ_ECONOMY_V2
+    if(attacked&&!enemy&&mem.crew_execution.managed){TraceScope scope;trace("DZ_CREW_ATTACK round=%u body=%u group=%d focus=%d formed=%d\n",tc.round,
+        static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,mem.crew_execution.focus,mem.crew_execution.formed);}
+#endif
     spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
     if (bank_here(goal,world,act)) return;
     if (goal.kind==GoalKind::Farm && mem.groups[goal.index].state==GroupState::Reward && world.group_at(me.position())==goal.index) {
+#if DZ_ECONOMY_V2
+        if(mem.economic_capturer==world.slot&&mem.contract.checked==static_cast<int>(tc.round))mem.last_work=tc.round;
+#endif
         ward_here(obs,tc,act); return;
     }
     if (goal.kind==GoalKind::Home) {
@@ -405,6 +509,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         auto next=p+vec2{sign(end.x-p.x),sign(end.y-p.y)};
         if (world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
+#if DZ_ECONOMY_V2
+    if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&mem.crew_field.field&&
+        mem.crew_field.root==Tile{goal.destination->x,goal.destination->y}&&mem.crew_field.expires>static_cast<int>(tc.round)) {
+        if(me.can_move()&&tc.allow(6000))step(*mem.crew_field.field,world,obs,false,act,remember_failures,&mem);
+        ward_here(obs,tc,act);return;
+    }
+#endif
     if (!tc.allow(world.field_budget())) {
         if ((DZ_TRACE||DZ_LATE_FIELD_GATE)&&goal.kind==GoalKind::Farm&&!world.groups[goal.index].field) mem.field_needed=goal.index;
 #if DZ_TRACE
@@ -419,7 +530,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         else if (goal.kind==GoalKind::Bank) field=world.altars[goal.index].field.get();
         else if (goal.kind==GoalKind::Farm) field=world.groups[goal.index].field.get();
         if (field&&me.can_move()&&tc.allow(5000+300*obs.camps.size())) {
-            step(*field,world,obs,retreat,act,remember_failures);
+            step(*field,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
         }
         bank_here(goal,world,act);
         return;
@@ -448,6 +563,19 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         }
     } else if (goal.kind == GoalKind::Farm) {
         auto& g = world.groups[goal.index];
+#if DZ_SIEGE || DZ_ECONOMY_V2
+        if(mem.siege_task.active()&&mem.siege_task.group==goal.index&&mem.siege_task.phase!=siege::Phase::Recover&&
+            mem.siege_task.phase!=siege::Phase::Escape) {
+            const auto tile=mem.siege_task.attack;
+            const vec2 p{tile.x,tile.y};
+            if(movable(p,world,obs)||p==obs.p)roots.set(p);
+        } else
+#endif
+#if DZ_ECONOMY_V2
+        if(mem.crew_execution.managed&&goal.destination) {
+            if(movable(*goal.destination,world,obs)||*goal.destination==obs.p)roots.set(*goal.destination);
+        } else
+#endif
         if (mem.groups[goal.index].state == GroupState::Reward) {
             vec2 nearest = obs.p; int distance = 65535;
             for (unsigned k=0;k<g.tiles.size();++k) {
@@ -489,8 +617,16 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         }
     }
     // Last resort for a farm job: follow the group's static field.
-    if (roots.is_empty() && goal.kind == GoalKind::Farm && world.groups[goal.index].field && me.can_move())
-        step(*world.groups[goal.index].field, world, obs, false, act,remember_failures);
+    if (roots.is_empty() && goal.kind == GoalKind::Farm && world.groups[goal.index].field && me.can_move()
+#if DZ_ECONOMY_V2
+        &&!(mem.crew_execution.managed&&goal.destination)
+#endif
+        )
+        step(*world.groups[goal.index].field, world, obs, false, act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
     DZ_PROF('r');
     bool bank_blocked = goal.kind == GoalKind::Bank && roots.is_empty();
 #if DZ_TRACE
@@ -511,13 +647,21 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             else if (goal.kind==GoalKind::Bank) cached=world.altars[goal.index].field.get();
             else if (goal.kind==GoalKind::Farm) cached=world.groups[goal.index].field.get();
             if (goal.kind==GoalKind::Farm&&!cached) mem.field_needed=goal.index;
-            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act,remember_failures);
+            if (cached&&tc.allow(5000)) step(*cached,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
         } else {
         cambc::distance_field field;
         field.compute(blocked, roots.board(), world.visited);
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
-        if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures);
+        if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures
+#if DZ_ECONOMY_V2
+                ,&mem
+#endif
+            );
 #if DZ_MOVE_RETRY && DZ_RETRY_DETOUR
         // Strictly descending the old field cannot go around a hidden body
         // across a one-tile lane. Recompute once using only this turn's proven
@@ -531,7 +675,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
                 cambc::distance_field detour;
                 detour.compute(detour_blocked,detour_roots,world.visited);tc.guard();
                 if(detour.get(me.position())<cambc::distance_field::unreachable)
-                    step(detour,world,obs,retreat,act);
+                    step(detour,world,obs,retreat,act,false
+#if DZ_ECONOMY_V2
+                        ,&mem
+#endif
+                    );
             }
         }
 #endif
