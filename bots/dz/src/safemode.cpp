@@ -166,6 +166,52 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
             }
         }
 #endif
+#if DZ_HAS(EE3)
+        if (DZ_ON(EE3) && n_theirs && tc.allow(15000)) {
+            // B1: expected exchange from two calibrated contact models: ee_model (this body dies within 4 rounds)
+            // and ee_enemy_model (a given enemy dies within 4, from its own side). Engage the best positive-value
+            // target; leave a negative exchange that is likely to kill us; otherwise keep working.
+            std::array<Fighter,fight_units> close{}; std::size_t n_close=0; int nearest=99; float reach_damage=0;
+            for (const auto& e : obs.enemies) {
+                const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
+                if (d>8 || n_close>=fight_units) continue;
+                close[n_close++]={e.hp,e.strength}; nearest=std::min(nearest,d);
+                if (d<=2) reach_damage+=e.strength;
+            }
+            if (n_close) {
+                const float pd=sigmoid(death_logit(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(close.data(),n_close),
+                    obs.hp/std::max(1.f,obs.max_hp),nearest,reach_damage));
+                const float tempo=.25f*cambc::constants::respawn_time; // Rounds of lost work at DZ's ~0.25 gems/round.
+                const float death_cost=obs.bag+tempo;
+                float best_ev=-1e30f; const SeenChampion* target=nullptr; int priced=0;
+                for (const auto& e : obs.enemies) {
+                    if (static_cast<int>(obs.p.chebyshev_distance(e.p))>5 || world.in_enemy_spawn(e.p) || priced>=3) continue;
+                    ++priced;
+                    std::array<Fighter,fight_units> side{}, foes{}; std::size_t n_side=1, n_foes=0; int en=99; float er=0;
+                    side[0]={e.hp,e.strength};
+                    for (const auto& o : obs.enemies)
+                        if (&o!=&e && o.hp>0 && n_side<fight_units && o.p.chebyshev_distance(e.p)<=6) side[n_side++]={o.hp,o.strength};
+                    auto add=[&](vec2 p,float hp,float strength) {
+                        const int d=static_cast<int>(p.chebyshev_distance(e.p));
+                        if (d>8 || n_foes>=fight_units) return;
+                        foes[n_foes++]={hp,strength}; en=std::min(en,d);
+                        if (d<=2) er+=strength;
+                    };
+                    add(obs.p,obs.hp,obs.strength);
+                    for (const auto& a : obs.allies) if (a.hp>0) add(a.p,a.hp,a.strength);
+                    const float pk=sigmoid(contact_logit(std::span<const Fighter>(side.data(),n_side),std::span<const Fighter>(foes.data(),n_foes),
+                        e.hp/std::max(1.f,e.max_hp),en,er,ee_enemy_model::intercept,ee_enemy_model::weights));
+                    const float carried=tc.allow(3000)?static_cast<float>(e.sdk.gem_count()):0.f;
+                    const float ev=pk*(carried+gold_weight(tc.round)*cambc::constants::kill_gold+tempo)-pd*death_cost;
+                    if (ev>best_ev) { best_ev=ev; target=&e; }
+                }
+                const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
+                if (target && best_ev>0 && pd<.3f && obs.hp>=.3f*obs.max_hp && !bankable) return {GoalKind::Fight,-1,target->p};
+                if (pd>.15f && best_ev<=0) return {GoalKind::Retreat};
+                n_theirs=0; // Neither: keep working; the executor still takes local attacks.
+            }
+        }
+#endif
         if (n_theirs) {
             auto fight=simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs));
             DZ_PROF('g');

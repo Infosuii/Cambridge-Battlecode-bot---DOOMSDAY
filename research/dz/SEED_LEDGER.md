@@ -718,3 +718,11 @@ The registry was created before experiments. Entries below record actual use.
 | dz-sequence-layered-recovery-09 | 2026-10-31 | deterministic; Wasm 026609ddfe2a | 2 cells; idle81 | scenario; trace=True |
 | dz-sequence-final-10 | 2026-10-31 | deterministic; Wasm 026609ddfe2a | 2 cells; idle81 | scenario; trace=True |
 | dz-z14b-gv-v65-02 | 2026-10-31 | deterministic; Wasm c22a4dc1e8b4 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-gs-v76-02 | 2026-10-31 | deterministic; Wasm ca76640d36a9 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-bb-v76-02 | 2026-10-31 | deterministic; Wasm b5c8c56b32a5 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-gs-v65-02 | 2026-10-31 | deterministic; Wasm ca76640d36a9 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-bb-v65-02 | 2026-10-31 | deterministic; Wasm b5c8c56b32a5 | 140 cells; v65 | smoke; trace=False |
+| dz-z14b-dvg2-v76-02 | 2026-10-31 | deterministic; Wasm dbb86e6444e8 | 140 cells; v76 | smoke; trace=False |
+| dz-z14b-gates4-v76-02 | 2026-10-31 | deterministic; Wasm 31730b1676ab | 140 cells; v76 | smoke; trace=False |
+| dz-ee3-smoke-v76-01 | 2026-10-31 | deterministic; Wasm feae99df4856 | 4 cells; v76 | smoke; trace=False |
+| dz-z14b-dvg2-v65-02 | 2026-10-31 | deterministic; Wasm dbb86e6444e8 | 140 cells; v65 | smoke; trace=False |

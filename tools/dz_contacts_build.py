@@ -1,6 +1,7 @@
 """Build the V-M2 contact dataset from a run capsule (offline; never a bot input).
 
-Usage: python tools/dz_contacts_build.py RUN OUT_DIR [--workers 2]
+Usage: python tools/dz_contacts_build.py RUN OUT_DIR [--workers 2] [--opponent-side]
+--opponent-side samples the opponent's bodies instead (B1 enemy-side model: does the enemy die within 4 rounds).
 Extracts each game's native replay from research/dz/runs/RUN/evidence.zip and runs tools/dz_contacts.mjs for DZ's
 team (A in "-A" cells, B in "-B" cells). Writes OUT_DIR/<map>-<side>.json; existing outputs are kept.
 """
@@ -19,6 +20,7 @@ def main():
     ap.add_argument('run')
     ap.add_argument('out')
     ap.add_argument('--workers', type=int, default=2)
+    ap.add_argument('--opponent-side', action='store_true')
     a = ap.parse_args()
     out = Path(a.out)
     (out / 'replays').mkdir(parents=True, exist_ok=True)
@@ -39,7 +41,7 @@ def main():
 
     def work(job):
         cell, inner, target = job
-        team = '0' if cell.endswith('-A') else '1'
+        team = '0' if cell.endswith('-A') != a.opponent_side else '1'
         r = subprocess.run(['node', str(ROOT / 'tools/dz_contacts.mjs'), str(inner), str(target), team],
                            capture_output=True, text=True, env=env)
         inner.unlink(missing_ok=True)

@@ -162,6 +162,15 @@
 #ifndef DZ_EE2_BOLD
 #define DZ_EE2_BOLD 0 // Z10 v2 variant (with DZ_EE2): retreat threshold 0.30 instead of 0.15.
 #endif
+#ifndef DZ_SWITCH_ROUND
+#define DZ_SWITCH_ROUND 5000 // A2 branch hook (DZ_PLAN_TABLE): from this round plan bits become DZ_SWITCH_BITS; 5000 = never.
+#endif
+#ifndef DZ_SWITCH_BITS
+#define DZ_SWITCH_BITS 2147483648 // Bit 31 is ignored; it keeps the initialiser non-zero so no branch value folds.
+#endif
+#ifndef DZ_EE3
+#define DZ_EE3 0 // Unvalidated B1: engage/retreat on the expected exchange of two contact models (ours, enemy's).
+#endif
 #ifndef DZ_HOME
 #define DZ_HOME 0 // Unvalidated A1 team plan: enemy-half groups priced x0.3, engage aggression x0.8 (lab home plan).
 #endif

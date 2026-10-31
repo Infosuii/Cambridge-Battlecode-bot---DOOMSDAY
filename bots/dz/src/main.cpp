@@ -78,6 +78,7 @@ int main() {
 #if DZ_PLAN_TABLE
             // The turn after boot loads the camps (never the boosted first turn, which can't afford a second camp walk).
             if (!dz::plan_loaded && world->loaded()) dz::load_plan(dz::map_signature(world->groups));
+            if (dz::plan_loaded) dz::apply_switch(tc.round);
 #endif
             if (!mem) mem = std::make_unique<dz::Memory>();
             if (!obs) obs = std::make_unique<dz::Observation>();

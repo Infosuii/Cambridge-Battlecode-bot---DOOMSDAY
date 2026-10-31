@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <span>
 #include "ee_model.h"
+#include "ee_enemy_model.h"
 
 namespace dz {
 // Local champion-fight estimate for engage / join / avoid decisions. Every
@@ -49,8 +50,8 @@ inline FightResult simulate_fight(std::span<const Fighter> ours,std::span<const 
 }
 // V-M2 calibrated logit of the deciding body (ours[0]) dying within 4 rounds; tools/dz_vm2.py fits the
 // weights from replay contacts. ours: the body plus allies within 6; theirs: enemies within 8 at true HP.
-inline float death_logit(std::span<const Fighter> ours,std::span<const Fighter> theirs,float hp_fraction,int nearest,
-                         float reach_damage) {
+inline float contact_logit(std::span<const Fighter> ours,std::span<const Fighter> theirs,float hp_fraction,int nearest,
+                           float reach_damage,float intercept,const float* weights) {
     if (ours.empty()||theirs.empty()||theirs.size()>fight_units) return 0;
     std::array<Fighter,fight_units> inflated{};
     float po=0,pt=0,top=0;
@@ -64,8 +65,19 @@ inline float death_logit(std::span<const Fighter> ours,std::span<const Fighter> 
         sim.won()?1.f:0.f,sim.self_alive?1.f:0.f,sim.rounds/40.f,po+pt>0?po/(po+pt):.5f,
         reach_damage>0?std::min(ours[0].hp/reach_damage,20.f)/20.f:1.f,
         ours[0].damage+top>0?ours[0].damage/(ours[0].damage+top):.5f};
-    float z=ee_model::intercept;
-    for (int i=0;i<10;++i) z+=ee_model::weights[i]*x[i];
+    float z=intercept;
+    for (int i=0;i<10;++i) z+=weights[i]*x[i];
     return z;
+}
+inline float death_logit(std::span<const Fighter> ours,std::span<const Fighter> theirs,float hp_fraction,int nearest,
+                         float reach_damage) {
+    return contact_logit(ours,theirs,hp_fraction,nearest,reach_damage,ee_model::intercept,ee_model::weights);
+}
+// Logistic without libm: (1+z/256)^256 ~ e^z (about 1% error for |z|<6, clamped beyond).
+inline float sigmoid(float z) {
+    z=std::clamp(z,-12.f,12.f);
+    float e=1.f-z/256.f;
+    for (int i=0;i<8;++i) e*=e; // e^-z
+    return 1.f/(1.f+e);
 }
 }
