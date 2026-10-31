@@ -119,3 +119,23 @@ All defaults 0; the default build is still byte-identical to 5cf28cb7.
 | `dz-og-idle-01` (opening gold) | banked 926 (+6.7); R100 gold 180 → 223 (+24%), R250 gold 590 → 702, but R250 gems 176 → 155 and R500 357 → 340. V-E3 split; needs contested screens. |
 | `dz-gv-idle-01` (gold 0.3) | banked 911; R100 gold +18%, R250 gems −6% |
 | `dz-z13-rusher-01` / `-turtle-01` / `-farmer-01` | DZ wins 120 / 140 / 114 of 140, 0 faults and 0 fuel-outs on both sides in 420 games. **Z13 exit test passes.** |
+
+## Part 3 (2026-10-31 night): exact Z14b table and its confirmation
+
+Exact screening: every config ran as a uniform 70-row table under `DZ_PLAN_TABLE=1` from one frozen snapshot
+(`z14b_source`), so a selected map replays the screened game exactly against v76/v65 (identical Wasm code
+section, checked). Plan-table fuel fix: play computes the map signature from loaded camp tiles (the extra SDK
+camp walk overran the boosted first turn on big maps). 30 configs incl. A1 team plans (home, hoard, fight, turtle).
+Selection (`z14b_selection.json`, margin 100 on v76+v65): 55 of 56 development maps get a row; turtle 7, dvg7 6,
+homedv1 5, then draft variants with and without gear.
+
+Confirmation (never used to select; paired with the uniform-base table run vs the same opponent, 140 cells):
+
+| Opponent | Δ banked all (SE) | Δ banked dev | Δ margin dev (SE) | deaths | fuel-outs |
+|---|---|---|---|---|---|
+| v74 | **+78.4 (15.3)** | +97.9 | +114.8 (27.4) | 17.8 vs 19.6 | 0 |
+| v81hl (team's current best) | **+26.7 (11.2)** | +33.4 | +25.1 (19.0) | 17.9 vs 18.9 | 0 |
+
+Holdout Δ is 0 by construction (holdout maps keep the base row), so G6 cannot judge a per-map table; it needs
+generated maps (D5) or a geometric selector (C3 priority 7). G5 vs v74 passes the +50 bar; vs v81hl not yet.
+Wins remain 0 (DZ ~300 banked vs ~1000). Candidate build: `--set DZ_PLAN_TABLE=1 --plan-rows z14b_table.inc --source z14b_source`.
