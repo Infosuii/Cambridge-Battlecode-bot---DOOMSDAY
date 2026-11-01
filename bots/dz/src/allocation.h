@@ -18,9 +18,10 @@ struct Bid {
     unsigned crew=0, capturer=0;
     float value=0, duration=1, opportunity=0, followup=0;
     unsigned fixed=0; // Already committed to this objective; consumes no free worker.
+    int project=-1,project_work=0; // Full delivery schedule; never a partial-cut reward.
     float utility() const { return value/std::max(1.f,duration)-opportunity+followup; }
 };
-struct Assignment { int objective=-1;unsigned crew=0,capturer=0;float utility=0; };
+struct Assignment { int objective=-1;unsigned crew=0,capturer=0;float utility=0;int project=-1,project_work=0; };
 struct UnlimitedAuction { bool operator()() const {return true;} };
 // Exact immediate-task set packing on six champion bits. Process each objective
 // as a batch, so a camp is never sold to two different crews. Foregone solo work
@@ -82,7 +83,7 @@ std::array<Assignment,objective::max_crew> allocate(std::span<const Bid> bids,un
         (states[mask].value==states[best].value&&std::popcount(mask)<std::popcount(best)))best=mask;
     for(unsigned j=0;j<states[best].count;++j) {
         const auto& job=*states[best].jobs[j];
-        for(unsigned i=0;i<result.size();++i)if((job.crew&~job.fixed)&(1u<<i))result[i]={job.objective,job.crew,job.capturer,job.utility()};
+        for(unsigned i=0;i<result.size();++i)if((job.crew&~job.fixed)&(1u<<i))result[i]={job.objective,job.crew,job.capturer,job.utility(),job.project,job.project_work};
     }
     return result;
 }

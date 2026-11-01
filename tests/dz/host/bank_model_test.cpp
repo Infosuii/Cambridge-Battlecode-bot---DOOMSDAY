@@ -32,6 +32,18 @@ void check(const bank::Context& c,std::span<const bank::Threat> threats,std::spa
     for(unsigned i=0;i<threats.size();++i)if(root->required&(std::uint64_t{1}<<i))assert(removed[i]);
 }
 int main() {
+    bank::Stamp stamp;stamp.round=20;stamp.until=100;stamp.revision=3;stamp.threat_revision=5;stamp.max_hp=1000;stamp.factor=.75f;stamp.channel=8;
+    assert(stamp.current(70,3,5,1000,.75f,8)); // Stable geometry does not expire at an arbitrary frame count.
+    assert(!stamp.current(120,3,5,1000,.75f,8)&&!stamp.current(19,3,5,1000,.75f,8));
+    assert(!stamp.current(70,4,5,1000,.75f,8)&&!stamp.current(70,3,6,1000,.75f,8));
+    assert(!stamp.current(70,3,5,1200,.75f,8)&&!stamp.current(70,3,5,1000,.7f,8)&&!stamp.current(70,3,5,1000,.75f,9));
+    bank::Delivery delivery;assert(delivery.start(1,100,84,50)&&delivery.deadline==150);
+    assert(delivery.update(110,84,20)&&!delivery.start(1,110,84,50)&&delivery.deadline==150);
+    assert(delivery.update(130,90,20)); // More gems are allowed only if today's full channel still fits.
+    assert(!delivery.update(140,90,11)&&!delivery.active());
+    assert(delivery.start(1,100,84,50)&&!delivery.update(110,0,0));
+    assert(delivery.start(1,100,84,50)&&!delivery.update(151,84,0));
+    assert(!delivery.start(1,1990,84,11)&&!delivery.start(-1,100,84,50));
     std::mt19937 rng(108);unsigned checked=0;
     for(unsigned i=0;i<2000;++i) {
         bank::Context c{1000,1000,float(rng()%2000),int(rng()%30),int(rng()%40),2000};

@@ -276,6 +276,13 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     DZ_PROF('F');
 #if DZ_ECONOMY_V2
     if(auto goal=yield_siege_lane(world,mem,obs,tc))return *goal;
+    // A live visit owns the execution budget before speculative altar/channel
+    // searches. Rebuilding those first could keep a recovered worker returning
+    // Home forever without advancing or timing out its existing approach.
+    if(mem.siege_task.active())if(auto goal=siege_goal(world,mem,obs,tc,false))return *goal;
+    if(mem.openings.size()!=world.altars.size()&&obs.enemies.empty()&&world.home.get(obs.p)==0) {
+        quote_opening(world,mem,obs,tc);return {GoalKind::Home};
+    }
 #endif
     // Bank only at an altar whose gating groups are not alive. A gated altar
     // used to send everyone to bank, find no free tile, refuse to wake the gate
@@ -291,6 +298,12 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         return false;
     };
     int altar = -1, altar_distance = 65535, gated_altar = -1, gated_distance = 65535;
+#if DZ_ECONOMY_V2
+    // Give the fair forecast slot its budget before any cold physical route.
+    // With the old ordinal scan, a far altar could consume that budget on every
+    // turn and permanently starve the near altar on the opposite map side.
+    if(!world.altars.empty())bank_access(world,mem,obs,mem.bank_forecast_cursor%world.altars.size(),tc);
+#endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
     mem.route_gate_count=0;
 #endif
@@ -298,12 +311,23 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         int d = world.altar_distance(a, obs.p);
         bool open=altar_open(a);
 #if DZ_SIEGE || DZ_ECONOMY_V2
-        const auto route=altar_route(world,mem,obs,a,tc);
-        if(route.status==access::Status::Blocked) {
-            if(const auto reachable=altar_access(world,mem,obs,a,tc))open=*reachable;
-            if(mem.route_gate_count<mem.route_gates.size())mem.route_gates[mem.route_gate_count++]={route.blocker.group,route.blocker.member};
-        } else if(route.status==access::Status::Clear)open=true;
-        else if(route.status==access::Status::Unreachable)continue;
+        bool known=false;
+#if DZ_ECONOMY_V2
+        if(a<mem.access_fields.size()) {
+            const auto& field=mem.access_fields[a];
+            if(field.revision==mem.topology_revision&&field.expires>static_cast<int>(tc.round)) {
+                open=!field.closed&&field.field&&field.field->get(obs.p)<65535;known=true;
+            }
+        }
+#endif
+        if(!known) {
+            const auto route=altar_route(world,mem,obs,a,tc);
+            if(route.status==access::Status::Blocked) {
+                if(const auto reachable=altar_access(world,mem,obs,a,tc))open=*reachable;
+                if(mem.route_gate_count<mem.route_gates.size())mem.route_gates[mem.route_gate_count++]={route.blocker.group,route.blocker.member};
+            } else if(route.status==access::Status::Clear)open=true;
+            else if(route.status==access::Status::Unreachable)continue;
+        }
 #endif
 #if DZ_ECONOMY_V2
         const auto* delivery=bank_access(world,mem,obs,a,tc);
@@ -699,7 +723,20 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
 }
 #if DZ_ECONOMY_V2
 Goal safe_goal(StaticWorld& world,Memory& mem,const Observation& obs,const TurnContext& tc) {
-    return crew_action(strategic_goal(world,mem,obs,tc),world,mem,obs,tc);
+    auto goal=crew_action(strategic_goal(world,mem,obs,tc),world,mem,obs,tc);
+    if(goal.kind==GoalKind::Bank&&goal.index>=0&&goal.index<static_cast<int>(mem.bank_access.size())) {
+        const auto& bank=mem.bank_access[goal.index];const int age=static_cast<int>(tc.round)-bank.round;
+        if(obs.enemies.empty()&&bank.current(tc.round,mem.topology_revision,mem.threat_revision,obs.max_hp,obs.camp_factor,bank_duration(std::max(obs.bag,1)))&&
+            bank.plan.quality==bank::Quality::Bounded&&bank.plan.travel+bank.channel+1<=bank.until-age) {
+            auto& route=mem.bank_route;
+            if(route.altar!=goal.index||route.root!=bank.plan.root||route.revision!=mem.topology_revision||route.expires<=static_cast<int>(tc.round)) {
+                route.field.reset();route.altar=goal.index;route.root=bank.plan.root;route.revision=mem.topology_revision;
+                route.expires=bank.round+bank.until;route.pending=true;
+            }
+            goal.destination=vec2{route.root.x,route.root.y};
+        }
+    }
+    return goal;
 }
 #endif
 }

@@ -8,7 +8,7 @@ namespace dz {
 // End the turn; trace builds first write buffered trace lines from spare fuel.
 inline void end_turn_traced() {
 #if DZ_TRACE
-    trace_flush();
+    trace_flush(cambc::round_number()>=cambc::constants::max_rounds?0:30000);
 #endif
     cambc::end_turn();
 }

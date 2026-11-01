@@ -561,6 +561,12 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         if (allowed&&world.walkable(next) && !obs.is_occupied(next) && act.move(next)) return;
     }
 #if DZ_ECONOMY_V2
+    if(goal.kind==GoalKind::Bank&&goal.destination&&mem.bank_route.field&&mem.bank_route.altar==goal.index&&
+        mem.bank_route.root==Tile{goal.destination->x,goal.destination->y}&&mem.bank_route.revision==mem.topology_revision&&
+        mem.bank_route.expires>static_cast<int>(tc.round)) {
+        if(me.can_move()&&tc.allow(6000))step(*mem.bank_route.field,world,obs,false,act,remember_failures,&mem);
+        bank_here(goal,world,mem,obs,tc,act);return;
+    }
     if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&
         (mem.crew_execution.direct_step||*goal.destination==obs.p)) {
         const auto next=*goal.destination;const int dx=next.x-obs.p.x,dy=next.y-obs.p.y;
@@ -568,6 +574,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         if(mem.crew_execution.direct_step&&std::max(std::abs(dx),std::abs(dy))==1&&
             (!guarded||(mem.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))&&world.walkable(next)&&!obs.is_occupied(next)&&tc.allow(3500))
             act.move(next);
+        if(!mem.crew_execution.direct_step)ward_here(obs,tc,act);
         return;
     }
     if(goal.kind==GoalKind::Farm&&goal.destination&&mem.crew_execution.managed&&mem.crew_field.field&&

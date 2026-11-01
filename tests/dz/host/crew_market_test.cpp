@@ -5,6 +5,8 @@
 using namespace dz;
 int main() {
     using namespace economy;
+    std::array<Bid,2> deliveries{{{4,3,0,80,100,0,0,0,2,140},{4,5,0,90,150,0,0,0,3,190}}};
+    const auto delivery=allocate(deliveries,7);assert(delivery[0].project==2&&delivery[0].project_work==140&&delivery[1].project==2&&delivery[2].objective<0);
     std::array<crew::Unit,3> units{{{0,0,{1,1},1000,1000,50,1,1,10},
         {1,1,{2,1},1000,1000,20,1,1,10},{2,2,{3,1},1000,1000,100,1,1,10}}};
     CrewMarket market;const CrewEpoch key{4,1,7,12};

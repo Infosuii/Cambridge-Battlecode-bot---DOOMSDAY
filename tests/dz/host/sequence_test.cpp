@@ -5,6 +5,26 @@
 #include <random>
 using namespace dz;
 int main() {
+    {
+        std::array<crew::Unit,2> party{{{0,0,{0,0},1000,1000,50,1,1},{1,1,{0,1},1000,1000,100,1,1}}};
+        std::array<crew::Monster,1> boss{{{0,{5,5},600,120,4}}};
+        crew::SequenceSearch plan;plan.stage=crew::SequenceSearch::Stage::Done;plan.count=plan.actors=0;
+        plan.count=1;plan.actors=2;std::copy(party.begin(),party.end(),plan.roster.begin());plan.phases.resize(1);
+        auto& phase=plan.phases[0];phase.target=boss[0];phase.formation.positions[0]={4,5};phase.formation.positions[1]={5,4};
+        phase.raw[0]=phase.raw[1]=120;phase.escape[0]=phase.escape[1]=360;
+        phase.approach_loss[0]=phase.approach_loss[1]=400;phase.approach_rounds=4;phase.return_rounds=8;
+        assert(!crew::quote(party,boss,plan,0,6,5,2000).complete);
+        const auto sleeping=crew::quote(party,boss,plan,0,6,5,2000,crew::Unlimited{},false,3);
+        // Independently fund one phase per visit, then pay escape/Home/heal,
+        // the larger of recovery or sleep wait, and four entry moves.
+        int phases=5,elapsed=3+4+1,visits=0;
+        while(phases>0){int hp=1000,used=0;while(phases>0&&hp-120>840){hp-=120;--phases;++elapsed;++used;}assert(used==1&&hp-360>150);++visits;if(phases)elapsed+=std::max(8+5,3)+4+1;}
+        elapsed+=6;assert(sleeping.complete&&sleeping.finish==elapsed&&sleeping.visits==visits&&elapsed==91);
+        assert(!crew::quote(party,boss,plan,0,6,5,2000,crew::Unlimited{},false,500).complete);
+        assert(!crew::quote(party,boss,plan,0,6,5,2000,crew::Unlimited{},false,-2).complete);
+        party[0].hp=200;const auto heal=crew::quote(party,boss,plan,0,6,5,2000,crew::Unlimited{},false,3);
+        assert(heal.complete&&heal.finish>sleeping.finish); // Initial healing has a real cost.
+    }
     std::mt19937 rng(1207);
     for(unsigned trial=0;trial<120;++trial) {
         std::array<bool,144> walls{};for(auto& w:walls)w=rng()%5==0;

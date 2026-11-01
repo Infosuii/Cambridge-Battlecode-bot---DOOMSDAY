@@ -75,7 +75,8 @@ bool free(const StaticWorld& w,const Memory& m,const Observation& o,vec2 p,int a
     }
     return true;
 }
-EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec2 from,const Exposure& threats,const TurnContext& tc,std::uint64_t started) {
+EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec2 from,const Exposure& threats,const TurnContext& tc,std::uint64_t started,
+                   std::span<const gate::Cut> removed={},bool release_origin=false) {
     std::array<Tile,8> directions{{{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}}};
     std::array<int,8> home{};
     for(unsigned i=0;i<directions.size();++i) {
@@ -87,9 +88,40 @@ EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec
     std::swap(directions[0],directions[best]);
     return siege::escape_route({from.x,from.y},threats.view(),directions,[&](Tile tile) {
         const vec2 p{tile.x,tile.y};
+        if(w.walkable(p)) {
+            if(std::any_of(removed.begin(),removed.end(),[&](const auto& cut){return cut.tile==tile;}))return enemy_danger(p,o)<=enemy_danger(o.p,o);
+            if(release_origin&&p==o.p) {
+                const int g=w.group_at(p);
+                if(g>=0&&m.groups[g].state==GroupState::Respawning&&m.groups[g].ready<=static_cast<int>(tc.round)+cheb(tile,{from.x,from.y})+2)return false;
+            }
+        }
         return free(w,m,o,p,tc.round+cheb(tile,{from.x,from.y}))&&enemy_danger(p,o)<=enemy_danger(o.p,o);
     },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
 }
+#if DZ_ECONOMY_V2
+bool harmless_bridge(const StaticWorld& w,const Memory& m,const Observation& o,int g,int k) {
+    if(k<0||m.member_hp[g][k]<=0||std::max(w.groups[g].initial_strength[k],m.member_strength[g][k])>0)return false;
+    if(cambc::self().champion_name()!=cambc::champion_type::varg)return true;
+    const auto p=w.groups[g].tiles[k];const int radius=static_cast<int>(std::ceil(cambc::constants::passive_abilities::varg_splash_radius));
+    const int width=cambc::map::width();
+    for(int dx=-radius;dx<=radius;++dx)for(int dy=-radius;dy<=radius;++dy) {
+        const vec2 q{p.x+dx,p.y+dy};if(!w.walkable(q))continue;
+        const int other=w.tile_groups[q.y*width+q.x];if(other<0||other==g)continue;
+        const int member=w.tile_members[q.y*width+q.x];
+        if(member>=0&&m.member_hp[other][member]>0&&m.member_strength[other][member]>0)return false;
+    }
+    (void)o;return true;
+}
+bool admit_bridge(const StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,const Exposure& scene,
+                  int g,int k,std::uint64_t started,EscapeRoute& exit) {
+    if(!scene.complete||!harmless_bridge(w,m,o,g,k)||o.p.chebyshev_distance(w.groups[g].tiles[k])>o.range)return false;
+    for(const auto& enemy:o.enemies)if(enemy.p.chebyshev_distance(o.p)<=10)return false;
+    gate::Cut cut;cut.group=g;cut.member=k;const auto tile=w.groups[g].tiles[k];cut.tile={tile.x,tile.y};
+    exit=escape(w,m,o,o.p,scene,tc,started,std::span<const gate::Cut>(&cut,1));
+    return exit.found&&siege::bridge_affordable(o.hp,o.max_hp,m.member_hp[g][k],o.strength*o.camp_damage,
+        camp_damage({o.p.x,o.p.y},scene.view()),exit.damage);
+}
+#endif
 void trace_task(const siege::Task& task,const TurnContext& tc,const char* event,float hp) {
 #if DZ_TRACE
     TraceScope scope;
@@ -151,19 +183,14 @@ access::Route altar_route(const StaticWorld& w,const Memory& m,const Observation
         return access::Blocker{g,k,(hp>0?hp:w.groups[g].initial_hp[k])/std::max(1.f,o.strength*o.camp_damage)};
     },[&]{return tc.allow(4000)&&started-fuel_left()<6000;},64);
 }
-std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,unsigned altar,const TurnContext& tc) {
-    if(o.p.chebyshev_distance(w.altars[altar].tile)<=cambc::constants::submit_gems_range)return true;
-    if(!local_masks_valid)return std::nullopt;
-    if(m.access_fields.size()!=w.altars.size())m.access_fields.resize(w.altars.size());
-    auto& cached=m.access_fields[altar];
-    if(cached.revision==m.topology_revision&&cached.expires>static_cast<int>(tc.round))
-        return !cached.closed&&cached.field&&cached.field->get(o.p)<65535;
-    if(!tc.allow(8000))return std::nullopt;
+namespace {
+bool access_occupancy(const StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
+    if(!local_masks_valid||!tc.allow(8000))return false;
     auto& build=m.access_build;const auto started=fuel_left();
-    if(build.revision!=m.topology_revision||build.expires<=static_cast<int>(tc.round))build.altar=-1;
-    if(build.altar>=0&&build.altar!=static_cast<int>(altar))return std::nullopt;
-    if(build.altar<0) {
-        build.mask.load(w.blocked);build.altar=altar;build.revision=m.topology_revision;
+    if(build.revision!=m.topology_revision||build.expires<=static_cast<int>(tc.round))build.active=build.ready=false;
+    if(build.ready)return true;
+    if(!build.active) {
+        build.mask.load(w.blocked);build.active=true;build.revision=m.topology_revision;
         build.group=0;build.member=0;build.expires=cambc::constants::max_rounds+1;
     }
     // Build from the legal camp ledger in bounded slices. Uncertain old dead
@@ -172,13 +199,18 @@ std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,u
         const auto& group=w.groups[build.group];const auto& belief=m.groups[build.group];
         const int respawn=group.sdk.max_respawn_timer();
         while(build.member<group.tiles.size()) {
-            if((build.member&15)==0&&(!tc.allow(7000)||started-fuel_left()>12000))return std::nullopt;
+            if((build.member&15)==0&&(!tc.allow(7000)||started-fuel_left()>12000))return false;
             const unsigned k=build.member;
             bool live=m.member_hp[build.group][k]>0;
             if(belief.state==GroupState::Respawning&&belief.ready>static_cast<int>(tc.round)) {
                 live=false;build.expires=std::min(build.expires,belief.ready);
             } else if(!live) {
-                const int expiry=belief.seen+respawn;
+                const int expiry=
+#if DZ_ECONOMY_V2
+                    m.member_seen[build.group][k]+respawn;
+#else
+                    belief.seen+respawn;
+#endif
                 live=expiry<=static_cast<int>(tc.round);
                 if(!live)build.expires=std::min(build.expires,expiry);
             }
@@ -189,6 +221,20 @@ std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,u
     // A champion's occupied tile cannot simultaneously contain a living camp.
     // Recheck next round if a due spawn was conservatively blocked here.
     if(build.mask.test(o.p)){build.mask.set(o.p,false);build.expires=std::min(build.expires,static_cast<int>(tc.round)+1);}
+    tc.guard();build.ready=true;return true;
+}
+}
+std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,unsigned altar,const TurnContext& tc) {
+    if(o.p.chebyshev_distance(w.altars[altar].tile)<=cambc::constants::submit_gems_range)return true;
+    if(!local_masks_valid)return std::nullopt;
+    if(m.access_fields.size()!=w.altars.size())m.access_fields.resize(w.altars.size());
+    auto& cached=m.access_fields[altar];
+    if(cached.revision==m.topology_revision&&cached.expires>static_cast<int>(tc.round))
+        return !cached.closed&&cached.field&&cached.field->get(o.p)<65535;
+    // Occupancy is independent of the altar. Reuse one complete, dated mask
+    // across roots instead of rescanning every spawn for each destination.
+    if(!access_occupancy(w,m,o,tc))return std::nullopt;
+    const auto& build=m.access_build;
     RootSet roots;
     for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
         const auto p=w.altars[altar].tile+vec2{dx,dy};
@@ -196,25 +242,44 @@ std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,u
     }
     if(roots.is_empty()) {
         tc.guard();cached.field.reset();cached.closed=true;cached.revision=build.revision;cached.expires=build.expires;
-        build.altar=-1;return false;
+        return false;
     }
     if(!tc.allow(w.field_budget()+5000))return std::nullopt;
     cambc::bitboard blocked;build.mask.store(blocked);
     auto field=std::make_unique<cambc::distance_field>();field->compute(blocked,roots.board(),w.visited);
     tc.guard();cached.field=std::move(field);cached.closed=false;cached.revision=build.revision;cached.expires=build.expires;
-    build.altar=-1;return cached.field->get(o.p)<65535;
+    return cached.field->get(o.p)<65535;
 }
 #if DZ_ECONOMY_V2
+bool build_bank_field(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
+    auto& route=m.bank_route;
+    if(!route.pending||route.altar<0||route.altar>=static_cast<int>(w.altars.size())||o.channel()||!o.enemies.empty())return false;
+    if(route.revision!=m.topology_revision||route.expires<=static_cast<int>(tc.round)){route.field.reset();route.pending=false;return false;}
+    if(!tc.allow(w.field_budget()+12000)||!access_occupancy(w,m,o,tc))return false;
+    const auto& occupancy=m.access_build;const vec2 root{route.root.x,route.root.y};
+    if(occupancy.mask.test(root)){route.field.reset();route.pending=false;return false;}
+    if(!tc.allow(w.field_budget()+7000))return false;
+    RootSet roots;roots.set(root);cambc::bitboard blocked;occupancy.mask.store(blocked);
+    auto field=std::make_unique<cambc::distance_field>();field->compute(blocked,roots.board(),w.visited);
+    tc.guard();route.field=std::move(field);route.pending=false;route.expires=std::min(route.expires,occupancy.expires);
+#if DZ_TRACE
+    {TraceScope scope;trace("DZ_BANK_ROUTE round=%u slot=%u altar=%d root=%d,%d until=%d distance=%u\n",tc.round,w.slot,route.altar,
+        route.root.x,route.root.y,route.expires,route.field->get(o.p));}
+#endif
+    return true;
+}
 namespace {
 bool delivery_threats(const StaticWorld& w,const Memory& m,const Observation& o,unsigned a,Memory::BankAccess& view,const TurnContext& tc,bool forecast=false) {
     const auto started=fuel_left();const auto center=w.altars[a].tile;
-    LocalMask visible,awake;visible.load(cambc::vision::visible_tiles());awake.load(cambc::vision::awake_camp_tiles());
+    LocalMask visible,awake,asleep;
+    visible.load(cambc::vision::visible_tiles());awake.load(cambc::vision::awake_camp_tiles());asleep.load(cambc::vision::asleep_camp_tiles());
     view.count=0;view.until=cambc::constants::max_rounds-tc.round;
     int escape_range=0;
     for(const auto& group:w.groups) {
         if(!tc.allow(11000)||started-fuel_left()>7000)return false;
         for(auto r:group.attack_ranges)escape_range=std::max(escape_range,r);
     }
+    unsigned inspected=0;
     for(unsigned g=0;g<w.groups.size();++g) {
         if(!tc.allow(11000)||started-fuel_left()>7000)return false;
         const auto& design=w.groups[g];const auto& belief=m.groups[g];
@@ -224,7 +289,7 @@ bool delivery_threats(const StaticWorld& w,const Memory& m,const Observation& o,
         // the channel model, but their exit damage must still be paid.
         if(w.distance_floor(g,center)>range+2*escape_range+2+cambc::constants::submit_gems_range)continue;
         for(unsigned k=0;k<design.tiles.size();++k) {
-            if(!tc.allow(11000)||started-fuel_left()>7000)return false;
+            if((inspected++&7u)==0&&(!tc.allow(11000)||started-fuel_left()>7000))return false;
             const auto tile=design.tiles[k];const int reach=design.attack_ranges[k];
             if(tile.chebyshev_distance(center)>reach+2*escape_range+2+cambc::constants::submit_gems_range)continue;
             // Non-damaging spawns away from submission roots are occupancy
@@ -235,7 +300,13 @@ bool delivery_threats(const StaticWorld& w,const Memory& m,const Observation& o,
             }
             const bool seen=visible.test(tile);float hp=m.member_hp[g][k];
             if(seen) {
-                const auto& camp=design.members()[k];if(camp.is_dead())hp=0;else if(camp.is_visible())hp=camp.health();
+                // Current masks settle occupancy without several SDK calls for
+                // every nearby spawn. Only same-turn member samples get partial
+                // HP credit; an unsampled live member is priced at full design
+                // health. The old repeated queries could never finish a dense
+                // scene inside the bounded forecast budget.
+                const bool live=awake.test(tile)||asleep.test(tile);
+                hp=!live?0:m.member_seen[g][k]==static_cast<int>(tc.round)?std::max(1.f,hp):std::max(hp,design.initial_hp[k]);
             }
             if(hp<=0) {
                 // Per-member evidence, not another member's recent observation.
@@ -260,7 +331,7 @@ bool opening_geometry_current(const gate::Plan& p,const Memory& m,const TurnCont
     }
     return true;
 }
-bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,const TurnContext& tc) {
+bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,const TurnContext& tc,bool solo=true) {
     // Scouting resolves stale member evidence; it promises no bank delivery.
     // Preserve that bounded fallback while a full channel quote is unfinished.
     if(p.quality==gate::Quality::Scout)
@@ -268,8 +339,8 @@ bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,co
     if(p.altar<0||p.altar>=static_cast<int>(m.bank_access.size()))return false;
     const auto& bank=m.bank_access[p.altar];
     const int age=static_cast<int>(tc.round)-bank.round;
-    if(age<0||age>4||bank.revision!=m.topology_revision||!bank.plan.complete()||
-        p.rounds+p.delivery+bank.channel+1>bank.until-age)return false;
+    if(!o.enemies.empty()||!bank.current(tc.round,m.topology_revision,m.threat_revision,o.max_hp,o.camp_factor,bank_duration(std::max(o.bag,1)))||!bank.plan.complete()||
+        (solo&&p.rounds+p.delivery+bank.channel+1>bank.until-age))return false;
     for(unsigned i=0;i<bank.plan.count;++i) {
         const auto& threat=bank.threats[bank.plan.cuts[i]];
         if(std::none_of(p.cuts.begin(),p.cuts.begin()+p.count,[&](const auto& cut){return cut.group==threat.group&&cut.member==threat.member;}))return false;
@@ -278,6 +349,11 @@ bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,co
 }
 }
 int bank_duration(int bag) {
+    // Normal shopping finishes before planning/execution. Calls later in the
+    // same turn share the same gear; a changed payout/bag needs a new duration.
+    static unsigned priced_round=~0u;static int priced_bag=-1,priced_duration=-1;
+    const auto round=cambc::round_number();
+    if(priced_round==round&&priced_bag==bag)return priced_duration;
     const auto owned=cambc::self().item_count();float reduction=0;
     for(auto stat:{cambc::item_stat::strength,cambc::item_stat::focus,cambc::item_stat::health}) {
         const auto emblem=cambc::get_item_enum(cambc::item_family::tribute,stat,false);
@@ -285,7 +361,7 @@ int bank_duration(int bag) {
     }
     const auto q=tribute_delay(bag,cambc::constants::submit_gem_base_duration,cambc::constants::submit_gem_minimum_duration,
         cambc::constants::submit_gem_duration_multiplier,reduction);
-    return q.supported()?q.rounds:-1;
+    priced_round=round;priced_bag=bag;priced_duration=q.supported()?q.rounds:-1;return priced_duration;
 }
 const Memory::BankAccess* bank_access(StaticWorld& w,Memory& m,const Observation& o,unsigned a,const TurnContext& tc) {
     if(a>=w.altars.size())return nullptr;
@@ -296,13 +372,18 @@ const Memory::BankAccess* bank_access(StaticWorld& w,Memory& m,const Observation
     // an unaffordable second gate even when the current payout is deliverable.
     const int channel=bank_duration(std::max(o.bag,1));
     if(channel<0)return nullptr;
-    const bool same=saved.revision==m.topology_revision&&saved.max_hp==o.max_hp&&saved.factor==o.camp_factor&&saved.channel==channel;
+    const bool same=o.enemies.empty()&&saved.current(tc.round,m.topology_revision,m.threat_revision,o.max_hp,o.camp_factor,channel);
     const int age=static_cast<int>(tc.round)-saved.round;
-    if(same&&age>=0&&age<=4&&saved.plan.complete()&&saved.plan.work+saved.plan.travel+channel+1<=saved.until-age){saved.status=5;return &saved;}
+    if(same&&saved.plan.complete()&&saved.plan.work+saved.plan.travel+channel+1<=saved.until-age){
+        if(a==m.bank_forecast_cursor%w.altars.size()&&m.bank_forecast_round!=static_cast<int>(tc.round))++m.bank_forecast_cursor;
+        saved.status=5;return &saved;
+    }
     saved.status=2;
+    if(m.bank_forecast_round==static_cast<int>(tc.round)||a!=m.bank_forecast_cursor%w.altars.size())return nullptr;
     if(!tc.allow(24000))return nullptr;
+    m.bank_forecast_round=tc.round;++m.bank_forecast_cursor;
     const auto started=fuel_left();Memory::BankAccess view;
-    view.round=tc.round;view.revision=m.topology_revision;view.max_hp=o.max_hp;view.factor=o.camp_factor;view.channel=channel;
+    view.round=tc.round;view.revision=m.topology_revision;view.threat_revision=m.threat_revision;view.max_hp=o.max_hp;view.factor=o.camp_factor;view.channel=channel;
     saved.status=3;
     if(!delivery_threats(w,m,o,a,view,tc,true)) {
 #if DZ_TRACE
@@ -391,13 +472,17 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
         return Goal{GoalKind::Home};
     }
     if(!hazards.count)return recovering?std::optional<Goal>{Goal{GoalKind::Home}}:std::nullopt;
-    auto route=escape(w,m,o,o.p,hazards,tc,started);
+    EscapeRoute route;
     if(recovering&&m.neutral_escape.round==static_cast<int>(tc.round)-1) {
         const auto retained=siege::retained_escape({o.p.x,o.p.y},m.neutral_escape.exit,hazards.view(),[&](Tile p) {
             return free(w,m,o,{p.x,p.y},tc.round+cheb({o.p.x,o.p.y},p))&&enemy_danger({p.x,p.y},o)<=enemy_danger(o.p,o);
         },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
         if(retained.found&&o.hp>retained.damage)route=retained;
     }
+    // Revalidate the committed ray before spending the search budget on new
+    // alternatives. Otherwise a full search can starve retention and alternate
+    // its preferred ray every round without ever reaching an exit.
+    if(!route.found)route=escape(w,m,o,o.p,hazards,tc,started);
     if(route.found) {
         m.neutral_moves.allowed=0;
         for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
@@ -423,7 +508,14 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
 }
 void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     if(w.altars.empty()||!local_masks_valid||!tc.allow(13000))return;
-    if(m.openings.size()!=w.altars.size())m.openings.resize(w.altars.size());
+    if(m.openings.size()!=w.altars.size()) {
+        // Plans contain initialized route/dependency storage. Constructing an
+        // entire multi-altar table in one planner call can exhaust an ordinary
+        // turn before its first resumable search even starts.
+        if(!tc.allow(30000))return;
+        if(m.openings.capacity()<w.altars.size())m.openings.reserve(w.altars.size());
+        m.openings.emplace_back();return;
+    }
     const unsigned a=m.opening_commitment.active()?static_cast<unsigned>(m.opening_commitment.altar):m.opening_cursor++%w.altars.size();
     if(a>=w.altars.size()){m.opening_commitment={};return;}
     const auto* delivery=bank_access(w,m,o,a,tc);
@@ -586,21 +678,28 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
             if(k<0||m.member_hp[g][k]<=0)return true;
             return std::any_of(cleared.begin(),cleared.end(),[&](const auto& c){return c.group==g&&c.member==k;});
         },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
-        if(!route.found){unsupported(gate::Failure::Exit);return;}
+        if(!route.found&&route.truncated)return;
         cut.hp=m.member_hp[cut.group][cut.member];cut.version=m.hp_version[cut.group];
         cut.incoming=camp_damage(cut.approach,threats.view());cut.escape_loss=route.damage;cut.escape_rounds=route.steps;
         // Re-use the already traced prefix for repeat visits; an unchecked
         // static Home shortcut might itself cross a future live barrier.
         cut.home=cut.arrival+route.steps;
-        const auto work=gate::price(cut,o.max_hp,o.max_hp,plan.damage);
-        if(!work.valid||plan.rounds+work.rounds>2000){unsupported(gate::Failure::Work);return;}
-        plan.rounds+=work.rounds;plan.visits+=work.visits;++plan.priced;
+        const auto work=route.found?gate::price(cut,o.max_hp,o.max_hp,plan.damage):gate::Work{};
+        plan.solo[plan.priced]=work;
+        if(work.valid){plan.rounds+=work.rounds;plan.visits+=work.visits;}
+        else plan.failure=route.found?gate::Failure::Work:gate::Failure::Exit;
+        ++plan.priced;
     }
     if(plan.priced==plan.count) {
-        if(plan.rounds+plan.delivery+delivery->channel+1>delivery->until){unsupported(gate::Failure::Window);return;}
-        plan.quality=gate::Quality::Ready;
-        plan.failure=gate::Failure::None;
+        const bool priced=std::all_of(plan.solo.begin(),plan.solo.begin()+plan.count,[](auto work){return work.valid;});
+        const bool fits=plan.rounds+plan.delivery+delivery->channel+1<=delivery->until;
+        plan.quality=priced&&fits?gate::Quality::Ready:gate::Quality::Joint;
+        if(priced&&fits)plan.failure=gate::Failure::None;
+        else if(priced)plan.failure=gate::Failure::Window;
         plan.expires=std::min(plan.expires,static_cast<int>(tc.round)+32);
+        // New delivery geometry/prices change the auction's feasible actions.
+        // An earlier empty-market cooldown must not outlive the entire quote.
+        m.economic_retry_after=tc.round;
 #if DZ_TRACE
         {TraceScope scope;trace("DZ_OPENING_QUOTE round=%u body=%u altar=%u cuts=%u visits=%d work=%d delivery=%d\n",tc.round,
             static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),a,plan.count,plan.visits,plan.rounds,plan.delivery);}
@@ -615,12 +714,26 @@ const gate::Plan* best_opening(const Memory& m,const Observation& o,const TurnCo
     }
     return result;
 }
+const gate::Plan* opening_project(const Memory& m,const Observation& o,int group,const TurnContext& tc) {
+    const gate::Plan* best=nullptr;
+    for(const auto& p:m.openings) {
+        if((p.quality!=gate::Quality::Ready&&p.quality!=gate::Quality::Joint)||p.count==0||p.cuts[0].group!=group||
+            p.priced!=p.count||!opening_current(p,m,o,tc,false))continue;
+        bool fresh=true;for(unsigned c=0;c<p.count;++c)fresh&=p.cuts[c].version==m.hp_version[p.cuts[c].group];
+        if(fresh&&(!best||p.rounds+p.delivery<best->rounds+best->delivery))best=&p;
+    }
+    return best;
+}
 std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     if(!o.enemies.empty()||!tc.allow(12000))return std::nullopt;
     const auto word=shared_word();const int home=w.home.get(o.p);bool needed=false;
     for(const auto& ally:o.allies) {
         const auto slot=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
-        if(slot==w.allies.end()||protocol::slot(word,slot-w.allies.begin()).objective!=protocol::retreat)continue;
+        if(slot==w.allies.end())continue;
+        const unsigned index=slot-w.allies.begin();const auto claim=protocol::slot(word,index).objective;
+        const auto project=m.team.project(index,tc.round,w.allies.size());
+        const bool returning=claim==protocol::retreat||(project.valid&&project.task==claim&&project.intent==team::Intent::Recover&&ally.hp<ally.max_hp-.01f);
+        if(!returning)continue;
         if(siege::yield_lane({o.p.x,o.p.y},{ally.p.x,ally.p.y},o.hp,o.max_hp,ally.hp,ally.max_hp,home,w.home.get(ally.p)))needed=true;
     }
     if(!needed)return std::nullopt;
@@ -655,6 +768,7 @@ std::optional<Goal> begin_opening(StaticWorld& w,Memory& m,const Observation& o,
     if(plan.quality!=gate::Quality::Ready)return std::nullopt;
     m.opening_commitment.begin(altar,tc.round,plan.rounds+plan.delivery);
     auto& task=m.siege_task;task.start(cut.group,cut.member,tc.round,w.distance(cut.group,o.p),m.member_hp[cut.group][cut.member]);
+    task.altar=altar;
     task.attack=cut.approach;task.planned_approach=true;task.restock=true;task.phase=siege::Phase::Recover;
     trace_task(task,tc,"select",o.hp);
     return siege_goal(w,m,o,tc,false);
@@ -702,17 +816,47 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
             m.neutral_escape.arm(tc.round,{o.p.x,o.p.y},route);
 #endif
             return Goal{GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};}
+#if DZ_ECONOMY_V2
+        if(m.siege_depth<m.siege_parents.size()&&tc.allow(14000)) {
+            const auto actual=exposure(w,m,-1,o.p,o.camp_factor,tc);
+            for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
+                if(!dx&&!dy)continue;const auto p=o.p+vec2{dx,dy};if(!w.walkable(p))continue;
+                const int g=w.group_at(p);if(g<0||g==task.group)continue;
+                const int k=w.tile_members[p.y*cambc::map::width()+p.x];bool cycle=false;
+                for(unsigned i=0;i<m.siege_depth;++i)cycle|=m.siege_parents[i].group==g&&m.siege_parents[i].member==k;
+                EscapeRoute cleared_exit;
+                if(cycle||!admit_bridge(w,m,o,tc,actual,g,k,started,cleared_exit))continue;
+                trace_task(task,tc,"suspend",o.hp);m.siege_parents[m.siege_depth++]=task;
+                task.start(g,k,tc.round,0,m.member_hp[g][k]);task.attack={o.p.x,o.p.y};task.planned_approach=task.bridge=true;
+                task.phase=siege::Phase::Strike;task.last_round=tc.round;task.exit=cleared_exit.exit;
+                task.escape_loss=cleared_exit.damage;task.struck=true;task.visit_hp=m.member_hp[g][k];m.contract.objective=g;
+                trace_task(task,tc,"bridge",o.hp);return Goal{GoalKind::Farm,g};
+            }
+        }
+#endif
         return Goal{GoalKind::Retreat};
     }
     // Visible enemy contact is handled by EE/SafeMode, never by a camp-only
     // quote. Keep the task, so a safe interruption does not discard partial HP.
     for(const auto& enemy:o.enemies)if(enemy.p.chebyshev_distance(o.p)<=10)return std::nullopt;
     if(altar_open||static_cast<int>(tc.round)<task.retry_after)return std::nullopt;
+    if(task.active()&&task.phase==siege::Phase::Approach&&!task.progress(tc.round,w.distance(task.group,o.p),m.member_hp[task.group][task.member])) {
+        trace_task(task,tc,"abandon",o.hp);defer(m,tc.round,20);return std::nullopt;
+    }
     if(!tc.allow(18000))return task.active()?std::optional<Goal>{Goal{task.struck?GoalKind::Retreat:GoalKind::Home}}:std::nullopt;
 #if DZ_ECONOMY_V2
-    if(task.active()&&task.planned_approach&&task.phase==siege::Phase::Approach&&m.opening_commitment.executing&&
-        m.opening_commitment.altar>=0&&m.opening_commitment.altar<static_cast<int>(w.altars.size())) {
-        const auto route=altar_route(w,m,o,m.opening_commitment.altar,tc);
+    if(task.active()&&task.bridge) {
+        const auto actual=exposure(w,m,-1,o.p,o.camp_factor,tc);EscapeRoute cleared_exit;
+        if(admit_bridge(w,m,o,tc,actual,task.group,task.member,started,cleared_exit)) {
+            task.phase=siege::Phase::Strike;task.last_round=tc.round;task.exit=cleared_exit.exit;
+            task.escape_loss=cleared_exit.damage;task.shield_credit=task.required_shield=0;
+            task.struck=true;m.contract.objective=task.group;return Goal{GoalKind::Farm,task.group};
+        }
+        task.phase=siege::Phase::Escape;return Goal{GoalKind::Retreat};
+    }
+    const int destination=task.altar>=0?task.altar:(m.opening_commitment.executing?m.opening_commitment.altar:-1);
+    if(task.active()&&task.planned_approach&&task.phase==siege::Phase::Approach&&destination>=0&&destination<static_cast<int>(w.altars.size())) {
+        const auto route=altar_route(w,m,o,destination,tc);
         if(route.status==access::Status::Blocked&&(route.blocker.group!=task.group||route.blocker.member!=task.member)&&
             m.member_hp[route.blocker.group][route.blocker.member]>0) {
             bool cycle=false;
@@ -721,6 +865,7 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
                 trace_task(task,tc,"suspend",o.hp);m.siege_parents[m.siege_depth++]=task;
                 const auto b=route.blocker;
                 task.start(b.group,b.member,tc.round,w.distance(b.group,o.p),m.member_hp[b.group][b.member]);
+                task.altar=destination;
                 task.attack=route.previous;task.planned_approach=true;
                 m.contract.objective=b.group;trace_task(task,tc,"select",o.hp);
                 return Goal{GoalKind::Farm,b.group}; // Fresh live admission on the next turn.
@@ -803,6 +948,17 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
         task.phase=siege::Phase::Escape;trace_task(task,tc,"escape",o.hp);
         return Goal{GoalKind::Retreat}; // Publish distress so an allied capturer can free the exit.
     }
+#if DZ_ECONOMY_V2
+    if(attack!=o.p&&attack.chebyshev_distance(o.p)==1) {
+        const int held=w.group_at(o.p);
+        if(held>=0&&m.groups[held].state==GroupState::Respawning&&m.groups[held].ready<=static_cast<int>(tc.round)+3) {
+            const auto future=escape(w,m,o,attack,threats,tc,started,{},true);
+            if(!future.found){task.phase=siege::Phase::Escape;trace_task(task,tc,"respawn_exit",o.hp);
+                m.neutral_escape.arm(tc.round,{o.p.x,o.p.y},route);
+                return Goal{GoalKind::Retreat,-1,vec2{route.exit.x,route.exit.y}};}
+        }
+    }
+#endif
     float shield_credit=0;
     const auto buffs=cambc::self().buffs();
     if(buffs.has_shield()) {

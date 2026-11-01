@@ -29,6 +29,7 @@ const layouts={
   'crew-double-wolf':[[3,6,6],[3,6,8],[3,8,6],[3,8,8],[0,10,12],[0,11,12]],
   'crew-sequence':[[0,10,12],[0,11,12],[0,12,12]],
   'collection-circuit':[...[6,10,14].flatMap(x=>[6,10,14].map(y=>[2,x,y])),[3,8,8],[3,8,12],[3,12,8],[3,12,12]],
+  'opening-crew':[...Array.from({length:12},(_,i)=>[2,5+i%4,5+Math.floor(i/4)]),[5,9,10]],
 };
 if (!Object.hasOwn(layouts,key)) throw new Error('Unknown fixture '+key);
 fs.mkdirSync(destination,{recursive:true});
@@ -39,10 +40,11 @@ try {
   check(X.MapBuilder_SetNumChampsPerTeam(builder,picks));
   [1,1,4,4].forEach((value,index)=>dv().setInt32(out+index*4,value,true));
   check(X.MapBuilder_SetTeamASpawnArea(builder,out));
-  const altar=key==='capture-contest'?[15,10]:[15,15];
+  const altar=key==='opening-crew'?[10,10]:key==='capture-contest'?[15,10]:[15,15];
   check(X.MapBuilder_AddAltar(builder,...altar));
   const walls=key==='siege-ring-golem'?[[14,14],[15,14],[16,14],[14,16],[15,16],[16,16]]:
-    key==='siege-two-layer'?Array.from({length:7},(_,i)=>[[12+i,14],[12+i,16]]).flat():[];
+    key==='siege-two-layer'?Array.from({length:7},(_,i)=>[[12+i,14],[12+i,16]]).flat():
+    key==='opening-crew'?[[9,9],[9,11],[10,9],[10,11],[11,9],[11,10],[11,11]]:[];
   for(const tile of walls)check(X.MapBuilder_AddWall(builder,...tile));
   for (const [kind,x,y] of layouts[key]) check(X.MapBuilder_AddCamp(builder,kind,x,y,out));
   check(X.MapBuilder_VerifyIntegrity(builder));

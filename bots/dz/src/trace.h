@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include "config.h"
 #include "trace_meter.h"
+#if DZ_TRACE
+#include "trace_buffer.h"
+#endif
 
 namespace dz {
 // Trace output for diagnostic builds only (release builds print nothing).
@@ -16,12 +19,14 @@ namespace dz {
 // discarded anyway, so the measured part of a turn pays only the cheap append.
 // Supported: %d %i %u %ld %lu %lld %llu %zu %x %c %s %% and %f / %.Nf (N<=3,
 // rounded toward zero). Width/flags are ignored.
+#if !DZ_TRACE
 struct TraceBuffer {
     static constexpr std::size_t capacity = 32768;
     char data[capacity];
     std::size_t size = 0;
-    unsigned dropped = 0; // Lines discarded because the buffer was full.
+    unsigned dropped = 0;
 };
+#endif
 inline TraceBuffer trace_buffer;
 // Trace work is metered once for profiling, including nested trace() calls.
 // The governor still uses physical fuel. Instrumented and release behavior can
@@ -50,7 +55,11 @@ inline FlushCost trace_flush_cost; // Last flush, reported by the next line.
 namespace trace_detail {
 inline void put(char c) {
     auto& b = trace_buffer;
+#if DZ_TRACE
+    b.put(c);
+#else
     if (b.size < TraceBuffer::capacity) b.data[b.size++] = c;
+#endif
 }
 inline void put_unsigned(unsigned long long v, unsigned base = 10) {
     char tmp[24]; int n = 0;
@@ -88,7 +97,7 @@ inline bool trace(const char* format, ...) {
 #if DZ_TRACE
     // Bound formatting work and leave physical fuel for production logic.
     // Drop lines instead; the count is reported.
-    const bool line_open = b.size && b.data[b.size-1] != '\n';
+    const bool line_open = b.size && b.last() != '\n';
     const auto real=cambc::fuel_remaining();
     const std::uint64_t minimum_real=
 #if DZ_ECONOMY_V2
@@ -139,11 +148,24 @@ inline bool trace(const char* format, ...) {
     return true;
 }
 
-// Write buffered lines only from otherwise-discarded fuel: call immediately
-// before end_turn. `force` empties a nearly full buffer regardless.
+// Drain one bounded chunk from spare fuel. Unwritten bytes retain their exact
+// order across turns; a nearly full buffer cannot force an unaffordable write.
 inline void trace_flush(std::uint64_t spare = 30000) {
     auto& b = trace_buffer;
     if (!b.size && !b.dropped) return;
+#if DZ_TRACE
+    if(!trace_chunk(b.contiguous().size(),cambc::fuel_remaining(),spare))return;
+    if (b.dropped) {
+        const auto n=b.dropped;b.dropped=0;
+        if(!trace("DZ_TRACE_DROPPED lines=%u\n",n))b.dropped+=n;
+    }
+    const auto before = cambc::fuel_remaining();
+    const auto segment=b.contiguous();const auto bytes=trace_chunk(segment.size(),before,spare);
+    if(!bytes)return;
+    const auto written=::write(1,segment.data(),bytes);
+    if(written>0)b.consume(static_cast<std::size_t>(written));
+    trace_flush_cost = {bytes, before - cambc::fuel_remaining()};
+#else
     const bool force = b.size > TraceBuffer::capacity * 3 / 4;
     if (!force && cambc::fuel_remaining() < spare + b.size * 4) return;
     if (b.dropped) { const auto n = b.dropped; b.dropped = 0; trace("DZ_TRACE_DROPPED lines=%u\n", n); }
@@ -157,6 +179,7 @@ inline void trace_flush(std::uint64_t spare = 30000) {
     }
     b.size = 0;
     trace_flush_cost = {bytes, before - cambc::fuel_remaining()};
+#endif
 }
 }
 namespace dz {

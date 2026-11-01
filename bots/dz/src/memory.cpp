@@ -137,7 +137,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     if (hp!=member_hp[index]) ++hp_version[index];
 #if DZ_ECONOMY_V2
-    if(strength!=member_strength[index])++hp_version[index];
+    if(strength!=member_strength[index]){++hp_version[index];++threat_revision;}
     member_strength[index]=std::move(strength);
     member_seen[index]=std::move(seen);
 #endif

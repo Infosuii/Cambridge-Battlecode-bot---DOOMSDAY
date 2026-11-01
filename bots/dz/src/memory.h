@@ -46,7 +46,7 @@ struct Memory {
     struct AccessField { std::unique_ptr<cambc::distance_field> field;unsigned revision=~0u;int expires=0;bool closed=false; };
     std::vector<AccessField> access_fields;
     struct AccessBuild {
-        LocalMask mask;int altar=-1,expires=0;unsigned revision=~0u;
+        LocalMask mask;int expires=0;unsigned revision=~0u;bool active=false,ready=false;
         std::size_t group=0,member=0;
     } access_build;
 #endif
@@ -70,13 +70,18 @@ struct Memory {
     ShopVisit delivery_shop;
     float shop_quote_income=-1,shop_quote_gold_income=-1;
     std::vector<gate::Plan> openings;
-    struct BankAccess {
-        int round=-10000,channel=-1,status=0;unsigned revision=~0u;
-        float max_hp=0,factor=0;bank::Plan plan;
+    unsigned threat_revision=0;
+    bank::Delivery bank_delivery;
+    struct BankAccess : bank::Stamp {
+        int status=0;bank::Plan plan;
         std::array<bank::Threat,bank::max_threats> threats{};unsigned count=0;
-        int until=2000;
     };
     std::vector<BankAccess> bank_access;
+    struct BankRoute {
+        std::unique_ptr<cambc::distance_field> field;
+        int altar=-1,expires=0;Tile root{};unsigned revision=~0u;bool pending=false;
+    } bank_route;
+    int bank_forecast_round=-1;unsigned bank_forecast_cursor=0;
     gate::Commitment opening_commitment;
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
@@ -108,7 +113,7 @@ struct Memory {
         Tile last_self{};bool has_self=false;
         unsigned members=0,tank=6;
         Tile destination{};
-        bool managed=false,formed=false,fire=false,joined=false,recovering=false,direct_step=false;
+        bool managed=false,formed=false,fire=false,joined=false,recovering=false,direct_step=false,sleep_entry=false;
     } crew_execution;
     struct FormationCache {
         int group=-1,expires=-1;unsigned topology=0,generation=0,units=0,camps=0;
@@ -117,6 +122,7 @@ struct Memory {
         crew::SequenceSearch search;
         crew::Progression progression;
         int progression_work=-1;
+        bool isolated=false;
         bool pending() const {return search.pending()||progression.pending()||
             (search.stage==crew::SequenceSearch::Stage::Done&&progression.stage==crew::Progression::Stage::Empty);}
     };

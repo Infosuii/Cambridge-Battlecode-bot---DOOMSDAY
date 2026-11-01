@@ -1,12 +1,12 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
-Latest development: default-off sequential crew projects with per-monster
-formations, resumable checked role routes, safe regrouping and retained recovery
-ownership. See [the checkpoint](../../research/dz/sequences-2026-10-31/README.md)
-and [live backlog](../../research/dz/BACKLOG.md). Native phases and scoped recovery
-execute; Famine still fails competitive banking. Resource/equipment allocation,
-joint ability/combat modelling and release acceptance remain open. Selected
-release defaults are unchanged.
+Latest development: default-off priced openings, isolated sleep/re-entry quotes,
+finite carrier delivery commitments, shared occupancy and cached submission-root
+navigation. See [the checkpoint](../../research/dz/opening-market-2026-11-01/README.md)
+and [live backlog](../../research/dz/BACKLOG.md). Ten final fixture cells have zero
+deaths/faults/fuel-outs; layered access and gem production still fail on some sides.
+Useful opening crew acceptance, joint ability/combat models and competitive
+validation remain open. Selected release defaults are byte-identical.
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK

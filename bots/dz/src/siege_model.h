@@ -28,6 +28,12 @@ EscapeRoute escape_route(Tile origin,std::span<const CampThreat> camps,std::span
     return best;
 }
 enum class Phase : std::uint8_t { None, Approach, Strike, Escape, Recover };
+inline bool bridge_affordable(float hp,float max_hp,float target_hp,float damage,float raw,float exit_damage) {
+    for(float v:{hp,max_hp,target_hp,damage,raw,exit_damage})if(!std::isfinite(v)||v<0)return false;
+    if(hp<=0||max_hp<hp||damage<=0||target_hp<=0||target_hp/damage>2000)return false;
+    const int attacks=static_cast<int>(std::ceil(target_hp/damage));
+    return hp>(attacks+1)*raw+1.25f*exit_damage+.15f*max_hp;
+}
 struct EscapeStep {
     int round=-1;Tile origin{},next{},exit{};
     bool arm(int now,Tile from,const EscapeRoute& route) {
@@ -134,13 +140,14 @@ inline Wave quote(float hp,float max_hp,float target_hp,float damage,float incom
 }
 struct Task {
     int group=-1,member=-1;
+    int altar=-1;
     Phase phase=Phase::None;
     Tile attack{},exit{};
     float last_target_hp=0,escape_loss=0,incoming=0;
     float visit_hp=0;
     float shield_credit=0,required_shield=0;
     bool struck=false,finished=false,support_seen=false,restock=false;
-    bool planned_approach=false;
+    bool planned_approach=false,bridge=false;
     int checked=0,distance=65535,last_round=-1,retry_after=0,visits=0,failures=0;
     bool active() const { return group>=0&&member>=0&&phase!=Phase::None; }
     void reset(int round,int cooldown=0) { *this={};retry_after=round+cooldown; }

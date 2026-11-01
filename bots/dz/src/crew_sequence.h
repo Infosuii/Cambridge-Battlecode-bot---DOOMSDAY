@@ -228,10 +228,11 @@ enum class SequenceReason { None, Scene, Damage, Capacity, Horizon, Budget };
 struct SequenceQuote { bool complete=false;int finish=0,visits=0;SequenceReason reason=SequenceReason::Scene; };
 template<class Budget=Unlimited>
 SequenceQuote quote(std::span<const Unit> units,std::span<const Monster> remaining,const SequenceSearch& search,
-                    unsigned first,int capture,int recall,int horizon,Budget budget={},bool projection=false) {
+                    unsigned first,int capture,int recall,int horizon,Budget budget={},bool projection=false,int sleep=-1) {
     SequenceQuote q;
     if(search.stage!=SequenceSearch::Stage::Done||first>search.count||remaining.size()!=search.count-first||search.count>search.phases.size()||
         units.empty()||units.size()>max_units||units.size()!=search.actors||capture<0||capture>2000||recall<0||recall>2000||horizon<1||horizon>2000||
+        sleep< -1||sleep>2000||(sleep>=0&&(search.count!=1||remaining.size()!=1))||
         !(projection?stronger_roles(units,std::span<const Unit>(search.roster.data(),search.actors)):
             same_roles(units,std::span<const Unit>(search.roster.data(),search.actors))))return q;
     for(auto unit:units)if(!std::isfinite(unit.hp)||unit.hp>unit.max_hp)return q;
@@ -247,26 +248,29 @@ SequenceQuote quote(std::span<const Unit> units,std::span<const Monster> remaini
         const int work=static_cast<int>(std::ceil(remaining[c].hp/damage))+1;
         int current=horizon,fresh=horizon;
         for(unsigned u=0;u<units.size();++u) {
-            const double loss=c?p.transfer_loss[u]:p.approach_loss[u];
+            const double loss=c?p.transfer_loss[u]:(sleep>=0?0:p.approach_loss[u]);
             current=std::min(current,capacity(units[u],hp[u]-loss,p,u,horizon));
-            fresh=std::min(fresh,capacity(units[u],units[u].max_hp-p.approach_loss[u],p,u,horizon));
+            fresh=std::min(fresh,capacity(units[u],units[u].max_hp-(sleep>=0?0:p.approach_loss[u]),p,u,horizon));
         }
         if(fresh<=0)return {false,0,0,SequenceReason::Capacity};
-        const int recovery=p.return_rounds+recall+p.approach_rounds;
+        // Every member stages outside the entire encounter. An isolated single
+        // monster can then sleep before entry; that wait is paid on EVERY
+        // return, and the executor must observe sleep before walking in.
+        const int recovery=std::max(p.return_rounds+recall,std::max(0,sleep))+p.approach_rounds+(sleep>=0);
         if(current<=0) {
             // Recover BEFORE attempting an unaffordable march. Never subtract
             // lethal travel and then silently restore a dead actor to full HP.
-            elapsed+=(c?search.phases[first+c-1].return_rounds:p.return_rounds)+recall+p.approach_rounds;current=fresh;
-            for(unsigned u=0;u<units.size();++u)hp[u]=units[u].max_hp-p.approach_loss[u];
+            elapsed+=sleep>=0?recovery:(c?search.phases[first+c-1].return_rounds:p.return_rounds)+recall+p.approach_rounds;current=fresh;
+            for(unsigned u=0;u<units.size();++u)hp[u]=units[u].max_hp-(sleep>=0?0:p.approach_loss[u]);
             ++q.visits;
         } else {
-            elapsed+=c?p.transfer:p.approach_rounds;
-            for(unsigned u=0;u<units.size();++u)hp[u]-=c?p.transfer_loss[u]:p.approach_loss[u];
+            elapsed+=c?p.transfer:p.approach_rounds+std::max(0,sleep)+(sleep>=0);
+            for(unsigned u=0;u<units.size();++u)hp[u]-=c?p.transfer_loss[u]:(sleep>=0?0:p.approach_loss[u]);
         }
         int last=work;const int extra=work>current?(work-current+fresh-1)/fresh:0;
         if(extra) {
             elapsed+=static_cast<long long>(extra)*recovery;last=work-current-(extra-1)*fresh;
-            for(unsigned u=0;u<units.size();++u)hp[u]=units[u].max_hp-p.approach_loss[u];
+            for(unsigned u=0;u<units.size();++u)hp[u]=units[u].max_hp-(sleep>=0?0:p.approach_loss[u]);
         }
         for(unsigned u=0;u<units.size();++u)hp[u]-=last*p.raw[u];
         elapsed+=work;q.visits+=extra+1;

@@ -15,6 +15,34 @@ crew::Unit crew_unit(const SeenChampion& seen,unsigned slot) {
 }
 namespace {
 struct CampSet { std::array<crew::Monster,crew::max_camps> camps{};unsigned count=0;bool complete=true; };
+// New delivery-project credit requires a scene with no unpriced outside camp.
+// The ordinary crew quote has no general multi-group combat model. Check its
+// complete formation/march/staging envelope against PUBLIC camp designs; a
+// sleeping or currently dead outside camp is not assumed harmless forever.
+bool isolated_project(const StaticWorld& w,const Memory& m,const Memory::FormationCache& c,int group,const TurnContext& tc) {
+    int x0=100000,y0=100000,x1=-1,y1=-1;unsigned points=0;const auto started=fuel_left();
+    auto add=[&](Tile p){x0=std::min(x0,p.x);y0=std::min(y0,p.y);x1=std::max(x1,p.x);y1=std::max(y1,p.y);};
+    for(unsigned i=0;i<c.search.count;++i) {
+        const auto& p=c.search.phases[i];
+        add(p.target.p);
+        for(unsigned u=0;u<c.units;++u){add(p.formation.positions[u]);add(p.staging[u]);}
+        for(const auto* moves:{&p.moves,&p.approach})for(const auto& move:*moves)for(auto tile:move.path) {
+            if((++points&15u)==0&&(!tc.allow(10000)||started-fuel_left()>4000))return false;
+            add(tile);
+        }
+    }
+    if(x1<0)return false;
+    for(unsigned g=0;g<w.groups.size();++g) {
+        if(g==static_cast<unsigned>(group)||w.groups[g].strength<=0)continue;
+        for(unsigned k=0;k<w.groups[g].tiles.size();++k) {
+            if((++points&15u)==0&&(!tc.allow(10000)||started-fuel_left()>4000))return false;
+            if(std::max(w.groups[g].initial_strength[k],m.member_strength[g][k])<=0)continue;
+            const auto p=w.groups[g].tiles[k];const int d=std::max({x0-p.x,p.x-x1,y0-p.y,p.y-y1,0});
+            if(d<=w.groups[g].attack_ranges[k])return false;
+        }
+    }
+    return true;
+}
 CampSet camp_set(const StaticWorld& w,const Memory& m,int g) {
     CampSet result;const auto& group=w.groups[g];
     if(group.tiles.size()>crew::max_camps){result.complete=false;return result;}
@@ -31,7 +59,10 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         cache.generation==m.conversions[group]&&offset+camps.size()==cache.camps&&
         crew::same_roles(units,std::span<const crew::Unit>(cache.roster.data(),cache.units))&&
         crew::same_scene(camps,std::span<const crew::Monster>(cache.scene.data()+offset,camps.size()));
-    if(matches&&cache.search.stage==crew::SequenceSearch::Stage::Done)return offset;
+    if(matches&&cache.search.stage==crew::SequenceSearch::Stage::Done) {
+        if(cache.camps==1&&!cache.isolated&&tc.allow(16000))cache.isolated=isolated_project(w,m,cache,group,tc);
+        return offset;
+    }
     // A different speculative quote cannot erase the unfinished job. A changed
     // roster/scene for the SAME job invalidates it; an expired job is replaceable.
     if(!matches&&cache.group!=group&&cache.group>=0&&cache.expires>static_cast<int>(tc.round)&&
@@ -43,7 +74,7 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         cache.units=units.size();cache.camps=camps.size();
         std::copy(units.begin(),units.end(),cache.roster.begin());std::copy(camps.begin(),camps.end(),cache.scene.begin());
         cache.search.begin(units,camps,cambc::map::width(),cambc::map::height());
-        cache.progression={};cache.progression_work=-1;
+        cache.progression={};cache.progression_work=-1;cache.isolated=false;
     }
     const auto started=fuel_left();unsigned operations=0;
     const bool complete=cache.search.resume(units,std::span<const crew::Monster>(cache.scene.data(),cache.camps),[&](Tile tile,unsigned cleared) {
@@ -58,6 +89,7 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         ++operations;return true;
     });
     tc.guard();if(operations)cache.expires=tc.round+config::crew_window;
+    if(complete&&cache.camps==1&&tc.allow(16000))cache.isolated=isolated_project(w,m,cache,group,tc);
     return complete?static_cast<int>(cache.camps-camps.size()):-1;
 }
 void price_progression(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int g,int work,const TurnContext& tc) {
@@ -171,15 +203,17 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
         cache.pending()?CrewQuoteStatus::Budget:CrewQuoteStatus::Formation};
     int arrival=0;
     for(unsigned u=0;u<units.size();++u)arrival=std::max(arrival,units[u].arrival);
+    cache.isolated|=isolated_project(w,m,cache,group,tc);
+    const int sleep=cache.camps==1&&cache.isolated?cambc::constants::camp_sleep_time:-1;
     const auto model_start=fuel_left();
     const auto q=crew::quote(units,camps,cache.search,first,capture,cambc::constants::recall_time,cambc::constants::max_rounds-tc.round,
-        [&]{return tc.allow(10000)&&model_start-fuel_left()<6000;});
+        [&]{return tc.allow(10000)&&model_start-fuel_left()<6000;},false,sleep);
 #if DZ_TRACE
     static unsigned next_price_trace=0;
     if(w.slot==0&&tc.round>=next_price_trace) {
         next_price_trace=tc.round+50;const auto& p=cache.search.phases[first];TraceScope scope;
         trace("DZ_CREW_PRICE round=%u group=%d reason=%d finish=%d count=%u first=%d n=%zu hp=%.0f,%.0f damage=%.0f,%.0f raw=%.0f,%.0f escape=%.0f,%.0f approach=%.0f,%.0f\n",
-            tc.round,group,static_cast<int>(q.reason),q.finish,cache.search.count,first,units.size(),units[0].hp,units[1].hp,units[0].damage,units[1].damage,
+            tc.round,group,static_cast<int>(q.reason),q.finish,cache.search.count,first,units.size(),units[0].hp,units.size()>1?units[1].hp:0,units[0].damage,units.size()>1?units[1].damage:0,
             p.raw[0],p.raw[1],p.escape[0],p.escape[1],p.approach_loss[0],p.approach_loss[1]);
     }
 #endif
@@ -191,7 +225,8 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
     if(cache.progression.pending()||cache.progression.stage==crew::Progression::Stage::Empty)
         return {false,0,0,CrewQuoteStatus::Budget};
     unsigned mask=0;for(unsigned u=0;u<units.size();++u)mask|=1u<<units[u].slot;
-    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready,arrival};
+    const int home=cache.search.phases[cache.search.count-1].return_rounds;
+    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready,arrival,home,cache.isolated};
 }
 bool build_crew_field(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     auto& cache=m.crew_field;
@@ -433,7 +468,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
 #endif
         if(!state.recovering)state.recovery_deadline=tc.round+2*phase.return_rounds+cambc::constants::recall_time+config::crew_window;
         state.recovering=true;m.neutral_recovery.update(true,false,o.hp,o.max_hp);state.managed=false;
-        if(formed) {
+        if(formed||actual[self]==plan.positions[self]) {
             m.neutral_escape.arm(tc.round,here,{phase.staging[self],static_cast<float>(phase.escape[self]),cheb(here,phase.staging[self]),true,false});
             return Goal{GoalKind::Retreat,-1,vec2{phase.staging[self].x,phase.staging[self].y}};
         }
@@ -470,17 +505,47 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
 #else
     (void)previously_committed;
 #endif
+    if(!formed&&sequence.count==1&&m.crew_layout().isolated) {
+        LocalMask sleeping;sleeping.load(cambc::vision::asleep_camp_tiles());
+        const bool asleep=sleeping.test({camps[0].p.x,camps[0].p.y});
+        if(!asleep) {
+            bool outside=true,staged=true;
+            for(unsigned u=0;u<n;++u){outside&=cheb(actual[u],camps[0].p)>camps[0].range;staged&=actual[u]==phase.staging[u];}
+            if(!outside)return recover();
+            // Travel to staging, then hold until the sleeping state is actually
+            // visible. A timer/quote never authorizes entry into an awake camp.
+            goal.destination=staged?o.p:vec2{phase.staging[self].x,phase.staging[self].y};return goal;
+        }
+#if DZ_TRACE
+        if(!state.sleep_entry){TraceScope scope;trace("DZ_CREW_SLEEP_ENTRY round=%u slot=%u group=%d\n",tc.round,w.slot,g);}
+#endif
+        state.sleep_entry=true;
+    }
     if(march.valid&&!march.complete) {
         const auto& start=transfer?sequence.phases[first-1].formation.positions:phase.staging;
         bool beginning=true;for(unsigned u=0;u<n;++u)beginning&=actual[u]==start[u];
-        if(beginning)for(unsigned u=0;u<n;++u) {
+        if(beginning&&!state.sleep_entry)for(unsigned u=0;u<n;++u) {
             const auto loss=transfer?phase.transfer_loss[u]:phase.approach_loss[u];
             if(crew::capacity(units[u],units[u].hp-loss,phase,u)<=0)return recover();
         }
         state.destination=actual[self];
         if(march.actor==self){state.destination=march.next;state.direct_step=true;}
     } else if(formed) {
-        state.destination=plan.positions[self];state.fire=true;state.recovering=false;
+        state.destination=plan.positions[self];state.fire=true;state.recovering=false;state.sleep_entry=false;
+        if(sequence.count==1&&m.crew_layout().isolated) {
+            LocalMask sleeping;sleeping.load(cambc::vision::asleep_camp_tiles());
+            if(sleeping.test({camps[0].p.x,camps[0].p.y})) {
+                // Wake only before ANY crew member has spent its turn. The
+                // last marcher otherwise wakes the monster with a lone hit;
+                // the first actor loses HP before its first funded attack and
+                // the quote's joint damage never happens. Holding for the next
+                // full crew round costs at most one sleeping phase per visit.
+                for(const auto& ally:o.allies) {
+                    const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+                    if(it!=w.allies.end()&&(expected&(1u<<(it-w.allies.begin())))&&ally.sdk.has_completed_turn())state.fire=false;
+                }
+            }
+        }
     }
     if(!m.crew_field.field||m.crew_field.root!=state.destination||m.crew_field.expires<=static_cast<int>(tc.round)) {
         m.crew_field.field.reset();m.crew_field.root=state.destination;m.crew_field.pending=true;

@@ -8,6 +8,11 @@ used for strength comparisons or per-map parameter selection.
 damaging camps obscure the target. The official engine's MapBuilder encodes the
 map and verifies its integrity. The manifest records geometry and hashes.
 
+`opening-crew.map26a`: mirrored three-pick opening, twelve connected gem clusters
+and a Golem guarding a single altar entrance with several outside attack poses.
+This checks carried-stock opening/delivery and crew entry, not competitive
+strength. `opening-crew.manifest.json` pins its generator, official assets and map.
+
 The committed binary is sufficient to run tests. Regeneration needs Node and
 the pinned official assets used by the replay tools; use a fresh destination:
 
@@ -18,4 +23,4 @@ python tools/dz.py conformance --name fresh-monolith-check --fixture camps --set
 ```
 
 Generation never overwrites files. Custom map directories are accepted only by
-`conformance`, and do not alter the competition pool.
+`conformance` and `scenario`, and do not alter the competition pool.

@@ -1,3 +1,21 @@
+# ACTIVE 2026-11-01 — priced openings and committed delivery; unpromoted
+
+Read research/dz/opening-market-2026-11-01/README.md and research/dz/BACKLOG.md.
+Implemented complete crew replacement bids, observed sleep entry, synchronized
+wakes, finite carrier bank commitments, shared occupancy/quoted-root navigation,
+dependency-based forecast caching and bounded trace writes. Five focused host
+suites pass after the earlier17-suite runner. Final26/independent27 are the SAME
+8a1f24ea candidate:10 cells, zero deaths/faults/fuel-outs. Banks opening372/288,
+layered14/0, wolf0/40, elk240/300, sequential crew60/72. Still NOT competitive or
+release accepted. Strict26 audit FALSE: opening26/33 and layered-A22 cycles pass;
+layered-B0 fails; ordinary crew rows have no siege cycles.31 capsules/112 cells
+verify, including rejected variants and explicitly invalid early source controls.
+Selected default437f91c3 and Windows manifest5cf28cb7 preserved; selected/combined
+compile; current trace rebuild exactly matches native. Next: layered-B access,
+wolf-A gem production, useful crew opening acceptance and joint ability/arrival
+models, then contested economy/combat. No larger screens, holdout or online action.
+Untracked .vscode/ remains untouched.
+
 # ACTIVE 2026-10-31 — carrier delivery/paid exits; FAIL and unpromoted
 
 Read research/dz/bank-delivery-2026-10-31/README.md and research/dz/BACKLOG.md.

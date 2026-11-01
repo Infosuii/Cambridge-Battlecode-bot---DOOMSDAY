@@ -67,7 +67,7 @@ def host_tests():
         raise RuntimeError('Install a C++20 compiler and set DZ_CXX to its executable')
     out = TMP / 'host'; out.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ); env['PATH'] = str(Path(cxx).parent) + os.pathsep + env.get('PATH', '')
-    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test', 'siege_test', 'macro_test', 'gate_plan_test', 'formation_test', 'trip_test', 'objective_cast_test', 'sequence_test', 'team_protocol_test', 'crew_progression_test', 'crew_traffic_test', 'crew_market_test', 'crew_agreement_test', 'bank_model_test'):
+    for name in ('core_test', 'economy_test', 'strategy_test', 'protocol_v2_test', 'siege_test', 'macro_test', 'gate_plan_test', 'formation_test', 'trip_test', 'objective_cast_test', 'sequence_test', 'team_protocol_test', 'crew_progression_test', 'crew_traffic_test', 'crew_market_test', 'crew_agreement_test', 'bank_model_test', 'trace_buffer_test'):
         exe = out / (name + ('.exe' if os.name == 'nt' else ''))
         run([cxx, '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-Wno-misleading-indentation', '-Wno-array-bounds', '-I', ROOT/'bots/dz/src',
              ROOT/'tests/dz/host'/f'{name}.cpp', '-o', exe])
@@ -662,6 +662,7 @@ def experiment(args):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.name): raise ValueError('name must use letters, digits, dash or underscore')
     if args.map_dir and args.command not in ('conformance','scenario'): raise ValueError('custom fixture maps are for conformance/scenario only')
     if args.command=='scenario' and not args.map_dir: raise ValueError('production scenarios require a separate --map-dir')
+    if args.source and args.command not in ('smoke','scenario'): raise ValueError('--source is supported for smoke/scenario only')
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
@@ -679,7 +680,7 @@ def experiment(args):
         if args.command!='smoke' or args.trace or args.set: raise ValueError('--candidate-bot is for plain smoke benchmarks')
         source = ROOT/'bots'/args.candidate_bot
     frozen = out / 'build/candidate'
-    if args.command=='smoke' and args.source:
+    if args.source:
         # A long screen builds every run from one frozen snapshot, so edits to bots/dz during it never mix in.
         if args.candidate_bot: raise ValueError('--source replaces bots/dz; not with --candidate-bot')
         source = Path(args.source)

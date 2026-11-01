@@ -1,28 +1,22 @@
-# DZ live implementation backlog — 2026-10-31
+# DZ live implementation backlog — 2026-11-01
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: bank-delivery-2026-10-31/, escape-2026-10-31/, agreement-2026-10-31/, augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: opening-market-2026-11-01/, bank-delivery-2026-10-31/, escape-2026-10-31/, agreement-2026-10-31/, augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z7/Z8/Z11 coordinated openings and delivery.** The bounded actual-carrier
-   channel model, conditional paid exit cuts, off-path Home prerequisites and
-   resumable scans now reach opening pricing. Final11 FAILS21/0 banked from407/406
-   collected versus prior240/42, despite zero deaths/faults/fuel-outs. Strict audit
-   remains FALSE (A18 cycles passes; B0 fails). Solo quotes can exceed1500 rounds.
-   Attach delivery value/cuts to dynamic crew/progression allocation and consent,
-   with real support, recovery and bank commitments. Do not relax survival reserves
-   or scale screens. Native channel/shield calibration and general unknown/fallback
-   behaviour remain open; full17-suite runner was not rerun (three focused pass).
-   Selected defaults remain unchanged. Recovery execution now has
-   exact first-step certificates, revalidated rays, persistent hazards and guarded
-   withdrawal. Final02 has no deaths/faults/fuel-outs, but layered banking WORSENS
-   to240/42 from423/407 collected. Physical altar access is not a channel survival
-   quote. The bounded implementation addresses endpoint exposure and preserves
-   paid threats, but does not establish general validity or useful conversion.
-   Integrate useful crew openings before reducing expensive formation handshake
-   delays without losing exact agreement. Marginal reinforcement remains native-
-   unaccepted. Full funded3-shard/one-emblem continuation is native-confirmed;
-   multiple-emblem batches and partial-fuel shopping remain open. No larger screens.
+1. **Z7/Z8/Z11 coordinated openings and delivery.** Complete group-replacement
+   bids, fixed deadlines, observed isolated sleep entry, synchronized wake,
+   finite bank commitments and cached quoted-root routes are integrated. Final26
+   banks opening372/288, layered14/0 and wolf0/40; independent27 banks elk240/300
+   and sequential crew60/72 with the SAME candidate. All10 cells have zero deaths,
+   faults/fuel-outs, but the strict siege audit stays FALSE (layered-B0 cycles).
+   Fix layered-B access and wolf-A gem production before competitive screens.
+   Useful accepted crew opening bids remain unconfirmed. General joint ability,
+   approach/arrival and opportunity-cost models remain unfinished. Window variants
+   23/24 failed all six cells and were removed; do not re-enable them as validated
+   deadline logic. Resource financing06–08 and singleton siege leases18 also failed.
+   Default437f91c3 is preserved;31 capsules/112 cells verify, including invalid
+   early requested controls which MUST NOT be attributed to c182eb5.
 2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
    serial routes/staging, paid entry/recovery and actual live readiness are integrated.
    Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement
@@ -33,13 +27,13 @@ trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
    singleton capture, negative-claim revocation, task acknowledgements and guarded
    yielding are integrated. Home capacity no longer supplies phantom helpers.
    Exact formation agreement has native coverage. General concurrent crews/focus/
-   support and accepted reinforcement remain unconfirmed. Current escape02 layered rows
-   pass40/18 strict cycles with no deaths; this is not a general crew guarantee. Keep allocation/liveness open.
+   support and accepted reinforcement remain unconfirmed. Final26 layered rows
+   pass22/0 strict cycles (B fails), despite zero deaths; this is not a general crew guarantee. Keep allocation/liveness open.
 4. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    actual cooldowns/CC/shields, exchange and kill-gold value, retreat paths, support
    and lost task income. Replace blanket task interruption with common decisions.
    Current bounded stationary/four-turn models are not a general combat evaluator.
-   Repair banking/deadline priority: current escape02 collects423/407 but banks240/42;
+   Finite bank commitments now execute, but final26 layered collects64/21 and banks14/0;
    safe cycles do not establish objective conversion or a competitive economy.
 5. **Z9/Z12/Z14 progression and map integration.** Conditional funded gear trips,
    bounded gear frontier and route commitments exist; wider economic calibration

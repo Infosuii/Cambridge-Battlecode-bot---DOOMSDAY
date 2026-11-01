@@ -6,6 +6,10 @@
 #include <random>
 using namespace dz;
 int main() {
+    assert(siege::bridge_affordable(1000,1000,120,60,100,200));
+    assert(!siege::bridge_affordable(650,1000,120,60,100,200));
+    assert(!siege::bridge_affordable(1000,1000,120,0,100,200));
+    assert(!siege::bridge_affordable(1000,1000,120,60,100,600));
     auto wave=siege::quote(1000,1000,5000,50,120,240);
     assert(wave.valid&&wave.attacks<100&&wave.waves>1);
     assert(1000-wave.attacks*120>wave.reserve);

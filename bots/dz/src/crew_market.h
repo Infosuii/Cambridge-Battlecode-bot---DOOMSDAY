@@ -10,9 +10,9 @@ struct CrewEpoch {
 };
 struct CrewOffer {
     CrewEpoch epoch;
-    int round=-1,expires=-1,horizon=0,work=0,arrival=0;
+    int round=-1,expires=-1,horizon=0,work=0,arrival=0,home=0;
     unsigned mask=0,count=0;
-    bool complete=false;
+    bool complete=false,isolated=false;
     std::array<crew::Unit,crew::max_units> actors{};
     std::array<float,crew::max_units> investment{};
     unsigned investment_until=0;
@@ -27,6 +27,7 @@ struct CrewPrice {
     bool cluster=false;
     unsigned incumbent_capturer=6;
     int setup=0; // Bounded roster/role agreement, paid by a newly formed crew.
+    bool investment=true;
 };
 // Compact completed economic quotes, never copies of the large route search.
 // Two geometry workspaces can therefore compare alternatives without erasing
@@ -82,7 +83,7 @@ class CrewMarket {
     static float payout(const CrewOffer& offer,unsigned capturer,const CrewPrice& price,int now,bool investment) {
         for(unsigned a=0;a<offer.count;++a)if(offer.actors[a].slot==capturer) {
             const auto& actor=offer.actors[a];const float boost=price.cluster&&actor.prospector?1.25f:1.f;
-            const float gain=investment&&now<=static_cast<int>(offer.investment_until)?offer.investment[a]:0;
+            const float gain=investment&&price.investment&&now<=static_cast<int>(offer.investment_until)?offer.investment[a]:0;
             return std::floor(price.gems*boost)+std::max(price.gold_price*std::floor(price.gold*boost*actor.gold_multiplier),gain);
         }
         return 0;
@@ -106,12 +107,12 @@ public:
         return offer.work+arrival;
     }
     void put(CrewEpoch epoch,unsigned mask,std::span<const crew::Unit> units,int now,int horizon,int finish,int arrival,
-             bool complete,std::span<const float> investment={},unsigned investment_until=0,int lifetime=40) {
-        if(mask==0||mask>=64||units.empty()||(units.size()==1&&mask!=epoch.fixed)||!valid_units(units)||roster(units)!=mask||finish<arrival)return;
+             bool complete,std::span<const float> investment={},unsigned investment_until=0,int lifetime=40,int home=0,bool isolated=false) {
+        if(mask==0||mask>=64||units.empty()||(units.size()==1&&mask!=epoch.fixed)||!valid_units(units)||roster(units)!=mask||finish<arrival||home<0||home>2000)return;
         auto it=std::find_if(offers_.begin(),offers_.end(),[&](const auto& o){return o.mask==mask&&o.epoch.group==epoch.group;});
         if(it==offers_.end())it=std::min_element(offers_.begin(),offers_.end(),[](const auto& a,const auto& b){return a.expires<b.expires;});
         *it={};it->epoch=epoch;it->round=now;it->expires=now+std::max(0,lifetime);it->horizon=horizon;
-        it->mask=mask;it->count=units.size();it->complete=complete;it->work=finish-arrival;it->arrival=arrival;
+        it->mask=mask;it->count=units.size();it->complete=complete;it->work=finish-arrival;it->arrival=arrival;it->home=home;it->isolated=isolated;
         std::copy(units.begin(),units.end(),it->actors.begin());
         if(investment.size()==units.size())std::copy(investment.begin(),investment.end(),it->investment.begin());
         it->investment_until=investment_until;

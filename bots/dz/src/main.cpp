@@ -3,6 +3,9 @@
 #include "safemode.h"
 #include "model_audit.h"
 #include "crew.h"
+#if DZ_ECONOMY_V2
+#include "siege.h"
+#endif
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -45,6 +48,10 @@ int main() {
         auto tc = dz::TurnContext::begin(); dz::Actuator act(tc, counts);
 #if DZ_TRACE
         dz::trace_cap = world && world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO ? 60000 : 3000;
+        // A consistently busy planner may never leave the end-turn spare fuel
+        // needed to write buffered diagnostics. Drain them on a fresh budget
+        // before producing more, so missing counters cannot mimic a dead bot.
+        dz::trace_flush();
 #endif
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;
@@ -177,6 +184,9 @@ int main() {
 #endif
                         DZ_PROF('m');
 #if DZ_ECONOMY_V2
+                        dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
+                        if(mem->contract.objective<0&&!mem->siege_task.active()&&obs->enemies.empty()&&!obs->channel())
+                            dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc);});
                         bool built_crew_route=false;
                         dz::module_work(field_health,tc,counts,"crew-fields",[&]{built_crew_route=dz::build_crew_field(*world,*mem,*obs,tc);});
                         if (!built_crew_route&&mem->field_needed>=0) {
@@ -333,9 +343,13 @@ int main() {
                             (goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat);
                         if(recovering_project)objective=dz::protocol::group_code(mem->crew_execution.group);
                         const bool siege_project=mem->siege_task.active()&&
-                            ((goal.kind==dz::GoalKind::Home&&mem->siege_task.phase==dz::siege::Phase::Recover)||
+                            (goal.kind==dz::GoalKind::Farm||goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat||
                              (goal.kind==dz::GoalKind::YieldSpawn&&goal.destination));
-                        if(siege_project)objective=dz::protocol::group_code(mem->siege_task.group);
+                        const int siege_owner=mem->siege_depth?mem->siege_parents[0].group:mem->siege_task.group;
+                        // Preserve the root project while withdrawing or clearing
+                        // an access prerequisite. Publishing only the child made
+                        // another solo worker take the parent's occupied lane.
+                        if(siege_project){objective=dz::protocol::group_code(siege_owner);onsite=world->group_at(cambc::self().position())==siege_owner;}
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
                         const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
                         const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
@@ -344,7 +358,7 @@ int main() {
                         const bool capture=offered>=0&&mem->groups[offered].state==dz::GroupState::Reward;
                         const auto& sent=mem->crew_publication;
                         const bool relaying=sent.group==offered&&sent.members==mem->economic_crew&&sent.capturer==world->slot&&leader!=world->slot;
-                        const bool offering=executed&&offered>=0&&(leader==world->slot||relaying)&&offered<112&&mem->contract.objective==offered&&
+                        const bool offering=executed&&offered>=0&&(!siege_project||offered==siege_owner)&&(leader==world->slot||relaying)&&offered<112&&mem->contract.objective==offered&&
                             (std::popcount(mem->economic_crew)>1||capture);
                         const bool changed=sent.group!=offered||sent.members!=mem->economic_crew||sent.capturer!=mem->economic_capturer;
                         const bool pulse=dz::team::publisher(tc.round,world->allies.size())==world->slot&&

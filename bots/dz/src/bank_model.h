@@ -6,6 +6,29 @@
 
 namespace dz::bank {
 inline constexpr unsigned max_threats=64,max_cuts=8;
+struct Stamp {
+    int round=-10000,channel=-1,until=2000;
+    unsigned revision=~0u,threat_revision=~0u;
+    float max_hp=0,factor=0;
+    bool current(int now,unsigned topology,unsigned threats,float health,float mitigation,int duration) const {
+        return now>=round&&now-round<until&&revision==topology&&threat_revision==threats&&
+            std::isfinite(health)&&health>0&&std::isfinite(mitigation)&&mitigation>=0&&
+            max_hp==health&&factor==mitigation&&channel==duration&&duration>=0;
+    }
+};
+struct Delivery {
+    int altar=-1,bag=0,deadline=0;
+    bool active() const {return altar>=0;}
+    bool start(int endpoint,int now,int carried,int window) {
+        if(active()||endpoint<0||now<0||now>2000||carried<=0||window<=0||window>2000-now)return false;
+        altar=endpoint;bag=carried;deadline=now+window;return true;
+    }
+    bool update(int now,int carried,int finish) {
+        if(!active())return false;
+        if(now<0||now>deadline||carried<bag||carried<=0||finish<0||finish>deadline-now){*this={};return false;}
+        return true;
+    }
+};
 struct Context {
     float hp=0,max_hp=0,shield=0;
     int shield_rounds=0,channel=0,horizon=2000;
