@@ -676,7 +676,8 @@ def experiment(args):
     if args.candidate_bot:
         # Benchmark another existing bot as the candidate (e.g. v65 against
         # idle). Evaluation only: its code is never copied into bots/dz.
-        if args.command!='smoke' or args.trace or args.set: raise ValueError('--candidate-bot is for plain smoke benchmarks')
+        if args.command!='smoke' or args.trace: raise ValueError('--candidate-bot is for plain smoke benchmarks')
+        if args.set and not (ROOT/'bots'/args.candidate_bot/'src/x1_config.h').exists(): raise ValueError('--set on a candidate bot needs src/x1_config.h')
         source = ROOT/'bots'/args.candidate_bot
     frozen = out / 'build/candidate'
     if args.command=='smoke' and args.source:
@@ -780,8 +781,10 @@ def experiment(args):
         main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
-        if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_')) and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
-        config=frozen/'src/config.h'; source=config.read_text()
+        if not separator or not re.fullmatch(r'(DZ|X1)_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_','X1_')) and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
+        config=frozen/'src/config.h'
+        if not config.exists(): config=frozen/'src/x1_config.h'  # x1 line (candidate bot) flags
+        source=config.read_text()
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
         config.write_text(source,encoding='utf-8',newline='\n')
