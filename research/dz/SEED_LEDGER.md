@@ -1134,3 +1134,13 @@ The registry was created before experiments. Entries below record actual use.
 | x1-sw-apex-tfc-solo-v81hl-01 | 2026-11-01 | deterministic; Wasm 64f65a7bb1eb | 38 cells; v81hl | smoke; trace=False |
 | x1-sw-apex-belief-v81hl-01 | 2026-11-01 | deterministic; Wasm dbebe438f480 | 38 cells; v81hl | smoke; trace=False |
 | x1-sw-apex-snipe-v81hl-01 | 2026-11-01 | deterministic; Wasm 46771c3b94ae | 38 cells; v81hl | smoke; trace=False |
+| x1-s2-combo-v81hl-01 | 2026-11-01 | deterministic; Wasm f352f5615488 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-recall-travel-v81hl-01 | 2026-11-01 | deterministic; Wasm 81cba337c949 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-flee-ally-v81hl-01 | 2026-11-01 | deterministic; Wasm ea331a52dc62 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-a2-campwatch-v81hl-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-position-v81hl-01 | 2026-11-01 | deterministic; Wasm 05ca4f24c8b3 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-nova-ci-link-v81hl-01 | 2026-11-01 | deterministic; Wasm bc001b8a1551 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-snipe-v81hl-01 | 2026-11-01 | deterministic; Wasm 46771c3b94ae | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-gold-taper-v81hl-01 | 2026-11-01 | deterministic; Wasm e7ec058d2058 | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-apex-pair-v81hl-01 | 2026-11-01 | deterministic; Wasm 36d8f943024c | 140 cells; v81hl | smoke; trace=False |
+| x1-s2-nova-race-bank-v81hl-01 | 2026-11-01 | deterministic; Wasm 8161d8a2dfa1 | 140 cells; v81hl | smoke; trace=False |
