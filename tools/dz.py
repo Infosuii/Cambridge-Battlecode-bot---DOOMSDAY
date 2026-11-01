@@ -660,7 +660,7 @@ def match(candidate, opponent, map_path, side, folder, diagnostic=False, diagnos
 
 def experiment(args):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.name): raise ValueError('name must use letters, digits, dash or underscore')
-    if args.map_dir and args.command not in ('conformance','scenario'): raise ValueError('custom fixture maps are for conformance/scenario only')
+    if args.map_dir and args.command not in ('conformance','scenario') and not args.candidate_bot: raise ValueError('custom fixture maps are for conformance/scenario only')  # x1 benchmarks (--candidate-bot) may use unseen map sets
     if args.command=='scenario' and not args.map_dir: raise ValueError('production scenarios require a separate --map-dir')
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
