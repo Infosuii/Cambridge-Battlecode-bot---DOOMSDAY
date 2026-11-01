@@ -7,8 +7,8 @@ Focus gear utility, legal focus messages, movement/escape combat forecasts and
 immediate/future banking schedules. Basic crew bids no longer wait for optional
 gear pricing. Recovery clocks require actual progress; bulk camp visibility
 cannot lose a current live hazard to an old defeated sample.
-24 host suites and28 measurement tests pass.34 capsules/136 cells verify, including
-failed runtime variants and eight truncated dash diagnostic cells (full faults
+24 host suites and28 measurement tests pass.38 capsules/156 cells verify, including
+failed runtime/root/prefetch variants and eight truncated dash diagnostic cells (full faults
 NOT measured). Default/economy/combined compile; selected Mac437f91c3 and Windows
 manifest5cf28cb7 are unchanged. Current untraced economy build f7680a5d is BUILD
 ONLY; exact-current traced native candidate fd1fe6bc is progress-bound-01.
@@ -21,6 +21,8 @@ predates those final corrections. No competitive, general V-M1/V-M2, independent
 or release acceptance. Next: layered-B access and contested productivity, useful
 deferred receipt/join and retained opening second-leg execution; then focused
 confirmation and remaining conformance/calibration. Do not scale failed screens.
+The later root/prefetch bundle regressed conversion and was removed; FOLLOWUP.json
+retains its exact sources and failures. Retained implementation is069775d.
 Release holdout and online actions remain unused. Untracked .vscode/ is unrelated.
 
 # ACTIVE 2026-11-01 — priced openings and committed delivery; unpromoted

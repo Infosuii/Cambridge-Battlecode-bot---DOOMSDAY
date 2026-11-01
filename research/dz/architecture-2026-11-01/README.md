@@ -5,6 +5,9 @@ strategy defaults remain unchanged. The native Mac default remains SHA-256
 `437f91c3a6abb160ea151be081c4d410e9e3161d4ef8042c73df2db4063581f0`.
 This checkpoint implements architecture and execution; it does not establish
 competitive strength, general model calibration or release acceptance.
+The retained implementation is commit `069775d`. `FOLLOWUP.json` records four
+rejected root-arrival/resource-prefetch runs and their exact sources/builds.
+Those followup source changes are not in the retained bot.
 
 ## Implementation inventory
 
@@ -87,3 +90,11 @@ opening-sequence-01 and map-portfolio-01 failed compilation and ran no matches.
    broad campaign after a decisive preliminary failure.
 3. Remaining conformance, general ObjModel/EE calibration and designated release
    gates. The registered once-only release holdout remains unused.
+
+Root-specific arrival/order changes failed to restore layered-B and regressed
+the opening fixture. The subsequent price-cache/identity-cache/prefetch bundle
+also failed: circuit609/504, opening828/0, layered0/0, despite zero deaths,
+faults/fuel-outs. It is not selected. A correct arrival lower bound alone did not
+repair the coupled bank-root/access/execution problem. Do not re-enable these
+sources based on compilation or runtime cleanliness. All38 capsules/156 cells,
+including these rejected variants, verify in `VERIFY_ALL_CHECKS.txt`.

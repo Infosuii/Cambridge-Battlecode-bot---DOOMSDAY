@@ -11,6 +11,10 @@ Next engineering/acceptance work, in order:
    four-cell screen fails at10.5 mean banked/0 wins. Stop scaling it. Current
    progress-bound-01 fixes the full-health recovery loop: opening843/744 and
    layered249/0, zero deaths/faults/fuel-outs; strict opening36/32 passes, layered-B0 fails.
+   Root arrival/order and spare-resource-prefetch followups regressed conversion
+   and were removed; see architecture-2026-11-01/FOLLOWUP.json. Investigate the
+   coupled bank root, paid access route and execution budget rather than repeat
+   arrival-only ordering trials. Retained bot source is069775d.
 2. Prove useful deferred worker receipt/join and retained opening second-leg
    execution. Keep basic crew bids independent of optional equipment pricing.
 3. Improve productive crew conversion and layered access with paid arrival,

@@ -827,3 +827,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-dated-exposure-01 | 2026-11-01 | deterministic; Wasm d6a65038f8c9 | 2 cells; idle81 | smoke; trace=True |
 | dz-dated-exposure-02 | 2026-11-01 | deterministic; Wasm 75bc417c88da | 6 cells; idle81 | scenario; trace=True |
 | dz-progress-bound-01 | 2026-11-01 | deterministic; Wasm fd1fe6bc34b4 | 4 cells; idle81 | scenario; trace=True |
+| dz-root-arrival-01 | 2026-11-01 | deterministic; Wasm 3717f0b3719d | 4 cells; idle81 | scenario; trace=True |
+| dz-root-arrival-02 | 2026-11-01 | deterministic; Wasm 45fb9bfc89fa | 4 cells; idle81 | scenario; trace=True |
+| dz-resource-lookahead-01 | 2026-11-01 | deterministic; Wasm 9ab30ee2ad77 | 6 cells; idle81 | scenario; trace=True |
+| dz-resource-lookahead-02 | 2026-11-01 | deterministic; Wasm e00e5a343163 | 6 cells; idle81 | scenario; trace=True |
