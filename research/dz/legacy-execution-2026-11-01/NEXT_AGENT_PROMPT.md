@@ -1,4 +1,4 @@
-# Continue DOOMSDAY Zero: restore productive gameplay before expanding planning
+# Continue DOOMSDAY Zero: mimic the strongest teams' gameplay
 
 You are continuing work for me in `Infosuii/neural-networkk-battlecode`.
 
@@ -7,7 +7,9 @@ The parent workspace is `C:\projects\cambridge battlecode`. Use the actual check
 
 ## Mission and current decision
 
-Make DZ competitively strong by transferring the smallest **coherent interacting legacy gameplay package** that restores real productivity, while keeping DZ's useful algorithmic architecture. You may selectively reuse/adapt old source. The former prohibition on legacy code reuse is superseded. Pure algorithmic logic remains required: do not import neural weights, trained policies or fitted legacy decisions under a new name.
+The user's overall objective is to build a very strong bot that **copies how the top teams actually play, follows their meta, and has strategies optimised for every map**. Treat observed successful opponent behaviour as the primary design target: drafting, opening routes, farm selection, team allocation, ability sequences, purchases, banking, recovery and fights. Implement those behaviours directly where practical; theoretical novelty is secondary to reproducing effective play.
+
+Use DZ and legacy components to achieve that target. A coherent legacy gameplay package is a promising implementation route, not the ultimate objective or proof that it matches the top teams. Preserve useful DZ architecture while adapting it to execute the observed policy. You may selectively reuse/adapt old source. The former prohibition on legacy code reuse is superseded. The existing pure-algorithm restriction remains: behavioural imitation here does not itself authorise importing trained weights or learned policies.
 
 The previous agent investigated many weak candidates but did **not** achieve a competitive improvement. Do not assume its experiments are validated. We are explicitly changing the development approach: establish a complete productive lifecycle, then let advanced planning improve that working incumbent. Do not start with another forecasting feature or a series of fuel-threshold tweaks.
 
@@ -67,6 +69,16 @@ Do not repeat these disproved explanations: `threat_revision` does not change me
 
 ## Proposed implementation sequence
 
+### 0. Establish a small, concrete top-team behaviour reference
+
+Find the available top-team replay/analysis data in this repository and connected project context before asking for more data. Verify the team, bot version, match date, map and opponent; distinguish current evidence from old meta. Do not invent unavailable replay paths or assume every legacy behaviour represents the current leaders.
+
+Inspect a small representative set, especially the first250 rounds and the first completed farm/bank/purchase cycles. Record concrete state-to-action examples: who goes where after spawning, which camp they choose, how many bodies they commit, attack/cast/movement ordering, capture ownership, actual purchase order, bag size and conditions when they bank, and what triggers withdrawal or a fight. Include the relevant map/lineup/nearby threats so a situational behaviour does not become a universal rule. Separate directly observed actions from inferred motives.
+
+Produce a compact behaviour-to-code mapping: observed top-team behaviour → DZ's current divergence → legacy component that can implement it → required dependencies → complete-game metric. Choose the largest clear productivity gap and implement its coherent lifecycle using the steps below. This is a short engineering reference, not a new research campaign or training project. Reuse existing analyses and stop collecting examples once there is enough evidence for the first change.
+
+Validate both behavioural fidelity and competitive effect. A bot that takes the same route but fails to capture, bank or purchase has not reproduced the useful behaviour. Judge improvements against real opponents as well as the reference traces. Keep the user's no-Varg preference as an explicit constraint when adapting top-team drafts.
+
 ### 1. Identify the first failed lifecycle transition from existing evidence
 
 Use one collision replay/trace and the corresponding legacy source, especially rounds1–250. For each relevant body, identify its actual task, selected target, distance/field readiness, action taken, veto/defer reason and remaining fuel. Locate the earliest transition where legacy progresses and DZ stops.
@@ -106,7 +118,19 @@ Reject decisive regressions promptly. If one repair moves the stall to the next 
 
 After the cycle works, test whether the existing auction improves allocation over the real incumbent, whether crews complete more valuable jobs, and whether advanced gear/combat choices improve the same integrated games. Give each planner a bounded budget and preserve a feasible current action. Prefer the proven executor whenever the more sophisticated replacement has not improved complete-game performance.
 
-Do not redesign a universal value model, tune drafting, add map overrides or build a broad calibration campaign before this point.
+Avoid speculative universal-value redesign and broad calibration campaigns. Map-conditioned drafts, routes and role choices belong in the initial lifecycle whenever the observed strategy needs them; do not force one generic opening onto incompatible maps. Add specialised rules for a concrete observed map need, then validate the complete strategy.
+
+### 5. Build and optimise a strategy for every map
+
+Maintain a map strategy registry covering the full supported map inventory. For each map, record its exact identity/version, both spawn sides, known top-team references, chosen no-Varg draft, roles, first250-round opening, farm/respawn circuit, capture ownership, bank access and rhythm, equipment progression, contested objectives and recovery/blocked-route contingencies. Include evidence links, exact candidate hash and status: unstudied, proposed, implemented, measured or independently confirmed. Never label an untested plan optimised.
+
+Begin with the worst demonstrated failure and a few structurally different development maps. Build reusable execution primitives, then compose them into plans adapted to each map's actual terrain, camp economy and altar access. Explicit map-specific plans are authorised and desirable when supported by evidence; terrain-derived plans can cover unfamiliar maps. Preserve a playable fallback. A map name alone is not evidence that a historical hardcoded plan remains good for the current source, draft and opponent meta.
+
+Optimise the complete combination on each map: draft + opening + worker allocation + farm/capture cycle + bank route/timing + gear + threat response. Copy the strong teams' map-specific division of labour where it works. Do not simply use the same champion order and farming policy everywhere, or assume one scalar setting can compensate for incompatible geography. Let the plan adapt when enemies contest a route or an intended camp is unavailable.
+
+Evaluate side-specific failures explicitly. A good mean across maps must not hide a map/side that produces nothing. Maintain a per-map scoreboard of early economy, completed cycles, banking, deaths and outcomes against real opponents. Iterate on the weakest map strategies in small batches; expand only after a material fix. Map coverage is an explicit completion requirement, but broad repeated sweeps of a decisively failing candidate are wasteful.
+
+Preserve designated holdout games/opponents/seeds and any reserved maps. Do not inspect or tune against a sealed holdout to populate the strategy registry. Mark that coverage pending until the final confirmation stage. The goal is strong map-specific play with evidence, rather than a claim of universal optimality from a small screen.
 
 ## Legacy source priorities and traps
 
@@ -139,4 +163,4 @@ Map-aware complementary choices may remain available. These are preferences, not
 - `config/paths.json` was already user-modified; preserve it. Many unrelated old binaries, `compile_commands.json` files and `bots/v81home` were untracked. Do not stage or delete them. Do not use a broad clean/reset.
 - Do not overwrite releases, push/merge remotely, submit, activate a bot or run online ladder games without explicit authorisation. Preserve reserved holdouts. Local reversible development and checkpoints are authorised.
 
-Start by reading the review and existing failing replay, choose the first coherent lifecycle failure, implement its repair and verify it efficiently. End with exact source/evidence provenance and candid remaining weaknesses. Do not stop at another plan or claim success from clean runtime and idle wins.
+Start by reading the review, existing failing replay and available top-team behaviour evidence. Choose the first coherent lifecycle gap, implement the observed successful behaviour through DZ's interfaces and verify it efficiently. End with exact source/evidence provenance and candid remaining weaknesses. Do not stop at another plan or claim success from clean runtime and idle wins.

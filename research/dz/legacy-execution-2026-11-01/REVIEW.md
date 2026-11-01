@@ -4,6 +4,8 @@ Date: 2026-11-01. Development work only; no submission, ladder action or release
 
 ## Decision
 
+User clarification after this review: the overall target is a bot that mimics the strongest teams, follows their observed meta, and has strategies optimised for every map. Their actual drafts, openings, farming, equipment, banking and fight decisions should guide implementation in each map's context. Legacy transfers and DZ's advanced architecture are means to reproduce effective play. The recommendation below to repair a complete lifecycle should therefore be grounded in concrete top-team behaviour examples and map-specific plans. Maintain explicit coverage and performance records for each map and both sides, while preserving sealed holdouts. This is not a request to preserve an elegant architecture at the expense of the target. No new top-team replay research was performed as part of this clarification.
+
 Change the development approach. Keep DZ's kernel, legal observations, action boundary and advanced algorithms, but establish a productive **complete gameplay cycle** before extending their planning authority. The next implementation should adapt a coherent legacy farm/capture/delivery/recovery package to those interfaces. Adding another model, isolated reset improvement or budget threshold is not the priority.
 
 This session did **not** demonstrate competitive improvement. Several candidates improved early collection while degrading banking. All unsuccessful gameplay changes have been removed from the working source; their exact candidates and evidence remain available. The retained changes are the user's no-Varg draft integration, compile-time lineup checks and trace-only discovery/pricing diagnostics.
