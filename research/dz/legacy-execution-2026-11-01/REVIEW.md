@@ -2,6 +2,8 @@
 
 Date: 2026-11-01. Development work only; no submission, ladder action or release promotion.
 
+Subsequent user authorisation: the next agent may retrieve existing ladder replays and match metadata to investigate top-team behaviour and map-specific strategies. This permits replay research; it does not authorise launching ladder games or submitting/activating a bot.
+
 ## Decision
 
 User clarification after this review: the overall target is a bot that mimics the strongest teams, follows their observed meta, and has strategies optimised for every map. Their actual drafts, openings, farming, equipment, banking and fight decisions should guide implementation in each map's context. Legacy transfers and DZ's advanced architecture are means to reproduce effective play. The recommendation below to repair a complete lifecycle should therefore be grounded in concrete top-team behaviour examples and map-specific plans. Maintain explicit coverage and performance records for each map and both sides, while preserving sealed holdouts. This is not a request to preserve an elegant architecture at the expense of the target. No new top-team replay research was performed as part of this clarification.
