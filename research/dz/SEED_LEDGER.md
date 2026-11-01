@@ -1004,3 +1004,10 @@ The registry was created before experiments. Entries below record actual use.
 | dz-core-focus-v85-01 | 2026-11-01 | deterministic; Wasm 22ff090712ef | 140 cells; v85 | smoke; trace=False |
 | dz-core-focus-v76-01 | 2026-11-01 | deterministic; Wasm 22ff090712ef | 140 cells; v76 | smoke; trace=False |
 | dz-core-focus-v65-01 | 2026-11-01 | deterministic; Wasm 22ff090712ef | 140 cells; v65 | smoke; trace=False |
+| dz-core-m2-v81hl-01 | 2026-11-01 | deterministic; Wasm e9af73a11812 | 140 cells; v81hl | smoke; trace=False |
+| dz-core-m2-v85-01 | 2026-11-01 | deterministic; Wasm e9af73a11812 | 140 cells; v85 | smoke; trace=False |
+| dz-core-m2-v76-01 | 2026-11-01 | deterministic; Wasm e9af73a11812 | 140 cells; v76 | smoke; trace=False |
+| dz-core-m2-v65-01 | 2026-11-01 | deterministic; Wasm e9af73a11812 | 140 cells; v65 | smoke; trace=False |
+| dz-core-draftnet-v81hl-01 | 2026-11-01 | deterministic; Wasm 909ffa838d62 | 140 cells; v81hl | smoke; trace=False |
+| dz-core-m3-v81hl-01 | 2026-11-01 | deterministic; Wasm ccb1d799c41f | 140 cells; v81hl | smoke; trace=False |
+| dz-assess-smoke-v76-01 | 2026-11-01 | deterministic; Wasm 7b6da94f6d05 | 6 cells; v76 | smoke; trace=False |

@@ -1,5 +1,6 @@
 #include "draft.h"
 #include "map_signature.h"
+#include "v81_draft.h"
 
 namespace dz {
 void draft_loop(Counters& counts) {
@@ -114,7 +115,12 @@ void draft_loop(Counters& counts) {
     const Order order3 = variants[variant];
 #endif
     Order order5 = order3;
+#if DZ_DRAFT_MASTERY == 3
+    // Variant 3: the mastery order for every team size and map (variants 1-2 kept the incumbent 5-pick order
+    // wherever the incumbent map table chose variant 0).
+#else
     if (variant == 0) order5 = {D::vendetta, D::varg, D::vesper_vale, D::marcella, D::heart_of_ruin, D::ryth};
+#endif
     bool initialized = false;
     for (;;) {
         const auto tc = TurnContext::begin(); Actuator act(tc, counts);
@@ -123,6 +129,9 @@ void draft_loop(Counters& counts) {
             const auto& order = cambc::draft::team_size() == 3 ? order3 : order5;
             auto next = order.front();
             for (auto option : order) if (std::find(picks.begin(), picks.end(), option) == picks.end()) { next = option; break; }
+#if DZ_DRAFT_NET
+            if (const int choice = v81::draft_choice(cambc::draft::team_size()); choice >= 0) next = static_cast<D>(choice);
+#endif
             act.pick(next); // Pick before any optional work, including shared initialization.
             if (!initialized) initialized = act.publish(protocol::empty_word());
         } catch (const StaleTurn&) { ++counts.stale; continue; }

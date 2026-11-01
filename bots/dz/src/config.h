@@ -183,6 +183,12 @@
 #ifndef DZ_CLEAR_BOLD
 #define DZ_CLEAR_BOLD 0 // Unvalidated: camp clears accepted at 1.1x expected damage + 5% max HP (was 1.25x + 10%).
 #endif
+#ifndef DZ_ASSESS
+#define DZ_ASSESS 0 // Unvalidated: v81hl's learned fight-or-run value (v81_assess.h) overrides beyond +-5 gems.
+#endif
+#ifndef DZ_DRAFT_NET
+#define DZ_DRAFT_NET 0 // Unvalidated: picks by v81hl's learned draft net (v81_draft.h; ported, rule lifted 2026-11-01).
+#endif
 #ifndef DZ_DRAFT_MASTERY
 #define DZ_DRAFT_MASTERY 0 // Unvalidated F8: pick order by DZ's own per-champion results (Ryth, Marcella, Vesper, Varg, Vendetta, Heart).
 #endif

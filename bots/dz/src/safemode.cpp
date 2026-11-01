@@ -12,6 +12,7 @@
 #endif
 #include "team_plan.h"
 #include "market.h"
+#include "v81_assess.h"
 
 namespace dz {
 void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick) {
@@ -164,6 +165,23 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                     simulate_fight(std::span<const Fighter>(ours.data(),n_ours),std::span<const Fighter>(theirs.data(),n_theirs)).won())
                     return {GoalKind::Fight,-1,focus->p};
                 n_theirs=0; // Neither: keep working; the executor still takes local attacks.
+            }
+        }
+#endif
+#if DZ_HAS(ASSESS)
+        if (DZ_ON(ASSESS) && n_theirs && tc.allow(14000)) {
+            // v81hl's learned fight-or-run value (engine counterfactuals): a confident +-5 gem prediction decides;
+            // otherwise the incumbent rule below stands.
+            int nearest=99; const SeenChampion* close=nullptr;
+            for (const auto& e : obs.enemies) {
+                const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
+                if (d<nearest && !world.in_enemy_spawn(e.p)) { nearest=d; close=&e; }
+            }
+            if (close && nearest<=4) {
+                const float value=v81::assess_fight(obs,tc.round);
+                const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
+                if (value>5.f && obs.hp>=.3f*obs.max_hp && !bankable) return {GoalKind::Fight,-1,(focus?focus:close)->p};
+                if (value<-5.f) return {GoalKind::Retreat};
             }
         }
 #endif
