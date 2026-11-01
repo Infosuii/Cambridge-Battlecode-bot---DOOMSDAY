@@ -177,6 +177,9 @@
 #ifndef DZ_GOLD_FIT
 #define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
 #endif
+#ifndef DZ_ALTAR_LOCK
+#define DZ_ALTAR_LOCK 0 // Unvalidated E-series denial: carry one altar lock; lock an altar a visible enemy is tributing at (lock.h).
+#endif
 #ifndef DZ_EARLY_JOBS
 #define DZ_EARLY_JOBS 0 // Fuel/tempo: play starts once camps, masks, home and group stats are ready; altar fields follow, one per turn.
 #endif

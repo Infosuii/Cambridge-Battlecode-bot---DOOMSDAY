@@ -934,3 +934,13 @@ The registry was created before experiments. Entries below record actual use.
 | dz-v85-check-01 | 2026-11-01 | deterministic; Wasm 5cf28cb74612 | 4 cells; v85 | smoke; trace=False |
 | dz-z14c-dvg7-v74-01 | 2026-11-01 | deterministic; Wasm 645c0e08926c | 140 cells; v74 | smoke; trace=False |
 | dz-z14c-geo-v74-01 | 2026-11-01 | deterministic; Wasm a96a1af99bec | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-dvg7-v81hl-01 | 2026-11-01 | deterministic; Wasm 645c0e08926c | 140 cells; v81hl | smoke; trace=False |
+| dz-z14c-geo-v81hl-01 | 2026-11-01 | deterministic; Wasm a96a1af99bec | 140 cells; v81hl | smoke; trace=False |
+| dz-z14c-dvg2-v74-01 | 2026-11-01 | deterministic; Wasm eff9956bf09f | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-ee2-v74-01 | 2026-11-01 | deterministic; Wasm cba42a720240 | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-turtle-v74-01 | 2026-11-01 | deterministic; Wasm 24337a98b55d | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-gv-v74-01 | 2026-11-01 | deterministic; Wasm 1240480fe64e | 140 cells; v74 | smoke; trace=False |
+| dz-lock-smoke-v76-01 | 2026-11-01 | deterministic; Wasm 08b31ae441b7 | 8 cells; v76 | smoke; trace=True |
+| dz-z14c-homedv1-v74-01 | 2026-11-01 | deterministic; Wasm 42e511fd503b | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-bb-v74-01 | 2026-11-01 | deterministic; Wasm 9f2d1c2bf7a0 | 140 cells; v74 | smoke; trace=False |
+| dz-lock-smoke-v76-02 | 2026-11-01 | deterministic; Wasm 82763f31ef44 | 8 cells; v76 | smoke; trace=False |

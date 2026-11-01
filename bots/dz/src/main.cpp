@@ -4,6 +4,7 @@
 #include "model_audit.h"
 #include "crew.h"
 #include "market.h"
+#include "lock.h"
 
 namespace {
 void emergency(const dz::StaticWorld& world,const dz::Observation& obs,const dz::TurnContext& tc,dz::Actuator& act) {
@@ -146,6 +147,9 @@ int main() {
                 ++dz_time[10];
                 }
 #endif
+#if DZ_HAS(ALTAR_LOCK)
+                if (DZ_ON(ALTAR_LOCK)) { static dz::ModuleHealth lock_buy_health; dz::module_work(lock_buy_health,tc,counts,"lock buy",[&]{dz::buy_altar_lock(*obs,tc,act);}); }
+#endif
                 dz::module_work(shop_health,tc,counts,"shop",[&]{dz::shop(tc, act,world.get());});
             }
             else {
@@ -170,6 +174,9 @@ int main() {
                 if (world->ready && already_ready) {
 #endif
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
+#if DZ_HAS(ALTAR_LOCK)
+                    if (DZ_ON(ALTAR_LOCK)) { static dz::ModuleHealth lock_buy_health; dz::module_work(lock_buy_health,tc,counts,"lock buy",[&]{dz::buy_altar_lock(*obs,tc,act);}); }
+#endif
                     const bool shop_attempted=shop_health.enabled();
                     const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::shop(tc,act,world.get())) obs->refresh_self(tc);});
                     // A shop exception can follow a successful purchase. Refresh
@@ -178,6 +185,14 @@ int main() {
                         if (cambc::round_number()==tc.round) dz::end_turn_traced();
                         continue;
                     }
+#if DZ_HAS(ALTAR_LOCK)
+                    if (DZ_ON(ALTAR_LOCK)) {
+                        static dz::ModuleHealth lock_health;
+                        dz::module_work(lock_health,tc,counts,"altar lock",[&]{
+                            dz::lock_enemy_tribute(*world,*obs,tc,act);
+                        });
+                    }
+#endif
                     auto clear_claim=[&] {
                         dz::module_work(communication_health,tc,counts,"communication",[&]{
                             act.publish(dz::protocol::with_slot(dz::shared_word(),world->slot,{dz::protocol::idle,false}));
