@@ -989,3 +989,10 @@ The registry was created before experiments. Entries below record actual use.
 | dz-z14c-dv2-v74-01 | 2026-11-01 | deterministic; Wasm 6a2666e7723d | 140 cells; v74 | smoke; trace=False |
 | dz-z14c-gsp-v74-01 | 2026-11-01 | deterministic; Wasm 3f994066745c | 140 cells; v74 | smoke; trace=False |
 | dz-z14c-hoard-v74-01 | 2026-11-01 | deterministic; Wasm 3bd4fffd3c4a | 140 cells; v74 | smoke; trace=False |
+| dz-fastboot-v85-01 | 2026-11-01 | deterministic; Wasm 856a1e7be305 | 140 cells; v85 | smoke; trace=False |
+| dz-z14c-base-v85-01 | 2026-11-01 | deterministic; Wasm 4f4e56b2c92d | 140 cells; v85 | smoke; trace=False |
+| dz-z14d-table-v81hl-01 | 2026-11-01 | deterministic; Wasm b74c8043adc3 | 140 cells; v81hl | smoke; trace=False |
+| dz-mastery-v85-01 | 2026-11-01 | deterministic; Wasm 24d36aa56b12 | 140 cells; v85 | smoke; trace=False |
+| dz-z14d-table-v85-01 | 2026-11-01 | deterministic; Wasm b74c8043adc3 | 140 cells; v85 | smoke; trace=False |
+| dz-z14c-table-v85-01 | 2026-11-01 | deterministic; Wasm fb2cf55ce85b | 140 cells; v85 | smoke; trace=False |
+| dz-mastery-idle81-01 | 2026-11-01 | deterministic; Wasm 24d36aa56b12 | 140 cells; idle81 | smoke; trace=False |

@@ -19,3 +19,15 @@ cells give identical results against either. v74 was therefore never an independ
 Z14b/Z14c table "confirmations vs v74" (+78 / +102) largely replay the v76 selection games and are inflated. The
 independent unseen opponents are v81hl and v85. Against v81hl: mastery +35.9, dvg7 everywhere +31.5, Z14b table
 +25.1 (dev), Z14c table +6.8 (dev).
+
+## Second unseen opponent and idle (paired with dz-fastboot-v85-01 / -idle81-01)
+
+| Opponent | Δ banked (SE) | Δ margin (SE) | holdout Δ margin (SE) | wins |
+|---|---|---|---|---|
+| v85 (unseen) | +52.9 (16.3) | **+65.2 (25.6)** | +77.2 (36.9) | 17 vs 13 |
+| idle | +28.0 (12.0) | +28.0 (12.0) | +6.7 (11.2) | 138 vs 137 |
+
+League (v76, v65, v74, v81hl, v85): +44.2, +42.1, +54.5, +35.9, +65.2 margin; mean ≈ +48; every lower bound above
+-30; deaths not up; holdout positive; 0 fuel-outs. G5 at the +50 bar (just under on the mean), G6 and G2 pass.
+This is the candidate core: DZ_DRAFT_MASTERY + DZ_GEAR_SURVIVE + DZ_GEAR_PROSPECT + DZ_FAST_FIGHT +
+DZ_LATE_FIELD_GATE + DZ_FIELD_METER + DZ_FAST_BOOT (snapshot f8-2026-11-01/source).
