@@ -891,3 +891,17 @@ The registry was created before experiments. Entries below record actual use.
 | dz-diag-fastboot-01 | 2026-11-01 | deterministic; Wasm 209d11ab5cfb | 20 cells; idle81 | smoke; trace=True |
 | dz-z14c-s250hoard-v65-01 | 2026-11-01 | deterministic; Wasm 68a8d6f67abe | 140 cells; v65 | smoke; trace=False |
 | dz-z14c-fightgs-v65-01 | 2026-11-01 | deterministic; Wasm 8ba97e069f57 | 140 cells; v65 | smoke; trace=False |
+| dz-fuelctl4-idle81-01 | 2026-11-01 | deterministic; Wasm 00596bf3819d | 140 cells; idle81 | smoke; trace=False |
+| dz-z14c-s250home-v76-01 | 2026-11-01 | deterministic; Wasm f0f44674bd1d | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-homeog-v76-01 | 2026-11-01 | deterministic; Wasm 4ec40562a261 | 140 cells; v76 | smoke; trace=False |
+| dz-fastboot-idle81-01 | 2026-11-01 | deterministic; Wasm 856a1e7be305 | 140 cells; idle81 | smoke; trace=False |
+| dz-z14c-s250home-v65-01 | 2026-11-01 | deterministic; Wasm f0f44674bd1d | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-homeog-v65-01 | 2026-11-01 | deterministic; Wasm 4ec40562a261 | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-s100hoard-v76-01 | 2026-11-01 | deterministic; Wasm 35f50a4776aa | 140 cells; v76 | smoke; trace=False |
+| dz-fastboot-v76-01 | 2026-11-01 | deterministic; Wasm 856a1e7be305 | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-og-v76-01 | 2026-11-01 | deterministic; Wasm 2499a4430866 | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-s100hoard-v65-01 | 2026-11-01 | deterministic; Wasm 35f50a4776aa | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-og-v65-01 | 2026-11-01 | deterministic; Wasm 2499a4430866 | 140 cells; v65 | smoke; trace=False |
+| dz-fastboot-v65-01 | 2026-11-01 | deterministic; Wasm 856a1e7be305 | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-home-v76-01 | 2026-11-01 | deterministic; Wasm 159076731d04 | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-dvg4-v76-01 | 2026-11-01 | deterministic; Wasm 016e11e0b0ff | 140 cells; v76 | smoke; trace=False |
