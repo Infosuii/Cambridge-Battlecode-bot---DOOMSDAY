@@ -1,0 +1,131 @@
+#pragma once
+#include "kernel.h"
+#include "local_mask.h"
+#if DZ_ECONOMY_V2
+#include "camp_threat.h"
+#endif
+#include <memory>
+
+namespace dz {
+using cambc::vec2;
+struct Group {
+    cambc::map::camp_group sdk;
+    std::vector<vec2> tiles;
+    std::vector<float> initial_hp;
+    std::vector<float> initial_strength;
+    std::vector<int> attack_ranges;
+    float max_hp = 0, strength = 0;
+#if DZ_ECONOMY_V2
+    float reward_gems=0,reward_gold=0;
+    std::size_t stats_read=0;
+    bool stats_started=false;
+    bool init_stats_step(const TurnContext&);
+#endif
+#if DZ_BANK_AWARE_RATE
+    std::vector<int> delivery_distances; // Per-altar static distance from the nearest reward tile.
+#endif
+#if DZ_JOB_GEAR
+    int home_distance=65535; bool home_reachable=true;
+#endif
+    bool cluster = true;
+    vec2 center{}; int radius = 0; // Chebyshev bound of the spawn tiles.
+    std::vector<vec2> approach; bool approach_ready = false; // Walkable non-spawn tiles touching the group.
+    std::unique_ptr<cambc::distance_field> field;
+    explicit Group(cambc::map::camp_group g);
+    void init_stats();
+};
+struct Altar {
+    vec2 tile; std::unique_ptr<cambc::distance_field> field;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    std::vector<std::uint16_t> distances;
+#endif
+    // When every walkable neighbour is a camp spawn tile: the groups and the
+    // (group, member) on each neighbour. One dead member opens the altar.
+    std::vector<int> gates;
+    std::vector<std::pair<int,int>> gate_members;
+    std::vector<int> near_groups; // Groups with a tile within 3 of the altar.
+#if DZ_HAS(RING_GATES) || DZ_ECONOMY_V2 || DZ_SIEGE
+    bool ring_checked=false; // Camp-ring pocket check done (DZ_RING_GATES).
+    std::unique_ptr<cambc::distance_field> pocket; std::size_t ring_cursor=0;
+    std::size_t ring_member_cursor=0;
+    std::vector<std::pair<int,int>> ring_members;
+#endif
+};
+class StaticWorld {
+    bool loaded_ = false;
+#if DZ_PLAN_TABLE
+public:
+    bool loaded() const { return loaded_; }
+private:
+#endif
+    std::size_t fields_cursor_ = 0;
+    std::size_t stats_cursor_ = 0;
+    bool home_ready_ = false, masks_ready_ = false;
+    std::size_t tile_group_cursor_=0,tile_member_cursor_=0;
+public:
+    cambc::bitboard blocked, visited, roots, camp_spawns;
+    LocalMask blocked_mask, spawns_mask, bushes_mask, enemy_spawn_mask; // In-Wasm copies (see local_mask.h).
+    std::vector<int> tile_groups;
+#if DZ_SIEGE || DZ_ECONOMY_V2
+    std::vector<int> tile_members;
+#endif
+    cambc::distance_field home;
+#if DZ_ECONOMY_V2
+    std::vector<std::uint16_t> home_distances;
+    int home_distance(Tile p) const {
+        const int width=cambc::map::width(),height=cambc::map::height();
+        return p.x>=0&&p.y>=0&&p.x<width&&p.y<height&&home_distances.size()==static_cast<unsigned>(width*height)?home_distances[p.y*width+p.x]:65535;
+    }
+#endif
+    std::vector<Group> groups;
+    std::vector<Altar> altars;
+    std::vector<cambc::champion> allies;
+    unsigned slot = 0;
+    bool ready = false;
+    void load_roster(const TurnContext&);
+    void boot(const TurnContext&);
+    void build_one_field(const TurnContext&, int preferred = -1);
+    // Null until it can be built within the remaining budget.
+    const std::vector<vec2>* approach_tiles(int g, const TurnContext& tc);
+    int distance(int g, vec2 p) const;
+    // Never above distance(): a cheap bound for pruning candidates.
+    int distance_floor(int g, vec2 p) const {
+        const auto& group = groups[g];
+        return std::max(0, static_cast<int>(p.chebyshev_distance(group.center)) - group.radius);
+    }
+    int altar_distance(unsigned a, vec2 p) const;
+#if DZ_BANK_AWARE_RATE
+    int delivery_distance(unsigned group,unsigned altar,const TurnContext&);
+#endif
+    std::uint64_t field_budget() const {
+        // CT-1: ~30k on the measured 100x100 case; provisional conservative
+        // envelope, still checked by release fuel traces over the whole pool.
+#if DZ_FIELD_METER
+        // The formula underestimates some maps by ~3x (00rushbait-v2: 54k measured, dz-diag-ee3v3-profile-01).
+        const std::uint64_t formula = 3000 + 4 * cambc::map::width() * cambc::map::height();
+        return std::max(formula, field_seen + field_seen / 8);
+#else
+        return 3000 + 4 * cambc::map::width() * cambc::map::height();
+#endif
+    }
+#if DZ_FIELD_METER
+    mutable std::uint64_t field_seen = 0; // Worst fuel of one distance-field compute so far (this body).
+    void note_field(std::uint64_t before) const { const auto now = fuel_left(); if (before > now) field_seen = std::max(field_seen, before - now); }
+#endif
+    bool walkable(vec2 p) const {
+        if (local_masks_valid) return blocked_mask.in_bounds(p) && !blocked_mask.test(p);
+        return cambc::map::is_in_bounds(p) && !blocked.is_set(p);
+    }
+    bool is_spawn(vec2 p) const { return local_masks_valid ? spawns_mask.test(p) : camp_spawns.is_set(p); }
+    // A champion inside its own spawn is fully healed every turn: attacking it
+    // only burns our attack (and a ranged body's move). 00reverse-spiral: a
+    // Vesper dealt 100,935 damage to an idle Varg healed 102,135, all game.
+    bool in_enemy_spawn(vec2 p) const {
+        return local_masks_valid ? enemy_spawn_mask.test(p) : cambc::map::spawn_region(cambc::team::enemy).is_set(p);
+    }
+    bool is_bush(vec2 p) const { return local_masks_valid ? bushes_mask.test(p) : cambc::map::bushes().is_set(p); }
+    int group_at(vec2 p) const {
+        return cambc::map::is_in_bounds(p) && !tile_groups.empty() ? tile_groups[p.y*cambc::map::width()+p.x] : -1;
+    }
+};
+}

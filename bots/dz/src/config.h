@@ -12,6 +12,9 @@
 #ifndef DZ_TRACE_FIGHT
 #define DZ_TRACE_FIGHT 0 // Per-turn enemy-contact lines in the trace window.
 #endif
+#ifndef DZ_TRACE_DRAFTMEM
+#define DZ_TRACE_DRAFTMEM 0 // Trace-only probe: draft writes the map signature to draft memory; play reads it back.
+#endif
 #ifndef DZ_TRACE_PROFILE
 #define DZ_TRACE_PROFILE 0 // Opt-in profiler; runner overrides live in config.h.
 #endif
@@ -173,6 +176,9 @@
 #endif
 #ifndef DZ_GOLD_FIT
 #define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
+#endif
+#ifndef DZ_FAST_BOOT
+#define DZ_FAST_BOOT 0 // Fuel: boot runs each step in the same turn while tc.allow() covers it (no per-step returns, no 25k caps).
 #endif
 #ifndef DZ_FIELD_METER
 #define DZ_FIELD_METER 0 // Fuel: field_budget() = max(formula, worst measured field compute + 1/8); every compute is metered.

@@ -65,6 +65,16 @@ void draft_loop(Counters& counts) {
         ::dz::trace("DZ_SIG signature=%u variant=%d\n", signature, variant);
         }
 #endif
+#if DZ_TRACE && DZ_TRACE_DRAFTMEM
+        {
+            cambc::draft_memory_buffer memory;
+            const std::array<std::uint32_t, 2> probe{0x445a4d31u, signature}; // "DZM1", signature
+            memory = probe;
+            ::dz::TraceScope dz_trace_scope;
+            ::dz::trace("DZ_DRAFTMEM_WRITE size=%zu signature=%u fuel=%llu\n", memory.size(), signature,
+                static_cast<unsigned long long>(cambc::fuel_remaining()));
+        }
+#endif
 #if DZ_TRACE
         {
         // C3 priority 7 (geometric selector): static map features, trace builds only. Computed outside the

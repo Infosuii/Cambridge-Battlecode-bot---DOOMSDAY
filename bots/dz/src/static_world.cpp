@@ -77,7 +77,7 @@ void StaticWorld::boot(const TurnContext& tc) {
         for (auto p : cambc::map::altars().positions()) altars.push_back({p, nullptr});
         loaded_ = true;
         tc.guard();
-        return; // Budget metadata, home, designs and altar fields on separate turns.
+        if (!DZ_FAST_BOOT) return; // Budget metadata, home, designs and altar fields on separate turns.
     }
     while (tile_group_cursor_<groups.size()) {
         const auto& tiles=groups[tile_group_cursor_].tiles;
@@ -85,7 +85,7 @@ void StaticWorld::boot(const TurnContext& tc) {
 #if DZ_ECONOMY_V2
             if (!tc.allow(2000)||boot_start-fuel_left()>25000) return;
 #else
-            if (!tc.allow(2000)||tc.fuel0-fuel_left()>25000) return;
+            if (!tc.allow(2000)||(!DZ_FAST_BOOT&&tc.fuel0-fuel_left()>25000)) return;
 #endif
             auto p=tiles[tile_member_cursor_++];
             tile_groups[p.y*cambc::map::width()+p.x]=static_cast<int>(tile_group_cursor_);
@@ -108,7 +108,7 @@ void StaticWorld::boot(const TurnContext& tc) {
         }
 #endif
         tc.guard(); masks_ready_ = true;
-        return;
+        if (!DZ_FAST_BOOT) return;
     }
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
@@ -123,14 +123,14 @@ void StaticWorld::boot(const TurnContext& tc) {
         home_distances=home.export_linear_buffer();
 #endif
         tc.guard(); home_ready_ = true;
-        return;
+        if (!DZ_FAST_BOOT) return;
     }
     while (stats_cursor_ < groups.size()) {
 #if DZ_ECONOMY_V2
         if (boot_start - fuel_left() > 25000) return;
         if(!groups[stats_cursor_].init_stats_step(tc))return;
 #else
-        if (tc.fuel0 - fuel_left() > 25000) return;
+        if (!DZ_FAST_BOOT && tc.fuel0 - fuel_left() > 25000) return;
         if (!tc.allow(3000 + groups[stats_cursor_].tiles.size() * 500)) return;
         groups[stats_cursor_].init_stats();
 #endif
@@ -202,7 +202,7 @@ void StaticWorld::boot(const TurnContext& tc) {
             tc.guard();
             if (reached) { altar.ring_checked=true; continue; }
             altar.pocket=std::move(pocket); altar.ring_cursor=0;altar.ring_member_cursor=0;
-            return; // Scan on later turns.
+            if (!DZ_FAST_BOOT) return; // Scan on later turns.
         }
         std::vector<std::pair<int,int>> found;
         while (altar.ring_cursor<groups.size()) {
@@ -210,7 +210,7 @@ void StaticWorld::boot(const TurnContext& tc) {
             // A whole large group can exceed an ordinary turn's allowance.
             // Resume at the MEMBER, so size never makes boot impossible.
             while(altar.ring_member_cursor<tiles.size()) {
-                if(!tc.allow(5000)||ring_start-fuel_left()>25000)return;
+                if(!tc.allow(5000)||(!DZ_FAST_BOOT&&ring_start-fuel_left()>25000))return;
                 const auto k=altar.ring_member_cursor;
                 bool borders=false;
                 for (int dx=-1;dx<=1&&!borders;++dx) for (int dy=-1;dy<=1;++dy) {

@@ -76,6 +76,20 @@ int main() {
 #endif
         try {
             if (!world) world = std::make_unique<dz::StaticWorld>();
+#if DZ_TRACE && DZ_TRACE_DRAFTMEM
+            static bool draftmem_probed = false;
+            if (!draftmem_probed) {
+                draftmem_probed = true;
+                const auto before = cambc::fuel_remaining();
+                cambc::draft_memory_buffer memory;
+                std::uint32_t magic = 0, signature = 0;
+                if (memory.size() >= 8) { std::memcpy(&magic, memory.data(), 4); std::memcpy(&signature, reinterpret_cast<const char*>(memory.data()) + 4, 4); }
+                const auto cost = before - cambc::fuel_remaining();
+                ::dz::TraceScope dz_trace_scope;
+                ::dz::trace("DZ_DRAFTMEM_READ round=%u size=%zu magic=%08x signature=%u read_fuel=%llu\n", tc.round, memory.size(), magic, signature,
+                    static_cast<unsigned long long>(cost));
+            }
+#endif
 #if DZ_PLAN_TABLE
             // The turn after boot loads the camps (never the boosted first turn, which can't afford a second camp walk).
             if (!dz::plan_loaded && world->loaded()) dz::load_plan(dz::map_signature(world->groups));
