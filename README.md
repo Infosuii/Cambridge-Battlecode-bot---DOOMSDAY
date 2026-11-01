@@ -1,5 +1,11 @@
 # DOOMSDAY Battlecode bot
 
+**Latest paused DZ work, 2026-11-01:** use branch
+`experiment/dz-lifecycle-repair-2026-11-01` and start with
+[FRESH_LAPTOP.md](FRESH_LAPTOP.md). It links the current handoff, restart prompts,
+exact experiment capsules and complete recoverable reference replays. The
+candidate is WIP and unpromoted; older status blocks below are historical.
+
 **Active pure algorithm build:** branch `build/pure-algorithm-zero`, fresh C++ source
 in [bots/dz](bots/dz/README.md). Start at [CONTINUE_HERE.md](CONTINUE_HERE.md) and
 [the DZ handoff](research/dz/HANDOFF.md). The walking skeleton passed 292 release

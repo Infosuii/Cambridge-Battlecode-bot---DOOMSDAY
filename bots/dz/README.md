@@ -1,5 +1,13 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
+Latest paused source: candidate24 on
+`experiment/dz-lifecycle-repair-2026-11-01`. Read
+[the fresh-laptop guide](../../FRESH_LAPTOP.md) and
+[current handoff](../../research/dz/legacy-transfer-2026-11-01/HANDOFF.md).
+The user authorised selective legacy decision/code reuse, while preserving DZ's
+framework and excluding learned weights. Historical clean-slate restrictions
+below are superseded. Current tests and competitive acceptance remain unfinished.
+
 Latest development: integrated bounded objective/economy, crew, combat, gear,
 opening and map-planning modules behind `DZ_ECONOMY_V2=1`. See
 [the architecture checkpoint](../../research/dz/architecture-2026-11-01/README.md)

@@ -1,3 +1,14 @@
+# LATEST: paused legacy decision transfers — 2026-11-01
+
+Use branch `experiment/dz-lifecycle-repair-2026-11-01`. Start at
+[FRESH_LAPTOP.md](FRESH_LAPTOP.md), then the
+[paused handoff](research/dz/legacy-transfer-2026-11-01/HANDOFF.md) and
+[restart prompts](research/dz/legacy-transfer-2026-11-01/NEXT_AGENT_PROMPTS.md).
+All source, frozen experiments and retained strong-team references are in Git;
+the fresh-laptop guide restores ignored working folders. Gameplay stays paused.
+Source24 is WIP with a documented host-test fixture compile error. The older
+ACTIVE blocks below are historical and do not supersede this handoff.
+
 # ACTIVE 2026-11-01 — integrated economic, combat and map architecture; unpromoted
 
 Read research/dz/architecture-2026-11-01/README.md, RESULTS.json and BACKLOG.md.

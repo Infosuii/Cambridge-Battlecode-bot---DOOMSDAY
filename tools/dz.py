@@ -26,7 +26,9 @@ def resolve_cli():
     if configured:
         return Path(shutil.which(configured) or configured).expanduser().resolve()
     if os.name == 'nt':
-        return ROOT / 'tools/vendor/cambc.exe'
+        vendored = ROOT / 'tools/vendor/cambc.exe'
+        if vendored.is_file():
+            return vendored
     native = shutil.which('cambc')
     return Path(native) if native else Path('cambc')
 

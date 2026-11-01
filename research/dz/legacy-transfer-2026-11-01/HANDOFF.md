@@ -1,5 +1,11 @@
 # PAUSED — DOOMSDAY Zero legacy decision transfers
 
+Fresh clone: start at `../../../FRESH_LAPTOP.md`. The user subsequently authorised
+repository pushes and a portability check, while gameplay stays paused. The
+original request, later steering and all reference replays are now committed;
+`tools/dz_restore_run.py` recreates every ignored path used below from Git
+capsules. No old laptop or credentials are needed to recover the evidence.
+
 Paused at the user's explicit request on 2026-11-01: no usage remains. Do not
 resume gameplay work until the user resumes it. All already-started jobs ended;
 no new matches or builds were started after the pause. This handoff is WIP,

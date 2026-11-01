@@ -28,12 +28,17 @@ export function defaultAssets() {
     if (!fs.existsSync(path.join(override, WASM))) throw new Error('NFS_REPLAY_ASSETS lacks '+WASM);
     return override;
   }
-  const root = path.join(os.homedir(), 'AppData/Local/cambc/assets');
-  for (const d of fs.existsSync(root) ? fs.readdirSync(root) : []) {
+  const roots = [
+    path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData/Local'), 'cambc/assets'),
+    path.join(os.homedir(), 'Library/Application Support/cambc/assets'),
+    path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local/share'), 'cambc/assets'),
+    path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache'), 'cambc/assets'),
+  ];
+  for (const root of roots) for (const d of fs.existsSync(root) ? fs.readdirSync(root) : []) {
     const p = path.join(root, d, 'visualiser/assets');
     if (fs.existsSync(path.join(p, WASM))) return p;
   }
-  throw new Error('cambc visualiser assets not found; pass --assets');
+  throw new Error('cambc visualiser assets not found; set NFS_REPLAY_ASSETS to the official visualiser/assets directory');
 }
 
 export function verifyAssets(dir) {

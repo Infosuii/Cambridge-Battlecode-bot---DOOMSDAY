@@ -1,5 +1,10 @@
 # Restart prompts — use after the user resumes
 
+Fresh laptop: first read `FRESH_LAPTOP.md` on branch
+`experiment/dz-lifecycle-repair-2026-11-01`. Use `tools/dz_restore_run.py` to
+restore referenced temporary source trees and retained elite replays from Git.
+Do not interpret historical absolute paths as a dependency on the old computer.
+
 ## Main continuation
 
 Continue DOOMSDAY Zero from the paused legacy-transfer work in
