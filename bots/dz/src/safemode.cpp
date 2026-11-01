@@ -4,6 +4,7 @@
 #include "engage.h"
 #include "siege.h"
 #include "crew.h"
+#include "lifecycle.h"
 #if DZ_ECONOMY_V2
 #include "allocation.h"
 #endif
@@ -274,6 +275,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
     }
     DZ_PROF('F');
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    if(lifecycle_owns(mem))return lifecycle_goal(world,mem,obs,tc);
+#endif
 #if DZ_ECONOMY_V2
     if(obs.bag>0&&obs.enemies.empty())for(unsigned a=0;a<world.altars.size();++a)
         if(obs.p.chebyshev_distance(world.altars[a].tile)<=cambc::constants::submit_gems_range) {

@@ -55,6 +55,13 @@ struct Memory {
     } access_build;
 #endif
 #if DZ_ECONOMY_V2
+    struct Lifecycle {
+        int altar=-1,delivery_until=0,last_delivery=0,shop_until=0;
+        int job_since=0,job_until=0,generation=0,bag=0,gold=0;
+        unsigned cursor=0;
+        unsigned profile=0;bool profile_ready=false;
+        bool shopping=false;
+    } lifecycle;
     team::Ledger team;
     crew::Agreement crew_agreement;
     team::WorkRecord project_work;

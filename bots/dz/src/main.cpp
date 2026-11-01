@@ -3,6 +3,7 @@
 #include "safemode.h"
 #include "model_audit.h"
 #include "crew.h"
+#include "lifecycle.h"
 #if DZ_ECONOMY_V2
 #include "siege.h"
 #endif
@@ -132,6 +133,9 @@ int main() {
 #endif
 #if DZ_ECONOMY_V2
                 mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};mem->early_opening={};
+#if DZ_LIFECYCLE
+                mem->lifecycle={};mem->contract.objective=-1;mem->leave_crew();mem->field_needed=-1;
+#endif
 #endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;
@@ -141,8 +145,19 @@ int main() {
                 dz::module_work(shop_health,tc,counts,"shop",[&]{dz::shop(tc, act,world.get());});
             }
             else {
-                const bool already_ready = world->ready;
-                if (!dz::module_work(boot_health,tc,counts,"boot",[&]{world->boot(tc);})) {
+                const bool already_ready = world->playable();
+                if (!dz::module_work(boot_health,tc,counts,"boot",[&]{
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                    if(!world->playable()) {
+                        for(unsigned stage=0;stage<8;++stage) {
+                            const auto before=dz::fuel_left();world->boot(tc);
+                            if(world->playable()||before==dz::fuel_left()||!tc.allow(world->field_budget()+50000))break;
+                        }
+                    }
+#else
+                    world->boot(tc);
+#endif
+                })) {
                     if (cambc::round_number()==tc.round) dz::end_turn_traced();
                     continue;
                 }
@@ -152,7 +167,7 @@ int main() {
                     static_cast<unsigned long long>(cambc::fuel_remaining()));
                 }
 #endif
-                if (world->ready && already_ready) {
+                if (world->playable() && already_ready) {
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
                     const bool shop_attempted=shop_health.enabled();
                     const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::shop(tc,act,world.get())) obs->refresh_self(tc);});
@@ -189,6 +204,9 @@ int main() {
                         if(mem->field_needed>=0&&!world->groups[mem->field_needed].field)
                             dz::module_work(field_health,tc,counts,"requested-fields",[&]{world->build_one_field(tc,mem->field_needed);});
                         if(mem->field_needed>=0&&world->groups[mem->field_needed].field)mem->field_needed=-1;
+#if DZ_LIFECYCLE
+                        if(!dz::lifecycle_owns(*mem)) {
+#endif
                         dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
                         if(mem->contract.objective<0&&!mem->siege_task.active()&&obs->enemies.empty()&&!obs->channel())
                             dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc,false);});
@@ -203,6 +221,9 @@ int main() {
                                 dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,requested);});
                             if (world->groups[requested].field) mem->field_needed=-1;
                         }
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                        }
+#endif
                         dz::Goal goal;
 #if DZ_TRACE && DZ_TRACE_PROFILE
                         const auto planner_fuel=::dz::trace_fuel_mark();
@@ -410,6 +431,9 @@ int main() {
                         });
                         DZ_PROF('c');
                         dz::module_work(field_health,tc,counts,"fields",[&]{
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                            if(!world->ready)world->boot(tc);
+#endif
 #if DZ_ECONOMY_V2
                             dz::progress_crew_layout(*world,*mem,tc);
 #endif

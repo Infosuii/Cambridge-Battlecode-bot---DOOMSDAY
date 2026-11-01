@@ -3,6 +3,7 @@
 #include "siege.h"
 #include "gate_plan.h"
 #include "objective_math.h"
+#include "lifecycle.h"
 
 namespace dz {
 namespace {
@@ -100,7 +101,7 @@ bool free(const StaticWorld& w,const Memory& m,const Observation& o,vec2 p,int a
     return true;
 }
 EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec2 from,const Exposure& threats,const TurnContext& tc,std::uint64_t started,
-                   std::span<const gate::Cut> removed={},bool release_origin=false) {
+                   std::span<const gate::Cut> removed={},bool release_origin=false,bool* deferred=nullptr) {
 #if DZ_ECONOMY_V2
     // Current occupancy plus a complete zero-exposure scene already proves a
     // safe retreat endpoint. Requiring an extra step can deadlock an approach
@@ -127,7 +128,7 @@ EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec
             }
         }
         return free(w,m,o,p,tc.round+cheb(tile,{from.x,from.y}))&&enemy_danger(p,o)<=enemy_danger(o.p,o);
-    },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
+    },[&]{const bool allowed=tc.allow(6000)&&started-fuel_left()<16000;if(!allowed&&deferred)*deferred=true;return allowed;});
 }
 #if DZ_ECONOMY_V2
 bool harmless_bridge(const StaticWorld& w,const Memory& m,const Observation& o,int g,int k) {
@@ -543,6 +544,26 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
         return Goal{GoalKind::Home};
     }
     if(!hazards.count)return recovering?std::optional<Goal>{Goal{GoalKind::Home}}:std::nullopt;
+#if DZ_LIFECYCLE
+    const int job=m.contract.objective;
+    if(raw>0&&!recovering&&!scene.uncertain&&lifecycle_owns(m)&&job>=0&&w.groups[job].strength>0&&
+       o.enemies.empty()&&o.p.chebyshev_distance(w.groups[job].center)<=w.groups[job].radius+o.range) {
+        const auto& group=w.groups[job];
+        const bool isolated=std::all_of(hazards.view().begin(),hazards.view().end(),[&](const auto& camp){
+            return camp_damage({o.p.x,o.p.y},std::span<const CampThreat>(&camp,1))==0||
+                std::find(group.tiles.begin(),group.tiles.end(),vec2{camp.p.x,camp.p.y})!=group.tiles.end();
+        });
+        const auto risk=group_clear_risk(w,m,o,job);
+        if(isolated&&clear_survivable(risk,o.hp-2*raw,o.max_hp)) {
+            // Finishing this observed affordable pull is an escape from its
+            // damage. A geometric exit search must not cancel that progress.
+            for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy)
+                if(o.hp<=.1f*o.max_hp+3*camp_damage({o.p.x+dx,o.p.y+dy},scene.view()))
+                    m.neutral_moves.allowed&=~(1u<<((dx+1)*3+dy+1));
+            return std::nullopt;
+        }
+    }
+#endif
     EscapeRoute route;
     if(recovering&&m.neutral_escape.round==static_cast<int>(tc.round)-1) {
         const auto retained=siege::retained_escape({o.p.x,o.p.y},m.neutral_escape.exit,hazards.view(),[&](Tile p) {
@@ -553,7 +574,8 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     // Revalidate the committed ray before spending the search budget on new
     // alternatives. Otherwise a full search can starve retention and alternate
     // its preferred ray every round without ever reaching an exit.
-    if(!route.found)route=escape(w,m,o,o.p,hazards,tc,started);
+    bool deferred=false;
+    if(!route.found)route=escape(w,m,o,o.p,hazards,tc,started,{},false,&deferred);
     if(route.found) {
         m.neutral_moves.allowed=0;
         for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
@@ -565,6 +587,18 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
     // The siege controller retains its precise first-phase shield and committed
     // ally admission. Every OTHER macro/legacy path gets the same camp reserve.
     if(m.siege_task.active())return std::nullopt;
+#if DZ_LIFECYCLE
+    // An interrupted search is not proof of entrapment. Permit bounded live
+    // exposure on an ordinary singleton's next step, and retry the search next
+    // turn. Actual low HP, recovery and a completed failed search still withdraw.
+    if(deferred&&!route.found&&!recovering&&lifecycle_owns(m)&&o.hp>.3f*o.max_hp+4*raw) {
+        m.neutral_moves.allowed=0;
+        for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy)
+            if(o.hp>.3f*o.max_hp+4*camp_damage({o.p.x+dx,o.p.y+dy},hazards.view()))
+                m.neutral_moves.allowed|=1u<<((dx+1)*3+dy+1);
+        return std::nullopt;
+    }
+#endif
     if(raw>0&&(recovering||!route.found||o.hp<=.15f*o.max_hp+1.25f*route.damage+2*raw)) {
         m.neutral_recovery.update(true,false,o.hp,o.max_hp);
         if(route.found)m.neutral_escape.arm(tc.round,{o.p.x,o.p.y},route);

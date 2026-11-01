@@ -1,7 +1,7 @@
 #pragma once
 #include "observation.h"
 namespace dz {
-bool fixed_shop(const TurnContext&, Actuator&);
+bool fixed_shop(const TurnContext&, Actuator&,const StaticWorld* = nullptr);
 #if DZ_ECONOMY_V2
 struct ShopVisit {
     cambc::item_type item;
@@ -24,14 +24,14 @@ bool map_shop(const TurnContext&,Actuator&,const StaticWorld*);
 bool job_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
 inline bool shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
-#if DZ_ECONOMY_V2
+#if DZ_ECONOMY_V2 && !DZ_LIFECYCLE
     return planned_shop(tc,act,world);
 #elif DZ_JOB_GEAR
     return job_shop(tc,act,world);
 #elif DZ_HAS(GEAR_PROSPECT)
     return map_shop(tc,act,world);
 #else
-    (void)world;return fixed_shop(tc,act);
+    return fixed_shop(tc,act,world);
 #endif
 }
 }

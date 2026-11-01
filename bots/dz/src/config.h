@@ -1,5 +1,8 @@
 #pragma once
 #include <cstdint>
+#ifndef DZ_LIFECYCLE
+#define DZ_LIFECYCLE 0
+#endif
 #ifndef DZ_TRACE
 #define DZ_TRACE 0
 #endif

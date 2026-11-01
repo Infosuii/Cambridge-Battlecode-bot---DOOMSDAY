@@ -1,4 +1,5 @@
 #include "gear.h"
+#include "map_signature.h"
 #if DZ_ECONOMY_V2
 #include "gear_value.h"
 #endif
@@ -103,8 +104,26 @@ bool buy_build(const TurnContext& tc,Actuator& act,const Build& build) {
     return changed;
 }
 }
-bool fixed_shop(const TurnContext& tc, Actuator& act) {
-    return buy_build(tc,act,build_for(cambc::self().champion_name()));
+bool fixed_shop(const TurnContext& tc, Actuator& act,[[maybe_unused]] const StaticWorld* world) {
+    auto build=build_for(cambc::self().champion_name());
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    static std::optional<std::uint32_t> signature;
+    if(!signature&&world&&world->ready)signature=map_signature(world->groups);
+    using T=cambc::champion_type;
+    const auto type=cambc::self().champion_name();
+    if(signature==3779302321u) {
+        // Mite, collision ca170a4d, 2026-11-01. The third emblem is the
+        // observed continuation; purchases are always funded and incremental.
+        if(type==T::vesper_vale)build={{{{F::durability,S::strength},{F::bruiser,S::health},{F::jungle,S::strength}}},S::strength};
+        if(type==T::heart_of_ruin)build={{{{F::durability,S::focus},{F::bruiser,S::health},{F::jungle,S::focus}}},S::health};
+        if(type==T::vendetta)build={{{{F::jungle,S::strength},{F::bruiser,S::health},{F::monster,S::strength}}},S::strength};
+    } else if(signature==3765343063u) {
+        // Mite's packs reference is older (Oct 29), so this remains a tested
+        // hypothesis rather than a claim about its current build.
+        build.emblems[0]={F::jungle,build.power};
+    }
+#endif
+    return buy_build(tc,act,build);
 }
 #if DZ_ECONOMY_V2
 namespace {

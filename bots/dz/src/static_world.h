@@ -103,6 +103,14 @@ public:
     std::vector<cambc::champion> allies;
     unsigned slot = 0;
     bool ready = false;
+    bool income_ready = false;
+    bool playable() const {
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+        return ready||income_ready;
+#else
+        return ready;
+#endif
+    }
     void load_roster(const TurnContext&);
     void boot(const TurnContext&);
     void build_one_field(const TurnContext&, int preferred = -1);

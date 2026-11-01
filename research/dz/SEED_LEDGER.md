@@ -848,3 +848,17 @@ The registry was created before experiments. Entries below record actual use.
 | dz-hybrid-frontier-idle-02 | 2026-11-01 | deterministic; Wasm b39f8c4901bc | 4 cells; idle81 | smoke; trace=False |
 | dz-hybrid-current-v76lab-final-01 | 2026-11-01 | deterministic; Wasm f81b101c7df0 | 2 cells; v76lab | smoke; trace=False |
 | dz-hybrid-current-v81hl-final-01 | 2026-11-01 | deterministic; Wasm f81b101c7df0 | 2 cells; v81hl | smoke; trace=False |
+| dz-cycle-collision-v76-02 | 2026-11-01 | deterministic; Wasm f5c4ec625eb3 | 2 cells; v76lab | smoke; trace=False |
+| dz-cycle-collision-v81-01 | 2026-11-01 | deterministic; Wasm dfaf00a88465 | 2 cells; v81hl | smoke; trace=False |
+| dz-cycle-trace-01 | 2026-11-01 | deterministic; Wasm 72ae5c95b311 | 2 cells; v76lab | smoke; trace=True |
+| dz-cycle-collision-v76-03 | 2026-11-01 | deterministic; Wasm 3cd2296d511f | 2 cells; v76lab | smoke; trace=False |
+| dz-cycle-collision-v76-04 | 2026-11-01 | deterministic; Wasm 3cf70a28da3a | 2 cells; v76lab | smoke; trace=False |
+| dz-cycle-collision-v76-05 | 2026-11-01 | deterministic; Wasm 3bf0d1e7b526 | 2 cells; v76lab | smoke; trace=False |
+| dz-cycle-collision-v81-05 | 2026-11-01 | deterministic; Wasm 371955b2a8b3 | 2 cells; v81hl | smoke; trace=False |
+| dz-cycle-development-maps-05 | 2026-11-01 | deterministic; Wasm 371955b2a8b3 | 4 cells; v76lab | smoke; trace=False |
+| dz-cycle-map-policy-06 | 2026-11-01 | deterministic; Wasm a257cb29f760 | 4 cells; v76lab | smoke; trace=False |
+| dz-cycle-packs-diagnostic-07 | 2026-11-01 | deterministic; Wasm ab0e4d3cbc6a | 2 cells; v76lab | smoke; trace=True |
+| dz-cycle-renewal-08 | 2026-11-01 | deterministic; Wasm 3932eb2ebf18 | 4 cells; v76lab | smoke; trace=False |
+| dz-cycle-resource-team-09 | 2026-11-01 | deterministic; Wasm 0c09b8617dc0 | 4 cells; v76lab | smoke; trace=False |
+| dz-cycle-execution-repair-10 | 2026-11-01 | deterministic; Wasm 5bee79c68dc7 | 4 cells; v76lab | smoke; trace=False |
+| dz-cycle-execution-repair-v81-10 | 2026-11-01 | deterministic; Wasm 5bee79c68dc7 | 4 cells; v81hl | smoke; trace=False |

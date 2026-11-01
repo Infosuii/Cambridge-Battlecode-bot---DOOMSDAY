@@ -1,3 +1,19 @@
+# Productive lifecycle continuation — 2026-11-01
+
+Read productive-cycle-2026-11-01/README.md first. New experimental lifecycle uses
+DZ_ECONOMY_V2=1 and DZ_LIFECYCLE=1; defaults remain off. Frozen05 banks collision
+183/181 against v76lab, but its packs-B banks0. The restored/repaired map package10
+banks packs56/56 while regressing collision to80/26. All still lose. Keep both
+exact sources; repair implementation/ownership dependencies before abandoning a
+package. Startup/Heart kit/shared-resource work is implemented, not promoted.
+Native ordered cycles, source/replay provenance and the70-map coverage registry
+are retained. Fourteen map holdouts remain unopened; no map is optimised.
+
+Next: diagnose the post-resource damaging-crew/gear transition and contested
+delivery on packs; diagnose collision tempo loss against frozen05. Preserve
+the user's willingness to accept productive risk. Do not rank idle survival
+above economy or revert a whole package merely on its first losing screen.
+
 # Current architecture checkpoint — 2026-11-01
 
 Read `architecture-2026-11-01/README.md` and its exact-source results first.

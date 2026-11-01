@@ -167,6 +167,10 @@ void StaticWorld::boot(const TurnContext& tc) {
         tc.guard(); ++stats_cursor_;
     }
 #if DZ_ECONOMY_V2
+    // All camp designs, terrain, occupancy indices and home navigation are now
+    // complete. A singleton can execute income while optional altar indexing
+    // continues AFTER its action; channels still require their own admission.
+    income_ready=true;
     // Static spatial filtering belongs in resumable boot work. Recomputing the
     // global range and scanning every group per bank forecast could exceed the
     // forecast slice before even finding its first local threat.

@@ -1,5 +1,12 @@
 # DZ legacy integration: evidence review and change of approach
 
+Continuation: [productive-cycle-2026-11-01/README.md](../productive-cycle-2026-11-01/README.md)
+now records an implemented complete lifecycle, a stronger frozen collision
+candidate, a restored/repaired map package and its remaining regressions. The
+user explicitly asks to diagnose missing interactions and repair a package
+before abandoning it after a losing first screen. Preserve that working method.
+The historical findings below remain unchanged and attributable to their runs.
+
 Date: 2026-11-01. Development work only; no submission, ladder action or release promotion.
 
 Subsequent user authorisation: the next agent may retrieve existing ladder replays and match metadata to investigate top-team behaviour and map-specific strategies. This permits replay research; it does not authorise launching ladder games or submitting/activating a bot.

@@ -133,6 +133,11 @@ void draft_loop(Counters& counts) {
     try {
         const auto signature = map_signature(); // First draft turn: 10x budget.
         for (const auto& row : map_drafts) if (row.signature == signature && DZ_DRAFT_VARIANT == 0 && DZ_MAP_DRAFT_TABLE) variant = row.variant;
+#if DZ_LIFECYCLE
+        // Exact current collision reference ca170a4d and documented packs
+        // reference 1bf7d5f5: three complementary jobs, no Varg or linked pair.
+        if(DZ_DRAFT_VARIANT==0&&(signature==3779302321u||signature==3765343063u))variant=1;
+#endif
 #if DZ_MAP_DRAFT_MATRIX
         static constexpr MapDraft matrix[] = {
 #include "map_drafts_matrix.inc"
@@ -178,7 +183,7 @@ void draft_loop(Counters& counts) {
             if (!initialized) initialized = act.publish(protocol::empty_word());
 #if DZ_ECONOMY_V2
             prepared.reset();
-            if(variant==0&&picks.size()+1<cambc::draft::team_size()&&profile.build(tc)) {
+            if(!DZ_LIFECYCLE&&variant==0&&picks.size()+1<cambc::draft::team_size()&&profile.build(tc)) {
                 picks.push_back(next);auto prior=order.front();
                 for(auto option:order)if(std::find(picks.begin(),picks.end(),option)==picks.end()){prior=option;break;}
                 prepared=profile.next(picks,prior,tc);
