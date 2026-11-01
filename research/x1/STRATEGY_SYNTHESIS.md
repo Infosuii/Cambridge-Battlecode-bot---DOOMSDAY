@@ -90,3 +90,16 @@ early gold valued 4x until R250 (UB_GOLD_MULT), fog-of-war beliefs, rollouts, ta
    losing the race.
 6. **Static roles + influence maps** for macro; style recognition + safe switch rules for dynamic strategy.
 7. **Self-play league** with exact screens; generalist first, per-map tables last (they overfit).
+
+## 7. x1 results so far (2026-11-01 evening; 140 games per opponent, 70 maps x 2 sides)
+
+| x1 build | v81hl | v85 | v76 | v65 | total wins |
+|---|---|---|---|---|---|
+| original v81hl | 69 | 81 | 81 | 84 | 315/560 (56.2%) |
+| + X1_FAST_SIEGE (exact LOS precompute; fuel-outs 174->126 mirror, 407->115 vs v65) | 74 | 82 | 81 | 93 | 330 (58.9%) |
+| **+ A2_CAMPWATCH (v81hl's switched-off camp watch) = new x1 default 1746f2bb7fa3** | **81** | **89** | **89** | 79 | **338 (60.4%)** |
+
+Sweep of v81hl's 73 switched-off features (stage 1: 38 cells each; stage 2: 70 maps vs v81hl): campwatch 81,
+flee-ally 80, snipe 79, pair 78; all nine finalists combined 61 and greedy combinations 71-76: they overlap. The
+switch space is nearly exhausted; the structural work in section 6 is next. Parked on x1: role-aware mastery draft
+(-25..-59 margin). Parked in DZ: v81hl's draft net (-60), fight-or-run net in all three threshold modes.

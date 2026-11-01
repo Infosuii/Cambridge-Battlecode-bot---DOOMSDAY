@@ -1148,3 +1148,7 @@ The registry was created before experiments. Entries below record actual use.
 | x1-g2-v81hl-01 | 2026-11-01 | deterministic; Wasm 2a83d29d0122 | 140 cells; v81hl | smoke; trace=False |
 | x1-g4-v81hl-01 | 2026-11-01 | deterministic; Wasm 524e2321b91a | 140 cells; v81hl | smoke; trace=False |
 | x1-g2b-v81hl-01 | 2026-11-01 | deterministic; Wasm c2243a2f7c34 | 140 cells; v81hl | smoke; trace=False |
+| x1-campwatch-v81hl-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v81hl | smoke; trace=False |
+| x1-campwatch-v85-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v85 | smoke; trace=False |
+| x1-campwatch-v76-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v76 | smoke; trace=False |
+| x1-campwatch-v65-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v65 | smoke; trace=False |

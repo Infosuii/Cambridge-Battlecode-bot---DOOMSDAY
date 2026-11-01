@@ -19,5 +19,8 @@
 #define A2_TEL 1
 #endif
 #ifndef X1_FAST_SIEGE
-#define X1_FAST_SIEGE 0 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
+#define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
+#endif
+#ifndef A2_CAMPWATCH
+#define A2_CAMPWATCH 1 // x1 base (2026-11-01): v81hl's switched-off camp watch, +7 wins vs v81hl, 338/560 league wins with fast siege.
 #endif
