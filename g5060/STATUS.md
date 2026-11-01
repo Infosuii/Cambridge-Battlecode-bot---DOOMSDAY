@@ -1,18 +1,6 @@
 # g5060 status, 2 Nov 2026 (session start)
 
-## Machine (important: not the machine the plan assumed)
-
-| | |
-|---|---|
-| CPU | Intel i5-12450H (laptop): 8 threads (4 P-cores with HT + 4 E-cores) |
-| RAM | 15.7 GB |
-| GPU | RTX 2050 (not a 5060; games don't use it) |
-| Disk | 219 GB free, checkout `C:\x1work` (outside OneDrive), comms `C:\x1-comms` |
-| Python | 3.12.10; engine `tools/vendor/cambc.exe` (4.0.0) |
-| Workers | threads-2 = 6 requested (but see note 1) |
-
-PLAN_TWO_MACHINES.md expects "faster CPU, 2x RAM". This box has the **same thread count as the PC and half the
-RAM it assumed**, so plan on roughly PC-level throughput, not more. Measured games/minute below once J001 finishes.
+Workers: 6 (threads-2).
 
 ## Notes that change how jobs run
 
