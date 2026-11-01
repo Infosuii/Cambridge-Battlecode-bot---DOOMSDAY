@@ -1057,3 +1057,7 @@ The registry was created before experiments. Entries below record actual use.
 | x1-diag-tel-07 | 2026-11-01 | deterministic; Wasm 8f300327cdde | 4 cells; v81hl | smoke; trace=False |
 | x1-diag-tel-08 | 2026-11-01 | deterministic; Wasm 65c9928b5e11 | 4 cells; v81hl | smoke; trace=False |
 | x1-fastsiege-hot-03 | 2026-11-01 | deterministic; Wasm 02264532388c | 8 cells; v81hl | smoke; trace=False |
+| x1-fastsiege-v81hl-01 | 2026-11-01 | deterministic; Wasm 02264532388c | 140 cells; v81hl | smoke; trace=False |
+| x1-fastsiege-v85-01 | 2026-11-01 | deterministic; Wasm 02264532388c | 140 cells; v85 | smoke; trace=False |
+| x1-fastsiege-v76-01 | 2026-11-01 | deterministic; Wasm 02264532388c | 140 cells; v76 | smoke; trace=False |
+| x1-fastsiege-v65-01 | 2026-11-01 | deterministic; Wasm 02264532388c | 140 cells; v65 | smoke; trace=False |

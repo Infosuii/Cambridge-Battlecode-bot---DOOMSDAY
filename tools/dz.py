@@ -781,11 +781,14 @@ def experiment(args):
         main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
-        if not separator or not re.fullmatch(r'(DZ|X1)_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_','X1_')) and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
+        if not separator or not re.fullmatch(r'[A-Z][A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_','X1_')) and value.isdigit()) or (not name.startswith('DZ_') and re.fullmatch(r'-?[0-9]+(\.[0-9]+f?)?',value))): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
         config=frozen/'src/config.h'
         if not config.exists(): config=frozen/'src/x1_config.h'  # x1 line (candidate bot) flags
         source=config.read_text()
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
+        if count==0 and config.name=='x1_config.h' and re.search(r'^#ifndef '+name+r'\s*$',(frozen/'src/common.h').read_text(encoding='utf-8',errors='replace'),flags=re.MULTILINE):
+            # x1 line: override any #ifndef-guarded v81hl knob in common.h (x1_config.h is included first).
+            source+='\n#define '+name+' '+value+'\n'; count=1
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
         config.write_text(source,encoding='utf-8',newline='\n')
     if args.command=='conformance' and args.fixture in ('priority','duel') and not args.fixture_opponent:
