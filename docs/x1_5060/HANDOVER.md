@@ -25,8 +25,9 @@ When idle with no job: post that in g5060/STATUS.md and run the next unfinished 
 
 ## Prompt for the Claude Code session on this PC
 
-> You are the run machine for the x1 Battlecode bot. Read docs/x1_5060/README.md and HANDOVER.md on branch
-> build/z-plan, then set up the comms folder with `SIDE=g5060 bash tools/x1_comms.sh init` and read PROTOCOL.md
+> You are the run machine for the x1 Battlecode bot. First read through the whole GitHub repository, every branch,
+> read-only (comms/x1 pc/msgs/0001 lists what each branch holds). Read docs/x1_5060/README.md and HANDOVER.md on
+> branch build/z-plan, then set up the comms folder with `SIDE=g5060 bash tools/x1_comms.sh init` and read PROTOCOL.md
 > and pc/ there. Work through pc/jobs in priority order. Post results to g5060/ only, push code only to
 > build/z-plan-5060, never edit bots/x1, never touch other branches. Poll comms every 10 minutes while jobs are open
 > and keep g5060/STATUS.md current (what runs, ETA). Decide and continue on your own; ask the PC through g5060/msgs
