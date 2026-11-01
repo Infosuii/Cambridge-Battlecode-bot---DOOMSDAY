@@ -21,3 +21,5 @@ selection (v76+v65+v74) and confirm on v81hl and v85, both unseen (`tools/dz_z14
 
 dvg7 everywhere is the best result vs v81hl so far; it leads with Ryth, which DZ plays best (F8 per-champion
 analysis: Ryth 115 gems per 1k rounds, Heart 48). Mastery draft (DZ_DRAFT_MASTERY) screening next.
+
+**Correction:** v74 is nearly identical to v76 here (118/140 identical cells), so the vs-v74 confirmations above are not independent; use v81hl and v85 (see research/dz/f8-2026-11-01/README.md).

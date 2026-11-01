@@ -1,0 +1,209 @@
+{
+ "samples": 16792,
+ "maps": 70,
+ "runs_read": 40,
+ "R100": {
+  "n": 5600,
+  "baseline": {
+   "mae": 161.0,
+   "r2": -0.013,
+   "win_sign_acc": 0.993
+  },
+  "ridge": {
+   "mae": 149.5,
+   "r2": 0.084,
+   "win_sign_acc": 0.993
+  },
+  "trees": {
+   "mae": 155.3,
+   "r2": 0.021,
+   "win_sign_acc": 0.993
+  },
+  "top_features": [
+   [
+    "us_clears",
+    0.2
+   ],
+   [
+    "us_monsterDamageTaken",
+    0.1
+   ],
+   [
+    "us_championDamageDone",
+    0.1
+   ],
+   [
+    "diff_spentGold",
+    0.1
+   ],
+   [
+    "us_deaths",
+    0.1
+   ],
+   [
+    "us_championDamageTaken",
+    0.0
+   ],
+   [
+    "us_collectedGems",
+    0.0
+   ],
+   [
+    "them_earnedGold",
+    0.0
+   ],
+   [
+    "diff_collectedGems",
+    0.0
+   ],
+   [
+    "them_collectedGems",
+    0.0
+   ],
+   [
+    "us_banked",
+    0.0
+   ],
+   [
+    "them_monsterDamageTaken",
+    0.0
+   ]
+  ]
+ },
+ "R200": {
+  "n": 5600,
+  "baseline": {
+   "mae": 154.6,
+   "r2": 0.084,
+   "win_sign_acc": 0.993
+  },
+  "ridge": {
+   "mae": 122.9,
+   "r2": 0.362,
+   "win_sign_acc": 0.993
+  },
+  "trees": {
+   "mae": 129.8,
+   "r2": 0.276,
+   "win_sign_acc": 0.993
+  },
+  "top_features": [
+   [
+    "us_banked",
+    0.3
+   ],
+   [
+    "us_deaths",
+    0.1
+   ],
+   [
+    "us_clears",
+    0.1
+   ],
+   [
+    "us_collectedGems",
+    0.1
+   ],
+   [
+    "diff_spentGold",
+    0.0
+   ],
+   [
+    "us_earnedGold",
+    0.0
+   ],
+   [
+    "them_healingReceived",
+    0.0
+   ],
+   [
+    "them_monsterDamageTaken",
+    0.0
+   ],
+   [
+    "us_championDamageDone",
+    0.0
+   ],
+   [
+    "us_championDamageTaken",
+    0.0
+   ],
+   [
+    "us_spentGold",
+    0.0
+   ],
+   [
+    "diff_earnedGold",
+    0.0
+   ]
+  ]
+ },
+ "R300": {
+  "n": 5592,
+  "baseline": {
+   "mae": 154.1,
+   "r2": 0.111,
+   "win_sign_acc": 0.993
+  },
+  "ridge": {
+   "mae": 107.7,
+   "r2": 0.534,
+   "win_sign_acc": 0.994
+  },
+  "trees": {
+   "mae": 118.3,
+   "r2": 0.378,
+   "win_sign_acc": 0.993
+  },
+  "top_features": [
+   [
+    "us_banked",
+    0.6
+   ],
+   [
+    "us_deaths",
+    0.1
+   ],
+   [
+    "us_earnedGold",
+    0.0
+   ],
+   [
+    "us_gems",
+    0.0
+   ],
+   [
+    "us_clears",
+    0.0
+   ],
+   [
+    "us_championDamageTaken",
+    0.0
+   ],
+   [
+    "them_earnedGold",
+    0.0
+   ],
+   [
+    "diff_collectedGems",
+    0.0
+   ],
+   [
+    "diff_earnedGold",
+    0.0
+   ],
+   [
+    "them_monsterDamageTaken",
+    0.0
+   ],
+   [
+    "them_clears",
+    0.0
+   ],
+   [
+    "us_spentGold",
+    0.0
+   ]
+  ]
+ }
+}
