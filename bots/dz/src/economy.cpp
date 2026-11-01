@@ -928,6 +928,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         if(reserved[slot]<0)available|=1u<<slot;
     }
     DZ_PROF('T');
+#if DZ_TRACE
+    const auto discovery_fuel=fuel_left();
+#endif
     struct Candidate { int g;float bound;unsigned fixed=0,capturer=6;const gate::Plan* project=nullptr; };
     std::vector<Candidate> candidates;candidates.reserve(w.groups.size());
     int cold_resource=-1,cold_navigation=-1,bootstrap=-1;float cold_rate=0,navigation_rate=0,bootstrap_work=1e30f;
@@ -1005,6 +1008,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
     std::array<unsigned,clear_risk_members> counts{};
     unsigned spatial_quotes=0,incumbent_quotes=0;bool market_changed=false;
     const auto quote_start=fuel_left();
+#if DZ_TRACE
+    unsigned diagnostic_quotes=0,diagnostic_complete=0,diagnostic_safe=0;
+#endif
     for(unsigned index=0;index<limit;++index) {
         if(!tc.allow(22000)||quote_start-fuel_left()>18000)break;
         const int g=candidates[index].g;const auto& group=w.groups[g];
@@ -1051,6 +1057,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
                 m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::enemy_capturing))solo_encounter.contested=true;
             auto quote=team[a].slot==w.slot?self_quote(solo_encounter,actors[a],tc):
                 objective::forecast(solo_encounter,std::span<const objective::Actor>(&actors[a],1),0);
+#if DZ_TRACE
+            ++diagnostic_quotes;diagnostic_complete+=quote.complete();diagnostic_safe+=quote.survivable;
+#endif
             if(!quote.complete()||!quote.survivable)continue;
             int delivery=-1,channel=-1;
             // A zero-exposure endpoint supports a larger future bag. The
@@ -1220,7 +1229,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         }
     }
 #if DZ_TRACE
-    if(trace_auction){TraceScope scope;trace("DZ_AUCTION round=%u units=%u bids=%zu chosen=%d crew=%u fuel=%llu projects=%u bag=%d\n",tc.round,n,bids.size(),chosen.objective,chosen.crew,static_cast<unsigned long long>(fuel_left()),
+    if(trace_auction){TraceScope scope;trace("DZ_FRONTIER round=%u candidates=%zu quotes=%u complete=%u safe=%u discovery=%llu pricing=%llu\n",tc.round,candidates.size(),diagnostic_quotes,diagnostic_complete,diagnostic_safe,static_cast<unsigned long long>(discovery_fuel),static_cast<unsigned long long>(quote_start));trace("DZ_AUCTION round=%u units=%u bids=%zu chosen=%d crew=%u fuel=%llu projects=%u bag=%d\n",tc.round,n,bids.size(),chosen.objective,chosen.crew,static_cast<unsigned long long>(fuel_left()),
         static_cast<unsigned>(std::count_if(candidates.begin(),candidates.end(),[](auto c){return c.project!=nullptr;})),o.bag);}
 #endif
     if(chosen.objective<0){

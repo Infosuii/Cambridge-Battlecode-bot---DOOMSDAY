@@ -1,0 +1,136 @@
+diff --git a/bots/dz/src/config.h b/bots/dz/src/config.h
+index 7faa1e3..c68bcda 100644
+--- a/bots/dz/src/config.h
++++ b/bots/dz/src/config.h
+@@ -189,6 +189,9 @@
+ #ifndef DZ_ECONOMY_V2
+ #define DZ_ECONOMY_V2 0 // Integrated Z6-Z11 economy/gear/combat/lease candidate; unpromoted development only.
+ #endif
++#ifndef DZ_PRODUCTIVE_FRONTIER
++#define DZ_PRODUCTIVE_FRONTIER 0 // Reserve discovery and pricing before expanding the visible team; development only.
++#endif
+ #ifndef DZ_SIEGE
+ #define DZ_SIEGE 0 // Persistent gate waves with a reserved escape and heal-return; development only.
+ #endif
+diff --git a/bots/dz/src/economy.cpp b/bots/dz/src/economy.cpp
+index 2b0d76b..aef6b9e 100644
+--- a/bots/dz/src/economy.cpp
++++ b/bots/dz/src/economy.cpp
+@@ -885,6 +885,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),o.bag};available|=1u<<w.slot;
+     const auto word=shared_word();
+     for(const auto& ally:o.allies) {
++        // A larger auction is optional. Its inventory/participant work must
++        // leave enough fuel to discover and price this body's actual job.
++        if(DZ_PRODUCTIVE_FRONTIER&&!tc.allow(48000))break;
+         if(!tc.allow(12000)||start-fuel_left()>9000)break;
+         const auto it=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+         if(it==w.allies.end()||n>=team.size()||ally.hp<.5f*ally.max_hp)continue;
+@@ -928,14 +931,17 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         if(reserved[slot]<0)available|=1u<<slot;
+     }
+     DZ_PROF('T');
++#if DZ_TRACE
++    const auto discovery_fuel=fuel_left();
++#endif
+     struct Candidate { int g;float bound;unsigned fixed=0,capturer=6;const gate::Plan* project=nullptr; };
+     std::vector<Candidate> candidates;candidates.reserve(w.groups.size());
+     int cold_resource=-1,cold_navigation=-1,bootstrap=-1;float cold_rate=0,navigation_rate=0,bootstrap_work=1e30f;
+     const std::array<int,3> priorities{m.crew_proposal().group,m.opening_commitment.active()?m.opening_commitment.resource:-1,current};
+-    const auto frontier=m.objective_frontier.next(w.groups.size(),priorities);
++    const auto frontier=m.objective_frontier.next(w.groups.size(),priorities,DZ_PRODUCTIVE_FRONTIER?8:24);
+     const auto discovery_start=fuel_left();
+     for(unsigned entry=0;entry<frontier.count;++entry) {
+-        if(!tc.allow(30000)||discovery_start-fuel_left()>5000)break;
++        if(!tc.allow(DZ_PRODUCTIVE_FRONTIER?22000:30000)||discovery_start-fuel_left()>5000)break;
+         const unsigned g=frontier.groups[entry];
+         auto& b=m.groups[g];auto& group=w.groups[g];
+         // The incumbent still completes this prefix and owns its payout. It is
+@@ -1005,8 +1011,11 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+     std::array<unsigned,clear_risk_members> counts{};
+     unsigned spatial_quotes=0,incumbent_quotes=0;bool market_changed=false;
+     const auto quote_start=fuel_left();
++#if DZ_TRACE
++    unsigned diagnostic_quotes=0,diagnostic_complete=0,diagnostic_safe=0;
++#endif
+     for(unsigned index=0;index<limit;++index) {
+-        if(!tc.allow(22000)||quote_start-fuel_left()>18000)break;
++        if(!tc.allow(DZ_PRODUCTIVE_FRONTIER?16000:22000)||quote_start-fuel_left()>18000)break;
+         const int g=candidates[index].g;const auto& group=w.groups[g];
+         const unsigned fixed=candidates[index].fixed;
+         const auto* project=candidates[index].project;
+@@ -1042,7 +1051,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+             if(active_capturer<0||team[a].slot<team[active_capturer].slot)active_capturer=a;
+         }
+         for(unsigned a=0;a<n;++a)if(!fixed&&(eligible&(1u<<a))) {
+-            if(!tc.allow(18000+200*e.members.size())||quote_start-fuel_left()>18000)break;
++            if(!tc.allow((DZ_PRODUCTIVE_FRONTIER?12000:18000)+200*e.members.size())||quote_start-fuel_left()>18000)break;
+             if(active_capturer>=0&&a!=static_cast<unsigned>(active_capturer))continue;
+             auto solo_encounter=e;
+             if(active_capturer==static_cast<int>(a)&&m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::ally_capturing))
+@@ -1051,6 +1060,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+                 m.groups[g].capture_phase==static_cast<int>(cambc::map::camp_group_capture_type::enemy_capturing))solo_encounter.contested=true;
+             auto quote=team[a].slot==w.slot?self_quote(solo_encounter,actors[a],tc):
+                 objective::forecast(solo_encounter,std::span<const objective::Actor>(&actors[a],1),0);
++#if DZ_TRACE
++            ++diagnostic_quotes;diagnostic_complete+=quote.complete();diagnostic_safe+=quote.survivable;
++#endif
+             if(!quote.complete()||!quote.survivable)continue;
+             int delivery=-1,channel=-1;
+             // A zero-exposure endpoint supports a larger future bag. The
+@@ -1220,7 +1232,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         }
+     }
+ #if DZ_TRACE
+-    if(trace_auction){TraceScope scope;trace("DZ_AUCTION round=%u units=%u bids=%zu chosen=%d crew=%u fuel=%llu projects=%u bag=%d\n",tc.round,n,bids.size(),chosen.objective,chosen.crew,static_cast<unsigned long long>(fuel_left()),
++    if(trace_auction){TraceScope scope;trace("DZ_FRONTIER round=%u candidates=%zu quotes=%u complete=%u safe=%u discovery=%llu pricing=%llu\n",tc.round,candidates.size(),diagnostic_quotes,diagnostic_complete,diagnostic_safe,static_cast<unsigned long long>(discovery_fuel),static_cast<unsigned long long>(quote_start));trace("DZ_AUCTION round=%u units=%u bids=%zu chosen=%d crew=%u fuel=%llu projects=%u bag=%d\n",tc.round,n,bids.size(),chosen.objective,chosen.crew,static_cast<unsigned long long>(fuel_left()),
+         static_cast<unsigned>(std::count_if(candidates.begin(),candidates.end(),[](auto c){return c.project!=nullptr;})),o.bag);}
+ #endif
+     if(chosen.objective<0){
+diff --git a/bots/dz/src/objective_frontier.h b/bots/dz/src/objective_frontier.h
+index 98227d8..9bd3b67 100644
+--- a/bots/dz/src/objective_frontier.h
++++ b/bots/dz/src/objective_frontier.h
+@@ -10,7 +10,7 @@ namespace dz::economy {
+ struct Frontier {
+     struct Batch {std::array<int,32> groups{};unsigned count=0;};
+     std::array<int,8> retained{};unsigned count=0,cursor=0;
+-    Batch next(unsigned groups,std::span<const int> priorities={}) {
++    Batch next(unsigned groups,std::span<const int> priorities={},unsigned fresh_limit=24) {
+         Batch result;
+         auto add=[&](int g) {
+             if(g<0||static_cast<unsigned>(g)>=groups||result.count==result.groups.size()||
+@@ -19,7 +19,7 @@ struct Frontier {
+         };
+         for(auto g:priorities)add(g);
+         for(unsigned i=0;i<count;++i)add(retained[i]);
+-        for(unsigned i=0;i<std::min(24u,groups)&&result.count<result.groups.size();++i){add(cursor%groups);cursor=(cursor+1)%groups;}
++        for(unsigned i=0;i<std::min(fresh_limit,groups)&&result.count<result.groups.size();++i){add(cursor%groups);cursor=(cursor+1)%groups;}
+         return result;
+     }
+     void keep(std::span<const int> ranked) {
+diff --git a/tests/dz/host/objective_frontier_test.cpp b/tests/dz/host/objective_frontier_test.cpp
+index 7f2c53d..6e8e442 100644
+--- a/tests/dz/host/objective_frontier_test.cpp
++++ b/tests/dz/host/objective_frontier_test.cpp
+@@ -4,11 +4,11 @@
+ #include <vector>
+ using namespace dz;
+ int main() {
+-    for(unsigned total=0;total<400;++total) {
++    for(unsigned fresh:{1u,8u,24u})for(unsigned total=0;total<400;++total) {
+         economy::Frontier frontier;std::array<int,8> retained{0,1,2,3,4,5,6,7};frontier.keep(retained);
+         std::vector<bool> seen(total);std::array<int,3> priorities{static_cast<int>(total)-1,-1,2};
+         for(unsigned turn=0;turn<1+total;++turn) {
+-            auto batch=frontier.next(total,priorities);assert(batch.count<=32);
++            auto batch=frontier.next(total,priorities,fresh);assert(batch.count<=std::min(32u,11u+fresh));
+             for(unsigned i=0;i<batch.count;++i) {
+                 const auto g=batch.groups[i];assert(g>=0&&static_cast<unsigned>(g)<total);seen[g]=true;
+                 for(unsigned j=0;j<i;++j)assert(batch.groups[j]!=g);
+@@ -19,5 +19,5 @@ int main() {
+     }
+     economy::Frontier frontier;std::array<int,4> repeated{3,3,-1,7};frontier.keep(repeated);assert(frontier.count==2);
+     assert(frontier.next(1).count==1);assert(frontier.next(0).count==0);
+-    std::cout<<"400 bounded objective frontiers: retained priorities, deduplication and complete rotating discovery passed\n";
++    std::cout<<"1200 bounded objective frontiers: retained priorities, deduplication and complete rotating discovery passed\n";
+ }

@@ -93,9 +93,9 @@ void draft_loop(Counters& counts) {
     // 4 Willow core; 5 Prism/Tavi; 6 linked duo core; 7 Ryth/Tavi.
     // Research sets define candidates only; defaults/table remain unchanged.
     // 0 current prior; 1 elite core Vesper/Heart/Vendetta/Marcella; 2 Ryth/
-    // Vendetta/Marcella (beat the core on arena/fragment); 3 Vesper/Vendetta/Varg.
+    // Vendetta/Marcella (beat the core on arena/fragment); 3 Vesper/Vendetta/Ryth.
     using Order = std::array<D,6>;
-    const std::array<Order,((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX||DZ_PLAN_TABLE) ? 8 : 4)> variants{{
+    constexpr std::array<Order,((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX||DZ_PLAN_TABLE) ? 8 : 4)> variants{{
         {D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth, D::tavi},
         {D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth, D::tavi},
         {D::ryth, D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::tavi},
@@ -107,6 +107,13 @@ void draft_loop(Counters& counts) {
         {D::ryth, D::vendetta, D::marcella, D::tavi, D::heart_of_ruin, D::vesper_vale}
 #endif
     }};
+    static_assert([&] {
+        for (const auto& order:variants)for(unsigned i=0;i<order.size();++i) {
+            if(order[i]==D::varg)return false;
+            for(unsigned j=0;j<i;++j)if(order[i]==order[j])return false;
+        }
+        return true;
+    }(),"DZ lineups must contain unique non-Varg picks");
     // Per-map variant table (signature -> variant), chosen by
     // tools/dz_draft_select.py using the old lineup definitions. The rows require
     // fresh validation after removing Varg from the variant lineups. Empty = default.
