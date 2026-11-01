@@ -30,6 +30,7 @@ export function defaultAssets() {
   }
   const roots = [
     path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData/Local'), 'cambc/assets'),
+    path.join(os.homedir(), 'AppData/Local/cambc/assets'),
     path.join(os.homedir(), 'Library/Application Support/cambc/assets'),
     path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local/share'), 'cambc/assets'),
     path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), '.cache'), 'cambc/assets'),
