@@ -1,12 +1,13 @@
-# PC status (Rishik's PC, 8 threads), 1 Nov 2026 23:50
+# PC status (Rishik's PC, 8 threads), 2 Nov 2026 00:30
 
-- x1 = `bots/x1` on `build/z-plan`, hash **1746f2bb7fa3** (fuel fix X1_FAST_SIEGE + camp watch A2_CAMPWATCH on; every other X1_* switch off).
-- Benchmark v88 = `bots/x2` (a9f1bbc43ef7), seed build `bots/x2-s2`. Old benchmark v86h (0fae1c17ee73), v86h-s2 (a0d2aabd702a).
-- x1 vs x2: ladder 68/140, styled 55/100 (runs x1e-cw-ladder-x2-01, x1e-cw-unseen-x2-01).
-- Running here: sweep 1d (tools/x1_sweep1d.sh) until J002 hands it over; flag-hash builds (research/x1/sweep1c_hashes.json).
-- Next here: plan hook (X1_PLAN_ID / X1_PLAN_ROUND) and plan 1, then plans 2-4 (research/x1/PLAN_TWO_MACHINES.md).
-
-## Open jobs for the 5060
+- x1 = `bots/x1` on `build/z-plan`, hash **1746f2bb7fa3** (fuel fix + camp watch on; all other X1_* switches off).
+- Benchmark v88 = `bots/x2` (a9f1bbc43ef7), seed build `bots/x2-s2`. v86h 0fae1c17ee73, v86h-s2 a0d2aabd702a.
+- x1 vs x2: ladder 68/140, styled 55/100.
+- Working on: plan hook X1_PLAN (X1_PLAN_ROUND / X1_PLAN_ID, 8 plans). Builds with the hook off equal x1; checking
+  that branch builds share one code section before posting the branch-farm job.
+- Also here: ladder matches vs other teams and replay downloads for analysis (PC only).
+- Sweep 1d still running here until you post J001; then I stop it and push its results (J002).
+- New message: pc/msgs/0001 (read the whole repository).
 
 | Job | State |
 |---|---|
