@@ -47,3 +47,41 @@ ir.unimas.my/id/eprint/47788; arxiv.org/abs/1812.07887; papers.cool/arxiv/2610.1
 webdocs.cs.ualberta.ca/~santanad/papers/2019/silvaMLG19.pdf; ir.cwi.nl/pub/24750/AAMS2869.pdf;
 gamedeveloper.com/programming/reproducible-research-starcraft-data-mining; arxiv.org/pdf/1111.3735;
 ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/252930; doi 10.1016/j.chbr.2025.100718; doi 10.1016/j.asoc.2025.114301.
+
+## 5. Full texts supplied by the user (update, same day)
+
+**Lee & Kim, Electronics 14:1445 (2025), comeback victories with the bounty mechanism.** Comeback = the team whose
+objective bounty is active (the trailing team) wins. Features in four groups: resource (gold, XP, turrets,
+inhibitors, minions), combat (kills, assists, jungle-invade pressure, damage-type ratio, tank count, champion
+mastery), objective (dragons by type, Herald, Baron) and vision (wards placed, control wards, wards killed).
+Models: SVM, RF, XGBoost, CatBoost, LightGBM, MLP. Best F1 0.937 (MLP 64-32); a soft-voting ensemble of SVM,
+XGBoost and MLP is used for stability (classes are imbalanced, so F1 rather than accuracy). Importance (XGBoost
+gain/weight): champion kills top by gain; inhibitor destruction second; **assists high on both** (teamwork);
+team champion mastery and mastery similarity used in many splits; a movement-speed dragon is the most informative
+dragon; minion counts frequent but low gain; **vision below average, not decisive**. Bounties mostly activate in the
+first 15 minutes and many games end within 10 minutes of activation (trailing players give up). SHAP per-game
+explanations are used to say why a comeback did or didn't happen.
+
+**Arik, Acta Infologica 7(1) (2023), LoL winner prediction.** 96 player-level features; LightGBM 0.97 accuracy,
+LR 0.96, SVM/GBC 0.95 (10-fold CV). Most important: **earned gold per minute**, then gold shared, gold spent,
+assists, deaths.
+
+**Kamal, Mansor et al., Pertanika JST 33(2) (2025), systematic review (35 studies, PRISMA).** Predictors used
+across studies: GPM, XPM, KDA, hero picks/bans, tower damage, ward placement, team composition. Methods: mostly
+supervised (LR, SVM, RF, GBoost, XGBoost, NN); RL in Honor of Kings studies (PPO, DQN). Gaps the review lists:
+real-time use of predictions, team dynamics, meta shifts, human intervention, data access.
+
+### What changes in the DZ plan
+
+- **Gold rate is the dominant indicator** in every paper (GPM first in Arik; resource group in Lee & Kim). DZ earns
+  141 vs v76's 327 gold by R100: economy-first work (fast boot, v76-style camp cycle, consumables) stays first.
+- **Assists / joint kills matter** (Lee & Kim): measure DZ kill participation; B3 focus fire and co-ordinated
+  engagements are justified, unlike the pair/whole-team *crews for camps* that failed.
+- **Vision is not decisive**, and DZ places 4x v76's wards: F7 becomes *ward economy* (test fewer, better-placed
+  wards; each ward costs an action and fuel), not more vision.
+- **Mastery matters** (team mastery and similarity): F8 confirmed; weight DZ's draft toward champions DZ plays
+  well, measured per champion across the league.
+- **Early game decides** (bounties fire early; games end soon after): F1/F5 should focus on R100-R300.
+- **Explain losses with SHAP** on the F1 value model, per map, to target fixes (the review's "real-time use" gap).
+- Model choice for F1/F5: gradient-boosted trees + logistic baseline, F1-score for imbalanced events, soft-voting
+  ensemble; LSTM only if trees plateau.
