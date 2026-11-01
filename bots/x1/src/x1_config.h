@@ -33,3 +33,6 @@
 #ifndef X1_SECURE_MULT
 #define X1_SECURE_MULT 3.0f
 #endif
+#ifndef X1_HUNT_SOLO
+#define X1_HUNT_SOLO 0 // Lone hunters: with no ally within 5, hunt only enemies sighted within this many tiles (0 = off).
+#endif

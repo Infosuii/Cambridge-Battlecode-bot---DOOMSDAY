@@ -116,3 +116,6 @@ Anti-overfit evaluation (70 ladder + 50 unseen maps, vs v86h and its seed-2 buil
 x1 beats the benchmark on both map kinds and both builds; x2 is not adopted (strong on one ladder pairing, weak on
 unseen maps). The real ladder (research/x1/LADDER_2026-11-01.md) shows both lose to QS2isLaw and 0xDEADBEEF, so
 the next targets come from those games (mid-game fights R250-R500), with v86h and x1-league kept as local guards.
+
+Coordination tests vs v86h (ladder + unseen, paired with x1's 79 + 59): kill-securing coordinator `X1_SECURE`
+77 + 59 (-2), isolation regroup `X1_ALONE` 75 + 59 (-4). Both parked; x1 unchanged.

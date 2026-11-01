@@ -62,3 +62,25 @@ Order: 13 (fuel planner, cheap and exact) and 1 (finish-time model) first; then 
   target by importance. Here: ward and scouting placement.
 - **Evaluate against tournament opponents, not self-made bots:** matches our ladder finding; ladder replays and
   sparring bots modelled on top teams belong in the league.
+
+### Full read-through of batch 2 (2026-11-01 night): research/x1/PAPERS_BATCH2_NOTES.md
+
+Every page of the four papers is logged there (53 items: MAPF bot 1.1-1.12, Tribes 2.1-2.11, EA 3.1-3.12, thesis
+4.1-4.19). What changed the plan:
+
+- **Engagement geometry is where MAPF's wins came from** (thesis ablation: cooldown retreat +45 points, nearest-enemy
+  ring instead of cluster centre +23, avoid-past trail +12). x1 already has both of the big two in its own form
+  (`APEX_KITE` 3 for casters, single-target `position_and_attack`), so the remaining geometry gains are in
+  cohesion (4.9), isolated-enemy targeting (4.10) and dead-end/choke maps (4.11).
+- **Lone units attacking** cost the perfect-vision bot 66/100 vs its fog twin: tested as `X1_HUNT_SOLO` (cap the
+  hunt range when no ally is within 5).
+- **Tested and parked vs v86h:** `X1_SECURE` (kill-securing, 77+59 vs x1's 79+59 on ladder+unseen) and `X1_ALONE`
+  (regroup when isolated, 75+59). Coordinator v2 (4.6: count all hitters, release surplus) is the only SECURE
+  follow-up worth a try.
+- **Planner (Tribes):** population-1 hill climber with a shift buffer, horizon long enough for whole job chains,
+  relative-progress evaluation, no random rollouts, one decision class at a time (2.1-2.5, 2.9). This is P3.
+- **Learning (EA):** one module at a time behind a switch, scenario training from saved mid-game states, fuel budget
+  that includes feature extraction, static grids precomputed in the 10M draft turn, hysteresis on hand-back (3.1-3.12).
+- **Method fix found while doing this:** 10 of the first 15 sweep-1c switches build a binary identical to x1 (dead
+  code in this tree), so their games were replays. `tools/x1_flag_hashes.py` now builds each switch first; only
+  switches with a new binary are played, and switches sharing a binary are played once.

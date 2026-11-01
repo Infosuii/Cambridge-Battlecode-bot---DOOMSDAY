@@ -4414,6 +4414,14 @@ bool Bot::hunt() {
     if (tune::kHuntFix && round - last_flee_round < 10) return false;
     const Sighting* best = nullptr;
     int best_d = tune::kHuntRange + 1;
+#if X1_HUNT_SOLO
+    {   // X1_HUNT_SOLO (Hagelbaeck's fog-of-war bot beat its full-vision twin because long detection made units attack
+        // alone): with no ally within 5, hunt only sightings within X1_HUNT_SOLO tiles.
+        bool ally = false;
+        for (const auto& a : w.allies) ally |= cheb(a.pos, pos) <= 5;
+        if (!ally) best_d = std::min(best_d, X1_HUNT_SOLO + 1);
+    }
+#endif
     for (const auto& s : w.sightings) {
         if (round - s.round > 3) continue;
         if (tune::kHuntFix && bit(w.enemy_spawn_zone, s.pos)) continue;
