@@ -36,5 +36,33 @@ inline bool lock_enemy_tribute(const StaticWorld& world, const Observation& obs,
     }
     return false;
 }
+#if DZ_ALTAR_LOCK_ANY
+// v2 (dz-lock-*-01: ~4 locks bought a game, almost none used, so the tribute trigger alone was too narrow): also
+// lock pre-emptively any altar in range that the enemy is likelier to use: nearer the enemy spawn than ours, or with
+// a visible enemy carrying gems within 8. Locks block only the opponent and cost them five attacks to clear.
+inline bool lock_enemy_altar(const StaticWorld& world, const Observation& obs, const TurnContext& tc, Actuator& act) {
+    if (!tc.allow(8000)) return false;
+    auto& me = cambc::self();
+    const auto type = cambc::consumable_type::altar_lock;
+    if (me.consumables()[type].count() == 0) return false;
+    const int range = cambc::constants::submit_gems_range;
+    auto centroid = [](cambc::team t) { long long x = 0, y = 0, n = 0; for (auto p : cambc::map::spawn_region(t).positions()) { x += p.x; y += p.y; ++n; }
+        return vec2{static_cast<int>(x / (n ? n : 1)), static_cast<int>(y / (n ? n : 1))}; };
+    static const vec2 ally = centroid(cambc::team::ally), enemy = centroid(cambc::team::enemy);
+    for (const auto& altar : world.altars) {
+        if (static_cast<int>(obs.p.chebyshev_distance(altar.tile)) > range) continue;
+        bool locked = false;
+        for (const auto& lock : cambc::vision::altar_locks()) if (lock.position() == altar.tile) locked = true;
+        if (locked) continue;
+        bool carrier = false;
+        for (const auto& e : obs.enemies) if (e.p.chebyshev_distance(altar.tile) <= 8 && tc.allow(9000) && e.sdk.gem_count() > 0) carrier = true;
+        const bool enemy_side = altar.tile.chebyshev_distance(enemy) < altar.tile.chebyshev_distance(ally);
+        if (!carrier && !enemy_side) continue;
+        const auto tile = altar.tile;
+        if (act.attempt([&] { return me.consumables()[type].use(tile); }, "altar lock")) return true;
+    }
+    return false;
+}
+#endif
 #endif
 }

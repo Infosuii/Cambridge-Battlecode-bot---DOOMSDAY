@@ -180,6 +180,9 @@
 #ifndef DZ_ALTAR_LOCK
 #define DZ_ALTAR_LOCK 0 // Unvalidated E-series denial: carry one altar lock; lock an altar a visible enemy is tributing at (lock.h).
 #endif
+#ifndef DZ_ALTAR_LOCK_ANY
+#define DZ_ALTAR_LOCK_ANY 0 // With DZ_ALTAR_LOCK: also lock enemy-side altars and altars an enemy carrier approaches (lock.h v2).
+#endif
 #ifndef DZ_EARLY_JOBS
 #define DZ_EARLY_JOBS 0 // Fuel/tempo: play starts once camps, masks, home and group stats are ready; altar fields follow, one per turn.
 #endif

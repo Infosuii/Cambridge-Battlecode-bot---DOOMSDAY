@@ -189,7 +189,11 @@ int main() {
                     if (DZ_ON(ALTAR_LOCK)) {
                         static dz::ModuleHealth lock_health;
                         dz::module_work(lock_health,tc,counts,"altar lock",[&]{
-                            dz::lock_enemy_tribute(*world,*obs,tc,act);
+                            if (!dz::lock_enemy_tribute(*world,*obs,tc,act)) {
+#if DZ_ALTAR_LOCK_ANY
+                                dz::lock_enemy_altar(*world,*obs,tc,act);
+#endif
+                            }
                         });
                     }
 #endif
