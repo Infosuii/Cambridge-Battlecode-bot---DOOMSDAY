@@ -810,3 +810,25 @@ The registry was created before experiments. Entries below record actual use.
 | dz-a2-hoard-r250-v76-01 | 2026-11-01 | deterministic; Wasm 6a5a107abe47 | 140 cells; v76 | smoke; trace=False |
 
 | dz-ee3v4nolf-hot-v76-01 | 2026-11-01 | deterministic; Wasm a367fff3d5dd | 4 cells; v76 | smoke; trace=False |
+| dz-fuelctl4-v76-01 | 2026-11-01 | deterministic; Wasm 00596bf3819d | 140 cells; v76 | smoke; trace=False |
+| dz-a2-fight-r500-v76-01 | 2026-11-01 | deterministic; Wasm 7a3b95824ce5 | 140 cells; v76 | smoke; trace=False |
+| dz-ee3v4-v76-01 | 2026-11-01 | deterministic; Wasm a367fff3d5dd | 140 cells; v76 | smoke; trace=False |
+| dz-a2-hoard-r500-v76-01 | 2026-11-01 | deterministic; Wasm 513c95efb7a7 | 140 cells; v76 | smoke; trace=False |
+| dz-a2-turtle-r500-v76-01 | 2026-11-01 | deterministic; Wasm 0429fb454df8 | 140 cells; v76 | smoke; trace=False |
+| dz-a2-base-v65-01 | 2026-11-01 | deterministic; Wasm 7ee430cdbde6 | 140 cells; v65 | smoke; trace=False |
+| dz-fuelctl4-v65-01 | 2026-11-01 | deterministic; Wasm 00596bf3819d | 140 cells; v65 | smoke; trace=False |
+| dz-a2-fight-r100-v65-01 | 2026-11-01 | deterministic; Wasm b5da72a8a550 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-home-r100-v65-01 | 2026-11-01 | deterministic; Wasm 8d1f787e2a7a | 140 cells; v65 | smoke; trace=False |
+| dz-ee3v4-v65-01 | 2026-11-01 | deterministic; Wasm a367fff3d5dd | 140 cells; v65 | smoke; trace=False |
+| dz-a2-turtle-r100-v65-01 | 2026-11-01 | deterministic; Wasm d6851af20c07 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-hoard-r100-v65-01 | 2026-11-01 | deterministic; Wasm f1e772628ad3 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-home-r250-v65-01 | 2026-11-01 | deterministic; Wasm f60705f4eae0 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-fight-r250-v65-01 | 2026-11-01 | deterministic; Wasm 7f67c98df8d4 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-turtle-r250-v65-01 | 2026-11-01 | deterministic; Wasm 04737bb9af7e | 140 cells; v65 | smoke; trace=False |
+| dz-a2-hoard-r250-v65-01 | 2026-11-01 | deterministic; Wasm 6a5a107abe47 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-fight-r500-v65-01 | 2026-11-01 | deterministic; Wasm 7a3b95824ce5 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-home-r500-v65-01 | 2026-11-01 | deterministic; Wasm 4acc34a9bfcc | 140 cells; v65 | smoke; trace=False |
+| dz-a2-turtle-r500-v65-01 | 2026-11-01 | deterministic; Wasm 0429fb454df8 | 140 cells; v65 | smoke; trace=False |
+| dz-a2-hoard-r500-v65-01 | 2026-11-01 | deterministic; Wasm 513c95efb7a7 | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-base-v76-01 | 2026-11-01 | deterministic; Wasm 4f4e56b2c92d | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-ee2-v76-01 | 2026-11-01 | deterministic; Wasm cba42a720240 | 140 cells; v76 | smoke; trace=False |

@@ -11,7 +11,8 @@
 namespace dz {
 enum PlanBit : unsigned { plan_EE, plan_EE_REGROUP, plan_GEAR_SURVIVE, plan_GEAR_PROSPECT, plan_GEAR_HEALTH, plan_CREWS, plan_CREW_ALL, plan_BANK_NEAR_MIN, plan_BANK_BIG, plan_RING_GATES, plan_OPENING_GOLD, plan_GOLD_VALUE, plan_EE2, plan_EE2_BOLD, plan_HOME, plan_HOARD, plan_FIGHT, plan_TURTLE, plan_EE3, plan_MARKET, plan_GOLD_FIT, plan_LOCAL_FIGHT };
 #if DZ_PLAN_TABLE
-struct PlanRow { std::uint32_t signature; int draft; std::uint32_t bits; };
+// switch_round > 0: from that round the plan bits become switch_bits (A2 per-map switch; 0 = none).
+struct PlanRow { std::uint32_t signature; int draft; std::uint32_t bits; std::uint32_t switch_round = 0, switch_bits = 0; };
 inline constexpr PlanRow plan_rows[] = {
 #include "map_plans.inc"
 };
@@ -30,7 +31,10 @@ inline void apply_switch(unsigned round) {
 }
 inline void load_plan(std::uint32_t signature) {
     if (plan_loaded) return;
-    for (const auto& row : plan_rows) if (row.signature == signature) { plan_bits = row.bits; plan_draft = row.draft; }
+    for (const auto& row : plan_rows) if (row.signature == signature) {
+        plan_bits = row.bits; plan_draft = row.draft;
+        if (row.switch_round) { switch_round = row.switch_round; switch_bits = row.switch_bits | 0x80000000u; }
+    }
     plan_loaded = true;
 }
 #endif

@@ -35,6 +35,12 @@ def mask(bits):
     return sum(1 << BITS.index(b) for b in bits)
 
 
+def row(signature, c):
+    """One PlanRow: {signature, draft, bits, switch_round, switch_bits}; config 'switch': [round, [bits]] (A2)."""
+    r, b = c.get('switch', [0, []])
+    return f"{{{signature}u, {c['draft']}, {mask(c['bits'])}u, {r}u, {mask(b)}u}}"
+
+
 def per_map(run):
     rows = json.loads((ROOT / 'research/dz/runs' / run / 'results.json').read_text())['per_game']
     score, bad, cells = {}, set(), set()
@@ -63,7 +69,7 @@ def main():
         sig = signatures()
         c = {'draft': -1, 'bits': []} if a.uniform == 'base' else spec['configs'][a.uniform]
         lines = [f'// Uniform screen table: {a.uniform} on every map (tools/dz_plan_select.py --uniform).']
-        lines += [f"    {{{sig[m]}u, {c['draft']}, {mask(c['bits'])}u}}, // {m}" for m in sorted(sig)]
+        lines += [f"    {row(sig[m], c)}, // {m}" for m in sorted(sig)]
         Path(a.out).write_text('\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
         return
     opponents = sorted(spec['baseline'])
@@ -104,7 +110,7 @@ def main():
     for m in pool:
         name = table.get(m)
         c = spec['configs'][name] if name else {'draft': -1, 'bits': []}
-        lines.append(f"    {{{sig[m]}u, {c['draft']}, {mask(c['bits'])}u}}, // {m}: {name or ('holdout' if m in held_out else 'base')}")
+        lines.append(f"    {row(sig[m], c)}, // {m}: {name or ('holdout' if m in held_out else 'base')}")
         if name:
             chosen[name] = chosen.get(name, 0) + 1
     Path(a.out).write_text('\n'.join(lines) + '\n', encoding='utf-8', newline='\n')
