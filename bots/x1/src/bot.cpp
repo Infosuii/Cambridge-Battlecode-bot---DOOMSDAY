@@ -3244,6 +3244,12 @@ bool Bot::handle_enemies() {
             worth *= (1.0f + A3_FOCUS * (1.0f - e.hp / std::max(1.0f, e.max_hp))) * (1.0f + 0.5f * A3_FOCUS * static_cast<float>(reach));
         }
 #endif
+#if X1_SECURE
+        // X1_SECURE (MAPF coordinator, Hagelback & Johansson 2009: assign attacks so targets die, no overkill or
+        // underkill): a target the allies in reach can finish this round is worth its 100 kill gold and its bag
+        // now; every body ranks the same way, so the team converges on the kill.
+        if (ttk <= 1.0f) worth *= X1_SECURE_MULT;
+#endif
         if (e.tributing()) worth += 2.0f; // its whole bag is on the table and it cannot run
         if (e.recalling()) worth += 0.5f;
         if (tune::kCiFocus && (e.type == bc::champion_type::cassi || e.type == bc::champion_type::issac)) {

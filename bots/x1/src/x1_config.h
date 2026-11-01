@@ -27,3 +27,9 @@
 #ifndef X1_ALONE
 #define X1_ALONE 0 // Isolation: no ally within 5 and an enemy within 10 -> walk to the nearest ally (teammate's untested alone alert).
 #endif
+#ifndef X1_SECURE
+#define X1_SECURE 0 // MAPF kill-securing coordinator: a target killable this round by allies in reach is worth X1_SECURE_MULT x more.
+#endif
+#ifndef X1_SECURE_MULT
+#define X1_SECURE_MULT 3.0f
+#endif
