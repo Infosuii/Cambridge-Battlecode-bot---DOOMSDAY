@@ -100,7 +100,14 @@ void draft_loop(Counters& counts) {
         }
 #endif
     } catch (...) {}
+#if DZ_DRAFT_MASTERY
+    // F8 champion mastery: DZ's league results per champion (gems/1k rounds: Ryth 115, Marcella/Vendetta 80, Varg 73,
+    // Vesper 70, Heart 48; deaths/game: Vendetta 5.1, Varg 4.7, Marcella 3.8). Lowest-yield champions last.
+    (void)variant;
+    const Order order3{D::ryth, D::marcella, D::vesper_vale, D::varg, D::vendetta, D::heart_of_ruin};
+#else
     const Order order3 = variants[variant];
+#endif
     Order order5 = order3;
     if (variant == 0) order5 = {D::vendetta, D::varg, D::vesper_vale, D::marcella, D::heart_of_ruin, D::ryth};
     bool initialized = false;

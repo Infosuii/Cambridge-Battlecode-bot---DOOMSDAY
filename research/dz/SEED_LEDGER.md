@@ -962,3 +962,9 @@ The registry was created before experiments. Entries below record actual use.
 | dz-lock-v81hl-01 | 2026-11-01 | deterministic; Wasm 82763f31ef44 | 140 cells; v81hl | smoke; trace=False |
 | dz-lock2-smoke-v76-01 | 2026-11-01 | deterministic; Wasm 74c1c921da91 | 12 cells; v76 | smoke; trace=False |
 | dz-z14c-dv4-v74-01 | 2026-11-01 | deterministic; Wasm d12bb6e31fec | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-ee3turtle-v74-01 | 2026-11-01 | deterministic; Wasm 7acdd0e923e1 | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-dv3-v74-01 | 2026-11-01 | deterministic; Wasm 376a9843cae5 | 140 cells; v74 | smoke; trace=False |
+| dz-fastboot-v81hl-01 | 2026-11-01 | deterministic; Wasm 856a1e7be305 | 140 cells; v81hl | smoke; trace=False |
+| dz-z14c-s250fight-v74-01 | 2026-11-01 | deterministic; Wasm b7a78540a795 | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-dv1-v74-01 | 2026-11-01 | deterministic; Wasm 8e1ae359bd03 | 140 cells; v74 | smoke; trace=False |
+| dz-z14c-s250hoard-v74-01 | 2026-11-01 | deterministic; Wasm 68a8d6f67abe | 140 cells; v74 | smoke; trace=False |
