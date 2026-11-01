@@ -244,3 +244,15 @@ Next:
    fuel-outs here are new).
 3. Finish the screen and re-select with margin 150 to cut overfitting.
 4. Confirm on v74 and v71, and look at the holdout again.
+
+## 8. Strategy-ML review merged (2026-11-01; detail in RESEARCH_2026-11-01_strategy_ml.md)
+
+New tasks F1-F8, each behind a flag with an exit test. F1: multi-horizon value model (final margin / P(win) from
+time-series state, both teams; Dota 2 LSTM paper). F2: trailing-risk policy (comeback paper: our engine has no
+bounty, so DZ must create its own comebacks; test whether higher-variance plans pay only when behind). F3: HMS-style
+phase -> region attention. F4: in-game Thompson-sampling strategist over team plans keyed by an opponent-style
+estimate (MicroRTS bandit strategist). F5: early opponent-style recognition by R100-150 with counter plans
+(build-order recognition literature; our style bots give labels). F6: objective denial (altar locks running;
+pre-emptive locks, teleport crystals). F7: vision quality (DZ wards 4x v76; control wards unused). F8: champion
+"mastery" for DZ (draft toward champions DZ plays well; damage/tank balance).
+Order: F6 + F8 now; F1; F5 + F4 (dynamic-strategy core); F2, F3, F7.
