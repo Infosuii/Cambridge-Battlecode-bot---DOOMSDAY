@@ -780,7 +780,7 @@ def experiment(args):
         main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
-        if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_')) and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
+        if not separator or not re.fullmatch(r'DZ_[A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_')) and value.isdigit())): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
         config=frozen/'src/config.h'; source=config.read_text()
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)

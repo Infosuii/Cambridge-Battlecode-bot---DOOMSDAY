@@ -186,6 +186,9 @@
 #ifndef DZ_ASSESS
 #define DZ_ASSESS 0 // Unvalidated: v81hl's learned fight-or-run value (v81_assess.h) overrides beyond +-5 gems.
 #endif
+#ifndef DZ_ASSESS_MODE
+#define DZ_ASSESS_MODE 1 // With DZ_ASSESS: 1 engage > +5 / retreat < -5 (v81hl); 2 engage-only; 3 retreat only below -15.
+#endif
 #ifndef DZ_DRAFT_NET
 #define DZ_DRAFT_NET 0 // Unvalidated: picks by v81hl's learned draft net (v81_draft.h; ported, rule lifted 2026-11-01).
 #endif

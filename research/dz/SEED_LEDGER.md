@@ -1018,3 +1018,7 @@ The registry was created before experiments. Entries below record actual use.
 | dz-core-draftnet-v65-01 | 2026-11-01 | deterministic; Wasm 909ffa838d62 | 140 cells; v65 | smoke; trace=False |
 | dz-core-m3-v65-01 | 2026-11-01 | deterministic; Wasm ccb1d799c41f | 140 cells; v65 | smoke; trace=False |
 | dz-core-assess-v81hl-01 | 2026-11-01 | deterministic; Wasm 7b6da94f6d05 | 140 cells; v81hl | smoke; trace=False |
+| dz-core-assessm3-v81hl-01 | 2026-11-01 | deterministic; Wasm ac494121f4b7 | 140 cells; v81hl | smoke; trace=False |
+| dz-core-assessm3-v85-01 | 2026-11-01 | deterministic; Wasm ac494121f4b7 | 140 cells; v85 | smoke; trace=False |
+| dz-core-assessm3-v76-01 | 2026-11-01 | deterministic; Wasm ac494121f4b7 | 140 cells; v76 | smoke; trace=False |
+| dz-core-assessm3-v65-01 | 2026-11-01 | deterministic; Wasm ac494121f4b7 | 140 cells; v65 | smoke; trace=False |

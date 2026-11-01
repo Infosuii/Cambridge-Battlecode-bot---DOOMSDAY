@@ -181,7 +181,8 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 const float value=v81::assess_fight(obs,tc.round);
                 const bool bankable=bank_now(obs.bag,cambc::distance_field::unreachable,obs.submitted,cambc::constants::winning_gems);
                 if (value>5.f && obs.hp>=.3f*obs.max_hp && !bankable) return {GoalKind::Fight,-1,(focus?focus:close)->p};
-                if (value<-5.f) return {GoalKind::Retreat};
+                // Mode 1 (v81hl's +-5): deaths 18 -> 15 a game but margin -57 vs m3 (it leaves too many contacts).
+                if (DZ_ASSESS_MODE!=2 && value<(DZ_ASSESS_MODE==3 ? -15.f : -5.f)) return {GoalKind::Retreat};
             }
         }
 #endif
