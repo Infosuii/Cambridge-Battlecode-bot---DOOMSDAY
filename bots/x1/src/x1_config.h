@@ -36,3 +36,12 @@
 #ifndef X1_HUNT_SOLO
 #define X1_HUNT_SOLO 0 // Lone hunters: with no ally within 5, hunt only enemies sighted within this many tiles (0 = off).
 #endif
+#ifndef X1_PLAN
+#define X1_PLAN 0 // Team-plan hook (1 = compiled in; X1_PLAN_ROUND / X1_PLAN_ID pick the plan). 0 = x1 exactly.
+#endif
+#ifndef X1_PLAN_ROUND
+#define X1_PLAN_ROUND -1 // round from which plan X1_PLAN_ID is played (-1 = never)
+#endif
+#ifndef X1_PLAN_ID
+#define X1_PLAN_ID 0 // 1 full map, 2 hoard, 3 fight harder, 4 turtle, 5 stricter home, 6 early-contact answer, 7 fast bank, 8 push
+#endif

@@ -6931,6 +6931,34 @@ void Bot::play_turn() {
     if (SCARCE_CAMPS > 0 && inited && static_cast<int>(w.groups.size()) <= 2 * SCARCE_CAMPS)
         tune::kTerritory = SCARCE_TERR, tune::kAggression *= SCARCE_AGGR / HOME_AGGR; // scarce map: no home side
 #endif
+#if X1_PLAN
+    {
+        // X1_PLAN team plans (research/x1/PLAN_TWO_MACHINES.md, port of v76p's PLAN_ROUND / PLAN_ID): from
+        // X1_PLAN_ROUND on, the whole team plays plan X1_PLAN_ID on top of the knobs set above. The two values are read
+        // through volatile so every branch build runs the same instructions and its games equal the base build's until
+        // the switch round (the branch farm relies on this). X1_PLAN_ROUND -1 or 5000: never switch.
+        static volatile int plan_round = X1_PLAN_ROUND, plan_id = X1_PLAN_ID;
+        const int pr = plan_round;
+        const int plan = pr >= 0 && round >= pr ? plan_id : 0;
+        float terr = tune::kTerritory, aggr = 1.0f, carry = 1.0f;
+        int hunt = 0;
+        if (plan == 1) terr = 1.0f;                                     // full map: enemy-side camps at full value
+        else if (plan == 2) carry = 1.6f;                               // hoard: bigger bags, fewer bank trips
+        else if (plan == 3) aggr = 1.25f;                               // fight harder
+        else if (plan == 4) terr = 0.0f, aggr = 0.65f;                  // turtle: own half only, avoid fights
+        else if (plan == 5) terr = 0.15f;                               // stricter home
+        else if (plan == 6) terr = 0.0f, aggr = 0.8f, carry = 0.7f, hunt = -99; // early-contact answer: stay home, bank small and often, no hunting
+        else if (plan == 7) carry = 0.6f;                               // fast bank: small bags, finish the race early
+        else if (plan == 8) terr = 1.0f, aggr = 1.3f, hunt = 3;         // push: invade, fight, hunt further
+        tune::kTerritory = terr;
+        tune::kAggression *= aggr;
+        if (carry != 1.0f) tune::kTributeCarry = std::max(8, static_cast<int>(static_cast<float>(tune::kTributeCarry) * carry + 0.5f));
+        // The hunt range is not reset each turn (unlike the scaled knobs above), so offset it from its first value.
+        static int base_hunt = -1;
+        if (base_hunt < 0) base_hunt = tune::kHuntRange;
+        if (hunt) tune::kHuntRange = std::max(0, base_hunt + hunt);
+    }
+#endif
     if (FIRST_SAFE && inited && !fs_team_died) {
         if (num_handles[0].empty()) update_numbers();
         for (std::uint32_t h : num_handles[0]) {
