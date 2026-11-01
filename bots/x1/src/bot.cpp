@@ -7347,6 +7347,22 @@ void Bot::play_turn() {
 #if A2_FOG
     } else if (fog_regroup()) {
 #endif
+#if X1_ALONE
+    } else if ([&] {
+        // X1_ALONE (teammate death study, 100 v81 mirrors: 51% of deaths had no ally within 5): alone with an enemy
+        // within 10, walk to the nearest ally before farming on; the fight logic above already ran this turn.
+        int ally_d = 99, enemy_d = 99;
+        const AllyRec* near = nullptr;
+        for (const auto& a : w.allies) { const int d = cheb(a.pos, pos); if (d < ally_d) ally_d = d, near = &a; }
+        for (const auto& e : w.enemies) enemy_d = std::min(enemy_d, cheb(e.pos, pos));
+        if (!near || ally_d <= 5 || enemy_d > 10 || gems >= tune::kTributeCarry) return false;
+        bc::bitboard goal;
+        goal.clear();
+        goal.draw_chebyshev(near->pos, 2.0f);
+        mode = "alone-regroup";
+        return walk_toward(goal);
+    }()) {
+#endif
     } else if (hunt()) {
     } else if (tribute_if_needed()) {
         mode = "tribute";

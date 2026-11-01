@@ -24,3 +24,6 @@
 #ifndef A2_CAMPWATCH
 #define A2_CAMPWATCH 1 // x1 base (2026-11-01): v81hl's switched-off camp watch, +7 wins vs v81hl, 338/560 league wins with fast siege.
 #endif
+#ifndef X1_ALONE
+#define X1_ALONE 0 // Isolation: no ally within 5 and an enemy within 10 -> walk to the nearest ally (teammate's untested alone alert).
+#endif

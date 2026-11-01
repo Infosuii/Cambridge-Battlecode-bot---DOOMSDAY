@@ -5,7 +5,7 @@
 set -u
 cd "$(dirname "$0")/.."
 PY=${PY:-python}; BOT=$1; TAG=${2:-$1}; EXTRA=${3:-}
-for opp in v81hl v81hl-s2 v81hl-s3; do
+for opp in ${OPPS:-v81hl v81hl-s2 v81hl-s3}; do
   for set in ladder unseen; do
     name=x1e-$TAG-$set-$opp-01
     [ -f research/dz/runs/$name/results.json ] && continue
