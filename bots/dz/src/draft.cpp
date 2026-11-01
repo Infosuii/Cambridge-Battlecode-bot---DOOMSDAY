@@ -75,7 +75,8 @@ struct DraftProfile {
         auto evaluate=[&](unsigned pick){return portfolio.score(roster|draft_value::physical(pick),budget);};
         const unsigned incumbent=static_cast<unsigned>(prior);auto baseline=evaluate(incumbent);if(!baseline.complete)return {};
         unsigned best=incumbent;float value=baseline.value;
-        for(unsigned pick=0;pick<draft_value::picks;++pick)if(!(used&(1u<<pick))&&pick!=incumbent) {
+        for(unsigned pick=0;pick<draft_value::picks;++pick)if(!(used&(1u<<pick))&&pick!=incumbent&&
+            pick!=static_cast<unsigned>(cambc::champion_draft::varg)) {
             const auto score=evaluate(pick);if(!score.complete)break;
             if(score.value>value){value=score.value;best=pick;}
         }
@@ -95,10 +96,10 @@ void draft_loop(Counters& counts) {
     // Vendetta/Marcella (beat the core on arena/fragment); 3 Vesper/Vendetta/Varg.
     using Order = std::array<D,6>;
     const std::array<Order,((DZ_DRAFT_VARIANT>=4||DZ_MAP_DRAFT_EXTRA||DZ_MAP_DRAFT_MATRIX||DZ_PLAN_TABLE) ? 8 : 4)> variants{{
-        {D::vendetta, D::varg, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth},
-        {D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth, D::varg},
-        {D::ryth, D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::varg},
-        {D::vesper_vale, D::vendetta, D::varg, D::marcella, D::heart_of_ruin, D::ryth}
+        {D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::ryth, D::tavi},
+        {D::vesper_vale, D::heart_of_ruin, D::vendetta, D::marcella, D::ryth, D::tavi},
+        {D::ryth, D::vendetta, D::marcella, D::vesper_vale, D::heart_of_ruin, D::tavi},
+        {D::vesper_vale, D::vendetta, D::ryth, D::marcella, D::heart_of_ruin, D::tavi}
 #if DZ_DRAFT_VARIANT >= 4 || DZ_MAP_DRAFT_EXTRA || DZ_MAP_DRAFT_MATRIX || DZ_PLAN_TABLE
         ,{D::vesper_vale, D::vendetta, D::marcella, D::willow, D::heart_of_ruin, D::ryth},
         {D::vesper_vale, D::prism, D::marcella, D::tavi, D::heart_of_ruin, D::vendetta},
@@ -107,7 +108,8 @@ void draft_loop(Counters& counts) {
 #endif
     }};
     // Per-map variant table (signature -> variant), chosen by
-    // tools/dz_draft_select.py and confirmed out of sample. Empty = default.
+    // tools/dz_draft_select.py using the old lineup definitions. The rows require
+    // fresh validation after removing Varg from the variant lineups. Empty = default.
     struct MapDraft { std::uint32_t signature; std::uint8_t variant; };
     static constexpr MapDraft map_drafts[] = {
 #include "map_drafts.inc"
@@ -150,7 +152,7 @@ void draft_loop(Counters& counts) {
     } catch (...) {}
     const Order order3 = variants[variant];
     Order order5 = order3;
-    if (variant == 0) order5 = {D::vendetta, D::varg, D::vesper_vale, D::marcella, D::heart_of_ruin, D::ryth};
+    // Variant 0 now uses the same meta-core order for all team sizes.
     bool initialized = false;
 #if DZ_ECONOMY_V2
     DraftProfile profile;std::optional<D> prepared;
