@@ -28,6 +28,7 @@ void Memory::init(const StaticWorld& world) {
     groups.resize(world.groups.size()); member_hp.resize(world.groups.size()); hp_version.assign(world.groups.size(),0);
 #if DZ_ECONOMY_V2
     member_strength.resize(world.groups.size());
+    member_seen.resize(world.groups.size());
     member_cursor.assign(world.groups.size(),0);
     conversions.assign(world.groups.size(),0);
     group_topology.assign(world.groups.size(),0);
@@ -37,6 +38,7 @@ void Memory::init(const StaticWorld& world) {
         member_hp[g] = world.groups[g].initial_hp;
 #if DZ_ECONOMY_V2
         member_strength[g]=world.groups[g].initial_strength;
+        member_seen[g].assign(member_hp[g].size(),-10000);
 #endif
     }
     initialized = true;
@@ -68,6 +70,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
     auto hp=member_hp[index];
 #if DZ_ECONOMY_V2
     auto strength=member_strength[index];
+    auto seen=member_seen[index];
 #endif
     GroupSample sample; sample.members.resize(hp.size());
     if (auto* respawn = std::get_if<cambc::map::camp_group_respawning>(&state)) {
@@ -90,6 +93,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
             if(!memory_visible.test(g.tiles[i]))continue;
             const bool dead=camp.is_dead();sample.members[i]=dead?0:camp.health();
             if(!dead)strength[i]=std::max(strength[i],camp.strength());
+            seen[i]=tc.round;
         }
 #else
         unsigned i = 0;
@@ -110,6 +114,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
     }
     apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
 #if DZ_ECONOMY_V2
+    if(sample.state==GroupState::Reward||sample.state==GroupState::Respawning)std::fill(seen.begin(),seen.end(),tc.round);
     if(conversion_observed(groups[index].state,sample.state))++conversions[index];
 #endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
@@ -134,6 +139,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #if DZ_ECONOMY_V2
     if(strength!=member_strength[index])++hp_version[index];
     member_strength[index]=std::move(strength);
+    member_seen[index]=std::move(seen);
 #endif
     member_hp[index]=std::move(hp);
 }

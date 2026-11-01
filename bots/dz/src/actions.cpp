@@ -95,10 +95,26 @@ void ward_here(const Observation& obs,const TurnContext& tc,Actuator& act) {
     auto p=me.position();
     if (!cambc::map::altars().is_set(p) && !cambc::vision::ward_tiles(cambc::team::ally).is_set(p)) act.ward(p);
 }
+#if DZ_ECONOMY_V2
+bool bank_here(Goal goal,StaticWorld& world,Memory& memory,Observation& obs,const TurnContext& tc,Actuator& act) {
+#else
 bool bank_here(Goal goal,const StaticWorld& world,Actuator& act) {
+#endif
     if (goal.kind!=GoalKind::Bank || goal.index<0) return false;
     auto& me=cambc::self(); auto altar=world.altars[goal.index].tile;
     if (me.position().chebyshev_distance(altar)>cambc::constants::submit_gems_range) return false;
+#if DZ_ECONOMY_V2
+    if(!bank_admission(world,memory,obs,goal.index,tc)) {
+        const auto& escape=memory.neutral_escape;const auto p=me.position();
+        if(escape.round==static_cast<int>(tc.round)&&escape.origin==Tile{p.x,p.y}) {
+            const vec2 next{escape.next.x,escape.next.y};
+            if(me.can_move()&&world.walkable(next)&&!obs.is_occupied(next)&&tc.allow(3500))act.move(next);
+        } else if(p==obs.p&&tc.allow(7000)) {
+            execute({GoalKind::Home},world,memory,obs,tc,act);
+        }
+        return true;
+    }
+#endif
     // Query the enemy set explicitly: the convenience lookup prefers an allied
     // lock when both teams have a lock on the same altar.
     for (const auto& lock:cambc::vision::altar_locks(cambc::team::enemy)) if (lock.position()==altar) {
@@ -516,7 +532,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,mem.crew_execution.focus,mem.crew_execution.formed);}
 #endif
     spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
-    if (bank_here(goal,world,act)) return;
+    if (bank_here(goal,world,
+#if DZ_ECONOMY_V2
+        mem,obs,tc,
+#endif
+        act)) return;
     if (goal.kind==GoalKind::Farm && mem.groups[goal.index].state==GroupState::Reward && world.group_at(me.position())==goal.index) {
 #if DZ_ECONOMY_V2
         if(mem.economic_capturer==world.slot&&mem.contract.checked==static_cast<int>(tc.round))mem.last_work=tc.round;
@@ -576,7 +596,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
 #endif
             );
         }
-        bank_here(goal,world,act);
+        bank_here(goal,world,
+#if DZ_ECONOMY_V2
+            mem,obs,tc,
+#endif
+            act);
         return;
     }
 
@@ -597,6 +621,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         }
     } else if (goal.kind == GoalKind::Bank && goal.index >= 0) {
         auto altar = world.altars[goal.index].tile;
+#if DZ_ECONOMY_V2
+        const auto* delivery=bank_access(world,mem,obs,goal.index,tc);
+        if(delivery&&delivery->plan.quality==bank::Quality::Bounded) {
+            const vec2 p{delivery->plan.root.x,delivery->plan.root.y};
+            if(world.walkable(p)&&(!obs.is_occupied(p)||p==obs.p))roots.set(p);
+        } else
+#endif
         for (int dx = -1; dx <= 1; ++dx) for (int dy = -1; dy <= 1; ++dy) {
             auto p = altar + vec2{dx,dy};
             if (world.walkable(p) && (!obs.is_occupied(p) || p == obs.p)) roots.set(p);
@@ -788,7 +819,11 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         attacked = act.attack(*target);
         spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
     }
-    if (bank_here(goal,world,act)) return;
+    if (bank_here(goal,world,
+#if DZ_ECONOMY_V2
+        mem,obs,tc,
+#endif
+        act)) return;
     if (goal.kind == GoalKind::Home && !cambc::map::spawn_region(cambc::team::ally).is_set(me.position()) &&
         world.home.get(me.position()) > cambc::constants::recall_time + 1 && channel_safe(world,obs,tc)) act.recall();
     ward_here(obs,tc,act);

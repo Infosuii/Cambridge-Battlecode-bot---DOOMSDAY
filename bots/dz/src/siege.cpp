@@ -2,6 +2,7 @@
 #if DZ_SIEGE || DZ_ECONOMY_V2
 #include "siege.h"
 #include "gate_plan.h"
+#include "objective_math.h"
 
 namespace dz {
 namespace {
@@ -205,6 +206,52 @@ std::optional<bool> altar_access(StaticWorld& w,Memory& m,const Observation& o,u
 }
 #if DZ_ECONOMY_V2
 namespace {
+bool delivery_threats(const StaticWorld& w,const Memory& m,const Observation& o,unsigned a,Memory::BankAccess& view,const TurnContext& tc,bool forecast=false) {
+    const auto started=fuel_left();const auto center=w.altars[a].tile;
+    LocalMask visible,awake;visible.load(cambc::vision::visible_tiles());awake.load(cambc::vision::awake_camp_tiles());
+    view.count=0;view.until=cambc::constants::max_rounds-tc.round;
+    int escape_range=0;
+    for(const auto& group:w.groups) {
+        if(!tc.allow(11000)||started-fuel_left()>7000)return false;
+        for(auto r:group.attack_ranges)escape_range=std::max(escape_range,r);
+    }
+    for(unsigned g=0;g<w.groups.size();++g) {
+        if(!tc.allow(11000)||started-fuel_left()>7000)return false;
+        const auto& design=w.groups[g];const auto& belief=m.groups[g];
+        int range=0;for(auto r:design.attack_ranges)range=std::max(range,r);
+        // Include hazards on the entire bounded escape ray, not only camps
+        // which can hit the submission tile. Unrelated camps cannot be cut by
+        // the channel model, but their exit damage must still be paid.
+        if(w.distance_floor(g,center)>range+2*escape_range+2+cambc::constants::submit_gems_range)continue;
+        for(unsigned k=0;k<design.tiles.size();++k) {
+            if(!tc.allow(11000)||started-fuel_left()>7000)return false;
+            const auto tile=design.tiles[k];const int reach=design.attack_ranges[k];
+            if(tile.chebyshev_distance(center)>reach+2*escape_range+2+cambc::constants::submit_gems_range)continue;
+            // Non-damaging spawns away from submission roots are occupancy
+            // constraints in escape(), not deadlines for the entire bank.
+            const bool deadline=design.initial_strength[k]>0||tile.chebyshev_distance(center)<=cambc::constants::submit_gems_range;
+            if(belief.state==GroupState::Respawning&&belief.ready>static_cast<int>(tc.round)) {
+                if(deadline)view.until=std::min(view.until,belief.ready-static_cast<int>(tc.round)-1);continue;
+            }
+            const bool seen=visible.test(tile);float hp=m.member_hp[g][k];
+            if(seen) {
+                const auto& camp=design.members()[k];if(camp.is_dead())hp=0;else if(camp.is_visible())hp=camp.health();
+            }
+            if(hp<=0) {
+                // Per-member evidence, not another member's recent observation.
+                const int last=seen?static_cast<int>(tc.round):m.member_seen[g][k];
+                const int until=last+design.sdk.max_respawn_timer()-static_cast<int>(tc.round)-1;
+                if(until>0){if(deadline)view.until=std::min(view.until,until);continue;}
+                if(seen)continue;hp=design.initial_hp[k];
+            }
+            if(view.count==view.threats.size())return false;
+            const float raw=(forecast||!seen||awake.test(tile))?std::max(m.member_strength[g][k],design.initial_strength[k])*o.camp_factor:0;
+            view.threats[view.count++]={static_cast<int>(g),static_cast<int>(k),{{tile.x,tile.y},raw,reach},
+                std::max(1.f,hp)/std::max(1.f,o.strength*o.camp_damage)};
+        }
+    }
+    return true;
+}
 bool opening_geometry_current(const gate::Plan& p,const Memory& m,const TurnContext& tc) {
     if(p.started<0||static_cast<int>(tc.round)>=p.expires)return false;
     for(unsigned i=0;i<p.dependency_count;++i) {
@@ -214,8 +261,110 @@ bool opening_geometry_current(const gate::Plan& p,const Memory& m,const TurnCont
     return true;
 }
 bool opening_current(const gate::Plan& p,const Memory& m,const Observation& o,const TurnContext& tc) {
-    return opening_geometry_current(p,m,tc)&&p.matches(tc.round,m.topology_revision,o.max_hp,o.strength*o.camp_damage,o.camp_factor,o.range);
+    // Scouting resolves stale member evidence; it promises no bank delivery.
+    // Preserve that bounded fallback while a full channel quote is unfinished.
+    if(p.quality==gate::Quality::Scout)
+        return opening_geometry_current(p,m,tc)&&p.matches(tc.round,m.topology_revision,o.max_hp,o.strength*o.camp_damage,o.camp_factor,o.range);
+    if(p.altar<0||p.altar>=static_cast<int>(m.bank_access.size()))return false;
+    const auto& bank=m.bank_access[p.altar];
+    const int age=static_cast<int>(tc.round)-bank.round;
+    if(age<0||age>4||bank.revision!=m.topology_revision||!bank.plan.complete()||
+        p.rounds+p.delivery+bank.channel+1>bank.until-age)return false;
+    for(unsigned i=0;i<bank.plan.count;++i) {
+        const auto& threat=bank.threats[bank.plan.cuts[i]];
+        if(std::none_of(p.cuts.begin(),p.cuts.begin()+p.count,[&](const auto& cut){return cut.group==threat.group&&cut.member==threat.member;}))return false;
+    }
+    return p.channel_ready&&opening_geometry_current(p,m,tc)&&p.matches(tc.round,m.topology_revision,o.max_hp,o.strength*o.camp_damage,o.camp_factor,o.range);
 }
+}
+int bank_duration(int bag) {
+    const auto owned=cambc::self().item_count();float reduction=0;
+    for(auto stat:{cambc::item_stat::strength,cambc::item_stat::focus,cambc::item_stat::health}) {
+        const auto emblem=cambc::get_item_enum(cambc::item_family::tribute,stat,false);
+        if(owned[emblem])reduction=std::max(reduction,emblem.passive_magnitude());
+    }
+    const auto q=tribute_delay(bag,cambc::constants::submit_gem_base_duration,cambc::constants::submit_gem_minimum_duration,
+        cambc::constants::submit_gem_duration_multiplier,reduction);
+    return q.supported()?q.rounds:-1;
+}
+const Memory::BankAccess* bank_access(StaticWorld& w,Memory& m,const Observation& o,unsigned a,const TurnContext& tc) {
+    if(a>=w.altars.size())return nullptr;
+    if(m.bank_access.size()!=w.altars.size())m.bank_access.resize(w.altars.size());
+    auto& saved=m.bank_access[a];
+    saved.status=1;
+    // Price the actual carrier. A hypothetical minimum-size bag can require
+    // an unaffordable second gate even when the current payout is deliverable.
+    const int channel=bank_duration(std::max(o.bag,1));
+    if(channel<0)return nullptr;
+    const bool same=saved.revision==m.topology_revision&&saved.max_hp==o.max_hp&&saved.factor==o.camp_factor&&saved.channel==channel;
+    const int age=static_cast<int>(tc.round)-saved.round;
+    if(same&&age>=0&&age<=4&&saved.plan.complete()&&saved.plan.work+saved.plan.travel+channel+1<=saved.until-age){saved.status=5;return &saved;}
+    saved.status=2;
+    if(!tc.allow(24000))return nullptr;
+    const auto started=fuel_left();Memory::BankAccess view;
+    view.round=tc.round;view.revision=m.topology_revision;view.max_hp=o.max_hp;view.factor=o.camp_factor;view.channel=channel;
+    saved.status=3;
+    if(!delivery_threats(w,m,o,a,view,tc,true)) {
+#if DZ_TRACE
+        if(tc.round%100==0){TraceScope scope;trace("DZ_BANK_UNKNOWN round=%u body=%u altar=%u stage=scene fuel=%llu count=%u\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),a,static_cast<unsigned long long>(fuel_left()),view.count);}
+#endif
+        return nullptr;
+    }
+    // A complete feasible prefix is sufficient; cap both stack initialization
+    // and root enumeration independently of the number of altar neighbours.
+    std::array<bank::Root,32> roots{};unsigned n=0;const auto altar=w.altars[a].tile;
+    const auto threats=std::span<const bank::Threat>(view.threats.data(),view.count);
+    const int radius=cambc::constants::submit_gems_range;if(radius>3)return nullptr;
+    for(int dx=-radius;dx<=radius;++dx)for(int dy=-radius;dy<=radius;++dy) {
+        const auto p=altar+vec2{dx,dy};if(!w.walkable(p))continue;
+        n+=bank::escape_roots({p.x,p.y},w.altar_distance(a,o.p),view.until,threats,std::span<bank::Root>(roots).subspan(n),[&](Tile tile,int step) {
+            const vec2 q{tile.x,tile.y};if(!w.walkable(q)||enemy_danger(q,o)>enemy_danger(o.p,o))return false;
+            const auto camp=std::find_if(threats.begin(),threats.end(),[&](const auto& t){return t.camp.p==tile;});
+            return camp!=threats.end()||free(w,m,o,q,tc.round+step+channel);
+        },[&]{return tc.allow(15000)&&started-fuel_left()<12000;});
+        if(n==roots.size())break;
+    }
+    saved.status=4;
+    const auto model_start=fuel_left();
+    view.plan=bank::choose({o.max_hp,o.max_hp,0,0,channel,static_cast<int>(cambc::constants::max_rounds-tc.round)},
+        threats,std::span<const bank::Root>(roots.data(),n),
+        [&]{return tc.allow(10000)&&model_start-fuel_left()<5000;});
+    if(!view.plan.complete()) {
+#if DZ_TRACE
+        if(tc.round%100==0){TraceScope scope;trace("DZ_BANK_UNKNOWN round=%u body=%u altar=%u stage=roots fuel=%llu count=%u roots=%u until=%d channel=%d\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),a,static_cast<unsigned long long>(fuel_left()),view.count,n,view.until,channel);}
+#endif
+        return nullptr;
+    }
+#if DZ_TRACE
+    if(saved.plan.quality!=view.plan.quality||saved.plan.count!=view.plan.count||saved.plan.root!=view.plan.root) {
+        TraceScope scope;trace("DZ_BANK_ACCESS round=%u body=%u altar=%u root=%d,%d cuts=%u channel=%d until=%d loss=%.1f\n",tc.round,
+            static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),a,view.plan.root.x,view.plan.root.y,view.plan.count,channel,view.until,view.plan.loss);
+    }
+#endif
+    view.status=5;tc.guard();saved=std::move(view);return &saved;
+}
+bool bank_admission(const StaticWorld& w,Memory& m,const Observation& o,unsigned a,const TurnContext& tc) {
+    if(a>=w.altars.size()||!tc.allow(11000))return false;
+    Memory::BankAccess view;if(!delivery_threats(w,m,o,a,view,tc))return false;
+    const auto p=cambc::self().position();const int channel=bank_duration(cambc::self().gem_count());
+    if(channel<0||channel+1>view.until)return false;
+    Exposure scene;for(unsigned k=0;k<view.count;++k)scene.camps[scene.count++]=view.threats[k].camp;
+    const float raw=camp_damage({p.x,p.y},scene.view());if(raw<=0)return true;
+    const auto started=fuel_left();const auto route=escape(w,m,o,p,scene,tc,started);
+    if(!route.found){m.neutral_recovery.update(true,false,cambc::self().health(),cambc::self().max_health());return false;}
+    bank::Context context{cambc::self().health(),cambc::self().max_health(),0,0,channel,view.until};
+    const auto buffs=cambc::self().buffs();
+    if(buffs.has_shield()){const auto shield=buffs.get<cambc::buff_shield>();context.shield=shield.value;context.shield_rounds=shield.duration;}
+    const float loss=bank::channel_loss(context,raw,route.damage);
+#if DZ_TRACE
+    {TraceScope scope;trace("DZ_BANK_ADMIT round=%u body=%u altar=%u hp=%.1f raw=%.1f channel=%d shield=%.1f shield_rounds=%d escape=%.1f loss=%.1f allowed=%d\n",tc.round,
+        static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),a,context.hp,raw,channel,context.shield,context.shield_rounds,route.damage,loss,context.hp>loss);}
+#endif
+    if(context.hp>loss)return true;
+    m.neutral_recovery.update(true,false,context.hp,context.max_hp);m.neutral_escape.arm(tc.round,{p.x,p.y},route);
+    return false;
 }
 std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     const auto started=fuel_left();
@@ -277,6 +426,8 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
     if(m.openings.size()!=w.altars.size())m.openings.resize(w.altars.size());
     const unsigned a=m.opening_commitment.active()?static_cast<unsigned>(m.opening_commitment.altar):m.opening_cursor++%w.altars.size();
     if(a>=w.altars.size()){m.opening_commitment={};return;}
+    const auto* delivery=bank_access(w,m,o,a,tc);
+    if(!delivery)return; // Unknown delivery cannot publish a complete opening.
     auto& plan=m.openings[a];
     const auto started=fuel_left();
     if(!opening_geometry_current(plan,m,tc))plan.reset(tc.round,m.topology_revision,o.max_hp,o.strength*o.camp_damage,o.camp_factor,o.range);
@@ -291,9 +442,17 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
         for(unsigned k=0;k<plan.count;++k)plan.cuts[k].version=m.hp_version[plan.cuts[k].group];
         break;
     }
+    if(plan.channel_ready)for(unsigned i=0;i<delivery->plan.count;++i) {
+        const auto& t=delivery->threats[delivery->plan.cuts[i]];
+        if(std::none_of(plan.cuts.begin(),plan.cuts.begin()+plan.count,[&](const auto& c){return c.group==t.group&&c.member==t.member;})) {
+            plan.channel_ready=false;plan.quality=gate::Quality::Building;
+            plan.priced=0;plan.rounds=0;plan.visits=0;break;
+        }
+    }
     if(plan.quality!=gate::Quality::Building)return;
     const auto& altar=w.altars[a];const int width=cambc::map::width(),height=cambc::map::height();
-    if(altar.distances.size()!=static_cast<unsigned>(width*height)){plan.quality=gate::Quality::Unsupported;return;}
+    auto unsupported=[&](gate::Failure why){plan.quality=gate::Quality::Unsupported;plan.failure=why;};
+    if(altar.distances.size()!=static_cast<unsigned>(width*height)){unsupported(gate::Failure::Geometry);return;}
     auto distance=[&](Tile p) {
         return p.x>=0&&p.y>=0&&p.x<width&&p.y<height?static_cast<int>(altar.distances[p.y*width+p.x]):65535;
     };
@@ -345,9 +504,71 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
         if(scout){plan.quality=gate::Quality::Scout;plan.rounds=plan.travel;return;}
         if(unsupported||route.status==access::Status::Unreachable){plan.quality=gate::Quality::Unsupported;return;}
         if(route.status!=access::Status::Clear)return; // Resume the same path, not its beginning.
-        if(!plan.count){plan.quality=gate::Quality::Unsupported;return;}
         plan.path_ready=true;
         return; // Geometry quotes start on a later turn.
+    }
+    if(!plan.channel_ready) {
+        // A physically clear path is only one part of delivery. Append every
+        // required channel cut, including off-path monsters, before assigning
+        // any banking value to the project. Existing cuts are never duplicated.
+        for(unsigned i=0;i<delivery->plan.count;++i) {
+            const auto& t=delivery->threats[delivery->plan.cuts[i]];
+            if(std::any_of(plan.cuts.begin(),plan.cuts.begin()+plan.count,[&](const auto& c){return c.group==t.group&&c.member==t.member;}))continue;
+            if(plan.count==plan.cuts.size()||plan.dependency_count==plan.dependencies.size()) {unsupported(gate::Failure::Capacity);return;}
+            if(!tc.allow(11000)||started-fuel_left()>8000)return;
+            const auto target=w.groups[t.group].tiles[t.member];Tile approach{};int nearest=65535;
+            if(plan.approach_search.active&&plan.approach_group==t.group&&plan.approach_member==t.member) {
+                approach=plan.channel_approach;nearest=w.home.get({approach.x,approach.y});
+            } else {
+              for(int dx=-o.range;dx<=o.range;++dx)for(int dy=-o.range;dy<=o.range;++dy) {
+                if(!dx&&!dy)continue;
+                const auto p=target+vec2{dx,dy};if(!w.walkable(p))continue;
+                const int g=w.group_at(p);
+                if(g>=0) {
+                    const int k=w.tile_members[p.y*width+p.x];
+                    if(k<0||m.member_hp[g][k]>0)continue;
+                }
+                const int d=w.home.get(p);
+                if(d<nearest){nearest=d;approach={p.x,p.y};}
+              }
+              if(nearest<65535) {
+                plan.approach_group=t.group;plan.approach_member=t.member;plan.channel_approach=approach;plan.approach_search.begin(approach);
+              }
+            }
+            if(nearest>=65535){unsupported(gate::Failure::Approach);return;}
+            const auto home=[&](Tile p) {
+                return p.x>=0&&p.y>=0&&p.x<width&&p.y<height&&w.home_distances.size()==static_cast<unsigned>(width*height)?
+                    static_cast<int>(w.home_distances[p.y*width+p.x]):65535;
+            };
+            const auto prerequisites=plan.approach_search.advance(home,[&](Tile tile) {
+                const int g=w.tile_groups[tile.y*width+tile.x];if(g<0)return access::Blocker{};
+                const int k=w.tile_members[tile.y*width+tile.x];if(k<0)return access::Blocker{};
+                const auto& b=m.groups[g];
+                if((b.state==GroupState::Respawning&&b.ready>static_cast<int>(tc.round))||m.member_hp[g][k]<=0||
+                    std::any_of(plan.cuts.begin(),plan.cuts.begin()+plan.count,[&](const auto& c){return c.group==g&&c.member==k;}))return access::Blocker{};
+                return access::Blocker{g,k,m.member_hp[g][k]/std::max(1.f,plan.damage)};
+            },[&]{return tc.allow(10000)&&started-fuel_left()<12000;});
+            if(prerequisites.status!=access::Status::Clear) {
+                if(!plan.approach_search.active)unsupported(gate::Failure::Approach);
+                return;
+            }
+            for(unsigned k=0;k<prerequisites.count;++k) {
+                if(plan.count+1>=plan.cuts.size()||plan.dependency_count+1>=plan.dependencies.size()) {plan.quality=gate::Quality::Unsupported;return;}
+                const auto& q=prerequisites.cuts[k];const auto g=q.blocker.group,member=q.blocker.member;
+                auto& cut=plan.cuts[plan.count++];cut.group=g;cut.member=member;cut.tile=q.tile;cut.approach=q.approach;
+                cut.arrival=q.arrival;cut.hp=m.member_hp[g][member];cut.version=m.hp_version[g];
+                const auto& b=m.groups[g];plan.dependencies[plan.dependency_count++]={g,member,b.ready,true,b.state==GroupState::Respawning};
+            }
+            if(std::any_of(plan.cuts.begin(),plan.cuts.begin()+plan.count,[&](const auto& c){return c.group==t.group&&c.member==t.member;}))continue;
+            auto& cut=plan.cuts[plan.count++];cut.group=t.group;cut.member=t.member;
+            cut.tile={target.x,target.y};cut.approach=approach;cut.arrival=nearest;
+            cut.hp=m.member_hp[t.group][t.member];cut.version=m.hp_version[t.group];
+            const auto& belief=m.groups[t.group];
+            plan.dependencies[plan.dependency_count++]={t.group,t.member,belief.ready,cut.hp>0,belief.state==GroupState::Respawning};
+            if(cut.hp<=0){plan.quality=gate::Quality::Scout;plan.rounds=nearest;return;}
+        }
+        plan.channel_ready=true;
+        if(!plan.count){plan.quality=gate::Quality::Unsupported;return;}
     }
     // At most one cut geometry / escape search per call. Path and prices are
     // published only when every layer is complete, with member-HP versions.
@@ -365,18 +586,20 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
             if(k<0||m.member_hp[g][k]<=0)return true;
             return std::any_of(cleared.begin(),cleared.end(),[&](const auto& c){return c.group==g&&c.member==k;});
         },[&]{return tc.allow(6000)&&started-fuel_left()<16000;});
-        if(!route.found){plan.quality=gate::Quality::Unsupported;return;}
+        if(!route.found){unsupported(gate::Failure::Exit);return;}
         cut.hp=m.member_hp[cut.group][cut.member];cut.version=m.hp_version[cut.group];
         cut.incoming=camp_damage(cut.approach,threats.view());cut.escape_loss=route.damage;cut.escape_rounds=route.steps;
         // Re-use the already traced prefix for repeat visits; an unchecked
         // static Home shortcut might itself cross a future live barrier.
         cut.home=cut.arrival+route.steps;
         const auto work=gate::price(cut,o.max_hp,o.max_hp,plan.damage);
-        if(!work.valid||plan.rounds+work.rounds>2000){plan.quality=gate::Quality::Unsupported;return;}
+        if(!work.valid||plan.rounds+work.rounds>2000){unsupported(gate::Failure::Work);return;}
         plan.rounds+=work.rounds;plan.visits+=work.visits;++plan.priced;
     }
     if(plan.priced==plan.count) {
+        if(plan.rounds+plan.delivery+delivery->channel+1>delivery->until){unsupported(gate::Failure::Window);return;}
         plan.quality=gate::Quality::Ready;
+        plan.failure=gate::Failure::None;
         plan.expires=std::min(plan.expires,static_cast<int>(tc.round)+32);
 #if DZ_TRACE
         {TraceScope scope;trace("DZ_OPENING_QUOTE round=%u body=%u altar=%u cuts=%u visits=%d work=%d delivery=%d\n",tc.round,

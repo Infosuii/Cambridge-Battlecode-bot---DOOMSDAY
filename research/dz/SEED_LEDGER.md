@@ -751,3 +751,14 @@ The registry was created before experiments. Entries below record actual use.
 | dz-crew-agreement-gear-02 | 2026-10-31 | deterministic; Wasm 73ccd3505434 | 6 cells; idle81 | scenario; trace=True |
 | dz-neutral-escape-01 | 2026-10-31 | deterministic; Wasm 17b398c1e995 | 2 cells; idle81 | scenario; trace=True |
 | dz-neutral-escape-final-02 | 2026-10-31 | deterministic; Wasm 03ce62404a80 | 4 cells; idle81 | scenario; trace=True |
+| dz-bank-access-01 | 2026-10-31 | deterministic; Wasm 4fc64c6227c5 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-02 | 2026-10-31 | deterministic; Wasm fec3d983334e | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-debug-03 | 2026-10-31 | deterministic; Wasm 3661ef682409 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-stage-04 | 2026-10-31 | deterministic; Wasm ae06204b1f35 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-prerequisites-05 | 2026-10-31 | deterministic; Wasm 8dbb5bcff2e4 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-path-06 | 2026-10-31 | deterministic; Wasm b7f4d3dd722c | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-scheduling-07 | 2026-10-31 | deterministic; Wasm cbe508dcdc64 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-resumable-08 | 2026-10-31 | deterministic; Wasm 3fca6cafd392 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-exits-09 | 2026-10-31 | deterministic; Wasm aca0933542a7 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-carrier-10 | 2026-10-31 | deterministic; Wasm 8c2e36e226e3 | 2 cells; idle81 | scenario; trace=True |
+| dz-bank-access-final-11 | 2026-10-31 | deterministic; Wasm 96438ba99eff | 2 cells; idle81 | scenario; trace=True |

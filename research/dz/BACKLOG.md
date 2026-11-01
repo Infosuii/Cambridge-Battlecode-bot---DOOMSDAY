@@ -1,16 +1,25 @@
 # DZ live implementation backlog — 2026-10-31
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: escape-2026-10-31/, agreement-2026-10-31/, augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: bank-delivery-2026-10-31/, escape-2026-10-31/, agreement-2026-10-31/, augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z8/Z14 deliverability and bank scheduling.** Recovery execution now has
+1. **Z7/Z8/Z11 coordinated openings and delivery.** The bounded actual-carrier
+   channel model, conditional paid exit cuts, off-path Home prerequisites and
+   resumable scans now reach opening pricing. Final11 FAILS21/0 banked from407/406
+   collected versus prior240/42, despite zero deaths/faults/fuel-outs. Strict audit
+   remains FALSE (A18 cycles passes; B0 fails). Solo quotes can exceed1500 rounds.
+   Attach delivery value/cuts to dynamic crew/progression allocation and consent,
+   with real support, recovery and bank commitments. Do not relax survival reserves
+   or scale screens. Native channel/shield calibration and general unknown/fallback
+   behaviour remain open; full17-suite runner was not rerun (three focused pass).
+   Selected defaults remain unchanged. Recovery execution now has
    exact first-step certificates, revalidated rays, persistent hazards and guarded
    withdrawal. Final02 has no deaths/faults/fuel-outs, but layered banking WORSENS
    to240/42 from423/407 collected. Physical altar access is not a channel survival
-   quote. Model endpoint exposure, actual bag/channel, HP/shield/exit and unknowns;
-   preserve/price remaining threatening cuts and bank commitments instead of
-   stopping work at physical opening. Then reduce expensive formation handshake
+   quote. The bounded implementation addresses endpoint exposure and preserves
+   paid threats, but does not establish general validity or useful conversion.
+   Integrate useful crew openings before reducing expensive formation handshake
    delays without losing exact agreement. Marginal reinforcement remains native-
    unaccepted. Full funded3-shard/one-emblem continuation is native-confirmed;
    multiple-emblem batches and partial-fuel shopping remain open. No larger screens.

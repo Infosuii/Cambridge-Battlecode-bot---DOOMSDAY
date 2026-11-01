@@ -16,6 +16,7 @@
 #include "crew_market.h"
 #include "team_protocol.h"
 #include "crew_agreement.h"
+#include "bank_model.h"
 #endif
 
 namespace dz {
@@ -69,6 +70,13 @@ struct Memory {
     ShopVisit delivery_shop;
     float shop_quote_income=-1,shop_quote_gold_income=-1;
     std::vector<gate::Plan> openings;
+    struct BankAccess {
+        int round=-10000,channel=-1,status=0;unsigned revision=~0u;
+        float max_hp=0,factor=0;bank::Plan plan;
+        std::array<bank::Threat,bank::max_threats> threats{};unsigned count=0;
+        int until=2000;
+    };
+    std::vector<BankAccess> bank_access;
     gate::Commitment opening_commitment;
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
@@ -77,6 +85,7 @@ struct Memory {
     siege::EscapeStep neutral_escape;
     siege::RecoveryLatch neutral_recovery;
     std::vector<std::vector<float>> member_strength;
+    std::vector<std::vector<int>> member_seen;
     LocalMask memory_visible;
     int memory_visible_round=-1;
     std::vector<unsigned> member_cursor;

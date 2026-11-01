@@ -1,5 +1,6 @@
 #pragma once
 #include "siege_model.h"
+#include "access_route.h"
 #include <limits>
 
 namespace dz::gate {
@@ -21,6 +22,7 @@ struct Commitment {
     }
 };
 enum class Quality { Building, Ready, Unsupported, Scout };
+enum class Failure { None, Geometry, Capacity, Approach, Exit, Work, Window };
 struct Cut {
     int group=-1,member=-1,arrival=0;
     Tile approach{},tile{};
@@ -45,6 +47,7 @@ inline Work price(const Cut& cut,float hp,float max_hp,float damage,int horizon=
 }
 struct Plan {
     Quality quality=Quality::Building;
+    Failure failure=Failure::None;
     int altar=-1,started=-1,expires=-1,travel=0,rounds=0,visits=0,delivery=0;
     unsigned revision=~0u,count=0,priced=0;
     float max_hp=-1,damage=-1,factor=-1;
@@ -57,7 +60,9 @@ struct Plan {
     }
     std::array<Dependency,128> dependencies{};
     unsigned dependency_count=0;
-    bool path_ready=false,origin_ready=false;
+    bool path_ready=false,origin_ready=false,channel_ready=false;
+    access::ApproachSearch approach_search;
+    int approach_group=-1,approach_member=-1;Tile channel_approach{};
     void reset(int round,unsigned topology,float health,float dps,float mitigation,int attack_range) {
         *this={};started=round;expires=round+128;revision=topology;max_hp=health;damage=dps;factor=mitigation;range=attack_range;
     }

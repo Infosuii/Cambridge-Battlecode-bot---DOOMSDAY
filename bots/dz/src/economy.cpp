@@ -505,9 +505,12 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
     if(work.kind==GoalKind::Farm&&!choices[0].feasible)return work;
     const int selected=macro::choose(context,choices,choices[0].feasible?0:-1);
 #if DZ_TRACE
-    if(selected>=0&&tc.round%20==0){TraceScope scope;trace("DZ_MACRO round=%u body=%u action=%d farm=%.1f bank=%.1f shop=%.1f gate=%.1f bag=%d gold=%d horizon=%d\n",
+    if(selected>=0&&tc.round%20==0){TraceScope scope;trace("DZ_MACRO round=%u body=%u action=%d farm=%.1f bank=%.1f shop=%.1f gate=%.1f bag=%d gold=%d horizon=%d bank_stage=%d opening=%d failure=%d cuts=%u priced=%u work=%d phase=%d\n",
         tc.round,static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),selected,
-        macro::value(context,choices[0]),macro::value(context,choices[1]),macro::value(context,choices[2]),macro::value(context,choices[3]),o.bag,o.gold,remaining);}
+        macro::value(context,choices[0]),macro::value(context,choices[1]),macro::value(context,choices[2]),macro::value(context,choices[3]),o.bag,o.gold,remaining,m.bank_access.empty()?0:m.bank_access[0].status,
+        m.openings.empty()?-1:static_cast<int>(m.openings[0].quality),m.openings.empty()?0:static_cast<int>(m.openings[0].failure),
+        m.openings.empty()?0:m.openings[0].count,m.openings.empty()?0:m.openings[0].priced,m.openings.empty()?0:m.openings[0].rounds,
+        m.openings.empty()?0:static_cast<int>(m.openings[0].path_ready)+2*static_cast<int>(m.openings[0].channel_ready));}
 #endif
     if(selected==1)return relinquish({GoalKind::Bank,altar});
     if(selected==2) {
@@ -691,7 +694,6 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
         }
     }
     m.access_group=-1;m.access_member=-1;
-    if(altar<0&&o.enemies.empty())quote_opening(w,m,o,tc);
     if(m.shopping_since>=0||o.hp<.3f*o.max_hp)
         return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
     const int occupied=w.group_at(o.p);

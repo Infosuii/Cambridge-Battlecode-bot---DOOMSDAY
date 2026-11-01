@@ -1,3 +1,18 @@
+# ACTIVE 2026-10-31 — carrier delivery/paid exits; FAIL and unpromoted
+
+Read research/dz/bank-delivery-2026-10-31/README.md and research/dz/BACKLOG.md.
+Added actual-bag/Tribute channel/shield/exit forecasts, complete conditional cut
+sets, off-path Home prerequisites with resumable scans, per-member sighting dates
+and fresh pre-submit admission. Three focused host suites pass;11 capsules/22
+native cells verify. Final11 banks21/0 from407/406 collected, zero deaths/faults/
+fuel-outs; much WORSE than prior240/42. Strict audit stays FALSE: A passes18 cycles,
+B has0 and fails.09 had six round5 fuel-outs; retained. Do not promote or scale.
+Latest prices complete, but solo opening work can exceed1500 rounds; next attach
+delivery value/cuts to dynamic crew/progression allocation and coherent bank
+commitments. No general V-M1/channel calibration or competitive acceptance.
+Selected Mac437f91c3/Windows5cf28cb7/defaults/holdout preserved. Selected/combined
+compile. Goal active; CLI works; .vscode/ untouched. No online actions.
+
 # ACTIVE 2026-10-31 — certified recovery and no re-entry; unpromoted
 
 Read research/dz/escape-2026-10-31/README.md and research/dz/BACKLOG.md.

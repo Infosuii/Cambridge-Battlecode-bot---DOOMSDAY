@@ -5,6 +5,22 @@
 #include <iostream>
 using namespace dz;
 int main() {
+    auto home=[](Tile p){return p.y==0&&p.x>=0&&p.x<=6?p.x:65535;};
+    auto blockers=[](Tile p){return p.x==2?access::Blocker{2,0,10}:p.x==4?access::Blocker{4,0,20}:access::Blocker{};};
+    const auto approach=access::approach_cuts({6,0},home,blockers);
+    assert(approach.status==access::Status::Clear&&approach.count==2);
+    assert(approach.cuts[0].blocker.group==2&&(approach.cuts[0].approach==Tile{1,0}));
+    assert(approach.cuts[1].blocker.group==4&&(approach.cuts[1].approach==Tile{3,0}));
+    int approach_budget=2;const auto capped=access::approach_cuts({6,0},home,blockers,[&]{return --approach_budget>=0;});
+    assert(capped.status==access::Status::Unknown&&capped.count==0);
+    access::ApproachSearch resumable;resumable.begin({6,0});
+    auto partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Unknown&&partial.count==0&&resumable.cursor.x==4);
+    partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Unknown&&partial.count==0&&resumable.cursor.x==2);
+    partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Clear&&partial.count==2&&!resumable.active);
+    assert((partial.cuts[0].approach==Tile{1,0})&&(partial.cuts[1].approach==Tile{3,0}));
     gate::Cut cut;cut.hp=300;cut.incoming=20;cut.escape_loss=40;cut.escape_rounds=2;cut.home=5;cut.arrival=7;
     auto work=gate::price(cut,1200,1200,50);
     assert(work.valid&&work.attacks==6&&work.visits==1&&work.rounds==21);

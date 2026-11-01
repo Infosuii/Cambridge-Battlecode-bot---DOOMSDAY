@@ -305,6 +305,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         } else if(route.status==access::Status::Clear)open=true;
         else if(route.status==access::Status::Unreachable)continue;
 #endif
+#if DZ_ECONOMY_V2
+        const auto* delivery=bank_access(world,mem,obs,a,tc);
+        open=open&&delivery&&delivery->plan.quality==bank::Quality::Bounded;
+        if(delivery)for(unsigned i=0;i<delivery->plan.count&&mem.route_gate_count<mem.route_gates.size();++i) {
+            const auto& threat=delivery->threats[delivery->plan.cuts[i]];
+            const std::pair<int,int> member{threat.group,threat.member};
+            if(std::find(mem.route_gates.begin(),mem.route_gates.begin()+mem.route_gate_count,member)==mem.route_gates.begin()+mem.route_gate_count)
+                mem.route_gates[mem.route_gate_count++]=member;
+        }
+#endif
         if (!open) { if (d < gated_distance) { gated_altar = a; gated_distance = d; } continue; }
         if (d < altar_distance) { altar = a; altar_distance = d; }
     }
@@ -355,6 +365,9 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         if(auto goal=siege_goal(world,mem,obs,tc,altar>=0))return *goal;
 #endif
 #if DZ_ECONOMY_V2
+    // Finish the bounded delivery itinerary before optional shop forecasts can
+    // consume its budget. Each call advances one path slice or cut price.
+    if(altar<0&&obs.enemies.empty())quote_opening(world,mem,obs,tc);
     if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
     // An interrupted expensive forecast cannot immediately launch another full
     // search. Preserve execution/communication fuel and the proven contract.

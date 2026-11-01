@@ -13,6 +13,9 @@ const gate::Plan* best_opening(const Memory&,const Observation&,const TurnContex
 std::optional<Goal> begin_opening(StaticWorld&,Memory&,const Observation&,const TurnContext&,int altar);
 std::optional<Goal> yield_siege_lane(StaticWorld&,Memory&,const Observation&,const TurnContext&);
 std::optional<Goal> neutral_recovery(StaticWorld&,Memory&,const Observation&,const TurnContext&);
+int bank_duration(int bag);
+const Memory::BankAccess* bank_access(StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&);
+bool bank_admission(const StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&);
 #endif
 }
 #endif
