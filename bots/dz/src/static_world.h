@@ -100,8 +100,18 @@ public:
     std::uint64_t field_budget() const {
         // CT-1: ~30k on the measured 100x100 case; provisional conservative
         // envelope, still checked by release fuel traces over the whole pool.
+#if DZ_FIELD_METER
+        // The formula underestimates some maps by ~3x (00rushbait-v2: 54k measured, dz-diag-ee3v3-profile-01).
+        const std::uint64_t formula = 3000 + 4 * cambc::map::width() * cambc::map::height();
+        return std::max(formula, field_seen + field_seen / 8);
+#else
         return 3000 + 4 * cambc::map::width() * cambc::map::height();
+#endif
     }
+#if DZ_FIELD_METER
+    mutable std::uint64_t field_seen = 0; // Worst fuel of one distance-field compute so far (this body).
+    void note_field(std::uint64_t before) const { const auto now = fuel_left(); if (before > now) field_seen = std::max(field_seen, before - now); }
+#endif
     bool walkable(vec2 p) const {
         if (local_masks_valid) return blocked_mask.in_bounds(p) && !blocked_mask.test(p);
         return cambc::map::is_in_bounds(p) && !blocked.is_set(p);

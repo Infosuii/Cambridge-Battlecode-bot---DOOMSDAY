@@ -338,7 +338,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         if (me.can_move()&&tc.allow(world.field_budget()+4000)) {
             auto blocked=world.blocked|obs.occupied;
             auto roots=~(blocked|world.camp_spawns);
+#if DZ_FIELD_METER
+            const auto meter_start=fuel_left();
+#endif
             cambc::distance_field field; field.compute(blocked,roots,world.visited);
+#if DZ_FIELD_METER
+            world.note_field(meter_start);
+#endif
             tc.guard(); step(field,world,obs,false,act);
         }
         return;
@@ -701,7 +707,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             );
         } else {
         cambc::distance_field field;
+#if DZ_FIELD_METER
+        const auto meter_start=fuel_left();
+#endif
         field.compute(blocked, roots.board(), world.visited);
+#if DZ_FIELD_METER
+        world.note_field(meter_start);
+#endif
         tc.guard();
         bank_blocked = goal.kind == GoalKind::Bank && field.get(obs.p) == cambc::distance_field::unreachable;
         if (!bank_blocked) step(field,world,obs,retreat,act,remember_failures
@@ -720,7 +732,13 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
             auto detour_roots=roots.board()&~detour_blocked;
             if(!detour_roots.is_empty()) {
                 cambc::distance_field detour;
+#if DZ_FIELD_METER
+                const auto meter_start=fuel_left();
+#endif
                 detour.compute(detour_blocked,detour_roots,world.visited);tc.guard();
+#if DZ_FIELD_METER
+                world.note_field(meter_start);
+#endif
                 if(detour.get(me.position())<cambc::distance_field::unreachable)
                     step(detour,world,obs,retreat,act,false
 #if DZ_ECONOMY_V2

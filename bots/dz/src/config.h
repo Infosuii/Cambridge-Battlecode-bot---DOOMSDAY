@@ -174,11 +174,14 @@
 #ifndef DZ_GOLD_FIT
 #define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
 #endif
+#ifndef DZ_FIELD_METER
+#define DZ_FIELD_METER 0 // Fuel: field_budget() = max(formula, worst measured field compute + 1/8); every compute is metered.
+#endif
 #ifndef DZ_FAST_FIGHT
 #define DZ_FAST_FIGHT 0 // Fuel only: event-stepped simulate_fight, bit-identical results (host-tested). Unvalidated in play.
 #endif
 #ifndef DZ_LOCAL_FIGHT
-#define DZ_LOCAL_FIGHT 0 // Unvalidated: Fight goals move by a bounded local BFS (radius 7) instead of a whole-map field.
+#define DZ_LOCAL_FIGHT 0 // Fuel-NEGATIVE as written: the radius-7 BFS cost more than the field it replaced (dz-ee3v4*-hot). Off.
 #endif
 #ifndef DZ_MARKET
 #define DZ_MARKET 0 // Unvalidated C1: group claims carry a distance bid; outbid bodies drop the group (market.h).

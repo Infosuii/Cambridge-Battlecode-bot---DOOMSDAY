@@ -112,7 +112,13 @@ void StaticWorld::boot(const TurnContext& tc) {
     }
     if (!home_ready_) {
         if (!tc.allow(field_budget())) return;
+        #if DZ_FIELD_METER
+        const auto meter_start=fuel_left();
+        #endif
         home.compute(blocked, cambc::map::spawn_region(cambc::team::ally), visited);
+        #if DZ_FIELD_METER
+        note_field(meter_start);
+        #endif
 #if DZ_ECONOMY_V2
         home_distances=home.export_linear_buffer();
 #endif
@@ -157,7 +163,13 @@ void StaticWorld::boot(const TurnContext& tc) {
         for (unsigned g=0;g<groups.size();++g)
             for (auto t:groups[g].tiles) if (t.chebyshev_distance(altar.tile)<=3) { altar.near_groups.push_back(static_cast<int>(g)); break; }
         auto field = std::make_unique<cambc::distance_field>();
+        #if DZ_FIELD_METER
+        const auto meter_start=fuel_left();
+        #endif
         field->compute(blocked, roots, visited);
+        #if DZ_FIELD_METER
+        note_field(meter_start);
+        #endif
         tc.guard(); altar.field = std::move(field);
 #if DZ_SIEGE || DZ_ECONOMY_V2
         altar.distances=altar.field->export_linear_buffer();
@@ -177,7 +189,13 @@ void StaticWorld::boot(const TurnContext& tc) {
                 if (walkable(q)) roots.set(q);
             }
             auto pocket=std::make_unique<cambc::distance_field>();
+            #if DZ_FIELD_METER
+            const auto meter_start=fuel_left();
+            #endif
             pocket->compute(blocked|camp_spawns, roots, visited);
+            #if DZ_FIELD_METER
+            note_field(meter_start);
+            #endif
             bool reached=false;
             for (auto s:cambc::map::spawn_region(cambc::team::ally).positions())
                 if (pocket->get(s)<cambc::distance_field::unreachable) { reached=true; break; }
@@ -236,7 +254,13 @@ void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
         if (walkable(p)) roots.set(p);
     }
     auto field = std::make_unique<cambc::distance_field>();
+    #if DZ_FIELD_METER
+    const auto meter_start=fuel_left();
+    #endif
     field->compute(blocked, roots, visited);
+    #if DZ_FIELD_METER
+    note_field(meter_start);
+    #endif
     tc.guard(); groups[selected].field = std::move(field);
 }
 const std::vector<vec2>* StaticWorld::approach_tiles(int index, const TurnContext& tc) {
