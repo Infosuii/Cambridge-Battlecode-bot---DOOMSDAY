@@ -51,3 +51,14 @@ Order: 13 (fuel planner, cheap and exact) and 1 (finish-time model) first; then 
 - A potential-field *sparring opponent* (diverse style for the league, AlphaStar-style exploiters).
 - Fog-of-war memory of enemy bags and positions, feeding P1 and carrier tracking (#6).
 - Kiting plus the arrival-time fight model (#9) as one "engagement geometry" package.
+
+### Thesis, second pass (Hagelbäck 2009, fog-of-war and design chapters)
+
+- **Shared enemy memory:** a global map agent remembers every enemy spotted by any unit and shares it. Here: an
+  out-of-sight enemy and bag memory through the 8-byte team word (with carrier tracking, #6).
+- **Avoid-past trail:** a negative potential on each unit's last 20 positions breaks local optima. Here: an
+  anti-oscillation term for champions that dither between tiles or targets (check v81's stuck handling first).
+- **One exploration target at a time:** attracting to every unexplored edge strands explorers mid-map; pick one
+  target by importance. Here: ward and scouting placement.
+- **Evaluate against tournament opponents, not self-made bots:** matches our ladder finding; ladder replays and
+  sparring bots modelled on top teams belong in the league.
