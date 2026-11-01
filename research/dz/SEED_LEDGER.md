@@ -1144,3 +1144,7 @@ The registry was created before experiments. Entries below record actual use.
 | x1-s2-apex-gold-taper-v81hl-01 | 2026-11-01 | deterministic; Wasm e7ec058d2058 | 140 cells; v81hl | smoke; trace=False |
 | x1-s2-apex-pair-v81hl-01 | 2026-11-01 | deterministic; Wasm 36d8f943024c | 140 cells; v81hl | smoke; trace=False |
 | x1-s2-nova-race-bank-v81hl-01 | 2026-11-01 | deterministic; Wasm 8161d8a2dfa1 | 140 cells; v81hl | smoke; trace=False |
+| x1-g3-v81hl-01 | 2026-11-01 | deterministic; Wasm 646e5c513591 | 140 cells; v81hl | smoke; trace=False |
+| x1-g2-v81hl-01 | 2026-11-01 | deterministic; Wasm 2a83d29d0122 | 140 cells; v81hl | smoke; trace=False |
+| x1-g4-v81hl-01 | 2026-11-01 | deterministic; Wasm 524e2321b91a | 140 cells; v81hl | smoke; trace=False |
+| x1-g2b-v81hl-01 | 2026-11-01 | deterministic; Wasm c2243a2f7c34 | 140 cells; v81hl | smoke; trace=False |
