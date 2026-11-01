@@ -103,3 +103,16 @@ Sweep of v81hl's 73 switched-off features (stage 1: 38 cells each; stage 2: 70 m
 flee-ally 80, snipe 79, pair 78; all nine finalists combined 61 and greedy combinations 71-76: they overlap. The
 switch space is nearly exhausted; the structural work in section 6 is next. Parked on x1: role-aware mastery draft
 (-25..-59 margin). Parked in DZ: v81hl's draft net (-60), fight-or-run net in all three threshold modes.
+
+## 8. Benchmark v86h (the teammate's best) and the x2 merge, 2026-11-01
+
+Anti-overfit evaluation (70 ladder + 50 unseen maps, vs v86h and its seed-2 build):
+
+| Candidate | v86h ladder | v86h unseen | v86h-s2 ladder | v86h-s2 unseen | total |
+|---|---|---|---|---|---|
+| x1 (uploaded, 1746f2bb7fa3) | 79/140 | 59/100 | 79/140 | 61/100 | **278/480 (57.9%)** |
+| x2 = v86h + x1's changes (a9f1bbc43ef7) | 86/140 | 47/100 | 70/140 | 54/100 | 257/480 (53.5%) |
+
+x1 beats the benchmark on both map kinds and both builds; x2 is not adopted (strong on one ladder pairing, weak on
+unseen maps). The real ladder (research/x1/LADDER_2026-11-01.md) shows both lose to QS2isLaw and 0xDEADBEEF, so
+the next targets come from those games (mid-game fights R250-R500), with v86h and x1-league kept as local guards.
