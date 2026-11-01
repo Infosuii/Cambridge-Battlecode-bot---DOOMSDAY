@@ -1,5 +1,10 @@
 # Continue DZ on a fresh laptop
 
+Recovery was checked from a clean Git export on Windows: current/best and two
+older frozen runs, all20 reference files, the tracked runtime digest and the
+portable CLI tests passed. No installed runtime/assets were used for evidence
+verification. See the exact [verification report](research/dz/legacy-transfer-2026-11-01/FRESH_CLONE_CHECK.json).
+
 Latest work is on **`experiment/dz-lifecycle-repair-2026-11-01`**, not the old
 default-branch handoff. Gameplay work is paused by the user. Repository sync and
 this portability check were subsequently authorised; they do not resume matches,
