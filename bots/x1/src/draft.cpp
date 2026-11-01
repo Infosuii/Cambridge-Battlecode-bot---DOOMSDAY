@@ -48,6 +48,25 @@ constexpr cd kT5[] = {APEX_DRAFT_T5};
 #endif
 
 namespace {
+// X1_MASTERY: x1's own per-champion results (as v81hl, vs DZ: Willow 166 gems and 582 gold per 1k rounds, Cassi &
+// Issac 0.85 deaths a game; Vendetta 279 gems and 6.1 kills, Varg 270, Ren 249) override a weak pick with the best
+// free strong champion. Applied at every pick site, so the ladder table, draft net and lists all pass through it.
+inline cd x1_pick(cd pick, const std::vector<cd>& chosen) {
+#if X1_MASTERY
+    const bool weak = pick == cd::willow || pick == cd::cassi_and_issac;
+    if (weak) {
+        // Keep the lineup's role coverage (restart-prompt audit: draft role coverage): Willow is a ranged support,
+        // so it is replaced by a ranged pick; Cassi & Issac by a melee/bruiser. Strongest first by x1's results.
+        constexpr cd ranged[] = {cd::vesper_vale, cd::tavi, cd::prism};
+        constexpr cd melee[] = {cd::vendetta, cd::varg, cd::ren, cd::ryth, cd::marcella, cd::heart_of_ruin};
+        if (pick == cd::willow) { for (auto s : ranged) if (std::find(chosen.begin(), chosen.end(), s) == chosen.end()) return s; }
+        else { for (auto s : melee) if (std::find(chosen.begin(), chosen.end(), s) == chosen.end()) return s; }
+    }
+#else
+    (void)chosen;
+#endif
+    return pick;
+}
 // Pick the first champion in the list we have not taken yet.
 template <std::size_t N>
 bool pick_from(const cd (&list)[N], const std::vector<cd>& chosen, bool skip_casters = false) {
@@ -56,7 +75,7 @@ bool pick_from(const cd (&list)[N], const std::vector<cd>& chosen, bool skip_cas
         // NOVA_COUNTER: fight enemy casters with bodies, not more casters of ours.
         if (skip_casters && (pick == cd::stellar || pick == cd::prism || pick == cd::tavi || pick == cd::willow))
             continue;
-        bc::draft::pick(pick);
+        bc::draft::pick(x1_pick(pick, chosen));
         return true;
     }
     return false;
@@ -677,7 +696,7 @@ bool ml_draft_pick(std::uint32_t size) {
     }
     (void)x;
     if (best < 0) return false;
-    bc::draft::pick(static_cast<cd>(best));
+    bc::draft::pick(x1_pick(static_cast<cd>(best), ours));
 #if A2_MLPLAN
     // Our last pick: choose the game plan for this comp on this map (net with the plan one-hot set) and pass it to the
     // champions in draft-memory byte 7 (0x80 | plan). Written before the brain header's 6-byte write, which keeps it.
