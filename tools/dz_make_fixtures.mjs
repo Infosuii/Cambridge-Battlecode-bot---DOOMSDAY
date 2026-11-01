@@ -16,6 +16,7 @@ const layouts={
   'isolated-elk':[[1,10,10]],
   'isolated-golem':[[5,10,10]],
   'cluster-line':Array.from({length:12},(_,i)=>[3,6+i,6]),
+  'large-resource':Array.from({length:72},(_,i)=>[i%4===0?2:3,6+i%9,6+Math.floor(i/9)]),
   'prospector':[...Array.from({length:12},(_,i)=>[3,6+i,6]),[2,8,12],[2,8,16],[2,9,16],[3,5,15],[0,8,22]],
   'camp-modifiers':[...Array.from({length:24},(_,i)=>[3,6+i%6,6+Math.floor(i/6)]),[0,12,14]],
   'tribute-passive':[...Array.from({length:12},(_,i)=>[3,6+i,6]),...Array.from({length:14},(_,i)=>[2,6+i,12]),[2,5,15],[2,8,15],[2,9,15]],

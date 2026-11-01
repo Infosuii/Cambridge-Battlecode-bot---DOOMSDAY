@@ -61,7 +61,7 @@ std::optional<Goal> engagement_goal(const StaticWorld& w,Memory& m,const Observa
 #if DZ_LIFECYCLE
         // An unfinished optional spell rollout cannot establish a losing fight.
         // Let strategic_goal's bounded visible-unit check retain/interrupt work.
-        if(!m.siege_task.active()&&!m.crew_execution.managed&&std::popcount(m.economic_crew)<=1)return std::nullopt;
+        if(!m.siege_task.active())return std::nullopt;
 #endif
         for(const auto& e:o.enemies)if(e.p.chebyshev_distance(o.p)<=e.range+2)return Goal{GoalKind::Retreat};
         return Goal{GoalKind::Idle};

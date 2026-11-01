@@ -1,4 +1,5 @@
 #include "static_world.h"
+#include "opening_cache.h"
 
 namespace dz {
 Group::Group(cambc::map::camp_group g) : sdk(std::move(g)) {
@@ -42,12 +43,19 @@ bool Group::init_stats_step(const TurnContext& tc) {
     const auto camps=members();
     while(stats_read<camps.size()) {
         if(!tc.allow(2500)||started-fuel_left()>18000)return false;
+#if DZ_LIFECYCLE
+        const auto cached=camp_design(camps[stats_read]);
+        const bool resource=cached.kind==static_cast<unsigned>(cambc::camp_type::gem_cluster)||cached.kind==static_cast<unsigned>(cambc::camp_type::gold_cluster);
+        const auto hp=cached.hp,strength=cached.strength;const auto range=cached.range;
+#else
         const auto stats=camps[stats_read].base_stats();
         const bool resource=camps[stats_read].is_gem_cluster()||camps[stats_read].is_gold_cluster();
+        const auto hp=stats.base_health,strength=stats.base_strength;const auto range=stats.base_attack_range;
+#endif
         tc.guard();
-        initial_hp[stats_read]=stats.base_health;initial_strength[stats_read]=stats.base_strength;
-        attack_ranges[stats_read]=stats.base_attack_range;
-        max_hp+=stats.base_health;strength+=stats.base_strength;cluster&=resource;++stats_read;
+        initial_hp[stats_read]=hp;initial_strength[stats_read]=strength;
+        attack_ranges[stats_read]=range;
+        max_hp+=hp;this->strength+=strength;cluster&=resource;++stats_read;
     }
     return true;
 }
@@ -63,6 +71,13 @@ void StaticWorld::load_roster(const TurnContext& tc) {
     while (own<roster.size()&&roster[own]!=cambc::self()) ++own;
     if (own==roster.size()) throw std::logic_error("self missing from allied roster");
     tc.guard(); allies=std::move(roster); slot=own;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    const auto spawn=cambc::map::spawn_region(cambc::team::ally).positions();
+    if(!spawn.empty()) {
+        for(auto p:spawn)home_anchor+=p;
+        home_anchor.x/=static_cast<int>(spawn.size());home_anchor.y/=static_cast<int>(spawn.size());
+    }
+#endif
 }
 void StaticWorld::boot(const TurnContext& tc) {
     if (ready) return;
@@ -302,13 +317,27 @@ void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
         }
     }
     if (selected < 0) return;
-    roots.clear();
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    if(local_masks_valid) {
+        auto& group=groups[selected];
+        if(!group.field_roots){group.field_roots=std::make_unique<LocalMask>();group.field_roots->resize();}
+        const auto started=fuel_left();
+        while(group.roots_read<group.tiles.size()) {
+            if((group.roots_read&31u)==0&&(!tc.allow(field_budget()+4000)||started-fuel_left()>6000))return;
+            const auto p=group.tiles[group.roots_read++];if(walkable(p))group.field_roots->set(p);
+        }
+        cambc::bitboard roots;group.field_roots->store(roots);
+        auto field=std::make_unique<cambc::distance_field>();field->compute(blocked,roots,visited);
+        tc.guard();group.field=std::move(field);group.field_roots.reset();return;
+    }
+#endif
+    RootSet goal_roots;
     for (auto p : groups[selected].tiles) {
         if (!tc.allow(field_budget()+3000)) return;
-        if (walkable(p)) roots.set(p);
+        if (walkable(p)) goal_roots.set(p);
     }
     auto field = std::make_unique<cambc::distance_field>();
-    field->compute(blocked, roots, visited);
+    field->compute(blocked, goal_roots.board(), visited);
     tc.guard(); groups[selected].field = std::move(field);
 }
 const std::vector<vec2>* StaticWorld::approach_tiles(int index, const TurnContext& tc) {

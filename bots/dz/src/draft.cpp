@@ -1,5 +1,6 @@
 #include "draft.h"
 #include "map_signature.h"
+#include "opening_cache.h"
 #if DZ_ECONOMY_V2
 #include "draft_value.h"
 #include "objective_model.h"
@@ -15,8 +16,13 @@ struct DraftProfile {
         attempted=true;
         if(!tc.allow(150000))return false; // Only the boosted first draft turn.
         using C=cambc::champion_type;
+        using D=cambc::champion_draft;
+        const unsigned supported=draft_value::physical(static_cast<unsigned>(D::vendetta))|
+            draft_value::physical(static_cast<unsigned>(D::marcella))|draft_value::physical(static_cast<unsigned>(D::vesper_vale))|
+            draft_value::physical(static_cast<unsigned>(D::heart_of_ruin))|draft_value::physical(static_cast<unsigned>(D::ryth));
         std::array<objective::Actor,13> actors{};
         for(unsigned b=0;b<actors.size();++b) {
+            if(DZ_LIFECYCLE&&!(supported&(1u<<b)))continue;
             const auto& body=cambc::champion_designs[b];const auto stats=body.base_stats();
             auto& actor=actors[b];actor.hp=actor.max_hp=stats.base_health;actor.damage=stats.base_strength;
             actor.gold_multiplier=body.champion_name()==C::vesper_vale?1.33f:1.f;
@@ -43,9 +49,9 @@ struct DraftProfile {
         };
         for(unsigned g=0;g<groups.size();++g) {
             if(!tc.allow(15000))return false;
-            const auto members=groups[g].camps();if(members.empty()||members.size()>32)continue;
-            int arrival=0;float hp=0;
-            for(const auto& camp:members){arrival=std::max(arrival,static_cast<int>(home.get(camp.spawn_position())));hp+=design(camp).base_health;}
+            const auto members=groups[g].camps();if(members.empty())continue;
+            int arrival=65535;float hp=0;
+            for(const auto& camp:members){arrival=std::min(arrival,static_cast<int>(home.get(camp.spawn_position())));hp+=design(camp).base_health;}
             if(arrival>=65535)continue;
             const float value=groups[g].gem_value()+objective::gold_price(cambc::constants::max_rounds)*groups[g].gold_value();
             if(value>0)shortlist.push_back({g,arrival,value/(arrival+std::ceil(hp/std::max(1.f,actors[2].damage))+cambc::constants::capture_time+1)});
@@ -53,12 +59,20 @@ struct DraftProfile {
         std::sort(shortlist.begin(),shortlist.end(),[](auto a,auto b){return a.bound>b.bound||(a.bound==b.bound&&a.group<b.group);});
         portfolio.count=std::min<unsigned>(draft_value::jobs,shortlist.size());
         for(unsigned j=0;j<portfolio.count;++j) {
-            const auto job=shortlist[j];const auto& group=groups[job.group];std::array<ClearMember,32> targets{};unsigned n=0;
+            const auto job=shortlist[j];const auto& group=groups[job.group];std::array<ClearMember,clear_risk_members> targets{};
+            std::array<unsigned,clear_risk_members> multiplicities{};unsigned n=0;
             bool cluster=true;
-            for(const auto& camp:group.camps()) {const auto s=design(camp);targets[n++]={s.base_health,s.base_strength};cluster&=camp.is_gold_cluster()||camp.is_gem_cluster();}
+            for(const auto& camp:group.camps()) {
+                const auto s=design(camp);unsigned k=0;
+                while(k<n&&(targets[k].hp!=s.base_health||targets[k].incoming!=s.base_strength))++k;
+                if(k==n){if(n==targets.size())return false;targets[n++]={s.base_health,s.base_strength};}
+                ++multiplicities[k];cluster&=s.base_strength==0;
+            }
             objective::Encounter encounter{std::span<const ClearMember>(targets.data(),n),static_cast<float>(group.gem_value()),static_cast<float>(group.gold_value())};
+            encounter.multiplicities={multiplicities.data(),n};
             encounter.cluster=cluster;encounter.horizon=std::min(2000,static_cast<int>(cambc::constants::max_rounds));
             for(unsigned a=0;a<actors.size();++a)for(unsigned b=a;b<actors.size();++b) {
+                if(DZ_LIFECYCLE&&(!(supported&(1u<<a))||!(supported&(1u<<b))))continue;
                 if(!tc.allow(10000))return false;
                 std::array<objective::Actor,2> crew{actors[a],actors[b]};crew[0].arrival=crew[1].arrival=job.arrival;
                 const unsigned count=a==b?1:2,cap=crew[1].gold_multiplier>crew[0].gold_multiplier&&count==2?1:0;
@@ -77,8 +91,11 @@ struct DraftProfile {
         unsigned best=incumbent;float value=baseline.value;
         for(unsigned pick=0;pick<draft_value::picks;++pick)if(!(used&(1u<<pick))&&pick!=incumbent&&
             pick!=static_cast<unsigned>(cambc::champion_draft::varg)) {
+            if(DZ_LIFECYCLE&&pick!=static_cast<unsigned>(cambc::champion_draft::vendetta)&&
+                pick!=static_cast<unsigned>(cambc::champion_draft::marcella)&&pick!=static_cast<unsigned>(cambc::champion_draft::vesper_vale)&&
+                pick!=static_cast<unsigned>(cambc::champion_draft::heart_of_ruin)&&pick!=static_cast<unsigned>(cambc::champion_draft::ryth))continue;
             const auto score=evaluate(pick);if(!score.complete)break;
-            if(score.value>value){value=score.value;best=pick;}
+            if(score.value>value&&score.value>baseline.value*(DZ_LIFECYCLE?1.1f:1.f)){value=score.value;best=pick;}
         }
         return static_cast<cambc::champion_draft>(best);
     }
@@ -180,10 +197,13 @@ void draft_loop(Counters& counts) {
             if(prepared&&std::find(picks.begin(),picks.end(),*prepared)==picks.end())next=*prepared;
 #endif
             act.pick(next); // Pick before any optional work, including shared initialization.
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+            publish_opening_cache(tc,act);
+#endif
             if (!initialized) initialized = act.publish(protocol::empty_word());
 #if DZ_ECONOMY_V2
             prepared.reset();
-            if(!DZ_LIFECYCLE&&variant==0&&picks.size()+1<cambc::draft::team_size()&&profile.build(tc)) {
+            if(variant==0&&picks.size()+1<cambc::draft::team_size()&&profile.build(tc)) {
                 picks.push_back(next);auto prior=order.front();
                 for(auto option:order)if(std::find(picks.begin(),picks.end(),option)==picks.end()){prior=option;break;}
                 prepared=profile.next(picks,prior,tc);

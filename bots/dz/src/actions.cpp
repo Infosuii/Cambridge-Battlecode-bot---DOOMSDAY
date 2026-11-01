@@ -14,7 +14,7 @@ float crew_strength(const Observation& obs, vec2 around, int radius) {
 }
 ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Observation& obs, int index, float extra) {
     const auto& g=world.groups[index]; const auto& hp=mem.member_hp[index];
-    if (hp.size()>clear_risk_members||g.initial_strength.size()!=hp.size()) return {};
+    if ((hp.size()>clear_risk_members&&g.strength>0)||g.initial_strength.size()!=hp.size()) return {};
     // Quantize damage down to a 5% grid. Heart of Ruin and Ryth strength moves
     // with health almost every turn; an exact key missed the cache constantly
     // and repricing every group cost ~50k fuel per turn. Rounding down never
@@ -46,6 +46,10 @@ ClearRisk group_clear_risk(const StaticWorld& world, const Memory& mem, const Ob
 #endif
     }
 #endif
+    if(g.strength==0) {
+        entry={version,damage,obs.camp_factor,harmless_clear_risk(hp,damage)};
+        return entry.risk;
+    }
     std::array<ClearMember,clear_risk_members> members;
     for (unsigned k=0;k<hp.size();++k) members[k]={std::max(0.f,hp[k]),
 #if DZ_ECONOMY_V2
@@ -240,7 +244,7 @@ void travel_dash(Goal goal,const StaticWorld& w,const Memory& m,const Observatio
                 // Hidden hazards remain in the full scene and are charged.
                 if(me.health()<=.25f*o.max_hp+paid+4*exposure)break;
                 const int d=field->get(q);
-                if(d>=stop&&d<distance){distance=d;best=q;}
+                if(d>=stop&&(d<distance||(d==distance&&d<before&&w.home_side_distance(q)<w.home_side_distance(best)))){distance=d;best=q;}
             }
         }
         if(before-distance<2)continue;
@@ -274,12 +278,17 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
             // focus and siege strikes keep their existing exact owner.
             if(refresh_target&&attacked&&!enemy&&intended_group>=0&&
                (!target||!target->is_visible()||target->health()<=0)) {
+                const auto& group=world.groups[intended_group];
+                const auto alive=cambc::vision::awake_camp_tiles()|cambc::vision::asleep_camp_tiles();
+                LocalMask mask;if(local_masks_valid)mask.load(alive);
+                const auto here=me.position();const int range=me.attack_range();
                 const cambc::unit* fresh=nullptr;float score=1e30f;
-                for(const auto& camp:world.groups[intended_group].members()) {
-                    if(!tc.allow(4500))break;
-                    if(!camp.is_visible()||camp.is_dead()||me.position().chebyshev_distance(camp.position())>me.attack_range())continue;
-                    const float key=camp.health()-1000*camp.strength();
-                    if(key<score){score=key;fresh=&camp;}
+                for(unsigned k=0;k<group.tiles.size();++k) {
+                    if((k&31u)==0&&!tc.allow(4500))break;
+                    const auto p=group.tiles[k];
+                    if(here.chebyshev_distance(p)>range||!(local_masks_valid?mask.test(p):alive.is_set(p)))continue;
+                    const float key=group.initial_hp[k]-1000*group.initial_strength[k];
+                    if(key<score){score=key;fresh=&group.members()[k];}
                 }
                 target=fresh;
             }
@@ -402,7 +411,15 @@ bool step(const cambc::distance_field& field, const StaticWorld& world, Observat
         int d = field.get(p);
         if (d == cambc::distance_field::unreachable) continue;
         const float score=score_at(p,d);
-        if (score < score_best) { score_best = score; best = p; }
+        bool preferred=score<score_best;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+        // Equal Chebyshev routes used to take the first (-1,-1) neighbour,
+        // cutting across the enemy resource. Keep the same path/risk score,
+        // but approach from home, as the observed strong-team opening does.
+        if(score==score_best&&!retreat&&memory&&!memory->crew_execution.managed&&!memory->siege_task.active())
+            preferred=world.home_side_distance(p)<world.home_side_distance(best);
+#endif
+        if (preferred) { score_best = score; best = p; }
     }
     bool moved=false;
     if (best != origin) moved=act.move(best);

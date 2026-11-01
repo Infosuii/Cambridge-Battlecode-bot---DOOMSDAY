@@ -226,6 +226,29 @@ inline int capacity(const Unit& unit,double hp,const Phase& p,unsigned u,int hor
 }
 enum class SequenceReason { None, Scene, Damage, Capacity, Horizon, Budget };
 struct SequenceQuote { bool complete=false;int finish=0,visits=0;SequenceReason reason=SequenceReason::Scene; };
+// Funds one completed phase and its exit, without promising a group payout.
+inline SequenceQuote prefix_quote(std::span<const Unit> units,const Monster& target,const SequenceSearch& search,
+                                 unsigned first,int horizon) {
+    if(units.empty()||units.size()!=search.actors||first>=search.count||first>=search.phases.size()||
+       horizon<1||horizon>2000||!same_roles(units,{search.roster.data(),search.actors}))return {};
+    const auto& p=search.phases[first];
+    if(!p.formation.valid||p.formation.active!=((1u<<units.size())-1u)||target.hp<=0||!std::isfinite(target.hp)||
+       target.member!=p.target.member||target.p!=p.target.p||target.damage!=p.target.damage||target.range!=p.target.range)return {};
+    float damage=0;int attacks=horizon;
+    for(unsigned u=0;u<units.size();++u) {
+        if(!std::isfinite(units[u].hp)||units[u].hp<=0||units[u].hp>units[u].max_hp||
+           !std::isfinite(units[u].damage)||units[u].damage<0)return {};
+        if(cheb(p.formation.positions[u],target.p)<=units[u].range)damage+=units[u].damage;
+        attacks=std::min(attacks,capacity(units[u],units[u].hp-std::max(p.approach_loss[u],p.transfer_loss[u]),p,u,horizon));
+    }
+    if(damage<=0||!std::isfinite(damage))return {false,0,0,SequenceReason::Damage};
+    if(attacks<=0)return {false,0,0,SequenceReason::Capacity};
+    const double work=std::ceil(static_cast<double>(target.hp)/damage)+1;
+    const int visit=static_cast<int>(std::min<double>(attacks,work));
+    const long long finish=static_cast<long long>(std::max(p.approach_rounds,p.transfer))+visit+p.return_rounds;
+    if(finish>horizon)return {false,0,0,SequenceReason::Horizon};
+    return {true,static_cast<int>(finish),1,SequenceReason::None};
+}
 template<class Budget=Unlimited>
 SequenceQuote quote(std::span<const Unit> units,std::span<const Monster> remaining,const SequenceSearch& search,
                     unsigned first,int capture,int recall,int horizon,Budget budget={},bool projection=false,int sleep=-1) {

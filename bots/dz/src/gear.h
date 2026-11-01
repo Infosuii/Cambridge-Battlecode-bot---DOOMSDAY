@@ -24,7 +24,11 @@ bool map_shop(const TurnContext&,Actuator&,const StaticWorld*);
 bool job_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
 inline bool shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
-#if DZ_ECONOMY_V2 && !DZ_LIFECYCLE
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    // A committed equipment transaction must buy the item its quote funded.
+    if(shop_visit_pending(tc.round))return planned_shop(tc,act,world);
+    return fixed_shop(tc,act,world);
+#elif DZ_ECONOMY_V2
     return planned_shop(tc,act,world);
 #elif DZ_JOB_GEAR
     return job_shop(tc,act,world);

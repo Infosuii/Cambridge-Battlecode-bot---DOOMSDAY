@@ -90,7 +90,7 @@ void trim_layout(const StaticWorld& w,Memory::FormationCache& cache,const TurnCo
         return false;
     },budget);
 }
-int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc) {
+int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc,bool prefix=false) {
     const unsigned outside=m.topology_revision-m.group_topology[group];
     const int route_valid=cache.group==group?refresh_layout(w,m,cache,tc):0;
     if(route_valid<0)return -1;
@@ -103,6 +103,8 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         if(cache.camps==1&&!cache.isolated&&tc.allow(16000))cache.isolated=isolated_project(w,m,cache,group,tc);
         return offset;
     }
+    if(prefix&&matches&&cache.search.count>offset)return offset;
+    const unsigned first_phase=matches?offset:0;
     // A different speculative quote cannot erase the unfinished job. A changed
     // roster/scene for the SAME job invalidates it; an expired job is replaceable.
     if(!matches&&cache.group!=group&&cache.group>=0&&cache.expires>static_cast<int>(tc.round)&&
@@ -126,13 +128,21 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         const int until=free_until(w,m,g,member,tc.round+1);
         return until>static_cast<int>(tc.round)+1&&cache.dependencies.add(g,member,until);
     },[&](Tile p){return w.home_distance(p);},[&]{
+#if DZ_LIFECYCLE
+        // BFS/formation primitives are local work. Crossing the SDK boundary
+        // three times per primitive made a cold team search take the entire
+        // meeting window. Keep a small bounded batch between budget checks.
+        if((++operations&7u)!=1u)return true;
+        return tc.allow(14000)&&started-fuel_left()<10000;
+#else
         if(!tc.allow(10000)||started-fuel_left()>=14000)return false;
         ++operations;return true;
+#endif
     });
     tc.guard();if(operations)cache.expires=tc.round+config::crew_window;
     if(complete)trim_layout(w,cache,tc);
     if(complete&&cache.camps==1&&tc.allow(16000))cache.isolated=isolated_project(w,m,cache,group,tc);
-    return complete?static_cast<int>(cache.camps-camps.size()):-1;
+    return complete?static_cast<int>(cache.camps-camps.size()):prefix&&cache.search.count>first_phase?static_cast<int>(first_phase):-1;
 }
 void price_progression(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int g,int work,const TurnContext& tc) {
     auto& p=cache.progression;
@@ -231,7 +241,7 @@ void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int
 #endif
     }
 }
-CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc,bool investments) {
+CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<const crew::Unit> given,int capture,const TurnContext& tc,bool investments,bool prefix) {
     if(!tc.allow(19000)||given.empty()||given.size()>crew::max_units)return {};
     // A free planner uses the otherwise idle live workspace for the incumbent
     // counterfactual. Keep its geometry while the augmented roster is priced.
@@ -244,11 +254,16 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
         return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto set=camp_set(w,m,group);if(!set.complete||!set.count)return {false,0,0,CrewQuoteStatus::Unsupported};
     const auto camps=std::span<const crew::Monster>(set.camps.data(),set.count);
-    const int first=layout(w,m,cache,group,units,camps,tc);
+    const int first=layout(w,m,cache,group,units,camps,tc,prefix&&!investments);
     if(first<0)return {false,0,0,
         cache.pending()?CrewQuoteStatus::Budget:CrewQuoteStatus::Formation};
     int arrival=0;
     for(unsigned u=0;u<units.size();++u)arrival=std::max(arrival,units[u].arrival);
+    if(prefix&&!investments&&cache.search.stage!=crew::SequenceSearch::Stage::Done) {
+        const auto q=crew::prefix_quote(units,camps.front(),cache.search,first,cambc::constants::max_rounds-tc.round);
+        if(!q.complete)return {false,0,0,CrewQuoteStatus::Model};
+        return {false,proposed,arrival+q.finish,CrewQuoteStatus::Prefix,arrival,cache.search.phases[first].return_rounds,false,arrival+q.finish,true};
+    }
     cache.isolated|=isolated_project(w,m,cache,group,tc);
     const int sleep=cache.camps==1&&cache.isolated?cambc::constants::camp_sleep_time:-1;
     const auto model_start=fuel_left();
@@ -484,11 +499,19 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
             (units[u].gold_multiplier==units[cap].gold_multiplier&&units[u].capture_rounds<units[cap].capture_rounds))cap=u;
         m.economic_capturer=units[cap].slot;
     }
-    const int first=layout(w,m,m.crew_layout(),g,std::span<const crew::Unit>(units.data(),n),camps,tc);
+    const int first=layout(w,m,m.crew_layout(),g,std::span<const crew::Unit>(units.data(),n),camps,tc,m.lifecycle.crew_prefix);
     DZ_PROF('L');
-    if(first<0)return goal;
+    if(first<0) {
+        if(m.lifecycle.crew_prefix&&m.lifecycle.crew_exit_group==g) {
+            const auto exit=m.lifecycle.crew_exit;state.destination=exit;goal.destination=vec2{exit.x,exit.y};
+            auto& route=m.crew_field;
+            if(!route.field||route.root!=exit){route.field.reset();route.root=exit;route.pending=true;}
+        }
+        return goal;
+    }
     m.crew_layout().expires=tc.round+config::crew_window;
     const auto& sequence=m.crew_layout().search;const auto& phase=sequence.phases[first];const auto& plan=phase.formation;
+    if(m.lifecycle.crew_prefix){m.lifecycle.crew_exit_group=g;m.lifecycle.crew_exit=phase.staging[self];}
 #if DZ_TRACE
     if(previous_focus!=state.focus){TraceScope scope;trace("DZ_CREW_ADVANCE round=%u body=%u group=%d member=%d phase=%d\n",tc.round,
         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,state.focus,first);}

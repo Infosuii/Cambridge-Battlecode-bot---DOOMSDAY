@@ -154,6 +154,7 @@ public:
     bool ward(cambc::vec2 p) { return attempt([&] { return cambc::self().place_ward(p); }); }
     bool priority(int p) { return attempt([&] { cambc::self().set_priority(p); }); }
     bool pick(cambc::champion_draft p) { return attempt([&] { cambc::draft::pick(p); }); }
+    bool draft_bytes(std::span<const std::byte> bytes) { return attempt([&] { cambc::draft_memory=bytes; }); }
     bool publish(std::uint64_t word) {
         return attempt([&] { cambc::shared_memory.write(0, std::span<const std::uint64_t>(&word, 1)); });
     }

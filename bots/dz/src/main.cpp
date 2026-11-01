@@ -149,9 +149,9 @@ int main() {
                 if (!dz::module_work(boot_health,tc,counts,"boot",[&]{
 #if DZ_ECONOMY_V2 && DZ_LIFECYCLE
                     if(!world->playable()) {
-                        for(unsigned stage=0;stage<8;++stage) {
+                        for(unsigned stage=0;stage<32;++stage) {
                             const auto before=dz::fuel_left();world->boot(tc);
-                            if(world->playable()||before==dz::fuel_left()||!tc.allow(world->field_budget()+50000))break;
+                            if(world->playable()||before==dz::fuel_left()||!tc.allow(world->field_budget()+10000))break;
                         }
                     }
 #else
@@ -167,7 +167,11 @@ int main() {
                     static_cast<unsigned long long>(cambc::fuel_remaining()));
                 }
 #endif
-                if (world->playable() && already_ready) {
+                if (world->playable() && (already_ready
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                    ||tc.allow(68000) // Complete memory and the first useful action on a sufficiently funded opening turn.
+#endif
+                )) {
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
                     const bool shop_attempted=shop_health.enabled();
                     const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::shop(tc,act,world.get())) obs->refresh_self(tc);});
@@ -207,7 +211,8 @@ int main() {
 #if DZ_LIFECYCLE
                         if(!dz::lifecycle_owns(*mem)) {
 #endif
-                        dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
+                        if(!DZ_LIFECYCLE||mem->lifecycle.altar>=0)
+                            dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
                         if(mem->contract.objective<0&&!mem->siege_task.active()&&obs->enemies.empty()&&!obs->channel())
                             dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc,false);});
                         bool built_crew_route=false;
@@ -435,7 +440,7 @@ int main() {
                             if(!world->ready)world->boot(tc);
 #endif
 #if DZ_ECONOMY_V2
-                            dz::progress_crew_layout(*world,*mem,tc);
+                            dz::progress_crew_layout(*world,*mem,tc,!DZ_LIFECYCLE);
 #endif
                             world->build_one_field(tc,mem->contract.objective);
                         });

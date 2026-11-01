@@ -61,6 +61,9 @@ struct Memory {
         unsigned cursor=0;
         unsigned profile=0;bool profile_ready=false;
         bool shopping=false;
+        int crew_candidate=-1,crew_until=0;
+        int opening_team_until=0;bool opening_team_done=false;
+        bool crew_prefix=false;int crew_exit_group=-1;Tile crew_exit{};
     } lifecycle;
     team::Ledger team;
     crew::Agreement crew_agreement;

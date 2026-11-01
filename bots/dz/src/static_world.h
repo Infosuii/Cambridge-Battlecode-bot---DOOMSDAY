@@ -32,6 +32,9 @@ struct Group {
     vec2 center{}; int radius = 0; // Chebyshev bound of the spawn tiles.
     std::vector<vec2> approach; bool approach_ready = false; // Walkable non-spawn tiles touching the group.
     std::unique_ptr<cambc::distance_field> field;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    std::unique_ptr<LocalMask> field_roots;std::size_t roots_read=0;
+#endif
     explicit Group(cambc::map::camp_group g);
     std::span<const cambc::camp> members() const {
 #if DZ_ECONOMY_V2
@@ -102,6 +105,10 @@ public:
     std::vector<Altar> altars;
     std::vector<cambc::champion> allies;
     unsigned slot = 0;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    vec2 home_anchor{};
+    int home_side_distance(vec2 p) const {const int dx=p.x-home_anchor.x,dy=p.y-home_anchor.y;return dx*dx+dy*dy;}
+#endif
     bool ready = false;
     bool income_ready = false;
     bool playable() const {

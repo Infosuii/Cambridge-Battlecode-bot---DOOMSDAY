@@ -14,6 +14,21 @@ delivery on packs; diagnose collision tempo loss against frozen05. Preserve
 the user's willingness to accept productive risk. Do not rank idle survival
 above economy or revert a whole package merely on its first losing screen.
 
+# Priority override: proven decisions before more architecture
+
+**Paused by the user, 2026-11-01.** Resume from
+[legacy-transfer-2026-11-01/HANDOFF.md](legacy-transfer-2026-11-01/HANDOFF.md),
+including the known WIP host-test compile failure and candidate24's limits.
+Restart prompts are in that directory. Do not restart tests until resumed.
+
+Read [LEGACY_TRANSFER_ROADMAP.md](LEGACY_TRANSFER_ROADMAP.md) first. The user's
+steps15–18/21 priority is now explicit: transfer the reasons for strong opening,
+farming, equipment, drafting, survival and combat decisions from v76/peer bots
+into DZ. Implement coupled repairs before testing. Preserve failed packages and
+repair implementation/dependency failures before rejecting the idea. More fuel
+must produce a useful decision or earlier action. General physical crew payoff,
+large-resource native execution and competitive parity remain open.
+
 # Current architecture checkpoint — 2026-11-01
 
 Read `architecture-2026-11-01/README.md` and its exact-source results first.

@@ -128,7 +128,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     // Win -> engage the weakest nearby enemy (this also joins allies' fights);
     // lose -> leave before contact, or retreat once in reach.
 #if DZ_ECONOMY_V2
-    const auto engagement=engagement_goal(world,mem,obs,tc);
+    // A speculative rollout must leave room to choose and execute income.
+    // Previously a 40k partial combat forecast was followed by a 25k auction,
+    // starving the executor on corners. Keep the bounded local check below.
+    const auto engagement=engagement_goal(world,mem,obs,
+#if DZ_LIFECYCLE
+        tc.keep(30000)
+#else
+        tc
+#endif
+    );
     if(engagement&&engagement->kind!=GoalKind::Idle)return *engagement;
     if(!engagement) {
 #else
@@ -137,8 +146,14 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         std::array<Fighter,fight_units> ours{}, theirs{};
         std::size_t n_ours=1, n_theirs=0;
         ours[0]={obs.hp,obs.strength};
-        for (const auto& a : obs.allies)
+        for (const auto& a : obs.allies) {
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+            const bool present=std::any_of(obs.enemies.begin(),obs.enemies.end(),[&](const auto& enemy){return
+                enemy.p.chebyshev_distance(obs.p)<=8&&a.p.chebyshev_distance(enemy.p)<=a.range+1;});
+            if(!present)continue;
+#endif
             if (a.hp>0 && n_ours<fight_units && obs.p.chebyshev_distance(a.p) <= 6) ours[n_ours++]={a.hp,a.strength};
+        }
         bool reach=false, near=false; const SeenChampion* focus=nullptr;
         for (const auto& e : obs.enemies) {
             const int d=static_cast<int>(obs.p.chebyshev_distance(e.p));
@@ -242,7 +257,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 // denial as a reason to chase rather than price kill gold.
                 engage=tc.allow(2000)&&focus->sdk.gem_count()>0;
 #endif
-#if DZ_ENGAGE_IN_RANGE
+#if DZ_ENGAGE_IN_RANGE || (DZ_ECONOMY_V2 && DZ_LIFECYCLE)
                 // The old simulation gave every ally within six instant DPS,
                 // even when its own attack range could not reach the focus.
                 // Only filter voluntary engagements. Keep the established
@@ -258,13 +273,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
                 if(engage)return {GoalKind::Fight,-1,focus->p};
             }
             if (!fight.won() && (DZ_ON(EE) ? near : reach)) {
-#if DZ_HAS(EE_REGROUP)
-                if (DZ_ON(EE_REGROUP)) {
+#if DZ_HAS(EE_REGROUP) || (DZ_ECONOMY_V2 && DZ_LIFECYCLE)
+                if (DZ_ON(EE_REGROUP)||DZ_LIFECYCLE) {
                 // A same-speed chaser keeps hitting a body that flees alone (00ambush R204-221
                 // replay); run toward help instead, where the joint fight can be won.
                 const SeenChampion* help=nullptr;
                 for (const auto& a:obs.allies) {
                     if (a.hp<.5f*a.max_hp || obs.p.chebyshev_distance(a.p)>12 || obs.p.chebyshev_distance(a.p)<2) continue;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                    if(enemy_danger(a.p,obs)>enemy_danger(obs.p,obs))continue;
+#endif
                     if (!help || obs.p.chebyshev_distance(a.p)<obs.p.chebyshev_distance(help->p)) help=&a;
                 }
                 if (help) return {GoalKind::Retreat,-1,help->p};
@@ -276,7 +294,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
     DZ_PROF('F');
 #if DZ_ECONOMY_V2 && DZ_LIFECYCLE
-    if(lifecycle_owns(mem))return lifecycle_goal(world,mem,obs,tc);
+    if(!mem.siege_task.active())return lifecycle_goal(world,mem,obs,tc);
 #endif
 #if DZ_ECONOMY_V2
     if(obs.bag>0&&obs.enemies.empty())for(unsigned a=0;a<world.altars.size();++a)

@@ -62,6 +62,21 @@ int main() {
     assert(search.stage==crew::SequenceSearch::Stage::Done&&search.count==2&&slices>10&&slices<100000);
     const auto q=crew::quote(units,camps,search,0,6,5,2000);
     assert(q.complete&&q.finish>6+search.phases[0].approach_rounds+search.phases[1].transfer);
+    {
+        // Only one priced phase is published. It can fund a visit and exit,
+        // while the complete group/capture quote must remain unavailable.
+        auto prefix=search;prefix.stage=crew::SequenceSearch::Stage::Geometry;prefix.count=1;
+        assert(!crew::quote(units,camps,prefix,0,6,5,2000).complete);
+        const auto visit=crew::prefix_quote(units,camps.front(),prefix,0,2000);
+        assert(visit.complete&&visit.visits==1&&visit.finish>prefix.phases[0].approach_rounds);
+        assert(!crew::prefix_quote(units,camps[1],prefix,1,2000).complete);
+        prefix.count=0;assert(!crew::prefix_quote(units,camps.front(),prefix,0,2000).complete);
+        prefix.count=1;auto low=units;low[0].hp=1;
+        assert(!crew::prefix_quote(low,camps.front(),prefix,0,2000).complete);
+        auto wrong=camps.front();++wrong.member;assert(!crew::prefix_quote(units,wrong,prefix,0,2000).complete);
+        prefix.phases[0].transfer_loss[0]=100000;
+        assert(!crew::prefix_quote(units,camps.front(),prefix,0,2000).complete);
+    }
     const auto first=search.phases[0].formation;
     assert(!crew::forecast(units,camps,first).complete); // Old all-target fixed geometry rejects this encounter.
     for(unsigned phase=0;phase<2;++phase) {
