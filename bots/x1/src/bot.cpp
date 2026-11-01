@@ -1041,6 +1041,10 @@ bool Bot::try_teleport(const bc::distance_field& field) {
 
 bool Bot::walk_toward(const bc::bitboard& goals_in) {
     PROF(move);
+#if A2_TEL && X1_TEL
+    PROF_CHECK("wt_in");
+    struct X1Out { ~X1Out() { PROF_CHECK("wt_out"); } } x1_out;
+#endif
 #if A2_TEL
     a2tel::CallCost a2_cost{9};
 #endif
@@ -1748,6 +1752,10 @@ bool Bot::cast_camp_strike(int ci) {
 #endif
 
 bool Bot::cast_on_camp(int ci) {
+#if A2_TEL && X1_TEL
+    PROF_CHECK("cc_in");
+    struct X1Out { ~X1Out() { PROF_CHECK("cc_out"); } } x1_out;
+#endif
     const auto& c = w.camps[ci];
     if (tune::kSpellHold & 1) {
         // An enemy is (or was just) near: keep the spells for it.
@@ -4808,6 +4816,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
         if (w.camps[ci].strength > 0) danger_zone.draw_chebyshev(w.camps[ci].pos, static_cast<float>(w.camps[ci].range));
     }
 
+    PROF_CHECK("c_zones");
     int present = 1 + allies_near_group(g);
 #if V54_ONSITE
     if (onsite_ok) {
@@ -4820,6 +4829,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
     }
 #endif
     const float incoming = incoming_from_group(g, pos);
+    PROF_CHECK("s_inc");
     // Wait outside camp range until enough allies have gathered (unless the fight already started).
     if (need > present && incoming <= 0) {
 #if V54_STAGE_ARRIVE
@@ -4829,14 +4839,69 @@ bool Bot::fight_camps(GroupRec& g, int need) {
 #endif
         mode = "stage";
         const bool sieging = tune::kSiege && !in_role_pack && siege_dps(g) > 0.0f;
+        PROF_CHECK("s_dps");
         if (sieging) {
             mode = "siege";
             bc::bitboard ring;
             ring.clear();
             for (int ci : g.camps)
                 if (!w.camps[ci].dead) ring.draw_chebyshev(w.camps[ci].pos, static_cast<float>(w.camps[ci].range + 1));
+            PROF_CHECK("sg_ring");
+#if X1_FAST_SIEGE
+            // X1_FAST_SIEGE (telemetry: the siege line-of-sight scan caused most fuel suspensions on 02the-pack and
+            // 02gift-wrapping; a tiles x camps x steps loop exceeds a turn's fuel on big wolf groups). Camps and walls/
+            // bushes never move, so each camp's set of tiles within 4 with a clear line is computed once (lazily, a
+            // few camps per turn) as a bitboard; each turn is then ring & union(alive camps' sets): the same tiles as
+            // NOVA_SIEGE_LOS's per-turn scan, then the same danger mask and fallback.
+            if (NOVA_SIEGE_LOS) {
+                static std::vector<bc::bitboard> los;
+                static std::vector<std::uint8_t> los_ready;
+                static std::vector<std::uint8_t> opq;
+                static int opq_w = 0, opq_h = 0;
+                if (opq.empty()) {
+                    opq_w = bc::map::width(); opq_h = bc::map::height();
+                    opq.assign(static_cast<std::size_t>(opq_w * opq_h), 0);
+                    const bc::bitboard opaque = bc::map::walls() | w.bushes;
+                    for (vec2 o : opaque.positions()) opq[static_cast<std::size_t>(o.y * opq_w + o.x)] = 1;
+                }
+                if (los.size() < w.camps.size()) { los.resize(w.camps.size()); los_ready.resize(w.camps.size(), 0); }
+                auto opaque_at = [&](vec2 m) { return m.x < 0 || m.y < 0 || m.x >= opq_w || m.y >= opq_h || opq[static_cast<std::size_t>(m.y * opq_w + m.x)]; };
+                bc::bitboard any;
+                any.clear();
+                bool complete = true;
+                for (int ci : g.camps) {
+                    const auto& c = w.camps[ci];
+                    if (c.dead) continue;
+                    if (!los_ready[static_cast<std::size_t>(ci)]) {
+                        if (bc::fuel_remaining() < 30000) { complete = false; continue; }
+                        bc::bitboard v;
+                        v.clear();
+                        for (int dy = -4; dy <= 4; ++dy) for (int dx = -4; dx <= 4; ++dx) {
+                            const vec2 q{c.pos.x + dx, c.pos.y + dy};
+                            if (q.x < 0 || q.y < 0 || q.x >= opq_w || q.y >= opq_h) continue;
+                            const int n = cheb(c.pos, q);
+                            bool clear = true;
+                            for (int k = 1; k < n && clear; ++k) {
+                                const vec2 m{q.x + ((c.pos.x - q.x) * k * 2 + (c.pos.x >= q.x ? n : -n)) / (2 * n),
+                                    q.y + ((c.pos.y - q.y) * k * 2 + (c.pos.y >= q.y ? n : -n)) / (2 * n)};
+                                clear = !opaque_at(m);
+                            }
+                            if (clear) v.set(q, true);
+                        }
+                        los[static_cast<std::size_t>(ci)] = v;
+                        los_ready[static_cast<std::size_t>(ci)] = 1;
+                    }
+                    any |= los[static_cast<std::size_t>(ci)];
+                }
+                ring &= ~danger_zone & ~w.static_blocked;
+                bc::bitboard seeing = ring & any;
+                if (!seeing.is_empty() && (complete || true)) ring = seeing;
+            }
+            if (false) {
+#else
             ring &= ~danger_zone & ~w.static_blocked;
             if (NOVA_SIEGE_LOS) {
+#endif
                 // Spells need the camp in view: on contest the ring tile behind a wall row saw nothing and
                 // champions "sieged" a monolith for 1,500 turns without one cast. Keep tiles with a clear
                 // straight line (no wall, no foreign bush) to a live camp.
@@ -4881,6 +4946,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
         for (int ci : g.camps)
             if (!w.camps[ci].dead) stage.draw_chebyshev(w.camps[ci].pos, 5.0f);
         stage &= ~danger_zone;
+        PROF_CHECK("s_stage");
         // The helpers' wait starts when we reach the staging ring. Counting the walk there made every job farther
         // than the timeout fail before anyone arrived (concentrated-wealth: all five champions gave up the centre
         // group at round 8, 40 tiles out, and it was then avoided for 60 rounds, 38 times by round 500).
@@ -4920,6 +4986,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
             if (!w.camps[ci].dead && bit(w.visible, w.camps[ci].pos) && cast_on_camp(ci)) break;
         return true;
     }
+    PROF_CHECK("c_staged");
     staging_since = -1;
     staging_walk_since = -1;
 #if V54_ONSITE
@@ -5009,6 +5076,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
         return true;
     }
 
+    PROF_CHECK("c_safe");
     int t = pick_target();
     mode = "fight";
     if (t < 0 && NOVA_BUSH_WARD && reveal_bush_camp(g)) t = pick_target();
@@ -5080,6 +5148,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
         if (t < 0) return true;
     }
 #if V55_CAST_RETARGET
+    PROF_CHECK("c_approach");
     if (cast_on_camp(t)) {
         // A spell may have killed the chosen target (or several nearby targets). Preserve the basic attack.
         for (int retry = 0; retry < 4 && t >= 0; ++retry) {
@@ -6457,7 +6526,12 @@ bool Bot::farm() {
         if (bit(g.tiles, pos) || !bit(goal, pos)) walk_toward(goal);
         return true;
     }
-    case GroupState::alive: return fight_camps(g, best_need);
+    case GroupState::alive: {
+        PROF_CHECK("f_alive");
+        const bool r = fight_camps(g, best_need);
+        PROF_CHECK("f_camps");
+        return r;
+    }
     }
     return false;
 }
@@ -7278,7 +7352,9 @@ void Bot::play_turn() {
         mode = "tribute";
     } else {
         if (!farm()) mode = "nofarm";
+        PROF_CHECK("d_farm");
         opportunistic_attack();
+        PROF_CHECK("d_opp");
         support_casts();
     }
     PROF_CHECK("decide");

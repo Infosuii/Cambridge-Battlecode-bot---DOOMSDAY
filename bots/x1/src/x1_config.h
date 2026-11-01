@@ -12,3 +12,12 @@
 #elif X1_FUEL_PROBE == 2
 #define A2_DP_UNTIL 0
 #endif
+#ifndef X1_TEL
+#define X1_TEL 0 // Diagnostics: v81hl's A2_TEL telemetry (A2SUS fuel-suspension trails) on.
+#endif
+#if X1_TEL
+#define A2_TEL 1
+#endif
+#ifndef X1_FAST_SIEGE
+#define X1_FAST_SIEGE 0 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
+#endif
