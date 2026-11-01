@@ -1,0 +1,41 @@
+# Retry protocol and retry queue (2026-11-01, user rule: "retry features before you reject")
+
+No feature is rejected after one test. A single test can fail for reasons that are not the idea: one opponent build,
+one map style, one parameter value, a trigger that never fires, or a piece that only helps when tuned together with
+the rest (Agent 2's main finding: every v86h piece was neutral alone and +7 combined).
+
+## Protocol: a feature is *rejected* only after all of R0-R3
+
+| Step | What | Passes when |
+|---|---|---|
+| R0 fires | The build differs from the base (`tools/x1_flag_hashes.py`) **and** the behaviour triggers in games (telemetry count or changed-game count > 0) | Otherwise it is a dead path: fix the trigger, do not score it |
+| R1 independent retest | Full gate: 70 ladder + 50 ladder-style + maze-style maps, both sides, vs v88 (`x2`) **and** its seed build `x2-s2` | Gain ≥ 0 on the total |
+| R2 variants | At least two other parameter values (or a v2 that fixes the weakness the first test showed) | Any variant ≥ 0 |
+| R3 combined | Included as a switch (and its knobs) in the joint structure + knob search (Phase 7) | The search keeps it on, or the final ablation shows a loss without it |
+
+Status words: **kept** (passed the gate), **retry pending** (failed fewer than all of R1-R3), **dead path** (R0
+failed; fix the trigger first), **rejected** (failed R1, R2 and R3). Until R3 has run, nothing is "rejected".
+
+## Queue: every earlier rejection, reinstated
+
+| # | Feature | First result | Retries still owed | Where |
+|---|---|---|---|---|
+| 1 | `X1_SECURE` kill-securing (mult 3.0) | -2/240 vs v86h only | R1 (x2, x2-s2, maze); R2 mult 1.5 / 6.0 and v2 (count every ally that can hit, release surplus attackers); R3 | 5060 retry round 1 |
+| 2 | `X1_ALONE` regroup (ally 5, enemy 10) | -4/240 vs v86h only | R1; R2 ally 4 / 7 and enemy 8 / 12, and a cohesion variant (mild pull to allies only when enemies are near); R3 | 5060 round 1 |
+| 3 | `X1_HUNT_SOLO` (3, 5) | 0 of 240 games changed | **dead path** in x1's default play (lone long hunts never happen). Retest under the early-contact plan, where hunting is common; then R1-R3 | after plan 1 |
+| 4 | `X1_MASTERY` role-aware draft bias | -25..-59 margin vs v81hl (stats confounded by DZ games) | Recompute per-champion results from x1's own games vs v88; R2 bias 0.25 / 0.5; R1; R3 | 5060 round 2 |
+| 5 | Nine sweep finalists stacked | -13 (greedy combos 71-76 vs 81) | R3 only: combined *with re-tuned knobs* in the joint search (stacking without re-tuning is not a test of the combination) | Phase 7 |
+| 6 | Sweep stage-2 near-misses vs v81hl (flee-ally 80, snipe 79, pair 78, others) | not adopted | Sweep 1d vs v88 is R1; then R2/R3 | running |
+| 7 | x2 merge (v86h structure into x1) | 53.5% vs 57.9% | Superseded by v88 = x2. Port v86h's four structural pieces (positioning, spacing, convergence, Lanchester override) into x1 **as separate switches**; R1 each; R3 together | PC day 1, 5060 gate |
+| 8 | DZ line: altar locks, bold clears, focus fire, gold reweighting, early jobs | negative / neutral in DZ | Never tested in x1. Locks = `V58_LOCKS` (sweep 1d); focus fire = #1; gold weight = `UB_GOLD_MULT` / `APEX_GOLD_WEIGHT` knob variants; early jobs = plan variants. R1-R3 in x1 | sweep 1d, Phase 7 |
+| 9 | DZ line: v81hl fight-or-run net (three threshold modes) | -24..-83 in DZ | x1 has it natively (`A2_ASSESS`, sweep 1d): R1 there; R2 threshold variants | sweep 1d |
+| 10 | Agent 2: Lanchester model as the whole fight verdict | -6..-10 | Retry as a *plan-level* gate (enter or avoid early contact), not per-fight; R1; R3 | after plan 1 |
+| 11 | Agent 2: rollout fight search (with/without paranoid weighting) | 17-27% vs v81 | Retry only with the arrival-time fight model as evaluator (idea bank #15); R1 | Phase 6 end |
+| 12 | Agent 2: Heart of Ruin forced into the draft | 42-48% vs v81 | Retry as the early-contact plan's draft (QS2isLaw drafts Heart + Vendetta + Vesper); R2 with the HoR aggression knobs; R3 | after plan 1 |
+| 13 | Agent 2: HoR aggression knobs | neutral in games | With #12 | after plan 1 |
+| 14 | Agent 2: power play after a kill | measured only (first kill wins 50%) | Build it as a plan trigger (after a kill with bodies up, push denial / big bank for N rounds); R1-R3 | Phase 2 plan 3 |
+| 15 | Agent 2: opponent stance rule | +9 vs stand-in, even vs v81 | Candidate input to the plan selector (Phase 4); R1 vs x2 and stand-in | Phase 4 |
+| 16 | Agent 2: hunter pair | +2 in search | R1 in x1; R3 | 5060 round 2 |
+| 17 | Agent 2: joint search trained on half the ladder | overfit (58% -> 47.6%) | Method, not a feature: rerun only with held-out maps of all three styles | Phase 7 |
+
+Fuel-fix versions 1-2 (no fuel gain) were superseded by version 3 (kept); they are not features and are not retried.
