@@ -65,6 +65,30 @@ void draft_loop(Counters& counts) {
         ::dz::trace("DZ_SIG signature=%u variant=%d\n", signature, variant);
         }
 #endif
+#if DZ_TRACE
+        {
+        // C3 priority 7 (geometric selector): static map features, trace builds only. Computed outside the
+        // TraceScope (metered work there counts against the trace cap and the line is dropped).
+        auto centroid=[](cambc::team t){ long long x=0,y=0,n=0; for(auto p:cambc::map::spawn_region(t).positions()){x+=p.x;y+=p.y;++n;} return std::array<long long,2>{n?x/n:0,n?y/n:0}; };
+        const auto a=centroid(cambc::team::ally), e=centroid(cambc::team::enemy);
+        long long gems=0,gold=0,camps=0,groups=0,big=0,near_ally=0,near_mid=0; double hp=0;
+        for (const auto& g:cambc::map::camp_groups()) {
+            ++groups; gems+=g.gem_value(); gold+=g.gold_value(); const auto n=static_cast<long long>(g.camps().size()); camps+=n; if (n>=4) ++big;
+            for (const auto& c:g.camps()) hp+=c.base_stats().base_health;
+            const auto p=g.camps().empty()?cambc::vec2{0,0}:g.camps()[0].spawn_position();
+            const long long da=(p.x-a[0])*(p.x-a[0])+(p.y-a[1])*(p.y-a[1]), de=(p.x-e[0])*(p.x-e[0])+(p.y-e[1])*(p.y-e[1]);
+            if (da<de) ++near_ally;
+            if (da*10<de*13&&de*10<da*13) ++near_mid;
+        }
+        long long altar_min=1<<30, altars=0;
+        for (auto p:cambc::map::altars().positions()) { ++altars; altar_min=std::min(altar_min,static_cast<long long>(std::max(std::abs(p.x-a[0]),std::abs(p.y-a[1])))); }
+        ::dz::TraceScope dz_trace_scope;
+        ::dz::trace("DZ_MAPFEAT w=%d h=%d walls=%u holes=%u bushes=%u altars=%lld altar_min=%lld spawn_d=%lld groups=%lld big=%lld camps=%lld gems=%lld gold=%lld hp=%.0f near_ally=%lld mid=%lld\n",
+            static_cast<int>(cambc::map::width()),static_cast<int>(cambc::map::height()),static_cast<unsigned>(cambc::map::walls().count()),
+            static_cast<unsigned>(cambc::map::holes().count()),static_cast<unsigned>(cambc::map::bushes().count()),altars,altar_min,
+            static_cast<long long>(std::max(std::abs(a[0]-e[0]),std::abs(a[1]-e[1]))),groups,big,camps,gems,gold,hp,near_ally,near_mid);
+        }
+#endif
     } catch (...) {}
     const Order order3 = variants[variant];
     Order order5 = order3;

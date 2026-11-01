@@ -832,3 +832,16 @@ The registry was created before experiments. Entries below record actual use.
 | dz-a2-hoard-r500-v65-01 | 2026-11-01 | deterministic; Wasm 513c95efb7a7 | 140 cells; v65 | smoke; trace=False |
 | dz-z14c-base-v76-01 | 2026-11-01 | deterministic; Wasm 4f4e56b2c92d | 140 cells; v76 | smoke; trace=False |
 | dz-z14c-ee2-v76-01 | 2026-11-01 | deterministic; Wasm cba42a720240 | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-base-v65-01 | 2026-11-01 | deterministic; Wasm 4f4e56b2c92d | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-ee2-v65-01 | 2026-11-01 | deterministic; Wasm cba42a720240 | 140 cells; v65 | smoke; trace=False |
+| dz-diag-mapfeat-01 | 2026-11-01 | deterministic; Wasm 0fcc913b264d | 140 cells; idle81 | smoke; trace=True |
+| dz-z14c-dvg2-v76-01 | 2026-11-01 | deterministic; Wasm eff9956bf09f | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-gv-v76-01 | 2026-11-01 | deterministic; Wasm 1240480fe64e | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-dvg2-v65-01 | 2026-11-01 | deterministic; Wasm eff9956bf09f | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-gv-v65-01 | 2026-11-01 | deterministic; Wasm 1240480fe64e | 140 cells; v65 | smoke; trace=False |
+| dz-diag-mapfeat-02 | 2026-11-01 | deterministic; Wasm 0f6cda826f35 | 2 cells; idle81 | smoke; trace=True |
+| dz-z14c-turtle-v76-01 | 2026-11-01 | deterministic; Wasm 24337a98b55d | 140 cells; v76 | smoke; trace=False |
+| dz-diag-mapfeat-03 | 2026-11-01 | deterministic; Wasm 0f6cda826f35 | 140 cells; idle81 | smoke; trace=True |
+| dz-z14c-bb-v76-01 | 2026-11-01 | deterministic; Wasm 9f2d1c2bf7a0 | 140 cells; v76 | smoke; trace=False |
+| dz-z14c-turtle-v65-01 | 2026-11-01 | deterministic; Wasm 24337a98b55d | 140 cells; v65 | smoke; trace=False |
+| dz-z14c-bb-v65-01 | 2026-11-01 | deterministic; Wasm 9f2d1c2bf7a0 | 140 cells; v65 | smoke; trace=False |
