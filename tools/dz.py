@@ -786,7 +786,7 @@ def experiment(args):
         if not config.exists(): config=frozen/'src/x1_config.h'  # x1 line (candidate bot) flags
         source=config.read_text()
         source,count=re.subn(r'^#define '+name+r'\s+[^\n]+', '#define '+name+' '+value,source,flags=re.MULTILINE)
-        if count==0 and config.name=='x1_config.h' and re.search(r'^#ifndef '+name+r'\s*$',(frozen/'src/common.h').read_text(encoding='utf-8',errors='replace'),flags=re.MULTILINE):
+        if count==0 and config.name=='x1_config.h' and re.search(r'^#ifndef '+name+r'\s*(//.*)?$',(frozen/'src/common.h').read_text(encoding='utf-8',errors='replace'),flags=re.MULTILINE):
             # x1 line: override any #ifndef-guarded v81hl knob in common.h (x1_config.h is included first).
             source+='\n#define '+name+' '+value+'\n'; count=1
         if count!=1: raise ValueError('unknown or ambiguous define: '+name)
