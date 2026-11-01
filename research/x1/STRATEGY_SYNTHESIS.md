@@ -119,3 +119,12 @@ the next targets come from those games (mid-game fights R250-R500), with v86h an
 
 Coordination tests vs v86h (ladder + unseen, paired with x1's 79 + 59): kill-securing coordinator `X1_SECURE`
 77 + 59 (-2), isolation regroup `X1_ALONE` 75 + 59 (-4). Both parked; x1 unchanged.
+
+## 9. New benchmark v88 (Agent 2, 2026-11-01 night) and map style
+
+v88 = v86h + x1's fuel fix + camp watch; our build of it is `bots/x2`. x1 vs x2: ladder 68/140, ladder-style unseen
+(maps/x1-unseen) 55/100, total 123/240 (51.3%): even. Agent 2's real-engine runs: v88 vs x1 50.5% ladder, 55.3% on
+their unseen maps (maze-test + real200b generators, a different style from our ladder-style generated maps), and
+x1 vs v86h 44.7% there. So x1's edge depends on map style; every test now needs maze-style maps too (requested).
+`X1_HUNT_SOLO` (3 and 5 tiles): binary changed, zero of 240 games changed, so lone long hunts never happen in x1.
+Sweep 1d (tools/x1_sweep1d.sh) replays sweep 1c's features vs x2, live binaries only.
