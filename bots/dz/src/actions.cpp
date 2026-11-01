@@ -406,6 +406,15 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
         score=action_value(value);
         if(goal.kind==GoalKind::Fight&&goal.destination&&e.p==*goal.destination)score+=1;
 #endif
+#if DZ_FOCUS
+        // B3 focus fire (assists rank high in comeback/winner models): prefer the enemy the most allies can also hit,
+        // so separate bodies converge on one kill instead of spreading damage.
+        {
+            int helpers=0;
+            for (const auto& a:obs.allies) if (a.hp>0 && static_cast<int>(a.p.chebyshev_distance(e.p))<=a.range+1) ++helpers;
+            score*=1.f+.75f*static_cast<float>(helpers);
+        }
+#endif
 #if DZ_GEM_TARGET_PRIORITY
         // A local basic can remove a carrier's banked-score opportunity as
         // well as transfer its bag. No new chase target or wider fight range.

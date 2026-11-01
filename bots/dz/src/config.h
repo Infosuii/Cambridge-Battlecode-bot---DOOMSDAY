@@ -177,6 +177,12 @@
 #ifndef DZ_GOLD_FIT
 #define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
 #endif
+#ifndef DZ_FOCUS
+#define DZ_FOCUS 0 // Unvalidated B3: attack-target score x(1 + 0.75 x allies that can also reach the target).
+#endif
+#ifndef DZ_CLEAR_BOLD
+#define DZ_CLEAR_BOLD 0 // Unvalidated: camp clears accepted at 1.1x expected damage + 5% max HP (was 1.25x + 10%).
+#endif
 #ifndef DZ_DRAFT_MASTERY
 #define DZ_DRAFT_MASTERY 0 // Unvalidated F8: pick order by DZ's own per-champion results (Ryth, Marcella, Vesper, Varg, Vendetta, Heart).
 #endif

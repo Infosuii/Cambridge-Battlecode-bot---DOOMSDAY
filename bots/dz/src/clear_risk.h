@@ -1,4 +1,5 @@
 #pragma once
+#include "config.h"
 #include "basic_clear.h"
 #include <algorithm>
 #include <array>
@@ -87,6 +88,12 @@ inline ClearRisk solo_clear_risk(std::span<const ClearMember> members,float dama
 inline double crew_share(unsigned crew) { return crew<=2 ? 1. : 2./crew; }
 // Accept only with a margin over the predicted loss and a small HP floor.
 inline bool clear_survivable(const ClearRisk& risk,float hp,float max_hp,double share=1) {
+#if DZ_CLEAR_BOLD
+    // Bolder clears (F1: camp clears and monster damage taken by R100 are the strongest early predictors; v76 takes
+    // 2.2x DZ's monster damage by R100 and heals 4x): margin 1.1x expected damage + 5% max HP instead of 1.25x + 10%.
+    return risk.complete()&&std::isfinite(hp)&&hp>0&&hp>1.1*risk.damage*share+.05*max_hp;
+#else
     return risk.complete()&&std::isfinite(hp)&&hp>0&&hp>1.25*risk.damage*share+.1*max_hp;
+#endif
 }
 }
