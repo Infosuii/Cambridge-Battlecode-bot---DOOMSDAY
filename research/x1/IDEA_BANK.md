@@ -25,3 +25,29 @@ does, what is inspiring, how x1 should develop it, and the test (always vs v86h 
 
 Order: 13 (fuel planner, cheap and exact) and 1 (finish-time model) first; then 3 (Phase 2), 8-10 (deaths), 2,
 5, 6 (opponent and denial), 11, 7, 12 (ES), 14 (tables), 15 last.
+
+## Second paper batch (2026-11-01): MAPF, Tribes, EA RL-augmentation
+
+| Paper | Key result / mechanism | Fit here | Plan item |
+|---|---|---|---|
+| Hagelbäck & Johansson, *MAPF bot for a full RTS game* (AIIDE 2009); Hagelbäck thesis (2009) | Potential-field agents, no path planning, won ORTS 2008 82.5% (330/400). Attack ring at max shooting distance; retreat beyond enemy range while reloading; small repelling field at each ally's next tile (no crowding); coordinator assigns attacks so targets die (no overkill/underkill); decaying fog-of-war memory; pheromone trail against local optima | High for fights and positioning; pathing is already exact here | **P1 kill-securing coordinator** (new, see below); **P2 range-ring kiting** for ranged champions (v81 `APEX_KITE` in sweep 1c); spacing (`SPACING`, neutral) and belief (`A2_BELIEF`, in sweep) as baselines |
+| Perez-Liebana et al., *Tribes* (AIIDE-20) | Turn-based strategy testbed with a forward model; RHEA beats MCTS 63% and rule-based 58.6%; OEP handles many-unit turn planning better than tree search | Medium: no engine forward model in-bot, but our internal economy/fight models can be the simulator | **P3 anytime evolutionary team job planner** on spare fuel (baseline: v81 `A2_PLAN` greedy, in sweep) |
+| Sestini et al. (EA), *Augmenting game AI with deep RL* (2026) | RL should augment, not replace, scripted AI: modular, controllable, inside a shared compute budget; reward functions designed by experts; occupancy maps as cheap spatial observations | High as a principle; deep RL itself too costly here | **P4 learned residual correctors** (idea #12: start at zero, train by joint ES, validate on unseen maps); occupancy-style local grids as their features |
+
+### New development items
+
+- **P1 kill-securing coordinator.** Each body computes the same team attack assignment from what it sees (allies'
+  positions, damage and range; enemy HP): first targets the reachable allies can kill this round, highest value
+  first (bag + 100 kill gold, threat removed); then the lowest-HP target. No communication needed. Test vs v86h.
+- **P2 range-ring kiting.** Ranged champions hold distance = their range against melee and step out while their
+  attack or spell recharges; melee targets stay in reach. Compare with `APEX_KITE` from the sweep.
+- **P3 anytime evolutionary team planner.** With fuel left after the turn's decision, evolve the team's job
+  assignment (one gene per body) against a cheap income model with claim conflicts, keep the best in Memory and
+  publish its first step; stop well before the reserve. Fuel-maximising by design.
+- **P4 residual correctors.** On x1's camp and fight scores, starting at zero (identical play), trained by ES.
+
+### Further avenues
+
+- A potential-field *sparring opponent* (diverse style for the league, AlphaStar-style exploiters).
+- Fog-of-war memory of enemy bags and positions, feeding P1 and carrier tracking (#6).
+- Kiting plus the arrival-time fight model (#9) as one "engagement geometry" package.
