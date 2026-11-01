@@ -1,0 +1,19 @@
+// Experimental: generated from frozen v65 selection; no v76 promotion yet.
+    {4129149106u, 5}, // 00dunes
+    {2027917589u, 7}, // 00eight
+    {1990139245u, 1}, // 00expanse
+    {1839868857u, 5}, // 00gem-fields
+    {3161753765u, 2}, // 00great-wall
+    {2492123546u, 3}, // 00lanes
+    {97765545u, 5}, // 00reverse-spiral
+    {2596876579u, 7}, // 00split
+    {1211045594u, 4}, // 01concentrated-wealth
+    {312033210u, 1}, // 01elk-arena
+    {3044020807u, 3}, // 01shortcut
+    {4202781785u, 7}, // 02geodes
+    {2812102458u, 7}, // 02guardians
+    {5961634u, 4}, // 02the-pack
+    {2157466863u, 6}, // 02the-pond
+    {1900665935u, 5}, // 02treasure-box
+    {3132336900u, 1}, // adgato-gemcombat2
+    {1062451687u, 2}, // adgato-gemcombat4

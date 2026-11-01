@@ -141,8 +141,16 @@ void StaticWorld::boot(const TurnContext& tc) {
         tc.guard(); ++stats_cursor_;
     }
     // Transactional field publication: no partially computed cache becomes usable.
+#if DZ_EARLY_JOBS
+    // Bodies already play from jobs_ready(): one altar field per turn leaves the rest of the turn to play.
+    bool field_this_turn = false;
+#endif
     for (auto& altar : altars) {
         if (altar.field) continue;
+#if DZ_EARLY_JOBS
+        if (field_this_turn) return;
+        field_this_turn = true;
+#endif
         if (!tc.allow(field_budget())) return;
         roots.clear();
         bool open=false; altar.gates.clear(); altar.gate_members.clear();

@@ -149,7 +149,11 @@ int main() {
                 dz::module_work(shop_health,tc,counts,"shop",[&]{dz::shop(tc, act,world.get());});
             }
             else {
+#if DZ_EARLY_JOBS
+                const bool already_ready = world->ready || world->jobs_ready();
+#else
                 const bool already_ready = world->ready;
+#endif
                 if (!dz::module_work(boot_health,tc,counts,"boot",[&]{world->boot(tc);})) {
                     if (cambc::round_number()==tc.round) dz::end_turn_traced();
                     continue;
@@ -160,7 +164,11 @@ int main() {
                     static_cast<unsigned long long>(cambc::fuel_remaining()));
                 }
 #endif
+#if DZ_EARLY_JOBS
+                if ((world->ready || world->jobs_ready()) && already_ready) {
+#else
                 if (world->ready && already_ready) {
+#endif
                     if (!priority_set) priority_set = act.priority(100 - static_cast<int>(world->slot));
                     const bool shop_attempted=shop_health.enabled();
                     const bool shop_ok=dz::module_work(shop_health,tc,counts,"shop",[&]{if (dz::shop(tc,act,world.get())) obs->refresh_self(tc);});

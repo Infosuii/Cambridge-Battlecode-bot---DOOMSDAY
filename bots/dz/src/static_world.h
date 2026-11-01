@@ -53,6 +53,12 @@ struct Altar {
 };
 class StaticWorld {
     bool loaded_ = false;
+#if DZ_EARLY_JOBS
+public:
+    // Everything farming needs; banking waits for altar fields (altar_distance reads 65535 until then).
+    bool jobs_ready() const { return loaded_ && tile_group_cursor_ >= groups.size() && masks_ready_ && home_ready_ && stats_cursor_ >= groups.size(); }
+private:
+#endif
 #if DZ_PLAN_TABLE
 public:
     bool loaded() const { return loaded_; }

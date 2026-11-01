@@ -21,3 +21,8 @@ Full pool with the fuel set, paired with the identical binary at DZ_FAST_BOOT=0 
 V-E3 (R100 gold +10%) met against idle; contested results are within deterministic-chaos noise. Adopted into the
 fuel set for the next table round (Z14d). Next: allow farming before altar fields finish (banking needs them),
 and a draft-turn opening plan through draft memory.
+
+## DZ_EARLY_JOBS (play once camps, masks, home and stats are ready; altar fields one per turn)
+
+Paired with `dz-fastboot-*` (identical binary at DZ_EARLY_JOBS=0, 856a1e7be305): idle -1.7, v76 -0.5,
+v65 -6.1 banked, 0 fuel-outs. Not adopted; DZ_FAST_BOOT alone stays in the fuel set.

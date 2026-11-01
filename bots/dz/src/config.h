@@ -177,6 +177,9 @@
 #ifndef DZ_GOLD_FIT
 #define DZ_GOLD_FIT 0 // Unvalidated A3: gold 0.18 gems before R250, then 0.1 (within-cell fit, 35k games, research/dz/a3-*).
 #endif
+#ifndef DZ_EARLY_JOBS
+#define DZ_EARLY_JOBS 0 // Fuel/tempo: play starts once camps, masks, home and group stats are ready; altar fields follow, one per turn.
+#endif
 #ifndef DZ_FAST_BOOT
 #define DZ_FAST_BOOT 0 // Fuel: boot runs each step in the same turn while tc.allow() covers it (no per-step returns, no 25k caps).
 #endif
