@@ -10,6 +10,14 @@ struct Tile {
 };
 inline int cheb(Tile a,Tile b) { return std::max(std::abs(a.x-b.x),std::abs(a.y-b.y)); }
 struct CampThreat { Tile p; float strength; int range; };
+// Current bulk visibility overrides a stale member ledger. An unseen defeated
+// spawn stays empty only until its earliest possible renewal; neither an old
+// zero HP sample nor another member's observation can erase a live hazard.
+inline bool neutral_member_present(bool visible,bool awake,bool asleep,bool intended,float hp,
+                                   int seen,int respawn,int now) {
+    if(visible)return awake||(intended&&asleep);
+    return hp>0||respawn<=0||static_cast<long long>(seen)+respawn<=now;
+}
 inline float camp_damage(Tile p, std::span<const CampThreat> camps) {
     float damage=0;
     for (auto c:camps) if (cheb(p,c.p)<=c.range) damage+=c.strength;

@@ -154,6 +154,14 @@ struct Task {
     void start(int g,int k,int round,int dist,float hp) {
         *this={};group=g;member=k;phase=Phase::Approach;last_target_hp=hp;checked=round;distance=dist;
     }
+    bool resume_after_recovery(int round,float target_hp) {
+        // Initial funded restocking and an observed successful visit pay for a
+        // new approach. A failed admission or a rejected attack does not renew
+        // the progress clock merely by toggling Escape/Recover at full HP.
+        if(restock||(struck&&target_hp+.01f<visit_hp)){checked=round;distance=65535;}
+        if(round<checked||round-checked>30)return false;
+        phase=Phase::Approach;struck=false;support_seen=false;restock=false;return true;
+    }
     bool progress(int round,int dist,float hp) {
         if(dist<distance||hp+.01f<last_target_hp){checked=round;distance=dist;last_target_hp=hp;failures=0;}
         return round-checked<=30;

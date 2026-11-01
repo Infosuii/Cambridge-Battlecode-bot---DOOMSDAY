@@ -1,3 +1,30 @@
+# Current architecture checkpoint — 2026-11-01
+
+Read `architecture-2026-11-01/README.md` and its exact-source results first.
+The default release remains unchanged. Economy, joint objective work, equipment,
+combat intent, opening rollout, map draft and banking are integrated behind
+DZ_ECONOMY_V2. They are not release accepted.
+
+Next engineering/acceptance work, in order:
+
+1. Fix layered-B access and contested economic productivity. The untraced v65
+   four-cell screen fails at10.5 mean banked/0 wins. Stop scaling it. Current
+   progress-bound-01 fixes the full-health recovery loop: opening843/744 and
+   layered249/0, zero deaths/faults/fuel-outs; strict opening36/32 passes, layered-B0 fails.
+2. Prove useful deferred worker receipt/join and retained opening second-leg
+   execution. Keep basic crew bids independent of optional equipment pricing.
+3. Improve productive crew conversion and layered access with paid arrival,
+   capture, respawn and delivery schedules. Keep unknown/deferred/unsafe distinct.
+4. Evaluate a materially repaired coherent contested candidate; independently
+   confirm only a promising preliminary result. No promotion from the failed screen.
+5. Close remaining conformance/calibration and final reliability/performance
+   gates before release. Preserve the registered holdout and selected defaults.
+
+Untracked `.vscode/` is unrelated and remains untouched. Historical checkpoints
+below retain their evidence and limitations.
+
+---
+
 # DZ live implementation backlog — 2026-11-01
 
 Selected release remains unchanged; no experimental strategy has passed promotion.

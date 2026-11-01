@@ -15,8 +15,10 @@ std::optional<Goal> begin_opening(StaticWorld&,Memory&,const Observation&,const 
 std::optional<Goal> yield_siege_lane(StaticWorld&,Memory&,const Observation&,const TurnContext&);
 std::optional<Goal> neutral_recovery(StaticWorld&,Memory&,const Observation&,const TurnContext&);
 int bank_duration(int bag);
-const Memory::BankAccess* bank_access(StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&);
-bool bank_admission(const StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&);
+const Memory::BankAccess* bank_access(StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&,bool future=false);
+const Memory::BankAccess* opening_bank(const Memory&,const gate::Plan&);
+enum class BankAdmission { Allowed, Denied, Deferred };
+BankAdmission bank_admission(const StaticWorld&,Memory&,const Observation&,unsigned altar,const TurnContext&);
 bool build_bank_field(StaticWorld&,Memory&,const Observation&,const TurnContext&);
 #endif
 }

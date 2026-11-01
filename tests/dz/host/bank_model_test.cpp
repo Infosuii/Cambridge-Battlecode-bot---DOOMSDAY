@@ -15,6 +15,7 @@ float damage(const bank::Context& c,float raw,float exit) {
 }
 void check(const bank::Context& c,std::span<const bank::Threat> threats,std::span<const bank::Root> roots,const bank::Plan& p) {
     if(!p.complete())return;
+    assert(p.root_index<roots.size()&&roots[p.root_index].tile==p.root&&roots[p.root_index].distance==p.travel);
     std::vector<bool> removed(threats.size());float work=0,raw=0;
     for(unsigned k=0;k<p.count;++k){const auto i=p.cuts[k];assert(i<threats.size()&&!removed[i]);removed[i]=true;work+=threats[i].clear_time;}
     for(unsigned i=0;i<threats.size();++i)if(!removed[i]) {
@@ -32,6 +33,15 @@ void check(const bank::Context& c,std::span<const bank::Threat> threats,std::spa
     for(unsigned i=0;i<threats.size();++i)if(root->required&(std::uint64_t{1}<<i))assert(removed[i]);
 }
 int main() {
+    bank::AdmissionStamp admitted{10,2,14,{3,4},600};
+    assert(admitted.current(10,2,{3,4},600,14)&&admitted.current(10,2,{3,4},700,14));
+    assert(!admitted.current(11,2,{3,4},600,14)&&!admitted.current(10,1,{3,4},600,14));
+    assert(!admitted.current(10,2,{4,4},600,14)&&!admitted.current(10,2,{3,4},599,14)&&!admitted.current(10,2,{3,4},600,15));
+    bank::Root dated{{0,0},0,{{5,0},0,5,true},100};
+    std::array unrelated{bank::Expiry{{0,1},2}};assert(bank::root_deadline(dated,unrelated)==100);
+    std::array on_root{bank::Expiry{{0,0},20}};assert(bank::root_deadline(dated,on_root)==20);
+    std::array on_exit{bank::Expiry{{2,0},20}};assert(bank::root_deadline(dated,on_exit)==15);
+    std::array beyond{bank::Expiry{{6,0},1}};assert(bank::root_deadline(dated,beyond)==100);
     bank::Stamp stamp;stamp.round=20;stamp.until=100;stamp.revision=3;stamp.threat_revision=5;stamp.max_hp=1000;stamp.factor=.75f;stamp.channel=8;
     assert(stamp.current(70,3,5,1000,.75f,8)); // Stable geometry does not expire at an arbitrary frame count.
     assert(!stamp.current(120,3,5,1000,.75f,8)&&!stamp.current(19,3,5,1000,.75f,8));
@@ -53,6 +63,10 @@ int main() {
     bank::Context c{1000,1000,0,0,30,2000};
     std::array roots{bank::Root{{0,0},10,{{0,5},100,5,true},2000}};
     auto p=bank::choose(c,{},roots);assert(p.quality==bank::Quality::Bounded&&p.count==0);
+    std::array<bank::Threat,25> resources{};
+    for(unsigned i=0;i<resources.size();++i)resources[i]={int(i),0,{{int(i)+2,0},0,0},2};
+    int prefix_budget=8;auto free_root=bank::choose(c,resources,roots,[&]{return --prefix_budget>=0;});
+    assert(free_root.quality==bank::Quality::Bounded&&free_root.root_index==0);
     std::array threats{bank::Threat{0,0,{{-2,0},100,4},10},bank::Threat{1,0,{{2,0},100,4},20}};
     p=bank::choose(c,threats,roots);assert(p.quality==bank::Quality::Cuts&&p.count==2);check(c,threats,roots,p);
     c.channel=1;p=bank::choose(c,threats,roots);assert(p.quality==bank::Quality::Bounded);check(c,threats,roots,p);

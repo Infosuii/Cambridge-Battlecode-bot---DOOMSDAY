@@ -1,3 +1,28 @@
+# ACTIVE 2026-11-01 — integrated economic, combat and map architecture; unpromoted
+
+Read research/dz/architecture-2026-11-01/README.md, RESULTS.json and BACKLOG.md.
+DZ_ECONOMY_V2 now integrates dated future-worker availability, bounded objective
+frontiers, joint cooldown work, exact residual openings, static draft portfolios,
+Focus gear utility, legal focus messages, movement/escape combat forecasts and
+immediate/future banking schedules. Basic crew bids no longer wait for optional
+gear pricing. Recovery clocks require actual progress; bulk camp visibility
+cannot lose a current live hazard to an old defeated sample.
+24 host suites and28 measurement tests pass.34 capsules/136 cells verify, including
+failed runtime variants and eight truncated dash diagnostic cells (full faults
+NOT measured). Default/economy/combined compile; selected Mac437f91c3 and Windows
+manifest5cf28cb7 are unchanged. Current untraced economy build f7680a5d is BUILD
+ONLY; exact-current traced native candidate fd1fe6bc is progress-bound-01.
+That run banks opening843/744, layered249/0, zero deaths/faults/fuel-outs. Strict
+opening36/32 and layered-A35 cycles pass; layered-B0 fails. Final-02's earlier
+8-cell source banks circuit679/539, sequence24/24, deferred120/184, layered50/0;
+it predates the final exposure/recovery corrections. Do not conflate sources.
+The untraced v65 development screen fails at10.5 mean banked/0 of4 wins; it
+predates those final corrections. No competitive, general V-M1/V-M2, independent
+or release acceptance. Next: layered-B access and contested productivity, useful
+deferred receipt/join and retained opening second-leg execution; then focused
+confirmation and remaining conformance/calibration. Do not scale failed screens.
+Release holdout and online actions remain unused. Untracked .vscode/ is unrelated.
+
 # ACTIVE 2026-11-01 — priced openings and committed delivery; unpromoted
 
 Read research/dz/opening-market-2026-11-01/README.md and research/dz/BACKLOG.md.

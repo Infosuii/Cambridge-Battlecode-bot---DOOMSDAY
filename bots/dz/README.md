@@ -1,12 +1,11 @@
 # DOOMSDAY Zero — pure algorithmic bot
 
-Latest development: default-off priced openings, isolated sleep/re-entry quotes,
-finite carrier delivery commitments, shared occupancy and cached submission-root
-navigation. See [the checkpoint](../../research/dz/opening-market-2026-11-01/README.md)
-and [live backlog](../../research/dz/BACKLOG.md). Ten final fixture cells have zero
-deaths/faults/fuel-outs; layered access and gem production still fail on some sides.
-Useful opening crew acceptance, joint ability/combat models and competitive
-validation remain open. Selected release defaults are byte-identical.
+Latest development: integrated bounded objective/economy, crew, combat, gear,
+opening and map-planning modules behind `DZ_ECONOMY_V2=1`. See
+[the architecture checkpoint](../../research/dz/architecture-2026-11-01/README.md)
+and [live backlog](../../research/dz/BACKLOG.md). Dense resource banking now works
+on both sides in controlled fixtures. Layered access, model calibration and
+competitive acceptance remain open; selected release defaults are unchanged.
 
 Clean-slate C++20 implementation begun 2026-10-28. No previous bot code, weights,
 learned policies, or old per-map decision tables are included. The official SDK
@@ -18,7 +17,7 @@ The resumed selected source and results are in
 is preserved under `research/zero-bot-plan-2026-10-28/` along with its supporting
 audit packages. Its planning sketches are inputs, not assertions of implemented behavior.
 
-## Implemented starter
+## Selected release foundation
 
 - Persistent draft/play loops, catch boundaries, fuel tiers, hard reserve, stale-round
   checks before SDK mutations, and immediate restart after suspended execution.
@@ -28,7 +27,7 @@ audit packages. Its planning sketches are inputs, not assertions of implemented 
 - Self/visible-unit observations, persistent partial camp HP, respawn-generation reset,
   bounded camp scans, six-round progress contracts, and avoid timers.
 - Tested six-slot claim codec; sorted body handles; unsupported group indices publish
-  IDLE. Claims are soft hints. Team messages remain disabled because freshness is unresolved.
+  IDLE. Claims are soft hints. Selected defaults use soft claims; experimental dated protocols are described below.
 - Research-prior legal draft for 3/4/5 picks; fixed role shopping; reward-rate farming over
   solo-survivable groups (`clear_risk.h`), leader-led crews and a starvation fallback to nearest-group farming;
   basic attack and metadata-driven reset/damage/CC/shield spells; basic banking, recall,
@@ -47,8 +46,10 @@ cached actual altar reachability. See the
 The default is **0**: development screens have not established a banking gain.
 See [the implementation checkpoint](../../research/dz/engineering-2026-10-31/README.md)
 for exact model assumptions, failed runs, validation and the ordered backlog.
-Full ObjModel/EE calibration, siege/crew integration, competitive conversion, joint action
-enumeration, opening rollout and release promotion remain unfinished.
+General ObjModel/EE calibration, contested conversion and release promotion remain
+open. Conditional joint work, dated protocols, funded gear, opening rollout and
+map draft utility are implemented; the architecture checkpoint records their
+assumptions and native acceptance limits.
 
 On macOS/Linux install official `cambc==4.0.0` and put it on PATH, or set
 `DZ_CAMBC` to its executable. Use Python 3.12+ explicitly if the system Python
@@ -57,10 +58,11 @@ capsules without repeating the historical archive audit.
 
 ## Still required for a validated release
 
-Remaining portions of Z0's 27 conformance tests; calibrated ObjModel and EE;
-economy auction and crews; single capturer and timed cluster circuits; hazard banking;
-gear utility; exhaustive map-aware draft; race controller; tested team-message freshness;
-opening schedule; dash/heal/consumable policies; meaningful parity/league/holdout gates.
+Remaining portions of Z0's conformance coverage; general ObjModel/EE calibration;
+end-to-end economy, crew, gear, opening and map strategy acceptance; conditional
+resource handoffs; consumable/hidden-obstruction coverage; and meaningful
+parity, league and holdout gates. Implemented components are not automatically
+validated milestones.
 The low-fuel emergency path banks beside an altar or heads home; it is not the complete planned 5k-fuel SafeMode.
 Below the normal reserve, a separate bounded path clears its claim and attempts
 one cached-home step. It preserves this turn's action history, uses no route
@@ -81,7 +83,8 @@ The full 1,311-field engine fingerprint is pinned and automatically checked by a
 separate diagnostic; production does not dump metadata. See
 `research/dz/FUNDAMENTALS_AUDIT.md` for current results and unresolved work.
 
-This is a walking skeleton, not a finals candidate. Read `research/dz/RESULTS.md` for
+The selected release is a functional foundation; the integrated architecture is
+still an unpromoted development candidate. Read `research/dz/RESULTS.md` for
 known weak maps and failed experiments. A win against idle can come from the gold
 tiebreak with few or zero banked gems; never use idle win rate as an economy claim.
 
@@ -116,4 +119,5 @@ After an uncaught fault the engine starts a new guest next round. DZ clears its
 own surviving shared claim before map initialization, then gives a replacement
 guest a fresh turn for map work if startup received only the ordinary budget.
 A forced-restart fixture checks both small and largest-map recovery. This does
-not make shared claims fresh; they remain soft hints without a freshness protocol.
+not make selected-release claims fresh; its soft hints remain separate from the
+experimental dated cohort and formation protocols.

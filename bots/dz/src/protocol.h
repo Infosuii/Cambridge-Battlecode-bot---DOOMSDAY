@@ -5,6 +5,7 @@
 namespace dz::protocol {
 inline constexpr unsigned slots = 6;
 inline constexpr std::uint8_t shop = 120, retreat = 121, dead = 126, idle = 127;
+inline constexpr std::uint8_t fight = 122;
 struct Slot { std::uint8_t objective; bool onsite; };
 constexpr bool is_group_code(unsigned code) { return code<112; }
 constexpr std::uint8_t group_code(unsigned index) { return index < 112 ? static_cast<std::uint8_t>(index) : idle; }

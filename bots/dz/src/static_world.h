@@ -44,6 +44,11 @@ struct Group {
 };
 struct Altar {
     vec2 tile; std::unique_ptr<cambc::distance_field> field;
+#if DZ_ECONOMY_V2
+    std::vector<std::pair<int,int>> bank_members;
+    std::vector<std::pair<int,int>> bank_damage_members;
+    std::size_t bank_group=0,bank_member=0;bool bank_members_ready=false;
+#endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
     std::vector<std::uint16_t> distances;
 #endif
@@ -61,6 +66,11 @@ struct Altar {
 };
 class StaticWorld {
     bool loaded_ = false;
+#if DZ_ECONOMY_V2
+    bool metadata_started_=false;
+    std::vector<cambc::map::camp_group> metadata_groups_;
+    std::size_t metadata_cursor_=0;
+#endif
 #if DZ_PLAN_TABLE
 public:
     bool loaded() const { return loaded_; }
@@ -79,6 +89,9 @@ public:
 #endif
     cambc::distance_field home;
 #if DZ_ECONOMY_V2
+    int maximum_camp_range=0;
+    LocalMask terrain_mask;
+    std::unique_ptr<cambc::distance_field> spawn_exit;
     std::vector<std::uint16_t> home_distances;
     int home_distance(Tile p) const {
         const int width=cambc::map::width(),height=cambc::map::height();

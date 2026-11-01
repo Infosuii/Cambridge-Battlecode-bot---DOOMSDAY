@@ -35,6 +35,7 @@ struct Cut {
     float hp=0,incoming=0,escape_loss=0;
     int escape_rounds=0,home=0;
     unsigned version=0;
+    bool future=false;
 };
 struct Work { bool valid=false;int attacks=0,visits=0,rounds=0; };
 // A full-health, solo, basic-attack itinerary. Every visit ends with a checked
@@ -58,6 +59,7 @@ struct Plan {
     unsigned revision=~0u,count=0,priced=0;
     float max_hp=-1,damage=-1,factor=-1;
     int range=-1;
+    bool bank_future=false;
     Tile origin{},cursor{};
     std::array<Cut,max_cuts> cuts{};
     std::array<Work,max_cuts> solo{};

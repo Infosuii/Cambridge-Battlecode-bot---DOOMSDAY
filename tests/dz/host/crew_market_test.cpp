@@ -18,6 +18,15 @@ int main() {
     market.put(key,5,pair,10,1000,110,10,true);
     auto menu=review(market,primary,units,10);assert(menu.complete&&!menu.ready&&menu.request==7);
     market.put(key,7,units,11,1000,80,10,true);
+    {
+        CrewMarket conditional;conditional.put(key,7,units,11,1000,110,10,true,{},0,40,0,false,80);
+        auto estimate=conditional.review(key,{7,0},units,0,11,1000,{2000,12,120,.2f,1,false});
+        assert(estimate.ready&&estimate.bids[0].duration==80);
+        assert(!conditional.review(key,{7,0},units,0,11,100,{2000,12,120,.2f,1,false}).ready);
+        auto changed=units;changed[0].kit.can_cast=false;
+        estimate=conditional.review(key,{7,0},changed,0,11,1000,{2000,12,120,.2f,1,false});
+        assert(estimate.ready&&estimate.bids[0].duration==110); // Changed spell state restores the upper work price.
+    }
     menu=review(market,primary,units,11);assert(menu.complete&&menu.ready&&menu.request==0);
     std::vector<Bid> bids(menu.bids.begin(),menu.bids.begin()+menu.count);
     assert(bids.size()==2);auto result=allocate(bids,7);assert(result[0].crew==7);

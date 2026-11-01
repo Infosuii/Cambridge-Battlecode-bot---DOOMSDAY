@@ -131,7 +131,7 @@ int main() {
                 if(mem->siege_task.active())mem->siege_task.reset(tc.round,15);
 #endif
 #if DZ_ECONOMY_V2
-                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};
+                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};mem->early_opening={};
 #endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;
@@ -184,9 +184,14 @@ int main() {
 #endif
                         DZ_PROF('m');
 #if DZ_ECONOMY_V2
+                        // A requested cold route is a dependency of the next
+                        // bid, not spare-time work after speculative crews.
+                        if(mem->field_needed>=0&&!world->groups[mem->field_needed].field)
+                            dz::module_work(field_health,tc,counts,"requested-fields",[&]{world->build_one_field(tc,mem->field_needed);});
+                        if(mem->field_needed>=0&&world->groups[mem->field_needed].field)mem->field_needed=-1;
                         dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
                         if(mem->contract.objective<0&&!mem->siege_task.active()&&obs->enemies.empty()&&!obs->channel())
-                            dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc);});
+                            dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc,false);});
                         bool built_crew_route=false;
                         dz::module_work(field_health,tc,counts,"crew-fields",[&]{built_crew_route=dz::build_crew_field(*world,*mem,*obs,tc);});
                         if (!built_crew_route&&mem->field_needed>=0) {
@@ -338,6 +343,7 @@ int main() {
                         }
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
 #if DZ_ECONOMY_V2
+                        else if(goal.kind==dz::GoalKind::Fight)objective=dz::protocol::fight;
                         const bool recovering_project=mem->crew_execution.recovering&&mem->crew_execution.group>=0&&
                             mem->crew_execution.group==mem->contract.objective&&tc.round<=static_cast<unsigned>(mem->crew_execution.recovery_deadline)&&
                             (goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat);
@@ -391,6 +397,8 @@ int main() {
                             message=dz::team::acknowledge(message,tc.round,world->allies.size(),world->slot,
                                 agreement.members,agreement.phase,role.dx,role.dy,agreement.can_ready||agreement.committed);
                         }
+                        if(executed&&goal.kind==dz::GoalKind::Fight&&mem->fight_focus.round==static_cast<int>(tc.round))
+                            message=dz::team::focus(message,tc.round,world->allies.size(),world->slot,mem->fight_focus.target);
                         if(act.publish(message)) {
                             mem->team.observe(message,tc.round,world->allies.size());
                             if(announced)mem->crew_publication={offered,mem->economic_crew,mem->economic_capturer};

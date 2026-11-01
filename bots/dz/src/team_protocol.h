@@ -9,7 +9,7 @@ namespace dz::team {
 // Prefix codes use the same22 metadata bits without aliasing frame kinds:
 // role/ready0, roster10, lease110, cash1110, project1111. Scheduled frames
 // encode their absolute six-round index, never a modulo-age timestamp.
-enum class Kind : unsigned { None=0, Lease=1, Cash=2, Project=3, Role=4, Roster=5, Ready=6 };
+enum class Kind : unsigned { None=0, Lease=1, Cash=2, Project=3, Role=4, Roster=5, Ready=6, Focus=7 };
 enum class Intent : unsigned { Active=0, Recover=1, Released=2, Dead=3 };
 inline constexpr unsigned gold_quantum=8;
 constexpr unsigned lifetime(unsigned count) {return 6*count+2;}
@@ -36,6 +36,7 @@ constexpr Frame decode(std::uint64_t word,unsigned now,unsigned count) {
     if(!(word>>63)) {
         const unsigned code=(word>>42)&63;f.phase=(word>>48)&63;index=(word>>54)&511;
         if(code==50){f.kind=Kind::Ready;offset=4;}
+        else if(code==51||code==52){f.kind=Kind::Focus;offset=code==52?4:0;}
         else if(code>=1&&code<=49&&code!=25){f.kind=Kind::Role;f.dx=static_cast<int>((code-1)/7)-3;f.dy=static_cast<int>((code-1)%7)-3;}
         else return f;
     } else if((word>>62)==2) {f.kind=Kind::Roster;index=(word>>53)&511;f.phase=(word>>47)&63;offset=2;}
@@ -47,6 +48,7 @@ constexpr Frame decode(std::uint64_t word,unsigned now,unsigned count) {
     f.round=6*index+offset;
     if(f.round>now||now-f.round>lifetime(count)||publisher(f.round,count)==protocol::slots)return f;
     f.slot=publisher(f.round,count);
+    if(f.kind==Kind::Focus&&protocol::compact::slot(word,f.slot).objective!=protocol::fight)return {};
     if(f.kind==Kind::Roster)f.members=protocol::compact::unpack_members((word>>42)&31,f.slot);
     if(f.kind==Kind::Role||f.kind==Kind::Roster||f.kind==Kind::Ready) {
         f.task=protocol::compact::slot(word,f.slot).objective;
@@ -80,12 +82,21 @@ constexpr std::uint64_t acknowledge(std::uint64_t word,unsigned now,unsigned cou
     const unsigned code=scheduled(now)==Kind::Lease?50u:1u+7u*(dx+3)+(dy+3);
     return low|(std::uint64_t{now/6}<<54)|(std::uint64_t{phase}<<48)|(std::uint64_t{code}<<42);
 }
+constexpr std::uint64_t focus(std::uint64_t word,unsigned now,unsigned count,unsigned slot,unsigned target) {
+    if(slot>=count||slot>=protocol::slots||target>=64||publisher(now,count)!=slot||
+        protocol::compact::slot(word,slot).objective!=protocol::fight||scheduled(now)==Kind::Project||
+        protected_lease(word,now,count))return word;
+    const unsigned code=scheduled(now)==Kind::Lease?52u:51u;
+    constexpr auto claims=(std::uint64_t{1}<<42)-1;
+    return (word&claims)|(std::uint64_t{now/6}<<54)|(std::uint64_t{target}<<48)|(std::uint64_t{code}<<42);
+}
 struct Cash {
     unsigned round=0,low=0,high=0;bool valid=false;
 };
 struct Project {
     unsigned round=0,task=protocol::idle;Intent intent=Intent::Released;bool valid=false;
 };
+struct Focus {int round=-1;unsigned target=0;bool valid=false;};
 struct Role {
     int dx=0,dy=0;
     bool operator==(const Role&) const=default;
@@ -124,6 +135,7 @@ constexpr bool extends(const protocol::compact::Lease& owner,unsigned self,unsig
 struct Ledger {
     std::array<Cash,protocol::slots> cash{};
     std::array<Project,protocol::slots> projects{};
+    std::array<Focus,protocol::slots> focuses{};
     std::array<protocol::compact::Lease,protocol::slots> cohorts{};
     std::array<bool,protocol::slots> accepted{},revoked{};
     std::array<Certificate,protocol::slots> roles{},rosters{},readies{};
@@ -154,6 +166,7 @@ struct Ledger {
         }
         for(unsigned s=0;s<protocol::slots;++s)for(auto* c:{&roles[s],&rosters[s],&readies[s]})
             if(c->valid&&protocol::compact::slot(word,s).objective!=c->task)c->valid=false;
+        for(unsigned s=0;s<protocol::slots;++s)if(protocol::compact::slot(word,s).objective!=protocol::fight)focuses[s].valid=false;
         const auto f=decode(word,now,count);if(!f.valid)return;
         if(f.kind==Kind::Cash) {
             auto& c=cash[f.slot];if(c.valid&&c.round>f.round)return;
@@ -161,6 +174,8 @@ struct Ledger {
         } else if(f.kind==Kind::Project) {
             auto& p=projects[f.slot];if(p.valid&&p.round>f.round)return;
             p={f.round,f.task,f.intent,true};
+        } else if(f.kind==Kind::Focus) {
+            auto& p=focuses[f.slot];if(static_cast<int>(f.round)>p.round)p={static_cast<int>(f.round),f.phase,true};
         } else if(f.kind==Kind::Role)record(roles[f.slot],f,0,count);
         else if(f.kind==Kind::Roster)record(rosters[f.slot],f,f.members,count);
         else if(f.kind==Kind::Ready) {
@@ -211,6 +226,11 @@ struct Ledger {
     Project project(unsigned slot,unsigned now,unsigned count) const {
         if(slot>=count||slot>=protocol::slots||!count||count>protocol::slots||now>2047)return {};
         const auto p=projects[slot];return p.valid&&p.round<=now&&now-p.round<=lifetime(count)?p:Project{};
+    }
+    Focus focus(unsigned slot,std::uint64_t word,unsigned now,unsigned count) const {
+        if(slot>=count||slot>=protocol::slots||!count||count>protocol::slots||now>2047)return {};
+        const auto p=focuses[slot];return p.valid&&p.round>=0&&static_cast<unsigned>(p.round)<=now&&
+            now-static_cast<unsigned>(p.round)<=std::min(4u,lifetime(count))&&protocol::compact::slot(word,slot).objective==protocol::fight?p:Focus{};
     }
     int reservation(unsigned slot,unsigned current_claim,unsigned now,unsigned count) const {
         const auto p=project(slot,now,count);

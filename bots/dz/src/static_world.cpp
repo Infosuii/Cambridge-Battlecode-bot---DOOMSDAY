@@ -71,19 +71,31 @@ void StaticWorld::boot(const TurnContext& tc) {
 #endif
     load_roster(tc);
     if (!loaded_) {
+#if DZ_ECONOMY_V2
+        if(!metadata_started_) {
+            if(!tc.allow(35000))return;
+            blocked=cambc::map::walls()|cambc::map::holes()|cambc::map::altars()|cambc::map::spawn_region(cambc::team::enemy);
+            auto source=cambc::map::camp_groups();
+            std::sort(source.begin(),source.end(),[](const auto& a,const auto& b){return
+                static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(a))<static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(b));});
+            tc.guard();metadata_groups_=std::move(source);groups.reserve(metadata_groups_.size());metadata_started_=true;
+            return;
+        }
+        while(metadata_cursor_<metadata_groups_.size()) {
+            if(!tc.allow(16000)||boot_start-fuel_left()>25000)return;
+            groups.emplace_back(std::move(metadata_groups_[metadata_cursor_]));++metadata_cursor_;
+        }
+        if(!tc.allow(20000)||boot_start-fuel_left()>15000)return;
+        tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);tile_members.assign(tile_groups.size(),-1);
+        for(auto p:cambc::map::altars().positions())altars.push_back({p,nullptr});
+        tc.guard();metadata_groups_.clear();loaded_=true;return;
+#else
         blocked = cambc::map::walls() | cambc::map::holes() | cambc::map::altars() | cambc::map::spawn_region(cambc::team::enemy);
         auto source = cambc::map::camp_groups();
-#if DZ_ECONOMY_V2
-        // Shared objective/member ordinals must identify the same public
-        // handles in every body, independent of SDK enumeration order.
-        std::sort(source.begin(),source.end(),[](const auto& a,const auto& b){
-            return static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(a))<static_cast<unsigned>(static_cast<cambc::handle_camp_group_t>(b));
-        });
-#endif
         groups.clear(); groups.reserve(source.size());
         for (auto& g : source) groups.emplace_back(std::move(g));
         tile_groups.assign(cambc::map::width()*cambc::map::height(),-1);
-#if DZ_SIEGE || DZ_ECONOMY_V2
+#if DZ_SIEGE
         tile_members.assign(tile_groups.size(),-1);
 #endif
         altars.clear();
@@ -91,6 +103,7 @@ void StaticWorld::boot(const TurnContext& tc) {
         loaded_ = true;
         tc.guard();
         return; // Budget metadata, home, designs and altar fields on separate turns.
+#endif
     }
     while (tile_group_cursor_<groups.size()) {
         const auto& tiles=groups[tile_group_cursor_].tiles;
@@ -114,6 +127,9 @@ void StaticWorld::boot(const TurnContext& tc) {
         // One export per static mask, then a one-time layout self-check.
         blocked_mask.load(blocked); spawns_mask.load(camp_spawns); bushes_mask.load(cambc::map::bushes());
         enemy_spawn_mask.load(cambc::map::spawn_region(cambc::team::enemy));
+#if DZ_ECONOMY_V2
+        terrain_mask.load(cambc::map::walls()|cambc::map::holes()|cambc::map::altars());
+#endif
         local_masks_valid = DZ_LOCAL_MASKS && blocked_mask.agrees_with(blocked) && spawns_mask.agrees_with(camp_spawns);
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;
@@ -145,8 +161,32 @@ void StaticWorld::boot(const TurnContext& tc) {
         auto& group=groups[stats_cursor_];group.home_distance=65535;group.home_reachable=true;
         for(auto tile:group.tiles){const int distance=home.get(tile);group.home_distance=std::min(group.home_distance,distance);group.home_reachable&=distance<cambc::distance_field::unreachable;}
 #endif
+#if DZ_ECONOMY_V2
+        for(auto range:groups[stats_cursor_].attack_ranges)maximum_camp_range=std::max(maximum_camp_range,range);
+#endif
         tc.guard(); ++stats_cursor_;
     }
+#if DZ_ECONOMY_V2
+    // Static spatial filtering belongs in resumable boot work. Recomputing the
+    // global range and scanning every group per bank forecast could exceed the
+    // forecast slice before even finding its first local threat.
+    for(auto& altar:altars) {
+        if(altar.bank_members_ready)continue;
+        while(altar.bank_group<groups.size()) {
+            const auto& group=groups[altar.bank_group];
+            while(altar.bank_member<group.tiles.size()) {
+                if(!tc.allow(6000)||boot_start-fuel_left()>25000)return;
+                const unsigned k=altar.bank_member++;
+                if(group.tiles[k].chebyshev_distance(altar.tile)<=group.attack_ranges[k]+2*maximum_camp_range+2+cambc::constants::submit_gems_range) {
+                    altar.bank_members.emplace_back(altar.bank_group,k);
+                    if(group.initial_strength[k]>0)altar.bank_damage_members.emplace_back(altar.bank_group,k);
+                }
+            }
+            ++altar.bank_group;altar.bank_member=0;
+        }
+        altar.bank_members_ready=true;
+    }
+#endif
     // Transactional field publication: no partially computed cache becomes usable.
     for (auto& altar : altars) {
         if (altar.field) continue;
@@ -224,6 +264,14 @@ void StaticWorld::boot(const TurnContext& tc) {
             altar.gate_members.push_back({g,k});
         }
         altar.pocket.reset(); altar.ring_checked=true;
+    }
+#endif
+#if DZ_ECONOMY_V2
+    if(!spawn_exit) {
+        if(!tc.allow(field_budget()+5000))return;
+        auto field=std::make_unique<cambc::distance_field>();
+        field->compute(blocked,~(blocked|camp_spawns),visited);
+        tc.guard();spawn_exit=std::move(field);return;
     }
 #endif
     ready = true;

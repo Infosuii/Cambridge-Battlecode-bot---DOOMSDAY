@@ -1,5 +1,6 @@
 #pragma once
 #include "siege_model.h"
+#include "objective_cast.h"
 #include <limits>
 #include <bit>
 
@@ -17,6 +18,7 @@ struct Unit {
     unsigned power_health=0,power_strength=0;
     bool inventory_known=false;
     bool prospector=false;
+    objective::Kit kit{};
 };
 struct Monster { unsigned member=0;Tile p{};float hp=0,damage=0;int range=0; };
 inline bool same_roles(std::span<const Unit> a,std::span<const Unit> b) {

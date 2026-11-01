@@ -108,6 +108,21 @@ int main() {
     assert(team::publish(0,2048,3,6,100,1,team::Intent::Active)==0);
     assert(team::publish(0,12,3,0,100,128,team::Intent::Active)==0);
     assert(team::publish(0,12,3,0,100,1,static_cast<team::Intent>(4))==0);
+    // Fight targets occupy unused metadata prefixes, preserve all compact
+    // claims, and cannot survive withdrawal or alias after a timestamp wrap.
+    for(unsigned count=1;count<=6;++count)for(unsigned r=0;r<2000;r+=2) {
+        unsigned s=team::publisher(r,count);auto base=protocol::compact::with_slot(0,s,{protocol::fight,false});
+        auto packet=team::focus(base,r,count,s,r%64);
+        if(team::scheduled(r)==team::Kind::Project){assert(packet==base);continue;}
+        auto f=team::decode(packet,r,count);assert(f.valid&&f.kind==team::Kind::Focus&&f.phase==r%64&&f.slot==s);
+        assert((packet&claims)==(base&claims));assert(!protocol::compact::lease(packet,r).valid);
+        team::Ledger ledger;ledger.observe(packet,r,count);assert(ledger.focus(s,packet,r,count).valid);
+        if(r+5<2048){assert(ledger.focus(s,packet,r+4,count).valid);assert(!ledger.focus(s,packet,r+5,count).valid);}
+        assert(!ledger.focus(s,packet,r+team::lifetime(count)+1,count).valid);
+        auto released=protocol::compact::with_slot(packet,s,{protocol::idle,false});ledger.observe(released,r,count);
+        ledger.observe(packet,r,count);assert(!ledger.focus(s,packet,r,count).valid);
+        if(r+1024<2048)assert(!team::decode(packet,r+1024,count).valid);
+    }
     team::WorkRecord work;
     assert(work.update(1,0,10,5,100,6,false,6));
     assert(work.update(1,0,15,4,100,6,false,6));

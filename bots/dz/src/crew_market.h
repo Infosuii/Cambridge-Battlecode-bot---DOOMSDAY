@@ -10,7 +10,7 @@ struct CrewEpoch {
 };
 struct CrewOffer {
     CrewEpoch epoch;
-    int round=-1,expires=-1,horizon=0,work=0,arrival=0,home=0;
+    int round=-1,expires=-1,horizon=0,work=0,arrival=0,home=0,expected_work=-1;
     unsigned mask=0,count=0;
     bool complete=false,isolated=false;
     std::array<crew::Unit,crew::max_units> actors{};
@@ -106,13 +106,22 @@ public:
         int arrival=0;for(auto u:units)if(offer.mask&(1u<<u.slot))arrival=std::max(arrival,u.arrival);
         return offer.work+arrival;
     }
+    static int expected_duration(const CrewOffer& offer,std::span<const crew::Unit> units) {
+        if(offer.expected_work<0)return duration(offer,units);
+        for(unsigned a=0;a<offer.count;++a) {
+            const auto it=std::find_if(units.begin(),units.end(),[&](auto u){return u.slot==offer.actors[a].slot;});
+            if(it==units.end()||it->kit!=offer.actors[a].kit)return duration(offer,units);
+        }
+        return duration(offer,units)-offer.work+offer.expected_work;
+    }
     void put(CrewEpoch epoch,unsigned mask,std::span<const crew::Unit> units,int now,int horizon,int finish,int arrival,
-             bool complete,std::span<const float> investment={},unsigned investment_until=0,int lifetime=40,int home=0,bool isolated=false) {
+             bool complete,std::span<const float> investment={},unsigned investment_until=0,int lifetime=40,int home=0,bool isolated=false,int expected=-1) {
         if(mask==0||mask>=64||units.empty()||(units.size()==1&&mask!=epoch.fixed)||!valid_units(units)||roster(units)!=mask||finish<arrival||home<0||home>2000)return;
         auto it=std::find_if(offers_.begin(),offers_.end(),[&](const auto& o){return o.mask==mask&&o.epoch.group==epoch.group;});
         if(it==offers_.end())it=std::min_element(offers_.begin(),offers_.end(),[](const auto& a,const auto& b){return a.expires<b.expires;});
         *it={};it->epoch=epoch;it->round=now;it->expires=now+std::max(0,lifetime);it->horizon=horizon;
         it->mask=mask;it->count=units.size();it->complete=complete;it->work=finish-arrival;it->arrival=arrival;it->home=home;it->isolated=isolated;
+        if(expected>=arrival&&expected<=finish)it->expected_work=expected-arrival;
         std::copy(units.begin(),units.end(),it->actors.begin());
         if(investment.size()==units.size())std::copy(investment.begin(),investment.end(),it->investment.begin());
         it->investment_until=investment_until;
@@ -156,13 +165,14 @@ public:
             known|=std::uint64_t{1}<<offer.mask;
             if(!offer.complete)continue;
             const int finish=duration(offer,units);if(finish>horizon)continue;
+            const int estimated=expected_duration(offer,units);
             if(spatial_baseline&&offer.mask==epoch.fixed) {
-                incumbent=payout(offer,price.incumbent_capturer,price,now,false)/std::max(1,finish);continue;
+                incumbent=payout(offer,price.incumbent_capturer,price,now,false)/std::max(1,estimated);continue;
             }
             if(!(offer.mask&(1u<<proposer))||(epoch.fixed&~offer.mask))continue;
             if(price.setup>horizon-finish)continue;
             const float value=payout(offer,proposer,price,now,true);
-            if(value>0)result.bids[result.count++]={epoch.group,offer.mask,proposer,price.contested*value,static_cast<float>(finish+price.setup),0,0,epoch.fixed};
+            if(value>0)result.bids[result.count++]={epoch.group,offer.mask,proposer,price.contested*value,static_cast<float>(estimated+price.setup),0,0,epoch.fixed};
         }
         result.complete=true;
         if(epoch.fixed&&(!std::isfinite(incumbent)||incumbent<0)) {

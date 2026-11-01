@@ -6,6 +6,12 @@
 
 namespace dz::bank {
 inline constexpr unsigned max_threats=64,max_cuts=8;
+struct AdmissionStamp {
+    int round=-1,altar=-1,bag=0;Tile tile;float hp=0;
+    bool current(int now,int endpoint,Tile p,float health,int carried) const {
+        return round==now&&altar==endpoint&&tile==p&&bag==carried&&std::isfinite(health)&&health>=hp&&hp>0;
+    }
+};
 struct Stamp {
     int round=-10000,channel=-1,until=2000;
     unsigned revision=~0u,threat_revision=~0u;
@@ -33,13 +39,27 @@ struct Context {
     float hp=0,max_hp=0,shield=0;
     int shield_rounds=0,channel=0,horizon=2000;
 };
-struct Threat { int group=-1,member=-1;CampThreat camp;float clear_time=0; };
+struct Threat { int group=-1,member=-1;CampThreat camp;float clear_time=0;bool future=false; };
 struct Root { Tile tile;int distance=0;EscapeRoute escape;int until=2000;std::uint64_t required=0; };
+struct Expiry {Tile tile;int until=0;};
+inline int root_deadline(const Root& root,std::span<const Expiry> empty) {
+    int until=root.until;
+    for(auto cell:empty) {
+        if(cell.tile==root.tile)until=std::min(until,cell.until);
+        if(!root.escape.found)continue;
+        const int length=cheb(root.tile,root.escape.exit),step=cheb(root.tile,cell.tile);
+        const int dx=(root.escape.exit.x>root.tile.x)-(root.escape.exit.x<root.tile.x),dy=(root.escape.exit.y>root.tile.y)-(root.escape.exit.y<root.tile.y);
+        if(step>0&&step<=length&&cell.tile==Tile{root.tile.x+dx*step,root.tile.y+dy*step})
+            until=std::min(until,cell.until-length); // Pay the full post-channel exit.
+    }
+    return until;
+}
 enum class Quality { Unknown, Bounded, Cuts, Invalid };
 struct Plan {
     Quality quality=Quality::Unknown;Tile root;
     std::array<unsigned,max_cuts> cuts{};unsigned count=0;
     float work=0,loss=0;int travel=0;
+    unsigned root_index=~0u;
     bool complete() const {return quality==Quality::Bounded||quality==Quality::Cuts;}
 };
 inline float channel_loss(const Context& c,float raw,float escape) {
@@ -91,16 +111,32 @@ Plan choose(const Context& context,std::span<const Threat> threats,std::span<con
         !std::isfinite(channel_loss(context,0,0))){best.quality=Quality::Invalid;return best;}
     for(auto t:threats)if(t.group<0||t.member<0||!std::isfinite(t.clear_time)||t.clear_time<=0||
         !std::isfinite(t.camp.strength)||t.camp.strength<0||t.camp.range<0){best.quality=Quality::Invalid;return best;}
+    int minimum=65535;for(auto root:roots)if(root.distance>=0)minimum=std::min(minimum,root.distance);
+    // Prove the common zero-cut lower bound before sorting hypothetical cuts.
+    // Dense harmless resources otherwise spent the entire slice before even
+    // considering a free submission root.
+    for(unsigned r=0;r<roots.size();++r) {
+        if(!budget())return best;const auto& root=roots[r];
+        if(root.required||root.distance<0||root.distance>=65535||root.distance+context.channel+1>std::min(context.horizon,root.until))continue;
+        bool clear=true;
+        for(unsigned i=0;i<threats.size();++i) {
+            if((i&7u)==0&&!budget())return best;
+            if(threats[i].camp.p==root.tile||(threats[i].camp.strength>0&&cheb(root.tile,threats[i].camp.p)<=threats[i].camp.range)){clear=false;break;}
+        }
+        const float finish=root.distance+context.channel+1;
+        if(clear&&finish<cost){best.quality=Quality::Bounded;best.root=root.tile;best.travel=root.distance;best.root_index=r;cost=finish;
+            if(root.distance==minimum)return best;}
+    }
     std::array<unsigned,max_threats> order{};for(unsigned i=0;i<threats.size();++i)order[i]=i;
     std::sort(order.begin(),order.begin()+threats.size(),[&](auto a,auto b) {
         const float x=threats[a].camp.strength/threats[a].clear_time,y=threats[b].camp.strength/threats[b].clear_time;
         return x>y||(x==y&&a<b);
     });
-    for(const auto& root:roots) {
+    for(unsigned r=0;r<roots.size();++r) {const auto& root=roots[r];
         if(!budget())return best;
         if(root.distance<0||root.distance>=65535)continue;
         if(threats.size()<64&&(root.required>>threats.size()))continue;
-        Plan candidate;candidate.root=root.tile;candidate.travel=root.distance;
+        Plan candidate;candidate.root=root.tile;candidate.travel=root.distance;candidate.root_index=r;
         std::uint64_t removed=0;float raw=0;
         auto cut=[&](unsigned i) {
             if(candidate.count==candidate.cuts.size())return false;

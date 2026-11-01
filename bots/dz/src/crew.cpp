@@ -4,6 +4,7 @@
 #include "access_route.h"
 #include "objective_math.h"
 #include "crew_traffic.h"
+#include "crew_cast.h"
 #include <bit>
 
 namespace dz {
@@ -52,10 +53,49 @@ CampSet camp_set(const StaticWorld& w,const Memory& m,int g) {
     }
     return result;
 }
+int free_until(const StaticWorld& w,const Memory& m,int group,int member,int now) {
+    if(group<0||group>=static_cast<int>(w.groups.size())||member<0||member>=static_cast<int>(m.member_hp[group].size()))return 0;
+    const auto& b=m.groups[group];
+    if(b.state==GroupState::Respawning)return b.ready>now?b.ready:0;
+    if(m.member_hp[group][member]>0)return 0;
+    return m.member_seen[group][member]+w.groups[group].sdk.max_respawn_timer();
+}
+int refresh_layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,const TurnContext& tc) {
+    if(cache.group<0||cache.group>=static_cast<int>(w.groups.size()))return 0;
+    const auto started=fuel_left();
+    const int valid=cache.dependencies.refresh(m.topology_revision,tc.round+1,[&](crew::RouteDependency d){
+        return free_until(w,m,d.group,d.member,tc.round+1);
+    },[&]{return tc.allow(10000)&&started-fuel_left()<4000;});
+    if(valid==1)cache.topology=m.topology_revision-m.group_topology[cache.group];
+    return valid;
+}
+void trim_layout(const StaticWorld& w,Memory::FormationCache& cache,const TurnContext& tc) {
+    const auto started=fuel_left();unsigned steps=0;
+    auto budget=[&]{return tc.allow(10000)&&started-fuel_left()<4000;};
+    cache.dependencies.trim([&](crew::RouteDependency d) {
+        const auto cell=w.groups[d.group].tiles[d.member];const Tile tile{cell.x,cell.y};
+        for(unsigned phase=0;phase<cache.search.count;++phase) {
+            const auto& p=cache.search.phases[phase];
+            for(unsigned u=0;u<cache.units;++u) {
+                const auto from=p.formation.positions[u],to=p.staging[u];
+                const int distance=cheb(from,tile),length=cheb(from,to);
+                if(tile==from||tile==to||(distance<=length&&tile==Tile{from.x+((to.x>from.x)-(to.x<from.x))*distance,
+                    from.y+((to.y>from.y)-(to.y<from.y))*distance}))return true;
+            }
+            for(const auto* moves:{&p.moves,&p.approach})for(const auto& move:*moves)for(auto point:move.path) {
+                if((++steps&31u)==0&&!budget())return true; // Unknown stays a dependency.
+                if(point==tile)return true;
+            }
+        }
+        return false;
+    },budget);
+}
 int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,int group,std::span<const crew::Unit> units,std::span<const crew::Monster> camps,const TurnContext& tc) {
     const unsigned outside=m.topology_revision-m.group_topology[group];
+    const int route_valid=cache.group==group?refresh_layout(w,m,cache,tc):0;
+    if(route_valid<0)return -1;
     const unsigned offset=cache.camps>=camps.size()?cache.camps-camps.size():cache.camps;
-    const bool matches=cache.group==group&&(cache.expires>static_cast<int>(tc.round)||cache.search.stage==crew::SequenceSearch::Stage::Done)&&cache.topology==outside&&
+    const bool matches=cache.group==group&&(cache.expires>static_cast<int>(tc.round)||cache.search.stage==crew::SequenceSearch::Stage::Done)&&route_valid==1&&
         cache.generation==m.conversions[group]&&offset+camps.size()==cache.camps&&
         crew::same_roles(units,std::span<const crew::Unit>(cache.roster.data(),cache.units))&&
         crew::same_scene(camps,std::span<const crew::Monster>(cache.scene.data()+offset,camps.size()));
@@ -66,7 +106,7 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
     // A different speculative quote cannot erase the unfinished job. A changed
     // roster/scene for the SAME job invalidates it; an expired job is replaceable.
     if(!matches&&cache.group!=group&&cache.group>=0&&cache.expires>static_cast<int>(tc.round)&&
-        cache.generation==m.conversions[cache.group]&&cache.topology==m.topology_revision-m.group_topology[cache.group]&&
+        cache.generation==m.conversions[cache.group]&&refresh_layout(w,m,cache,tc)!=0&&
         cache.pending())return -1;
     if(!matches) {
         // Mutate the logical job, never copy the BFS's unvisited storage.
@@ -74,7 +114,7 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         cache.units=units.size();cache.camps=camps.size();
         std::copy(units.begin(),units.end(),cache.roster.begin());std::copy(camps.begin(),camps.end(),cache.scene.begin());
         cache.search.begin(units,camps,cambc::map::width(),cambc::map::height());
-        cache.progression={};cache.progression_work=-1;cache.isolated=false;
+        cache.progression={};cache.progression_work=-1;cache.isolated=false;cache.dependencies.reset(m.topology_revision);
     }
     const auto started=fuel_left();unsigned operations=0;
     const bool complete=cache.search.resume(units,std::span<const crew::Monster>(cache.scene.data(),cache.camps),[&](Tile tile,unsigned cleared) {
@@ -82,13 +122,15 @@ int layout(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,in
         const int g=w.group_at(p);if(g<0)return true;
         const int member=w.tile_members[tile.y*cambc::map::width()+tile.x];
         if(g==group)for(unsigned k=0;k<cleared;++k)if(cache.scene[k].member==static_cast<unsigned>(member))return true;
-        const auto& b=m.groups[g];
-        return member>=0&&!access::member_blocks(m.member_hp[g][member]>0,b.state==GroupState::Respawning,b.ready,tc.round+1);
+        if(member<0)return false;
+        const int until=free_until(w,m,g,member,tc.round+1);
+        return until>static_cast<int>(tc.round)+1&&cache.dependencies.add(g,member,until);
     },[&](Tile p){return w.home_distance(p);},[&]{
         if(!tc.allow(10000)||started-fuel_left()>=14000)return false;
         ++operations;return true;
     });
     tc.guard();if(operations)cache.expires=tc.round+config::crew_window;
+    if(complete)trim_layout(w,cache,tc);
     if(complete&&cache.camps==1&&tc.allow(16000))cache.isolated=isolated_project(w,m,cache,group,tc);
     return complete?static_cast<int>(cache.camps-camps.size()):-1;
 }
@@ -138,12 +180,16 @@ void price_progression(const StaticWorld& w,const Memory& m,Memory::FormationCac
         [&]{return tc.allow(10000)&&started-fuel_left()<6000;});
 }
 }
-void progress_crew_layout(const StaticWorld& w,const Memory& m,const TurnContext& tc) {
+bool crew_geometry_current(const StaticWorld& w,const Memory& m,Memory::FormationCache& cache,const TurnContext& tc) {
+    return refresh_layout(w,m,cache,tc)==1;
+}
+void progress_crew_layout(const StaticWorld& w,const Memory& m,const TurnContext& tc,bool pricing) {
     auto advance=[&](Memory::FormationCache& c) {
         if(!c.pending()||c.group<0||c.group>=static_cast<int>(m.groups.size())||!tc.allow(25000))return;
-        if(c.expires<=static_cast<int>(tc.round)||c.topology!=m.topology_revision-m.group_topology[c.group]||c.generation!=m.conversions[c.group])return;
+        if(c.expires<=static_cast<int>(tc.round)||c.generation!=m.conversions[c.group]||refresh_layout(w,m,c,tc)!=1)return;
         if(c.search.pending())layout(w,m,c,c.group,std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),tc);
         else {
+            if(!pricing)return; // Optional equipment work follows executable actions.
             if(c.progression_work<0) {
                 const auto started=fuel_left();
                 const auto q=crew::quote(std::span<const crew::Unit>(c.roster.data(),c.units),std::span<const crew::Monster>(c.scene.data(),c.camps),c.search,
@@ -164,7 +210,7 @@ void progress_crew_layout(const StaticWorld& w,const Memory& m,const TurnContext
 void prepare_crew_reward(const StaticWorld& w,Memory& m,const Observation& o,int g,const TurnContext& tc) {
     auto& reward=m.crew_reward;auto& cache=m.crew_layout();
     if(cache.group!=g||cache.generation!=m.conversions[g]||cache.camps!=w.groups[g].tiles.size()||
-        cache.topology!=m.topology_revision-m.group_topology[g]||cache.search.stage!=crew::SequenceSearch::Stage::Done)return;
+        refresh_layout(w,m,cache,tc)!=1||cache.search.stage!=crew::SequenceSearch::Stage::Done)return;
     if(reward.group!=g||reward.generation!=m.conversions[g]) {
         reward={g,static_cast<int>(tc.round),o.gold,o.bag,m.conversions[g]};
         cache.progression={}; // Reprice at the actual payout, with today's own cash.
@@ -220,13 +266,20 @@ CrewQuote crew_quote(const StaticWorld& w,const Memory& m,int group,std::span<co
     if(!q.complete)return {false,0,0,q.reason==crew::SequenceReason::Budget?CrewQuoteStatus::Budget:CrewQuoteStatus::Model};
     if(arrival+q.finish>static_cast<int>(cambc::constants::max_rounds-tc.round))return {false,0,0,CrewQuoteStatus::Horizon};
     cache.progression_work=arrival+q.finish;
-    if(investments)price_progression(w,m,cache,group,arrival+q.finish,tc);
-    else cache.progression.stage=crew::Progression::Stage::Done;
-    if(cache.progression.pending()||cache.progression.stage==crew::Progression::Stage::Empty)
-        return {false,0,0,CrewQuoteStatus::Budget};
+    if(!investments)cache.progression.stage=crew::Progression::Stage::Done;
+    // A complete raw project is already executable. Future equipment is an
+    // optional gain, not a prerequisite for offering its first real payout.
+    // Pending gains remain zero until background pricing actually completes.
     unsigned mask=0;for(unsigned u=0;u<units.size();++u)mask|=1u<<units[u].slot;
     const int home=cache.search.phases[cache.search.count-1].return_rounds;
-    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready,arrival,home,cache.isolated};
+    const auto cast_start=fuel_left();
+    const auto cast=tc.allow(18000)?crew::cast_work(units,camps,cache.search,first,capture,cambc::constants::recall_time,q.finish,sleep,
+        [&]{return tc.allow(10000)&&cast_start-fuel_left()<4500;}):crew::CastWork{};
+#if DZ_TRACE
+    if(cast.complete&&cast.finish<q.finish){TraceScope scope;trace("DZ_CREW_CAST_WORK round=%u slot=%u group=%d bound=%d expected=%d phases=%d casts=%u\n",
+        tc.round,w.slot,group,q.finish,cast.finish,cast.phases,cast.casts);}
+#endif
+    return {true,mask,arrival+q.finish,CrewQuoteStatus::Ready,arrival,home,cache.isolated,arrival+(cast.complete?cast.finish:q.finish)};
 }
 bool build_crew_field(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
     auto& cache=m.crew_field;
@@ -312,7 +365,8 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     if(goal.kind!=GoalKind::Farm||m.siege_task.active()||goal.index<0||w.groups[goal.index].strength<=0||
         std::popcount(m.economic_crew)<2||!(m.economic_crew&(1u<<w.slot))||m.contract.objective!=goal.index) {state.managed=false;return goal;}
     const int g=goal.index;unsigned expected=m.economic_crew;
-    if(state.group!=g||state.members!=expected){state={};state.group=g;state.members=expected;state.since=state.last_progress=tc.round;}
+    if(state.group!=g||state.members!=expected){state={};state.group=g;state.members=expected;state.since=state.last_progress=tc.round;
+        state.assembly_until=std::max(m.rendezvous_until,crew::assembly_deadline(tc.round,w.distance(g,o.p),team::agreement_window(w.allies.size()),config::crew_window));}
     const Tile here{o.p.x,o.p.y};if(state.has_self&&state.last_self!=here)state.last_progress=tc.round;
     state.last_self=here;state.has_self=true;
     state.round=tc.round;state.managed=true;state.formed=false;state.fire=false;state.focus=-1;state.direct_step=false;
@@ -331,6 +385,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         (cohort.valid&&cohort.members==expected);
     const unsigned leader=m.economic_capturer;
     const auto& sent=m.crew_publication;
+    promised|=leader==w.slot&&sent.group==g&&sent.members==expected&&sent.capturer==leader&&static_cast<int>(tc.round)<=m.crew_accept_until;
     if(leader==w.slot&&(sent.group!=g||sent.members!=expected||sent.capturer!=leader))
         return goal; // Publish the invitation before changing any incumbent's live formation.
     if(!promised&&leader!=w.slot) {
@@ -345,7 +400,8 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         }
         unsigned owner=0;while(owner<protocol::slots&&!(replacement&(1u<<owner)))++owner;
         if(std::popcount(replacement)>=2&&owner==w.slot) {
-            expected=replacement;m.economic_crew=replacement;m.economic_capturer=w.slot;state.members=replacement;state.since=tc.round;promised=true;
+            expected=replacement;m.economic_crew=replacement;m.economic_capturer=w.slot;state.members=replacement;state.since=tc.round;
+            state.assembly_until=crew::assembly_deadline(tc.round,0,team::agreement_window(w.allies.size()),config::crew_window);promised=true;
 #if DZ_TRACE
             {TraceScope scope;trace("DZ_CREW_HANDOFF round=%u body=%u group=%d members=%u\n",tc.round,
                 static_cast<unsigned>(static_cast<cambc::handle_champion_t>(cambc::self())),g,replacement);}
@@ -358,7 +414,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
             m.contract.objective=-1;m.leave_crew();return {GoalKind::Idle};
         }
     }
-    const int assembly_end=state.since+team::agreement_window(w.allies.size())+config::crew_window;
+    const int assembly_end=state.assembly_until;
     if(static_cast<int>(tc.round)-state.last_progress>config::crew_window&&
         (m.crew_agreement.committed||static_cast<int>(tc.round)>assembly_end)) {
         m.release(tc.round);m.economic_crew=0;state.managed=false;return {GoalKind::Idle};
@@ -390,7 +446,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     if((consented&expected)!=expected||!tc.allow(17000)) {
         unsigned acknowledged=0;
         for(unsigned slot=0;slot<w.allies.size();++slot)if(protocol::slot(word,slot).objective==g)acknowledged|=1u<<slot;
-        if((acknowledged&expected)!=expected&&static_cast<int>(tc.round)-state.since>=config::contract_window) {
+        if((acknowledged&expected)!=expected&&static_cast<int>(tc.round)>=std::max(state.since+config::contract_window,m.crew_accept_until)) {
             // An offer is not an accepted assignment. A body can legitimately
             // decline for a private recovery/shop/failure reason. Re-auction
             // another roster instead of renewing a phantom helper indefinitely.
@@ -402,8 +458,8 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
         }
         // An unseen ally contributes no damage/HP. A previously accepted crew
         // may still navigate to its cached safe staging tile and reunite there.
-        const auto& cache=m.crew_layout();
-        if(cache.group==g&&cache.topology==m.topology_revision-m.group_topology[g]&&cache.generation==m.conversions[g]&&
+        auto& cache=m.crew_layout();
+        if(cache.group==g&&refresh_layout(w,m,cache,tc)==1&&cache.generation==m.conversions[g]&&
             cache.search.stage==crew::SequenceSearch::Stage::Done&&cache.camps>=set.count) {
             const unsigned first=cache.camps-set.count;
             if(crew::same_scene(camps,std::span<const crew::Monster>(cache.scene.data()+first,set.count)))
@@ -418,7 +474,8 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
     bool progress=state.position_count!=n;
     for(unsigned u=0;u<n;++u){progress|=state.last_positions[u]!=units[u].p;state.last_positions[u]=units[u].p;}
     state.position_count=n;if(progress)state.last_progress=tc.round;
-    state.last_progress=std::max(state.last_progress,m.last_work);m.rendezvous_until=state.last_progress+config::crew_window;
+    state.last_progress=std::max(state.last_progress,m.last_work);
+    m.rendezvous_until=std::max(state.last_progress+config::crew_window,m.crew_agreement.committed?0:state.assembly_until);
     // Re-elect a recipient if recovery removed the previous capturer. The
     // leader publishes it through the existing exact-round lease unchanged.
     if(!(expected&(1u<<m.economic_capturer))) {

@@ -5,7 +5,7 @@
 
 namespace dz::economy {
 constexpr bool available_for_offer(unsigned intent,bool healthy_at_home) {
-    return (intent!=protocol::shop&&intent!=protocol::retreat)||healthy_at_home;
+    return !(intent>=112&&intent<protocol::shop)&&intent!=protocol::fight&&((intent!=protocol::shop&&intent!=protocol::retreat)||healthy_at_home);
 }
 constexpr bool starved(int round,int income_round,int work_round,int window=150) {
     return round-std::max(income_round,work_round)>window;

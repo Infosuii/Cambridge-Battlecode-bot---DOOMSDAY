@@ -14,6 +14,10 @@
 #include "crew_sequence.h"
 #include "crew_progression.h"
 #include "crew_market.h"
+#include "crew_availability.h"
+#include "opening_plan.h"
+#include "objective_frontier.h"
+#include "route_dependencies.h"
 #include "team_protocol.h"
 #include "crew_agreement.h"
 #include "bank_model.h"
@@ -58,11 +62,17 @@ struct Memory {
     struct CrewPublication { int group=-1;unsigned members=0,capturer=0; } crew_publication;
     struct CrewFailure { int group=-1;unsigned members=0,generation=0; } crew_failure;
     struct CrewDecline { int group=-1,until=0;unsigned members=0; } crew_decline;
+    crew::DeferredOffer deferred_crew;
+    opening::Commitment early_opening;
     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
     struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
     int rendezvous_until=0;
+    int crew_accept_until=0;
     int economic_retry_after=0;
+    unsigned economic_cursor=0;
+    economy::Frontier objective_frontier;
     float economic_rate=0;
+    struct FightFocus {int round=-1;unsigned target=~0u;} fight_focus;
     ShopVisit shop_quote;
     int shop_quote_round=-10000,shop_quote_gold=-1;
     int shopping_since=-1,shopping_deadline=-1;
@@ -72,16 +82,20 @@ struct Memory {
     std::vector<gate::Plan> openings;
     unsigned threat_revision=0;
     bank::Delivery bank_delivery;
+    bank::AdmissionStamp bank_admitted;
     struct BankAccess : bank::Stamp {
         int status=0;bank::Plan plan;
         std::array<bank::Threat,bank::max_threats> threats{};unsigned count=0;
+        std::array<bank::Expiry,bank::max_threats> empty{};unsigned empty_count=0;
     };
     std::vector<BankAccess> bank_access;
+    std::vector<BankAccess> bank_future;
     struct BankRoute {
         std::unique_ptr<cambc::distance_field> field;
         int altar=-1,expires=0;Tile root{};unsigned revision=~0u;bool pending=false;
     } bank_route;
     int bank_forecast_round=-1;unsigned bank_forecast_cursor=0;
+    int bank_future_round=-1;unsigned bank_future_cursor=0;
     gate::Commitment opening_commitment;
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
@@ -104,7 +118,7 @@ struct Memory {
         std::span<const CampThreat> risk_view() const { return {risks.data(),risk_count}; }
     } neutral;
     struct CrewExecution {
-        int round=-1,group=-1,focus=-1,since=-1;
+        int round=-1,group=-1,focus=-1,since=-1,assembly_until=-1;
         int recovery_deadline=-1;
         int last_progress=0;
         int blocked_since=-1;Tile blocked_tile{};
@@ -123,6 +137,7 @@ struct Memory {
         crew::Progression progression;
         int progression_work=-1;
         bool isolated=false;
+        crew::RouteDependencies dependencies;
         bool pending() const {return search.pending()||progression.pending()||
             (search.stage==crew::SequenceSearch::Stage::Done&&progression.stage==crew::Progression::Stage::Empty);}
     };
@@ -159,20 +174,20 @@ struct Memory {
         Tile root{};int expires=-1;bool pending=false;
     } crew_field;
     void leave_crew() {
-        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_agreement={};crew_field.pending=false;
+        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_accept_until=0;crew_execution={};crew_agreement={};crew_field.pending=false;
     }
     unsigned opening_cursor=0;
     float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;
     int access_group=-1,access_member=-1;
-    struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000; };
+    struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000;float strength=0;int range=1; };
     std::array<EnemyTrack,8> enemy_tracks{};
     void track_enemies(const Observation& obs,int round) {
         for(const auto& enemy:obs.enemies) {
             const unsigned handle=static_cast<unsigned>(static_cast<cambc::handle_champion_t>(enemy.sdk));
             auto slot=std::min_element(enemy_tracks.begin(),enemy_tracks.end(),[](auto& a,auto& b){return a.seen<b.seen;});
             for(auto it=enemy_tracks.begin();it!=enemy_tracks.end();++it)if(it->handle==handle){slot=it;break;}
-            *slot={handle,enemy.p,round};
+            *slot={handle,enemy.p,round,enemy.strength,enemy.range};
         }
     }
     float pressure(vec2 p,int radius,int round) const {

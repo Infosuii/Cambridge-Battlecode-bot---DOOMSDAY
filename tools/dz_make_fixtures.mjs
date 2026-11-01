@@ -30,6 +30,7 @@ const layouts={
   'crew-sequence':[[0,10,12],[0,11,12],[0,12,12]],
   'collection-circuit':[...[6,10,14].flatMap(x=>[6,10,14].map(y=>[2,x,y])),[3,8,8],[3,8,12],[3,12,8],[3,12,12]],
   'opening-crew':[...Array.from({length:12},(_,i)=>[2,5+i%4,5+Math.floor(i/4)]),[5,9,10]],
+  'deferred-crew':[...Array.from({length:12},(_,i)=>[3,5+i%4,5+Math.floor(i/4)]),[0,12,10],[0,13,10]],
 };
 if (!Object.hasOwn(layouts,key)) throw new Error('Unknown fixture '+key);
 fs.mkdirSync(destination,{recursive:true});

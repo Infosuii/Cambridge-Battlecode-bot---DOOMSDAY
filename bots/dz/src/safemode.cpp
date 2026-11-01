@@ -275,6 +275,16 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     }
     DZ_PROF('F');
 #if DZ_ECONOMY_V2
+    if(obs.bag>0&&obs.enemies.empty())for(unsigned a=0;a<world.altars.size();++a)
+        if(obs.p.chebyshev_distance(world.altars[a].tile)<=cambc::constants::submit_gems_range) {
+            const auto admission=bank_admission(world,mem,obs,a,tc);
+            if(admission!=BankAdmission::Denied) {
+                // Serve a real carrier already at a submission endpoint before
+                // optional access, equipment or auction work spends its budget.
+                mem.contract.objective=-1;mem.leave_crew();mem.delivery_trip={};mem.early_opening={};
+                return {GoalKind::Bank,static_cast<int>(a)};
+            }
+        }
     if(auto goal=yield_siege_lane(world,mem,obs,tc))return *goal;
     // A live visit owns the execution budget before speculative altar/channel
     // searches. Rebuilding those first could keep a recovered worker returning
@@ -299,10 +309,20 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
     };
     int altar = -1, altar_distance = 65535, gated_altar = -1, gated_distance = 65535;
 #if DZ_ECONOMY_V2
+    // Speculative delivery searches cannot consume the next executable income
+    // decision. An actual carrier receives priority; an empty worker retains
+    // enough headroom for its auction and the executor.
+    const bool priced_delivery=std::any_of(mem.bank_access.begin(),mem.bank_access.end(),[&](const auto& view){return
+        view.plan.complete()&&view.current(tc.round,mem.topology_revision,mem.threat_revision,obs.max_hp,obs.camp_factor,view.channel);});
+    // Until a delivery quote exists, alternate the two expensive dependencies.
+    // Always protecting the full auction prevented the first bank quote from
+    // ever running; always pricing access prevented the first income bid.
+    const bool access_turn=obs.bag>0||(!priced_delivery&&((tc.round+world.slot)&1u)==0);
+    const auto access_tc=tc.keep(access_turn?12000:40000);
     // Give the fair forecast slot its budget before any cold physical route.
     // With the old ordinal scan, a far altar could consume that budget on every
     // turn and permanently starve the near altar on the opposite map side.
-    if(!world.altars.empty())bank_access(world,mem,obs,mem.bank_forecast_cursor%world.altars.size(),tc);
+    if(!world.altars.empty())bank_access(world,mem,obs,mem.bank_forecast_cursor%world.altars.size(),access_tc);
 #endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
     mem.route_gate_count=0;
@@ -321,16 +341,28 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
         }
 #endif
         if(!known) {
-            const auto route=altar_route(world,mem,obs,a,tc);
+            const auto route=altar_route(world,mem,obs,a,
+#if DZ_ECONOMY_V2
+                access_tc
+#else
+                tc
+#endif
+                );
             if(route.status==access::Status::Blocked) {
-                if(const auto reachable=altar_access(world,mem,obs,a,tc))open=*reachable;
+                if(const auto reachable=altar_access(world,mem,obs,a,
+#if DZ_ECONOMY_V2
+                    access_tc
+#else
+                    tc
+#endif
+                    ))open=*reachable;
                 if(mem.route_gate_count<mem.route_gates.size())mem.route_gates[mem.route_gate_count++]={route.blocker.group,route.blocker.member};
             } else if(route.status==access::Status::Clear)open=true;
             else if(route.status==access::Status::Unreachable)continue;
         }
 #endif
 #if DZ_ECONOMY_V2
-        const auto* delivery=bank_access(world,mem,obs,a,tc);
+        const auto* delivery=bank_access(world,mem,obs,a,access_tc);
         open=open&&delivery&&delivery->plan.quality==bank::Quality::Bounded;
         if(delivery)for(unsigned i=0;i<delivery->plan.count&&mem.route_gate_count<mem.route_gates.size();++i) {
             const auto& threat=delivery->threats[delivery->plan.cuts[i]];
@@ -391,7 +423,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
 #if DZ_ECONOMY_V2
     // Finish the bounded delivery itinerary before optional shop forecasts can
     // consume its budget. Each call advances one path slice or cut price.
-    if(altar<0&&obs.enemies.empty())quote_opening(world,mem,obs,tc);
+    if(altar<0&&obs.enemies.empty())quote_opening(world,mem,obs,access_tc);
     if(auto goal=economic_goal(world,mem,obs,tc,altar,altar_distance))return *goal;
     // An interrupted expensive forecast cannot immediately launch another full
     // search. Preserve execution/communication fuel and the proven contract.

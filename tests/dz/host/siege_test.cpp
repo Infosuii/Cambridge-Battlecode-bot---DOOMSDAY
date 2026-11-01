@@ -104,5 +104,34 @@ int main() {
     inner=false;path=access::inspect({0,0},distance,blocking);assert(path.status==access::Status::Clear&&path.steps==6);
     path=access::inspect({0,0},distance,blocking,access::Unlimited{},2);assert(path.status==access::Status::Unknown);
     path=access::inspect({-1,0},distance,blocking);assert(path.status==access::Status::Unreachable);
-    std::cout<<visits<<" simulated heal-return visits; siege reserve, completion and contract checks passed\n";
+    siege::Task stalled;stalled.start(1,0,10,20,500);
+    for(int now=11;now<=40;++now) {
+        stalled.phase=siege::Phase::Recover;
+        assert(stalled.resume_after_recovery(now,500));
+        assert(stalled.progress(now,20,500));
+        assert(stalled.checked==10&&stalled.distance==20);
+    }
+    stalled.phase=siege::Phase::Recover;assert(!stalled.resume_after_recovery(41,500));
+    stalled.start(1,0,10,20,500);stalled.struck=true;stalled.visit_hp=500;
+    assert(stalled.resume_after_recovery(50,400)&&stalled.checked==50&&stalled.distance==65535);
+    stalled.struck=true;stalled.visit_hp=400;assert(!stalled.resume_after_recovery(81,400));
+    stalled.start(1,0,10,20,500);stalled.restock=true;
+    assert(stalled.resume_after_recovery(60,500)&&!stalled.restock);
+    assert(!stalled.resume_after_recovery(91,500));
+    // A newly visible live member overrides an earlier defeated sample, even
+    // when the bounded ledger sampler has not reached that member this turn.
+    assert(neutral_member_present(true,true,false,false,0,10,60,20));
+    assert(!neutral_member_present(true,false,true,false,500,10,60,20));
+    assert(neutral_member_present(true,false,true,true,0,10,60,20));
+    assert(!neutral_member_present(true,false,false,true,500,10,60,20));
+    for(int defeated=0;defeated<20;++defeated)for(int renewal=1;renewal<=100;++renewal) {
+        for(int age:{0,renewal-1,renewal,renewal+1}) {
+            const int now=defeated+age;
+            // Independently advance the earliest renewal clock.
+            int timer=renewal;for(int r=defeated;r<now&&timer>0;++r)--timer;
+            assert(neutral_member_present(false,false,false,false,0,defeated,renewal,now)==(timer==0));
+            assert(neutral_member_present(false,false,false,false,500,defeated,renewal,now));
+        }
+    }
+    std::cout<<visits<<" simulated heal-return visits; siege reserve, completion, dated hazards and contract checks passed\n";
 }

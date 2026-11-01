@@ -118,19 +118,31 @@ ShopVisit purchase_project(const TurnContext& tc,gear::Context context,float str
     const std::array<F,8> families{F::monster,F::jungle,F::durability,F::treasure,F::prospector,F::capture,F::home,F::power};
     const std::array<gear::Passive,8> passives{gear::Passive::Monster,gear::Passive::Jungle,gear::Passive::Durability,
         gear::Passive::Treasure,gear::Passive::Prospector,gear::Passive::Capture,gear::Passive::Home,gear::Passive::Power};
+    const std::array<S,3> stats{S::strength,S::health,S::focus};
+    gear::Output output;
+    const auto& body=cambc::champion_designs[static_cast<unsigned>(me.champion_name())];
+    for(const auto& ability:body.abilities())if(ability.info())std::visit([&](const auto& p){
+        if(p.max_cooldown<=0)return;
+        if constexpr(std::is_same_v<std::decay_t<decltype(p)>,cambc::ability_attack_reset>)output.reset_rate=std::max(output.reset_rate,1.f/p.max_cooldown);
+        else if constexpr(requires{p.modifier;}) {
+            if((ability.is_damage()||ability.is_cc()||ability.is_aoe_damage())&&p.valid_targets.contains(cambc::ability_target_mask::camps)&&!p.exclusive_with_movement)
+                output.focus_rate=std::max(output.focus_rate,p.modifier/p.max_cooldown);
+        }
+    },*ability.info());
+    const float focus=me.state().is_dead()?design.base_focus:me.focus(),base=std::max(1.f,output.rate(strength,focus));
     unsigned unfinished=0;
-    for(auto family:families)for(auto stat:{S::strength,S::health})unfinished+=owned[cambc::get_item_enum(family,stat)]>0;
+    for(auto family:families)for(auto stat:stats)unfinished+=owned[cambc::get_item_enum(family,stat)]>0;
     float best=-1,committed=-1;ShopVisit result,finish;
     const auto started=fuel_left();
     static unsigned frontier=0;unsigned examined=0;
-    for(unsigned trial=0;trial<2*families.size();++trial) {
+    for(unsigned trial=0;trial<stats.size()*families.size();++trial) {
         // Ranking is a bounded search, not an admission proof: a legally
         // affordable evaluated batch remains useful when search is truncated.
         // Resume coverage instead of discarding it and retrying the same prefix
         // forever. No candidate is claimed to be globally optimal.
         if(!tc.allow(6000)||started-fuel_left()>12000)break;
-        const unsigned index=(frontier+trial)%(2*families.size()),f=index/2;
-        const auto stat=index%2?S::health:S::strength;++examined;
+        const unsigned index=(frontier+trial)%(stats.size()*families.size()),f=index/stats.size();
+        const auto stat=stats[index%stats.size()];++examined;
         const auto shard=cambc::get_item_enum(families[f],stat);const auto info=shard.info();
         if(!info.result||!info.combine_count||info.cost==0||context.gold<static_cast<int>(info.cost))continue;
         bool passive_owned=false;
@@ -141,14 +153,15 @@ ShopVisit purchase_project(const TurnContext& tc,gear::Context context,float str
         gear::Project project;
         project.passive=passives[f];project.magnitude=info.result->passive_magnitude();
         project.cost=info.cost;project.owned=owned[shard];project.shards_left=info.combine_count-owned[shard];
-        project.damage_growth=(info.strength_points*design.strength_growth+
-            (ryth?.01f*info.health_points*design.health_growth:0))/std::max(1.f,strength);
+        const float added_strength=info.strength_points*design.strength_growth+(ryth?.01f*info.health_points*design.health_growth:0);
+        project.damage_growth=std::max(0.f,output.rate(strength+added_strength,focus+info.focus_points*design.focus_growth)-base)/base;
         project.health_growth=info.health_points*design.health_growth/std::max(1.f,health);
         const auto result_info=info.result->info();
         const float extra_strength=std::max(0,static_cast<int>(result_info.strength_points)-static_cast<int>(info.combine_count)*info.strength_points);
         const float extra_health=std::max(0,static_cast<int>(result_info.health_points)-static_cast<int>(info.combine_count)*info.health_points);
-        project.completion_damage=(extra_strength*design.strength_growth+
-            (ryth?.01f*extra_health*design.health_growth:0))/std::max(1.f,strength);
+        const float extra_focus=std::max(0,static_cast<int>(result_info.focus_points)-static_cast<int>(info.combine_count)*info.focus_points);
+        project.completion_damage=std::max(0.f,output.rate(strength+extra_strength*design.strength_growth+
+            (ryth?.01f*extra_health*design.health_growth:0),focus+extra_focus*design.focus_growth)-base)/base;
         project.completion_health=extra_health*design.health_growth/std::max(1.f,health);
         const float utility=gear::utility(context,project);
         const unsigned count=std::min<unsigned>(project.shards_left,context.gold/info.cost);
@@ -157,7 +170,7 @@ ShopVisit purchase_project(const TurnContext& tc,gear::Context context,float str
         if(utility>best){best=utility;result=quote;}
         if(owned[shard]>=2&&utility>committed){committed=utility;finish=quote;}
     }
-    frontier=(frontier+examined)%(2*families.size());
+    frontier=(frontier+examined)%(stats.size()*families.size());
     if(committed>=0&&best<1.5f*committed)result=finish;
     result.searched=examined;
     return result;

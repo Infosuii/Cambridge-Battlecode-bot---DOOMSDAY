@@ -15,11 +15,19 @@ inline void end_turn_traced() {
 struct TurnContext {
     std::uint32_t round;
     std::uint64_t fuel0;
+#if DZ_ECONOMY_V2
+    std::uint64_t protected_fuel=0;
+    TurnContext keep(std::uint64_t fuel) const {auto result=*this;result.protected_fuel=std::max(result.protected_fuel,fuel);return result;}
+#endif
     static TurnContext begin() { trace_meter.reset(); return {cambc::round_number(), fuel_left()}; }
     void guard() const { require_current(round, [] { return cambc::round_number(); }); }
     bool allow(std::uint64_t cost) const {
         guard();
-        return fuel_left() > cost + config::reserve;
+        return fuel_left() > cost + config::reserve
+#if DZ_ECONOMY_V2
+            +protected_fuel
+#endif
+            ;
     }
 };
 struct Counters { unsigned action_errors = 0, module_errors = 0, stale = 0; };
