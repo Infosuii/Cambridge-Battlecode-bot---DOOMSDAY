@@ -12,12 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (07:56 UTC)
+## Running (08:20 UTC)
 
-- Idle work: R1 gates for the last J002 flags at or above baseline: A2_TS_VIS, A2_RESETFIX, A2_FIELDFIRST, A2_BELIEF
-  (+1 each), then A2_ASSESS (+3, heavy fuel-outs). ~25 min. Any posted job goes first.
+- **Idle: no posted job open** and every runnable retry-queue gate is done (#1/#2/#4 need code knobs; #5/#17 are the
+  joint search; #3 dead path; #6/#8/#9 R1 done). Polling comms every 10 min; any job you post starts at once.
+  findings/0004 has every gate on one page with proposals.
 
 ## Done
+
+- Sweep flags R1 batch 3: A2_TS_VIS +11 (fuel +84), A2_BELIEF +5 (fuel +10), A2_RESETFIX -4, A2_FIELDFIRST -13,
+  A2_ASSESS -35 (5,214 fuel-outs). All J002 flags at or above baseline now gated.
 
 - Sweep flags R1 batch 2 (results/RQ6-sweep-leaders.md): **A2_HIDEREC pass +7**, **A2_BURST_HOLD pass +3**;
   V58_LOCKS +8 and A2_DISENGAGE +7 fail on fuel-outs only; A2_THREAT -2, A2_MAP_PROFILE -6, APEX_STALE_BAG -11.

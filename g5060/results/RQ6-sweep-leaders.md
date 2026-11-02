@@ -139,3 +139,70 @@ A2_TS_VIS, A2_RESETFIX, A2_FIELDFIRST, A2_BELIEF (+1 each). Next in my idle queu
 | styled | x2 | 58/100 | +3 | 66 (-10) | 0 | 928 | 1963 | 10.94 | 1155 | 7a575a97f2a2 |
 | styled | x2-s2 | 55/100 | -4 | 49 (-2) | 0 | 960 | 2026 | 10.45 | 1151 | 7a575a97f2a2 |
 
+
+## Third batch (08:17 UTC): the last J002 flags at or above baseline
+
+| line | wins (base 257) | Δ | ladder (143) | styled (114) | fuel-outs (339) | deaths/game (10.84) | gold@R500 (1868) | games changed | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| A2_TS_VIS | 268 | +11 | 150 | 118 | 423 (+84) | 10.47 | 1888 | 335 | fail (fuel-outs +84 only) |
+| A2_BELIEF | 262 | +5 | 144 | 118 | 349 (+10) | 10.67 | 1875 | 233 | fail (fuel-outs only) |
+| A2_RESETFIX | 253 | -4 | 140 | 113 | 341 (+2) | 10.86 | 1862 | 119 | fail (total, fuel) |
+| A2_FIELDFIRST | 244 | -13 | 139 | 105 | 336 (-3) | 10.80 | 1873 | 402 | fail (total; styled -4.5 pts) |
+| A2_ASSESS | 222 | -35 | 108 | 114 | **5214 (+4875)** | 9.50 | 1795 | 471 | fail (total, ladder, fuel) |
+
+A2_ASSESS (v81hl's fight-or-run net, RETRY_QUEUE #9) runs out of fuel ~11 times a game: a fuel problem before it is a
+strategy result. Every J002 flag at or above baseline now has its R1 gate.
+#### base: 257 wins vs base 257; verdict base
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 68/140 | +0 | 110 (+0) | 0 | 781 | 1777 | 10.89 | 1194 | 1746f2bb7fa3 |
+| ladder | x2-s2 | 75/140 | +0 | 102 (+0) | 0 | 815 | 1806 | 10.71 | 1182 | 1746f2bb7fa3 |
+| styled | x2 | 55/100 | +0 | 76 (+0) | 0 | 921 | 1946 | 11.16 | 1158 | 1746f2bb7fa3 |
+| styled | x2-s2 | 59/100 | +0 | 51 (+0) | 0 | 957 | 2003 | 10.64 | 1164 | 1746f2bb7fa3 |
+
+#### tsvis: 268 wins vs base 257; verdict **fail** (total +11, fuel-outs +84)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 74/140 | +6 | 133 (+23) | 0 | 797 | 1852 | 10.01 | 1172 | 0fcc43b35b79 |
+| ladder | x2-s2 | 76/140 | +1 | 141 (+39) | 0 | 817 | 1805 | 10.48 | 1177 | 0fcc43b35b79 |
+| styled | x2 | 55/100 | +0 | 80 (+4) | 0 | 928 | 1961 | 11.31 | 1169 | 0fcc43b35b79 |
+| styled | x2-s2 | 63/100 | +4 | 69 (+18) | 0 | 950 | 1981 | 10.27 | 1153 | 0fcc43b35b79 |
+
+#### resetfix: 253 wins vs base 257; verdict **fail** (total -4, fuel-outs +2)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 66/140 | -2 | 110 (+0) | 0 | 776 | 1764 | 10.76 | 1182 | 8dd0cba97d1a |
+| ladder | x2-s2 | 74/140 | -1 | 102 (+0) | 0 | 815 | 1798 | 10.85 | 1183 | 8dd0cba97d1a |
+| styled | x2 | 53/100 | -2 | 75 (-1) | 0 | 916 | 1942 | 11.42 | 1158 | 8dd0cba97d1a |
+| styled | x2-s2 | 60/100 | +1 | 54 (+3) | 0 | 954 | 2007 | 10.47 | 1158 | 8dd0cba97d1a |
+
+#### fieldfirst: 244 wins vs base 257; verdict **fail** (total -13, a map kind < -2 points)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 68/140 | +0 | 106 (-4) | 0 | 799 | 1796 | 10.16 | 1172 | 5f2ef0720d35 |
+| ladder | x2-s2 | 71/140 | -4 | 114 (+12) | 0 | 804 | 1791 | 10.81 | 1179 | 5f2ef0720d35 |
+| styled | x2 | 54/100 | -1 | 64 (-12) | 0 | 922 | 1972 | 12.07 | 1170 | 5f2ef0720d35 |
+| styled | x2-s2 | 51/100 | -8 | 52 (+1) | 0 | 938 | 1997 | 10.40 | 1136 | 5f2ef0720d35 |
+
+#### belief: 262 wins vs base 257; verdict **fail** (total +5, fuel-outs +10)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 69/140 | +1 | 110 (+0) | 0 | 784 | 1786 | 10.62 | 1186 | 30c07b75377c |
+| ladder | x2-s2 | 75/140 | +0 | 115 (+13) | 0 | 808 | 1808 | 10.91 | 1213 | 30c07b75377c |
+| styled | x2 | 59/100 | +4 | 70 (-6) | 0 | 918 | 1933 | 11.28 | 1160 | 30c07b75377c |
+| styled | x2-s2 | 59/100 | +0 | 54 (+3) | 0 | 961 | 2038 | 9.79 | 1152 | 30c07b75377c |
+
+#### assess: 222 wins vs base 257; verdict **fail** (total -35, a map kind < -2 points, fuel-outs +4875)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 56/140 | -12 | 1441 (+1331) | 0 | 775 | 1725 | 9.11 | 1180 | 644e399edeaf |
+| ladder | x2-s2 | 52/140 | -23 | 1609 (+1507) | 0 | 771 | 1703 | 9.52 | 1198 | 644e399edeaf |
+| styled | x2 | 55/100 | +0 | 1172 (+1096) | 0 | 869 | 1877 | 9.92 | 1154 | 644e399edeaf |
+| styled | x2-s2 | 59/100 | +0 | 992 (+941) | 0 | 868 | 1938 | 9.57 | 1160 | 644e399edeaf |
+
