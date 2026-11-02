@@ -13,3 +13,5 @@ Report: one line per variant on comms as it finishes (tag, wins/172, fuel-outs),
 g5060/results/J019.md as the table; mark each row promote / refine / abort in your copy.
 At the end: greedy stack of all promoted rows (best first; keep each only if the stack gains on the full gate).
 The PC does rows 27, 29, 31-34 (new code) and will add rows as features appear.
+
+addendum (PC): rows 35 X1_CORNERED (N=2/3/5) and 36 X1_FIRSTFIELD=1 added to FEATURE_SWEEP_X3.md; screen them on pool vs v92 with the rest. Do not drop row 35 on its one-map result.
