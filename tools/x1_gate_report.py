@@ -8,6 +8,8 @@ gold@R500 (earned), deaths per game and finish round, and the verdict:
   rate below the base, ladder + styled fuel-outs <= base (totals; per-game fuel-outs are not paired once games
   diverge), zero faults. Maze cells (pc/msgs/0009): fuel-outs reported apart; they fail a line only if they rise by
   more than 25% while ladder + styled fuel-outs rise too.
+Also prints the paired sign test: games won that the base lost (gained) and the reverse (lost), z = (gained - lost) /
+sqrt(gained + lost); no-op fuel-shift builds give |z| < 1 (results/I-60-03.md), so |z| < 2 is within noise.
 """
 import json, sys
 from pathlib import Path
@@ -42,11 +44,16 @@ def main():
     for tag in [base_tag] + tags:
         rows, tot, btot, kind_ok, fuel, bfuel, faults = [], 0, 0, True, 0, 0, 0
         mfuel = mbfuel = 0  # maze cells: fuel-outs reported apart (pc/msgs/0009)
+        gained = lost = 0  # paired: games the line wins and the base loses, and the reverse (same map and side)
         for k in KINDS:
             kw = kb = kn = 0
             for o in OPPS:
                 c, b = cell(tag, k, o), base[(k, o)]
                 if c is None or b is None: continue
+                bw = {(g['map'], g['side']): g['outcome'] == 'team' + g['side'] for g in b['per_game']}
+                for g in c['per_game']:
+                    w, wb = g['outcome'] == 'team' + g['side'], bw.get((g['map'], g['side']))
+                    gained += w and wb is False; lost += (not w) and wb is True
                 s, sb = stats(c), stats(b)
                 rows.append(f"| {k} | {o} | {s['wins']}/{s['games']} | {s['wins'] - sb['wins']:+d} | {s['fuel']} ({s['fuel'] - sb['fuel']:+d}) | "
                             f"{s['faults']} | {s['gold250']:.0f} | {s['gold500']:.0f} | {s['deaths']:.2f} | {s['rounds']:.0f} | {s['sha']} |")
@@ -64,6 +71,11 @@ def main():
             f"{'' if fuel <= bfuel else f', fuel-outs {fuel - bfuel:+d}'}{'' if maze_fuel_ok else ', maze fuel-outs > +25%'}"
             f"{'' if faults == 0 else f', faults {faults}'})")
         if mbfuel or mfuel: verdict += f'; maze fuel-outs {mfuel} vs {mbfuel} (reported)'
+        if tag != base_tag:
+            # Sign test on flipped games (results/I-60-03.md): under no real effect z is about N(0, 1); no-op builds
+            # gave |z| < 1. Treat |z| < 2 as noise.
+            z = (gained - lost) / (gained + lost) ** 0.5 if gained + lost else 0.0
+            verdict += f'; paired: gained {gained}, lost {lost}, z {z:+.2f}'
         out += [f'### {tag}: {tot} wins vs base {btot}; verdict {verdict}', '',
                 '| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |',
                 '|---|---|---|---|---|---|---|---|---|---|---|'] + rows + ['']
