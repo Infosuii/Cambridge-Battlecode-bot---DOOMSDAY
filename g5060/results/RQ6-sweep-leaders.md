@@ -50,3 +50,92 @@ said. APEX_ESCORT passes; A2_BURST2 gains the most wins but adds 20 fuel-outs.
 | styled | x2 | 63/100 | +8 | 53 (-23) | 0 | 938 | 1984 | 9.82 | 1137 | 3bdbdc32a554 |
 | styled | x2-s2 | 55/100 | -4 | 63 (+12) | 0 | 908 | 1955 | 11.13 | 1165 | 3bdbdc32a554 |
 
+
+## Second batch (07:55 UTC): the next seven J002 flags at or above baseline
+
+Same gate, commit 0b3703b, `--set FLAG=1`. results.json added to RQ6/.
+
+| line | wins (base 257) | Δ | ladder (143) | styled (114) | fuel-outs (339) | deaths/game (10.84) | gold@R500 (1868) | games changed | verdict |
+|---|---|---|---|---|---|---|---|---|---|
+| **A2_HIDEREC** | **264** | **+7** | 152 | 112 | 333 (-6) | 10.92 | 1874 | 196 | **pass** |
+| **A2_BURST_HOLD** | **260** | **+3** | 147 | 113 | 334 (-5) | 10.61 | 1880 | 238 | **pass** |
+| V58_LOCKS | 265 | +8 | 153 | 112 | 358 (+19) | 10.81 | 1860 | 311 | fail (fuel-outs only) |
+| A2_DISENGAGE | 264 | +7 | 140 | 124 | 344 (+5) | 10.44 | 1869 | 406 | fail (fuel-outs +5 only) |
+| A2_THREAT | 255 | -2 | 137 | 118 | 330 (-9) | 9.97 | 1888 | 476 | fail (total; ladder -2.1 pts) |
+| A2_MAP_PROFILE | 251 | -6 | 137 | 114 | 391 (+52) | 10.32 | 1865 | 327 | fail (total, ladder, fuel +52) |
+| APEX_STALE_BAG | 246 | -11 | 137 | 109 | 347 (+8) | 10.84 | 1863 | 258 | fail (total, kinds, fuel) |
+
+Remaining J002 flags at or above baseline not yet gated: A2_ASSESS (+3 on the sweep but 607 fuel-outs on 76 games),
+A2_TS_VIS, A2_RESETFIX, A2_FIELDFIRST, A2_BELIEF (+1 each). Next in my idle queue.
+#### base: 257 wins vs base 257; verdict base
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 68/140 | +0 | 110 (+0) | 0 | 781 | 1777 | 10.89 | 1194 | 1746f2bb7fa3 |
+| ladder | x2-s2 | 75/140 | +0 | 102 (+0) | 0 | 815 | 1806 | 10.71 | 1182 | 1746f2bb7fa3 |
+| styled | x2 | 55/100 | +0 | 76 (+0) | 0 | 921 | 1946 | 11.16 | 1158 | 1746f2bb7fa3 |
+| styled | x2-s2 | 59/100 | +0 | 51 (+0) | 0 | 957 | 2003 | 10.64 | 1164 | 1746f2bb7fa3 |
+
+#### locks: 265 wins vs base 257; verdict **fail** (total +8, fuel-outs +19)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 74/140 | +6 | 119 (+9) | 0 | 779 | 1771 | 10.71 | 1183 | 81ad3024b1a5 |
+| ladder | x2-s2 | 79/140 | +4 | 113 (+11) | 0 | 811 | 1784 | 10.79 | 1179 | 81ad3024b1a5 |
+| styled | x2 | 56/100 | +1 | 77 (+1) | 0 | 918 | 1943 | 11.10 | 1154 | 81ad3024b1a5 |
+| styled | x2-s2 | 56/100 | -3 | 49 (-2) | 0 | 957 | 2007 | 10.68 | 1166 | 81ad3024b1a5 |
+
+#### mapprofile: 251 wins vs base 257; verdict **fail** (total -6, a map kind < -2 points, fuel-outs +52)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 69/140 | +1 | 124 (+14) | 0 | 780 | 1809 | 9.89 | 1185 | f4fbc12d11f4 |
+| ladder | x2-s2 | 68/140 | -7 | 132 (+30) | 0 | 800 | 1773 | 10.14 | 1162 | f4fbc12d11f4 |
+| styled | x2 | 56/100 | +1 | 75 (-1) | 0 | 917 | 1944 | 11.58 | 1162 | f4fbc12d11f4 |
+| styled | x2-s2 | 58/100 | -1 | 60 (+9) | 0 | 947 | 1994 | 9.91 | 1146 | f4fbc12d11f4 |
+
+#### stalebag: 246 wins vs base 257; verdict **fail** (total -11, a map kind < -2 points, fuel-outs +8)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 69/140 | +1 | 112 (+2) | 0 | 775 | 1773 | 10.65 | 1183 | f67cca44e4a7 |
+| ladder | x2-s2 | 68/140 | -7 | 111 (+9) | 0 | 811 | 1800 | 10.84 | 1184 | f67cca44e4a7 |
+| styled | x2 | 54/100 | -1 | 79 (+3) | 0 | 920 | 1953 | 11.38 | 1157 | f67cca44e4a7 |
+| styled | x2-s2 | 55/100 | -4 | 45 (-6) | 0 | 954 | 1986 | 10.55 | 1172 | f67cca44e4a7 |
+
+#### disengage: 264 wins vs base 257; verdict **fail** (total +7, fuel-outs +5)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 69/140 | +1 | 116 (+6) | 0 | 778 | 1766 | 10.88 | 1200 | 709bbdb5fbd0 |
+| ladder | x2-s2 | 71/140 | -4 | 104 (+2) | 0 | 814 | 1819 | 10.01 | 1160 | 709bbdb5fbd0 |
+| styled | x2 | 61/100 | +6 | 72 (-4) | 0 | 923 | 1950 | 10.90 | 1152 | 709bbdb5fbd0 |
+| styled | x2-s2 | 63/100 | +4 | 52 (+1) | 0 | 947 | 2002 | 9.98 | 1149 | 709bbdb5fbd0 |
+
+#### hiderec: 264 wins vs base 257; verdict **pass** (total +7)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 72/140 | +4 | 106 (-4) | 0 | 787 | 1776 | 10.75 | 1184 | 2bc3d23a5049 |
+| ladder | x2-s2 | 80/140 | +5 | 103 (+1) | 0 | 831 | 1839 | 11.02 | 1190 | 2bc3d23a5049 |
+| styled | x2 | 55/100 | +0 | 73 (-3) | 0 | 916 | 1948 | 11.08 | 1143 | 2bc3d23a5049 |
+| styled | x2-s2 | 57/100 | -2 | 51 (+0) | 0 | 952 | 1988 | 10.86 | 1168 | 2bc3d23a5049 |
+
+#### threat: 255 wins vs base 257; verdict **fail** (total -2, a map kind < -2 points)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 70/140 | +2 | 108 (-2) | 0 | 823 | 1850 | 9.14 | 1164 | 413f45b08b10 |
+| ladder | x2-s2 | 67/140 | -8 | 109 (+7) | 0 | 815 | 1781 | 9.59 | 1180 | 413f45b08b10 |
+| styled | x2 | 58/100 | +3 | 61 (-15) | 0 | 904 | 1995 | 10.68 | 1158 | 413f45b08b10 |
+| styled | x2-s2 | 60/100 | +1 | 52 (+1) | 0 | 921 | 1984 | 10.95 | 1158 | 413f45b08b10 |
+
+#### bursthold: 260 wins vs base 257; verdict **pass** (total +3)
+
+| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |
+|---|---|---|---|---|---|---|---|---|---|---|
+| ladder | x2 | 71/140 | +3 | 114 (+4) | 0 | 780 | 1787 | 10.69 | 1197 | 7a575a97f2a2 |
+| ladder | x2-s2 | 76/140 | +1 | 105 (+3) | 0 | 816 | 1809 | 10.42 | 1185 | 7a575a97f2a2 |
+| styled | x2 | 58/100 | +3 | 66 (-10) | 0 | 928 | 1963 | 10.94 | 1155 | 7a575a97f2a2 |
+| styled | x2-s2 | 55/100 | -4 | 49 (-2) | 0 | 960 | 2026 | 10.45 | 1151 | 7a575a97f2a2 |
+
