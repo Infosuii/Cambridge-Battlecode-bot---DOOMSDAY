@@ -8,7 +8,9 @@ Work and rows: artifacts/tmp/x1farm/NAME/ (rows.jsonl, one row per game; base/ k
 Baseline: X1_PLAN=1 X1_PLAN_ROUND=5000 X1_PLAN_ID=6 (never switches; non-zero id so it shares the branches' code
 section). Branches: every (round, plan); identical to the baseline before the round. Every branch's summary is compared
 with its baseline's, timeline by timeline (lab/box tools/lab/branch_prefix.py first_diff), and the first differing round
-is kept in the row ('diverge'); 'prefix_ok' is false if it is before the switch round. Branches whose round is at or
+is kept in the row ('diverge'); 'prefix_ok' is false if it is before the switch round. Every row has 'cp': features()
+at rounds CP (past the end = final value) plus gold250 / gold500 (our earned gold). Rows written before 'cp' existed
+are replayed once and checked against the old row ('replay_match'). Branches whose round is at or
 after the baseline's last round are recorded as skipped. Baselines run first, then rounds in the configured order,
 each tier shuffled across maps, so a partial run is a balanced sample.
 """
@@ -24,6 +26,7 @@ KINDS = {'ladder': 'maps/local-benchmarks', 'styled': 'maps/x1-unseen', 'maze': 
 DEFAULT = dict(bot='x1', opponents=['x2', 'x2-s2'], kinds=['ladder', 'styled'], rounds=[250, 150, 350],
                plans=[1, 2, 3, 4, 5, 6, 7, 8], expect_code='be66c8804ef0')
 FEAT = ('submittedGems', 'gems', 'gold', 'kills', 'deaths', 'collectedGems', 'earnedGold', 'championDamageDone')
+CP = (150, 250, 350, 500)  # per-game checkpoints on every row (pc/msgs/0002: gold at R250 / R500, deaths and kills)
 
 
 def code_sha(path):
@@ -157,7 +160,8 @@ class Farm:
 
     def play(self, job):
         o, kind, m, side, rd, p = job; key = self.key(job)
-        if key in self.done: return False
+        old = self.done.get(key)
+        if old and ('cp' in old or 'skipped' in old): return False
         row = dict(key=key, opp=o, kind=kind, map=m, side=side, round=rd, plan=p)
         last = self.base_rounds.get((o, kind, m, side))
         if rd >= 0 and last is not None and rd >= last:
@@ -188,6 +192,9 @@ class Farm:
                    rounds=int(d['match']['roundsStarted']), deaths=champ(us, 'deaths'), kills=champ(us, 'kills'),
                    opp_deaths=champ(op, 'deaths'), faults=int(d['diagnostics']['botFaults'][us]),
                    opp_faults=int(d['diagnostics']['botFaults'][op]), fuel=fuel[us], opp_fuel=fuel[op])
+        row['cp'] = features(d, us, op, CP)
+        row.update(gold250=row['cp']['250'][FEAT.index('earnedGold')], gold500=row['cp']['500'][FEAT.index('earnedGold')])
+        if old: row['replay_match'] = all(old.get(k) == row[k] for k in ('win', 'gems', 'opp_gems', 'rounds', 'deaths', 'fuel'))
         if rd < 0:
             row['feat'] = features(d, us, op, self.cfg['rounds'])
             (self.dir/'base'/f'{o}-{kind}-{m}-{side}.json').write_text(raw, encoding='utf-8')
@@ -208,6 +215,7 @@ class Farm:
         self.build_all()
         tiers = self.tiers(); total = sum(map(len, tiers)); played, t0 = 0, time.time()
         self.log(f'{len(self.maps)} maps, {total} games, {sum(1 for t in tiers for j in t if self.key(j) in self.done)} done')
+        complete = lambda: sum(1 for r in self.done.values() if 'cp' in r or 'skipped' in r)
         for tier in tiers:  # a tier finishes before the next starts: branches need their baseline's summary
             with ThreadPoolExecutor(self.workers) as ex:
                 for i, f in enumerate([ex.submit(self.play, j) for j in tier]):
@@ -216,9 +224,9 @@ class Farm:
                         with self.lock, open(self.dir/'errors.jsonl', 'a', encoding='utf-8') as fh:
                             fh.write(json.dumps(dict(key=self.key(tier[i]), out=repr(e)[-2000:])) + '\n')
                     if played and i % 200 == 0:
-                        n = len(self.done); rate = played / (time.time() - t0)
+                        n = complete(); rate = played / (time.time() - t0)
                         self.log(f'games {n} / {total}  ({rate * 60:.0f}/min, ~{(total - n) / max(rate, 1e-9) / 3600:.1f} h left)')
-        self.log(f'games {len(self.done)} / {total}' + ('  X1FARM_DONE' if len(self.done) == total else '  (some failed: errors.jsonl)'))
+        self.log(f'games {complete()} / {total}' + ('  X1FARM_DONE' if complete() == total else '  (some failed: errors.jsonl)'))
 
 
 def main():
