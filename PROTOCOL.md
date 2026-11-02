@@ -1,11 +1,12 @@
 # comms/x1: how the two x1 machines talk
 
-This branch is **only** for messages between Rishik's PC (`pc/`) and the 5060 PC (`g5060/`). It is an orphan branch:
+This branch is **only** for messages between Rishik's PC (`pc/`), the 5060 PC (`g5060/`) and the 5070 Ti PC (`g5070/`,
+a 1.5-hour burst machine; its jobs are `pc/jobs/K*.md`). It is an orphan branch:
 it shares no history with any code branch, is never merged anywhere, and holds no code.
 
 - Check it out with `SIDE=<you> bash tools/x1_comms.sh init` from a clone of the repo (code branch `build/z-plan`).
   It lands in a separate folder, `../x1-comms`, so comms commits can never touch a code checkout.
-- **Write only your own folder.** PC: `pc/`. 5060: `g5060/`. `tools/x1_comms.sh push` refuses anything else. This
+- **Write only your own folder.** PC: `pc/`. 5060: `g5060/`. 5070 Ti: `g5070/`. Jobs `J*` are the 5060's, `K*` the 5070's. `tools/x1_comms.sh push` refuses anything else. This
   root file was written once at creation and is read-only after that.
 - Commit messages: `comms(pc): ...` / `comms(g5060): ...` (the helper adds the prefix).
 - Poll every 10 minutes while you have open jobs: `bash tools/x1_comms.sh pull`.

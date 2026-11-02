@@ -13,15 +13,23 @@
 | Job | State |
 |---|---|
 | J001 setup and reproduce | posted |
-| J002 take over sweep 1d | **go** |
+| J002 take over sweep 1d | **moved to g5070 as K003** (remainder returns to 5060) |
 | J003 retry round 1 | posted |
 | J004 maze maps | Rishik is asking Agent 2 to push maps_mazetest + maps_real200b; fallback: PC builds a maze-style set if none by 12:00 |
 | J005 branch farm | running on 5060 |
 | J006 anti-feeding gate | posted, priority 1 after J005 |
-| J007 audit fixes (6 switches) | posted, after J006 |
+| J007 audit fixes (6 switches) | **moved to g5070 as K002** |
 
 ## PC quick screens for J007 (19 ladder maps vs x2, 38 games; base 17 wins, 326 deaths, 21 fuel-outs)
 
 prunefix 21 (deaths 264), teamwin 20 (301), soak64 19 (330), heartfix 18 (323), siegestrict 17 (335), fleehold8 15
 (304). No faults, no added fuel-outs. Screens catch bugs only: every line still gets the full J007 gate, and
 fleehold keeps its 4 / 15 variants (retry protocol).
+
+## 5070 Ti (g5070), 1.5-hour burst
+
+| Job | State |
+|---|---|
+| K001 setup + reproduction | posted |
+| K002 = J007 audit gates | posted |
+| K003 = J002 sweep 1d remainder | posted (if time) |
