@@ -33,4 +33,7 @@ Workers: 6 (threads-2).
 
 ## Queue
 
-J005 (running) → J002 (PC says go; starts when the farm ends, one job at a time; PC's x1-sd-* results pulled) → J003 retry round 1 → retry-queue gates when idle.
+J005 (running, ETA ~01:55) → **J006** antifeed gate (worktree `C:\x1run-846e8ce` at 846e8ce, ready; base gate
+x1g-base-* on x2-s2 runs first, x2 base = x1e-cw-*-x2) → J002 sweep 1d → J003 retry round 1 → stand-in proposal.
+Gate verdicts by tools/x1_gate_report.py (build/z-plan-5060 8fbea60): wins, fuel-outs, faults, gold@R250/R500,
+deaths/game, finish round per cell.
