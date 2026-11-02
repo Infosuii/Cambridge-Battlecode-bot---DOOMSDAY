@@ -16,6 +16,7 @@ for f in $FLAGS; do
   until h=$("$PY" -c "import json,sys;d=json.load(open('$HASHES'));print(d['$f'])" 2>/dev/null); do sleep 60; done
   base=$("$PY" -c "import json;print(json.load(open('$HASHES'))['BASE'])")
   if [ "$h" = "$base" ]; then echo "$f: same binary as x1 (not played)"; continue; fi
+  if [ "$h" = "BUILD_FAILED" ]; then echo "$f: does not compile (not played; artifacts/tmp/x1-flaghash-$f.err)"; continue; fi
   case "$played" in *" $h "*) echo "$f: same binary as an earlier switch (not played)"; continue;; esac
   played="$played$h "
   t=$(echo $f | tr 'A-Z_' 'a-z-')
