@@ -42,3 +42,8 @@ fleehold keeps its 4 / 15 variants (retry protocol).
 Plan 4 (turtle) is the strongest switch: net +20 @R150, +27 @R250, deaths -2, gold@R500 +29..39; plan 6 +17 @R150;
 plan 8 (push) and 2 (hoard) are the weakest. x1 is over-aggressive vs v88. Next: J009 tests these as whole-game
 settings; the PC investigates plan 4's extra fuel-outs.
+
+## Later (low priority, after J009/J010/J006/J008 report)
+
+Phase 4 design: research/x1/CBR_IM_ARCHITECTURE.md on build/z-plan. Your part later: J011 harvest map descriptors,
+J012 case library from J005 rows + leave-one-map-out test. Not posted yet; keep the J005 rows (all columns).
