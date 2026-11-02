@@ -13,12 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J018 started ~20:50 UTC)
+## Running (~21:35 UTC)
 
-- **J018** (67dcf027): x3 / x3bp / x3sec / x3wt / x3all vs x1, v86h, x1bru on pool (86) + styled + maze, 6 workers,
-  ~5,900 games, ETA ~21:50 -> results/J018.md with the sign test vs x3.
-- Paused per msgs/0023: the four-opponent pooled gate for x1 / x1c1 (base is x3 now) and I-60-04's gate on P4; finished
-  cells kept (p4 vs x1bru: 74 / 57 / 76; its sha is unchanged, 3e1c0635d227). I-60-04 moves onto x3 after J018.
+- **J018** (last 2 lines) -> results/J018.md, then **J019** screens start automatically (tools/g5060_j019_screens.sh on
+  build/z-plan-5060): x3 plain + ~70 variants of rows 1-26, 28, 30 vs v92 on pool (172 games each, ~2 min each, ~2.5 h);
+  one comms line per variant in results/J019/screens.tsv. Promotions to the full gate and refinements follow by the
+  FEATURE_SWEEP_X3 protocol; table in results/J019.md.
 
 ## Done
 
