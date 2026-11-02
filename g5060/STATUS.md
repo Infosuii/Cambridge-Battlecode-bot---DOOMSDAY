@@ -20,6 +20,9 @@ Workers: 6 (threads-2).
 
 ## Done
 
+- Maps on git: build/z-plan-5060 5b8ceddd now carries all 59 maze maps (set A copied from build/z-plan + set B) and set
+  B's 10 leftover candidates in maps/x1-maze-g5060-extra (reference only, not gated).
+
 - **Rule 15** (results/RQ15-rule15.md, msgs/0005): bp -18, p4 -23, bpp4r150 -22 vs x1 against v86h + v81hl (z ~ -1.6);
   pooled with x2 / x2-s2, bpp4r150 z +0.44: no line shown better than x1 yet.
 
