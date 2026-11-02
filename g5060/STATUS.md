@@ -20,6 +20,9 @@ Workers: 6 (threads-2).
 
 ## Done
 
+- **Rule 15** (results/RQ15-rule15.md, msgs/0005): bp -18, p4 -23, bpp4r150 -22 vs x1 against v86h + v81hl (z ~ -1.6);
+  pooled with x2 / x2-s2, bpp4r150 z +0.44: no line shown better than x1 yet.
+
 - **I-60-03 / findings 0006**: gate noise floor (no-op builds -8..+3, |z| < 1) and a paired sign test for every
   line: no gain so far reaches z >= 2 except SECURE (4-0); BP + plan 4 R150 z = 1.99. Report tool prints z (c754366f).
 
