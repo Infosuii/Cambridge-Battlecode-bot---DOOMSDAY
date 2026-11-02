@@ -13,13 +13,15 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (started 15:10 UTC)
+## Running (started 16:20 UTC)
 
-- **Ideation I-60-01 v2** (bots/x1g60): field-quota switch X1_G60_FIELDQ / X1_G60_FIELDQE; next: build, R0 check of the
-  straight-line share, then gate vs P4 (BP + plan 4 R100) on ladder + styled + maze 59. ETA first gate ~16:30.
-  The draft-time version failed R0 (draft runs in a separate instance; ideas/I-60-01.md).
+- **Ideation I-60-03** (economy and banking): mining the J005 farm rows and gate games for where x1's gold and
+  banking fall behind (top teams: ~2x gold by R500). Idea card first, then code in bots/x1g60. Any posted job first.
 
 ## Done
+
+- **I-60-01** (results/I-60-01.md): walking-distance fields faster (FIELDQ 4/6/20) on P4: -14 / -23 / -43; retry
+  pending (R3). Draft-time version failed R0 by design. I-60-02 (first-turn fuel-outs on 6 maps): finding, parked.
 
 - **J016 done** (results/J016.md): on p4 only X1_SECURE passes (+2, 34 games changed); HIDEREC +4 fails on fuel;
   others -2..-42. p4 + all passes = p4secure 417.
