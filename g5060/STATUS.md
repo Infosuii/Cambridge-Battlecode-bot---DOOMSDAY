@@ -13,11 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~14:05 UTC)
+## Running (started 15:10 UTC)
 
-- **Ideation I-60-01** (ideas/I-60-01.md): evidence step, FIELDLOG diagnostic of bots/x1g60 vs x2 on ladder + maze
-  (how long early camp choice falls back to straight-line distance). Then build or drop the draft-time field
-  precompute. Any posted job goes first.
+- **Ideation I-60-01 v2** (bots/x1g60): field-quota switch X1_G60_FIELDQ / X1_G60_FIELDQE; next: build, R0 check of the
+  straight-line share, then gate vs P4 (BP + plan 4 R100) on ladder + styled + maze 59. ETA first gate ~16:30.
+  The draft-time version failed R0 (draft runs in a separate instance; ideas/I-60-01.md).
 
 ## Done
 
