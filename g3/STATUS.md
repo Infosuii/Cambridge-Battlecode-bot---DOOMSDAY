@@ -18,3 +18,5 @@ Running i01b: --set X1_G3_SECURE=1 --set X1_G3_SECURE_TURNS=1.5. Local campaign 
 Latest completed i01b: 90/172, fuel 175, faults 0, gained/lost 6/2. REFINE / DO NOT PROMOTE.
 
 Running i01c: --set X1_G3_SECURE=1 --set X1_WALKTAIL=3. Local campaign PID 923.
+
+Latest completed i01c: 91/172, fuel 175, faults 0, gained/lost 7/2. REFINE / DO NOT PROMOTE.
