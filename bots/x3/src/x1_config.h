@@ -156,6 +156,12 @@
 #ifndef X1_NEED_MULT
 #define X1_NEED_MULT 1.0f // x solo camp health budget (more = take more camps alone)
 #endif
+#ifndef X1_G3_SECURE
+#define X1_G3_SECURE 0
+#endif
+#ifndef X1_G3_SECURE_TURNS
+#define X1_G3_SECURE_TURNS 2.0f
+#endif
 #ifndef X1_COUNTER
 #define X1_COUNTER 0 // per map and side, the variant that beat the opponent there (x1_counter.h, tools/x3_counter.py); implies X1_PLAN
 #endif

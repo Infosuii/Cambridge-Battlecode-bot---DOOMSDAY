@@ -3289,6 +3289,51 @@ bool Bot::handle_enemies() {
         }
     }
 
+#if X1_G3_SECURE && A2_LANCH2
+    // Target-centered recruitment: choose a short, locally winning kill together.
+    // Recomputed each turn; downstream burst/danger checks still veto engagement.
+    if (hp >= max_hp * 0.5f && gems < 40 && bc::fuel_remaining() > 45000) {
+        auto power = [](bc::champion_type t, float h, float s, float f) {
+            const int ti = std::clamp(static_cast<int>(t), 0, 12);
+            return h / 1000.0f * (lanch::kW[ti] * s / 70.0f + lanch::kWf * f / 100.0f);
+        };
+        const EnemyRec* secure = nullptr;
+        float secure_key = 1e9f, secure_ttk = 1e9f;
+        for (const auto& e : w.enemies) {
+            if (bc::fuel_remaining() < 40000) break;
+            const int gap = std::max(0, cheb(pos, e.pos) - range);
+            if (e.hp <= 0 || bit(w.enemy_spawn_zone, e.pos) || gap > X1_G3_SECURE_TURNS) continue;
+            float us = power(type, hp, strength, focus), them = 0.0f;
+            float damage = mine / (1.0f + gap);
+            int friends = 1, foes = 0;
+            for (const auto& a : w.allies) {
+                const int arrival = std::max(0, cheb(a.pos, e.pos) - a.range);
+                if (a.hp < a.max_hp * 0.5f || arrival > X1_G3_SECURE_TURNS) continue;
+                us += power(a.type, a.hp, a.strength, a.focus);
+                damage += ally_dps(a) / (1.0f + arrival);
+                ++friends;
+            }
+            if (friends < 2) continue;
+            for (const auto& o : w.enemies) {
+                if (o.hp <= 0 || cheb(o.pos, e.pos) > 7) continue;
+                them += power(o.type, o.hp, o.strength, o.focus);
+                ++foes;
+            }
+            const float z = std::pow(static_cast<float>(friends), lanch::kOrder - 1.0f) * us -
+                std::pow(static_cast<float>(foes), lanch::kOrder - 1.0f) * them;
+            if (1.0f / (1.0f + std::exp(-z)) < A2_LC_HI) continue;
+            const float kill_time = e.hp / std::max(damage, 1.0f);
+            if (kill_time > X1_G3_SECURE_TURNS) continue;
+            const float key = kill_time / (1.0f + e.gems / 30.0f);
+            if (key < secure_key || (key == secure_key && secure && e.id < secure->id)) {
+                secure = &e;
+                secure_key = key;
+                secure_ttk = kill_time;
+            }
+        }
+        if (secure) target = secure, target_ttk = secure_ttk;
+    }
+#endif
     float aggression = tune::kAggression * ep_aggr;
     if (NOVA_RUSH_UNTIL > 0 && round < NOVA_RUSH_UNTIL && rush_active()) aggression *= NOVA_RUSH_AGGR;
     // Phase (APEX_PHASE_AGGR): the position evaluator values a kill at ~8 gems early and ~25 late, and
