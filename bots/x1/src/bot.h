@@ -424,7 +424,12 @@ private:
         const float t = std::min(1.0f, static_cast<float>(ally_score) / static_cast<float>(tune::kGoldTaper));
         return weight * (1.0f - 0.8f * t);
     }
+#if X1_TEAMWIN
+    bool win_now() const { return tune::kWinFirst && gems > 0 && ally_score + std::max(gems, team_carry) >= static_cast<int>(bc::constants::winning_gems); }
+    int team_carry = 0; // X1_TEAMWIN: carried gems of all live allies, this turn
+#else
     bool win_now() const { return tune::kWinFirst && gems > 0 && ally_score + gems >= static_cast<int>(bc::constants::winning_gems); }
+#endif
     vec2 ward_pos{-100, -100};
     int ally_score = 0, enemy_score = 0;
     int team_kills_seen = 0;

@@ -51,3 +51,22 @@
 #ifndef X1_ANTIFEED_WIN
 #define X1_ANTIFEED_WIN 150
 #endif
+#ifndef X1_HEARTFIX
+#define X1_HEARTFIX 0 // audit B01: fight forecast with Heart of Ruin dash landing damage/stun and missing-health damage (A2_KITFIX 25 -> 31).
+#endif
+#ifndef X1_SOAK64
+#define X1_SOAK64 0 // audit B02: camp danger counts up to 64 members per group (12 = v81hl).
+#endif
+#define X1_SOAK_N (X1_SOAK64 ? 64 : 12)
+#ifndef X1_PRUNEFIX
+#define X1_PRUNEFIX 0 // audit B03: candidate prune bound includes the later campwatch and dominant-group multipliers.
+#endif
+#ifndef X1_FLEEHOLD
+#define X1_FLEEHOLD 0 // audit F01: rounds after a flee during which a champion keeps away from enemies seen within 8 (0 = off).
+#endif
+#ifndef X1_TEAMWIN
+#define X1_TEAMWIN 0 // audit F03: the win-now bank counts the whole team's carried gems.
+#endif
+#ifndef X1_SIEGE_STRICT
+#define X1_SIEGE_STRICT 0 // audit B04: use the siege LOS cache only when every live camp is cached (else the unfiltered ring).
+#endif

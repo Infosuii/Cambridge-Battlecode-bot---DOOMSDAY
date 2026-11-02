@@ -4752,12 +4752,12 @@ float Bot::soak_coefficient(int gi, float hp_left) {
 
 // Damage the tanks absorb while the team kills the dangerous camps, weakest first.
 float Bot::group_soak(const GroupRec& g, float team_dps) const {
-    std::array<std::pair<float, float>, 12> live{};
+    std::array<std::pair<float, float>, X1_SOAK_N> live{}; // audit B02: 12 dropped members of big groups (02the-pack G0 has 48)
     int n = 0;
     float str_alive = 0;
     for (int ci : g.camps) {
         const auto& c = w.camps[ci];
-        if (c.strength <= 0 || n >= 12) continue;
+        if (c.strength <= 0 || n >= X1_SOAK_N) continue;
         if (g.state == GroupState::alive && c.dead) continue;
         const float hp_c = g.state == GroupState::alive ? c.hp : c.max_hp;
         live[n++] = {hp_c, c.strength};
@@ -4909,7 +4909,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 }
                 ring &= ~danger_zone & ~w.static_blocked;
                 bc::bitboard seeing = ring & any;
-                if (!seeing.is_empty() && (complete || true)) ring = seeing;
+                if (!seeing.is_empty() && (complete || !X1_SIEGE_STRICT)) ring = seeing; // a partial union keeps only tiles that see a live camp (audit B04)
             }
             if (false) {
 #else
@@ -5659,7 +5659,13 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
 #endif
         {
             const float best_case = (static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold)) * mid_mult *
-                tune::kStickiness / (static_cast<float>(approach + wait) + capture_time + 4.0f);
+                tune::kStickiness / (static_cast<float>(approach + wait) + capture_time + 4.0f)
+#if X1_PRUNEFIX
+                // audit B03: campwatch and the dominant-group multiplier are applied after this prune, so include them in
+                // the optimistic bound or a group they would lift is never scored.
+                * (A2_CAMPWATCH ? A2_CW_MULT : 1.0f) * (NOVA_BIGJOB > 0.0f && round >= NOVA_BIGJOB_FROM && gi < big_group.size() && big_group[gi] ? NOVA_BIGJOB_MULT : 1.0f)
+#endif
+                ;
             if (best_case <= prune_bound()) {
 #ifdef APEX_SCOREDBG
                 if (g.harmless && g.gems > 0 && round < 60)
@@ -7001,6 +7007,21 @@ void Bot::play_turn() {
         }
     }
 #endif
+#if X1_TEAMWIN
+    if (inited) {
+        // X1_TEAMWIN (audit F03: cuts ended 859 banked + 170 carried vs 1083; no single bag reached 1000, so win_now never
+        // fired). Sum every live ally's bag so each carrier banks once the team's bags finish the race.
+        if (num_handles[0].empty()) update_numbers();
+        int carry = 0;
+        for (std::uint32_t h : num_handles[0]) {
+            std::int32_t alive = 1;
+            d::sdk_champion_is_alive(h, &alive);
+            std::uint32_t g = 0;
+            if (alive && d::sdk_champion_gems(h, &g) == 0) carry += static_cast<int>(g);
+        }
+        team_carry = std::max(carry, gems);
+    }
+#endif
     tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));
     tune::kNeedPool *= DEATH_NEED;
     tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + DEATH_RETREAT);
@@ -7421,6 +7442,21 @@ void Bot::play_turn() {
     } else if (NOVA_RUSH_UNTIL > 0 && rush()) {
 #if A2_FOG
     } else if (fog_regroup()) {
+#endif
+#if X1_FLEEHOLD
+    } else if ([&] {
+        // X1_FLEEHOLD (audit F01: after a flee, the next turn without handled contact went straight back to farming the
+        // retained camp target, so champions alternated approach / flee into the same enemies until they died, cuts and
+        // galaxy). For X1_FLEEHOLD rounds after a flee, keep away from any enemy seen within 8 in the last 4 rounds.
+        if (round - last_flee_round > X1_FLEEHOLD) return false;
+        vec2 threat{-100, -100};
+        int best = 9;
+        for (const auto& e : w.enemies) { const int d = cheb(e.pos, pos); if (d < best) best = d, threat = e.pos; }
+        for (const auto& s : w.sightings) { if (round - s.round > 4) continue; const int d = cheb(s.pos, pos); if (d < best) best = d, threat = s.pos; }
+        if (best > 8) return false;
+        mode = "flee-hold";
+        return retreat_from(threat);
+    }()) {
 #endif
 #if X1_ALONE
     } else if ([&] {
