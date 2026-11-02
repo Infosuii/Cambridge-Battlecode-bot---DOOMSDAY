@@ -13,12 +13,15 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~11:00 UTC)
+## Running (~11:25 UTC)
 
-- Stand-in build notes (findings/0005, from findings/0002 S1 / S2) with a no-new-code S1 prototype measured vs x1.
-- J014 set-B cells (g5060_maze_*) run as soon as the PC merges set B (3ca52e9) into build/z-plan.
+- **Idle: no posted job open.** J014 set-B cells start as soon as the PC merges set B (3ca52e9). Polling comms every
+  10 min; any posted job starts at once.
 
 ## Done
+
+- findings/0005: stand-in build notes; S1a / S1b / S2a no-new-code prototypes measured (x1 wins 74 / 78 / 103 of 140;
+  none out-farms x1); proposal S3 action-replay opponent (the audit harness), S1 / S2 real versions.
 
 - **J014 done** (results/J014.md, maze set A): bp -7 on maze (fails the full gate on maze); with maze included,
   vs x1: **bpp4r150 347 vs 316 pass (+31; up on every kind)**, bpp4r100 +22 pass, bpbelief +13 pass, bptsvis +16 fail.
