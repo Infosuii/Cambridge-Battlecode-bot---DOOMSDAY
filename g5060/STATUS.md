@@ -12,11 +12,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (08:20 UTC)
+## Running (08:40 UTC)
 
-- **Idle: no posted job open** and every runnable retry-queue gate is done (#1/#2/#4 need code knobs; #5/#17 are the
-  joint search; #3 dead path; #6/#8/#9 R1 done). Polling comms every 10 min; any job you post starts at once.
-  findings/0004 has every gate on one page with proposals.
+- **J013** (0d9f67b): X1_BUSHPRE + 16 re-gate lines, ~5 min each -> posted ~10:05. Run tags carry a `bp` prefix
+  (x1g-bpaf4-*, ...) so they do not collide with the earlier lines of the same name; bp / bp2050 judged vs the x1 base,
+  every other line vs bp. Report adds fuel-outs split rounds < 150 / >= 150.
+- Then J011 / J012 when posted (at 0d9f67b with BP on every line).
 
 ## Done
 
