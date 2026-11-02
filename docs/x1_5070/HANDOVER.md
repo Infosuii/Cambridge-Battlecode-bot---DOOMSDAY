@@ -1,10 +1,14 @@
-# x1 on the 5070 Ti PC: one 1.5-hour burst
+# x1 on the 5070 Ti PC: run bursts (burst 2: 4-5 hours)
 
-You are a **burst run machine** for the x1 Battlecode bot, available for about 1.5 hours. Rishik's PC develops the
-bot; a 5060 PC runs most games. You take two game-heavy jobs off the 5060's queue. You talk to the others only
+You are a **burst run machine** for the x1 Battlecode bot. Burst 1 (K001) is done: exact reproduction, 236 games/min.
+**Burst 2 is 4-5 hours.** Rishik's PC develops the bot; a 5060 PC runs the other gates. You take K004-K006. You talk to the others only
 through the GitHub branch `comms/x1`, in your own folder `g5070/`.
 
-## Setup (15 minutes)
+## Setup (15 minutes; burst 2: you already have x1work, just update it)
+
+Burst 2: `cd x1work && git fetch origin && git checkout build/z-plan && git pull` (keep your local cherry-pick of 57af220:
+re-apply it if the pull drops it), `SIDE=g5070 bash tools/x1_comms.sh pull`. **Keep the PC awake for the whole burst**
+(Windows: Settings > Power > Screen and sleep: "Never" while plugged in). Burst 1 lost 6 hours to a stalled clock.
 
 ```
 git clone https://github.com/Infosuii/neural-networkk-battlecode.git x1work     (short path, not OneDrive, 20 GB free)
@@ -17,19 +21,22 @@ elsewhere install `cambc==4.0.0` and set `DZ_CAMBC`. Threads: use all but 2. Bef
 git cherry-pick 57af220`, then set `DZ_MAX_PARALLEL=<threads-2>` (default cap is 4 games at a time).
 
 Context to read (10 minutes, no more): this file; `research/x1/PLAN_TWO_MACHINES.md`; `research/x1/RETRY_QUEUE.md`;
-in comms: `PROTOCOL.md`, `pc/STATUS.md`, `pc/jobs/J007-audit-fixes.md`, `pc/jobs/J002-sweep1d.md`, your `pc/jobs/K*`.
+in comms: `PROTOCOL.md`, `pc/STATUS.md`, `pc/msgs/0006-5070-long-burst.md`, your `pc/jobs/K004..K006`, and
+`g5060/results/RQ6-sweep-leaders.md` (the report format to copy).
 
 ## Your jobs (comms `pc/jobs/K*.md`)
 
 | Job | What | Time |
 |---|---|---|
-| K001 | build check + one exact reproduction | 10 min |
-| K002 | = J007: full gates of the six x1-audit fixes (8 lines) | ~35 min |
-| K003 | = J002 remainder: sweep 1d, live switches only | the rest |
+| K001 | build check + one exact reproduction | **done** (burst 1) |
+| K002 / K003 | audit gates / sweep 1d remainder | **closed**: the 5060 finished both |
+| K004 | = J011 + J012: combinations of the passing switches on BUSHPRE; x1 vs v86h | ~45 min |
+| K005 | variant grids on BUSHPRE: anti-feed 12, plans 10, joint 1, fuel floors 12 (35 lines) | ~2.5 h |
+| K006 | top 6 lines vs v86h, v86h-s2, v81hl | the rest |
 
 Post results after **every** gate line (do not wait to the end): `g5060`'s format, in `g5070/results/K00n.md` plus
-each run's `results.json` in `g5070/results/K00n/`. At **1 h 20 min** stop starting new runs, let the running one
-finish, push, and write `g5070/STATUS.md` with exactly which lines/flags are done and which are not, so the 5060
+each run's `results.json` in `g5070/results/K00n/`. At **start + 4 h 30 min** stop starting new runs (check the UTC
+clock before every batch), let the running one finish, push, and write `g5070/STATUS.md` with exactly which lines/flags are done and which are not, so the 5060
 picks up the rest.
 
 ## Rules (no exceptions)
