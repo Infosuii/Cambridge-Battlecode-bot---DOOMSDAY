@@ -13,11 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (started 21:35 UTC)
+## Running (22:25 UTC)
 
-- **J022** resumed: last 3 maps (03honeycomb, 03showdown, 00happy-halloween) in parallel, then x1_mapfit.h and the
-  gate X1_MAPFIT=1 vs x3 on pool vs v92 / v86h / x1bru. ETA ~22:45 UTC.
-- Then J023 (13 weak tabled maps, + x1 as 4th opponent), J019 screens, J021 runs.
+- **J022** gate with the fixed x1_mapfit.h (run tag x3mf2; the first table never fired, msgs/0006): pool vs v92 / v86h /
+  x1bru, ~10 min. Fit: 13 of 16 maps get rows (e.g. 03membrane 0.163 -> 1.404, 03fan 0.194 -> 1.029, 03showdown
+  0.178 -> 0.749 fit / game); 3 keep v92 (00happy-halloween, 03colosseum, 03riverbed).
+- Then J023, J019 screens, J021 runs.
 
 ## Done
 
