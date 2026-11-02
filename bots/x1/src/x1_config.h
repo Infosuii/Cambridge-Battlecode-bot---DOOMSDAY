@@ -27,6 +27,10 @@
 #ifndef X1_SIEGEFUEL
 #define X1_SIEGEFUEL 0 // Fuel: fill the siege line-of-sight cache only above X1_SIEGEFUEL k fuel (was 30k), direct bit writes.
 #endif
+#ifndef X1_WALKRES
+#define X1_WALKRES 0 // Fuel: walk_toward's capped path searches keep X1_WALKRES k fuel for the rest of the turn (was 6k; 19 of 29 plan-4 fuel-outs crossed right after a walk).
+#endif
+#define X1_WALK_RESERVE (X1_WALKRES ? static_cast<std::uint64_t>(X1_WALKRES) * 1000 : rb::kTailReserve)
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif

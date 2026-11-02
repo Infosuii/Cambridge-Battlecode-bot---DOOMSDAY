@@ -1063,7 +1063,7 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
 #if A2_GOV_WALK
     // Search no deeper than the fuel left can pay for. A search the cap stopped (not a truly unreachable goal) takes a
     // greedy step instead of suspending the turn; with room to spare the result is the uncapped one.
-    std::uint16_t cap = rb::search_cap(rb::kTailReserve);
+    std::uint16_t cap = rb::search_cap(X1_WALK_RESERVE);
     if (cap == 0) {
         ++rb::skipped[rb::kWalk];
         return greedy_step(goals);
@@ -1078,7 +1078,7 @@ bool Bot::walk_toward(const bc::bitboard& goals_in) {
         // Units block every route: plan over terrain only and let the step check occupancy.
         bc::bitboard terrain = w.walk_terrain;
         terrain.set(pos, false);
-        cap = rb::search_cap(rb::kTailReserve);
+        cap = rb::search_cap(X1_WALK_RESERVE);
         if (cap == 0) {
             ++rb::skipped[rb::kWalkTerrain];
             return greedy_step(goals);
