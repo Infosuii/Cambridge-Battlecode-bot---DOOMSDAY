@@ -1,6 +1,6 @@
 # g5070 — original campaign verified; bounded supplied WALKTAIL comparisons
 
-Updated 2026-11-02T14:28:46.088879+00:00. WORKERS=DZ_MAX_PARALLEL=18. Original source 6efc360 unchanged; K007 6ed38b9 and K009 2732245 isolated.
+Updated 2026-11-02T14:28:51.265726+00:00. WORKERS=DZ_MAX_PARALLEL=18. Original source 6efc360 unchanged; K007 6ed38b9 and K009 2732245 isolated.
 
 - Complete: K004 A7/B4, all35 K005 grids +reference, K006 standard7/fresh7, nine focused controls and one failed fuel retry. Original complete matrix verification passed.
 - Complete: K007 seven supplied lines + BP/selected/x1 standard/fresh validation. K007 final identity verification passed.
