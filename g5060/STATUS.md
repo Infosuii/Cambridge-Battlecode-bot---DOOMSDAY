@@ -13,10 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~20:05 UTC)
+## Running (J018 started ~20:50 UTC)
 
-- **I-60-04** conversion fix: banking screens on the conversion map set (running), then the full gate.
-- Then the four-opponent pooled gate for x1, x1c1, x1c1 + SECURE (msgs/0021), with x1bru added (msgs/0022).
+- **J018** (67dcf027): x3 / x3bp / x3sec / x3wt / x3all vs x1, v86h, x1bru on pool (86) + styled + maze, 6 workers,
+  ~5,900 games, ETA ~21:50 -> results/J018.md with the sign test vs x3.
+- Paused per msgs/0023: the four-opponent pooled gate for x1 / x1c1 (base is x3 now) and I-60-04's gate on P4; finished
+  cells kept (p4 vs x1bru: 74 / 57 / 76; its sha is unchanged, 3e1c0635d227). I-60-04 moves onto x3 after J018.
 
 ## Done
 
