@@ -13,13 +13,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J025 started ~23:30 UTC)
+## Running (J023 resumed ~00:15 UTC)
 
-- **J025 (urgent)** at c153c59: mfp6 / mfp8 / mfp2l on top of X1_MAPFIT, pool vs v92 / v86h / x1bru, base x3mf2
-  (96 / 115 / 130 = 341 / 516), ~5 min a line; results/J025.md after each line; the best pass then on styled + maze.
-- **J023 paused** (3 of 13 maps fitted: 00elkring 0.657, 00interlock 1.064, 02geodes 0.789); resumes from cache.
+- **J023** fit resumed (3 of 13 maps done; v92 / v86h / x1bru / x1), 3 parallel groups, ETA ~02:30 UTC; then the
+  combined J022 + J023 x1_mapfit.h and its gate on pool vs all four (x3mf3; bases x3 and x3mf2, + x1 cells).
+- Then J019 screens, J021 runs.
 
 ## Done
+
+- **J025** (results/J025.md): plan 6 R0 -69, plan 8 R0 -88, plan 2 R300 -33 on top of X1_MAPFIT; none passes.
+  The ship line stays x3 + X1_MAPFIT. dz.py --set fix for x3's double X1_PLAN define (msgs/0007, bea45114).
 
 - **J022** (results/J022.md): X1_MAPFIT with the fixed keys +30 vs x3 on pool (341 vs 311 of 516, z +4.52; v92
   +10, v86h +7, x1bru +13); fitted maps 50 -> 78 of 96. Table: results/J022-x1_mapfit.h.
