@@ -73,3 +73,6 @@
 #ifndef X1_BAGRISK
 #define X1_BAGRISK 0 // Bag risk: carrying this many gems with an enemy seen within 10 in 5 rounds -> bank now (0 = off).
 #endif
+#ifndef X1_FLEEDROP
+#define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off).
+#endif

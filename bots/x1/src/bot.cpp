@@ -4037,6 +4037,11 @@ bool Bot::handle_enemies() {
     }
     PROF_CHECK("e_mid");
     if (in_danger && !winning) last_flee_round = round;
+#if X1_FLEEDROP
+    // X1_FLEEDROP (audit F01: the camp target survived the flee, so the next calm turn walked back to it). Drop it and
+    // keep it out of the scoring for X1_FLEEDROP rounds.
+    if (in_danger && !winning && target_group >= 0) flee_group = target_group, target_group = -1;
+#endif
     if (in_danger && !winning && tune::kBushRecall && hp < max_hp * 0.5f && hidden_here() && !bit(w.hot_zone, pos) &&
         fdist(w.spawn_field, pos) > tune::kShopWalkDist) {
         // Losing, hurt and hidden: recall from cover (nobody can hit us here to cancel it).
@@ -5625,6 +5630,9 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
             break;
         const int dist = order[oi].first;
         const std::size_t gi = static_cast<std::size_t>(order[oi].second);
+#if X1_FLEEDROP
+        if (static_cast<int>(gi) == flee_group && round - last_flee_round <= X1_FLEEDROP) continue;
+#endif
         auto& g = w.groups[gi];
         const int approach = std::max(0, dist - (g.state == GroupState::reward ? 0 : range));
         int wait = 0;

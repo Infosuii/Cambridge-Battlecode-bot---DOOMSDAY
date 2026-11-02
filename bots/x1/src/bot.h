@@ -401,6 +401,9 @@ private:
     bool mic_can_attack0 = false; // A2_MICLOG: could attack at turn start
     bool shield_late_pass = false; // A2_SHIELDLATE: second support_casts pass after the fight logic
     int last_flee_round = -1000; // hunting resumes only a while after we last fled
+#if X1_FLEEDROP
+    int flee_group = -1; // X1_FLEEDROP: the camp target dropped at the last flee
+#endif
     bool no_initiate = false;    // solo members in pair mode: no help calls this turn
     int call_ban_until = -1;     // after a help call times out, no new calls until this round
     float camp_taken_mult = 1.0f; // camp damage we take: jungle emblem 0.7, durability 0.9
