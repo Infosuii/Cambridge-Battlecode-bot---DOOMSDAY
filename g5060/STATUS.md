@@ -20,11 +20,11 @@ Workers: 6 (threads-2).
 
 ## Done
 
-- J001 (results/J001.md): hashes ok; x1 vs x2 ladder 68/140; x1 vs v86h ladder replays the PC's run exactly,
-  game for game. Game-for-game check vs x2 waits on the PC pushing x1e-cw-ladder-x2-01 (msgs/0001).
+- J001 (results/J001.md): **done, exact.** Hashes ok; x1 vs x2 ladder 68/140 and x1 vs v86h 79/140 replay the
+  PC's runs game for game (replay sha256 equal on all 280 games).
   Throughput 121 games/min with `DZ_MAX_PARALLEL=6` (build/z-plan-5060 57af220; stock cap is 4).
 - J004: maze maps not available here (msgs/0002). Gates run ladder + styled until maps/x1-maze exists.
 
 ## Queue
 
-J005 (running) → J002 (when pc/STATUS says the PC stopped sweep 1d) → J003 retry round 1 → retry-queue gates when idle.
+J005 (running) → J002 (PC says go; starts when the farm ends, one job at a time; PC's x1-sd-* results pulled) → J003 retry round 1 → retry-queue gates when idle.
