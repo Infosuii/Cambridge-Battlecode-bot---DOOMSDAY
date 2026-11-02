@@ -119,5 +119,6 @@
     "holdout/g5070_holdout_38"
   ],
   "subset_definition": "Predetermined before holdout results. Exclude every map whose dimensions, allowing transposition, occur in any old draft-ID, current draft-table or strategy-profile key. Retained maps cannot match those signatures regardless of group/gem counts. Excluded maps are potential overlaps, not asserted actual recognitions.",
-  "runtime_note": "The raw editor Game_GetNumCampGroups exposes authored-half metadata before gameplay; the SDK API refuses at that stage. It was not treated as the runtime group signature."
+  "runtime_note": "The raw editor Game_GetNumCampGroups exposes authored-half metadata before gameplay; the SDK API refuses at that stage. It was not treated as the runtime group signature.",
+  "subset_defined_before_robustness_utc": "2026-11-02T11:04:40.701942+00:00"
 }
