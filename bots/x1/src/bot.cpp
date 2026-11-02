@@ -7022,6 +7022,19 @@ void Bot::play_turn() {
         team_carry = std::max(carry, gems);
     }
 #endif
+#if X1_BAGRISK
+    {
+        // X1_BAGRISK (x1 audit loss cases: single deaths lost bags of 85-154 gems; showdown, gemcombat3 and fan lost
+        // 308-531 carried gems a game). With X1_BAGRISK or more gems and an enemy seen within 10 in the last 5 rounds,
+        // the bank threshold drops to the bag in hand, so the carrier banks now instead of farming on.
+        if (gems >= X1_BAGRISK) {
+            bool near = false;
+            for (const auto& e : w.enemies) near |= cheb(e.pos, pos) <= 10;
+            for (const auto& sg : w.sightings) near |= round - sg.round <= 5 && cheb(sg.pos, pos) <= 10;
+            if (near) tune::kTributeCarry = std::min(tune::kTributeCarry, gems);
+        }
+    }
+#endif
     tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));
     tune::kNeedPool *= DEATH_NEED;
     tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + DEATH_RETREAT);

@@ -70,3 +70,6 @@
 #ifndef X1_SIEGE_STRICT
 #define X1_SIEGE_STRICT 0 // audit B04: use the siege LOS cache only when every live camp is cached (else the unfiltered ring).
 #endif
+#ifndef X1_BAGRISK
+#define X1_BAGRISK 0 // Bag risk: carrying this many gems with an enemy seen within 10 in 5 rounds -> bank now (0 = off).
+#endif
