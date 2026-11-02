@@ -24,6 +24,7 @@ def play(tag, kd, scope, map_dir, maps, opps, workers):
     """Total fitness and per-game rows for one candidate (cached by run name)."""
     total, rows = 0.0, []
     kd_s = ','.join(f'{i},{d:.4f}' for i, d in kd) if kd else '0,0'
+    cand_wasm = None
     for opp in opps:
         name = f'es-{tag}-{opp}'
         res = ROOT / 'artifacts/tmp/dz' / name / 'results.json'
@@ -31,7 +32,17 @@ def play(tag, kd, scope, map_dir, maps, opps, workers):
             cmd = [sys.executable, 'tools/dz.py', 'smoke', '--name', name, '--map-dir', map_dir, '--maps', *maps,
                    '--opponent', opp, '--candidate-bot', 'x3', '--workers', str(workers),
                    '--set', 'X1_KD_ON=1', '--set', f'X1_KD={kd_s}', '--set', f'X1_KD_SCOPE={scope}']
+            # One build per candidate and per opponent: later runs reuse the wasm files.
+            if cand_wasm: cmd += ['--candidate-wasm', str(cand_wasm)]
+            opp_cache = ROOT / 'artifacts/tmp/es-wasm' / f'{opp}.wasm'
+            if opp_cache.exists(): cmd += ['--opponent-wasm', str(opp_cache)]
             subprocess.run(cmd, cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            run_dir = ROOT / 'artifacts/tmp/dz' / name
+            if not opp_cache.exists() and (run_dir / 'opponent.wasm').exists():
+                opp_cache.parent.mkdir(parents=True, exist_ok=True)
+                opp_cache.write_bytes((run_dir / 'opponent.wasm').read_bytes())
+        if cand_wasm is None and (ROOT / 'artifacts/tmp/dz' / name / 'candidate.wasm').exists():
+            cand_wasm = ROOT / 'artifacts/tmp/dz' / name / 'candidate.wasm'
         if not res.exists():
             raise RuntimeError(f'run {name} produced no results (see artifacts/tmp/{name}.log)')
         for g in json.loads(res.read_text())['per_game']:

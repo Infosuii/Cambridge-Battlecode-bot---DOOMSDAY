@@ -7153,6 +7153,17 @@ void Bot::play_turn() {
             }
         }
 #endif
+#if X1_MAPFIT
+        {
+            // X1_MAPFIT: per-map knob fit for competition maps without a ladder table (x1_mapfit.h, from
+            // tools/x3_mapfit.sh: an ES per map over ladfit's 24 dimensions). Same fingerprint and update as A2_LADFIT.
+            for (const auto& r : x1_mapfit::kRows) {
+                if (r.w != w.width || r.h != w.height || r.groups != n_groups || r.gems != total_gems) continue;
+                for (int j = 0; j < x1_mapfit::kDims; ++j) lab::knobs[x1_mapfit::kIdx[j]] += r.d[j];
+                break;
+            }
+        }
+#endif
 #if X1_KD_ON
         {
             // X1_KD: knob deltas for searches (tools/x3_knob_es.py), comma-separated "index,delta" pairs added after the

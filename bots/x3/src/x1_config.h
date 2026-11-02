@@ -65,6 +65,9 @@
 #ifndef X1_FIRSTFIELD
 #define X1_FIRSTFIELD 0 // Fuel: first turn builds a group field only with 2x its cost + 15k left (03contours: all 6 bodies ran out on turn 1)
 #endif
+#ifndef X1_MAPFIT
+#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table
+#endif
 #ifndef X1_KD_ON
 #define X1_KD_ON 0 // 1 = apply the X1_KD knob deltas (search builds)
 #endif
@@ -155,4 +158,7 @@
 #endif
 #if X1_MAPPLAN
 #include "x1_mapplan.h"
+#endif
+#if X1_MAPFIT
+#include "x1_mapfit.h"
 #endif

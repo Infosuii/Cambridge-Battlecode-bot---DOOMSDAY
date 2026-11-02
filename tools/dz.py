@@ -793,7 +793,10 @@ def experiment(args):
         config.write_text(source,encoding='utf-8',newline='\n')
     if args.command=='conformance' and args.fixture in ('priority','duel') and not args.fixture_opponent:
         raise ValueError(f'{args.fixture} audit needs a scripted opponent (--fixture-opponent)')
-    candidate = build(frozen, out/'candidate.wasm')
+    if getattr(args,'candidate_wasm',None):
+        candidate = out/'candidate.wasm'; shutil.copyfile(Path(args.candidate_wasm), candidate)  # prebuilt (searches)
+    else:
+        candidate = build(frozen, out/'candidate.wasm')
     if args.opponent_wasm:
         opponent = out/'opponent.wasm'; shutil.copyfile(Path(args.opponent_wasm), opponent)
     else:
@@ -918,7 +921,7 @@ def main():
         p.add_argument('--map-dir', help='separate conformance fixture directory; never used for strength tests')
         p.add_argument('--pool', action='store_true'); p.add_argument('--workers', type=int, default=4)
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
-        p.add_argument('--candidate-bot', help='benchmark bots/<name> instead of DZ (smoke only)')
+        p.add_argument('--candidate-bot', help='benchmark bots/<name> instead of DZ (smoke only)'); p.add_argument('--candidate-wasm', help='prebuilt candidate wasm (skips the build; --set is then ignored)')
         p.add_argument('--trace', action='store_true')
         p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','duel','shield','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
