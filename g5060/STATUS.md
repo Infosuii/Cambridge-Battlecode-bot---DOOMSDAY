@@ -12,13 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (03:13 UTC)
+## Running (03:36 UTC)
 
-- **J006** antifeed (846e8ce): af3 running; 6 lines, ~3.5 min each -> posted ~03:35.
-- Then **J008** bag-risk (2636803, 3 lines) ~03:50, then J003 retry round 1 (4 lines) ~04:05, then the stand-in
-  proposal.
+- **J008** bag-risk (2636803): 3 lines -> posted ~03:50.
+- Then **J003** retry round 1 (0b3703b, latest build/z-plan; secure15 / secure3 / secure6 / alone) ~04:05, then the
+  stand-in proposal, then retry-queue gates.
 
 ## Done
+
+- **J006 done** (results/J006.md): all six lines +8..+27 wins; af3w250 284 (+27, fuel +3, deaths 9.4); af4 +14,
+  af7 +13. All fail R1 on the fuel-out clause only.
 
 - **J010 done** (results/J010.md): stage05 268 (+11, fuel +3), wait20 +9, wait15 +8, need13 +6; flee-drop fd15 -6,
   fd25 -28, fd40 -25, fd60 -32. All fail R1. findings/0001: fuel-out clause decides most verdicts.
