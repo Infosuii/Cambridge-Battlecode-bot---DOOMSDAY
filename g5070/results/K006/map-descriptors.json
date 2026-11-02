@@ -1,6 +1,6 @@
 {
-  "created_utc": "2026-11-02T10:11:47.271513+00:00",
-  "definitions": "Terrain densities count full map tiles. Resource/group counts refer to authored half. Low-degree fraction counts open tiles with at most 2 open 8-neighbours: an observable corridor proxy, not a proof of chokepoints. Spawn separation is the Chebyshev distance between mirrored spawn-area centres, not actual travel time. No outcomes used to define descriptors or thresholds.",
+  "created_utc": "2026-11-02T11:45:34.924850+00:00",
+  "definitions": "Terrain densities count full map tiles. Resource/group counts refer to authored half. Low-degree fraction counts open tiles with at most 2 open 8-neighbours: an observable corridor proxy, not a proof of chokepoints. Spawn separation is the Chebyshev distance between mirrored spawn-area centres, not actual travel time. Bush components use the bot labeller's 8-connectivity. Static-open components exclude walls/holes, not camps, abilities or dynamic units; they are a terrain-connectivity proxy. No outcomes used to choose thresholds; the bush component descriptor was added after the static partial-label finding, before any K006/fresh scores.",
   "subgroup_cutoffs": {
     "area": 2025.0,
     "obstacle_density": 0.11510625,
@@ -9,7 +9,9 @@
     "gems_half_per_area": 0.08952153018069972,
     "gold_half_per_area": 0.3736538461538461,
     "low_degree_open_fraction": 0.0,
-    "spawn_chebyshev_separation": 36.0
+    "spawn_chebyshev_separation": 36.0,
+    "largest_8_connected_bush": 18.5,
+    "largest_static_open_component_fraction": 1.0
   },
   "cutoff_rule": "Official ladder medians, fixed before robustness/holdout results; >= cutoff is upper group. Do not tune subgroup boundaries to winners.",
   "maps": {
@@ -31,7 +33,11 @@
       "gold_half_per_area": 0.067,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.420031463030939,
-      "spawn_chebyshev_separation": 89.0
+      "spawn_chebyshev_separation": 89.0,
+      "largest_8_connected_bush": 14,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 0.991347666491872,
+      "static_open_components_8": 3
     },
     "ladder/00anvil": {
       "family": "ladder",
@@ -51,7 +57,11 @@
       "gold_half_per_area": 0.45335658238884047,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.216783216783217,
-      "spawn_chebyshev_separation": 29.0
+      "spawn_chebyshev_separation": 29.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00breadcrumbs": {
       "family": "ladder",
@@ -71,7 +81,11 @@
       "gold_half_per_area": 0.1426872770511296,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.013182674199624,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 35,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00collision": {
       "family": "ladder",
@@ -91,7 +105,11 @@
       "gold_half_per_area": 0.5056513979773944,
       "low_degree_open_fraction": 0.0013012361743656475,
       "mean_open_degree": 7.355888093689004,
-      "spawn_chebyshev_separation": 35.0
+      "spawn_chebyshev_separation": 35.0,
+      "largest_8_connected_bush": 111,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 0.8438516590761224,
+      "static_open_components_8": 2
     },
     "ladder/00contest": {
       "family": "ladder",
@@ -111,7 +129,11 @@
       "gold_half_per_area": 0.248,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.663414634146341,
-      "spawn_chebyshev_separation": 40.0
+      "spawn_chebyshev_separation": 40.0,
+      "largest_8_connected_bush": 26,
+      "bush_components_8": 1,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00corners": {
       "family": "ladder",
@@ -131,7 +153,11 @@
       "gold_half_per_area": 0.2797064074588375,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.727254223488703,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00crater": {
       "family": "ladder",
@@ -151,7 +177,11 @@
       "gold_half_per_area": 0.09406073636119323,
       "low_degree_open_fraction": 0.012286689419795221,
       "mean_open_degree": 7.141296928327645,
-      "spawn_chebyshev_separation": 53.0
+      "spawn_chebyshev_separation": 53.0,
+      "largest_8_connected_bush": 41,
+      "bush_components_8": 5,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00dunes": {
       "family": "ladder",
@@ -171,7 +201,11 @@
       "gold_half_per_area": 0.07530844415958982,
       "low_degree_open_fraction": 0.0011652748106428432,
       "mean_open_degree": 7.332685958438532,
-      "spawn_chebyshev_separation": 69.0
+      "spawn_chebyshev_separation": 69.0,
+      "largest_8_connected_bush": 48,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00eight": {
       "family": "ladder",
@@ -191,7 +225,11 @@
       "gold_half_per_area": 0.5284552845528455,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.3839590443686,
-      "spawn_chebyshev_separation": 37.0
+      "spawn_chebyshev_separation": 37.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 3,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00elkring": {
       "family": "ladder",
@@ -211,7 +249,11 @@
       "gold_half_per_area": 0.6111111111111112,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.5092592592592595,
-      "spawn_chebyshev_separation": 26.0
+      "spawn_chebyshev_separation": 26.0,
+      "largest_8_connected_bush": 18,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00expanse": {
       "family": "ladder",
@@ -231,7 +273,11 @@
       "gold_half_per_area": 0.1828125,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.62987012987013,
-      "spawn_chebyshev_separation": 71.0
+      "spawn_chebyshev_separation": 71.0,
+      "largest_8_connected_bush": 0,
+      "bush_components_8": 0,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00fragment": {
       "family": "ladder",
@@ -251,7 +297,11 @@
       "gold_half_per_area": 0.3,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.302158273381295,
-      "spawn_chebyshev_separation": 24.0
+      "spawn_chebyshev_separation": 24.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00galaxy": {
       "family": "ladder",
@@ -271,7 +321,11 @@
       "gold_half_per_area": 0.009249624234015492,
       "low_degree_open_fraction": 0.0002724424465331699,
       "mean_open_degree": 7.5319438768560145,
-      "spawn_chebyshev_separation": 83.0
+      "spawn_chebyshev_separation": 83.0,
+      "largest_8_connected_bush": 44,
+      "bush_components_8": 7,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00gem-fields": {
       "family": "ladder",
@@ -291,7 +345,11 @@
       "gold_half_per_area": 0.15,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.255712731229598,
-      "spawn_chebyshev_separation": 8.0
+      "spawn_chebyshev_separation": 8.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 11,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00gemfight": {
       "family": "ladder",
@@ -311,7 +369,11 @@
       "gold_half_per_area": 0.32222222222222224,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.843434343434343,
-      "spawn_chebyshev_separation": 24.0
+      "spawn_chebyshev_separation": 24.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00great-wall": {
       "family": "ladder",
@@ -331,7 +393,11 @@
       "gold_half_per_area": 1.24,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.445,
-      "spawn_chebyshev_separation": 36.0
+      "spawn_chebyshev_separation": 36.0,
+      "largest_8_connected_bush": 24,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00interlock": {
       "family": "ladder",
@@ -351,7 +417,11 @@
       "gold_half_per_area": 0.375,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.36604774535809,
-      "spawn_chebyshev_separation": 36.0
+      "spawn_chebyshev_separation": 36.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00lanes": {
       "family": "ladder",
@@ -371,7 +441,11 @@
       "gold_half_per_area": 0.45555555555555555,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.637195121951219,
-      "spawn_chebyshev_separation": 82.0
+      "spawn_chebyshev_separation": 82.0,
+      "largest_8_connected_bush": 144,
+      "bush_components_8": 1,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00lost-world": {
       "family": "ladder",
@@ -391,7 +465,11 @@
       "gold_half_per_area": 0.9124423963133641,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 5.9456906729634005,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00monolith": {
       "family": "ladder",
@@ -411,7 +489,11 @@
       "gold_half_per_area": 0.388,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.5753538717735225,
-      "spawn_chebyshev_separation": 44.0
+      "spawn_chebyshev_separation": 44.0,
+      "largest_8_connected_bush": 40,
+      "bush_components_8": 3,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00oasis": {
       "family": "ladder",
@@ -431,7 +513,11 @@
       "gold_half_per_area": 0.5112960760998811,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.141304347826087,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00packs": {
       "family": "ladder",
@@ -451,7 +537,11 @@
       "gold_half_per_area": 0.5827263267429761,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.617065556711759,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 31,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00pilgrimage": {
       "family": "ladder",
@@ -471,7 +561,11 @@
       "gold_half_per_area": 0.3723076923076923,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.230354391371341,
-      "spawn_chebyshev_separation": 44.0
+      "spawn_chebyshev_separation": 44.0,
+      "largest_8_connected_bush": 17,
+      "bush_components_8": 15,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00quadrants": {
       "family": "ladder",
@@ -491,7 +585,11 @@
       "gold_half_per_area": 0.32592592592592595,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.316858868753433,
-      "spawn_chebyshev_separation": 7.0
+      "spawn_chebyshev_separation": 7.0,
+      "largest_8_connected_bush": 25,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.9950576606260296,
+      "static_open_components_8": 2
     },
     "ladder/00quarry": {
       "family": "ladder",
@@ -511,7 +609,11 @@
       "gold_half_per_area": 0.31527093596059114,
       "low_degree_open_fraction": 0.014218009478672985,
       "mean_open_degree": 6.843601895734597,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00reverse-spiral": {
       "family": "ladder",
@@ -531,7 +633,11 @@
       "gold_half_per_area": 0.7111111111111111,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.5013054830287205,
-      "spawn_chebyshev_separation": 2.0
+      "spawn_chebyshev_separation": 2.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00ribs": {
       "family": "ladder",
@@ -551,7 +657,11 @@
       "gold_half_per_area": 0.06459054209919261,
       "low_degree_open_fraction": 0.0031082226617688614,
       "mean_open_degree": 7.281717999434869,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 17,
+      "bush_components_8": 7,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00road-of-riches": {
       "family": "ladder",
@@ -571,7 +681,11 @@
       "gold_half_per_area": 0.875,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.505231689088191,
-      "spawn_chebyshev_separation": 13.0
+      "spawn_chebyshev_separation": 13.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00rows": {
       "family": "ladder",
@@ -591,7 +705,11 @@
       "gold_half_per_area": 0.456,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.378827646544182,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 39,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00rushbait-v2": {
       "family": "ladder",
@@ -611,7 +729,11 @@
       "gold_half_per_area": 0.2833333333333333,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.337006427915519,
-      "spawn_chebyshev_separation": 3.0
+      "spawn_chebyshev_separation": 3.0,
+      "largest_8_connected_bush": 60,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00split": {
       "family": "ladder",
@@ -631,7 +753,11 @@
       "gold_half_per_area": 0.8444444444444444,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.275017494751575,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 5,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00stampede": {
       "family": "ladder",
@@ -651,7 +777,11 @@
       "gold_half_per_area": 0.32666666666666666,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.474476987447699,
-      "spawn_chebyshev_separation": 46.0
+      "spawn_chebyshev_separation": 46.0,
+      "largest_8_connected_bush": 120,
+      "bush_components_8": 7,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00swirl": {
       "family": "ladder",
@@ -671,7 +801,11 @@
       "gold_half_per_area": 1.3925925925925926,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.884057971014493,
-      "spawn_chebyshev_separation": 14.0
+      "spawn_chebyshev_separation": 14.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 3,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00the-line": {
       "family": "ladder",
@@ -691,7 +825,11 @@
       "gold_half_per_area": 0.22038567493112948,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.3824975417895775,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/00vault": {
       "family": "ladder",
@@ -711,7 +849,11 @@
       "gold_half_per_area": 0.2081165452653486,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.0462633451957295,
-      "spawn_chebyshev_separation": 23.0
+      "spawn_chebyshev_separation": 23.0,
+      "largest_8_connected_bush": 19,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01big-world": {
       "family": "ladder",
@@ -731,7 +873,11 @@
       "gold_half_per_area": 0.138,
       "low_degree_open_fraction": 0.0011330160888284614,
       "mean_open_degree": 7.3573532744164964,
-      "spawn_chebyshev_separation": 73.0
+      "spawn_chebyshev_separation": 73.0,
+      "largest_8_connected_bush": 92,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 0.9972807613868117,
+      "static_open_components_8": 13
     },
     "ladder/01boss-battle": {
       "family": "ladder",
@@ -751,7 +897,11 @@
       "gold_half_per_area": 1.951219512195122,
       "low_degree_open_fraction": 0.0005243838489774515,
       "mean_open_degree": 7.56371263765076,
-      "spawn_chebyshev_separation": 38.0
+      "spawn_chebyshev_separation": 38.0,
+      "largest_8_connected_bush": 1,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01broken-curve": {
       "family": "ladder",
@@ -771,7 +921,11 @@
       "gold_half_per_area": 0.7875,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.636500754147813,
-      "spawn_chebyshev_separation": 26.0
+      "spawn_chebyshev_separation": 26.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 15,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01concentrated-wealth": {
       "family": "ladder",
@@ -791,7 +945,11 @@
       "gold_half_per_area": 0.19349637194302607,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.460017196904557,
-      "spawn_chebyshev_separation": 55.0
+      "spawn_chebyshev_separation": 55.0,
+      "largest_8_connected_bush": 46,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01corridors": {
       "family": "ladder",
@@ -811,7 +969,11 @@
       "gold_half_per_area": 1.4509803921568627,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.153186274509804,
-      "spawn_chebyshev_separation": 36.0
+      "spawn_chebyshev_separation": 36.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 48,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01elk-arena": {
       "family": "ladder",
@@ -831,7 +993,11 @@
       "gold_half_per_area": 0.288,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.257243195785777,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 20,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01fracture": {
       "family": "ladder",
@@ -851,7 +1017,11 @@
       "gold_half_per_area": 0.38328330639575153,
       "low_degree_open_fraction": 0.010535557506584723,
       "mean_open_degree": 6.664325431665203,
-      "spawn_chebyshev_separation": 64.0
+      "spawn_chebyshev_separation": 64.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 50,
+      "largest_static_open_component_fraction": 0.9964881474978051,
+      "static_open_components_8": 3
     },
     "ladder/01gold-rush": {
       "family": "ladder",
@@ -871,7 +1041,11 @@
       "gold_half_per_area": 0.7700312174817898,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.190101237345332,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 23,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01hooks": {
       "family": "ladder",
@@ -891,7 +1065,11 @@
       "gold_half_per_area": 0.39542143600416235,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.973654066437572,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01islands": {
       "family": "ladder",
@@ -911,7 +1089,11 @@
       "gold_half_per_area": 0.5361111111111111,
       "low_degree_open_fraction": 0.02645113886847906,
       "mean_open_degree": 6.759735488611315,
-      "spawn_chebyshev_separation": 50.0
+      "spawn_chebyshev_separation": 50.0,
+      "largest_8_connected_bush": 358,
+      "bush_components_8": 27,
+      "largest_static_open_component_fraction": 0.7538574577516532,
+      "static_open_components_8": 45
     },
     "ladder/01shortcut": {
       "family": "ladder",
@@ -931,7 +1113,11 @@
       "gold_half_per_area": 1.05625,
       "low_degree_open_fraction": 0.0034965034965034965,
       "mean_open_degree": 6.171328671328672,
-      "spawn_chebyshev_separation": 14.0
+      "spawn_chebyshev_separation": 14.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 7,
+      "largest_static_open_component_fraction": 0.9597902097902098,
+      "static_open_components_8": 3
     },
     "ladder/01starfish": {
       "family": "ladder",
@@ -951,7 +1137,11 @@
       "gold_half_per_area": 0.512,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.128644939965695,
-      "spawn_chebyshev_separation": 42.0
+      "spawn_chebyshev_separation": 42.0,
+      "largest_8_connected_bush": 54,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01starvation": {
       "family": "ladder",
@@ -971,7 +1161,11 @@
       "gold_half_per_area": 0.15625,
       "low_degree_open_fraction": 0.0003522367030644593,
       "mean_open_degree": 7.213103205353998,
-      "spawn_chebyshev_separation": 74.0
+      "spawn_chebyshev_separation": 74.0,
+      "largest_8_connected_bush": 42,
+      "bush_components_8": 11,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01the-farm": {
       "family": "ladder",
@@ -991,7 +1185,11 @@
       "gold_half_per_area": 1.335,
       "low_degree_open_fraction": 0.0010799136069114472,
       "mean_open_degree": 7.251619870410368,
-      "spawn_chebyshev_separation": 43.0
+      "spawn_chebyshev_separation": 43.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 9,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/01yellow-brick-road": {
       "family": "ladder",
@@ -1011,7 +1209,11 @@
       "gold_half_per_area": 1.9166666666666667,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.653333333333333,
-      "spawn_chebyshev_separation": 31.0
+      "spawn_chebyshev_separation": 31.0,
+      "largest_8_connected_bush": 55,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02arena": {
       "family": "ladder",
@@ -1031,7 +1233,11 @@
       "gold_half_per_area": 0.36666666666666664,
       "low_degree_open_fraction": 0.0024875621890547263,
       "mean_open_degree": 6.925373134328358,
-      "spawn_chebyshev_separation": 16.0
+      "spawn_chebyshev_separation": 16.0,
+      "largest_8_connected_bush": 14,
+      "bush_components_8": 7,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02crossing": {
       "family": "ladder",
@@ -1051,7 +1257,11 @@
       "gold_half_per_area": 0.20761245674740483,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.344698544698545,
-      "spawn_chebyshev_separation": 37.0
+      "spawn_chebyshev_separation": 37.0,
+      "largest_8_connected_bush": 32,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02cuts": {
       "family": "ladder",
@@ -1071,7 +1281,11 @@
       "gold_half_per_area": 0.39444444444444443,
       "low_degree_open_fraction": 0.001969796454366382,
       "mean_open_degree": 7.318450426789232,
-      "spawn_chebyshev_separation": 56.0
+      "spawn_chebyshev_separation": 56.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02famine": {
       "family": "ladder",
@@ -1091,7 +1305,11 @@
       "gold_half_per_area": 0.10695970695970695,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.533551300015569,
-      "spawn_chebyshev_separation": 83.0
+      "spawn_chebyshev_separation": 83.0,
+      "largest_8_connected_bush": 52,
+      "bush_components_8": 9,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02fields": {
       "family": "ladder",
@@ -1111,7 +1329,11 @@
       "gold_half_per_area": 0.47673971549404076,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.7662437524029215,
-      "spawn_chebyshev_separation": 49.0
+      "spawn_chebyshev_separation": 49.0,
+      "largest_8_connected_bush": 51,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02geodes": {
       "family": "ladder",
@@ -1131,7 +1353,11 @@
       "gold_half_per_area": 0.0838740307010603,
       "low_degree_open_fraction": 0.0006852835360630461,
       "mean_open_degree": 7.5346924790131915,
-      "spawn_chebyshev_separation": 73.0
+      "spawn_chebyshev_separation": 73.0,
+      "largest_8_connected_bush": 56,
+      "bush_components_8": 13,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02gift-wrapping": {
       "family": "ladder",
@@ -1151,7 +1377,11 @@
       "gold_half_per_area": 0.7901234567901234,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.652347652347652,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 152,
+      "bush_components_8": 1,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02guardians": {
       "family": "ladder",
@@ -1171,7 +1401,11 @@
       "gold_half_per_area": 0.892325996430696,
       "low_degree_open_fraction": 0.010896898575020955,
       "mean_open_degree": 6.149203688181056,
-      "spawn_chebyshev_separation": 37.0
+      "spawn_chebyshev_separation": 37.0,
+      "largest_8_connected_bush": 5,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02harvest": {
       "family": "ladder",
@@ -1191,7 +1425,11 @@
       "gold_half_per_area": 0.129,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.577791851382732,
-      "spawn_chebyshev_separation": 76.0
+      "spawn_chebyshev_separation": 76.0,
+      "largest_8_connected_bush": 81,
+      "bush_components_8": 36,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02stalactites": {
       "family": "ladder",
@@ -1211,7 +1449,11 @@
       "gold_half_per_area": 0.5333333333333333,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.083094555873926,
-      "spawn_chebyshev_separation": 24.0
+      "spawn_chebyshev_separation": 24.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 2,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02tangle": {
       "family": "ladder",
@@ -1231,7 +1473,11 @@
       "gold_half_per_area": 0.19,
       "low_degree_open_fraction": 0.00027586206896551725,
       "mean_open_degree": 7.352275862068965,
-      "spawn_chebyshev_separation": 72.0
+      "spawn_chebyshev_separation": 72.0,
+      "largest_8_connected_bush": 51,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02the-pack": {
       "family": "ladder",
@@ -1251,7 +1497,11 @@
       "gold_half_per_area": 1.3333333333333333,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.735308641975308,
-      "spawn_chebyshev_separation": 23.0
+      "spawn_chebyshev_separation": 23.0,
+      "largest_8_connected_bush": 113,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02the-pond": {
       "family": "ladder",
@@ -1271,7 +1521,11 @@
       "gold_half_per_area": 0.5666666666666667,
       "low_degree_open_fraction": 0.0219435736677116,
       "mean_open_degree": 6.501567398119122,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 58,
+      "bush_components_8": 3,
+      "largest_static_open_component_fraction": 0.9090909090909091,
+      "static_open_components_8": 16
     },
     "ladder/02treasure-box": {
       "family": "ladder",
@@ -1291,7 +1545,11 @@
       "gold_half_per_area": 1.5346938775510204,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.622264509990485,
-      "spawn_chebyshev_separation": 6.0
+      "spawn_chebyshev_separation": 6.0,
+      "largest_8_connected_bush": 0,
+      "bush_components_8": 0,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/02uncharted-lands": {
       "family": "ladder",
@@ -1311,7 +1569,11 @@
       "gold_half_per_area": 0.36086956521739133,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.145421903052065,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 29,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/adgato-gemcombat1": {
       "family": "ladder",
@@ -1331,7 +1593,11 @@
       "gold_half_per_area": 0.0,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.283314669652856,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/adgato-gemcombat2": {
       "family": "ladder",
@@ -1351,7 +1617,11 @@
       "gold_half_per_area": 0.0,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.558798283261803,
-      "spawn_chebyshev_separation": 47.0
+      "spawn_chebyshev_separation": 47.0,
+      "largest_8_connected_bush": 15,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/adgato-gemcombat3": {
       "family": "ladder",
@@ -1371,7 +1641,11 @@
       "gold_half_per_area": 0.0,
       "low_degree_open_fraction": 0.0008654262224145391,
       "mean_open_degree": 7.3587191691908265,
-      "spawn_chebyshev_separation": 24.0
+      "spawn_chebyshev_separation": 24.0,
+      "largest_8_connected_bush": 102,
+      "bush_components_8": 11,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "ladder/adgato-gemcombat4": {
       "family": "ladder",
@@ -1391,7 +1665,11 @@
       "gold_half_per_area": 0.0,
       "low_degree_open_fraction": 0.007722007722007722,
       "mean_open_degree": 6.897297297297297,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 33,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 0.9212355212355212,
+      "static_open_components_8": 9
     },
     "ladder/adgato-gemcombat5": {
       "family": "ladder",
@@ -1411,7 +1689,11 @@
       "gold_half_per_area": 0.0,
       "low_degree_open_fraction": 0.001979762428508579,
       "mean_open_degree": 7.143422789265288,
-      "spawn_chebyshev_separation": 20.0
+      "spawn_chebyshev_separation": 20.0,
+      "largest_8_connected_bush": 46,
+      "bush_components_8": 33,
+      "largest_static_open_component_fraction": 0.9980202375714914,
+      "static_open_components_8": 4
     },
     "styled/gen4_0005": {
       "family": "styled",
@@ -1431,7 +1713,11 @@
       "gold_half_per_area": 0.2283653846153846,
       "low_degree_open_fraction": 0.0063371356147021544,
       "mean_open_degree": 6.945500633713562,
-      "spawn_chebyshev_separation": 30.0
+      "spawn_chebyshev_separation": 30.0,
+      "largest_8_connected_bush": 18,
+      "bush_components_8": 37,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0017": {
       "family": "styled",
@@ -1451,7 +1737,11 @@
       "gold_half_per_area": 0.106,
       "low_degree_open_fraction": 0.002827763496143959,
       "mean_open_degree": 7.024678663239075,
-      "spawn_chebyshev_separation": 89.0
+      "spawn_chebyshev_separation": 89.0,
+      "largest_8_connected_bush": 14,
+      "bush_components_8": 44,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0018": {
       "family": "styled",
@@ -1471,7 +1761,11 @@
       "gold_half_per_area": 0.09090909090909091,
       "low_degree_open_fraction": 0.0012077294685990338,
       "mean_open_degree": 7.506441223832528,
-      "spawn_chebyshev_separation": 72.0
+      "spawn_chebyshev_separation": 72.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 44,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0025": {
       "family": "styled",
@@ -1491,7 +1785,11 @@
       "gold_half_per_area": 0.7959183673469388,
       "low_degree_open_fraction": 0.004830917874396135,
       "mean_open_degree": 7.132045088566827,
-      "spawn_chebyshev_separation": 33.0
+      "spawn_chebyshev_separation": 33.0,
+      "largest_8_connected_bush": 22,
+      "bush_components_8": 5,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0026": {
       "family": "styled",
@@ -1511,7 +1809,11 @@
       "gold_half_per_area": 0.85,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.226125137211855,
-      "spawn_chebyshev_separation": 43.0
+      "spawn_chebyshev_separation": 43.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0027": {
       "family": "styled",
@@ -1531,7 +1833,11 @@
       "gold_half_per_area": 0.39792387543252594,
       "low_degree_open_fraction": 0.037940379403794036,
       "mean_open_degree": 6.1924119241192415,
-      "spawn_chebyshev_separation": 30.0
+      "spawn_chebyshev_separation": 30.0,
+      "largest_8_connected_bush": 19,
+      "bush_components_8": 18,
+      "largest_static_open_component_fraction": 0.9728997289972899,
+      "static_open_components_8": 19
     },
     "styled/gen4_0039": {
       "family": "styled",
@@ -1551,7 +1857,11 @@
       "gold_half_per_area": 0.05542957923910305,
       "low_degree_open_fraction": 0.032446226759022964,
       "mean_open_degree": 6.325920524972657,
-      "spawn_chebyshev_separation": 55.0
+      "spawn_chebyshev_separation": 55.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 22,
+      "largest_static_open_component_fraction": 0.998541742617572,
+      "static_open_components_8": 3
     },
     "styled/gen4_0045": {
       "family": "styled",
@@ -1571,7 +1881,11 @@
       "gold_half_per_area": 0.7270408163265306,
       "low_degree_open_fraction": 0.0035714285714285713,
       "mean_open_degree": 6.585714285714285,
-      "spawn_chebyshev_separation": 20.0
+      "spawn_chebyshev_separation": 20.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0049": {
       "family": "styled",
@@ -1591,7 +1905,11 @@
       "gold_half_per_area": 0.33757716049382713,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.623945359582161,
-      "spawn_chebyshev_separation": 42.0
+      "spawn_chebyshev_separation": 42.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0052": {
       "family": "styled",
@@ -1611,7 +1929,11 @@
       "gold_half_per_area": 0.07590361445783132,
       "low_degree_open_fraction": 0.0005236973029588898,
       "mean_open_degree": 7.408483896307934,
-      "spawn_chebyshev_separation": 92.0
+      "spawn_chebyshev_separation": 92.0,
+      "largest_8_connected_bush": 20,
+      "bush_components_8": 62,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0057": {
       "family": "styled",
@@ -1631,7 +1953,11 @@
       "gold_half_per_area": 0.4591368227731864,
       "low_degree_open_fraction": 0.0517464424320828,
       "mean_open_degree": 6.561448900388099,
-      "spawn_chebyshev_separation": 29.0
+      "spawn_chebyshev_separation": 29.0,
+      "largest_8_connected_bush": 32,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.9534282018111255,
+      "static_open_components_8": 19
     },
     "styled/gen4_0058": {
       "family": "styled",
@@ -1651,7 +1977,11 @@
       "gold_half_per_area": 0.07080190857318762,
       "low_degree_open_fraction": 0.0016460905349794238,
       "mean_open_degree": 7.488395061728395,
-      "spawn_chebyshev_separation": 81.0
+      "spawn_chebyshev_separation": 81.0,
+      "largest_8_connected_bush": 23,
+      "bush_components_8": 62,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0063": {
       "family": "styled",
@@ -1671,7 +2001,11 @@
       "gold_half_per_area": 0.01953125,
       "low_degree_open_fraction": 0.003894297635605007,
       "mean_open_degree": 6.75827538247566,
-      "spawn_chebyshev_separation": 86.0
+      "spawn_chebyshev_separation": 86.0,
+      "largest_8_connected_bush": 21,
+      "bush_components_8": 36,
+      "largest_static_open_component_fraction": 0.9997218358831711,
+      "static_open_components_8": 3
     },
     "styled/gen4_0066": {
       "family": "styled",
@@ -1691,7 +2025,11 @@
       "gold_half_per_area": 0.35133136094674555,
       "low_degree_open_fraction": 0.004604758250191865,
       "mean_open_degree": 7.564082885648504,
-      "spawn_chebyshev_separation": 46.0
+      "spawn_chebyshev_separation": 46.0,
+      "largest_8_connected_bush": 18,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0085": {
       "family": "styled",
@@ -1711,7 +2049,11 @@
       "gold_half_per_area": 0.44982698961937717,
       "low_degree_open_fraction": 0.003590664272890485,
       "mean_open_degree": 7.522441651705566,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 13,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0088": {
       "family": "styled",
@@ -1731,7 +2073,11 @@
       "gold_half_per_area": 0.026,
       "low_degree_open_fraction": 0.00399002493765586,
       "mean_open_degree": 7.172069825436409,
-      "spawn_chebyshev_separation": 89.0
+      "spawn_chebyshev_separation": 89.0,
+      "largest_8_connected_bush": 15,
+      "bush_components_8": 38,
+      "largest_static_open_component_fraction": 0.9917705735660848,
+      "static_open_components_8": 3
     },
     "styled/gen4_0090": {
       "family": "styled",
@@ -1751,7 +2097,11 @@
       "gold_half_per_area": 0.8333333333333334,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.61795166858458,
-      "spawn_chebyshev_separation": 38.0
+      "spawn_chebyshev_separation": 38.0,
+      "largest_8_connected_bush": 39,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0091": {
       "family": "styled",
@@ -1771,7 +2121,11 @@
       "gold_half_per_area": 0.4,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.557046979865772,
-      "spawn_chebyshev_separation": 26.0
+      "spawn_chebyshev_separation": 26.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0099": {
       "family": "styled",
@@ -1791,7 +2145,11 @@
       "gold_half_per_area": 0.03956684714702208,
       "low_degree_open_fraction": 0.0015923566878980893,
       "mean_open_degree": 7.142781316348195,
-      "spawn_chebyshev_separation": 87.0
+      "spawn_chebyshev_separation": 87.0,
+      "largest_8_connected_bush": 14,
+      "bush_components_8": 44,
+      "largest_static_open_component_fraction": 0.9915074309978769,
+      "static_open_components_8": 3
     },
     "styled/gen4_0100": {
       "family": "styled",
@@ -1811,7 +2169,11 @@
       "gold_half_per_area": 0.20408163265306123,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.974431818181818,
-      "spawn_chebyshev_separation": 20.0
+      "spawn_chebyshev_separation": 20.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 0.9659090909090909,
+      "static_open_components_8": 3
     },
     "styled/gen4_0101": {
       "family": "styled",
@@ -1831,7 +2193,11 @@
       "gold_half_per_area": 0.088,
       "low_degree_open_fraction": 0.00363919937613725,
       "mean_open_degree": 7.125552378476735,
-      "spawn_chebyshev_separation": 89.0
+      "spawn_chebyshev_separation": 89.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 56,
+      "largest_static_open_component_fraction": 0.9841434884325448,
+      "static_open_components_8": 5
     },
     "styled/gen4_0105": {
       "family": "styled",
@@ -1851,7 +2217,11 @@
       "gold_half_per_area": 0.091,
       "low_degree_open_fraction": 0.0023897458179448186,
       "mean_open_degree": 7.4090810341081905,
-      "spawn_chebyshev_separation": 76.0
+      "spawn_chebyshev_separation": 76.0,
+      "largest_8_connected_bush": 32,
+      "bush_components_8": 52,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0106": {
       "family": "styled",
@@ -1871,7 +2241,11 @@
       "gold_half_per_area": 0.856401384083045,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.650519031141869,
-      "spawn_chebyshev_separation": 30.0
+      "spawn_chebyshev_separation": 30.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0120": {
       "family": "styled",
@@ -1891,7 +2265,11 @@
       "gold_half_per_area": 0.105,
       "low_degree_open_fraction": 0.00042408821034775233,
       "mean_open_degree": 7.552586938083121,
-      "spawn_chebyshev_separation": 76.0
+      "spawn_chebyshev_separation": 76.0,
+      "largest_8_connected_bush": 75,
+      "bush_components_8": 82,
+      "largest_static_open_component_fraction": 0.9864291772688719,
+      "static_open_components_8": 3
     },
     "styled/gen4_0126": {
       "family": "styled",
@@ -1911,7 +2289,11 @@
       "gold_half_per_area": 0.3836094158674804,
       "low_degree_open_fraction": 0.003956478733926805,
       "mean_open_degree": 7.002967359050445,
-      "spawn_chebyshev_separation": 29.0
+      "spawn_chebyshev_separation": 29.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen4_0136": {
       "family": "styled",
@@ -1931,7 +2313,11 @@
       "gold_half_per_area": 0.04907792980368828,
       "low_degree_open_fraction": 0.0070266272189349116,
       "mean_open_degree": 6.8125,
-      "spawn_chebyshev_separation": 72.0
+      "spawn_chebyshev_separation": 72.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 40,
+      "largest_static_open_component_fraction": 0.9996301775147929,
+      "static_open_components_8": 3
     },
     "styled/gen4_0144": {
       "family": "styled",
@@ -1951,7 +2337,11 @@
       "gold_half_per_area": 0.8327246165084002,
       "low_degree_open_fraction": 0.008920606601248885,
       "mean_open_degree": 6.651204281891169,
-      "spawn_chebyshev_separation": 33.0
+      "spawn_chebyshev_separation": 33.0,
+      "largest_8_connected_bush": 5,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 0.9589652096342551,
+      "static_open_components_8": 5
     },
     "styled/gen4_0145": {
       "family": "styled",
@@ -1971,7 +2361,11 @@
       "gold_half_per_area": 0.07647058823529412,
       "low_degree_open_fraction": 0.0007633587786259542,
       "mean_open_degree": 7.433333333333334,
-      "spawn_chebyshev_separation": 91.0
+      "spawn_chebyshev_separation": 91.0,
+      "largest_8_connected_bush": 20,
+      "bush_components_8": 78,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0000": {
       "family": "styled",
@@ -1991,7 +2385,11 @@
       "gold_half_per_area": 0.508641975308642,
       "low_degree_open_fraction": 0.010934937124111536,
       "mean_open_degree": 7.241115363586659,
-      "spawn_chebyshev_separation": 39.0
+      "spawn_chebyshev_separation": 39.0,
+      "largest_8_connected_bush": 128,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0002": {
       "family": "styled",
@@ -2011,7 +2409,11 @@
       "gold_half_per_area": 0.6275720164609053,
       "low_degree_open_fraction": 0.004357298474945534,
       "mean_open_degree": 7.248366013071895,
-      "spawn_chebyshev_separation": 32.0
+      "spawn_chebyshev_separation": 32.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0004": {
       "family": "styled",
@@ -2031,7 +2433,11 @@
       "gold_half_per_area": 0.2809573361082206,
       "low_degree_open_fraction": 0.029197080291970802,
       "mean_open_degree": 6.9897810218978105,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.9766423357664233,
+      "static_open_components_8": 3
     },
     "styled/gen6_0005": {
       "family": "styled",
@@ -2051,7 +2457,11 @@
       "gold_half_per_area": 0.1728395061728395,
       "low_degree_open_fraction": 0.0012987012987012987,
       "mean_open_degree": 7.437662337662338,
-      "spawn_chebyshev_separation": 6.0
+      "spawn_chebyshev_separation": 6.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 14,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0006": {
       "family": "styled",
@@ -2071,7 +2481,11 @@
       "gold_half_per_area": 0.1646090534979424,
       "low_degree_open_fraction": 0.003129890453834116,
       "mean_open_degree": 6.7981220657277,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 5,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0008": {
       "family": "styled",
@@ -2091,7 +2505,11 @@
       "gold_half_per_area": 1.0588235294117647,
       "low_degree_open_fraction": 0.030534351145038167,
       "mean_open_degree": 5.877862595419847,
-      "spawn_chebyshev_separation": 26.0
+      "spawn_chebyshev_separation": 26.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0009": {
       "family": "styled",
@@ -2111,7 +2529,11 @@
       "gold_half_per_area": 0.332,
       "low_degree_open_fraction": 0.0018001800180018,
       "mean_open_degree": 7.268226822682268,
-      "spawn_chebyshev_separation": 8.0
+      "spawn_chebyshev_separation": 8.0,
+      "largest_8_connected_bush": 18,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0010": {
       "family": "styled",
@@ -2131,7 +2553,11 @@
       "gold_half_per_area": 0.2571166207529844,
       "low_degree_open_fraction": 0.008820286659316428,
       "mean_open_degree": 6.4608599779492835,
-      "spawn_chebyshev_separation": 5.0
+      "spawn_chebyshev_separation": 5.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0014": {
       "family": "styled",
@@ -2151,7 +2577,11 @@
       "gold_half_per_area": 0.819047619047619,
       "low_degree_open_fraction": 0.0013395847287340924,
       "mean_open_degree": 7.375753516409913,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0016": {
       "family": "styled",
@@ -2171,7 +2601,11 @@
       "gold_half_per_area": 1.1666666666666667,
       "low_degree_open_fraction": 0.005905511811023622,
       "mean_open_degree": 6.909448818897638,
-      "spawn_chebyshev_separation": 14.0
+      "spawn_chebyshev_separation": 14.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 11,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0018": {
       "family": "styled",
@@ -2191,7 +2625,11 @@
       "gold_half_per_area": 1.957070707070707,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.536697247706422,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 9,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0019": {
       "family": "styled",
@@ -2211,7 +2649,11 @@
       "gold_half_per_area": 0.5681818181818182,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.754385964912281,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 17,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0020": {
       "family": "styled",
@@ -2231,7 +2673,11 @@
       "gold_half_per_area": 0.1768990634755463,
       "low_degree_open_fraction": 0.0005564830272676684,
       "mean_open_degree": 7.433500278241514,
-      "spawn_chebyshev_separation": 56.0
+      "spawn_chebyshev_separation": 56.0,
+      "largest_8_connected_bush": 29,
+      "bush_components_8": 24,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0022": {
       "family": "styled",
@@ -2251,7 +2697,11 @@
       "gold_half_per_area": 0.7093425605536332,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.170093457943925,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 22,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0024": {
       "family": "styled",
@@ -2271,7 +2721,11 @@
       "gold_half_per_area": 0.8729338842975206,
       "low_degree_open_fraction": 0.005509641873278237,
       "mean_open_degree": 6.366391184573002,
-      "spawn_chebyshev_separation": 4.0
+      "spawn_chebyshev_separation": 4.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 9,
+      "largest_static_open_component_fraction": 0.977961432506887,
+      "static_open_components_8": 3
     },
     "styled/gen6_0025": {
       "family": "styled",
@@ -2291,7 +2745,11 @@
       "gold_half_per_area": 0.17777777777777778,
       "low_degree_open_fraction": 0.04195804195804196,
       "mean_open_degree": 6.577422577422578,
-      "spawn_chebyshev_separation": 37.0
+      "spawn_chebyshev_separation": 37.0,
+      "largest_8_connected_bush": 27,
+      "bush_components_8": 26,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0026": {
       "family": "styled",
@@ -2311,7 +2769,11 @@
       "gold_half_per_area": 0.11349480968858132,
       "low_degree_open_fraction": 0.006108342710175213,
       "mean_open_degree": 7.214274232438514,
-      "spawn_chebyshev_separation": 79.0
+      "spawn_chebyshev_separation": 79.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 24,
+      "largest_static_open_component_fraction": 0.9964635910625301,
+      "static_open_components_8": 3
     },
     "styled/gen6_0027": {
       "family": "styled",
@@ -2331,7 +2793,11 @@
       "gold_half_per_area": 1.41321044546851,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.666666666666667,
-      "spawn_chebyshev_separation": 33.0
+      "spawn_chebyshev_separation": 33.0,
+      "largest_8_connected_bush": 21,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0029": {
       "family": "styled",
@@ -2351,7 +2817,11 @@
       "gold_half_per_area": 0.21045918367346939,
       "low_degree_open_fraction": 0.000657030223390276,
       "mean_open_degree": 7.6005256241787125,
-      "spawn_chebyshev_separation": 46.0
+      "spawn_chebyshev_separation": 46.0,
+      "largest_8_connected_bush": 42,
+      "bush_components_8": 3,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "styled/gen6_0031": {
       "family": "styled",
@@ -2371,7 +2841,11 @@
       "gold_half_per_area": 0.5723204994797086,
       "low_degree_open_fraction": 0.0011173184357541898,
       "mean_open_degree": 7.351955307262569,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.9988826815642458,
+      "static_open_components_8": 2
     },
     "styled/gen6_0035": {
       "family": "styled",
@@ -2391,7 +2865,11 @@
       "gold_half_per_area": 1.02,
       "low_degree_open_fraction": 0.004866180048661801,
       "mean_open_degree": 6.693430656934306,
-      "spawn_chebyshev_separation": 36.0
+      "spawn_chebyshev_separation": 36.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 15,
+      "largest_static_open_component_fraction": 0.9951338199513382,
+      "static_open_components_8": 3
     },
     "styled/gen6_0039": {
       "family": "styled",
@@ -2411,7 +2889,11 @@
       "gold_half_per_area": 0.47346938775510206,
       "low_degree_open_fraction": 0.02133850630455868,
       "mean_open_degree": 6.719689621726479,
-      "spawn_chebyshev_separation": 11.0
+      "spawn_chebyshev_separation": 11.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 0.9786614936954413,
+      "static_open_components_8": 3
     },
     "maze/pc_maze_00": {
       "family": "maze",
@@ -2431,7 +2913,11 @@
       "gold_half_per_area": 1.4051394204483325,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.030323005932762,
-      "spawn_chebyshev_separation": 55.0
+      "spawn_chebyshev_separation": 55.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 91,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_01": {
       "family": "maze",
@@ -2451,7 +2937,11 @@
       "gold_half_per_area": 0.42803792013789144,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.3948852952237685,
-      "spawn_chebyshev_separation": 52.0
+      "spawn_chebyshev_separation": 52.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 58,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_02": {
       "family": "maze",
@@ -2471,7 +2961,11 @@
       "gold_half_per_area": 0.6186793575252826,
       "low_degree_open_fraction": 0.11386593204775022,
       "mean_open_degree": 5.1680440771349865,
-      "spawn_chebyshev_separation": 6.0
+      "spawn_chebyshev_separation": 6.0,
+      "largest_8_connected_bush": 1,
+      "bush_components_8": 22,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_03": {
       "family": "maze",
@@ -2491,7 +2985,11 @@
       "gold_half_per_area": 0.2709190672153635,
       "low_degree_open_fraction": 0.17090069284064666,
       "mean_open_degree": 4.520785219399538,
-      "spawn_chebyshev_separation": 40.0
+      "spawn_chebyshev_separation": 40.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_04": {
       "family": "maze",
@@ -2511,7 +3009,11 @@
       "gold_half_per_area": 0.29557627454870067,
       "low_degree_open_fraction": 0.0002613012803762738,
       "mean_open_degree": 6.400836164097204,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 114,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_05": {
       "family": "maze",
@@ -2531,7 +3033,11 @@
       "gold_half_per_area": 0.2222222222222222,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.663716814159292,
-      "spawn_chebyshev_separation": 36.0
+      "spawn_chebyshev_separation": 36.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 50,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_06": {
       "family": "maze",
@@ -2551,7 +3057,11 @@
       "gold_half_per_area": 0.3206291591046582,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.989736070381231,
-      "spawn_chebyshev_separation": 51.0
+      "spawn_chebyshev_separation": 51.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 98,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_07": {
       "family": "maze",
@@ -2571,7 +3081,11 @@
       "gold_half_per_area": 0.2677746999076639,
       "low_degree_open_fraction": 0.17386984600099353,
       "mean_open_degree": 4.641828117237953,
-      "spawn_chebyshev_separation": 12.0
+      "spawn_chebyshev_separation": 12.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 56,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_08": {
       "family": "maze",
@@ -2591,7 +3105,11 @@
       "gold_half_per_area": 0.22600775847529095,
       "low_degree_open_fraction": 0.19547148179994267,
       "mean_open_degree": 4.12152479220407,
-      "spawn_chebyshev_separation": 71.0
+      "spawn_chebyshev_separation": 71.0,
+      "largest_8_connected_bush": 1,
+      "bush_components_8": 64,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_09": {
       "family": "maze",
@@ -2611,7 +3129,11 @@
       "gold_half_per_area": 0.6138888888888889,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.209961685823755,
-      "spawn_chebyshev_separation": 37.0
+      "spawn_chebyshev_separation": 37.0,
+      "largest_8_connected_bush": 1,
+      "bush_components_8": 48,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_10": {
       "family": "maze",
@@ -2631,7 +3153,11 @@
       "gold_half_per_area": 0.4197860962566845,
       "low_degree_open_fraction": 0.1535806729939603,
       "mean_open_degree": 4.737704918032787,
-      "spawn_chebyshev_separation": 51.0
+      "spawn_chebyshev_separation": 51.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 32,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_11": {
       "family": "maze",
@@ -2651,7 +3177,11 @@
       "gold_half_per_area": 0.4166666666666667,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.787849566055931,
-      "spawn_chebyshev_separation": 48.0
+      "spawn_chebyshev_separation": 48.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 40,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_12": {
       "family": "maze",
@@ -2671,7 +3201,11 @@
       "gold_half_per_area": 0.5141242937853108,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.067193675889328,
-      "spawn_chebyshev_separation": 53.0
+      "spawn_chebyshev_separation": 53.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 48,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_14": {
       "family": "maze",
@@ -2691,7 +3225,11 @@
       "gold_half_per_area": 0.7844387755102041,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.261471861471861,
-      "spawn_chebyshev_separation": 52.0
+      "spawn_chebyshev_separation": 52.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 49,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_15": {
       "family": "maze",
@@ -2711,7 +3249,11 @@
       "gold_half_per_area": 0.7986111111111112,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.743413516609393,
-      "spawn_chebyshev_separation": 31.0
+      "spawn_chebyshev_separation": 31.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_16": {
       "family": "maze",
@@ -2731,7 +3273,11 @@
       "gold_half_per_area": 1.249752033326721,
       "low_degree_open_fraction": 0.16079775631037707,
       "mean_open_degree": 4.9049548145839825,
-      "spawn_chebyshev_separation": 67.0
+      "spawn_chebyshev_separation": 67.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 68,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_17": {
       "family": "maze",
@@ -2751,7 +3297,11 @@
       "gold_half_per_area": 0.3052126200274348,
       "low_degree_open_fraction": 0.13901345291479822,
       "mean_open_degree": 4.681614349775785,
-      "spawn_chebyshev_separation": 48.0
+      "spawn_chebyshev_separation": 48.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 62,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_18": {
       "family": "maze",
@@ -2771,7 +3321,11 @@
       "gold_half_per_area": 1.6059757236227825,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.37024655244463,
-      "spawn_chebyshev_separation": 47.0
+      "spawn_chebyshev_separation": 47.0,
+      "largest_8_connected_bush": 3,
+      "bush_components_8": 22,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_19": {
       "family": "maze",
@@ -2791,7 +3345,11 @@
       "gold_half_per_area": 0.17543859649122806,
       "low_degree_open_fraction": 0.18795180722891566,
       "mean_open_degree": 4.498795180722891,
-      "spawn_chebyshev_separation": 29.0
+      "spawn_chebyshev_separation": 29.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 32,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_20": {
       "family": "maze",
@@ -2811,7 +3369,11 @@
       "gold_half_per_area": 1.1890243902439024,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.955947136563877,
-      "spawn_chebyshev_separation": 13.0
+      "spawn_chebyshev_separation": 13.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_21": {
       "family": "maze",
@@ -2831,7 +3393,11 @@
       "gold_half_per_area": 0.252,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.102762430939227,
-      "spawn_chebyshev_separation": 46.0
+      "spawn_chebyshev_separation": 46.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 74,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_22": {
       "family": "maze",
@@ -2851,7 +3417,11 @@
       "gold_half_per_area": 0.21831142793495212,
       "low_degree_open_fraction": 0.0053717839977381965,
       "mean_open_degree": 6.707379134860051,
-      "spawn_chebyshev_separation": 63.0
+      "spawn_chebyshev_separation": 63.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 86,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_23": {
       "family": "maze",
@@ -2871,7 +3441,11 @@
       "gold_half_per_area": 0.725,
       "low_degree_open_fraction": 0.13973799126637554,
       "mean_open_degree": 5.065502183406114,
-      "spawn_chebyshev_separation": 55.0
+      "spawn_chebyshev_separation": 55.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 39,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_24": {
       "family": "maze",
@@ -2891,7 +3465,11 @@
       "gold_half_per_area": 0.8535178777393311,
       "low_degree_open_fraction": 0.006015037593984963,
       "mean_open_degree": 6.440100250626567,
-      "spawn_chebyshev_separation": 24.0
+      "spawn_chebyshev_separation": 24.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 38,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_25": {
       "family": "maze",
@@ -2911,7 +3489,11 @@
       "gold_half_per_area": 0.3134502923976608,
       "low_degree_open_fraction": 0.15322283609576426,
       "mean_open_degree": 4.900184162062615,
-      "spawn_chebyshev_separation": 70.0
+      "spawn_chebyshev_separation": 70.0,
+      "largest_8_connected_bush": 1,
+      "bush_components_8": 40,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_26": {
       "family": "maze",
@@ -2931,7 +3513,11 @@
       "gold_half_per_area": 0.7205331112036651,
       "low_degree_open_fraction": 0.10752688172043011,
       "mean_open_degree": 5.1562302340290955,
-      "spawn_chebyshev_separation": 45.0
+      "spawn_chebyshev_separation": 45.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 18,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_27": {
       "family": "maze",
@@ -2951,7 +3537,11 @@
       "gold_half_per_area": 0.33163265306122447,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.734477124183006,
-      "spawn_chebyshev_separation": 9.0
+      "spawn_chebyshev_separation": 9.0,
+      "largest_8_connected_bush": 5,
+      "bush_components_8": 62,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_28": {
       "family": "maze",
@@ -2971,7 +3561,11 @@
       "gold_half_per_area": 0.21997621878715815,
       "low_degree_open_fraction": 0.13068731848983542,
       "mean_open_degree": 4.603097773475315,
-      "spawn_chebyshev_separation": 51.0
+      "spawn_chebyshev_separation": 51.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 46,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "maze/pc_maze_29": {
       "family": "maze",
@@ -2991,7 +3585,11 @@
       "gold_half_per_area": 0.30245746691871456,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.068649885583524,
-      "spawn_chebyshev_separation": 32.0
+      "spawn_chebyshev_separation": 32.0,
+      "largest_8_connected_bush": 2,
+      "bush_components_8": 48,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_00": {
       "family": "holdout",
@@ -3011,7 +3609,11 @@
       "gold_half_per_area": 0.5761316872427984,
       "low_degree_open_fraction": 0.0030911901081916537,
       "mean_open_degree": 7.10355486862442,
-      "spawn_chebyshev_separation": 19.0
+      "spawn_chebyshev_separation": 19.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_01": {
       "family": "holdout",
@@ -3031,7 +3633,11 @@
       "gold_half_per_area": 0.7777777777777778,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.170984455958549,
-      "spawn_chebyshev_separation": 26.0
+      "spawn_chebyshev_separation": 26.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_02": {
       "family": "holdout",
@@ -3051,7 +3657,11 @@
       "gold_half_per_area": 0.37037037037037035,
       "low_degree_open_fraction": 0.006359300476947536,
       "mean_open_degree": 6.995230524642289,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 6,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_03": {
       "family": "holdout",
@@ -3071,7 +3681,11 @@
       "gold_half_per_area": 0.4671280276816609,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 6.507462686567164,
-      "spawn_chebyshev_separation": 4.0
+      "spawn_chebyshev_separation": 4.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 0.9637526652452025,
+      "static_open_components_8": 2
     },
     "holdout/g5070_holdout_04": {
       "family": "holdout",
@@ -3091,7 +3705,11 @@
       "gold_half_per_area": 0.18730489073881373,
       "low_degree_open_fraction": 0.013986013986013986,
       "mean_open_degree": 6.735664335664335,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 50,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 0.9888111888111888,
+      "static_open_components_8": 9
     },
     "holdout/g5070_holdout_05": {
       "family": "holdout",
@@ -3111,7 +3729,11 @@
       "gold_half_per_area": 0.37037037037037035,
       "low_degree_open_fraction": 0.015065913370998116,
       "mean_open_degree": 6.870056497175141,
-      "spawn_chebyshev_separation": 21.0
+      "spawn_chebyshev_separation": 21.0,
+      "largest_8_connected_bush": 6,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.992467043314501,
+      "static_open_components_8": 3
     },
     "holdout/g5070_holdout_06": {
       "family": "holdout",
@@ -3131,7 +3753,11 @@
       "gold_half_per_area": 0.737217598097503,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.2349165596919125,
-      "spawn_chebyshev_separation": 23.0
+      "spawn_chebyshev_separation": 23.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_07": {
       "family": "holdout",
@@ -3151,7 +3777,11 @@
       "gold_half_per_area": 0.2571166207529844,
       "low_degree_open_fraction": 0.0021253985122210413,
       "mean_open_degree": 6.945802337938363,
-      "spawn_chebyshev_separation": 25.0
+      "spawn_chebyshev_separation": 25.0,
+      "largest_8_connected_bush": 19,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_08": {
       "family": "holdout",
@@ -3171,7 +3801,11 @@
       "gold_half_per_area": 0.29526029526029524,
       "low_degree_open_fraction": 0.008144796380090498,
       "mean_open_degree": 6.819909502262443,
-      "spawn_chebyshev_separation": 31.0
+      "spawn_chebyshev_separation": 31.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 12,
+      "largest_static_open_component_fraction": 0.9855203619909503,
+      "static_open_components_8": 3
     },
     "holdout/g5070_holdout_09": {
       "family": "holdout",
@@ -3191,7 +3825,11 @@
       "gold_half_per_area": 0.16646848989298454,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.511487303506651,
-      "spawn_chebyshev_separation": 23.0
+      "spawn_chebyshev_separation": 23.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 8,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_10": {
       "family": "holdout",
@@ -3211,7 +3849,11 @@
       "gold_half_per_area": 1.489825581395349,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.675872093023256,
-      "spawn_chebyshev_separation": 34.0
+      "spawn_chebyshev_separation": 34.0,
+      "largest_8_connected_bush": 42,
+      "bush_components_8": 36,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_11": {
       "family": "holdout",
@@ -3231,7 +3873,11 @@
       "gold_half_per_area": 0.8539944903581267,
       "low_degree_open_fraction": 0.008839779005524863,
       "mean_open_degree": 6.497237569060774,
-      "spawn_chebyshev_separation": 28.0
+      "spawn_chebyshev_separation": 28.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_12": {
       "family": "holdout",
@@ -3251,7 +3897,11 @@
       "gold_half_per_area": 0.8260869565217391,
       "low_degree_open_fraction": 0.001718213058419244,
       "mean_open_degree": 7.027491408934708,
-      "spawn_chebyshev_separation": 14.0
+      "spawn_chebyshev_separation": 14.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 0.9896907216494846,
+      "static_open_components_8": 3
     },
     "holdout/g5070_holdout_13": {
       "family": "holdout",
@@ -3271,7 +3921,11 @@
       "gold_half_per_area": 1.0678210678210678,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.1984,
-      "spawn_chebyshev_separation": 27.0
+      "spawn_chebyshev_separation": 27.0,
+      "largest_8_connected_bush": 7,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_14": {
       "family": "holdout",
@@ -3291,7 +3945,11 @@
       "gold_half_per_area": 0.4783950617283951,
       "low_degree_open_fraction": 0.015151515151515152,
       "mean_open_degree": 6.799242424242424,
-      "spawn_chebyshev_separation": 11.0
+      "spawn_chebyshev_separation": 11.0,
+      "largest_8_connected_bush": 4,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 0.9867424242424242,
+      "static_open_components_8": 5
     },
     "holdout/g5070_holdout_15": {
       "family": "holdout",
@@ -3311,7 +3969,11 @@
       "gold_half_per_area": 0.37706611570247933,
       "low_degree_open_fraction": 0.015027322404371584,
       "mean_open_degree": 6.512295081967213,
-      "spawn_chebyshev_separation": 4.0
+      "spawn_chebyshev_separation": 4.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 17,
+      "largest_static_open_component_fraction": 0.98224043715847,
+      "static_open_components_8": 2
     },
     "holdout/g5070_holdout_16": {
       "family": "holdout",
@@ -3331,7 +3993,11 @@
       "gold_half_per_area": 0.4640095181439619,
       "low_degree_open_fraction": 0.0019292604501607716,
       "mean_open_degree": 7.3646302250803855,
-      "spawn_chebyshev_separation": 35.0
+      "spawn_chebyshev_separation": 35.0,
+      "largest_8_connected_bush": 42,
+      "bush_components_8": 20,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_17": {
       "family": "holdout",
@@ -3351,7 +4017,11 @@
       "gold_half_per_area": 0.9386446886446886,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.419573643410852,
-      "spawn_chebyshev_separation": 45.0
+      "spawn_chebyshev_separation": 45.0,
+      "largest_8_connected_bush": 22,
+      "bush_components_8": 19,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_18": {
       "family": "holdout",
@@ -3371,7 +4041,11 @@
       "gold_half_per_area": 0.27472527472527475,
       "low_degree_open_fraction": 0.0011655011655011655,
       "mean_open_degree": 6.665501165501166,
-      "spawn_chebyshev_separation": 38.0
+      "spawn_chebyshev_separation": 38.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 10,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_19": {
       "family": "holdout",
@@ -3391,7 +4065,11 @@
       "gold_half_per_area": 1.6,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.611253196930947,
-      "spawn_chebyshev_separation": 23.0
+      "spawn_chebyshev_separation": 23.0,
+      "largest_8_connected_bush": 13,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_20": {
       "family": "holdout",
@@ -3411,7 +4089,11 @@
       "gold_half_per_area": 0.5642361111111112,
       "low_degree_open_fraction": 0.011178861788617886,
       "mean_open_degree": 7.07520325203252,
-      "spawn_chebyshev_separation": 8.0
+      "spawn_chebyshev_separation": 8.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 0.9623983739837398,
+      "static_open_components_8": 7
     },
     "holdout/g5070_holdout_21": {
       "family": "holdout",
@@ -3431,7 +4113,11 @@
       "gold_half_per_area": 0.6553911205073996,
       "low_degree_open_fraction": 0.01674515960230246,
       "mean_open_degree": 6.580847723704866,
-      "spawn_chebyshev_separation": 39.0
+      "spawn_chebyshev_separation": 39.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 34,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_22": {
       "family": "holdout",
@@ -3451,7 +4137,11 @@
       "gold_half_per_area": 0.11675824175824176,
       "low_degree_open_fraction": 0.010146561443066516,
       "mean_open_degree": 6.66065388951522,
-      "spawn_chebyshev_separation": 32.0
+      "spawn_chebyshev_separation": 32.0,
+      "largest_8_connected_bush": 14,
+      "bush_components_8": 47,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_23": {
       "family": "holdout",
@@ -3471,7 +4161,11 @@
       "gold_half_per_area": 0.38584183673469385,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.628872775214239,
-      "spawn_chebyshev_separation": 45.0
+      "spawn_chebyshev_separation": 45.0,
+      "largest_8_connected_bush": 5,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_24": {
       "family": "holdout",
@@ -3491,7 +4185,11 @@
       "gold_half_per_area": 0.35640495867768596,
       "low_degree_open_fraction": 0.0075675675675675675,
       "mean_open_degree": 7.446486486486487,
-      "spawn_chebyshev_separation": 40.0
+      "spawn_chebyshev_separation": 40.0,
+      "largest_8_connected_bush": 28,
+      "bush_components_8": 4,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_25": {
       "family": "holdout",
@@ -3511,7 +4209,11 @@
       "gold_half_per_area": 0.3950617283950617,
       "low_degree_open_fraction": 0.0010922992900054614,
       "mean_open_degree": 7.113052976515565,
-      "spawn_chebyshev_separation": 18.0
+      "spawn_chebyshev_separation": 18.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 36,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_26": {
       "family": "holdout",
@@ -3531,7 +4233,11 @@
       "gold_half_per_area": 0.3698224852071006,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.770710059171598,
-      "spawn_chebyshev_separation": 48.0
+      "spawn_chebyshev_separation": 48.0,
+      "largest_8_connected_bush": 80,
+      "bush_components_8": 56,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_27": {
       "family": "holdout",
@@ -3551,7 +4257,11 @@
       "gold_half_per_area": 0.2677746999076639,
       "low_degree_open_fraction": 0.0023720772619451034,
       "mean_open_degree": 7.300576075906473,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 26,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_28": {
       "family": "holdout",
@@ -3571,7 +4281,11 @@
       "gold_half_per_area": 0.22924901185770752,
       "low_degree_open_fraction": 0.01773049645390071,
       "mean_open_degree": 6.618203309692672,
-      "spawn_chebyshev_separation": 42.0
+      "spawn_chebyshev_separation": 42.0,
+      "largest_8_connected_bush": 38,
+      "bush_components_8": 32,
+      "largest_static_open_component_fraction": 0.9468085106382979,
+      "static_open_components_8": 12
     },
     "holdout/g5070_holdout_29": {
       "family": "holdout",
@@ -3591,7 +4305,11 @@
       "gold_half_per_area": 0.17439832577607256,
       "low_degree_open_fraction": 0.008955223880597015,
       "mean_open_degree": 7.1829424307036245,
-      "spawn_chebyshev_separation": 41.0
+      "spawn_chebyshev_separation": 41.0,
+      "largest_8_connected_bush": 16,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_30": {
       "family": "holdout",
@@ -3611,7 +4329,11 @@
       "gold_half_per_area": 0.37777777777777777,
       "low_degree_open_fraction": 0.0164756446991404,
       "mean_open_degree": 6.893982808022923,
-      "spawn_chebyshev_separation": 50.0
+      "spawn_chebyshev_separation": 50.0,
+      "largest_8_connected_bush": 40,
+      "bush_components_8": 40,
+      "largest_static_open_component_fraction": 0.9899713467048711,
+      "static_open_components_8": 17
     },
     "holdout/g5070_holdout_31": {
       "family": "holdout",
@@ -3631,7 +4353,11 @@
       "gold_half_per_area": 0.09765625,
       "low_degree_open_fraction": 0.014734144778987828,
       "mean_open_degree": 6.568866111467008,
-      "spawn_chebyshev_separation": 4.0
+      "spawn_chebyshev_separation": 4.0,
+      "largest_8_connected_bush": 12,
+      "bush_components_8": 28,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_32": {
       "family": "holdout",
@@ -3651,7 +4377,11 @@
       "gold_half_per_area": 0.19318181818181818,
       "low_degree_open_fraction": 0.014626635873749037,
       "mean_open_degree": 6.674364896073903,
-      "spawn_chebyshev_separation": 57.0
+      "spawn_chebyshev_separation": 57.0,
+      "largest_8_connected_bush": 11,
+      "bush_components_8": 36,
+      "largest_static_open_component_fraction": 0.976905311778291,
+      "static_open_components_8": 5
     },
     "holdout/g5070_holdout_33": {
       "family": "holdout",
@@ -3671,7 +4401,11 @@
       "gold_half_per_area": 0.1592797783933518,
       "low_degree_open_fraction": 0.0,
       "mean_open_degree": 7.6590421729807,
-      "spawn_chebyshev_separation": 44.0
+      "spawn_chebyshev_separation": 44.0,
+      "largest_8_connected_bush": 8,
+      "bush_components_8": 22,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_34": {
       "family": "holdout",
@@ -3691,7 +4425,11 @@
       "gold_half_per_area": 0.09238728750923873,
       "low_degree_open_fraction": 0.002457002457002457,
       "mean_open_degree": 7.348894348894349,
-      "spawn_chebyshev_separation": 66.0
+      "spawn_chebyshev_separation": 66.0,
+      "largest_8_connected_bush": 22,
+      "bush_components_8": 48,
+      "largest_static_open_component_fraction": 0.9991809991809992,
+      "static_open_components_8": 3
     },
     "holdout/g5070_holdout_35": {
       "family": "holdout",
@@ -3711,7 +4449,11 @@
       "gold_half_per_area": 0.10226442658875091,
       "low_degree_open_fraction": 0.0046421663442940036,
       "mean_open_degree": 7.487814313346228,
-      "spawn_chebyshev_separation": 65.0
+      "spawn_chebyshev_separation": 65.0,
+      "largest_8_connected_bush": 9,
+      "bush_components_8": 16,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_36": {
       "family": "holdout",
@@ -3731,7 +4473,11 @@
       "gold_half_per_area": 0.15230920406157877,
       "low_degree_open_fraction": 0.0024339360222531293,
       "mean_open_degree": 7.507997218358832,
-      "spawn_chebyshev_separation": 78.0
+      "spawn_chebyshev_separation": 78.0,
+      "largest_8_connected_bush": 31,
+      "bush_components_8": 54,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_37": {
       "family": "holdout",
@@ -3751,7 +4497,11 @@
       "gold_half_per_area": 0.11555555555555555,
       "low_degree_open_fraction": 0.004910829671749806,
       "mean_open_degree": 7.172912897389506,
-      "spawn_chebyshev_separation": 71.0
+      "spawn_chebyshev_separation": 71.0,
+      "largest_8_connected_bush": 21,
+      "bush_components_8": 74,
+      "largest_static_open_component_fraction": 0.9943137761695529,
+      "static_open_components_8": 5
     },
     "holdout/g5070_holdout_38": {
       "family": "holdout",
@@ -3771,7 +4521,11 @@
       "gold_half_per_area": 0.08787143022314718,
       "low_degree_open_fraction": 0.000999875015623047,
       "mean_open_degree": 7.446569178852643,
-      "spawn_chebyshev_separation": 71.0
+      "spawn_chebyshev_separation": 71.0,
+      "largest_8_connected_bush": 29,
+      "bush_components_8": 58,
+      "largest_static_open_component_fraction": 1.0,
+      "static_open_components_8": 1
     },
     "holdout/g5070_holdout_39": {
       "family": "holdout",
@@ -3791,7 +4545,11 @@
       "gold_half_per_area": 0.043213296398891966,
       "low_degree_open_fraction": 0.005701099497760282,
       "mean_open_degree": 7.2702592642866835,
-      "spawn_chebyshev_separation": 84.0
+      "spawn_chebyshev_separation": 84.0,
+      "largest_8_connected_bush": 10,
+      "bush_components_8": 58,
+      "largest_static_open_component_fraction": 0.9918555721460567,
+      "static_open_components_8": 5
     }
   }
 }
