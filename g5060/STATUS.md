@@ -13,16 +13,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J024 started ~19:55 UTC)
+## Running (started 21:35 UTC)
 
-- **J024 (urgent)** restarted ~20:45 UTC on de90b5e (ctr2 runs, same-code builds); counter table vs v92: 30 variants x 172 pool games in two lanes x 3 workers, ~50 min;
-  status line every ~8 variants in results/J024.md, then table, verify, v86h / x1bru check, x1_counter.h as a result file.
-- **Paused** (resume from cache): J022 at 13 / 16 maps fitted (03ambush-field 0.754, 03colosseum 0.839, 03contours
-  1.096, 03fan 1.029, 03homonoliths 1.000, 03membrane 1.404, 03one-gem 0.891, 03reef 0.702, 03riverbed 0.894,
-  03shrines 0.948, 03the-front 1.128, 03twisty 1.270, 03ultrastarvation 1.031 fit / game; left: 03honeycomb,
-  03showdown, 00happy-halloween), and J021 fight-all (iter 0 done).
+- **J022** resumed: last 3 maps (03honeycomb, 03showdown, 00happy-halloween) in parallel, then x1_mapfit.h and the
+  gate X1_MAPFIT=1 vs x3 on pool vs v92 / v86h / x1bru. ETA ~22:45 UTC.
+- Then J023 (13 weak tabled maps, + x1 as 4th opponent), J019 screens, J021 runs.
 
 ## Done
+
+- **J024** (results/J024.md): counter table **171 / 172 vs v92** (exact replay) after fixing the table keys
+  (tools/x3_counter.py --fp, build/z-plan-5060 0f2c65ba); costs -4 vs v86h, -8 vs x1bru (v92-specific).
 
 - **J018** (results/J018.md): on x3, BUSHPRE -48 (z -2.77, all on the pool), SECURE +3 (not shown), WALKTAIL -5, all -45.
   x3 vs x1: pool 77%, styled 38%, maze 45%.
