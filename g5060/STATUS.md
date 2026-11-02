@@ -13,11 +13,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~12:20 UTC)
+## Running (~14:05 UTC)
 
-- **Idle: no posted job open**; every runnable retry-queue item is done. Polling comms every 10 min.
+- **Ideation I-60-01** (ideas/I-60-01.md): evidence step, FIELDLOG diagnostic of bots/x1g60 vs x2 on ladder + maze
+  (how long early camp choice falls back to straight-line distance). Then build or drop the draft-time field
+  precompute. Any posted job goes first.
 
 ## Done
+
+- **J016 done** (results/J016.md): on p4 only X1_SECURE passes (+2, 34 games changed); HIDEREC +4 fails on fuel;
+  others -2..-42. p4 + all passes = p4secure 417.
 
 - J014 set-B cells (results/J014.md): bp +3 on set B (-7 on A); with A+B pooled (716 games) vs x1: bp +14 pass,
   **bpp4r150 +39 pass**, **bpp4r100 +36 pass**, bpbelief +14 pass, bp2050 +13 pass, bptsvis +13 fail (maze -2.5 pts).
