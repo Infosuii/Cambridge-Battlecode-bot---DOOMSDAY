@@ -13,14 +13,17 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (08:40 UTC)
+## Running (~10:05 UTC)
 
-- **J013** (0d9f67b): X1_BUSHPRE + 16 re-gate lines, ~5 min each -> posted ~10:05. Run tags carry a `bp` prefix
-  (x1g-bpaf4-*, ...) so they do not collide with the earlier lines of the same name; bp / bp2050 judged vs the x1 base,
-  every other line vs bp. Report adds fuel-outs split rounds < 150 / >= 150.
-- Then J011 / J012 when posted (at 0d9f67b with BP on every line).
+- **J013 addendum** bpsf55 (6efc360), one line -> appended to results/J013.md.
+- Then **J014** maze gates (SETS=maze, x2 + x2-s2) at the build/z-plan head with set A: x1 base, bp, bpp4r150,
+  bpp4r100, bptsvis, bp2050, bpbelief (the 5 best J013 lines by wins, then fewer fuel-outs). Set B cells added when the
+  PC merges set B (3ca52e9).
 
 ## Done
+
+- **J013 done** (results/J013.md): **bp passes +18 vs x1, fuel-outs 339 -> 206**; on top of bp only plan 4 R150
+  (+10, fuel +21) and TS_VIS (+1) are above bp; ANTIFEED 3/250 -7, P5bp -13. Gains of +10..+27 vs x1 did not carry over.
 
 - **J015 done** (results/J015.md): maze set B, 30 maps, **build/z-plan-5060 3ca52e9**; screen 0 faults, 0.53 fuel-outs
   a game. Gate report updated for the maze rule of msgs/0009 (3ca29b0).
