@@ -1197,3 +1197,6 @@ The registry was created before experiments. Entries below record actual use.
 | x1e-cw-unseen-v81hl-s3-01 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 100 cells; v81hl-s3 | smoke; trace=False |
 | x1e-x2-ladder-v86h-s2-01 | 2026-11-01 | deterministic; Wasm a9f1bbc43ef7 | 140 cells; v86h-s2 | smoke; trace=False |
 | x1e-x2-unseen-v86h-s2-01 | 2026-11-01 | deterministic; Wasm a9f1bbc43ef7 | 100 cells; v86h-s2 | smoke; trace=False |
+| x1e-cw-ladder-x2-g5060 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; x2 | smoke; trace=False |
+| x1e-cw-ladder-v86h-g5060 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v86h | smoke; trace=False |
+| x1e-cw-ladder-v86h-g5060p6 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v86h | smoke; trace=False |
