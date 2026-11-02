@@ -1,0 +1,171 @@
+{
+  "job": "K006H",
+  "label": "k005-plan4-r150",
+  "flags": [
+    "X1_BUSHPRE=15",
+    "X1_BUSHPRE_LAZY=60",
+    "X1_PLAN=1",
+    "X1_PLAN_ID=4",
+    "X1_PLAN_ROUND=150"
+  ],
+  "opps": [
+    "v86h",
+    "v86h-s2",
+    "v81hl"
+  ],
+  "kinds": [
+    "holdout"
+  ],
+  "base": "bp",
+  "grid": null,
+  "tag": "k006h-k005-plan4-r150",
+  "baseline_key": "k006h-bp",
+  "analysis": {
+    "wins": 125,
+    "games": 240,
+    "win_pct": 52.083333333333336,
+    "fuel": 89,
+    "faults": 0,
+    "opponent_faults": 0,
+    "deaths": 8.8375,
+    "gold500": 2117.6375,
+    "gold500_observed_only": 2117.175732217573,
+    "gold500_early_end_games": 1,
+    "base": {
+      "wins": 120,
+      "games": 240,
+      "win_pct": 50.0,
+      "fuel": 84,
+      "faults": 0,
+      "opponent_faults": 0,
+      "deaths": 10.908333333333333,
+      "gold500": 2115.0625,
+      "gold500_observed_only": 2114.5899581589956,
+      "gold500_early_end_games": 1
+    },
+    "delta": 5,
+    "families": {
+      "holdout": {
+        "wins": 125,
+        "games": 240,
+        "win_pct": 52.083333333333336,
+        "fuel": 89,
+        "faults": 0,
+        "opponent_faults": 0,
+        "deaths": 8.8375,
+        "gold500": 2117.6375,
+        "gold500_observed_only": 2117.175732217573,
+        "gold500_early_end_games": 1,
+        "base_wins": 120,
+        "delta": 5,
+        "delta_pp": 2.0833333333333335,
+        "base_fuel": 84
+      }
+    },
+    "opponents": {
+      "v86h": {
+        "wins": 47,
+        "games": 80,
+        "win_pct": 58.75,
+        "fuel": 26,
+        "faults": 0,
+        "opponent_faults": 0,
+        "deaths": 9.2625,
+        "gold500": 2061.25,
+        "gold500_observed_only": 2059.1392405063293,
+        "gold500_early_end_games": 1,
+        "base_wins": 39,
+        "delta": 8
+      },
+      "v86h-s2": {
+        "wins": 42,
+        "games": 80,
+        "win_pct": 52.5,
+        "fuel": 33,
+        "faults": 0,
+        "opponent_faults": 0,
+        "deaths": 9.575,
+        "gold500": 2107.6125,
+        "gold500_observed_only": 2107.6125,
+        "gold500_early_end_games": 0,
+        "base_wins": 41,
+        "delta": 1
+      },
+      "v81hl": {
+        "wins": 36,
+        "games": 80,
+        "win_pct": 45.0,
+        "fuel": 30,
+        "faults": 0,
+        "opponent_faults": 0,
+        "deaths": 7.675,
+        "gold500": 2184.05,
+        "gold500_observed_only": 2184.05,
+        "gold500_early_end_games": 0,
+        "base_wins": 40,
+        "delta": -4
+      }
+    },
+    "paired": {
+      "map_count": 40,
+      "equal_map_delta_pp": 2.083333333333333,
+      "map_bootstrap95_pp": [
+        -4.583333333333333,
+        8.333333333333332
+      ],
+      "changed_games": 239,
+      "replay_changed_games": 240,
+      "summary_changed_games": 239,
+      "changed_game_definition": "At least one outcome/round/economic/death/checkpoint field differs; excludes binary identities, fuel and file hashes. Does not alone prove a specific feature branch fired.",
+      "map_deltas": {
+        "holdout/g5070_holdout_00": -0.16666666666666666,
+        "holdout/g5070_holdout_01": 0.3333333333333333,
+        "holdout/g5070_holdout_02": 0.3333333333333333,
+        "holdout/g5070_holdout_03": 0.3333333333333333,
+        "holdout/g5070_holdout_04": 0.16666666666666666,
+        "holdout/g5070_holdout_05": -0.16666666666666666,
+        "holdout/g5070_holdout_06": 0,
+        "holdout/g5070_holdout_07": -0.16666666666666666,
+        "holdout/g5070_holdout_08": -0.16666666666666666,
+        "holdout/g5070_holdout_09": 0.3333333333333333,
+        "holdout/g5070_holdout_10": 0,
+        "holdout/g5070_holdout_11": -0.16666666666666666,
+        "holdout/g5070_holdout_12": 0.16666666666666666,
+        "holdout/g5070_holdout_13": 0.3333333333333333,
+        "holdout/g5070_holdout_14": 0,
+        "holdout/g5070_holdout_15": 0.16666666666666666,
+        "holdout/g5070_holdout_16": 0,
+        "holdout/g5070_holdout_17": 0.16666666666666666,
+        "holdout/g5070_holdout_18": 0.16666666666666666,
+        "holdout/g5070_holdout_19": 0.16666666666666666,
+        "holdout/g5070_holdout_20": 0,
+        "holdout/g5070_holdout_21": -0.3333333333333333,
+        "holdout/g5070_holdout_22": 0,
+        "holdout/g5070_holdout_23": -0.16666666666666666,
+        "holdout/g5070_holdout_24": -0.16666666666666666,
+        "holdout/g5070_holdout_25": 0,
+        "holdout/g5070_holdout_26": 0.3333333333333333,
+        "holdout/g5070_holdout_27": -0.16666666666666666,
+        "holdout/g5070_holdout_28": 0,
+        "holdout/g5070_holdout_29": -0.5,
+        "holdout/g5070_holdout_30": -0.16666666666666666,
+        "holdout/g5070_holdout_31": -0.16666666666666666,
+        "holdout/g5070_holdout_32": 0,
+        "holdout/g5070_holdout_33": 0.3333333333333333,
+        "holdout/g5070_holdout_34": -0.16666666666666666,
+        "holdout/g5070_holdout_35": -0.16666666666666666,
+        "holdout/g5070_holdout_36": -0.16666666666666666,
+        "holdout/g5070_holdout_37": 0.16666666666666666,
+        "holdout/g5070_holdout_38": 0,
+        "holdout/g5070_holdout_39": 0.3333333333333333
+      }
+    },
+    "verdict": "pass",
+    "reasons": [],
+    "binary_sha256": [
+      "76a54b05c69ee401531d0bcb3a6e3952a1b5f46decec89b48de7eff0816fabef"
+    ],
+    "status": "kept (gate only; exploration)"
+  },
+  "finished": "2026-11-02T13:11:50.877144+00:00"
+}
