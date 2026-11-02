@@ -1,0 +1,111 @@
+{
+  "comparisons": {
+    "end500": {
+      "wins_delta": 7,
+      "exploratory_map_bootstrap95_pp": [
+        -2.083333333333333,
+        33.33333333333333
+      ],
+      "maps": {
+        "01starvation": -1,
+        "01gold-rush": 0,
+        "00great-wall": 4,
+        "00rows": 1,
+        "gen4_0005": 3,
+        "pc_maze_00": 0
+      }
+    },
+    "cover": {
+      "wins_delta": -1,
+      "exploratory_map_bootstrap95_pp": [
+        -6.25,
+        0
+      ],
+      "maps": {
+        "01starvation": 0,
+        "01gold-rush": 0,
+        "00great-wall": -1,
+        "00rows": 0,
+        "gen4_0005": 0,
+        "pc_maze_00": 0
+      }
+    },
+    "cycle": {
+      "wins_delta": -6,
+      "exploratory_map_bootstrap95_pp": [
+        -31.25,
+        6.25
+      ],
+      "maps": {
+        "01starvation": -1,
+        "01gold-rush": 1,
+        "00great-wall": 0,
+        "00rows": -4,
+        "gen4_0005": 1,
+        "pc_maze_00": -3
+      }
+    },
+    "planner_repair": {
+      "wins_delta": -4,
+      "exploratory_map_bootstrap95_pp": [
+        -12.5,
+        -4.166666666666666
+      ],
+      "maps": {
+        "01starvation": -1,
+        "01gold-rush": -1,
+        "00great-wall": -1,
+        "00rows": 0,
+        "gen4_0005": -1,
+        "pc_maze_00": 0
+      }
+    },
+    "planner_budget_v3": {
+      "wins_delta": 1,
+      "exploratory_map_bootstrap95_pp": [
+        -10.416666666666668,
+        12.5
+      ],
+      "maps": {
+        "01starvation": 2,
+        "01gold-rush": 1,
+        "00great-wall": 0,
+        "00rows": 0,
+        "gen4_0005": -2,
+        "pc_maze_00": 0
+      }
+    },
+    "expiry_control": {
+      "wins_delta": 5,
+      "exploratory_map_bootstrap95_pp": [
+        2.083333333333333,
+        18.75
+      ],
+      "maps": {
+        "01starvation": 0,
+        "01gold-rush": 0,
+        "00great-wall": 2,
+        "00rows": 1,
+        "gen4_0005": 2,
+        "pc_maze_00": 0
+      }
+    }
+  },
+  "checkpoint_prefix": {
+    "parent": {
+      "100": 0,
+      "250": 5,
+      "500": 6
+    },
+    "end5000": {
+      "100": 0,
+      "250": 0,
+      "500": 0
+    },
+    "same_wasm_code_section": true
+  },
+  "reused_cells": 68,
+  "completed_cells": 528,
+  "own_faults": 0,
+  "opponent_faults": 0
+}

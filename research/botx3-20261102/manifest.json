@@ -1,0 +1,80 @@
+{
+  "scope": "Development smoke only, maps already inspected; not untouched validation",
+  "arms": {
+    "off": [],
+    "parent": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60",
+      "X1_PLAN=1",
+      "X1_PLAN_ROUND=150",
+      "X1_PLAN_ID=4",
+      "X1_WALKTAIL=3"
+    ],
+    "end500": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60",
+      "X1_PLAN=1",
+      "X1_PLAN_ROUND=150",
+      "X1_PLAN_ID=4",
+      "X1_WALKTAIL=3",
+      "X3_PLAN_END=500"
+    ],
+    "cycle": [
+      "X3_BANKCYCLE=1"
+    ],
+    "cover": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60",
+      "X3_COVER_SAFE=1"
+    ],
+    "end500cycle": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60",
+      "X1_PLAN=1",
+      "X1_PLAN_ROUND=150",
+      "X1_PLAN_ID=4",
+      "X1_WALKTAIL=3",
+      "X3_PLAN_END=500",
+      "X3_BANKCYCLE=1"
+    ],
+    "bp": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60"
+    ],
+    "planner_control": [
+      "APEX_PLAN=1"
+    ],
+    "planner_repair": [
+      "APEX_PLAN=1",
+      "X3_BANKCYCLE=2"
+    ],
+    "planner_budget_v3": [
+      "APEX_PLAN=1",
+      "X3_BANKCYCLE=3"
+    ],
+    "end5000": [
+      "X1_BUSHPRE=15",
+      "X1_BUSHPRE_LAZY=60",
+      "X1_PLAN=1",
+      "X1_PLAN_ROUND=150",
+      "X1_PLAN_ID=4",
+      "X1_WALKTAIL=3",
+      "X3_PLAN_END=5000"
+    ]
+  },
+  "maps": {
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\local-benchmarks\\01starvation.map26a": "0b8e85603a85ca5778f92d2975c56da0e4b8df59264c42eef23108f8bbceec2a",
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\local-benchmarks\\01gold-rush.map26a": "6e564fdf09fdf67a4182a909d6985737b488742e64f2c3e164204e78bc64c898",
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\local-benchmarks\\00great-wall.map26a": "1b22e5c068175913889a1ff497d310de303a9b1ddf78672f26c0777fda9f5bf2",
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\local-benchmarks\\00rows.map26a": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\x1-unseen\\gen4_0005.map26a": "8eda3908b3210ca386b28b6e2e53da2b8b70a88ef622f1acf61590d63a613fe4",
+    "C:\\projects\\cambridge battlecode\\x1work\\maps\\x1-maze\\pc_maze_00.map26a": "b686441483f0d754913be268f24fe5f053a67222272cf87f043f48217bab38d7"
+  },
+  "opponents": {
+    "x2": "a9f1bbc43ef7e79ab44e081fd3ce3cbdccf97f45ff28b970347d7cbe9d6a6b53",
+    "v86h": "0fae1c17ee73bd758529b92f7d7ab55f1dea6f2ecf0865cdac423b2ecd5640fb",
+    "v81hl": "809c6a80c4ac645bd523f8f81baad408971835a093fb568c8ee1eefa57782f6a",
+    "v92": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+  },
+  "cli": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34"
+}
