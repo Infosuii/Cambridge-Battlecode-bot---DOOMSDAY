@@ -13,12 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J023 started ~22:45 UTC)
+## Running (J025 started ~23:30 UTC)
 
-- **J023** re-fit of 13 weak tabled maps (00elkring 01gold-rush 00quadrants 00great-wall 00road-of-riches 00interlock
-  00fragment 00ribs 00dunes 02geodes 00rows 02harvest 01big-world) vs v92 / v86h / x1bru / x1, 3 parallel map groups,
-  ETA ~01:15 UTC; then x1_mapfit.h with J022 + J023 rows (runtime keys) and the gate vs v92 / v86h / x1bru / x1.
-- Then J019 screens, J021 runs.
+- **J025 (urgent)** at c153c59: mfp6 / mfp8 / mfp2l on top of X1_MAPFIT, pool vs v92 / v86h / x1bru, base x3mf2
+  (96 / 115 / 130 = 341 / 516), ~5 min a line; results/J025.md after each line; the best pass then on styled + maze.
+- **J023 paused** (3 of 13 maps fitted: 00elkring 0.657, 00interlock 1.064, 02geodes 0.789); resumes from cache.
 
 ## Done
 
