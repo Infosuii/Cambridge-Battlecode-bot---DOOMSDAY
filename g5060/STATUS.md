@@ -13,14 +13,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~10:05 UTC)
+## Running (~11:00 UTC)
 
-- **J013 addendum** bpsf55 (6efc360), one line -> appended to results/J013.md.
-- Then **J014** maze gates (SETS=maze, x2 + x2-s2) at the build/z-plan head with set A: x1 base, bp, bpp4r150,
-  bpp4r100, bptsvis, bp2050, bpbelief (the 5 best J013 lines by wins, then fewer fuel-outs). Set B cells added when the
-  PC merges set B (3ca52e9).
+- Stand-in build notes (findings/0005, from findings/0002 S1 / S2) with a no-new-code S1 prototype measured vs x1.
+- J014 set-B cells (g5060_maze_*) run as soon as the PC merges set B (3ca52e9) into build/z-plan.
 
 ## Done
+
+- **J014 done** (results/J014.md, maze set A): bp -7 on maze (fails the full gate on maze); with maze included,
+  vs x1: **bpp4r150 347 vs 316 pass (+31; up on every kind)**, bpp4r100 +22 pass, bpbelief +13 pass, bptsvis +16 fail.
+- J013 addendum bpsf55: pass vs bp (+2, fuel-outs -4).
 
 - **J013 done** (results/J013.md): **bp passes +18 vs x1, fuel-outs 339 -> 206**; on top of bp only plan 4 R150
   (+10, fuel +21) and TS_VIS (+1) are above bp; ANTIFEED 3/250 -7, P5bp -13. Gains of +10..+27 vs x1 did not carry over.
