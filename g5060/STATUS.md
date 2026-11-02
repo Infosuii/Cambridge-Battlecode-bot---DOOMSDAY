@@ -12,13 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running
+## Running (02:36 UTC)
 
-- Gate chain (worktree `C:/x1run-846e8ce`, DZ_MAX_PARALLEL=6): base gate (x1g-base-*, once) -> **J009** (846e8ce)
-  -> **J010** (33c2498, incl. fd25 x2-s2 cell) -> **J006** (846e8ce) -> **J008** (2636803). ~23 lines x 480 games
-  = ~11k games, ETA ~03:30-04:00 UTC. Each job's results/Jnnn.md is posted as soon as its lines finish.
+- **J010** (33c2498): fd25 done (ladder 68 + 60, styled 41 + 60 vs x2 / x2-s2; the x2 cells equal the PC's own fd25
+  gate exactly), fd40 running; 6 lines left, ~3.5 min each -> J010 posted ~03:05.
+- Then **J006** (846e8ce, 6 lines) ~03:30, **J008** (2636803, 3 lines) ~03:45, then J003.
 
 ## Done
+
+- **J009 done** (results/J009.md): p4r100 280 vs 257 (+23, fuel-outs +9), p4r150 +18 (+47), p6r150 +13 (+12),
+  p3r150 +6 (+6), p4r0 -7, p6r0 -1; all fail R1 (fuel-out totals or win totals). Run records on build/z-plan-5060 63e311e.
 
 - **J005 done** (results/J005.md, J005/rows.jsonl): 480 baselines + 11,520 branches; prefix identity 11,512 / 11,512;
   3,907 replays equal; 0 faults. Best nets: plan 4 @R250 +27, @R150 +23; plan 6 @R150 +18, @R350 +16; plan 7 @R350 +15.
