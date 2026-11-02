@@ -80,3 +80,12 @@ reaching x1's own spikes.
 
 Rounds 0-150 fuel-outs 64 -> 10. General fuel attempts stop here (3 done); J013 re-gates all 14 features on top of
 BUSHPRE. A feature still failing on fuel there gets at most two attempts of its own, then a rethink or abandonment.
+
+## Gate rule amendment (2 Nov, Rishik): fuel-outs on generated unseen maps count only slightly
+
+Fuel-outs on generated maps whose realism is not checked against the official maps (maze set A/B) are reported but do
+**not** fail a feature on their own. The fuel clause is judged on ladder + styled maps (the realism-screened suite);
+a maze cell fails only on wins / deaths / gold, or if its fuel-outs rise by more than 25% *and* ladder/styled also
+rise. Reason: on maze set A, 5 of 29 maps give 125 of x1's 165 fuel-outs (pc_maze_16: 71x71, 1-wide corridors, 34
+groups per half, denser than any official map), so the count measures the generator's extremes. BUSHPRE on set A:
+165 -> 157 (the maze fuel-outs have another cause; not chased until a map set is shown realistic).
