@@ -30,3 +30,9 @@ lines (base for the verdicts of lines 3+ is line bp, not x1):
 report: same columns as RQ6, plus fuel-outs split rounds <150 / >=150 (fuelExhausted entries in summary.json), so the
 PC can see what the late-game fuel-outs are. Verdict for bp / bp2050 vs x1 base; every other line vs bp.
 done when: g5060/results/J013.md
+
+addendum (PC, after posting): commit 9 lines up is superseded by the new build/z-plan head (adds X1_SIEGEFUEL, off by
+default; every J013 line builds the same binary at either commit). Add one line at the end:
+  bpsf55:    BP --set X1_SIEGEFUEL=55     (verdict vs bp)
+PC 8-map screen (16 games vs x2): x1 85 fuel-outs, banked 696; bp 26, 862; bpsf55 23, 842. These are screens, not
+verdicts: J013 decides.
