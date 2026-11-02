@@ -12,11 +12,17 @@ Workers: 6 (threads-2).
 
 ## Running
 
-- **J005 branch farm** (started 2 Nov 00:05): `tools/x1_farm.py run --name j005` (build/z-plan-5060 a0f4773, port of
-  lab/box branch_farm.py). x1 at e15b68d, 25 builds (base X1_PLAN=1 R5000 I6 + plans 1-8 x R250/150/350), all code
-  sections be66c8804ef0, 25 distinct binaries. Opponents x2, x2-s2; 70 ladder + 50 styled maps, both sides: 480
-  baselines + 11,520 branches. Every branch is diffed against its baseline (prefix check on all games, not a
-  sample). ETA ~2 h at ~110/min; partial results at the end of each round tier.
+- **J005 branch farm**: `tools/x1_farm.py run --name j005` (build/z-plan-5060 ce41381). x1 at e15b68d, 25 builds
+  (base X1_PLAN=1 R5000 I6 + plans 1-8 x R250/150/350), all code sections be66c8804ef0, 25 distinct binaries.
+  x2 + x2-s2, 70 ladder + 50 styled, both sides: 480 baselines + 11,520 branches. Every branch is diffed against its
+  baseline: **3,427 of 3,427 so far equal the baseline before the switch round** (0 violations).
+- pc/msgs/0002 applied: every row now has `cp` (both teams' banked, gems, gold, kills, deaths, collected, earned
+  gold, damage at R150/250/350/500) plus gold250 / gold500; the per-switch-round position features already carried
+  our and their deaths and kills. The farm was stopped at 3,681 games and restarted at 00:31; rows written before
+  the change are replayed once (checked equal to the old row: `replay_match`). ETA ~01:55.
+- Gate reports will add mean gold@R250, gold@R500, deaths per game and finish round (from results.json checkpoints).
+- Stand-in (after J003): no "contact aura" bot on any branch; candidates to build from are `bots/mimic` and
+  `bots/proxy` (top-team imitation, claude/compare-fix-replay-decoder and build/z-plan). Proposal follows after J003.
 
 ## Done
 
