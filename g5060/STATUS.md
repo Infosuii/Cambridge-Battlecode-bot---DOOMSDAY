@@ -13,10 +13,13 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (17:20 UTC)
+## Running (J017 started ~18:40 UTC)
 
-- Idle on posted jobs; ideation continues. Next: offer to run the top lines on a second opponent pair to push their z
-  past 2 (findings/0006 proposal 2), unless the PC posts a job. Polling comms every 10 min.
+- **J017 + K010 Part B** (blind; pc/analysis and g5070/analysis not read): analysis of x1c1's 180 ladder games ->
+  g5060/analysis/J017.md. Then **K010 Part A** (v92 head-to-heads) -> results/K010.md, then the four-opponent pooled
+  gate (x1, x1c1, x1c1 + SECURE), then ideation.
+- Background, low priority: maze cells vs v86h / v81hl for x1 / p4 / bpp4r150 / p4secure (idle work started before
+  msg 0021; it finishes on its own, then K010 Part A runs).
 
 ## Done
 
