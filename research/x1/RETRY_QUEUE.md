@@ -44,6 +44,7 @@ failed; fix the trigger first), **rejected** (failed R1, R2 and R3). Until R3 ha
 | # | Feature | Source | First result | Next |
 |---|---|---|---|---|
 | 18 | `X1_ANTIFEED` (K team deaths in W rounds -> team plays safe) | top-team games: 9/35 collapses (research/x1/TOP_TEAMS_2026-11-02.md) | quick screen K=3/5: 22+22 vs 17+19 | J006 (K 3/4/5/7, W 100/250) |
+| 19b | `X1_FLEEDROP` 25 (drop the fled-from camp target) | audit F01 alt | quick screen 22 vs 17; **full gate vs x2 (PC): ladder 68 = 68, styled 41 vs 55** | R2: 15 / 40 / 60 in J010; R3 joint search |
 | 19 | `X1_FLEEHOLD` (keep away from enemies seen within 8 for N rounds after a flee) | audit F01 (retreat/farm oscillation) | - | J007 (4/8/15) |
 | 20 | `X1_TEAMWIN` (win-now counts the team's carried gems) | audit F03 (859 + 170 carried lost to 1083) | - | J007 |
 | 21 | `X1_HEARTFIX` (fight forecast: Heart dash landing + missing-health damage) | audit B01 | - | J007 |
@@ -59,3 +60,6 @@ already on, or not overridable by --set*. The already-on ones are part of x1; th
 A2_KITFIX bits) need a code switch to test, as X1_HEARTFIX does.
 
 Fuel-fix versions 1-2 (no fuel gain) were superseded by version 3 (kept); they are not features and are not retried.
+
+**Lesson (2 Nov):** the 38-game quick screen is a bug and fuel check only. X1_FLEEDROP 25 went 22 vs 17 there and
+109 vs 123 on the full 240-game gate. No switch is ranked or dropped on quick-screen wins.
