@@ -1270,3 +1270,17 @@ The registry was created before experiments. Entries below record actual use.
 | x1g-assess-ladder-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644e399edeaf | 140 cells; x2-s2 | smoke; trace=False |
 | x1g-assess-styled-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644e399edeaf | 100 cells; x2-s2 | smoke; trace=False |
 | g5060-mazeB-screen | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 80 cells; x1 | smoke; trace=False |
+| x1g-base-maze-x2-01 | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 58 cells; x2 | smoke; trace=False |
+| x1g-base-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bp-maze-x2-01 | 2026-11-02 | deterministic; Wasm ae786617849b | 58 cells; x2 | smoke; trace=False |
+| x1g-bp-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm ae786617849b | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bpp4r150-maze-x2-01 | 2026-11-02 | deterministic; Wasm 76a54b05c69e | 58 cells; x2 | smoke; trace=False |
+| x1g-bpp4r150-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 76a54b05c69e | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bpp4r100-maze-x2-01 | 2026-11-02 | deterministic; Wasm 3e1c0635d227 | 58 cells; x2 | smoke; trace=False |
+| x1g-bpp4r100-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 3e1c0635d227 | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bptsvis-maze-x2-01 | 2026-11-02 | deterministic; Wasm 825561621b85 | 58 cells; x2 | smoke; trace=False |
+| x1g-bptsvis-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 825561621b85 | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bp2050-maze-x2-01 | 2026-11-02 | deterministic; Wasm 644155ee36b2 | 58 cells; x2 | smoke; trace=False |
+| x1g-bp2050-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644155ee36b2 | 58 cells; x2-s2 | smoke; trace=False |
+| x1g-bpbelief-maze-x2-01 | 2026-11-02 | deterministic; Wasm 6a791b00687e | 58 cells; x2 | smoke; trace=False |
+| x1g-bpbelief-maze-x2-s2-01 | 2026-11-02 | deterministic; Wasm 6a791b00687e | 58 cells; x2-s2 | smoke; trace=False |
