@@ -4884,6 +4884,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                     for (vec2 o : opaque.positions()) opq[static_cast<std::size_t>(o.y * opq_w + o.x)] = 1;
                 }
                 if (los.size() < w.camps.size()) { los.resize(w.camps.size()); los_ready.resize(w.camps.size(), 0); }
+                PROF_CHECK("sg_init");
                 auto opaque_at = [&](vec2 m) { return m.x < 0 || m.y < 0 || m.x >= opq_w || m.y >= opq_h || opq[static_cast<std::size_t>(m.y * opq_w + m.x)]; };
                 bc::bitboard any;
                 any.clear();
@@ -4892,7 +4893,8 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                     const auto& c = w.camps[ci];
                     if (c.dead) continue;
                     if (!los_ready[static_cast<std::size_t>(ci)]) {
-                        if (bc::fuel_remaining() < 30000) { complete = false; continue; }
+                        // X1_SIEGEFUEL: a camp's scan costs ~20k; start one only with room for it and the turn's walk after.
+                        if (bc::fuel_remaining() < (X1_SIEGEFUEL ? static_cast<std::uint64_t>(X1_SIEGEFUEL) * 1000 : 30000)) { complete = false; continue; }
                         bc::bitboard v;
                         v.clear();
                         for (int dy = -4; dy <= 4; ++dy) for (int dx = -4; dx <= 4; ++dx) {
@@ -4905,13 +4907,18 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                                     q.y + ((c.pos.y - q.y) * k * 2 + (c.pos.y >= q.y ? n : -n)) / (2 * n)};
                                 clear = !opaque_at(m);
                             }
+#if X1_SIEGEFUEL
+                            if (clear) set_bit(v, q);
+#else
                             if (clear) v.set(q, true);
+#endif
                         }
                         los[static_cast<std::size_t>(ci)] = v;
                         los_ready[static_cast<std::size_t>(ci)] = 1;
                     }
                     any |= los[static_cast<std::size_t>(ci)];
                 }
+                PROF_CHECK("sg_los");
                 ring &= ~danger_zone & ~w.static_blocked;
                 bc::bitboard seeing = ring & any;
                 if (!seeing.is_empty() && (complete || !X1_SIEGE_STRICT)) ring = seeing; // a partial union keeps only tiles that see a live camp (audit B04)
@@ -4946,6 +4953,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 }
                 if (!seeing.is_empty()) ring = seeing;
             }
+            PROF_CHECK("sg_seeing");
             if (!bit(ring, pos)) walk_toward(ring);
             // Hit the camp that hurts most first (AoE picks its own best tile in cast_on_camp).
             int best = -1;

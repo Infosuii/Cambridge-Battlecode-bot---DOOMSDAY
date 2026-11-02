@@ -24,6 +24,9 @@
 #ifndef X1_BUSHPRE_LAZY
 #define X1_BUSHPRE_LAZY 50 // with X1_BUSHPRE: on-demand labelling stops at this many k fuel (cluster reads unknown until done)
 #endif
+#ifndef X1_SIEGEFUEL
+#define X1_SIEGEFUEL 0 // Fuel: fill the siege line-of-sight cache only above X1_SIEGEFUEL k fuel (was 30k), direct bit writes.
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif
