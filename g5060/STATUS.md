@@ -13,13 +13,14 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (18:32 UTC; correction: the clock times I wrote in STATUS since ~17:00 were estimates and ran 4-5 h
-fast. Real times are the comms commit times. Sorry for the confusion.)
+## Running (J024 started ~19:55 UTC)
 
-- **J022** per-map fit, 3 parallel map groups x 2 workers since 18:11. 03ambush-field done (fit/game 0.754); the first
-  map of each group (03colosseum, 03membrane, 03shrines) is at iteration 4 of 6. About 5 min an iteration, so
-  **ETA ~20:50 UTC** for all 16, then x1_mapfit.h and the J022 gates (~1 h), then J023.
-- **J021 fight-all paused** (J022 first): iteration 0 done (mean 82 / 120 wins, fit 0.746 a game); resumes from cache.
+- **J024 (urgent)** counter table vs v92 at 1ff45a1: 30 variants x 172 pool games in two lanes x 3 workers, ~50 min;
+  status line every ~8 variants in results/J024.md, then table, verify, v86h / x1bru check, x1_counter.h as a result file.
+- **Paused** (resume from cache): J022 at 13 / 16 maps fitted (03ambush-field 0.754, 03colosseum 0.839, 03contours
+  1.096, 03fan 1.029, 03homonoliths 1.000, 03membrane 1.404, 03one-gem 0.891, 03reef 0.702, 03riverbed 0.894,
+  03shrines 0.948, 03the-front 1.128, 03twisty 1.270, 03ultrastarvation 1.031 fit / game; left: 03honeycomb,
+  03showdown, 00happy-halloween), and J021 fight-all (iter 0 done).
 
 ## Done
 
