@@ -6961,7 +6961,7 @@ void Bot::play_turn() {
         // the switch round (the branch farm relies on this). X1_PLAN_ROUND -1 or 5000: never switch.
         static volatile int plan_round = X1_PLAN_ROUND, plan_id = X1_PLAN_ID;
         const int pr = plan_round;
-        const int plan = pr >= 0 && round >= pr ? plan_id : 0;
+        const int plan = pr >= 0 && round >= pr && (X1_PLAN_END <= 0 || round < X1_PLAN_END) ? plan_id : 0;
         float terr = tune::kTerritory, aggr = 1.0f, carry = 1.0f;
         int hunt = 0;
         if (plan == 1) terr = 1.0f;                                     // full map: enemy-side camps at full value

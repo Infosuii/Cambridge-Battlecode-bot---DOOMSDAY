@@ -58,6 +58,9 @@
 #ifndef X1_PLAN_ROUND
 #define X1_PLAN_ROUND -1 // round from which plan X1_PLAN_ID is played (-1 = never)
 #endif
+#ifndef X1_PLAN_END
+#define X1_PLAN_END 0 // with X1_PLAN: plan X1_PLAN_ID stops at this round and normal play resumes (0 = never; ladder: plan 4 stalled the late economy)
+#endif
 #ifndef X1_PLAN_ID
 #define X1_PLAN_ID 0 // 1 full map, 2 hoard, 3 fight harder, 4 turtle, 5 stricter home, 6 early-contact answer, 7 fast bank, 8 push
 #endif
