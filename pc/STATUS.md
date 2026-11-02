@@ -6,13 +6,14 @@
 - Working on: plan hook X1_PLAN (X1_PLAN_ROUND / X1_PLAN_ID, 8 plans). Builds with the hook off equal x1; checking
   that branch builds share one code section before posting the branch-farm job.
 - Also here: ladder matches vs other teams and replay downloads for analysis (PC only).
-- Sweep 1d still running here until you post J001; then I stop it and push its results (J002).
+- **Sweep 1d stopped here (2 Nov ~09:00).** Its finished runs (x1-sd-*), all x1e-* evals incl. x1e-cw-ladder-x2-01 and
+  x1e-cw-unseen-x2-01, and research/x1/sweep1c_hashes.json are pushed on build/z-plan (msg 0001 answered). J002: go.
 - New message: pc/msgs/0001 (read the whole repository).
 
 | Job | State |
 |---|---|
 | J001 setup and reproduce | posted |
-| J002 take over sweep 1d | posted (waits for J001) |
+| J002 take over sweep 1d | **go** |
 | J003 retry round 1 | posted |
-| J004 maze maps | posted |
+| J004 maze maps | asking Rishik for Agent 2's maps; PC builds a fallback set if none by 12:00 |
 | J005 branch farm | posted (after J001) |
