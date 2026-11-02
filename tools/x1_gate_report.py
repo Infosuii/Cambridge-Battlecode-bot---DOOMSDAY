@@ -5,8 +5,9 @@ Cells are x1g-TAG-KIND-OPP-01 (KIND ladder/styled/maze, OPP x2/x2-s2). --base-ma
 (e.g. the PC's x1e-cw-* evals). Prints a markdown table per tag with wins, fuel-outs, faults, mean gold@R250 /
 gold@R500 (earned), deaths per game and finish round, and the verdict:
   pass = total wins >= base total on the same cells, no map kind (both opponents pooled) more than 2 points of win
-  rate below the base, candidate fuel-outs <= base fuel-outs (totals; per-game fuel-outs are not paired once games
-  diverge) and zero faults.
+  rate below the base, ladder + styled fuel-outs <= base (totals; per-game fuel-outs are not paired once games
+  diverge), zero faults. Maze cells (pc/msgs/0009): fuel-outs reported apart; they fail a line only if they rise by
+  more than 25% while ladder + styled fuel-outs rise too.
 """
 import json, sys
 from pathlib import Path
@@ -40,6 +41,7 @@ def main():
     out = []
     for tag in [base_tag] + tags:
         rows, tot, btot, kind_ok, fuel, bfuel, faults = [], 0, 0, True, 0, 0, 0
+        mfuel = mbfuel = 0  # maze cells: fuel-outs reported apart (pc/msgs/0009)
         for k in KINDS:
             kw = kb = kn = 0
             for o in OPPS:
@@ -48,15 +50,20 @@ def main():
                 s, sb = stats(c), stats(b)
                 rows.append(f"| {k} | {o} | {s['wins']}/{s['games']} | {s['wins'] - sb['wins']:+d} | {s['fuel']} ({s['fuel'] - sb['fuel']:+d}) | "
                             f"{s['faults']} | {s['gold250']:.0f} | {s['gold500']:.0f} | {s['deaths']:.2f} | {s['rounds']:.0f} | {s['sha']} |")
-                kw += s['wins']; kb += sb['wins']; kn += s['games']
-                fuel += s['fuel']; bfuel += sb['fuel']; faults += s['faults']
+                kw += s['wins']; kb += sb['wins']; kn += s['games']; faults += s['faults']
+                if k == 'maze': mfuel += s['fuel']; mbfuel += sb['fuel']
+                else: fuel += s['fuel']; bfuel += sb['fuel']
             if kn:
                 tot += kw; btot += kb
                 if 100 * (kw - kb) / kn < -2: kind_ok = False
-        ok = tot >= btot and kind_ok and fuel <= bfuel and faults == 0
+        # Maze fuel-outs fail a line only if they rise by more than 25% while ladder + styled fuel-outs rise too.
+        maze_fuel_ok = not (mbfuel and mfuel > 1.25 * mbfuel and fuel > bfuel)
+        ok = tot >= btot and kind_ok and fuel <= bfuel and maze_fuel_ok and faults == 0
         verdict = 'base' if tag == base_tag else ('**pass**' if ok else '**fail**') + (
             f" (total {tot - btot:+d}{'' if kind_ok else ', a map kind < -2 points'}"
-            f"{'' if fuel <= bfuel else f', fuel-outs {fuel - bfuel:+d}'}{'' if faults == 0 else f', faults {faults}'})")
+            f"{'' if fuel <= bfuel else f', fuel-outs {fuel - bfuel:+d}'}{'' if maze_fuel_ok else ', maze fuel-outs > +25%'}"
+            f"{'' if faults == 0 else f', faults {faults}'})")
+        if mbfuel or mfuel: verdict += f'; maze fuel-outs {mfuel} vs {mbfuel} (reported)'
         out += [f'### {tag}: {tot} wins vs base {btot}; verdict {verdict}', '',
                 '| kind | opp | wins | Δ base | fuel-outs (Δ) | faults | gold@R250 | gold@R500 | deaths/game | finish round | sha |',
                 '|---|---|---|---|---|---|---|---|---|---|---|'] + rows + ['']
