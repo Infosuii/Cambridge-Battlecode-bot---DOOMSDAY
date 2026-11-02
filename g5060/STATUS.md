@@ -13,16 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J022 started ~22:40 UTC)
+## Running (~23:30 UTC)
 
-- **J022** per-map fit (tools/x3_mapfit.sh, 16 maps x 6 iters x 7 candidates x 3 opps x 2 sides, ~8,000 games) in a
-  second worktree at 70400bb6, 3 workers, ETA ~01:00 UTC; then x1_mapfit.h + gates (pool and the 16 maps alone).
-- **J021 fight-all** ES beside it (3 workers; worktree at 4ebf7f48). Restarted 22:30 after a fix: my overlaid dz.py had
-  dropped the PC's X1_KD list support (fixed, build/z-plan-5060 563aba91).
-- Stopped as superseded by J022: J020 A plan search (finished runs kept).
-
-Queue: J022 fit -> x1_mapfit.h -> J022 gates -> **J023** (13 weak tabled maps, + x1 as 4th opponent; at c5da0e9+) ->
-J023 table + gate -> J019 screens -> J021 runs 2-3.
+- **J022** per-map fit, 3 parallel map groups x 2 workers (a serial run spent most of its time on candidate builds:
+  ~30 min a map, so 8 h for 16). 03ambush-field done (fit/game 0.754, iter 5); 15 maps left, ETA ~02:00 UTC.
+- **J021 fight-all paused** to give J022 the machine (J022 is FIRST; J021 "if there is room"); iter 0 done (mean 82 /
+  120, fit 0.746). It resumes from its cached runs after J022.
 
 ## Done
 
