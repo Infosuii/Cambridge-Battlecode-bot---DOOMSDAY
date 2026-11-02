@@ -1,28 +1,7 @@
 # g3 status
 
-ASUS_LAPTOP; i5-12500H; 16 logical threads; RAM 16,858,320,896 bytes. Python3.12.14/numpy2.3.5. WORKERS=DZ_MAX_PARALLEL=14. Plugged-in screen/sleep Never.
-Active checkout x1g3, branch build/z-plan-g3, code a6865bc. x1work and x1work-light are incomplete redundant downloads, stopped; do not use them.
-L001 PASS 108/172, all 172 games exact, default hash5704d7ba41ac. Posted L001.md.
-L002 I-G3-01 first screen complete:91/172 vs v92 (+5), fuel-outs175, faults0, candidate50302de3644b. Posted report/results. Needs refinement, threshold92.
-Running next: x1g-base-g3-pool-v92-01, plain x3 baseline for exact paired comparisons. Inspect log/process before launching another campaign. Follow-up every10min active in Codex.
-Queue: publish baseline comparison including gained/lost/z/fuel/deaths; refine I-G3-01 (horizon/partner/mechanism, up to three variants), then L002 remaining ideas in order. Full gate only for >=92 screen and zero new fuel-outs. No ladder/login/uploads/submissions.
-Build defaults checked unchanged. Local ledger is modified by test runner; keep evidence locally but stage ONLY intended code when committing. Required context already read, including Agent2 handover/E63, proxy fight style, BIG_STRATEGIES section4 and PC/5060 loss analysis.
-
-Latest completed i01a: 91/172, fuel 175, faults 0, gained/lost 7/2. REFINE / DO NOT PROMOTE.
-
-Baseline completed: 86/172, fuel-outs160, faults0, deaths/game12.773256. First variant91/172, gained7/lost2, z1.6667, fuel175 (+15), deaths11.924419; no promotion.
-The prior running-baseline line is superseded. Starting sequential refinement campaign artifacts/tmp/g3_refine.sh: b shorter1.5 horizon; c WT3 partner; d horizon3+WT3. It posts after each run and stops if a line meets92 and zero added fuel cells. Do not launch another heavy job while this campaign is running. Current gate process can be identified by g3_refine.sh and x1g-i01[bcd]-g3 logs.
-
-Running i01b: --set X1_G3_SECURE=1 --set X1_G3_SECURE_TURNS=1.5. Local campaign PID 923.
-
-Latest completed i01b: 90/172, fuel 175, faults 0, gained/lost 6/2. REFINE / DO NOT PROMOTE.
-
-Running i01c: --set X1_G3_SECURE=1 --set X1_WALKTAIL=3. Local campaign PID 923.
-
-Latest completed i01c: 91/172, fuel 175, faults 0, gained/lost 7/2. REFINE / DO NOT PROMOTE.
-
-Running i01d: --set X1_G3_SECURE=1 --set X1_G3_SECURE_TURNS=3.0 --set X1_WALKTAIL=3. Local campaign PID 923.
-
-Latest completed i01d: 90/172, fuel 174, faults 0, gained/lost 6/2. REFINE / DO NOT PROMOTE.
-
-I-G3-01 three refinements completed. Review reports, close or rethink the mechanism, then move to L002 row38. No refinement process remains running.
+Machine ASUS_LAPTOP, i5-12500H,16 logical threads,16,858,320,896 bytes RAM. WORKERS=DZ_MAX_PARALLEL=14; Python3.12.14/numpy2.3.5; NFS_REPLAY_ENGINE=2.0.0. Plugged-in screen/sleep Never.
+Code checkout x1g3 on build/z-plan-g3 rebased onto4ae73e2. Do not use incomplete stopped x1work/x1work-light. Local build outputs and runner ledger are uncommitted; stage only intended code. Default hash after I-G3-02/rebase confirmed5704d7ba41ac.
+L001 PASS108/172, all172 games exact. I-G3-01 parked after a/b/c/d screens91/90/91/90, all14-15 added fuel-outs; no full gate.
+Running: I-G3-02 screen x1g-i02a-g3-pool-v92-01, X1_G3_STYLE=1. Idea and code ready; numbers+focus0.32, enemy-health BACK_EQ0.26, model-gated backoff override. No other g3 switch enabled. Reporter artifacts/tmp/g3_report.py accepts optional fourth argument I-G3-02. It compares with local baseline86/172/fuel160.
+Queue: report first style screen, refine up to3 times if needed (EQ0.30, WT3, focus/mechanism); full gate only for>=92 and no new fuel-outs/faults. Then L002 row32 items+fight stats, then29/35 model inputs. Read new pc/jobs/L* before proceeding. Poll every10min. No ladder/login/uploads/submissions; only g3/ writes on comms/x1 and code pushes build/z-plan-g3.
