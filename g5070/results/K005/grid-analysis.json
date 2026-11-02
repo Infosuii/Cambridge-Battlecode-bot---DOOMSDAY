@@ -41,9 +41,16 @@
     "best_neighbours": []
   },
   "4a \u2014 bush/lazy floors (baseline x1)": {
-    "best_measured": "k005-fuel10-lazy50",
+    "best_measured": "k005-fuel10-lazy60",
     "best_gate_passing_with_neighbour_support": null,
-    "best_neighbours": []
+    "best_neighbours": [
+      {
+        "line": "k005-fuel10-lazy50",
+        "wins": 326,
+        "delta": 10,
+        "verdict": "fail"
+      }
+    ]
   },
   "joint_interaction": {
     "label": "Joint best anti-feed x best plan on BP",
