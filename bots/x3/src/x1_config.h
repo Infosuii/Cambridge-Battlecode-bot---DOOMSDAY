@@ -156,6 +156,17 @@
 #ifndef X1_NEED_MULT
 #define X1_NEED_MULT 1.0f // x solo camp health budget (more = take more camps alone)
 #endif
+#ifndef X1_COUNTER
+#define X1_COUNTER 0 // per map and side, the variant that beat the opponent there (x1_counter.h, tools/x3_counter.py); implies X1_PLAN
+#endif
+#ifndef X1_COUNTER_FORCE
+#define X1_COUNTER_FORCE -1 // search builds: play variant k on every map (-1 = use the table)
+#endif
+#if X1_COUNTER
+#undef X1_PLAN
+#define X1_PLAN 1
+#include "x1_counter.h"
+#endif
 #if X1_MAPPLAN
 #include "x1_mapplan.h"
 #endif

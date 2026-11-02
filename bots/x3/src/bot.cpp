@@ -7176,6 +7176,24 @@ void Bot::play_turn() {
             }
         }
 #endif
+#if X1_COUNTER
+        {
+            // X1_COUNTER: per map fingerprint and team, the variant that beat the opponent (x1_counter.h); its knob
+            // deltas here, its team plan in the X1_PLAN block. Search builds force one variant everywhere.
+            int sel = X1_COUNTER_FORCE;
+            if (sel < 0) {
+                sel = 0;
+                for (const auto& r : x1_counter::kRows)
+                    if (r.w == w.width && r.h == w.height && r.groups == n_groups && r.gems == total_gems && r.team == d::sdk_my_team()) {
+                        sel = r.var;
+                        break;
+                    }
+            }
+            if (sel >= x1_counter::kNumVars) sel = 0;
+            x1_counter::sel = sel;
+            for (int j = 0; j < x1_counter::kDims; ++j) lab::knobs[x1_counter::kIdx[j]] += x1_counter::kVars[sel].d[j];
+        }
+#endif
     }
 #endif
 #if A2_LAB
@@ -7293,6 +7311,14 @@ void Bot::play_turn() {
                     plan_round = r.round, plan_id = r.id;
                     break;
                 }
+        }
+#endif
+#if X1_COUNTER
+        static bool ct_done = false;
+        if (!ct_done && inited) {
+            ct_done = true;
+            const auto& v = x1_counter::kVars[x1_counter::sel];
+            if (v.id > 0) plan_round = v.round, plan_id = v.id;
         }
 #endif
         const int pr = plan_round;
