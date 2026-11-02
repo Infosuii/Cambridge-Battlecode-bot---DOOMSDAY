@@ -11,10 +11,12 @@ gold@R500 (earned), deaths per game and finish round, and the verdict:
 Also prints the paired sign test: games won that the base lost (gained) and the reverse (lost), z = (gained - lost) /
 sqrt(gained + lost); no-op fuel-shift builds give |z| < 1 (results/I-60-03.md), so |z| < 2 is within noise.
 """
-import json, sys
+import json, os, sys
 from pathlib import Path
 
-KINDS, OPPS = ('ladder', 'styled', 'maze'), ('x2', 'x2-s2')
+# Same environment variables as x1_gate.sh (SETS, OPPS) pick the cells; defaults are the J-gate set.
+KINDS = tuple(os.environ.get('SETS', 'ladder styled maze').split())
+OPPS = tuple(os.environ.get('OPPS', 'x2 x2-s2').split())
 
 
 def load(path):
