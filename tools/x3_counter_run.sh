@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Counter search (tools/x3_counter.py): play x3 with variant k forced on every map, against OPP, on the whole pool,
-# both sides. Run names ctr-OPP-kK. Usage: bash tools/x3_counter_run.sh "0 1 2 ... 29" [OPP] [WORKERS]
+# both sides. Run names ctr2-OPP-kK. Usage: bash tools/x3_counter_run.sh "0 1 2 ... 29" [OPP] [WORKERS]
 set -u
 KS=${1:-$(seq 0 29)}; OPP=${2:-v92}; WORKERS=${3:-6}
 MAPS=$(ls maps/ladder-pool/*.map26a | xargs -n1 basename | sed 's/\.map26a$//')
 for k in $KS; do
-  name=ctr-$OPP-k$k
+  name=ctr2-$OPP-k$k
   [ -f artifacts/tmp/dz/$name/results.json ] && { echo "$name cached"; continue; }
   git checkout -q -- research/dz/SEED_LEDGER.md 2>/dev/null
   python tools/dz.py smoke --name $name --map-dir maps/ladder-pool --maps $MAPS --opponent $OPP --candidate-bot x3 \

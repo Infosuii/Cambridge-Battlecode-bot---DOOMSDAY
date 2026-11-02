@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HDR = ROOT / 'bots/x3/src/x1_counter.h'
 DIMS = 24
+MAX_ROWS = 176
 
 
 def variants():
@@ -34,10 +35,16 @@ def write_header(rows):
              'struct Var { int id, round; float d[kDims]; };', 'inline constexpr Var kVars[] = {']
     for i, (p, r, d) in enumerate(vs):
         lines.append(f"    {{{p}, {r}, {{{', '.join(f'{x:.3f}f' for x in d)}}}}}, // {i}")
-    lines += ['};', f'inline constexpr int kNumVars = {len(vs)};',
-              'struct Row { int w, h, groups; std::uint32_t gems; int team, var; };', 'inline constexpr Row kRows[] = {']
-    lines += rows + ['    {0, 0, 0, 0u, -1, 0}};', 'inline int sel = 0; // chosen variant (set once at the knob set-up)',
-                     '} // namespace x1_counter', '']
+    # Rows and the forced variant are volatile data and the lookup is branch-free over a fixed-size table, so every
+    # counter build (search builds, table build) runs the same instructions and differs only in its data section:
+    # the fuel each turn uses, and so the games, do not depend on the table's contents.
+    assert len(rows) <= MAX_ROWS
+    pad = ['    -1, -1, -1, -1, -1, 0,'] * (MAX_ROWS - len(rows))
+    lines += ['};', f'inline constexpr int kNumVars = {len(vs)};', f'inline constexpr int kMaxRows = {MAX_ROWS};',
+              '// w, h, groups, gems, team, variant', 'inline volatile int kRows[kMaxRows * 6] = {']
+    lines += rows + pad + ['};', 'inline volatile int kForce = X1_COUNTER_FORCE + 1000; // search builds: variant k everywhere (+1000: never zero, so never moved to .bss)',
+                           'inline int sel = 0; // chosen variant (set once at the knob set-up)',
+                           '} // namespace x1_counter', '']
     HDR.write_text('\n'.join(lines), newline='\n')
 
 
@@ -53,6 +60,7 @@ def main():
     sub.add_parser('vars')
     t = sub.add_parser('table'); t.add_argument('--runs', required=True, help='run-name pattern with {K}')
     t.add_argument('--vars', required=True); t.add_argument('--base', default='', help='run name of variant 0 (default: pattern with K=0)')
+    t.add_argument('--swap', type=int, default=0, help='1 = team 1 is side A')
     t.add_argument('--run-dirs', default='research/dz/runs,artifacts/tmp/dz')
     a = ap.parse_args()
     if a.cmd == 'vars':
@@ -74,7 +82,7 @@ def main():
         if k is None: continue
         m = mapio.read_map(eng, (ROOT / 'maps/ladder-pool' / f'{mp}.map26a').read_bytes())
         gems = sum(g['gems'] for g in m['groups'])
-        rows.append(f"    {{{m['w']}, {m['h']}, {len(m['groups'])}, {gems}u, {0 if side == 'A' else 1}, {k}}}, // {mp} {side}")
+        rows.append(f"    {m['w']}, {m['h']}, {len(m['groups'])}, {gems}, {(0 if side == 'A' else 1) ^ a.swap}, {k}, // {mp} {side}")
         fixed += 1
     write_header(rows)
     print(f'base {won}/{len(base)}; counter rows {fixed}; expected {won + fixed}/{len(base)}')

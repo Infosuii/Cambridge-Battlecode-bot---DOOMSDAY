@@ -7180,16 +7180,17 @@ void Bot::play_turn() {
         {
             // X1_COUNTER: per map fingerprint and team, the variant that beat the opponent (x1_counter.h); its knob
             // deltas here, its team plan in the X1_PLAN block. Search builds force one variant everywhere.
-            int sel = X1_COUNTER_FORCE;
-            if (sel < 0) {
-                sel = 0;
-                for (const auto& r : x1_counter::kRows)
-                    if (r.w == w.width && r.h == w.height && r.groups == n_groups && r.gems == total_gems && r.team == d::sdk_my_team()) {
-                        sel = r.var;
-                        break;
-                    }
+            // Branch-free over the whole fixed-size table so the instructions run never depend on its contents.
+            const int team = d::sdk_my_team(), gems = static_cast<int>(total_gems);
+            int sel = 0;
+            for (int i = 0; i < x1_counter::kMaxRows; ++i) {
+                const volatile int* r = x1_counter::kRows + 6 * i;
+                const int m = (r[0] == w.width) & (r[1] == w.height) & (r[2] == n_groups) & (r[3] == gems) & (r[4] == team);
+                sel += m * (r[5] - sel);
             }
-            if (sel >= x1_counter::kNumVars) sel = 0;
+            const int f = x1_counter::kForce - 1000, use = f >= 0;
+            sel = use * f + (1 - use) * sel;
+            sel = (sel >= 0) & (sel < x1_counter::kNumVars) ? sel : 0;
             x1_counter::sel = sel;
             for (int j = 0; j < x1_counter::kDims; ++j) lab::knobs[x1_counter::kIdx[j]] += x1_counter::kVars[sel].d[j];
         }
