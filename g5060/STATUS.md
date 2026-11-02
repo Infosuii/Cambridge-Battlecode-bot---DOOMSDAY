@@ -13,15 +13,15 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J017 started ~18:40 UTC)
+## Running (K010 Part A started ~19:25 UTC)
 
-- **J017 + K010 Part B** (blind; pc/analysis and g5070/analysis not read): analysis of x1c1's 180 ladder games ->
-  g5060/analysis/J017.md. Then **K010 Part A** (v92 head-to-heads) -> results/K010.md, then the four-opponent pooled
-  gate (x1, x1c1, x1c1 + SECURE), then ideation.
-- Background, low priority: maze cells vs v86h / v81hl for x1 / p4 / bpp4r150 / p4secure (idle work started before
-  msg 0021; it finishes on its own, then K010 Part A runs).
+- **K010 Part A**: v92 head-to-heads (x1c1 vs v92, x1 vs v92, v86h vs v92, x1 vs v86h incl. maze) -> results/K010.md.
+  Then the four-opponent pooled gate (x1, x1c1, x1c1 + SECURE), then I-60-04 (conversion fix).
 
 ## Done
+
+- **J017 + K010 Part B** (analysis/J017.md, blind): of 116 losses, 47% conversion (collected, not banked: 36 losses
+  had >= 1000 net collected), 28% feeding (few-camp maps), 22% slow economy; 77 of 80 opponent-map groups are uniform.
 
 - Maps on git: build/z-plan-5060 5b8ceddd now carries all 59 maze maps (set A copied from build/z-plan + set B) and set
   B's 10 leftover candidates in maps/x1-maze-g5060-extra (reference only, not gated).
