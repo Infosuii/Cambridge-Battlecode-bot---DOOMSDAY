@@ -1,6 +1,6 @@
 # g5070 — supplied K007 diagnostic; original queue paused at boundary
 
-Updated 2026-11-02T13:41:28.064354+00:00. K007 source 6ed38b9, isolated directory; original source 6efc360 unchanged. WORKERS=DZ_MAX_PARALLEL=18.
+Updated 2026-11-02T13:41:34.909134+00:00. K007 source 6ed38b9, isolated directory; original source 6efc360 unchanged. WORKERS=DZ_MAX_PARALLEL=18.
 
 - K004: required 7 A +4 B lines complete.
 - K005: all 35 planned lines plus no-switch reference complete.
