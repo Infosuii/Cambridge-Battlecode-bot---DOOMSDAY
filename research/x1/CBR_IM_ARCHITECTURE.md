@@ -145,3 +145,20 @@ weight contested-zone value up.
 4. 5060: T8 gates; T10 after plan 9.
 5. Retry protocol applies: a negative T8 is retried with the library rebuilt on more rows (J005 seeds 2-3) and other
    safety margins before anything is rejected.
+
+## 6. First data check (2 Nov, PC): map topology does not predict the plan-4 gain
+
+716 paired games (5060 gates: ladder, styled, maze A + B; x2 and x2-s2), bp vs bp + plan 4 from R100 / R150, with
+map features computed offline (area, team, groups, spawn distance D, wall / bush share, home / contested value share,
+min corridor width, chokes) and own state at R100 (deaths, gold). Script: tools-free scratch, rows reproducible from
+the 5060 run records.
+
+| | always plan 4 | correlation of per-game gain with any feature | leave-one-map-out best single-feature rule |
+|---|---:|---|---:|
+| plan 4 R100 | +22 | all within +-0.08 | +25 |
+| plan 4 R150 | +25 | all within +-0.07 | -11 (overfits) |
+
+So plan 4 helps about evenly across map types; a selector on map topology has nothing to learn here, and the
+in-game state we log (own deaths / gold at R100) carries no signal either. Decision: ship plan 4 as a fixed plan;
+the CBR selector is parked until there is opponent-aware state (banked gap from global_submitted_gems, enemy
+sightings) in the farm rows, which J005 does not record. PC moves to the team camp planner (TOPTW) next.
