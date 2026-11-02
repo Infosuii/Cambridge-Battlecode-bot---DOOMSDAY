@@ -250,6 +250,9 @@ private:
     bool ts_snapshot(ts::State& s, ts::Map& m, const EnemyRec** eref);
 
 public:
+#if X1_G60_BANKLOG
+    int g60_banklog_round = -1; // I-60-04 diagnostics: last round a bank tick was printed
+#endif
 #if X1_G60_DRAFTFIELDS
     void g60_draft_precompute(); // I-60-01: world, altar and group fields (and bush labels) on the first draft turn
     bool g60_pre = false;

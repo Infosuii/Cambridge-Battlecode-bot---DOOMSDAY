@@ -115,3 +115,6 @@
 #ifndef X1_G60_NOISE
 #define X1_G60_NOISE 0 // I-60-03 (method): N no-op volatile steps per turn; behaviour identical, fuel use shifted (gate noise floor)
 #endif
+#ifndef X1_G60_BANKLOG
+#define X1_G60_BANKLOG 0 // Diagnostics (I-60-04): print stuck-carrier banking stops and each champion's bag every 50 rounds.
+#endif

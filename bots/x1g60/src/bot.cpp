@@ -4579,6 +4579,12 @@ bool Bot::go_home_if_needed() {
 }
 
 bool Bot::tribute_if_needed() {
+#if X1_G60_BANKLOG
+    if (round % 50 == 0 && round != g60_banklog_round) {
+        g60_banklog_round = round;
+        std::printf("G60B tick slot=%d round=%d gems=%d off_until=%d score=%d/%d\n", slot, round, gems, tribute_off_until, ally_score, enemy_score);
+    }
+#endif
     if (gems <= 0) return false;
 #if A2_ALTARFIX
     if (w.no_bank || round < tribute_off_until) return false;
@@ -4683,6 +4689,9 @@ bool Bot::tribute_if_needed() {
             ++tribute_stuck;
         }
         if (tribute_stuck >= 20) {
+#if X1_G60_BANKLOG
+            std::printf("G60B stuck slot=%d round=%d gems=%d dist=%d\n", slot, round, gems, dist);
+#endif
             tribute_stuck = 0;
             tribute_last_dist = -1;
             tribute_off_until = round + 80;
