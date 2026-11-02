@@ -13,10 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~11:25 UTC)
+## Running (~11:55 UTC)
 
-- **Idle: no posted job open.** J014 set-B cells start as soon as the PC merges set B (3ca52e9). Polling comms every
-  10 min; any posted job starts at once.
+- **J014 set-B cells** (no need to wait for the merge: set B is on build/z-plan-5060): the same 7 lines on the 30
+  g5060_maze maps, x2 + x2-s2 (60 games a line), at f43d11f, run names x1g-TAG-mazeB-OPP-01. ~25 min -> appended to
+  results/J014.md. Then idle; polling comms every 10 min.
 
 ## Done
 
