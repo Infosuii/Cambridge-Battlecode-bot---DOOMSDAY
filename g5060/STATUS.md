@@ -12,13 +12,18 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (04:17 UTC)
+## Running (04:30 UTC): idle work, retry queue
 
-- Writing the sparring stand-in proposal (findings/0002), with short characterisation runs of the candidates vs x1.
-- Then retry-queue gates by lowest # while no job is posted (next owed: #1 X1_SECURE v2 needs code -> PC; #2 X1_ALONE
-  radius variants need code knobs -> PC; so first runnable is #6/#9 sweep-1d items, which sit with g5070 as K003).
+- No posted job open, so per the brief I run the next owed retry-queue gate (lowest #). #1 (X1_SECURE v2) and #2
+  (X1_ALONE radius knobs) need code from the PC. **Running #3 X1_HUNT_SOLO** under a hunting plan (it was a dead path in
+  default play): base = X1_PLAN=1 R150 plan 8 (push, hunt +3), lines + HUNT_SOLO 3 / 5, at 0b3703b. 3 lines, ~11 min.
+- Next idle item: #4 X1_MASTERY step 1 (recompute per-champion results from x1's own games vs v88: the 480 J005
+  baseline summaries + gate base games), then its R2 if the PC adds a bias knob.
 
 ## Done
+
+- findings/0002: sparring stand-in. proxy and x1-push measured (x1 wins 112 and 89 of 140; neither out-farms x1);
+  proposal S1 fast farmer / S2 early contact for the PC to build.
 
 - **J003 done** (results/J003.md): secure15 +4, secure3 +4, secure6 +2 **pass** R1 (first passes; 12-20 of 480
   games change); alone -25 fail.
