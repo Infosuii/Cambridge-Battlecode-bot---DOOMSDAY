@@ -12,13 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (07:20 UTC)
+## Running (07:46 UTC)
 
-- No posted job open. Idle work per the brief: next owed retry-queue gate. #1, #2, #4 need code knobs from the PC;
-  #3 done (dead path). Next runnable: **R1 full gates for the J002 sweep leaders** (V58_VISION, A2_BURST2, APEX_ESCORT,
-  all +7 on the sweep cells; queue #6 / #8 / #9 owe R1 vs x2) on the full gate. Starting with those three, ~15 min.
+- Idle work: R1 full gates for the next J002 sweep flags at or above baseline, best first: V58_LOCKS, A2_MAP_PROFILE,
+  APEX_STALE_BAG (+4), A2_DISENGAGE, A2_HIDEREC, A2_THREAT (+3), A2_BURST_HOLD (+2), then +1s. (A2_ASSESS +3 skipped
+  for now: 607 fuel-outs on 76 games.) ~5 min a line. Any posted job goes first.
 
 ## Done
+
+- Sweep leaders R1 (results/RQ6-sweep-leaders.md): **APEX_ESCORT pass +8** (fuel -7); A2_BURST2 +13 fails on fuel
+  +20; V58_VISION -13.
 
 - **J002 done** (results/J002.md): 34 binaries played; best V58_VISION / A2_BURST2 / APEX_ESCORT +7 each on 76
   games (vs 17 + 19); A2_POLICY -27; 30 same-binary, A2_MOVENET does not compile, 6 fire on 0-1 games.
