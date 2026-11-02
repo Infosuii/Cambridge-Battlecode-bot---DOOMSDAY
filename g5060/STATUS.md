@@ -12,13 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (06:32 UTC)
+## Running (07:20 UTC)
 
-- **J002** sweep 1d remainder (C:/x1work, snapshot research/x1/snapshots/sweep1c/src = bots/x1 1746f2bb7fa3):
-  tools/x1_flag_hashes.py hashing the 16 unhashed flags, tools/x1_sweep1d.sh playing the 6 hashed-unplayed + any
-  new binaries (19 ladder + 19 styled vs x2, 76 games each). PC's 21 played flags reused. ETA ~07:15.
+- No posted job open. Idle work per the brief: next owed retry-queue gate. #1, #2, #4 need code knobs from the PC;
+  #3 done (dead path). Next runnable: **R1 full gates for the J002 sweep leaders** (V58_VISION, A2_BURST2, APEX_ESCORT,
+  all +7 on the sweep cells; queue #6 / #8 / #9 owe R1 vs x2) on the full gate. Starting with those three, ~15 min.
 
 ## Done
+
+- **J002 done** (results/J002.md): 34 binaries played; best V58_VISION / A2_BURST2 / APEX_ESCORT +7 each on 76
+  games (vs 17 + 19); A2_POLICY -27; 30 same-binary, A2_MOVENET does not compile, 6 fire on 0-1 games.
 
 - **J007 done** (results/J007.md): **soak64 pass +10** (fuel -12); prunefix +11 (fails styled, fuel +26); fleehold
   4/8/15 -18/-32/-70; teamwin -1; heartfix 0; siegestrict +1. 5 of 6 expected hashes are not from the pushed source.
