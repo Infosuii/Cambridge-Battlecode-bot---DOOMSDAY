@@ -63,3 +63,20 @@ Fuel-fix versions 1-2 (no fuel gain) were superseded by version 3 (kept); they a
 
 **Lesson (2 Nov):** the 38-game quick screen is a bug and fuel check only. X1_FLEEDROP 25 went 22 vs 17 there and
 109 vs 123 on the full 240-game gate. No switch is ranked or dropped on quick-screen wins.
+
+## Fuel-blocked features: fuel attempts (rule from Rishik, 2 Nov: 2-3 attempts to cut fuel, then rethink or abandon)
+
+14 features gained wins in R1 but failed only on the fuel-out clause (anti-feed +27, plan 4 R100 +23, BURST2 +13,
+stage 0.5 +11, prunefix +11, TS_VIS +11, wait 1.5/2.0 +8/+9, LOCKS +8, DISENGAGE +7, need 1.3 +6, BELIEF +5, plan 6
+R150 +13, plan 4 R150 +18). x1 itself has 339 fuel-outs per 480 games, so a feature's +3..+20 is mostly game paths
+reaching x1's own spikes.
+
+| attempt | change | 8 hotspot maps vs x2 (16 games): fuel-outs / mean banked |
+|---|---|---|
+| - | x1 | 85 / 696 |
+| 1 | `X1_BUSHPRE` labels bush clusters ahead of use (first-use labelling was 50-120k inside ward / ambush code) | 33-26 (floor 20) |
+| 2 | on-demand labelling resumable too (`X1_BUSHPRE_LAZY`) | **26 / 862** (15 / 60) |
+| 3 | `X1_SIEGEFUEL` siege LOS cache floor (a 49-camp group spent ~60k a turn) | 23 / 842 (55) |
+
+Rounds 0-150 fuel-outs 64 -> 10. General fuel attempts stop here (3 done); J013 re-gates all 14 features on top of
+BUSHPRE. A feature still failing on fuel there gets at most two attempts of its own, then a rethink or abandonment.
