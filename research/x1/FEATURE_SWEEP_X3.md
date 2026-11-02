@@ -56,3 +56,7 @@ first research prompt is retried on this base, optimised when it fails, and abor
 | 34 | Plan selector (CBR / IM) | parked | revisit once the per-map tables show which plans win where | PC | |
 | 35 | X1_CORNERED (fight back when a losing chase has lasted N turns, chaser within 2) | new; 03one-gem N=2: deaths 76 / 35 vs 72 / 21 | N = 2 / 3 / 5 on pool vs v92; + X1_KD fight ES best | 60 | |
 | 36 | X1_FIRSTFIELD (turn-1 field guard) | new; 03contours all bodies ran out on turn 1 | 1 on pool vs v92 | 60 | |
+| 37 | A3_ONE_OWNER (one ally per finished capture; Agent 2: we take 11.6 gems per capture vs the top teams' 19.6) | off in v81hl / v92 | 1 on pool vs v92; + WT3 | 60 | |
+| 38 | A3_NUMBERS / A3_BACKOFF 0.26 (top-team fight style, research/proxy: back off 0.26 vs our 0.39) | not tried on x3 | NUMBERS 1; BACK_EQ 0.26 / 0.3 | 60 | |
+| 39 | Lock awareness (Agent 2 E63: enemies lock our altars most of the game, we never lock and keep tributing into locks) | never built in x3 | PC: carriers route to an unlocked altar; prelock when ahead | PC | |
+| 40 | Ladder-duel gate (research/v59/duel_top1.json, Agent 2: the only local set that predicted the ladder) | not used for x3 | add as gate set `duel` for every promoted line | PC | |
