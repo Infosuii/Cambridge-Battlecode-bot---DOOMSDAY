@@ -781,7 +781,7 @@ def experiment(args):
         main.write_text(text.replace(needle,injection+needle),encoding='utf-8',newline='\n')
     for definition in args.set:
         name,separator,value=definition.partition('=')
-        if not separator or not re.fullmatch(r'[A-Z][A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_','X1_')) and value.isdigit()) or (not name.startswith('DZ_') and re.fullmatch(r'-?[0-9]+(\.[0-9]+f?)?',value))): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
+        if not separator or not re.fullmatch(r'[A-Z][A-Z0-9_]+',name) or not (re.fullmatch(r'[01]',value) or (name.startswith(('DZ_TRACE_','DZ_DRAFT_','DZ_SWITCH_','DZ_ASSESS_','X1_')) and value.isdigit()) or (not name.startswith('DZ_') and re.fullmatch(r'-?[0-9]+(\.[0-9]+f?)?',value)) or (name=='X1_KD' and re.fullmatch(r'-?[0-9]+(\.[0-9]+)?(,-?[0-9]+(\.[0-9]+)?)*',value))): raise ValueError('expected DZ_FLAG=0 or 1 (DZ_TRACE_*/DZ_DRAFT_*/DZ_SWITCH_* may be any integer)')
         config=frozen/'src/config.h'
         if not config.exists(): config=frozen/'src/x1_config.h'  # x1 line (candidate bot) flags
         source=config.read_text()
