@@ -13,15 +13,13 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~22:10 UTC)
+## Running (J022 started ~22:40 UTC)
 
-- Then at 4ebf7f48, two lanes of 3 workers (J021 gets half the machine, per the job):
-  - **J021 fight-all** ES (18 fight knobs, scope 0, v92 / v86h / x1bru, 8 iters x 4 pairs, 20 maps / iter); state in
-    research/x3/es/fight-all.json, pushed as it grows; then fight-new and econ-all.
-  - **J020 A** map-plan search (v86h, x1bru) -> **X1_FIRSTFIELD** screen -> **J019** screens (incl. rows 35-36).
-- **J020 B**: map features for 195 maps done (research/x1/g5060/map_features.json, build/z-plan-5060 98e47e7f);
-  clustering once the plan search gives per-map outcomes. First fact: generated maps (styled, maze) put 6-8% of camp
-  value in contested positions vs 52% on the real pool (home 46% vs 22%): our unseen-map sets are far less contested.
+- **J022** per-map fit (tools/x3_mapfit.sh, 16 maps x 6 iters x 7 candidates x 3 opps x 2 sides, ~8,000 games) in a
+  second worktree at 70400bb6, 3 workers, ETA ~01:00 UTC; then x1_mapfit.h + gates (pool and the 16 maps alone).
+- **J021 fight-all** ES beside it (3 workers; worktree at 4ebf7f48). Restarted 22:30 after a fix: my overlaid dz.py had
+  dropped the PC's X1_KD list support (fixed, build/z-plan-5060 563aba91).
+- Stopped as superseded by J022: J020 A plan search (finished runs kept). J019 screens resume after J022.
 
 ## Done
 
