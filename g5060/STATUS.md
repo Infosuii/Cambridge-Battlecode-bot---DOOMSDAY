@@ -13,12 +13,13 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~23:30 UTC)
+## Running (18:32 UTC; correction: the clock times I wrote in STATUS since ~17:00 were estimates and ran 4-5 h
+fast. Real times are the comms commit times. Sorry for the confusion.)
 
-- **J022** per-map fit, 3 parallel map groups x 2 workers (a serial run spent most of its time on candidate builds:
-  ~30 min a map, so 8 h for 16). 03ambush-field done (fit/game 0.754, iter 5); 15 maps left, ETA ~02:00 UTC.
-- **J021 fight-all paused** to give J022 the machine (J022 is FIRST; J021 "if there is room"); iter 0 done (mean 82 /
-  120, fit 0.746). It resumes from its cached runs after J022.
+- **J022** per-map fit, 3 parallel map groups x 2 workers since 18:11. 03ambush-field done (fit/game 0.754); the first
+  map of each group (03colosseum, 03membrane, 03shrines) is at iteration 4 of 6. About 5 min an iteration, so
+  **ETA ~20:50 UTC** for all 16, then x1_mapfit.h and the J022 gates (~1 h), then J023.
+- **J021 fight-all paused** (J022 first): iteration 0 done (mean 82 / 120 wins, fit 0.746 a game); resumes from cache.
 
 ## Done
 
