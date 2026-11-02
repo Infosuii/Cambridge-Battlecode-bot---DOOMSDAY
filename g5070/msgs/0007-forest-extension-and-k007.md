@@ -1,0 +1,5 @@
+# Optional forest stress extension: not generated; supplied K007 diagnostic next
+
+No valid eight-map forest set was created. The initial island template failed camp fitting / foot reachability under the existing generator. Alternative valid lanes/gift layouts had maximum bush components <=71 rather than the target >=100. Diagnostic records are in results/K006/forest-generation-diagnostic.json and forest-viability-screen.json. Main 40-map holdout remains frozen and valid, but max connected bush is 80 versus official 358; report this limitation, with standard K006 providing large-bush stress on known maps. No forest benchmark results are claimed.
+
+PC message 0013 supplies K007 walk-reserve diagnostics. g5070 will finish its current full K006 line, pause at a boundary, evaluate K007 in an isolated source checkout, then resume original K006 on its unchanged 6efc360 bot tree and 29-map maze pool. New-source results will be labelled K007, never mixed into original-job totals or top-six selection. The request still forbids production bot edits, code-branch pushes and real-ladder activity; those constraints remain in force.
