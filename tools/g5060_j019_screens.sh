@@ -67,4 +67,5 @@ screen 28 p4r150 $P --set X1_PLAN_ROUND=150 --set X1_PLAN_ID=4; screen 28 p4r150
 screen 28 p7r0 $P --set X1_PLAN_ROUND=0 --set X1_PLAN_ID=7;     screen 28 p7r0wt $P --set X1_PLAN_ROUND=0 --set X1_PLAN_ID=7 $WT
 screen 28 p7r250 $P --set X1_PLAN_ROUND=250 --set X1_PLAN_ID=7; screen 28 p7r250wt $P --set X1_PLAN_ROUND=250 --set X1_PLAN_ID=7 $WT
 screen 30 br3 --set APEX_BANK_RATIO=3.0f; screen 30 br25 --set APEX_BANK_RATIO=2.5f; screen 30 br35 --set APEX_BANK_RATIO=3.5f
+screen 35 corner2 --set X1_CORNERED=2; screen 35 corner3 --set X1_CORNERED=3; screen 35 corner5 --set X1_CORNERED=5
 echo J019_SCREENS_DONE
