@@ -1204,3 +1204,4 @@ The registry was created before experiments. Entries below record actual use.
 | x1g-fd25-styled-x2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 100 cells; x2 | smoke; trace=False |
 | x1g-fd25-ladder-x2-s2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 140 cells; x2-s2 | smoke; trace=False |
 | x1g-fd25-styled-x2-s2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 100 cells; x2-s2 | smoke; trace=False |
+| x1g-secure15-ladder-x2-01 | 2026-11-02 | deterministic; Wasm 764c8ec96166 | 140 cells; x2 | smoke; trace=False |
