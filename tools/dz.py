@@ -845,7 +845,7 @@ def experiment(args):
         opponent_label='scripted '+args.fixture+' opponent' if args.fixture_opponent else args.opponent
         f.write(f'| {args.name} | {dt.datetime.now(dt.timezone.utc).date()} | deterministic; Wasm {sha(candidate)[:12]} | {len(jobs)} cells; {opponent_label} | {args.command}; trace={args.trace} |\n')
     rows, fuel, errors = [], [], []
-    with cf.ThreadPoolExecutor(max_workers=min(4, args.workers)) as executor:
+    with cf.ThreadPoolExecutor(max_workers=min(int(os.environ.get("DZ_MAX_PARALLEL", "4")), args.workers)) as executor:
         futures = [executor.submit(match, candidate, opponent, p, side, out/'games'/f'{p.stem}-{side}', diagnostic, args.diagnostic_rounds, args.fixture) for p,side in jobs]
         for future in cf.as_completed(futures):
             try: row, used = future.result()

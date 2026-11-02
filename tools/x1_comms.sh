@@ -1,7 +1,7 @@
 #!/bin/bash
 # Two-machine comms for the x1 plan. Messages live on the orphan branch comms/x1 (no shared history with any code
 # branch), checked out in its own folder next to this repo (default ../x1-comms), never in the code checkout.
-# Each machine writes only its own folder: pc/ (Rishik's PC), g5060/ (the 5060 PC) or g5070/ (the 5070 Ti PC).
+# Each machine writes only its own folder: pc/ (Rishik's PC), g5060/ (the 5060 PC), g5070/ (the 5070 Ti PC) or g3/.
 # push refuses anything else.
 #
 #   SIDE=g5060 bash tools/x1_comms.sh init           one-time: create the comms folder from origin/comms/x1
@@ -12,7 +12,7 @@ set -eu
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 C=${X1_COMMS_DIR:-$(cd "$ROOT/.." && pwd)/x1-comms}
 SIDE=${SIDE:-}
-need_side() { case "$SIDE" in pc|g5060|g5070) ;; *) echo "set SIDE=pc, g5060 or g5070" >&2; exit 2;; esac; }
+need_side() { case "$SIDE" in pc|g5060|g5070|g3) ;; *) echo "set SIDE=pc, g5060, g5070 or g3" >&2; exit 2;; esac; }
 case ${1:-} in
   init)
     need_side

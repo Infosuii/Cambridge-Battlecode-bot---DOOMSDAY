@@ -16,7 +16,7 @@ first research prompt is retried on this base, optimised when it fails, and abor
 - Note: x3 has A2_HYB 3 (v81 knobs, no runtime structural switches on recognised ladder maps); compile-time
   switches still apply everywhere.
 
-## Features (owner: 60 = g5060 J019, PC = new or changed code)
+## Features (owner: 60 = g5060 J019, g3 = third helper (fights, docs/x1_g3), PC = new or changed code)
 
 | # | Feature | Earlier best | Variants to screen | Owner | Status |
 |---|---|---|---|---|---|
@@ -48,15 +48,15 @@ first research prompt is retried on this base, optimised when it fails, and abor
 | 26 | Items: V58_ITEM_PLAN=0 (Treasure + Bruiser), A3_ITEMS 1 / 2 | -6 / -14 on x1 | each | 60 | |
 | 27 | Plans 1-8 per map on the 16 new maps | plan 7 20/32 vs v92 | per-map table X1_MAPPLAN | PC | search running |
 | 28 | Plans 4 / 7 as whole-game lines | p4r150 +39 pooled on x1 | p4 R100 / R150, p7 R0 / R250, each + WT3 | 60 | |
-| 29 | X1_EARLYFLEE / X1_LEASH | deaths up on x3 | refit as fight-model inputs (PC) | PC | |
+| 29 | X1_EARLYFLEE / X1_LEASH | deaths up on x3 | refit as fight-model inputs (PC) | g3 | |
 | 30 | Conversion fix (bank the winning bag) | BANK_RATIO 3.0: 0.83 -> 0.88 | I-60-04 rebased on x3 | 60 | |
-| 31 | Kill-securing coordinator (full) | never built | PC builds on v92's Lanchester verdict | PC | |
-| 32 | Bruiser items + v92 fight model | not tried | V58_ITEM_PLAN=0 with Lanchester weights re-read from stats | PC | |
+| 31 | Kill-securing coordinator (full) | never built | PC builds on v92's Lanchester verdict | g3 | |
+| 32 | Bruiser items + v92 fight model | not tried | V58_ITEM_PLAN=0 with Lanchester weights re-read from stats | g3 | |
 | 33 | Team camp planner (TOPTW) | never built | PC, after 31-32 | PC | |
 | 34 | Plan selector (CBR / IM) | parked | revisit once the per-map tables show which plans win where | PC | |
 | 35 | X1_CORNERED (fight back when a losing chase has lasted N turns, chaser within 2) | new; 03one-gem N=2: deaths 76 / 35 vs 72 / 21 | N = 2 / 3 / 5 on pool vs v92; + X1_KD fight ES best | 60 | |
 | 36 | X1_FIRSTFIELD (turn-1 field guard) | new; 03contours all bodies ran out on turn 1 | 1 on pool vs v92 | 60 | |
 | 37 | A3_ONE_OWNER (one ally per finished capture; Agent 2: we take 11.6 gems per capture vs the top teams' 19.6) | off in v81hl / v92 | 1 on pool vs v92; + WT3 | 60 | |
-| 38 | A3_NUMBERS / A3_BACKOFF 0.26 (top-team fight style, research/proxy: back off 0.26 vs our 0.39) | not tried on x3 | NUMBERS 1; BACK_EQ 0.26 / 0.3 | 60 | |
+| 38 | A3_NUMBERS / A3_BACKOFF 0.26 (top-team fight style, research/proxy: back off 0.26 vs our 0.39) | not tried on x3 | NUMBERS 1; BACK_EQ 0.26 / 0.3 | 60 screen, g3 refine | |
 | 39 | Lock awareness (Agent 2 E63: enemies lock our altars most of the game, we never lock and keep tributing into locks) | never built in x3 | PC: carriers route to an unlocked altar; prelock when ahead | PC | |
 | 40 | Ladder-duel gate (research/v59/duel_top1.json, Agent 2: the only local set that predicted the ladder) | not used for x3 | add as gate set `duel` for every promoted line | PC | |
