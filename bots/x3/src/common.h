@@ -233,6 +233,14 @@
 #define A3_NUMBERS 0
 #define A3_BACKOFF 1
 #define A3_BACK_EQ 0.4f
+#if X1_G3_STYLE
+#undef A3_FOCUS
+#undef A3_NUMBERS
+#undef A3_BACK_EQ
+#define A3_FOCUS X1_G3_STYLE_FOCUS
+#define A3_NUMBERS 1
+#define A3_BACK_EQ X1_G3_STYLE_EQ
+#endif
 #define A3_BIG_LINEUP 6
 // ---- A3 (Oct 27): the three requested changes, each behind its own switch (0 = v61 behaviour) ----
 #ifndef A3_ONE_OWNER   // one owner per capture: on a finished group, only one ally holds the region; the rest move on

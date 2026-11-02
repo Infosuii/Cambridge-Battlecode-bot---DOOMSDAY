@@ -156,6 +156,15 @@
 #ifndef X1_NEED_MULT
 #define X1_NEED_MULT 1.0f // x solo camp health budget (more = take more camps alone)
 #endif
+#ifndef X1_G3_STYLE
+#define X1_G3_STYLE 0
+#endif
+#ifndef X1_G3_STYLE_FOCUS
+#define X1_G3_STYLE_FOCUS 0.32f
+#endif
+#ifndef X1_G3_STYLE_EQ
+#define X1_G3_STYLE_EQ 0.26f
+#endif
 #ifndef X1_G3_SECURE
 #define X1_G3_SECURE 0
 #endif

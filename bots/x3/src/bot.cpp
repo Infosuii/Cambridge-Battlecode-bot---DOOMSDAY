@@ -4149,7 +4149,31 @@ bool Bot::handle_enemies() {
         // keep fighting instead of turning our backs (top teams back off 0.26 of contact turns, we 0.39).
         const bool edge = friends >= foes + 1 ||
             (A3_BACK_EQ > 0.0f && friends >= foes && target && target->hp < A3_BACK_EQ * std::max(1.0f, target->max_hp));
+#if X1_G3_STYLE && A2_LANCH2
+        // A numbers edge must not undo a losing power verdict.
+        bool g3_back_safe = false;
+        if (target && in_danger && !winning && edge && bc::fuel_remaining() > 45000) {
+            auto term = [](bc::champion_type t, float h, float s, float f) {
+                const int ti = std::clamp(static_cast<int>(t), 0, 12);
+                return h / 1000.0f * (lanch::kW[ti] * s / 70.0f + lanch::kWf * f / 100.0f);
+            };
+            float us = term(type, hp, strength, focus), them = 0.0f;
+            int nu = 1, nt = 0;
+            for (const auto& a : w.allies)
+                if (a.hp >= a.max_hp * 0.4f && cheb(a.pos, pos) <= 6)
+                    us += term(a.type, a.hp, a.strength, a.focus), ++nu;
+            for (const auto& e : w.enemies)
+                if (e.hp > 0 && cheb(e.pos, pos) <= 7)
+                    them += term(e.type, e.hp, e.strength, e.focus), ++nt;
+            const float z = std::pow(static_cast<float>(nu), lanch::kOrder - 1.0f) * us -
+                std::pow(static_cast<float>(nt), lanch::kOrder - 1.0f) * them;
+            g3_back_safe = nt > 0 && 1.0f / (1.0f + std::exp(-z)) >= A2_LC_HI;
+        }
+#endif
         if (A3_BACKOFF && team_size >= A3_BACK_MIN_SIZE && target && in_danger && !winning && edge && hp >= A3_BACK_HP * max_hp && gems < 60 &&
+#if X1_G3_STYLE && A2_LANCH2
+            g3_back_safe &&
+#endif
             target_ttk * risk * ci_risk <= std::max(ttd, 1.0f) * A3_BACK_K) {
             winning = true;
             in_danger = false;
