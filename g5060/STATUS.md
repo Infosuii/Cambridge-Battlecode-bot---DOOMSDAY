@@ -68,5 +68,6 @@ Workers: 6 (threads-2).
 
 ## Queue
 
-Stand-in proposal → idle retry-queue gates → J002 / J007 remainders when g5070 stops → J011 / J012 when posted.
-Every posted job runs ahead of idle work.
+J013 (running, then the bpsf55 addendum) → J014 maze gates (blocked: no maze set, msgs/0004) → stand-in build notes
+(findings 0002 S1/S2, with a no-new-code S1 prototype measured vs x1) → retry-queue gates when idle. J011 / J012 are
+the 5070's (K004, pc/msgs/0006); K002 / K003 closed (done here as J007 / J002).
