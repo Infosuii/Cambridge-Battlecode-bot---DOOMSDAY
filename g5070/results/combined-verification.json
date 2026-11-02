@@ -1,0 +1,33 @@
+{
+  "verified_utc": "2026-11-02T14:31:50.802500+00:00",
+  "status": "All original/supplied campaigns agree on repeated deterministic inputs",
+  "campaigns": {
+    "original": {
+      "line_records": 71,
+      "scheduled_rows": 41388
+    },
+    "K007": {
+      "line_records": 13,
+      "scheduled_rows": 8414
+    },
+    "K009": {
+      "line_records": 12,
+      "scheduled_rows": 8612
+    }
+  },
+  "scheduled_rows_including_references_and_reuse": 58414,
+  "unique_deterministic_input_identities": 50646,
+  "identical_repeated_rows": 7768,
+  "unique_map_hashes": 219,
+  "outcomes": {
+    "teamA": 29844,
+    "teamB": 28570
+  },
+  "own_plus_opponent_faults_in_scheduled_rows": 0,
+  "uncertainty": "There are 219 map sampling units:149 original,40 frozen fresh layouts,30 additional mazeB layouts. Neither scheduled rows nor unique configuration/opponent input identities are independent map samples. Related templates and selection remain limitations.",
+  "checks": [
+    "Identical engine/candidate/opponent/map/side inputs agree on outcomes, economics, deaths, checkpoints, fuel, fault and native summary/replay hashes across source versions",
+    "Every published numerical result equals its local original or explicit reuse record",
+    "All outcomes terminal and all faults reported"
+  ]
+}
