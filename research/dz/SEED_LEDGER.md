@@ -1200,3 +1200,7 @@ The registry was created before experiments. Entries below record actual use.
 | x1e-cw-ladder-x2-g5060 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; x2 | smoke; trace=False |
 | x1e-cw-ladder-v86h-g5060 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v86h | smoke; trace=False |
 | x1e-cw-ladder-v86h-g5060p6 | 2026-11-01 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; v86h | smoke; trace=False |
+| x1g-fd25-ladder-x2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 140 cells; x2 | smoke; trace=False |
+| x1g-fd25-styled-x2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 100 cells; x2 | smoke; trace=False |
+| x1g-fd25-ladder-x2-s2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 140 cells; x2-s2 | smoke; trace=False |
+| x1g-fd25-styled-x2-s2-01 | 2026-11-02 | deterministic; Wasm 67b94bb387e9 | 100 cells; x2-s2 | smoke; trace=False |
