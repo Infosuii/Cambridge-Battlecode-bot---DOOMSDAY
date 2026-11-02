@@ -7132,6 +7132,18 @@ void Bot::play_turn() {
             }
         }
 #endif
+#if X1_KD_ON
+        {
+            // X1_KD: knob deltas for searches (tools/x3_knob_es.py), comma-separated "index,delta" pairs added after the
+            // ladder tables and the per-map fit; X1_KD_SCOPE 1 = only on maps without a ladder table, 2 = only on them.
+            static constexpr float kd[] = {X1_KD};
+            const bool scope_ok = X1_KD_SCOPE == 0 || (X1_KD_SCOPE == 1) != ladder_known;
+            for (std::size_t j = 0; scope_ok && j + 1 < sizeof(kd) / sizeof(kd[0]); j += 2) {
+                const int i = static_cast<int>(kd[j]);
+                if (i >= 0 && i < lab::kKnobs) lab::knobs[i] += kd[j + 1];
+            }
+        }
+#endif
     }
 #endif
 #if A2_LAB

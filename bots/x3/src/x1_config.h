@@ -65,6 +65,15 @@
 #ifndef X1_FIRSTFIELD
 #define X1_FIRSTFIELD 0 // Fuel: first turn builds a group field only with 2x its cost + 15k left (03contours: all 6 bodies ran out on turn 1)
 #endif
+#ifndef X1_KD_ON
+#define X1_KD_ON 0 // 1 = apply the X1_KD knob deltas (search builds)
+#endif
+#ifndef X1_KD
+#define X1_KD 0 // "index,delta,index,delta,..." (tools/x3_knob_es.py)
+#endif
+#ifndef X1_KD_SCOPE
+#define X1_KD_SCOPE 0 // X1_KD knob deltas: 0 all maps, 1 maps without a ladder table, 2 ladder-table maps only
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif
