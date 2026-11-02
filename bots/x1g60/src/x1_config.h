@@ -112,3 +112,6 @@
 #ifndef X1_G60_FIELDQE
 #define X1_G60_FIELDQE 1 // with X1_G60_FIELDQ: fields per turn with an enemy in view (x1: 0)
 #endif
+#ifndef X1_G60_NOISE
+#define X1_G60_NOISE 0 // I-60-03 (method): N no-op volatile steps per turn; behaviour identical, fuel use shifted (gate noise floor)
+#endif

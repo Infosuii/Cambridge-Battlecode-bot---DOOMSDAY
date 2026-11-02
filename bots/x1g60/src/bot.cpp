@@ -6752,6 +6752,12 @@ void Bot::build_fields() {
 
 void Bot::play_turn() {
     PROF(turn);
+#if X1_G60_NOISE
+    { // I-60-03: no-op that only shifts each turn's fuel use by a few instructions (gate noise-floor builds)
+        volatile int sink = 0;
+        for (int i = 0; i < X1_G60_NOISE; ++i) sink = sink + i;
+    }
+#endif
 #if A2_TEL
     a2tel::TurnGuard a2_guard;
 #endif
