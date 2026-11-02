@@ -12,13 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (02:36 UTC)
+## Running (03:13 UTC)
 
-- **J010** (33c2498): fd25 done (ladder 68 + 60, styled 41 + 60 vs x2 / x2-s2; the x2 cells equal the PC's own fd25
-  gate exactly), fd40 running; 6 lines left, ~3.5 min each -> J010 posted ~03:05.
-- Then **J006** (846e8ce, 6 lines) ~03:30, **J008** (2636803, 3 lines) ~03:45, then J003.
+- **J006** antifeed (846e8ce): af3 running; 6 lines, ~3.5 min each -> posted ~03:35.
+- Then **J008** bag-risk (2636803, 3 lines) ~03:50, then J003 retry round 1 (4 lines) ~04:05, then the stand-in
+  proposal.
 
 ## Done
+
+- **J010 done** (results/J010.md): stage05 268 (+11, fuel +3), wait20 +9, wait15 +8, need13 +6; flee-drop fd15 -6,
+  fd25 -28, fd40 -25, fd60 -32. All fail R1. findings/0001: fuel-out clause decides most verdicts.
 
 - **J009 done** (results/J009.md): p4r100 280 vs 257 (+23, fuel-outs +9), p4r150 +18 (+47), p6r150 +13 (+12),
   p3r150 +6 (+6), p4r0 -7, p6r0 -1; all fail R1 (fuel-out totals or win totals). Run records on build/z-plan-5060 63e311e.
