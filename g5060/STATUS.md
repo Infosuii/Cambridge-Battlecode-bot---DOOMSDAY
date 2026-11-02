@@ -13,10 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (K010 Part A started ~19:25 UTC)
+## Running (~19:50 UTC)
 
-- **K010 Part A**: v92 head-to-heads (x1c1 vs v92, x1 vs v92, v86h vs v92, x1 vs v86h incl. maze) -> results/K010.md.
-  Then the four-opponent pooled gate (x1, x1c1, x1c1 + SECURE), then I-60-04 (conversion fix).
+- **K010 Part A** (905d4147, 6 workers): v92 head-to-heads -> results/K010.md.
+- **I-60-04** conversion fix (ideas/I-60-04.md), in parallel per msgs/0022: quick screen of APEX_BANK_RATIO 1/2/3 on P4
+  and plan 7 from R0 on the conversion map set (2 workers). Then the full gate with x1bru added as an opponent.
 
 ## Done
 
