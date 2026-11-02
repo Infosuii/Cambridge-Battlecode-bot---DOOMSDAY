@@ -5151,11 +5151,11 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 if (gi < avoid_until.size()) avoid_until[gi] = round + 300;
                 return false;
             }
-            if (break_out()) return true;
+            PROF_CHECK("c_brk0"); if (break_out()) return true;
         }
-        if (!melee) {
+        PROF_CHECK("c_walked"); if (!melee) {
 #if V58_ACT & 12
-            const int after_walk = pick_target();
+            const int after_walk = X1_WALKTAIL && bc::fuel_remaining() < X1_WALKTAIL * 1000ull ? -1 : pick_target(); PROF_CHECK("c_pick1");
             if (after_walk >= 0) {
 #if V58_ACT & 8
                 const bool basic = attack_unit(w.camps[after_walk].camp, w.camps[after_walk].pos);
@@ -5171,7 +5171,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
 #endif
             return true; // a compatible reset can restore the attack spent walking
         }
-        t = pick_target();
+        if (X1_WALKTAIL && bc::fuel_remaining() < X1_WALKTAIL * 1000ull) return true; t = pick_target(); PROF_CHECK("c_pick2");
         if (t < 0) return true;
     }
 #if V55_CAST_RETARGET
@@ -5193,7 +5193,7 @@ bool Bot::fight_camps(GroupRec& g, int need) {
 #else
     cast_on_camp(t);
 #endif
-    if (attack_unit(w.camps[t].camp, w.camps[t].pos)) {
+    PROF_CHECK("c_cast"); if (attack_unit(w.camps[t].camp, w.camps[t].pos)) {
         // Refresh the target in case the first hit killed it.
         d::camp_state cs{};
         const int code = d::sdk_camp(static_cast<std::uint32_t>(static_cast<bc::handle_camp_t>(w.camps[t].camp)), &cs);
