@@ -35,7 +35,8 @@ Workers: 6 (threads-2).
 
 ## Queue
 
-J005 (running, ETA ~01:55) → **J006** antifeed gate (worktree `C:\x1run-846e8ce` at 846e8ce, ready; base gate
-x1g-base-* on x2-s2 runs first, x2 base = x1e-cw-*-x2) → J002 sweep 1d → J003 retry round 1 → stand-in proposal.
+J005 (running, ETA ~02:00) → **J006** antifeed gate (worktree `C:\x1run-846e8ce` at 846e8ce, ready; base gate
+x1g-base-* on x2-s2 runs first, x2 base = x1e-cw-*-x2) → J003 retry round 1 → stand-in proposal → J002 remainder
+when g5070 hands it back. J007 and J002 moved to g5070 (K002 / K003) per pc/msgs/0004: not running them here.
 Gate verdicts by tools/x1_gate_report.py (build/z-plan-5060 8fbea60): wins, fuel-outs, faults, gold@R250/R500,
 deaths/game, finish round per cell.
