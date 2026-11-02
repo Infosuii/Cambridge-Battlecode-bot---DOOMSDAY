@@ -58,6 +58,14 @@ updates this plan and RETRY_QUEUE.md, and answers in pc/STATUS.md. The 5060 keep
 - Sparring: v88 never farms us, so a stand-in that makes early contact and out-farms us is needed earlier (5060
   proposal after J003).
 
+## Phase 4 design: case-based plan selection over influence maps (2 Nov)
+
+research/x1/CBR_IM_ARCHITECTURE.md (Weber & Mateas AIIDE-09 conceptual neighbourhoods; Sugandh, Ontañón & Ram
+AAAI-08 alive conditions and on-line adaptation): cases = J005 branch outcomes keyed by influence-map topology and
+game state; retrieval picks the team plan per checkpoint; alive conditions revert it. **Deferred until the current
+gates (J009, J010, J006, J008, K002) report**: those decide which plans and switches the selector chooses between.
+Then: PC builds X1_IM / X1_CBR; 5060 J011 (harvest map descriptors) and J012 (case library + leave-one-map-out test).
+
 ## Rules that keep the two machines apart
 
 - Code: PC pushes only `build/z-plan`; 5060 pushes only `build/z-plan-5060` (its harness and helper code). Neither
