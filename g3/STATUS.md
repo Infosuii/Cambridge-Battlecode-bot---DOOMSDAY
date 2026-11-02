@@ -12,3 +12,5 @@ Running i02b: --set X1_G3_STYLE=1 --set X1_G3_STYLE_EQ=0.30. Local style campaig
 Latest completed i02b: 70/172, fuel 171, faults 0, gained/lost 26/42. REFINE / DO NOT PROMOTE.
 
 Running i02c: --set X1_G3_STYLE=1 --set X1_G3_STYLE_EQ=0.30 --set X1_WALKTAIL=3. Local style campaign PID 1011.
+
+Latest completed i02c: 70/172, fuel 171, faults 0, gained/lost 26/42. REFINE / DO NOT PROMOTE.
