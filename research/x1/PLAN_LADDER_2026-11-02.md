@@ -20,6 +20,8 @@ Goal (Rishik): dominate the ladder; never lose to sub-2000 teams. Evidence: 180 
 
 | # | Work | Switch | Status |
 |---|---|---|---|
+| 0 | **Conversion**: bank the bag (47% of losses end with collected-but-unbanked gems; 5060 J017, reproduces on the adgato gem-only maps vs x2) | I-60-04 | 5060 building |
+| 0b | Few-camp-map feeding (28% of losses: 03one_gem 62 deaths a game, 01starvation, 03ultrastarvation, 00ribs) | X1_ANTIFEED family on those maps | PC |
 | 1 | Bruiser stat builds (the existing V54_ITEMS 3 + V58_KIT builds, reached by V58_ITEM_PLAN=0) | V58_ITEM_PLAN=0 | PC testing vs x1, v86h |
 | 2 | Plan 4 stops at R400 / R600 | X1_PLAN_END | PC testing |
 | 3 | **Fight-style stand-in opponent**: x1 with the Bruiser build and higher aggression, so local gates punish what the ladder punishes | bots/x1bru | next |
