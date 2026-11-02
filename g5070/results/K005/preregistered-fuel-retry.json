@@ -6,5 +6,7 @@
   "merge_rule": "Apply only the chosen BUSHPRE/BUSHPRE_LAZY/SIEGEFUEL values to the parent, preserving its plan/anti-feed flags. Run one full x2/x2-s2 gate vs BP.",
   "validation_rule": "Only if positive gain and R1 pass, evaluate the fixed retry against v86h/v86h-s2/v81hl on standard and the same frozen fresh maps. No further tuning based on those scores. This is a supplementary candidate outside the original top six.",
   "skip_rule": "If no qualifying parent/floor exists, skip the attempt.",
-  "local_implementation_sha256": "63e7ac89e3e43697f62c14b79784eb25bac4634cd947dc202b879f2f86885c27"
+  "local_implementation_sha256": "dfbd12d5bc1fed72a67f40513becb1300a9f8242516a24250e9f5c7ec9556bdd",
+  "implementation_record_updated_utc": "2026-11-02T11:28:12.743756+00:00",
+  "implementation_update_note": "Added joint never-switch control after measured negative training interaction; optional fuel-retry selection and validation rule unchanged. Still before all K006/fresh-map outcomes."
 }
