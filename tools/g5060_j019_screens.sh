@@ -22,6 +22,7 @@ screen() {  # row tag switches...
   (cd $X1 && mkdir -p /c/x1-comms/g5060/results/J019 && printf '%s\t%s\t%s\t%s\n' "$row" "$tag" "$line" "$*" >> /c/x1-comms/g5060/results/J019/screens.tsv \
     && SIDE=g5060 bash tools/x1_comms.sh push "J019 screen row $row $tag: $line" > /dev/null 2>&1)
 }
+screen 0 base                                            # x3 plain: the per-game base for the sign test (PC: 86/172)
 screen 1 burst2 --set A2_BURST2=1;                       screen 1 burst2wt --set A2_BURST2=1 $WT
 screen 2 tsvis --set A2_TS_VIS=1;                        screen 2 tsviswt --set A2_TS_VIS=1 $WT
 screen 2 tsvisbpwt --set A2_TS_VIS=1 $BP $WT
