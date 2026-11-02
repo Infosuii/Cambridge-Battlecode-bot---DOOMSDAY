@@ -19,7 +19,10 @@ Workers: 6 (threads-2).
   second worktree at 70400bb6, 3 workers, ETA ~01:00 UTC; then x1_mapfit.h + gates (pool and the 16 maps alone).
 - **J021 fight-all** ES beside it (3 workers; worktree at 4ebf7f48). Restarted 22:30 after a fix: my overlaid dz.py had
   dropped the PC's X1_KD list support (fixed, build/z-plan-5060 563aba91).
-- Stopped as superseded by J022: J020 A plan search (finished runs kept). J019 screens resume after J022.
+- Stopped as superseded by J022: J020 A plan search (finished runs kept).
+
+Queue: J022 fit -> x1_mapfit.h -> J022 gates -> **J023** (13 weak tabled maps, + x1 as 4th opponent; at c5da0e9+) ->
+J023 table + gate -> J019 screens -> J021 runs 2-3.
 
 ## Done
 
