@@ -18,6 +18,12 @@
 #if X1_TEL
 #define A2_TEL 1
 #endif
+#ifndef X1_BUSHPRE
+#define X1_BUSHPRE 0 // Fuel: label bush clusters ahead of use from each turn's leftover fuel, down to X1_BUSHPRE k fuel (resumable; same labels).
+#endif
+#ifndef X1_BUSHPRE_LAZY
+#define X1_BUSHPRE_LAZY 50 // with X1_BUSHPRE: on-demand labelling stops at this many k fuel (cluster reads unknown until done)
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif

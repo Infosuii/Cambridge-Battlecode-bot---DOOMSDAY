@@ -89,6 +89,16 @@ public:
     std::unique_ptr<std::uint16_t[]> bush_label; // cluster id per tile (valid only where labelled)
     int bush_clusters = 0;
     int bush_cluster(vec2 p);                    // -1 when p is not a bush
+#if X1_BUSHPRE
+    // Ahead-of-use labelling (X1_BUSHPRE): a resumable flood over the static bushes, run from leftover fuel, so the
+    // 50-120k first-use labelling spikes inside ward / ambush code stop running turns out of fuel.
+    int pre_chunk = 0, pre_sp = 0, pre_id = -1;
+    bool pre_done = false, pre_init = false;
+    bc::bitboard pre_seen; // tiles queued by the floods (bush_labeled is set only once a tile has its id)
+    void pre_push(vec2 p);
+    void pre_step(std::uint64_t floor);
+    void prelabel_bushes(std::uint64_t floor);
+#endif
     void cluster_board(vec2 p, bc::bitboard& out); // the whole bush cluster containing p
     // What a unit standing at `viewer` sees (engine shadowcasting, radius 8): walls and bushes
     // block sight, except the viewer's own bush cluster; tiles inside other clusters stay hidden.

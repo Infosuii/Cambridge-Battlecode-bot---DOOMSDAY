@@ -7548,6 +7548,10 @@ void Bot::play_turn() {
     PROF_CHECK("tail");
     build_fields();
     PROF_CHECK("fields");
+#if X1_BUSHPRE
+    w.prelabel_bushes(static_cast<std::uint64_t>(X1_BUSHPRE) * 1000);
+    PROF_CHECK("bushpre");
+#endif
 #ifdef APEX_MODESTATS
     // Debug: how many turns each champion spends in each behaviour (printed every 200 rounds).
     {

@@ -182,8 +182,83 @@ void World::init() {
                 camps[groups[gi].camps[0]].pos.y, groups[gi].camps.size(), groups[gi].gems, groups[gi].gold, groups[gi].harmless);
 }
 
+#if X1_BUSHPRE
+namespace {
+std::uint32_t pre_stack[kBushStack];
+}
+// Continue the flood in progress until it ends or fuel drops below floor (0 = finish).
+void World::pre_step(std::uint64_t floor) {
+    int n = 0;
+    const auto id = static_cast<std::uint16_t>(pre_id);
+    while (pre_sp > 0) {
+        if (floor && (n++ & 3) == 0 && bc::fuel_remaining() < floor) return; // checked on entry, then every 4 tiles
+        const std::uint32_t t = pre_stack[--pre_sp];
+        const int x = static_cast<int>(t & 0xFFFF), y = static_cast<int>(t >> 16);
+        bush_label[static_cast<std::size_t>(y * width + x)] = id;
+        set_bit(bush_labeled, vec2{x, y});
+        const int x0 = x > 0 ? x - 1 : 0, x1 = x + 1 < width ? x + 1 : x;
+        const int y0 = y > 0 ? y - 1 : 0, y1 = y + 1 < height ? y + 1 : y;
+        for (int yy = y0; yy <= y1; ++yy)
+            for (int xx = x0; xx <= x1; ++xx) {
+                const vec2 q{xx, yy};
+                if (!bit(bushes, q) || bit(pre_seen, q)) continue;
+                set_bit(pre_seen, q);
+                if (pre_sp < kBushStack) pre_stack[pre_sp++] = static_cast<std::uint32_t>(xx) | static_cast<std::uint32_t>(yy) << 16;
+            }
+    }
+    pre_id = -1;
+}
+// Start a flood (new cluster id) at bush tile p.
+void World::pre_push(vec2 p) {
+    pre_id = bush_clusters++;
+    set_bit(pre_seen, p);
+    pre_stack[pre_sp++] = static_cast<std::uint32_t>(p.x) | static_cast<std::uint32_t>(p.y) << 16;
+}
+// Label every bush cluster, scanning 8x8 chunks for unlabelled bush tiles; stops at floor and resumes next turn.
+void World::prelabel_bushes(std::uint64_t floor) {
+    if (pre_done || a2map::slow_bush() || !bush_label) return;
+    if (!pre_init) pre_seen.clear(), pre_init = true;
+    if (pre_id >= 0) {
+        pre_step(floor);
+        if (pre_id >= 0) return;
+    }
+    const auto& L = bc::detail::layout();
+    const int cw = (width + 7) >> 3, ch = (height + 7) >> 3;
+    while (pre_chunk < cw * ch) {
+        if (bc::fuel_remaining() < floor) return;
+        const int cy = pre_chunk / cw, cx = pre_chunk % cw;
+        const std::size_t wi = static_cast<std::size_t>(cy) * L.chunk_stride + static_cast<std::size_t>(cx);
+        const std::uint64_t open = bushes.ptr()[wi] & ~bush_labeled.ptr()[wi];
+        if (!open) {
+            ++pre_chunk;
+            continue;
+        }
+        const int b = __builtin_ctzll(open);
+        const vec2 p{cx * 8 + (b & 7), cy * 8 + (b >> 3)};
+        pre_push(p);
+        pre_step(floor);
+        if (pre_id >= 0) return;
+    }
+    pre_done = true;
+}
+#endif
+
 int World::bush_cluster(vec2 p) {
     if (p.x < 0 || p.y < 0 || p.x >= width || p.y >= height || !bit(bushes, p)) return -1;
+#if X1_BUSHPRE
+    // On-demand labelling is resumable too: label down to X1_BUSHPRE_LAZY k fuel; a cluster not finished this turn
+    // reads as unknown (-1) and the flood carries on next time.
+    if (!a2map::slow_bush() && bush_label && !bit(bush_labeled, p)) {
+        const std::uint64_t lazy = static_cast<std::uint64_t>(X1_BUSHPRE_LAZY) * 1000;
+        if (!pre_init) pre_seen.clear(), pre_init = true;
+        if (pre_id >= 0) pre_step(lazy);
+        if (pre_id < 0 && !bit(bush_labeled, p)) {
+            pre_push(p);
+            pre_step(lazy);
+        }
+        if (!bit(bush_labeled, p)) return -1;
+    }
+#endif
     if (!bit(bush_labeled, p)) {
 #if A2_TEL
         const std::uint64_t a2_f0 = bc::fuel_remaining();
