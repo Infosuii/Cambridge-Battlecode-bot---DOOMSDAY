@@ -34,6 +34,17 @@
 #ifndef X1_WALKTAIL
 #define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there).
 #endif
+#ifndef X1_EARLYFLEE
+#define X1_EARLYFLEE 0 // Fights: with no healthy ally within 5, leave once enemies within X1_EARLYFLEE tiles have more total
+#endif                 // health than X1_EARLYFLEE_RATIO x ours (ladder: 03one-gem deaths are lone champions caught while fleeing late).
+#ifndef X1_EARLYFLEE_RATIO
+#define X1_EARLYFLEE_RATIO 1.0f
+#endif
+#if X1_EARLYFLEE
+#define X1_EARLYFLEE_HOOK                                                                                                  {                                                                                                                          bool x1_alone = true;                                                                                                  for (const auto& a : w.allies) x1_alone &= !(cheb(a.pos, pos) <= 5 && a.hp >= a.max_hp * 0.4f);                        float x1_ehp = 0.0f;                                                                                                   for (const auto& e : w.enemies)                                                                                            if (e.hp > 0 && cheb(e.pos, pos) <= X1_EARLYFLEE) x1_ehp += e.hp;                                                  if (x1_alone && !(target && target_ttk <= 1.0f) && x1_ehp > hp * X1_EARLYFLEE_RATIO) {                                     in_danger = true;                                                                                                      winning = false;                                                                                                       if (threat_on_me <= 0) threat_on_me = 1.0f;                                                                        }                                                                                                                  }
+#else
+#define X1_EARLYFLEE_HOOK
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif

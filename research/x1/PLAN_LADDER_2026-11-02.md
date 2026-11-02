@@ -33,3 +33,18 @@ Goal (Rishik): dominate the ladder; never lose to sub-2000 teams. Evidence: 180 
 Gates now: x1, v86h, v81hl, v88 (+ the fight stand-in from step 3) on ladder + styled + maze. A line is sent for
 ladder games only when it beats x1 head-to-head and on the pooled gate. The ladder is the final judge: records per
 top team vs x1's v73 record.
+
+## Results so far (2 Nov, 17:30 UTC)
+
+| Attempt | Local result | Verdict |
+|---|---|---|
+| Plan 4 ends at R400 / R600 (X1_PLAN_END) | vs x1 68 / 73 of 140 (x1c1 63), vs v86h 74 / 69 (x1c1 75), ladder maps | noise; dropped |
+| Bruiser builds (V58_ITEM_PLAN=0) | x1: 62 vs x1, 61 vs v86h; x1c1: 67 / 68 | not better with our fight logic; parked until the fight work |
+| ANTIFEED 3/100, 3/250, 5/250 on 8 feeding maps vs v86h | wins 7 / 3 / 7 of 16 (x1 9), deaths 250 / 301 / 219 (x1 221) | feeding moves to the other side; dropped |
+| X1_EARLYFLEE 7/1.0, 7/1.5, 5/1.0 (lone champion leaves before contact) | wins 10 / 8 / 8, deaths 254 / 249 / 279 | does not reduce deaths; dropped |
+
+Death log (APEX_DEATHLOG, 03one-gem side A vs v86h, 70 deaths): 193 of the last-turn notes are mode=flee, nearly
+all with no ally within 4 tiles, 30-60 steps from spawn. Side A feeds on this map whichever v81hl-family bot plays it
+(x1, v86h, x1bru: 67-75 deaths as A, 5-13 as B). Next idea (rethink): **do not be alone far from home while enemies
+roam**: a buddy rule (farm targets within reach of an ally once enemies have been seen in the last N rounds) and a
+leash on spawn distance after a death, tested on the same 8 maps vs v86h and x1bru.

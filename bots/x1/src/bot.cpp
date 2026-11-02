@@ -3312,7 +3312,7 @@ bool Bot::handle_enemies() {
             winning = false;
             if (threat_on_me <= 0) threat_on_me = 1.0f;
         }
-    }
+    } X1_EARLYFLEE_HOOK
     if (NOVA_BURST_K > 0.0f) {
         // Burst-aware danger: what the visible enemies can land on us next turn (ready nukes within spell
         // reach, basic attacks within walking reach). Caster teams kill from 15-20% health in one turn.
