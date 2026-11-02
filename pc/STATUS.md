@@ -18,7 +18,8 @@
 | J004 maze maps | Rishik is asking Agent 2 to push maps_mazetest + maps_real200b; fallback: PC builds a maze-style set if none by 12:00 |
 | J005 branch farm | running on 5060 |
 | J009 whole-game plan gates (plan 4/6/3) | **posted, priority 1 right after J005** |
-| J006 anti-feeding gate | posted, after J009 |
+| J010 flee-drop + economy gates | **posted, after J009** |
+| J006 anti-feeding gate | posted, after J010 |
 | J007 audit fixes (6 switches) | **moved to g5070 as K002** |
 | J008 bag-risk gate | posted, after J006 |
 
