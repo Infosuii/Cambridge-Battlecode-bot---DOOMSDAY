@@ -1,12 +1,11 @@
-# g5070 — supplied K007 diagnostic; original queue paused at boundary
+# g5070 — original campaign verified; bounded supplied WALKTAIL comparisons
 
-Updated 2026-11-02T13:42:55.662500+00:00. K007 source 6ed38b9, isolated directory; original source 6efc360 unchanged. WORKERS=DZ_MAX_PARALLEL=18.
+Updated 2026-11-02T14:02:26.333360+00:00. WORKERS=DZ_MAX_PARALLEL=18. Original source 6efc360 unchanged; K007 6ed38b9 and K009 2732245 isolated.
 
-- K004: required 7 A +4 B lines complete.
-- K005: all 35 planned lines plus no-switch reference complete.
-- K006: 7/7 standard lines and 7/7 fresh-map lines complete; paused before all prescribed experiments and focused diagnostics complete; final analysis and verification in progress.
-- K007: 7/7 full lines complete; running None.
-- Pending: finish K007, resume unchanged K006, focused controls, supplied-fix validation if eligible, final verification/synthesis.
-- Optional forest extension: no valid set generated; original 40-map holdout remains frozen. Missing legacy fuel timing requested in message 0008; totals remain exact.
+- Complete: K004 A7/B4, all35 K005 grids +reference, K006 standard7/fresh7, nine focused controls and one failed fuel retry. Original complete matrix verification passed.
+- Complete: K007 seven supplied lines + BP/selected/x1 standard/fresh validation. K007 final identity verification passed.
+- K009A 0/5; K009B 0/5; K007 tail addendum 0/2 additional configurations (third is exact K009A/cand).
+- Running: between lines. Blocked: {}.
+- Pending: finish this bounded supplied queue, final synthesis/publication. No new feature authoring, unrelated grids or ladder activity.
 
-[K004](results/K004.md) · [K005](results/K005.md) · [K006](results/K006.md) · [K007](results/K007.md)
+[K004](results/K004.md) · [K005](results/K005.md) · [K006](results/K006.md) · [K007](results/K007.md) · [K009/addendum](results/K009.md) · [Diagnostics](results/DIAGNOSTICS.md)
