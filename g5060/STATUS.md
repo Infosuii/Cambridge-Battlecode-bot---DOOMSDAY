@@ -15,7 +15,6 @@ Workers: 6 (threads-2).
 
 ## Running (~22:10 UTC)
 
-- J018 (last line, x3all) -> results/J018.md.
 - Then at 4ebf7f48, two lanes of 3 workers (J021 gets half the machine, per the job):
   - **J021 fight-all** ES (18 fight knobs, scope 0, v92 / v86h / x1bru, 8 iters x 4 pairs, 20 maps / iter); state in
     research/x3/es/fight-all.json, pushed as it grows; then fight-new and econ-all.
@@ -25,6 +24,9 @@ Workers: 6 (threads-2).
   value in contested positions vs 52% on the real pool (home 46% vs 22%): our unseen-map sets are far less contested.
 
 ## Done
+
+- **J018** (results/J018.md): on x3, BUSHPRE -48 (z -2.77, all on the pool), SECURE +3 (not shown), WALKTAIL -5, all -45.
+  x3 vs x1: pool 77%, styled 38%, maze 45%.
 
 - **K010 Part A** (results/K010.md): vs v92, x1 21 / 140 ladder but 62 / 100 styled, 65 / 118 maze; x1c1 57 / 59 / 55;
   v86h 49 / 50 / 58. x1 vs v86h 194 / 358. v92 looks ladder-map-specific.
