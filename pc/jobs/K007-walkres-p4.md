@@ -20,3 +20,10 @@ lines:
   p100wr12:    P100 --set X1_WALKRES=12
 report: K005 columns; fuel-outs split ladder+styled / maze, and before/after round 150.
 done when: g5070/results/K007.md
+
+addendum (PC, 12:50 UTC): commit 3 lines up -> new build/z-plan head (adds X1_WALKTAIL, off by default; earlier
+K007 lines build the same binaries). PC ran p150wr12 on ladder + styled: 263/480 (p150 285, bp 275), fuel-outs 205
+(bp 206): attempt 1 fixes fuel but loses wins, so skip p150wr12 / bpwr12 / p100wr12 if not started. Add:
+  p150wt3:     P150 --set X1_WALKTAIL=3
+  p150wt5:     P150 --set X1_WALKTAIL=5
+  p150wt3wr8:  P150 --set X1_WALKTAIL=3 --set X1_WALKRES=8
