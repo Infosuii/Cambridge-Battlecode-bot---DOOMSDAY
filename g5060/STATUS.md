@@ -12,15 +12,18 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (04:30 UTC): idle work, retry queue
+## Running (05:45 UTC)
 
-- No posted job open, so per the brief I run the next owed retry-queue gate (lowest #). #1 (X1_SECURE v2) and #2
-  (X1_ALONE radius knobs) need code from the PC. **Running #3 X1_HUNT_SOLO** under a hunting plan (it was a dead path in
-  default play): base = X1_PLAN=1 R150 plan 8 (push, hunt +3), lines + HUNT_SOLO 3 / 5, at 0b3703b. 3 lines, ~11 min.
-- Next idle item: #4 X1_MASTERY step 1 (recompute per-champion results from x1's own games vs v88: the 480 J005
-  baseline summaries + gate base games), then its R2 if the PC adds a bias knob.
+- **J007** audit fixes (b23ef86), all 8 lines (fleehold 4/8/15, teamwin, heartfix, soak64, prunefix, siegestrict),
+  taken back from g5070 (msgs/0003: g5070 never posted). ~30 min -> posted ~06:15. Hashes compared with the job's list.
+- Then **J002** sweep 1d remainder (flags not yet played; the PC's x1-sd-* runs are reused, "same binary" entries
+  listed separately as dead / already-on / not overridable per msgs/0003).
 
 ## Done
+
+- Retry #3 (results/RQ3-hunt-solo.md): X1_HUNT_SOLO 3 / 5 under plan 8 from R150: 0 / 480 games changed: still a
+  dead path (R0). Side result p8r150 vs x1: 261 (+4), fuel-outs +34.
+- findings/0003: retry #4 step 1, per-champion results vs v88 (Willow 45%, 4.6 deaths; Ryth best).
 
 - findings/0002: sparring stand-in. proxy and x1-push measured (x1 wins 112 and 89 of 140; neither out-farms x1);
   proposal S1 fast farmer / S2 early contact for the PC to build.
