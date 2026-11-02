@@ -38,4 +38,24 @@ failed; fix the trigger first), **rejected** (failed R1, R2 and R3). Until R3 ha
 | 16 | Agent 2: hunter pair | +2 in search | R1 in x1; R3 | 5060 round 2 |
 | 17 | Agent 2: joint search trained on half the ladder | overfit (58% -> 47.6%) | Method, not a feature: rerun only with held-out maps of all three styles | Phase 7 |
 
+
+## New features in the queue (2 Nov)
+
+| # | Feature | Source | First result | Next |
+|---|---|---|---|---|
+| 18 | `X1_ANTIFEED` (K team deaths in W rounds -> team plays safe) | top-team games: 9/35 collapses (research/x1/TOP_TEAMS_2026-11-02.md) | quick screen K=3/5: 22+22 vs 17+19 | J006 (K 3/4/5/7, W 100/250) |
+| 19 | `X1_FLEEHOLD` (keep away from enemies seen within 8 for N rounds after a flee) | audit F01 (retreat/farm oscillation) | - | J007 (4/8/15) |
+| 20 | `X1_TEAMWIN` (win-now counts the team's carried gems) | audit F03 (859 + 170 carried lost to 1083) | - | J007 |
+| 21 | `X1_HEARTFIX` (fight forecast: Heart dash landing + missing-health damage) | audit B01 | - | J007 |
+| 22 | `X1_SOAK64` (camp danger counts up to 64 members) | audit B02 | - | J007 |
+| 23 | `X1_PRUNEFIX` (prune bound includes campwatch / dominant multipliers) | audit B03 | - | J007 |
+| 24 | `X1_SIEGE_STRICT` (siege LOS cache used only when complete) | audit B04 | - | J007 |
+| 25 | Throughput: waiting / staging while the enemy clears (dunes R431-471: 0 vs 177 collected) | audit F02 + top-team economy gap | - | knobs kWaitWeight, kStageTimeout, champions_needed in the joint search; plan 1/7 in the farm |
+| 26 | Respawn-event ambiguity in the 8-byte protocol (mod 256 date read after 64 rounds) | audit H01 | - | fix as a switch if J005 rows show stale-event effects |
+
+**Correction to the sweeps:** common.h's profile block sets many v81hl switches unconditionally (A2_KITFIX 25,
+A2_BRIDGES 1, A2_APPROACHFIX 1, A2_ALTARFIX 3, ...). A sweep entry "same binary as x1" therefore means *dead code,
+already on, or not overridable by --set*. The already-on ones are part of x1; the not-overridable ones (e.g.
+A2_KITFIX bits) need a code switch to test, as X1_HEARTFIX does.
+
 Fuel-fix versions 1-2 (no fuel gain) were superseded by version 3 (kept); they are not features and are not retried.

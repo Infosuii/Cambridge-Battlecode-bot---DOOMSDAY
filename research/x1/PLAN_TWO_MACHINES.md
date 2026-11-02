@@ -43,6 +43,21 @@ faults. Both machines read the same numbers, so the verdict is mechanical.
 This is about a day earlier than the one-machine plan (6 Nov), with nothing dropped: the full gate runs on every
 candidate, every rejection gets its retries, and the joint search covers every switch.
 
+## Findings protocol (Rishik, 2 Nov)
+
+Any findings the 5060 pushes (g5060/results, g5060/findings) are the PC's to act on: the PC decides what happens,
+updates this plan and RETRY_QUEUE.md, and answers in pc/STATUS.md. The 5060 keeps running its queue meanwhile.
+
+## Inputs added on 2 Nov
+
+- research/x1/TOP_TEAMS_2026-11-02.md: 35 games vs ranks 1-5 + QS2isLaw + 0xDEADBEEF, 3 wins. Slow economy (half
+  their gold by R500) and feeding collapses (9/35). -> X1_ANTIFEED (J006); gold and deaths now in every report.
+- research/x1-audit-2026-11-02 (branch, ishanp765): 35 replays, 20 reproduced byte for byte from x1. Retreat/farm
+  oscillation, collection throughput (68% of the loss deficit), team-bag conversion, four model defects. -> six
+  switches (J007) and the throughput knobs in the joint search.
+- Sparring: v88 never farms us, so a stand-in that makes early contact and out-farms us is needed earlier (5060
+  proposal after J003).
+
 ## Rules that keep the two machines apart
 
 - Code: PC pushes only `build/z-plan`; 5060 pushes only `build/z-plan-5060` (its harness and helper code). Neither
