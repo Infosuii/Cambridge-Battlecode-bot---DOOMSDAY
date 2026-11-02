@@ -45,6 +45,23 @@
 #else
 #define X1_EARLYFLEE_HOOK
 #endif
+#ifndef X1_LEASH
+#define X1_LEASH 0 // Feeding: for X1_LEASH rounds after this champion respawns it farms only its own half (territory 0) with
+#endif             // aggression x X1_LEASH_AGGR (ladder: lone champions walk back into the half where they were killed).
+#ifndef X1_LEASH_AGGR
+#define X1_LEASH_AGGR 0.7f
+#endif
+#if X1_LEASH
+#define X1_LEASH_HOOK \
+    { \
+        static int x1_last_turn = -1, x1_respawn = -100000; \
+        if ((x1_last_turn >= 0 && round - x1_last_turn > 3) || bc::self().state().is_dead()) x1_respawn = round; \
+        x1_last_turn = round; \
+        if (round - x1_respawn < X1_LEASH) tune::kTerritory = 0.0f, tune::kAggression *= X1_LEASH_AGGR; \
+    }
+#else
+#define X1_LEASH_HOOK
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif
@@ -68,6 +85,9 @@
 #endif
 #ifndef X1_PLAN_ROUND
 #define X1_PLAN_ROUND -1 // round from which plan X1_PLAN_ID is played (-1 = never)
+#endif
+#ifndef X1_MAPPLAN
+#define X1_MAPPLAN 0 // with X1_PLAN: per-map plan table (x1_mapplan.h) on maps without a ladder fit
 #endif
 #ifndef X1_PLAN_END
 #define X1_PLAN_END 0 // with X1_PLAN: plan X1_PLAN_ID stops at this round and normal play resumes (0 = never; ladder: plan 4 stalled the late economy)
@@ -117,4 +137,7 @@
 #endif
 #ifndef X1_NEED_MULT
 #define X1_NEED_MULT 1.0f // x solo camp health budget (more = take more camps alone)
+#endif
+#if X1_MAPPLAN
+#include "x1_mapplan.h"
 #endif

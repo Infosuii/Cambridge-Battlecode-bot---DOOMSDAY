@@ -7236,6 +7236,21 @@ void Bot::play_turn() {
         // through volatile so every branch build runs the same instructions and its games equal the base build's until
         // the switch round (the branch farm relies on this). X1_PLAN_ROUND -1 or 5000: never switch.
         static volatile int plan_round = X1_PLAN_ROUND, plan_id = X1_PLAN_ID;
+#if X1_MAPPLAN
+        // X1_MAPPLAN: per-map team plan on competition maps the ladder fit does not cover (x1_mapplan.h, from the
+        // per-map plan search tools/x3_mapplan_search.sh). Map fingerprint as A2_LADFIT; looked up once.
+        static bool mp_done = false;
+        if (!mp_done && inited) {
+            mp_done = true;
+            std::uint32_t mp_gems = 0;
+            for (const auto& gr : w.groups) mp_gems += gr.gems;
+            for (const auto& r : x1_mapplan::kRows)
+                if (r.w == w.width && r.h == w.height && r.groups == static_cast<int>(w.groups.size()) && r.gems == mp_gems) {
+                    plan_round = r.round, plan_id = r.id;
+                    break;
+                }
+        }
+#endif
         const int pr = plan_round;
         const int plan = pr >= 0 && round >= pr && (X1_PLAN_END <= 0 || round < X1_PLAN_END) ? plan_id : 0;
         float terr = tune::kTerritory, aggr = 1.0f, carry = 1.0f;
@@ -7257,7 +7272,7 @@ void Bot::play_turn() {
         if (hunt) tune::kHuntRange = std::max(0, base_hunt + hunt);
     }
 #endif
-    if (FIRST_SAFE && inited && !fs_team_died) {
+    X1_LEASH_HOOK if (FIRST_SAFE && inited && !fs_team_died) {
         if (num_handles[0].empty()) update_numbers();
         for (std::uint32_t h : num_handles[0]) {
             std::int32_t alive = 1;
