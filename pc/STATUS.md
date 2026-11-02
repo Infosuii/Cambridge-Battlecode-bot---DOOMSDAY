@@ -17,7 +17,8 @@
 | J003 retry round 1 | posted |
 | J004 maze maps | Rishik is asking Agent 2 to push maps_mazetest + maps_real200b; fallback: PC builds a maze-style set if none by 12:00 |
 | J005 branch farm | running on 5060 |
-| J006 anti-feeding gate | posted, priority 1 after J005 |
+| J009 whole-game plan gates (plan 4/6/3) | **posted, priority 1 right after J005** |
+| J006 anti-feeding gate | posted, after J009 |
 | J007 audit fixes (6 switches) | **moved to g5070 as K002** |
 | J008 bag-risk gate | posted, after J006 |
 
@@ -34,3 +35,9 @@ fleehold keeps its 4 / 15 variants (retry protocol).
 | K001 setup + reproduction | posted |
 | K002 = J007 audit gates | posted |
 | K003 = J002 sweep 1d remainder | posted (if time) |
+
+## PC reading of J005 partial (01:16)
+
+Plan 4 (turtle) is the strongest switch: net +20 @R150, +27 @R250, deaths -2, gold@R500 +29..39; plan 6 +17 @R150;
+plan 8 (push) and 2 (hoard) are the weakest. x1 is over-aggressive vs v88. Next: J009 tests these as whole-game
+settings; the PC investigates plan 4's extra fuel-outs.
