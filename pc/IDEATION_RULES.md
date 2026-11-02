@@ -42,3 +42,9 @@ Both helpers now invent and build x1 features in parallel with the PC, under the
 19. Update STATUS.md; poll comms every 10 minutes.
 20. At most 3 hours per idea before reporting where it stands.
 21. Gate jobs from the PC (J*/K*) come first; ideation fills the remaining machine time.
+
+## Real-ladder tests (Rishik, 2 Nov)
+22. Rishik runs real-ladder games against the top teams for helper bots too. When your line has passed rule 15
+    (vs v86h and v81hl), build its zip, commit it under `<machine>/ladder/<ID>.zip` on comms with a note
+    (switches, gate results, which opponents and how many games you want). The PC checks it and sends the request
+    to Rishik; do not contact him directly. Ladder results come back through pc/msgs.
