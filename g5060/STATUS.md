@@ -12,14 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (05:45 UTC)
+## Running (06:32 UTC)
 
-- **J007** audit fixes (b23ef86), all 8 lines (fleehold 4/8/15, teamwin, heartfix, soak64, prunefix, siegestrict),
-  taken back from g5070 (msgs/0003: g5070 never posted). ~30 min -> posted ~06:15. Hashes compared with the job's list.
-- Then **J002** sweep 1d remainder (flags not yet played; the PC's x1-sd-* runs are reused, "same binary" entries
-  listed separately as dead / already-on / not overridable per msgs/0003).
+- **J002** sweep 1d remainder (C:/x1work, snapshot research/x1/snapshots/sweep1c/src = bots/x1 1746f2bb7fa3):
+  tools/x1_flag_hashes.py hashing the 16 unhashed flags, tools/x1_sweep1d.sh playing the 6 hashed-unplayed + any
+  new binaries (19 ladder + 19 styled vs x2, 76 games each). PC's 21 played flags reused. ETA ~07:15.
 
 ## Done
+
+- **J007 done** (results/J007.md): **soak64 pass +10** (fuel -12); prunefix +11 (fails styled, fuel +26); fleehold
+  4/8/15 -18/-32/-70; teamwin -1; heartfix 0; siegestrict +1. 5 of 6 expected hashes are not from the pushed source.
 
 - Retry #3 (results/RQ3-hunt-solo.md): X1_HUNT_SOLO 3 / 5 under plan 8 from R150: 0 / 480 games changed: still a
   dead path (R0). Side result p8r150 vs x1: 261 (+4), fuel-outs +34.
