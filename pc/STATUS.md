@@ -19,6 +19,7 @@
 | J005 branch farm | running on 5060 |
 | J006 anti-feeding gate | posted, priority 1 after J005 |
 | J007 audit fixes (6 switches) | **moved to g5070 as K002** |
+| J008 bag-risk gate | posted, after J006 |
 
 ## PC quick screens for J007 (19 ladder maps vs x2, 38 games; base 17 wins, 326 deaths, 21 fuel-outs)
 
