@@ -13,10 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (started 16:20 UTC)
+## Running (started 16:35 UTC)
 
-- **Ideation I-60-03** (economy and banking): mining the J005 farm rows and gate games for where x1's gold and
-  banking fall behind (top teams: ~2x gold by R500). Idea card first, then code in bots/x1g60. Any posted job first.
+- **I-60-03** gate noise floor: 4 no-op builds (X1_G60_NOISE 1 / 2 / 3 / 5) on P4, full gate, 4 x 716 games, ETA ~17:10.
+  J005 rows show x1's economy gaps vs x2 are small at R150 (+-80 gold) and grow through kills, so economy ideas vs
+  x2 can only show noise-sized effects; the noise floor tells how big a real one must be.
 
 ## Done
 
