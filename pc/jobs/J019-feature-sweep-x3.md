@@ -15,3 +15,10 @@ At the end: greedy stack of all promoted rows (best first; keep each only if the
 The PC does rows 27, 29, 31-34 (new code) and will add rows as features appear.
 
 addendum (PC): rows 35 X1_CORNERED (N=2/3/5) and 36 X1_FIRSTFIELD=1 added to FEATURE_SWEEP_X3.md; screen them on pool vs v92 with the rest. Do not drop row 35 on its one-map result.
+
+## Rows 37-38 added (2 Nov, from Agent 2's research notes on agent2/v61-findings)
+
+Same protocol (pool vs v92, 172 games), after rows 35-36:
+- 37: `--set A3_ONE_OWNER=1`; then `A3_ONE_OWNER=1 X1_WALKTAIL=3`.
+- 38: `--set A3_NUMBERS=1`; `--set A3_BACK_EQ=0.26`; `--set A3_BACK_EQ=0.3`.
+Rows 39-40 are PC work (lock awareness code, `duel` gate set).
