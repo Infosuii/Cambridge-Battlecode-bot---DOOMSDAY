@@ -4,17 +4,19 @@ Workers: 6 (threads-2).
 
 ## Notes that change how jobs run
 
-1. `tools/dz.py` caps parallel games at `min(4, --workers)` (ThreadPoolExecutor in `experiment()`), so
-   `WORKERS=6` actually runs 4 games at a time. J001 measures the stock tool as-is (exact reproduction); after
-   that I'll test a 6-way cap on build/z-plan-5060 (runner only, no game changes) and report the speed-up.
+1. `tools/dz.py` caps parallel games at `min(4, --workers)`, so `WORKERS=6` ran 4 at a time. build/z-plan-5060
+   57af220 adds `DZ_MAX_PARALLEL` (default 4); I run 6: 121 games/min, replays still exact (results/J001.md).
 2. `dz.py smoke` appends to `research/dz/SEED_LEDGER.md` and exits non-zero ("runtime gate failed") on any
    fuel-out, after writing results.json. x1_gate.sh tolerates that; I report every fuel-out.
 3. Maze maps (J004): not available (msgs/0002).
 
 ## Running
 
-- J005 branch farm: reading lab/box tools/lab/branch_farm.py + branch_prefix.py, adapting to X1_PLAN on
-  build/z-plan-5060. ETA for the farm itself after setup: ~11.5k games at ~120/min ≈ 1.5-2 h (ladder + styled).
+- **J005 branch farm** (started 2 Nov 00:05): `tools/x1_farm.py run --name j005` (build/z-plan-5060 a0f4773, port of
+  lab/box branch_farm.py). x1 at e15b68d, 25 builds (base X1_PLAN=1 R5000 I6 + plans 1-8 x R250/150/350), all code
+  sections be66c8804ef0, 25 distinct binaries. Opponents x2, x2-s2; 70 ladder + 50 styled maps, both sides: 480
+  baselines + 11,520 branches. Every branch is diffed against its baseline (prefix check on all games, not a
+  sample). ETA ~2 h at ~110/min; partial results at the end of each round tier.
 
 ## Done
 
@@ -25,4 +27,4 @@ Workers: 6 (threads-2).
 
 ## Queue
 
-J005 (now) → J002 (when pc/STATUS says the PC stopped sweep 1d) → J003 retry round 1 → retry-queue gates when idle.
+J005 (running) → J002 (when pc/STATUS says the PC stopped sweep 1d) → J003 retry round 1 → retry-queue gates when idle.
