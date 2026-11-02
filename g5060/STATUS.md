@@ -15,7 +15,7 @@ Workers: 6 (threads-2).
 
 ## Running (J024 started ~19:55 UTC)
 
-- **J024 (urgent)** counter table vs v92 at 1ff45a1: 30 variants x 172 pool games in two lanes x 3 workers, ~50 min;
+- **J024 (urgent)** restarted ~20:45 UTC on de90b5e (ctr2 runs, same-code builds); counter table vs v92: 30 variants x 172 pool games in two lanes x 3 workers, ~50 min;
   status line every ~8 variants in results/J024.md, then table, verify, v86h / x1bru check, x1_counter.h as a result file.
 - **Paused** (resume from cache): J022 at 13 / 16 maps fitted (03ambush-field 0.754, 03colosseum 0.839, 03contours
   1.096, 03fan 1.029, 03homonoliths 1.000, 03membrane 1.404, 03one-gem 0.891, 03reef 0.702, 03riverbed 0.894,
