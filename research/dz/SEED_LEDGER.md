@@ -1287,3 +1287,17 @@ The registry was created before experiments. Entries below record actual use.
 | g5060-si2-S1a-ladder | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; idle81 | smoke; trace=False |
 | g5060-si2-S1b-ladder | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; idle81 | smoke; trace=False |
 | g5060-si2-S2a-ladder | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; idle81 | smoke; trace=False |
+| x1g-base-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 60 cells; x2 | smoke; trace=False |
+| x1g-base-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bp-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm ae786617849b | 60 cells; x2 | smoke; trace=False |
+| x1g-bp-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm ae786617849b | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bpp4r150-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 76a54b05c69e | 60 cells; x2 | smoke; trace=False |
+| x1g-bpp4r150-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 76a54b05c69e | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bpp4r100-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 3e1c0635d227 | 60 cells; x2 | smoke; trace=False |
+| x1g-bpp4r100-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 3e1c0635d227 | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bptsvis-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 825561621b85 | 60 cells; x2 | smoke; trace=False |
+| x1g-bptsvis-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 825561621b85 | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bp2050-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 644155ee36b2 | 60 cells; x2 | smoke; trace=False |
+| x1g-bp2050-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644155ee36b2 | 60 cells; x2-s2 | smoke; trace=False |
+| x1g-bpbelief-mazeB-x2-01 | 2026-11-02 | deterministic; Wasm 6a791b00687e | 60 cells; x2 | smoke; trace=False |
+| x1g-bpbelief-mazeB-x2-s2-01 | 2026-11-02 | deterministic; Wasm 6a791b00687e | 60 cells; x2-s2 | smoke; trace=False |
