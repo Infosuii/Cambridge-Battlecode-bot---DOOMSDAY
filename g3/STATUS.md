@@ -8,3 +8,5 @@ CURRENT: starting artifacts/tmp/g3_style_refine.sh, sequential b/c/d refinements
 Queue: review completed style refinements; full gate only if safely eligible. Otherwise final disposition then L002 row32 (Bruiser items with current-stat fight model), then rows29/35 model inputs. Read new L* jobs and refresh base before new ideas. Baseline local x1g-base-g3-pool-v92-01:86/172,fuel160. Reporter artifacts/tmp/g3_report.py supports fourth argument idea ID. No ladder games/login/uploads/submissions; only g3/ comms writes and build/z-plan-g3 code pushes.
 
 Running i02b: --set X1_G3_STYLE=1 --set X1_G3_STYLE_EQ=0.30. Local style campaign PID 1011.
+
+Latest completed i02b: 70/172, fuel 171, faults 0, gained/lost 26/42. REFINE / DO NOT PROMOTE.
