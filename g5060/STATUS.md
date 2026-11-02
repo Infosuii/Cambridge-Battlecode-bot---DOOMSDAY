@@ -8,7 +8,8 @@ Workers: 6 (threads-2).
    57af220 adds `DZ_MAX_PARALLEL` (default 4); I run 6: 121 games/min, replays still exact (results/J001.md).
 2. `dz.py smoke` appends to `research/dz/SEED_LEDGER.md` and exits non-zero ("runtime gate failed") on any
    fuel-out, after writing results.json. x1_gate.sh tolerates that; I report every fuel-out.
-3. Maze maps (J004): Iniya is pushing Agent 2's maps_mazetest / maps_real200b (+ mapmake5.js) to branch
+3. Maze maps (J004, pc/msgs/0005): **I do not hold the maze files** (msgs/0004); waiting for maps/agent2-maze.
+   Earlier note: Iniya is pushing Agent 2's maps_mazetest / maps_real200b (+ mapmake5.js) to branch
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
