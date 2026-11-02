@@ -6854,7 +6854,7 @@ void Bot::build_fields() {
             // NOVA_FUEL_OPEN keeps a route-search-sized reserve: the per-champion work below still
             // needs to clear the 40k route-search gate after prospecting has taken its share.
             return bc::fuel_remaining() >
-                full + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);
+                full * (X1_FIRSTFIELD && field_calls == 1 ? 2 : 1) + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety) + (X1_FIRSTFIELD && field_calls == 1 ? 15000ull : 0ull);
         };
         if (!w.altar_ready && quota > 0 && room()) w.ensure_altar_field(), --quota;
         if ((tune::kTerritory < 1.0f || HOME_SIDE || tune::kNumbersInvade < 99) && !w.enemy_ready && quota > 0 && room()) w.ensure_enemy_field(), --quota;

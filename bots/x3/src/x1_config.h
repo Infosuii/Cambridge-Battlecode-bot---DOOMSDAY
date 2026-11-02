@@ -62,6 +62,9 @@
 #else
 #define X1_LEASH_HOOK
 #endif
+#ifndef X1_FIRSTFIELD
+#define X1_FIRSTFIELD 0 // Fuel: first turn builds a group field only with 2x its cost + 15k left (03contours: all 6 bodies ran out on turn 1)
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif
