@@ -1220,3 +1220,5 @@ The registry was created before experiments. Entries below record actual use.
 | x1g-alone-styled-x2-01 | 2026-11-02 | deterministic; Wasm e314097420b5 | 100 cells; x2 | smoke; trace=False |
 | x1g-alone-ladder-x2-s2-01 | 2026-11-02 | deterministic; Wasm e314097420b5 | 140 cells; x2-s2 | smoke; trace=False |
 | x1g-alone-styled-x2-s2-01 | 2026-11-02 | deterministic; Wasm e314097420b5 | 100 cells; x2-s2 | smoke; trace=False |
+| g5060-si-proxy-ladder | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; proxy | smoke; trace=False |
+| g5060-si-x1push-ladder | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 140 cells; idle81 | smoke; trace=False |
