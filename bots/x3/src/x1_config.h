@@ -74,6 +74,9 @@
 #ifndef X1_KD_SCOPE
 #define X1_KD_SCOPE 0 // X1_KD knob deltas: 0 all maps, 1 maps without a ladder table, 2 ladder-table maps only
 #endif
+#ifndef X1_CORNERED
+#define X1_CORNERED 0 // Fights: after this many turns fleeing while losing health with the chaser within 2, fight back (0 = off)
+#endif
 #ifndef X1_FAST_SIEGE
 #define X1_FAST_SIEGE 1 // Fuel: cache the siege line-of-sight ring per alive-camp set (same decisions, no per-turn scan).
 #endif

@@ -4165,6 +4165,27 @@ bool Bot::handle_enemies() {
         heading_home = in_danger && !winning && hp < max_hp * 0.5f;
         return true;
     }
+#if X1_CORNERED
+    {
+        // X1_CORNERED (x3 death log, 03one-gem side A vs v86h: 51 of 72 deaths had been fleeing for 4+ turns, 46 with an
+        // ally within 4): a chase we are losing costs a hit every turn and ends in death anyway. After X1_CORNERED turns
+        // in a row in danger while losing health, with the chaser within 2, turn and fight the best target in reach.
+        static int x1_streak = 0, x1_last_round = -10;
+        static float x1_last_hp = 0.0f;
+        const bool fleeing_now = in_danger && !winning;
+        if (fleeing_now) {
+            x1_streak = (x1_last_round == round - 1 && hp < x1_last_hp) ? x1_streak + 1 : 1;
+            x1_last_round = round;
+        } else {
+            x1_streak = 0;
+        }
+        x1_last_hp = hp;
+        if (fleeing_now && x1_streak >= X1_CORNERED && nearest && nearest_d <= 2 && target && cheb(target->pos, pos) <= range + 1) {
+            winning = true;
+            in_danger = false;
+        }
+    }
+#endif
     PROF_CHECK("e_prestand");
 #if NOVA_FLEE_HIT
     // NOVA_FLEE_HIT (ported from v36fight): a melee champion that is about to leave first hits the weakest enemy next to

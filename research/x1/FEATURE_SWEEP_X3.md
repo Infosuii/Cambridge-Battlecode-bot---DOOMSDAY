@@ -54,3 +54,5 @@ first research prompt is retried on this base, optimised when it fails, and abor
 | 32 | Bruiser items + v92 fight model | not tried | V58_ITEM_PLAN=0 with Lanchester weights re-read from stats | PC | |
 | 33 | Team camp planner (TOPTW) | never built | PC, after 31-32 | PC | |
 | 34 | Plan selector (CBR / IM) | parked | revisit once the per-map tables show which plans win where | PC | |
+| 35 | X1_CORNERED (fight back when a losing chase has lasted N turns, chaser within 2) | new; 03one-gem N=2: deaths 76 / 35 vs 72 / 21 | N = 2 / 3 / 5 on pool vs v92; + X1_KD fight ES best | 60 | |
+| 36 | X1_FIRSTFIELD (turn-1 field guard) | new; 03contours all bodies ran out on turn 1 | 1 on pool vs v92 | 60 | |
