@@ -13,13 +13,15 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (started 16:35 UTC)
+## Running (17:20 UTC)
 
-- **I-60-03** gate noise floor: 4 no-op builds (X1_G60_NOISE 1 / 2 / 3 / 5) on P4, full gate, 4 x 716 games, ETA ~17:10.
-  J005 rows show x1's economy gaps vs x2 are small at R150 (+-80 gold) and grow through kills, so economy ideas vs
-  x2 can only show noise-sized effects; the noise floor tells how big a real one must be.
+- Idle on posted jobs; ideation continues. Next: offer to run the top lines on a second opponent pair to push their z
+  past 2 (findings/0006 proposal 2), unless the PC posts a job. Polling comms every 10 min.
 
 ## Done
+
+- **I-60-03 / findings 0006**: gate noise floor (no-op builds -8..+3, |z| < 1) and a paired sign test for every
+  line: no gain so far reaches z >= 2 except SECURE (4-0); BP + plan 4 R150 z = 1.99. Report tool prints z (c754366f).
 
 - **I-60-01** (results/I-60-01.md): walking-distance fields faster (FIELDQ 4/6/20) on P4: -14 / -23 / -43; retry
   pending (R3). Draft-time version failed R0 by design. I-60-02 (first-turn fuel-outs on 6 maps): finding, parked.
