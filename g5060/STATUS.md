@@ -22,6 +22,9 @@ Workers: 6 (threads-2).
 
 ## Done
 
+- **J015 done** (results/J015.md): maze set B, 30 maps, **build/z-plan-5060 3ca52e9**; screen 0 faults, 0.53 fuel-outs
+  a game. Gate report updated for the maze rule of msgs/0009 (3ca29b0).
+
 - Sweep flags R1 batch 3: A2_TS_VIS +11 (fuel +84), A2_BELIEF +5 (fuel +10), A2_RESETFIX -4, A2_FIELDFIRST -13,
   A2_ASSESS -35 (5,214 fuel-outs). All J002 flags at or above baseline now gated.
 
