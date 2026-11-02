@@ -13,12 +13,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~21:45 UTC), order per pc/msgs/0025 + J020
+## Running (~22:10 UTC)
 
-- J018 (last line) -> results/J018.md.
-- Then automatically at 885c2399: x3 default-build hash check, **J020 A** map-plan search (OPPS v86h x1bru, 16 maps x
-  17 settings, ~1,100 games), X1_FIRSTFIELD screen vs v92 on pool, then the **J019** screens (~70).
-- J020 B (map-structure clusters) and the x1_mapplan.h table + gate: analysis work while the screens run.
+- J018 (last line, x3all) -> results/J018.md.
+- Then at 4ebf7f48, two lanes of 3 workers (J021 gets half the machine, per the job):
+  - **J021 fight-all** ES (18 fight knobs, scope 0, v92 / v86h / x1bru, 8 iters x 4 pairs, 20 maps / iter); state in
+    research/x3/es/fight-all.json, pushed as it grows; then fight-new and econ-all.
+  - **J020 A** map-plan search (v86h, x1bru) -> **X1_FIRSTFIELD** screen -> **J019** screens (incl. rows 35-36).
+- **J020 B**: map features for 195 maps done (research/x1/g5060/map_features.json, build/z-plan-5060 98e47e7f);
+  clustering once the plan search gives per-map outcomes. First fact: generated maps (styled, maze) put 6-8% of camp
+  value in contested positions vs 52% on the real pool (home 46% vs 22%): our unseen-map sets are far less contested.
 
 ## Done
 
