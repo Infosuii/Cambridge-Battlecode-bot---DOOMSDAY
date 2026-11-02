@@ -1269,3 +1269,4 @@ The registry was created before experiments. Entries below record actual use.
 | x1g-assess-styled-x2-01 | 2026-11-02 | deterministic; Wasm 644e399edeaf | 100 cells; x2 | smoke; trace=False |
 | x1g-assess-ladder-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644e399edeaf | 140 cells; x2-s2 | smoke; trace=False |
 | x1g-assess-styled-x2-s2-01 | 2026-11-02 | deterministic; Wasm 644e399edeaf | 100 cells; x2-s2 | smoke; trace=False |
+| g5060-mazeB-screen | 2026-11-02 | deterministic; Wasm 1746f2bb7fa3 | 80 cells; x1 | smoke; trace=False |
