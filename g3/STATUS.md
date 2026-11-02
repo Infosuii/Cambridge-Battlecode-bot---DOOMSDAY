@@ -24,3 +24,5 @@ Latest completed i01c: 91/172, fuel 175, faults 0, gained/lost 7/2. REFINE / DO 
 Running i01d: --set X1_G3_SECURE=1 --set X1_G3_SECURE_TURNS=3.0 --set X1_WALKTAIL=3. Local campaign PID 923.
 
 Latest completed i01d: 90/172, fuel 174, faults 0, gained/lost 6/2. REFINE / DO NOT PROMOTE.
+
+I-G3-01 three refinements completed. Review reports, close or rethink the mechanism, then move to L002 row38. No refinement process remains running.
