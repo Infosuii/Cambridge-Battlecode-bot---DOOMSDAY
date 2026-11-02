@@ -7045,6 +7045,14 @@ void Bot::play_turn() {
 #endif
     tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));
     tune::kNeedPool *= DEATH_NEED;
+#if X1_ECON
+    // X1_ECON (audit F02 + top-team games: collection explains 68% of the loss deficit; top teams earn ~2x our gold by
+    // R500; dunes R431-471 had our five champions waiting / staging while the enemy collected 177). Per-turn multipliers
+    // on the respawn-wait cost, the helper staging timeout and the solo camp health budget (all reset every turn).
+    tune::kWaitWeight *= X1_WAIT_MULT;
+    tune::kStageTimeout = std::max(1, static_cast<int>(static_cast<float>(tune::kStageTimeout) * X1_STAGE_MULT + 0.5f));
+    tune::kNeedPool *= X1_NEED_MULT;
+#endif
     tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + DEATH_RETREAT);
     tune::kDangerTtd *= DEATH_TTD;
     cast_done = false;

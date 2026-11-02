@@ -76,3 +76,15 @@
 #ifndef X1_FLEEDROP
 #define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off).
 #endif
+#ifndef X1_ECON
+#define X1_ECON 0 // Economy multipliers below (1 = compiled in).
+#endif
+#ifndef X1_WAIT_MULT
+#define X1_WAIT_MULT 1.0f // x respawn-wait cost (more = leave for another camp sooner)
+#endif
+#ifndef X1_STAGE_MULT
+#define X1_STAGE_MULT 1.0f // x helper staging timeout
+#endif
+#ifndef X1_NEED_MULT
+#define X1_NEED_MULT 1.0f // x solo camp health budget (more = take more camps alone)
+#endif
