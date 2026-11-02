@@ -19,3 +19,9 @@
 | J005 branch farm | running on 5060 |
 | J006 anti-feeding gate | posted, priority 1 after J005 |
 | J007 audit fixes (6 switches) | posted, after J006 |
+
+## PC quick screens for J007 (19 ladder maps vs x2, 38 games; base 17 wins, 326 deaths, 21 fuel-outs)
+
+prunefix 21 (deaths 264), teamwin 20 (301), soak64 19 (330), heartfix 18 (323), siegestrict 17 (335), fleehold8 15
+(304). No faults, no added fuel-outs. Screens catch bugs only: every line still gets the full J007 gate, and
+fleehold keeps its 4 / 15 variants (retry protocol).
