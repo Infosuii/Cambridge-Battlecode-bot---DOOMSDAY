@@ -1,0 +1,548 @@
+{
+  "provenance_type": "binary-equivalence per-map composite receipt, not an original full-cell engine invocation",
+  "scope": "Current K007 source and opponent independently compiled to exact hashes in every preserved per-game row. Only missing complete map/side pairs were played. Source fields describe the proof build; original row attribution is retained.",
+  "created_utc": "2026-11-02T13:42:50.819651+00:00",
+  "command": [
+    "COMPOSITE_REUSE_NO_REPEATED_MATCHES",
+    "--name",
+    "x1g-k007h-x1-holdout-v86h-s2-g5070",
+    "--opponent",
+    "v86h-s2"
+  ],
+  "candidate_bot": "x1",
+  "candidate_sha256": "1746f2bb7fa341530f41bd8c8c4896b35172783f35eacee8e4a4b6ac0ceea183",
+  "opponent_sha256": "a0d2aabd702aa784ac801aca6fb29369c08447ee639fae37f1ff52d523753e2b",
+  "source": {
+    "src/a2map.h": "84ca0c4aaef77d3c40a13b0c61d87739ba1b6e41314f437eddf949166b9ee8c1",
+    "src/act_model.h": "d4648c6b07b7d3ddabd2ddb403fa7d87784cf2a10465ffdfe96360111025954b",
+    "src/assess_model.h": "fd1de3478ea80021013ac69265da14e55b3d1e660a777d67a3de35e8a103a27a",
+    "src/bot.cpp": "3626e16d9c02c18fe22fb4526187e23442791b2bd85d402da546c7c16d5469af",
+    "src/bot.h": "a4fb928cde96a17ad6fa93b0a9306413903554bacbedcb17e5d9ae3eb367ea3d",
+    "src/common.h": "420125a67f94d43102bf5d1f550e45441a364fa27d9f92d8b6dfae90b45681aa",
+    "src/deny.cpp": "b5351989381817b4affc45fd133b92d05797f3382e1f76c87147fec87e164938",
+    "src/draft.cpp": "ba308a826615d6a9226e778225ef107199529f7838d62d6b3d30f007727ea929",
+    "src/draft.h": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+    "src/draft_net.h": "51d92f70f34eb127312651b068b2d0dc52db14d844831222d16abec410806d1d",
+    "src/economy.cpp": "2bccddf8ef472d52cd955dcc3e43bde17ec8e9d426269730146c75044aa25b1a",
+    "src/episode.cpp": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+    "src/ep_model.h": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+    "src/fight.cpp": "549336757c0642f058e4dc8e9b494110b8655d1945268b058e245cb60303dd0b",
+    "src/fight.h": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+    "src/lab.h": "56c26d60297744da3a353d125238f2b60064d3e26120cb80b5450380d8dd4ff4",
+    "src/learner.h": "6990b9c9ad1bab412daaa2d8b28d0d58cf7f24eaac97d0aac3fa298aac8ded29",
+    "src/local_model.h": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+    "src/main.cpp": "65992e90ab2dd1eda6c9cc97182da0038a1e216924a567e6a3257943fa45b38a",
+    "src/ml_plan.h": "b22b4213858168e4b1b563f6c04bb4e76c5af594add18e32500eb07c3201aeb5",
+    "src/move_model.h": "4f61a9c92c9abfc955820a79084ca7f1b6aa48d441e57096a03836287655249b",
+    "src/neural_policy.cpp": "7e47857cd7a7b9212379f3edf7adfe94e1f3b038aa683a2ff93f614055d6fa36",
+    "src/neural_policy.h": "aa2488f08f6fff5df20bd402972b91204517ed875fb701d40e1d297418e2013a",
+    "src/neural_weights.h": "5fec0f2e025a1c4a6329782d0ac740bcc2fc158a8e642efc61d292694dae3f83",
+    "src/pressure.cpp": "cd0c84d43df1144a35a3ba0fd3e942f635cb07f07522732483ba458a075b37d6",
+    "src/runtime_budget.h": "dc614d94b1920b79b1d5152e11193aa8a6e3019e3cfd2cc0e104ecfed28fcdf2",
+    "src/strategy.h": "328271b12d92624cbb494f389d3ed8a77dc5ce08ebe810b384b9269cf5f736c1",
+    "src/tactics.cpp": "bf0538f7a7880fb379554f561e65faae79d1f0b24854ec599fcd92da6ebb4eb6",
+    "src/tile_model.h": "c0963cf2cf6fcac042a1db8879cf2ac3a8a368a0096b47ca45959902d210c9c4",
+    "src/tsearch.cpp": "78d6f9989474067f23df47ae0e6daf1f70a2275db67750be593270bbdf801abd",
+    "src/tsearch.h": "670c6d6e84ca25dd64c8aa09a374e8987c662d849e8d85dc81f8cfb2c5831a93",
+    "src/world.cpp": "f0cc08d8f66e141b82328e7e9266d4ae746eacac56543f4e87ca7a65da0f2355",
+    "src/world.h": "5e961c2000c5be70af0cb7522c013008fb31e02ae29aa15746c8bb49f8176ef0",
+    "src/x1_config.h": "5eec863ed1fb6899b57fdb19313cfdb8246b263283735144aac3f48e72c71dc2"
+  },
+  "opponent_source": {
+    "src/a2map.h": "84ca0c4aaef77d3c40a13b0c61d87739ba1b6e41314f437eddf949166b9ee8c1",
+    "src/act_model.h": "d4648c6b07b7d3ddabd2ddb403fa7d87784cf2a10465ffdfe96360111025954b",
+    "src/assess_model.h": "fd1de3478ea80021013ac69265da14e55b3d1e660a777d67a3de35e8a103a27a",
+    "src/bot.cpp": "7fc1101dded06e5c4ee144595aec65fedf3327da3675c4fb744d727d0bad77ba",
+    "src/bot.h": "e07cd6e8912b2569481f6c910d1a6d57af0c1a23c3cdb81a476fefee26920726",
+    "src/common.h": "462a779db26ceecadc3753627527f0c169ecb03fdcbf0334a4abc53c4cfea470",
+    "src/deny.cpp": "b5351989381817b4affc45fd133b92d05797f3382e1f76c87147fec87e164938",
+    "src/draft.cpp": "78d5d299a2e41607a2130d91253241b994712197737a11be68b1a63096d9c9eb",
+    "src/draft.h": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+    "src/draft_net.h": "51d92f70f34eb127312651b068b2d0dc52db14d844831222d16abec410806d1d",
+    "src/economy.cpp": "2bccddf8ef472d52cd955dcc3e43bde17ec8e9d426269730146c75044aa25b1a",
+    "src/episode.cpp": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+    "src/ep_model.h": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+    "src/fight.cpp": "549336757c0642f058e4dc8e9b494110b8655d1945268b058e245cb60303dd0b",
+    "src/fight.h": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+    "src/lab.h": "160836decb7538cd5c56b379dbb97e2e1c1c7490cbe27099d7f5c33fcfa692db",
+    "src/lanch_model.h": "1f37d039d7c7ab25eced2cc7d732cc204057da93923f4a9a619fdc097592eb1c",
+    "src/learner.h": "6990b9c9ad1bab412daaa2d8b28d0d58cf7f24eaac97d0aac3fa298aac8ded29",
+    "src/local_model.h": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+    "src/main.cpp": "65992e90ab2dd1eda6c9cc97182da0038a1e216924a567e6a3257943fa45b38a",
+    "src/ml_plan.h": "b22b4213858168e4b1b563f6c04bb4e76c5af594add18e32500eb07c3201aeb5",
+    "src/move_model.h": "4f61a9c92c9abfc955820a79084ca7f1b6aa48d441e57096a03836287655249b",
+    "src/neural_policy.cpp": "7e47857cd7a7b9212379f3edf7adfe94e1f3b038aa683a2ff93f614055d6fa36",
+    "src/neural_policy.h": "aa2488f08f6fff5df20bd402972b91204517ed875fb701d40e1d297418e2013a",
+    "src/neural_weights.h": "5fec0f2e025a1c4a6329782d0ac740bcc2fc158a8e642efc61d292694dae3f83",
+    "src/pressure.cpp": "cd0c84d43df1144a35a3ba0fd3e942f635cb07f07522732483ba458a075b37d6",
+    "src/runtime_budget.h": "dc614d94b1920b79b1d5152e11193aa8a6e3019e3cfd2cc0e104ecfed28fcdf2",
+    "src/strategy.h": "328271b12d92624cbb494f389d3ed8a77dc5ce08ebe810b384b9269cf5f736c1",
+    "src/tactics.cpp": "bf0538f7a7880fb379554f561e65faae79d1f0b24854ec599fcd92da6ebb4eb6",
+    "src/tile_model.h": "c0963cf2cf6fcac042a1db8879cf2ac3a8a368a0096b47ca45959902d210c9c4",
+    "src/tsearch.cpp": "78d6f9989474067f23df47ae0e6daf1f70a2275db67750be593270bbdf801abd",
+    "src/tsearch.h": "702763c2b6880e2e5ec6c39de94fd6128abc74324fd077a1519856ff5bcfd23e",
+    "src/world.cpp": "e1b8bda73ee2d5fbee2d1ad754f6129ae57a248daeebdc172bc109f14d4beaeb",
+    "src/world.h": "36dc8f9010aa5fab61055133fbf012a7396e089fcd470f65709ef67ee1528038"
+  },
+  "git_head": "6ed38b9e159a47b94705dc47c4d784490cd6f835",
+  "intended_bot_commit": "6ed38b9",
+  "maps": {
+    "g5070_holdout_00": "1dc16e7a1c02e0ddcdc9c2bcad13994bc1f372b40a566e73279fb2be586a8ad3",
+    "g5070_holdout_01": "fa5c096b72d2181ca6fad9bd5f32b594d5db30d00be4cd2156122c5a758bf37a",
+    "g5070_holdout_02": "41262bf39878d08a5ffe8fc445f75dd43a81f2a7ee7353393a7549c059ac11af",
+    "g5070_holdout_03": "ad8b5c6907fff11795fcab008b1d5609f03fa89c9d2b212a37508ce367da4984",
+    "g5070_holdout_04": "2dff381c52696d9eb749bdb416f9f04aa5a43f837ffcd3d6e8ecb0b6ba67bcb2",
+    "g5070_holdout_05": "4d5291810fee71deb247838295acaa3a3b50b3da2d8a1ca817f7168ba418881f",
+    "g5070_holdout_06": "3e8d0c6f29f669dd68eeb65aa1cd6f5ec78110bc25a7723b1525fc6a0309470b",
+    "g5070_holdout_07": "65ce10f4c42bc6c244c574a0ca3bfe29be24278cc3ea7aad95c97a217fd17c8b",
+    "g5070_holdout_08": "73d96d4bbff1068e3bdb30257090992a0f025f8702af9f9319e358be34642959",
+    "g5070_holdout_09": "e28ef711549031a8bde010b7a7e17ca92e92a1ad84c9fd4159c252a5102871c2",
+    "g5070_holdout_10": "94a061e6652d9b76ae1da20c9ef243522426c69f5950ffafdfad317d850df6e1",
+    "g5070_holdout_11": "8f26a6cc4b73c076e304b544260ee63e08522724e485afed0879b8c2f0382adf",
+    "g5070_holdout_12": "b1181457df7baac3c6e62ffc1109f837ceed30d261f386b7ebc691425ea0ba28",
+    "g5070_holdout_13": "f98960934b996cd6dc5011413983f3b3c5107f7c907dfc25f97fdcc670a87f78",
+    "g5070_holdout_14": "0bef255062b6db4b92a45a1803fe34f6af188417dbdcc8d824fdb3a31da91f2a",
+    "g5070_holdout_15": "d96436d4f03b44c571a6ee79e31e0a561215d4573e711af3ede2e27e49b87b42",
+    "g5070_holdout_16": "ac178d7490a94910a7206591faa07853c6a1c392aeabf7a1d4f9727485550887",
+    "g5070_holdout_17": "87cc7251316d177147d536a76eee6387b86e5ff5434e4eb912deb009eafc72ed",
+    "g5070_holdout_18": "9918675eaa7d1940677240c0ef6333780157d904b1b27c283c1dfd68595f87ea",
+    "g5070_holdout_19": "81725dd8a0f9817c87f1e5b6cd4f76a5232821fd3052c240e740e5a9f594b3c0",
+    "g5070_holdout_20": "f98f4f261d2f6102140a4ecab3dac352d098636b462f53405376bae89b7817fc",
+    "g5070_holdout_21": "2c9d2c32a6c2615fa82bf3e35a26a0252946302ba4ec3562bab7015b03684abf",
+    "g5070_holdout_22": "a3029f546d325a835d73558dda68b7db0cfca31b8e6b87b8da1f1e213dac875a",
+    "g5070_holdout_23": "23d7f074abc1f780b5b45d0f213e61710c9ef36cbaf588b4f355529388395b68",
+    "g5070_holdout_24": "88069e6bd10cfeaae6241dd87b80fb7a4677254ecf51d436391e316ec8c9e139",
+    "g5070_holdout_25": "c8e67ad4fd05da1a7981cb49d36ac0517390b307b892bdde95a04b43000ae851",
+    "g5070_holdout_26": "56338403014b30d2669a618daf015cca033ffcd60b19314d38cd439e16813bfe",
+    "g5070_holdout_27": "3080afcbd3df63aba7577e76bda6090da0b0b1fc0a962599790a6abcae61329b",
+    "g5070_holdout_28": "74d0466dbbc31fcba7f6f33d3ff70ead32352c0b2c6936d3af8de4067f24ff92",
+    "g5070_holdout_29": "a814bd6f20de60f022d8b5491f4d562f0fce752269f49b5dfd2e599ce4b04e20",
+    "g5070_holdout_30": "505d25a9892f8bb9bfb0cfd784eaab2032922e64a7e9c5eaf53f650886ea14f1",
+    "g5070_holdout_31": "c70b280d16a4b47182019e289cd10b0af1aa1aa5ced4861ac2db9e88a8a95eda",
+    "g5070_holdout_32": "f4dd2abb4008b869d3ab1919cbafab28e2af5fef01adb6a3313b6257b13bea8c",
+    "g5070_holdout_33": "3cc6799bf52cdfa37280b1bed3bef3f49fbdfee946efd5f1249689850ea14d86",
+    "g5070_holdout_34": "3abf6a0d6cdaf62e7b69b91ad7b2d0431178d704ed2dfc3c83816275e51206ed",
+    "g5070_holdout_35": "0d0586ca4a23f991b7976eda23e3bfb55de2d06c69e356e45becba8f2ff2d82c",
+    "g5070_holdout_36": "3ca6aa86df217f92c72f39e0dc83e5332de8bf6d77f620742484fd63297d3838",
+    "g5070_holdout_37": "ff6c67df4051d2438c25ae3070692f09665fd69b81108ea24cd0466e4977b3bb",
+    "g5070_holdout_38": "40d8e7728deb920ee14a39ae9b7f8d0c6661b22523cb0154c15d3b2c7e824da9",
+    "g5070_holdout_39": "bfc7674e7556bc9b920bc9d5e1b9e02ff9ef65ca471498ebe6abb1c87f1eb39b"
+  },
+  "map_directory": "../holdout-v1",
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "original_rows": [
+    {
+      "map": "g5070_holdout_00",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_00",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_01",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_01",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_02",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_02",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_03",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_03",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_04",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_04",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_05",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_05",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_06",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_06",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_07",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_07",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_08",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_08",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_09",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_09",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_10",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_10",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_11",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_11",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_12",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_12",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_13",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_13",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_14",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_14",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_15",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_15",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_16",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_16",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_17",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_17",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_18",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_18",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_19",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_19",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_20",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_20",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_21",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_21",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_22",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_22",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_23",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_23",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_24",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_24",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_25",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_25",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_26",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_26",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_27",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_27",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_28",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_28",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_29",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_29",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_30",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_30",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_31",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_31",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_32",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_32",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_33",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_33",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_34",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_34",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_35",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_35",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_36",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_36",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_37",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_37",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_38",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_38",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_39",
+      "side": "A",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    },
+    {
+      "map": "g5070_holdout_39",
+      "side": "B",
+      "source": "C:\\projects\\cambridge battlecode\\x1work\\research\\dz\\runs\\x1g-k006dh-x1-holdout-v86h-s2-g5070\\results.json"
+    }
+  ],
+  "seed": "deterministic; reused cells are not independent additional evidence"
+}
