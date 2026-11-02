@@ -1,10 +1,10 @@
 # g5070 — original campaign verified; bounded supplied WALKTAIL comparisons
 
-Updated 2026-11-02T14:18:53.318016+00:00. WORKERS=DZ_MAX_PARALLEL=18. Original source 6efc360 unchanged; K007 6ed38b9 and K009 2732245 isolated.
+Updated 2026-11-02T14:22:12.773709+00:00. WORKERS=DZ_MAX_PARALLEL=18. Original source 6efc360 unchanged; K007 6ed38b9 and K009 2732245 isolated.
 
 - Complete: K004 A7/B4, all35 K005 grids +reference, K006 standard7/fresh7, nine focused controls and one failed fuel retry. Original complete matrix verification passed.
 - Complete: K007 seven supplied lines + BP/selected/x1 standard/fresh validation. K007 final identity verification passed.
-- K009A 5/5; K009B 4/5; K007 tail addendum 0/2 additional configurations (third is exact K009A/cand).
+- K009A 5/5; K009B 5/5; K007 tail addendum 0/2 additional configurations (third is exact K009A/cand).
 - Running: between lines. Blocked: {}.
 - Pending: finish this bounded supplied queue, final synthesis/publication. No new feature authoring, unrelated grids or ladder activity.
 
