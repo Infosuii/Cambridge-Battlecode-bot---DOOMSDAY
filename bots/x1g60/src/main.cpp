@@ -32,6 +32,9 @@ int main() {
         try {
             if (bc::is_draft()) {
                 play_draft();
+#if X1_G60_DRAFTFIELDS
+                bot.g60_draft_precompute();
+#endif
 #if V58_DIRECTOR
                 economy_record_roster();
 #endif

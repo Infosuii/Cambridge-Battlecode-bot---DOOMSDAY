@@ -453,6 +453,16 @@ void World::enable_bridges() {
     altar_ready = false;
 }
 
+#if X1_G60_DRAFTFIELDS
+void World::reset_group_fields() {
+    group_dist.clear();
+    field_order.clear();
+    field_slot.clear();
+    field_ptr.clear();
+    fields_built = 0;
+}
+#endif
+
 bool World::ensure_altar_field() {
     if (altar_ready) return true;
     bc::bitboard visited;

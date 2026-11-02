@@ -100,3 +100,15 @@
 #ifndef X1_G60_FIELDLOG
 #define X1_G60_FIELDLOG 0 // Diagnostics (I-60-01): print when all group fields are ready and the camp-choice Chebyshev-fallback share.
 #endif
+#ifndef X1_G60_DRAFTFIELDS
+#define X1_G60_DRAFTFIELDS 0 // I-60-01: 1 = world + altar + all group walking fields on the first draft turn (10M); 2 = also BUSHPRE bush labels there.
+#endif
+#ifndef X1_G60_DF_RESERVE
+#define X1_G60_DF_RESERVE 1500 // with X1_G60_DRAFTFIELDS: thousands of fuel kept at the end of that draft turn
+#endif
+#ifndef X1_G60_FIELDQ
+#define X1_G60_FIELDQ 0 // I-60-01 v2: group fields per calm turn while some are unbuilt (x1: APEX_DET_FIELDS 2; first turn 2x, dead 4x); 0 = off.
+#endif
+#ifndef X1_G60_FIELDQE
+#define X1_G60_FIELDQE 1 // with X1_G60_FIELDQ: fields per turn with an enemy in view (x1: 0)
+#endif

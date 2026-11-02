@@ -455,7 +455,11 @@ void Bot::init() {
 #if A2_SPARSE_BUILD
     (void)a2_gem_density(); // measured now, with every camp full (it reads live camp gems; cached for the build)
 #endif
+#if X1_G60_DRAFTFIELDS
+    if (!g60_pre) w.init(); // else done on the first draft turn, with its fields
+#else
     w.init();
+#endif
     mobility_farming_map = w.value_cut_off();
 #if A2_MLPLAN && A2_LAB
     // The draft net's game plan (draft-memory byte 7 = 0x80 | preset): this game's knob vector.
@@ -526,6 +530,9 @@ void Bot::init() {
             w.enable_bridges(); // our fields cross one-tile hole gaps; the travel dash jumps them
             break;
         }
+#endif
+#if X1_G60_DRAFTFIELDS
+    if (g60_pre && w.bridges_on) w.reset_group_fields(); // the draft-built fields ignored the hole shortcuts
 #endif
     seen_claim.fill(-1);
     onsite_ok = V54_ONSITE && w.groups.size() <= static_cast<std::size_t>(kOnsiteGroups);
@@ -5590,6 +5597,18 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         if (avoid_until[static_cast<std::size_t>(gi)] > round) continue;
         int dist = kUnreach;
         const std::uint16_t* f = have_ptrs ? w.field_ptr[static_cast<std::size_t>(gi)] : nullptr;
+#if X1_G60_FIELDLOG
+        {
+            static unsigned cand = 0, cheb_cand = 0; static int next_mark = 0;
+            static const int marks[3] = {100, 250, 500};
+            while (next_mark < 3 && round >= marks[next_mark]) {
+                std::printf("G60S slot=%d round=%d cand=%u cheb=%u\n", slot, marks[next_mark], cand, cheb_cand);
+                ++next_mark;
+            }
+            ++cand;
+            if (!f) ++cheb_cand;
+        }
+#endif
         if (f)
             dist = f[here_idx];
         else
@@ -6650,6 +6669,26 @@ void Bot::update_numbers() {
     alive_them = n[1];
 }
 
+#if X1_G60_DRAFTFIELDS
+// I-60-01: the first draft turn has a 10M budget and runs in this same instance, so the map work that otherwise
+// trickles in over the first ~100 rounds (group fields at a fixed quota, none with an enemy in view) is done here.
+void Bot::g60_draft_precompute() {
+#if X1_G60_FIELDLOG
+    std::printf("G60D round=%u fuel=%llu pre=%d\n", bc::round_number(), static_cast<unsigned long long>(bc::fuel_remaining()), g60_pre ? 1 : 0);
+#endif
+    if (g60_pre || bc::fuel_remaining() < 4000000) return; // first draft turn only
+    g60_pre = true;
+    const std::uint64_t reserve = static_cast<std::uint64_t>(X1_G60_DF_RESERVE) * 1000;
+    w.init();
+    w.ensure_altar_field();
+    while (!w.fields_ready() && bc::fuel_remaining() > reserve + 200000)
+        if (!w.build_next_group_field(bc::fuel_remaining() - reserve - 100000)) break;
+#if X1_BUSHPRE
+    if (X1_G60_DRAFTFIELDS & 2) w.prelabel_bushes(reserve);
+#endif
+}
+#endif
+
 void Bot::build_fields() {
 #if X1_G60_FIELDLOG
     struct ReadyLog { Bot* b; ~ReadyLog() {
@@ -6672,6 +6711,13 @@ void Bot::build_fields() {
                                        : was_dead ? (NOVA_FUEL_FIRST ? 1000 : 4 * tune::kDetFields)
                                                   : w.enemies.empty() ? (NOVA_FUEL_OPEN ? 6 : tune::kDetFields)
                                                                       : 0;
+#if X1_G60_FIELDQ
+        // I-60-01 v2: camp choice ranks unbuilt groups by straight-line distance (63-72% of candidates to R100), so
+        // spend more of each turn's leftover fuel on fields; every build still passes room() first.
+        if (!w.fields_ready())
+            quota = field_calls == 1 ? 2 * X1_G60_FIELDQ : was_dead ? 4 * X1_G60_FIELDQ
+                                                         : w.enemies.empty() ? X1_G60_FIELDQ : X1_G60_FIELDQE;
+#endif
         auto room = [&] {
             // NOVA_FUEL_OPEN keeps a route-search-sized reserve: the per-champion work below still
             // needs to clear the 40k route-search gate after prospecting has taken its share.

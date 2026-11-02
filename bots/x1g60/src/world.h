@@ -76,6 +76,9 @@ public:
     bc::bitboard bridges;        // A2_BRIDGES: hole tiles with open ground on two opposite sides (a dash crosses them)
     bool bridges_on = false;
     void enable_bridges();
+#if X1_G60_DRAFTFIELDS
+    void reset_group_fields(); // drop group fields built before the walking terrain changed (bridges)
+#endif
     int cut_off_map = -1; // value_cut_off() cache
     bool value_cut_off();
     bc::bitboard ally_spawn, enemy_spawn;

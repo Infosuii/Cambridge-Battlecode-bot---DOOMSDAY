@@ -250,6 +250,10 @@ private:
     bool ts_snapshot(ts::State& s, ts::Map& m, const EnemyRec** eref);
 
 public:
+#if X1_G60_DRAFTFIELDS
+    void g60_draft_precompute(); // I-60-01: world, altar and group fields (and bush labels) on the first draft turn
+    bool g60_pre = false;
+#endif
     // Fight episodes (episode.cpp, APEX_EPISODES): learning data and the learned aggression multiplier.
     static constexpr int kEpFeat = 33, kEpGrid = 6;
 
