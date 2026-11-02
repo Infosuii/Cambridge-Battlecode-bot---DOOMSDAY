@@ -13,12 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (~21:35 UTC)
+## Running (~21:45 UTC), order per pc/msgs/0025 + J020
 
-- **J018** (last 2 lines) -> results/J018.md, then **J019** screens start automatically (tools/g5060_j019_screens.sh on
-  build/z-plan-5060): x3 plain + ~70 variants of rows 1-26, 28, 30 vs v92 on pool (172 games each, ~2 min each, ~2.5 h);
-  one comms line per variant in results/J019/screens.tsv. Promotions to the full gate and refinements follow by the
-  FEATURE_SWEEP_X3 protocol; table in results/J019.md.
+- J018 (last line) -> results/J018.md.
+- Then automatically at 885c2399: x3 default-build hash check, **J020 A** map-plan search (OPPS v86h x1bru, 16 maps x
+  17 settings, ~1,100 games), X1_FIRSTFIELD screen vs v92 on pool, then the **J019** screens (~70).
+- J020 B (map-structure clusters) and the x1_mapplan.h table + gate: analysis work while the screens run.
 
 ## Done
 
