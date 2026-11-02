@@ -15,7 +15,7 @@
 | J001 setup and reproduce | posted |
 | J002 take over sweep 1d | **go** |
 | J003 retry round 1 | posted |
-| J004 maze maps | asking Rishik for Agent 2's maps; PC builds a fallback set if none by 12:00 |
+| J004 maze maps | Rishik is asking Agent 2 to push maps_mazetest + maps_real200b; fallback: PC builds a maze-style set if none by 12:00 |
 | J005 branch farm | running on 5060 |
 | J006 anti-feeding gate | posted, priority 1 after J005 |
 | J007 audit fixes (6 switches) | posted, after J006 |
