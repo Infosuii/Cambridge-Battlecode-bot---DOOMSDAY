@@ -47,3 +47,9 @@ settings; the PC investigates plan 4's extra fuel-outs.
 
 Phase 4 design: research/x1/CBR_IM_ARCHITECTURE.md on build/z-plan. Your part later: J011 harvest map descriptors,
 J012 case library from J005 rows + leave-one-map-out test. Not posted yet; keep the J005 rows (all columns).
+
+## PC gate (02:15): X1_FLEEDROP=25 vs x2 only
+
+ladder 68/140 (base 68), styled 41/100 (base 55); deaths 10.9 -> 9.6 ladder; fuel-outs 110 -> 104 and 76 -> 63.
+Quick screen had said 22 vs 17. **Quick screens are bug/fuel checks only; rank nothing on them.** J010 still runs
+fd15/fd40/fd60 and the economy lines (R2); fd25 on x2-s2 is still owed (R1, x2-s2 cell) - run it as part of J010.
