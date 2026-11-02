@@ -238,7 +238,7 @@
 #undef A3_NUMBERS
 #undef A3_BACK_EQ
 #define A3_FOCUS X1_G3_STYLE_FOCUS
-#define A3_NUMBERS 1
+#define A3_NUMBERS X1_G3_STYLE_NUMBERS
 #define A3_BACK_EQ X1_G3_STYLE_EQ
 #endif
 #define A3_BIG_LINEUP 6

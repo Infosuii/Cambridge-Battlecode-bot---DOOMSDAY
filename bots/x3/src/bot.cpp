@@ -4167,7 +4167,7 @@ bool Bot::handle_enemies() {
                     them += term(e.type, e.hp, e.strength, e.focus), ++nt;
             const float z = std::pow(static_cast<float>(nu), lanch::kOrder - 1.0f) * us -
                 std::pow(static_cast<float>(nt), lanch::kOrder - 1.0f) * them;
-            g3_back_safe = nt > 0 && 1.0f / (1.0f + std::exp(-z)) >= A2_LC_HI;
+            g3_back_safe = nt > 0 && 1.0f / (1.0f + std::exp(-z)) >= X1_G3_STYLE_PWIN;
         }
 #endif
         if (A3_BACKOFF && team_size >= A3_BACK_MIN_SIZE && target && in_danger && !winning && edge && hp >= A3_BACK_HP * max_hp && gems < 60 &&

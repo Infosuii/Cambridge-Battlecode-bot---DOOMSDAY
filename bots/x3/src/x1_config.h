@@ -165,6 +165,12 @@
 #ifndef X1_G3_STYLE_EQ
 #define X1_G3_STYLE_EQ 0.26f
 #endif
+#ifndef X1_G3_STYLE_NUMBERS
+#define X1_G3_STYLE_NUMBERS 1
+#endif
+#ifndef X1_G3_STYLE_PWIN
+#define X1_G3_STYLE_PWIN A2_LC_HI
+#endif
 #ifndef X1_G3_SECURE
 #define X1_G3_SECURE 0
 #endif
