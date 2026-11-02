@@ -6968,6 +6968,39 @@ void Bot::play_turn() {
         }
         if (!fs_team_died) tune::kDangerTtd *= FS_TTD, tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + FS_RET);
     }
+#if X1_ANTIFEED
+    if (inited) {
+        // X1_ANTIFEED (top-team games, research/x1/TOP_TEAMS_2026-11-02.md: in 9 of 35 games we died 23-48 times with
+        // almost no kills and banked < 100). Count team deaths (an ally seen alive, then dead); with X1_ANTIFEED or more
+        // in the last X1_ANTIFEED_WIN rounds the whole team plays safe: own half, less aggression, earlier retreat,
+        // more weight on danger. Only knobs that are reset every turn are scaled, so nothing compounds.
+        static std::uint32_t seen[8] = {};
+        static bool was_alive[8] = {};
+        static int death_round[16] = {};
+        static int n_deaths = 0;
+        if (num_handles[0].empty()) update_numbers();
+        int k = 0;
+        for (std::uint32_t h : num_handles[0]) {
+            if (k >= 8) break;
+            std::int32_t alive = 1;
+            d::sdk_champion_is_alive(h, &alive);
+            if (seen[k] != h) seen[k] = h, was_alive[k] = alive != 0;
+            else {
+                if (was_alive[k] && !alive) death_round[n_deaths++ % 16] = round;
+                was_alive[k] = alive != 0;
+            }
+            ++k;
+        }
+        int recent = 0;
+        for (int i = 0; i < std::min(n_deaths, 16); ++i) recent += round - death_round[i] <= X1_ANTIFEED_WIN;
+        if (recent >= X1_ANTIFEED) {
+            tune::kTerritory = 0.0f;
+            tune::kAggression *= 0.6f;
+            tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + 0.15f);
+            tune::kDangerTtd *= 1.3f;
+        }
+    }
+#endif
     tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));
     tune::kNeedPool *= DEATH_NEED;
     tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + DEATH_RETREAT);

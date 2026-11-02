@@ -45,3 +45,9 @@
 #ifndef X1_PLAN_ID
 #define X1_PLAN_ID 0 // 1 full map, 2 hoard, 3 fight harder, 4 turtle, 5 stricter home, 6 early-contact answer, 7 fast bank, 8 push
 #endif
+#ifndef X1_ANTIFEED
+#define X1_ANTIFEED 0 // Anti-feeding: this many team deaths within X1_ANTIFEED_WIN rounds -> the team plays safe (0 = off).
+#endif
+#ifndef X1_ANTIFEED_WIN
+#define X1_ANTIFEED_WIN 150
+#endif
