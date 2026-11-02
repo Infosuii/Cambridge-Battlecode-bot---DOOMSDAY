@@ -12,12 +12,16 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (03:56 UTC)
+## Running (04:17 UTC)
 
-- **J003** retry round 1 (0b3703b, latest build/z-plan): secure15 / secure3 / secure6 / alone, 4 lines -> ~04:12.
-- Then: stand-in proposal (findings), then retry-queue gates by lowest # (RETRY_QUEUE.md) while idle.
+- Writing the sparring stand-in proposal (findings/0002), with short characterisation runs of the candidates vs x1.
+- Then retry-queue gates by lowest # while no job is posted (next owed: #1 X1_SECURE v2 needs code -> PC; #2 X1_ALONE
+  radius variants need code knobs -> PC; so first runnable is #6/#9 sweep-1d items, which sit with g5070 as K003).
 
 ## Done
+
+- **J003 done** (results/J003.md): secure15 +4, secure3 +4, secure6 +2 **pass** R1 (first passes; 12-20 of 480
+  games change); alone -25 fail.
 
 - **J008 done** (results/J008.md): bag30 -29, bag50 -7, bag80 -4 (loss on ladder maps); all fail R1.
 
@@ -40,9 +44,5 @@ Workers: 6 (threads-2).
 
 ## Queue
 
-J005 (running, ETA ~02:00) → **J009** whole-game plan gates (846e8ce, has X1_PLAN) → **J006** antifeed (846e8ce)
-→ **J008** bag-risk (2636803) → J003 retry round 1 → stand-in proposal → J002/J007 remainders from g5070.
-All gates run in one worktree `C:\x1run-846e8ce`, moved to each job's commit; the base gate (x1g-base-*, x1
-1746f2bb7fa3, x2 + x2-s2, ladder + styled) runs once before J009 and is the base for all of them (x2 cells also
-checked against the PC's x1e-cw-*-x2). Verdicts: tools/x1_gate_report.py (wins, fuel-outs, faults, gold@R250/R500,
-deaths/game, finish round per cell).
+Stand-in proposal → idle retry-queue gates → J002 / J007 remainders when g5070 stops → J011 / J012 when posted.
+Every posted job runs ahead of idle work.
