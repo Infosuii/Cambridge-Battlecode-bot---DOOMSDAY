@@ -12,6 +12,7 @@ for opp in ${OPPS:-x2 x2-s2}; do
     case $set in
       ladder) M="" ;;
       styled) M="--map-dir maps/x1-unseen" ;;
+      pool) M="--map-dir maps/ladder-pool" ;;  # current competition map pool (cambc maps pull, 2 Nov)
       maze) [ -d maps/x1-maze ] || { echo "skip maze (maps/x1-maze missing)"; continue; }; M="--map-dir maps/x1-maze" ;;
     esac
     name=x1g-$TAG-$set-$opp-01
