@@ -39,3 +39,5 @@ L004 CURRENT bag80 vs x1, switches --set X1_MAPFIT=1 --set X1_BAGRISK=80, campai
 L004 completed cell bag80/x1: 127/172, faults0, fuel180.
 
 L004 CURRENT rb vs v81hl, switches --set X1_MAPFIT=1 --set X1_RACEBANK=1, campaign PID 160.
+
+L004 completed cell rb/v81hl: 132/172, faults0, fuel185.
