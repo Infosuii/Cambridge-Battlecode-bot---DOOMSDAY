@@ -55,3 +55,5 @@ L004 CURRENT mfsec vs v81hl, switches --set X1_MAPFIT=1 --set X1_G3_SECURE=1, ca
 L004 completed cell mfsec/v81hl: 132/172, faults0, fuel181.
 
 L004 CURRENT mfsec vs v86h-s2, switches --set X1_MAPFIT=1 --set X1_G3_SECURE=1, campaign PID 160.
+
+L004 completed cell mfsec/v86h-s2: 107/172, faults0, fuel176.
