@@ -39,7 +39,7 @@ def cli(args, timeout=180):
 
 def team_ids():
     ids = {}
-    for path in glob.glob(str(ROOT / 'data/ladder/ladder_20261026_p*.json')):
+    for path in glob.glob(str(ROOT / 'data/ladder/duel/ladder_20261103_p*.json')) + glob.glob(str(ROOT / 'data/ladder/ladder_20261026_p*.json')):
         for t in json.load(open(path, encoding='utf8'))['teams']:
             ids.setdefault(t['name'], t['teamId'])
     return ids
