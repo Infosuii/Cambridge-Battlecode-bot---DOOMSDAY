@@ -2327,6 +2327,62 @@ int Bot::dplan_group() {
 }
 #endif
 
+#if X1_PORTFOLIO
+// Vision (portfolio field "vision"; the teams that beat us place about twice our wards in every map category,
+// research/x3/losses48): whenever a ward charge is ready, ward the unwatched tile in placement range that is
+// furthest towards the enemy (walking distance), preferring tiles near our target group and bushes.
+bool Bot::ward_vision() {
+    auto& me = bc::self();
+    try {
+        if (me.ward_cooldown() > 0) return false;
+    } catch (...) {
+        return false;
+    }
+    const int R = std::max(1, static_cast<int>(bc::constants::ward_placement_radius));
+    const float V = std::max(1.0f, bc::constants::ward_vision_radius);
+    std::array<vec2, 24> wards{};
+    int nw = 0;
+    try {
+        const bc::bitboard wt = bc::vision::ward_tiles(team::ally);
+        if (!wt.is_empty())
+            for (vec2 p : wt.positions())
+                if (nw < 24) wards[nw++] = p;
+    } catch (...) {
+    }
+    w.ensure_enemy_field();
+    vec2 aim{-1, -1};
+    if (target_group >= 0 && target_group < static_cast<int>(w.groups.size()) && !w.groups[target_group].camps.empty())
+        aim = w.camps[w.groups[target_group].camps[0]].pos;
+    vec2 best{-1, -1};
+    float best_s = -1e30f;
+    for (int dy = -R; dy <= R; ++dy)
+        for (int dx = -R; dx <= R; ++dx) {
+            if (dx * dx + dy * dy > R * R) continue;
+            const vec2 q{pos.x + dx, pos.y + dy};
+            if (!in_bounds(q, w.width, w.height) || bit(w.static_blocked, q)) continue;
+            bool covered = false;
+            for (int k = 0; k < nw && !covered; ++k) covered = static_cast<float>(cheb(wards[k], q)) <= 0.75f * V;
+            if (covered) continue;
+            const int de = fdist(w.enemy_field, q);
+            if (de >= kUnreach) continue;
+            float sc = -static_cast<float>(de);
+            if (aim.x >= 0) sc -= 0.5f * static_cast<float>(cheb(q, aim));
+            if (bit(w.bushes, q)) sc += 3.0f;
+            if (sc > best_s) best_s = sc, best = q;
+        }
+    if (best.x < 0) return false;
+    try {
+        if (me.place_ward(best)) {
+            ward_pos = best;
+            return true;
+        }
+    } catch (const std::exception& e) {
+        LOG("ward vision error %s\n", e.what());
+    }
+    return false;
+}
+#endif
+
 bool Bot::ward_reveal() {
     if (!tune::kWardReveal) return false;
     bool hit = prev_hp > 0.0f && hp < prev_hp - 1.0f;
@@ -8054,6 +8110,9 @@ void Bot::play_turn() {
     PROF_CHECK("support");
     mode = "idle";
     if (ward_reveal()) w.update(round); // the ward shows the bush now: look again
+#if X1_PORTFOLIO
+    if (x1_portfolio::vision && ward_vision()) w.update(round);
+#endif
     PROF_CHECK("wardrev");
     if (counter_ambush()) {
         // We moved (into the attacker's bush, or away from it): look again before deciding.

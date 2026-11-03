@@ -182,6 +182,9 @@ private:
     int official_map = -1;     // 1 = official pool map (nova_map_id >= 0), 0 = unseen, -1 = not decided yet
     bool is_official_map();
     bool ward_ahead();
+#if X1_PORTFOLIO
+    bool ward_vision(); // portfolio "vision": spend every ward charge on scouting
+#endif
     std::vector<char> big_group; // NOVA_BIGJOB: groups holding a dominant share of the map's gems
     std::vector<std::int8_t> zone_of; // A2_ZONES: territory of each group (-1 none)
     std::vector<char> mid_group;      // A2_MID_W: groups in the contested middle

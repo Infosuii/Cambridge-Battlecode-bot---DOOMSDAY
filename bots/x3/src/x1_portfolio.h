@@ -20,12 +20,13 @@ namespace x1_portfolio {
 //  8 antifeed  1 = antifeed on (X1_ANTIFEED with the fight-balance trigger)
 //  9 items     0 = v92 plan, 1 = Treasure + Bruiser stacks (V54_ITEMS 3), 2 = top-team opening (A3_ITEMS)
 // 10 terr_from round the territory value starts to apply (0 = all game)
-inline constexpr int kFields = 11;
+// 11 vision    1 = spend every ward charge on scouting wards (ward_vision)
+inline constexpr int kFields = 12;
 inline constexpr int kMaxProfiles = 16;
 // Profile 0 is v92's own play. The rest are written from the strategies of the teams that beat us (PLAYBOOK.md).
 inline volatile float kProfiles[kMaxProfiles * kFields] = {
-    // terr  aggr  carry until hunt raid  num  focus anti items tfrom
-    -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,   // 0 base (v92)
+    // terr  aggr  carry until hunt raid  num  focus anti items tfrom vision
+    -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,   // 0 base (v92)
 };
 inline volatile int kNumProfiles = 1;
 inline volatile int kCatProfile[x1_categories::kNumCats] = {0, 0, 0, 0, 0, 0, 0};
@@ -34,7 +35,7 @@ inline volatile int kForce = X1_PORTFOLIO_FORCE + 1000; // test builds: one prof
 inline int category = -1, profile = 0;
 // Runtime values read by the bot (set once by select(), used every turn).
 inline float terr = -1.0f, aggr = 1.0f, carry = 1.0f, focus = 0.0f;
-inline int carry_until = 0, hunt = 0, raid = 0, numbers = 0, antifeed = 0, items = 0, terr_from = 0;
+inline int carry_until = 0, hunt = 0, raid = 0, numbers = 0, antifeed = 0, items = 0, terr_from = 0, vision = 0;
 
 inline float field(int p, int f) { return kProfiles[p * kFields + f]; }
 
@@ -48,7 +49,7 @@ inline void select(World& w, int team_size) {
     profile = p;
     terr = field(p, 0); aggr = field(p, 1); carry = field(p, 2); carry_until = static_cast<int>(field(p, 3));
     hunt = static_cast<int>(field(p, 4)); raid = static_cast<int>(field(p, 5)); numbers = static_cast<int>(field(p, 6));
-    focus = field(p, 7); antifeed = static_cast<int>(field(p, 8)); items = static_cast<int>(field(p, 9)); terr_from = static_cast<int>(field(p, 10));
+    focus = field(p, 7); antifeed = static_cast<int>(field(p, 8)); items = static_cast<int>(field(p, 9)); terr_from = static_cast<int>(field(p, 10)); vision = static_cast<int>(field(p, 11));
 }
 
 } // namespace x1_portfolio
