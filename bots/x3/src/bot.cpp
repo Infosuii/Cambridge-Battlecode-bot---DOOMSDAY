@@ -8111,7 +8111,10 @@ void Bot::play_turn() {
     mode = "idle";
     if (ward_reveal()) w.update(round); // the ward shows the bush now: look again
 #if X1_PORTFOLIO
-    if (x1_portfolio::vision && ward_vision()) w.update(round);
+    // vision 1: ward, then look again (the full world update is expensive: profile 1 lost 47-57 on the ladder);
+    // vision 2: ward only with fuel to spare and no extra update (the next turn's update sees the ward).
+    if (x1_portfolio::vision == 1 && ward_vision()) w.update(round);
+    else if (x1_portfolio::vision == 2 && bc::fuel_remaining() > X1_VISION_FUEL) ward_vision();
 #endif
     PROF_CHECK("wardrev");
     if (counter_ambush()) {

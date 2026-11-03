@@ -16,6 +16,9 @@
 #ifndef X1_ANTIFEED_WIN
 #define X1_ANTIFEED_WIN 250
 #endif
+#ifndef X1_VISION_FUEL
+#define X1_VISION_FUEL 40000 // vision 2: ward only with this much fuel left in the turn
+#endif
 #define X1_RT_NUMBERS (x1_portfolio::numbers)
 #define X1_RT_FOCUS (x1_portfolio::focus)
 #define X1_RT_ANTIFEED (x1_portfolio::antifeed)

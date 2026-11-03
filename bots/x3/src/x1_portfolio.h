@@ -20,7 +20,7 @@ namespace x1_portfolio {
 //  8 antifeed  1 = antifeed on (X1_ANTIFEED with the fight-balance trigger)
 //  9 items     0 = v92 plan, 1 = Treasure + Bruiser stacks (V54_ITEMS 3), 2 = top-team opening (A3_ITEMS)
 // 10 terr_from round the territory value starts to apply (0 = all game)
-// 11 vision    1 = spend every ward charge on scouting wards (ward_vision)
+// 11 vision    1 = spend every ward charge on scouting wards (ward_vision) + world update; 2 = light (spare fuel, no update)
 inline constexpr int kFields = 12;
 inline constexpr int kMaxProfiles = 16;
 // Profile 0 is v92's own play. The rest are written from the strategies of the teams that beat us (PLAYBOOK.md).
@@ -34,8 +34,9 @@ inline volatile float kProfiles[kMaxProfiles * kFields] = {
     -1.0f, 1.0f, 0.8f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f,   // 5 top-team economy: Treasure / Jungle / Bruiser / Power opening
      0.0f, 0.8f, 0.7f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,   // 6 fortress: own half, calmer fights, small bags, antifeed
      1.0f, 1.2f, 1.0f, 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // 7 push: invade, fight harder, hunt further, Bruiser, numbers, focus
+    -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f,   // 8 vision light: wards with spare fuel only, no extra world update
 };
-inline volatile int kNumProfiles = 8;
+inline volatile int kNumProfiles = 9;
 inline volatile int kCatProfile[x1_categories::kNumCats] = {0, 0, 0, 0, 0, 0, 0};
 inline volatile int kForce = X1_PORTFOLIO_FORCE + 1000; // test builds: one profile everywhere (+1000: never zero)
 
