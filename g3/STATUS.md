@@ -21,3 +21,5 @@ L006 00elkring iter 4: mean fit/game 0.795 wins 6/8 best iter 2 grad |0.219|
 L006 00elkring iter 5: mean fit/game 0.671 wins 5/8 best iter 2 grad |0.187|
 
 L006 00elkring complete; gain+0.311562, state/code pushed; next map follows.
+
+L006 CURRENT fitting 01gold-rush; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
