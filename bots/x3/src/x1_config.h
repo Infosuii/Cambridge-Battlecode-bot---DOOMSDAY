@@ -22,10 +22,16 @@
 #define X1_RT_NUMBERS (x1_portfolio::numbers)
 #define X1_RT_FOCUS (x1_portfolio::focus)
 #define X1_RT_ANTIFEED (x1_portfolio::antifeed)
+#define X1_RT_DUO_UNTIL (x1_portfolio::pack && x1_portfolio::pack_until > 0 ? x1_portfolio::pack_until : NOVA_DUO_UNTIL)
+#define X1_RT_BUDDY (x1_portfolio::buddy_k > 0.0f ? x1_portfolio::buddy_k : NOVA_BUDDY)
+#define X1_RT_REGROUP (x1_portfolio::pack != 0)
 #else
 #define X1_RT_NUMBERS A3_NUMBERS
 #define X1_RT_FOCUS A3_FOCUS
 #define X1_RT_ANTIFEED 1
+#define X1_RT_DUO_UNTIL NOVA_DUO_UNTIL
+#define X1_RT_BUDDY NOVA_BUDDY
+#define X1_RT_REGROUP 0
 #endif
 // x1 experiment flags (default 0 = v81hl's behaviour; tools/dz.py --candidate-bot x1 --set X1_FLAG=1).
 #ifndef X1_MASTERY
