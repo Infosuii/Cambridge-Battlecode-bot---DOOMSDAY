@@ -45,3 +45,5 @@ L004 completed cell rb/v81hl: 132/172, faults0, fuel185.
 L004 CURRENT rb vs v86h-s2, switches --set X1_MAPFIT=1 --set X1_RACEBANK=1, campaign PID 160.
 
 L004 completed cell rb/v86h-s2: 107/172, faults0, fuel174.
+
+L004 CURRENT rb vs x1, switches --set X1_MAPFIT=1 --set X1_RACEBANK=1, campaign PID 160.
