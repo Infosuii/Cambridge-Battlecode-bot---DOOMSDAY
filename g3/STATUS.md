@@ -31,3 +31,5 @@ L006 01gold-rush iter 1: mean fit/game 0.977 wins 6/8 best iter 1 grad |0.339|
 L006 01gold-rush iter 2: mean fit/game 0.488 wins 4/8 best iter 1 grad |0.431|
 
 L006 01gold-rush iter 3: mean fit/game 0.727 wins 5/8 best iter 1 grad |0.456|
+
+L006 01gold-rush iter 4: mean fit/game 0.212 wins 3/8 best iter 1 grad |0.195|
