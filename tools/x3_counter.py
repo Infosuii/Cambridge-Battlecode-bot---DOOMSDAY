@@ -16,6 +16,22 @@ DIMS = 24
 MAX_ROWS = 176
 
 
+
+def full_groups(m):
+    """Group count and gem total of the whole map, as the bot sees them at runtime (w.groups): the map file holds the
+    authored half, so each group is mirrored; a group that maps onto itself (it straddles the mirror line) counts once."""
+    w, h, sym = m['w'], m['h'], m['symmetry']
+    def mirror(x, y):
+        if sym == 'horizontal': return w - 1 - x, y
+        if sym == 'vertical': return x, h - 1 - y
+        return w - 1 - x, h - 1 - y
+    n = gems = 0
+    for g in m['groups']:
+        cells = sorted((c['x'], c['y']) for c in g['camps'])
+        n += 1; gems += g['gems']
+        if cells and sorted(mirror(x, y) for x, y in cells) != cells: n += 1; gems += g['gems']
+    return n, gems
+
 def variants():
     v = [(0, -1, [0.0] * DIMS)]                                   # 0: own play
     v += [(p, 0, [0.0] * DIMS) for p in range(1, 9)]               # 1-8: plans 1-8 all game
@@ -61,6 +77,7 @@ def main():
     t = sub.add_parser('table'); t.add_argument('--runs', required=True, help='run-name pattern with {K}')
     t.add_argument('--vars', required=True); t.add_argument('--base', default='', help='run name of variant 0 (default: pattern with K=0)')
     t.add_argument('--swap', type=int, default=0, help='1 = team 1 is side A')
+    t.add_argument('--fp', help='json {map-side: [w, h, groups, gems, team]} printed by the bot (exact keys)')
     t.add_argument('--run-dirs', default='research/dz/runs,artifacts/tmp/dz')
     a = ap.parse_args()
     if a.cmd == 'vars':
@@ -73,6 +90,7 @@ def main():
                 return {(g['map'], g['side']): g['outcome'] == ('teamA' if g['side'] == 'A' else 'teamB')
                         for g in json.loads(p.read_text())['per_game']}
         print('missing', name); return {}
+    fps = json.load(open(a.fp)) if getattr(a, 'fp', None) else None
     base = load(a.base or a.runs.format(K=0))
     res = {k: load(a.runs.format(K=k)) for k in rng_list(a.vars)}
     eng = mapio.new_engine(); rows = []; won = sum(base.values()); fixed = 0
@@ -81,8 +99,12 @@ def main():
         k = next((k for k, r in res.items() if r.get((mp, side))), None)
         if k is None: continue
         m = mapio.read_map(eng, (ROOT / 'maps/ladder-pool' / f'{mp}.map26a').read_bytes())
-        gems = sum(g['gems'] for g in m['groups'])
-        rows.append(f"    {m['w']}, {m['h']}, {len(m['groups'])}, {gems}, {(0 if side == 'A' else 1) ^ a.swap}, {k}, // {mp} {side}")
+        fp = fps.get(f'{mp}-{side}') if fps else None
+        if fp:  # the fingerprint the bot itself printed for this map and side (exact)
+            rows.append(f"    {fp[0]}, {fp[1]}, {fp[2]}, {fp[3]}, {fp[4]}, {k}, // {mp} {side}")
+        else:
+            n_full, gems = full_groups(m)
+            rows.append(f"    {m['w']}, {m['h']}, {n_full}, {gems}, {(0 if side == 'A' else 1) ^ a.swap}, {k}, // {mp} {side}")
         fixed += 1
     write_header(rows)
     print(f'base {won}/{len(base)}; counter rows {fixed}; expected {won + fixed}/{len(base)}')
