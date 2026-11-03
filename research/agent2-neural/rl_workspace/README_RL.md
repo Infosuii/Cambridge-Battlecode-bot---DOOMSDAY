@@ -69,20 +69,24 @@ v4/bots/<bot>/src              v92 (base for every build) + league opponents x1 
 v4/maps                        the 70 official ladder maps
 v4/maps_pooltrain|pooltest|poolfresh   pool-calibrated generated maps (600 train / 300 test / 249 fresh)
 v4/sdk/cpp, v4/cambc.toml, v4/mkvar.py
-tools/viz/mapmake6.js + v2_0_0.wasm + eng.js   pool-calibrated map generator
+tools/viz/mapmake4|5|6.js + v2_0_0.wasm + eng.js   map generators (mapmake6 = pool-calibrated)
 ```
 
-Large older map suites are not included: `maps_real250`, `maps_test4`, `maps_new4`, `maps_maze`, `maps_mazetest`, `maps_real200b`.
-- The scripts skip missing suites.
-- Generate more maps with `node tools/viz/mapmake6.js v4/maps_X 300 SEED`.
+Six larger suites (about 1.7 GB) are not in the repo: `maps_real250`, `maps_real200b`, `maps_mazetest`, `maps_test4`, `maps_new4`, `maps_maze`.
+- `bash agent2/lab/regen_maps.sh` rebuilds them from fixed seeds, identical to Agent 2's (the first maps of every suite were checked byte for byte).
+- `final_check.sh` needs `maps_mazetest` and `maps_real200b`. `nn_rl3.py` trains on `maps_real250` 10% of the time; without it, the other suites' weights renormalise. The imitation / DAgger pipelines use `maps_test4`, `maps_new4` and `maps_maze`.
+- More pool-like maps: `node tools/viz/mapmake6.js v4/maps_X 300 SEED`.
 
 ## Setup
 
-1. Copy `cambc.exe` (the cambc 4.0.0 CLI) into `v4/`. The scripts call `v4/cambc.exe run-batch` and `v4/cambc.exe build`.
-2. Install Python 3.12 with numpy and PyTorch. With an NVIDIA GPU: `pip install torch --index-url https://download.pytorch.org/whl/cu128`; CPU also works but is slower.
-3. Install Node 20+ (only for the map tools).
+1. Copy `cambc.exe` (the cambc 4.0.0 CLI; check with `v4/cambc.exe --version`) into `v4/`. The scripts call `v4/cambc.exe run-batch` and `v4/cambc.exe build`.
+2. Install Python 3.12 with numpy and PyTorch with CUDA: `pip install torch --index-url https://download.pytorch.org/whl/cu128`. An NVIDIA GPU is required: `nn_rl.py`, `nn_rl3.py` and `nn_distill.py` run the network on `cuda`.
+3. Install Node 20+ (for the map tools).
 4. Use Windows with Git Bash, which is how this was run. The RAM watchdog calls `powershell`; on other systems it reads "99 GB free", so watch RAM yourself.
 5. Run every command from the workspace root with `python -P`.
+6. Build the league bots once (the scripts build only the network bots and the candidates):
+   `cd v4 && for b in v92 x1 x3ctr p65 p65pack b5_c3 v61_c3 v81; do ./cambc.exe build bots/$b --release; done; cd ..`
+7. Rebuild the map suites that are not in the repo: `bash agent2/lab/regen_maps.sh` (see Layout).
 
 House rules from the handover (16 GB PC):
 - keep at least 3 GB RAM free;
