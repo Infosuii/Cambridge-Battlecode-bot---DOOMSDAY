@@ -4876,7 +4876,7 @@ bool Bot::tribute_if_needed() {
     static bc::bitboard sr_roots_c, sr_reach_c;
     static bool sr_any_c = false;
     const bool sr_fuel = bc::fuel_remaining() > X1_SR_FUEL;
-    if (gems >= std::min(X1_SR_BAG, X1_BR2_MIN) && sr_fuel) {
+    if (gems >= std::min(X1_SR_BAG, X1_BR2_MIN) && sr_fuel && X1_SAFEROUTE != 2) {
         if (sr_round != round) {
             sr_round = round;
             sr_roots_c.clear();
@@ -4913,6 +4913,16 @@ bool Bot::tribute_if_needed() {
                     dist = fdist(safe_field, pos);
                 }
             }
+        }
+    }
+    // Mode 2 runs the reach search only when the mask found no route: every search spent is fuel v92's fight search
+    // (it uses what is left of the turn) does not get; computed every turn it cost 20 of 516 games.
+    if (!use_safe && gems >= X1_SR_BAG && sr_fuel) {
+        for (const auto& s : w.sightings)
+            if (round - s.round <= X1_SR_AGE) sr_roots.set(s.pos, true), sr_any = true;
+        if (sr_any) {
+            bc::distance_field ef;
+            ef.compute(w.static_blocked, sr_roots, sr_reach, static_cast<std::uint16_t>(X1_SR_R));
         }
     }
 #endif
