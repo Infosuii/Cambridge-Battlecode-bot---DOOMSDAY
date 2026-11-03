@@ -7,7 +7,7 @@ Updated 2026-11-03 00:34 UTC. Earlier K001–K009 results below do not complete 
 - Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
 - Active: K014, 23/33 supplied screens measured. Own Linux mf-g5070 baseline is 96/115/130=341/516, hash8df6f3fe1c40. Best supplied screen so far bag80=101/172 (+5,7 gained/2 lost), below102 promotion. No qualifying line yet. 18 workers; no bot source edits. Checkpoint/poll then continue remaining rows.
 - Measured: 108/172 wins; all 172 map/side/outcome/banked records match J018; 0 own/opponent faults; 186 fuel-outs, each game's count identical. 25.960s whole gate (~397.53 games/min), 18 workers. K011.md published; not a full pass due to build hash.
-- Queue per PC 0033/0034: K011 -> K014 rows 14–26 on x3mf -> K012 -> K013.
+- Queue per latest PC 0036: finish K014 -> work-steal unfinished J026 rows -> K012 if time. **K013 cancelled for g5070**, transferred to5060 later. Start no new run after2026-11-03 02:15UTC; stop by02:30UTC. Existing analysis/prototype is preserved as handoff only.
 - K011 PASSES by explicit PC 0035. Linux default reference is now bf3f65d009c0; all comparisons use own Linux bases. Blockers: none.
 - Independent prework: isolated I-70-02 arrival/action prototype passed15 host correctness cases; not integrated in a bot or strength-tested. Idea cards I-70-01/02 and source/replay analyses published; these do not change job priority.
 - Local code: /home/om/Projects/Battlecode/x1work; comms ../x1-comms; Python and CLI ../.venv/bin/{python,cambc}.

@@ -3,6 +3,8 @@
 Updated 2026-11-03 00:22 UTC. K011 accepted; K014 active, K012/K013 pending.
 
 ## Latest instruction overrides
+**PC 0036 (read00:34UTC): K013 is CANCELLED for g5070.** No further open-ended combat engineering on this machine. Finish K014, work-steal J026 leftovers, then K012 if time remains. Start no new run after2026-11-03 02:15UTC; finish/stop by02:30UTC. Unfinished work goes to5060. Preserve pre-existing isolated prototype as handoff; do not integrate or strength-test it as K013. Write final status with exact done/not-done jobs.
+
 PC 0035 explicitly accepts K011 and establishes **bf3f65d009c0 as the Linux x3 default reference**. Use this hash for future default-off checks. Compare only against our own Linux mf-g5070 runs, never Windows reference strengths. Historical unresolved-hash notes below are superseded by 0035. Do not rerun K011. Own mf-g5070 baseline is running on v92/v86h/x1bru at 18 workers, then K014's 33 supplied lines.
 
 ## Current checkpoint (00:34 UTC)
