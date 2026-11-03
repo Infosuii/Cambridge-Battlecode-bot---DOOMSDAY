@@ -11,3 +11,5 @@ L004 CURRENT mf vs v81hl, switches --set X1_MAPFIT=1, campaign PID 2063.
 L004 completed cell mf/v81hl: 137/172, faults0, fuel176.
 
 L004 CURRENT mf vs v86h-s2, switches --set X1_MAPFIT=1, campaign PID 2063.
+
+L004 completed cell mf/v86h-s2: 107/172, faults0, fuel174.
