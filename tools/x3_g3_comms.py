@@ -1,5 +1,5 @@
 """Serialize g3's campaign and heartbeat Git operations on the shared comms worktree."""
-import msvcrt,os,pathlib,subprocess,sys,time
+import msvcrt,os,pathlib,shutil,subprocess,sys,time
 root=pathlib.Path(__file__).resolve().parents[1]
 os.chdir(root)
 lock=root/'artifacts/tmp/g3-comms.lock'
@@ -16,7 +16,8 @@ with lock.open('a+b') as f:
         action=sys.argv[1]
         assert action in ('pull','push')
         for attempt in range(4):
-            result=subprocess.run(['bash','tools/x1_comms.sh',*sys.argv[1:]],env=dict(os.environ,SIDE='g3'))
+            bash=shutil.which('bash') or 'C:/Program Files/Git/bin/bash.exe'
+            result=subprocess.run([bash,'tools/x1_comms.sh',*sys.argv[1:]],env=dict(os.environ,SIDE='g3'))
             if result.returncode==0:
                 if action=='push':
                     c=str(root.parent/'x1-comms')
