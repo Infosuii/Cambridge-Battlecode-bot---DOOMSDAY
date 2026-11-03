@@ -35,3 +35,5 @@ L006 01gold-rush iter 3: mean fit/game 0.727 wins 5/8 best iter 1 grad |0.456|
 L006 01gold-rush iter 4: mean fit/game 0.212 wins 3/8 best iter 1 grad |0.195|
 
 L006 01gold-rush iter 5: mean fit/game -0.198 wins 1/8 best iter 1 grad |0.473|
+
+L006 01gold-rush complete; gain+0.278500, state/code pushed; next map follows.
