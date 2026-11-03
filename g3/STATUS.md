@@ -389,3 +389,5 @@ L007 completedk19: 99/172,SHAcbee25737ee4,faults0,fuel171;exactJSONposted.
 L007 CURRENT ctr3-v86h-k20, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
 
 L007 completedk20: 64/172,SHAdbdbed26e496,faults0,fuel206;exactJSONposted.
+
+L007 CURRENT ctr3-v86h-k21, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
