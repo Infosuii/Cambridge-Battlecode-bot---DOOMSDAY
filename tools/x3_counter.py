@@ -86,6 +86,7 @@ def main():
     r = sub.add_parser('robust'); r.add_argument('--runs', required=True, help='run-name pattern with {OPP} and {K}')
     r.add_argument('--opps', required=True); r.add_argument('--vars', required=True)
     r.add_argument('--margin', type=int, default=1, help='wins over variant 0 (summed over opponents) needed to switch')
+    r.add_argument('--min-opps', type=int, default=0, help='a switched variant must win the cell against at least this many opponents (0 = no rule)')
     r.add_argument('--fp', required=True); r.add_argument('--write', type=int, default=1)
     r.add_argument('--run-dirs', default='research/dz/runs,artifacts/tmp/dz,../x1-comms/g3/results/L007,../x1-comms/g5060/results/ctr3,../x1-comms/g5070/results/ctr3')
     a = ap.parse_args()
@@ -142,7 +143,10 @@ def robust(a):
         for c in cells:
             score = {k: sum(res[o, k].get(c, False) for o in use) for k in ks if all(res[o, k] is not None for o in use)}
             best = max(score, key=lambda k: (score[k], -k))
-            out[c] = best if score[best] >= score[0] + a.margin else 0
+            # Deterministic games: one win against one opponent is mostly chaos ("choosing the seed that makes you
+            # win"); switch only for a variant that wins here against several different opponents.
+            need = min(a.min_opps, len(use))
+            out[c] = best if score[best] >= score[0] + a.margin and score[best] >= need else 0
         return out
     choice = pick(opps)
     for o in opps:
