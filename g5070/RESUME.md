@@ -5,6 +5,13 @@ Updated 2026-11-03 00:22 UTC. K011 accepted; K014 active, K012/K013 pending.
 ## Latest instruction overrides
 PC 0035 explicitly accepts K011 and establishes **bf3f65d009c0 as the Linux x3 default reference**. Use this hash for future default-off checks. Compare only against our own Linux mf-g5070 runs, never Windows reference strengths. Historical unresolved-hash notes below are superseded by 0035. Do not rerun K011. Own mf-g5070 baseline is running on v92/v86h/x1bru at 18 workers, then K014's 33 supplied lines.
 
+## Current checkpoint (00:34 UTC)
+Own Linux mf baseline complete: 96/115/130=341/516; hash8df6f3fe1c40; fuel-outs171/189/188. K014 23/33 supplied screens complete; best bag80=101 (<102), no promotion. Results/provenance/comparisons under g5070/results/K014; local orchestrator artifacts/local-only/g5070/k014_run.py, manifest k014-manifest.json, authoritative state k014-state.json, log k014-run.log. It reuses completed own runs and checks full map/engine/opponent provenance. Resume the orchestrator after reading updated PC instructions; it skips completed lines. At ten-minute poll it checkpoints/pushes before pull, then exits for instruction review. The first poll hit unstaged per-line report changes and stopped safely at23; fixed by publishing before pull. No benchmark evidence lost, no reruns needed.
+
+Command: `/home/om/Projects/Battlecode/.venv/bin/python artifacts/local-only/g5070/k014_run.py >> artifacts/local-only/g5070/k014-run.log 2>&1` (code checkout, network/cache-capable execution for CLI and g5070-only communication pushes). No source edits until K014 is finished. After supplied33, read J026 and work-steal unfinished rows from the bottom; skip rows already reported by5060, avoid its active line. Then K012 and K013.
+
+Prototype at artifacts/local-only/g5070/prototype/g70_arrival.h and arrival_test.cpp:15 correctness cases passed with g++ C++20 / X1_G70_COORD=1. Isolated, not included in active bots; no strength claim. Idea cards I-70-01 and02 describe queued style/coordination work. Native official replay API GetSharedMemorySize returned8bytes. New fuel-context diagnostic and concrete Heart failure in analysis/K014-secure-fuel.md; source helper artifacts/local-only/g5070/fuel_context.mjs. Raw replays stay local.
+
 ## Objective and priority
 K011 exact reproduction -> urgent K014 -> K012 -> K013. PC messages 0033/0034 supersede the original queue. No dependent comparison before exact K011 pass. Only PC integrates bot changes.
 
