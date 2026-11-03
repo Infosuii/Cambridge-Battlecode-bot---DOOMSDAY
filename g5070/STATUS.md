@@ -1,4 +1,17 @@
-# g5070 — campaign complete
+# g5070 — x3 campaign active
+
+Updated 2026-11-03 00:10 UTC. Earlier K001–K009 results below do not complete K011–K014.
+
+- Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
+- Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
+- Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
+- Active: K011 unchanged release build and official toolchain bootstrap; next 172-game pool vs v86h, WORKERS=DZ_MAX_PARALLEL=18.
+- Measured match results: none yet in this campaign; no reproduction or strength claims.
+- Queue per PC 0033/0034: K011 -> K014 rows 14–26 on x3mf -> K012 -> K013.
+- Blockers: none currently. Next action: verify build hash, execute exact reproduction, publish K011.
+- Local code: /home/om/Projects/Battlecode/x1work; comms ../x1-comms; Python and CLI ../.venv/bin/{python,cambc}.
+
+## Archived earlier campaign
 
 Completed 2026-11-02T14:42:10.598731+00:00. All authorized matrices, worthwhile focused diagnostics and bounded supplied walking-fuel follow-ups are complete, verified and published. WORKERS=DZ_MAX_PARALLEL=18 was preserved.
 
