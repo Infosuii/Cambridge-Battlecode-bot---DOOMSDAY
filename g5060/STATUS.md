@@ -13,11 +13,12 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J023 resumed ~00:15 UTC)
+## Running (00:08 UTC)
 
-- **J023** fit resumed (3 of 13 maps done; v92 / v86h / x1bru / x1), 3 parallel groups, ETA ~02:30 UTC; then the
-  combined J022 + J023 x1_mapfit.h and its gate on pool vs all four (x3mf3; bases x3 and x3mf2, + x1 cells).
-- Then J019 screens, J021 runs.
+- **J023** fit: 7 of 13 maps done (00elkring 0.657, 01gold-rush 0.721, 00quadrants 1.152, 00interlock 1.064,
+  00fragment 1.220, 02geodes 0.789, 00rows 0.893 fit / game); 6 left, 2 per group. ETA fit ~01:15, then the combined
+  J022 + J023 table and its gate on pool vs v92 / v86h / x1bru / x1 (~20 min): **results ~01:35 UTC**.
+- Then J019 screens (base x3mf per msgs/0031), J021 runs.
 
 ## Done
 
