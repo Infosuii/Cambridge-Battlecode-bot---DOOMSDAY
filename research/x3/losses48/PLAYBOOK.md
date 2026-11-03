@@ -99,3 +99,22 @@ which self-play cannot tell apart from ladder value; the ladder duel (plan b) de
 
 Second axis next to the map category: the opponent's style. If it shows in their draft (visible after the draft)
 or in early sightings, the bot can switch to the counter profile.
+
+## 7. What the replays add (all 898 losses; research/x3/losses48/REPLAY_FINDINGS.md)
+
+| | winners | us |
+|---|---|---|
+| time on own half, rounds 0-150 -> 800+ | 0.83 -> 0.70 (they expand steadily) | 0.86 -> 0.83 (we stay home) |
+| grouped in the opening (ally within 4, rounds 0-150) | 68%, nearest ally 4.6 tiles | 57%, 5.8 tiles |
+| allies at first contact (same round, ~90) | 2.1, health 0.89 | 1.7, health 0.85 |
+| champions working a camp together | 1.72 | 1.44 |
+| recalls | 20-30% more | |
+| clears 400-800 / 800+ | 19 / 17 | 16 / 11 |
+
+Per category the late game is where it breaks: C1 own half after round 800 0.68 vs 0.92 and late clears 22.5 vs
+9.8; C4 late clears 23.4 vs 7.3; C7 they are on our half from the start (0.62 vs 0.88). We sit on a farmed-out half.
+
+New profiles from this: 9 progressive expansion (enemy-half value ramps from base at round 300 to full by 900),
+10 pack opening (cohesion x4 until round 250), 11 pack + expand + vision light. Profile 1 (vision, ward + world
+update) lost 47-57 on the ladder; profiles 2-7 now run without vision; profile 8 is vision light (spare fuel, no
+extra update).
