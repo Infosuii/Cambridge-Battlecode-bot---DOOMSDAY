@@ -15,3 +15,5 @@ L005 CURRENT vs x3inv-t, X1_MAPFIT=1, campaign PID 30.
 L005 completed x3inv-t: 84/172, faults0, fuel198; analysis/results posted.
 
 L005 CURRENT vs x3inv-a, X1_MAPFIT=1, campaign PID 30.
+
+L005 completed x3inv-a: 88/172, faults0, fuel181; analysis/results posted.
