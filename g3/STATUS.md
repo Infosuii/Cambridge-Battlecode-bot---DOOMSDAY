@@ -51,3 +51,5 @@ L004 CURRENT rb vs x1, switches --set X1_MAPFIT=1 --set X1_RACEBANK=1, campaign 
 L004 completed cell rb/x1: 127/172, faults0, fuel182.
 
 L004 CURRENT mfsec vs v81hl, switches --set X1_MAPFIT=1 --set X1_G3_SECURE=1, campaign PID 160.
+
+L004 completed cell mfsec/v81hl: 132/172, faults0, fuel181.
