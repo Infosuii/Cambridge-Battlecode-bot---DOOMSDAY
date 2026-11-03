@@ -15,6 +15,14 @@ with lock.open('a+b') as f:
     try:
         action=sys.argv[1]
         assert action in ('pull','push')
+        # The campaign writes its status immediately before requesting this lock.
+        # Publish those authorized g3 writes before a heartbeat tries to rebase.
+        if action=='pull':
+            c=str(root.parent/'x1-comms')
+            dirty=subprocess.run(['git','-C',c,'status','--porcelain'],capture_output=True,text=True,check=True).stdout
+            if dirty.strip():
+                bash=shutil.which('bash') or 'C:/Program Files/Git/bin/bash.exe'
+                subprocess.run([bash,'tools/x1_comms.sh','push','g3 campaign progress before heartbeat poll'],env=dict(os.environ,SIDE='g3'),check=True)
         for attempt in range(4):
             bash=shutil.which('bash') or 'C:/Program Files/Git/bin/bash.exe'
             result=subprocess.run([bash,'tools/x1_comms.sh',*sys.argv[1:]],env=dict(os.environ,SIDE='g3'))
