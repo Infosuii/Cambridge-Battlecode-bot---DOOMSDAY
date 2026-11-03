@@ -1,0 +1,299 @@
+{
+  "games": 216,
+  "held_layouts": [
+    "00corners",
+    "00eight",
+    "00lost-world",
+    "00the-line",
+    "01big-world",
+    "01boss-battle",
+    "01concentrated-wealth",
+    "01corridors",
+    "01fracture",
+    "03one-gem",
+    "03twisty",
+    "03ultrastarvation"
+  ],
+  "held_opponent": "v92",
+  "layouts": 36,
+  "models": {
+    "health_and_lanch": {
+      "intercept": -0.6970125441726442,
+      "sets": {
+        "both_held": {
+          "alert_precision": 0.47692307692307695,
+          "alert_rate": 0.049942374183634265,
+          "alert_recall": 0.5299145299145299,
+          "auc": 0.9110162207507341,
+          "average_precision": 0.508719193628976,
+          "brier": 0.03316579481159659,
+          "casualties": 117,
+          "observations": 2603,
+          "rate": 0.04494813676527084
+        },
+        "both_held_carriers": {
+          "alert_precision": 0.5,
+          "alert_rate": 0.02586206896551724,
+          "alert_recall": 0.5,
+          "auc": 0.8982300884955752,
+          "average_precision": 0.5997354497354497,
+          "brier": 0.01789860390971153,
+          "casualties": 6,
+          "observations": 232,
+          "rate": 0.02586206896551724
+        },
+        "both_held_early": {
+          "alert_precision": 0.45161290322580644,
+          "alert_rate": 0.04078947368421053,
+          "alert_recall": 0.4827586206896552,
+          "auc": 0.9397141374593141,
+          "average_precision": 0.5153071525356718,
+          "brier": 0.028223028278750922,
+          "casualties": 29,
+          "observations": 760,
+          "rate": 0.038157894736842106
+        },
+        "both_held_enemy_actors": {
+          "alert_precision": 0.4899328859060403,
+          "alert_rate": 0.05750675414897723,
+          "alert_recall": 0.5447761194029851,
+          "auc": 0.8952642161597385,
+          "average_precision": 0.4815669874023176,
+          "brier": 0.03785204827252249,
+          "casualties": 134,
+          "observations": 2591,
+          "rate": 0.05171748359706677
+        },
+        "held_layout": {
+          "alert_precision": 0.528957528957529,
+          "alert_rate": 0.04723691409812147,
+          "alert_recall": 0.5546558704453441,
+          "auc": 0.9207000429910647,
+          "average_precision": 0.5219860412671573,
+          "brier": 0.033043786808526175,
+          "casualties": 247,
+          "observations": 5483,
+          "rate": 0.04504833120554441
+        },
+        "held_opponent": {
+          "alert_precision": 0.41237113402061853,
+          "alert_rate": 0.05323089587048978,
+          "alert_recall": 0.5614035087719298,
+          "auc": 0.9121669822757923,
+          "average_precision": 0.48253039159584604,
+          "brier": 0.02893128099267706,
+          "casualties": 285,
+          "observations": 7289,
+          "rate": 0.03910001371930306
+        },
+        "training": {
+          "alert_precision": 0.3813387423935091,
+          "alert_rate": 0.05006600995226973,
+          "alert_recall": 0.5875,
+          "auc": 0.9057176314684581,
+          "average_precision": 0.42319543781583996,
+          "brier": 0.02494544972468387,
+          "casualties": 320,
+          "observations": 9847,
+          "rate": 0.03249720727125013
+        }
+      },
+      "training_threshold": 0.13957975930698482,
+      "weights": {
+        "carry": 0.07492092651728788,
+        "distance": -0.26713546959719964,
+        "enemy_count": 0.21758630918703736,
+        "friend_count": -0.06028573220470799,
+        "health": -3.119736780086206,
+        "lanch_z": -0.1396058797539572
+      }
+    },
+    "lanch": {
+      "intercept": -3.323300648473891,
+      "sets": {
+        "both_held": {
+          "alert_precision": 0.1597222222222222,
+          "alert_rate": 0.05532078371110257,
+          "alert_recall": 0.19658119658119658,
+          "auc": 0.7828764156197785,
+          "average_precision": 0.13175395932400594,
+          "brier": 0.04208390031233752,
+          "casualties": 117,
+          "observations": 2603,
+          "rate": 0.04494813676527084
+        },
+        "both_held_carriers": {
+          "alert_precision": 0.23529411764705882,
+          "alert_rate": 0.07327586206896551,
+          "alert_recall": 0.6666666666666666,
+          "auc": 0.8525073746312685,
+          "average_precision": 0.1660042356185973,
+          "brier": 0.024008656517798564,
+          "casualties": 6,
+          "observations": 232,
+          "rate": 0.02586206896551724
+        },
+        "both_held_early": {
+          "alert_precision": 0.2,
+          "alert_rate": 0.006578947368421052,
+          "alert_recall": 0.034482758620689655,
+          "auc": 0.7982923722817113,
+          "average_precision": 0.17997199810295442,
+          "brier": 0.03605417995478716,
+          "casualties": 29,
+          "observations": 760,
+          "rate": 0.038157894736842106
+        },
+        "both_held_enemy_actors": {
+          "alert_precision": 0.1853932584269663,
+          "alert_rate": 0.06869934388267078,
+          "alert_recall": 0.2462686567164179,
+          "auc": 0.7753403313104805,
+          "average_precision": 0.1633058466007878,
+          "brier": 0.047707924368810974,
+          "casualties": 134,
+          "observations": 2591,
+          "rate": 0.05171748359706677
+        },
+        "held_layout": {
+          "alert_precision": 0.17229729729729729,
+          "alert_rate": 0.05398504468356739,
+          "alert_recall": 0.20647773279352227,
+          "auc": 0.765984015984016,
+          "average_precision": 0.13219964189037403,
+          "brier": 0.04232650886045211,
+          "casualties": 247,
+          "observations": 5483,
+          "rate": 0.04504833120554441
+        },
+        "held_opponent": {
+          "alert_precision": 0.15102974828375287,
+          "alert_rate": 0.059953354369598026,
+          "alert_recall": 0.23157894736842105,
+          "auc": 0.7652233811255723,
+          "average_precision": 0.11906233516668822,
+          "brier": 0.036720358221025054,
+          "casualties": 285,
+          "observations": 7289,
+          "rate": 0.03910001371930306
+        },
+        "training": {
+          "alert_precision": 0.14343434343434344,
+          "alert_rate": 0.05026911749771504,
+          "alert_recall": 0.221875,
+          "auc": 0.756332987824079,
+          "average_precision": 0.10734941278309162,
+          "brier": 0.03069471016206561,
+          "casualties": 320,
+          "observations": 9847,
+          "rate": 0.03249720727125013
+        }
+      },
+      "training_threshold": 0.058055546698980484,
+      "weights": {
+        "lanch_z": -0.21757381287278757
+      }
+    },
+    "ready_pressure": {
+      "intercept": -0.8322464233925881,
+      "sets": {
+        "both_held": {
+          "alert_precision": 0.49230769230769234,
+          "alert_rate": 0.049942374183634265,
+          "alert_recall": 0.5470085470085471,
+          "auc": 0.9248715885884028,
+          "average_precision": 0.48834077197969245,
+          "brier": 0.03304180086490903,
+          "casualties": 117,
+          "observations": 2603,
+          "rate": 0.04494813676527084
+        },
+        "both_held_carriers": {
+          "alert_precision": 0.5,
+          "alert_rate": 0.02586206896551724,
+          "alert_recall": 0.5,
+          "auc": 0.8997050147492626,
+          "average_precision": 0.6085009112532048,
+          "brier": 0.017598545380833903,
+          "casualties": 6,
+          "observations": 232,
+          "rate": 0.02586206896551724
+        },
+        "both_held_early": {
+          "alert_precision": 0.4411764705882353,
+          "alert_rate": 0.04473684210526316,
+          "alert_recall": 0.5172413793103449,
+          "auc": 0.9467899429218359,
+          "average_precision": 0.4996799169413246,
+          "brier": 0.027878225354256637,
+          "casualties": 29,
+          "observations": 760,
+          "rate": 0.038157894736842106
+        },
+        "both_held_enemy_actors": {
+          "alert_precision": 0.4864864864864865,
+          "alert_rate": 0.057120802778849865,
+          "alert_recall": 0.5373134328358209,
+          "auc": 0.8982195250851968,
+          "average_precision": 0.46601665385697855,
+          "brier": 0.037808453835517,
+          "casualties": 134,
+          "observations": 2591,
+          "rate": 0.05171748359706677
+        },
+        "held_layout": {
+          "alert_precision": 0.5287356321839081,
+          "alert_rate": 0.04760167791355097,
+          "alert_recall": 0.5587044534412956,
+          "auc": 0.9251673249351268,
+          "average_precision": 0.4825218131406792,
+          "brier": 0.033233834329239875,
+          "casualties": 247,
+          "observations": 5483,
+          "rate": 0.04504833120554441
+        },
+        "held_opponent": {
+          "alert_precision": 0.4166666666666667,
+          "alert_rate": 0.052682123748113596,
+          "alert_recall": 0.5614035087719298,
+          "auc": 0.9233109902111074,
+          "average_precision": 0.4557434142624645,
+          "brier": 0.028926134324854552,
+          "casualties": 285,
+          "observations": 7289,
+          "rate": 0.03910001371930306
+        },
+        "training": {
+          "alert_precision": 0.3935091277890467,
+          "alert_rate": 0.05006600995226973,
+          "alert_recall": 0.60625,
+          "auc": 0.9219458512648263,
+          "average_precision": 0.435420481138676,
+          "brier": 0.02433277412181157,
+          "casualties": 320,
+          "observations": 9847,
+          "rate": 0.03249720727125013
+        }
+      },
+      "training_threshold": 0.14247281018965027,
+      "weights": {
+        "basic": 3.054418158289614,
+        "burst": -1.2449401777655758,
+        "camp": 0.4668193761599664,
+        "carry": 0.11363475285428103,
+        "distance": -0.2615245477891719,
+        "enemy_count": 0.11661169413011195,
+        "exposed_area": -0.8770017106613496,
+        "friend_count": -0.11001189060023073,
+        "health": -3.18073802947078,
+        "idle_enemy": 0.15788541777028445,
+        "lanch_z": -0.13840122752457804,
+        "linked_deficit": 4.85595390390987,
+        "ready_damage": 0.48233505264548654,
+        "shield": -0.16905364024030028,
+        "support_reach": 0.055012065042439336
+      }
+    }
+  },
+  "target": "actor killed by champion in the next eight rounds under the observed policy"
+}
