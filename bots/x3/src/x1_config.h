@@ -191,7 +191,10 @@
 #define X1_SR_R 5 // first layer: tiles enemies reach within this many steps are avoided
 #endif
 #ifndef X1_SR_STEP
-#define X1_SR_STEP 2 // each further layer avoids this many steps less (5, 3, 1)
+#define X1_SR_STEP 3 // each further layer avoids this many steps less (5, 2)
+#endif
+#ifndef X1_SR_FUEL
+#define X1_SR_FUEL 35000 // skip the safe-route searches below this much fuel left (old square mask instead: none)
 #endif
 #ifndef X1_SR_DETOUR
 #define X1_SR_DETOUR 8 // a safe route may be this many steps (or half the plain distance) longer

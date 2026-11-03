@@ -4870,16 +4870,31 @@ bool Bot::tribute_if_needed() {
     sr_roots.clear();
     sr_reach.clear();
     bool sr_any = false;
-    if (gems >= std::min(X1_SR_BAG, X1_BR2_MIN)) {
-        for (const auto& s : w.sightings)
-            if (round - s.round <= X1_SR_AGE) sr_roots.set(s.pos, true), sr_any = true;
-        if (sr_any) {
-            bc::distance_field ef;
-            ef.compute(w.static_blocked, sr_roots, sr_reach, static_cast<std::uint16_t>(X1_SR_R));
+    // Fuel: the reach search runs once per round (cached), and nothing here runs below X1_SR_FUEL fuel left (the first
+    // version, uncached with three layers, nearly tripled fuel-outs).
+    static int sr_round = -1;
+    static bc::bitboard sr_roots_c, sr_reach_c;
+    static bool sr_any_c = false;
+    const bool sr_fuel = bc::fuel_remaining() > X1_SR_FUEL;
+    if (gems >= std::min(X1_SR_BAG, X1_BR2_MIN) && sr_fuel) {
+        if (sr_round != round) {
+            sr_round = round;
+            sr_roots_c.clear();
+            sr_reach_c.clear();
+            sr_any_c = false;
+            for (const auto& s : w.sightings)
+                if (round - s.round <= X1_SR_AGE) sr_roots_c.set(s.pos, true), sr_any_c = true;
+            if (sr_any_c) {
+                bc::distance_field ef;
+                ef.compute(w.static_blocked, sr_roots_c, sr_reach_c, static_cast<std::uint16_t>(X1_SR_R));
+            }
         }
+        sr_roots = sr_roots_c;
+        sr_reach = sr_reach_c;
+        sr_any = sr_any_c;
     }
     bool sr_hold = false;
-    if (gems >= X1_SR_BAG && (sr_any || any_watch)) {
+    if (gems >= X1_SR_BAG && sr_fuel && (sr_any || any_watch)) {
         bc::bitboard ring0 = w.altar_ring;
         if (any_watch) ring0 = ring0 & ~watched;
         bc::bitboard locked;
@@ -4889,7 +4904,7 @@ bool Bot::tribute_if_needed() {
                 locked.draw_chebyshev(a, static_cast<float>(bc::constants::submit_gems_range));
         if (!(ring0 & ~locked).is_empty()) ring0 = ring0 & ~locked;
         const int plain = dist;
-        for (int r = X1_SR_R; r >= 1 && !use_safe; r -= X1_SR_STEP) {
+        for (int r = X1_SR_R; r >= 1 && !use_safe && bc::fuel_remaining() > X1_SR_FUEL; r -= X1_SR_STEP) {
             bc::bitboard zone;
             if (r == X1_SR_R) {
                 zone = sr_reach;
