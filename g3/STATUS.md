@@ -5,3 +5,5 @@ Code x1g3/build/z-plan-g3 rebased cleanly onto e46bb37. All opponents v81hl/v86h
 Machine ASUS_LAPTOP/i5-12500H/16 logicalthreads/16,858,320,896 bytesRAM. Python3.12.14/numpy2.3.5; Nodebundled; DZ_MAX_PARALLEL=WORKERS=14; NFS_REPLAY_ENGINE=2.0.0. Plugged-in screen/sleep Never.
 Prior results/code all published: L001 exact108/172; I-G3-01 parked; I-G3-02 best94/172 but10 added fuel-outs. Do not rerun. Local evidence preserved, runner ledger may be modified: stage only intended code.
 Rules: only g3/ comms writes and build/z-plan-g3 code pushes; no ladder/login/uploads/submissions or sources/ edits. After L004 identity check/report, go idle and poll for L005.
+
+L004 CURRENT mf vs v81hl, switches --set X1_MAPFIT=1, campaign PID 2063.
