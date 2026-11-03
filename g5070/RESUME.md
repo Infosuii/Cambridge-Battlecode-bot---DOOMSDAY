@@ -21,6 +21,9 @@ HANDOVER_X3, PROTOCOL, IDEATION_RULES, current pc/STATUS, messages 0031–0034, 
 - Reference ../x1-comms/g5060/results/J018/x1g-x3-pool-v86h-01.json: 108/172, engine 2.0.0, engine hash 85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21.
 - K014 pending: 33 supplied lines; x3mf vs v92 expected 96/172, own mf-g5070 baseline required. Exact window name X1_ANTIFEED_WIN. A3_ITEMS has an unconditional earlier define in common.h: check actual --set effect without editing bot source.
 - K012/K013 pending; no implemented features or measured strength results yet.
+- Additional unchanged v92 native build equals x3 byte-for-byte (bf3f65d009c0); canonical hash still unresolved. Binary section manifests accompany K011.
+- Independent combat prework is in analysis/K011-combat-prework.md: three exact reproduced-loss replays decoded and candidate-side death counts reconciled to native summaries (72/50/58). Important findings: actual equipment stats already observed, G3 arrival-DPS optimism, late backoff safety override, kOrder=1 makes pow simplification a weak fuel hypothesis, EQ threshold != observed retreat frequency, static guest caches are not team caches.
+- Local static preparation artifacts/local-only/g5070/k014-manifest.json contains all 33 unique lines. No dependent runs started. Replay analysis outputs artifacts/local-only/g5070/k011-loss-fights.json, k011-loss-summary.json, k011-hurt-contact.json; raw replay copies in .../replays remain local.
 
 ## Next commands (code checkout)
 ```bash
