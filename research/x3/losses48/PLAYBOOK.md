@@ -131,3 +131,21 @@ Every change so far (two batches) lands 5-15 below v92. Either v92's balance bre
 updated their bots between arms (the duel did not pin them). From profile 5 on, each arm pins every opponent's bot to
 the one it ran in v92's base group (`--source-group`, tools/replay/ladder_duel.py); the v92 re-run (also pinned)
 checks that the pinning reproduces the base exactly. Profiles 1-4 get pinned re-runs if opponents drifted.
+
+## 9. A machinery bug, found and fixed (3 Nov ~19:20 UTC)
+
+Every portfolio build ran the map analysis on round 1, on top of v92's own heavy first turn: 30 fuel-outs in 28
+games against v92's 6 (24 of them in round 1), even with profile 0 (v92's own play). Fix (e5031161): the analysis
+runs on the first turn from round 3 with 70k fuel left (it costs 12-54k); fuel-outs back to 6, profile 0 = 14 / 28
+like v92. The ladder arms of profiles 1-4 (and the unfinished combo arm) carried the bug; all profiles are re-run
+on plan c (`research/x3/duel/duel_20261103c.json`: plan b's groups and v92 base, opponents pinned), order: 13 pack
+play, 4 early bank, 10 pack opening, 9 progressive expansion, 8 vision light, 2, 3, 1, 5, 6, 7, 11, 12, v92 re-run.
+
+Pack play (profile 13) behaviour check (28 local games vs v92, our team's replay metrics):
+
+| metric | v92 | pack play | winners (loss replays) |
+|---|---|---|---|
+| grouped, rounds 0-150 | 0.60 | 0.71 | 0.68 |
+| grouped, rounds 150-400 | 0.48 | 0.58 | 0.54 |
+| nearest ally, early | 5.9 | 4.5 | 4.6 |
+| champions working a camp | 1.40 | 1.61 | 1.72 |
