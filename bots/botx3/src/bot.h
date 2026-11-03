@@ -3,6 +3,9 @@
 #include "common.h"
 #include "world.h"
 #include <string>
+#if X3_BANK_COMMIT
+#include "bank_commit.h"
+#endif
 
 namespace ts {
 struct State;
@@ -37,6 +40,27 @@ void economy_record_roster();
 #if X3_TEAM
 void team_economic_draft();
 #endif
+#if X3_DRAFT_PATHS
+void draft_paths_prepare();
+void draft_paths_load(World& world);
+#if X3_TRACE
+void draft_paths_verify(World& world);
+#endif
+#endif
+
+#if X3_ARBITRATION
+inline bool x3_arbiter_enabled() {
+    static volatile int enabled=X3_ARBITER_USE+1;
+    return enabled>1;
+}
+#endif
+
+#if X3_CHIP_PLAN
+inline bool x3_chip_enabled() {
+    static volatile int enabled=X3_CHIP_PLAN_USE+1;
+    return enabled>1;
+}
+#endif
 
 class Bot {
 public:
@@ -50,6 +74,12 @@ private:
     std::vector<int> x3_bank_distance;
     int x3_dominant_group = -2;
     bool x3_prepare = false;
+#if X3_BANK_COMMIT
+    bank_delivery::Commitment x3_delivery;
+    void team_bank_commit();
+    bool team_bank_committed();
+    void team_bank_claim();
+#endif
 #if X3_TEAM >= 12
     int x3_proposal = -1, x3_proposal_need = 1;
     float x3_proposal_score = 0;

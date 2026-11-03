@@ -389,6 +389,25 @@ void World::vision_from(vec2 viewer, bc::bitboard& out) {
 }
 
 const std::uint16_t* World::pair_row(int from, bool may_build) {
+#if X3_DRAFT_PATHS
+    if ((draft_routes_early || has_field(from)) && pair_rows.size()==groups.size() && !pair_rows[static_cast<std::size_t>(from)].empty()) {
+#if X3_TRACE
+        static int traced=0;
+        if (traced++<3) std::printf("X3_PATHS_HIT group%d field%d\n",from,has_field(from));
+        static std::array<bool,64> verified{};
+        if (from<64 && !verified[from] && has_field(from)) {
+            verified[from]=true;int compared=0,mismatch=0;
+            for (int j=0;j<static_cast<int>(groups.size());++j) {
+                int d=kUnreach;
+                for (int ci:groups[j].camps) d=std::min(d,group_distance(from,camps[ci].pos));
+                if (d!=kUnreach) {++compared;mismatch+=d!=pair_rows[from][j];}
+            }
+            std::printf("X3_PATHS_CHECK group%d compared%d mismatch%d\n",from,compared,mismatch);
+        }
+#endif
+        return pair_rows[static_cast<std::size_t>(from)].data();
+    }
+#endif
     if (!has_field(from)) return nullptr;
     if (pair_rows.size() != groups.size()) pair_rows.resize(groups.size());
     auto& row = pair_rows[static_cast<std::size_t>(from)];

@@ -14,6 +14,7 @@ struct Actor {
     float hp = 0, dps = 1;
     int carried = 0, bank_distance = unreachable, threshold = 60;
     int current = idle, fixed = idle;
+    bool delivering = false;
 };
 struct Job {
     int id = idle, ready = 0;
@@ -53,7 +54,7 @@ inline Result assign(const std::array<Actor, workers>& actors, const Job* job, i
     for (int i=0;i<workers;++i) {
         if (!actors[i].available) used |= 1u<<i;
         else if (actors[i].fixed >= 0) {out.target[i]=actors[i].fixed; used|=1u<<i;}
-        else if (actors[i].carried >= actors[i].threshold && actors[i].bank_distance < unreachable) {
+        else if ((actors[i].delivering || actors[i].carried >= actors[i].threshold) && actors[i].bank_distance < unreachable) {
             out.target[i]=bank;used|=1u<<i;
         }
     }

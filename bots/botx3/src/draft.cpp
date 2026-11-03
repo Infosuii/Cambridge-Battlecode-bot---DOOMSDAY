@@ -4,6 +4,9 @@
 #include "common.h"
 #include "strategy.h"
 #include <cstdio>
+#if X3_MASTERY_FIX || X3_DRAFT_ROLES
+#include "draft_alias.h"
+#endif
 
 #ifndef APEX_DRAFT
 #define APEX_DRAFT 6
@@ -51,7 +54,18 @@ namespace {
 // X1_MASTERY: x1's own per-champion results (as v81hl, vs DZ: Willow 166 gems and 582 gold per 1k rounds, Cassi &
 // Issac 0.85 deaths a game; Vendetta 279 gems and 6.1 kills, Varg 270, Ren 249) override a weak pick with the best
 // free strong champion. Applied at every pick site, so the ladder table, draft net and lists all pass through it.
-inline cd x1_pick(cd pick, const std::vector<cd>& chosen) {
+inline cd x1_pick(cd pick, const std::vector<cd>& chosen, bool support_needed=false) {
+#if X3_DRAFT_ROLES
+    static volatile int preserve_roles=X3_DRAFT_ROLES_USE+1;
+    if (preserve_roles>1 && support_needed && pick==cd::willow) {
+#if X3_TRACE
+        std::printf("X3_DRAFT_KEEP healer%d frontline_support1\n",static_cast<int>(pick));
+#endif
+        return pick;
+    }
+#else
+    (void)support_needed;
+#endif
 #if X1_MASTERY
     const bool weak = pick == cd::willow || pick == cd::cassi_and_issac;
     if (weak) {
@@ -68,14 +82,62 @@ inline cd x1_pick(cd pick, const std::vector<cd>& chosen) {
     return pick;
 }
 // Pick the first champion in the list we have not taken yet.
+#if X3_MASTERY_FIX
+draft_alias::Consumed x3_consumed;
+bool mastery_fix_enabled() {static volatile int enabled=X3_MASTERY_FIX_USE+1;return enabled>1;}
+bool mastery_slot_used(cd original) {return mastery_fix_enabled() && x3_consumed.contains(static_cast<int>(original));}
+#endif
+void x1_draft_pick(cd original,const std::vector<cd>& chosen,bool support_needed=false) {
+    const cd actual=x1_pick(original,chosen,support_needed);
+    bc::draft::pick(actual); // record only after the engine accepts the actual pick
+#if X3_MASTERY_FIX
+    if (mastery_fix_enabled()) x3_consumed.picked(static_cast<int>(original),static_cast<int>(actual));
+#if X3_TRACE
+    if (original!=actual) std::printf("X3_DRAFT_REPLACE original%d actual%d consumed%d\n",static_cast<int>(original),static_cast<int>(actual),mastery_slot_used(original));
+#endif
+#endif
+}
+#if X3_DRAFT_ROLES
+bool draft_frontliner(cd c) {
+    return c==cd::ryth || c==cd::vendetta || c==cd::cassi_and_issac || c==cd::marcella ||
+        c==cd::ren || c==cd::varg || c==cd::heart_of_ruin;
+}
+template<std::size_t N>
+bool draft_support_needed(const cd (&list)[N],const std::vector<cd>& chosen) {
+    const int size=static_cast<int>(bc::draft::team_size());
+    draft_alias::Projection projected;
+    for (cd c:chosen) projected.add(static_cast<int>(c),draft_frontliner(c));
+    for (cd c:list) {
+        if (projected.count>=size) break;
+        if (std::find(chosen.begin(),chosen.end(),c)!=chosen.end()) continue;
+#if X3_MASTERY_FIX
+        if (mastery_slot_used(c)) continue;
+#endif
+        projected.add(static_cast<int>(c),draft_frontliner(c));
+    }
+    // Low personal gem income does not make the only healer redundant in a
+    // frontline-heavy lineup. Count its heal/reset contribution as a team role.
+    return projected.front>=3;
+}
+#endif
 template <std::size_t N>
 bool pick_from(const cd (&list)[N], const std::vector<cd>& chosen, bool skip_casters = false) {
+#if X3_DRAFT_ROLES
+    const bool support=draft_support_needed(list,chosen);
+#endif
     for (auto pick : list) {
         if (std::find(chosen.begin(), chosen.end(), pick) != chosen.end()) continue;
+#if X3_MASTERY_FIX
+        if (mastery_slot_used(pick)) continue;
+#endif
         // NOVA_COUNTER: fight enemy casters with bodies, not more casters of ours.
         if (skip_casters && (pick == cd::stellar || pick == cd::prism || pick == cd::tavi || pick == cd::willow))
             continue;
-        bc::draft::pick(x1_pick(pick, chosen));
+        x1_draft_pick(pick,chosen
+#if X3_DRAFT_ROLES
+            ,support
+#endif
+        );
         return true;
     }
     return false;
@@ -689,6 +751,9 @@ bool ml_draft_pick(std::uint32_t size) {
     }
     for (int c = 0; c < 12; ++c) {
         if (taken[c]) continue;
+#if X3_MASTERY_FIX
+        if (mastery_slot_used(static_cast<cd>(c))) continue;
+#endif
         float z = dn::b2;
         const float* wc = dn::W1 + (16 + c) * dn::kHid; // the candidate's own pick row
         for (int h = 0; h < dn::kHid; ++h) z += dn::w2[h] * fast_tanh(h_base[h] + wc[h]);
@@ -696,7 +761,11 @@ bool ml_draft_pick(std::uint32_t size) {
     }
     (void)x;
     if (best < 0) return false;
-    bc::draft::pick(x1_pick(static_cast<cd>(best), ours));
+    x1_draft_pick(static_cast<cd>(best),ours
+#if X3_DRAFT_ROLES
+        ,std::count_if(ours.begin(),ours.end(),draft_frontliner)>=3
+#endif
+    );
 #if A2_MLPLAN
     // Our last pick: choose the game plan for this comp on this map (net with the plan one-hot set) and pass it to the
     // champions in draft-memory byte 7 (0x80 | plan). Written before the brain header's 6-byte write, which keeps it.

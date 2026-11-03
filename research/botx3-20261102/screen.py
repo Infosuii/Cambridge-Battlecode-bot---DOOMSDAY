@@ -18,7 +18,9 @@ OPPS=['x2','v86h','v81hl','v92']
 CACHE=None
 def write(p,x):
     p.parent.mkdir(parents=True,exist_ok=True)
-    p.write_text(json.dumps(x,indent=2)+'\n',encoding='utf-8')
+    temporary=p.with_name(p.name+'.tmp')
+    temporary.write_text(json.dumps(x,indent=2)+'\n',encoding='utf-8')
+    temporary.replace(p)
 def build(label,flags,trace=False):
     folder=OUT/'builds'/label
     if not folder.exists():
@@ -56,7 +58,7 @@ def main():
     for m in MAPS: assert m.exists(),m
     bots={k:build(k,v) for k,v in ARMS.items()}
     assert dz.sha(bots['off'])=='1746f2bb7fa341530f41bd8c8c4896b35172783f35eacee8e4a4b6ac0ceea183', 'repair-off binary changed'
-    assert dz.sha(bots['parent'])=='22e6067a4233'+dz.sha(bots['parent'])[12:], 'x1c1 identity changed'
+    assert dz.sha(bots['parent'])=='22e6067a423356e29e6738438f47b22d05b554767757717e58bf350392e16b13', 'x1c1 identity changed'
     opps={}
     for o in OPPS:
         p=OUT/'opponents'/f'{o}.wasm'

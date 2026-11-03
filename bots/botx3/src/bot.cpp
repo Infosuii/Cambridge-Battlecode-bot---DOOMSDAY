@@ -3,6 +3,12 @@
 #include "bot.h"
 #include "neural_policy.h"
 #include "economic_cycle.h"
+#if X3_FEED_CONTROL
+#include "feed_control.h"
+#endif
+#if X3_CHIP_PLAN
+#include "camp_exposure.h"
+#endif
 #if A2_MLPLAN
 #include "ml_plan.h"
 #endif
@@ -485,6 +491,12 @@ void Bot::init() {
         }
     }
     team_size = static_cast<int>(allies.size());
+#if X3_TRACE
+    std::printf("X3_CONFIG slot%d mastery%d secure%d alone%d hunt%d anti%d heart%d soak%d prune%d hold%d drop%d teamwin%d siege%d bag%d cover%d paths%d use%d team%d farm%d race%d cycle%d plan%d end%d wait%.2f stage%.2f need%.2f\n",
+        slot,X1_MASTERY,X1_SECURE,X1_ALONE,X1_HUNT_SOLO,X1_ANTIFEED,X1_HEARTFIX,X1_SOAK64,X1_PRUNEFIX,
+        X1_FLEEHOLD,X1_FLEEDROP,X1_TEAMWIN,X1_SIEGE_STRICT,X1_BAGRISK,X3_COVER_SAFE,X3_DRAFT_PATHS,X3_DRAFT_USE,
+        X3_TEAM,X3_TEAM_FARM,X3_TEAM_RACE,X3_BANKCYCLE,tune::kPlan,X3_PLAN_END,X1_WAIT_MULT,X1_STAGE_MULT,X1_NEED_MULT);
+#endif
 #if X3_TEAM >= 2
     team_economic_init();
 #endif
@@ -530,6 +542,9 @@ void Bot::init() {
             w.enable_bridges(); // our fields cross one-tile hole gaps; the travel dash jumps them
             break;
         }
+#endif
+#if X3_DRAFT_PATHS
+    draft_paths_load(w); // after champion-specific bridge topology is established
 #endif
     seen_claim.fill(-1);
     onsite_ok = V54_ONSITE && w.groups.size() <= static_cast<std::size_t>(kOnsiteGroups);
@@ -4637,6 +4652,9 @@ bool Bot::tribute_if_needed() {
     }
     if (dist == kUnreach) return false;
     const bool wins = ally_score + gems >= static_cast<int>(bc::constants::winning_gems) ||
+#if X1_TEAMWIN && X3_ARBITRATION
+        (x3_arbiter_enabled() && ally_score+std::max(gems,team_carry)>=static_cast<int>(bc::constants::winning_gems)) ||
+#endif
         // Endgame: our bag plus what teammates probably carry finishes the race, so bank it now
         // rather than lose the race with gems in our bags.
         (tune::kEndgameMargin > 0 && gems >= 10 && dist <= 25 &&
@@ -5064,12 +5082,19 @@ bool Bot::fight_camps(GroupRec& g, int need) {
     // Counted: this group's camps and those of any other group already awake (damaged or part-killed):
     // splash and area spells wake diagonal neighbours, which are separate groups (four elks hit Ryth
     // while it fought a one-elk group).
+#if X3_CHIP_PLAN
+    using NearCamp=camp_exposure::Camp;
+    std::array<NearCamp,camp_exposure::capacity> near_camps;
+    const int near_limit=x3_chip_enabled() ? camp_exposure::capacity : 32;
+#else
     struct NearCamp {
         vec2 p;
         float s;
         int r;
     };
     std::array<NearCamp, 32> near_camps{};
+    constexpr int near_limit=32;
+#endif
     int n_near = 0;
     if (NOVA_CAMP_SAFE > 0.0f)
         for (const auto& g2 : w.groups) {
@@ -5080,15 +5105,23 @@ bool Bot::fight_camps(GroupRec& g, int need) {
             if (!awake) continue;
             for (int ci : g2.camps) {
                 const auto& c = w.camps[ci];
-                if (c.dead || c.strength <= 0 || cheb(c.pos, pos) > c.range + 2 || n_near >= 32) continue;
+                if (c.dead || c.strength <= 0 || cheb(c.pos, pos) > c.range + 2 || n_near >= near_limit) continue;
+#if X3_CHIP_PLAN
+                near_camps[n_near++] = {c.pos.x,c.pos.y,c.strength,c.range};
+#else
                 near_camps[n_near++] = {c.pos, c.strength, c.range};
+#endif
             }
         }
     auto worst_at = [&](vec2 q) {
+#if X3_CHIP_PLAN
+        return camp_exposure::incoming(near_camps.data(),n_near,q.x,q.y)*camp_taken_mult;
+#else
         float s = 0.0f;
         for (int i = 0; i < n_near; ++i)
             if (cheb(near_camps[i].p, q) <= near_camps[i].r) s += near_camps[i].s;
         return s * camp_taken_mult;
+#endif
     };
     const bool doomed = NOVA_CAMP_SAFE > 0.0f && worst_at(pos) * NOVA_CAMP_SAFE >= hp;
     // Tank rotation: when the camps are focused on us and we are low, step to a tile they do not
@@ -5770,6 +5803,31 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         if (NOVA_BIGJOB > 0.0f && gi < big_group.size() && big_group[gi] && round % 25 == 0)
             LOG("BIG R%d slot%d G%zu need%d team%d claims%d hp_left%.0f state%d dist%d\n", round, slot, gi, need, team_size,
                 claims, hp_left, static_cast<int>(g.state), dist);
+#if X3_SIEGE_ADMIT
+        static volatile int siege_admit=X3_SIEGE_ADMIT_USE+1;
+        float admitted_siege=0;
+        if (need>team_size && siege_admit>1 && tune::kSiege && !in_role_pack) {
+            admitted_siege=siege_dps(g);
+            if (admitted_siege>0) {
+#if X3_TRACE
+                static int trace=0;
+                if (trace++<12) std::printf("X3_SIEGE_ADMIT R%d slot%d group%zu old_need%d dps%.2f\n",round,slot,gi,need,admitted_siege);
+#endif
+                need=1;
+            }
+        }
+#endif
+#if X3_CHIP_PLAN
+        const bool chip=need>team_size && participants_hint>=team_size && x3_chip_enabled() &&
+            g.state==GroupState::alive && hp>=max_hp*tune::kRetreatHp;
+        if (chip) {
+#if X3_TRACE
+            static int traced=0;
+            if (traced++<12) std::printf("X3_CHIP_ADMIT R%d slot%d group%zu old_need%d\n",round,slot,gi,need);
+#endif
+            need=1;
+        }
+#endif
         if (need > team_size) continue;
         // A job that needs more champions than are on it: open it as a call for help (allies see the
         // claim and join), but only if no earlier slot already has an open call we could answer.
@@ -5779,7 +5837,11 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         if (dplan_group() == static_cast<int>(gi)) initiating = false;
 #endif
         // Siege: spells reach 4 tiles and camps only 3, so casters can wear any camp down safely.
-        const float sdps = initiating && tune::kSiege && !in_role_pack ? siege_dps(g) : 0.0f;
+        const float sdps =
+#if X3_SIEGE_ADMIT
+            admitted_siege>0 ? admitted_siege :
+#endif
+            initiating && tune::kSiege && !in_role_pack ? siege_dps(g) : 0.0f;
         const bool siege = sdps > 0.0f;
         if (siege) initiating = false;
         else if (initiating) {
@@ -5795,7 +5857,11 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         // Small jobs belong to the earliest-acting claimant; later slots leave them alone.
         // (Everyone reacting to everyone else's claims made whole teams flip targets each turn.)
         const int helpers = solo_job ? 0 : claims;
-        const int participants = siege ? 1 : std::max({need, helpers + 1, participants_hint});
+        const int participants = siege
+#if X3_CHIP_PLAN
+            || chip
+#endif
+            ? 1 : std::max({need, helpers + 1, participants_hint});
         const float kill = siege ? hp_left / sdps : hp_left / (my_dps(&g) + static_cast<float>(participants - 1) * dps);
         float value = static_cast<float>(g.gems) + gold_weight() * static_cast<float>(g.gold);
 #if A2_DPLAN
@@ -5850,7 +5916,13 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
                 }
         if (HOME_FRONT > 0 && w.enemy_ready && w.group_margin[gi] >= -tune::kTerritoryMargin && w.group_margin[gi] < HOME_FRONT)
             value *= HOME_FRONT_MULT; // frontier groups on our side: where most fights (and deaths) happen
-        if (tune::kTerritory != 1.0f && round < tune::kTerritoryUntil && w.enemy_ready && w.group_margin[gi] < -tune::kTerritoryMargin)
+        if (tune::kTerritory != 1.0f && round < tune::kTerritoryUntil &&
+#if X3_DRAFT_PATHS
+            (w.enemy_ready || w.draft_margin_early) &&
+#else
+            w.enemy_ready &&
+#endif
+            w.group_margin[gi] < -tune::kTerritoryMargin)
             value *= tune::kTerritory;
         // Cohesion (APEX_COHESION): a camp far from every teammate gives up the safety of numbers. The top
         // teams operate 7.5 tiles apart against our 11.3 and die a third as often (540 decoded ladder games):
@@ -5885,7 +5957,11 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         // trip home later (APEX_HP_COST turns per full health bar), which made wolves look better
         // than harmless gem clusters.
         float drain = 0.0f;
-        if (tune::kHpCost > 0.0f && !g.harmless && g.state != GroupState::reward) {
+        if (tune::kHpCost > 0.0f && !g.harmless && g.state != GroupState::reward
+#if X3_SIEGE_ADMIT
+            && !(siege_admit>1 && siege)
+#endif
+            ) {
             const float team_dps = my_dps(&g) + static_cast<float>(participants - 1) * dps;
             drain = soak_coefficient(static_cast<int>(gi), hp_left) * camp_taken_mult / std::max(team_dps, 1.0f) /
                 std::max(max_hp, 1.0f) * tune::kHpCost;
@@ -6241,10 +6317,19 @@ int Bot::plan_search(const RouteCand* top, int n_top, bool& bank_first) {
         const float sticky = c.gi == target_group ? tune::kStickiness : 1.0f;
         const float g1 = gems_of(c.gi);
         const float t1 = static_cast<float>(c.finish);
-        float route = rate(c.value, g1, t1, false) * sticky;
+#if X3_PLAN_NATIVE
+        static volatile int native_costs=X3_PLAN_NATIVE_USE+1;
+        // Keep the executor's person-turn, health and uncertain-help valuation.
+        // c.finish is wall-clock time, used only for the arrival/respawn schedule.
+        const float value1=native_costs>1 ? c.score*c.cost/std::max(0.001f,sticky) : c.value;
+        const float cost1=native_costs>1 ? c.cost : t1;
+#else
+        const float value1=c.value,cost1=t1;
+#endif
+        float route = rate(value1, g1, cost1, false) * sticky;
         // Camp, then bank.
         const int a1 = altar_from_group(c.gi);
-        if (a1 != kUnreach) route = std::max(route, rate(c.value, g1, t1 + static_cast<float>(a1 + channel(carried0 + g1)), true) * sticky);
+        if (a1 != kUnreach) route = std::max(route, rate(value1, g1, cost1 + static_cast<float>(a1 + channel(carried0 + g1)), true) * sticky);
         const std::uint16_t* row1 = row_of(c.gi);
         if (row1) {
             struct Step {
@@ -6270,7 +6355,7 @@ int Bot::plan_search(const RouteCand* top, int n_top, bool& bank_first) {
             }
             for (int j = 0; j < n2; ++j) {
                 const Step& s2 = keep2[j];
-                const float v12 = c.value + s2.value, g12 = g1 + gems_of(s2.gi), t12 = t1 + s2.cost;
+                const float v12 = value1 + s2.value, g12 = g1 + gems_of(s2.gi), t12 = cost1 + s2.cost;
                 route = std::max(route, rate(v12, g12, t12, false) * sticky);
                 const int a2 = altar_from_group(s2.gi);
                 if (a2 != kUnreach) route = std::max(route, rate(v12, g12, t12 + static_cast<float>(a2 + channel(carried0 + g12)), true) * sticky);
@@ -6359,10 +6444,20 @@ bool Bot::farm() {
     if (!low_fuel) {
         const int assigned=team_economic_assignment(best_need);
         if (assigned == -3 && gems > 0) {
+#if X3_BANK_COMMIT
+            team_bank_commit();
+#endif
             force_tribute=true;
             const bool banking=tribute_if_needed();
             force_tribute=false;
-            if (banking) {write_claim(-1);mode="team-bank";return true;}
+            if (banking) {
+#if X3_BANK_COMMIT
+                team_bank_claim();
+#else
+                write_claim(-1);
+#endif
+                mode="team-bank";return true;
+            }
         }
         if (assigned>=0) {
 #if X3_TEAM >= 12
@@ -7079,6 +7174,11 @@ void Bot::play_turn() {
     if (SCARCE_CAMPS > 0 && inited && static_cast<int>(w.groups.size()) <= 2 * SCARCE_CAMPS)
         tune::kTerritory = SCARCE_TERR, tune::kAggression *= SCARCE_AGGR / HOME_AGGR; // scarce map: no home side
 #endif
+#if X3_FEED_CONTROL
+    static volatile int feed_mode_tag=X3_FEED_CONTROL_USE+1;
+    const int feed_mode=feed_mode_tag;
+    const float feed_base_aggression=tune::kAggression;
+#endif
 #if X1_PLAN
     {
         // X1_PLAN team plans (research/x1/PLAN_TWO_MACHINES.md, port of v76p's PLAN_ROUND / PLAN_ID): from
@@ -7138,6 +7238,26 @@ void Bot::play_turn() {
         // almost no kills and banked < 100). Count team deaths (an ally seen alive, then dead); with X1_ANTIFEED or more
         // in the last X1_ANTIFEED_WIN rounds the whole team plays safe: own half, less aggression, earlier retreat,
         // more weight on danger. Only knobs that are reset every turn are scaled, so nothing compounds.
+#if X3_FEED_CONTROL
+        static feed_control::DeathWindow deaths[2];
+        if (num_handles[0].empty()) update_numbers();
+        for (int side=0;side<2;++side) {
+            int k=0;
+            for (std::uint32_t h:num_handles[side]) {
+                if (k>=8) break;
+                std::int32_t alive=1;d::sdk_champion_is_alive(h,&alive);
+                deaths[side].observe(k++,h,alive!=0,round);
+            }
+        }
+        const int recent=deaths[0].recent(round,X1_ANTIFEED_WIN);
+        const int enemy_recent=deaths[1].recent(round,X1_ANTIFEED_WIN);
+        const bool collapse=feed_control::collapsing(recent,enemy_recent,X1_ANTIFEED,feed_mode>1);
+#if X3_TRACE
+        static bool previous=false;
+        if (collapse!=previous) std::printf("X3_FEED R%d slot%d own%d enemy%d active%d mode%d\n",round,slot,recent,enemy_recent,collapse,feed_mode-1);
+        previous=collapse;
+#endif
+#else
         static std::uint32_t seen[8] = {};
         static bool was_alive[8] = {};
         static int death_round[16] = {};
@@ -7157,8 +7277,19 @@ void Bot::play_turn() {
         }
         int recent = 0;
         for (int i = 0; i < std::min(n_deaths, 16); ++i) recent += round - death_round[i] <= X1_ANTIFEED_WIN;
-        if (recent >= X1_ANTIFEED) {
+#endif
+        if (
+#if X3_FEED_CONTROL
+            collapse
+#else
+            recent >= X1_ANTIFEED
+#endif
+            ) {
             tune::kTerritory = 0.0f;
+#if X3_FEED_CONTROL
+            if (feed_mode>2) tune::kAggression=std::min(tune::kAggression,feed_base_aggression*0.6f);
+            else
+#endif
             tune::kAggression *= 0.6f;
             tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + 0.15f);
             tune::kDangerTtd *= 1.3f;
@@ -7613,6 +7744,13 @@ void Bot::play_turn() {
     } else if (win_now() && hp >= max_hp * tune::kDangerHp && tribute_if_needed()) {
         // Our bag finishes the race: bank it before anything else (shopping can wait).
         mode = "tribute-win";
+#if X3_BANK_COMMIT
+    } else if (team_bank_committed() && hp>=max_hp*tune::kDangerHp && [&] {
+        force_tribute=true;const bool action=tribute_if_needed();force_tribute=false;
+        if (action) {team_bank_claim();mode="team-bank-commit";}
+        return action;
+    }()) {
+#endif
     } else if (go_home_if_needed()) {
         if (std::string_view(mode) == "idle") mode = "home";
 #if (A2_TEAM & 2)
@@ -7630,8 +7768,16 @@ void Bot::play_turn() {
         if (round - last_flee_round > X1_FLEEHOLD) return false;
         vec2 threat{-100, -100};
         int best = 9;
-        for (const auto& e : w.enemies) { const int d = cheb(e.pos, pos); if (d < best) best = d, threat = e.pos; }
-        for (const auto& s : w.sightings) { if (round - s.round > 4) continue; const int d = cheb(s.pos, pos); if (d < best) best = d, threat = s.pos; }
+        for (const auto& e : w.enemies) { const int d = cheb(e.pos, pos);
+#if X3_ARBITRATION
+            if (x3_arbiter_enabled() && d>std::max(5,e.range+2)) continue;
+#endif
+            if (d < best) best = d, threat = e.pos; }
+        for (const auto& s : w.sightings) { if (round - s.round > 4) continue; const int d = cheb(s.pos, pos);
+#if X3_ARBITRATION
+            if (x3_arbiter_enabled() && d>5) continue;
+#endif
+            if (d < best) best = d, threat = s.pos; }
         if (best > 8) return false;
         mode = "flee-hold";
         return retreat_from(threat);
@@ -7646,6 +7792,17 @@ void Bot::play_turn() {
         for (const auto& a : w.allies) { const int d = cheb(a.pos, pos); if (d < ally_d) ally_d = d, near = &a; }
         for (const auto& e : w.enemies) enemy_d = std::min(enemy_d, cheb(e.pos, pos));
         if (!near || ally_d <= 5 || enemy_d > 10 || gems >= tune::kTributeCarry) return false;
+#if X3_ARBITRATION
+        if (x3_arbiter_enabled() && target_group>=0 && target_group<static_cast<int>(w.groups.size())) {
+            const auto& g=w.groups[target_group];
+            // Calm regrouping must not reset productive capture progress. Actual
+            // enemy contact was handled above; imminent danger still wins.
+            if (enemy_d>4 && g.state==GroupState::reward && bit(g.tiles,pos)) return false;
+            if (enemy_d>6 && g.state==GroupState::alive && hp>=0.6f*max_hp &&
+                g.hp_left(w.camps)<=2.0f*my_dps(&g) && w.has_field(target_group) &&
+                w.group_distance(target_group,pos)<=range) return false;
+        }
+#endif
         bc::bitboard goal;
         goal.clear();
         goal.draw_chebyshev(near->pos, 2.0f);
@@ -7655,13 +7812,28 @@ void Bot::play_turn() {
 #endif
 #if X3_TEAM >= 9
     } else if ([&] {
+#if X3_BANK_COMMIT
+        const bool continuing=team_bank_committed();
+        if (!continuing) {
+#endif
         if (claim_of(slot)!=125 || gems<=0) return false;
         int need=1;
         if (team_economic_assignment(need)!=-3) return false;
+#if X3_BANK_COMMIT
+            team_bank_commit();
+        }
+#endif
         force_tribute=true;
         const bool action=tribute_if_needed();
         force_tribute=false;
-        if (action) {write_claim(-1);mode="team-bank-race";}
+        if (action) {
+#if X3_BANK_COMMIT
+            team_bank_claim();
+#else
+            write_claim(-1);
+#endif
+            mode="team-bank-race";
+        }
         return action;
     }()) {
 #endif
@@ -7718,6 +7890,9 @@ void Bot::play_turn() {
 #endif
     build_fields();
     PROF_CHECK("fields");
+#if X3_DRAFT_PATHS && X3_TRACE
+    draft_paths_verify(w);
+#endif
 #if X3_TEAM >= 8
     if (w.enemies.empty() && bc::fuel_remaining()>=
 #if X3_TEAM >= 9

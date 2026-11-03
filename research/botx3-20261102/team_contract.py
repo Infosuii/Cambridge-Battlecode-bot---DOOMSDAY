@@ -20,6 +20,7 @@ assert len(set(hashes.values()))==1,hashes
 s.write(s.OUT/'same-code-proof.json',hashes)
 recent={}
 for name in ['initial-campaign','team-work','team-tail','team-intents']:
+    if not (BASE/name/'rows.json').exists(): continue
     for row in json.loads((BASE/name/'rows.json').read_text()):
         recent[(row['candidate_sha256'],row['opponent_sha256'],row['map_sha256'],row['side'])]=row
 old_cached=s.cached

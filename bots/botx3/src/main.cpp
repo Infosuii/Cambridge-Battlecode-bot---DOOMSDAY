@@ -32,8 +32,11 @@ int main() {
         try {
             if (bc::is_draft()) {
                 play_draft();
-#if X3_TEAM >= 2
+#if X3_TEAM >= 2 && !X3_DRAFT_PATHS
                 team_economic_draft();
+#endif
+#if X3_DRAFT_PATHS
+                draft_paths_prepare();
 #endif
 #if V58_DIRECTOR
                 economy_record_roster();

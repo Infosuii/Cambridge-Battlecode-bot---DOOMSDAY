@@ -1,0 +1,87 @@
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/.cambc/build-release
+[0/2] Re-checking globbed directories...
+[1/15] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/team-contract/builds/parent/src/neural_policy.cpp.obj
+[2/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/economy.cpp.obj
+[3/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/deny.cpp.obj
+[4/15] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/team-contract/builds/parent/src/team_economy.cpp.obj
+[5/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/fight.cpp.obj
+[6/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/tactics.cpp.obj
+[7/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/pressure.cpp.obj
+[8/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/episode.cpp.obj
+[9/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/draft.cpp.obj
+[10/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/main.cpp.obj
+[11/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/world.cpp.obj
+[12/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp.obj
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp:804:26: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^  ~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp:804:26: note: use '&' for a bitwise operation
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~
+      |                          &
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp:804:26: note: remove constant to silence this warning
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp:941:56: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^  ~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/tsearch.cpp:941:56: note: use '|' for a bitwise operation
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+
+      |                                                        ^~
+
+      |                                                        |
+
+2 warnings generated.
+
+[13/15] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/team-contract/builds/parent/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:3710:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3710 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:3710:53: note: use '&' for a bitwise operation
+ 3710 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:3710:53: note: remove constant to silence this warning
+ 3710 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:4179:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4179 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:4179:92: note: use '|' for a bitwise operation
+ 4179 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:4197:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4197 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/src/bot.cpp:4197:82: note: use '|' for a bitwise operation
+ 4197 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+
+      |                                                                                  ^~
+
+      |                                                                                  |
+
+3 warnings generated.
+
+[14/15] Linking CXX executable bot.wasm
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/team-contract/builds/parent/.cambc/build
+built C:\projects\cambridge battlecode\work\botx3-team-economy\research\botx3-20261102\team-contract\builds\parent\.cambc\build-release\bot-injected.wasm
+injected 1 checks into 1 functions
+stripped stale debug sections (.debug_loc, .debug_abbrev, .debug_info, .debug_str, .debug_line, .debug_ranges); pass --keep-debug to retain them

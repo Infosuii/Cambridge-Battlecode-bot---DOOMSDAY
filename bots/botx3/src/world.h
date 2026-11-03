@@ -165,6 +165,11 @@ public:
     // Walking distance from group `from` to the nearest camp of group `to` (static; kUnreach until
     // `from` has its field). One row per source group, filled on first use.
     std::vector<std::vector<std::uint16_t>> pair_rows;
+#if X3_DRAFT_PATHS
+    // bank distance, own-spawn distance, enemy-spawn distance, geometric bank-route width
+    std::vector<std::array<std::uint16_t,4>> draft_summary;
+    bool draft_routes_early=false, draft_margin_early=false;
+#endif
     int group_to_group(int from, int to);
     // Camps that are awake (damaged, alive) and would reach tile q (small list; for exposure).
     std::vector<int> awake_camps_near(vec2 q) const;

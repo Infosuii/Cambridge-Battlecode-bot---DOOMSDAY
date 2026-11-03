@@ -53,6 +53,59 @@ void Bot::team_economic_init() {
 #endif
 }
 
+#if X3_BANK_COMMIT
+namespace {
+bool bank_commit_enabled() {static volatile int enabled=X3_BANK_COMMIT_USE+1;return enabled>1;}
+}
+void Bot::team_bank_commit() {
+    if (!bank_commit_enabled() || !w.altar_ready || w.no_bank || gems<=0) return;
+    const int distance=fdist(w.altar_field,pos);
+    if (distance==kUnreach) return;
+    // One bounded delivery commitment: allow a detour up to the outbound distance
+    // plus channel time. Never extend the deadline merely because a step failed.
+    x3_delivery.begin(round,distance,gems);
+#if X3_TRACE
+    std::printf("X3_BANK_COMMIT R%d slot%d gems%d until%d\n",round,slot,gems,x3_delivery.until);
+#endif
+}
+bool Bot::team_bank_committed() {
+    if (!bank_commit_enabled()) return false;
+#if X3_BANK_PROBE
+    // Diagnostic fixture: issue one legal small-bag order at a distance where
+    // normal threshold banking would stop after a single forced step.
+    static bool probed=false;
+    if (!probed && round>5 && round<500 && gems>0 && gems<tune::kTributeCarry &&
+        w.altar_ready && !w.no_bank && w.enemies.empty()) {
+        const int distance=fdist(w.altar_field,pos);
+        if (distance>=8 && distance!=kUnreach) {
+            probed=true;team_bank_commit();write_claim(125);x3_delivery.announced=true;
+            std::printf("X3_BANK_PROBE R%d slot%d gems%d distance%d until%d\n",round,slot,gems,distance,x3_delivery.until);
+        }
+    }
+#endif
+    const bool active=x3_delivery.active(round,gems,w.no_bank,round<tribute_off_until);
+    if (!active && x3_delivery.announced) {
+        const auto word=read_shared();
+        // Clear our expired status, preserving a newly pending replacement order.
+        if (((word>>(slot*kClaimBits))&kClaimMask)==125 && !((word>>(35+slot))&1)) write_claim(-1);
+        x3_delivery.announced=false;
+#if X3_TRACE
+        std::printf("X3_BANK_END R%d slot%d gems%d blocked%d cooldown%d\n",round,slot,gems,w.no_bank,round<tribute_off_until);
+#endif
+    }
+    return active;
+}
+void Bot::team_bank_claim() {
+    if (team_bank_committed()) {
+        write_claim(125);x3_delivery.announced=true;
+#if X3_TRACE
+        std::printf("X3_BANK_STATE R%d slot%d gems%d until%d marker%d\n",round,slot,gems,x3_delivery.until,claim_of(slot));
+#endif
+    }
+    else write_claim(-1);
+}
+#endif
+
 int Bot::team_economic_assignment(int& need) {
     using namespace team_scheduler;
 #if X3_TEAM >= 9
@@ -102,7 +155,11 @@ int Bot::team_economic_assignment(int& need) {
 #if X3_TEAM >= 11
         const bool pending=((shared>>(35+slot))&1)!=0;
         if (pending) {x3_received_command=command;x3_received_round=round;}
-        if (slot!=leader && !pending && (command!=x3_received_command || round-x3_received_round>=8)) return -1;
+        if (
+#if X3_TEAM < 13
+            slot!=leader &&
+#endif
+            !pending && (command!=x3_received_command || round-x3_received_round>=8)) return -1;
 #else
         if (command!=x3_received_command) {x3_received_command=command;x3_received_round=round;}
         if (slot!=leader && command!=125 && round-x3_received_round>=8) return -1;
@@ -170,6 +227,12 @@ int Bot::team_economic_assignment(int& need) {
         }
     }
 #if X3_TEAM >= 9
+    #if X3_BANK_COMMIT
+    if (bank_commit_enabled()) for (int s=0;s<workers;++s)
+        if (actor[s].available && actor[s].carried>0 && claim_of(s)==125) {
+            actor[s].delivering=true;actor[s].current=bank;
+        }
+    #endif
     if (race_due) {
         const unsigned banking=bank_cohort(actor,static_cast<int>(bc::constants::winning_gems)-ally_score);
         if (banking) {
@@ -195,8 +258,35 @@ int Bot::team_economic_assignment(int& need) {
     }
     if (enable_farm<2 || leased || (x3_dominant_group>=0 && round>=A2_SOLE_FROM) || bc::fuel_remaining()<75000) return -1;
 #endif
+#if X3_TEAM >= 14
+    // A partial opening field cache only exposes its first few groups to the
+    // auction. Do not publish a team schedule from that biased candidate set.
+    if (!w.fields_ready()) return -1;
+#endif
 #if X3_TEAM >= 3
     if ((visible&(visible-1))==0 && gems<tune::kTributeCarry) return -1;
+#endif
+#if X3_TEAM >= 13
+    // Repair only slack in the native schedule, rather than replacing productive
+    // commitments with a captain's coarser health/DPS/territory approximation.
+    // Keep a near-term claimed job; for duplicate single-owner rewards/resources,
+    // retain the earliest arrival (slot breaks ties) and release the redundant actor.
+    for (int s=0;s<workers;++s) if (actor[s].available && actor[s].fixed<0) {
+        const int gi=actor[s].current;
+        if (gi<0 || gi>=static_cast<int>(w.groups.size()) || !w.has_field(gi)) continue;
+        if (s!=slot && ((shared>>(35+s))&1)) continue; // unaccepted order is not a commitment
+        const auto& g=w.groups[gi];
+        const int dist=w.group_distance(gi,place[s]);
+        if (dist==kUnreach || (g.state==GroupState::respawning && g.respawn_round>round+dist+8)) continue;
+        bool owner=true;
+        if (g.harmless || g.state==GroupState::reward) {
+            for (int a=0;a<workers;++a) if (a!=s && actor[a].available && actor[a].current==gi) {
+                const int ad=w.group_distance(gi,place[a]);
+                if (actor[a].fixed==gi || ad<dist || (ad==dist && a<s)) owner=false;
+            }
+        }
+        if (owner) actor[s].fixed=gi;
+    }
 #endif
     struct Candidate {int gi=-1;float rate=0;};
     std::array<Candidate,jobs> top{};int nt=0;
@@ -209,6 +299,11 @@ int Bot::team_economic_assignment(int& need) {
         bool held=false;
         for (int s=0;s<std::min(team_size,workers);++s) if (!(visible&(1u<<s)) && claim_of(s)==gi) held=true;
         if (held || group_capture_covered(g)) continue;
+#if X3_TEAM >= 13
+        bool committed=false;
+        for (const auto& a:actor) committed|=a.available && a.fixed==gi;
+        if (committed) continue; // leave current fights/owners intact; allocate unused opportunities
+#endif
         int dist=kUnreach;
         for (int s=0;s<workers;++s) if (actor[s].available) dist=std::min(dist,w.group_distance(gi,place[s]));
         if (dist==kUnreach) continue;
@@ -226,6 +321,10 @@ int Bot::team_economic_assignment(int& need) {
         j.soak=g.harmless || g.state==GroupState::reward ? 0 : soak_coefficient(c.gi,j.hp)*camp_taken_mult;
         j.ready=g.state==GroupState::respawning ? std::max(0,g.respawn_round-round) : 0;
         j.capture=capture_time;
+#if X3_DRAFT_PATHS
+        if (w.draft_summary.size()==w.groups.size()) j.bank_distance=w.draft_summary[c.gi][0];
+        else
+#endif
         if (x3_bank_distance.size()==w.groups.size()) j.bank_distance=x3_bank_distance[c.gi];
         else for (int ci:g.camps) j.bank_distance=std::min(j.bank_distance,static_cast<int>(fdist(w.altar_field,w.camps[ci].pos)));
         for (int s=0;s<workers;++s) {
@@ -243,8 +342,17 @@ int Bot::team_economic_assignment(int& need) {
 #if X3_TEAM < 10
     word&=((std::uint64_t{1}<<42)-1);
 #endif
+#if X3_TRACE
+    unsigned issued=0;
+#endif
     for (int s=0;s<workers;++s) if (visible&(1u<<s)) {
         const int target=result.target[s];
+#if X3_TEAM >= 13
+        if (target==actor[s].current || target==idle) continue; // preserve honest native claims and intent
+#endif
+#if X3_TRACE
+        issued|=1u<<s;
+#endif
         std::uint64_t code=target>=0 ? target : target==bank ? 125 : kClaimCodeIdle;
         if (target>=0 && onsite_ok && target<kOnsiteGroups && claim_of(s)==target && claim_onsite(s)) code=kOnsiteBase+target;
         word=(word&~(kClaimMask<<(s*kClaimBits))) | (code<<(s*kClaimBits));
@@ -257,11 +365,14 @@ int Bot::team_economic_assignment(int& need) {
 #endif
     bc::shared_memory.write(0,std::span<std::uint64_t,1>{&word,1});shared=word;decode_claims();
 #if X3_TRACE
-    std::printf("X3_ORDER R%d captain%d targets%d,%d,%d,%d,%d,%d\n",round,leader,
-        result.target[0],result.target[1],result.target[2],result.target[3],result.target[4],result.target[5]);
+    std::printf("X3_ORDER R%d captain%d targets%d,%d,%d,%d,%d,%d issued%u\n",round,leader,
+        result.target[0],result.target[1],result.target[2],result.target[3],result.target[4],result.target[5],issued);
 #endif
 #endif
     x3_assignment=result.target[slot];x3_crew=result.crew[slot];x3_assignment_round=round;
+#if X3_TEAM >= 13
+    if (x3_assignment==actor[slot].current) x3_assignment=-1;
+#endif
     need=x3_crew;
 #if X3_TRACE
     std::printf("X3_TEAM R%d slot%d visible%u jobs%d bids%d assigned%d crew%d fuel%llu\n",round,slot,visible,nt,

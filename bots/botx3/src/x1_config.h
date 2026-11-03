@@ -126,3 +126,60 @@
 #ifndef X3_TEAM_RACE
 #define X3_TEAM_RACE 0
 #endif
+#ifndef X3_DRAFT_PATHS
+#define X3_DRAFT_PATHS 0
+#endif
+#ifndef X3_DRAFT_USE
+#define X3_DRAFT_USE 1
+#endif
+#ifndef X3_ARBITRATION
+#define X3_ARBITRATION 0
+#endif
+#ifndef X3_ARBITER_USE
+#define X3_ARBITER_USE 1
+#endif
+#ifndef X3_BANK_COMMIT
+#define X3_BANK_COMMIT 0
+#endif
+#ifndef X3_BANK_COMMIT_USE
+#define X3_BANK_COMMIT_USE 1
+#endif
+#ifndef X3_MASTERY_FIX
+#define X3_MASTERY_FIX 0
+#endif
+#ifndef X3_MASTERY_FIX_USE
+#define X3_MASTERY_FIX_USE 1
+#endif
+#ifndef X3_BANK_PROBE
+#define X3_BANK_PROBE 0
+#endif
+#ifndef X3_PLAN_NATIVE
+#define X3_PLAN_NATIVE 0
+#endif
+#ifndef X3_PLAN_NATIVE_USE
+#define X3_PLAN_NATIVE_USE 1
+#endif
+#ifndef X3_DRAFT_ROLES
+#define X3_DRAFT_ROLES 0
+#endif
+#ifndef X3_DRAFT_ROLES_USE
+#define X3_DRAFT_ROLES_USE 1
+#endif
+#ifndef X3_SIEGE_ADMIT
+#define X3_SIEGE_ADMIT 0
+#endif
+#ifndef X3_SIEGE_ADMIT_USE
+#define X3_SIEGE_ADMIT_USE 1
+#endif
+#ifndef X3_CHIP_PLAN
+#define X3_CHIP_PLAN 0
+#endif
+#ifndef X3_CHIP_PLAN_USE
+#define X3_CHIP_PLAN_USE 1
+#endif
+#ifndef X3_FEED_CONTROL
+#define X3_FEED_CONTROL 0
+#endif
+#ifndef X3_FEED_CONTROL_USE
+#define X3_FEED_CONTROL_USE 2
+#endif

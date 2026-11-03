@@ -1,130 +1,72 @@
-# STOPPED — botx3 continuation handoff
+# Paused botx3 continuation — 3 November 2026
 
-The user explicitly requested stopping because of usage limits and asked for a portable handoff and fresh-agent prompt. Do not resume any job in this chat. All running experiment drivers were stopped or had already completed. The final active driver was `team_contract.py`, interrupted while compiling: `transport` built, `farm` was being prepared; no completed contract matrix exists. Latest source is X3_TEAM=12 and is **unvalidated**. Modes up to 11 have frozen completed experiments.
+Development is paused at the user's request. No experiment processes remain running. The latest complete full-feature release is `bots/botx3_11`; the strongest measured broad version is `bots/botx3_1`. Do not claim the latest integration is a universal upgrade. No version 12 exists.
 
-## Objective and restrictions
+Start with `SETUP_FRESH_MACHINE.md`, then `NEXT_AGENT_PROMPT.md`. `PAUSED_STATE.json` identifies releases; `MANIFEST.json` verifies portable files. `handoff-botx3-latest/BOTX3_CONTINUATION_LATEST.zip` is an overlay capsule for this repository, with its SHA-256 alongside. Older `handoff-botx3/` files are historical, not current instructions.
 
-The main task is the full attached Cambridge Battlecode next-generation brief, especially a coordinated map-independent economic planner. The user previously objected to stopping after narrow heuristics. Continue implementation/diagnosis/validation, not just a plan or protocol update. NEVER submit, publish, activate, or push a bot to the official ladder. Local development and dedicated local branches are permitted. Follow the mandatory failure protocol: verify activation and inputs, inspect interactions/replays, make approximately 2–3 mechanism-driven focused repairs, test combinations and environmental scope; do not reject on one failed benchmark. Classifications: Accepted / Retry required / Conditionally useful / Parked / Rejected.
+Git branch: `dev/botx3-team-economy-20261102` in https://github.com/Infosuii/neural-networkk-battlecode . Original development checkout: `C:/projects/cambridge battlecode/work/botx3-team-economy`. Do not touch other checkouts. Local development/testing and Git pushes are authorized; official ladder submission, publication and activation are forbidden. No login is needed for local work. Older documentation about ladder login or live versions is stale for this task.
 
-## Repository / portability
+## User intent and failure protocol
 
-Repository: https://github.com/Infosuii/neural-networkk-battlecode
+Build actual numbered improved bot versions, restore previously implemented features, use draft fuel for substantially richer map analysis, and fix bugs. Spend most time improving the bot after a short audit. Preserve frozen versions rather than replacing them with vaguely named tested candidates. Start the next version from full version 11; retain version 1 as a useful performance reference. `bots/botx3/src` is a flag-controlled integration source with defaults OFF: building it without overrides yields original x1, not the latest full bot. Each numbered version has explicit `features.json`, `release.json`, `src/` and exact runnable `bot.wasm`.
 
-Local authoritative development source: `x1work/bots/botx3/src`. Research is `x1work/research/botx3-20261102`. Source and experiments are uncommitted. A clean local branch/worktree `dev/botx3-team-economy-20261102` was created at base `ba5802ed`, in `work/botx3-team-economy`, but **the new code was not copied into or committed on that branch before stopping**. A fresh system cannot fetch the work from that branch. The ZIP overlay is authoritative for transport. Do not assume any local-only branch was pushed.
+Follow AGENTS.md: never reject an idea solely on its first losing benchmark. Verify compilation/configuration/activation/inputs; inspect shared state, dependencies and order; examine failed native replays; make 2–3 motivated focused repairs where warranted; test plausible interactions and map/opponent/state scope. Classify Accepted, Retry required, Conditionally useful, Parked or Rejected. A failed gate is not Rejected. Record mechanism, evidence, repair hypothesis, attempts and uncertainty. Do not rescue weak ideas with arbitrary configurations.
 
-On a fresh system clone the repository, check out base `ba5802ed` (or inspect newer changes before integrating), create a dedicated local development branch, and extract the ZIP at the repository root. Preserve existing work if using a non-clean checkout. Read the archive manifest. The overlay includes exact current source, frozen sources/binaries for important candidates, the actual local runner, scripts, generated maps, complete per-game result matrices, selected native replay evidence, and original x1 references. Full raw game directories remain on the original computer; they are intentionally omitted due to size. Regenerate specific missing replays from exact frozen binaries and map bytes if necessary.
+## Results and version history
 
-Native toolchain used: cambc CLI 4.0.0, engine 2.0.0, SDK 4.0.0, WASI SDK 33 / Clang 22.1.0. C++20 host checks used GCC. CLI/toolchain binaries are not bundled; install the official tools. Windows paths in existing manifests are provenance, not portable path assumptions. Embedded Python 3.12 was used; ordinary Python 3.12 is preferable. Map generation requires wasmtime 50.0.1 and the installed engine-2.0.0 map-editor WASM. `team_maps.py` and `team_unseen_maps.py` currently contain a Windows asset path: adapt asset discovery on a fresh system before running. Engine assets, accounts and credentials are not included. `tools/dz.py` is the exact local runner, including pre-existing local build-cache changes, included for reproducibility rather than attributed as new work.
+All following completed development matrices use 14 already-spent maps, four opponents (x1, x2, v86h, v92), both sides: 112 games per arm. Broad matrices use 46 already-spent maps: 368 per arm. These are not untouched holdouts. Fuel counts are reported by historical summaries; they count fuel-out events, not games. Report faults separately; all listed matrices had zero own/opponent faults.
 
-## Frozen baselines / prior research
+| Version | Change | Dev wins /112 | Broad wins /368 |
+|---|---|---:|---:|
+| frozen original x1 | feature defaults off |56|173|
+| parent x1c1 | earlier planner |57|171|
+| 1 | independent rich draft summary/path matrix |60|189|
+| 2 | restored implemented features, team mode14 and rolling planning |49|not run|
+| 3 | capture/regroup/flee/banking arbitration |55|112|
+| 4 | initial finite banking lease |55|not run|
+| 5 | non-renewing banking commitment and public delivery marker |55|119|
+| 6 | mastery substitution alias correction |56|119|
+| 7 | native planner cost/value restoration |65|136|
+| 8 | protect only healer in frontline-heavy draft |65|not run|
+| 9 | unique projected roster and safe-siege admission |61|135|
+| 10 | chip fallback and complete camp exposure tiles |58|131|
+| 11 | exact death window, net-loss anti-feed |56|not run|
 
-Original x1 Wasm SHA256: `1746f2bb7fa341530f41bd8c8c4896b35172783f35eacee8e4a4b6ac0ceea183`.
-x1c1 parent: `22e6067a423356e29e6738438f47b22d05b554767757717e58bf350392e16b13`.
-Original x1 production source was never edited; its source ZIP and hashes are included. Disabled builds repeatedly reproduced original x1 byte for byte. Latest exact verification was before the unvalidated mode-12 contract edit; repeat it after resumption.
+Use exact same-code controls, not only cross-version differences: code/data-layout changes alter deterministic play. Dev treatment/control wins: v3 55/50; v4 55/59; v5 55/51; v6 56/55; v7 65/57; v8 65/65; v9 61/54; v10 58/58; v11 56/61 (net-only also56). Broad treatment/control: v5 119/116, v6 119/119, v7 136/116, v9 135/127, v10 131/131. Proofs and exact controls are in each campaign's `same-code-proof.json`, manifests and builds. Tagged volatile runtime initializers preserve code sections; values stored as +1 prevent zero/BSS layout changes.
 
-K004–K009 are complete; no universal replacement for original x1 was established. K009 parent gained 40 wins over x1 on 716 x2-build cells, lost 28 on the 720-cell v86h/v81hl robustness pool. K010 is complete (snapshot included): parent late-game economic stall attributed to indefinite home-only plan 4; historical ladder comparisons are repeated maps and different dates, not independent new trials. Original x1 remains the competitive reference. v92 was downloaded through connected GitHub and all 35 source blobs verified modulo line endings (receipts included).
+Dev fuel events original120, parent122, v1 116, full v2/v3/v5/v6/v7/v8/v9/v10 65–66, v4 61; v11 52. Broad original58, parent54, v1 86, v3/v5 142, v6 140, v7 150, v9 157, v10 152. Fuel remains unresolved; zero faults does not imply zero fuel exhaustion.
 
-The old `REPORT.md` describes the EARLIER narrow x1 experiments, not the latest team-planner work. Its findings remain historical evidence. `initial-campaign/` freezes its original matrices. Do not present the old report as a summary of this continuation.
+Earlier draft-summary evidence: full path candidate broad160/304 versus same-code control154, original147, parent142. Fresh-at-the-time 8-map set:29/64 versus control21, original26, parent29; no fuel/faults. Map-cluster intervals span zero. Those maps are now spent. Bank-only mode14: dev60/112 versus control57; 26-map broad102/208 versus96; next12 maps37/96 versus37, original50, parent42. No transfer established. Earlier expiry repair broad95/208 versus never99 (original97,parent100); earlier narrow gain did not hold.
 
-## Implemented team planner
+## Implemented mechanisms and evidence
 
-- `team_scheduler.h`: pure bounded greedy team auction. Visible workers bid in small crews; costs include synchronized arrival, camp clearing, respawn waiting, a single reward owner, and amortized banking. Crews are disjoint and a completed reward gets one owner. Unknown/invisible teammates retain reservations; no hidden inventory is read.
-- `team_economy.cpp`: legal-view adapter, public alive-based leader election, shared assignments, local safety/capture/retreat overrides, eight-turn commitments, and budget admission.
-- Draft computation: use static legal map data and actual walking fields to pass 512 bytes at draft-memory offset 480 (bank/spawn summaries, version/count/signature). Native trace measured 47,016 fuel on gold-rush and successful reads by all three champions. Large distance fields remain per-VM and are not falsely assumed shared.
-- Modes 1–3: independently computed assignments; measured inconsistency and fuel overuse. Mode 4 made assignments authoritative but replaced upper-bit sightings/events. Mode 5 added dominant-resource priority preservation. Modes 7/8 moved optional computation after actions / after distance-field work. Mode 8 `team_after_fields` is the earlier promising but non-generalizing frozen prototype.
-- Mode 9: visible-bag bank-cohort planner, plus four-arm transport/farm/bank/joint ablation. It selects earliest visible bank arrivals sufficient to finish the race and preserves an active capture. Bank orders are admitted before hunting. This does NOT read hidden ally bags and cannot promise a win when routes take longer than the remaining race.
-- Mode 10 attempted to preserve legacy sightings/events without an explicit command tag. It confounded commands with ordinary claims; treat it as a diagnostic implementation, not a recommended protocol.
-- Mode 11 uses command-intent bits in the UNUSED sixth claim slot for teams with at most five physical bodies. It preserves all upper-bit sightings/events and on-site codes, ignores the reserved slot as a phantom claimant, consumes intent on own claim writes, and preserves opening orders across later actors' initialization. Six-body teams deliberately fall back. This is the latest fully benchmarked protocol.
-- Mode 12 (LATEST, UNVALIDATED): coordinator proposals are passed through the existing native `score_groups` health/risk/ownership/territory evaluator before acceptance; at most 10% local score opportunity cost is admitted. It explicitly scores a proposal before pruning and records accepted/refused contract telemetry. Verify the patch is in the correct scoring loop, compile, test activation, then resume its frozen matrix. Do not assume it improves performance.
+Source and scripts live under `bots/botx3/src` and `research/botx3-20261102`. Every version snapshots the exact enabled flags. `restored-features.json` records the full restored set. Previously implemented mastery, bush preprocessing, siege, resource walk, isolation, secure capture, solo hunting, anti-feed, heartbeat, soak, prune/flee/teamwin, strict siege, bag/drop risk, economy, cover, burst/target visibility, locks/disengage/beliefs, rolling planner, banking cycle and team mode14 are included in full versions. This does not mean every speculative historical retry-queue idea was implemented. Mutually exclusive superseded modes cannot all be active together.
 
-All X3 flags default off. `X3_TEAM_FARM` and `X3_TEAM_RACE` use nonzero tagged volatile initializers to preserve executable-code and layout identity across 0/1 ablation arms. `same-code-proof.json` verifies identical Wasm code sections for modes 9 controlled, 10, and 11. Initial untagged banking builds had different code sections; they are superseded for causal interpretation. Comparing wins to original x1 alone is insufficient: protocol/hook changes can themselves alter deterministic outcomes.
+Mode12 admitted proposals through native score_groups; mode13 fixed the leader reading its own ordinary claims as planner commands and preserved productive commitments; mode14 waits for complete field cache (the first trace had only2/15 jobs ready on round1). Coarse auction models remain Parked, not disproven by a single run.
 
-## Failure evidence / interpretation
+`draft_paths.cpp` spends draft-only fuel on actual static inter-camp shortest paths, spawn/bank access and a geometric banking-route width proxy. Draft allowance is10m fuel; shared memory1KB. Bytes0–7 preserve brain/ML,8–1007 summary,1008+ roster. Up to38 groups: compressed triangular matrix plus7 metadata bytes/group;39–44 matrix only;45–126 rich metadata only. Bridges invalidate imported static paths. Native routing and territory consume the summary. `X3_DRAFT_USE`:0 compute-only,1 both consumers,2 routes,3 territory,4 lazy native-timing cache. Native diagnostic gold:348542 draft fuel,15groups105pairs218bytes,3readers,285 comparisons,zero path mismatches; perimeter864798fuel,22groups231pairs393bytes,6readers,572 comparisons,zero mismatches. These are instrumented traces, not exact release fuel. `draft-paths-v3-diagnostics` stores evidence. First losing greatwall run collected484 versus392 but banked159 versus223 with no early death: collection alone is insufficient.
 
-The first independent team auction spent roughly 60k fuel in a large call and repeatedly replanned idle assignments every turn. A six-job limit and idle cooldown repaired these costs. Authoritative commands repaired part of the independent-view mismatch. Draft transfer, actual commands and executor reads were confirmed in separate native diagnostic builds. Mode 5 diagnostic maximum planner cost was 34,897 fuel; mean approximately 28,118. Mode 8's diagnostic only issued three orders in 550 rounds on the inspected map, so its apparent win gain must not be attributed solely to intended planning activation.
+`bank_commit.h`: deadline round+2*distance+ceil(bag/10)+10 without renewal, public marker125; delivering actors excluded from fresh farm jobs. Completion/death/blocked/cooldown/expiry clear state; contact/low-health safety retains priority, healthy committed trip precedes gold-only shopping. Native legal small-bag conformance:5 probes,98 delivery steps,5 completed empty bags with public125. Diagnostic `X3_BANK_PROBE` is not a release feature.
 
-An actual incomplete-bush-ID bug was reproduced and repaired behind X3_COVER_SAFE; native paused-flood probe returns unknown until completion. It did not demonstrate a competitive gain over BP. The stale hidden-recall report did not apply to the inspected source, which already refreshed the world before the check. Do not reapply that obsolete fix blindly.
+`draft_alias.h`: accepted mastery substitution consumes its original slot once, in both fixed and ML paths, only after engine acceptance. Original7 had repeatedly become1,10,5; repaired native trace substitutes original7 once. Projection padding also deduplicated. Version8 preserves only healer when projected frontline count>=3.
 
-On v92/rows-side-A native replays, the coordinated prototype had fewer idle turns but fewer completed deposits than x1, and high earned gold with inadequate banked gems. Less waiting does not automatically mean better economics. Eight losses on the new resource-layout suite had collected >=1000 but not banked enough. The inspected perimeter-banking loss first had an omniscient sufficient cohort only at R1027, with the game ending R1030: sufficient bags alone do not prove timely banking was feasible, and omniscient cohorts are not legal controller inputs. `race_snapshot.mjs` labels this limitation explicitly.
+Native rolling planner previously mixed wall-clock duration with person-turn cost and raw value; v7 restores `c.cost` and effective `c.score*c.cost/sticky` while preserving timing for respawns. Siege checks safe admission before pruning required crew>team; safe siege has no hypothetical tanking health cost. Chip fallback models one-person persistent damage when no safe full clear is possible. `camp_exposure.h` expands32 slots to256: radius7 requires225 unique tiles; host example49wolves980 versus old truncated640. Conformance proves36 chip and24 siege admissions, not competitive strength. Version10 had zero outcome changes against its exact control in112/368 pools. Diagnostic `X1_FUEL_PROBE=1` bypasses shortcuts; never enable it in a normal release.
 
-## Main results and protected-data accounting
+`feed_control.h`: bounded exact death-window deque, both teams' public alive transitions, net-loss trigger instead of balanced trades; choose strongest safety modifier rather than multiply duplicate modifiers. `X3_FEED_CONTROL=1`, runtime USE0 raw,1 net-only,2 net/noncompounding. Version11's first development test regressed56 versus61. Net-only and combined produced identical results. Activation and failed native replay diagnosis remain unfinished: Retry required, not Rejected.
 
-`team-tail`: 28 development/regression maps, 224 cells/arm, x1/x2/v86h/v92, both sides. Original 100 wins /150 fuel-outs; x1c1 109/153; mode 8 114/182. Mode-8 opponent wins 32/27/28/27 versus x1 28/23/28/21. This is a promising development score with unresolved fuel and causal/transfer concerns, NOT accepted.
+Host tests cover cycle, scheduler, banking commitment, draft aliases/projection, exposure and feed windows. Individual tests passed during implementation, but the complete suite was not rerun after all final edits/pause. `tools/botx3_resume.py host-tests` runs the six tests on a fresh C++20 toolchain. Do not claim final whole-suite validation until run. Screen JSON writes now use temporary-file replacement; screen original-hash guard checks full hash; `team_contract.py` tolerates absent optional historical campaign rows.
 
-`team-transfer`: eight new open-grid/gated-stripe development maps, four opponents, both sides: mode 5 38/64, original 27/64, parent 36/64; mode 5 zero fuel-outs. `team-final`: eight terrain-family held-outs (cellular/rings), mode 5 tied original 33/64. Caveat: these reused resource-layout patterns across families, so this only tests terrain-family transfer, not wholly unfamiliar resource layouts.
+## Next work, in order
 
-`team-unseen`: six separately frozen new resource/bank layouts (recursive rooms/perimeter banking), four opponents, both sides. Original 24/48, parent 23/48, mode 5 12/48, mode 8 16/48. These maps are NOW SPENT DIAGNOSTIC DATA. Do not tune using them and claim they are still final validation. All prior generated suites are likewise spent. A new frozen generator/layout family set is required for another genuine final test.
+1. Short setup/identity audit; then create actual numbered version12 from full11. No large re-audit or giant matrix before a concrete repair.
+2. Investigate v11 anti-feed activation, equal/net trade semantics, plan4 timing and lost/gained native replays. Determine why net-only equals combined. Make only mechanism-driven variants and matched controls; inspect fuel before attributing strategy effects.
+3. Repair draft summary fallback when a pair distance>=255 or asymmetry currently drops the entire payload: preserve valid rich metadata instead. Add explicit old/new memory-format dispatch: legacy `team_economic_init` still reads old header byte480 while rich memory starts8. Header collision is a plausible unresolved risk, not a reproduced bug.
+4. Investigate full-feature broad regression and fuel by relevant interactions (base/A/B/A+B where plausible). Keep all restored systems in the development line; do not silently discard them after first negative results. Version1 remains a strong comparator, not proof full integration cannot work.
+5. Check rolling next-camp forecasts against executor banking after the first camp. This horizon repair is not yet implemented. Audit soak-cache keys (totalHP/state can alias redistributed damage or unseen respawn); suspicion only, not a reproduced defect. The suspected exponential ECON multiplier was checked and NOT found: A2_LAB resets baseline knobs each turn before X1_ECON; do not erase learned knobs as a speculative fix.
+6. Prove chip mechanism's real competitive scope on relevant large maps/states before judging it. New truly unseen maps are necessary for transfer claims. Avoid unnecessary matrices; preserve exact maps, binaries, sources, effective config, engine, fuel, faults and native replay evidence.
 
-Mode-11 four-arm `team-intents`, 112 development cells/arm: transport 67 wins, farm 51, bank 65, joint 50 (original 56; parent 57). All four arms share identical code sections and have 118 fuel-outs, zero own faults. The +11 transport-vs-original difference is NOT proof of farming improvement; actual farming is -16 versus its proper control and bank is -2. This motivated the mode-12 native execution contract. Mode-9 controlled bank was +4 versus its control, but the result did not reliably transfer across protocol changes.
+## Portable evidence and exclusions
 
-No new strategic candidate has been accepted or submitted. Do not claim that botx3 is already stronger on unseen maps. Classify the current planner as Retry required; older insufficient models can be Parked without rejecting coordinated planning as an idea.
+Exact original x1 Wasm SHA256:1746f2bb7fa341530f41bd8c8c4896b35172783f35eacee8e4a4b6ac0ceea183. Parent:22e6067a423356e29e6738438f47b22d05b554767757717e58bf350392e16b13. Frozen original source ZIP remains `research/botx3-20261102/original-x1-source.zip`. Version11 Wasm:84e34809200ea41b6ccb3ee13c9504e0bbcefc9742de2ea80ceecb91cfed1cce. Each release and all capsule files are hash-verified.
 
-## Next concrete actions
-
-1. Read source, this handoff, exact result matrices and the user's full brief. Inspect newer branch research before claiming baseline currency. Do not run historical g5070 worker scripts that can push messages.
-2. Validate the untested mode-12 contract: check score capture placement and proposal pruning bypass, host scheduler tests, disabled binary identity, four-arm code-section identity, native X3_CONTRACT acceptance/refusal telemetry and preservation of capture/retreat priorities. Review potential interaction with deterministic candidate limits.
-3. Resume `team_contract.py` only after checking its partial build state. It freezes existing named snapshots and refuses to change them; if source changes, use new labels rather than silently overwrite old artifacts. No matches from this matrix were completed before interruption.
-4. Compare against SAME-CODE transport controls, original x1 and x1c1, by opponent and map family. Inspect gained/lost games and runtime, not only totals. No arbitrary threshold grid to rescue the auction.
-5. If the native contract is still weak, investigate task service forecasts, actual champion-specific DPS, arrival synchronization versus staging timeouts, and whether bank opportunity value is missing from the auction. Preserve known-good combat/territory decisions. Do not keep expanding a naive global replacement of those decisions.
-6. Freeze genuinely new resource/terrain/bank families before any final use. Existing final suites are spent. Report uncertainty with map/family grouping; tiny or selected samples do not establish superiority.
-
-## Reproduction entry points
-
-Build/run through `tools/dz.py` / official local `cambc build` and `cambc run`. Core host test: compile `research/botx3-20261102/team_scheduler_test.cpp` with C++20 and include `bots/botx3/src`. It checks distinct assignments, pooled crews, no overstaffing, capture ownership, unreachable/unavailable actors, and banking cohorts with legal visibility and active-capture exclusions.
-
-Experiments: `team_screen.py`, `team_retry.py`, `team_coordinator.py`, `team_transfer.py`, `team_final.py`, `team_robust.py`, `team_tail.py`, `team_tail_final.py`, `team_unseen.py`, `team_bank_controlled.py`, `team_intent_protocol.py`, and pending `team_contract.py`. Read each before executing; many intentionally require previous exact frozen inputs. `screen.py` provides shared build/match/cache infrastructure, asserts original and parent identities, runs both sides and records hashes/receipts. Do not run `prepare.py` on the existing source; it is a one-time historical preparation script.
-
-Native audits: `team_verify.py`, `team_final_checks.py`, `race_snapshot.mjs`; use NFS_REPLAY_ENGINE=2.0.0. `team_final_checks.py` was last successful for mode 8, before later mode-11/12 edits. Repeat relevant checks on the current source rather than implying old checks cover new code.
-
-## Complete saved suite summaries
-
-| Suite | Arm | Wins/games | Fuel-outs | Faults |
-|---|---|---:|---:|---:|
-| team-work | off | 29/48 | 112 | 0 |
-| team-work | parent | 25/48 | 114 | 0 |
-| team-work | team_v2 | 17/48 | 259 | 0 |
-| team-work | team_bounded | 16/48 | 105 | 0 |
-| team-work | team_coordinator | 22/48 | 120 | 0 |
-| team-transfer | off | 27/64 | 8 | 0 |
-| team-transfer | parent | 36/64 | 8 | 0 |
-| team-transfer | team_guarded | 38/64 | 0 | 0 |
-| team-transfer | transport_control | 26/64 | 8 | 0 |
-| team-final | off | 33/64 | 0 | 0 |
-| team-final | parent | 27/64 | 1 | 0 |
-| team-final | team_guarded | 33/64 | 0 | 0 |
-| team-final | transport_control | 30/64 | 0 | 0 |
-| team-robust | off | 73/160 | 142 | 0 |
-| team-robust | parent | 76/160 | 145 | 0 |
-| team-robust | team_guarded | 73/160 | 231 | 0 |
-| team-tail | off | 100/224 | 150 | 0 |
-| team-tail | parent | 109/224 | 153 | 0 |
-| team-tail | team_tail | 110/224 | 192 | 0 |
-| team-tail | team_after_fields | 114/224 | 182 | 0 |
-| team-unseen | off | 24/48 | 2 | 0 |
-| team-unseen | parent | 23/48 | 4 | 0 |
-| team-unseen | team_guarded | 12/48 | 1 | 0 |
-| team-unseen | team_after_fields | 16/48 | 0 | 0 |
-| team-bank | off | 56/112 | 120 | 0 |
-| team-bank | parent | 57/112 | 122 | 0 |
-| team-bank | transport | 47/112 | 137 | 0 |
-| team-bank | farm | 45/112 | 138 | 0 |
-| team-bank | bank | 49/112 | 136 | 0 |
-| team-bank | joint | 44/112 | 137 | 0 |
-| team-bank-controlled | off | 56/112 | 120 | 0 |
-| team-bank-controlled | parent | 57/112 | 122 | 0 |
-| team-bank-controlled | transport | 47/112 | 137 | 0 |
-| team-bank-controlled | farm | 45/112 | 138 | 0 |
-| team-bank-controlled | bank | 51/112 | 136 | 0 |
-| team-bank-controlled | joint | 46/112 | 137 | 0 |
-| team-comms | off | 56/112 | 120 | 0 |
-| team-comms | parent | 57/112 | 122 | 0 |
-| team-comms | transport | 56/112 | 183 | 0 |
-| team-comms | farm | 54/112 | 180 | 0 |
-| team-comms | bank | 56/112 | 181 | 0 |
-| team-comms | joint | 53/112 | 178 | 0 |
-| team-intents | off | 56/112 | 120 | 0 |
-| team-intents | parent | 57/112 | 122 | 0 |
-| team-intents | transport | 67/112 | 118 | 0 |
-| team-intents | farm | 51/112 | 118 | 0 |
-| team-intents | bank | 65/112 | 118 | 0 |
-| team-intents | joint | 50/112 | 118 | 0 |
+Campaigns retain manifests, rows, aggregate summaries, source snapshots, exact control/release binaries and build logs. Maps and four frozen opponents are included. Compact per-game receipts, screen results, runner logs and candidate output are compressed under `handoff-botx3-latest/game-receipts`, with an index. Selected native replay/diagnostic evidence is included. Bulk generated native per-game summaries/replays (many GB), installed toolchains, build caches and host executables stay local; regenerate targeted games using supplied exact inputs. The capsule overlays a normal repository clone; it is not a replacement for the base repository. Historical absolute paths are provenance, not paths to recreate on a new machine. The portable helper remaps map/research paths.
