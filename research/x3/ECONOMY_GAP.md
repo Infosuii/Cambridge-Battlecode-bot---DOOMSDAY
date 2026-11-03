@@ -52,3 +52,23 @@ the per-map fit is real; the problem is what the gate measures, not overfitting.
 2. Gate = the three usual opponents (must not regress) + x3inv + the top-12 proxy (`bots/proxy`).
 3. Defence features against it: camp defence when an invader is on our side (A2_STANCE 2 forced on, camp watch),
    an adaptive item switch to Bruiser once invaded, and holding numbers on our half after round 300.
+
+## 6. Results against x3inv (3 Nov, pool, 172 games, x3mf = 102)
+
+x3inv reproduces the loss pattern: in x3mf's 70 losses it takes 11.3 camps a game on our side (ladder 12.5, v92 9.1)
+and our gold at round 600 is 74% of its (ladder 65%). x3mf kills more of x3inv than it loses (2657 vs 2318 deaths).
+
+| x3mf + | wins | |
+|---|---|---|
+| V58_ITEM_PLAN 0 (Treasure + Bruiser items) | 91 | -11 |
+| HOME_AGGR 1.0 | 103 | +1 |
+| A2_CAMPWATCH 1 | 102 | not wired on x3 (same build) |
+| X1_DEFEND 1 (stance defence on every map) | 101 | -1 |
+| X1_DEFEND 1, trigger 4 | 104 | +2 |
+| HOME_TERR 1.0 (no home discount) | 86 | -16 |
+| HOME_TERR 0.6 | 95 | -7 |
+
+None adopted. Staying home is right (the discount is worth 16 games); playing the invader's own items or
+aggression does not help. Next: the losses are concentrated on 16 maps lost on both sides (02guardians 0 banked and
+35 deaths, 03one-gem 65 deaths, 01concentrated-wealth 38, 00crater 34): a per-map look at those games, and a per-map
+fit against x3inv (the X1_COUNTER machinery) as a robustness layer.
