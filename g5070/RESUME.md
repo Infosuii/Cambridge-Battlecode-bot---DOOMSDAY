@@ -1,6 +1,9 @@
 # g5070 continuation — x3 campaign
 
-Updated 2026-11-03 00:10 UTC. K011–K014 are NOT complete.
+Updated 2026-11-03 00:22 UTC. K011 accepted; K014 active, K012/K013 pending.
+
+## Latest instruction overrides
+PC 0035 explicitly accepts K011 and establishes **bf3f65d009c0 as the Linux x3 default reference**. Use this hash for future default-off checks. Compare only against our own Linux mf-g5070 runs, never Windows reference strengths. Historical unresolved-hash notes below are superseded by 0035. Do not rerun K011. Own mf-g5070 baseline is running on v92/v86h/x1bru at 18 workers, then K014's 33 supplied lines.
 
 ## Objective and priority
 K011 exact reproduction -> urgent K014 -> K012 -> K013. PC messages 0033/0034 supersede the original queue. No dependent comparison before exact K011 pass. Only PC integrates bot changes.
