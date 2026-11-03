@@ -86,16 +86,15 @@ def main():
 
 
 def download(kept, out, rep, workers):
-    def get(m):
-        ok1 = fetch(['matches', 'summary', '--json', m['matchId']], out / 'summaries' / f"{m['matchId']}.json")
-        ok2 = fetch(['matches', 'download', m['matchId']], rep / f"{m['matchId']}.zip")
-        return ok1, ok2
-    done = [0, 0]
-    with ThreadPoolExecutor(workers) as ex:
-        for i, (s, r) in enumerate(ex.map(get, kept)):
-            done[0] += s; done[1] += r
-            if i % 25 == 0: print(f'{i + 1}/{len(kept)} summaries {done[0]} replays {done[1]}', flush=True)
-    print('done: summaries', done[0], 'replays', done[1], 'of', len(kept))
+    # Summaries first (fast, and they carry most of the analysis), then the slow replay bundles (~12 s each).
+    for what, args, path in (('summaries', lambda m: ['matches', 'summary', '--json', m['matchId']], lambda m: out / 'summaries' / f"{m['matchId']}.json"),
+                             ('replays', lambda m: ['matches', 'download', m['matchId']], lambda m: rep / f"{m['matchId']}.zip")):
+        n = 0
+        with ThreadPoolExecutor(workers) as ex:
+            for i, ok in enumerate(ex.map(lambda m: fetch(args(m), path(m)), kept)):
+                n += ok
+                if i % 50 == 0: print(f'{what}: {i + 1}/{len(kept)} ok {n}', flush=True)
+        print(f'{what} done: {n} of {len(kept)}', flush=True)
 
 
 if __name__ == '__main__':
