@@ -57,3 +57,5 @@ L006 00quadrants complete; gain+0.000000, state/code pushed; next map follows.
 L006 CURRENT fitting 00great-wall; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
 
 L006 00great-wall iter 0: mean fit/game 0.818 wins 6/8 best iter 0 grad |0.399|
+
+L006 00great-wall iter 1: mean fit/game 0.663 wins 5/8 best iter 0 grad |0.216|
