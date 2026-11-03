@@ -139,3 +139,5 @@ L007 REVISED CURRENT ctr3-x3inv-k2;L006paused;opponentx3mfwithdrawn.
 L007 completedk2: 100/172,SHA2154ac06a009,faults0,fuel189;exactJSONposted.
 
 L007 REVISED CURRENT ctr3-x3inv-k3;L006paused;opponentx3mfwithdrawn.
+
+L007 completedk3: 95/172,SHAa4f4765f00d6,faults0,fuel182;exactJSONposted.
