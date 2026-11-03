@@ -26,21 +26,29 @@ def cli_json(args, tries=8):
     raise SystemExit('cambc ' + ' '.join(args) + ' failed: ' + (r.stdout + r.stderr).decode('utf-8', 'replace')[-300:])
 
 
-def fetch(cmd_args, path, tries=6):
+def fetch(cmd_args, path, tries=12):
+    import re
     for t in range(tries):
         if path.exists() and path.stat().st_size > 0: return True
-        subprocess.run([CLI] + cmd_args + ['-o', str(path)], capture_output=True)
-        if path.exists() and path.stat().st_size > 0: return True
-        time.sleep(2 * (t + 1))
+        r = subprocess.run([CLI] + cmd_args + ['-o', str(path)], capture_output=True)
+        if path.exists() and path.stat().st_size > 0:
+            time.sleep(0.4)  # pace requests: the platform answers bursts with HTTP 429
+            return True
+        w = re.search(r'retry after (\d+) seconds', (r.stdout + r.stderr).decode('utf-8', 'replace'))
+        time.sleep((int(w.group(1)) + 1) if w else 3 * (t + 1))
     return False
 
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--hours', type=float, default=48); ap.add_argument('--min-rating', type=float, default=2000)
     ap.add_argument('--out', default='data/ladder/losses48'); ap.add_argument('--replays', default='artifacts/local-only/losses48')
+    ap.add_argument('--reuse', action='store_true', help='skip listing: download for the existing OUT/matches.json'); ap.add_argument('--workers', type=int, default=1)
     a = ap.parse_args()
     out = ROOT / a.out; (out / 'summaries').mkdir(parents=True, exist_ok=True); rep = ROOT / a.replays; rep.mkdir(parents=True, exist_ok=True)
     cutoff = (datetime.now(timezone.utc) - timedelta(hours=a.hours)).strftime('%Y-%m-%dT%H:%M')
+    if a.reuse:
+        kept = json.loads((out / 'matches.json').read_text(encoding='utf-8'))
+        return download(kept, out, rep, a.workers)
     ladder, page = {}, 1
     while True:
         d = cli_json(['ladder', '--json', '--page', str(page), '--limit', '25'])
@@ -74,12 +82,16 @@ def main():
     (out / 'matches.json').write_text(json.dumps(kept, indent=1, ensure_ascii=False), encoding='utf-8')
     print(len(kept), 'distinct losses to teams rated >=', a.min_rating, flush=True)
 
+    download(kept, out, rep, a.workers)
+
+
+def download(kept, out, rep, workers):
     def get(m):
         ok1 = fetch(['matches', 'summary', '--json', m['matchId']], out / 'summaries' / f"{m['matchId']}.json")
         ok2 = fetch(['matches', 'download', m['matchId']], rep / f"{m['matchId']}.zip")
         return ok1, ok2
     done = [0, 0]
-    with ThreadPoolExecutor(2) as ex:
+    with ThreadPoolExecutor(workers) as ex:
         for i, (s, r) in enumerate(ex.map(get, kept)):
             done[0] += s; done[1] += r
             if i % 25 == 0: print(f'{i + 1}/{len(kept)} summaries {done[0]} replays {done[1]}', flush=True)
