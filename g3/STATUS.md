@@ -87,3 +87,5 @@ L006 00road-of-riches iter 4: mean fit/game 0.693 wins 5/8 best iter 4 grad |0.2
 L006 00road-of-riches iter 5: mean fit/game 0.487 wins 4/8 best iter 4 grad |0.179|
 
 L006 00road-of-riches complete; gain+0.238812, state/code pushed; next map follows.
+
+L006 CURRENT fitting 00interlock; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
