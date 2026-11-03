@@ -155,7 +155,11 @@ def main():
         for i, g in enumerate(plan['groups']):
             gid = None
             for attempt in range(6):
-                r = cli(['match-groups', 'create', g['opponentId'], '--maps', ','.join(g['maps']), '--sides', ','.join(g['sides']), '--json'])
+                # Pin the opponent's bot to the one it ran in the base arm's group (--source-group): an active team can
+                # upload a new version between arms, which would break the pairing.
+                base = plan['arms'].get(plan.get('pin_arm', 'v92'), {}).get('groups') if a.arm != plan.get('pin_arm', 'v92') else None
+                pin = ['--source-group', base[i]] if base and i < len(base) and base[i] else []
+                r = cli(['match-groups', 'create', g['opponentId'], '--maps', ','.join(g['maps']), '--sides', ','.join(g['sides']), '--json'] + pin)
                 try:
                     gid = json.loads((r.stdout or '').strip().splitlines()[0])['groupId']
                     break
