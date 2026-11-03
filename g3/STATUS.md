@@ -77,3 +77,5 @@ L006 CURRENT fitting 00road-of-riches; six iterations,three pairs,four opponents
 L006 00road-of-riches iter 0: mean fit/game 0.454 wins 4/8 best iter 0 grad |1.092|
 
 L006 00road-of-riches iter 1: mean fit/game 0.379 wins 3/8 best iter 0 grad |0.213|
+
+L006 00road-of-riches iter 2: mean fit/game 0.647 wins 5/8 best iter 2 grad |0.702|
