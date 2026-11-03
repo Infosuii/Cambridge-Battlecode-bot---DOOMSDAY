@@ -109,3 +109,5 @@ L006 CURRENT fitting 00fragment; six iterations,three pairs,four opponents,seed1
 L006 00fragment iter 0: mean fit/game 0.875 wins 6/8 best iter 0 grad |0.759|
 
 L006 00fragment iter 1: mean fit/game 0.312 wins 3/8 best iter 0 grad |0.472|
+
+L006 00fragment iter 2: mean fit/game 0.495 wins 4/8 best iter 0 grad |0.856|
