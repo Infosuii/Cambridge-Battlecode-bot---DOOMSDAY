@@ -63,3 +63,5 @@ L006 00great-wall iter 1: mean fit/game 0.663 wins 5/8 best iter 0 grad |0.216|
 L006 00great-wall iter 2: mean fit/game 0.163 wins 2/8 best iter 0 grad |0.668|
 
 L006 00great-wall iter 3: mean fit/game -0.133 wins 0/8 best iter 0 grad |0.533|
+
+L006 00great-wall iter 4: mean fit/game 0.347 wins 3/8 best iter 0 grad |0.338|
