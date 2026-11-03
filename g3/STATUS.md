@@ -117,3 +117,5 @@ URGENT CURRENT08:55UTC: L007/msg0048 PREEMPTS L006. L006 PAUSED after00fragment 
 L007 CURRENT ctr3-x3mf-k15;onlyoneheavycampaign;L006paused.
 
 L007 completedk15: 57/172,SHA5b1a722f7407,faults0,fuel182;exactJSONposted.
+
+L007 CURRENT ctr3-x3mf-k16;onlyoneheavycampaign;L006paused.
