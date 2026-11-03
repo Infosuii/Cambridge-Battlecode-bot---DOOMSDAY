@@ -185,3 +185,5 @@ L007 CURRENT ctr3-x3mf-k25, queue PC0050: mf15-29 then inv0-29; plan re-read bet
 PC0052 UPDATE09:35UTC: L007queueextendedafterx3inv withv86h0-29,thenx1bru0-29 (ascending). Currentmf25uninterrupted. Planatomicallyupdated;order nowmf15-29,inv0-29,v86h0-29,x1bru0-29. PCdescendsfrom29;skipvisiblefinishedPCdata,butper0052keepgoingifPCdataunpublished. L006remainspausedthroughallL007batches.
 
 L007 completedk25: 79/172,SHA2d2e7cd95863,faults0,fuel186;exactJSONposted.
+
+L007 CURRENT ctr3-x3mf-k26, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
