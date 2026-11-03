@@ -1,11 +1,11 @@
 # g5070 — x3 campaign active
 
-Updated 2026-11-03 00:45 UTC. Earlier K001–K009 results below are a separate archived campaign.
+Updated 2026-11-03 00:49 UTC. Earlier K001–K009 results below are a separate archived campaign.
 
 - Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
 - Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
 - Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
-- Active: K012 fight-switch stacking; own Linux baseline reused (96/115/130=341/516, hash8df6f3fe1c40). mfst then mfsec,18 workers; full pool gates and required styled/maze if qualified. K014 supplied33/33 complete (best bag80=101, no promotion). J026 safe work stealing7 lines complete; remaining need13/need115/need15 reserved for5060 current batch. No bot source edits.
+- Active: final evidence verification and handoff;0 running matches. K012 complete: style329/516 (-12), G3 secure335/516 (-6), baseline341/516; neither qualifies for further validation. K01433/33 complete,0 promotions; J0267 safe stolen lines complete, need trio left with5060 active batch. K013 cancelled per0036. No bot source edits or promoted changes.
 - K011: PASS per PC0035;108/172 wins,172/172 exact records,0 faults,186 fuel-outs,25.960s whole gate (~397.53 games/min). Linux reference bf3f65d009c0 established explicitly by PC.
 - Queue per latest PC 0036: finish K014 -> work-steal unfinished J026 rows -> K012 if time. **K013 cancelled for g5070**, transferred to5060 later. Start no new run after2026-11-03 02:15UTC; stop by02:30UTC. Existing analysis/prototype is preserved as handoff only.
 - K011 PASSES by explicit PC 0035. Linux default reference is now bf3f65d009c0; all comparisons use own Linux bases. Blockers: none.
