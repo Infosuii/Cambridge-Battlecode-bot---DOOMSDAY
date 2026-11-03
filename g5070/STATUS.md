@@ -5,7 +5,7 @@ Updated 2026-11-03 00:34 UTC. Earlier K001–K009 results below do not complete 
 - Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
 - Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
 - Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
-- Active: J026 work stealing, claiming soak64 (row 11) from the bottom; K014 supplied lines complete. 18 workers. K012 next; K013 cancelled per PC0036.
+- Active: J026 work stealing, claiming hiderecwt (row 10) from the bottom; K014 supplied lines complete. 18 workers. K012 next; K013 cancelled per PC0036.
 - Measured: 108/172 wins; all 172 map/side/outcome/banked records match J018; 0 own/opponent faults; 186 fuel-outs, each game's count identical. 25.960s whole gate (~397.53 games/min), 18 workers. K011.md published; not a full pass due to build hash.
 - Queue per latest PC 0036: finish K014 -> work-steal unfinished J026 rows -> K012 if time. **K013 cancelled for g5070**, transferred to5060 later. Start no new run after2026-11-03 02:15UTC; stop by02:30UTC. Existing analysis/prototype is preserved as handoff only.
 - K011 PASSES by explicit PC 0035. Linux default reference is now bf3f65d009c0; all comparisons use own Linux bases. Blockers: none.
