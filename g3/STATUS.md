@@ -73,3 +73,5 @@ L004 completed cell hrwt/v86h-s2: 102/172, faults0, fuel171.
 L004 CURRENT hrwt vs x1, switches --set X1_MAPFIT=1 --set A2_HIDEREC=1 --set X1_WALKTAIL=3, campaign PID 160.
 
 L004 completed cell hrwt/x1: 124/172, faults0, fuel176.
+
+L004 four requested remaining lines completed (mf already matched PC totals; noop skipped per msg0045). No campaign remains running. Await PC mf JSON identity check; then final report and idle for L005. Do not resume L002/L003.
