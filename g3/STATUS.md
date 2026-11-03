@@ -123,3 +123,5 @@ L007 CURRENT ctr3-x3mf-k16;onlyoneheavycampaign;L006paused.
 L007 completedk16: 69/172,SHAbfe0e55aad38,faults0,fuel215;exactJSONposted.
 
 L007 CURRENT ctr3-x3mf-k17;onlyoneheavycampaign;L006paused.
+
+REVISED CURRENT09:05UTC: L007/msg0049 nowALL30variants0..29 vsx3inv,NOTx3mf. Stoppedoldcampaign(k15/16posted,k17partialpreserved). Starting artifacts/tmp/g3_l007_inv.sh,log artifacts/tmp/g3-L007-x3inv.log. Source rebasedonto f0f09bb+g3support. PFXctr3,EXTRA X1_MAPFIT=1,14workers,oneheavycampaign. ImmediateJSON/wins/SHAperrun. Oldartifacts/tmp/g3_l007.sh mustNOTrestart. Afterall30,resumeL006partialfragment asbefore. L006 remainspaused,sixmapscomplete,fragment3savediterations.
