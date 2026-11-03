@@ -21,9 +21,9 @@ T = tuple(int(x) for x in (sys.argv.pop(1).split(",") if sys.argv[1][0].isdigit(
 MET = tuple(sys.argv.pop(1).split(',')) if not Path(sys.argv[1]).exists() else ('collectedGems', 'monsterDamageDone', 'earnedGold', 'deaths', 'championDamageDone')
 seen, rows = set(), []
 for d in map(Path, sys.argv[1:]):
-    mf = next((p for p in [d / 'matches_x1c1.json', d / 'matches_v92.json'] if p.exists()), None)
+    mf = next((p for p in sorted(d.glob('matches_*.json')) if 'raw' not in p.name and 'all' not in p.name), None)
     matches = {m['matchId']: m for m in json.load(open(mf))} if mf else {}
-    for f in sorted((d / 'summaries').glob('*.json')):
+    for f in sorted(((d / 'summaries') if (d / 'summaries').is_dir() else (d.parent / 'summaries')).glob('*.json')):
         m = matches.get(f.stem)
         if not m or f.stem in seen: continue
         us = next((('team' + t['side'].upper(), t['result']) for t in m['teams'] if t['name'] == 'DOOMSDAY'), None)

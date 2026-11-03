@@ -29,3 +29,23 @@ Sources: the CAMBC Discord (organisers and top teams, 23 Oct - 1 Nov) and our ow
 6. **Tuners on averaged win rate.** SPSA / ES / GA (what top teams use) on wins averaged over many maps and the
    varied opponents, paired games (same maps, both sides), validated held out.
 7. **The ladder decides.** Anything we would make live goes to the user as a zip for a ladder test first.
+
+## Result: the four-opponent counter table does not transfer (3 Nov, 120 runs)
+
+30 variants x 4 opponents (x3mf, x3inv, v86h, x1bru), all 86 pool maps, both sides; tools/x3_counter.py robust.
+Left-out-opponent estimate (table chosen on the other three, scored on the fourth), per opponent in that order:
+
+| setting | estimate vs variant 0 | cells switched |
+|---|---|---|
+| per cell, any win | -3 / -9 / -16 / -20 | 132 |
+| per cell, 2-win margin | -4 / -4 / -10 / -8 | 71 |
+| per cell, 3-win margin | -1 / -3 / -2 / -3 | 21 |
+| per map (both sides), 1 | +9 / +1 / -16 / -15 | 158 |
+| per map, 2 | +3 / +2 / -11 / -10 | 112 |
+| per map, 3 | +2 / +3 / -3 / +2 | 44 |
+
+In sample every setting looks large (+37 to +89); out of sample the best is about +1 per opponent, i.e. nothing,
+and loose settings cost up to 20 because the average variant is worse than the tuned base. Per-map / per-side
+variant tables are memorised chaos. On the ladder x3ctr's table cells did +8% +- 6% (z 1.4) vs the v92 era: not
+significant, consistent with zero. The per-map knob ES (x3mf, +14 held out) is the method that transfers: it moves
+smoothly on averaged wins instead of picking single games. Not adopted; no counter bot will ship.

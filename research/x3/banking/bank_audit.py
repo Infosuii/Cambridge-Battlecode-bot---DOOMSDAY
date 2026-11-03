@@ -25,9 +25,9 @@ def team_of(match, name='DOOMSDAY'):
 rows = []
 for d in sys.argv[1:]:
     d = Path(d)
-    mf = next((p for p in [d / 'matches_x1c1.json', d / 'matches_v92.json'] if p.exists()), None)
+    mf = next((p for p in sorted(d.glob('matches_*.json')) if 'raw' not in p.name and 'all' not in p.name), None)
     matches = {m['matchId']: m for m in json.load(open(mf))} if mf else {}
-    for f in sorted((d / 'summaries').glob('*.json')):
+    for f in sorted(((d / 'summaries') if (d / 'summaries').is_dir() else (d.parent / 'summaries')).glob('*.json')):
         mid = f.stem; m = matches.get(mid)
         if not m: continue
         us, res = team_of(m)
