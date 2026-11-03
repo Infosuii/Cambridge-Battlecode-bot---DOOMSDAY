@@ -119,3 +119,5 @@ L007 CURRENT ctr3-x3mf-k15;onlyoneheavycampaign;L006paused.
 L007 completedk15: 57/172,SHA5b1a722f7407,faults0,fuel182;exactJSONposted.
 
 L007 CURRENT ctr3-x3mf-k16;onlyoneheavycampaign;L006paused.
+
+L007 completedk16: 69/172,SHAbfe0e55aad38,faults0,fuel215;exactJSONposted.
