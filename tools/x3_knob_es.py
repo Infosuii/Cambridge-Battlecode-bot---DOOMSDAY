@@ -26,7 +26,7 @@ def play(tag, kd, scope, map_dir, maps, opps, workers):
     kd_s = ','.join(f'{i},{d:.4f}' for i, d in kd) if kd else '0,0'
     cand_wasm = None
     for opp in opps:
-        name = f'es-{tag}-{opp}'
+        name = f'es-{tag}{os.environ.get("X3_RUN_SUFFIX", "")}-{opp}'
         res = ROOT / 'artifacts/tmp/dz' / name / 'results.json'
         if not res.exists():
             cmd = [sys.executable, 'tools/dz.py', 'smoke', '--name', name, '--map-dir', map_dir, '--maps', *maps,
