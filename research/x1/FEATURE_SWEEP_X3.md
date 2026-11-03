@@ -60,3 +60,16 @@ first research prompt is retried on this base, optimised when it fails, and abor
 | 38 | A3_NUMBERS / A3_BACKOFF 0.26 (top-team fight style, research/proxy: back off 0.26 vs our 0.39) | not tried on x3 | NUMBERS 1; BACK_EQ 0.26 / 0.3 | 60 screen, g3 refine | |
 | 39 | Lock awareness (Agent 2 E63: enemies lock our altars most of the game, we never lock and keep tributing into locks) | never built in x3 | PC: carriers route to an unlocked altar; prelock when ahead | PC | |
 | 40 | Ladder-duel gate (research/v59/duel_top1.json, Agent 2: the only local set that predicted the ladder) | not used for x3 | add as gate set `duel` for every promoted line | PC | |
+
+## Sweep results, rows 1-26 on x3mf (3 Nov 01:00 UTC; g5060 J026 + g5070 K014, pool vs v92, base 96 / 172)
+
+None of the 60 lines reaches the 102 promotion bar. Linux (g5070) and Windows (g5060) rows agree game for game.
+- Near misses (sent to all-three-opponent gates in K015): X1_BAGRISK=80 101 (+5, 7 / 2, z 1.67); A2_HIDEREC +
+  WALKTAIL 3 100 (+4); A2_HIDEREC 99 (+3).
+- Neutral (within +-1): BURST2, SECURE (all mults), SIEGEFUEL, HEARTFIX, RESETFIX, DISENGAGE, BELIEF, ESCORT,
+  BURST_HOLD, WAIT_MULT 2.0, A3_ITEMS 1 / 2 (0 games changed: not wired on x3).
+- Harmful: VISION -23, FLEEHOLD -20, FLEEDROP -13 to -19, NEED_MULT -6 to -17, STAGE_MULT -7 to -16, ALONE -13,
+  ITEMS0 -13, HUNT_SOLO -10 / -11, BAGRISK 40 -10, FIELDFIRST -9, BUSHPRE -5 to -8, TS_VIS -7 to -15, LOCKS -8,
+  SOAK64 -6, ANTIFEED -1 to -8, POLICY -77, ASSESS -32 (2,656 fuel-outs).
+Reading: x1-era and older v81hl switches were tuned against other bases; on v92's per-map-fitted play they add
+nothing. Gains now have to come from new mechanisms (banking B1-B3, opening contest, fights), not old switches.
