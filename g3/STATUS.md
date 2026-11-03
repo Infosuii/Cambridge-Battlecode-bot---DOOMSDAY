@@ -45,3 +45,5 @@ L006 00quadrants iter 0: mean fit/game 0.685 wins 5/8 best iter 0 grad |0.365|
 L006 00quadrants iter 1: mean fit/game 0.633 wins 5/8 best iter 0 grad |0.364|
 
 L006 00quadrants iter 2: mean fit/game 0.207 wins 2/8 best iter 0 grad |0.507|
+
+L006 00quadrants iter 3: mean fit/game 0.481 wins 4/8 best iter 0 grad |0.439|
