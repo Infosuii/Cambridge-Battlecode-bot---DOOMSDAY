@@ -97,3 +97,5 @@ L006 00interlock iter 1: mean fit/game 0.877 wins 6/8 best iter 1 grad |0.806|
 L006 00interlock iter 2: mean fit/game 1.320 wins 8/8 best iter 2 grad |0.354|
 
 L006 00interlock iter 3: mean fit/game 0.687 wins 5/8 best iter 2 grad |0.263|
+
+L006 00interlock iter 4: mean fit/game 0.878 wins 6/8 best iter 2 grad |0.238|
