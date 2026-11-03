@@ -13,10 +13,13 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J023 resumed 01:55 UTC)
+## Running (J023 resumed 01:00 UTC; updated 01:15 UTC)
 
 - **J023** resumed from cache (9 of 13 maps fitted), then the combined J022 + J023 table and its gate vs v92 / v86h /
-  x1bru / x1. ETA ~03:15 UTC.
+  x1bru / x1. At 01:15: great-wall (iter 3), road-of-riches, dunes, big-world (iter 2) left. ETA ~02:15 UTC.
+- Next (pc/msgs/0038, 0036): the K015 lines the 5070 does not reach by 02:30, then K013 (fights area). K012 is done
+  by the 5070 (mfst 329, mfsec 335 vs base 341), so I skip it unless asked.
+- Earlier clock times in this file ran ~55 min fast (01:55 written for 01:00); corrected, now from `date -u`.
 
 ## Done
 
