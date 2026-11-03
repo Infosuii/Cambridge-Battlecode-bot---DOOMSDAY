@@ -13,13 +13,15 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J026 started 00:35 UTC)
+## Running (J023 resumed 01:55 UTC)
 
-- **J026 speedrun** rows 1-13 on x3mf (27 lines + base mf-g5060), screen vs v92 on pool, promote at >= 102; rows in
-  results/J026.md, pushed every 3 lines. ~3 min a line -> ~02:05 UTC. Then work-steal K014 from row 26 up.
-- **J023 paused** at 9 of 13 maps (+ 00ribs 1.076, 02harvest 1.067); resumes from cache after the sweep.
+- **J023** resumed from cache (9 of 13 maps fitted), then the combined J022 + J023 table and its gate vs v92 / v86h /
+  x1bru / x1. ETA ~03:15 UTC.
 
 ## Done
+
+- **J026** (results/J026.md): rows 1-13 on x3mf, 27 lines: none reaches 102 (best HIDEREC + WT 100, +4); STAGE 0.7
+  and NEED 1.3 lose (z -2.2). g5070 reproduced rows 9-13 exactly on Linux.
 
 - **J025** (results/J025.md): plan 6 R0 -69, plan 8 R0 -88, plan 2 R300 -33 on top of X1_MAPFIT; none passes.
   The ship line stays x3 + X1_MAPFIT. dz.py --set fix for x3's double X1_PLAN define (msgs/0007, bea45114).
