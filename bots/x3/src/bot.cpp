@@ -7570,7 +7570,34 @@ void Bot::play_turn() {
         }
         int recent = 0;
         for (int i = 0; i < std::min(n_deaths, 16); ++i) recent += round - death_round[i] <= X1_ANTIFEED_WIN;
+#if X1_ANTIFEED_DIFF
+        // X1_ANTIFEED_DIFF (ladder v78 vs a top team: 24-40 of our deaths a game against 1-7 kills; normal games are
+        // about even): trigger on the fight balance, our recent deaths minus the enemy's, not on our deaths alone.
+        static std::uint32_t e_seen[8] = {};
+        static bool e_alive[8] = {};
+        static int e_round[16] = {};
+        static int n_kills = 0;
+        {
+            int j = 0;
+            for (std::uint32_t h : num_handles[1]) { // enemy handles, cached by update_numbers()
+                if (j >= 8) break;
+                std::int32_t alive = 1;
+                if (d::sdk_champion_is_alive(h, &alive) == 0) {
+                    if (e_seen[j] != h) e_seen[j] = h, e_alive[j] = alive != 0;
+                    else {
+                        if (e_alive[j] && !alive) e_round[n_kills++ % 16] = round;
+                        e_alive[j] = alive != 0;
+                    }
+                }
+                ++j;
+            }
+        }
+        int kills = 0;
+        for (int i = 0; i < std::min(n_kills, 16); ++i) kills += round - e_round[i] <= X1_ANTIFEED_WIN;
+        if (recent >= X1_ANTIFEED && recent - kills >= X1_ANTIFEED_DIFF) {
+#else
         if (recent >= X1_ANTIFEED) {
+#endif
             tune::kTerritory = 0.0f;
             tune::kAggression *= 0.6f;
             tune::kRetreatHp = std::min(0.95f, tune::kRetreatHp + 0.15f);

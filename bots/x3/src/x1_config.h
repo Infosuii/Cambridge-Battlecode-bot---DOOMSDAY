@@ -116,6 +116,9 @@
 #ifndef X1_ANTIFEED
 #define X1_ANTIFEED 0 // Anti-feeding: this many team deaths within X1_ANTIFEED_WIN rounds -> the team plays safe (0 = off).
 #endif
+#ifndef X1_ANTIFEED_DIFF
+#define X1_ANTIFEED_DIFF 0 // with X1_ANTIFEED: also need recent team deaths - recent enemy deaths >= this (0 = deaths only)
+#endif
 #ifndef X1_ANTIFEED_WIN
 #define X1_ANTIFEED_WIN 150
 #endif
