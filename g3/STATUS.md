@@ -9,3 +9,5 @@ Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_P
 L006 CURRENT fitting 00elkring; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
 
 L006 00elkring iter 0: mean fit/game 0.632 wins 5/8 best iter 0 grad |0.414|
+
+L006 00elkring iter 1: mean fit/game 0.832 wins 6/8 best iter 1 grad |0.497|
