@@ -13,15 +13,17 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (J023 resumed 01:00 UTC; updated 01:15 UTC)
+## Running (updated 01:50 UTC)
 
-- **J023** resumed from cache (9 of 13 maps fitted), then the combined J022 + J023 table and its gate vs v92 / v86h /
-  x1bru / x1. At 01:15: great-wall (iter 3), road-of-riches, dunes, big-world (iter 2) left. ETA ~02:15 UTC.
-- Next (pc/msgs/0038, 0036): the K015 lines the 5070 does not reach by 02:30, then K013 (fights area). K012 is done
-  by the 5070 (mfst 329, mfsec 335 vs base 341), so I skip it unless asked.
-- Earlier clock times in this file ran ~55 min fast (01:55 written for 01:00); corrected, now from `date -u`.
+- **K015 part A** (pc/msgs/0040): the six banking screens b1, b1h, b12, b12r07, b3, b123h on x3mf vs v92 (pool),
+  promoted to v86h + x1bru at >= 102; commit 6f462c4 (off 5704d7ba41ac, mf c3da892053a7: both match). One row per
+  line to results/K015A.md as it finishes. Started 01:45 UTC, ~6 min per screen. Then K012 / K013 (see msgs/0008).
 
 ## Done
+
+- **J023** (results/J023.md): 13 more maps fitted (12 rows); combined table x3mf3 = **359 / 516, +18 vs x3mf2,
+  z +3.00, fuel-outs down: pass** (in-sample). One off-target game set moved (01yellow-brick-road A, no table row). Table:
+  results/J023-x1_mapfit.h, build/z-plan-5060 21e370ce.
 
 - **J026** (results/J026.md): rows 1-13 on x3mf, 27 lines: none reaches 102 (best HIDEREC + WT 100, +4); STAGE 0.7
   and NEED 1.3 lose (z -2.2). g5070 reproduced rows 9-13 exactly on Linux.
