@@ -9,3 +9,5 @@ Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_P
 L005 CURRENT vs x3inv, X1_MAPFIT=1, campaign PID 30.
 
 L005 completed x3inv: 102/172, faults0, fuel181; analysis/results posted.
+
+L005 CURRENT vs x3inv-t, X1_MAPFIT=1, campaign PID 30.
