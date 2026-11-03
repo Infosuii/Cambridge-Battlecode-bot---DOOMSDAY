@@ -67,3 +67,5 @@ L004 CURRENT hrwt vs v81hl, switches --set X1_MAPFIT=1 --set A2_HIDEREC=1 --set 
 L004 completed cell hrwt/v81hl: 130/172, faults0, fuel176.
 
 L004 CURRENT hrwt vs v86h-s2, switches --set X1_MAPFIT=1 --set A2_HIDEREC=1 --set X1_WALKTAIL=3, campaign PID 160.
+
+L004 completed cell hrwt/v86h-s2: 102/172, faults0, fuel171.
