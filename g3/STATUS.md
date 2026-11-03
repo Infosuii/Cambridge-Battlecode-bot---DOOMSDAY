@@ -519,3 +519,5 @@ L007 CURRENT ctr3-x1bru-k22, queue PC0050: mf15-29 then inv0-29; plan re-read be
 L007 completedk22: 90/172,SHAaa74c9d3a677,faults0,fuel165;exactJSONposted.
 
 L007 CURRENT ctr3-x1bru-k23, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
+
+L007 completedk23: 89/172,SHAeed305f6fba6,faults0,fuel161;exactJSONposted.
