@@ -67,7 +67,7 @@ Results: `research/x3/losses48/ARCHETYPES.md`, `REPLAY_FINDINGS.md`.
 | 3 stat fighter (Treasure + Bruiser, numbers, focus) | 42 | round-1 fuel bug |
 | 4 early bank (bank at 0.6x bag to round 400) | 57 | round-1 fuel bug; tie |
 | 12 combo (1 light + 2 + 3) | not finished | 46 / 172 vs v92 locally, 2.6x fuel-outs |
-| **13 pack play (fixed build)** | **41** | grouping matched the winners (0.71 vs their 0.68) and still lost; worst on C5 (6 / 33 vs 15 / 33) |
+| 13 pack play (fixed build) | (41, invalid) | arm contaminated by a second uploader (PLAYBOOK section 10); re-run on plan c. Locally its grouping matched the winners (0.71 vs their 0.68) |
 
 Earlier batch (other plan, v92 = 52): x3mf2 50, antifeed 43, A3 items 42, Bruiser 44, one owner 50.
 The fixed profiles 4, 10, 9, 8, 2, 3, 1, 5, 6, 7, 11, 12 are queued on `research/x3/duel/duel_20261103c.json`
@@ -86,7 +86,7 @@ counter-search variants did not transfer to unseen maps (`research/x3/atlas/PORT
    (`fuelExhausted` events in summaries) before any ladder test.
 3. **Check behaviour before results** (`behaviour_check.py`): it separates "the idea is wrong" from "the code does
    not do the idea".
-4. **Pin opponents** (`--source-group`) or paired arms drift apart as teams upload new bots.
+4. **Pin opponents** (`--source-group`) or paired arms drift apart as teams upload new bots. **Run one duel pipeline at a time** (lock file; a second uploader puts its builds live mid-arm), and stop processes with PowerShell, not Git Bash `pkill`.
 5. **The ladder is the only judge.** Self-play and per-cell tables were memorised chaos.
 
 ## 6. Where to pick it up
@@ -95,7 +95,7 @@ counter-search variants did not transfer to unseen maps (`research/x3/atlas/PORT
    lineup built from what the winners pick there (Vesper Vale; Ryth / Tavi where they use them), chosen at draft time
    from map features; test on the pinned duel against v92 and read per category. Caution: our past Vesper games won
    about 50%, so her item build and fight logic may need work.
-2. **Read the remaining clean profile results** (plan c) per category; assign a profile only where it beats v92 on
+2. **Read the clean profile results** (plan c, restarted 20:45 UTC after the contamination fix; log `research/x3/duel/pipeline_c2.log`) per category; assign a profile only where it beats v92 on
    that category's maps by a clear margin; otherwise keep v92's play.
 3. **Second axis, opponent style:** detect raiders / our-half killers / pacifists / stat openers from early sightings
    and switch to a counter profile mid-game.

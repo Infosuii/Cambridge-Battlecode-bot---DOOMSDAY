@@ -149,3 +149,12 @@ Pack play (profile 13) behaviour check (28 local games vs v92, our team's replay
 | grouped, rounds 150-400 | 0.48 | 0.58 | 0.54 |
 | nearest ally, early | 5.9 | 4.5 | 4.6 |
 | champions working a camp | 1.40 | 1.61 | 1.72 |
+
+## 10. Contaminated arms (19:10-20:40 UTC) and the fix
+
+Git Bash `pkill` cannot stop native Windows processes, so the plan-b queue kept running after plan c started at
+19:10; it uploaded profiles 6 (19:31) and 7 (20:30), which went live in the middle of plan c's arms. **Invalid:**
+plan c's pack play (41 / 120) and early bank re-run, and plan b's profile 5 arm. **Clean:** plan b's v92 57, profiles
+1-4 (47 / 47 / 42 / 57; these still carry the round-1 fuel bug). Fix (f5b5c94e): `duel_pipeline.py` takes a
+single-instance lock and flags an arm CONTAMINATED when another version is uploaded during it; processes are stopped
+with PowerShell `Stop-Process`. Plan c restarted at 20:45 with only v92's base arm kept.
