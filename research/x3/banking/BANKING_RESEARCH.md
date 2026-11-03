@@ -80,3 +80,28 @@ champion-rounds walking around with 30+ gems.
 
 B1-B3 are one carrier module and go first; they need fuel care (one Dijkstra per carrier per turn, cached for 3
 turns, only when the bag is 15+ and an enemy was seen; cap at 25k fuel and fall back to the current BFS).
+
+## 5. Results (3 Nov 2026): B1-B3 built and gated, none adopted
+
+Gate: pool maps vs v92 / v86h / x1bru, both sides, 516 games; base x3mf (X1_MAPFIT=1) 96 / 115 / 130 = 341.
+Noise floor: the do-nothing build `X1_NOOP=1` (one volatile store per call, so only fuel and code layout change)
+scored 99 / 113 / 126 = 338, so a pure layout shift costs about 3 games. Anything at -10 or worse is a real loss.
+
+| line | total | vs base |
+|---|---|---|
+| RACEBANK (B3) | 340 | -1 (noise) |
+| SAFEROUTE 1 (B1, reach mask, cached per round) | 314 | -27 |
+| SAFEROUTE 1 + BAGRISK2 (B1 + B2) | 307 | -34 |
+| SAFEROUTE 1 + RACEBANK | 312 | -29 |
+| SAFEROUTE with bag 40 / bag 25, 3 layers | 318 / 321 | -23 / -20 |
+| SAFEROUTE 2 (old mask first, layers only as fallback) | 320 | -21 |
+| SAFEROUTE 2 + hold when no safe route | 302 | -39 |
+| SAFEROUTE 2, lazy reach search | 312 | -29 |
+
+**SAFEROUTE is aborted.** Two causes, both measured: (1) fuel. Each reach search is a host BFS plus a ring rebuild;
+it raised fuel-outs (171 -> 479 in the first version) and, even under a 35k fuel guard, it takes fuel the fight
+search uses at the end of the turn, so fights get worse. (2) detours. A safer route is longer, and the carrier farms
+less; the hold rule (wait instead of walking through) was the worst line. The 17.6% of gems handed to killers is
+real, but avoiding sightings does not recover it: most of those deaths come from fights the carrier was already in.
+Next banking work is B4 (shadowing) and B5 (hunt loaded carriers), which act in the fight, and the opening contest
+(00the_line is an early-fight snowball, not a banking failure).
