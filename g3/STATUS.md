@@ -129,3 +129,5 @@ REVISED CURRENT09:05UTC: L007/msg0049 nowALL30variants0..29 vsx3inv,NOTx3mf. Sto
 L007 REVISED CURRENT ctr3-x3inv-k0;L006paused;opponentx3mfwithdrawn.
 
 L007 completedk0: 104/172,SHA2a0bf213a4e5,faults0,fuel181;exactJSONposted.
+
+L007 REVISED CURRENT ctr3-x3inv-k1;L006paused;opponentx3mfwithdrawn.
