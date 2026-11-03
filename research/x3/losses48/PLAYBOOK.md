@@ -82,3 +82,20 @@ Archetypes (k-means on 24 strategy features; overlapping tendencies, silhouette 
 
 No faults; fuel normal. Every profile is below even against v92 in self-play (v92 is tuned against its own play),
 which self-play cannot tell apart from ladder value; the ladder duel (plan b) decides.
+
+## 6. Archetypes on all 898 losses (k = 9; research/x3/losses48/ARCHETYPES.md)
+
+| archetype | losses | signature (them vs us, same games) | counter idea |
+|---|---|---|---|
+| Our-half killers | 244 | 63% of their kills on our half (ours 29% on theirs) | vision (wards), group up at home, no lone walks |
+| Treasure openers | 163 | 87% open Treasure, 13 Treasure shards by 300; first kill round 250 (ours 557) | earlier stats, punish their greedy opening |
+| Raiders | 126 | 20 / 26 / 32% of clears on our half early / mid / late (us 11 / 12 / 10%); 36 deposits (us 16) | defend home groups, counter-raid, bank more |
+| Contested farmers | 122 | 58% of early clears in the contested middle | contest the middle early with numbers |
+| Pacifist racers | 80 | no kills (first kill ~1740); they out-farm us | pure farming speed, early banking |
+| Bruiser openers | 64 | 15 Bruiser by 300, more early deposits, altar locks | numbers edge, avoid even fights early |
+| Hoarders | 54 | first deposit ~950; 256-gem deposits (us 48) | hunt their loaded carriers (killer takes the bag) |
+| Early brawlers | 32 | 3.8 kills by 300 | fortress until stats, then fight |
+| Power invaders | 13 | 10 Power by 300; 31% of pickups on our half (us 1%) | defend, vision |
+
+Second axis next to the map category: the opponent's style. If it shows in their draft (visible after the draft)
+or in early sightings, the bot can switch to the counter profile.
