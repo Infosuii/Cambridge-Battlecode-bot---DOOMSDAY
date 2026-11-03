@@ -41,8 +41,9 @@ inline volatile float kProfiles[kMaxProfiles * kFields] = {
      1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 300.0f, 0.0f, 600.0f, 1.0f, 0.0f,  // 9 progressive expansion: enemy-half value from base at round 300 to full by 900
     -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 4.0f, 250.0f,  // 10 pack opening: cohesion x4 until round 250
      1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 300.0f, 2.0f, 600.0f, 4.0f, 250.0f, // 11 pack + expand + vision light
+     0.7f, 1.0f, 0.75f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 300.0f, 2.0f, 0.0f, 1.0f, 0.0f, // 12 combo: vision light + raid and bank + stat fighter
 };
-inline volatile int kNumProfiles = 12;
+inline volatile int kNumProfiles = 13;
 inline volatile int kCatProfile[x1_categories::kNumCats] = {0, 0, 0, 0, 0, 0, 0};
 inline volatile int kForce = X1_PORTFOLIO_FORCE + 1000; // test builds: one profile everywhere (+1000: never zero)
 
