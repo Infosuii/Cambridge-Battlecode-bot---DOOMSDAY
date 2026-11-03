@@ -243,3 +243,5 @@ L007 CURRENT ctr3-x3inv-k13, queue PC0050: mf15-29 then inv0-29; plan re-read be
 L007 completedk13: 107/172,SHAa19f7f4d49f0,faults0,fuel179;exactJSONposted.
 
 L007 CURRENT ctr3-x3inv-k14, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
+
+L007 completedk14: 90/172,SHA050ec753b4a1,faults0,fuel205;exactJSONposted.
