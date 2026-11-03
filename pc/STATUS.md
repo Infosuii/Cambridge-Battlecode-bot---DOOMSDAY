@@ -1,3 +1,12 @@
+# PC status (3 Nov 00:10 UTC)
+
+- **Best line: x3mf** = x3 + X1_MAPFIT=1 (c3da892053a7), pool 341 / 516 vs v92 / v86h / x1bru (+30 over x3).
+- **Now: sweep speedrun, tuning paused** (msg 0033): g5060 J026 rows 1-13 (J023 paused), g5070 K014 rows 14-26
+  after K011 (start: msg 0034). g3 offline (its jobs moved to the 5070). GX lab on max/gigabot: read only (0032).
+- PC: coordination and merging; banking B1-B3 code next (research/x3/banking/BANKING_RESEARCH.md).
+
+## Earlier
+
 # PC status (Rishik's PC, 8 threads), 2 Nov 2026 00:30
 
 - x1 = `bots/x1` on `build/z-plan`, hash **1746f2bb7fa3** (fuel fix + camp watch on; all other X1_* switches off).
