@@ -149,3 +149,5 @@ REVISED CURRENT09:15UTC perPC0050: L007 BOTHopponents,finishx3mf15-29FIRST,THENa
 L007 CURRENT ctr3-x3mf-k17, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
 
 L007 completedk17: 65/172,SHA6fa77c57a52a,faults0,fuel174;exactJSONposted.
+
+L007 CURRENT ctr3-x3mf-k18, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
