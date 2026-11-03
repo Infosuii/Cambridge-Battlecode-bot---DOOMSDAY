@@ -4388,7 +4388,7 @@ bool Bot::handle_enemies() {
                 }
             }
             const int planned_r = tune::kEscapeSearch ? run_escape(false) : 0;
-            const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+            const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2) || X1_RT_REGROUP) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
             if (!moved_r && target && cheb(target->pos, pos) <= range) {
                 cast_on_enemy(*target);
                 attack_unit(target->unit, target->pos);
@@ -4406,7 +4406,7 @@ bool Bot::handle_enemies() {
             attack_unit(target->unit, target->pos);
         }
         const int planned = tune::kEscapeSearch ? run_escape(false) : 0;
-        const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+        const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2) || X1_RT_REGROUP) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
         if (!moved && target) attack_unit(target->unit, target->pos);
         heading_home = hp < max_hp * 0.5f;
         return true;
@@ -6305,11 +6305,11 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         }
         // NOVA_BUDDY: farm our own group, but near our buddy's target (read from its claim slot, so it works
         // out of vision): top bots farm separate camps a few tiles apart and fight with help close by.
-        if (NOVA_BUDDY > 0.0f && !g.camps.empty()) {
+        if (X1_RT_BUDDY > 0.0f && !g.camps.empty()) {
             const vec2 anchor = buddy_anchor();
             if (anchor.x >= 0) {
                 const int over = cheb(anchor, w.camps[g.camps[0]].pos) - NOVA_BUDDY_DIST;
-                if (over > 0) value /= 1.0f + NOVA_BUDDY * static_cast<float>(over);
+                if (over > 0) value /= 1.0f + X1_RT_BUDDY * static_cast<float>(over);
             }
         }
         // NOVA_SEED (0 = off): a small deterministic jitter on group values so one official map can be replayed
@@ -6838,7 +6838,10 @@ bool Bot::farm() {
     bool duo_leader = false;
     duo_ignore_slot = -1;
     if (NOVA_DUO > 0 && duo_map_ok < 0) duo_map_ok = NOVA_DUO_MAPS == 0 || !is_official_map();
-    if (NOVA_DUO > 0 && duo_map_ok == 1 && !low_fuel && best < 0 && round < NOVA_DUO_UNTIL) {
+#if X1_PORTFOLIO
+    if (x1_portfolio::pack) duo_map_ok = 1; // pack play: pair farming on every map (v92 pairs only on unseen maps)
+#endif
+    if (NOVA_DUO > 0 && duo_map_ok == 1 && !low_fuel && best < 0 && round < X1_RT_DUO_UNTIL) {
         const int b = buddy();
         auto melee_type = [](bc::champion_type t) {
             return t == bc::champion_type::ryth || t == bc::champion_type::vendetta || t == bc::champion_type::issac ||
@@ -7572,15 +7575,26 @@ void Bot::play_turn() {
         // X1_PORTFOLIO (x1_portfolio.h): the map category's strategy profile, chosen once and applied every turn on
         // top of the knobs set above (the scaled knobs are reset each turn, so nothing compounds).
         static bool pf_done = false;
-        if (!pf_done && inited) {
+        // The map analysis costs fuel (it overran round 1, on top of v92's own first-turn work): run it on the first
+        // turn from round X1_PF_ROUND with at least X1_PF_FUEL left; profile 0 (v92's play) runs until then.
+        if (!pf_done && inited && round >= X1_PF_ROUND && bc::fuel_remaining() > X1_PF_FUEL) {
             pf_done = true;
+            const auto pf_fuel0 = bc::fuel_remaining();
             x1_portfolio::select(w, team_size);
+            const auto pf_cost = pf_fuel0 - bc::fuel_remaining();
             if (x1_portfolio::raid != 0) lab::knobs[53] = x1_portfolio::raid > 0 ? 1.0f : -1.0f; // A2_RAID gate (RTG(53))
-            std::printf("PORTFOLIO category=%d profile=%d\n", x1_portfolio::category, x1_portfolio::profile);
+            std::printf("PORTFOLIO category=%d profile=%d round=%d cost=%lld\n", x1_portfolio::category, x1_portfolio::profile, round, static_cast<long long>(pf_cost));
         }
         if (pf_done) {
             namespace pf = x1_portfolio;
-            if (pf::terr >= 0.0f && round >= pf::terr_from) tune::kTerritory = pf::terr;
+            if (pf::terr >= 0.0f && round >= pf::terr_from) {
+                // terr_ramp: move from this turn's base value to the profile's value over terr_ramp rounds.
+                const float a = pf::terr_ramp > 0.0f ? std::min(1.0f, static_cast<float>(round - pf::terr_from) / pf::terr_ramp) : 1.0f;
+                tune::kTerritory = tune::kTerritory + a * (pf::terr - tune::kTerritory);
+            }
+            static float pf_base_coh = -1.0f;
+            if (pf_base_coh < 0.0f) pf_base_coh = tune::kCohesion;
+            if (pf::coh_mult != 1.0f) tune::kCohesion = round < pf::coh_until ? pf_base_coh * pf::coh_mult : pf_base_coh;
             tune::kAggression *= pf::aggr;
             if (pf::carry != 1.0f && (pf::carry_until <= 0 || round < pf::carry_until))
                 tune::kTributeCarry = std::max(8, static_cast<int>(static_cast<float>(tune::kTributeCarry) * pf::carry + 0.5f));

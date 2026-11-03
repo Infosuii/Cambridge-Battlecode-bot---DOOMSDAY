@@ -7575,11 +7575,15 @@ void Bot::play_turn() {
         // X1_PORTFOLIO (x1_portfolio.h): the map category's strategy profile, chosen once and applied every turn on
         // top of the knobs set above (the scaled knobs are reset each turn, so nothing compounds).
         static bool pf_done = false;
-        if (!pf_done && inited) {
+        // The map analysis costs fuel (it overran round 1, on top of v92's own first-turn work): run it on the first
+        // turn from round X1_PF_ROUND with at least X1_PF_FUEL left; profile 0 (v92's play) runs until then.
+        if (!pf_done && inited && round >= X1_PF_ROUND && bc::fuel_remaining() > X1_PF_FUEL) {
             pf_done = true;
+            const auto pf_fuel0 = bc::fuel_remaining();
             x1_portfolio::select(w, team_size);
+            const auto pf_cost = pf_fuel0 - bc::fuel_remaining();
             if (x1_portfolio::raid != 0) lab::knobs[53] = x1_portfolio::raid > 0 ? 1.0f : -1.0f; // A2_RAID gate (RTG(53))
-            std::printf("PORTFOLIO category=%d profile=%d\n", x1_portfolio::category, x1_portfolio::profile);
+            std::printf("PORTFOLIO category=%d profile=%d round=%d cost=%lld\n", x1_portfolio::category, x1_portfolio::profile, round, static_cast<long long>(pf_cost));
         }
         if (pf_done) {
             namespace pf = x1_portfolio;

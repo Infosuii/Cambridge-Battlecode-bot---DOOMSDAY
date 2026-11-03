@@ -16,6 +16,12 @@
 #ifndef X1_ANTIFEED_WIN
 #define X1_ANTIFEED_WIN 250
 #endif
+#ifndef X1_PF_ROUND
+#define X1_PF_ROUND 3 // portfolio: earliest round for the map analysis
+#endif
+#ifndef X1_PF_FUEL
+#define X1_PF_FUEL 70000 // portfolio: fuel that must be left in the turn to run the map analysis
+#endif
 #ifndef X1_VISION_FUEL
 #define X1_VISION_FUEL 40000 // vision 2: ward only with this much fuel left in the turn
 #endif
