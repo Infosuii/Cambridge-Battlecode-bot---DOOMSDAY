@@ -7481,7 +7481,7 @@ void Bot::play_turn() {
         }
         if (st_cen && round >= A2_ST_FROM) {
             if ((A2_STANCE & 1) && RTG(48) && round - st_last > A2_ST_QUIET) tune::kTerritory = std::max(tune::kTerritory, A2_ST_EXP_TERR);
-            if ((A2_STANCE & 2) && RTG(49) && st_inv > A2_ST_HI) tune::kTerritory *= A2_ST_DEF_TERR, tune::kAggression *= A2_ST_DEF_AGGR;
+            if ((A2_STANCE & 2) && (RTG(49) || X1_DEFEND) && st_inv > X1_DEFEND_HI) tune::kTerritory *= A2_ST_DEF_TERR, tune::kAggression *= A2_ST_DEF_AGGR;
         }
     }
 #endif

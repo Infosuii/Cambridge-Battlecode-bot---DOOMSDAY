@@ -226,6 +226,13 @@
 #ifndef X1_RB_DIST
 #define X1_RB_DIST 60
 #endif
+// ---- Invasion defence (research/x3/ECONOMY_GAP.md) ----
+#ifndef X1_DEFEND
+#define X1_DEFEND 0 // 1 = A2_STANCE's defence (territory x A2_ST_DEF_TERR, aggression x A2_ST_DEF_AGGR when invaded) on every map
+#endif
+#ifndef X1_DEFEND_HI
+#define X1_DEFEND_HI A2_ST_HI // invasion level (decayed count of enemies seen deep in our half) that triggers it
+#endif
 #ifndef X1_NOOP
 #define X1_NOOP 0 // measurement only: behaviour-free code change (fuel-chaos baseline)
 #endif
