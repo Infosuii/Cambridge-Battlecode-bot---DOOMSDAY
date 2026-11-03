@@ -7,3 +7,5 @@ L005 four runs complete: fullinvader102,invasion-only84,aggression-only88,item-o
 Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_PARALLEL14,NFS_REPLAY_ENGINE2.0.0,Python3.12.14/numpy2.3.5. Plugged-in screen/sleep Never. Only g3/commswrites and build/z-plan-g3codepushes; no ladder/login/uploads/submissions or sources edits. Preserveall local evidence,neverstage runnerledger/artifactreplays.
 
 L006 CURRENT fitting 00elkring; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
+
+L006 00elkring iter 0: mean fit/game 0.632 wins 5/8 best iter 0 grad |0.414|
