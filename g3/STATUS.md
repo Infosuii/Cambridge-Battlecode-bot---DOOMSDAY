@@ -105,3 +105,5 @@ L006 00interlock iter 5: mean fit/game 0.655 wins 5/8 best iter 2 grad |0.267|
 L006 00interlock complete; gain+0.446875, state/code pushed; next map follows.
 
 L006 CURRENT fitting 00fragment; six iterations,three pairs,four opponents,seed1; no simultaneous gate.
+
+L006 00fragment iter 0: mean fit/game 0.875 wins 6/8 best iter 0 grad |0.759|
