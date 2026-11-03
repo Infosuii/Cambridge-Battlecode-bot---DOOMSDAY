@@ -1,0 +1,7 @@
+# Allocation research
+
+[Choi, Brunet and How's consensus-based bundle algorithm](https://dspace.mit.edu/entities/publication/b0bf0a05-be3b-433b-9f4b-ce314ed5178b) separates a local bid from consensus on the winning task. For a five-body CAMBC team, the existing claim word is enough for a one-job owner. Claims should survive small changes in ETA; a new owner needs a material advantage. [Partial replanning](https://arxiv.org/abs/1806.04836) suggests replacing only a job that just became infeasible or unproductive instead of churning the whole route.
+
+[Team orienteering with multiple time windows](https://pubsonline.informs.org/doi/10.1287/trsc.1110.0377) models collected scores with visit and service times. [The synchronized variant](https://pmc.ncbi.nlm.nih.gov/articles/PMC7306599/) adds shared arrivals. In CAMBC the windows come from respawns, an altar is a delivery endpoint, and only hard camps need a synchronized crew. GX-08 tests a small local part of this model. A full planner would need observed kill and capture times plus safe travel estimates before it should replace the existing executor.
+
+[Isaiah Pressman's Lux Season 1 solution](https://github.com/IsaiahPressman/Kaggle_Lux_AI_2021) publishes its policy and action-resolution code. Separate assignment quality from action legality: CAMBC can keep the established movement, combat and tribute execution even when the camp bid changes.
