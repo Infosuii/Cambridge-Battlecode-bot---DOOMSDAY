@@ -7,6 +7,10 @@ variant on every map (X1_COUNTER_FORCE=k) and plays the pool; `table` reads thos
 
   python tools/x3_counter.py vars
   python tools/x3_counter.py table --runs ctr-v92-k{K} --vars 1-29 [--opp v92]
+  python tools/x3_counter.py robust --runs ctr3-{OPP}-k{K} --opps x3mf,x3inv,v86h,x1bru --vars 0-29 --fp research/x3/counter_fp.json
+    robust: per (map, side), the variant with the most wins summed over several opponents (ties keep variant 0),
+    switched only when it beats variant 0 by --margin wins; prints in-sample wins per opponent and a
+    leave-one-opponent-out estimate (cells chosen on the other opponents, scored on the left-out one).
 """
 import argparse, json, random, sys
 from pathlib import Path
@@ -79,7 +83,14 @@ def main():
     t.add_argument('--swap', type=int, default=0, help='1 = team 1 is side A')
     t.add_argument('--fp', help='json {map-side: [w, h, groups, gems, team]} printed by the bot (exact keys)')
     t.add_argument('--run-dirs', default='research/dz/runs,artifacts/tmp/dz')
+    r = sub.add_parser('robust'); r.add_argument('--runs', required=True, help='run-name pattern with {OPP} and {K}')
+    r.add_argument('--opps', required=True); r.add_argument('--vars', required=True)
+    r.add_argument('--margin', type=int, default=1, help='wins over variant 0 (summed over opponents) needed to switch')
+    r.add_argument('--fp', required=True); r.add_argument('--write', type=int, default=1)
+    r.add_argument('--run-dirs', default='research/dz/runs,artifacts/tmp/dz,../x1-comms/g3/results/L007,../x1-comms/g5060/results/ctr3,../x1-comms/g5070/results/ctr3')
     a = ap.parse_args()
+    if a.cmd == 'robust':
+        robust(a); return
     if a.cmd == 'vars':
         write_header([]); print(len(variants()), 'variants written'); return
     sys.path.insert(0, str(ROOT / 'tools/mapgen')); import mapio
@@ -108,6 +119,46 @@ def main():
         fixed += 1
     write_header(rows)
     print(f'base {won}/{len(base)}; counter rows {fixed}; expected {won + fixed}/{len(base)}')
+
+
+def robust(a):
+    """Multi-opponent counter table (see the module doc)."""
+    def load(name):
+        for d in a.run_dirs.split(','):
+            for p in (ROOT / d / name / 'results.json', ROOT / d / f'{name}.json'):
+                if p.exists():
+                    return {(g['map'], g['side']): g['outcome'] == ('teamA' if g['side'] == 'A' else 'teamB')
+                            for g in json.loads(p.read_text())['per_game']}
+        return None
+    opps, ks = a.opps.split(','), rng_list(a.vars)
+    res = {(o, k): load(a.runs.format(OPP=o, K=k)) for o in opps for k in ks}
+    miss = [f'{o}-k{k}' for (o, k), v in res.items() if v is None]
+    if miss: print('missing runs:', ' '.join(miss))
+    have = {o: [k for k in ks if res[o, k] is not None] for o in opps}
+    if any(0 not in have[o] for o in opps): sys.exit('variant 0 must be present for every opponent')
+    cells = sorted(res[opps[0], 0])
+    def pick(use):
+        out = {}
+        for c in cells:
+            score = {k: sum(res[o, k].get(c, False) for o in use) for k in ks if all(res[o, k] is not None for o in use)}
+            best = max(score, key=lambda k: (score[k], -k))
+            out[c] = best if score[best] >= score[0] + a.margin else 0
+        return out
+    choice = pick(opps)
+    for o in opps:
+        base = sum(res[o, 0].values()); got = sum(res[o, choice[c]].get(c, False) for c in cells)
+        lo = pick([x for x in opps if x != o]) if len(opps) > 1 else choice
+        held = sum(res[o, lo[c]].get(c, False) for c in cells)
+        print(f'{o:8s} variant 0 {base:3d}/{len(cells)}  table {got:3d}  (+{got - base})  left-out estimate {held:3d} ({held - base:+d})')
+    print('cells switched:', sum(k != 0 for k in choice.values()), 'of', len(cells))
+    if a.write:
+        fps = json.load(open(a.fp)); rows = []
+        for (mp, side), k in choice.items():
+            if k == 0: continue
+            fp = fps[f'{mp}-{side}']
+            rows.append(f"    {fp[0]}, {fp[1]}, {fp[2]}, {fp[3]}, {fp[4]}, {k}, // {mp} {side}")
+        if len(rows) > MAX_ROWS: sys.exit(f'{len(rows)} rows > {MAX_ROWS}')
+        write_header(rows); print('wrote', len(rows), 'rows to', HDR)
 
 
 if __name__ == '__main__':
