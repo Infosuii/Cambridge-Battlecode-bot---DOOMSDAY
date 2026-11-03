@@ -143,3 +143,5 @@ L007 REVISED CURRENT ctr3-x3inv-k3;L006paused;opponentx3mfwithdrawn.
 L007 completedk3: 95/172,SHAa4f4765f00d6,faults0,fuel182;exactJSONposted.
 
 L007 REVISED CURRENT ctr3-x3inv-k4;L006paused;opponentx3mfwithdrawn.
+
+REVISED CURRENT09:15UTC perPC0050: L007 BOTHopponents,finishx3mf15-29FIRST,THENall30x3inv,thenresumeL006. mf15/16andinv0-3alreadycompleted/resultsretained. Oldshellcampaignsstopped. Starting artifacts/tmp/g3_l007_queue.py,log artifacts/tmp/g3-L007-queue.log,plan artifacts/tmp/g3-L007-plan.json re-readbetweenruns. DoNOTrestartolderg3_l007*.sh. Partialmf17preservedandfreshretry,finishedresultsnotrerun. Oneheavycampaign,L006paused. Updatequeueplanonfurtherorderswithoutinterruptingcurrentgameifpossible.
