@@ -21,3 +21,5 @@ L004 completed cell mf/x1: 133/172, faults0, fuel179.
 L004 CURRENT noop vs v81hl, switches --set X1_MAPFIT=1 --set X1_NOOP=1, campaign PID 2063.
 
 L004 completed cell noop/v81hl: 136/172, faults0, fuel181.
+
+L004 CURRENT noop vs v86h-s2, switches --set X1_MAPFIT=1 --set X1_NOOP=1, campaign PID 2063.
