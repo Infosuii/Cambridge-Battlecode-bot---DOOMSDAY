@@ -177,6 +177,52 @@
 #ifndef X1_G3_SECURE_TURNS
 #define X1_G3_SECURE_TURNS 2.0f
 #endif
+// ---- Banking B1-B3 (research/x3/banking/BANKING_RESEARCH.md) ----
+#ifndef X1_SAFEROUTE
+#define X1_SAFEROUTE 0 // B1: carrier routes around path-aware enemy reach, relaxed in layers; skips enemy-locked altars
+#endif
+#ifndef X1_SR_BAG
+#define X1_SR_BAG 15 // bag from which the carrier routes around enemies
+#endif
+#ifndef X1_SR_AGE
+#define X1_SR_AGE 12 // enemy sightings younger than this many rounds count
+#endif
+#ifndef X1_SR_R
+#define X1_SR_R 5 // first layer: tiles enemies reach within this many steps are avoided
+#endif
+#ifndef X1_SR_STEP
+#define X1_SR_STEP 2 // each further layer avoids this many steps less (5, 3, 1)
+#endif
+#ifndef X1_SR_DETOUR
+#define X1_SR_DETOUR 8 // a safe route may be this many steps (or half the plain distance) longer
+#endif
+#ifndef X1_SR_HOLD
+#define X1_SR_HOLD 0 // 1: with 2x X1_SR_BAG and enemies within reach, never walk the plain path through them
+#endif
+#ifndef X1_BAGRISK2
+#define X1_BAGRISK2 0 // B2 (needs X1_SAFEROUTE): bank when enemies can reach us and gems >= X1_BR2_RATE x trip
+#endif
+#ifndef X1_BR2_MIN
+#define X1_BR2_MIN 20
+#endif
+#ifndef X1_BR2_RATE
+#define X1_BR2_RATE 1.0f
+#endif
+#ifndef X1_BR2_DIST
+#define X1_BR2_DIST 30
+#endif
+#ifndef X1_RACEBANK
+#define X1_RACEBANK 0 // B3: once either score reaches X1_RB_SCORE, any bag of X1_RB_BAG+ banks at any distance
+#endif
+#ifndef X1_RB_BAG
+#define X1_RB_BAG 5
+#endif
+#ifndef X1_RB_SCORE
+#define X1_RB_SCORE 800
+#endif
+#ifndef X1_RB_DIST
+#define X1_RB_DIST 60
+#endif
 #ifndef X1_COUNTER
 #define X1_COUNTER 0 // per map and side, the variant that beat the opponent there (x1_counter.h, tools/x3_counter.py); implies X1_PLAN
 #endif

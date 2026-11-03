@@ -4861,6 +4861,61 @@ bool Bot::tribute_if_needed() {
         }
         any_watch = any_watch && any_free;
     }
+#if X1_SAFEROUTE
+    // X1_SAFEROUTE (B1, research/x3/banking/BANKING_RESEARCH.md): enemy reach measured around walls (host BFS from
+    // recent sightings) instead of Chebyshev squares, relaxed in layers until a route to an altar exists, skipping
+    // altars an enemy lock holds. The square mask over-blocked across walls and, once it closed every way, the carrier
+    // took the plain path straight through the enemies (17.6% of our collected gems went to killers in ladder losses).
+    bc::bitboard sr_roots, sr_reach;
+    sr_roots.clear();
+    sr_reach.clear();
+    bool sr_any = false;
+    if (gems >= std::min(X1_SR_BAG, X1_BR2_MIN)) {
+        for (const auto& s : w.sightings)
+            if (round - s.round <= X1_SR_AGE) sr_roots.set(s.pos, true), sr_any = true;
+        if (sr_any) {
+            bc::distance_field ef;
+            ef.compute(w.static_blocked, sr_roots, sr_reach, static_cast<std::uint16_t>(X1_SR_R));
+        }
+    }
+    bool sr_hold = false;
+    if (gems >= X1_SR_BAG && (sr_any || any_watch)) {
+        bc::bitboard ring0 = w.altar_ring;
+        if (any_watch) ring0 = ring0 & ~watched;
+        bc::bitboard locked;
+        locked.clear();
+        for (vec2 a : w.altars)
+            if (bc::vision::has_altar_lock(a) && bc::vision::altar_lock_at(a).is_enemy())
+                locked.draw_chebyshev(a, static_cast<float>(bc::constants::submit_gems_range));
+        if (!(ring0 & ~locked).is_empty()) ring0 = ring0 & ~locked;
+        const int plain = dist;
+        for (int r = X1_SR_R; r >= 1 && !use_safe; r -= X1_SR_STEP) {
+            bc::bitboard zone;
+            if (r == X1_SR_R) {
+                zone = sr_reach;
+            } else {
+                bc::distance_field ef;
+                ef.compute(w.static_blocked, sr_roots, zone, static_cast<std::uint16_t>(r));
+            }
+            zone.set(pos, false);
+            bc::bitboard blocked = w.static_blocked | zone;
+            blocked.set(pos, false);
+            const bc::bitboard ring = ring0 & ~blocked;
+            if (ring.is_empty()) continue;
+            bc::bitboard visited;
+            safe_field.compute_to(blocked, ring, single(pos), visited);
+            const int d = fdist(safe_field, pos);
+            if (d != kUnreach && (plain == kUnreach || d <= plain + std::max(X1_SR_DETOUR, plain / 2))) {
+                use_safe = true;
+                dist = d;
+            }
+        }
+        // No safe way in: with a real bag and enemies close, do not walk into them; the rest of the turn (flee,
+        // farm, regroup) decides, and the next turn tries again.
+        sr_hold = X1_SR_HOLD && !use_safe && sr_any && gems >= 2 * X1_SR_BAG && bit(sr_reach, pos);
+    }
+    if (sr_hold && !force_tribute) return false;
+#else
     if (gems >= 15) {
         bc::bitboard threat = w.threat_zone(round, V58_SURVIVE ? 15 : 10, 4.0f);
         threat.set(pos, false);
@@ -4879,6 +4934,7 @@ bool Bot::tribute_if_needed() {
             }
         }
     }
+#endif
     if (dist == kUnreach) return false;
     const bool wins = ally_score + gems >= static_cast<int>(bc::constants::winning_gems) ||
         // Endgame: our bag plus what teammates probably carry finishes the race, so bank it now
@@ -4912,7 +4968,22 @@ bool Bot::tribute_if_needed() {
     const bool edge = bankFix && gems >= tune::kEdgeBankBag && round <= tune::kEdgeBankUntil && !capturing &&
         clearish && dist <= tune::kEdgeBankDist && brain::state.ready && brain::state.max_group > 0 &&
         (brain::state.max_group < tune::kBigMapGems || raceMono);
-    const bool go = force_tribute || wins || late || end_bank || rhythm || edge ||
+#if X1_SAFEROUTE && X1_BAGRISK2
+    // X1_BAGRISK2 (B2): enemies can reach us within X1_SR_R steps and the bag is worth the trip (central-place
+    // foraging with predation: the carry size falls when the bag is at risk; the killer takes it all).
+    const bool x1_br2 = gems >= X1_BR2_MIN && sr_any && bit(sr_reach, pos) && dist <= X1_BR2_DIST &&
+        static_cast<float>(gems) >= X1_BR2_RATE * static_cast<float>(dist);
+#else
+    const bool x1_br2 = false;
+#endif
+#if X1_RACEBANK
+    // X1_RACEBANK (B3): once either team nears the 1,000-gem finish, every bag goes home at any distance (12.9% of our
+    // collected gems were still carried when ladder losses ended).
+    const bool x1_race = gems >= X1_RB_BAG && dist <= X1_RB_DIST && std::max(ally_score, enemy_score) >= X1_RB_SCORE;
+#else
+    const bool x1_race = false;
+#endif
+    const bool go = force_tribute || wins || late || end_bank || rhythm || edge || x1_br2 || x1_race ||
 #if V58_SURVIVE
         survive_bank_due() ||
 #endif
