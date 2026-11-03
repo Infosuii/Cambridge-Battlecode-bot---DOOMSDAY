@@ -13,12 +13,11 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (00:08 UTC)
+## Running (J026 started 00:35 UTC)
 
-- **J023** fit: 7 of 13 maps done (00elkring 0.657, 01gold-rush 0.721, 00quadrants 1.152, 00interlock 1.064,
-  00fragment 1.220, 02geodes 0.789, 00rows 0.893 fit / game); 6 left, 2 per group. ETA fit ~01:15, then the combined
-  J022 + J023 table and its gate on pool vs v92 / v86h / x1bru / x1 (~20 min): **results ~01:35 UTC**.
-- Then J019 screens (base x3mf per msgs/0031), J021 runs.
+- **J026 speedrun** rows 1-13 on x3mf (27 lines + base mf-g5060), screen vs v92 on pool, promote at >= 102; rows in
+  results/J026.md, pushed every 3 lines. ~3 min a line -> ~02:05 UTC. Then work-steal K014 from row 26 up.
+- **J023 paused** at 9 of 13 maps (+ 00ribs 1.076, 02harvest 1.067); resumes from cache after the sweep.
 
 ## Done
 
