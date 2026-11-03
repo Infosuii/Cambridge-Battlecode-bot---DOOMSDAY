@@ -7,6 +7,11 @@ Updated 2026-11-03 00:22 UTC. K011 accepted; K014 active, K012/K013 pending.
 
 PC 0035 explicitly accepts K011 and establishes **bf3f65d009c0 as the Linux x3 default reference**. Use this hash for future default-off checks. Compare only against our own Linux mf-g5070 runs, never Windows reference strengths. Historical unresolved-hash notes below are superseded by 0035. Do not rerun K011. Own mf-g5070 baseline is running on v92/v86h/x1bru at 18 workers, then K014's 33 supplied lines.
 
+## Latest checkpoint (00:45 UTC)
+K014 supplied33/33 complete,0 promotions. J026 safe work stealing7 complete: bhold95,escort95,soak6490,hiderecwt100,hiderec99,beliefwt97,belief97. No duplicate reported5060 line; need13/need115/need15 reserved for its current batch. Next K012 driver artifacts/local-only/g5070/k012_run.py; state k012-state.json, log k012-run.log, report g5070/results/K012.md. It reuses3 exact own mf pool baselines, runs mfst/mfsec full pools, validates styled/maze vs v92/x1bru on any qualifying pool line. Current benchmark source pinned9c1bbde for exact provenance; fetched origin banking-only default-off6f462c4 was deliberately not introduced mid-campaign. K013 CANCELLED per0036; no further feature integration/tests. Deadline: no new runs after02:15UTC, stop by02:30UTC. PC0037 adds45-minute inactive-machine takeover rule; publish at least every30minutes (currently each line).
+
+Historical checkpoints below are superseded by this block.
+
 ## Current checkpoint (00:34 UTC)
 **00:40 update:** K014 supplied33/33 complete with0 promotions. Best bag80=101/172 (+5,7 gained/2 lost,z1.667), below102. A3_ITEMS1/2 both hash8df6f3fe1c40 and match baseline172/172: null builds due unconditional source override. Do not rerun. Next is J026 work stealing: `G5070_SWEEP=J026 /home/om/Projects/Battlecode/.venv/bin/python artifacts/local-only/g5070/k014_run.py > artifacts/local-only/g5070/j026-worksteal.log 2>&1`. Manifest j026-manifest.json (27 lines reversed); state j026-worksteal-state.json; results K014-J026-worksteal.md. It checks latest5060 results before each line, skips reported lines and reserves next3 unpublished forward lines for the active5060 batch, claims its selected bottom-up line in STATUS before running, and pushes each completed stolen line. PC0036 cutoff enforced in gate entry. K012 remains after work stealing; K013 cancelled.
 

@@ -1,12 +1,12 @@
 # g5070 — x3 campaign active
 
-Updated 2026-11-03 00:34 UTC. Earlier K001–K009 results below do not complete K011–K014.
+Updated 2026-11-03 00:45 UTC. Earlier K001–K009 results below are a separate archived campaign.
 
 - Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
 - Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
 - Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
-- Active: J026 work stealing, claiming belief (row 9) from the bottom; K014 supplied lines complete. 18 workers. K012 next; K013 cancelled per PC0036.
-- Measured: 108/172 wins; all 172 map/side/outcome/banked records match J018; 0 own/opponent faults; 186 fuel-outs, each game's count identical. 25.960s whole gate (~397.53 games/min), 18 workers. K011.md published; not a full pass due to build hash.
+- Active: K012 fight-switch stacking; own Linux baseline reused (96/115/130=341/516, hash8df6f3fe1c40). mfst then mfsec,18 workers; full pool gates and required styled/maze if qualified. K014 supplied33/33 complete (best bag80=101, no promotion). J026 safe work stealing7 lines complete; remaining need13/need115/need15 reserved for5060 current batch. No bot source edits.
+- K011: PASS per PC0035;108/172 wins,172/172 exact records,0 faults,186 fuel-outs,25.960s whole gate (~397.53 games/min). Linux reference bf3f65d009c0 established explicitly by PC.
 - Queue per latest PC 0036: finish K014 -> work-steal unfinished J026 rows -> K012 if time. **K013 cancelled for g5070**, transferred to5060 later. Start no new run after2026-11-03 02:15UTC; stop by02:30UTC. Existing analysis/prototype is preserved as handoff only.
 - K011 PASSES by explicit PC 0035. Linux default reference is now bf3f65d009c0; all comparisons use own Linux bases. Blockers: none.
 - Independent prework: isolated I-70-02 arrival/action prototype passed15 host correctness cases; not integrated in a bot or strength-tested. Idea cards I-70-01/02 and source/replay analyses published; these do not change job priority.

@@ -24,3 +24,7 @@ A3_ITEMS appears shadowed by an unconditional definition in common.h; actual bui
 
 
 Work stealing proceeds from the bottom. Reported g5060 lines are skipped; the next three unpublished lines after its last report are reserved for its active batch to avoid duplicate runs. Audit is saved locally in j026-worksteal-state.json.
+
+## Work-stealing completion
+
+Seven safe bottom-up lines completed, with no promotion and no duplicate of a5060 published line. Remaining forward rows reserved for5060 current batch: need13, need115, need15. K012 starts next; g5070 did not execute all27 J026 lines.
