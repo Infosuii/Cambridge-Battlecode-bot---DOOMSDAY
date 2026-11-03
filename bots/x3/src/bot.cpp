@@ -4,6 +4,9 @@
 #if X1_ATLAS
 #include "x1_atlas.h"
 #endif
+#if X1_PORTFOLIO
+#include "x1_portfolio.h"
+#endif
 #include "neural_policy.h"
 #if A2_MLPLAN
 #include "ml_plan.h"
@@ -60,6 +63,9 @@ bool mobility_farming_map = false;
 std::vector<BuildStep> build_for(bc::champion_type t) {
     using it = bc::item_type;
 #if A3_ITEMS
+#if X1_PORTFOLIO
+    if (x1_portfolio::items == 2)
+#endif
     {
         // A3_ITEMS: earlier combat stats. Power counts 6 shards for 5 bought and Bruiser adds one of each other stat, so
         // the second and third emblems turn gold into fighting stats ~20% faster than Monster / Capture / Collectors.
@@ -96,6 +102,9 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
     }
 #endif
 #if V58_ITEM_PLAN
+#if X1_PORTFOLIO
+    if (x1_portfolio::items == 0) {
+#endif
     // Same-stat Prospector replaces the nerfed Treasure opening. Capture follows survival purchases;
     // late Greed is bought in full25-shard milestones, with mixed health/offense before another stack.
     using ct = bc::champion_type;
@@ -137,6 +146,9 @@ std::vector<BuildStep> build_for(bc::champion_type t) {
         }
     }
     return plan;
+#if X1_PORTFOLIO
+    }
+#endif
 #endif
 #if A2_LAB
     {
@@ -764,7 +776,7 @@ void Bot::shop() {
     if (gold < 10) return;
     const auto counts = me.item_count();
     std::array<int, static_cast<std::size_t>(bc::item_type::count)> purchased{};
-#if A2_LAB
+#if A2_LAB || X1_PORTFOLIO
     const auto plan = build_for(type);
 #else
     static const auto plan = build_for(type);
@@ -3247,12 +3259,12 @@ bool Bot::handle_enemies() {
         if (NOVA_FIGHT2 & 2) worth *= 1.0f + NOVA_F2_FOCUS * (1.0f - e.hp / std::max(1.0f, e.max_hp));
         if (NOVA_STUN_FOCUS > 0.0f && enemy_stunned(e)) worth *= 1.0f + NOVA_STUN_FOCUS; // follow up a stun
 #if defined(A3_FOCUS)
-        if (A3_FOCUS > 0.0f) {
+        if (X1_RT_FOCUS > 0.0f) {
             // A3 focus fire: all allies rank the same way (wounded first, then the target most of us can reach), so
             // they converge on one champion instead of spreading damage (top teams 0.32 focus vs our 0.25).
             int reach = 0;
             for (const auto& a : w.allies) reach += cheb(a.pos, e.pos) <= a.range + 2;
-            worth *= (1.0f + A3_FOCUS * (1.0f - e.hp / std::max(1.0f, e.max_hp))) * (1.0f + 0.5f * A3_FOCUS * static_cast<float>(reach));
+            worth *= (1.0f + X1_RT_FOCUS * (1.0f - e.hp / std::max(1.0f, e.max_hp))) * (1.0f + 0.5f * X1_RT_FOCUS * static_cast<float>(reach));
         }
 #endif
 #if X1_SECURE
@@ -4141,7 +4153,7 @@ bool Bot::handle_enemies() {
         }
         const bool sure_kill = target && target_ttk <= 1.0f;
         // Engage only with a numbers edge: never commit while they outnumber us here.
-        if (A3_NUMBERS && foes > friends && !sure_kill && winning) {
+        if (X1_RT_NUMBERS && foes > friends && !sure_kill && winning) {
             winning = false;
             if (nearest_d <= 6) {
                 in_danger = true;
@@ -7499,6 +7511,29 @@ void Bot::play_turn() {
         }
     }
 #endif
+#if X1_PORTFOLIO
+    {
+        // X1_PORTFOLIO (x1_portfolio.h): the map category's strategy profile, chosen once and applied every turn on
+        // top of the knobs set above (the scaled knobs are reset each turn, so nothing compounds).
+        static bool pf_done = false;
+        if (!pf_done && inited) {
+            pf_done = true;
+            x1_portfolio::select(w, team_size);
+            if (x1_portfolio::raid != 0) lab::knobs[53] = x1_portfolio::raid > 0 ? 1.0f : -1.0f; // A2_RAID gate (RTG(53))
+            std::printf("PORTFOLIO category=%d profile=%d\n", x1_portfolio::category, x1_portfolio::profile);
+        }
+        if (pf_done) {
+            namespace pf = x1_portfolio;
+            if (pf::terr >= 0.0f && round >= pf::terr_from) tune::kTerritory = pf::terr;
+            tune::kAggression *= pf::aggr;
+            if (pf::carry != 1.0f && (pf::carry_until <= 0 || round < pf::carry_until))
+                tune::kTributeCarry = std::max(8, static_cast<int>(static_cast<float>(tune::kTributeCarry) * pf::carry + 0.5f));
+            static int pf_base_hunt = -1;
+            if (pf_base_hunt < 0) pf_base_hunt = tune::kHuntRange;
+            if (pf::hunt) tune::kHuntRange = std::max(0, pf_base_hunt + pf::hunt);
+        }
+    }
+#endif
 #if X1_PLAN
     {
         // X1_PLAN team plans (research/x1/PLAN_TWO_MACHINES.md, port of v76p's PLAN_ROUND / PLAN_ID): from
@@ -7608,7 +7643,7 @@ void Bot::play_turn() {
         }
         int kills = 0;
         for (int i = 0; i < std::min(n_kills, 16); ++i) kills += round - e_round[i] <= X1_ANTIFEED_WIN;
-        if (recent >= X1_ANTIFEED && recent - kills >= X1_ANTIFEED_DIFF) {
+        if (X1_RT_ANTIFEED && recent >= X1_ANTIFEED && recent - kills >= X1_ANTIFEED_DIFF) {
 #else
         if (recent >= X1_ANTIFEED) {
 #endif

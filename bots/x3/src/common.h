@@ -228,7 +228,11 @@
 #endif
 #define A3_BIG_PICKS cd::vendetta, cd::varg, cd::cassi_and_issac, cd::marcella, cd::heart_of_ruin
 #define A3_ONE_OWNER 0
+#if X1_PORTFOLIO
+#define A3_ITEMS 1 // compiled for the portfolio's item plan 2 (runtime-gated in build_for)
+#else
 #define A3_ITEMS 0
+#endif
 #define A3_FOCUS 0.0f
 #define A3_NUMBERS 0
 #define A3_BACKOFF 1

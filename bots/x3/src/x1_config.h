@@ -1,4 +1,29 @@
 #pragma once
+// ---- Strategy portfolio (x1_portfolio.h, research/x3/losses48/PLAYBOOK.md) ----
+#ifndef X1_PORTFOLIO
+#define X1_PORTFOLIO 0 // 1 = map category -> strategy profile at game start (needs the atlas features)
+#endif
+#ifndef X1_PORTFOLIO_FORCE
+#define X1_PORTFOLIO_FORCE -1 // test builds: this profile on every map (-1 = the category table)
+#endif
+#if X1_PORTFOLIO
+#ifndef X1_ANTIFEED
+#define X1_ANTIFEED 3
+#endif
+#ifndef X1_ANTIFEED_DIFF
+#define X1_ANTIFEED_DIFF 4
+#endif
+#ifndef X1_ANTIFEED_WIN
+#define X1_ANTIFEED_WIN 250
+#endif
+#define X1_RT_NUMBERS (x1_portfolio::numbers)
+#define X1_RT_FOCUS (x1_portfolio::focus)
+#define X1_RT_ANTIFEED (x1_portfolio::antifeed)
+#else
+#define X1_RT_NUMBERS A3_NUMBERS
+#define X1_RT_FOCUS A3_FOCUS
+#define X1_RT_ANTIFEED 1
+#endif
 // x1 experiment flags (default 0 = v81hl's behaviour; tools/dz.py --candidate-bot x1 --set X1_FLAG=1).
 #ifndef X1_MASTERY
 #define X1_MASTERY 0 // Draft: penalise champions x1 plays worst (draft-net score bias).
