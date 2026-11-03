@@ -31,7 +31,7 @@ def upload(name):
         print(name, 'upload failed, retry', attempt, out[-120:], flush=True); time.sleep(30 + 30 * attempt)
     return None
 ap = argparse.ArgumentParser(); ap.add_argument('--plan', required=True); ap.add_argument('--base', type=int, required=True)
-ap.add_argument('--cands', nargs='*', default=[]); ap.add_argument('--have', nargs='*', default=[]); a = ap.parse_args()
+ap.add_argument('--cands', nargs='*', default=[]); ap.add_argument('--have', nargs='*', default=[]); ap.add_argument('--recheck', default='', help='arm name: replay the base version at the end (opponent drift check)'); a = ap.parse_args()
 vers = dict(x.split('=') for x in a.have)
 for _ in range(120):  # never upload while another compile is queued: the upload would cancel it
     if not any(s['status'] == 'queued' for s in items(subs())): break
@@ -42,7 +42,7 @@ for c in a.cands:
         if v: vers[c] = v
 print('versions', vers, flush=True)
 duel = [sys.executable, str(ROOT / 'tools/replay/ladder_duel.py')]
-arms = [('v92', a.base)] + [(c, int(v)) for c, v in vers.items()]
+arms = [('v92', a.base)] + [(c, int(v)) for c, v in vers.items()] + ([(a.recheck, a.base)] if a.recheck else [])
 for arm, v in arms:
     plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
     if arm in plan['arms']: print('arm', arm, 'already played'); continue
