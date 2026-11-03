@@ -7,6 +7,7 @@ ap=argparse.ArgumentParser()
 ap.add_argument('--fp',required=True)
 ap.add_argument('--output',default='bots/x3/src/x1_mapfit.h')
 ap.add_argument('--min-gain',type=float,default=0.05)
+ap.add_argument('--state-dir',default='research/x3/es')
 a=ap.parse_args()
 fp=json.loads(Path(a.fp).read_text())
 source=(ROOT/'bots/x3/src/x1_mapfit.h').read_text()
@@ -17,7 +18,7 @@ for line in body.splitlines():
     m=re.search(r'// ([^: ]+):',line)
     if m:old[m[1]]=line
 rows=dict(old)
-for f in sorted((ROOT/'research/x3/es').glob('mapfit-*.json')):
+for f in sorted((ROOT/a.state_dir).glob('mapfit-*.json')):
     st=json.loads(f.read_text());name=f.stem[len('mapfit-'):]
     if not st.get('iters'):continue
     assert st['args']['opps']=='v92,v86h,x1bru,x3inv',f'wrong opponents: {f}'
@@ -42,5 +43,8 @@ for name,line in rows.items():
     seen[key]=name
 assert set(old)<=set(rows),'existing row lost'
 out=head+'inline constexpr Row kRows[] = {\n'+'\n'.join(rows[k] for k in sorted(rows))+'\n    {0, 0, 0, 0u, {}}};\n} // namespace x1_mapfit\n'
-(ROOT/a.output).write_text(out,newline='\n')
+if rows==old:
+    (ROOT/a.output).write_bytes((ROOT/'bots/x3/src/x1_mapfit.h').read_bytes())
+else:
+    (ROOT/a.output).write_text(out,newline='\n')
 print(f'{len(rows)} rows, preserved {len(old)} original named rows; output {a.output}')
