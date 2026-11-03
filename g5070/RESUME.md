@@ -17,7 +17,7 @@ HANDOVER_X3, PROTOCOL, IDEATION_RULES, current pc/STATUS, messages 0031–0034, 
 
 ## Actual progress
 - Environment and native CLI installed; GitHub repaired; code branch pushed and separate comms initialized.
-- K011 pending: direct x3 release build downloading official WASI SDK 33, CMake 3.31.8, Ninja 1.12.1. Output artifacts/tmp/g5070-default.wasm. Expected SHA256 5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47.
+- K011 GAMEPLAY COMPLETE, BUILD IDENTITY UNRESOLVED. Direct and frozen x3 native SHA256 bf3f65d009c0419d2b0f04bdfab68b85f397ce6cb2350a36ab8782d4d74cd46a differs from expected 5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47. Opponent native 90f8527bdea758d75cafb81859d0506ffb88d0e2fd619676c3c733db53c466d3 differs from 0fae1c17ee73. K011 measured 108/172, all 172 map/side/outcome/banked, deaths, rounds, map/engine hashes and per-game fault/fuel-outs identical to J018. 0 faults, 186 fuel-outs. Whole gate 25.960s, 397.53 games/min. DO NOT RERUN UNCHANGED. K011 report/JSON/provenance published; msg 0013 requests canonical binaries/build metadata. Dependent jobs held. Local comparison helper artifacts/local-only/g5070/compare_results.py checks unique records, aggregates and paired flips; self-checks passed.
 - Reference ../x1-comms/g5060/results/J018/x1g-x3-pool-v86h-01.json: 108/172, engine 2.0.0, engine hash 85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21.
 - K014 pending: 33 supplied lines; x3mf vs v92 expected 96/172, own mf-g5070 baseline required. Exact window name X1_ANTIFEED_WIN. A3_ITEMS has an unconditional earlier define in common.h: check actual --set effect without editing bot source.
 - K012/K013 pending; no implemented features or measured strength results yet.

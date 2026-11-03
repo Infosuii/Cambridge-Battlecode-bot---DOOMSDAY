@@ -1,0 +1,78 @@
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/om/.cache/cambc/wasi-sdk-33/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/.cambc/build-release
+[0/2] Re-checking globbed directories...
+[1/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/neural_policy.cpp.obj
+[2/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tactics.cpp.obj
+[3/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/deny.cpp.obj
+[4/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/fight.cpp.obj
+[5/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/pressure.cpp.obj
+[6/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/draft.cpp.obj
+[7/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/main.cpp.obj
+[8/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/economy.cpp.obj
+[9/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/episode.cpp.obj
+[10/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp.obj
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp:804:26: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^  ~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp:804:26: note: use '&' for a bitwise operation
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~
+      |                          &
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp:804:26: note: remove constant to silence this warning
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~~~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp:941:56: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^  ~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/tsearch.cpp:941:56: note: use '|' for a bitwise operation
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^~
+      |                                                        |
+2 warnings generated.
+[11/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/world.cpp.obj
+[12/14] Building CXX object CMakeFiles/bot.dir/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp.obj
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:3704:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3704 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:3704:53: note: use '&' for a bitwise operation
+ 3704 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:3704:53: note: remove constant to silence this warning
+ 3704 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:4210:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4210 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:4210:92: note: use '|' for a bitwise operation
+ 4210 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:4228:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4228 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+/home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/src/bot.cpp:4228:82: note: use '|' for a bitwise operation
+ 4228 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^~
+      |                                                                                  |
+3 warnings generated.
+[13/14] Linking CXX executable bot.wasm
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /home/om/.cache/cambc/wasi-sdk-33/bin/clang++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/.cambc/build
+built /home/om/Projects/Battlecode/x1work/artifacts/tmp/dz/x1g-repro-g5070-pool-v86h-01/build/opponent/.cambc/build-release/bot-injected.wasm
+injected 1 checks into 1 functions
+stripped stale debug sections (.debug_loc, .debug_abbrev, .debug_info, .debug_str, .debug_line, .debug_ranges); pass --keep-debug to retain them

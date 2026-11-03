@@ -5,8 +5,8 @@ Updated 2026-11-03 00:10 UTC. Earlier K001–K009 results below do not complete 
 - Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
 - Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
 - Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
-- Active: K011 native build finished; hash bf3f65d009c0 differs from required 5704d7ba41ac. Exact 172-game pool vs v86h run starting with WORKERS=DZ_MAX_PARALLEL=18 to diagnose behavioral identity. No dependent benchmark runs.
-- Measured match results: none yet in this campaign; no reproduction or strength claims.
+- Active: K011 gameplay reproduction complete, build hash investigation continues. Native bf3f65d009c0 differs from required 5704d7ba41ac. No dependent benchmark runs.
+- Measured: 108/172 wins; all 172 map/side/outcome/banked records match J018; 0 own/opponent faults; 186 fuel-outs, each game's count identical. 25.960s whole gate (~397.53 games/min), 18 workers. K011.md published; not a full pass due to build hash.
 - Queue per PC 0033/0034: K011 -> K014 rows 14–26 on x3mf -> K012 -> K013.
 - Blocker: native build hash mismatch (msg 0013); investigate toolchain/SDK/platform differences and verify all records. K011 has not passed.
 - Local code: /home/om/Projects/Battlecode/x1work; comms ../x1-comms; Python and CLI ../.venv/bin/{python,cambc}.
