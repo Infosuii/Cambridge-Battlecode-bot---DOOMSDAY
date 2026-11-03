@@ -702,6 +702,12 @@ void Bot::read_sighting() {
         const int mod = static_cast<int>((shared >> kSightY) & 255);
         const int base = round - 64;
         const int ready = base + ((mod - base) % 256 + 256) % 256;
+#if X1_RESPAWNFIX
+        // X1_RESPAWNFIX (audit H01): the ready round is sent mod 256 without its publication round, so an event that
+        // outlived its window decodes up to 192 rounds ahead. No group respawns later than the monolith's 150 rounds
+        // after its clear: a later ready round is a stale message, not a future respawn.
+        if (ready > round + X1_RESPAWNFIX) return;
+#endif
         w.apply_event(gi, ready, round);
         return;
     }
@@ -4262,6 +4268,22 @@ bool Bot::handle_enemies() {
     // keep it out of the scoring for X1_FLEEDROP rounds.
     if (in_danger && !winning && target_group >= 0) flee_group = target_group, target_group = -1;
 #endif
+#if X1_FLEEFIX
+    // X1_FLEEFIX (audit F01 + H02, targeted): the cuts and galaxy losses alternated flee / approach because the camp
+    // target survived a flee from enemies standing at that target (Cassi waiting at G22, Marcella approaching G6, 2-6
+    // tiles from three enemies). Drop the target only when the threat we flee from is within X1_FLEEFIX_R of one of
+    // its camps (a flee elsewhere keeps farming), skip it for X1_FLEEFIX rounds, and release our claim on it so
+    // teammates do not count us there (H02: a kept claim is not a champion working the group).
+    if (in_danger && !winning && target_group >= 0 && nearest && target_group < static_cast<int>(w.groups.size())) {
+        int dmin = 1 << 20;
+        for (int ci : w.groups[static_cast<std::size_t>(target_group)].camps)
+            dmin = std::min(dmin, cheb(nearest->pos, w.camps[static_cast<std::size_t>(ci)].pos));
+        if (dmin <= X1_FLEEFIX_R) {
+            flee_group = target_group, target_group = -1;
+            write_claim(-1);
+        }
+    }
+#endif
     if (in_danger && !winning && tune::kBushRecall && hp < max_hp * 0.5f && hidden_here() && !bit(w.hot_zone, pos) &&
         fdist(w.spawn_field, pos) > tune::kShopWalkDist) {
         // Losing, hurt and hidden: recall from cover (nobody can hit us here to cancel it).
@@ -6108,6 +6130,9 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
         const std::size_t gi = static_cast<std::size_t>(order[oi].second);
 #if X1_FLEEDROP
         if (static_cast<int>(gi) == flee_group && round - last_flee_round <= X1_FLEEDROP) continue;
+#endif
+#if X1_FLEEFIX
+        if (static_cast<int>(gi) == flee_group && round - last_flee_round <= X1_FLEEFIX) continue;
 #endif
         auto& g = w.groups[gi];
         const int approach = std::max(0, dist - (g.state == GroupState::reward ? 0 : range));

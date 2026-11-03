@@ -965,6 +965,15 @@ void play_draft() {
             // Preserve the existing draft if optional map analysis is unavailable.
         }
 #endif
+#if X1_DRAFT_WIN
+        // X1_DRAFT_WIN (research/x3/MAP_IDEA_FINDINGS.md): the teams rated >= 2000 that beat us pick Vesper Vale in
+        // 66-84% of games in every map category (we 0-53%), with Marcella, Heart of Ruin, Vendetta and Ryth. Draft
+        // in their order on every map, before the per-map tables.
+        {
+            constexpr cd kWin[] = {X1_DRAFT_WIN_LIST};
+            if (pick_from(kWin, chosen)) return;
+        }
+#endif
         int li = NOVA_ALL_LINEUP >= 0 ? NOVA_ALL_LINEUP
                                       : (mid >= 0 ? kNovaMapLineup[mid] : NOVA_FALLBACK_LINEUP);
         if (A3_BIG_LINEUP >= 0 && size >= static_cast<std::uint32_t>(A3_BIG_SIZE)) li = A3_BIG_LINEUP; // A3 hybrid draft

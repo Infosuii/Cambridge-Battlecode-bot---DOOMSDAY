@@ -408,8 +408,8 @@ private:
     bool shield_late_pass = false; // A2_SHIELDLATE: second support_casts pass after the fight logic
     int cmdr_fight_round = -1000; // A2_CMDR: last round the commander committed us to a fight
     int last_flee_round = -1000; // hunting resumes only a while after we last fled
-#if X1_FLEEDROP
-    int flee_group = -1; // X1_FLEEDROP: the camp target dropped at the last flee
+#if X1_FLEEDROP || X1_FLEEFIX
+    int flee_group = -1; // X1_FLEEDROP / X1_FLEEFIX: the camp target dropped at the last flee
 #endif
     bool no_initiate = false;    // solo members in pair mode: no help calls this turn
     int call_ban_until = -1;     // after a help call times out, no new calls until this round

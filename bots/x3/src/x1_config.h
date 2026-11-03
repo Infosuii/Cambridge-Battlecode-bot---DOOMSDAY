@@ -187,6 +187,15 @@
 #ifndef X1_FLEEDROP
 #define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off).
 #endif
+#ifndef X1_FLEEFIX
+#define X1_FLEEFIX 0 // audit F01 + H02 (targeted): on a flee from enemies at the camp target, drop it for this many rounds and release the claim (0 = off)
+#endif
+#ifndef X1_FLEEFIX_R
+#define X1_FLEEFIX_R 6 // X1_FLEEFIX: the threat counts as "at the target" within this many tiles of one of its camps
+#endif
+#ifndef X1_RESPAWNFIX
+#define X1_RESPAWNFIX 0 // audit H01: ignore a teammate's respawn event that decodes more than this many rounds ahead (0 = off; 160 = monolith + margin)
+#endif
 #ifndef X1_ECON
 #define X1_ECON 0 // Economy multipliers below (1 = compiled in).
 #endif
@@ -279,6 +288,12 @@
 // ---- Map atlas / strategy portfolio (research/x3/atlas) ----
 #ifndef X1_ATLAS
 #define X1_ATLAS 0 // 1 = compute and print the map's atlas features once (ATLAS line on stdout)
+#endif
+#ifndef X1_DRAFT_WIN
+#define X1_DRAFT_WIN 0 // 1 = draft in the order of the teams that beat us (X1_DRAFT_WIN_LIST) on every map
+#endif
+#ifndef X1_DRAFT_WIN_LIST
+#define X1_DRAFT_WIN_LIST cd::vesper_vale, cd::marcella, cd::heart_of_ruin, cd::vendetta, cd::ryth, cd::tavi, cd::willow, cd::cassi_and_issac, cd::varg, cd::ren, cd::stellar, cd::prism
 #endif
 #ifndef X1_NOOP
 #define X1_NOOP 0 // measurement only: behaviour-free code change (fuel-chaos baseline)
