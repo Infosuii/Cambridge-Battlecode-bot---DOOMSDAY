@@ -236,6 +236,10 @@
 #ifndef X1_DEFEND_HI
 #define X1_DEFEND_HI A2_ST_HI // invasion level (decayed count of enemies seen deep in our half) that triggers it
 #endif
+// ---- Map atlas / strategy portfolio (research/x3/atlas) ----
+#ifndef X1_ATLAS
+#define X1_ATLAS 0 // 1 = compute and print the map's atlas features once (ATLAS line on stdout)
+#endif
 #ifndef X1_NOOP
 #define X1_NOOP 0 // measurement only: behaviour-free code change (fuel-chaos baseline)
 #endif

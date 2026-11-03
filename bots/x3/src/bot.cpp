@@ -1,6 +1,9 @@
 // Apex champion logic: farm camp groups efficiently, bank gems at altars, shop on spawn,
 // and take good fights while avoiding bad ones.
 #include "bot.h"
+#if X1_ATLAS
+#include "x1_atlas.h"
+#endif
 #include "neural_policy.h"
 #if A2_MLPLAN
 #include "ml_plan.h"
@@ -7200,6 +7203,17 @@ void Bot::play_turn() {
     if (NOVA_GOLD_UNSEEN >= 0.0f && inited && !is_official_map()) tune::kGoldWeight = NOVA_GOLD_UNSEEN;
     if (NOVA_LATE_CARRY < 1.0f && round >= NOVA_LATE_CARRY_R)
         tune::kTributeCarry = std::max(8, static_cast<int>(static_cast<float>(tune::kTributeCarry) * NOVA_LATE_CARRY + 0.5f));
+#if X1_ATLAS
+    {
+        // X1_ATLAS (research/x3/atlas): map features from our own world model, once, on the first initialised turn.
+        static bool atlas_done = false;
+        if (!atlas_done && inited) {
+            atlas_done = true;
+            const auto f = x1_atlas::compute(w, team_size);
+            x1_atlas::print(f, d::sdk_my_team());
+        }
+    }
+#endif
 #if LADDER_TABLES
     // Per-map strategy profile (research/v71): the pool map is recognised once, on the first initialised turn.
     if (!v71_done_ && inited) {
