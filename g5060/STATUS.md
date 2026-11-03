@@ -13,13 +13,18 @@ Workers: 6 (threads-2).
    `maps/agent2-maze`; I'll put maze-test 0-59 + real200b 50-109 in maps/x1-maze on build/z-plan-5060 when it lands.
    PC fallback set not needed unless this stalls.
 
-## Running (updated 01:50 UTC)
+## Running (updated 02:10 UTC)
 
-- **K015 part A** (pc/msgs/0040): the six banking screens b1, b1h, b12, b12r07, b3, b123h on x3mf vs v92 (pool),
-  promoted to v86h + x1bru at >= 102; commit 6f462c4 (off 5704d7ba41ac, mf c3da892053a7: both match). One row per
-  line to results/K015A.md as it finishes. Started 01:45 UTC, ~6 min per screen. Then K012 / K013 (see msgs/0008).
+- **K012 on x3mf3** (msgs/0008): mfst and mfsec, pool vs v92 / v86h / x1bru, base x3mf3 359 / 516; rows to
+  results/K012.md. Started 02:03 UTC, ~15 min.
+- Then **K013 step 1** (ideas/I-60-05): six i02d variants (PWIN 0.4 / 0.5 / 0.6, EQ 0.30 / 0.35, FOCUS 0) screened vs
+  v92 on x3mf (base 96), rows to results/I-60-05.md. Queued to start when K012 ends. Then K013 step 2 (cheaper
+  kill-securing, code on build/z-plan-5060).
 
 ## Done
+
+- **K015 part A** (results/K015A.md): no banking line passes. b3 RACEBANK 102 vs v92, 340 / 516 (-1) on all three;
+  the five SAFEROUTE lines lose 6-10 vs v92 with 2.6-3.5x fuel-outs (448-605 vs 171). 0 faults.
 
 - **J023** (results/J023.md): 13 more maps fitted (12 rows); combined table x3mf3 = **359 / 516, +18 vs x3mf2,
   z +3.00, fuel-outs down: pass** (in-sample). One off-target game set moved (01yellow-brick-road A, no table row). Table:
