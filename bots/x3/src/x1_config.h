@@ -226,6 +226,9 @@
 #ifndef X1_RB_DIST
 #define X1_RB_DIST 60
 #endif
+#ifndef X1_NOOP
+#define X1_NOOP 0 // measurement only: behaviour-free code change (fuel-chaos baseline)
+#endif
 #ifndef X1_COUNTER
 #define X1_COUNTER 0 // per map and side, the variant that beat the opponent there (x1_counter.h, tools/x3_counter.py); implies X1_PLAN
 #endif

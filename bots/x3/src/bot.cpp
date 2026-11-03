@@ -4833,6 +4833,11 @@ bool Bot::go_home_if_needed() {
 }
 
 bool Bot::tribute_if_needed() {
+#if X1_NOOP
+    // X1_NOOP: a few instructions and nothing else, to measure how far a behaviour-free code change moves the games.
+    static volatile int x1_noop = 0;
+    x1_noop = x1_noop + 1;
+#endif
     if (gems <= 0) return false;
 #if A2_ALTARFIX
     if (w.no_bank || round < tribute_off_until) return false;
