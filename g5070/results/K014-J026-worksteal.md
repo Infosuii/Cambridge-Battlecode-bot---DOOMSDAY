@@ -13,8 +13,9 @@ Promotion: screen >=102/172; immediately add v86h and x1bru. Pool pass requires 
 | 10 | hiderecwt-g5070 | 100 | +4 | 14/10 | +0.816 | 180 | 0/0 | 11.662791 | 0e6ac0ce4ec1 | `--set X1_MAPFIT=1 --set A2_HIDEREC=1 --set X1_WALKTAIL=3` | screen below promotion |
 | 10 | hiderec-g5070 | 99 | +3 | 13/10 | +0.626 | 180 | 0/0 | 11.732558 | a69ea30d0360 | `--set X1_MAPFIT=1 --set A2_HIDEREC=1` | screen below promotion |
 | 9 | beliefwt-g5070 | 97 | +1 | 11/10 | +0.218 | 180 | 0/0 | 11.465116 | 3af91b93939b | `--set X1_MAPFIT=1 --set A2_BELIEF=1 --set X1_WALKTAIL=3` | screen below promotion |
+| 9 | belief-g5070 | 97 | +1 | 11/10 | +0.218 | 182 | 0/0 | 11.453488 | 852709a55940 | `--set X1_MAPFIT=1 --set A2_BELIEF=1` | screen below promotion |
 
-Measured own supplied lines: **6/27**.
+Measured own supplied lines: **7/27**.
 
 ## Promoted pool gates
 
