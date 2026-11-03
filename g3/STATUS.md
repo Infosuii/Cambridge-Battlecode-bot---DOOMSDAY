@@ -167,3 +167,5 @@ L007 CURRENT ctr3-x3mf-k21, queue PC0050: mf15-29 then inv0-29; plan re-read bet
 L007 completedk21: 77/172,SHA42015d046e07,faults0,fuel195;exactJSONposted.
 
 L007 CURRENT ctr3-x3mf-k22, queue PC0050: mf15-29 then inv0-29; plan re-read between runs; L006paused.
+
+PC0051 ANTI_OVERFIT read09:25UTC: L007counterrunsunchanged. Before L006restart,alignESobjective/currentopponentsplitwithnewwins-onlyrule;oldESuseswin+margin/2000. Existingmarginfitsremainpreserved,notadopted. Queueplanresume_l006=false nowpreventsautomaticoldobjective restart afterL007; nextheartbeatwillalignnewobjective-specificstates/names,notmixcachedhistories. L007 CURRENTstillactiveandpriority0.
