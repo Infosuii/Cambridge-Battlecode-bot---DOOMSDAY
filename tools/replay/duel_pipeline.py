@@ -36,16 +36,15 @@ vers = dict(x.split('=') for x in a.have)
 for _ in range(120):  # never upload while another compile is queued: the upload would cancel it
     if not any(s['status'] == 'queued' for s in items(subs())): break
     time.sleep(15)
-for c in a.cands:
-    if c not in vers:
-        v = upload(c)
-        if v: vers[c] = v
-print('versions', vers, flush=True)
 duel = [sys.executable, str(ROOT / 'tools/replay/ladder_duel.py')]
-arms = [('v92', a.base)] + [(c, int(v)) for c, v in vers.items()] + ([(a.recheck, a.base)] if a.recheck else [])
+# Each candidate is uploaded right before its own arm (an upload goes live when compiled, so never during an arm).
+arms = [('v92', a.base)] + [(c, None) for c in a.cands] + ([(a.recheck, a.base)] if a.recheck else [])
 for arm, v in arms:
     plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
     if arm in plan['arms']: print('arm', arm, 'already played'); continue
+    if v is None:
+        v = int(vers[arm]) if arm in vers else upload(arm)
+        if not v: print('skip', arm, '(no compiled version)', flush=True); continue
     subprocess.run(duel + ['run', '--plan', a.plan, '--version', str(v), '--arm', arm])
     subprocess.run(duel + ['report', '--plan', a.plan, '--arms', 'v92', arm] if arm != 'v92' else duel + ['report', '--plan', a.plan, '--arms', 'v92'])
 subprocess.run(duel + ['restore', '--version', str(a.base)])
