@@ -11,3 +11,5 @@ L006 CURRENT fitting 00elkring; six iterations,three pairs,four opponents,seed1;
 L006 00elkring iter 0: mean fit/game 0.632 wins 5/8 best iter 0 grad |0.414|
 
 L006 00elkring iter 1: mean fit/game 0.832 wins 6/8 best iter 1 grad |0.497|
+
+L006 00elkring iter 2: mean fit/game 0.943 wins 7/8 best iter 2 grad |0.284|
