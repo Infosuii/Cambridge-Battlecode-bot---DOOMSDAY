@@ -7,3 +7,5 @@ L004 finalized: mf377 (+14vsplain363); bag80368,rb366,mfsec368,hrwt356,all below
 Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_PARALLEL14,NFS_REPLAY_ENGINE2.0.0,Python3.12.14/numpy2.3.5. Plugged-in screen/sleep Never. Stage only intended files; preserve local evidence. Only g3/ comms writes/build-z-plan-g3 code pushes; no ladder/login/uploads/submissions or sources/ edits.
 
 L005 CURRENT vs x3inv, X1_MAPFIT=1, campaign PID 30.
+
+L005 completed x3inv: 102/172, faults0, fuel181; analysis/results posted.
