@@ -28,12 +28,12 @@ inline volatile float kProfiles[kMaxProfiles * kFields] = {
     // terr  aggr  carry until hunt raid  num  focus anti items tfrom vision
     -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,   // 0 base (v92)
     -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,   // 1 vision: every ward charge scouts
-     0.7f, 1.0f, 0.75f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 300.0f, 1.0f, // 2 raid and bank: enemy-half camps from round 300, raider, smaller bags
-    -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,   // 3 stat fighter: Treasure + Bruiser, numbers edge, focus fire
-    -1.0f, 1.0f, 0.6f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, // 4 early bank: bank at 0.6x bag until round 400
-    -1.0f, 1.0f, 0.8f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 1.0f,   // 5 top-team economy: Treasure / Jungle / Bruiser / Power opening
-     0.0f, 0.8f, 0.7f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,   // 6 fortress: own half, calmer fights, small bags, antifeed
-     1.0f, 1.2f, 1.0f, 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,   // 7 push: invade, fight harder, hunt further, Bruiser, numbers, focus
+     0.7f, 1.0f, 0.75f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 300.0f, 0.0f, // 2 raid and bank (no vision: profile 1 lost 47-57 on the ladder): enemy-half camps from round 300, raider, smaller bags
+    -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // 3 stat fighter: Treasure + Bruiser, numbers edge, focus fire
+    -1.0f, 1.0f, 0.6f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, // 4 early bank: bank at 0.6x bag until round 400
+    -1.0f, 1.0f, 0.8f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f,   // 5 top-team economy: Treasure / Jungle / Bruiser / Power opening
+     0.0f, 0.8f, 0.7f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,   // 6 fortress: own half, calmer fights, small bags, antifeed
+     1.0f, 1.2f, 1.0f, 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // 7 push: invade, fight harder, hunt further, Bruiser, numbers, focus
 };
 inline volatile int kNumProfiles = 8;
 inline volatile int kCatProfile[x1_categories::kNumCats] = {0, 0, 0, 0, 0, 0, 0};
