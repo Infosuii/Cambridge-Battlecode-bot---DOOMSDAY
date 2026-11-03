@@ -8,8 +8,9 @@ Promotion: screen >=102/172; immediately add v86h and x1bru. Pool pass requires 
 |---|---|---:|---:|---|---:|---:|---|---:|---|---|---|
 | 0 | mf-g5070 | 96 | +0 | 0/0 | +0.000 | 171 | 0/0 | 11.994186 | 8df6f3fe1c40 | `--set X1_MAPFIT=1` | baseline |
 | 13 | bhold-g5070 | 95 | -1 | 13/14 | -0.192 | 189 | 0/0 | 11.627907 | dc5e8cfa1dc9 | `--set X1_MAPFIT=1 --set A2_BURST_HOLD=1` | screen below promotion |
+| 12 | escort-g5070 | 95 | -1 | 32/33 | -0.124 | 156 | 0/0 | 11.017442 | 9b173d5ff971 | `--set X1_MAPFIT=1 --set APEX_ESCORT=1` | screen below promotion |
 
-Measured own supplied lines: **1/27**.
+Measured own supplied lines: **2/27**.
 
 ## Promoted pool gates
 
