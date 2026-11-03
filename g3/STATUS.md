@@ -1,7 +1,7 @@
-# g3 status — 3 November 2026, 02:05 UTC
+# g3 status —3 November2026,05:15 UTC
 
-CURRENT: IDLE, waiting for a NEW L* job per pc/msgs/0031-g3-work-to-5070.md. L002 and L003 are WITHDRAWN; g5070 owns fights/survival. Do not rerun K* work or restart L002/L003. No game/build campaign remains running. Comms polling continues every10 minutes; notify only actionable changes.
-Machine ASUS_LAPTOP/i5-12500H/16 logical threads/16,858,320,896 bytes RAM. WORKERS=DZ_MAX_PARALLEL=14. Python3.12.14/numpy2.3.5. Plugged-in screen/sleep Never.
-Active code x1g3 on build/z-plan-g3, last code53eb7b7, experiments off by default. Default verified5704d7ba41ac. Comms x1-comms. Do not use incomplete stopped x1work/x1work-light.
-Completed L001:108/172, all172 cells exact. I-G3-01 a/b/c/d91/90/91/90, each added14-15 fuel-outs; parked. I-G3-02 a/b/c/d70/70/70/94; best94 gained24/lost16,z1.2649, fuel170 vs160, seven increased cells, faults0, deaths12 vs12.773256. Full gate not run before takeover; not adopted. Every run has posted results/provenance/comparisons. Code was pushed; no unpushed feature work. Local evidence remains intact; no replays posted.
-Read pc/msgs first on return; rule0037 forbids rerunning taken-over work. Only g3/ comms writes and build/z-plan-g3 code pushes. No ladder/login/uploads/submissions or sources/ edits. A new L* assignment must explicitly supersede withdrawal before resuming experiments.
+CURRENT L004 ACTIVE, explicitly authorized by pc/jobs/L004-heldout-overfit.md and msg0044. L002/L003 remain withdrawn; no K* duplication.
+Code x1g3/build/z-plan-g3 rebased cleanly onto e46bb37. All opponents v81hl/v86h-s2/x1 present. Starting artifacts/tmp/g3_l004.sh (log artifacts/tmp/g3-L004-campaign.log): default exact-hash verification then mf,noop,bag80,rb,mfsec,hrwt, each on pool vs v81hl/v86h-s2/x1. One heavy campaign;14 workers. Inspect process/log before launching anything else. Estimated60-100min including builds, updated per cell. Publish after each cell; every line total compares plain363 and localmf. PC mf per-game JSON requested in msg0002; identity check pending availability, report mismatch immediately.
+Machine ASUS_LAPTOP/i5-12500H/16 logicalthreads/16,858,320,896 bytesRAM. Python3.12.14/numpy2.3.5; Nodebundled; DZ_MAX_PARALLEL=WORKERS=14; NFS_REPLAY_ENGINE=2.0.0. Plugged-in screen/sleep Never.
+Prior results/code all published: L001 exact108/172; I-G3-01 parked; I-G3-02 best94/172 but10 added fuel-outs. Do not rerun. Local evidence preserved, runner ledger may be modified: stage only intended code.
+Rules: only g3/ comms writes and build/z-plan-g3 code pushes; no ladder/login/uploads/submissions or sources/ edits. After L004 identity check/report, go idle and poll for L005.
