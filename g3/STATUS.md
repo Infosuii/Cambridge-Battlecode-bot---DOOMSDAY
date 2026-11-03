@@ -59,3 +59,5 @@ L006 CURRENT fitting 00great-wall; six iterations,three pairs,four opponents,see
 L006 00great-wall iter 0: mean fit/game 0.818 wins 6/8 best iter 0 grad |0.399|
 
 L006 00great-wall iter 1: mean fit/game 0.663 wins 5/8 best iter 0 grad |0.216|
+
+L006 00great-wall iter 2: mean fit/game 0.163 wins 2/8 best iter 0 grad |0.668|
