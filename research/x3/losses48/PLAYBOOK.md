@@ -118,3 +118,16 @@ New profiles from this: 9 progressive expansion (enemy-half value ramps from bas
 10 pack opening (cohesion x4 until round 250), 11 pack + expand + vision light. Profile 1 (vision, ward + world
 update) lost 47-57 on the ladder; profiles 2-7 now run without vision; profile 8 is vision light (spare fuel, no
 extra update).
+
+## 8. Ladder duel b so far (vs v92 57 / 120 on the same plan)
+
+| profile | wins | v92-only / profile-only games | z |
+|---|---|---|---|
+| 1 vision | 47 | 24 / 14 | -1.62 |
+| 2 raid and bank | 47 | 22 / 12 | -1.71 |
+| 3 stat fighter | 42 | 26 / 11 | -2.47 |
+
+Every change so far (two batches) lands 5-15 below v92. Either v92's balance breaks under any change, or opponents
+updated their bots between arms (the duel did not pin them). From profile 5 on, each arm pins every opponent's bot to
+the one it ran in v92's base group (`--source-group`, tools/replay/ladder_duel.py); the v92 re-run (also pinned)
+checks that the pinning reproduces the base exactly. Profiles 1-4 get pinned re-runs if opponents drifted.
