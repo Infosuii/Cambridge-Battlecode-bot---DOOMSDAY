@@ -81,3 +81,5 @@ L006 00road-of-riches iter 1: mean fit/game 0.379 wins 3/8 best iter 0 grad |0.2
 L006 00road-of-riches iter 2: mean fit/game 0.647 wins 5/8 best iter 2 grad |0.702|
 
 L006 00road-of-riches iter 3: mean fit/game 0.553 wins 4/8 best iter 2 grad |0.139|
+
+L006 00road-of-riches iter 4: mean fit/game 0.693 wins 5/8 best iter 4 grad |0.292|
