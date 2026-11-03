@@ -27,3 +27,5 @@ L004 CURRENT noop vs v86h-s2, switches --set X1_MAPFIT=1 --set X1_NOOP=1, campai
 CURRENT UPDATE05:25 UTC: msg0045 says skip mf/noop. Local mf137/107/133 matches PC totals377 (+14 vs plain363); no per-game JSON identity claim. noop/v81hl completed/posted before update; incomplete noop/v86h-s2 cancelled and noop/x1 skipped. Original campaign stopped. Starting artifacts/tmp/g3_l004_remaining.sh (log artifacts/tmp/g3-L004-remaining.log), ONLY bag80/rb/mfsec/hrwt,12 cells; one heavy campaign. Same frozen code e46bb37/default exact5704d7ba41ac. Older six-line/current-noop entries superseded. Completed data preserved. After four lines finalize report then idle for L005.
 
 L004 CURRENT bag80 vs v81hl, switches --set X1_MAPFIT=1 --set X1_BAGRISK=80, campaign PID 160.
+
+L004 completed cell bag80/v81hl: 134/172, faults0, fuel180.
