@@ -4893,6 +4893,29 @@ bool Bot::tribute_if_needed() {
         sr_reach = sr_reach_c;
         sr_any = sr_any_c;
     }
+#if X1_SAFEROUTE == 2
+    // Mode 2: the old square mask first, so play is unchanged whenever it finds a route; the path-aware layers below
+    // only replace its fallback (the plain path straight through the enemies). Mode 1 replaced the mask outright and
+    // lost 20-34 of 516 games: it took bags of 15+ away from the mask that kept them safe.
+    if (gems >= 15) {
+        bc::bitboard threat = w.threat_zone(round, V58_SURVIVE ? 15 : 10, 4.0f);
+        threat.set(pos, false);
+        if (!threat.is_empty() || any_watch) {
+            bc::bitboard blocked = w.static_blocked | threat;
+            blocked.set(pos, false);
+            bc::bitboard ring = w.altar_ring & ~blocked;
+            if (any_watch) ring = ring & ~watched;
+            if (!ring.is_empty()) {
+                bc::bitboard visited;
+                safe_field.compute_to(blocked, ring, single(pos), visited);
+                if (fdist(safe_field, pos) != kUnreach) {
+                    use_safe = true;
+                    dist = fdist(safe_field, pos);
+                }
+            }
+        }
+    }
+#endif
     bool sr_hold = false;
     if (gems >= X1_SR_BAG && sr_fuel && (sr_any || any_watch)) {
         bc::bitboard ring0 = w.altar_ring;

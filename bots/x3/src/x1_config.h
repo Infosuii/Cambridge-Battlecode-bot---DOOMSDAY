@@ -179,7 +179,7 @@
 #endif
 // ---- Banking B1-B3 (research/x3/banking/BANKING_RESEARCH.md) ----
 #ifndef X1_SAFEROUTE
-#define X1_SAFEROUTE 0 // B1: carrier routes around path-aware enemy reach, relaxed in layers; skips enemy-locked altars
+#define X1_SAFEROUTE 0 // B1: 1 = path-aware enemy reach in layers replaces the square mask; 2 = mask first, layers only as its fallback
 #endif
 #ifndef X1_SR_BAG
 #define X1_SR_BAG 15 // bag from which the carrier routes around enemies
