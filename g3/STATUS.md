@@ -1,25 +1,7 @@
-# g3 status —3 November2026,05:55 UTC
+# g3 status —3 November2026,06:15 UTC
 
-CURRENT L005 ACTIVE, after completed L004. Code x1g3/build/z-plan-g3 rebased cleanly onto94c35fe; all x3inv variants and research/x3/local_pattern.py present. Starting artifacts/tmp/g3_l005.sh, log artifacts/tmp/g3-L005-campaign.log; default check then four pool runs with X1_MAPFIT=1 vs x3inv,x3inv-t,x3inv-a,x3inv-i,14workers. Publish every run plus local_pattern and cells losing vs variant but winning vs mf-v92 control (J022mf2,96wins,same candidatec3da). Expected20-35min including builds. Inspect process before launching another heavy campaign.
-L005 exact PC102/172 reference JSON requested in msg0003; aggregate check immediate, identity pending availability, post mismatch at once. local_pattern side measurement is centroid-proxy, not literal territory geometry.
-NEXT L006 per pc/jobs/L006-J023-takeover.md/msg0047: fit13 weak tabled maps against v92,v86h,x1bru,x3inv,post per map,regenerate table,push research/x3/es and header only on g3,gate fitted group and held-out;must gain on both. Read job/tool details before execution. L002/L003 remain withdrawn.
-L004 finalized: mf377 (+14vsplain363); bag80368,rb366,mfsec368,hrwt356,all belowmf,no adoption;no faults. Results/provenance/comparisons posted. PC0045 skip remaining NOOP applied. No per-game PC mf identity claim.
-Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_PARALLEL14,NFS_REPLAY_ENGINE2.0.0,Python3.12.14/numpy2.3.5. Plugged-in screen/sleep Never. Stage only intended files; preserve local evidence. Only g3/ comms writes/build-z-plan-g3 code pushes; no ladder/login/uploads/submissions or sources/ edits.
-
-L005 CURRENT vs x3inv, X1_MAPFIT=1, campaign PID 30.
-
-L005 completed x3inv: 102/172, faults0, fuel181; analysis/results posted.
-
-L005 CURRENT vs x3inv-t, X1_MAPFIT=1, campaign PID 30.
-
-L005 completed x3inv-t: 84/172, faults0, fuel198; analysis/results posted.
-
-L005 CURRENT vs x3inv-a, X1_MAPFIT=1, campaign PID 30.
-
-L005 completed x3inv-a: 88/172, faults0, fuel181; analysis/results posted.
-
-L005 CURRENT vs x3inv-i, X1_MAPFIT=1, campaign PID 30.
-
-L005 completed x3inv-i: 93/172, faults0, fuel174; analysis/results posted.
-
-L005 four runs completed; no campaign remains running. Review reference identity and finalize L005, then execute newly assigned L006 (not idle; msg0047).
+CURRENT L006 ACTIVE: fixed-seed refits of13 weak tabled maps, per pc/jobs/L006-J023-takeover.md/msg0047. Code x1g3/build/z-plan-g3 on8bbe438 (base94c35fe plus tooling fixes). Bots unchanged. Starting default hash check then artifacts/tmp/g3_l006.py, log artifacts/tmp/g3-L006-fit.log. Sixiterations/threepairs/sigma0.5/lr1/seed1, four fitted opponents v92,v86h,x1bru,x3inv,14workers. State research/x3/es/mapfit-<map>.json. ES run names have -g3 via X3_RUN_SUFFIX. One heavy campaign; do not launch another. Expect several hours; status posted per iteration and at most15min apart, states/code/results pushed per map.
+Tooling: new tools/x3_g3_mapfit_table.py uses recorded runtimefp research/x3/counter_fp.json copied from g5060/J024, preserves13original J022 rows, refuses key collisions/asymmetric fingerprints. Dry-run/no-state preserves exactbytes; new-row fixture preservesall13 and correctkey. Do NOT use upstream x3_mapfit_table.py (authored-half bug and would drop rows without original states).
+NEXT after13fits: python tools/x3_g3_mapfit_table.py --fp research/x3/counter_fp.json; verify default hash, then fitted gate poolv92/v86h/x1bru/x3inv (base96/115/130/102=443) and held-out poolv81hl/v86h-s2/x1 (base137/107/133=377); table must gain on BOTH; report fuel/faults/pairs. Push states/header only to g3 branch, PC merges.
+L005 four runs complete: fullinvader102,invasion-only84,aggression-only88,item-only93 of172; allfaults0,pattern/loss-cell reports posted. Fullinvader PCaggregate102 matches; exactpergame reference still requested,msg0003. Final L005 report notes limitation. L004 completed,allfourfeatures below377baseline,noadoption. L002/L003 withdrawn.
+Machine ASUS_LAPTOP/i5-12500H/16threads/16,858,320,896bytesRAM. WORKERS=DZ_MAX_PARALLEL14,NFS_REPLAY_ENGINE2.0.0,Python3.12.14/numpy2.3.5. Plugged-in screen/sleep Never. Only g3/commswrites and build/z-plan-g3codepushes; no ladder/login/uploads/submissions or sources edits. Preserveall local evidence,neverstage runnerledger/artifactreplays.
