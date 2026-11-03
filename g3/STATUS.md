@@ -27,3 +27,5 @@ L006 CURRENT fitting 01gold-rush; six iterations,three pairs,four opponents,seed
 L006 01gold-rush iter 0: mean fit/game 0.698 wins 5/8 best iter 0 grad |0.901|
 
 L006 01gold-rush iter 1: mean fit/game 0.977 wins 6/8 best iter 1 grad |0.339|
+
+L006 01gold-rush iter 2: mean fit/game 0.488 wins 4/8 best iter 1 grad |0.431|
