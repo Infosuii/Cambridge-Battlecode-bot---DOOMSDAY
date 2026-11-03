@@ -67,3 +67,18 @@ Archetypes (k-means on 24 strategy features; overlapping tendencies, silhouette 
   think later, smurphy, EggsAfter11AM), 2 groups each, 64 maps. Arms: v92, pf1..pf7, v92 again (drift check).
 - Per category: each profile's paired result vs v92 on that category's maps; the category table takes the best
   profile where it clearly beats v92, else v92. Then one portfolio arm (category table) on a fresh plan.
+
+## 5. Local check of the profiles (14 maps x 2 sides vs v92; v92 vs itself = 14 / 28)
+
+| profile | wins / 28 | faults | fuel-outs | deaths / game |
+|---|---|---|---|---|
+| 1 vision | 11 | 0 | 34 | 13.5 |
+| 2 raid and bank | 8 | 0 | 38 | 15.7 |
+| 3 stat fighter | 10 | 0 | 28 | 14.0 |
+| 4 early bank | 9 | 0 | 34 | 13.5 |
+| 5 top-team economy | 10 | 0 | 34 | 16.1 |
+| 6 fortress | 9 | 0 | 26 | 12.9 |
+| 7 push | 8 | 0 | 29 | 17.4 |
+
+No faults; fuel normal. Every profile is below even against v92 in self-play (v92 is tuned against its own play),
+which self-play cannot tell apart from ladder value; the ladder duel (plan b) decides.
