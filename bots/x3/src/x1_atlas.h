@@ -72,8 +72,14 @@ inline Features compute(World& w, int team_size) {
     for (vec2 p : w.spawn_tiles) ax += static_cast<float>(p.x), ay += static_cast<float>(p.y), ++na;
     for (vec2 p : w.enemy_spawn.positions()) {
         bx += static_cast<float>(p.x), by += static_cast<float>(p.y), ++nb;
-        const int d = fdist(w.spawn_field, p);
-        if (d < kUnreach && (f.s2s < 0 || d < f.s2s)) f.s2s = d;
+        // The enemy spawn is blocked in our field: step to it from its walkable neighbours.
+        for (int dx = -1; dx <= 1; ++dx)
+            for (int dy = -1; dy <= 1; ++dy) {
+                const vec2 q{p.x + dx, p.y + dy};
+                if (q.x < 0 || q.y < 0 || q.x >= w.width || q.y >= w.height) continue;
+                const int d = fdist(w.spawn_field, q);
+                if (d < kUnreach && (f.s2s < 0 || d + 1 < f.s2s)) f.s2s = d + 1;
+            }
     }
     if (na && nb) {
         const float straight = std::max(std::abs(ax / na - bx / nb), std::abs(ay / na - by / nb));
