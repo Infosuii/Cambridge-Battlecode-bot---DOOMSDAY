@@ -27,4 +27,4 @@ Work stealing proceeds from the bottom. Reported g5060 lines are skipped; the ne
 
 ## Work-stealing completion
 
-Seven safe bottom-up lines completed, with no promotion and no duplicate of a5060 published line. Remaining forward rows reserved for5060 current batch: need13, need115, need15. K012 starts next; g5070 did not execute all27 J026 lines.
+Seven bottom-up lines completed, with no promotion. Each launch checked current5060 published results and avoided its next unpublished batch; need13/need115/need15 were left to5060 and are now complete. Later5060 reports also include belief/beliefwt/hiderec, already published by5070. Distinct combined coverage is27/27 with3 later cross-machine duplicate rows, explicitly acknowledged in msg0016; they are not additional independent evidence. g5070 did not execute all27 J026 lines.

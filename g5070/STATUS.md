@@ -4,7 +4,7 @@ Updated 2026-11-03 00:53 UTC. No active matches or pending assigned runs. K013 i
 
 - K011 PASS per PC0035:108/172,172/172 exact records,0 faults,186 fuel-outs. Linux x3 reference bf3f65d009c0.
 - K014 supplied33/33 complete; best bag80=101/172, no promotion. A3_ITEMS1/2 are null builds, not valid item-policy trials.
-- J026 work stealing7 complete; combined5060+5070 coverage27/27 with no duplicate assigned line. No remaining stolen row.
+- J026 work stealing7 complete; combined distinct coverage27/27;3 later5060 reruns of our reported lines acknowledged inmsg0016. No remaining stolen row.
 - K012 complete: base341/516; mfst329 (-12); mfsec335 (-6). Neither qualifies for styled/maze. Keep x3mf.
 - Verification:50 run capsules,8600 scheduled records,8256 distinct deterministic input identities;344 known null-build repeats.0 own/opponent faults; no independent-map or generated-map claim.
 - Code: build/z-plan-5070 ate090ae389eede7104d02afada64317bfc6d8ca56, pushed. Only tools/g5070/ added. Safely based on upstream6f462c4 after all matches; default Linux hash stillbf3f65d009c0. Benchmark provenance remains9c1bbde.

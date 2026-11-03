@@ -23,10 +23,13 @@
       "soak64"
     ],
     "other": [
+      "belief",
+      "beliefwt",
       "burst2",
       "burst2wt",
       "diseng",
       "disengwt",
+      "hiderec",
       "locks",
       "lockswt",
       "need115",
@@ -45,7 +48,12 @@
       "wait20"
     ],
     "remaining": [],
-    "duplicates": []
+    "duplicates": [
+      "belief",
+      "beliefwt",
+      "hiderec"
+    ],
+    "note": "No g5070 launch duplicated a g5060 published line at launch. Later g5060 reports overlap these prior g5070 completions; do not count them as independent evidence. See msg0016."
   },
   "caution": "Same maps and deterministic paired treatments; these are not independent map samples. No generated-map robustness claim.",
   "runs_detail": [
@@ -502,5 +510,6 @@
   ],
   "handoff_code_commit": "e090ae389eede7104d02afada64317bfc6d8ca56",
   "upstream_after_benchmarks": "6f462c479bb8ee91f8e655e63ccf263fd8b55306",
-  "final_default_sha256": "bf3f65d009c0419d2b0f04bdfab68b85f397ce6cb2350a36ab8782d4d74cd46a"
+  "final_default_sha256": "bf3f65d009c0419d2b0f04bdfab68b85f397ce6cb2350a36ab8782d4d74cd46a",
+  "J026_final_sync_utc": "2026-11-03T00:55:49.975230+00:00"
 }

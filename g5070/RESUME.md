@@ -10,10 +10,10 @@ Updated 2026-11-03 00:53 UTC. **Current PC queue is complete. Do not restart com
 ## Final state
 - K011 PASS:108/172;172/172 exact records;0 faults;186 fuel-outs. PC0035 explicitly supersedes original Windows hash requirement.
 - K01433/33 supplied lines complete, no line>=102; bestbag80=101. A3_ITEMS1/2 both baseline-identical. No promotion/validation owed.
-- J0267 stolen lines complete;5060 completed other20; coverage27/27, duplicates0. No rows remain.
+- J0267 stolen lines complete; distinct combined coverage27/27. At final sync5060 had also reported belief/beliefwt/hiderec after our completions:3 cross-machine duplicate rows, acknowledged inmsg0016. No extra independent evidence. No rows remain.
 - K012 baseline341/516, style329/516, G3secure335/516; both fail. No styled/maze gate owed.
 - K013 cancelled; pre-existing isolated prototype and cards archived only. No bot feature integrated or promoted.
-- No active process, match or benchmark. No pending assigned validation. Final report results/X3-2026-11-03.md; verification results/X3-VERIFICATION.json.
+- No active benchmark process or match. No pending assigned validation. Final report results/X3-2026-11-03.md; verification results/X3-VERIFICATION.json.
 
 ## Git/checkouts
 - Code /home/om/Projects/Battlecode/x1work, branch build/z-plan-5070, commite090ae389eede7104d02afada64317bfc6d8ca56; pushed to own branch only.
@@ -30,7 +30,7 @@ PY=/home/om/Projects/Battlecode/.venv/bin/python; DZ_CAMBC=/home/om/Projects/Bat
 - K011: SETS=pool OPPS=v86h WORKERS=18 bash tools/x1_gate.sh x3 repro-g5070.
 - Own base: SETS=pool OPPS="v92 v86h x1bru" WORKERS=18 bash tools/x1_gate.sh x3 mf-g5070 "--set X1_MAPFIT=1".
 - K014 exact33 switches: artifacts/local-only/g5070/k014-manifest.json; state k014-state.json; log k014-run.log. Completed.
-- J026 manifest j026-manifest.json; state j026-worksteal-state.json; log j026-worksteal.log. Completed7 safe rows. Combined coverage verified against current5060 results.
+- J026 manifest j026-manifest.json; state j026-worksteal-state.json; log j026-worksteal.log. Completed7 safe rows. Combined distinct coverage verified against current5060 results;3 later overlapping rows documented inmsg0016.
 - K012 exact3 configurations and comparisons: k012-state.json; runner k012_run.py; log k012-run.log. Completed. A transient concurrent comms push was safely rebased/retried, with no match rerun or lost result.
 - tools/g5070/compare_results.py is the reusable record comparator. tools/g5070/prototype/ is explicitly unintegrated pre-cancellation prework,15 host correctness cases only. No match strength evidence.
 - Default build check after refresh: cambc build bots/x3 --release --output artifacts/tmp/g5070-final-default.wasm; exactbf3f65d009c0 hash verified.
