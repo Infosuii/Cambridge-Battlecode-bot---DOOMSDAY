@@ -111,3 +111,5 @@ L006 00fragment iter 0: mean fit/game 0.875 wins 6/8 best iter 0 grad |0.759|
 L006 00fragment iter 1: mean fit/game 0.312 wins 3/8 best iter 0 grad |0.472|
 
 L006 00fragment iter 2: mean fit/game 0.495 wins 4/8 best iter 0 grad |0.856|
+
+URGENT CURRENT08:55UTC: L007/msg0048 PREEMPTS L006. L006 PAUSED after00fragment iteration2 (3savediterations),sixmapscomplete; no L006heavyprocessrunning. Statecheckpointpublished,source rebasedcleanly onto49c4239+g3supportcommits. Starting artifacts/tmp/g3_l007.sh,log artifacts/tmp/g3-L007.log:ctr3-x3mf-k15..k29 ONLY,EXTRA X1_MAPFIT=1,14workers. PostexactresultsJSON andwins/SHA perrun; PC0-14notduplicated. Afterall15 scriptresumesL006 atpartialfragment,skipcompletedmaps. OlderCURRENTL006entries superseded untilL007done. Serialcommswrapperrequiredforheartbeatpulls.
