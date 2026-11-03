@@ -17,3 +17,5 @@ L006 00elkring iter 2: mean fit/game 0.943 wins 7/8 best iter 2 grad |0.284|
 L006 00elkring iter 3: mean fit/game 0.679 wins 5/8 best iter 2 grad |0.482|
 
 L006 00elkring iter 4: mean fit/game 0.795 wins 6/8 best iter 2 grad |0.219|
+
+L006 00elkring iter 5: mean fit/game 0.671 wins 5/8 best iter 2 grad |0.187|
