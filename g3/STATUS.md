@@ -29,3 +29,5 @@ CURRENT UPDATE05:25 UTC: msg0045 says skip mf/noop. Local mf137/107/133 matches 
 L004 CURRENT bag80 vs v81hl, switches --set X1_MAPFIT=1 --set X1_BAGRISK=80, campaign PID 160.
 
 L004 completed cell bag80/v81hl: 134/172, faults0, fuel180.
+
+L004 CURRENT bag80 vs v86h-s2, switches --set X1_MAPFIT=1 --set X1_BAGRISK=80, campaign PID 160.
