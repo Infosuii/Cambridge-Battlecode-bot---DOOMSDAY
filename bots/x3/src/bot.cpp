@@ -7580,7 +7580,14 @@ void Bot::play_turn() {
         }
         if (pf_done) {
             namespace pf = x1_portfolio;
-            if (pf::terr >= 0.0f && round >= pf::terr_from) tune::kTerritory = pf::terr;
+            if (pf::terr >= 0.0f && round >= pf::terr_from) {
+                // terr_ramp: move from this turn's base value to the profile's value over terr_ramp rounds.
+                const float a = pf::terr_ramp > 0.0f ? std::min(1.0f, static_cast<float>(round - pf::terr_from) / pf::terr_ramp) : 1.0f;
+                tune::kTerritory = tune::kTerritory + a * (pf::terr - tune::kTerritory);
+            }
+            static float pf_base_coh = -1.0f;
+            if (pf_base_coh < 0.0f) pf_base_coh = tune::kCohesion;
+            if (pf::coh_mult != 1.0f) tune::kCohesion = round < pf::coh_until ? pf_base_coh * pf::coh_mult : pf_base_coh;
             tune::kAggression *= pf::aggr;
             if (pf::carry != 1.0f && (pf::carry_until <= 0 || round < pf::carry_until))
                 tune::kTributeCarry = std::max(8, static_cast<int>(static_cast<float>(tune::kTributeCarry) * pf::carry + 0.5f));
