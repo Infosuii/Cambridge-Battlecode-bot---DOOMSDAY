@@ -1,69 +1,61 @@
 # Map categories (tools/mapatlas/categorise.py)
 
-k-means on 12 standardised atlas features chose k=4 (silhouette 0.159);
-a depth-3 decision tree turns the clusters into readable rules (agrees with the clusters on 86% of maps).
+k-means on 14 standardised atlas features chose k=8 (silhouette 0.156);
+a depth-3 decision tree turns the clusters into readable rules (agrees with the clusters on 81% of maps).
 The rules define the categories, so an unseen map is categorised from its features alone.
 
-## C1 (12 maps)
+## C1 (18 maps)
 
-Rule: log_area <= 7.8242 and walls <= 0.1089 and near30 <= 0.763
+Rule: log_area <= 7.8823 and log_mean_dist <= 3.1377 and harmless <= 0.623
 
-Typical: log_area=7.44, team=4.17, contested=0.42, centre=0.44, top3=0.54, log_density=3.23, groups_per_champ=3.11, harmless=0.23, log_maze=0.55, walls=0.06, unreachable=0.07, near30=0.40
+Typical: log_area=7.12, team=4.44, contested=0.45, top3=0.63, log_density=2.94, groups_per_champ=1.91, harmless=0.11, strong=0.16, blocked=0.13, unreachable=0.02, near15=0.49, near30=0.94, log_mean_dist=2.81, log_hp_per_gem=4.94
 
-Maps: 00breadcrumbs, 00collision, 00gem-fields, 00monolith, 00quadrants, 00rows, 00split, 00swirl, 01boss-battle, 01the-farm, 02the-pond, 03one-gem
+Maps: 00anvil, 00eight, 00elkring, 00fragment, 00oasis, 00packs, 00quarry, 01broken-curve, 01corridors, 01elk-arena, 01hooks, 01yellow-brick-road, 02arena, 02gift-wrapping, 02the-pack, 03membrane, 03showdown, 03shrines
 
-## C2 (25 maps)
+## C2 (4 maps)
 
-Rule: log_area <= 7.8242 and walls <= 0.1089 and near30 > 0.763
+Rule: log_area <= 7.8823 and log_mean_dist <= 3.1377 and harmless > 0.623
 
-Typical: log_area=7.21, team=4.16, contested=0.58, centre=0.57, top3=0.64, log_density=2.85, groups_per_champ=1.87, harmless=0.20, log_maze=0.07, walls=0.04, unreachable=0.00, near30=0.94
+Typical: log_area=6.88, team=4.00, contested=0.71, top3=0.77, log_density=3.29, groups_per_champ=1.16, harmless=0.93, strong=0.00, blocked=0.13, unreachable=0.00, near15=0.65, near30=0.96, log_mean_dist=2.78, log_hp_per_gem=3.68
 
-Maps: 00contest, 00eight, 00elkring, 00fragment, 00gemfight, 00interlock, 00oasis, 00packs, 00quarry, 00rushbait-v2, 00the-line, 01elk-arena, 01gold-rush, 01hooks, 01starfish, 01yellow-brick-road, 02arena, 02gift-wrapping, 02the-pack, 02uncharted-lands, 03ambush-field, 03membrane, 03shrines, adgato-gemcombat1, adgato-gemcombat2
+Maps: 00the-line, 00vault, 02stalactites, adgato-gemcombat1
 
-## C3 (13 maps)
+## C3 (24 maps)
 
-Rule: log_area <= 7.8242 and walls > 0.1089 and top3 <= 0.802
+Rule: log_area <= 7.8823 and log_mean_dist > 3.1377 and harmless <= 0.1725
 
-Typical: log_area=7.28, team=4.31, contested=0.72, centre=0.31, top3=0.50, log_density=4.00, groups_per_champ=3.16, harmless=0.23, log_maze=0.38, walls=0.17, unreachable=0.00, near30=0.54
+Typical: log_area=7.55, team=4.79, contested=0.50, top3=0.59, log_density=3.52, groups_per_champ=2.41, harmless=0.03, strong=0.48, blocked=0.16, unreachable=0.00, near15=0.08, near30=0.51, log_mean_dist=3.53, log_hp_per_gem=4.75
 
-Maps: 00great-wall, 00lost-world, 00reverse-spiral, 00road-of-riches, 01broken-curve, 01corridors, 01shortcut, 02guardians, 02stalactites, 02treasure-box, 03fan, 03honeycomb, 03showdown
+Maps: 00collision, 00contest, 00great-wall, 00interlock, 00monolith, 00quadrants, 00reverse-spiral, 00rows, 00rushbait-v2, 00split, 00swirl, 01boss-battle, 01gold-rush, 01shortcut, 01starfish, 01the-farm, 02crossing, 02fields, 02guardians, 02uncharted-lands, 03ambush-field, 03homonoliths, 03honeycomb, 03the-front
 
-## C4 (3 maps)
+## C4 (13 maps)
 
-Rule: log_area <= 7.8242 and walls > 0.1089 and top3 > 0.802
+Rule: log_area <= 7.8823 and log_mean_dist > 3.1377 and harmless > 0.1725
 
-Typical: log_area=7.03, team=3.33, contested=0.58, centre=0.37, top3=0.97, log_density=3.78, groups_per_champ=2.57, harmless=0.37, log_maze=0.25, walls=0.12, unreachable=0.00, near30=0.83
+Typical: log_area=7.34, team=4.92, contested=0.31, top3=0.45, log_density=2.87, groups_per_champ=2.75, harmless=0.64, strong=0.09, blocked=0.23, unreachable=0.01, near15=0.13, near30=0.51, log_mean_dist=3.52, log_hp_per_gem=4.33
 
-Maps: 00anvil, 00vault, 03homonoliths
+Maps: 00breadcrumbs, 00gem-fields, 00gemfight, 00lost-world, 00road-of-riches, 02the-pond, 02treasure-box, 03colosseum, 03fan, 03one-gem, adgato-gemcombat2, adgato-gemcombat3, adgato-gemcombat4
 
-## C5 (24 maps)
+## C5 (21 maps)
 
-Rule: log_area > 7.8242 and near30 <= 0.6285 and unreachable <= 0.1355
+Rule: log_area > 7.8823 and harmless <= 0.459 and near30 <= 0.578
 
-Typical: log_area=8.61, team=4.96, contested=0.42, centre=0.40, top3=0.58, log_density=2.21, groups_per_champ=2.12, harmless=0.16, log_maze=0.42, walls=0.07, unreachable=0.01, near30=0.10
+Typical: log_area=8.63, team=5.67, contested=0.31, top3=0.59, log_density=2.11, groups_per_champ=1.93, harmless=0.03, strong=0.32, blocked=0.14, unreachable=0.01, near15=0.02, near30=0.09, log_mean_dist=4.18, log_hp_per_gem=4.78
 
-Maps: 00ambush, 00dunes, 00expanse, 00galaxy, 00lanes, 00pilgrimage, 00ribs, 00stampede, 01big-world, 01concentrated-wealth, 01fracture, 01starvation, 02cuts, 02famine, 02fields, 02geodes, 02harvest, 02tangle, 03contours, 03reef, 03riverbed, 03twisty, adgato-gemcombat3, adgato-gemcombat5
+Maps: 00ambush, 00corners, 00dunes, 00expanse, 00lanes, 00pilgrimage, 00ribs, 00stampede, 01big-world, 01concentrated-wealth, 01fracture, 01starvation, 02cuts, 02famine, 02geodes, 02harvest, 02tangle, 03contours, 03reef, 03riverbed, 03twisty
 
 ## C6 (3 maps)
 
-Rule: log_area > 7.8242 and near30 <= 0.6285 and unreachable > 0.1355
+Rule: log_area > 7.8823 and harmless <= 0.459 and near30 > 0.578
 
-Typical: log_area=8.17, team=4.33, contested=0.10, centre=0.18, top3=0.44, log_density=1.95, groups_per_champ=2.13, harmless=0.60, log_maze=0.17, walls=0.01, unreachable=0.39, near30=0.29
+Typical: log_area=8.20, team=5.67, contested=0.34, top3=0.56, log_density=2.57, groups_per_champ=2.01, harmless=0.01, strong=0.36, blocked=0.20, unreachable=0.00, near15=0.01, near30=0.81, log_mean_dist=3.33, log_hp_per_gem=4.75
 
-Maps: 01islands, 03ultrastarvation, adgato-gemcombat4
+Maps: 00crater, 00happy-halloween, 01islands
 
 ## C7 (3 maps)
 
-Rule: log_area > 7.8242 and near30 > 0.6285 and log_area <= 8.0262
+Rule: log_area > 7.8823 and harmless > 0.459
 
-Typical: log_area=7.85, team=5.00, contested=0.39, centre=0.52, top3=0.27, log_density=3.34, groups_per_champ=3.80, harmless=0.31, log_maze=-0.04, walls=0.07, unreachable=0.00, near30=0.86
+Typical: log_area=8.92, team=4.67, contested=0.27, top3=0.54, log_density=1.18, groups_per_champ=1.30, harmless=0.90, strong=0.00, blocked=0.39, unreachable=0.03, near15=0.10, near30=0.15, log_mean_dist=3.94, log_hp_per_gem=3.73
 
-Maps: 02crossing, 03colosseum, 03the-front
-
-## C8 (3 maps)
-
-Rule: log_area > 7.8242 and near30 > 0.6285 and log_area > 8.0262
-
-Typical: log_area=8.31, team=5.00, contested=0.60, centre=0.48, top3=0.53, log_density=2.42, groups_per_champ=1.93, harmless=0.00, log_maze=-0.07, walls=0.06, unreachable=0.00, near30=0.88
-
-Maps: 00corners, 00crater, 00happy-halloween
+Maps: 00galaxy, 03ultrastarvation, adgato-gemcombat5

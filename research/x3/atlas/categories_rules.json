@@ -1,61 +1,53 @@
 {
  "tree": {
   "feat": "log_area",
-  "thr": 7.8242,
+  "thr": 7.8823,
   "le": {
-   "feat": "walls",
-   "thr": 0.1089,
+   "feat": "log_mean_dist",
+   "thr": 3.1377,
    "le": {
-    "feat": "near30",
-    "thr": 0.763,
+    "feat": "harmless",
+    "thr": 0.623,
     "le": {
-     "leaf": 1,
-     "n": 12
+     "leaf": 3,
+     "n": 18
     },
     "gt": {
-     "leaf": 2,
-     "n": 25
+     "leaf": 5,
+     "n": 4
     }
    },
    "gt": {
-    "feat": "top3",
-    "thr": 0.802,
+    "feat": "harmless",
+    "thr": 0.1725,
     "le": {
-     "leaf": 1,
-     "n": 13
+     "leaf": 6,
+     "n": 24
     },
     "gt": {
-     "leaf": 2,
-     "n": 3
+     "leaf": 7,
+     "n": 13
     }
    }
   },
   "gt": {
-   "feat": "near30",
-   "thr": 0.6285,
+   "feat": "harmless",
+   "thr": 0.459,
    "le": {
-    "feat": "unreachable",
-    "thr": 0.1355,
+    "feat": "near30",
+    "thr": 0.578,
     "le": {
-     "leaf": 0,
-     "n": 24
+     "leaf": 2,
+     "n": 21
     },
     "gt": {
-     "leaf": 3,
+     "leaf": 6,
      "n": 3
     }
    },
    "gt": {
-    "feat": "log_area",
-    "thr": 8.0262,
-    "le": {
-     "leaf": 1,
-     "n": 3
-    },
-    "gt": {
-     "leaf": 0,
-     "n": 3
-    }
+    "leaf": 4,
+    "n": 3
    }
   }
  },
@@ -63,56 +55,52 @@
   "log_area",
   "team",
   "contested",
-  "centre",
   "top3",
   "log_density",
   "groups_per_champ",
   "harmless",
-  "log_maze",
-  "walls",
+  "strong",
+  "blocked",
   "unreachable",
-  "near30"
+  "near15",
+  "near30",
+  "log_mean_dist",
+  "log_hp_per_gem"
  ],
  "leaves": {
   "C1": [
-   "log_area <= 7.8242",
-   "walls <= 0.1089",
-   "near30 <= 0.763"
+   "log_area <= 7.8823",
+   "log_mean_dist <= 3.1377",
+   "harmless <= 0.623"
   ],
   "C2": [
-   "log_area <= 7.8242",
-   "walls <= 0.1089",
-   "near30 > 0.763"
+   "log_area <= 7.8823",
+   "log_mean_dist <= 3.1377",
+   "harmless > 0.623"
   ],
   "C3": [
-   "log_area <= 7.8242",
-   "walls > 0.1089",
-   "top3 <= 0.802"
+   "log_area <= 7.8823",
+   "log_mean_dist > 3.1377",
+   "harmless <= 0.1725"
   ],
   "C4": [
-   "log_area <= 7.8242",
-   "walls > 0.1089",
-   "top3 > 0.802"
+   "log_area <= 7.8823",
+   "log_mean_dist > 3.1377",
+   "harmless > 0.1725"
   ],
   "C5": [
-   "log_area > 7.8242",
-   "near30 <= 0.6285",
-   "unreachable <= 0.1355"
+   "log_area > 7.8823",
+   "harmless <= 0.459",
+   "near30 <= 0.578"
   ],
   "C6": [
-   "log_area > 7.8242",
-   "near30 <= 0.6285",
-   "unreachable > 0.1355"
+   "log_area > 7.8823",
+   "harmless <= 0.459",
+   "near30 > 0.578"
   ],
   "C7": [
-   "log_area > 7.8242",
-   "near30 > 0.6285",
-   "log_area <= 8.0262"
-  ],
-  "C8": [
-   "log_area > 7.8242",
-   "near30 > 0.6285",
-   "log_area > 8.0262"
+   "log_area > 7.8823",
+   "harmless > 0.459"
   ]
  }
 }

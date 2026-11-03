@@ -25,6 +25,25 @@ FEATS = {
     'near30': lambda r: float(r['gems_within_30']),
 }
 
+# The same features from the bot's own atlas lines (tools/mapatlas/collect.py -> bot_atlas.csv); x1_categories.h
+# evaluates these exact expressions at game start.
+BOT_FEATS = {
+    'log_area': lambda r: math.log(float(r['w']) * float(r['h'])),
+    'team': lambda r: float(r['team_size']),
+    'contested': lambda r: float(r['contested']),
+    'top3': lambda r: float(r['top3']),
+    'log_density': lambda r: math.log(1 + float(r['gems']) * 100.0 / (float(r['w']) * float(r['h']))),
+    'groups_per_champ': lambda r: float(r['groups']) / (2 * float(r['team_size'])),
+    'harmless': lambda r: float(r['harmless']),
+    'strong': lambda r: float(r['strong']),
+    'blocked': lambda r: float(r['blocked']),
+    'unreachable': lambda r: float(r['unreachable']),
+    'near15': lambda r: float(r['near15']),
+    'near30': lambda r: float(r['near30']),
+    'log_mean_dist': lambda r: math.log(1 + float(r['mean_dist'])),
+    'log_hp_per_gem': lambda r: math.log(1 + float(r['hp_per_gem'])),
+}
+
 def _d2(a, b): return sum((x - y) ** 2 for x, y in zip(a, b))
 
 
@@ -96,9 +115,12 @@ def rules(node, path=()):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--atlas', default='research/x3/atlas/atlas.csv'); ap.add_argument('--k', default='4-9')
     ap.add_argument('--depth', type=int, default=3); ap.add_argument('--out', default='research/x3/atlas')
+    ap.add_argument('--source', default='bot', choices=['bot', 'file'], help='bot: bot_atlas.csv (runtime features); file: atlas.csv')
     a = ap.parse_args()
+    F = BOT_FEATS if a.source == 'bot' else FEATS
+    if a.source == 'bot' and a.atlas.endswith('atlas.csv') and 'bot_' not in a.atlas: a.atlas = 'research/x3/atlas/bot_atlas.csv'
     rows = list(csv.DictReader(open(ROOT / a.atlas, encoding='utf-8')))
-    names = list(FEATS); raw = [[FEATS[n](r) for n in names] for r in rows]; maps = [r['map'] for r in rows]
+    names = list(F); raw = [[F[n](r) for n in names] for r in rows]; maps = [r['map'] for r in rows]
     mu = [sum(c) / len(c) for c in zip(*raw)]; sd = [math.sqrt(sum((v - m) ** 2 for v in c) / len(c)) + 1e-9 for c, m in zip(zip(*raw), mu)]
     X = [[(v - m) / d for v, m, d in zip(r, mu, sd)] for r in raw]
     lo, hi = map(int, a.k.split('-')); best = None
