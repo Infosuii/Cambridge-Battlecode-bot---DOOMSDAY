@@ -1,0 +1,506 @@
+{
+  "status": "verified",
+  "runs": 50,
+  "scheduled_game_records": 8600,
+  "distinct_input_identities": 8256,
+  "repeated_input_records": 344,
+  "faults": 0,
+  "opponent_faults": 0,
+  "benchmark_git_heads": [
+    "9c1bbde2d5cee6ab53235019027cb452a733b340"
+  ],
+  "engine_hashes": [
+    "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  ],
+  "J026_coverage": {
+    "own": [
+      "belief",
+      "beliefwt",
+      "bhold",
+      "escort",
+      "hiderec",
+      "hiderecwt",
+      "soak64"
+    ],
+    "other": [
+      "burst2",
+      "burst2wt",
+      "diseng",
+      "disengwt",
+      "locks",
+      "lockswt",
+      "need115",
+      "need13",
+      "need15",
+      "prune",
+      "prunewt",
+      "stage035",
+      "stage05",
+      "stage07",
+      "tsvis",
+      "tsvisbpwt",
+      "tsviswt",
+      "wait125",
+      "wait15",
+      "wait20"
+    ],
+    "remaining": [],
+    "duplicates": []
+  },
+  "caution": "Same maps and deterministic paired treatments; these are not independent map samples. No generated-map robustness claim.",
+  "runs_detail": [
+    {
+      "run": "x1g-a3i1-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 171,
+      "results_sha256": "c44b146f49640f7137228649e3021ee2d9b6d2fb55fd62064e35911a75c910f2"
+    },
+    {
+      "run": "x1g-a3i2-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 171,
+      "results_sha256": "c44b146f49640f7137228649e3021ee2d9b6d2fb55fd62064e35911a75c910f2"
+    },
+    {
+      "run": "x1g-af3w250-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 88,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 176,
+      "results_sha256": "ad6d098f9b209b68116d4f186c715ff69d275efa296fae908c112c6d4a59f5b1"
+    },
+    {
+      "run": "x1g-af4w150-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 95,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 188,
+      "results_sha256": "3970b5d13e2d00286c0f18e258fee1186369742aa63a22c9ccf605e2a6585f4a"
+    },
+    {
+      "run": "x1g-af5w400-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 92,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 187,
+      "results_sha256": "3a9667a758d7e8edaec1e845b2f765561fc6043bd717eea154a3eb13b5c1c059"
+    },
+    {
+      "run": "x1g-alone-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 83,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 186,
+      "results_sha256": "90c0bbc1033d1a3494bfa5ad1a01cf16ec42d60b0451f96817b0fa6b24784cf7"
+    },
+    {
+      "run": "x1g-assesswt-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 64,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 2656,
+      "results_sha256": "1ed757d1d9e78a7a43bfc9b6cc6d55caaba2a3feb74b943e0e615c24c1c01d81"
+    },
+    {
+      "run": "x1g-bag40-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 86,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 165,
+      "results_sha256": "29c3dfe26d4031bbb96a0e257ac72efc0f49ffd2c50ac2d6e514a3e85bee2e82"
+    },
+    {
+      "run": "x1g-bag80-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 101,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 177,
+      "results_sha256": "c85744e506047682b3cd7754c176acaaab9858abb52ecb3cba164aa0a6af9bfc"
+    },
+    {
+      "run": "x1g-belief-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 97,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 182,
+      "results_sha256": "e972a420ccf03c1bb7ca9c573792c1266dd1ceb7ae72c4609c77ee6f80521d31"
+    },
+    {
+      "run": "x1g-beliefwt-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 97,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 180,
+      "results_sha256": "a46f46229f91c596b416e7fb8808a658d335f2e84f5836bc50b6e2a65c99bfad"
+    },
+    {
+      "run": "x1g-bhold-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 95,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 189,
+      "results_sha256": "d238c40b9fd34abf73d905619a60f4ded5e954f6573e96886f03533437c69426"
+    },
+    {
+      "run": "x1g-bp1050-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 91,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 104,
+      "results_sha256": "a8e8c0472fd3cc8822a01b665647ad823d8ac58c63c0a46a97f5aa3f2ec0dc62"
+    },
+    {
+      "run": "x1g-bp1560-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 88,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 105,
+      "results_sha256": "55a5c48329d28d8d5d291702b88682889370b63f9cec6b236e6a055a4f97d37f"
+    },
+    {
+      "run": "x1g-bp2570-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 91,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 107,
+      "results_sha256": "3811eee97e16cc357370b455b09095ab7371535c62f54a83061d7b3e3b9d98ca"
+    },
+    {
+      "run": "x1g-escort-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 95,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 156,
+      "results_sha256": "1ec22c9f2b7e09c169622a90e4f7dc0a75d5fd1e0fb1ffc93cc3777aad486eb9"
+    },
+    {
+      "run": "x1g-fd15-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 83,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 199,
+      "results_sha256": "ffa37f7e4487a71a011b5b1fa296f73e1601f1d9467dcadb3e0ac809056fc433"
+    },
+    {
+      "run": "x1g-fd25-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 77,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 187,
+      "results_sha256": "2f6dda4851c8510e225a5ad5afe0132d0ab79ad4a944d5bc58fa34357ba5cd28"
+    },
+    {
+      "run": "x1g-fd40-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 78,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 184,
+      "results_sha256": "bc801aedb5b31569fb5704251e2175d805a71df03d9c98e19822ca7a4aa2175d"
+    },
+    {
+      "run": "x1g-ffirst-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 87,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 182,
+      "results_sha256": "03914201d6bc04531e185f6ac0deb7d97a03d03e86d032b4fe6d50340fad1b03"
+    },
+    {
+      "run": "x1g-fh4-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 76,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 178,
+      "results_sha256": "a741faa24f0b213a81479c107d63a7406fbfb44e7716dea4a3876677bfca707a"
+    },
+    {
+      "run": "x1g-heartfix-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 186,
+      "results_sha256": "b03add7d83b8e0ed98b00164fe4bc6eaeb538058e25e632a8c240edafc6fb659"
+    },
+    {
+      "run": "x1g-hiderec-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 99,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 180,
+      "results_sha256": "bdf84ec517e0752b4e9326d08f97f107f2edda7be91054fb1f1af4e56015eca5"
+    },
+    {
+      "run": "x1g-hiderecwt-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 100,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 180,
+      "results_sha256": "246691dc35dceed6a7bdbcbe77a240c6e82b9783702a29b75fe36a2f7fdb5343"
+    },
+    {
+      "run": "x1g-items0-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 83,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 185,
+      "results_sha256": "5905bc2013c39f7ac330a0019a9a440197c5982f693f5075b63c9461587287e1"
+    },
+    {
+      "run": "x1g-mf-g5070-pool-v86h-01",
+      "games": 172,
+      "wins": 115,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 189,
+      "results_sha256": "264eb2fa0eaf36ef633e662f335b3405453d8ec50fabeac4ea7fa032cc86725c"
+    },
+    {
+      "run": "x1g-mf-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 171,
+      "results_sha256": "c44b146f49640f7137228649e3021ee2d9b6d2fb55fd62064e35911a75c910f2"
+    },
+    {
+      "run": "x1g-mf-g5070-pool-x1bru-01",
+      "games": 172,
+      "wins": 130,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 188,
+      "results_sha256": "01d5511f7d3ec1b9eba0a266d9f088b09965db92c4bf061779efce282530b08f"
+    },
+    {
+      "run": "x1g-mfsec-g5070-pool-v86h-01",
+      "games": 172,
+      "wins": 114,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 183,
+      "results_sha256": "ec1fc20be6f095a1e94d0050bd7991b36db356a4afd99477ff4350b9d765c88a"
+    },
+    {
+      "run": "x1g-mfsec-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 99,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 181,
+      "results_sha256": "594280fa5338a786d4a339494c7112d05638a0ec9135b1a44db9153cdcf1af4b"
+    },
+    {
+      "run": "x1g-mfsec-g5070-pool-x1bru-01",
+      "games": 172,
+      "wins": 122,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 188,
+      "results_sha256": "dcf8981089c5fabd043e190385894d8f9b53fc4f3b33f4cb771a51e19331c036"
+    },
+    {
+      "run": "x1g-mfst-g5070-pool-v86h-01",
+      "games": 172,
+      "wins": 113,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 195,
+      "results_sha256": "e86deaee76a0da78c8bda1a5a676fb6428883e238784a15266c07432ac4868f7"
+    },
+    {
+      "run": "x1g-mfst-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 99,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 173,
+      "results_sha256": "706726a673e31bb3f3456892b49afa315141969703679910e52566fab31dcd95"
+    },
+    {
+      "run": "x1g-mfst-g5070-pool-x1bru-01",
+      "games": 172,
+      "wins": 117,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 171,
+      "results_sha256": "81a7345ae680ae323e16299c7d8c8a0a821529f2cb2123703b9c815ffb5400a5"
+    },
+    {
+      "run": "x1g-mprof-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 93,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 211,
+      "results_sha256": "41919244122924001606851256c7bc3727789f62b96f0d24aa537578a326d1fe"
+    },
+    {
+      "run": "x1g-policywt-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 19,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 170,
+      "results_sha256": "c2ed54ac8c0efe4d8241129c17146c35f50e09b6baef2c06ebdff252226401e0"
+    },
+    {
+      "run": "x1g-repro-g5070-pool-v86h-01",
+      "games": 172,
+      "wins": 108,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 186,
+      "results_sha256": "021217c93955c8ed24f9ee6dd438582e36fdd9c99a257c64ea7ed7e99462ad9e"
+    },
+    {
+      "run": "x1g-reset-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 95,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 173,
+      "results_sha256": "37b8414d5855c4d03bcf1fd41f1f1e4ecc449ecdfb912406e50b5dc6acad3d06"
+    },
+    {
+      "run": "x1g-sec15-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 180,
+      "results_sha256": "689f69bb288b1abf2b48259b5b0dbb81edfb11aa551343b40ee6da2f0afc5eaa"
+    },
+    {
+      "run": "x1g-sec3-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 181,
+      "results_sha256": "b7b561eef219cbe08f47a0e7b2cc2d9b8f188fb8b8bd45a2953766e8a778ff25"
+    },
+    {
+      "run": "x1g-sec6-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 97,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 181,
+      "results_sha256": "4377b57eeabd0dfdaf3e88daae917ad9c2021d0b10e9f15996973a7728ff7154"
+    },
+    {
+      "run": "x1g-sf45-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 97,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 154,
+      "results_sha256": "576361ea4c25095a47c4e04dbfa40273885499dec5a3ac6d932f1292785ab6f9"
+    },
+    {
+      "run": "x1g-sf55-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 96,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 157,
+      "results_sha256": "d252ff9fecb2a5c9fdbf9f6188d2c2458f1bd29263302adb4ed3eb0798f31f0d"
+    },
+    {
+      "run": "x1g-soak64-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 90,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 183,
+      "results_sha256": "a6c7888a09dcce627035b6e90ec6173c6f4f5c651257966cc797841539059350"
+    },
+    {
+      "run": "x1g-solo3-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 86,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 168,
+      "results_sha256": "1685f4feff8da430f3c2ae7bb16178fc2780463cd2b058be46021cac64d38047"
+    },
+    {
+      "run": "x1g-solo5-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 85,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 173,
+      "results_sha256": "43ed9e9894ff579f4f2b5a052e69d6ead0b35826acbca5cb287413558234a485"
+    },
+    {
+      "run": "x1g-stale-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 92,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 182,
+      "results_sha256": "c3345b216b07783487ead8a564e51257001344b3980912d3f30fbf504ed228bd"
+    },
+    {
+      "run": "x1g-teamwin-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 92,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 178,
+      "results_sha256": "3b7218958c2c34ad3ff8ce42c21b2b1991f9a166ce65e556fa5ab863f834d35d"
+    },
+    {
+      "run": "x1g-threat-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 91,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 173,
+      "results_sha256": "0c4a9da4dad5e25b713d3b8a54264c01d91aae2feb38232086f393c24bf22f43"
+    },
+    {
+      "run": "x1g-vision-g5070-pool-v92-01",
+      "games": 172,
+      "wins": 73,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 183,
+      "results_sha256": "05ed1c25ba4c97347003ef8ecfd3dee99135b3c61edcb3b009ac1ddfddf8633b"
+    }
+  ],
+  "handoff_code_commit": "e090ae389eede7104d02afada64317bfc6d8ca56",
+  "upstream_after_benchmarks": "6f462c479bb8ee91f8e655e63ccf263fd8b55306",
+  "final_default_sha256": "bf3f65d009c0419d2b0f04bdfab68b85f397ce6cb2350a36ab8782d4d74cd46a"
+}

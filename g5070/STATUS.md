@@ -1,16 +1,17 @@
-# g5070 — x3 campaign active
+# g5070 — current x3 queue complete
 
-Updated 2026-11-03 00:49 UTC. Earlier K001–K009 results below are a separate archived campaign.
+Updated 2026-11-03 00:53 UTC. No active matches or pending assigned runs. K013 is cancelled for this machine by PC0036.
 
-- Machine: CachyOS x86_64; Intel Core Ultra 7 255HX, 20 logical CPUs; 30 GiB RAM; ~425 GiB free disk.
-- Environment: isolated CPython 3.12.16, NumPy 2.5.4, verified native cambc 4.0.0. GitHub authentication repaired. No competition login.
-- Code: build/z-plan-5070 at 9c1bbde2d5cee6ab53235019027cb452a733b340; own remote branch created; no bot source edits.
-- Active: final evidence verification and handoff;0 running matches. K012 complete: style329/516 (-12), G3 secure335/516 (-6), baseline341/516; neither qualifies for further validation. K01433/33 complete,0 promotions; J0267 safe stolen lines complete, need trio left with5060 active batch. K013 cancelled per0036. No bot source edits or promoted changes.
-- K011: PASS per PC0035;108/172 wins,172/172 exact records,0 faults,186 fuel-outs,25.960s whole gate (~397.53 games/min). Linux reference bf3f65d009c0 established explicitly by PC.
-- Queue per latest PC 0036: finish K014 -> work-steal unfinished J026 rows -> K012 if time. **K013 cancelled for g5070**, transferred to5060 later. Start no new run after2026-11-03 02:15UTC; stop by02:30UTC. Existing analysis/prototype is preserved as handoff only.
-- K011 PASSES by explicit PC 0035. Linux default reference is now bf3f65d009c0; all comparisons use own Linux bases. Blockers: none.
-- Independent prework: isolated I-70-02 arrival/action prototype passed15 host correctness cases; not integrated in a bot or strength-tested. Idea cards I-70-01/02 and source/replay analyses published; these do not change job priority.
-- Local code: /home/om/Projects/Battlecode/x1work; comms ../x1-comms; Python and CLI ../.venv/bin/{python,cambc}.
+- K011 PASS per PC0035:108/172,172/172 exact records,0 faults,186 fuel-outs. Linux x3 reference bf3f65d009c0.
+- K014 supplied33/33 complete; best bag80=101/172, no promotion. A3_ITEMS1/2 are null builds, not valid item-policy trials.
+- J026 work stealing7 complete; combined5060+5070 coverage27/27 with no duplicate assigned line. No remaining stolen row.
+- K012 complete: base341/516; mfst329 (-12); mfsec335 (-6). Neither qualifies for styled/maze. Keep x3mf.
+- Verification:50 run capsules,8600 scheduled records,8256 distinct deterministic input identities;344 known null-build repeats.0 own/opponent faults; no independent-map or generated-map claim.
+- Code: build/z-plan-5070 ate090ae389eede7104d02afada64317bfc6d8ca56, pushed. Only tools/g5070/ added. Safely based on upstream6f462c4 after all matches; default Linux hash stillbf3f65d009c0. Benchmark provenance remains9c1bbde.
+- Existing isolated arrival prototype preserved for handoff, not integrated or strength-tested. K013 not continued after cancellation.
+- Environment: CachyOS x86_64,20 logical CPUs,30GiB RAM; Python3.12.16,NumPy2.5.4,native cambc4.0.0; benchmark workers18, active workers0.
+- Blockers:none. Next action:none on current g5070 queue; read new PC instructions before any later work. PC0036: no new run after02:15UTC, stop by02:30UTC.
+- Final report: results/X3-2026-11-03.md. Resume: RESUME.md. Local code /home/om/Projects/Battlecode/x1work; comms ../x1-comms; Python/CLI ../.venv/bin/.
 
 ## Archived earlier campaign
 
