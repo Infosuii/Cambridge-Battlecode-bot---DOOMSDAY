@@ -9,7 +9,7 @@ import subprocess
 
 import ablate_dev as bench
 
-OUT = bench.CACHE / "opening-window-probe"
+OUT = bench.CACHE / "opening-window-probe-r1"
 PROJECT = OUT / "diagnostic"
 WASM = PROJECT / "bot.wasm"
 OPPONENTS = ("x3inv", "public-khiri")
@@ -33,7 +33,8 @@ def prepare():
         (b"        const float sticky =", b"""        if (opening && c.need == 1 && c.finish <= 49 && w.has_field(c.gi))
             window[i] = c.value;
         const float sticky ="""),
-        (b"                if (rate > route) route = rate;", b"""                if (window[i] > 0.0f && done2 <= 49 && c.value + fv[g2] > window[i]) {
+        (nl + b"                if (rate > route) route = rate;", b"""
+                if (window[i] > 0.0f && done2 <= 49 && c.value + fv[g2] > window[i]) {
                     window[i] = c.value + fv[g2];
                     has_second[i] = true;
                 }
