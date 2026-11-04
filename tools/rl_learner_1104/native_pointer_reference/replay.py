@@ -1,7 +1,8 @@
 """Exact integer native pointer replay from consumed h1; no optimizer or strength claim."""
 from pathlib import Path
-import re,json,hashlib,numpy as np
+import re,json,hashlib,argparse,numpy as np
 r=Path(__file__).resolve().parents[1];src=r/'native-pointer-audit/bots/submission/src'
+ap=argparse.ArgumentParser();ap.add_argument('--run',default='native-pointer-fields-A');ap.add_argument('--out',default='NATIVE_POINTER_REPLAY.json');ap.add_argument('--fixture',default='consumed_inputs.npz');args=ap.parse_args()
 s=(src/'nn_weights.h').read_text()
 def array(name):
  q=re.search(r'inline constexpr short '+re.escape(name)+r'\[\] = \{([^}]+)\}',s)
@@ -14,7 +15,7 @@ def dense(T,b,x):
   prod=np.clip((x[:,i,None]*T[i]+16384)>>15,-32768,32767)
   a=np.clip(a+prod,-32768,32767)
  return a
-raw=(r/'runs/native-pointer-fields-A/team-a.stdout').read_bytes();rows=[];rejected=0
+raw=(r/'runs'/args.run/'team-a.stdout').read_bytes();rows=[];rejected=0
 for b in raw.replace(b'\0',b'\n').splitlines():
  if not b.startswith(b'JDNATIVE '):continue
  q=b.decode().split()[1:]
@@ -47,5 +48,5 @@ report=dict(scope='Actual release native consumed-state pointer replay, NOT new 
  'Changing upstream trunk/encoder weights would invalidate frozen h1 assumptions and requires a larger consumed-state/replay contract.',
  'Training needs fresh stochastic chosen-action/likelihood and complete execution/episode data; these bounded diagnostic rows have no such training labels.',
  'Saturation and per-input rounding order matter; a plain float matrix multiply is not this deployed actor.'])
-out=r.parent.parent/'outputs/rl-execution/NATIVE_POINTER_REPLAY.json';out.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
-np.savez(r/'native_pointer_reference/consumed_inputs.npz',h1=h,camps=camps,present=mask,q=q,r=rr,c0=c0,logits=logits)
+out=r.parent.parent/'outputs/rl-execution'/args.out;out.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
+np.savez(r/'native_pointer_reference'/args.fixture,h1=h,camps=camps,present=mask,q=q,r=rr,c0=c0,logits=logits)
