@@ -1,6 +1,7 @@
 """Prepare the immutable upstream PG configuration for local qualification."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from io import BytesIO
 import json
 from pathlib import Path
 import re
@@ -13,23 +14,42 @@ from bounded_verdict import apply
 
 HERE = Path(__file__).resolve().parent
 ARCHIVE = bench.CACHE / "cpg-archive-1/src"
+UPSTREAM = "cb8d0105e4047f75924556268f23053eb634699a"
+UPSTREAM_SRC = "bots/jd-g5070-resume-0715/src/"
 OUT = bench.CACHE / "pg-rival-probe-r1"
 OPPONENTS = ("x3inv", "public-khiri")
 LIMIT = 1048576
 
 
 def prepare(src, enabled, diagnostic=False):
-    copytree(ARCHIVE, src)
+    has_archive = ARCHIVE.is_dir()
+    if has_archive:
+        copytree(ARCHIVE, src)
+    else:
+        src.mkdir(parents=True)
+        package = subprocess.check_output(["git", "archive", "--format=zip", UPSTREAM, UPSTREAM_SRC],
+                                          cwd=bench.ROOT)
+        with ZipFile(BytesIO(package)) as bundle:
+            for member in bundle.infolist():
+                if member.is_dir() or not member.filename.startswith(UPSTREAM_SRC):
+                    continue
+                relative = Path(member.filename.removeprefix(UPSTREAM_SRC))
+                assert not relative.is_absolute() and ".." not in relative.parts
+                target = src / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(bundle.read(member))
     config = src / "jd_config.h"
     data = config.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
     expected = nl.join((b"#define JD_CONTACT 3", b"#define JD_PROGRESS 1", b"#define JD_GOV 5", b""))
-    assert data.startswith(expected)
+    if has_archive:
+        assert data.startswith(expected)
+        data = data[len(expected):]
     settings = [b"#define JD_CONTACT 0", f"#define JD_PROGRESS {int(enabled)}".encode(),
                 f"#define JD_GOV {5 if enabled else 0}".encode()]
     if diagnostic:
         settings.append(b"#define JD_STRATLOG 1")
-    config.write_bytes(nl.join([*settings, data[len(expected):]]))
+    config.write_bytes(nl.join([*settings, data]))
     if diagnostic:
         apply(src / "main.cpp", (
             ("            if (bc::is_draft()) {\n                play_draft();",
