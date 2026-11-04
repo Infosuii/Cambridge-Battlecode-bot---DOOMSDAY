@@ -21,6 +21,30 @@ FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones
                "bank_before", "bank_after", "wait_walk_before", "wait_walk_after", "safe_before", "safe_after")
 
 
+def instrument_issac(src):
+    apply(src / "bot.cpp", (
+        ('#include "bot.h"', '''#include "bot.h"
+
+static unsigned codex_issac_round;
+static unsigned long long codex_issac_before, codex_issac_after;'''),
+        ('        handle_enemies();', '''        ([&] {
+            const bool sample = round == 566 && type == bc::champion_type::issac;
+            if (sample) codex_issac_before = bc::fuel_remaining();
+            const bool result = handle_enemies();
+            if (sample) {
+                codex_issac_round = bc::round_number();
+                codex_issac_after = bc::fuel_remaining();
+            }
+            return result;
+        })();'''),
+        ('void Bot::play_turn() {', '''void Bot::play_turn() {
+    if (codex_issac_round) {
+        std::printf("CODEX_ISSAC_COMBAT %u %llu %llu\\n", codex_issac_round, codex_issac_before, codex_issac_after);
+        codex_issac_round = 0;
+    }'''),
+    ))
+
+
 def instrument_farm(src, altar, wait):
     count = len(FARM_PHASES)
 
@@ -128,6 +152,7 @@ def play(item):
     samples = [list(map(int, m)) for m in re.findall(rb"CODEX_CASSI_FARM (\d+) (\d+) (\d+) (\d+)", log)]
     states = {int(r): [int(s), bool(int(ready)), bool(int(gated)), bool(int(no_bank))] for r, s, ready, gated, no_bank in
               re.findall(rb"CODEX_CASSI_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
+    combat = [list(map(int, m)) for m in re.findall(rb"CODEX_ISSAC_COMBAT (\d+) (\d+) (\d+)", log)]
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -148,7 +173,7 @@ def play(item):
                        "matched": same_draft and not errors and native_match and same_input and same_actions,
                        "base_turn": old_turn, "diagnostic_turn": new_turn})
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors,
-            "observed": observed, "checks": checks}
+            "observed": observed, "checks": checks, "combat": combat}
 
 
 def main():
@@ -158,11 +183,14 @@ def main():
     mode.add_argument("--farm", action="store_true")
     mode.add_argument("--altar", action="store_true")
     mode.add_argument("--wait", action="store_true")
+    mode.add_argument("--issac", action="store_true")
     args = parser.parse_args()
     farm, altar, wait = args.farm or args.altar or args.wait, args.altar, args.wait
     if farm:
         suffix = "altar" if altar else "wait" if wait else "farm"
         OUT = bench.CACHE / f"heart-cast-path-cassi-{suffix}-14107"
+    if args.issac:
+        OUT = bench.CACHE / "heart-cast-path-issac-combat-14107"
     frozen = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     assert frozen["seed"] == SEED and frozen["n"] == 800
     cases = frozen["affected"]
@@ -170,11 +198,15 @@ def main():
     assert events == [(321, "cassi"), (334, "cassi"), (566, "issac")]
     if farm:
         cases = [r for r in cases if r["events"][0]["owner"]["name"] == "Cassi"]
+    if args.issac:
+        cases = [r for r in cases if r["events"][0]["owner"]["name"] == "Issac"]
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
     prepare(src, True)
-    if farm:
+    if args.issac:
+        instrument_issac(src)
+    elif farm:
         instrument_farm(src, altar, wait)
     else:
         rounds = sorted({rnd for rnd, _ in events})
@@ -195,7 +227,10 @@ def main():
     matches = {r["round"]: r["fuel"] if farm else r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
     result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "diagnostic": bench.digest(wasm),
               "seed": SEED, "matches": matches, "n": len(rows)}
-    name = ("CPG_CAST_PATH_CASSI_WAIT.json" if wait else "CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
+    if args.issac:
+        result["combat"] = [cell["combat"] for cell in rows]
+    name = ("CPG_CAST_PATH_ISSAC_COMBAT.json" if args.issac else
+            "CPG_CAST_PATH_CASSI_WAIT.json" if wait else "CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
             "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
