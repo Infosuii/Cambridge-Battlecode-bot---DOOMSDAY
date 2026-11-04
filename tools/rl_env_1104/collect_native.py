@@ -306,7 +306,7 @@ def main() -> None:
                     action_kind="latent_group_at_blend_boundary (target head)",
                     head=dict(abi=HX.HEAD_ABI, abi_hash=HX.HEAD_ABI_HASH, version=head_ver,
                               header_sha256=K.sha256(os.path.join(ROOT, bot, "src", "clna_head_w.h")),
-                              guard_min_fuel=a.head_min or 35000, stage_min_fuel=4500,
+                              guard_min_fuel=a.head_min or 35000, stage_min_fuel=7000,
                               skips="CNS2 rows: 1 camp snapshot unpaired, 2 reference outside slots, 3 fuel guard, 4 no completed context; the "
                                     "reference acts deterministically and no row/logp is stored"))
         base["policy"].update(name="native-target-head", flags=base["policy"]["flags"] + ["CLNA_HEAD=1"] +

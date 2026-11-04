@@ -678,14 +678,14 @@ struct ClnaCtx {
 static ClnaSnap clna_snap;
 static ClnaCtx clna_pend, clna_act;  // being staged / completed and in use
 static int clna_skips[4] = {};       // this turn's skipped decisions by reason (CNK row at the end of the turn)
-struct ClnaRow {                     // this turn's head decision, written as CNR3 at the end of the turn (clna_end)
+struct ClnaRow {                     // this turn's head decision, formatted as CNR3 by clna_emit_row
     bool pending = false;
     int round = 0, slot = 0, index = 0, ref = 0, chosen = 0, v92 = 0, nn = 0, n = 0, pub = 0, ctx = 0, nu = 0;
     long id = 0;
     double alpha = 0, p = 0;
     int ug[14] = {}, map[11] = {};
     float nat[11] = {};
-    std::int16_t ec[10][16] = {}, ft[10][4] = {};  // (x is clna_act.x: the context in use changes only in clna_turn_end)
+    std::int16_t ec[10][16] = {}, ft[10][4] = {};  // (x is clna_act.x, the context in use)
     long f_before = 0, f_head = 0, f_left = 0, f_stash = 0;  // CLNA_FPROF
 };
 static ClnaRow clna_row;
@@ -1167,7 +1167,7 @@ int Bot::nn_ens_sample(int v92g) {
 #define CLNA_HEAD_MIN 35000  // fuel left needed for the head's remainder + its log + v92's own work after the blend
 #endif
 #ifndef CLNA_STAGE_MIN
-#define CLNA_STAGE_MIN 4500  // spare end-of-turn fuel needed for one more stage of the context projection (~2.9k each)
+#define CLNA_STAGE_MIN 7000  // spare end-of-turn fuel needed for one more stage (~2.9k typical, up to ~4k): keeps >= ~3k
 #endif
 #include "clna_head_w.h"
 #include "jd_codec.h"
@@ -1324,6 +1324,37 @@ static double clna_u01() {
 // fputs part of log.
 static std::uint64_t clna_flog = 0, clna_fwr = 0;
 #endif
+#ifdef CLNA_HEAD
+// CNR3 row of the decision just stashed in clna_row (format: clna_explore). Written at the decision itself: deferring
+// it to the end of the turn moved ~5.6k past the fuel guard and raised fuel-outs (979 vs 688 on the 30 dev cells).
+static void clna_emit_row() {
+    if (clna_row.pending) {
+        const ClnaRow& w = clna_row;
+        clna_row.pending = false;
+        char* o = clna_rstr(clna_rbuf, "CNR3 ");
+        o = clna_rint(o, w.round), *o++ = ' ', o = clna_rint(o, w.slot), *o++ = ' ', o = clna_rint(o, w.id);
+        *o++ = ' ', o = clna_rint(o, w.index), *o++ = ' ', o = clna_rint(o, w.ref), *o++ = ' ', o = clna_rint(o, w.chosen);
+        *o++ = ' ', o = clna_rint(o, w.v92), *o++ = ' ', o = clna_rint(o, w.nn), *o++ = ' ', o = clna_rint(o, w.n);
+        *o++ = ' ', o = clna_rint(o, w.pub), *o++ = ' ', o = clna_rint(o, w.ctx), *o++ = ' ', o = clna_rint(o, w.nu);
+        *o++ = ' ', o = clna_rdbl(o, w.alpha), *o++ = ' ', o = clna_rdbl(o, w.p);
+        *o++ = ' ', o = clna_rh8(o, w.ug, w.nu);
+        *o++ = ' ', o = clna_rh8(o, w.map, w.n + 1);
+        *o++ = ' ';
+        for (int j = 0; j <= w.n; ++j) o = clna_rf32(o, w.nat[j]);
+        const auto cap = [&] { return sizeof clna_rbuf - static_cast<std::size_t>(o - clna_rbuf); };
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(clna_act.x), 2 * 160, o, cap());
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ec[0][0]), 2 * 16 * w.n, o, cap());
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ft[0][0]), 2 * 4 * w.n, o, cap());
+#if CLNA_FPROF
+        // measurement builds: " F <before head> <head rest> <fuel left after head> <stash>"
+        o = clna_rstr(o, " F "), o = clna_rint(o, w.f_before), *o++ = ' ', o = clna_rint(o, w.f_head), *o++ = ' ';
+        o = clna_rint(o, w.f_left), *o++ = ' ', o = clna_rint(o, w.f_stash);
+#endif
+        *o++ = '\n';
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+    }
+}
+#endif
 int Bot::clna_explore(int v92g, int ng) {
 #if CLNA_FPROF
     const std::uint64_t clna_f0 = bc::fuel_remaining();
@@ -1394,8 +1425,7 @@ int Bot::clna_explore(int v92g, int ng) {
         //      <p chosen:hex64> <groups: nu x hex8> <slot->physical: (n+1) x hex8> <native logits: (n+1) x hex32 bits>
         //      <x: 160 int16> <ec: 16n int16> <fields: 4n int16>   (the last three as raw little-endian bytes in hex,
         //      jd_codec::hex_simd; groups < 256 always: World groups are at most ~51)
-        // (fuel) the row is only stashed here and formatted/written at the end of the turn (clna_end), right before its
-        // CNX3: same bytes, same order, off the decision path
+        // stash the row, then write it (clna_emit_row)
         ++clna_index;
         clna_round = round;
         ClnaRow& w = clna_row;
@@ -1410,6 +1440,7 @@ int Bot::clna_explore(int v92g, int ng) {
         w.f_before = static_cast<long>(clna_f0 - clna_h0), w.f_head = static_cast<long>(clna_h0 - clna_h1);
         w.f_left = static_cast<long>(clna_h1), w.f_stash = static_cast<long>(clna_h1 - bc::fuel_remaining());
 #endif
+        clna_emit_row();
         return ug[c];
     }
 #endif
@@ -1509,33 +1540,6 @@ int Bot::clna_explore(int v92g, int ng) {
     return ug[c];
 }
 void Bot::clna_end() {
-#ifdef CLNA_HEAD
-    if (clna_row.pending) {  // the decision's CNR3 row (format: clna_explore), then its CNX3 below
-        const ClnaRow& w = clna_row;
-        clna_row.pending = false;
-        char* o = clna_rstr(clna_rbuf, "CNR3 ");
-        o = clna_rint(o, w.round), *o++ = ' ', o = clna_rint(o, w.slot), *o++ = ' ', o = clna_rint(o, w.id);
-        *o++ = ' ', o = clna_rint(o, w.index), *o++ = ' ', o = clna_rint(o, w.ref), *o++ = ' ', o = clna_rint(o, w.chosen);
-        *o++ = ' ', o = clna_rint(o, w.v92), *o++ = ' ', o = clna_rint(o, w.nn), *o++ = ' ', o = clna_rint(o, w.n);
-        *o++ = ' ', o = clna_rint(o, w.pub), *o++ = ' ', o = clna_rint(o, w.ctx), *o++ = ' ', o = clna_rint(o, w.nu);
-        *o++ = ' ', o = clna_rdbl(o, w.alpha), *o++ = ' ', o = clna_rdbl(o, w.p);
-        *o++ = ' ', o = clna_rh8(o, w.ug, w.nu);
-        *o++ = ' ', o = clna_rh8(o, w.map, w.n + 1);
-        *o++ = ' ';
-        for (int j = 0; j <= w.n; ++j) o = clna_rf32(o, w.nat[j]);
-        const auto cap = [&] { return sizeof clna_rbuf - static_cast<std::size_t>(o - clna_rbuf); };
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(clna_act.x), 2 * 160, o, cap());
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ec[0][0]), 2 * 16 * w.n, o, cap());
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ft[0][0]), 2 * 4 * w.n, o, cap());
-#if CLNA_FPROF
-        // measurement builds: " F <before head> <head rest> <fuel left after head> <stash>"
-        o = clna_rstr(o, " F "), o = clna_rint(o, w.f_before), *o++ = ' ', o = clna_rint(o, w.f_head), *o++ = ' ';
-        o = clna_rint(o, w.f_left), *o++ = ' ', o = clna_rint(o, w.f_stash);
-#endif
-        *o++ = '\n';
-        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
-    }
-#endif
 #if CLNA_RLOG
     if (clna_round == round) {  // CNX3 <round> <slot> <id> <index> <executed group>
         clna_round = -1;
