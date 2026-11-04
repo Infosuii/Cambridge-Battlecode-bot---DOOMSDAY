@@ -1,0 +1,113 @@
+{
+  "source": "scr-contact5-r2-01 (development only)",
+  "mechanism": "cannot escape next turn -> stand and fight",
+  "status": "Retry required",
+  "evidence": {
+    "kill_deaths": {
+      "base": 6.41,
+      "cand": 8.98
+    },
+    "no_hit_back": {
+      "base": 1.44,
+      "cand": 0.97
+    },
+    "flee_deaths": {
+      "base": 1.61,
+      "cand": 0.34
+    },
+    "late_flee": {
+      "base": 1.39,
+      "cand": 0.2
+    },
+    "outn_deaths": {
+      "base": 2.68,
+      "cand": 4.27
+    },
+    "lone_deaths": {
+      "base": 2.44,
+      "cand": 4.21
+    },
+    "carrier_deaths": {
+      "base": 0.84,
+      "cand": 1.04
+    },
+    "other_deaths": {
+      "base": 0.93,
+      "cand": 1.02
+    },
+    "gems_lost": {
+      "base": 66.11,
+      "cand": 77.58
+    },
+    "nohit_gems": {
+      "base": 13.09,
+      "cand": 8.2
+    },
+    "dead_rounds": {
+      "base": 421.29,
+      "cand": 570.55
+    },
+    "nohit_dead_rounds": {
+      "base": 81.66,
+      "cand": 53.67
+    },
+    "contact_rounds": {
+      "base": 537.61,
+      "cand": 433.12
+    },
+    "outn_rounds": {
+      "base": 79.3,
+      "cand": 60.92
+    },
+    "outn2_rounds": {
+      "base": 15.92,
+      "cand": 13.29
+    },
+    "retreat_rounds": {
+      "base": 211.6,
+      "cand": 139.55
+    },
+    "retreat_nohit": {
+      "base": 23.6,
+      "cand": 17.49
+    },
+    "retreat_nohit_melee": {
+      "base": 8.69,
+      "cand": 7.81
+    },
+    "retreat_nohit_ranged": {
+      "base": 14.91,
+      "cand": 9.68
+    },
+    "retreat_hit": {
+      "base": 28.42,
+      "cand": 7.81
+    },
+    "quiet_rounds": {
+      "base": 2341.22,
+      "cand": 2181.07
+    },
+    "noprog_rounds": {
+      "base": 101.09,
+      "cand": 94.79
+    },
+    "noprog_runs": {
+      "base": 9.6,
+      "cand": 9.01
+    },
+    "osc_rounds": {
+      "base": 40.16,
+      "cand": 38.58
+    },
+    "idle_rounds": {
+      "base": 98.04,
+      "cand": 93.52
+    },
+    "idle_camp_rounds": {
+      "base": 5.59,
+      "cand": 5.29
+    }
+  },
+  "failure": "One-step unavoidable damage was mistaken for no eventual escape; no-hit-back improves but deaths, carrier losses and dead time rise.",
+  "repair_hypothesis": "Require observed repeated failed escape plus low remaining survival and a reachable kill; preserve ranged escape when no immediate kill. Do not tune this broad rule on final holdout."
+}
