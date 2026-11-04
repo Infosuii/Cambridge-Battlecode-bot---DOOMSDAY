@@ -12,7 +12,7 @@ from bounded_verdict import apply
 from pg_rivals import prepare
 
 HERE = Path(__file__).resolve().parent
-OUT = bench.CACHE / "pg-rival-runtime-r1"
+OUT = bench.CACHE / "pg-rival-runtime-r2"
 LIMIT = 1048576
 OPPONENTS = ("x3inv", "public-khiri")
 
@@ -21,7 +21,11 @@ def instrument(src):
     common = src / "common.h"
     data = common.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
-    common.write_bytes(b"#define APEX_PROFILE 1" + nl + data)
+    common.write_bytes(b"#define CODEX_PG_RUNTIME 1" + nl + data)
+    apply(common, (
+        ('#elif A2_TEL\n#define PROF(section) ((void)0)',
+         '#elif A2_TEL || CODEX_PG_RUNTIME\n#define PROF(section) ((void)0)'),
+    ))
     apply(src / "main.cpp", (
         ("            if (bc::is_draft()) {\n                play_draft();",
          """            if (bc::is_draft()) {
@@ -62,6 +66,7 @@ def instrument(src):
     # The upstream release has its own annotations around ward placement; keep
     # those and add only the unambiguous post-ambush marker.
     apply(bot, (
+        ("#if A2_TEL\n    a2tel::TurnGuard a2_guard;", "#if A2_TEL || CODEX_PG_RUNTIME\n    a2tel::TurnGuard a2_guard;"),
         ("    if (counter_ambush()) {", """    PROF_CHECK("ambush_enter");
     if (counter_ambush()) {
         PROF_CHECK("ambush_refresh");"""),
@@ -115,7 +120,7 @@ def main():
     result = {"engine": bench.ENGINE, "map_digest": md, "wasm": bench.digest(wasm), "n": len(rows),
               "fuel": sum(r["fuel_outs"] for r in rows), "faults": sum(r["faults"] for r in rows),
               "traced_crossings": count.total(), "crossings": dict(count.most_common()), "rows": rows}
-    with (HERE / "PG_RUNTIME_PROFILE.json").open("x", encoding="utf-8", newline="\n") as f:
+    with (HERE / "PG_RUNTIME_LOW_TRACE.json").open("x", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, indent=2)
         f.write("\n")
     print({k: v for k, v in result.items() if k != "rows"}, flush=True)
