@@ -96,6 +96,10 @@ def prepare():
     needle = b"void World::update(int round) {"
     assert data.count(needle) == 1
     world.write_bytes(data.replace(needle, needle + newline + b'    PROF_CHECK("world_update_enter");', 1))
+    build()
+
+
+def build():
     with (OUT / "build.log").open("wb") as log:
         subprocess.run([bench.CLI,"build",PROJECT,"--release","--output",WASM], cwd=bench.ROOT,
                        stdout=log, stderr=subprocess.STDOUT, check=True)
@@ -128,17 +132,22 @@ def run(job):
 def main():
     global OUT, PROJECT, WASM, SOURCE, RESULT, DEEP, FARM
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--detail", choices=("v92", "codex-ward-local-labels", "farm"))
+    ap.add_argument("--detail", choices=("v92", "codex-ward-local-labels", "farm", "codex-siege-rays", "codex-siege-lazy"))
+    ap.add_argument("--rebuild-prepared", action="store_true", help="Retry compilation of a previously prepared diagnostic")
     args = ap.parse_args()
     if args.detail:
-        FARM = args.detail == "farm"
+        FARM = args.detail in ("farm", "codex-siege-rays", "codex-siege-lazy")
         DEEP = not FARM
-        SOURCE = bench.ROOT / "bots" / ("v92" if FARM else args.detail) / "src"
+        SOURCE = bench.ROOT / "bots" / ("v92" if args.detail == "farm" else args.detail) / "src"
         OUT = bench.CACHE / f"runtime-ward-detail-{args.detail}"
         PROJECT = OUT / "diagnostic"
         WASM = PROJECT / "bot.wasm"
         RESULT = f"RUNTIME_WARD_DETAIL_{args.detail.upper()}.json"
-    prepare()
+    if args.rebuild_prepared:
+        assert (PROJECT / "src").is_dir() and not (OUT / "games").exists()
+        build()
+    else:
+        prepare()
     bench.OUT = OUT
     for name in OPPONENTS:
         path, expected = bench.OPPS[name]
