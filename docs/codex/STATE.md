@@ -2,6 +2,13 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 21:08 GMT
+
+- The 21:02 CLI check verified platform v80 active, selected and pinned, status at 21:00:56.175Z, quota 0/50. Issues #5 and #6 were rechecked. No ladder changes, lock request or ACK from this branch.
+- [EXP-119](../../research/codex-ishan/EXP-119-RESULT.md) gave 595/800 versus 594/800, +0.125 pp [−0.375,+0.750], and exactly three matched Heart of Ruin standard-budget suspensions in each arm. [EXP-120](../../research/codex-ishan/EXP-120-RESULT.md) changed the R3 reduced-budget trajectory and supplies no release mechanism. [EXP-121](../../research/codex-ishan/EXP-121-RESULT.md) reduced sparse SDK costs and ordinary-budget events but added one previously clean 80k suspension. Its preregistered development gate failed and it never entered L0.
+- [EXP-122](../../research/codex-ishan/EXP-122-RESULT.md) matched the R232 Heart move and native suspension in `c_cast`. The other two traces changed inputs. [EXP-123](../../research/codex-ishan/EXP-123-RESULT.md) reproduced that same R232 crossing: landing search began at 8,122 fuel and completed in R233. The SDK marked the cast compatible with movement.
+- [EXP-124](../../research/codex-ishan/EXP-124.md) intersects the exact local radius with known camp spawn tiles. Two clean releases matched `a0d4a340f100a589535716f8e2bb4ad94ccae4deba1c6dc20c8b167c456c6db1` and all-off reproduced v92. Native geometry equivalence, three standard-budget cases and 320 development pairs are underway. Run the unchanged pool gate only if all pass. Keep EXP-118's pool outcome aggregate separate from diagnosis. Selection and holdouts remain sealed.
+
 ## Qualifier research through 4 Nov 2026, 20:51 GMT
 
 - [EXP-117](../../research/codex-ishan/EXP-117-RESULT.md) transferred the bounded scan to the independent PG travel-scan replay. It reproduced the switch-off seed-7013 build and Marcella's original R536 observation, ward and attack. All six suspensions disappeared.
