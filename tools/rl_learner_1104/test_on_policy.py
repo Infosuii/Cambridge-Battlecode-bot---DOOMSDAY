@@ -22,7 +22,7 @@ class OnPolicyTests(unittest.TestCase):
         x[:, 241] = 15
         mask = torch.zeros(n, 13, dtype=torch.bool)
         mask[:, [0, 1, 12]] = True
-        meta = dict(sampling='complete', layout=10, action_schema='target13-cl1',
+        meta = dict(sampling='complete', layout=10, action_schema='target13-cl1-nofarm-v1',
                     preprocess=PREPROCESS_VERSION, actor_sha256='fixture-only', reward_spec=REWARD_SPEC,
                     temperature=1., incomplete=False, fuel_failed=False, log_cut=False,
                     policy_wasm_sha256='fixture-only', encoder_sha256='fixture-only',
