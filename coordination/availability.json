@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T01:40:22Z",
+  "updated_at": "2026-11-04T01:47:59.878Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,36 +16,41 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 1,
+      "seq": 2,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T01:40:22Z",
+      "last_control_at": "2026-11-04T01:42:48Z",
       "capabilities": [
         "coordination",
         "review",
         "ideation"
       ],
       "free_capacity": 1,
-      "requires_new_assignment": false
+      "requires_new_assignment": false,
+      "last_control_comment_id": 6620242536
     },
     "claude": {
       "accounts": [
         "R1shik123"
       ],
-      "session": null,
-      "seq": 0,
-      "state": "AWAITING_ADOPTION",
-      "protocol_ack": false,
-      "last_control_at": null,
+      "session": "claude-r1shik-20261104-0045",
+      "seq": 1,
+      "state": "ACTIVE",
+      "protocol_ack": true,
+      "last_control_at": "2026-11-04T01:44:33Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
         "review",
         "ideation",
-        "ladder-coordination"
+        "ladder-coordination",
+        "ladder-lock",
+        "platform-verify",
+        "light-build"
       ],
       "free_capacity": 1,
-      "requires_new_assignment": false
+      "requires_new_assignment": false,
+      "last_control_comment_id": 6620267152
     },
     "builder-g5070-1104": {
       "accounts": [
@@ -72,10 +77,10 @@
     },
     "agent2": {
       "accounts": [],
-      "identity_note": "Git author Iniya; registered posting account/session must be confirmed by Agent2 or existing coordination owner before accepting CONTROL.",
+      "identity_note": "Iniya verified as GitHub dsds32wed via commit56b60b9; repo permission checked none. No verified CONTROL channel/session. Do not equate inability to post with >30m offline. Relay or collaborator access needed; no duplicate training.",
       "session": null,
       "seq": 0,
-      "state": "AWAITING_ADOPTION",
+      "state": "UNREGISTERED_UNREACHABLE",
       "protocol_ack": false,
       "last_control_at": null,
       "adoption_until": "2026-11-04T02:10:22Z",
@@ -85,7 +90,10 @@
       ],
       "free_capacity": 0,
       "requires_new_assignment": false,
-      "branch": "agent2-neural"
+      "branch": "agent2-neural",
+      "expiry_eligible": false,
+      "observability": "MONITOR_UNKNOWN",
+      "unregistered_account": "dsds32wed"
     }
   },
   "tasks": [
@@ -159,9 +167,9 @@
     {
       "id": "ladder-coordination",
       "owner": "claude",
-      "owner_session": null,
+      "owner_session": "claude-r1shik-20261104-0045",
       "epoch": 1,
-      "state": "AWAITING_ADOPTION",
+      "state": "ACTIVE",
       "requires": [
         "ladder-coordination"
       ],
@@ -183,7 +191,22 @@
       "platform_sensitive": false
     }
   ],
-  "events": [],
-  "note": "Adoption pending for other workers. Preserve current claims during grace. Only verified fresh CONTROL comments renew liveness; runner messages/commit timestamps alone do not. Use latest issue5 ladder policy."
+  "events": [
+    {
+      "id": "register:claude:6620267152",
+      "type": "REGISTRATION",
+      "agent": "claude",
+      "session": "claude-r1shik-20261104-0045",
+      "comment_id": 6620267152,
+      "at": "2026-11-04T01:44:33Z"
+    },
+    {
+      "id": "agent2-no-channel-dsds32wed",
+      "type": "OBSERVABILITY_BLOCKER",
+      "agent": "agent2",
+      "at": "2026-11-04T01:47:59.878Z",
+      "evidence": "Github get_repo_collaborator_permission=none; commit56b60b9 authorLogin=dsds32wed; Claude#7 reports no relay"
+    }
+  ],
+  "note": "Claude registration accepted; builder adoption pending within grace. Agent2 has no observable CONTROL channel, so timeout/reallocation cannot be safely inferred for it. No task expired or reassigned."
 }
-
