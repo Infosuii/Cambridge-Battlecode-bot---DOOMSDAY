@@ -89,7 +89,7 @@ def validate(t, actor_sha256):
         raise ValueError('rollout targets must be detached')
     if t.initial_hidden is None and not bool(t.reset[0]):
         raise ValueError('mid-episode sequence requires recorded hidden state')
-    if t.initial_hidden is not None and (t.initial_hidden.shape != (1, 16) or not torch.isfinite(t.initial_hidden).all()):
+    if t.initial_hidden is not None and (t.initial_hidden.shape != (1, m.get('hidden_size',16)) or not torch.isfinite(t.initial_hidden).all()):
         raise ValueError('invalid initial recurrent state')
     for i, (dt, term, trunc, boot) in enumerate(zip(t.elapsed, t.terminated, t.truncated, t.bootstrap_valid)):
         if not isinstance(dt, int) or isinstance(dt, bool) or dt < 0 or (not term and dt == 0):
@@ -129,6 +129,8 @@ def update(actor, critic, trajectories, actor_sha256, *, epochs=2, chunk=32, gam
     with torch.no_grad():
         for t in trajectories:
             validate(t, actor_sha256)
+            if t.metadata.get('hidden_size',16) != actor.memory.hidden_size:
+                raise ValueError('logged recurrent width differs from actor')
             identity = (t.metadata['episode_key'], t.metadata['body_id'])
             if identity in seen:
                 raise ValueError('duplicate episode/body')
