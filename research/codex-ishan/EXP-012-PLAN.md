@@ -1,0 +1,5 @@
+# EXP-012 implementation freeze — Safe staging basic attack
+
+At df2975cb, `bots/v92/src/bot.cpp:5108` attempts a spell in siege mode, and `:5154` attempts a spell in regular stage mode. Both return without a basic attack. The existing target selector at `:4963` requires a live, visible camp in basic range. Probe for one otherwise unused basic attack in rounds 1–150, after the existing spell attempt, from a stationary champion outside the selected group's danger mask and the current world hot zone. Exclude contact, successful casts and unavailable attacks. A positive probe indicates a chance to attempt a hit. Only successful native camp damage establishes a hit.
+
+Use the first four sorted maps from the frozen 16-map conformance set, both sides vs v92 and x3inv. If there is at least one opportunity, add the same branch after the spell attempt in the applicable stage paths, using the existing `attack_unit` wrapper and target selector. Run the full L0 screen first. A controlled diagnostic may log successful attacks separately from the release, which contains no logs. Keep wait time and camp selection unchanged.
