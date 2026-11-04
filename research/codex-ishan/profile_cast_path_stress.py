@@ -17,17 +17,18 @@ OUT = bench.CACHE / "heart-cast-path-stress-profile-14107"
 STAGES = ("world", "support", "wardrev", "ambush", "e_in", "e_td", "enemies", "farm0",
           "farmsel", "d_farm", "decide", "tail", "fields", "bushpre")
 FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones",
-               "c_staged", "c_safe", "c_walked", "c_cast", "d_farm", "altar_before", "altar_after")
+               "c_staged", "c_safe", "c_walked", "c_cast", "d_farm", "altar_before", "altar_after",
+               "bank_before", "bank_after", "wait_walk_before", "wait_walk_after", "safe_before", "safe_after")
 
 
-def instrument_farm(src, altar):
+def instrument_farm(src, altar, wait):
     count = len(FARM_PHASES)
 
     def marker(phase):
         return ("if ((round == 321 || round == 334) && type == bc::champion_type::cassi) "
                 f"codex_cassi_sample({FARM_PHASES.index(phase)}, round);")
 
-    phases = ("farmmove", "d_farm") if altar else FARM_PHASES[:-2]
+    phases = ("farmmove", "d_farm") if altar or wait else FARM_PHASES[:FARM_PHASES.index("altar_before")]
     edits = [
         ('#include "bot.h"', f'''#include "bot.h"
 
@@ -69,6 +70,32 @@ static unsigned long long codex_cassi_fuel[{count}];
              '            ' + marker("altar_before") + '\n' +
              '            const bool has_altar = gems >= 10 && w.ensure_altar_field();\n' +
              '            ' + marker("altar_after") + '\n            const int altar_trip = has_altar\n'),
+        ))
+    elif wait:
+        safe_search = """    if (sr_hold && !force_tribute) return false;
+#else
+    if (gems >= 15) {
+        bc::bitboard threat = w.threat_zone(round, V58_SURVIVE ? 15 : 10, 4.0f);
+        threat.set(pos, false);
+        if (!threat.is_empty() || any_watch) {
+            bc::bitboard blocked = w.static_blocked | threat;
+            blocked.set(pos, false);
+            bc::bitboard ring = w.altar_ring & ~blocked;
+            if (any_watch) ring = ring & ~watched;
+            if (!ring.is_empty()) {
+                bc::bitboard visited;
+                safe_field.compute_to(blocked, ring, single(pos), visited);"""
+        edits.extend((
+            ('            if (gems >= 10 && wait > altar_trip + 2) {\n                force_tribute = true;\n                return tribute_if_needed();',
+             '            if (gems >= 10 && wait > altar_trip + 2) {\n                force_tribute = true;\n                ' +
+             marker("bank_before") + '\n                const bool result = tribute_if_needed();\n                ' +
+             marker("bank_after") + '\n                return result;'),
+            ('        if (bit(g.tiles, pos) || !bit(goal, pos)) walk_toward(goal);',
+             '        if (bit(g.tiles, pos) || !bit(goal, pos)) {\n            ' + marker("wait_walk_before") +
+             '\n            walk_toward(goal);\n            ' + marker("wait_walk_after") + '\n        }'),
+            (safe_search, safe_search.replace('                safe_field.compute_to',
+                                               '                ' + marker("safe_before") + '\n                safe_field.compute_to') +
+             '\n                ' + marker("safe_after")),
         ))
     else:
         edits.append(('        if (!farm()) mode = "nofarm";',
@@ -130,10 +157,12 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--farm", action="store_true")
     mode.add_argument("--altar", action="store_true")
+    mode.add_argument("--wait", action="store_true")
     args = parser.parse_args()
-    farm, altar = args.farm or args.altar, args.altar
+    farm, altar, wait = args.farm or args.altar or args.wait, args.altar, args.wait
     if farm:
-        OUT = bench.CACHE / ("heart-cast-path-cassi-altar-14107" if altar else "heart-cast-path-cassi-farm-14107")
+        suffix = "altar" if altar else "wait" if wait else "farm"
+        OUT = bench.CACHE / f"heart-cast-path-cassi-{suffix}-14107"
     frozen = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     assert frozen["seed"] == SEED and frozen["n"] == 800
     cases = frozen["affected"]
@@ -146,7 +175,7 @@ def main():
     src = OUT / "source/src"
     prepare(src, True)
     if farm:
-        instrument_farm(src, altar)
+        instrument_farm(src, altar, wait)
     else:
         rounds = sorted({rnd for rnd, _ in events})
         prepare_coarse(src, rounds, STAGES)
@@ -166,7 +195,7 @@ def main():
     matches = {r["round"]: r["fuel"] if farm else r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
     result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "diagnostic": bench.digest(wasm),
               "seed": SEED, "matches": matches, "n": len(rows)}
-    name = ("CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
+    name = ("CPG_CAST_PATH_CASSI_WAIT.json" if wait else "CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
             "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
