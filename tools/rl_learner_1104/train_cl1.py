@@ -129,16 +129,18 @@ def main():
     p.add_argument('--contract', required=True)
     p.add_argument('--out', required=True)
     p.add_argument('--epochs', type=int, default=3)
+    p.add_argument('--compact', action='store_true')
+    p.add_argument('--task-epoch', type=int, default=3)
     args = p.parse_args()
     random.seed(1104); np.random.seed(1104); torch.manual_seed(1104)
     torch.set_num_threads(2)
     started = time.monotonic()
     data, provenance, splits = load_sequences(args.data, args.contract)
-    actor = CampPointer()
+    actor = CampPointer(4, 16, 8, 8) if args.compact else CampPointer()
     optimizer = torch.optim.Adam(actor.parameters(), lr=0.001)
-    report = {'kind': 'BC_WARMSTART_SMOKE_NOT_RL', 'epoch': 2, 'session': 'johndoe-rl-learner-e2-20261104-1418',
+    report = {'kind': 'BC_WARMSTART_SMOKE_NOT_RL', 'epoch': args.task_epoch, 'session': 'johndoe-rl-learner-e3-20261104-1606',
               'preprocess': PREPROCESS_VERSION, 'encoder_source': SOURCE_ENCODER,
-              'parameters': sum(p.numel() for p in actor.parameters()), 'map_splits': splits,
+              'parameters': sum(p.numel() for p in actor.parameters()), 'architecture':actor.architecture,'map_splits': splits,
               'provenance': provenance, 'initial_dev': pass_sequences(actor, data['dev']), 'epochs': [],
               'limits': ['Only 2 maps / 4 games: interface diagnostic, not generalization evidence.',
                          'Teacher macro labels only; no PPO, learned primitives or win-rate claim.',
@@ -150,9 +152,9 @@ def main():
         report['epochs'].append({'epoch': epoch + 1, 'train': train, 'dev': dev})
         print(json.dumps(report['epochs'][-1]), flush=True)
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
-    torch.save({'state_dict': actor.state_dict(), 'preprocess': PREPROCESS_VERSION,
+    torch.save({'state_dict': actor.state_dict(), 'architecture':actor.architecture,'preprocess': PREPROCESS_VERSION,
                 'encoder_source': SOURCE_ENCODER, 'initialization': 'independent-random-seed-1104',
-                'sampling': 'teacher-BC-only', 'task_epoch': 2}, out / 'actor_bc_smoke.pt')
+                'sampling': 'teacher-BC-only', 'task_epoch': args.task_epoch}, out / 'actor_bc_smoke.pt')
     report['wall_seconds'] = time.monotonic() - started
     (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     print('saved', str(out), flush=True)
