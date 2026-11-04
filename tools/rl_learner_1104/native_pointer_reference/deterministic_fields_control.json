@@ -1,0 +1,25 @@
+{
+  "scope": "Actual native target-command actor replay; no trained improvement claim",
+  "run": "native-command-det-v2-fields-A",
+  "mode": "deterministic control",
+  "rows": 3858,
+  "native_logits_bit_exact": true,
+  "max_chosen_logp_error": null,
+  "argmax_reference_matches": 3858,
+  "argmax_reference_mismatches": 0,
+  "departures": 0,
+  "association": {
+    "missing_completion": [],
+    "extra_completion": [],
+    "logging_round_overruns": [],
+    "min_fuel_at_completion_marker": 11920,
+    "reported_skips": [
+      0,
+      0,
+      63,
+      0
+    ],
+    "producer_markers_complete": true,
+    "action_semantics": "sampled target command to frozen downstream executor, which may cancel/reassign; NOT executed action label"
+  }
+}
