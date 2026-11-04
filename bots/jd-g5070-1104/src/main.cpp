@@ -145,6 +145,12 @@ int main() {
             else {
                 const std::uint32_t r0 = bc::round_number();
                 bot.play_turn();
+#if defined(A2_NN_PIPE) && A2_NN_PIPE
+                bot.nn_pipe_step();
+#endif
+#if JD_NN_EVENT
+                bot.jd_nn_pipe();
+#endif
                 ++turns;
                 if (bc::round_number() != r0) {
                     ++overruns;
@@ -153,8 +159,18 @@ int main() {
                 if (r0 % 250 == 0) std::printf("fuellog round %u turns %u overruns %u\n", r0, turns, overruns);
             }
 #else
-            else
+            else {
                 bot.play_turn();
+#if A2_NN_MACRO && defined(A2_NN_RL)
+                bot.nn_rl_end();
+#endif
+#if defined(A2_NN_PIPE) && A2_NN_PIPE
+                bot.nn_pipe_step();
+#endif
+#if JD_NN_EVENT
+                bot.jd_nn_pipe();
+#endif
+            }
 #endif
         } catch (const std::exception& error) {
             std::printf("bot error: %s\n", error.what());

@@ -38,6 +38,33 @@ void economy_record_roster();
 class Bot {
 public:
     void play_turn();
+#if A2_NN
+    void nn_feats(std::int16_t* f, int near); // the 500 network features of this turn (nnrec.cpp)
+    template <int NC, int AF> void nn_feats_t(std::int16_t* f, int near);
+    void nn_feats3(std::int16_t* f, int near); // version 3: 24 camp groups + allies' claimed targets (828)
+    int nn_near() const;
+    void nn_track();             // per-turn history for the network's memory features
+    void nn_decide();            // after the world update: run the student network
+    int nn_group = -1, nn_beh = -1;
+    int nn_v92best = -1;         // v92's own target choice this turn (the DAgger label)
+    int nn_rl_a = -1, nn_rl_val = 0; // A2_NN_RL: sampled target slot, own value (banked by this champion + carried)
+    float nn_rl_lp = 0.0f;           // A2_NN_RL: log-probability of the sampled slot
+    std::string nn_rl_feat;          // A2_NN_RL: base64 features of this turn ("" once logged)
+    // A2_NN_MACRO: the held option and this turn's RL row
+    int nn_hold_beh = -1, nn_hold_until = -1;
+    bool nn_hold_contact = false;
+    int nn_rl_beh_a = -1;
+    float nn_rl_beh_lp = 0.0f;
+    bool nn_rl_contact = false, nn_rl_tgt_applied = false, nn_rl_chg = false;
+    int nn_rl_gold = 0, nn_rl_kills = 0, nn_rl_deaths = 0;
+    bool nn_option_out();        // out-of-contact options (dispatch, bit 8)
+    void nn_rl_end();            // end of turn: the NRB row
+    void nn_pipe_step();         // A2_NN_PIPE, end of turn: advance the pipelined network with the fuel left
+    void jd_nn_stat();           // JD_NN_LOG: per-turn counters, JDN C lines (jd_nn_event.cpp)
+    void jd_nn_turn();           // JD_NN_EVENT: events, held decision, fallback (after the world update)
+    void jd_nn_pipe();           // JD_NN_EVENT: end of turn, pipelined inference admitted by the governor
+    void jd_nn_pipe_core();      // JD_NN_EVENT: the pipeline steps (jd_nn_pipe then writes queued JD_NN_REC rows)
+#endif
 
 private:
 #if V58_FINISH_RESET

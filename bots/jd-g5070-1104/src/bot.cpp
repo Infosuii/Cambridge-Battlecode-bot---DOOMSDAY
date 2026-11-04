@@ -4235,6 +4235,16 @@ bool Bot::handle_enemies() {
         }
     }
 #endif
+#if (A2_NN & 4) && A2_NN_MACRO
+    if (nn_hold_contact && nn_beh == 2) {
+        winning = true;
+        in_danger = false;
+    } else if (nn_hold_contact && nn_beh == 3) {
+        winning = false;
+        in_danger = true;
+        if (threat_on_me <= 0) threat_on_me = 1.0f;
+    }
+#endif
 #if A2_LAB
     {
         // Engine lab (lab.h kinds 4 / 5): from the first turn an enemy is within 4, force the fight / run verdict for
@@ -7016,6 +7026,9 @@ bool Bot::farm() {
             no_initiate = !tune::kSoloInitiate;
         }
     }
+#if JD_NN_EVENT && !JD_NN_ZERO
+    if (best < 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size())) best = nn_group, best_need = 1;
+#endif
     if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);
     if (best < 0 && (tune::kDet ? ts_ran_round != round && bc::fuel_remaining() > static_cast<std::uint64_t>(tune::kDetSafety) + 10000
                                 : bc::fuel_remaining() > tune::kLowFuel / 2)) {
@@ -7033,6 +7046,30 @@ bool Bot::farm() {
     }
 #endif
     PROF_CHECK("farmsel");
+#if A2_NN & 1
+    nn_v92best = best;
+#ifdef A2_NN_TDBG
+    {
+        static int agree = 0, total = 0, none = 0;
+        ++total, agree += nn_group == best, none += nn_group < 0;
+        if (total % 100 == 0) std::printf("NNT r%d slot %d agree %d/%d none %d (v92 %d nn %d mode %s)\n", round, slot, agree, total, none, best, nn_group, mode);
+    }
+#endif
+    if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
+#ifdef A2_NN_RL
+#if A2_NN_MACRO
+    nn_rl_tgt_applied = true; // the NRB row at the end of the turn carries this choice
+    nn_rl_chg = best != target_group;
+#else
+    // RL: log the applied choice (state, sampled action, log-prob, target changed, own value) - farm turns only
+    if (!nn_rl_feat.empty()) {
+        std::printf("NRL %d %d %d %.5f %d %d %s\n", round, slot, nn_rl_a, nn_rl_lp, best != target_group ? 1 : 0, nn_rl_val,
+                    nn_rl_feat.c_str());
+        nn_rl_feat.clear();
+    }
+#endif
+#endif
+#endif
 
     // The planner chose a bank trip first (APEX_PLAN).
     if (tune::kPlan && plan_bank_round == round && gems >= 10) {
@@ -8061,6 +8098,9 @@ void Bot::play_turn() {
             if (e.hp > 0) a2bel::note(e.id, e.pos.x, e.pos.y, round, e.range, e.strength, e.hp);
 #endif
         if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);
+#if A2_NN
+        nn_decide();
+#endif
 #if A2_LAB
         {
             // Engine lab, death what-ifs (lab.h kinds 6 / 7; start at ctl.round unconditionally): 6 regroup = walk to the
@@ -8315,6 +8355,9 @@ void Bot::play_turn() {
     } else if (win_now() && hp >= max_hp * tune::kDangerHp && tribute_if_needed()) {
         // Our bag finishes the race: bank it before anything else (shopping can wait).
         mode = "tribute-win";
+#if (A2_NN & 8) && A2_NN_MACRO
+    } else if (nn_option_out()) {
+#endif
     } else if (go_home_if_needed()) {
         if (std::string_view(mode) == "idle") mode = "home";
 #if A2_ALONE
@@ -8365,7 +8408,13 @@ void Bot::play_turn() {
     } else if (a2_pair_hunt()) {
 #endif
     } else if (hunt()) {
-    } else if (tribute_if_needed()) {
+    } else if (
+#if (A2_NN & 2) && A2_NN_FAST
+        (nn_beh < 0 || (nn_beh == 1 && gems > 0 && (force_tribute = true))) &&
+#elif A2_NN & 2
+        nn_beh == 1 && gems > 0 && (force_tribute = true) &&
+#endif
+        tribute_if_needed()) {
         mode = "tribute";
     } else {
         if (!farm()) mode = "nofarm";

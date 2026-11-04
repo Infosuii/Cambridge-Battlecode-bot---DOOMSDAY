@@ -1,0 +1,66 @@
+{
+ "schema": "jd-g5070-1104 model manifest v1 (FEAT-003). .pt files are never committed; they live in jd-eval/checkpoints (preserved copies) and jd-eval/rl/<run>/ckpt (branch-local training).",
+ "source_commit": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
+ "source_branch": "agent2-neural (Agent 2 / Iniya; latest at 2026-11-04T03:3xZ per git ls-remote; never pushed to)",
+ "preserved_checkpoints": [
+  {
+   "name": "student_i2",
+   "path_in_commit": "research/agent2-neural/rl_workspace/agent2/student_i2.pt",
+   "copy": "jd-eval/checkpoints/student_i2.pt",
+   "git_blob": "5c2670af75958355122c0f7906c3e09cffc52ca8",
+   "sha256": "ba275a7d95177e79edb27ab6d357e0842e03f6e85e48571dd4832135ed0020ff",
+   "bytes": 134965,
+   "architecture": "nn_model.student: entity encoders 1 x 16 per block (g, s, a, e, c, l), masked mean+max pooling, trunk 2 x 64, heads behaviour 8, target pointer 10+1, option 5 (+ unused micro heads); 28,889 parameters",
+   "feature_layout": "2 (500 int16 features, nnrec.cpp nn_feats; MODEL_ABI.md)",
+   "lineage": "Agent 2: student distilled from macro-RL iteration 2 (nn_rl3/best.pt); same Prep mu/sd buffers as nn_rl3/best.pt (checked)",
+   "status": "lightly-trained, not release-qualified"
+  },
+  {
+   "name": "nn_rl3/best",
+   "path_in_commit": "research/agent2-neural/rl_workspace/agent2/nn_rl3/best.pt",
+   "copy": "jd-eval/checkpoints/nn_rl3/best.pt",
+   "git_blob": "9d1decd68aabd91241ed27d0e47c19e820d8db61",
+   "sha256": "5053561c4c2898b857e4f7732b2eb1256503230a48ee68422374ee06001d02ff",
+   "bytes": 770858,
+   "architecture": "nn_model.teacher: encoders 2 x 64, trunk 2 x 128, option head (bias 7.0 none); 186,873 parameters",
+   "feature_layout": "2 (500)",
+   "lineage": "Agent 2 macro RL (nn_rl3.py) iteration 2, started from nn_rl3/teacher_0.pt",
+   "status": "lightly-trained, not release-qualified (~2M fuel per decision: does not fit official fuel; teacher/expert for distillation only)"
+  },
+  {
+   "name": "nn_rl3/teacher_0",
+   "path_in_commit": "research/agent2-neural/rl_workspace/agent2/nn_rl3/teacher_0.pt",
+   "copy": "jd-eval/checkpoints/nn_rl3/teacher_0.pt",
+   "git_blob": "fbb62dfdcbfbb2ec728f63abbe0235de3faf9a1f",
+   "sha256": "816369cebf7dda07a8c31f7004db41761383d19d2abbfde39e1047aa5524d1d8",
+   "bytes": 770858,
+   "architecture": "nn_model.teacher (as nn_rl3/best)",
+   "feature_layout": "2 (500)",
+   "lineage": "Agent 2: starting network of macro RL (DAgger-3 teacher with the fresh option head)",
+   "status": "lightly-trained, not release-qualified"
+  },
+  {
+   "name": "nn_rl2/best",
+   "path_in_commit": "research/agent2-neural/rl_workspace/agent2/nn_rl2/best.pt",
+   "copy": "jd-eval/checkpoints/nn_rl2/best.pt",
+   "git_blob": "3f04ff46c233add46dbcae3164962ed30a05f10b",
+   "sha256": "5109041d13be670a7d08f07c0495647cef7afb209e87f7baedc21113fb2d1f7a",
+   "bytes": 767596,
+   "architecture": "nn_model.teacher without option head (loads with a fresh none-option head)",
+   "feature_layout": "2 (500)",
+   "lineage": "Agent 2 RL 2 (nn_rl.py, target head PPO) best checkpoint",
+   "status": "lightly-trained, not release-qualified"
+  }
+ ],
+ "exports": [
+  {
+   "checkpoint_sha256": "ba275a7d95177e79edb27ab6d357e0842e03f6e85e48571dd4832135ed0020ff",
+   "exporter": "agent2/lab/nn_export.py unchanged (git blob 21bb3bd6ed049778b4bf4eb10084cd0fc380c1d1), torch 2.14.1+cu130 venv outside the repo, `python -P agent2/lab/nn_export.py <ckpt> student <out.h>` from the rl_workspace root",
+   "deterministic": "two exports byte-identical (sha256 36ad83e1391502402fb4ac79e820e8374d2554de82847e74e09e3a9173080ba1, 916 KB)",
+   "header": "bots/jd-g5070-1104/src/jd_nn_weights.h",
+   "header_sha256": "36ad83e1391502402fb4ac79e820e8374d2554de82847e74e09e3a9173080ba1",
+   "installed_by": "py tools/jd_g5070-1104/mk_nn.py --weights <export> (lab sources verified against 56b60b96 blobs)"
+  }
+ ],
+ "rl_runs": {}
+}
