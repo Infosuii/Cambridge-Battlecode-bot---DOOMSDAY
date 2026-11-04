@@ -1,0 +1,55 @@
+{
+  "scope": "SHADOW final-contact-verdict head feasibility; no actions changed, no RL training/strength claim",
+  "rows": 80,
+  "trainable_parameters": 147,
+  "features": 48,
+  "commands": [
+    "keep heuristic verdict",
+    "force engage verdict",
+    "force retreat verdict"
+  ],
+  "native_q15_scores_bit_exact": true,
+  "gradient_norms": {
+    "weight": 0.5087520111539815,
+    "bias": 0.18094052735570906
+  },
+  "feature_fuel": {
+    "median": 2698.0,
+    "max": 2903
+  },
+  "feature_plus_head_fuel": {
+    "median": 3652.0,
+    "max": 3839
+  },
+  "head_fuel": {
+    "median": 954.0,
+    "max": 994
+  },
+  "cases": [
+    {
+      "case": "00reverse-spiral-B",
+      "rows": 32,
+      "bodies": 4,
+      "map_sha256": "f57669ffc98b76a5c2e4eccba41690dc193efc29f067ee960605617b2cfb48e5",
+      "log_sha256": "90edc00246ca0f0713c2db24f82821aeae5018b195d6e011fab60a0a0ac38406",
+      "all_markers_matched": true,
+      "min_completion_fuel": 39271
+    },
+    {
+      "case": "02fields-A",
+      "rows": 48,
+      "bodies": 6,
+      "map_sha256": "2be7c5f1ec0fb50718565c9b4e60159b0e4768232fa6c4917077e989451f9695",
+      "log_sha256": "e87447bd6c47f153f1cb6b46f1a3dbfa4934b1255f5e98d61dd4a45230494be2",
+      "all_markers_matched": true,
+      "min_completion_fuel": 26808
+    }
+  ],
+  "limitations": [
+    "Diagnostic nontrained coefficients; no controller execution, exploration likelihood, learned export or game improvement yet.",
+    "At most8 records per body; not a complete-contact producer and MUST NOT be used as an on-policy training episode.",
+    "Earlier burst/ambush/capture returns bypass this boundary; record coverage does not mean full combat control.",
+    "Probe/logging consumes charged fuel and may alter trajectories, even though it never assigns a different verdict.",
+    "Scores are from final heuristic state; would require state-only duplicate-effect masks and immediate completed-action-command contract before acting."
+  ]
+}
