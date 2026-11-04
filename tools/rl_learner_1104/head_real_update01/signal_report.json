@@ -1,0 +1,65 @@
+{
+  "scope": "Training-data diagnostic of real initial-head batch; no playing-strength claim",
+  "games": 16,
+  "decisions": 7379,
+  "actual_nonreference_actions": 39,
+  "expected_nonreference_actions": 28.312015533447266,
+  "nonreference_probability": {
+    "p10": 0.00013363361358642578,
+    "p50": 0.00191575288772583,
+    "p90": 0.010631895065307616,
+    "p99": 0.017711403369903567
+  },
+  "unchanged_context_transition_fraction": 0.47049157880323156,
+  "changed_context_coordinates": {
+    "p10": 0.0,
+    "p50": 41.0,
+    "p90": 108.0,
+    "p99": 139.97999999999956
+  },
+  "context_width": 160,
+  "block_changed_coordinates": {
+    "global": {
+      "p10": 0.0,
+      "p50": 5.0,
+      "p90": 9.0,
+      "p99": 12.0
+    },
+    "self": {
+      "p10": 0.0,
+      "p50": 8.0,
+      "p90": 13.0,
+      "p99": 16.0
+    },
+    "allies": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 24.0,
+      "p99": 30.0
+    },
+    "enemies": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 18.0,
+      "p99": 32.0
+    },
+    "camps": {
+      "p10": 0.0,
+      "p50": 22.0,
+      "p90": 32.0,
+      "p99": 32.0
+    },
+    "altars": {
+      "p10": 0.0,
+      "p50": 0.0,
+      "p90": 24.0,
+      "p99": 30.0
+    }
+  },
+  "notes": [
+    "Context differences are between ADMITTED logged head decisions, not every native snapshot; cannot infer exact per-refresh sparsity or speedup",
+    "Observation gaps and guard admission select these transitions; compare actual implementation counters before optimizing",
+    "Small initial alpha and concentrated native q mean many gradient samples carry nearly identical reference actions",
+    "Delta-update accumulation changes floating operation order; periodic rebuild and actual replay remain required"
+  ]
+}
