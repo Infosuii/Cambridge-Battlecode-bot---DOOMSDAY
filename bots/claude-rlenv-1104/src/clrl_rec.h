@@ -11,7 +11,7 @@
 // started, 32 bought, 64 ward placed). Turns without a capture (dead, channelling) print no row; the first captured
 // turn after a gap of dead rounds has reset 1.
 #pragma once
-#if CLRL_REC
+#if CLRL_REC || CLRL_ACT
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
@@ -254,6 +254,7 @@ static void encode(const BotT& b) {
     }
 }
 
+#if CLRL_REC  // recorder entry points (debug-only fuel refund API)
 template <class BotT>
 static void capture(const BotT& b) {
     using namespace clrl;
@@ -311,5 +312,6 @@ static void finish(const BotT& b) {
         }
     });
 }
+#endif
 };
 #endif

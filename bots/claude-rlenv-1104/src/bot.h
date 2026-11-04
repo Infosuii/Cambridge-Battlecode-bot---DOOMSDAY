@@ -5,8 +5,12 @@
 #ifndef CLRL_REC
 #define CLRL_REC 0 // rl-env teacher-trace recorder (clrl_rec.h); 0 = byte-identical to v92
 #endif
-#if CLRL_REC
+#ifndef CLRL_ACT
+#define CLRL_ACT 0 // cl1 actor chooses the farm target (clrl_act.h); 0 = byte-identical to v92
+#endif
+#if CLRL_REC || CLRL_ACT
 struct ClrlFriend;
+struct ClrlAct;
 #endif
 #include <string>
 
@@ -42,8 +46,9 @@ void economy_record_roster();
 #endif
 
 class Bot {
-#if CLRL_REC
+#if CLRL_REC || CLRL_ACT
     friend struct ClrlFriend;
+    friend struct ClrlAct;
 #endif
 public:
     void play_turn();

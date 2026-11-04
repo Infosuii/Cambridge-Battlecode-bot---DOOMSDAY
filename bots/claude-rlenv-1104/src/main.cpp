@@ -6,6 +6,9 @@
 #if CLRL_REC
 #include "clrl_rec.h"
 #endif
+#if CLRL_ACT
+#include "clrl_act.h"
+#endif
 
 #if A2_LAB
 #include "learner.h"
@@ -55,6 +58,9 @@ int main() {
                 bot.play_turn();
 #if CLRL_REC
                 ClrlFriend::finish(bot);
+#endif
+#if CLRL_ACT
+                ClrlAct::executed(bot);
 #endif
             }
 #endif

@@ -1,6 +1,9 @@
 // Apex champion logic: farm camp groups efficiently, bank gems at altars, shop on spawn,
 // and take good fights while avoiding bad ones.
 #include "bot.h"
+#if CLRL_ACT
+#include "clrl_act.h"
+#endif
 #if CLRL_REC
 #include "clrl_rec.h"
 #endif
@@ -6587,6 +6590,9 @@ bool Bot::farm() {
     }
 #endif
     PROF_CHECK("farmsel");
+#if CLRL_ACT
+    best = ClrlAct::decide(*this, best, kClaimDead);
+#endif
 
     // The planner chose a bank trip first (APEX_PLAN).
     if (tune::kPlan && plan_bank_round == round && gems >= 10) {
