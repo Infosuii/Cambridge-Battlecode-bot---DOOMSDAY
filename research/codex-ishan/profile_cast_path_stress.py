@@ -195,6 +195,9 @@ def play(item):
               re.findall(rb"CODEX_(?:CASSI|PATH)_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
     combat = [list(map(int, m)) for m in re.findall(rb"CODEX_ISSAC_COMBAT (\d+) (\d+) (\d+)", log)]
     bank = [list(map(int, m)) for m in re.findall(rb"CODEX_VEND_BANK (\d+) (\d+) (\d+) (\d+)", log)]
+    modes = {int(r): {"mode": mode.decode(), "group": int(g), "state": int(s), "force_tribute": bool(int(force)),
+                      "ward_refreshed": bool(int(ward))} for r, mode, g, s, force, ward in
+             re.findall(rb"CODEX_PATH_MODE (\d+) (\S+) (-?\d+) (-?\d+) (\d+) (\d+)", log)}
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -212,6 +215,7 @@ def play(item):
         fuel = {FARM_PHASES[i]: [engine_round, left] for recorded, i, engine_round, left in samples if recorded == rnd}
         checks.append({"round": rnd, "actor": actor, "same_input": same_input, "same_actions": same_actions,
                        "same_event": native_match, "phases": phases, "fuel": fuel, "state": states.get(rnd),
+                       "mode": modes.get(rnd),
                        "matched": same_draft and not errors and native_match and same_input and same_actions,
                        "base_turn": old_turn, "diagnostic_turn": new_turn})
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors,

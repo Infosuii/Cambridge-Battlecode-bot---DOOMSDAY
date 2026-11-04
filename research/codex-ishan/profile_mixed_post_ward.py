@@ -80,6 +80,16 @@ def build_trace(directory, rounds, phase=None):
     condition = " || ".join(f"round == {rnd}" for rnd in rounds)
     if phase == "farm":
         instrument_farm(src, condition)
+    elif phase == "farm-state":
+        marker = 'PROF_CHECK("d_farm");'
+        apply(src / "bot.cpp", ((marker, marker + f'''
+        if (({condition}) && type == bc::champion_type::heart_of_ruin && static_cast<int>(bc::round_number()) != round) {{
+            const int state = target_group >= 0 && static_cast<std::size_t>(target_group) < w.groups.size()
+                ? static_cast<int>(w.groups[static_cast<std::size_t>(target_group)].state) : -1;
+            std::printf("CODEX_STRESS R%d t%d d_farm\\n", round, static_cast<int>(type));
+            std::printf("CODEX_PATH_MODE %d %s %d %d %d %d\\n", round, mode, target_group, state,
+                        force_tribute, ward_refreshed_this_turn);
+        }}'''),))
     elif phase:
         marker = f'PROF_CHECK("{phase}");'
         apply(src / "bot.cpp", ((marker, marker + f'''
@@ -97,6 +107,7 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--single-boundaries", action="store_true")
     mode.add_argument("--farm", action="store_true")
+    mode.add_argument("--farm-state", action="store_true")
     args = parser.parse_args()
     single, farm = args.single_boundaries, args.farm
     frozen = read(HERE / "CPG_POST_WARD_MIXED_STRESS.json")
@@ -118,6 +129,10 @@ def main():
         phases = ("farm",)
         paths = {"farm": bench.CACHE / "post-ward-mixed-heart-farm"}
         binaries = [build_trace(paths["farm"], rounds, "farm")]
+    elif args.farm_state:
+        phases = ("farm-state",)
+        paths = {"farm-state": bench.CACHE / "post-ward-mixed-heart-farm-state"}
+        binaries = [build_trace(paths["farm-state"], rounds, "farm-state")]
     else:
         phases = ("coarse",)
         paths = {"coarse": OUT}
@@ -127,10 +142,11 @@ def main():
         bench.OUT = trace.OUT = paths[phase]
         row = trace.play((case, mp, wasm))
         rows[phase] = {"diagnostic": bench.digest(wasm),
-                       "matches": {r["round"]: (r["fuel"] if farm else r["phases"])
+                       "matches": {r["round"]: (r["fuel"] if farm else r["mode"] if args.farm_state else r["phases"])
                                    for r in row["checks"] if r["matched"]}, "row": row}
     report = {"engine": bench.ENGINE, "reference": frozen["wasm"], "seed": COMPILED_SEED}
     name = ("CPG_POST_WARD_MIXED_HEART_BOUNDARIES.json" if single else
+            "CPG_POST_WARD_MIXED_HEART_FARM_STATE.json" if args.farm_state else
             "CPG_POST_WARD_MIXED_HEART_FARM.json" if farm else "CPG_POST_WARD_MIXED_HEART_TRACE.json")
     result = {**report, "boundaries": rows} if single else {**report, **rows[phases[0]]}
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
