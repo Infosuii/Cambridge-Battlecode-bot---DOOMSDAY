@@ -1,0 +1,5 @@
+# EXP-124 camp-tile landing filter
+
+The native SDK agreed on all 57,212 landing exclusions across 32 conformance cases, including 3,366 rejected landings. The exact R232 Heart replay preserved its observation and move and reached the same cast tile one round earlier, with no suspension. Two of three stress cases lost their suspensions, with no faults or new suspensions. The 320 independent development pairs passed, with six to zero at 100k and no per-game increases at either budget. Two releases matched `a0d4a340f100a589535716f8e2bb4ad94ccae4deba1c6dc20c8b167c456c6db1` and all-off reproduced v92. [Builds](CPG_HEART_CAMP_MASK_BUILDS.json), [SDK exclusions](CPG_HEART_CAMP_MASK_PROOF.json), [exact Heart fixture](CPG_HEART_CAMP_MASK_FIXTURE.json), [development pairs](CPG_HEART_CAMP_MASK_EXACT.json).
+
+The full pool gave 100/172 versus 86/172, candidate-only 47 and baseline-only 33. Native suspensions fell from 160 to 26, with round one from 28 to 12. Both teams had zero faults and codes. One previously clean game suspended, so the exact release failed L0. No L1, L2 or live duel. [Pool screen](CPG-HEART-CAMP-MASK_POOL_SAFETY.json).

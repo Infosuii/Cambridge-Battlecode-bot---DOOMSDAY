@@ -7,17 +7,41 @@ from zipfile import ZipFile
 
 from bounded_verdict import apply
 from cpg_greedy_full import prepare
+from cpg_heart_camp_mask import prepare as prepare_camp_mask
 from large_roster_stress import HERE, OUT as STRESS, bench, native_fuel, read
 from pg_dash_followup import read_turn
 from profile_roster_stress import prepare_coarse, summarize_scoped
 from qualify_local import build
 from stress_greedy_pair import OUT as RAW, SEED
+from verify_heart_camp_mask_fixture import OUT as MASK_RAW
 
 OUT = bench.CACHE / "cpg-greedy-heart-trace"
 STAGES = ("world", "support", "wardrev", "ambush", "enemies", "c_walked", "c_cast", "d_farm",
           "decide", "tail", "fields", "bushpre")
 CAST_PHASES = ("camp_pick", "camp_cast_before", "strike_before", "scan_start", "scan_end", "cast_attempt",
                "cast_return", "strike_after", "camp_cast_after")
+
+
+def control_turns(pairs):
+    comparisons = []
+    for pair in pairs:
+        if pair["target"]:
+            continue
+        base = pair["base"]
+        e = base["events"][0]
+        actor, rnd = e["owner"]["id"], e["timestamp"]["round"]
+        side = base["side"]
+        key = f"{SEED}-{base['opponent']}-{base['map']}-{side}"
+        before = read_turn(RAW / "games" / f"full-{key}", rnd, side, actor)
+        after = read_turn(MASK_RAW / "games" / f"mask-{key}", rnd, side, actor)
+        old, new = ([a for a in t["executed_actions"] if a["kind"] not in (3, 26)] if t else []
+                    for t in (before, after))
+        comparisons.append({"round": rnd, "actor": actor, "side": side,
+                            "same_input": bool(before and after and before["observation"] == after["observation"]),
+                            "same_action_prefix": bool(before and after and old == new[:len(old)]),
+                            "base_actions": old, "candidate_actions": new, "events": pair["events"],
+                            "base_turn": before, "candidate_turn": after})
+    return comparisons
 
 
 def cast_sample(phase):
@@ -74,7 +98,8 @@ def play(item):
     row = bench.one(("profile", SEED, opponent, mp, side, wasm), fuel=100000, log_limit=1048576)
     assert all(base[k] == row[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
     key = f"{SEED}-{opponent}-{mp.stem}-{side}"
-    old = RAW / "games" / f"full-{key}"
+    old_root = MASK_RAW if base["arm"] == "mask" else RAW
+    old = old_root / "games" / f"{base['arm']}-{key}"
     new = OUT / "games" / f"profile-{key}"
     row = summarize_scoped(row, new)
     (bundle,) = new.glob("*.repl26a")
@@ -102,25 +127,40 @@ def play(item):
 def main():
     global OUT
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--cast", action="store_true")
-    cast = parser.parse_args().cast
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--cast", action="store_true")
+    mode.add_argument("--remaining", action="store_true")
+    args = parser.parse_args()
+    cast, remaining = args.cast, args.remaining
     if cast:
         OUT = bench.CACHE / "cpg-greedy-heart-cast"
+    if remaining:
+        OUT = bench.CACHE / "cpg-heart-camp-mask-remaining"
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")
     cases = [r for r in source["affected"] if r["arm"] == "full"]
     assert len(cases) == 3 and all(len(r["events"]) == 1 for r in cases)
     assert all(r["events"][0]["owner"]["name"] == "Heart of Ruin" for r in cases)
+    reference = source["binaries"]["full"]
     if cast:
         cases = [r for r in cases if r["events"][0]["timestamp"]["round"] == 232]
+    controls = []
+    if remaining:
+        fixture = read(HERE / "CPG_HEART_CAMP_MASK_FIXTURE.json")
+        reference = fixture["candidate"]
+        controls = control_turns(fixture["rows"])
+        cases = [{**p["candidate"], "events": p["events"]} for p in fixture["rows"] if p["events"]]
+        assert len(cases) == 1 and cases[0]["events"][0]["timestamp"]["round"] == 353
     rounds = {r["events"][0]["timestamp"]["round"] for r in cases}
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
-    prepare(src, True)
+    prepare_source = prepare_camp_mask if remaining else prepare
+    prepare_source(src, True)
     if cast:
         instrument_cast(src)
     else:
-        prepare_coarse(src, rounds, STAGES)
+        stages = (*STAGES, "f_camps") if remaining else STAGES
+        prepare_coarse(src, rounds, stages)
         condition = " || ".join(f"round == {r}" for r in sorted(rounds))
         apply(src / "bot.cpp", ((f"    codex_stress_trace = {condition};",
                                 f"    codex_stress_trace = ({condition}) && type == bc::champion_type::heart_of_ruin;"),))
@@ -136,13 +176,14 @@ def main():
         rows = list(pool.map(play, jobs))
     required = ("same_draft", "same_event", "same_input", "same_action_prefix")
     matched = [r for r in rows if all(r[k] for k in required) and not r["errors"]]
-    result = {"engine": bench.ENGINE, "reference": source["binaries"]["full"], "diagnostic": bench.digest(wasm),
+    result = {"engine": bench.ENGINE, "reference": reference, "diagnostic": bench.digest(wasm),
               "seed": SEED, "n": len(rows), "matched": len(matched),
               "phases": [r["cast_phases"] if cast else r["diagnostic"]["examples"] for r in matched],
               "cast_state": [r["cast_state"] for r in matched] if cast else []}
-    name = "CPG_GREEDY_HEART_CAST.json" if cast else "CPG_GREEDY_HEART_TRACE.json"
+    name = ("CPG_HEART_CAMP_MASK_REMAINING.json" if remaining else
+            "CPG_GREEDY_HEART_CAST.json" if cast else "CPG_GREEDY_HEART_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
-        json.dump({**result, "rows": rows}, out, indent=2)
+        json.dump({**result, "rows": rows, "controls": controls}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
 
