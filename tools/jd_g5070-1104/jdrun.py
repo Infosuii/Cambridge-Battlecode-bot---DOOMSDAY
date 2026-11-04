@@ -42,6 +42,11 @@ RESAMPLES = 2000
 HOLDOUT_MAPS = {'pool', 'fresh51104', 'official70', 'smoke3'}  # smoke3 = 3 pool maps of Claude's harness check
 HOLDOUT_OPPS = {'b5_c3', 'v61_c3', 'public-decrest', 'public-wardens', 'x3mf2'}
 PARTITION_OF = {'conf': 'dev', 'dev': 'dev', 'select': 'selection'}
+# Availability-protocol identity (#6): current task epochs assigned by JOHNDOE at 03:54Z / 03:59Z.
+AGENT, SESSION = 'builder-g5070-1104', 'builder-g5070-1104-20261104-0105'
+TASK_EPOCHS = {'candidate-integration': 2, 'fuel-memory-runtime': 2, 'basic-decision-strategy': 2, 'rl-actor-export': 2,
+               'rl-distill-local': 1}
+EPOCH2_AFTER = 'f64657c64339c4025243c7166e3e05556740cea3'
 sys.path.insert(0, str(REPO / 'tools'))
 from dz import fuel_values  # noqa: E402  (replay fuel trace decoder: 8 settings, then fuel used per unit turn)
 
@@ -176,6 +181,8 @@ def cmd_run(a):
                 wasm={b: fz[b]['wasm_sha256'] for b in {cand, base, *[c['opp'] for c in cs]}},
                 map_sha256={m.stem: sha_file(m) for m in maps}, git_head=git_head(), cli_sha256=sha_file(CLI),
                 cells_list=[{k: v for k, v in c.items() if k != 'map_path'} for c in cs])
+    # Fencing (#6 JOHNDOE 03:59Z): every new run names its writer, task and epoch; epoch 2 starts after EPOCH2_AFTER.
+    meta.update(agent=AGENT, session=SESSION, task_id=a.task, epoch=TASK_EPOCHS[a.task], epoch2_after=EPOCH2_AFTER)
     if a.fuel_quantum:
         meta['label'] = 'DIAGNOSTIC (non-official fuel quantum)'
     (out / 'run.json').write_text(json.dumps(meta, indent=1), encoding='utf-8')
@@ -402,6 +409,8 @@ def main():
     r.add_argument('--timeout', type=int, default=900)
     r.add_argument('--background', action='store_true')
     r.add_argument('--holdout', action='store_true', help='allow final-holdout maps/opponents (confirmation only)')
+    r.add_argument('--task', default='candidate-integration', choices=sorted(TASK_EPOCHS),
+                   help='availability-protocol task id recorded in run.json with its epoch')
     rp = sp.add_parser('report')
     rp.add_argument('--name', required=True)
     rp.add_argument('--cells', action='store_true', help='print every paired cell')
