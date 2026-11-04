@@ -72,7 +72,7 @@ class UploadAttributionTest(unittest.TestCase):
 
     def test_larger_unrelated_upload_cannot_be_selected(self):
         commands = self.simulate("unique")
-        self.assertEqual(commands[1:], [("run", "102"), ("report", None), ("restore", "80")])
+        self.assertEqual(commands[1:], [("run", "102"), ("restore", "80"), ("report", None), ("restore", "80")])
 
     def test_uncertain_receipt_or_compile_aborts_and_restores(self):
         for scenario in ("missing", "duplicate", "compiling"):

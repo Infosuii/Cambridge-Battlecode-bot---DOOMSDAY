@@ -18,8 +18,24 @@ def snapshot(old_status_at):
 
 
 class OlderActivationTest(unittest.TestCase):
-    def run_arm(self, after):
+    def run_arm(self, after, during=None):
         before = snapshot("2026-11-04T09:00:00Z")
+        state = before
+
+        def list_submissions(*_):
+            nonlocal state
+            previous = state
+            if during is not None and state is before:
+                state = during
+            return previous
+
+        def read_groups(*_):
+            nonlocal state
+            state = after
+            return {"g": [{"status": "finished"}] * 5}
+
+        if during is None:
+            during = before.copy()
         with tempfile.TemporaryDirectory() as tmp:
             plan = Path(tmp) / "plan.json"
             plan.write_text(json.dumps({"groups": [{"opponent": "fixture", "opponentId": "team",
@@ -28,9 +44,9 @@ class OlderActivationTest(unittest.TestCase):
             args = ["ladder_duel.py", "run", "--plan", str(plan), "--arm", "challenger", "--version", "102"]
             with patch.object(sys, "argv", args), patch.object(ladder_duel, "activate"), \
                     patch.object(ladder_duel, "wait_for_quota"), \
-                    patch.object(ladder_duel, "cli_json", side_effect=[before, after]), \
+                    patch.object(ladder_duel, "cli_json", side_effect=list_submissions), \
                     patch.object(ladder_duel, "cli", return_value=CompletedProcess([], 0, '{"groupId":"g"}', "")), \
-                    patch.object(ladder_duel, "finished_groups", return_value={"g": [{"status": "finished"}] * 5}):
+                    patch.object(ladder_duel, "finished_groups", side_effect=read_groups):
                 error = None
                 try:
                     ladder_duel.main()
@@ -48,6 +64,13 @@ class OlderActivationTest(unittest.TestCase):
         self.assertEqual(arm["groups"], ["g"])
         self.assertIsNone(error)
         self.assertNotIn("contaminated", arm)
+
+    def test_pin_disagreement_during_arm_is_discarded(self):
+        unchanged = snapshot("2026-11-04T09:00:00Z")
+        during = {**unchanged, "pinned": False}
+        arm, error = self.run_arm(unchanged, during)
+        self.assertEqual(arm.get("contaminated"), [102])
+        self.assertIn("contaminated", error or "")
 
 
 if __name__ == "__main__":

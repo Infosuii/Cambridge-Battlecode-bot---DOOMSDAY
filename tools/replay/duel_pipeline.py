@@ -93,6 +93,8 @@ try:
             print(f"CONTAMINATED arm {arm}: versions {[s['version'] for s in others]} were uploaded during it", flush=True)
             pl = json.loads(Path(a.plan).read_text(encoding='utf8')); pl['arms'][arm]['contaminated'] = [s['version'] for s in others]
             Path(a.plan).write_text(json.dumps(pl, indent=1, ensure_ascii=False) + chr(10), encoding='utf8')
+            raise SystemExit(f'arm {arm} contaminated; use a fresh plan')
+        subprocess.run(duel + ['restore', '--version', str(a.base)], check=True)
         subprocess.run(duel + ['report', '--plan', a.plan, '--arms', 'v92', arm] if arm != 'v92' else duel + ['report', '--plan', a.plan, '--arms', 'v92'], check=True)
 finally:
     if attempted:

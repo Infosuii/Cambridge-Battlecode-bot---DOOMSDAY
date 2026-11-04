@@ -87,6 +87,18 @@ def foreign_submission_states(state, version):
             for s in state['submissions'] if s['version'] != version}
 
 
+def verify_arm_state(path, plan, arm, version, before):
+    state = cli_json(['submissions', 'list', '--json'])
+    current = foreign_submission_states(state, version)
+    changed = {v for v in before.keys() | current.keys() if before.get(v) != current.get(v)}
+    if selected_pin(state) != version:
+        changed.add((state.get('active') or {}).get('version') or version)
+    if changed:
+        plan['arms'][arm]['contaminated'] = sorted(changed)
+        path.write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
+        raise SystemExit(f'arm {arm} contaminated: submission state changed for {sorted(changed)}')
+
+
 def activate(version):
     if pinned_version() == version:
         return
@@ -181,7 +193,8 @@ def main():
         print(len(groups), 'groups ->', a.out)
         return
 
-    plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
+    plan_path = Path(a.plan)
+    plan = json.loads(plan_path.read_text(encoding='utf8'))
     if a.action == 'run':
         pin_sources = required_pin_sources(plan, a.arm)
         activate(a.version)
@@ -213,26 +226,19 @@ def main():
                     break
             ids.append(gid)
         plan['arms'][a.arm] = dict(version=a.version, groups=ids, since=since)
-        Path(a.plan).write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
+        plan_path.write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
         want = {g for g in ids if g}
         print(f'arm {a.arm}: queued {len(want)} groups; waiting for them to finish', flush=True)
         by = {}
         for _ in range(240):
+            verify_arm_state(plan_path, plan, a.arm, a.version, before)
             by = finished_groups(want, by)
             done = sum(1 for gid in want if len(by.get(gid, [])) == 5 and all(m['status'] == 'finished' for m in by[gid]))
             if done == len(want):
                 break
             time.sleep(30)
         print(f'arm {a.arm}: {done}/{len(want)} groups finished', flush=True)
-        final = cli_json(['submissions', 'list', '--json'])
-        after = foreign_submission_states(final, a.version)
-        changed = {v for v in before.keys() | after.keys() if before.get(v) != after.get(v)}
-        if selected_pin(final) != a.version:
-            changed.add((final.get('active') or {}).get('version') or a.version)
-        if changed:
-            plan['arms'][a.arm]['contaminated'] = sorted(changed)
-            Path(a.plan).write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
-            raise SystemExit(f'arm {a.arm} contaminated: submission state changed for {sorted(changed)}')
+        verify_arm_state(plan_path, plan, a.arm, a.version, before)
         if done != len(plan['groups']):
             raise SystemExit(f'arm {a.arm} incomplete: {done}/{len(plan["groups"])} groups finished')
         return

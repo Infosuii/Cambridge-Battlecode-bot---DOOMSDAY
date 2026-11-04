@@ -31,3 +31,7 @@ An offline activation test returned v80 as both active and selected while the pi
 ## Detect older submissions that change during an arm
 
 The old post-arm check ignored older uploads that activated and returned to inactive during an arm. An offline fixture reproduced this by changing v105's status timestamp while leaving the pinned version and final statuses the same. Capture foreign submission state after the expected activation and compare it after the arm. Changed state now marks the arm contaminated and fails through the normal restoration path. A contaminated recorded arm cannot be silently reused. This detects visible state drift and cannot recover activity absent from both platform snapshots. Offline upload, pin and contamination tests passed. The archived 120-pair recount reproduced byte for byte. No live calls were used by the tests.
+
+## Verify the pin during each arm and restore before reporting
+
+An offline fixture temporarily returned the active and selected versions in unpinned mode during an arm, then restored the original snapshot before the final check. The old runner accepted it. The child now verifies the pin and foreign submissions during completion polling, as well as before queueing and after completion. The parent aborts on contamination and verifies the fallback after each successful arm before fetching its report. The upload fixture confirms this order. All eight offline tests passed, and the 120-pair archived recount reproduced byte for byte. No live calls were used by the tests.
