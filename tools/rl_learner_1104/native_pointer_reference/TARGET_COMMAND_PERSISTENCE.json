@@ -1,0 +1,32 @@
+{
+  "scope": "Observed persistence among logged target commands; not physical action execution or causal attribution",
+  "games": 160,
+  "rows": 486076,
+  "departures": 12487,
+  "departure_next_logged_gap_rounds": {
+    "min": 1.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "p75": 1.0,
+    "p90": 1.0,
+    "max": 340.0
+  },
+  "observed_until_different_command_rounds": {
+    "min": 1.0,
+    "p25": 1.0,
+    "median": 3.0,
+    "p75": 12.0,
+    "p90": 32.0,
+    "max": 836.0
+  },
+  "next_logged_command_same_group_fraction": 0.590366273944057,
+  "next_logged_command_is_its_own_reference_fraction": 0.8104512302636852,
+  "right_censored_departures": 123,
+  "wall_seconds": 57.105366790667176,
+  "limitations": [
+    "Frozen downstream executor may cancel/reassign before the next log; these are not measured executed option durations.",
+    "A command may target the same physical group while game state/task changes.",
+    "Only related local opponents/training families, no ladder claim.",
+    "No proof that longer commitment improves performance; this identifies an experimental question."
+  ]
+}
