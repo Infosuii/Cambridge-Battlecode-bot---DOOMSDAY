@@ -11,7 +11,7 @@ from zipfile import ZipFile
 import ablate_dev as bench
 
 HERE = Path(__file__).resolve().parent
-OUT = bench.CACHE / "bounded-verdict-probe"
+OUT = bench.CACHE / "bounded-verdict-probe-r1"
 OPPONENTS = ("x3inv", "public-khiri")
 LOG_LIMIT = 1048576
 
@@ -78,6 +78,10 @@ inline void rollout(State& s, const Map& m, const Policy& p, int rounds) {
 }"""),
     ))
     apply(src / "tsearch.cpp", (
+        ('#include "tsearch.h"', """#include "tsearch.h"
+#if CODEX_BOUNDED_VERDICT
+#include "runtime_budget.h"
+#endif"""),
         ("            ts::act(c, m, 0, pol); // our turn, now\n            ts::rollout(c, m, pol, rounds);",
          """#if CODEX_BOUNDED_VERDICT
             if (tune::kDet) {
