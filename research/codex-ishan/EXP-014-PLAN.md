@@ -1,0 +1,7 @@
+# EXP-014 implementation freeze — Marcella's second component
+
+Before changing the source, native dev statistics showed 168 Marcella appearances in 256 existing two-noise cells. She bought her first item before 300 in 131 of them, always Jungle Strength. In 58 cells she also bought 138 Prospector Focus shards before 300 at 30 gold each. In the 16 Discovery losses, winning Marcellas bought 31 Bruiser Focus shards before 300 at the same unit price. The separate confirmation sample contained nine. This establishes an affordable second step during existing shopping visits. It does not estimate the effect of switching categories.
+
+Copy frozen v92 into `bots/codex-marcella-bruiser/src`. Enable `CODEX_MARCELLA_BRUISER` only there. In `build_for` at `bot.cpp:105` (df2975cb), replace only Marcella's five Prospector Focus shards with five Bruiser Focus shards. Keep the Jungle Strength opener and all other items, shopping triggers, recall and combat logic. The purchase happens in the existing shop path with the same cost. The item and emblem passives can change later trajectories.
+
+Predict more early Bruiser Focus purchases by Marcella and less Prospector Focus spending, with gains most plausible in early contested fights. Rebuild twice and check switches-off identity, then freeze and run the same 172-cell L0 pool comparison. Count the release purchase events before 300. Advance only after unchanged L0 and diverse L1/L2. No holdout or ladder access for this comparison.
