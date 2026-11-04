@@ -171,7 +171,7 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict, head: bool
             flags["incomplete"] = True
             problems.append(f"{meta['bot_faults']} bot faults")
     dec.sort(key=lambda d: (d["body"], d["round"]))
-    gaps = reassigned = no_exec = 0
+    gaps = reassigned = no_exec = tail_no_exec = 0
     cols = {c: [] for c in C.required_columns(dict(hidden_size=0, stale_block=False, decision_index=True,
                                                     native_cands=True, gate_inputs=0 if head else GATE_N,
                                                     head_inputs=head))}
@@ -192,7 +192,11 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict, head: bool
         ex_rec = exe.get((d["body"], d["index"]))
         ex_g, ex_round = (ex_rec if ex_rec is not None else (None, -1))
         if ex_g is None:
-            no_exec += 1
+            # head builds queue CNX3 behind a fuel margin: only a body's LAST decision may lose it at game end
+            if head and last and status == "terminated":
+                tail_no_exec += 1
+            else:
+                no_exec += 1
             ex = -1
         else:
             ex = groups.index(ex_g) if ex_g in groups else -1
@@ -254,7 +258,7 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict, head: bool
         problems.append("no decisions")
     cols.pop("episode", None)
     eligible = status == "terminated" and not any(flags.values())
-    meta.update(status=status, our_team=our, outcome=outcome, decisions=len(dec), skips=skips,
+    meta.update(status=status, our_team=our, outcome=outcome, decisions=len(dec), skips=skips, tail_no_exec=tail_no_exec,
                 reassigned=reassigned, fuel_out_rows=sum(cols["fuel_out"]), problems=problems,
                 reward_complete=eligible, ppo_eligible=eligible, **flags)
     return meta, cols, dec

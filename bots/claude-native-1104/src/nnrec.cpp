@@ -689,8 +689,15 @@ struct ClnaRow {                     // this turn's head decision, formatted as 
     long f_before = 0, f_head = 0, f_left = 0, f_stash = 0;  // CLNA_FPROF
 };
 static ClnaRow clna_row;
+static int clna_memo_hits = 0, clna_memo_misses = 0;  // (CLNA_FPROF reports them)
 static void clna_take_snap(const std::int16_t* f, int coff, int at) {
-    if (clna_pend.at < 0) std::copy(nn_lv.x, nn_lv.x + 160, clna_pend.x), clna_pend.at = at, clna_pend.done = 0, clna_pend.ready = false;
+    // Exact memoisation (JOHNDOE #90): a new context whose 320 raw bytes equal the completed one in use needs no staging;
+    // its h and h-only terms are reused (the weights are compiled in), and its round stays the round those bytes were
+    // first taken. Never keyed on rounds or slots; a pending context is never marked ready early.
+    if (clna_pend.at < 0) {
+        if (clna_act.ready && __builtin_memcmp(nn_lv.x, clna_act.x, sizeof clna_act.x) == 0) ++clna_memo_hits;
+        else std::copy(nn_lv.x, nn_lv.x + 160, clna_pend.x), clna_pend.at = at, clna_pend.done = 0, clna_pend.ready = false, ++clna_memo_misses;
+    }
     int n = 0;
     for (int i = 0; i < kC && n < 10; ++i) {
         const std::int16_t* r = f + coff + i * kCF;
@@ -1539,7 +1546,36 @@ int Bot::clna_explore(int v92g, int ng) {
     });
     return ug[c];
 }
+#ifdef CLNA_HEAD
+// CNX3 rows wait in a small queue and are written only with a safe fuel margin (clna_flush): an unguarded end-of-turn
+// write that runs out suspends the bot into the next turn, which then ends unplayed. Order is kept; rows pair by
+// (body, decision index), so writing one later is harmless. A full queue is written regardless.
+struct ClnaX3 { int round, slot, index, group; long id; };
+static ClnaX3 clna_xq[8];
+static int clna_xn = 0;
+static void clna_flush(bool force) {
+    int i = 0;
+    for (; i < clna_xn && (force || bc::fuel_remaining() > 4000u); ++i) {
+        const ClnaX3& x = clna_xq[i];
+        char* o = clna_rstr(clna_rbuf, "CNX3 ");
+        o = clna_rint(o, x.round), *o++ = ' ', o = clna_rint(o, x.slot), *o++ = ' ', o = clna_rint(o, x.id);
+        *o++ = ' ', o = clna_rint(o, x.index), *o++ = ' ', o = clna_rint(o, x.group), *o++ = '\n';
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+    }
+    for (int j = i; j < clna_xn; ++j) clna_xq[j - i] = clna_xq[j];
+    clna_xn -= i;
+}
+#endif
 void Bot::clna_end() {
+#ifdef CLNA_HEAD
+    if (clna_round == round) {
+        clna_round = -1;
+        if (clna_xn == 8) clna_flush(true);
+        clna_xq[clna_xn++] = ClnaX3{round, slot, clna_index, target_group, static_cast<long>(my_id)};
+    }
+    clna_flush(false);
+    return;
+#endif
 #if CLNA_RLOG
     if (clna_round == round) {  // CNX3 <round> <slot> <id> <index> <executed group>
         clna_round = -1;
@@ -1578,13 +1614,17 @@ void Bot::clna_turn_end() {
     const int d0 = clna_pend.at >= 0 ? clna_pend.done : -16;
 #endif
     const auto r0 = bc::round_number();
+    clna_flush(false);  // queued CNX3 rows first
     // (the last stage also computes the h-only terms, ~8k more)
     while (clna_pend.at >= 0 && bc::round_number() == r0 &&
            bc::fuel_remaining() > static_cast<std::uint64_t>(CLNA_STAGE_MIN) + (clna_pend.done == 144 ? 9000u : 0u))
         clna_stage();
-    // skips of this turn's decisions, one row at the end of the turn instead of one per skip on the decision path:
-    // CNK <round> <slot> <id> <unpaired> <reference outside> <fuel guard> <no context>
-    if ((clna_skips[0] | clna_skips[1] | clna_skips[2] | clna_skips[3]) && bc::round_number() == r0) {
+    // skips since the last CNK row, one row at the end of a turn instead of one per skip on the decision path:
+    // CNK <round> <slot> <id> <unpaired> <reference outside> <fuel guard> <no context>. Only with a safe margin left:
+    // nn_turn_end spends down to its 1k reserve, and a write that runs out suspends the bot into the next turn, which
+    // then ends unplayed (an unguarded CNK raised fuel-outs 461 -> ~1100 on the 30 dev cells); else the counts carry over.
+    if ((clna_skips[0] | clna_skips[1] | clna_skips[2] | clna_skips[3]) && bc::round_number() == r0 &&
+        bc::fuel_remaining() > 4000u) {
         char* k = clna_rstr(clna_rbuf, "CNK ");
         k = clna_rint(k, round), *k++ = ' ', k = clna_rint(k, slot), *k++ = ' ', k = clna_rint(k, static_cast<long>(my_id));
         for (int i = 0; i < 4; ++i) *k++ = ' ', k = clna_rint(k, clna_skips[i]), clna_skips[i] = 0;
@@ -1597,6 +1637,7 @@ void Bot::clna_turn_end() {
     o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(f0));
     *o++ = ' ', o = clna_rint(o, static_cast<long>(bc::fuel_remaining())), *o++ = ' ', o = clna_rint(o, d0 / 16);
     *o++ = ' ', o = clna_rint(o, clna_pend.at >= 0 ? clna_pend.done / 16 : 10), *o++ = ' ', o = clna_rint(o, clna_act.at);
+    *o++ = ' ', o = clna_rint(o, clna_memo_hits), *o++ = ' ', o = clna_rint(o, clna_memo_misses);  // (cumulative)
     *o++ = '\n';
     std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
 #endif
