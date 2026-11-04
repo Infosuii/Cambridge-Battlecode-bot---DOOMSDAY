@@ -1,0 +1,733 @@
+{
+  "schema": "jd-eval-map-candidate-v1",
+  "status": "PROVISIONAL_REQUIRES_GEOMETRY_AUDIT",
+  "pool": "local cambc SDK maps; source authority must be pinned in the final runner",
+  "selection": "stable SHA256 family order; prior exposed maps forced to development; no match results used",
+  "family_method": "conservative name groups plus exact-file duplicates; NOT a certified topology clustering",
+  "holdout_claim": "reserved from our future tuning only; Agent2/pretraining exposure unknown",
+  "seal_requirements": [
+    "R1 extracts official-engine dimensions, symmetry, terrain/camp/altar/spawn geometry without using match outcomes",
+    "Group rotated/reflected/near-duplicate geometry and variants together; resolve cross-split families",
+    "Audit prior own training/evaluation exposure; move any exposed confirmation family to development",
+    "Check size/topology/resource coverage in each split before any confirmation result is viewed",
+    "Publish final manifest hash before candidate selection; reject map hash mismatches",
+    "Record first confirmation access; revealed outcomes cannot guide hyperparameter tuning"
+  ],
+  "runtime": {
+    "fuel_per_turn": 100000,
+    "sides": [
+      "A",
+      "B"
+    ],
+    "independent_policy_seeds": [
+      110401,
+      110402,
+      110403
+    ],
+    "deterministic_repeats": "one result per identical deterministic setup; seeds must affect actual policy/game RNG"
+  },
+  "maps": [
+    {
+      "file": "00ambush.map26a",
+      "sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579",
+      "bytes": 23272,
+      "family": "ambush",
+      "previously_exposed": true,
+      "split": "development"
+    },
+    {
+      "file": "00anvil.map26a",
+      "sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+      "bytes": 1442,
+      "family": "anvil",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00breadcrumbs.map26a",
+      "sha256": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+      "bytes": 8126,
+      "family": "breadcrumbs",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00collision.map26a",
+      "sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "bytes": 1367,
+      "family": "collision",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00contest.map26a",
+      "sha256": "554240a5a793f8c1ac9c518cb6edbacab0129ec4dfd94b199331aaebd0bf418a",
+      "bytes": 806,
+      "family": "contest",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "00corners.map26a",
+      "sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+      "bytes": 2642,
+      "family": "corners",
+      "previously_exposed": true,
+      "split": "development"
+    },
+    {
+      "file": "00crater.map26a",
+      "sha256": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+      "bytes": 5628,
+      "family": "crater",
+      "previously_exposed": true,
+      "split": "development"
+    },
+    {
+      "file": "00dunes.map26a",
+      "sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f",
+      "bytes": 16312,
+      "family": "dunes",
+      "previously_exposed": true,
+      "split": "development"
+    },
+    {
+      "file": "00eight.map26a",
+      "sha256": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+      "bytes": 1185,
+      "family": "eight",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00elkring.map26a",
+      "sha256": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+      "bytes": 524,
+      "family": "elkring",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "00expanse.map26a",
+      "sha256": "af4236f408f8450f7da871731f08ef80295f07fac86b541f6547639a78dc2205",
+      "bytes": 1358,
+      "family": "expanse",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00fragment.map26a",
+      "sha256": "46512bf4fe1fc57d1651b15d44c283cac69cfce1914a5000d19fab979f5b8bbb",
+      "bytes": 1071,
+      "family": "fracture",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00galaxy.map26a",
+      "sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+      "bytes": 15594,
+      "family": "galaxy",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00gem-fields.map26a",
+      "sha256": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+      "bytes": 8014,
+      "family": "gem-fields",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00gemfight.map26a",
+      "sha256": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+      "bytes": 533,
+      "family": "gemfight",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00great-wall.map26a",
+      "sha256": "1b22e5c068175913889a1ff497d310de303a9b1ddf78672f26c0777fda9f5bf2",
+      "bytes": 5599,
+      "family": "great-wall",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00happy-halloween.map26a",
+      "sha256": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+      "bytes": 24689,
+      "family": "happy-halloween",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00interlock.map26a",
+      "sha256": "140e5bc3ac11c7f74dfc4ed99cc53739a34be8d3f71a7f4d0520dc4a3c197e19",
+      "bytes": 1614,
+      "family": "interlock",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00lanes.map26a",
+      "sha256": "8ca26ed2ea65c7d80ceb9604a7431ca1dc056922912b4e2f46cad06051e4886a",
+      "bytes": 807,
+      "family": "lanes",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00lost-world.map26a",
+      "sha256": "566697c98eace1c84152f571e9e1fa0b54ec64e038e4695305c874bd3dc2bc6e",
+      "bytes": 4210,
+      "family": "lost-world",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00monolith.map26a",
+      "sha256": "ba5674bf2ab26336eb99df0c9e97c16b27bd231deffc023de1d873a05a558313",
+      "bytes": 1623,
+      "family": "monoliths",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "00oasis.map26a",
+      "sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+      "bytes": 1472,
+      "family": "oasis",
+      "previously_exposed": true,
+      "split": "development"
+    },
+    {
+      "file": "00packs.map26a",
+      "sha256": "60ee7a86ee377a04a77d11008b78aaed9e2c1cfcfc4302055974195e078c675a",
+      "bytes": 306,
+      "family": "packs",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00pilgrimage.map26a",
+      "sha256": "7d7ddb9c37c77cd8b3721423e155400d936eaa76fa3c62fe24b308d0fd5eb673",
+      "bytes": 10274,
+      "family": "pilgrimage",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00quadrants.map26a",
+      "sha256": "261fe6c133f076653bda84e88965dc35c5a59a70e7730082b4c6df9ca892df92",
+      "bytes": 7031,
+      "family": "quadrants",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00quarry.map26a",
+      "sha256": "cc08a95cc527bfab7bab7a8a04ad1cb77ca5f541094c1432d45e889e8e34bc9a",
+      "bytes": 2582,
+      "family": "quarry",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00reverse-spiral.map26a",
+      "sha256": "f57669ffc98b76a5c2e4eccba41690dc193efc29f067ee960605617b2cfb48e5",
+      "bytes": 1556,
+      "family": "reverse-spiral",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00ribs.map26a",
+      "sha256": "ac8b03e975303908d08c098cc41f998a0bcfaf90bbcbcc2fda3f22a92c0c9d6f",
+      "bytes": 8790,
+      "family": "ribs",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00road-of-riches.map26a",
+      "sha256": "8365e18788720a079a906c0430e809317236acecccf888b517a1de409689b049",
+      "bytes": 5165,
+      "family": "road-of-riches",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00rows.map26a",
+      "sha256": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+      "bytes": 5288,
+      "family": "rows",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00rushbait-v2.map26a",
+      "sha256": "f4dcc30269aa7d0983e7d244f72c3d2a9a6d7ce918cd00495d465b78b2609157",
+      "bytes": 941,
+      "family": "rushbait",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00split.map26a",
+      "sha256": "1db691b7def9cb585314c7c4139ef1b79df87fcdbfab9d86ef31666c4709a4c4",
+      "bytes": 2742,
+      "family": "split",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00stampede.map26a",
+      "sha256": "49807e4756ec1b2030ed2ca7ebdd8a07f1a6ed7f2d2bd751e6941f5c0c877cdc",
+      "bytes": 6805,
+      "family": "stampede",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "00swirl.map26a",
+      "sha256": "e6f860670947b1326f34c86515db8ef6893c565eaa69e3f9a6464ec5744e1c93",
+      "bytes": 1112,
+      "family": "swirl",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00the-line.map26a",
+      "sha256": "87a410356a18a703909b980eafb4888780e3785509ce54ff59ded5295b6acd7d",
+      "bytes": 2292,
+      "family": "the-line",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "00vault.map26a",
+      "sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454",
+      "bytes": 1450,
+      "family": "vault",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01big-world.map26a",
+      "sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "bytes": 20381,
+      "family": "big-world",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01boss-battle.map26a",
+      "sha256": "53086e249294aed6f427fe647d578303589a081e953c62a0ff8f20cade9993fa",
+      "bytes": 591,
+      "family": "boss-battle",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01broken-curve.map26a",
+      "sha256": "1763423b171f3b61128b2a913a10f46ba550e7a2e79ae27dd89e915c952b5117",
+      "bytes": 9973,
+      "family": "broken-curve",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "01concentrated-wealth.map26a",
+      "sha256": "dc09c386d5e9dec3cec8bc4575c19d43233e08790e138ccd02be4644f2808c65",
+      "bytes": 10236,
+      "family": "concentrated-wealth",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01corridors.map26a",
+      "sha256": "794132d979b297de5a534da393af8932cd2d5cc9d831e79d2cefdb4617d4d5e8",
+      "bytes": 69117,
+      "family": "corridors",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01elk-arena.map26a",
+      "sha256": "72b8e03bc4378d5f988f9c1c07609848bfb42fd8a883cce01820d96212f21c0a",
+      "bytes": 19804,
+      "family": "arenas",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01fracture.map26a",
+      "sha256": "f82a1b99a7a70f8ab21f275dc8e22fbad6a71030f09fdd224d61977fe55dd914",
+      "bytes": 57292,
+      "family": "fracture",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01gold-rush.map26a",
+      "sha256": "6e564fdf09fdf67a4182a909d6985737b488742e64f2c3e164204e78bc64c898",
+      "bytes": 650,
+      "family": "gold-rush",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01hooks.map26a",
+      "sha256": "23e58fe8f41ff66761ade251d3d10a9c3eead864f9ad74f12ad9e34f4bece378",
+      "bytes": 4165,
+      "family": "hooks",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "01islands.map26a",
+      "sha256": "d97cf04b738393812fb51024582e2a6cfba8a850b19ce031f2c1ad3d7b916acb",
+      "bytes": 22234,
+      "family": "islands",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01shortcut.map26a",
+      "sha256": "f77db387292e66a8aad7e912c179787db0c41b6632ee841a21593dfc279ecb3a",
+      "bytes": 4346,
+      "family": "shortcut",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01starfish.map26a",
+      "sha256": "1edf115a0a788c010107148f975570961acc8e9fba4a013ad60f5ca2389cbb83",
+      "bytes": 8223,
+      "family": "starfish",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "01starvation.map26a",
+      "sha256": "0b8e85603a85ca5778f92d2975c56da0e4b8df59264c42eef23108f8bbceec2a",
+      "bytes": 25161,
+      "family": "scarcity",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "01the-farm.map26a",
+      "sha256": "5cca9ed6eaaf6ef15a170a4ea78488237fda7b256e182a2e3360a14b485e09c3",
+      "bytes": 3244,
+      "family": "the-farm",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "01yellow-brick-road.map26a",
+      "sha256": "130453395278cdabb1ff80564357a99ca8394afaef006fdede8beb88924a8fa0",
+      "bytes": 15319,
+      "family": "yellow-brick-road",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "02arena.map26a",
+      "sha256": "191d904740e972d8ab513b323255018701723a8a4d9e1fff732566189ee7b920",
+      "bytes": 2856,
+      "family": "arenas",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02crossing.map26a",
+      "sha256": "11284b5deab36a11eb579d6cce80a47840ede50fb3a121e819932597bb95718f",
+      "bytes": 8109,
+      "family": "crossing",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02cuts.map26a",
+      "sha256": "b60c732505e53619dbd70697d9dad545525beae940954d5e84ddaf0874d413c0",
+      "bytes": 9877,
+      "family": "cuts",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "02famine.map26a",
+      "sha256": "e619b259b476d0e99d13b5097e31d4af24aeca9afd1d5419eb0984c939672a58",
+      "bytes": 14037,
+      "family": "scarcity",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02fields.map26a",
+      "sha256": "2be7c5f1ec0fb50718565c9b4e60159b0e4768232fa6c4917077e989451f9695",
+      "bytes": 36985,
+      "family": "fields",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02geodes.map26a",
+      "sha256": "12b1d1a4ac658c95fe2625e9aa8b66143d77e1d8399fb7a75de033d7ac4a784e",
+      "bytes": 21246,
+      "family": "geodes",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "02gift-wrapping.map26a",
+      "sha256": "98be2c3fb8a499cc2fa797aebdfce7925524aaa63238308cb4068f932012b2c0",
+      "bytes": 1605,
+      "family": "gift-wrapping",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02guardians.map26a",
+      "sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09",
+      "bytes": 13513,
+      "family": "guardians",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "02harvest.map26a",
+      "sha256": "f8b2814ded9e65bb8c0623e7b715259f56e33b63f363561280916a3a4181511f",
+      "bytes": 81004,
+      "family": "harvest",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02stalactites.map26a",
+      "sha256": "30b6943d5d93b0bc4b6e28ef1e4f32fe581e7050332030e30cd7453d61fa8ba6",
+      "bytes": 1093,
+      "family": "stalactites",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02tangle.map26a",
+      "sha256": "6b340bd80e0cc5fc93794ff0d8661f13087cdc8840324b0aa7f85baa076acd3e",
+      "bytes": 42910,
+      "family": "tangle",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02the-pack.map26a",
+      "sha256": "0ef770de4babebf37a6425a8adeb3fac6dec286d0d24b47268ed39f7a4fa4a5e",
+      "bytes": 3841,
+      "family": "the-pack",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02the-pond.map26a",
+      "sha256": "216f697ab34a7dd9785c1026a49faca6b3f840fbf150c3b89ff136590d8e7972",
+      "bytes": 8098,
+      "family": "the-pond",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "02treasure-box.map26a",
+      "sha256": "c5df4adcd74d20398b403f558f2939a062883563d07dc0205008df1f1d0b8bc5",
+      "bytes": 1118,
+      "family": "treasure-box",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "02uncharted-lands.map26a",
+      "sha256": "2ddd507b959881bfd2907877916cf15b1e113bac41c5816bcdb7251137037b23",
+      "bytes": 14451,
+      "family": "uncharted-lands",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03ambush-field.map26a",
+      "sha256": "8f6cb1112f89cc99ee4a9f9eadc9f84423168f7e4d518510035ab05b48540c2e",
+      "bytes": 387142,
+      "family": "ambush",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "03colosseum.map26a",
+      "sha256": "56946ee065c6ac1cf50cdcd2afca5df8b40adf4f410811f104e706d2184fb998",
+      "bytes": 6279,
+      "family": "arenas",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03contours.map26a",
+      "sha256": "65cc21a8265cd1a88b1662bb3e60043b08b8eab13c6e621a417bbd9d25db3cbc",
+      "bytes": 18298,
+      "family": "contours",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03fan.map26a",
+      "sha256": "6a6162795278f6eff403d0707957a051b6a8884f341b256d3b7d5b00d0c3fefa",
+      "bytes": 3813,
+      "family": "fan",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03homonoliths.map26a",
+      "sha256": "f95e09158a7125a4100eb64535309b2583fdbe567d69afe5b14db11d2488a11f",
+      "bytes": 11263,
+      "family": "monoliths",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "03honeycomb.map26a",
+      "sha256": "d03a580f7ad481987c206a26f6dcdcec1e00554ed6286d9d843473fa7972fe7b",
+      "bytes": 30767,
+      "family": "honeycomb",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03membrane.map26a",
+      "sha256": "268c6be6fa79f1e55e05945ed7fd3687b8ebcedbc20a7ff4e74c57afd3fb432c",
+      "bytes": 2684,
+      "family": "membrane",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "03one-gem.map26a",
+      "sha256": "3c3708e21b3bfc1083ed164425240c12836225b1ba33128b8d80bdf37b6634b2",
+      "bytes": 10246,
+      "family": "scarcity",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03reef.map26a",
+      "sha256": "5229b404c5f9f08c1566dd54f7e77249061e8ce31af52891abc41d528323da6b",
+      "bytes": 59602,
+      "family": "reef",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "03riverbed.map26a",
+      "sha256": "66b7dcc7ff2b90f13458f282739d5c68da5e3a879b6dbaa57d2cfdf0f6793ba1",
+      "bytes": 8719,
+      "family": "riverbed",
+      "previously_exposed": false,
+      "split": "confirmation_reserved"
+    },
+    {
+      "file": "03showdown.map26a",
+      "sha256": "6dd5c0bb02ac046e06ffc49f2c98cd2d1087fb21866348af26a15a2456bff5f3",
+      "bytes": 4994,
+      "family": "arenas",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03shrines.map26a",
+      "sha256": "77a36faca7294e02ed8f34f5de93a71d208f824dd1c01669979b51c8aeae255e",
+      "bytes": 1799,
+      "family": "shrines",
+      "previously_exposed": false,
+      "split": "development"
+    },
+    {
+      "file": "03the-front.map26a",
+      "sha256": "1b7cdfe0b493ee2a417d4f2360f0a9995caa2c535b11858c53c87aef15f19d3f",
+      "bytes": 5088,
+      "family": "the-front",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03twisty.map26a",
+      "sha256": "64d42316247a0c23038d70cfb061095795470d1be61844e3c8ef104b64fa2342",
+      "bytes": 35190,
+      "family": "twisty",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "03ultrastarvation.map26a",
+      "sha256": "36f02410ca37decf42f7c7d5a23b4cb9cd872ed29ecddc1bca08e90a9474871a",
+      "bytes": 1408,
+      "family": "scarcity",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "adgato-gemcombat1.map26a",
+      "sha256": "3ad3afd3b410c72ca0d391a079943d1a290b330f996d56731686eae7b7deb8c8",
+      "bytes": 1218,
+      "family": "adgato-gemcombat",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "adgato-gemcombat2.map26a",
+      "sha256": "6a80b81c990b4f265ac4f0635eb14e9be5ef5f94c65cf369b71d7de5b2616bba",
+      "bytes": 2694,
+      "family": "adgato-gemcombat",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "adgato-gemcombat3.map26a",
+      "sha256": "6697453daa8572ac15c184d65864648af1bbbba6f145d69ec6ad18907ceb440c",
+      "bytes": 12189,
+      "family": "adgato-gemcombat",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "adgato-gemcombat4.map26a",
+      "sha256": "cea78b0dd915a9f98156ac2acb002057397f5f165e279bf5bbbf007ad54695e0",
+      "bytes": 2705,
+      "family": "adgato-gemcombat",
+      "previously_exposed": false,
+      "split": "training"
+    },
+    {
+      "file": "adgato-gemcombat5.map26a",
+      "sha256": "b45e01d8e49ef092563983d20306d877fd8a951852c4f4569da79c78db6f6022",
+      "bytes": 61721,
+      "family": "adgato-gemcombat",
+      "previously_exposed": false,
+      "split": "training"
+    }
+  ],
+  "counts": {
+    "training": {
+      "maps": 50,
+      "families": 40
+    },
+    "development": {
+      "maps": 15,
+      "families": 13
+    },
+    "confirmation_reserved": {
+      "maps": 21,
+      "families": 20
+    }
+  }
+}
