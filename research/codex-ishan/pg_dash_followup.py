@@ -53,12 +53,14 @@ def read_turn(directory, round_number, side, actor):
     return state
 
 
-def verify(wasm, escape_only=False, *, heart_attack=False):
+def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False):
     exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
     assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
     name = "pg-escape-followup" if escape_only else "pg-dash-followup"
     if heart_attack:
         name = "pg-heart-attack"
+    if travel_tail:
+        name = "pg-travel-tail"
     bench.OUT = bench.CACHE / f"{name}-stress"
     (bench.OUT / "games").mkdir(parents=True)
     jobs = []
@@ -81,6 +83,8 @@ def verify(wasm, escape_only=False, *, heart_attack=False):
     targets = CASES[1:2] if escape_only else CASES[1:]
     if heart_attack:
         targets = CASES[:2]
+    if travel_tail:
+        targets = CASES
     for _, mp, opponent, side, round_number, actor, champion, _ in targets:
         b, c = next((b, c) for b, c in pairs if (b["map"], b["opponent"], b["side"]) == (mp, opponent, side))
         old, new = (read_turn(bench.OUT / "games" / f"{r['arm']}-0-{opponent}-{mp}-{side}", round_number, side, actor)
