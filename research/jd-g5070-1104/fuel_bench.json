@@ -4555,6 +4555,2045 @@
     "e_stand->enemies": 2,
     "sg_los->sg_seeing": 2
    }
+  },
+  "diag-fprof-04": {
+   "note": "1k-fuel histogram percentiles (upper bin edge); \"stage*\" rows aggregate names; value = fuel from the previous checkpoint to this one",
+   "rows": [
+    {
+     "name": "TURN",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 146162,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 180495
+    },
+    {
+     "name": "TURN*",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 146162,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 180495
+    },
+    {
+     "name": "other*",
+     "phase": "first_turn",
+     "n": 1871,
+     "mean": 17364,
+     "p50": 10000,
+     "p95": 43000,
+     "p99": 48000,
+     "max": 47259
+    },
+    {
+     "name": "group_loop",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35187,
+     "p50": 37000,
+     "p95": 48000,
+     "p99": 48000,
+     "max": 47259
+    },
+    {
+     "name": "fields",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 20921,
+     "p50": 16000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49917
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 20921,
+     "p50": 16000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49917
+    },
+    {
+     "name": "spawn_field",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 19624,
+     "p50": 21000,
+     "p95": 31000,
+     "p99": 31000,
+     "max": 30202
+    },
+    {
+     "name": "observe*",
+     "phase": "first_turn",
+     "n": 5612,
+     "mean": 1545,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "init",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 16319,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 45000,
+     "max": 44039
+    },
+    {
+     "name": "first_turn_init*",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 16319,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 45000,
+     "max": 44039
+    },
+    {
+     "name": "w_champs",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 9063,
+     "p50": 11000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "farm_route*",
+     "phase": "first_turn",
+     "n": 1582,
+     "mean": 2329,
+     "p50": 1000,
+     "p95": 29000,
+     "p99": 33000,
+     "max": 32602
+    },
+    {
+     "name": "tables",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 7381,
+     "p50": 8000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10726
+    },
+    {
+     "name": "boards",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 7243,
+     "p50": 8000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7969
+    },
+    {
+     "name": "field",
+     "phase": "first_turn",
+     "n": 180,
+     "mean": 17521,
+     "p50": 8000,
+     "p95": 33000,
+     "p99": 33000,
+     "max": 32602
+    },
+    {
+     "name": "claims",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6223,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6223,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "vision*",
+     "phase": "first_turn",
+     "n": 936,
+     "mean": 2739,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 8000,
+     "max": 7249
+    },
+    {
+     "name": "wardrev",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 5422,
+     "p50": 6000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7249
+    },
+    {
+     "name": "w_vis",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 3470,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3977
+    },
+    {
+     "name": "w_hot",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2421,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4383
+    },
+    {
+     "name": "w_groups",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2076,
+     "p50": 3000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2577
+    },
+    {
+     "name": "w_ward",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 865,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1059
+    },
+    {
+     "name": "farm0",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 642,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 700
+    },
+    {
+     "name": "shop",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 635,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 635
+    },
+    {
+     "name": "shop*",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 635,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 635
+    },
+    {
+     "name": "d_farm",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 385,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 413
+    },
+    {
+     "name": "refresh",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "support",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "support_casts*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "decide",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "decide_other*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "d_opp",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 110,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 110
+    },
+    {
+     "name": "tail",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 95,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 95
+    },
+    {
+     "name": "tail*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 95,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 95
+    },
+    {
+     "name": "sight",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 74,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 74
+    },
+    {
+     "name": "enemies",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "contact*",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "ambush",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "world",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "w_sight",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "events",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "w_update",
+     "phase": "first_turn",
+     "n": 467,
+     "mean": 42,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 42
+    },
+    {
+     "name": "end",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "episode",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "TURN",
+     "phase": "ordinary",
+     "n": 343237,
+     "mean": 55016,
+     "p50": 60000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99453
+    },
+    {
+     "name": "TURN*",
+     "phase": "ordinary",
+     "n": 343237,
+     "mean": 55016,
+     "p50": 60000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99453
+    },
+    {
+     "name": "farm_route*",
+     "phase": "ordinary",
+     "n": 3585530,
+     "mean": 3359,
+     "p50": 1000,
+     "p95": 22000,
+     "p99": 30000,
+     "max": 62746
+    },
+    {
+     "name": "observe*",
+     "phase": "ordinary",
+     "n": 4070909,
+     "mean": 1062,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 87234
+    },
+    {
+     "name": "farmsel",
+     "phase": "ordinary",
+     "n": 298190,
+     "mean": 14076,
+     "p50": 15000,
+     "p95": 33000,
+     "p99": 47000,
+     "max": 61116
+    },
+    {
+     "name": "route0",
+     "phase": "ordinary",
+     "n": 128211,
+     "mean": 18331,
+     "p50": 19000,
+     "p95": 26000,
+     "p99": 29000,
+     "max": 30879
+    },
+    {
+     "name": "c_walked",
+     "phase": "ordinary",
+     "n": 139447,
+     "mean": 11949,
+     "p50": 12000,
+     "p95": 19000,
+     "p99": 23000,
+     "max": 41057
+    },
+    {
+     "name": "vision*",
+     "phase": "ordinary",
+     "n": 655070,
+     "mean": 2154,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 9000,
+     "max": 53778
+    },
+    {
+     "name": "wardrev",
+     "phase": "ordinary",
+     "n": 327873,
+     "mean": 4231,
+     "p50": 6000,
+     "p95": 7000,
+     "p99": 10000,
+     "max": 53778
+    },
+    {
+     "name": "route1",
+     "phase": "ordinary",
+     "n": 128026,
+     "mean": 10254,
+     "p50": 11000,
+     "p95": 17000,
+     "p99": 23000,
+     "max": 33755
+    },
+    {
+     "name": "w_champs",
+     "phase": "ordinary",
+     "n": 348286,
+     "mean": 2915,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 6000,
+     "max": 7136
+    },
+    {
+     "name": "w_groups",
+     "phase": "ordinary",
+     "n": 347397,
+     "mean": 2893,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 5376
+    },
+    {
+     "name": "w_vis",
+     "phase": "ordinary",
+     "n": 347527,
+     "mean": 2739,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 9000,
+     "max": 87234
+    },
+    {
+     "name": "w_hot",
+     "phase": "ordinary",
+     "n": 348127,
+     "mean": 2262,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4484
+    },
+    {
+     "name": "farm0",
+     "phase": "ordinary",
+     "n": 297893,
+     "mean": 2585,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 18000,
+     "max": 29484
+    },
+    {
+     "name": "d_farm",
+     "phase": "ordinary",
+     "n": 298105,
+     "mean": 2457,
+     "p50": 1000,
+     "p95": 14000,
+     "p99": 19000,
+     "max": 31245
+    },
+    {
+     "name": "claims",
+     "phase": "ordinary",
+     "n": 342926,
+     "mean": 1769,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2429
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "ordinary",
+     "n": 342926,
+     "mean": 1769,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2429
+    },
+    {
+     "name": "w_ward",
+     "phase": "ordinary",
+     "n": 348180,
+     "mean": 774,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 30468
+    },
+    {
+     "name": "decide",
+     "phase": "ordinary",
+     "n": 327960,
+     "mean": 756,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 37051
+    },
+    {
+     "name": "decide_other*",
+     "phase": "ordinary",
+     "n": 327960,
+     "mean": 756,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 37051
+    },
+    {
+     "name": "f_camps",
+     "phase": "ordinary",
+     "n": 200676,
+     "mean": 1234,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 15000,
+     "max": 27033
+    },
+    {
+     "name": "c_zones",
+     "phase": "ordinary",
+     "n": 201037,
+     "mean": 1110,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 2844
+    },
+    {
+     "name": "refresh",
+     "phase": "ordinary",
+     "n": 343333,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "farmmove",
+     "phase": "ordinary",
+     "n": 297987,
+     "mean": 367,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1107
+    },
+    {
+     "name": "s_inc",
+     "phase": "ordinary",
+     "n": 200737,
+     "mean": 455,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2704
+    },
+    {
+     "name": "field",
+     "phase": "ordinary",
+     "n": 7600,
+     "mean": 11403,
+     "p50": 11000,
+     "p95": 20000,
+     "p99": 21000,
+     "max": 24287
+    },
+    {
+     "name": "support",
+     "phase": "ordinary",
+     "n": 327493,
+     "mean": 234,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1209
+    },
+    {
+     "name": "support_casts*",
+     "phase": "ordinary",
+     "n": 327493,
+     "mean": 234,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1209
+    },
+    {
+     "name": "tail",
+     "phase": "ordinary",
+     "n": 328097,
+     "mean": 230,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4647
+    },
+    {
+     "name": "tail*",
+     "phase": "ordinary",
+     "n": 328097,
+     "mean": 230,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4647
+    },
+    {
+     "name": "sight",
+     "phase": "ordinary",
+     "n": 328481,
+     "mean": 229,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1707
+    },
+    {
+     "name": "score0",
+     "phase": "ordinary",
+     "n": 292797,
+     "mean": 224,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2687
+    },
+    {
+     "name": "fields",
+     "phase": "ordinary",
+     "n": 328293,
+     "mean": 148,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40417
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "ordinary",
+     "n": 328293,
+     "mean": 148,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40417
+    },
+    {
+     "name": "shop",
+     "phase": "ordinary",
+     "n": 328475,
+     "mean": 124,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 6659
+    },
+    {
+     "name": "shop*",
+     "phase": "ordinary",
+     "n": 328475,
+     "mean": 124,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 6659
+    },
+    {
+     "name": "c_safe",
+     "phase": "ordinary",
+     "n": 184239,
+     "mean": 194,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 545
+    },
+    {
+     "name": "d_opp",
+     "phase": "ordinary",
+     "n": 298728,
+     "mean": 114,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 141
+    },
+    {
+     "name": "w_sight",
+     "phase": "ordinary",
+     "n": 348044,
+     "mean": 90,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2441
+    },
+    {
+     "name": "c_cast",
+     "phase": "ordinary",
+     "n": 52565,
+     "mean": 568,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 9000,
+     "max": 12753
+    },
+    {
+     "name": "events",
+     "phase": "ordinary",
+     "n": 327829,
+     "mean": 81,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 331
+    },
+    {
+     "name": "c_pick2",
+     "phase": "ordinary",
+     "n": 106997,
+     "mean": 225,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1357
+    },
+    {
+     "name": "ambush",
+     "phase": "ordinary",
+     "n": 327197,
+     "mean": 72,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 51917
+    },
+    {
+     "name": "c_brk0",
+     "phase": "ordinary",
+     "n": 768,
+     "mean": 26646,
+     "p50": 29000,
+     "p95": 37000,
+     "p99": 38000,
+     "max": 41473
+    },
+    {
+     "name": "enemies",
+     "phase": "ordinary",
+     "n": 327764,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 13276
+    },
+    {
+     "name": "contact*",
+     "phase": "ordinary",
+     "n": 327764,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 13276
+    },
+    {
+     "name": "world",
+     "phase": "ordinary",
+     "n": 327857,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 290
+    },
+    {
+     "name": "end",
+     "phase": "ordinary",
+     "n": 343374,
+     "mean": 51,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2506
+    },
+    {
+     "name": "tail_end*",
+     "phase": "ordinary",
+     "n": 343374,
+     "mean": 51,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2506
+    },
+    {
+     "name": "w_update",
+     "phase": "ordinary",
+     "n": 327956,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2350
+    },
+    {
+     "name": "s_stage",
+     "phase": "ordinary",
+     "n": 15610,
+     "mean": 969,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1868
+    },
+    {
+     "name": "episode",
+     "phase": "ordinary",
+     "n": 327892,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "f_alive",
+     "phase": "ordinary",
+     "n": 200752,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "c_pick1",
+     "phase": "ordinary",
+     "n": 32321,
+     "mean": 223,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 701
+    },
+    {
+     "name": "c_staged",
+     "phase": "ordinary",
+     "n": 184418,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "s_dps",
+     "phase": "ordinary",
+     "n": 16230,
+     "mean": 197,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_los",
+     "phase": "ordinary",
+     "n": 571,
+     "mean": 4968,
+     "p50": 2000,
+     "p95": 22000,
+     "p99": 61000,
+     "max": 62746
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "ordinary",
+     "n": 550,
+     "mean": 2908,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3613
+    },
+    {
+     "name": "sg_ring",
+     "phase": "ordinary",
+     "n": 550,
+     "mean": 746,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 930
+    },
+    {
+     "name": "sg_init",
+     "phase": "ordinary",
+     "n": 525,
+     "mean": 561,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 28000,
+     "max": 48389
+    },
+    {
+     "name": "TURN",
+     "phase": "contact",
+     "n": 47513,
+     "mean": 50462,
+     "p50": 51000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99484
+    },
+    {
+     "name": "TURN*",
+     "phase": "contact",
+     "n": 47513,
+     "mean": 50462,
+     "p50": 51000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99484
+    },
+    {
+     "name": "observe*",
+     "phase": "contact",
+     "n": 575536,
+     "mean": 1385,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 86023
+    },
+    {
+     "name": "contact*",
+     "phase": "contact",
+     "n": 415048,
+     "mean": 1815,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 28000,
+     "max": 48932
+    },
+    {
+     "name": "farm_route*",
+     "phase": "contact",
+     "n": 187513,
+     "mean": 3300,
+     "p50": 1000,
+     "p95": 21000,
+     "p99": 28000,
+     "max": 51818
+    },
+    {
+     "name": "e_td",
+     "phase": "contact",
+     "n": 29171,
+     "mean": 14790,
+     "p50": 8000,
+     "p95": 30000,
+     "p99": 32000,
+     "max": 43415
+    },
+    {
+     "name": "farmsel",
+     "phase": "contact",
+     "n": 16583,
+     "mean": 15215,
+     "p50": 21000,
+     "p95": 30000,
+     "p99": 36000,
+     "max": 51818
+    },
+    {
+     "name": "w_champs",
+     "phase": "contact",
+     "n": 48359,
+     "mean": 3774,
+     "p50": 4000,
+     "p95": 6000,
+     "p99": 7000,
+     "max": 9936
+    },
+    {
+     "name": "enemies",
+     "phase": "contact",
+     "n": 47509,
+     "mean": 3189,
+     "p50": 3000,
+     "p95": 11000,
+     "p99": 17000,
+     "max": 48932
+    },
+    {
+     "name": "w_groups",
+     "phase": "contact",
+     "n": 48429,
+     "mean": 3043,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 5414
+    },
+    {
+     "name": "w_vis",
+     "phase": "contact",
+     "n": 48393,
+     "mean": 2834,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 8000,
+     "max": 86023
+    },
+    {
+     "name": "w_hot",
+     "phase": "contact",
+     "n": 48417,
+     "mean": 2687,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4441
+    },
+    {
+     "name": "farm0",
+     "phase": "contact",
+     "n": 16620,
+     "mean": 5936,
+     "p50": 3000,
+     "p95": 16000,
+     "p99": 22000,
+     "max": 31715
+    },
+    {
+     "name": "c_walked",
+     "phase": "contact",
+     "n": 8761,
+     "mean": 11047,
+     "p50": 11000,
+     "p95": 18000,
+     "p99": 21000,
+     "max": 29116
+    },
+    {
+     "name": "claims",
+     "phase": "contact",
+     "n": 47665,
+     "mean": 1849,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2438
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "contact",
+     "n": 47665,
+     "mean": 1849,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2438
+    },
+    {
+     "name": "w_update",
+     "phase": "contact",
+     "n": 47515,
+     "mean": 1458,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2564
+    },
+    {
+     "name": "e_bush",
+     "phase": "contact",
+     "n": 47184,
+     "mean": 1383,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 46038
+    },
+    {
+     "name": "decide",
+     "phase": "contact",
+     "n": 47588,
+     "mean": 1162,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 29046
+    },
+    {
+     "name": "decide_other*",
+     "phase": "contact",
+     "n": 47588,
+     "mean": 1162,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 29046
+    },
+    {
+     "name": "e_mid",
+     "phase": "contact",
+     "n": 38695,
+     "mean": 1374,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 7046
+    },
+    {
+     "name": "vision*",
+     "phase": "contact",
+     "n": 95130,
+     "mean": 530,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 7000,
+     "max": 82426
+    },
+    {
+     "name": "route0",
+     "phase": "contact",
+     "n": 2827,
+     "mean": 17600,
+     "p50": 18000,
+     "p95": 23000,
+     "p99": 25000,
+     "max": 26661
+    },
+    {
+     "name": "w_ward",
+     "phase": "contact",
+     "n": 48238,
+     "mean": 984,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 31185
+    },
+    {
+     "name": "wardrev",
+     "phase": "contact",
+     "n": 47519,
+     "mean": 982,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 8000,
+     "max": 82426
+    },
+    {
+     "name": "d_farm",
+     "phase": "contact",
+     "n": 16624,
+     "mean": 2771,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 16000,
+     "max": 24744
+    },
+    {
+     "name": "sight",
+     "phase": "contact",
+     "n": 47614,
+     "mean": 681,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2095
+    },
+    {
+     "name": "route1",
+     "phase": "contact",
+     "n": 2809,
+     "mean": 10624,
+     "p50": 11000,
+     "p95": 16000,
+     "p99": 19000,
+     "max": 28632
+    },
+    {
+     "name": "e_in",
+     "phase": "contact",
+     "n": 47541,
+     "mean": 578,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2830
+    },
+    {
+     "name": "w_sight",
+     "phase": "contact",
+     "n": 48274,
+     "mean": 496,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 3425
+    },
+    {
+     "name": "tail",
+     "phase": "contact",
+     "n": 47585,
+     "mean": 367,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1038
+    },
+    {
+     "name": "tail*",
+     "phase": "contact",
+     "n": 47585,
+     "mean": 367,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1038
+    },
+    {
+     "name": "refresh",
+     "phase": "contact",
+     "n": 47465,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "e_prestand",
+     "phase": "contact",
+     "n": 35251,
+     "mean": 404,
+     "p50": 1000,
+     "p95": 6000,
+     "p99": 8000,
+     "max": 12067
+    },
+    {
+     "name": "c_zones",
+     "phase": "contact",
+     "n": 10946,
+     "mean": 1142,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1684
+    },
+    {
+     "name": "support",
+     "phase": "contact",
+     "n": 47499,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4647
+    },
+    {
+     "name": "support_casts*",
+     "phase": "contact",
+     "n": 47499,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4647
+    },
+    {
+     "name": "f_camps",
+     "phase": "contact",
+     "n": 10939,
+     "mean": 856,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 11000,
+     "max": 18324
+    },
+    {
+     "name": "world",
+     "phase": "contact",
+     "n": 47567,
+     "mean": 146,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 342
+    },
+    {
+     "name": "farmmove",
+     "phase": "contact",
+     "n": 16610,
+     "mean": 350,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 402
+    },
+    {
+     "name": "fields",
+     "phase": "contact",
+     "n": 47602,
+     "mean": 107,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 113
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "contact",
+     "n": 47602,
+     "mean": 107,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 113
+    },
+    {
+     "name": "e_stand",
+     "phase": "contact",
+     "n": 34851,
+     "mean": 136,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 37737
+    },
+    {
+     "name": "s_inc",
+     "phase": "contact",
+     "n": 10938,
+     "mean": 412,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 1786
+    },
+    {
+     "name": "shop",
+     "phase": "contact",
+     "n": 47592,
+     "mean": 91,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6241
+    },
+    {
+     "name": "shop*",
+     "phase": "contact",
+     "n": 47592,
+     "mean": 91,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6241
+    },
+    {
+     "name": "ambush",
+     "phase": "contact",
+     "n": 47611,
+     "mean": 79,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 31733
+    },
+    {
+     "name": "score0",
+     "phase": "contact",
+     "n": 13307,
+     "mean": 213,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 570
+    },
+    {
+     "name": "d_opp",
+     "phase": "contact",
+     "n": 16613,
+     "mean": 159,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 577
+    },
+    {
+     "name": "events",
+     "phase": "contact",
+     "n": 47594,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 294
+    },
+    {
+     "name": "c_safe",
+     "phase": "contact",
+     "n": 10393,
+     "mean": 196,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 545
+    },
+    {
+     "name": "end",
+     "phase": "contact",
+     "n": 47609,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "contact",
+     "n": 47609,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "c_pick2",
+     "phase": "contact",
+     "n": 6931,
+     "mean": 242,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 897
+    },
+    {
+     "name": "episode",
+     "phase": "contact",
+     "n": 47671,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "e_prefight",
+     "phase": "contact",
+     "n": 12881,
+     "mean": 120,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4463
+    },
+    {
+     "name": "e_lock",
+     "phase": "contact",
+     "n": 47635,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "e_altar",
+     "phase": "contact",
+     "n": 47532,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "c_cast",
+     "phase": "contact",
+     "n": 2227,
+     "mean": 564,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 9000,
+     "max": 11673
+    },
+    {
+     "name": "e_noflee",
+     "phase": "contact",
+     "n": 26798,
+     "mean": 37,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 37
+    },
+    {
+     "name": "c_brk0",
+     "phase": "contact",
+     "n": 47,
+     "mean": 11797,
+     "p50": 10000,
+     "p95": 29000,
+     "p99": 29000,
+     "max": 28860
+    },
+    {
+     "name": "s_stage",
+     "phase": "contact",
+     "n": 484,
+     "mean": 1006,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1800
+    },
+    {
+     "name": "f_alive",
+     "phase": "contact",
+     "n": 10955,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "c_pick1",
+     "phase": "contact",
+     "n": 1820,
+     "mean": 236,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 515
+    },
+    {
+     "name": "c_staged",
+     "phase": "contact",
+     "n": 10407,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "sg_los",
+     "phase": "contact",
+     "n": 34,
+     "mean": 7683,
+     "p50": 2000,
+     "p95": 22000,
+     "p99": 22000,
+     "max": 21740
+    },
+    {
+     "name": "s_dps",
+     "phase": "contact",
+     "n": 536,
+     "mean": 214,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "contact",
+     "n": 34,
+     "mean": 2845,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3504
+    },
+    {
+     "name": "sg_ring",
+     "phase": "contact",
+     "n": 34,
+     "mean": 775,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 930
+    },
+    {
+     "name": "sg_init",
+     "phase": "contact",
+     "n": 34,
+     "mean": 64,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 64
+    },
+    {
+     "name": "TURN",
+     "phase": "dead",
+     "n": 17442,
+     "mean": 6661,
+     "p50": 5000,
+     "p95": 32000,
+     "p99": 44000,
+     "max": 57167
+    },
+    {
+     "name": "TURN*",
+     "phase": "dead",
+     "n": 17442,
+     "mean": 6661,
+     "p50": 5000,
+     "p95": 32000,
+     "p99": 44000,
+     "max": 57167
+    },
+    {
+     "name": "field",
+     "phase": "dead",
+     "n": 3241,
+     "mean": 17068,
+     "p50": 18000,
+     "p95": 24000,
+     "p99": 28000,
+     "max": 43398
+    },
+    {
+     "name": "farm_route*",
+     "phase": "dead",
+     "n": 3241,
+     "mean": 17068,
+     "p50": 18000,
+     "p95": 24000,
+     "p99": 28000,
+     "max": 43398
+    },
+    {
+     "name": "claims",
+     "phase": "dead",
+     "n": 17493,
+     "mean": 1838,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2188
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "dead",
+     "n": 17493,
+     "mean": 1838,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2188
+    },
+    {
+     "name": "end",
+     "phase": "dead",
+     "n": 17497,
+     "mean": 1654,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 49769
+    },
+    {
+     "name": "tail_end*",
+     "phase": "dead",
+     "n": 17497,
+     "mean": 1654,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 49769
+    },
+    {
+     "name": "TURN",
+     "phase": "crossed_round",
+     "n": 121,
+     "mean": 99816,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "TURN*",
+     "phase": "crossed_round",
+     "n": 121,
+     "mean": 99816,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "observe*",
+     "phase": "crossed_round",
+     "n": 38,
+     "mean": 78077,
+     "p50": 94000,
+     "p95": 96000,
+     "p99": 96000,
+     "max": 95709
+    },
+    {
+     "name": "w_vis",
+     "phase": "crossed_round",
+     "n": 32,
+     "mean": 92260,
+     "p50": 95000,
+     "p95": 96000,
+     "p99": 96000,
+     "max": 95709
+    },
+    {
+     "name": "wardrev",
+     "phase": "crossed_round",
+     "n": 15,
+     "mean": 91583,
+     "p50": 93000,
+     "p95": 93000,
+     "p99": 93000,
+     "max": 92611
+    },
+    {
+     "name": "vision*",
+     "phase": "crossed_round",
+     "n": 15,
+     "mean": 91583,
+     "p50": 93000,
+     "p95": 93000,
+     "p99": 93000,
+     "max": 92611
+    },
+    {
+     "name": "farm_route*",
+     "phase": "crossed_round",
+     "n": 28,
+     "mean": 47785,
+     "p50": 46000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61377
+    },
+    {
+     "name": "sg_init",
+     "phase": "crossed_round",
+     "n": 25,
+     "mean": 50016,
+     "p50": 46000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61377
+    },
+    {
+     "name": "sg_los",
+     "phase": "crossed_round",
+     "n": 2,
+     "mean": 38000,
+     "p50": 39000,
+     "p95": 39000,
+     "p99": 39000,
+     "max": 38000
+    },
+    {
+     "name": "contact*",
+     "phase": "crossed_round",
+     "n": 3,
+     "mean": 16323,
+     "p50": 2000,
+     "p95": 47000,
+     "p99": 47000,
+     "max": 46311
+    },
+    {
+     "name": "enemies",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 46311,
+     "p50": 47000,
+     "p95": 47000,
+     "p99": 47000,
+     "max": 46311
+    },
+    {
+     "name": "w_groups",
+     "phase": "crossed_round",
+     "n": 5,
+     "mean": 2436,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3331
+    },
+    {
+     "name": "farm0",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 11576,
+     "p50": 12000,
+     "p95": 12000,
+     "p99": 12000,
+     "max": 11576
+    },
+    {
+     "name": "w_champs",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 2400,
+     "p50": 3000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2400
+    },
+    {
+     "name": "e_mid",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 1712,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1712
+    },
+    {
+     "name": "e_in",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 945,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 945
+    }
+   ],
+   "perturbation": {
+    "cand": {
+     "n": 432451,
+     "p50": 65790,
+     "p95": 84066,
+     "p99": 90946,
+     "max": 100000,
+     "mean": 59473.9,
+     "suspensions": 136,
+     "engine_fuel_exhausted": 136
+    },
+    "base": {
+     "n": 436746,
+     "p50": 57225,
+     "p95": 78346,
+     "p99": 86335,
+     "max": 100000,
+     "mean": 51872.9,
+     "suspensions": 148,
+     "engine_fuel_exhausted": 147
+    }
+   },
+   "suspended_trails": [],
+   "suspended_at": {}
   }
  }
 }

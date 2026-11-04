@@ -5424,10 +5424,27 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 static std::vector<std::uint8_t> opq;
                 static int opq_w = 0, opq_h = 0;
 #if JD_GOV & 2
-                // JD_GOV bit 2: the opacity table is built once per VM (~6.75 fuel per map tile: 65k on 98x98, where it
-                // suspended mid-siege). Admit it only with its worst case plus the execute and tail reservations;
-                // refused, this turn uses the unfiltered ring (the same tiles as when no camp's sight table is ready).
-                if (opq.empty() && !rb::admit_optional(rb::kSiegeInit, 7ull * static_cast<std::uint64_t>(w.width * w.height) + 3000)) {
+                // JD_GOV bit 2: the opacity table was built in one go (~6.75 fuel per map tile: 65k on 98x98, where it
+                // suspended mid-siege). Build it row by row instead, each row admitted with the execute and tail
+                // reservations kept, resuming on later siege turns; it is used only once complete (same table as the
+                // one-shot build). Until then the turn uses the unfiltered ring (as when no camp's sight table is ready).
+                static int opq_rows = 0;
+                if (opq.empty()) {
+                    opq_w = bc::map::width(); opq_h = bc::map::height();
+                    opq.assign(static_cast<std::size_t>(opq_w * opq_h), 0);
+                }
+                {
+                    const bc::bitboard& walls = bc::map::walls();
+                    const std::uint64_t row_cost = 16ull * static_cast<std::uint64_t>(opq_w) + 300;
+                    while (opq_rows < opq_h && rb::admit_optional(rb::kSiegeInit, row_cost)) {
+                        for (int x = 0; x < opq_w; ++x) {
+                            const vec2 q{x, opq_rows};
+                            if (bit(walls, q) || bit(w.bushes, q)) opq[static_cast<std::size_t>(opq_rows * opq_w + x)] = 1;
+                        }
+                        ++opq_rows;
+                    }
+                }
+                if (opq_rows < opq_h) {
                     ring &= ~danger_zone & ~w.static_blocked;
                 } else {
 #endif

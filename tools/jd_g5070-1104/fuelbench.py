@@ -106,6 +106,7 @@ def cmd_probe(a):
     rows = collections.defaultdict(list)
     globals_seen, hosts, draft_hosts, cells, cross = [], [], [], [], []
     after_sus, settings = [], []
+    last_picks, slots = {}, collections.defaultdict(list)
     for c, g, st, rp in run_games(a.run):
         gi = game_info(st, rp, c['side'])
         settings.append(gi['budgets'])
@@ -123,6 +124,11 @@ def cmd_probe(a):
                     probe_draft.append(rec)
                 else:
                     per_type[t].append(rec)
+            elif ln.startswith('JDFP P picks'):
+                last_picks[g] = [int(x) for x in ln.split()[3:]]
+            elif ln.startswith('JDFP S self'):
+                p = ln.split()
+                slots[g].append(dict(self=int(p[3]), slots=p[5:]))
             elif ln.startswith('JDFP G'):
                 p = ln.split()
                 globals_seen.append(dict(marker=p[3], dm=int(p[5]), b0=int(p[7]), draft_turns_in_vm=int(p[9]), game=g))
@@ -145,6 +151,28 @@ def cmd_probe(a):
             cross.append(dict(game=g, draft_first_trace_used=tr[0][3], draft_first_budget=gi['budgets'][0],
                               probe_in=d0['fin'], probe_used=d0['fin'] - d0['fout'],
                               startup_before_main=gi['budgets'][0] - d0['fin']))
+    # Draft picks -> gameplay body slots: expand our final picks the way economy_record_roster does (Cassi+Issac =
+    # draft id 3 -> bodies 3, 4; draft ids above 3 shift by one) and compare with champions(ally) order.
+    def bodies(picks):
+        out = []
+        for pk in picks:
+            out += [3, 4] if pk == 3 else [pk + 1 if pk > 3 else pk]
+        return out
+    sm = dict(games=0, vms=0, order_match=0, order_mismatch=0, self_listed=0, unseen_allies=0, examples=[])
+    for g, vs in slots.items():
+        if g not in last_picks:
+            continue
+        sm['games'] += 1
+        exp = bodies(last_picks[g])
+        for v in vs:
+            sm['vms'] += 1
+            types = [int(s.rstrip('*')) for s in v['slots']]
+            sm['self_listed'] += any(s.endswith('*') and int(s.rstrip('*')) == v['self'] for s in v['slots'])
+            sm['unseen_allies'] += sum(t < 0 for t in types)
+            ok = len(types) == len(exp) and all(t < 0 or t == e for t, e in zip(types, exp))
+            sm['order_match' if ok else 'order_mismatch'] += 1
+            if not ok and len(sm['examples']) < 6:
+                sm['examples'].append(dict(game=g, picks=last_picks[g], expected=exp, slots=v['slots']))
     cfirst = rows['C']
     contract = dict(
         generated_by='tools/jd_g5070-1104/fuelbench.py probe --run ' + a.run,
@@ -190,13 +218,15 @@ def cmd_probe(a):
                                  df_per_chunk=summ([round(x['df'] / max(1, x['chunks']), 1) for x in hosts]),
                                  by_map=sorted({(x['w'], x['h'], x['chunks'], x['df']) for x in hosts})[:12]),
         host_calls_draft=draft_hosts[:8],
+        slot_mapping=sm,
         draft_trace_cross_check=cross[:8],
         agent2_E120=dict(draft_first=10_000_000, first_champion_turn=200_000, ordinary=100_000, carry_over=False,
                          v92_median=56_000, v92_p10_p90=[25_000, 71_000]),
     )
     (RESEARCH / 'fuel_contract.json').write_text(json.dumps(contract, indent=1), encoding='utf-8')
     print(json.dumps(contract['phases'], indent=1))
-    print(json.dumps({k: contract[k] for k in ('after_suspension', 'carry_over', 'draft_vm', 'host_calls_gameplay')}, indent=1))
+    print(json.dumps({k: contract[k] for k in ('after_suspension', 'carry_over', 'draft_vm', 'host_calls_gameplay',
+                                                'slot_mapping')}, indent=1))
     print('draft hosts', draft_hosts[:3])
 
 
@@ -357,10 +387,41 @@ def cmd_prof(a):
     print('perturbation', json.dumps(pert))
 
 
+def cmd_triggers(a):
+    """Sum the last cumulative JDGOV / JDMEM counter line of each body (per game) of a JD_GOVLOG/JD_MEMLOG build."""
+    tot, games_with = collections.Counter(), collections.Counter()
+    for c, g, st, rp in run_games(a.run):
+        last = {}
+        for ln in stdout_lines(rp, c['side']):
+            if ln.startswith(('JDGOV', 'JDMEM')):
+                p = ln.split()
+                last[(p[0], p[2])] = p[3:]
+        seen = set()
+        for (kind, _), v in last.items():
+            i = 0
+            while i + 1 < len(v):
+                if '/' in v[i + 1]:
+                    r, s = v[i + 1].split('/')
+                    tot[f'{v[i]}_ran'] += int(r)
+                    tot[f'{v[i]}_skipped'] += int(s)
+                    if int(s):
+                        seen.add(f'{v[i]}_skipped')
+                elif v[i + 1].isdigit():
+                    tot[v[i]] += int(v[i + 1])
+                    if int(v[i + 1]):
+                        seen.add(v[i])
+                i += 2
+        for k in seen:
+            games_with[k] += 1
+    out = dict(run=a.run, totals=dict(tot), games_with_trigger=dict(games_with))
+    (jdrun.EVAL / 'runs' / a.run / 'triggers.json').write_text(json.dumps(out, indent=1), encoding='utf-8')
+    print(json.dumps(out))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest='cmd', required=True)
-    for n, f in (('probe', cmd_probe), ('bench', cmd_bench), ('prof', cmd_prof)):
+    for n, f in (('probe', cmd_probe), ('bench', cmd_bench), ('prof', cmd_prof), ('triggers', cmd_triggers)):
         p = sp.add_parser(n)
         p.add_argument('--run', required=True)
         p.add_argument('--arm', default='cand')
