@@ -15,16 +15,17 @@ def prepare(src, enabled):
     add_guard(src, enabled)
 
 
-def verify(wasm, name, phases, baseline_file=None, selected_events=None):
+def verify(wasm, name, phases, baseline_file=None, selected_events=None, evidence="LARGE_ROSTER_COARSE.json"):
     profile = read(HERE / "LARGE_ROSTER_COARSE.json")
     key = lambda r: (r["map"], r["opponent"], r["side"])
     base_rows = read(baseline_file)["candidate"] if baseline_file else read(STRESS / "rows.json")
     by_cell = {key(r): r for r in base_rows}
     baseline = [by_cell[key(r)] for r in profile["rows"]]
     targets = {}
-    for join in profile["joins"]:
-        rounds = {int(re.search(r" R(\d+)", value).group(1)) for phase, value in join["examples"].items() if phase in phases}
-        selected = {(champion, rnd) for champion, rnd in join["matched_native"] if rnd in rounds and
+    for join in read(HERE / evidence)["joins"]:
+        rounds = {int(re.search(r" R(\d+)", value).group(1)) for phase, value in join["examples"].items()
+                  if phases is not None and phase in phases}
+        selected = {(champion, rnd) for champion, rnd in join["matched_native"] if (phases is None or rnd in rounds) and
                     (selected_events is None or (join["map"], champion, rnd) in selected_events)}
         if selected:
             targets[key(join)] = selected
