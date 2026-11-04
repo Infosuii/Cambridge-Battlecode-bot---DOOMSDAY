@@ -61,11 +61,11 @@ def generate(output, dense):
     return maps
 
 
-def native_fuel(row, output=OUT):
+def native_fuel(row, output=OUT, *, slots=5):
     case = output / "games" / f"{row['arm']}-{row['noise_seed']}-{row['opponent']}-{row['map']}-{row['side']}"
     native = read(case / "native.json")
     team = "team" + row["side"]
-    assert sum(p["team"] == team for p in native["roster"]["draft"]) == 5
+    assert sum(p["team"] == team for p in native["roster"]["draft"]) == slots
     return [{"owner": e["owner"], "timestamp": x["timestamp"]} for e in native["events"]
             if e["kind"] == "fuelExhausted" and e["owner"]["team"] == team for x in e["entries"]]
 
