@@ -1,0 +1,30 @@
+{
+  "scope": "Initial stochastic contact actor producer smoke, no optimization or strength claim",
+  "records": 243,
+  "bodies": 6,
+  "actions": [
+    201,
+    25,
+    17
+  ],
+  "maximum_probability_error": 1.1102230246251565e-16,
+  "exact_rng_replay": true,
+  "all_commands_complete_in_same_round": true,
+  "minimum_completion_fuel": 23314,
+  "wasm_sha256": "d9cf4a68d55361d8fac669b9be1be93dcf61af2e78eee058b16cb5ea5c3e0ef4",
+  "diagnostics": {
+    "botFaults": {
+      "teamA": 0,
+      "teamB": 0
+    },
+    "codes": [],
+    "detailedCaptureComplete": true
+  },
+  "limitations": [
+    "One training-map game only; not a broad fuel or strength evaluation.",
+    "Initial weights zero with fixed keep prior +2; no contact PPO update yet.",
+    "Earlier combat returns bypass this controller; downstream execution remains heuristic.",
+    "Fixed seed is for reproducibility; training needs an explicit seed schedule.",
+    "This audit covers the initial zero-weight ABI only, not arbitrary trained weights."
+  ]
+}
