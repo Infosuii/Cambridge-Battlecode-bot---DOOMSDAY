@@ -3,7 +3,7 @@ from pathlib import Path
 import json,re,numpy as np,torch
 from qat_pointer import NativePointer
 root=Path(__file__).resolve().parents[1];p=Path(__file__).parent
-header=(root/'native-pointer-audit/bots/submission/src/nn_weights.h').read_text()
+header=(p/'original_native_header.h' if (p/'original_native_header.h').exists() else root/'native-pointer-audit/bots/submission/src/nn_weights.h').read_text()
 def arr(name):return np.array([int(x) for x in re.search(r'inline constexpr short '+name+r'\[\] = \{([^}]+)\}',header).group(1).split(',')],np.int64)
 m=NativePointer(*[arr(n) for n in ['kP_target_qW_TQ','kP_target_qbQ','kP_target_kWQ','kP_target_kbQ','kP_target_EQ']])
 with np.load(p/'consumed_inputs.npz') as z:d={k:torch.from_numpy(z[k]) for k in z.files}
