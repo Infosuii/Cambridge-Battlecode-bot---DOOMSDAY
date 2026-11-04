@@ -74,3 +74,36 @@ best: 60 games, won 72%
   r400: turns per champion, ours / theirs:  approach 163.7/145.1  fight 69.4/64.4  wait-respawn 29.9/29.6  capture 18.4/19.3  stage 0.0/31.5  fight-champ 15.1/16.1  flee 15.1/14.2  to-capture 13.6/14.2  tribute 12.6/9.3  home 7.2/6.2  bush-ward 4.3/1.5  home-escape 3.0/2.2  join 2.7/2.3  nofarm 1.6/2.7
         stuck 17.8/18.7  abandons 8.1/8.8  longest idle 15.1/21.5
 === deaths
+games 280, won 51.8%
+
+our deaths: 3307 deaths
+  by round: [86, 133, 225, 506, 981, 1376]
+  killer context: [('champion', 2833), ('other', 474)]
+  in contact just before: 75%; contact length mean 23.5
+   2 rounds before (2417): health 34%  enemies 2.10 allies 1.12  enemy hp 3381 ally hp 1698 nearest 2.4 gems 21
+   5 rounds before (2270): health 56%  enemies 2.09 allies 1.12  enemy hp 3399 ally hp 1689 nearest 2.8 gems 22
+  10 rounds before (1994): health 74%  enemies 2.00 allies 1.17  enemy hp 3278 ally hp 1797 nearest 3.4 gems 23
+  at the start of that contact (2487): health 86%  enemies 1.31 allies 1.27 gems 19  alone 31%  outnumbered 7%  under 50% health 8%
+  mode 2 rounds before: [('flee', 1797), ('fight-champ', 280), ('cmicro', 86), ('flee-dash', 57), ('home-escape', 37), ('approach', 34), ('bush-recall', 16), ('trib-deny', 14), ('wait-respawn', 13)]
+  mode at the start of the contact: [('approach', 686), ('flee', 357), ('wait-respawn', 246), ('fight-champ', 229), ('join', 222), ('fight', 191), ('tribute', 112), ('to-capture', 112), ('hunt', 59)]
+
+their deaths: 3162 deaths
+  by round: [94, 123, 241, 468, 927, 1309]
+  killer context: [('champion', 2760), ('other', 402)]
+  in contact just before: 78%; contact length mean 26.0
+   2 rounds before (2405): health 32%  enemies 2.14 allies 1.09  enemy hp 3227 ally hp 1562 nearest 2.4 gems 25
+   5 rounds before (2262): health 53%  enemies 2.16 allies 1.09  enemy hp 3280 ally hp 1527 nearest 2.7 gems 21
+  10 rounds before (2047): health 73%  enemies 2.05 allies 1.15  enemy hp 3191 ally hp 1616 nearest 3.4 gems 21
+  at the start of that contact (2464): health 86%  enemies 1.30 allies 1.28 gems 17  alone 29%  outnumbered 7%  under 50% health 8%
+  mode 2 rounds before: [('flee', 1779), ('fight-champ', 302), ('cmicro', 84), ('flee-dash', 46), ('home-escape', 29), ('approach', 25), ('bush-recall', 18), ('kite-cast', 16), ('ambush', 14)]
+  mode at the start of the contact: [('approach', 593), ('flee', 340), ('join', 249), ('wait-respawn', 244), ('fight-champ', 234), ('fight', 167), ('to-capture', 123), ('tribute', 115), ('capture-stand', 73)]
+
+first death is ours: 148 games, won 37%;  first death is theirs: 119 games, won 66%
+  deaths ours minus theirs by round 50: mean -0.03; -2: 11 games 55%  -1: 12 games 33%  +0: 235 games 54%  +1: 10 games 30%  +2: 8 games 25%
+  deaths ours minus theirs by round 100: mean +0.01; -2: 17 games 71%  -1: 30 games 37%  +0: 157 games 55%  +1: 38 games 37%  +2: 3 games 67%
+  deaths ours minus theirs by round 200: mean -0.05; -2: 28 games 68%  -1: 26 games 65%  +0: 130 games 54%  +1: 33 games 27%  +2: 18 games 22%
+  deaths ours minus theirs by round 400: mean +0.09; -2: 31 games 71%  -1: 35 games 63%  +0: 59 games 68%  +1: 46 games 30%  +2: 20 games 20%
+=== fight episodes
+v92fv1 built
+v92fv2 built
+v92fv3 built
