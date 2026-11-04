@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T03:53:31.103Z",
+  "updated_at": "2026-11-04T03:58:31.167Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-1104-20261104-0105",
-      "seq": 6,
-      "state": "RETURNING",
+      "seq": 7,
+      "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:49:16Z",
+      "last_control_at": "2026-11-04T03:55:11Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -72,11 +72,11 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 1,
-      "requires_new_assignment": true,
+      "free_capacity": 0,
+      "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-1104",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6622025860,
+      "last_control_comment_id": 6622104045,
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "unavailable_since": "2026-11-04T03:40:14Z",
       "return_clue": {
@@ -112,12 +112,12 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "heavy-build",
         "evaluation"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "branch": "johndoe/qualifier-builder-g5070-1104",
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
@@ -126,18 +126,31 @@
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
       "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
       "deadline": "2026-11-04T13:05:00Z",
-      "run_namespace": "jd-eval/epoch2/"
+      "epoch_boundary": {
+        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "required_run_metadata": [
+          "agent",
+          "session",
+          "task_id",
+          "epoch",
+          "git_head",
+          "wasm_hash",
+          "map_hashes"
+        ],
+        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+      },
+      "ack_comment_id": 6622104045
     },
     {
       "id": "fuel-memory-runtime",
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "runtime"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "branch": "johndoe/qualifier-builder-g5070-1104",
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
@@ -146,18 +159,31 @@
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
       "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
       "deadline": "2026-11-04T13:05:00Z",
-      "run_namespace": "jd-eval/epoch2/"
+      "epoch_boundary": {
+        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "required_run_metadata": [
+          "agent",
+          "session",
+          "task_id",
+          "epoch",
+          "git_head",
+          "wasm_hash",
+          "map_hashes"
+        ],
+        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+      },
+      "ack_comment_id": 6622104045
     },
     {
       "id": "basic-decision-strategy",
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "strategy"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "branch": "johndoe/qualifier-builder-g5070-1104",
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
@@ -166,18 +192,31 @@
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
       "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
       "deadline": "2026-11-04T13:05:00Z",
-      "run_namespace": "jd-eval/epoch2/"
+      "epoch_boundary": {
+        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "required_run_metadata": [
+          "agent",
+          "session",
+          "task_id",
+          "epoch",
+          "git_head",
+          "wasm_hash",
+          "map_hashes"
+        ],
+        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+      },
+      "ack_comment_id": 6622104045
     },
     {
       "id": "rl-actor-export",
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "rl-export"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "branch": "johndoe/qualifier-builder-g5070-1104",
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
@@ -186,7 +225,20 @@
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
       "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
       "deadline": "2026-11-04T13:05:00Z",
-      "run_namespace": "jd-eval/epoch2/"
+      "epoch_boundary": {
+        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "required_run_metadata": [
+          "agent",
+          "session",
+          "task_id",
+          "epoch",
+          "git_head",
+          "wasm_hash",
+          "map_hashes"
+        ],
+        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+      },
+      "ack_comment_id": 6622104045
     },
     {
       "id": "rl-training",
@@ -233,17 +285,31 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 1,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "gpu"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "branch": "johndoe/qualifier-builder-g5070-1104",
       "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
       "platform_sensitive": false,
       "job_id": "rl-dagger-01",
       "deadline": "2026-11-04T08:42:00Z",
-      "constraints": "Existing process only; no restart/duplicate; branch-local; <=6 CPUs; disjoint poolfresh121-249; full lineage; yield resources to behavior evaluation; Agent2 rl-training unchanged."
+      "constraints": "Existing process only; no restart/duplicate; branch-local; <=6 CPUs; disjoint poolfresh121-249; full lineage; yield resources to behavior evaluation; Agent2 rl-training unchanged.",
+      "epoch_boundary": {
+        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "required_run_metadata": [
+          "agent",
+          "session",
+          "task_id",
+          "epoch",
+          "git_head",
+          "wasm_hash",
+          "map_hashes"
+        ],
+        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+      },
+      "ack_comment_id": 6622104045
     }
   ],
   "events": [
@@ -310,10 +376,17 @@
         "rl-actor-export:2",
         "rl-distill-local:1"
       ]
+    },
+    {
+      "id": "ack:builder-g5070-1104:6622104045",
+      "type": "ASSIGNMENT_ACK",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T03:55:11Z",
+      "boundary_exception": "Builder reports user run configuration allows only existing branch. Accept single-writer commit/explicit epoch provenance instead of branch switch; no other worker assigned."
     }
   ],
-  "note": "Builder READY return verified; epoch2 assignments and separate local distillation offered pending current-epoch ACK and new epoch2 branch/run namespace. No old ownership silently restored.",
-  "last_complete_check_at": "2026-11-04T03:53:31.103Z",
+  "note": "Builder epoch2/current local-distillation ACK accepted. Same single authorized branch with commit ancestry and explicit task/session/epoch artifact provenance; timestamps alone insufficient. Agent2 training unchanged.",
+  "last_complete_check_at": "2026-11-04T03:58:31.167Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
