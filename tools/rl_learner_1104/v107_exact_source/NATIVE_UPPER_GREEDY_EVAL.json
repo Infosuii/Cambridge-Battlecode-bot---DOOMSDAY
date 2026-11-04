@@ -1,0 +1,1302 @@
+{
+  "scope": "Scheduled matched GREEDY deployment evaluation after5 upper-trunk/query training batches; separate from categorical training policy, no sealed holdout or ladder claim",
+  "games": 120,
+  "primary_maps": 15,
+  "primary_families": 13,
+  "public_maps": [],
+  "pairs": {
+    "upper0-vs-v92": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "own_fuel_outs": 414,
+      "score_rate": 0.5
+    },
+    "upper5-vs-v92": {
+      "games": 30,
+      "wins": 16,
+      "draws": 0,
+      "losses": 14,
+      "own_fuel_outs": 442,
+      "score_rate": 0.5333333333333333
+    },
+    "upper0-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 407,
+      "score_rate": 0.43333333333333335
+    },
+    "upper5-vs-native": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "losses": 13,
+      "own_fuel_outs": 434,
+      "score_rate": 0.5666666666666667
+    }
+  },
+  "comparisons": {
+    "v92": {
+      "delta_score_rate": 0.03333333333333333,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.16666666666666666,
+        0.2692307692307692
+      ]
+    },
+    "native": {
+      "delta_score_rate": 0.13333333333333333,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.0625,
+        0.32142857142857145
+      ]
+    }
+  },
+  "artifacts": {
+    "upper0": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper0_greedy_deploy.wasm",
+      "sha256": "09719dbf3f719e9f3e56835acc02499cfc4559a1aa8ae2d5bfb8b8100cc930cb"
+    },
+    "upper5": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper5_greedy_deploy.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "native": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+      "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+    },
+    "v92": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+    },
+    "decrest": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-decrest-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b502e467f12c4d7200ea597eb6bd094ccb6594a5bb70ef5805a9b4ae1df54a92"
+    },
+    "khiri": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-khiri-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "0b42527c2e6b2dc7ccc1933d01f3436415b85f166dfe276f43f2986a069eb84b"
+    },
+    "wardens": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-wardens-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "3b034efc1afe426d4cac9d9e700e873224026631987b87976dd12b59d8fc2bba"
+    }
+  },
+  "wall_seconds": 158.04939808277413,
+  "deterministic_argmax": true,
+  "logging_disabled": true,
+  "compiled_seed": 110401,
+  "limitations": [
+    "Native/v92 are related frozen opponents; this greedy evaluation has no current live-team opponent.",
+    "No public-opponent games were included in this120-game greedy evaluation.",
+    "All evaluation maps DEVELOPMENT, previously exposed; external live replay exposure is separately tracked in LIVE_REPLAY_EXPOSURE_OVERLAY.json.",
+    "Deterministic policy on matched map/side cells; do not treat the30 cells as independent RNG replications.",
+    "No model/temperature choice made inside trainingblock; evaluation is a checkpoint, not evidence of future superiority."
+  ],
+  "cells": [
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 31,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 31,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 15,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 15,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 29,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 24,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 19,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 1,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 37,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 24,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 12,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 7,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 27,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 10,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 12,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 13,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 14,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 18,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 2,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "v92",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 42,
+      "opponent_fuel_outs": 33
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 21,
+      "opponent_fuel_outs": 37
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 30,
+      "opponent_fuel_outs": 24
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 16,
+      "opponent_fuel_outs": 14
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 21,
+      "opponent_fuel_outs": 16
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 45,
+      "opponent_fuel_outs": 42
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 7,
+      "opponent_fuel_outs": 17
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 15,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 15
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 17,
+      "opponent_fuel_outs": 22
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 1,
+      "opponent_fuel_outs": 5
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 0,
+      "opponent_fuel_outs": 6
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 30,
+      "opponent_fuel_outs": 32
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 38,
+      "opponent_fuel_outs": 32
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 4
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 5
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 5
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 2,
+      "opponent_fuel_outs": 2
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 13,
+      "opponent_fuel_outs": 4
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 17,
+      "opponent_fuel_outs": 16
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 11
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 5
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 7,
+      "opponent_fuel_outs": 12
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 16,
+      "opponent_fuel_outs": 9
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 9,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper0",
+      "opponent": "native",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 29,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 24,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 18,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 36,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 32,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 30,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 5,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 27,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 14,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 29,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 42,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 9,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 7,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 6,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 12,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 14,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 10,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 10,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 12,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 1,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "v92",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 0
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 45,
+      "opponent_fuel_outs": 40
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 30,
+      "opponent_fuel_outs": 30
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 9,
+      "opponent_fuel_outs": 30
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 20,
+      "opponent_fuel_outs": 13
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 32,
+      "opponent_fuel_outs": 32
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 37,
+      "opponent_fuel_outs": 41
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 10
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 18,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 10,
+      "opponent_fuel_outs": 17
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 15,
+      "opponent_fuel_outs": 23
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 9,
+      "opponent_fuel_outs": 6
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 1,
+      "opponent_fuel_outs": 4
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 29,
+      "opponent_fuel_outs": 27
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 33,
+      "opponent_fuel_outs": 34
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 10,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 2,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 4,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 6,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 3,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 2,
+      "opponent_fuel_outs": 3
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 16,
+      "opponent_fuel_outs": 7
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 26,
+      "opponent_fuel_outs": 13
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 1
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 5
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 6
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "own_fuel_outs": 8,
+      "opponent_fuel_outs": 10
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "own_fuel_outs": 11,
+      "opponent_fuel_outs": 15
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 12,
+      "opponent_fuel_outs": 8
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "score": 1.0,
+      "own_fuel_outs": 2,
+      "opponent_fuel_outs": 4
+    },
+    {
+      "candidate": "upper5",
+      "opponent": "native",
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "score": 1.0,
+      "own_fuel_outs": 6,
+      "opponent_fuel_outs": 1
+    }
+  ]
+}
