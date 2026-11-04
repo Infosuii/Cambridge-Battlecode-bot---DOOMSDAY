@@ -46,13 +46,13 @@ def prepare(job):
         assert n==1,name
     header.write_bytes(src)
 
-def one(job):
+def one(job, *, log_limit=0):
     arm,seed,opp,mp,side,wasm=job
     match=OUT/"games"/f"{arm}-{seed}-{opp}-{mp.stem}-{side}"
     match.mkdir()
     bots=(wasm,CACHE/OPPS[opp][0]) if side=="A" else (CACHE/OPPS[opp][0],wasm)
     with (match/"run.log").open("wb") as log:
-        subprocess.run([CLI,"run",*bots,"--map",mp,"--release","--json","--log-limit","0","--statistics",
+        subprocess.run([CLI,"run",*bots,"--map",mp,"--release","--json","--log-limit",str(log_limit),"--statistics",
                         match/"native.json","--out-dir",match],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
     s=json.loads((match/"native.json").read_bytes())
     m=s["match"]

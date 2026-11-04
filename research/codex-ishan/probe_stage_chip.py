@@ -52,7 +52,7 @@ def run():
     jobs = [("diagnostic", 0, opponent, map_path, side, WASM)
             for map_path in maps[:4] for opponent in OPPONENTS for side in "AB"]
     with ThreadPoolExecutor(max_workers=4) as pool:
-        rows = list(pool.map(bench.one, jobs))
+        rows = list(pool.map(lambda job: bench.one(job, log_limit=1048576), jobs))
     for row in rows:
         cell = f"diagnostic-0-{row['opponent']}-{row['map']}-{row['side']}"
         (replay,) = (OUT / "games" / cell).glob("*.repl26a")
