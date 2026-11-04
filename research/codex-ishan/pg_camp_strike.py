@@ -51,8 +51,7 @@ def prepare(src, enabled):
     ))
 
 
-def verify(wasm):
-    name = "pg-camp-strike"
+def verify(wasm, name="pg-camp-strike"):
     profile = read(HERE / "DENSE_ROSTER_PROFILE.json")
     key = lambda r: (r["map"], r["opponent"], r["side"])
     targets = {key(r): {tuple(v) for v in r["matched_native"]} for r in profile["matches"] if "camp_dash_done" in r["phases"]}
@@ -84,7 +83,7 @@ def verify(wasm):
               "registered_events": [{"cell": cell, "events": sorted(v)} for cell, v in sorted(targets.items())],
               "unresolved": unresolved, "increased": increased, "error_cells": errors,
               "pass": not unresolved and not increased and not errors and fuel[1] < fuel[0]}
-    with (HERE / "PG-CAMP-STRIKE_EXACT_STRESS.json").open("x", encoding="utf8", newline="\n") as out:
+    with (HERE / f"{name.upper()}_EXACT_STRESS.json").open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "baseline": baseline, "candidate": rows}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
