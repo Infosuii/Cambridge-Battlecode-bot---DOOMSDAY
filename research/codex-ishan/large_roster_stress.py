@@ -43,8 +43,8 @@ def generate():
     return maps
 
 
-def native_fuel(row):
-    case = OUT / "games" / f"stress-0-{row['opponent']}-{row['map']}-{row['side']}"
+def native_fuel(row, output=OUT):
+    case = output / "games" / f"{row['arm']}-{row['noise_seed']}-{row['opponent']}-{row['map']}-{row['side']}"
     native = read(case / "native.json")
     team = "team" + row["side"]
     assert sum(p["team"] == team for p in native["roster"]["draft"]) == 5
