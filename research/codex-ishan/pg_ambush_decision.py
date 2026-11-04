@@ -8,6 +8,10 @@ from pg_stress_tail import HERE, prepare as prepare_tail, verify
 
 def prepare(src, enabled):
     prepare_tail(src, enabled)
+    add_reserve(src)
+
+
+def add_reserve(src):
     apply(src / "bot.cpp", (("        if (!rb::fits(rb::kReserve.observe, rb::kTailReserve)) return;",
                             "        if (!rb::fits(rb::kReserve.observe, rb::kReserve.decide + rb::kTailReserve)) return;"),))
 
