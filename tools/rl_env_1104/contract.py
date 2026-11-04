@@ -130,6 +130,11 @@ COLUMNS = {
     "move_dy": ("int8", ""),
 }
 PRIM_COLUMNS = ("prim", "move_dx", "move_dy")
+# Debug-twin fuel diagnostics (manifest fuel_twin: true): the same game with plain v92 (same build mode) in the same
+# batch; per-round comparison of our team's per-turn charged fuel. Round-level because the trace holds no body ids.
+COLUMNS["fuel_delta"] = ("int32", "")     # sum over our team's turns this round: recorder - twin
+COLUMNS["fuel_diverged"] = ("uint8", "")  # 1 if any of our team's turns this round differ from the twin
+TWIN_COLUMNS = ("fuel_delta", "fuel_diverged")
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "incomplete", "failed")  # incomplete: malformed rows
@@ -161,6 +166,8 @@ def required_columns(manifest: dict) -> list:
         skip.add("x_stale")
     if not manifest.get("prim_labels", False):
         skip.update(PRIM_COLUMNS)
+    if not manifest.get("fuel_twin", False):
+        skip.update(TWIN_COLUMNS)
     return [c for c in COLUMNS if c not in skip]
 
 
