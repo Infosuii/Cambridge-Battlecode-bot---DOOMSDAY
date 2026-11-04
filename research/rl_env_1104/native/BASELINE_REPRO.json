@@ -1,0 +1,106 @@
+{
+ "kind": "baseline-reproduction (Agent2 native, NOT our improvement)",
+ "host": "R1shik123 PC, Windows, i5-1135G7",
+ "source": {
+  "agent2_commit": "afb43b886fc348006d48d4f4feb830c16cba5533",
+  "recipe": "johndoe/rl-learner-e3-1104@7c53e102 mac_e3/AGENT2_NATIVE_RECIPE.md",
+  "checkpoint": "research/agent2-neural/models/student_i2m.pt",
+  "checkpoint_blob": "9db47c99cebb92f83475e39954dd86294a9f69f0",
+  "checkpoint_sha256": "05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
+  "export": "NN_LAYOUT=2 NN_STUDENT=16x64 nn_export.py student (torch.load weights_only=True)",
+  "weights_header_sha256": "82d9dedb5d57561bf2a1616daf10437024c587a04f6a65b19b70c4441e5d757f"
+ },
+ "flags": "A2_NN=11 A2_NN_MACRO=1 A2_NN_FAST=1 A2_NN_VALID=1 A2_NN_BEH=0 A2_NN_ENS=2 A2_NN_LIVE=1 A2_NN_LAZY=1 A2_NN_NNUE=1 A2_NN_Q16=1 A2_NN_SGAUTO=1 A2_FIELD_MARGIN=3000 A2_NN_FIELDS_FIRST=1",
+ "bot": "bots/claude-native-1104/src",
+ "release_wasm_sha256": "f0ad2c27d773c87d977e7bd097b36332ced3f81098021d9c30ca56fee2cf032d",
+ "v92_release_wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47",
+ "cambc": "4.0.0",
+ "opponent": "bots/v92 (release)",
+ "games": [
+  {
+   "map": "00corners",
+   "side": "A",
+   "outcome": "win",
+   "ours": 1005,
+   "theirs": 440,
+   "rounds": 956,
+   "fuel_outs": 44,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "map": "00corners",
+   "side": "B",
+   "outcome": "win",
+   "ours": 1001,
+   "theirs": 275,
+   "rounds": 990,
+   "fuel_outs": 34,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "map": "00crater",
+   "side": "A",
+   "outcome": "win",
+   "ours": 1005,
+   "theirs": 398,
+   "rounds": 1475,
+   "fuel_outs": 15,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "map": "00crater",
+   "side": "B",
+   "outcome": "loss",
+   "ours": 403,
+   "theirs": 1143,
+   "rounds": 1609,
+   "fuel_outs": 6,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "map": "00oasis",
+   "side": "A",
+   "outcome": "loss",
+   "ours": 493,
+   "theirs": 1003,
+   "rounds": 1818,
+   "fuel_outs": 1,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "map": "00oasis",
+   "side": "B",
+   "outcome": "win",
+   "ours": 1003,
+   "theirs": 396,
+   "rounds": 1844,
+   "fuel_outs": 10,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "map_hash": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  }
+ ],
+ "totals": {
+  "games": 6,
+  "wins": 4,
+  "faults": 0,
+  "fuel_outs": 110
+ },
+ "note": "Matches JOHNDOE Mac reproduction (4/6 wins, 0 crashes, 110 fuel-outs) with a different per-platform WASM hash. 6 deterministic games: not a win-rate estimate."
+}
