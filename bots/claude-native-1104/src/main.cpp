@@ -49,6 +49,9 @@ int main() {
 #if defined(A2_NN_LIVE) && A2_NN_LIVE
                 bot.nn_turn_end();
 #endif
+#ifdef CLNA_HEAD
+                bot.clna_turn_end();
+#endif
                 ++turns;
                 if (bc::round_number() != r0) {
                     ++overruns;
@@ -70,6 +73,9 @@ int main() {
 #endif
 #if defined(A2_NN_LIVE) && A2_NN_LIVE
                 bot.nn_turn_end();
+#endif
+#ifdef CLNA_HEAD
+                bot.clna_turn_end();
 #endif
             }
 #endif

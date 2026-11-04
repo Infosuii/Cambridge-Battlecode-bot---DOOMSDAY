@@ -8,9 +8,14 @@ A malformed row, a missing executed row, an index gap, a log cut or a missing su
 Downstream reassignment by v92's later farm() code (executed group != chosen) is kept and flagged per row
 (executed = -1 when the executed group is not a candidate) and counted per episode.
 
+--head (implies --release): the target-head build (CLNA_HEAD, JOHNDOE #83 option d), schema native-head-v1, CNR2 rows
+with every head input in the head_* columns (clna-head-abi-v1). Decisions the fuel guard skips (CNS2) are the
+deterministic reference: counted per episode and reason, never given a logp.
+
 usage (repo root):
   python tools/rl_env_1104/collect_native.py --eps 0.02 --run-ns nat-smoke-01 \
       --maps maps/ladder-pool/00corners.map26a --opponent bots/v92 --sides A [--jobs 1]
+  ... --head [--head-header PATH/clna_head_w.h] [--head-min 50000]
 """
 from __future__ import annotations
 
@@ -30,24 +35,35 @@ sys.path.insert(0, HERE)
 import collect as K  # noqa: E402
 import contract as C  # noqa: E402
 
+sys.path.insert(0, os.path.join(HERE, "native"))
+import head_export as HX  # noqa: E402
+import head_rows as HR  # noqa: E402
+
 ROOT, CLI = K.ROOT, K.CLI
 SCHEMA, LAYOUT = "native-blend-eps-v1", 2
+HEAD_SCHEMA = "native-head-v1"
 GATE_N = 8
 REWARD_SPEC = ("mc-terminal-gamma1-v1: every decision of the team's complete game gets the team's final outcome "
                "(+1 win / 0 draw / -1 loss) as its undiscounted return; no shaping, no bootstrap (JOHNDOE #61)")
 NF, NA = C.LAYOUTS[LAYOUT].nf, C.ACTION_SCHEMAS[SCHEMA].n
 
 
-def prepare(work: str, eps: float, release: bool = False) -> tuple:
+def prepare(work: str, eps: float, release: bool = False, head: bool = False, head_header: str | None = None,
+            head_min: int | None = None) -> tuple:
     src = os.path.join(ROOT, "bots", "claude-native-1104", "src")
     dest = os.path.join(work, "bots", "clna")
     shutil.rmtree(dest, ignore_errors=True)
     shutil.copytree(src, os.path.join(dest, "src"), ignore=shutil.ignore_patterns(".cambc", "compile_commands.json"))
+    if head_header:
+        shutil.copyfile(head_header, os.path.join(dest, "src", "clna_head_w.h"))
     ch = os.path.join(dest, "src", "common.h")
     with open(ch, encoding="utf-8") as f:
         text = f.read()
+    defs = f"#define CLNA_EPS {eps!r}\n" + ("#define CLNA_RLOG 1\n" if release else "")
+    if head:
+        defs += "#define CLNA_HEAD 1\n" + (f"#define CLNA_HEAD_MIN {int(head_min)}\n" if head_min else "")
     with open(ch, "w", encoding="utf-8", newline="") as f:
-        f.write(f"#define CLNA_EPS {eps!r}\n" + ("#define CLNA_RLOG 1\n" if release else "") + text)
+        f.write(defs + text)
     wasm = os.path.join(work, "clna-release.wasm" if release else "clna-debug.wasm")
     r = subprocess.run([CLI, "build", K.rel(dest)] + (["--release"] if release else []) + ["--output", wasm], cwd=ROOT,
                        capture_output=True, text=True, timeout=900)
@@ -65,7 +81,22 @@ def parse(stdout: str) -> tuple:
     for line in stdout.splitlines():
         q = line.split(" ")
         try:
-            if q[0] == "CNR1":  # release logger: raw float bits, no features; logp rebuilt from the mixture
+            if q[0] in ("CNR2", "CNR3"):  # target head: every input logged; logp = log of the logged p(chosen)
+                h = HR.parse_cnr2(q)
+                n, nu = h["n"], len(h["groups"])
+                # residual-0 physical q of the frozen runtime (diagnostic cand_q): slot softmax merged by the mapping
+                nat = [float(v) for v in h["native"]]
+                mx = max(nat)
+                ex = [math.exp(v - mx) for v in nat]
+                qs = [0.0] * nu
+                for j in range(n + 1):
+                    qs[h["map"][j]] += ex[j] / sum(ex)
+                dec.append(dict(round=h["round"], eround=-1, slot=h["slot"], body=h["body"], index=h["index"],
+                                ref=h["ref"], chosen=h["chosen"], logp=math.log(h["p"]), eps=h["alpha"], v92=h["v92"],
+                                nn=h["nn"], groups=h["groups"], q=qs, gx=[], x=(0,) * NF, head=h))
+            elif q[0] == "CNS2":  # fuel guard / pairing skip: the reference acted, no stochastic decision
+                skips += 1
+            elif q[0] == "CNR1":  # release logger: raw float bits, no features; logp rebuilt from the mixture
                 nu = int(q[10])
                 if len(q) != 11 + nu + GATE_N:
                     raise ValueError
@@ -98,7 +129,7 @@ def parse(stdout: str) -> tuple:
     return dec, exe, skips, bad
 
 
-def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
+def episode(bundle: str, summary: dict | None, side: str, meta: dict, head: bool = False) -> tuple:
     team_l, our = side.lower(), ("teamA" if side == "A" else "teamB")
     theirs = "teamB" if our == "teamA" else "teamA"
     with zipfile.ZipFile(bundle) as z:
@@ -138,7 +169,12 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
     dec.sort(key=lambda d: (d["body"], d["round"]))
     gaps = reassigned = no_exec = 0
     cols = {c: [] for c in C.required_columns(dict(hidden_size=0, stale_block=False, decision_index=True,
-                                                    native_cands=True, gate_inputs=GATE_N))}
+                                                    native_cands=True, gate_inputs=0 if head else GATE_N,
+                                                    head_inputs=head))}
+    if head and any("head" not in d for d in dec):
+        flags["incomplete"] = True
+        problems.append("non-head decision rows in a head episode")
+        dec = [d for d in dec if "head" in d]
     for i, d in enumerate(dec):
         first = i == 0 or dec[i - 1]["body"] != d["body"]
         last = i + 1 == len(dec) or dec[i + 1]["body"] != d["body"]
@@ -190,6 +226,19 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
         cols["gate_x"] += d["gx"]
         cols["engine_round"].append(d["eround"])
         cols["engine_round_done"].append(ex_round)
+        if head:
+            h, n = d["head"], d["head"]["n"]
+            cols["head_ctx"] += [int(v) for v in h["x"]]
+            cols["head_camp"] += [int(v) for v in h["ec"].flatten()] + [0] * (16 * (10 - n))
+            cols["head_feat"] += [int(v) for v in h["ft"].flatten()] + [0] * (4 * (10 - n))
+            nat = [float(v) for v in h["native"]]
+            cols["head_native"] += nat[:n] + [0.0] * (10 - n) + [nat[n]]
+            cols["head_valid"] += [1] * n + [0] * (10 - n) + [1]
+            # slot -> index into this row's cand_group (= the logged physical group order)
+            cols["head_map"] += h["map"][:n] + [-1] * (10 - n) + [h["map"][n]]
+            cols["head_n"].append(n)
+            cols["head_pub"].append(h["pub"])
+            cols["head_ctx_round"].append(h["ctx_round"])
     if gaps:
         flags["incomplete"] = True
         problems.append(f"{gaps} decision-index gaps")
@@ -219,11 +268,16 @@ def main() -> None:
     ap.add_argument("--out", default=os.path.join("runs", "rl_env_1104"))
     ap.add_argument("--release", action="store_true",
                     help="release logging build (CLNA_RLOG): the collected build is the deployable one (JOHNDOE #69)")
+    ap.add_argument("--head", action="store_true", help="target-head build (CLNA_HEAD), schema native-head-v1")
+    ap.add_argument("--head-header", help="clna_head_w.h to build with (default: the one in bots/claude-native-1104/src)")
+    ap.add_argument("--head-min", type=int, help="CLNA_HEAD_MIN fuel guard (default: nnrec.cpp's)")
     a = ap.parse_args()
+    if a.head:
+        a.release = True
     run_dir = os.path.join(ROOT, a.out, a.run_ns)
     work = os.path.join(ROOT, "artifacts", "tmp", "rl_env_1104", a.run_ns)
     os.makedirs(work, exist_ok=True)
-    bot, wasm_sha = prepare(work, a.eps, a.release)
+    bot, wasm_sha = prepare(work, a.eps, a.release, a.head, a.head_header, a.head_min)
     opp = a.opponent.replace("\\", "/")
     opp_hash = K.build_hash(opp, work, release=a.release)
     mode = "release" if a.release else "debug"
@@ -241,6 +295,18 @@ def main() -> None:
                             gate_header_sha256=K.sha256(os.path.join(bot, "src", "clna_gate.h")),
                             source_commit=K.git_head()),
                 engine=dict(cambc="4.0.0", engine="2.0.0"))
+    if a.head:
+        _, head_ver = HX.load_header(os.path.join(ROOT, bot, "src", "clna_head_w.h"))
+        base.update(action_schema=HEAD_SCHEMA, gate_inputs=0, head_inputs=True,
+                    features="absent: x_fresh zero; the head's inputs are the head_* columns (clna-head-abi-v1)",
+                    action_kind="latent_group_at_blend_boundary (target head)",
+                    head=dict(abi=HX.HEAD_ABI, abi_hash=HX.HEAD_ABI_HASH, version=head_ver,
+                              header_sha256=K.sha256(os.path.join(ROOT, bot, "src", "clna_head_w.h")),
+                              guard_min_fuel=a.head_min or 35000, stage_min_fuel=4500,
+                              skips="CNS2 rows: 1 camp snapshot unpaired, 2 reference outside slots, 3 fuel guard, 4 no completed context; the "
+                                    "reference acts deterministically and no row/logp is stored"))
+        base["policy"].update(name="native-target-head", flags=base["policy"]["flags"] + ["CLNA_HEAD=1"] +
+                              ([f"CLNA_HEAD_MIN={a.head_min}"] if a.head_min else []))
     writer = C.ShardWriter(run_dir, base)
     done = writer.done_keys()
     games, lines = [], []
@@ -280,7 +346,7 @@ def main() -> None:
                     opponent=dict(name=opp, wasm_sha256=opp_hash), side=g["side"], build_mode=mode)
         if summary is None:
             meta["map_hash"] = meta["map_file_sha256"]
-        meta, cols, _ = episode(g["rep"], summary, g["side"], meta)
+        meta, cols, _ = episode(g["rep"], summary, g["side"], meta, head=a.head)
         writer.add_episode(meta, cols)
         print(f"{g['map']} {g['side']}: {meta['status']} {meta.get('final_scores')} decisions={meta['decisions']} "
               f"skips={meta['skips']} reassigned={meta['reassigned']} fuel_out_rows={meta['fuel_out_rows']} "

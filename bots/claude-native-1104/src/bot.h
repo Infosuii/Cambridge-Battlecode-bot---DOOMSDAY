@@ -67,6 +67,7 @@ public:
     int clna_round = -1;                      // round of this turn's admitted decision (-1 none)
     int clna_index = 0;                       // consecutive admitted decisions of this body
     void clna_end();                          // end of turn (main.cpp): log the executed target
+    void clna_turn_end();                     // after nn_turn_end (main.cpp): spare-fuel work of the target head
 #endif
 #endif
     int nn_group = -1, nn_beh = -1;

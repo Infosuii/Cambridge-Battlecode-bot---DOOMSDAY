@@ -96,6 +96,10 @@ ACTION_SCHEMAS = {
     # this decision's candidate list (cand_group), up to 14 physical camp groups (scored groups + far -> v92 + reference).
     "native-blend-eps-v1": ActionSchema("native-blend-eps-v1", 14, "hybrid",
                                         "index into cand_group; pi = (1-eps)[ref] + eps*softmax(native scores), merged"),
+    # Native target head (CLNA_HEAD, JOHNDOE's TargetHead over the frozen runtime): same physical candidate list as
+    # native-blend-eps-v1, pi = (1-alpha(h))[ref] + alpha(h) softmax(native + residual(h)); inputs in the head columns.
+    "native-head-v1": ActionSchema("native-head-v1", 14, "hybrid",
+                                   "index into cand_group; pi = (1-alpha(h))[ref] + alpha(h)*softmax(native+residual(h)), merged"),
     "target11-v1": ActionSchema("target11-v1", 11, "hybrid",
                                 "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
     # Full primitive control gets a new versioned schema (conditional heads: move/attack/cast/bank/buy/ward) when the
@@ -154,6 +158,19 @@ COLUMNS["gate_x"] = ("float32", "g")    # the gate's legal inputs (manifest gate
 COLUMNS["engine_round"] = ("int32", "")   # actual engine round at decision admission (bc::round_number)
 COLUMNS["engine_round_done"] = ("int32", "")  # actual engine round when the executed target was logged
 NATIVE_COLUMNS = ("cand_group", "cand_q", "eps", "ref_slot", "fuel_out", "gate_x", "engine_round", "engine_round_done")
+# Target-head inputs (manifest head_inputs: true; clna-head-abi-v1, tools/rl_env_1104/native/head_export.py): exact
+# logged integers / float bits. Slots 0..9 = scored camp slots in nn_pub order (valid while < head_n), slot 10 = far.
+COLUMNS["head_ctx"] = ("int16", "hc")      # nn_lv.x, Q10 (float input = value * 2^-10)
+COLUMNS["head_camp"] = ("int16", "hc")     # nn_lv.ec of slots 0..9 (16 each), Q10; zero beyond head_n
+COLUMNS["head_feat"] = ("int16", "hf")     # 4 raw camp fields per slot (wd, claim, closer, committed); zero beyond head_n
+COLUMNS["head_native"] = ("float32", "hs")  # frozen runtime slot logits (slot 10 = far); 0 where invalid
+COLUMNS["head_valid"] = ("uint8", "hs")
+COLUMNS["head_map"] = ("int16", "hs")       # slot -> candidate index (cand_group); -1 where invalid
+COLUMNS["head_n"] = ("uint8", "")
+COLUMNS["head_pub"] = ("int32", "")         # round of the nn_pub snapshot the camp inputs and logits belong to
+COLUMNS["head_ctx_round"] = ("int32", "")   # round head_ctx was taken (staged context in use; CNR2: = head_pub)
+HEAD_COLUMNS = ("head_ctx", "head_camp", "head_feat", "head_native", "head_valid", "head_map", "head_n", "head_pub",
+                "head_ctx_round")
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "incomplete", "failed")  # incomplete: malformed rows
@@ -176,6 +193,8 @@ def column_shape(name: str, rows: int, manifest: dict) -> tuple:
         return (rows, ACTION_SCHEMAS[manifest["action_schema"]].n)
     if key == "g":
         return (rows, manifest["gate_inputs"])
+    if key in ("hc", "hf", "hs"):
+        return (rows, {"hc": 160, "hf": 40, "hs": 11}[key])
     return (rows, manifest["hidden_size"])
 
 
@@ -193,6 +212,8 @@ def required_columns(manifest: dict) -> list:
         skip.add("decision_index")
     if not manifest.get("native_cands", False):
         skip.update(NATIVE_COLUMNS)
+    if not manifest.get("head_inputs", False):
+        skip.update(HEAD_COLUMNS)
     return [c for c in COLUMNS if c not in skip]
 
 

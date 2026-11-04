@@ -55,21 +55,35 @@ def features(ft: np.ndarray) -> np.ndarray:
     return out
 
 
+def _le16(tok: str) -> np.ndarray:  # CNR3: raw little-endian int16 bytes as hex (jd_codec::hex_simd)
+    if len(tok) % 4:
+        raise ValueError("le16 token length")
+    return np.frombuffer(bytes.fromhex(tok), dtype="<i2").astype(np.int16)
+
+
 def parse_cnr2(q: list) -> dict:
-    n, nu = int(q[9]), int(q[11])
-    if not 0 <= n <= N_CAMP or not 1 <= nu <= 14 or len(q) < 20:
-        raise ValueError("CNR2 shape")
-    groups, mp = _h8(q[14]), _h8(q[15])
-    logits, x, ec, ft = _f32s(q[16]), _h16(q[17]), _h16(q[18]), _h16(q[19])
+    """CNR2 (int16 as 4 big-endian hex digits each; context = the camp snapshot's) or CNR3 (raw little-endian bytes;
+    one more field after the pub round: the round of the context in use, staged double-buffered h)."""
+    if q[0] not in ("CNR2", "CNR3"):
+        raise ValueError("not a CNR2/3 row")
+    o = 1 if q[0] == "CNR3" else 0
+    n, nu = int(q[9]), int(q[11 + o])
+    if not 0 <= n <= N_CAMP or not 1 <= nu <= 14 or len(q) < 20 + o:
+        raise ValueError("CNR2/3 shape")
+    groups, mp = _h8(q[14 + o]), _h8(q[15 + o])
+    i16 = _le16 if o else _h16
+    logits, x, ec, ft = _f32s(q[16 + o]), i16(q[17 + o]), i16(q[18 + o]), i16(q[19 + o])
     if len(groups) != nu or len(mp) != n + 1 or len(logits) != n + 1 or len(x) != CTX or len(ec) != EMB * n \
             or len(ft) != NF * n or max(mp) >= nu:
-        raise ValueError("CNR2 lengths")
+        raise ValueError("CNR2/3 lengths")
     ref_g, ch_g = int(q[5]), int(q[6])
     if ref_g not in groups or ch_g not in groups:
-        raise ValueError("CNR2 reference/chosen outside the groups")
+        raise ValueError("CNR2/3 reference/chosen outside the groups")
+    pub = int(q[10])
     return dict(round=int(q[1]), slot=int(q[2]), body=int(q[3]), index=int(q[4]), ref=ref_g, chosen=ch_g,
-                v92=int(q[7]), nn=int(q[8]), n=n, pub=int(q[10]), groups=groups, map=mp, alpha=_f64(q[12]),
-                p=_f64(q[13]), native=logits, x=x, ec=ec.reshape(n, EMB), ft=ft.reshape(n, NF))
+                v92=int(q[7]), nn=int(q[8]), n=n, pub=pub, ctx_round=int(q[11]) if o else pub, groups=groups, map=mp,
+                alpha=_f64(q[12 + o]), p=_f64(q[13 + o]), native=logits, x=x, ec=ec.reshape(n, EMB),
+                ft=ft.reshape(n, NF))
 
 
 def batch(rows: list) -> dict:
@@ -110,7 +124,7 @@ def read_bundle(path: str, side: str) -> list:
     out = []
     for line in raw.replace(bytes(1), b"\n").decode("utf-8", "replace").splitlines():
         q = line.split(" ")
-        if q[0] == "CNR2":
+        if q[0] in ("CNR2", "CNR3"):
             out.append(parse_cnr2(q))
     return out
 
