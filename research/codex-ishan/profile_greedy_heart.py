@@ -19,7 +19,7 @@ OUT = bench.CACHE / "cpg-greedy-heart-trace"
 STAGES = ("world", "support", "wardrev", "ambush", "enemies", "c_walked", "c_cast", "d_farm",
           "decide", "tail", "fields", "bushpre")
 CAST_PHASES = ("camp_pick", "camp_cast_before", "strike_before", "scan_start", "scan_end", "cast_attempt",
-               "cast_return", "strike_after", "camp_cast_after")
+               "cast_return", "strike_after", "camp_cast_after", "after_attack", "decision_return")
 
 
 def control_turns(pairs):
@@ -92,6 +92,39 @@ static void codex_heart_phase(int phase, int round, bc::champion_type type) {{
     ))
 
 
+def instrument_attack(src):
+    phases = ("after_attack", "decision_return")
+
+    def marker(phase):
+        return ("if (round == 353 && type == bc::champion_type::heart_of_ruin) "
+                f"codex_heart_attack({phases.index(phase)});")
+
+    apply(src / "bot.cpp", (
+        ('#include "bot.h"', '''#include "bot.h"
+
+static unsigned codex_attack_round[2];
+static unsigned long long codex_attack_fuel[2];
+
+[[gnu::noinline]] static void codex_heart_attack(int phase) {
+    codex_attack_round[phase] = bc::round_number();
+    codex_attack_fuel[phase] = bc::fuel_remaining();
+}'''),
+        ('    PROF_CHECK("c_cast"); if (attack_unit(w.camps[t].camp, w.camps[t].pos)) {',
+         '    PROF_CHECK("c_cast"); if (attack_unit(w.camps[t].camp, w.camps[t].pos)) {\n        ' + marker("after_attack")),
+        ('    return true;\n}\n\n// NOVA_UNBOX:',
+         '    ' + marker("decision_return") + '\n    return true;\n}\n\n// NOVA_UNBOX:'),
+        ("void Bot::play_turn() {", f'''void Bot::play_turn() {{
+    if (codex_attack_round[0]) {{
+        for (int i = 0; i < 2; ++i) {{
+            if (codex_attack_round[i])
+                std::printf("CODEX_HEART_CAST %d %u %llu\\n", {CAST_PHASES.index(phases[0])} + i,
+                            codex_attack_round[i], codex_attack_fuel[i]);
+            codex_attack_round[i] = 0;
+        }}
+    }}'''),
+    ))
+
+
 def play(item):
     base, mp, wasm = item
     opponent, side = base["opponent"], base["side"]
@@ -130,12 +163,15 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--cast", action="store_true")
     mode.add_argument("--remaining", action="store_true")
+    mode.add_argument("--attack", action="store_true")
     args = parser.parse_args()
-    cast, remaining = args.cast, args.remaining
+    cast, remaining = args.cast, args.remaining or args.attack
     if cast:
         OUT = bench.CACHE / "cpg-greedy-heart-cast"
     if remaining:
         OUT = bench.CACHE / "cpg-heart-camp-mask-remaining"
+    if args.attack:
+        OUT = bench.CACHE / "cpg-heart-camp-mask-attack"
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")
     cases = [r for r in source["affected"] if r["arm"] == "full"]
     assert len(cases) == 3 and all(len(r["events"]) == 1 for r in cases)
@@ -156,7 +192,9 @@ def main():
     src = OUT / "source/src"
     prepare_source = prepare_camp_mask if remaining else prepare
     prepare_source(src, True)
-    if cast:
+    if args.attack:
+        instrument_attack(src)
+    elif cast:
         instrument_cast(src)
     else:
         stages = (*STAGES, "f_camps") if remaining else STAGES
@@ -178,9 +216,9 @@ def main():
     matched = [r for r in rows if all(r[k] for k in required) and not r["errors"]]
     result = {"engine": bench.ENGINE, "reference": reference, "diagnostic": bench.digest(wasm),
               "seed": SEED, "n": len(rows), "matched": len(matched),
-              "phases": [r["cast_phases"] if cast else r["diagnostic"]["examples"] for r in matched],
+              "phases": [r["cast_phases"] if cast or args.attack else r["diagnostic"]["examples"] for r in matched],
               "cast_state": [r["cast_state"] for r in matched] if cast else []}
-    name = ("CPG_HEART_CAMP_MASK_REMAINING.json" if remaining else
+    name = ("CPG_HEART_CAMP_MASK_ATTACK.json" if args.attack else "CPG_HEART_CAMP_MASK_REMAINING.json" if remaining else
             "CPG_GREEDY_HEART_CAST.json" if cast else "CPG_GREEDY_HEART_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows, "controls": controls}, out, indent=2)
