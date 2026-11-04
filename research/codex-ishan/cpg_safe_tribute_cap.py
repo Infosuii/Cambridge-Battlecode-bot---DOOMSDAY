@@ -15,6 +15,26 @@ const auto levels = safe_field.compute_to_with_expansion_count(blocked, ring, si
 if (fdist(safe_field, pos) == kUnreach && levels + 1 >= cap) return true;"""
 
 
+def apply_ward_context(src):
+    apply(src / "bot.h", (("    bool force_tribute = false;", """    bool force_tribute = false;
+#if CODEX_SAFE_TRIBUTE_CAP
+    bool ward_refreshed_this_turn = false;
+#endif"""),))
+    apply(src / "bot.cpp", (
+        ("void Bot::play_turn() {", """void Bot::play_turn() {
+#if CODEX_SAFE_TRIBUTE_CAP
+    ward_refreshed_this_turn = false;
+#endif"""),
+        ("    if (ward_reveal()) w.update(round); // the ward shows the bush now: look again",
+         """#if CODEX_SAFE_TRIBUTE_CAP
+    ward_refreshed_this_turn = ward_reveal();
+    if (ward_refreshed_this_turn) w.update(round);
+#else
+    if (ward_reveal()) w.update(round); // the ward shows the bush now: look again
+#endif"""),
+    ))
+
+
 def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False):
     prepare_path(src, enabled)
     header = src / "common.h"
@@ -35,7 +55,7 @@ def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False):
                 bc::bitboard visited;
                 safe_field.compute_to(blocked, ring, single(pos), visited);"""
     original_search = "                safe_field.compute_to(blocked, ring, single(pos), visited);"
-    if shared or post_ward:
+    if shared or (post_ward and not specialized):
         body = indent(CAP_SEARCH, " " * 16)
         if post_ward:
             body = ("                if (ward_refreshed_this_turn && rb::left() < rb::kReserve.observe) {\n" +
@@ -43,23 +63,7 @@ def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False):
         capped = "#if CODEX_SAFE_TRIBUTE_CAP\n" + body + "\n#else\n" + original_search + "\n#endif"
         apply(src / "bot.cpp", ((safe_search, safe_search.replace(original_search, capped)),))
         if post_ward:
-            apply(src / "bot.h", (("    bool force_tribute = false;", """    bool force_tribute = false;
-#if CODEX_SAFE_TRIBUTE_CAP
-    bool ward_refreshed_this_turn = false;
-#endif"""),))
-            apply(src / "bot.cpp", (
-                ("void Bot::play_turn() {", """void Bot::play_turn() {
-#if CODEX_SAFE_TRIBUTE_CAP
-    ward_refreshed_this_turn = false;
-#endif"""),
-                ("    if (ward_reveal()) w.update(round); // the ward shows the bush now: look again",
-                 """#if CODEX_SAFE_TRIBUTE_CAP
-    ward_refreshed_this_turn = ward_reveal();
-    if (ward_refreshed_this_turn) w.update(round);
-#else
-    if (ward_reveal()) w.update(round); // the ward shows the bush now: look again
-#endif"""),
-            ))
+            apply_ward_context(src)
         return
 
     apply(src / "bot.h", (
@@ -96,12 +100,16 @@ bool Bot::tribute_if_needed() {
                 }""")),
     ))
     if specialized:
+        guard = "                if constexpr (bounded_wait) {"
+        if post_ward:
+            guard = "                if (bounded_wait || (ward_refreshed_this_turn && rb::left() < rb::kReserve.observe)) {"
+            apply_ward_context(src)
         apply(src / "bot.h", (("    bool tribute_if_needed(bool bounded_wait = false);",
                                "    template<bool bounded_wait = false>\n    bool tribute_if_needed();"),))
         apply(src / "bot.cpp", (
             ("bool Bot::tribute_if_needed(bool bounded_wait) {",
              "template<bool bounded_wait>\nbool Bot::tribute_if_needed() {"),
-            ("                if (bounded_wait) {", "                if constexpr (bounded_wait) {"),
+            ("                if (bounded_wait) {", guard),
             ("                return tribute_if_needed(true);", "                return tribute_if_needed<true>();"),
             ("float Bot::incoming_from_group(const GroupRec& g, vec2 at) const {",
              """#if CODEX_SAFE_TRIBUTE_CAP
@@ -122,10 +130,12 @@ if __name__ == "__main__":
     variant_args.add_argument("--specialized", action="store_true")
     variant_args.add_argument("--shared", action="store_true")
     variant_args.add_argument("--post-ward", action="store_true")
+    variant_args.add_argument("--combined", action="store_true")
     args = parser.parse_args()
     if args.src:
-        prepare(args.src, not args.off, specialized=args.specialized, shared=args.shared, post_ward=args.post_ward)
+        prepare(args.src, not args.off, specialized=args.specialized or args.combined,
+                shared=args.shared, post_ward=args.post_ward or args.combined)
     else:
-        suffix = next((name for enabled, name in ((args.post_ward, "post-ward"), (args.shared, "shared"),
+        suffix = next((name for enabled, name in ((args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
                                                   (args.specialized, "specialized")) if enabled), "cap")
         verify(args.verify, variant=f"safe-tribute-{suffix}")
