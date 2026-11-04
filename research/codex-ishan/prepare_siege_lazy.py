@@ -7,6 +7,10 @@ CACHE = ROOT/"artifacts/codex-p0"
 
 def prepare(src, enabled):
     copytree(ROOT/"bots/v92/src",src)
+    add_lazy_masks(src, enabled)
+
+
+def add_lazy_masks(src, enabled):
     common=src/"common.h"
     data=common.read_bytes()
     nl=b"\r\n" if b"\r\n" in data else b"\n"
