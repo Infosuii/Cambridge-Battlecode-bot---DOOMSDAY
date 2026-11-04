@@ -442,6 +442,7 @@ private:
 #if JD_CONTACT
     bool jd_flee_strike(const EnemyRec& e, bool keep_dash); // JD_CONTACT bit 1: hit with everything that keeps the step available
     bool jd_step_needed() const;            // JD_CONTACT bit 1: a visible enemy can reach us next turn if we stay
+    bool jd_cornered() const;               // JD_CONTACT bit 4: no step escapes the chasers and home is out of reach
 #endif
 #if JD_PROGRESS
     // JD_PROGRESS: travel progress toward the farm target (field distance), reset on a new target or an interruption.

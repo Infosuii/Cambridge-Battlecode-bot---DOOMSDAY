@@ -124,7 +124,11 @@
 // Bit 2, earlier disengage: when not committed to a fight, leave once the enemies that can arrive within 3 turns
 // outnumber our support (us + healthy visible allies within 5 + allies whose claim is on site at our target and who
 // are out of view) and we are hurt (< 60%) or carrying (>= 25 gems); a carrier with >= 40 gems also leaves a fight
-// it was committed to when outnumbered. Fallback everywhere: v92's decision.
+// it was committed to when outnumbered.
+// Bit 4, can't escape -> turn and fight (revision 2, Claude #6 re #21): when fleeing, the dash escape did not fire,
+// no step (or staying) leaves every chaser's reach after its next move (its range + 1) and home is farther than we
+// survive under the chasers' damage, fight back with the whole kit on the enemy in reach we kill soonest.
+// Fallback everywhere: v92's decision.
 #ifndef JD_CONTACT
 #define JD_CONTACT 0
 #endif

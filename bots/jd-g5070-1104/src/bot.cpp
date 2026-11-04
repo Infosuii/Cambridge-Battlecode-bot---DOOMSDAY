@@ -3306,7 +3306,7 @@ bool Bot::melee_caught() {
 #if JD_CONTACT || JD_PROGRESS
 // JD_STRATLOG trigger counters (per champion VM, cumulative).
 namespace jdst {
-unsigned strike = 0, strike_spell = 0, strike_reset = 0, shoot = 0, diseng = 0, diseng_carrier = 0;
+unsigned strike = 0, strike_spell = 0, strike_reset = 0, shoot = 0, diseng = 0, diseng_carrier = 0, stand = 0;
 unsigned prog_stuck = 0, prog_osc = 0, prog_unreach = 0, prog_bank = 0, prog_rescore = 0;
 } // namespace jdst
 #endif
@@ -3340,6 +3340,29 @@ bool Bot::jd_flee_strike(const EnemyRec& e, bool keep_dash) {
     }
     if (hit) ++jdst::strike;
     return hit;
+}
+bool Bot::jd_cornered() const {
+    // No tile we can step to (or our own) gets us out of every chaser's reach after its next move, and home is too far
+    // to reach under the chasers' damage: running only hands out free hits.
+    float chase_dps = 0.0f;
+    int chasers = 0;
+    for (const auto& e : w.enemies)
+        if (e.hp > 0 && cheb(e.pos, pos) <= e.range + 1) chase_dps += enemy_dps(e), ++chasers;
+    if (chasers == 0) return false;
+    const int spawn_steps = fdist(w.spawn_field, pos);
+    if (spawn_steps != kUnreach && (spawn_steps <= 2 || static_cast<float>(spawn_steps) * chase_dps < hp * 0.9f)) return false;
+    auto caught_at = [&](vec2 q) {
+        for (const auto& e : w.enemies)
+            if (e.hp > 0 && cheb(e.pos, pos) <= e.range + 1 && cheb(e.pos, q) <= e.range + 1) return true;
+        return false;
+    };
+    if (!caught_at(pos)) return false;
+    for (vec2 dir : kDirs) {
+        const vec2 q = pos + dir;
+        if (!in_bounds(q, w.width, w.height) || bit(w.static_blocked, q) || bit(w.unit_tiles, q)) continue;
+        if (!caught_at(q)) return false;
+    }
+    return true;
 }
 bool Bot::jd_step_needed() const {
     if (bit(w.hot_zone, pos)) return true; // an awake camp hits this tile
@@ -4525,6 +4548,28 @@ bool Bot::handle_enemies() {
 #endif
     if (in_danger && !winning && tune::kStand && escape_or_stand(target, nearest, ttd)) return true;
     PROF_CHECK("e_stand");
+#if JD_CONTACT & 4
+    // JD_CONTACT bit 4, can't escape -> turn and fight (Claude #6, DEFECTS.md: 'flee' x4 is the commonest death): the
+    // dash escape above did not fire, no step leaves the chasers' reach and home is too far, so fight back with the
+    // whole kit on the enemy in reach we kill soonest (lowest health; a kill this turn first).
+    if (in_danger && !winning && jd_cornered()) {
+        const float burst = strength * 2.0f + focus * 2.0f;
+        const EnemyRec* victim = nullptr;
+        for (const auto& e : w.enemies) {
+            if (e.hp <= 0 || cheb(e.pos, pos) > range) continue;
+            const bool kill = e.hp <= burst, vkill = victim && victim->hp <= burst;
+            if (!victim || (kill && !vkill) || (kill == vkill && e.hp < victim->hp)) victim = &e;
+        }
+        if (victim) {
+            mode = "jd-stand";
+            ++jdst::stand;
+            cast_on_enemy(*victim);
+            if (attack_unit(victim->unit, victim->pos)) use_reset_and_attack(victim->unit, victim->pos);
+            heading_home = hp < max_hp * 0.5f;
+            return true;
+        }
+    }
+#endif
     if (in_danger && !winning) {
         if (tune::kStaleBag > 0 && gems >= tune::kStaleBag) {
             // The enemy holds this altar (the collision/corners bank stalls: carriers approach, flee and return
@@ -8641,10 +8686,10 @@ void Bot::play_turn() {
 #endif
 #if JD_STRATLOG && (JD_CONTACT || JD_PROGRESS)
     if (round % 100 == 0)
-        std::printf("JDCT R%d t%d strike %u strike_spell %u strike_reset %u shoot %u diseng %u diseng_carrier %u prog_stuck %u "
+        std::printf("JDCT R%d t%d strike %u strike_spell %u strike_reset %u shoot %u diseng %u diseng_carrier %u stand %u prog_stuck %u "
                     "prog_osc %u prog_unreach %u prog_bank %u prog_rescore %u\n",
             round, static_cast<int>(type), jdst::strike, jdst::strike_spell, jdst::strike_reset, jdst::shoot, jdst::diseng,
-            jdst::diseng_carrier, jdst::prog_stuck, jdst::prog_osc, jdst::prog_unreach, jdst::prog_bank, jdst::prog_rescore);
+            jdst::diseng_carrier, jdst::stand, jdst::prog_stuck, jdst::prog_osc, jdst::prog_unreach, jdst::prog_bank, jdst::prog_rescore);
 #endif
     drop_ward();
     if (tune::kTSearch && w.enemies.empty()) ts_prewarm(); // champion kits for the search, on calm turns
