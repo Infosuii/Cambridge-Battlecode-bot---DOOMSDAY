@@ -1099,6 +1099,75 @@ int Bot::nn_ens_sample(int v92g) {
 }
 #endif
 #endif
+#ifdef CLNA_EPS
+// rl-env (task rl-env-collector-1104, JOHNDOE NATIVE_ADAPTER_REVIEW.md): exploration-only baseline over the FROZEN native
+// policy. Reference = the deterministic blend (nn_ens_keep). Candidates = the runtime's scored groups nn_pub.eg/es and the
+// far slot, which falls back to v92's choice. Policy over PHYSICAL groups (duplicates merged):
+//   pi(g) = (1 - eps) * [g == reference] + eps * softmax(native scores)(g)
+// The sample is drawn here, charged, as the acting policy; only the row is logged in debug_block:
+//   CNA1 <round> <slot> <id> <ref> <chosen> <logp> <eps> <v92> <nn> <k> {<group>:<q>}*k <b64 int16[kNF] features>
+#ifndef CLNA_SEED
+#define CLNA_SEED 1104
+#endif
+static std::uint64_t clna_rng = 0;
+static double clna_u01() {
+    clna_rng += 0x9E3779B97F4A7C15ull;
+    std::uint64_t z = clna_rng;
+    z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9ull;
+    z = (z ^ (z >> 27)) * 0x94D049BB133111EBull;
+    z ^= z >> 31;
+    return static_cast<double>(z >> 11) * (1.0 / 9007199254740992.0);
+}
+int Bot::clna_explore(int v92g, int ng) {
+    if (!clna_rng) clna_rng = static_cast<std::uint64_t>(CLNA_SEED) * 0x100000001B3ull ^ (static_cast<std::uint64_t>(my_id) << 17);
+    const int ref = nn_ens_keep(v92g, ng) ? v92g : ng;
+    int pg[13];
+    double lg[13];
+    int m = 0;
+    for (int i = 0; i < nn_pub.n && i < 12; ++i) pg[m] = nn_pub.eg[i], lg[m++] = nn_pub.es[i];
+    pg[m] = v92g, lg[m++] = nn_pub.far;  // the far slot: outside the scored groups, falls back to v92
+    double mx = -1e300;
+    for (int i = 0; i < m; ++i) mx = lg[i] > mx ? lg[i] : mx;
+    int ug[14];
+    double uq[14];
+    int nu = 0;
+    double z = 0;
+    for (int i = 0; i < m; ++i) z += std::exp(lg[i] - mx);
+    for (int i = 0; i < m; ++i) {
+        const double q = std::exp(lg[i] - mx) / z;
+        int k = 0;
+        while (k < nu && ug[k] != pg[i]) ++k;
+        if (k == nu) ug[nu] = pg[i], uq[nu++] = 0.0;
+        uq[k] += q;
+    }
+    int kr = 0;
+    while (kr < nu && ug[kr] != ref) ++kr;
+    if (kr == nu) ug[nu] = ref, uq[nu++] = 0.0;
+    const double eps = static_cast<double>(CLNA_EPS);
+    double p[14], acc = 0;
+    for (int k = 0; k < nu; ++k) p[k] = eps * uq[k] + (ug[k] == ref ? 1.0 - eps : 0.0);
+    const double u = clna_u01();
+    int c = nu - 1;
+    for (int k = 0; k < nu; ++k) {
+        acc += p[k];
+        if (u < acc) {
+            c = k;
+            break;
+        }
+    }
+    const double logp = std::log(p[c]);
+    clna_round = round;
+    debug_block({
+        std::printf("CNA1 %d %d %u %d %d %.9f %.4f %d %d %d", round, slot, my_id, ref, ug[c], logp, eps, v92g, ng, nu);
+        for (int k = 0; k < nu; ++k) std::printf(" %d:%.9f", ug[k], uq[k]);
+        std::printf(" %s\n", b64(nn_lf, kNF).c_str());
+    });
+    return ug[c];
+}
+void Bot::clna_skip(int v92g, int ng) {
+    debug_block({ std::printf("CNS1 %d %d %u %d %d %d\n", round, slot, my_id, v92g, ng, nn_stay ? 1 : 0); });
+}
+#endif
 #endif
 // Neural bot (A2_NN bits: 1 the student picks the farming target group, 2 it decides when to bank).
 void Bot::nn_decide() {

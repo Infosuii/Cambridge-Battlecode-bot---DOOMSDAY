@@ -61,6 +61,11 @@ public:
 #ifdef A2_NN_ENS
     bool nn_ens_keep(int v92g, int ng) const; // blend with v92's choice (nnrec.cpp)
     int nn_ens_sample(int v92g);              // the same in RL rollouts (A2_NN_RLIVE)
+#ifdef CLNA_EPS
+    int clna_explore(int v92g, int ng);       // rl-env exploration-only baseline over the frozen blend (nnrec.cpp)
+    void clna_skip(int v92g, int ng);         // log a farm point where no admitted decision was made
+    int clna_round = -1;                      // round of this turn's admitted decision (-1 none)
+#endif
 #endif
     int nn_group = -1, nn_beh = -1;
     int nn_v92best = -1;         // v92's own target choice this turn (the DAgger label)

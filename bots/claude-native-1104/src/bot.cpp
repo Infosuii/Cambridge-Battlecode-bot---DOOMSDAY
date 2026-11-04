@@ -6680,6 +6680,9 @@ bool Bot::farm() {
 #ifdef A2_NN_ENS
 #if defined(A2_NN_RLIVE) && A2_NN_RLIVE
     if (best >= 0 && nn_group >= 0 && !nn_stay) nn_group = nn_ens_sample(best);
+#elif defined(CLNA_EPS)
+    if (best >= 0 && nn_group >= 0 && !nn_stay) nn_group = clna_explore(best, nn_group);
+    else clna_skip(best, nn_group);
 #else
     if (best >= 0 && nn_group >= 0 && !nn_stay && nn_ens_keep(best, nn_group)) nn_group = best;
 #endif
