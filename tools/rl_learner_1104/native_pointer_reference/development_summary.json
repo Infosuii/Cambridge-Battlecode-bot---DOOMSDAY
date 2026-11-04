@@ -1,0 +1,97 @@
+{
+  "scope": "Matched DEVELOPMENT evaluation after first real native-query RL update; no sealed holdout/ladder/future superiority claim",
+  "games": 150,
+  "maps": 15,
+  "families": 13,
+  "wall_seconds": 136.31223204126582,
+  "pairs": {
+    "u0-vs-v92": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "score": 15.0,
+      "own_fuel_outs": 475,
+      "opponent_fuel_outs": 5
+    },
+    "u1-vs-v92": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "score": 15.0,
+      "own_fuel_outs": 483,
+      "opponent_fuel_outs": 1
+    },
+    "native-vs-v92": {
+      "games": 30,
+      "wins": 19,
+      "draws": 0,
+      "losses": 11,
+      "score": 19.0,
+      "own_fuel_outs": 461,
+      "opponent_fuel_outs": 1
+    },
+    "u0-vs-native": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "score": 15.0,
+      "own_fuel_outs": 485,
+      "opponent_fuel_outs": 402
+    },
+    "u1-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "score": 13.0,
+      "own_fuel_outs": 438,
+      "opponent_fuel_outs": 406
+    }
+  },
+  "comparisons": {
+    "u1-minus-u0_vs_v92": {
+      "delta_score_rate": 0.0,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.16666666666666666,
+        0.19230769230769232
+      ],
+      "identical_win_scores": 22
+    },
+    "u1-minus-u0_vs_native": {
+      "delta_score_rate": -0.06666666666666667,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.23529411764705882,
+        0.11538461538461539
+      ],
+      "identical_win_scores": 22
+    },
+    "u1-minus-native_vs_v92": {
+      "delta_score_rate": -0.13333333333333333,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.3333333333333333,
+        0.07692307692307693
+      ],
+      "identical_win_scores": 18
+    }
+  },
+  "artifact_hashes": {
+    "u0": "97cb3abb15e6f43b7048a7d08c97d1a5e039d8b84d97132e1df47ea7ee7183aa",
+    "u1": "e32f08b77c372627495ce25cbb52f23d00cab1be3273ed39a128eaf0467c2ef8",
+    "native": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177",
+    "v92": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+  },
+  "collection_logging": "disabled in initial/learned deployment artifacts; unused added-head snapshot copies and skip logging removed from both",
+  "limitations": [
+    "One compiled policy RNG seed; both sides/maps/opponents, not independent policy seed replications.",
+    "Opponents are related frozen v92/native; more diverse current teams required for broad performance claim.",
+    "Development maps have prior experimental exposure; confirmation_reserved not used.",
+    "Bootstrap clusters the13 map families, not112k training decisions.",
+    "A single small update may not establish a detectable advantage."
+  ]
+}
