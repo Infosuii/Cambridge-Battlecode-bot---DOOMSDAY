@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T03:43:30.975Z",
+  "updated_at": "2026-11-04T03:53:31.103Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 14,
+      "seq": 15,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:38:54Z",
+      "last_control_at": "2026-11-04T03:48:55Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621887522,
+      "last_control_comment_id": 6622021382,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 13,
+      "seq": 14,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:42:47Z",
+      "last_control_at": "2026-11-04T03:52:54Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,7 +51,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621940794,
+      "last_control_comment_id": 6622073624,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-1104-20261104-0105",
-      "seq": 5,
-      "state": "UNAVAILABLE_30M",
+      "seq": 6,
+      "state": "RETURNING",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:10:14Z",
+      "last_control_at": "2026-11-04T03:49:16Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -72,12 +72,12 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 0,
+      "free_capacity": 1,
       "requires_new_assignment": true,
       "branch": "johndoe/qualifier-builder-g5070-1104",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6621477578,
-      "checkpoint": "1e62dd80",
+      "last_control_comment_id": 6622025860,
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "unavailable_since": "2026-11-04T03:40:14Z",
       "return_clue": {
         "comment_id": 6621929704,
@@ -109,68 +109,84 @@
   "tasks": [
     {
       "id": "candidate-integration",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "heavy-build",
         "evaluation"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
+      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
-      "transition_id": "expire:builder-g5070-1104:6621477578"
+      "transition_id": "expire:builder-g5070-1104:6621477578",
+      "previous_branch": "johndoe/qualifier-builder-g5070-1104",
+      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "deadline": "2026-11-04T13:05:00Z",
+      "run_namespace": "jd-eval/epoch2/"
     },
     {
       "id": "fuel-memory-runtime",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "runtime"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
+      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
-      "transition_id": "expire:builder-g5070-1104:6621477578"
+      "transition_id": "expire:builder-g5070-1104:6621477578",
+      "previous_branch": "johndoe/qualifier-builder-g5070-1104",
+      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "deadline": "2026-11-04T13:05:00Z",
+      "run_namespace": "jd-eval/epoch2/"
     },
     {
       "id": "basic-decision-strategy",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "strategy"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
+      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
-      "transition_id": "expire:builder-g5070-1104:6621477578"
+      "transition_id": "expire:builder-g5070-1104:6621477578",
+      "previous_branch": "johndoe/qualifier-builder-g5070-1104",
+      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "deadline": "2026-11-04T13:05:00Z",
+      "run_namespace": "jd-eval/epoch2/"
     },
     {
       "id": "rl-actor-export",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 2,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "rl-export"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
+      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
-      "transition_id": "expire:builder-g5070-1104:6621477578"
+      "transition_id": "expire:builder-g5070-1104:6621477578",
+      "previous_branch": "johndoe/qualifier-builder-g5070-1104",
+      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "deadline": "2026-11-04T13:05:00Z",
+      "run_namespace": "jd-eval/epoch2/"
     },
     {
       "id": "rl-training",
@@ -211,6 +227,23 @@
       "branch": "johndoe/qualifier-build-prompt",
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
       "platform_sensitive": false
+    },
+    {
+      "id": "rl-distill-local",
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-1104-20261104-0105",
+      "epoch": 1,
+      "state": "AWAITING_ACK",
+      "requires": [
+        "gpu"
+      ],
+      "branch": "johndoe/qualifier-builder-g5070-1104-e2",
+      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
+      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "platform_sensitive": false,
+      "job_id": "rl-dagger-01",
+      "deadline": "2026-11-04T08:42:00Z",
+      "constraints": "Existing process only; no restart/duplicate; branch-local; <=6 CPUs; disjoint poolfresh121-249; full lineage; yield resources to behavior evaluation; Agent2 rl-training unchanged."
     }
   ],
   "events": [
@@ -257,18 +290,43 @@
         "rl-actor-export"
       ],
       "blocker": "No other live adopted worker has verified runtime/strategy/rl-export or heavy-build/evaluation capability and spare compute access."
+    },
+    {
+      "id": "return:builder-g5070-1104:6622025860",
+      "type": "CONFIRMED_RETURN",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T03:49:16Z",
+      "comment_id": 6622025860
+    },
+    {
+      "id": "assign:builder-g5070-1104:6622025860:e2",
+      "type": "ASSIGNMENT_PENDING_ACK",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T03:53:43Z",
+      "tasks": [
+        "candidate-integration:2",
+        "fuel-memory-runtime:2",
+        "basic-decision-strategy:2",
+        "rl-actor-export:2",
+        "rl-distill-local:1"
+      ]
     }
   ],
-  "note": "Builder controller exceeded strict >30m before late substantive comment. Four task epochs revoked to2; READY required before reassignment. Agent2 training unchanged; local job separately reported. No ladder lock released.",
-  "last_complete_check_at": "2026-11-04T03:43:30.975Z",
+  "note": "Builder READY return verified; epoch2 assignments and separate local distillation offered pending current-epoch ACK and new epoch2 branch/run namespace. No old ownership silently restored.",
+  "last_complete_check_at": "2026-11-04T03:53:31.103Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
-      "comment_id": 6621929704,
+      "comment_id": 6622025860,
       "reported_at": "2026-11-04T03:41:55Z",
-      "state": "REPORTED_UNVERIFIED",
+      "state": "CONTROLLER_REPORTED_RUNNING",
       "location": "builder machine jd-eval/rl/rl-dagger-01/ckpt",
-      "note": "Separate process report; does not renew controller. Do not duplicate/kill; local-distillation task registration and current-epoch ACK pending."
+      "note": "Separate process report; does not renew controller. Do not duplicate/kill; local-distillation task registration and current-epoch ACK pending.",
+      "pid": 25780,
+      "launcher_pid": 23600,
+      "started_at": "2026-11-04T03:42:05Z",
+      "stop_by": "2026-11-04T08:42:00Z",
+      "independently_verified": false
     }
   }
 }
