@@ -1,0 +1,18 @@
+--- a/nn_infer.h
++++ b/nn_infer.h
+@@ -357,6 +357,7 @@
+     std::int16_t eg[1][kE], es[1][kE], ea[kNA][kE], ee[kNE][kE], ec[kNC][kE], el[kNL][kE];
+     bool pg[1], ps[1], pa[kNA], pe[kNE], pc[kNC], pl[kNL];
+     std::int16_t x[nnw::kTrunkIn], acc0[nnw::kTrunk], r[kE];
++    std::int16_t jd_h1[nnw::kTrunk] = {}; int jd_h1_at = -1;
+     std::int32_t c0 = 0;
+     int beh = -1;
+     bool z_ok = false, x_ok = false;
+@@ -546,6 +547,7 @@
+     for (int k = 0; k < kTrunk / 8; ++k) wasm_v128_store(h0 + 8 * k, wasm_i16x8_max(wasm_v128_load(lv.acc0 + 8 * k), zero));
+     dense16<kTrunk>(kT_W1_TQ, kT_b1Q, h0, kTrunk, h1, true);
+     dense16<kE>(kP_target_qW_TQ, kP_target_qbQ, h1, kTrunk, q, false);
++    std::copy(h1,h1+kTrunk,lv.jd_h1);lv.jd_h1_at=static_cast<int>(bc::round_number());
+     dense16<kE>(kP_target_kWQ, nullptr, q, kE, lv.r, false); // r = Wk^T q
+     lv.c0 = dot16(kP_target_kbQ, q);                         // Q9 x Q7 = Q16
+     lv.z_ok = true;
