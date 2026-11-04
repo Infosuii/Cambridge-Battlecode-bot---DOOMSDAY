@@ -10,12 +10,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import contract as C  # noqa: E402
 
 LAY = C.LAYOUTS[4]
-BASE = dict(layout=4, action_schema="target11-v1", reward_spec="test", run_ns="test",
+BASE = dict(layout=4, action_schema="target11-v1", reward_spec="test", run_ns="test", sampling="complete",
             policy={"name": "t", "wasm_sha256": "0" * 64, "build": "debug", "flags": []},
             engine={"cambc": "4.0.0", "engine": "2.0.0"})
 
 
-def episode(n_bodies=2, rows_per_body=3, status="terminated", bad=None):
+def episode(n_bodies=2, rows_per_body=3, status="terminated", bad=None, boundary=False):
     nf, na = LAY.nf, 11
     r = {c: [] for c in C.required_columns(BASE)}
     for b in range(n_bodies):
@@ -47,10 +47,24 @@ def episode(n_bodies=2, rows_per_body=3, status="terminated", bad=None):
             r["dt_rounds"].append(10)
             r["terminated"].append(1 if last and status == "terminated" else 0)
             r["truncated"].append(1 if last and status != "terminated" else 0)
+            r["boundary"].append(0)
+            r["bootstrap_valid"].append(1 if last and boundary else 0)
+        if boundary:  # observation-only row at the cut
+            for c in r:
+                if c in ("x_fresh", "x_stale"):
+                    r[c] += r[c][-nf:]
+                elif c == "mask":
+                    r[c] += [0] * na
+                elif r[c]:  # `episode` is filled in by the writer
+                    r[c].append(r[c][-1])
+            r["action"][-1], r["weight"][-1], r["has_logp"][-1], r["logp"][-1] = -1, 0.0, 0, math.nan
+            r["boundary"][-1], r["bootstrap_valid"][-1], r["truncated"][-1], r["reset"][-1] = 1, 0, 0, 0
+            r["feat_round"][-1] = r["act_round"][-1] = 30
     if bad:
         bad(r)
     meta = dict(key=f"k{status}{id(r)}", map_file="m", map_hash="abc", opponent={"name": "v92", "wasm_sha256": "1" * 64},
-                side="A", seed="1", status=status, our_team="teamA", outcome="teamA", rounds_completed=30)
+                side="A", seed="1", status=status, our_team="teamA", outcome="teamA", rounds_completed=30,
+                reward_complete=True)
     return meta, r
 
 
@@ -112,6 +126,29 @@ class ContractTest(unittest.TestCase):
             w2.add_episode(m2, r2)
         with self.assertRaises(ValueError):
             list(C.iter_shards(self.d, layout=2))
+
+    def test_truncated_bootstrap_needs_boundary_row(self):
+        man, cols = self.roundtrip(episode(status="truncated", boundary=True))
+        self.assertEqual(C.validate(man, cols), [])
+        self.assertTrue(man["episodes"][0]["ppo_eligible"])
+        def no_row(r):  # claims a bootstrap but has no final observation
+            r["bootstrap_valid"][2] = 1
+        man, cols = self.roundtrip(episode(status="truncated", bad=no_row))
+        self.assertTrue(any("no boundary row follows" in e for e in C.validate(man, cols)))
+
+    def test_log_cut_never_bootstraps_or_trains(self):
+        man, cols = self.roundtrip(episode(status="truncated_log", boundary=True))
+        errs = C.validate(man, cols)
+        self.assertTrue(any("may not bootstrap" in e for e in errs))
+        self.assertFalse(man["episodes"][0]["ppo_eligible"])
+
+    def test_subsampled_shard_is_not_ppo_data(self):
+        w = C.ShardWriter(self.d, dict(BASE, sampling="subsampled"))
+        meta, rows = episode()
+        w.add_episode(meta, rows)
+        man, cols = C.load_shard(w.flush(), use_numpy=False)
+        self.assertEqual(C.validate(man, cols), [])
+        self.assertFalse(man["episodes"][0]["ppo_eligible"])
 
     def test_split_is_per_map(self):
         self.assertEqual(C.episode_split("abc"), C.episode_split("abc"))

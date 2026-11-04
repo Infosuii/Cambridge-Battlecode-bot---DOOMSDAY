@@ -11,7 +11,11 @@ Rules the format enforces (validate()):
   - a row is one logged decision of one body; rows of a body are in round order within an episode;
   - logp is NaN exactly when has_logp == 0 (deterministic teachers such as v92 get no invented probabilities);
   - the sampled action is legal under its mask; inclusion weights are > 0 (Agent 2 logs unchanged decisions 1/KEEP);
-  - death is not an episode end: terminated/truncated mark only a body's last row of an episode, and never both.
+  - death is not an episode end: terminated/truncated mark only a body's last decision of an episode, and never both;
+  - a truncated body may bootstrap only from a real final observation: a boundary row (boundary=1, action=-1, weight 0)
+    carrying the body's observation at the cut, with bootstrap_valid=1; log cuts and timeouts get bootstrap_valid=0;
+  - PPO uses only shards whose manifest says sampling == "complete" (every policy decision logged, A2_NN_RL_KEEP=1)
+    and episodes with ppo_eligible == true; subsampled shards are imitation/diagnostic data.
 """
 from __future__ import annotations
 
@@ -25,7 +29,7 @@ import time
 from dataclasses import dataclass
 from typing import Iterator
 
-CONTRACT_VERSION = "rlenv-1"
+CONTRACT_VERSION = "rlenv-2"
 
 
 @dataclass(frozen=True)
@@ -67,12 +71,16 @@ assert LAYOUTS[2].nf == 500 and LAYOUTS[4].nf == 556
 class ActionSchema:
     name: str
     n: int
+    control: str  # "hybrid": the network picks only this head, the rest is v92 code; "full": all primitive controls
     doc: str
 
 
 ACTION_SCHEMAS = {
     # Agent 2 target head: index i < 10 = i-th nearest camp group in the c block, 10 = "far" (outside the 10 nearest).
-    "target11-v1": ActionSchema("target11-v1", 11, "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
+    "target11-v1": ActionSchema("target11-v1", 11, "hybrid",
+                                "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
+    # Full primitive control gets a new versioned schema (conditional heads: move/attack/cast/bank/buy/ward) when the
+    # SDK action-phase audit (E0 test_action_phases) is done; it is not defined here yet.
 }
 
 # Column name -> (dtype code, trailing shape key). Shape keys: "" = [N], "nf" = [N, NF], "a" = [N, A], "h" = [N, H].
@@ -99,12 +107,15 @@ COLUMNS = {
     "reward": ("float32", ""),       # reward from this decision to the body's next logged decision (reward_spec)
     "dt_rounds": ("int32", ""),      # rounds from this decision to the next logged one (or episode end)
     "terminated": ("uint8", ""),     # body's last row and the game ended (engine outcome)
-    "truncated": ("uint8", ""),      # body's last row and the game did not end (round cap, timeout, log cut)
+    "truncated": ("uint8", ""),      # body's last decision and the game did not end (round cap, timeout, log cut)
+    "boundary": ("uint8", ""),       # observation-only row at a truncation cut: action -1, weight 0, excluded from losses
+    "bootstrap_valid": ("uint8", ""),  # on a truncated decision: 1 iff the next row is this body's boundary row
     "h0": ("float32", "h"),          # recurrent state before this decision; absent when hidden_size == 0
 }
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "failed")
+SAMPLING = ("complete", "subsampled", "teacher")  # complete = every policy decision logged (A2_NN_RL_KEEP=1)
 
 
 def episode_split(map_hash: str, salt: str = "rlenv-1104", dev_fraction: float = 0.2) -> str:
@@ -136,11 +147,13 @@ class ShardWriter:
     """
 
     def __init__(self, run_dir: str, base_manifest: dict, max_rows: int = 50_000):
-        for k in ("layout", "action_schema", "reward_spec", "policy", "engine", "run_ns"):
+        for k in ("layout", "action_schema", "reward_spec", "policy", "engine", "run_ns", "sampling"):
             if k not in base_manifest:
                 raise ValueError(f"base manifest needs {k}")
         if base_manifest["layout"] not in LAYOUTS:
             raise ValueError(f"unknown layout {base_manifest['layout']}")
+        if base_manifest["sampling"] not in SAMPLING:
+            raise ValueError(f"sampling must be one of {SAMPLING}")
         self.run_dir, self.base, self.max_rows = run_dir, dict(base_manifest), max_rows
         self.base.setdefault("hidden_size", 0)
         os.makedirs(run_dir, exist_ok=True)
@@ -164,7 +177,10 @@ class ShardWriter:
             raise ValueError(f"episode status must be one of {EPISODE_STATUS}")
         n = len(rows["action"])
         rows = dict(rows, episode=[len(self._episodes)] * n)
-        meta = dict(meta, split=meta.get("split") or episode_split(meta["map_hash"]), rows=n)
+        eligible = (self.base["sampling"] == "complete" and meta["status"] in ("terminated", "truncated")
+                    and meta.get("reward_complete", False))
+        meta = dict(meta, split=meta.get("split") or episode_split(meta["map_hash"]), rows=n,
+                    ppo_eligible=bool(meta.get("ppo_eligible", eligible)) and eligible)
         for c, buf in self._cols.items():
             want = math.prod(column_shape(c, n, self.base))
             vals = rows[c]
@@ -281,18 +297,30 @@ def validate(man: dict, cols: dict) -> list:
     act, logp, hasl, w = flat("action"), flat("logp"), flat("has_logp"), flat("weight")
     ep, body, fr, ar, sr = flat("episode"), flat("body_id"), flat("feat_round"), flat("act_round"), flat("stale_round")
     term, trunc, dt = flat("terminated"), flat("truncated"), flat("dt_rounds")
-    last_row = {}
+    bnd, bval = flat("boundary"), flat("bootstrap_valid")
+    if man.get("sampling") not in SAMPLING:
+        errs.append(f"manifest sampling {man.get('sampling')!r} not in {SAMPLING}")
+    last_row, last_dec = {}, {}
     for i in range(n):
-        if not 0 <= act[i] < na:
-            errs.append(f"row {i}: action {act[i]} outside 0..{na - 1}")
-        elif mask[i * na + act[i]] != 1:
-            errs.append(f"row {i}: action {act[i]} not legal under its mask")
+        if bnd[i]:
+            if act[i] != -1 or w[i] != 0 or hasl[i] != 0 or term[i] or trunc[i] or bval[i]:
+                errs.append(f"row {i}: boundary row must have action -1, weight 0, no logp and no flags")
+            prev = last_dec.get((ep[i], body[i]))
+            if prev is None or not trunc[prev] or not bval[prev]:
+                errs.append(f"row {i}: boundary row without a preceding truncated, bootstrap_valid decision")
+        else:
+            if not 0 <= act[i] < na:
+                errs.append(f"row {i}: action {act[i]} outside 0..{na - 1}")
+            elif mask[i * na + act[i]] != 1:
+                errs.append(f"row {i}: action {act[i]} not legal under its mask")
+            if not w[i] > 0:
+                errs.append(f"row {i}: weight {w[i]} <= 0")
+            if bval[i] and not trunc[i]:
+                errs.append(f"row {i}: bootstrap_valid on a row that is not a truncated final decision")
         if hasl[i] not in (0, 1) or (hasl[i] == 1) == math.isnan(logp[i]):
             errs.append(f"row {i}: logp/has_logp mismatch")
         elif hasl[i] == 1 and logp[i] > 1e-6:
             errs.append(f"row {i}: logp {logp[i]} > 0")
-        if not w[i] > 0:
-            errs.append(f"row {i}: weight {w[i]} <= 0")
         if xf[i * nf + lay.self_id_index] != body[i]:
             errs.append(f"row {i}: body_id {body[i]} != self-id feature {xf[i * nf + lay.self_id_index]}")
         if ar[i] < fr[i] or (sr[i] >= 0 and sr[i] > fr[i]):
@@ -307,15 +335,26 @@ def validate(man: dict, cols: dict) -> list:
         if key in last_row and fr[i] < fr[last_row[key]]:
             errs.append(f"row {i}: body {body[i]} rows out of round order")
         last_row[key] = i
+        if not bnd[i]:
+            last_dec[key] = i
         if len(errs) > 50:
             errs.append("... (truncated)")
             return errs
-    ends = set(last_row.values())
+    ends = set(last_dec.values())
     for i in range(n):
         if (term[i] or trunc[i]) and i not in ends:
             errs.append(f"row {i}: terminal flag on a non-final row of body {body[i]} (death is not an episode end)")
+    for key, i in last_dec.items():
+        if bval[i] and last_row[key] == i:
+            errs.append(f"row {i}: bootstrap_valid but no boundary row follows")
     for e, meta in enumerate(man["episodes"]):
-        for i in (r for (ee, _), r in last_row.items() if ee == e):
+        if meta.get("ppo_eligible") and man.get("sampling") != "complete":
+            errs.append(f"episode {e}: ppo_eligible in a {man.get('sampling')} shard")
+        if meta.get("ppo_eligible") and meta["status"] not in ("terminated", "truncated"):
+            errs.append(f"episode {e}: ppo_eligible with status {meta['status']}")
+        for i in (r for (ee, _), r in last_dec.items() if ee == e):
+            if meta["status"] in ("truncated_log", "failed") and bval[i]:
+                errs.append(f"episode {e}: {meta['status']} episode may not bootstrap (row {i})")
             if meta["status"] == "terminated" and not term[i]:
                 errs.append(f"episode {e}: terminated game but body's last row {i} not marked terminated")
             if meta["status"] != "terminated" and term[i]:

@@ -1,7 +1,8 @@
-# Trajectory contract `rlenv-1` (task rl-env-collector-1104)
+# Trajectory contract `rlenv-2` (task rl-env-collector-1104)
 
 Code: `tools/rl_env_1104/contract.py` (stdlib only; numpy optional for loading). Tests:
-`python tools/rl_env_1104/test_contract.py` (8 tests). Engine facts behind each rule: `API_AUDIT.md`.
+`python tools/rl_env_1104/test_contract.py` (11 tests). `rlenv-2` adds the boundary/bootstrap and sampling rules from
+JOHNDOE #28; `rlenv-1` shards are not readable as `rlenv-2`. Engine facts behind each rule: `API_AUDIT.md`.
 
 ## Import and call interface
 
@@ -9,9 +10,9 @@ Code: `tools/rl_env_1104/contract.py` (stdlib only; numpy optional for loading).
 import sys; sys.path.insert(0, "tools/rl_env_1104")
 import contract as C
 
-C.CONTRACT_VERSION                  # "rlenv-1"
+C.CONTRACT_VERSION                  # "rlenv-2"
 C.LAYOUTS[4].nf                     # 556 (layout 2: 500); .offset("c"), .width("c"), .count("c"), .self_id_index
-C.ACTION_SCHEMAS["target11-v1"].n   # 11: camp-group pointer over the c block, 10 = far
+C.ACTION_SCHEMAS["target11-v1"].n   # 11: camp-group pointer over the c block, 10 = far; .control == "hybrid"
 
 for man, cols in C.iter_shards("runs/<run_ns>", layout=4, split="train"):   # validates each shard; raises on mixing
     X   = cols["x_fresh"]        # int16 [N, 556]  this decision's fresh features
@@ -52,7 +53,9 @@ w.flush()                         # atomic: writes shard_XXXXX.tmp then renames
 | `changed`, `reset` | uint8 | [N] | target changed; first decision after start/respawn (reset GRU) |
 | `reward` | float32 | [N] | reward from this decision to the body's next logged one (`reward_spec`) |
 | `dt_rounds` | int32 | [N] | rounds to the next logged decision (discount `gamma**dt`) |
-| `terminated` / `truncated` | uint8 | [N] | only on a body's **last** row of an episode, never both; death is not terminal |
+| `terminated` / `truncated` | uint8 | [N] | only on a body's **last decision** of an episode, never both; death is not terminal |
+| `boundary` | uint8 | [N] | observation-only row at a truncation cut: `action` -1, `weight` 0, `has_logp` 0; never in a loss |
+| `bootstrap_valid` | uint8 | [N] | on a truncated last decision: 1 iff the body's boundary row follows (its real final observation) |
 | `h0` | float32 | [N, H] | recurrent state before the decision; only when `hidden_size` > 0 |
 
 ## Manifest (`shard.json`)
@@ -61,19 +64,29 @@ w.flush()                         # atomic: writes shard_XXXXX.tmp then renames
 `columns{name: {dtype, shape}}`, `policy{name, wasm_sha256, build: release|debug, flags[], source_commit}`,
 `engine{cambc, engine, engine_build_hash}`, plus collector fields (`fuel_quantum`, `log_limit`). `episodes[]`: `key`,
 `map_file`, `map_hash`, `opponent{name, wasm_sha256}`, `side`, `seed`, `status` (terminated | truncated |
-truncated_log | failed), `our_team`, `outcome`, `rounds_completed`, `split` (train | dev, by map hash, so both sides and
-all opponents of a map stay together), `rows`.
+truncated_log | failed), `our_team`, `outcome`, `rounds_completed`, `reward_complete`, `ppo_eligible`, `split` (train |
+dev, by map hash, so both sides and all opponents of a map stay together), `rows`. Shard-level `sampling`: `complete`
+(every policy decision logged, `A2_NN_RL_KEEP=1`), `subsampled`, or `teacher` (v92 traces, no log-probs).
 
 ## Rules for the learner
 
-- **Subsampling:** Agent 2 logs every target change but only 1/`A2_NN_RL_KEEP` of unchanged decisions. Weight losses by
-  `weight`, and compute returns over `dt_rounds` (rounds actually elapsed), not over row index.
+- **PPO data = `sampling == "complete"` shards and `ppo_eligible` episodes only.** The collector runs PPO rollouts with
+  `A2_NN_RL_KEEP=1`. Subsampled shards (Agent 2's default) can't reconstruct the omitted decisions' advantages or
+  recurrence; use them for imitation/diagnostics only. `ppo_eligible` requires complete sampling, a terminated or
+  truncated status and `reward_complete`.
+- **Returns:** discount by `gamma**dt_rounds` (rounds actually elapsed). A body's last decision has `dt_rounds` = rounds
+  to the true episode boundary (game end or cut), not to an invented next decision.
+- **Bootstrap:** only where `bootstrap_valid == 1`, from V(boundary row). `truncated_log`/`failed` episodes never
+  bootstrap (validate() rejects it); a missing summary is never filled with zeros.
 - **Mixed-age observation:** a decision used `x_fresh` (this turn) plus `x_stale` (an earlier summary). Recompute the
   policy from exactly these two vectors; don't rebuild the summary from fresher data.
 - **Privileged data:** the match summary/replay may feed `reward` and a critic input built separately; never
   `x_fresh`/`x_stale`.
 - **Layouts:** one root per layout; `iter_shards` raises on a mismatch rather than skipping.
-- **Terminal handling:** `terminated` → no bootstrap; `truncated` (round cap, timeout, log cut) → bootstrap from V.
+- **Terminal handling:** `terminated` → no bootstrap; `truncated` + `bootstrap_valid` → bootstrap from the boundary
+  row; otherwise drop the tail (no bootstrap).
+- **Hybrid:** `target11-v1` is a hybrid head (the rest of the bot is v92 code). Full primitive control will be a new,
+  versioned conditional-head schema after the SDK action-phase audit.
 
 ## Next slices
 
