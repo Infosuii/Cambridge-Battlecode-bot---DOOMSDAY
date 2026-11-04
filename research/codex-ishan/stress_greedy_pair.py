@@ -11,7 +11,7 @@ SEED = 11173
 
 def play(job):
     row = bench.one(job, fuel=100000)
-    case = OUT / "games" / f"{row['arm']}-{SEED}-{row['opponent']}-{row['map']}-{row['side']}"
+    case = bench.OUT / "games" / f"{row['arm']}-{row['noise_seed']}-{row['opponent']}-{row['map']}-{row['side']}"
     native = read(case / "native.json")
     return {**row, "errors": bool(native["diagnostics"]["codes"] or any(native["diagnostics"]["botFaults"].values())),
             "draft": native["roster"]["draft"]}

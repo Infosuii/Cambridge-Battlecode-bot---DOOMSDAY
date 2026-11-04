@@ -2,6 +2,12 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 21:27 GMT
+
+- Signed-in CLI verified platform v80 active, selected and pinned, status at 21:20:34.059Z and quota 0/50. No branch ladder mutation, lock request or ACK. No formal L1, L2, ladder duels or holdouts have run.
+- [EXP-131](../../research/codex-ishan/EXP-131-RESULT.md) preserved all three independent Heart action prefixes and removed all three suspensions. Its 320 paired development games passed and two clean builds matched `5acb76741028ed82a4cc23c938ed4cd46ceef9d2612204a30a7cf02d8641674d`. All-off matched v92. The official pool had 100/172 wins versus 86/172, 26 versus 160 suspensions, and zero faults or codes. One previously clean game suspended and L0 failed. The official-pool cell identities and outcomes remain outside diagnosis.
+- [EXP-132](../../research/codex-ishan/EXP-132.md) is running 800 standard-budget games on 100 frozen five-slot stress maps with new compiled seed 14107 and four opponents. Use only independently discovered development events to choose the next trace.
+
 ## Qualifier research through 4 Nov 2026, 21:22 GMT
 
 - [EXP-124](../../research/codex-ishan/EXP-124-RESULT.md) matched all 57,212 landing exclusions, moved Heart's original R232 cast to the same tile in its original round, and passed the 320 development pairs. Its pool screen recorded 100/172 versus 86/172, 26 versus 160 native suspensions, and zero faults or codes. One previously clean game suspended, so it failed L0. EXP-118 has the highest measured local score of the safety-improved line at 101/172 and also failed L0. No later stage has run.
