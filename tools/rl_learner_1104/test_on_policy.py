@@ -97,6 +97,19 @@ class OnPolicyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'duplicate'):
             update(self.actor, self.critic, [self.t, self.t], 'fixture-only')
 
+    def test_compact_recurrent_width_update(self):
+        compact=CampPointer(4,16,8,8)
+        self.t.metadata['hidden_size']=8
+        with torch.no_grad():
+            self.t.old_logp=replay_logp(compact,self.t)[0].detach()
+        result=update(compact,self.critic,[self.t],'fixture-only',epochs=1,chunk=2)
+        self.assertEqual(result['rows'],6)
+        self.assertEqual(compact.initial_state(1).shape,(1,8))
+
+    def test_compact_width_mismatch_rejected(self):
+        with self.assertRaisesRegex(ValueError,'recurrent width'):
+            update(CampPointer(4,16,8,8),self.critic,[self.t],'fixture-only')
+
 
 if __name__ == '__main__':
     unittest.main()
