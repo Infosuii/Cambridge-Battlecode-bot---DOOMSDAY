@@ -1,0 +1,569 @@
+{
+ "generated_by": "tools/jd_g5070-1104/fuelbench.py probe --run diag-fprobe-02",
+ "build": "JD_FUELPROBE=1 (diagnostic; main.cpp prints one JDFP line per unit turn)",
+ "engine": "cambc 4.0.0 / engine 2.0.0 (official fuel, no --fuel-quantum)",
+ "cells": [
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+   "map": "pf_pool_77028",
+   "opp": "v92-448de19b2a28",
+   "side": "A",
+   "w": 56,
+   "h": 34
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__B",
+   "map": "pf_pool_77028",
+   "opp": "v92-448de19b2a28",
+   "side": "B",
+   "w": 56,
+   "h": 34
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__A",
+   "map": "pf_pool_77041",
+   "opp": "v92-448de19b2a28",
+   "side": "A",
+   "w": 98,
+   "h": 98
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__B",
+   "map": "pf_pool_77041",
+   "opp": "v92-448de19b2a28",
+   "side": "B",
+   "w": 98,
+   "h": 98
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__A",
+   "map": "pf_pool_77127",
+   "opp": "v92-448de19b2a28",
+   "side": "A",
+   "w": 97,
+   "h": 32
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__B",
+   "map": "pf_pool_77127",
+   "opp": "v92-448de19b2a28",
+   "side": "B",
+   "w": 97,
+   "h": 32
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pool_1907__A",
+   "map": "pool_1907",
+   "opp": "v92-448de19b2a28",
+   "side": "A",
+   "w": 84,
+   "h": 69
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pool_1907__B",
+   "map": "pool_1907",
+   "opp": "v92-448de19b2a28",
+   "side": "B",
+   "w": 84,
+   "h": 69
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77028__A",
+   "map": "pf_pool_77028",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "A",
+   "w": 56,
+   "h": 34
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77028__B",
+   "map": "pf_pool_77028",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "B",
+   "w": 56,
+   "h": 34
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77041__A",
+   "map": "pf_pool_77041",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "A",
+   "w": 98,
+   "h": 98
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77041__B",
+   "map": "pf_pool_77041",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "B",
+   "w": 98,
+   "h": 98
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77127__A",
+   "map": "pf_pool_77127",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "A",
+   "w": 97,
+   "h": 32
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pf_pool_77127__B",
+   "map": "pf_pool_77127",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "B",
+   "w": 97,
+   "h": 32
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pool_1907__A",
+   "map": "pool_1907",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "A",
+   "w": 84,
+   "h": 69
+  },
+  {
+   "game": "cand__x3inv-c5da472cafd8__pool_1907__B",
+   "map": "pool_1907",
+   "opp": "x3inv-c5da472cafd8",
+   "side": "B",
+   "w": 84,
+   "h": 69
+  }
+ ],
+ "settings_block": {
+  "note": "replay team-?.fuel settings (per side: draft first, draft later, first champion turn, ordinary)",
+  "values": [
+   [
+    10000000,
+    100000,
+    200000,
+    100000
+   ]
+  ]
+ },
+ "phases": {
+  "draft_first": {
+   "budget_entry": {
+    "n": 16,
+    "p50": 9985724,
+    "p95": 9986293,
+    "p99": 9986293,
+    "max": 9986293,
+    "mean": 9984915.5
+   },
+   "used_by_v92_logic": {
+    "n": 16,
+    "p50": 84490,
+    "p95": 91158,
+    "p99": 91158,
+    "max": 91158,
+    "mean": 69687.0
+   },
+   "trace_used": {
+    "n": 16,
+    "p50": 126760,
+    "p95": 135188,
+    "p99": 135188,
+    "max": 135188,
+    "mean": 110923.5
+   },
+   "startup_before_main": {
+    "n": 16,
+    "p50": 15310,
+    "p95": 17045,
+    "p99": 17045,
+    "max": 17045,
+    "mean": 15084.5
+   }
+  },
+  "draft_later": {
+   "budget_entry": {
+    "n": 60,
+    "p50": 99997,
+    "p95": 99997,
+    "p99": 99997,
+    "max": 99997,
+    "mean": 99997.0
+   },
+   "used": {
+    "n": 60,
+    "p50": 3018,
+    "p95": 61317,
+    "p99": 61317,
+    "max": 61317,
+    "mean": 14277.1
+   },
+   "draft_turns_per_vm": 5
+  },
+  "first_champion_turn": {
+   "budget_entry": {
+    "n": 92,
+    "p50": 184264,
+    "p95": 185861,
+    "p99": 185867,
+    "max": 185867,
+    "mean": 184443.3
+   },
+   "used": {
+    "n": 68,
+    "p50": 141795,
+    "p95": 159702,
+    "p99": 159802,
+    "max": 159802,
+    "mean": 132760.7
+   },
+   "suspended": 24,
+   "n": 92
+  },
+  "respawn_first_turn": {
+   "budget_entry": {
+    "n": 35,
+    "p50": 99997,
+    "p95": 99997,
+    "p99": 99997,
+    "max": 99997,
+    "mean": 99997.0
+   },
+   "used": {
+    "n": 35,
+    "p50": 75386,
+    "p95": 89500,
+    "p99": 89500,
+    "max": 89500,
+    "mean": 71547.4
+   },
+   "suspended": 0
+  },
+  "dead_turn": {
+   "budget_entry": {
+    "n": 2152,
+    "p50": 99997,
+    "p95": 99997,
+    "p99": 99997,
+    "max": 99997,
+    "mean": 99997.0
+   },
+   "used": {
+    "n": 2152,
+    "p50": 4286,
+    "p95": 39771,
+    "p99": 42509,
+    "max": 52030,
+    "mean": 9146.9
+   },
+   "suspended": 0
+  },
+  "ordinary": {
+   "budget_entry": {
+    "n": 69648,
+    "p50": 99997,
+    "p95": 99997,
+    "p99": 99997,
+    "max": 99997,
+    "mean": 99997.0
+   },
+   "used": {
+    "n": 69550,
+    "p50": 53599,
+    "p95": 79419,
+    "p99": 85686,
+    "max": 99775,
+    "mean": 51163.9
+   },
+   "suspended": 98,
+   "n": 69648
+  }
+ },
+ "after_suspension": {
+  "n": 121,
+  "next_turn_entry": {
+   "n": 121,
+   "p50": 99997,
+   "p95": 99997,
+   "p99": 99997,
+   "max": 99997,
+   "mean": 99997.0
+  },
+  "round_gap": {
+   "2": 121
+  }
+ },
+ "carry_over": {
+  "ordinary_entries_above_100k": 0,
+  "ordinary_entries_below_99990": 0
+ },
+ "draft_vm": {
+  "draft_turns_seen_by_one_vm": 5,
+  "gameplay_vms": 92,
+  "gameplay_sees_draft_global": 0,
+  "gameplay_draft_turns_in_vm": [
+   0
+  ],
+  "draft_memory_size_in_gameplay": [
+   1024
+  ],
+  "draft_memory_byte0_in_gameplay": [
+   165
+  ]
+ },
+ "host_calls_gameplay": {
+  "n": 92,
+  "fuel_remaining": {
+   "n": 92,
+   "p50": 5,
+   "p95": 5,
+   "p99": 5,
+   "max": 5,
+   "mean": 5.0
+  },
+  "walls_ref": {
+   "n": 92,
+   "p50": 5,
+   "p95": 5,
+   "p99": 5,
+   "max": 5,
+   "mean": 5.0
+  },
+  "bitboard_or": {
+   "n": 92,
+   "p50": 393,
+   "p95": 469,
+   "p99": 469,
+   "max": 469,
+   "mean": 401.2
+  },
+  "distance_field_full": {
+   "n": 92,
+   "p50": 20885,
+   "p95": 24635,
+   "p99": 24830,
+   "max": 24830,
+   "mean": 13929.7
+  },
+  "df_per_chunk": {
+   "n": 92,
+   "p50": 123.6,
+   "p95": 248.8,
+   "p99": 250.8,
+   "max": 250.8,
+   "mean": 143.7
+  },
+  "by_map": [
+   [
+    56,
+    34,
+    35,
+    2894
+   ],
+   [
+    84,
+    69,
+    99,
+    24423
+   ],
+   [
+    84,
+    69,
+    99,
+    24539
+   ],
+   [
+    84,
+    69,
+    99,
+    24618
+   ],
+   [
+    84,
+    69,
+    99,
+    24635
+   ],
+   [
+    84,
+    69,
+    99,
+    24830
+   ],
+   [
+    97,
+    32,
+    52,
+    5987
+   ],
+   [
+    98,
+    98,
+    169,
+    20885
+   ],
+   [
+    98,
+    98,
+    169,
+    21001
+   ]
+  ]
+ },
+ "host_calls_draft": [
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 181,
+   "df": 2682,
+   "chunks": 35,
+   "w": 56,
+   "h": 34,
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__A"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 181,
+   "df": 2682,
+   "chunks": 35,
+   "w": 56,
+   "h": 34,
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__B"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 315,
+   "df": 20885,
+   "chunks": 169,
+   "w": 98,
+   "h": 98,
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__A"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 315,
+   "df": 20885,
+   "chunks": 169,
+   "w": 98,
+   "h": 98,
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__B"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 198,
+   "df": 5987,
+   "chunks": 52,
+   "w": 97,
+   "h": 32,
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__A"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 198,
+   "df": 5987,
+   "chunks": 52,
+   "w": 97,
+   "h": 32,
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__B"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 245,
+   "df": 24423,
+   "chunks": 99,
+   "w": 84,
+   "h": 69,
+   "game": "cand__v92-448de19b2a28__pool_1907__A"
+  },
+  {
+   "fr": 5,
+   "walls": 5,
+   "or": 245,
+   "df": 24423,
+   "chunks": 99,
+   "w": 84,
+   "h": 69,
+   "game": "cand__v92-448de19b2a28__pool_1907__B"
+  }
+ ],
+ "draft_trace_cross_check": [
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+   "draft_first_trace_used": 57722,
+   "draft_first_budget": 10000000,
+   "probe_in": 9986293,
+   "probe_used": 28747,
+   "startup_before_main": 13707
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77028__B",
+   "draft_first_trace_used": 57722,
+   "draft_first_budget": 10000000,
+   "probe_in": 9986293,
+   "probe_used": 28747,
+   "startup_before_main": 13707
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__A",
+   "draft_first_trace_used": 135188,
+   "draft_first_budget": 10000000,
+   "probe_in": 9982955,
+   "probe_used": 84490,
+   "startup_before_main": 17045
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77041__B",
+   "draft_first_trace_used": 135188,
+   "draft_first_budget": 10000000,
+   "probe_in": 9982955,
+   "probe_used": 84490,
+   "startup_before_main": 17045
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__A",
+   "draft_first_trace_used": 124024,
+   "draft_first_budget": 10000000,
+   "probe_in": 9985724,
+   "probe_used": 91158,
+   "startup_before_main": 14276
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pf_pool_77127__B",
+   "draft_first_trace_used": 124024,
+   "draft_first_budget": 10000000,
+   "probe_in": 9985724,
+   "probe_used": 91158,
+   "startup_before_main": 14276
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pool_1907__A",
+   "draft_first_trace_used": 126760,
+   "draft_first_budget": 10000000,
+   "probe_in": 9984690,
+   "probe_used": 74353,
+   "startup_before_main": 15310
+  },
+  {
+   "game": "cand__v92-448de19b2a28__pool_1907__B",
+   "draft_first_trace_used": 126760,
+   "draft_first_budget": 10000000,
+   "probe_in": 9984690,
+   "probe_used": 74353,
+   "startup_before_main": 15310
+  }
+ ],
+ "agent2_E120": {
+  "draft_first": 10000000,
+  "first_champion_turn": 200000,
+  "ordinary": 100000,
+  "carry_over": false,
+  "v92_median": 56000,
+  "v92_p10_p90": [
+   25000,
+   71000
+  ]
+ }
+}

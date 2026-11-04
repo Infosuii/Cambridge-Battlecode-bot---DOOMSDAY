@@ -7200,6 +7200,10 @@ void Bot::play_turn() {
 #if A2_TEL
     a2tel::TurnGuard a2_guard;
 #endif
+#if JD_FUELPROF
+    a2tel::jdpf::Guard jd_guard;
+    a2tel::jdpf::who = static_cast<int>(type);
+#endif
 #ifdef APEX_FUEL_NOISE
     {
         // Test only: burn a fixed extra amount of fuel each turn (checks how sensitive decisions are to fuel use).
@@ -7851,6 +7855,9 @@ void Bot::play_turn() {
     }
 #endif
     if (tune::kIncumbent && inited) track_claims();
+#if JD_FUELPROF
+    PROF_CHECK("claims");
+#endif
 
     const auto state = me.state();
     if (state.is_dead() && !was_dead) {

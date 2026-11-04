@@ -1446,6 +1446,122 @@ inline void td_dump(int round) {
     const std::uint64_t f1 = bc::fuel_remaining();
     last_dump_cost = f0 > f1 ? f0 - f1 : 0;
 }
+#if JD_FUELPROF
+// JD_FUELPROF (diagnostic): fuel between consecutive checkpoints, charged to the later checkpoint's name, as 1k-fuel
+// histograms per (name, phase). Phase 0 first play turn of this VM, 1 ordinary, 2 contact (handle_enemies ran),
+// 3 dead turn, 4 an interval that crossed a round (suspension; value = fuel left before + budgets used after).
+// "TURN" holds whole-turn totals. Printed as JDPF lines every 100 rounds (chunked, see dump) and reset.
+namespace jdpf {
+inline constexpr int kSlots = 512, kBins = 101;
+struct Stat {
+    const char* name;
+    std::uint32_t phase, n;
+    std::uint64_t sum, max;
+    std::uint32_t bins[kBins];
+};
+inline Stat stats[kSlots];
+inline std::uint32_t turns = 0, last_dump = 0;
+inline void add(const char* name, std::uint32_t phase, std::uint64_t v) {
+    std::uint32_t h = static_cast<std::uint32_t>(reinterpret_cast<std::uintptr_t>(name) * 2654435761u) ^ (phase * 97u);
+    for (int probe = 0; probe < kSlots; ++probe, ++h) {
+        Stat& s = stats[h % kSlots];
+        if (s.name == nullptr) s.name = name, s.phase = phase;
+        else if (s.name != name || s.phase != phase) continue;
+        ++s.n, s.sum += v, s.max = v > s.max ? v : s.max;
+        ++s.bins[v / 1000 < kBins - 1 ? v / 1000 : kBins - 1];
+        return;
+    }
+}
+inline bool is(const char* a, const char* b) {
+    while (*a && *a == *b) ++a, ++b;
+    return *a == *b;
+}
+// The trail: one fuel_remaining() reading per checkpoint (PROF_CHECK maps here under JD_FUELPROF, without A2_TEL's
+// other instrumentation). A reading above the previous one means a fresh budget began in between (a suspension).
+struct Pt {
+    const char* where;
+    std::uint64_t fuel;
+};
+inline constexpr int kPts = 80;
+inline Pt pts[kPts], pending[kPts];
+inline int npts = 0, npending = 0;
+inline bool pending_first = false;
+inline void mark(const char* where) {
+    if (npts < kPts) pts[npts++] = {where, bc::fuel_remaining()};
+}
+inline void record(const Pt* t, int n, bool first, bool crossed_turn) {
+    std::uint32_t phase = first ? 0 : 1;
+    bool dead = true;
+    for (int i = 0; i < n; ++i) {
+        if (t[i].where[0] == 'e' && t[i].where[1] == '_' && phase == 1) phase = 2;
+        if (dead && is(t[i].where, "refresh")) dead = false;
+    }
+    if (dead && phase == 1) phase = 3;
+    for (int i = 1; i < n; ++i) {
+        const bool crossed = t[i].fuel > t[i - 1].fuel;
+        const std::uint64_t v = crossed ? t[i - 1].fuel + (t[i].fuel < 100000 ? 100000 - t[i].fuel : 0) : t[i - 1].fuel - t[i].fuel;
+        add(t[i].where, crossed ? 4 : phase, v);
+    }
+    if (n >= 2) add("TURN", crossed_turn ? 4 : phase, crossed_turn ? t[0].fuel : (t[0].fuel > t[n - 1].fuel ? t[0].fuel - t[n - 1].fuel : 0));
+}
+// Emitting is chunked: every 100 rounds a dump starts, and each turn that ends with 40k fuel left writes at most
+// kPerTurn entries (hand-formatted, one fwrite) and clears them, until the table is empty.
+inline constexpr int kPerTurn = 12;
+inline int cursor = -1; // next slot to emit, -1 = no dump in progress
+inline void dump(std::uint32_t round, int who) {
+    if (cursor < 0) {
+        if (round < last_dump + 100) return;
+        last_dump = round;
+        cursor = 0;
+    }
+    if (bc::fuel_remaining() < 40000) return;
+    char* p = dump_buf;
+    int emitted = 0;
+    for (; cursor < kSlots && emitted < kPerTurn; ++cursor) {
+        Stat& s = stats[cursor];
+        if (!s.name) continue;
+        p = put_s(p, "JDPF R"), p = put_u(p, round), p = put_s(p, " t"), p = put_u(p, static_cast<std::uint64_t>(who));
+        *p++ = ' ', p = put_s(p, s.name), *p++ = ' ', p = put_u(p, s.phase);
+        p = put_s(p, " n "), p = put_u(p, s.n), p = put_s(p, " sum "), p = put_u(p, s.sum), p = put_s(p, " max ");
+        p = put_u(p, s.max), *p++ = ':';
+        for (int b = 0; b < kBins; ++b)
+            if (s.bins[b]) *p++ = ' ', p = put_u(p, static_cast<std::uint64_t>(b)), *p++ = '=', p = put_u(p, s.bins[b]);
+        *p++ = '\n';
+        s = Stat{};
+        ++emitted;
+    }
+    if (cursor >= kSlots) cursor = -1;
+    if (p != dump_buf) std::fwrite(dump_buf, 1, static_cast<std::size_t>(p - dump_buf), stdout);
+}
+// One per play turn (bot.cpp play_turn). The trail is aggregated at the end of the turn when 12k fuel is left,
+// otherwise at the start of the next turn, so the profiler itself does not push a heavy turn into suspension.
+inline std::uint32_t round0 = 0;
+inline int who = 0;
+struct Guard {
+    Guard() {
+        if (npending) record(pending, npending, pending_first, false), npending = 0, ++turns;
+        round0 = bc::round_number();
+        npts = 0;
+        mark("start");
+    }
+    ~Guard() {
+        mark("end");
+        const bool crossed = bc::round_number() != round0;
+        if (!crossed && bc::fuel_remaining() >= 12000) {
+            record(pts, npts, turns == 0, false);
+            ++turns;
+            dump(round0, who);
+        } else if (crossed) {
+            record(pts, npts, turns == 0, true);
+            ++turns;
+        } else {
+            for (int i = 0; i < npts; ++i) pending[i] = pts[i];
+            npending = npts, pending_first = turns == 0;
+        }
+    }
+};
+} // namespace jdpf
+#endif
 struct TurnGuard {
     TurnGuard() {
         turn_round = bc::round_number();
@@ -1478,6 +1594,9 @@ struct TurnGuard {
 #elif A2_TEL
 #define PROF(section) ((void)0)
 #define PROF_CHECK(where) a2tel::mark(where)
+#elif JD_FUELPROF
+#define PROF(section) ((void)0)
+#define PROF_CHECK(where) a2tel::jdpf::mark(where)
 #else
 #define PROF(section) ((void)0)
 #define PROF_CHECK(where) ((void)0)

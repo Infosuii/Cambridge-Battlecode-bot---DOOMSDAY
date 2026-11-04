@@ -1,9 +1,16 @@
 // jd-g5070-1104 experiment switches. Every switch defaults to 0; the default build is byte-identical to v92
 // (release WASM SHA-256 5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47).
 #pragma once
-// JD_FUELPROF: per-phase fuel profile logging (diagnostic only).
+// JD_FUELPROF: per-stage fuel profile (diagnostic only): PROF_CHECK checkpoints record fuel_remaining() (without
+// A2_TEL's other instrumentation) and the fuel between consecutive checkpoints is aggregated into 1k-fuel
+// histograms per (checkpoint, phase), printed as JDPF lines (common.h a2tel::jdpf).
 #ifndef JD_FUELPROF
 #define JD_FUELPROF 0
+#endif
+// JD_FUELPROBE: phase-fuel diagnostic (main.cpp): one JDFP line per unit turn with phase, fuel at entry and exit,
+// draft-VM global transfer and host-call cost samples (diagnostic only, never in a scored build).
+#ifndef JD_FUELPROBE
+#define JD_FUELPROBE 0
 #endif
 // JD_GOV: whole-turn fuel reservations in runtime_budget.h (FEAT-002).
 #ifndef JD_GOV
