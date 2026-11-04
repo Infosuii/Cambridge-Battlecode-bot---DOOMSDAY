@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T08:49:04.493Z",
+  "updated_at": "2026-11-04T08:56:56Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 44,
+      "seq": 45,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T08:40:01Z",
+      "last_control_at": "2026-11-04T08:49:37Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6626489483,
+      "last_control_comment_id": 6626662321,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 43,
+      "seq": 44,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T08:44:37Z",
+      "last_control_at": "2026-11-04T08:52:41Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,7 +51,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6626573400,
+      "last_control_comment_id": 6626719083,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -497,10 +497,18 @@
       "agent": "builder-g5070-1104",
       "at": "2026-11-04T08:38:25Z",
       "verified_sha": "cb8d0105e4047f75924556268f23053eb634699a"
+    },
+    {
+      "id": "challenge:builder-g5070-1104:6626419919",
+      "type": "CHALLENGE",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T08:56:56Z",
+      "nonce": "avail-854-6626419919",
+      "comment_id": 6626794606
     }
   ],
   "note": "Builder local execution released at epoch3; exact remote publication verified. No reassignment of finished tracks. v80 retained; no platform actions. Agent2 access blocker unchanged.",
-  "last_complete_check_at": "2026-11-04T08:49:04.493Z",
+  "last_complete_check_at": "2026-11-04T08:56:56Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
