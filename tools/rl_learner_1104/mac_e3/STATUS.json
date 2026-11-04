@@ -1,0 +1,341 @@
+{
+  "at": "2026-11-04T17:03:15.106635+00:00",
+  "task_epoch": 3,
+  "branch": "johndoe/rl-learner-e3-1104",
+  "source_parent": "ccfea3421e0dd379e2929803804e067d2bea3749",
+  "parameters": 2482,
+  "architecture": {
+    "enc_width": 4,
+    "context_width": 16,
+    "memory_width": 8,
+    "pointer_width": 8
+  },
+  "actor_sha256": "9a2f98950137a254cf0d9317b695e4cecc840593f47aa9bc0f2da7a58ba966c6",
+  "pretraining": "Our own four-game teacher BC warm start. Agent2 student_i2m imported and verified separately; its incompatible weights do not initialize this compact actor.",
+  "real_ppo_updates": 2,
+  "real_training_decisions": 819,
+  "training_games": 2,
+  "updates": [
+    {
+      "iteration": 1,
+      "input_actor": "b9161cbbbf85b1eae01494c1f43934ca7a74a01b07bb7f0cd84888a1bb77a44b",
+      "output_actor": "79d7de59c1ac2fbfa1151f12981b3aa3a669fffaa8815b1e30e75516ca7ab62c",
+      "rows": 435,
+      "max_logp_error": 4.76837158203125e-7
+    },
+    {
+      "iteration": 2,
+      "input_actor": "79d7de59c1ac2fbfa1151f12981b3aa3a669fffaa8815b1e30e75516ca7ab62c",
+      "output_actor": "9a2f98950137a254cf0d9317b695e4cecc840593f47aa9bc0f2da7a58ba966c6",
+      "rows": 384,
+      "max_logp_error": 4.76837158203125e-7
+    }
+  ],
+  "regression_checks": [
+    {
+      "map": "00corners",
+      "side": "A",
+      "outcome": "teamB",
+      "scores": {
+        "teamA": "43",
+        "teamB": "1050"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 422,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 90677
+    },
+    {
+      "map": "00corners",
+      "side": "B",
+      "outcome": "teamA",
+      "scores": {
+        "teamA": "1001",
+        "teamB": "47"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 454,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 90314
+    },
+    {
+      "map": "00oasis",
+      "side": "A",
+      "outcome": "teamB",
+      "scores": {
+        "teamA": "59",
+        "teamB": "1006"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 378,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 72756
+    },
+    {
+      "map": "00oasis",
+      "side": "B",
+      "outcome": "teamA",
+      "scores": {
+        "teamA": "1011",
+        "teamB": "108"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 366,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 75071
+    },
+    {
+      "map": "00crater",
+      "side": "A",
+      "outcome": "teamB",
+      "scores": {
+        "teamA": "0",
+        "teamB": "1006"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 599,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 76429
+    },
+    {
+      "map": "00crater",
+      "side": "B",
+      "outcome": "teamA",
+      "scores": {
+        "teamA": "1030",
+        "teamB": "0"
+      },
+      "our_fuel_outs": 0,
+      "our_faults": 0,
+      "decisions": 556,
+      "malformed": 0,
+      "replacements": 0,
+      "gate": true,
+      "max_turn": 74669
+    },
+    {
+      "map": "00ambush",
+      "dimensions": [
+        100,
+        100
+      ],
+      "decisions": 863,
+      "fuel": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "faults": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "malformed": 0,
+      "replaced": 0,
+      "gate": true,
+      "cost": {
+        "n": 863,
+        "p50": 39024,
+        "p95": 39864,
+        "max": 40353,
+        "min": 36057
+      },
+      "side": "A",
+      "outcome": "teamB",
+      "scores": {
+        "teamA": "38",
+        "teamB": "1002"
+      }
+    },
+    {
+      "map": "00dunes",
+      "dimensions": [
+        79,
+        79
+      ],
+      "decisions": 363,
+      "fuel": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "faults": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "malformed": 0,
+      "replaced": 0,
+      "gate": true,
+      "cost": {
+        "n": 363,
+        "p50": 35359,
+        "p95": 36870,
+        "max": 37674,
+        "min": 33903
+      },
+      "side": "A",
+      "outcome": "teamB",
+      "scores": {
+        "teamA": "104",
+        "teamB": "1013"
+      }
+    }
+  ],
+  "checked_games": 8,
+  "checked_decisions": 4001,
+  "cpu_tests": 28,
+  "kaggle_gpu_training": false,
+  "platform_actions": false,
+  "limits": [
+    "Runtime/learning-loop milestone, not a competitive bot.",
+    "Small, deterministic v92-only suites do not establish generalization.",
+    "No learned full-control, Bayesian beliefs or coordinated team policy yet.",
+    "Agent2-native transfer/distillation remains outstanding."
+  ],
+  "wins_vs_v92": 0,
+  "agent2_native_reproduction": {
+    "kind": "AGENT2_NATIVE_PRETRAINED_REPRODUCTION",
+    "source_commit": "afb43b886fc348006d48d4f4feb830c16cba5533",
+    "checkpoint_blob": "9db47c99cebb92f83475e39954dd86294a9f69f0",
+    "checkpoint_sha256": "05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
+    "parameters": 28889,
+    "layout": 2,
+    "native_features": 500,
+    "build": "release real-fuel",
+    "wasm_sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177",
+    "games": [
+      {
+        "map": "00corners",
+        "side": "A",
+        "outcome": "teamA",
+        "won": true,
+        "scores": {
+          "teamA": "1005",
+          "teamB": "440"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 44,
+          "teamB": 0
+        }
+      },
+      {
+        "map": "00corners",
+        "side": "B",
+        "outcome": "teamB",
+        "won": true,
+        "scores": {
+          "teamA": "275",
+          "teamB": "1001"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 0,
+          "teamB": 34
+        }
+      },
+      {
+        "map": "00oasis",
+        "side": "A",
+        "outcome": "teamB",
+        "won": false,
+        "scores": {
+          "teamA": "493",
+          "teamB": "1003"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 1,
+          "teamB": 0
+        }
+      },
+      {
+        "map": "00oasis",
+        "side": "B",
+        "outcome": "teamB",
+        "won": true,
+        "scores": {
+          "teamA": "396",
+          "teamB": "1003"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 0,
+          "teamB": 10
+        }
+      },
+      {
+        "map": "00crater",
+        "side": "A",
+        "outcome": "teamA",
+        "won": true,
+        "scores": {
+          "teamA": "1005",
+          "teamB": "398"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 15,
+          "teamB": 0
+        }
+      },
+      {
+        "map": "00crater",
+        "side": "B",
+        "outcome": "teamA",
+        "won": false,
+        "scores": {
+          "teamA": "1143",
+          "teamB": "403"
+        },
+        "faults": {
+          "teamA": 0,
+          "teamB": 0
+        },
+        "fuel_outs": {
+          "teamA": 0,
+          "teamB": 6
+        }
+      }
+    ],
+    "wins": 4,
+    "limits": "Six deterministic games only; Agent2 baseline reproduction, not our RL improvement."
+  },
+  "main_route": "Agent2 pretrained native-policy reproduction; compact CL1 lane is the integration testbed.",
+  "latest_release_check": {
+    "map": "00corners",
+    "scores": {
+      "teamA": 43,
+      "teamB": 1050
+    },
+    "rounds_completed": 1052,
+    "debug_release_equal": true
+  }
+}
