@@ -84,6 +84,7 @@ public:
     void jd_nn_turn();           // JD_NN_EVENT: events, held decision, fallback (after the world update)
     void jd_nn_pipe();           // JD_NN_EVENT: end of turn, pipelined inference admitted by the governor
     void jd_nn_pipe_core();      // JD_NN_EVENT: the pipeline steps (jd_nn_pipe then writes queued JD_NN_REC rows)
+    bool jd_nn_resid_ok(int v92best); // JD_NN_RESID: the held network target beats v92's choice by the margin
 #endif
 """
 
@@ -126,8 +127,11 @@ OPT_OLD = '        mode = "tribute-win";\n    } else if (go_home_if_needed()) {'
 OPT_NEW = '        mode = "tribute-win";\n#if (A2_NN & 8) && A2_NN_MACRO\n    } else if (nn_option_out()) {\n#endif\n    } else if (go_home_if_needed()) {'
 # JD: while the network's target is held, farm() takes it instead of running v92's own group scoring
 SCORE_OLD = "    if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);\n"
-SCORE_NEW = ("#if JD_NN_EVENT && !JD_NN_ZERO\n    if (best < 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size())) best = nn_group, best_need = 1;\n#endif\n"
+SCORE_NEW = ("#if JD_NN_EVENT && !JD_NN_ZERO && !JD_NN_RESID\n    if (best < 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size())) best = nn_group, best_need = 1;\n#endif\n"
              + SCORE_OLD)
+# JD_NN_RESID: KEEP_BASELINE dominant (the network's held target must beat v92's own choice by a logit margin)
+RESID_OLD = '    PROF_CHECK("farmsel");\n#if A2_NN & 1\n    nn_v92best = best;\n'
+RESID_NEW = RESID_OLD + "#if JD_NN_EVENT && JD_NN_RESID\n    if (nn_group >= 0 && nn_group != best && !jd_nn_resid_ok(best)) nn_group = -1;\n#endif\n"
 MAIN1_OLD = "            else\n                bot.play_turn();\n#endif"
 MAIN1_NEW = ("            else {\n                bot.play_turn();\n#if A2_NN_MACRO && defined(A2_NN_RL)\n                bot.nn_rl_end();\n#endif\n"
              "#if defined(A2_NN_PIPE) && A2_NN_PIPE\n                bot.nn_pipe_step();\n#endif\n#if JD_NN_EVENT\n                bot.jd_nn_pipe();\n#endif\n"
@@ -209,6 +213,7 @@ def main():
     ch.append(patch("bot.cpp", LAB_OLD, LAB_NEW))
     ch.append(patch("bot.cpp", OPT_OLD, OPT_NEW))
     ch.append(patch("bot.cpp", SCORE_OLD, SCORE_NEW))
+    ch.append(patch("bot.cpp", RESID_OLD, RESID_NEW))
     ch.append(patch("main.cpp", MAIN1_OLD, MAIN1_NEW))
     ch.append(patch("main.cpp", MAIN2_OLD, MAIN2_NEW))
     ch.append(copy_lab("nnrec.cpp", "nnrec.cpp", [(REC_DECIDE_OLD, REC_DECIDE_NEW), (REC_FUEL_OLD, REC_FUEL_NEW), (REC_ARG_OLD, REC_ARG_NEW)]))

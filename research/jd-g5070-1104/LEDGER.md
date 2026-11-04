@@ -119,3 +119,47 @@ Autonomous decisions and outcomes (classes: Accepted / Retry required / Conditio
   - `sel-evt-01` JD_EVTONCE=160 alone: 0 faults, fuel-outs 320 vs 317, paired -0.88 (CI -3.75 to +1.88), large
     -5.5. With dev +1.25 and selection -0.88, it has no measurable game gain. **Parked**: correct by fixture, not
     worth enabling.
+## FEAT-003 RL actor runtime, export, bounded training launch (2026-11-04 03:12Z-)
+- User decision (supersedes the earlier "no training"): bounded branch-local RL training/distillation is allowed
+  on this machine. Agent 2 keeps RL ownership; builder note posted in #6 (seq 16) before training. JOHNDOE
+  registered the job as task `rl-distill-local` epoch 1 (03:54Z). Nothing is pushed to agent2-neural.
+- Checkpoints preserved unchanged in `jd-eval/checkpoints` (student_i2, nn_rl3/best, nn_rl3/teacher_0,
+  nn_rl2/best). The git blobs match 56b60b96; SHA-256 values are in MODEL_MANIFEST.json. **Accepted**. No `.pt` is
+  committed.
+- Torch: the pypi/cu128 index gave a CPU-only 2.15.0 wheel on Windows. Installed `torch 2.14.1+cu130` from the
+  cu130 index into `.venv-jd` (outside the repo). The RTX 5070 Ti works.
+- Export: Agent 2's `nn_export.py` unchanged, run twice: byte-identical header (sha256 36ad83e1...). **Accepted**.
+  Finding: `%.7e` drops float32 round-trip precision (3.8e-3 max logit error vs the checkpoint; argmax
+  unchanged). A branch-local `%.9e` exporter would fix it (Claude relays this to Agent 2).
+- Port: `tools/jd_g5070-1104/mk_nn.py` (idempotent, lab blobs verified) applies nn_mkbot.py's patches behind
+  A2_NN = JD_NN (default 0). The default build is still 5704d7ba (= v92). **Accepted** (working).
+- Golden fixtures: `nn_golden.py` on nn-golden-05: 32/32 features identical between capture and use, argmax
+  32/32, 1.1e-5 vs the exported network. Host C++ agrees on 64 saturated/random rows; `nn_infer_test` passes
+  2803 checks. **Accepted**. Runs nn-golden-01..04 were debugging runs:
+  - 01: Agent 2's overrun rule locked the pipeline after the 200k first turn.
+  - 02: the stdout capture splits separate printf writes.
+  - 03: one REC row printed with std::string + printf cost ~95k.
+  - 04: the exporter rounding.
+- `JD_NN_EVENT` runtime (event-driven, pipelined, governor-admitted, v92 fallback, farm() skips v92 scoring while a
+  network target is held). It fits official fuel: 0 faults, 16/74 suspended network steps per 96/180 games after
+  the v3 estimate fix. Network fuel per decision p50 ~105k, p95 ~128k, spread over 1-4 turns. Runtime **Accepted**
+  as infrastructure.
+- Benchmarks (NN_BENCH.md; paired vs v92):
+  - nn-every (Agent 2's every-turn student at official fuel): 0/96 conf, 3/180 dev. **Rejected**.
+  - nn-event: dev -9.4 (v1) and -11.1 (v3), CIs exclude 0; conf about 0. **Rejected for release** (heads OFF).
+  - Cadence revision 1, target-only (`JD_NN=1`): conf -4.2. **Rejected**.
+  - Cadence revision 2, KEEP-dominant residual (`JD_NN_RESID=1`): conf -5.2, dev -19.4. **Rejected**.
+  - Two revisions without a credible gain: stopped revising, as planned.
+- nn-zero (data-only control) is not neutral: conf +12.5 (+3.1, +20.8) in v1, +6.3 / +5.2 later; dev neutral.
+  Prime suspect: `nn_feats` (A2_NN_FAST) builds every group distance field on the 200k first turn.
+  **Conditionally useful (mechanism unverified)**. Conf/dev were used to find it, so isolate it as its own switch
+  and judge it only on selection plus the large-map stratum, then holdout.
+- Training `rl-dagger-01` launched 03:42:05Z: python PID 25780 (launcher 23600), pinned to CPUs 14-19, below-normal
+  priority, 5 game jobs, self-stop 08:42Z.
+  - Method: DAgger with nn_rl3/best as the expert. The student starts from student_i2. Data comes from the JD_NN_EVENT
+    recorder at official fuel on poolfresh 121-209 vs v92/x3inv/p65pack; the eval is 40 poolfresh maps 210-249 vs
+    v92/x3inv.
+  - It was not relaunched after the runtime v2/v3 fixes; JOHNDOE grandfathered it. Its checkpoints get re-evaluated on
+    the final runtime at harvest (FEAT-005).
+  - iter0 (seed) eval: 95/160 vs v92's 93/160 (+1.25).
+  - iter1: 91/160 (-1.25).

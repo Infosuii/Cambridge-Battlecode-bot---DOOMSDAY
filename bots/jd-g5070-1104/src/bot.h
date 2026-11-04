@@ -64,6 +64,7 @@ public:
     void jd_nn_turn();           // JD_NN_EVENT: events, held decision, fallback (after the world update)
     void jd_nn_pipe();           // JD_NN_EVENT: end of turn, pipelined inference admitted by the governor
     void jd_nn_pipe_core();      // JD_NN_EVENT: the pipeline steps (jd_nn_pipe then writes queued JD_NN_REC rows)
+    bool jd_nn_resid_ok(int v92best); // JD_NN_RESID: the held network target beats v92's choice by the margin
 #endif
 
 private:

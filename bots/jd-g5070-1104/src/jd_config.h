@@ -105,6 +105,11 @@
 #ifndef JD_NN_STALE
 #define JD_NN_STALE 8 // a pipelined decision whose features are older than this many rounds is discarded
 #endif
+// JD_NN_RESID = M (> 0): KEEP_BASELINE dominant: v92 scores its own choice every farm turn and the held network target
+// replaces it only when its target logit is at least M above the logit of v92's choice.
+#ifndef JD_NN_RESID
+#define JD_NN_RESID 0
+#endif
 #ifndef JD_NN_HYST
 #define JD_NN_HYST 0.5f // periodic replans switch the held target only for a logit gain above this
 #endif

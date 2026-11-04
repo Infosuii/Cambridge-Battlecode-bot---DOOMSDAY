@@ -7026,7 +7026,7 @@ bool Bot::farm() {
             no_initiate = !tune::kSoloInitiate;
         }
     }
-#if JD_NN_EVENT && !JD_NN_ZERO
+#if JD_NN_EVENT && !JD_NN_ZERO && !JD_NN_RESID
     if (best < 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size())) best = nn_group, best_need = 1;
 #endif
     if (best < 0) best = score_groups(duo_leader ? 2 : 1, best_need, best_score);
@@ -7048,6 +7048,36 @@ bool Bot::farm() {
     PROF_CHECK("farmsel");
 #if A2_NN & 1
     nn_v92best = best;
+#if JD_NN_EVENT && JD_NN_RESID
+    if (nn_group >= 0 && nn_group != best && !jd_nn_resid_ok(best)) nn_group = -1;
+#endif
+#ifdef A2_NN_TDBG
+    {
+        static int agree = 0, total = 0, none = 0;
+        ++total, agree += nn_group == best, none += nn_group < 0;
+        if (total % 100 == 0) std::printf("NNT r%d slot %d agree %d/%d none %d (v92 %d nn %d mode %s)\n", round, slot, agree, total, none, best, nn_group, mode);
+    }
+#endif
+    if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
+#ifdef A2_NN_RL
+#if A2_NN_MACRO
+    nn_rl_tgt_applied = true; // the NRB row at the end of the turn carries this choice
+    nn_rl_chg = best != target_group;
+#else
+    // RL: log the applied choice (state, sampled action, log-prob, target changed, own value) - farm turns only
+    if (!nn_rl_feat.empty()) {
+        std::printf("NRL %d %d %d %.5f %d %d %s\n", round, slot, nn_rl_a, nn_rl_lp, best != target_group ? 1 : 0, nn_rl_val,
+                    nn_rl_feat.c_str());
+        nn_rl_feat.clear();
+    }
+#endif
+#endif
+#endif
+#if A2_NN & 1
+    nn_v92best = best;
+#if JD_NN_EVENT && JD_NN_RESID
+    if (nn_group >= 0 && nn_group != best && !jd_nn_resid_ok(best)) nn_group = -1;
+#endif
 #ifdef A2_NN_TDBG
     {
         static int agree = 0, total = 0, none = 0;

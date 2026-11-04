@@ -39,6 +39,8 @@ struct Held {
     int tgt = -1, st = 0, beh = -1, at = -1000000, since = -1000000, claims = 0;
     int bag = -1;          // bag bucket when published
     int reason = fbNoDec;   // why tgt < 0
+    int lg_group[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // JD_NN_RESID: target logits of the published decision
+    float lg_val[10] = {}, lg_far = 0.0f;                         // per camp slot's group, and of the "far" slot
 };
 #if JD_NN_EVENT
 struct Pipe {
@@ -60,7 +62,7 @@ struct Stat {
     int fb[kNReason] = {}, ev[kNEvent] = {};
     int refused = 0, aborted = 0, stale = 0, ood = 0, overrun = 0, dur_n = 0, dur_max = 0;
     long long dur_sum = 0, rec_fuel = 0;
-    int rec_n = 0, rec_drop = 0, rec_over = 0;
+    int rec_n = 0, rec_drop = 0, rec_over = 0, resid_n = 0, resid_ok = 0;
     int dumps = 0, logged = -1;
 };
 [[maybe_unused]] Held held;
@@ -117,7 +119,7 @@ void Bot::jd_nn_stat() {
         for (int r = 0; r < kNReason && n > 0 && n < 480; ++r) n += std::snprintf(buf + n, sizeof buf - static_cast<std::size_t>(n), " %d", stat.fb[r]);
         if (n > 0 && n < 480) n += std::snprintf(buf + n, sizeof buf - static_cast<std::size_t>(n), " ev");
         for (int e = 0; e < kNEvent && n > 0 && n < 480; ++e) n += std::snprintf(buf + n, sizeof buf - static_cast<std::size_t>(n), " %d", stat.ev[e]);
-        if (n > 0 && n < 480) n += std::snprintf(buf + n, sizeof buf - static_cast<std::size_t>(n), " rec %lld %d %d %d", stat.rec_fuel, stat.rec_n, stat.rec_drop, stat.rec_over);
+        if (n > 0 && n < 480) n += std::snprintf(buf + n, sizeof buf - static_cast<std::size_t>(n), " rec %lld %d %d %d resid %d %d", stat.rec_fuel, stat.rec_n, stat.rec_drop, stat.rec_over, stat.resid_n, stat.resid_ok);
         std::printf("%s\n", buf);
     }
 #endif
@@ -258,6 +260,24 @@ void Bot::jd_nn_turn() {
 #endif
 }
 
+#if JD_NN_RESID
+// JD_NN_RESID (KEEP_BASELINE dominant, mission sec.6 "small residuals"): the held network target replaces v92's own
+// choice `v92best` only when its logit beats the logit of v92's choice by JD_NN_RESID (v92's group outside the 10
+// slots reads as the "far" slot; v92 without a choice: the network's target applies). v92's scoring runs every farm
+// turn in this mode (it is the baseline, not a fallback computed after the network).
+bool Bot::jd_nn_resid_ok(int v92best) {
+    if (v92best < 0) return true;
+    float mine = -1e30f, base = held.lg_far;
+    for (int c = 0; c < kC; ++c) {
+        if (held.lg_group[c] == nn_group) mine = held.lg_val[c];
+        if (held.lg_group[c] == v92best) base = held.lg_val[c];
+    }
+    const bool ok = mine >= base + static_cast<float>(JD_NN_RESID);
+    ++stat.resid_n, stat.resid_ok += ok;
+    return ok;
+}
+#endif
+
 void Bot::jd_nn_pipe() {
     jd_nn_pipe_core();
 #if JD_NN_REC
@@ -267,6 +287,13 @@ void Bot::jd_nn_pipe() {
 
 void Bot::jd_nn_pipe_core() {
     if (!inited || !kModelOk || !pipe.armed) return;
+    static bool sized = false;
+    if (!sized) {
+        // conf-nnevent2-01: step 0 (nn_feats) costs ~55-60k on maps above 60x60 against Agent 2's 34k profile, so
+        // almost every champion's first ordinary-turn capture overran (357 suspended steps / 96 games)
+        sized = true;
+        if (w.width * w.height > 3600) pipe.est[0] = 64000;
+    }
     for (;;) {
         const std::uint64_t left = bc::fuel_remaining();
         const std::uint64_t need = pipe.est[pipe.next] + kStepReserve;
@@ -308,8 +335,11 @@ void Bot::jd_nn_pipe_core() {
                         static_cast<unsigned long long>(left), static_cast<unsigned long long>(pipe.est[pipe.next]),
                         static_cast<unsigned long long>(now));
 #endif
-            pipe.est[pipe.next] = std::max(pipe.est[pipe.next], std::min<std::uint64_t>(left, kStepCap / 2) + kStepReserve);
-        } else if (pipe.ran[pipe.next] && left <= 100000) {
+            // The step's true cost is what was left plus what it used of the next turn's 100k (conf-nn-event-01: raising
+            // the estimate only to min(left, 40k) + 5k let the same step overrun again: 353 suspended steps / 96 games).
+            const std::uint64_t cost = left + (now < 100000 ? 100000 - now : 0);
+            pipe.est[pipe.next] = std::max(pipe.est[pipe.next], cost + cost / 8);
+        } else if ((pipe.ran[pipe.next] || pipe.next == 0) && left <= 100000) {
             // worst case so far (+1/8). Not learned from the first run (one-time setup) nor from a step that started
             // with more than an ordinary turn's fuel: on the 200k first turn nn_feats also builds group distance
             // fields down to 110k left (A2_NN_FAST), a one-off ~70k that would otherwise lock step 0 out.
@@ -372,6 +402,11 @@ void Bot::jd_nn_pipe_core() {
             held.since = r;
         }
         held.tgt = tg, held.beh = beh, held.at = std::max(held.at, pipe.feat_round), held.bag = bag_bucket(gems);
+        for (int c = 0; c < kC; ++c) {
+            held.lg_group[c] = pipe.f[kCOff + c * kCF] == 1 ? pipe.f[kCOff + c * kCF + 1] : -1;
+            held.lg_val[c] = lg[c];
+        }
+        held.lg_far = lg[kC];
         if (tg >= 0) held.st = static_cast<int>(w.groups[static_cast<std::size_t>(tg)].state), held.claims = claim_count(tg);
         ++stat.published;
 #if JD_NN_LOG
