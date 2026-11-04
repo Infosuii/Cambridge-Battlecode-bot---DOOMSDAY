@@ -1,0 +1,20 @@
+{
+  "scope": "Actual release native consumed-state pointer replay, NOT new policy/training/playing-strength evidence",
+  "rows": 23,
+  "bodies": 5,
+  "rejected_incomplete_trace_lines": 49,
+  "query_integer_max_error": 0,
+  "folded_pointer_integer_max_error": 0,
+  "bias_dot_integer_max_error": 0,
+  "target_float32_logit_max_error": 0.0,
+  "source_weight_header_sha256": "41c159acda4dcf9748d08c8cb3767106f007deeb9b408489d85aebe47ff224fd",
+  "diagnostic_wasm_sha256": "2385d48abef4764f993f32e2741064921911c6aa86d3657e6b21de19856a7410",
+  "native_query_trainable_parameters": 1040,
+  "implications": [
+    "Can reproduce native target pointer exactly given consumed h1 and camp embeddings without reconstructing old incremental trunk history.",
+    "This makes in-place target-query training plausible without adding a second inference network; no trained improvement established.",
+    "Changing upstream trunk/encoder weights would invalidate frozen h1 assumptions and requires a larger consumed-state/replay contract.",
+    "Training needs fresh stochastic chosen-action/likelihood and complete execution/episode data; these bounded diagnostic rows have no such training labels.",
+    "Saturation and per-input rounding order matter; a plain float matrix multiply is not this deployed actor."
+  ]
+}
