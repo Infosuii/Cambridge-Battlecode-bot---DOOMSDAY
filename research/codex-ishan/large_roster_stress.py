@@ -10,7 +10,7 @@ from qualify_local import DEV, partition, read
 
 HERE = Path(__file__).resolve().parent
 OUT = bench.CACHE / "large-roster-stress-604211"
-DENSE_OUT = bench.CACHE / "dense-roster-stress-719331"
+DENSE_OUT = bench.CACHE / "dense-roster-stress-719331-r2"
 SOURCE = "548694e1:research/agent2-neural/code/mapmake6.js"
 SOURCE_SHA = "5ff5ee85e96fa0e1deb3e871095df03ed1f9d0c077b34fe29f4496333041d763"
 ENGINE_SHA = "d910a59eb8a01e1bc4ad4faed1c1f7ca9258b346f895e36446eb88a4d17f3b18"
@@ -27,7 +27,8 @@ def generate(output, dense):
     assert data.count(old) == 1
     data = data.replace(old, new)
     if dense:
-        for old, new in ((b"const ngroups = 5 +", b"const ngroups = 9 +"),
+        for old, new in ((b"tries < +count * 60", b"tries < +count * 120"),
+                         (b"const ngroups = 5 +", b"const ngroups = 9 +"),
                          (b"0.015 + rng() * rng() * 0.12", b"0.035 + rng() * rng() * 0.18")):
             assert data.count(old) == 1
             data = data.replace(old, new)
@@ -42,6 +43,9 @@ def generate(output, dense):
     maps = sorted((output / "maps").glob("*.map26a"))
     digests = {p.name: bench.digest(p) for p in maps}
     assert len(maps) == len(set(digests.values())) == count
+    if dense:
+        first_run = bench.CACHE / "dense-roster-stress-719331/maps"
+        assert all(digests.get(p.name) == bench.digest(p) for p in first_run.glob("*.map26a"))
     reference = {line.split()[0] for line in (bench.ROOT / "docs/codex/FRESH_HOLDOUT.sha256").read_text().splitlines()}
     reference.update(bench.digest(p) for p in partition("dev"))
     if dense:
