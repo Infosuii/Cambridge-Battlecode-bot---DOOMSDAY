@@ -210,12 +210,24 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
     if (best >= 0 && nn_group >= 0 && !nn_stay && nn_ens_keep(best, nn_group)) nn_group = best;
 #endif
 #endif
+#ifdef A2_NN_OVLOG
+    if (best >= 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) {
+        const auto& ga = w.groups[static_cast<std::size_t>(nn_group)];
+        const auto& gb = w.groups[static_cast<std::size_t>(best)];
+        std::printf("NOV %d %d %d %d %d %d %d %u %u %.0f %.0f %d %d %.0f %d %d\\n", round, slot, best, nn_group, target_group, w.group_distance(nn_group, pos), w.group_distance(best, pos), ga.gems, gb.gems,
+                    ga.hp_left(w.camps), gb.hp_left(w.camps), static_cast<int>(ga.state), static_cast<int>(gb.state), static_cast<float>(hp), static_cast<int>(gems), static_cast<int>(w.enemies.size()));
+    }
+#endif
 #ifdef A2_NN_NEED
     // E126: an override keeps v92's crew rule: the camp gets the helpers it needs, rather than a lone attack (best_need 1)
     if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best)
         best = nn_group, best_need = champions_needed(w.groups[static_cast<std::size_t>(nn_group)], w.groups[static_cast<std::size_t>(nn_group)].hp_left(w.camps));
 #else
     if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
+#endif
+#ifdef A2_NN_NEED1
+    // E126: no waiting for helpers on v92's own picks either
+    best_need = 1;
 #endif
 #ifdef A2_NN_RL
 #if A2_NN_MACRO
