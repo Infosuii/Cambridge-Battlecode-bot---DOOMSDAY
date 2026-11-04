@@ -67,6 +67,10 @@ def main() -> None:
         if t["shape"] != shape:
             raise SystemExit(f"{key}: shape {t['shape']} != {shape}")
         out.append(array(name, t["values"]))
+        if len(shape) == 2 and shape[0] > 1:  # transposed [in][out] copy for the broadcast/accumulate SIMD kernel
+            n_out, n_in = shape
+            v = t["values"]
+            out.append(array(name + "t", [v[o * n_in + i] for i in range(n_in) for o in range(n_out)]))
     out.append("}  // namespace clrl_w\n")
     with open(a.out, "w", encoding="utf-8", newline="\n") as f:
         f.write("".join(out))
