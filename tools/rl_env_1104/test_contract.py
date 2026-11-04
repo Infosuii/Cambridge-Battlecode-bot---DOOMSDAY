@@ -83,6 +83,8 @@ class ContractTest(unittest.TestCase):
         return C.load_shard(path, use_numpy=False)
 
     def test_layout_sizes(self):
+        self.assertEqual(C.LAYOUTS[10].nf, 448)
+        self.assertEqual(C.LAYOUTS[10].self_id_index, 47)
         self.assertEqual(C.LAYOUTS[2].nf, 500)
         self.assertEqual(C.LAYOUTS[4].nf, 556)
 
@@ -125,7 +127,7 @@ class ContractTest(unittest.TestCase):
         with self.assertRaises(ValueError):  # layout-4 rows into a layout-2 writer: wrong width
             w2.add_episode(m2, r2)
         with self.assertRaises(ValueError):
-            list(C.iter_shards(self.d, layout=2))
+            list(C.iter_shards(self.d, layout=2, action_schema="target11-v1"))
 
     def test_truncated_bootstrap_needs_boundary_row(self):
         man, cols = self.roundtrip(episode(status="truncated", boundary=True))

@@ -63,8 +63,16 @@ def _layout(layout: int, g: int, c: int) -> ObsLayout:
     return ObsLayout(layout, blocks, self_id_index=g + 31)
 
 
-LAYOUTS = {2: _layout(2, 16, 22), 4: _layout(4, 22, 27)}
-assert LAYOUTS[2].nf == 500 and LAYOUTS[4].nf == 556
+# Layout 10 = cl1: our own SDK-based encoder (bots/claude-rlenv-1104/src/clrl_rec.h, research/rl_env_1104/CL1_SCHEMA.md).
+# Layouts 2 and 4 are external (Agent 2 recorder): readable here, never produced by our collector.
+LAYOUTS = {
+    10: ObsLayout(10, (("g", 1, 16), ("s", 1, 32), ("a", 5, 16), ("e", 6, 16), ("c", 12, 16), ("l", 4, 8)),
+                  self_id_index=16 + 31),
+    2: _layout(2, 16, 22),
+    4: _layout(4, 22, 27),
+}
+EXTERNAL_LAYOUTS = (2, 4)
+assert LAYOUTS[10].nf == 448 and LAYOUTS[2].nf == 500 and LAYOUTS[4].nf == 556
 
 
 @dataclass(frozen=True)
@@ -77,6 +85,9 @@ class ActionSchema:
 
 ACTION_SCHEMAS = {
     # Agent 2 target head: index i < 10 = i-th nearest camp group in the c block, 10 = "far" (outside the 10 nearest).
+    # cl1 macro head: c-row 0..11 (12 nearest camp groups) or 12 = none / outside the 12 nearest. Legal iff c-row present.
+    "target13-cl1": ActionSchema("target13-cl1", 13, "hybrid",
+                                 "v92's camp-group target mapped to a cl1 c-row; 12 = none or outside the 12 nearest"),
     "target11-v1": ActionSchema("target11-v1", 11, "hybrid",
                                 "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
     # Full primitive control gets a new versioned schema (conditional heads: move/attack/cast/bank/buy/ward) when the
@@ -111,9 +122,16 @@ COLUMNS = {
     "boundary": ("uint8", ""),       # observation-only row at a truncation cut: action -1, weight 0, excluded from losses
     "bootstrap_valid": ("uint8", ""),  # on a truncated decision: 1 iff the next row is this body's boundary row
     "h0": ("float32", "h"),          # recurrent state before this decision; absent when hidden_size == 0
+    # Primitive outcome of the turn (manifest prim_labels: true), measured by diffing the body's state at capture and
+    # at the end of its turn: bits 1 moved, 2 attacked, 4 cast, 8 recall started, 16 submit started, 32 bought,
+    # 64 ward placed. Labels for full-control curricula; never actor inputs.
+    "prim": ("uint16", ""),
+    "move_dx": ("int8", ""),
+    "move_dy": ("int8", ""),
 }
-ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "int32": "i", "uint32": "I", "float32": "f"}
-ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "int32": 4, "uint32": 4, "float32": 4}
+PRIM_COLUMNS = ("prim", "move_dx", "move_dy")
+ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
+ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "failed")
 SAMPLING = ("complete", "subsampled", "teacher")  # complete = every policy decision logged (A2_NN_RL_KEEP=1)
 
@@ -136,7 +154,14 @@ def column_shape(name: str, rows: int, manifest: dict) -> tuple:
 
 
 def required_columns(manifest: dict) -> list:
-    return [c for c in COLUMNS if not (c == "h0" and manifest.get("hidden_size", 0) == 0)]
+    skip = set()
+    if manifest.get("hidden_size", 0) == 0:
+        skip.add("h0")
+    if not manifest.get("stale_block", True):  # layouts without a slow summary (cl1) omit x_stale; has_stale stays 0
+        skip.add("x_stale")
+    if not manifest.get("prim_labels", False):
+        skip.update(PRIM_COLUMNS)
+    return [c for c in COLUMNS if c not in skip]
 
 
 class ShardWriter:
@@ -245,7 +270,7 @@ def load_shard(shard_dir: str, use_numpy: bool | None = None) -> tuple:
     return man, cols
 
 
-def iter_shards(root: str, layout: int, split: str | None = None, action_schema: str = "target11-v1",
+def iter_shards(root: str, layout: int, split: str | None = None, action_schema: str = "target13-cl1",
                 validate_each: bool = True) -> Iterator[tuple]:
     """Yield (manifest, columns) for every shard under root (recursively) with this layout/schema.
     Raises on a shard of another layout or contract instead of skipping it silently: mixing is a data error."""
