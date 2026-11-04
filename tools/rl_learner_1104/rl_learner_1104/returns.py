@@ -19,8 +19,11 @@ def gae(rewards, values, next_values, elapsed_rounds, terminated, truncated,
     carry = 0.0
     for i in reversed(range(n)):
         dt = elapsed_rounds[i]
-        if not isinstance(dt, int) or isinstance(dt, bool) or dt < 1:
-            raise ValueError("elapsed rounds must be positive integers")
+        if (not isinstance(dt, int) or isinstance(dt, bool) or dt < 0
+                or (dt == 0 and not terminated[i])):
+            raise ValueError("elapsed rounds must be positive, or zero at a true terminal boundary")
+        if terminated[i] and truncated[i]:
+            raise ValueError("a transition cannot be terminal and truncated")
         if not all(math.isfinite(float(x[i])) for x in (rewards, values, next_values)):
             raise ValueError("nonfinite reward/value")
         discount = gamma ** dt
