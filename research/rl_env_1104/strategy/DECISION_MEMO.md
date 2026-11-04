@@ -57,6 +57,25 @@ Design sketch (to be developed in depth next):
 - offline, the dense reward is not predictable from the actor's inputs better than a constant on held-out families
   (cheap to check first, with JOHNDOE's existing value-trial machinery).
 
+### Falsifier 1 result (first pass, 2026-11-04): TRIGGERED at the state level, small data
+
+Data: head-a-01, 16 training games, 8 maps, 24,893 decisions with the exact consumed actor inputs. Target: camp gems the
+deciding body collects in the next 150 rounds (engine gemCollection events). Leave-one-map-out:
+
+| predictor | mean held-out R2 |
+|---|---|
+| ridge on context160 + round | −0.05 (two maps ~+0.2) |
+| ridge, within-game (game means removed; 86% of the variance is within-game) | −0.19 |
+| own and team collection in the previous 150 rounds + round | −0.03 (corr past/next 0.16) |
+
+So per-body near-term collection is not predictable from state better than a constant, at least with these models and
+this little data. That weakens recommendation 1 but does not settle it. Policy learning needs the return to respond to
+the target choice (an action-conditional effect), not state-level predictability. The decisive cheap test is
+action-conditional: in JOHNDOE's native-query batches (~486k decisions, ~12k departures from the reference command,
+exact likelihoods), does next-H camp-gem collection after a departure differ from after the reference, in matched
+states (same game and body, nearby rounds), by more than noise? If not, the dense signal cannot steer target choice
+either, and recommendation 1 is falsified.
+
 ## Strongest alternative: contact/fight verdict (JOHNDOE's current direction)
 
 Champion-kill transfer carries 9-14% of the margin. That is real and the second-largest component, but it is a
