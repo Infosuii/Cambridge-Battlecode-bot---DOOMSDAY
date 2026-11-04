@@ -1,0 +1,287 @@
+{
+  "kind": "synthetic paired-statistics fixtures NOT performance evidence",
+  "key_contract": "Production cell IDs must encode pinned map hash, side, opponent hash, engine/build/fuel settings and requested RNG variant. Candidate/reference artifact identities remain separately pinned.",
+  "estimand": "cell-weighted paired candidate-minus-reference score; equal-family-weighted mean also reported explicitly",
+  "bootstrap": "whole families, paired differences, seed1104,reps4000, percentile indices100 and3899",
+  "scope": "Correct pair accounting is necessary, not proof of independent held-out families or ladder superiority.",
+  "cases": [
+    {
+      "case": "identical policies",
+      "expected_cells": [
+        "cell-0",
+        "cell-1",
+        "cell-2",
+        "cell-3"
+      ],
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-1",
+          "family": "A",
+          "candidate_score": 0,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-2",
+          "family": "B",
+          "candidate_score": 0.5,
+          "reference_score": 0.5,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-3",
+          "family": "B",
+          "candidate_score": 1,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        }
+      ],
+      "expected": {
+        "status": "COMPLETE",
+        "paired_delta": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "family_balanced_delta": 0.0,
+        "families": 2,
+        "cells": 4,
+        "enough_families_for_proposed_confirmation_gate": false
+      }
+    },
+    {
+      "case": "uniform gain, too few families for confirmation",
+      "expected_cells": [
+        "cell-0",
+        "cell-1",
+        "cell-2",
+        "cell-3"
+      ],
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-1",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-2",
+          "family": "B",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-3",
+          "family": "B",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        }
+      ],
+      "expected": {
+        "status": "COMPLETE",
+        "paired_delta": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "family_balanced_delta": 1.0,
+        "families": 2,
+        "cells": 4,
+        "enough_families_for_proposed_confirmation_gate": false
+      }
+    },
+    {
+      "case": "unequal family sizes change weighting",
+      "expected_cells": [
+        "cell-0",
+        "cell-1",
+        "cell-2",
+        "cell-3",
+        "cell-4",
+        "cell-5",
+        "cell-6",
+        "cell-7"
+      ],
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-1",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-2",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-3",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-4",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-5",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-6",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-7",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        }
+      ],
+      "expected": {
+        "status": "COMPLETE",
+        "paired_delta": -0.5,
+        "ci95": [
+          -1.0,
+          1.0
+        ],
+        "family_balanced_delta": 0.0,
+        "families": 2,
+        "cells": 8,
+        "enough_families_for_proposed_confirmation_gate": false
+      }
+    },
+    {
+      "case": "candidate failure cannot be dropped",
+      "expected_cells": [
+        "cell-0",
+        "cell-1"
+      ],
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-1",
+          "family": "B",
+          "candidate_score": 0,
+          "reference_score": 1,
+          "candidate_status": "failed",
+          "reference_status": "ok"
+        }
+      ],
+      "expected": {
+        "status": "INCOMPLETE",
+        "paired_delta": null,
+        "ci95": null
+      }
+    },
+    {
+      "case": "missing scheduled cell",
+      "expected_cells": [
+        "cell-0",
+        "cell-1"
+      ],
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        }
+      ],
+      "expected": {
+        "status": "INCOMPLETE",
+        "paired_delta": null,
+        "ci95": null
+      }
+    },
+    {
+      "case": "duplicate paired cell",
+      "rows": [
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        },
+        {
+          "cell": "cell-0",
+          "family": "A",
+          "candidate_score": 1,
+          "reference_score": 0,
+          "candidate_status": "ok",
+          "reference_status": "ok"
+        }
+      ],
+      "expected_cells": [
+        "cell-0"
+      ],
+      "expected_error": "duplicate paired cell"
+    }
+  ]
+}
