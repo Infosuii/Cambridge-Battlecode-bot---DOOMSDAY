@@ -3,6 +3,7 @@ for each compile, then play the v92 baseline arm and every candidate arm on the 
   python tools/replay/duel_pipeline.py --plan P.json --base 80 --cands v92af v92a3i v92bru v92own [--have NAME=VER ...]"""
 import argparse, json, subprocess, sys, time
 from pathlib import Path
+from uuid import uuid4
 from ladder_duel import required_pin_sources
 ROOT = Path(__file__).resolve().parents[2]; CLI = str(ROOT / 'tools/vendor/cambc.exe')
 def subs():
@@ -13,24 +14,29 @@ def subs():
     raise SystemExit('no submissions list')
 def items(d): return d if isinstance(d, list) else next(v for v in d.values() if isinstance(v, list))
 def upload(name):
-    for attempt in range(8):
-        before = {s['version'] for s in items(subs())}
-        r = subprocess.run([CLI, 'submit', f'bots/{name}', '--note', f'duel candidate {name}'], capture_output=True, cwd=ROOT)
-        out = (r.stdout + r.stderr).decode('utf-8', 'replace')
-        for _ in range(6):
-            new = [s for s in items(subs()) if s['version'] not in before and s.get('fileName', '').startswith(name) or (s['version'] not in before)]
-            if new: break
-            time.sleep(10)
-        if new:
-            v = max(s['version'] for s in new); print(name, 'uploaded as', v, flush=True)
-            for _ in range(120):  # wait for the compile
-                st = next(s['status'] for s in items(subs()) if s['version'] == v)
-                if st not in ('queued', 'compiling', 'building', 'pending'):
-                    print(name, v, 'status', st, flush=True); return v if st in ('active', 'inactive', 'ready') else None
-                time.sleep(15)
-            return None
-        print(name, 'upload failed, retry', attempt, out[-120:], flush=True); time.sleep(30 + 30 * attempt)
-    return None
+    before = {s['version'] for s in items(subs())}
+    # The CLI allows 80 characters. Keep the full receipt token even for long names.
+    note = f'duel candidate {name[:32]} {uuid4().hex}'
+    r = subprocess.run([CLI, 'submit', f'bots/{name}', '--note', note], capture_output=True, cwd=ROOT)
+    for _ in range(6):
+        matches = [s for s in items(subs()) if s['version'] not in before and s.get('note') == note]
+        if len(matches) > 1:
+            raise SystemExit(f'{name}: ambiguous upload receipt {note!r}')
+        if matches:
+            break
+        time.sleep(10)
+    else:
+        # A missing receipt is uncertain even when the upload process reports an error.
+        raise SystemExit(f'{name}: upload receipt {note!r} not found (CLI exit {r.returncode})')
+    v = matches[0]['version']
+    print(name, 'uploaded as', v, flush=True)
+    for _ in range(120):  # wait for the compile
+        st = next(s['status'] for s in items(subs()) if s['version'] == v)
+        if st not in ('queued', 'compiling', 'building', 'pending'):
+            print(name, v, 'status', st, flush=True)
+            return v if st in ('active', 'inactive', 'ready') else None
+        time.sleep(15)
+    raise SystemExit(f'{name}: version {v} still compiling; stop before another upload')
 ap = argparse.ArgumentParser(); ap.add_argument('--plan', required=True); ap.add_argument('--base', type=int, required=True)
 ap.add_argument('--cands', nargs='*', default=[]); ap.add_argument('--have', nargs='*', default=[]); ap.add_argument('--recheck', default='', help='arm name: replay the base version at the end (opponent drift check)'); a = ap.parse_args()
 vers = dict(x.split('=') for x in a.have)
