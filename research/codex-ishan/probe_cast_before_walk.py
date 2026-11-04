@@ -1,5 +1,7 @@
 """Count existing camp approaches with a safe one-cast clear before walking."""
+import argparse
 from concurrent.futures import ThreadPoolExecutor
+from hashlib import sha256
 import json
 import re
 from shutil import copytree
@@ -12,18 +14,19 @@ from probe_wait_payout import OPPONENTS, bench, partition
 OUT = bench.CACHE / "cast-before-walk-dev-r2"
 
 
-def prepare(src, *, diagnostic=True, enabled=True):
+def prepare(src, *, diagnostic=True, enabled=True, on_reward=False):
     copytree(bench.ROOT / "bots/v92/src", src)
     if not diagnostic:
         header = src / "common.h"
         data = header.read_bytes()
         nl = b"\r\n" if b"\r\n" in data else b"\n"
         header.write_bytes(f"#define CODEX_PREWALK_CLEAR {int(enabled)}".encode() + nl + data)
+    reward_guard = "bit(g.tiles, pos) && " if on_reward else ""
     apply(src / "bot.cpp", (
         ('        mode = "approach";\n#if A2_APPROACHFIX', '''        mode = "approach";
 ''' + ("" if diagnostic else "#if CODEX_PREWALK_CLEAR\n") + '''\
         int codex_clear_slot = -1, codex_clear_camp = -1;
-        if (round <= 300 && !walked && !cast_done && hp >= 0.65f * max_hp && w.enemies.empty() &&
+        if (round <= 300 && ''' + reward_guard + '''!walked && !cast_done && hp >= 0.65f * max_hp && w.enemies.empty() &&
             bc::fuel_remaining() > rb::kTailReserve) {
             bool threat = false;
             for (const auto& seen : w.sightings)
@@ -89,9 +92,15 @@ def play(job):
 
 
 def main():
+    global OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--on-reward", action="store_true")
+    on_reward = parser.parse_args().on_reward
+    if on_reward:
+        OUT = bench.CACHE / "cast-on-reward-dev"
     bench.OUT = OUT
     project = OUT / "diagnostic"
-    prepare(project / "src")
+    prepare(project / "src", on_reward=on_reward)
     wasm = project / "bot.wasm"
     with (OUT / "build.log").open("wb") as log:
         subprocess.run([bench.CLI, "build", project, "--release", "--output", wasm], cwd=bench.ROOT,
@@ -100,7 +109,13 @@ def main():
         file, digest = bench.OPPS[opponent]
         assert bench.digest(bench.CACHE / file) == digest
     (OUT / "games").mkdir()
-    jobs = [("probe", 0, o, m, s, wasm) for m in partition("conf") for o in OPPONENTS for s in "AB"]
+    selected = partition("conf")
+    if on_reward:
+        exclude = {bench.digest(p) for p in selected}
+        available = [m for m in partition("dev") if bench.digest(m) not in exclude]
+        selected = sorted(available, key=lambda p: sha256(f"exp087-payout:{p.name}".encode()).digest())[:16]
+        assert len(selected) == 16
+    jobs = [("probe", 0, o, m, s, wasm) for m in selected for o in OPPONENTS for s in "AB"]
     with ThreadPoolExecutor(max_workers=6) as pool:
         rows = list(pool.map(play, jobs))
     affected = [r for r in rows if r["opportunities"]]
@@ -110,8 +125,9 @@ def main():
     report = {"engine": bench.ENGINE, "wasm": bench.digest(wasm), "n": len(rows), "maps": maps, "opponents": opponents,
               "errors": errors, "events": sum(len(r["opportunities"]) for r in affected),
               "pass": len(maps) >= 2 and len(opponents) == 2 and not errors}
-    with (bench.ROOT / "research/codex-ishan/CAST_BEFORE_WALK_PROBE.json").open("x", encoding="utf8", newline="\n") as out:
-        json.dump({**report, "rows": rows}, out, indent=2)
+    name = "CAST_ON_REWARD_PROBE.json" if on_reward else "CAST_BEFORE_WALK_PROBE.json"
+    with (bench.ROOT / f"research/codex-ishan/{name}").open("x", encoding="utf8", newline="\n") as out:
+        json.dump({**report, "selected": {m.name: bench.digest(m) for m in selected}, "rows": rows}, out, indent=2)
         out.write("\n")
     print(report, flush=True)
 

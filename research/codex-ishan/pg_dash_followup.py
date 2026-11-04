@@ -40,7 +40,8 @@ def prepare(src, enabled, escape_only=False):
 def read_turn(directory, round_number, side, actor):
     replay = directory / "raw.repl26a"
     output = directory / "turn.json"
-    with ZipFile(next(directory.glob("*.repl26a"))) as bundle:
+    (archive,) = (p for p in directory.glob("*.repl26a") if p != replay)
+    with ZipFile(archive) as bundle:
         replay.write_bytes(bundle.read("replay.repl26a"))
     with (directory / "turn.log").open("wb") as log:
         proc = subprocess.run(["node", HERE / "trace_turn.mjs", replay, str(round_number), str("AB".index(side)),
@@ -53,15 +54,7 @@ def read_turn(directory, round_number, side, actor):
     return state
 
 
-def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False, name=None):
-    exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
-    assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
-    if name is None:
-        name = ("pg-travel-tail" if travel_tail else "pg-heart-attack" if heart_attack else
-                "pg-escape-followup" if escape_only else "pg-dash-followup")
-    bench.OUT = bench.CACHE / f"{name}-stress"
-    (bench.OUT / "games").mkdir(parents=True)
-    jobs = []
+def stress_cases():
     for directory, manifest_name, profile in ((STRESS, "LARGE_ROSTER_MAPS.json", "LARGE_ROSTER_COARSE.json"),
                                                (DENSE, "DENSE_ROSTER_MAPS.json", "DENSE_ROSTER_PROFILE.json")):
         manifest = read(HERE / manifest_name)["maps"]
@@ -70,8 +63,19 @@ def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False, na
             assert bench.digest(mp) == manifest[mp.name]
             file, digest = bench.OPPS[r["opponent"]]
             assert bench.digest(bench.CACHE / file) == digest
-            jobs.extend((arm, 0, r["opponent"], mp, r["side"], binary)
-                        for arm, binary in (("base", exact), ("candidate", wasm)))
+            yield r["opponent"], mp, r["side"]
+
+
+def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False, name=None):
+    exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
+    assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
+    if name is None:
+        name = ("pg-travel-tail" if travel_tail else "pg-heart-attack" if heart_attack else
+                "pg-escape-followup" if escape_only else "pg-dash-followup")
+    bench.OUT = bench.CACHE / f"{name}-stress"
+    (bench.OUT / "games").mkdir(parents=True)
+    jobs = [(arm, 0, opponent, mp, side, binary) for opponent, mp, side in stress_cases()
+            for arm, binary in (("base", exact), ("candidate", wasm))]
     with ThreadPoolExecutor(max_workers=8) as pool:
         rows = list(pool.map(bench.one, jobs))
     pairs = list(zip(rows[::2], rows[1::2], strict=True))

@@ -9,6 +9,10 @@ from pg_travel_tail import prepare as prepare_travel
 
 def prepare(src, enabled):
     prepare_travel(src, enabled)
+    apply_scan(src, enabled)
+
+
+def apply_scan(src, enabled):
     header = src / "common.h"
     data = header.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"

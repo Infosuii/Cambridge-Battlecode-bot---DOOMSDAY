@@ -40,7 +40,12 @@ static int codex_last_suspension = -1;
 def play_scoped(job):
     row = bench.one(job, log_limit=trace.LIMIT)
     case = bench.OUT / "games" / f"profile-{row['noise_seed']}-{row['opponent']}-{row['map']}-{row['side']}"
-    with ZipFile(next(case.glob("*.repl26a"))) as bundle:
+    return summarize_scoped(row, case)
+
+
+def summarize_scoped(row, case):
+    (archive,) = (p for p in case.glob("*.repl26a") if p.name != "raw.repl26a")
+    with ZipFile(archive) as bundle:
         log = bundle.read(f"team-{row['side'].lower()}.stdout")
     markers = re.findall(rb"CODEX_STRESS R\d+ t\d+ [a-z_]+", log)
     counts = Counter()

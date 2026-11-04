@@ -1,0 +1,86 @@
+"""Test the isolated travel address optimization on original v92."""
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import json
+from pathlib import Path
+from shutil import copytree
+
+from large_roster_stress import HERE, bench, native_fuel, read
+from pg_dash_followup import read_turn, stress_cases
+from pg_travel_scan import apply_scan
+
+OUT = bench.CACHE / "v92-travel-scan-stress"
+
+
+def prepare(src, enabled):
+    copytree(bench.ROOT / "bots/v92/src", src)
+    apply_scan(src, enabled)
+
+
+def game(row):
+    return OUT / "games" / f"{row['arm']}-0-{row['opponent']}-{row['map']}-{row['side']}"
+
+
+def identity(event):
+    return event["timestamp"]["round"], event["owner"]["id"]
+
+
+def ordinary_actions(turn):
+    return [a for a in turn["executed_actions"] if a["kind"] not in (3, 26)]
+
+
+def verify_pair(pair):
+    b, c = pair
+    assert all(b[k] == c[k] for k in ("opponent", "map_hash", "engine_seed", "side"))
+    bd, cd = (read(game(r) / "native.json") for r in pair)
+    draft_equal = bd["roster"]["draft"] == cd["roster"]["draft"]
+    errors = any(any(d["diagnostics"]["botFaults"].values()) or d["diagnostics"]["codes"] for d in (bd, cd))
+    if not draft_equal or errors:
+        return {"draft_equal": draft_equal, "error": bool(errors), "preserved": []}
+    previous, current = ({identity(e) for e in native_fuel(r, OUT)} for r in pair)
+    preserved = []
+    for rnd, actor in sorted(previous - current):
+        old, new = (read_turn(game(r), rnd, r["side"], actor) for r in pair)
+        if old and new and old["observation"] == new["observation"]:
+            actions = ordinary_actions(old)
+            if actions and actions == ordinary_actions(new)[:len(actions)]:
+                preserved.append({"round": rnd, "actor": actor, "actions": actions})
+    return {"draft_equal": draft_equal, "error": bool(errors), "preserved": preserved}
+
+
+def verify(wasm):
+    base = bench.CACHE / bench.OPPS["v92"][0]
+    assert bench.digest(base) == bench.OPPS["v92"][1]
+    bench.OUT = OUT
+    (OUT / "games").mkdir(parents=True)
+    jobs = [(arm, 0, o, m, s, binary) for o, m, s in stress_cases()
+            for arm, binary in (("base", base), ("candidate", wasm))]
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        rows = list(pool.map(bench.one, jobs))
+        pairs = list(zip(rows[::2], rows[1::2], strict=True))
+        checks = list(pool.map(verify_pair, pairs))
+    fuel = [sum(r["fuel_outs"] for r in arm) for arm in (rows[::2], rows[1::2])]
+    increases = sum(c["fuel_outs"] > b["fuel_outs"] for b, c in pairs)
+    drafts = sum(not k["draft_equal"] for k in checks)
+    errors = sum(k["error"] for k in checks)
+    preserved = sum(len(k["preserved"]) for k in checks)
+    passed = len(pairs) == 39 and fuel[1] < fuel[0] and not any((increases, drafts, errors)) and preserved > 0
+    report = {"sha256": bench.digest(wasm), "engine": bench.ENGINE, "n": len(pairs), "fuel": fuel,
+              "increased": increases, "drafts_changed": drafts, "errors": errors, "preserved": preserved, "pass": passed}
+    with (HERE / "V92_TRAVEL_SCAN_EXACT.json").open("x", encoding="utf8", newline="\n") as f:
+        json.dump({**report, "rows": rows, "checks": checks}, f, indent=2)
+        f.write("\n")
+    print(report, flush=True)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    target = parser.add_mutually_exclusive_group(required=True)
+    target.add_argument("--src", type=Path)
+    target.add_argument("--verify", type=Path)
+    parser.add_argument("--off", action="store_true")
+    args = parser.parse_args()
+    if args.src:
+        prepare(args.src, not args.off)
+    else:
+        verify(args.verify)
