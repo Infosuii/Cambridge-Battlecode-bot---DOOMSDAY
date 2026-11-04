@@ -245,6 +245,13 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
                     ga.hp_left(w.camps), gb.hp_left(w.camps), static_cast<int>(ga.state), static_cast<int>(gb.state), static_cast<float>(hp), static_cast<int>(gems), static_cast<int>(w.enemies.size()));
     }
 #endif
+#ifdef A2_NN_CAMPSAFE
+    // E127: no override onto a dangerous live camp that needs a crew while hurt (platform: camp deaths 1.7 a game against v92's 0.9)
+    if (best >= 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) {
+        const auto& gs = w.groups[static_cast<std::size_t>(nn_group)];
+        if (gs.state == GroupState::alive && !gs.harmless && hp < A2_NN_CAMPSAFE * max_hp && champions_needed(gs, gs.hp_left(w.camps)) > 1) nn_group = best;
+    }
+#endif
 #ifdef A2_NN_NEED
     // E126: an override keeps v92's crew rule: the camp gets the helpers it needs, rather than a lone attack (best_need 1)
     if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best)
@@ -356,6 +363,10 @@ if xf:
             }
             bc::draft_memory = all;
 """)
+if any(k in defs for k in ("A2_MFUNNEL", "A2_CARRY", "A2_META_DRAFT")):  # E127
+    sys.path.insert(0, LAB)
+    import e127_fix
+    e127_fix.apply(S, defs)
 if "A2_CTLOG" in defs:  # E126: a line per turn in contact
     sys.path.insert(0, LAB)
     from e126_ctlog import patch_ctlog
