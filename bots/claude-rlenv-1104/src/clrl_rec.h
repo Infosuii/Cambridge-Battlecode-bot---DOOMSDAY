@@ -16,6 +16,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <string>
+#include <vector>
 
 namespace clrl {
 constexpr int kG = 16, kS = 32, kA = 5, kAW = 16, kE = 6, kEW = 16, kC = 12, kCW = 16, kL = 4, kLW = 8;
@@ -194,24 +195,34 @@ static void encode(const BotT& b) {
     // c: the 12 nearest camp groups by Chebyshev distance to their member centroid
     std::fill(st.c_group, st.c_group + kC, -1);
     struct GD { int g, d, cx, cy; };
+    // Group centroids are static: computed once per body, not every decision (this loop was ~80% of encode fuel).
+    static std::vector<int> gcx, gcy;
+    if (gcx.size() != w.groups.size()) {
+        gcx.assign(w.groups.size(), -1);
+        gcy.assign(w.groups.size(), -1);
+        for (std::size_t g = 0; g < w.groups.size(); ++g) {
+            const auto& gr = w.groups[g];
+            if (gr.camps.empty()) continue;
+            long sx = 0, sy = 0;
+            for (int ci : gr.camps) { sx += w.camps[ci].pos.x; sy += w.camps[ci].pos.y; }
+            gcx[g] = static_cast<int>(sx / static_cast<long>(gr.camps.size()));
+            gcy[g] = static_cast<int>(sy / static_cast<long>(gr.camps.size()));
+        }
+    }
+    // Keep the 12 nearest in a sorted array (insertion), ties by group index: same order as a full sort.
     GD best[kC];
     int nb = 0;
     for (int g = 0; g < static_cast<int>(w.groups.size()); ++g) {
-        const auto& gr = w.groups[g];
-        if (gr.camps.empty()) continue;
-        long sx = 0, sy = 0;
-        for (int ci : gr.camps) { sx += w.camps[ci].pos.x; sy += w.camps[ci].pos.y; }
-        const int cx = static_cast<int>(sx / static_cast<long>(gr.camps.size()));
-        const int cy = static_cast<int>(sy / static_cast<long>(gr.camps.size()));
-        const GD cand{ g, cheb(px, py, cx, cy), cx, cy };
-        if (nb < kC) best[nb++] = cand;
-        else {
-            int worst = 0;
-            for (int i = 1; i < kC; ++i) if (best[i].d > best[worst].d) worst = i;
-            if (cand.d < best[worst].d) best[worst] = cand;
+        if (gcx[g] < 0) continue;
+        const GD cand{ g, cheb(px, py, gcx[g], gcy[g]), gcx[g], gcy[g] };
+        if (nb == kC && cand.d >= best[kC - 1].d) continue;  // g increases, so a tie never beats an earlier group
+        int k = nb < kC ? nb++ : kC - 1;
+        while (k > 0 && best[k - 1].d > cand.d) {
+            best[k] = best[k - 1];
+            --k;
         }
+        best[k] = cand;
     }
-    std::sort(best, best + nb, [](const GD& a, const GD& b2) { return a.d != b2.d ? a.d < b2.d : a.g < b2.g; });
     for (int i = 0; i < nb; ++i) {
         const auto& gr = w.groups[best[i].g];
         std::int16_t* c = f + kOffC + i * kCW;
