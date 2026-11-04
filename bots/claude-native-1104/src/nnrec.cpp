@@ -665,6 +665,9 @@ static_assert(A2_NN_Q16 && nnw::kTrunkIn == 160 && nnw::kEnc == 16, "clna-head-a
 struct ClnaSnap {
     int at = -1, n = 0;
     std::int16_t ec[10][16], ft[10][4];
+#ifdef CLNA_COND
+    std::int16_t x[160];  // conditional head: the context of the same nn_pub, used one-shot on invoke (no staging)
+#endif
 };
 struct ClnaCtx {
     int at = -1;        // round x was taken (-1: none)
@@ -691,6 +694,10 @@ struct ClnaRow {                     // this turn's head decision, formatted as 
 static ClnaRow clna_row;
 static int clna_memo_hits = 0, clna_memo_misses = 0;  // (CLNA_FPROF reports them)
 static void clna_take_snap(const std::int16_t* f, int coff, int at) {
+#ifdef CLNA_COND
+    std::copy(nn_lv.x, nn_lv.x + 160, clna_snap.x);
+    if (false)
+#endif
     // Exact memoisation (JOHNDOE #90): a new context whose 320 raw bytes equal the completed one in use needs no staging;
     // its h and h-only terms are reused (the weights are compiled in), and its round stays the round those bytes were
     // first taken. Never keyed on rounds or slots; a pending context is never marked ready early.
@@ -1177,6 +1184,12 @@ int Bot::nn_ens_sample(int v92g) {
 #define CLNA_STAGE_MIN 7000  // spare end-of-turn fuel needed for one more stage (~2.9k typical, up to ~4k): keeps >= ~3k
 #endif
 #include "clna_head_w.h"
+#ifdef CLNA_COND
+#ifndef CLNA_COND_MIN
+#define CLNA_COND_MIN 60000  // fuel left to sample the gate: covers a one-shot head (~36k) + its log + v92's own work after
+#endif
+#include "clna_cgate.h"
+#endif
 #include "jd_codec.h"
 #include "jd_head.h"
 // One stage = 16 inputs of jd_head::dense<64>(x, w, 160, h, true): same accumulator start (the bias), same per-input
@@ -1392,13 +1405,104 @@ int Bot::clna_explore(int v92g, int ng) {
             map[j] = k;
         }
         while (kr < nu && ug[kr] != ref) ++kr;
+#ifdef CLNA_COND
+        const int why = (clna_snap.at != nn_pub.at || clna_snap.n != n || n > 10 || m != n + 1) ? 1 : kr == nu ? 2
+                        : bc::fuel_remaining() < static_cast<std::uint64_t>(CLNA_COND_MIN) ? 3 : 0;
+#else
         const int why = (clna_snap.at != nn_pub.at || clna_snap.n != n || n > 10 || m != n + 1) ? 1 : kr == nu ? 2
                         : bc::fuel_remaining() < static_cast<std::uint64_t>(CLNA_HEAD_MIN) ? 3 : !clna_act.ready ? 4 : 0;
+#endif
         if (why) {
             clna_round = -1;
             ++clna_skips[why - 1];  // reported at the end of the turn (CNK, clna_turn_end)
             return ref;
         }
+#ifdef CLNA_COND
+        {
+            // Conditional head (joint latent, JOHNDOE #92/#94; schema native-cond-v1): a cheap gate (clna_cgate.h) decides
+            // whether to invoke the full head; hold = the reference acts. On invoke the full head runs one-shot on the
+            // snapshot paired with nn_pub and chosen ~ q = softmax(native + residual(h)) merged per physical group, with no
+            // reference mixture (the head's own gate output is unused). Behaviour logp: log(1 - alpha) on a hold,
+            // log alpha + log q(chosen) on an invoke.
+            float g[clna_cgate::kN];
+            {
+                float rmax = -INFINITY, omax = -INFINITY;
+                for (int j = 0; j <= n; ++j) {
+                    const float l = j < n ? nn_pub.es[j] : nn_pub.far;
+                    if (map[j] == kr) rmax = l > rmax ? l : rmax;
+                    else omax = l > omax ? l : omax;
+                }
+                const float mg = omax == -INFINITY ? 8.0f : std::clamp(rmax - omax, -8.0f, 8.0f);
+                g[0] = mg / 8.0f;
+                g[1] = static_cast<float>(round) / 2000.0f;
+                g[2] = static_cast<float>(gems) / 100.0f;
+                g[3] = max_hp > 0 ? static_cast<float>(hp) / static_cast<float>(max_hp) : 0.0f;
+                g[4] = static_cast<float>(w.enemies.size() < 6 ? w.enemies.size() : 6) / 6.0f;
+                g[5] = static_cast<float>(n + 1) / 11.0f;
+            }
+            double gz = clna_cgate::kBias;
+            for (int i = 0; i < clna_cgate::kN; ++i) gz += static_cast<double>(clna_cgate::kW[i]) * static_cast<double>(g[i]);
+            const double alpha = 1.0 / (1.0 + std::exp(-gz));
+            const bool invoke = clna_u01() < alpha;
+            int c = kr;
+            double qc = 0;
+            float nat[11];
+            if (invoke) {
+                float xf[160], cf[10 * 16], ff[10 * 4], lg[64];
+                for (int i = 0; i < 160; ++i) xf[i] = static_cast<float>(clna_snap.x[i]) * (1.0f / 1024.0f);
+                for (int k = 0; k < n; ++k) {
+                    for (int j = 0; j < 16; ++j) cf[k * 16 + j] = static_cast<float>(clna_snap.ec[k][j]) * (1.0f / 1024.0f);
+                    const std::int16_t* t = clna_snap.ft[k];
+                    ff[k * 4 + 0] = static_cast<float>(t[0] < 0 ? 256 : std::min<int>(t[0], 256)) * (1.0f / 32.0f);
+                    ff[k * 4 + 1] = static_cast<float>(std::clamp<int>(t[1], 0, 8)) * 0.25f;
+                    ff[k * 4 + 2] = static_cast<float>(std::clamp<int>(t[2], 0, 8)) * 0.25f;
+                    ff[k * 4 + 3] = t[3] ? 1.0f : 0.0f;
+                    nat[k] = nn_pub.es[k];
+                }
+                nat[n] = nn_pub.far;
+                jd_head::scores(clna_head::kW, xf, cf, ff, nat, n, lg);  // (its gate value is unused)
+                float mx = -INFINITY;
+                for (int j = 0; j <= n; ++j) mx = lg[j] > mx ? lg[j] : mx;
+                double ev[11], tot = 0, qp[14] = {};
+                for (int j = 0; j <= n; ++j) ev[j] = std::exp(double(lg[j] - mx)), tot += ev[j];
+                for (int j = 0; j <= n; ++j) qp[map[j]] += ev[j] / tot;
+                const double u = clna_u01();
+                double acc = 0;
+                c = nu - 1;
+                for (int k = 0; k < nu; ++k) {
+                    acc += qp[k];
+                    if (u < acc) {
+                        c = k;
+                        break;
+                    }
+                }
+                qc = qp[c];
+            }
+            ++clna_index;
+            clna_round = round;
+            // CNG1 <round> <slot> <id> <index> <ref> <chosen> <v92> <nn> <invoked 0/1> <alpha:hex64> <g: kN x hex32>
+            char* o = clna_rstr(clna_rbuf, "CNG1 ");
+            o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
+            *o++ = ' ', o = clna_rint(o, clna_index), *o++ = ' ', o = clna_rint(o, ref), *o++ = ' ', o = clna_rint(o, ug[c]);
+            *o++ = ' ', o = clna_rint(o, v92g), *o++ = ' ', o = clna_rint(o, ng), *o++ = ' ', *o++ = invoke ? '1' : '0';
+            *o++ = ' ', o = clna_rdbl(o, alpha), *o++ = ' ';
+            for (int i = 0; i < clna_cgate::kN; ++i) o = clna_rf32(o, g[i]);
+            if (invoke) {
+                // then on the same line: Q <n> <pub round> <nu> <q chosen:hex64> <groups> <slot->physical> <native logits>
+                // <x> <ec> <fields>   (the same tokens as CNR3 after its p; inputs are those of the paired snapshot)
+                o = clna_rstr(o, " Q "), o = clna_rint(o, n), *o++ = ' ', o = clna_rint(o, nn_pub.at), *o++ = ' ', o = clna_rint(o, nu);
+                *o++ = ' ', o = clna_rdbl(o, qc), *o++ = ' ', o = clna_rh8(o, ug, nu), *o++ = ' ', o = clna_rh8(o, map, n + 1), *o++ = ' ';
+                for (int j = 0; j <= n; ++j) o = clna_rf32(o, nat[j]);
+                const auto cap = [&] { return sizeof clna_rbuf - static_cast<std::size_t>(o - clna_rbuf); };
+                *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(clna_snap.x), 2 * 160, o, cap());
+                *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&clna_snap.ec[0][0]), 2 * 16 * n, o, cap());
+                *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&clna_snap.ft[0][0]), 2 * 4 * n, o, cap());
+            }
+            *o++ = '\n';
+            std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+            return ug[c];
+        }
+#endif
         float cf[10 * 16], ff[10 * 4], nat[11];
         bool val[11];
         for (int k = 0; k < n; ++k) {

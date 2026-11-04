@@ -19,6 +19,7 @@ def main() -> None:
     ap.add_argument("--header", required=True)
     ap.add_argument("--eps", type=float, default=0.02)
     ap.add_argument("--head-min", type=int)
+    ap.add_argument("--cond", action="store_true", help="conditional head (CLNA_COND): cheap gate, one-shot head on invoke")
     a = ap.parse_args()
     out = os.path.join(ROOT, a.out)
     if os.path.exists(out):
@@ -32,6 +33,8 @@ def main() -> None:
     defs = f"#define CLNA_EPS {a.eps!r}\n#define CLNA_RLOG 1\n#define CLNA_HEAD 1\n"
     if a.head_min:
         defs += f"#define CLNA_HEAD_MIN {a.head_min}\n"
+    if a.cond:
+        defs += "#define CLNA_COND 1\n"
     with open(ch, "w", encoding="utf-8", newline="") as f:
         f.write(defs + text)
     print(out)
