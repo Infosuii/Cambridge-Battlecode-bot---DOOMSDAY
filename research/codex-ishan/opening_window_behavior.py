@@ -36,9 +36,11 @@ def run(job):
             "earned_gold": timeline(native, team, "earnedGold", ROUND_LIMIT)}
 
 
-def main():
-    builds = json.loads((HERE / "OPENING_WINDOW_BUILDS.json").read_bytes())
-    binaries = {"base": bench.CACHE / "v92.wasm", "window": bench.ROOT / "bots/codex-opening-window/bot.wasm"}
+def main(variant="opening-window", build_file="OPENING_WINDOW_BUILDS.json", result_file="OPENING_WINDOW_BEHAVIOR.json"):
+    global OUT
+    OUT = bench.CACHE / f"{variant}-behavior"
+    builds = json.loads((HERE / build_file).read_bytes())
+    binaries = {"base": bench.CACHE / "v92.wasm", "window": bench.ROOT / "bots" / f"codex-{variant}" / "bot.wasm"}
     assert [bench.digest(p) for p in binaries.values()] == [builds["off"], builds["release"]]
     for name in OPPONENTS:
         filename, expected = bench.OPPS[name]
@@ -78,7 +80,7 @@ def main():
               "improved_maps": [m for m, d in by_map.items()
                                 if d["inferred_camp_gold"] > 0 or d["camp_gems"] > 0],
               "rows": rows}
-    with (HERE / "OPENING_WINDOW_BEHAVIOR.json").open("x", encoding="utf-8", newline="\n") as f:
+    with (HERE / result_file).open("x", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, indent=2)
         f.write("\n")
     print({k: v for k, v in result.items() if k not in ("rows", "by_map")}, flush=True)
