@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T01:47:59.878Z",
+  "updated_at": "2026-11-04T01:52:59.959Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 2,
+      "seq": 3,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T01:42:48Z",
+      "last_control_at": "2026-11-04T01:49:46Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6620242536
+      "last_control_comment_id": 6620343673
     },
     "claude": {
       "accounts": [
@@ -208,5 +208,6 @@
       "evidence": "Github get_repo_collaborator_permission=none; commit56b60b9 authorLogin=dsds32wed; Claude#7 reports no relay"
     }
   ],
-  "note": "Claude registration accepted; builder adoption pending within grace. Agent2 has no observable CONTROL channel, so timeout/reallocation cannot be safely inferred for it. No task expired or reassigned."
+  "note": "Claude registration accepted; builder adoption pending within grace. Agent2 has no observable CONTROL channel, so timeout/reallocation cannot be safely inferred for it. No task expired or reassigned.",
+  "last_complete_check_at": "2026-11-04T01:52:59.959Z"
 }
