@@ -31,7 +31,7 @@ def row(m,s,profile,death):
     g={tag:{str(t):timeline(s,team,"earnedGold",t) for t in ROUNDS} for tag,team in (("us",ours),("winner",theirs))}
     gaps=[g["winner"][str(t)]-g["us"][str(t)] for t in ROUNDS]
     lead=[gap>=100 and gap>=0.15*g["us"][str(t)] for t,gap in zip(ROUNDS,gaps,strict=True)]
-    first=next((t for i,t in enumerate(ROUNDS[:6]) if lead[i] and lead[i+1]),None)
+    first=next((t for i,t in enumerate(ROUNDS[:5]) if lead[i] and lead[i+1]),None)
     def side(p,t):
         sh=p["us" if t==0 else "them"]
         ds=[d for d in death["deaths"] if d["team"]==(0 if (ours=="teamA")==(t==0) else 1)]
