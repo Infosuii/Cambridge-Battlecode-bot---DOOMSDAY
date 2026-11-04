@@ -50,8 +50,9 @@ def main():
     mode.add_argument("--shared", action="store_true")
     mode.add_argument("--post-ward", action="store_true")
     mode.add_argument("--combined", action="store_true")
+    mode.add_argument("--ward-decide", action="store_true")
     args = parser.parse_args()
-    variant = next((name for enabled, name in ((args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
+    variant = next((name for enabled, name in ((args.ward_decide, "ward-decide"), (args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
                                                (args.specialized, "specialized")) if enabled), "cap")
     OUT = bench.CACHE / f"cpg-safe-tribute-{variant}-fixture"
     source = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
@@ -61,7 +62,7 @@ def main():
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
     prepare(src, True, specialized=args.specialized or args.combined,
-            shared=args.shared, post_ward=args.post_ward or args.combined)
+            shared=args.shared, post_ward=args.post_ward or args.combined, ward_decide=args.ward_decide)
     wasm = build(src, OUT / "candidate", SEED)
     jobs = []
     for row in cases:

@@ -71,8 +71,9 @@ def main():
     mode.add_argument("--shared-tribute", action="store_true")
     mode.add_argument("--post-ward-tribute", action="store_true")
     mode.add_argument("--combined-tribute", action="store_true")
+    mode.add_argument("--ward-decide-tribute", action="store_true")
     args = parser.parse_args()
-    arm = next((name for enabled, name in ((args.combined_tribute, "combined"), (args.post_ward_tribute, "post-ward"),
+    arm = next((name for enabled, name in ((args.ward_decide_tribute, "ward-decide"), (args.combined_tribute, "combined"), (args.post_ward_tribute, "post-ward"),
                                           (args.shared_tribute, "shared"),
                                           (args.specialized_tribute, "specialized"),
                                           (args.safe_tribute, "capped"), (args.path, "path")) if enabled), "mask")
@@ -88,6 +89,8 @@ def main():
                       partial(prepare_safe_tribute, post_ward=True)),
         "combined": (bench.CACHE / "cpg-safe-tribute-combined-heart", "CPG_SAFE_TRIBUTE_COMBINED_HEART.json",
                      partial(prepare_safe_tribute, specialized=True, post_ward=True)),
+        "ward-decide": (bench.CACHE / "cpg-safe-tribute-ward-decide-heart", "CPG_SAFE_TRIBUTE_WARD_DECIDE_HEART.json",
+                        partial(prepare_safe_tribute, ward_decide=True)),
     }[arm]
     OUT = directory
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")

@@ -35,7 +35,7 @@ def apply_ward_context(src):
     ))
 
 
-def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False):
+def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False, ward_decide=False):
     prepare_path(src, enabled)
     header = src / "common.h"
     data = header.read_bytes()
@@ -55,14 +55,15 @@ def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False):
                 bc::bitboard visited;
                 safe_field.compute_to(blocked, ring, single(pos), visited);"""
     original_search = "                safe_field.compute_to(blocked, ring, single(pos), visited);"
-    if shared or (post_ward and not specialized):
+    if shared or (post_ward and not specialized) or ward_decide:
         body = indent(CAP_SEARCH, " " * 16)
-        if post_ward:
-            body = ("                if (ward_refreshed_this_turn && rb::left() < rb::kReserve.observe) {\n" +
+        if post_ward or ward_decide:
+            reserve = "decide" if ward_decide else "observe"
+            body = (f"                if (ward_refreshed_this_turn && rb::left() < rb::kReserve.{reserve}) {{\n" +
                     indent(CAP_SEARCH, " " * 20) + "\n                } else {\n    " + original_search + "\n                }")
         capped = "#if CODEX_SAFE_TRIBUTE_CAP\n" + body + "\n#else\n" + original_search + "\n#endif"
         apply(src / "bot.cpp", ((safe_search, safe_search.replace(original_search, capped)),))
-        if post_ward:
+        if post_ward or ward_decide:
             apply_ward_context(src)
         return
 
@@ -131,11 +132,12 @@ if __name__ == "__main__":
     variant_args.add_argument("--shared", action="store_true")
     variant_args.add_argument("--post-ward", action="store_true")
     variant_args.add_argument("--combined", action="store_true")
+    variant_args.add_argument("--ward-decide", action="store_true")
     args = parser.parse_args()
     if args.src:
         prepare(args.src, not args.off, specialized=args.specialized or args.combined,
-                shared=args.shared, post_ward=args.post_ward or args.combined)
+                shared=args.shared, post_ward=args.post_ward or args.combined, ward_decide=args.ward_decide)
     else:
-        suffix = next((name for enabled, name in ((args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
+        suffix = next((name for enabled, name in ((args.ward_decide, "ward-decide"), (args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
                                                   (args.specialized, "specialized")) if enabled), "cap")
         verify(args.verify, variant=f"safe-tribute-{suffix}")

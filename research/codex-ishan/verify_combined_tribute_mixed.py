@@ -1,4 +1,5 @@
 """Verify the combined cap on the exact three-event mixed-roster replay."""
+import argparse
 import json
 
 from cpg_safe_tribute_cap import prepare
@@ -8,22 +9,24 @@ from qualify_local import build
 from stress_mixed_post_ward import COMPILED_SEED, OUT as RAW
 from verify_heart_camp_mask_fixture import actions
 
-OUT = bench.CACHE / "safe-tribute-combined-mixed-fixture"
-
-
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--ward-decide", action="store_true")
+    args = parser.parse_args()
+    variant = "ward-decide" if args.ward_decide else "combined"
+    out_dir = bench.CACHE / f"safe-tribute-{variant}-mixed-fixture"
     frozen = read(HERE / "CPG_POST_WARD_MIXED_STRESS.json")
     (case,) = frozen["affected"]
     mp = RAW / "maps" / f"{case['map']}.map26a"
     assert frozen["seed"] == COMPILED_SEED and bench.digest(mp) == case["map_hash"]
     file, expected = bench.OPPS[case["opponent"]]
     assert bench.digest(bench.CACHE / file) == expected
-    bench.OUT = trace.OUT = OUT
+    bench.OUT = trace.OUT = out_dir
     trace.REFERENCE_OUT = RAW
-    (OUT / "games").mkdir(parents=True)
-    src = OUT / "source/src"
-    prepare(src, True, specialized=True, post_ward=True)
-    wasm = build(src, OUT / "candidate", COMPILED_SEED)
+    (out_dir / "games").mkdir(parents=True)
+    src = out_dir / "source/src"
+    prepare(src, True, specialized=not args.ward_decide, post_ward=not args.ward_decide, ward_decide=args.ward_decide)
+    wasm = build(src, out_dir / "candidate", COMPILED_SEED)
     row = trace.play((case, mp, wasm))
     turns = []
     for original in row["checks"]:
@@ -39,7 +42,8 @@ def main():
     result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "candidate": bench.digest(wasm),
               "seed": COMPILED_SEED, "same_draft": row["same_draft"], "errors": row["errors"],
               "events": row["observed"], "turns": turns, "pass": passed}
-    with (HERE / "CPG_SAFE_TRIBUTE_COMBINED_MIXED.json").open("x", encoding="utf8", newline="\n") as out:
+    name = f"CPG_SAFE_TRIBUTE_{variant.upper().replace('-', '_')}_MIXED.json"
+    with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "row": row}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
