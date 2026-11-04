@@ -1,11 +1,14 @@
 """Profile the exact stress failures and fixed clean controls with charged markers."""
+import argparse
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
 import json
 import re
 import subprocess
+from zipfile import ZipFile
 
+from bounded_verdict import apply
 from large_roster_stress import HERE, OUT as STRESS, bench, read
 from pg_ambush_guard import prepare
 from profile_pg_budget_broad import augment
@@ -14,7 +17,49 @@ import profile_pg_runtime as trace
 OUT = bench.CACHE / "large-roster-profile-604211"
 
 
+def prepare_coarse(src, rounds):
+    code = src / "bot.cpp"
+    condition = " || ".join(f"round == {r}" for r in sorted(rounds))
+    stages = ("world", "support", "wardrev", "ambush", "enemies", "farmsel", "c_walked", "c_cast",
+              "d_farm", "decide", "tail", "fields", "bushpre")
+    apply(code, (
+        ('#include "bot.h"', '''#include "bot.h"
+
+static bool codex_stress_trace = false;
+static int codex_last_suspension = -1;
+#define CODEX_STRESS_CHECK(phase) \\
+    do { \\
+        if (codex_stress_trace && codex_last_suspension != round && static_cast<int>(bc::round_number()) != round) { \\
+            codex_last_suspension = round; \\
+            std::printf("CODEX_STRESS R%d t%d %s\\n", round, static_cast<int>(type), phase); \\
+        } \\
+    } while (false)'''),
+        ("    round = static_cast<int>(bc::round_number());\n    if (!inited)",
+         f"    round = static_cast<int>(bc::round_number());\n    codex_stress_trace = {condition};\n    if (!inited)"),
+        *((f'PROF_CHECK("{stage}");', f'PROF_CHECK("{stage}"); CODEX_STRESS_CHECK("{stage}");') for stage in stages),
+    ))
+
+
+def play_coarse(job):
+    row = bench.one(job, log_limit=trace.LIMIT)
+    case = bench.OUT / "games" / f"profile-0-{row['opponent']}-{row['map']}-{row['side']}"
+    with ZipFile(next(case.glob("*.repl26a"))) as bundle:
+        log = bundle.read(f"team-{row['side'].lower()}.stdout")
+    markers = re.findall(rb"CODEX_STRESS R\d+ t\d+ [a-z_]+", log)
+    counts = Counter()
+    examples = {}
+    for item in markers:
+        line = item.decode("ascii")
+        phase = line.split()[-1]
+        counts[phase] += 1
+        examples.setdefault(phase, line)
+    return {**row, "crossings": dict(counts), "examples": examples}
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--coarse", action="store_true")
+    args = parser.parse_args()
     stress = read(HERE / "LARGE_ROSTER_STRESS.json")
     affected = stress["affected"]
     selected = {r["map"] for r in affected}
@@ -28,15 +73,18 @@ def main():
         if len(controls) == 8:
             break
     assert len(affected) == 18 and len(controls) == 8
-    bench.OUT = trace.OUT = OUT
-    (OUT / "games").mkdir(parents=True)
-    project = OUT / "diagnostic"
+    bench.OUT = trace.OUT = bench.CACHE / "large-roster-coarse-604211" if args.coarse else OUT
+    (bench.OUT / "games").mkdir(parents=True)
+    project = bench.OUT / "diagnostic"
     src = project / "src"
     prepare(src, True)
-    trace.instrument(src)
-    augment(src)
+    if args.coarse:
+        prepare_coarse(src, {e["timestamp"]["round"] for r in affected for e in r["events"]})
+    else:
+        trace.instrument(src)
+        augment(src)
     wasm = project / "bot.wasm"
-    with (OUT / "build.log").open("wb") as log:
+    with (bench.OUT / "build.log").open("wb") as log:
         subprocess.run([bench.CLI, "build", project, "--release", "--output", wasm], cwd=bench.ROOT,
                        stdout=log, stderr=subprocess.STDOUT, check=True)
     maps = {p.stem: p for p in (STRESS / "maps").glob("*.map26a")}
@@ -48,26 +96,27 @@ def main():
         assert bench.digest(bench.CACHE / file) == expected
     jobs = [("profile", 0, r["opponent"], maps[r["map"]], r["side"], wasm) for r in affected + controls]
     with ThreadPoolExecutor(max_workers=8) as pool:
-        profiled = list(pool.map(trace.play, jobs))
+        profiled = list(pool.map(play_coarse if args.coarse else trace.play, jobs))
     counts = Counter()
     joins = []
     for base, row in zip(affected + controls, profiled, strict=True):
         assert all(base[k] == row[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
         counts.update(row["crossings"])
-        case = OUT / "games" / f"profile-0-{row['opponent']}-{row['map']}-{row['side']}"
+        case = bench.OUT / "games" / f"profile-0-{row['opponent']}-{row['map']}-{row['side']}"
         native = read(case / "native.json")
         timed = {(e["owner"]["name"], a["timestamp"]["round"]) for e in native["events"]
                  if e["kind"] == "fuelExhausted" and e["owner"]["team"] == "team" + row["side"] for a in e["entries"]}
         exact = {(e["owner"]["name"], e["timestamp"]["round"]) for e in base.get("events", [])}
         if timed & exact:
             joint_rounds = {r for _, r in timed & exact}
-            phases = {k: s for k, s in row["examples"].items() if int(re.search(r"A2SUS R(\d+)", s).group(1)) in joint_rounds}
+            phases = {k: s for k, s in row["examples"].items() if int(re.search(r" R(\d+)", s).group(1)) in joint_rounds}
             joins.append({"map": row["map"], "opponent": row["opponent"], "side": row["side"],
                           "matched_native": sorted(timed & exact), "examples": phases})
     report = {"wasm": bench.digest(wasm), "n": len(profiled), "fuel": sum(r["fuel_outs"] for r in profiled),
               "error_cells": sum(bool(r["faults"] or r["diagnostic_codes"]) for r in profiled),
               "crossings": dict(counts.most_common()), "joins": joins, "rows": profiled}
-    with (HERE / "LARGE_ROSTER_PROFILE.json").open("x", encoding="utf8", newline="\n") as f:
+    name = "LARGE_ROSTER_COARSE.json" if args.coarse else "LARGE_ROSTER_PROFILE.json"
+    with (HERE / name).open("x", encoding="utf8", newline="\n") as f:
         json.dump(report, f, indent=2)
         f.write("\n")
     print({k: v for k, v in report.items() if k not in ("rows", "joins")}, flush=True)
