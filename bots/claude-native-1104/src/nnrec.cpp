@@ -1111,6 +1111,23 @@ int Bot::nn_ens_sample(int v92g) {
 #endif
 #include "clna_gate.h"
 static std::uint64_t clna_rng = 0;
+// Base64 into a static buffer: logging must not touch the heap (allocator state is shared with charged code).
+static const char* clna_b64(const std::int16_t* p, int n) {
+    static char out[4 * ((2 * 828 + 2) / 3) + 1];
+    static const char* T = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const auto* b = reinterpret_cast<const unsigned char*>(p);
+    const int len = 2 * n;
+    int o = 0;
+    for (int i = 0; i < len; i += 3) {
+        const unsigned v = (b[i] << 16) | ((i + 1 < len ? b[i + 1] : 0) << 8) | (i + 2 < len ? b[i + 2] : 0);
+        out[o++] = T[(v >> 18) & 63];
+        out[o++] = T[(v >> 12) & 63];
+        out[o++] = i + 1 < len ? T[(v >> 6) & 63] : '=';
+        out[o++] = i + 2 < len ? T[v & 63] : '=';
+    }
+    out[o] = 0;
+    return out;
+}
 static double clna_u01() {
     clna_rng += 0x9E3779B97F4A7C15ull;
     std::uint64_t z = clna_rng;
@@ -1175,24 +1192,29 @@ int Bot::clna_explore(int v92g, int ng) {
             break;
         }
     }
-    const double logp = std::log(p[c]);
-    clna_round = round;
-    ++clna_index;
+    // Everything below that only serves the log runs inside debug_block: charged log-only work made debug and
+    // release play different games (JOHNDOE #63-#65).
     debug_block({
+        const double logp = std::log(p[c]);
+        clna_round = round;
+        ++clna_index;
         // CNA2 <cached_round> <engine_round> <slot> <id> <index> <ref> <chosen> <logp> <alpha> <v92> <nn> <k> {g:q}*k
         //      <gate x0..x7> <b64 features>   (round-trip %.17g for probabilities, logp and alpha)
         std::printf("CNA2 %d %u %d %u %d %d %d %.17g %.17g %d %d %d", round, bc::round_number(), slot, my_id, clna_index, ref,
                     ug[c], logp, eps, v92g, ng, nu);
         for (int k = 0; k < nu; ++k) std::printf(" %d:%.17g", ug[k], uq[k]);
         for (int i = 0; i < clna_gate::kN; ++i) std::printf(" %.17g", gx[i]);
-        std::printf(" %s\n", b64(nn_lf, kNF).c_str());
+        std::printf(" %s\n", clna_b64(nn_lf, kNF));
     });
     return ug[c];
 }
 void Bot::clna_end() {
-    if (clna_round != round) return;
-    clna_round = -1;
-    debug_block({ std::printf("CNX2 %d %u %d %u %d %d\n", round, bc::round_number(), slot, my_id, clna_index, target_group); });
+    debug_block({
+        if (clna_round == round) {
+            clna_round = -1;
+            std::printf("CNX2 %d %u %d %u %d %d\n", round, bc::round_number(), slot, my_id, clna_index, target_group);
+        }
+    });
 }
 void Bot::clna_skip(int v92g, int ng) {
     debug_block({ std::printf("CNS1 %d %d %u %d %d %d\n", round, slot, my_id, v92g, ng, nn_stay ? 1 : 0); });
