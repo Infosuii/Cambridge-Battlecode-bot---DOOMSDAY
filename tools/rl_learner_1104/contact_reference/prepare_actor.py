@@ -1,9 +1,14 @@
 """Create an isolated, initially zero-weight stochastic contact actor, not a deployment."""
 from pathlib import Path
 import shutil
+import argparse
 
 root = Path(__file__).resolve().parents[1]
-project = root / 'native-contact-actor'
+parser = argparse.ArgumentParser()
+parser.add_argument('--project', default='native-contact-actor')
+args = parser.parse_args()
+assert Path(args.project).name == args.project, 'Project must be a single directory name'
+project = root / args.project
 assert not project.exists(), 'Refusing to overwrite an existing actor'
 src = project / 'bots/submission/src'
 src.parent.mkdir(parents=True)
@@ -17,7 +22,14 @@ end = header.index('inline void score(', start)
 header = header[:start] + '''// Initial trainable head: all zero; keep receives a fixed +2 logit prior.
 inline constexpr std::array<std::int16_t,48*8> W{};
 inline constexpr std::int16_t bias[8]={};
-inline std::uint64_t rng=110701;
+#ifndef JD_CONTACT_SEED
+#define JD_CONTACT_SEED 110701ULL
+#endif
+inline std::uint64_t rng=JD_CONTACT_SEED;
+inline bool rng_initialized=false;
+inline void initialize_rng(int body){
+    if(!rng_initialized){rng^=static_cast<std::uint64_t>(body)*0xd1342543de82ef95ULL;rng_initialized=true;}
+}
 inline double uniform(){
     rng+=0x9e3779b97f4a7c15ULL;auto z=rng;
     z=(z^(z>>30))*0xbf58476d1ce4e5b9ULL;
@@ -51,7 +63,8 @@ features = features.replace('// Shadow only.', '// Stochastic training actor, co
 features = features.replace('jd_contact::records<8 && ', '')
 old = '++jd_contact::records;jd_contact::record(round,static_cast<int>(my_id),jd_contact::records,winning,in_danger,valid,q,z,f0,f1,f2);'
 assert features.count(old) == 1
-features = features.replace(old, '''double prob[3];const int action=jd_contact::choose(valid,z,prob);
+features = features.replace(old, '''jd_contact::initialize_rng(static_cast<int>(my_id));
+                double prob[3];const int action=jd_contact::choose(valid,z,prob);
                 ++jd_contact::records;
                 jd_contact::record(round,static_cast<int>(my_id),jd_contact::records,winning,in_danger,valid,q,z,action,prob);
                 const bool fresh=bc::round_number()==static_cast<unsigned>(round);
