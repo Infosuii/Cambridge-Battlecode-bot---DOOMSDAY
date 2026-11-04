@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T08:34:04.425Z",
+  "updated_at": "2026-11-04T08:39:04.447Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-resume-0715-20261104-0715",
-      "seq": 8,
+      "seq": 9,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T08:21:36Z",
+      "last_control_at": "2026-11-04T08:36:07Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -72,12 +72,12 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 0,
+      "free_capacity": 1,
       "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6626146013,
-      "checkpoint": "f5d8cc00",
+      "last_control_comment_id": 6626419919,
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
       "unavailable_since": "2026-11-04T05:09:26Z",
       "retired_sessions": [
         {
@@ -94,11 +94,13 @@
       "publication_blocker": {
         "comment_id": 6625328147,
         "at": "2026-11-04T07:34:24Z",
-        "state": "APPROVAL_REVIEW_REJECTED",
+        "state": "RESOLVED",
         "action": "git push",
         "reason": "Builder reports source-export permission issue",
         "local_checkpoint": "02bdddf5",
-        "note": "Local work continues; no access workaround or reallocation."
+        "note": "Local work continues; no access workaround or reallocation.",
+        "resolved_comment_id": 6626460614,
+        "verified_remote_sha": "cb8d0105e4047f75924556268f23053eb634699a"
       }
     },
     "agent2": {
@@ -125,16 +127,16 @@
   "tasks": [
     {
       "id": "candidate-integration",
-      "owner": "builder-g5070-1104",
-      "owner_session": "builder-g5070-resume-0715-20261104-0715",
+      "owner": null,
+      "owner_session": null,
       "epoch": 3,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "heavy-build",
         "evaluation"
       ],
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
-      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
@@ -155,19 +157,23 @@
         ]
       },
       "ack_comment_id": 6625170687,
-      "run_namespace": "jd-g5070-resume-0715"
+      "run_namespace": "jd-g5070-resume-0715",
+      "completed_by": "builder-g5070-1104",
+      "completed_session": "builder-g5070-resume-0715-20261104-0715",
+      "release_comment_id": 6626419919,
+      "publication_verified_at": "2026-11-04T08:39:19Z"
     },
     {
       "id": "fuel-memory-runtime",
-      "owner": "builder-g5070-1104",
-      "owner_session": "builder-g5070-resume-0715-20261104-0715",
+      "owner": null,
+      "owner_session": null,
       "epoch": 3,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "runtime"
       ],
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
-      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
@@ -188,19 +194,23 @@
         ]
       },
       "ack_comment_id": 6625170687,
-      "run_namespace": "jd-g5070-resume-0715"
+      "run_namespace": "jd-g5070-resume-0715",
+      "completed_by": "builder-g5070-1104",
+      "completed_session": "builder-g5070-resume-0715-20261104-0715",
+      "release_comment_id": 6626419919,
+      "publication_verified_at": "2026-11-04T08:39:19Z"
     },
     {
       "id": "basic-decision-strategy",
-      "owner": "builder-g5070-1104",
-      "owner_session": "builder-g5070-resume-0715-20261104-0715",
+      "owner": null,
+      "owner_session": null,
       "epoch": 3,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "strategy"
       ],
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
-      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
@@ -221,19 +231,23 @@
         ]
       },
       "ack_comment_id": 6625170687,
-      "run_namespace": "jd-g5070-resume-0715"
+      "run_namespace": "jd-g5070-resume-0715",
+      "completed_by": "builder-g5070-1104",
+      "completed_session": "builder-g5070-resume-0715-20261104-0715",
+      "release_comment_id": 6626419919,
+      "publication_verified_at": "2026-11-04T08:39:19Z"
     },
     {
       "id": "rl-actor-export",
-      "owner": "builder-g5070-1104",
-      "owner_session": "builder-g5070-resume-0715-20261104-0715",
+      "owner": null,
+      "owner_session": null,
       "epoch": 3,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "rl-export"
       ],
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
-      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
@@ -254,7 +268,11 @@
         ]
       },
       "ack_comment_id": 6625170687,
-      "run_namespace": "jd-g5070-resume-0715"
+      "run_namespace": "jd-g5070-resume-0715",
+      "completed_by": "builder-g5070-1104",
+      "completed_session": "builder-g5070-resume-0715-20261104-0715",
+      "release_comment_id": 6626419919,
+      "publication_verified_at": "2026-11-04T08:39:19Z"
     },
     {
       "id": "rl-training",
@@ -460,10 +478,29 @@
       "agent": "builder-g5070-1104",
       "at": "2026-11-04T07:34:24Z",
       "comment_id": 6625328147
+    },
+    {
+      "id": "release:builder-g5070-1104:6626419919",
+      "type": "TASK_RELEASE",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T08:36:07Z",
+      "tasks": [
+        "candidate-integration",
+        "fuel-memory-runtime",
+        "basic-decision-strategy",
+        "rl-actor-export"
+      ]
+    },
+    {
+      "id": "publication:6626460614",
+      "type": "PUBLICATION_BLOCKER_RESOLVED",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T08:38:25Z",
+      "verified_sha": "cb8d0105e4047f75924556268f23053eb634699a"
     }
   ],
-  "note": "Resumed builder current epoch3 ACK accepted on unique branch/new directories. Development active, local-distill STOPPED; no platform operations.",
-  "last_complete_check_at": "2026-11-04T08:34:04.425Z",
+  "note": "Builder local execution released at epoch3; exact remote publication verified. No reassignment of finished tracks. v80 retained; no platform actions. Agent2 access blocker unchanged.",
+  "last_complete_check_at": "2026-11-04T08:39:04.447Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
