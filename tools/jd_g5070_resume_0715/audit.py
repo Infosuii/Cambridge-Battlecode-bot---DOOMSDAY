@@ -30,6 +30,9 @@ def audit(name):
         key=(cell['opp'],cell['map'],cell['side'])
         a=games.get(('cand',*key)); b=games.get(('base',*key),a)
         if not a or not b: continue
+        if a['seed'] != b['seed']: errors.append('randomness mismatch: '+str(key))
+        if a['engine_hash'] != b['engine_hash'] or a['engine'] != '2.0.0': errors.append('engine mismatch: '+str(key))
+        if a['map_hash'] != b['map_hash']: errors.append('engine map mismatch: '+str(key))
         for arm in ('cand','base'):
             st=out/'games'/('__'.join((arm,*key))+'.json')
             if not st.exists():continue
