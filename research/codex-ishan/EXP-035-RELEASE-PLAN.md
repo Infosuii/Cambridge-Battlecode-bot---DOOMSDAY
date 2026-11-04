@@ -1,0 +1,3 @@
+# EXP-035 combined release freeze
+
+The combined charged build fell from 71 native suspensions to three on the frozen 64-game development cohort, with zero faults. The tracked siege crossings fell 15 to 1, and the tracked movement/tail crossings 38 to 1. Both individual mechanisms had qualified independently. Freeze this exact combined configuration as PG, JD_GOV=7 and X1_WALKRES=12. Compare the exact release against the archived PG release on the same development cases with tracing disabled. Require strictly fewer total native suspensions, zero faults and diagnostic codes. Then apply the unchanged 172-cell official pool gate and formal L1/L2 if eligible. [Combined charged evidence](PG_BUDGET_COMBINED.json)
