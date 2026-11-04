@@ -179,10 +179,10 @@ static bool codex_cassi_altar_ready, codex_cassi_altar_gated, codex_cassi_no_ban
 
 def play(item):
     base, mp, wasm = item
-    opponent, side = base["opponent"], base["side"]
-    row = bench.one(("profile", SEED, opponent, mp, side, wasm), fuel=100000, log_limit=1048576)
+    opponent, side, seed = base["opponent"], base["side"], base["noise_seed"]
+    row = bench.one(("profile", seed, opponent, mp, side, wasm), fuel=100000, log_limit=1048576)
     assert all(base[k] == row[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
-    key = f"{SEED}-{opponent}-{mp.stem}-{side}"
+    key = f"{seed}-{opponent}-{mp.stem}-{side}"
     old, new = REFERENCE_OUT / "games" / f"{base['arm']}-{key}", OUT / "games" / f"profile-{key}"
     row = summarize_scoped(row, new)
     (bundle,) = new.glob("*.repl26a")
@@ -197,7 +197,7 @@ def play(item):
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
-    observed = native_fuel(row, OUT)
+    observed = native_fuel(row, OUT, slots=base.get("slots", 5))
     checks = []
     for event in base["events"]:
         actor, rnd = event["owner"]["id"], event["timestamp"]["round"]
