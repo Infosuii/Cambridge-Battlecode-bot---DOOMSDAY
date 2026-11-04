@@ -2,6 +2,12 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 21:22 GMT
+
+- [EXP-124](../../research/codex-ishan/EXP-124-RESULT.md) matched all 57,212 landing exclusions, moved Heart's original R232 cast to the same tile in its original round, and passed the 320 development pairs. Its pool screen recorded 100/172 versus 86/172, 26 versus 160 native suspensions, and zero faults or codes. One previously clean game suspended, so it failed L0. EXP-118 has the highest measured local score of the safety-improved line at 101/172 and also failed L0. No later stage has run.
+- [EXP-125](../../research/codex-ishan/EXP-125-RESULT.md) showed a matched R685 cast with no remaining suspension and a matched R353 input with a new basic attack before the remaining suspension. [EXP-126](../../research/codex-ishan/EXP-126-RESULT.md) matched that attack at 438 fuel after the hit. [EXP-127](../../research/codex-ishan/EXP-127-RESULT.md) measured 8,428 in the preceding dispatch. [EXP-128](../../research/codex-ishan/EXP-128-RESULT.md) split the cost into the landing scan and an exception. [EXP-130](../../research/codex-ishan/EXP-130-RESULT.md) matched the exact input, cast entry, visible (39,30) and SDK code 32. The engine described it as unreachable within movement range. The live camp at (40,29) occupied the unique midpoint from (41,28).
+- [EXP-131](../../research/codex-ishan/EXP-131.md) tests an exact live-camp check for that mandatory intermediate tile, preserving the original fallback attack. Two clean builds, all-off identity, three exact Heart games and 320 development pairs are underway. Enter L0 only if those gates pass. No official-pool cell identities enter mechanism selection. Issues #5 and #6 were rechecked at 21:22. No lock, ACK or ladder mutation from this branch.
+
 ## Qualifier research through 4 Nov 2026, 21:08 GMT
 
 - The 21:02 CLI check verified platform v80 active, selected and pinned, status at 21:00:56.175Z, quota 0/50. Issues #5 and #6 were rechecked. No ladder changes, lock request or ACK from this branch.
