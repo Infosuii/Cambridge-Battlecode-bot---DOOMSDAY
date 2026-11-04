@@ -928,7 +928,7 @@ void Bot::nn_lazy_score() {
         }
         first_camps = false;
         ++nn_c_camps, nn_path = 1;
-#ifdef A2_NN_NNUE
+#if defined(A2_NN_NNUE) && defined(A2_NN_TIER2)
     } else if (nn_warm == 2 && nn_lv.z_ok && f0 >= nn_est_c2 + floor_f) {
         // not enough for the rest of the network: the camps alone, with the last pointer vector (E121's cheaper tier)
         nn_est_camps -= nn_est_camps / 16;
@@ -1093,12 +1093,32 @@ void Bot::nn_decide() {
         // contact: the decision in force holds, v92's fight code has the fuel. The first turn's spare fuel goes to v92's
         // initialisation and the distance fields. The bank gate applies only while the summary is fresh (a stale gate loses, E121);
         // after that v92 banks.
+#ifdef A2_NN_SOT
+        // E124 diagnosis at 20M: the plain network at the start of the turn in a LIVE build (same moment as the non-LIVE every-turn bot; only the LIVE patches differ)
+        {
+            nn_mark = 0, nn_path = 3, nn_round0 = bc::round_number();
+            ++nn_live_turns;
+            constexpr int kCOffL = kG + kS + kA * kAF + kE * kEF;
+            const int near_e = nn_near();
+            if (near_e > 6) {
+                std::fill(nn_lf, nn_lf + kNF, static_cast<std::int16_t>(0));
+                nn_feats_t<kC, kAF>(nn_lf, near_e, 3);
+                nn::forward(nn_lf, nn_lo, nn::kHBeh | nn::kHTarget);
+                nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
+            }
+            apply();
+            return;
+        }
+#endif
 #ifdef A2_NN_LAZY
         // E123: the camps are scored in farm(), after v92's own choice (nn_lazy_score): v92 has already spent what it needs by then. Here, only when a new refresh of the slow part
         // is due and no enemy is near: the features behind it, as they are at the start of a turn (v92's fuel checks ignore this, as nn_spent says).
         nn_mark = 0, nn_path = 3, nn_round0 = bc::round_number();
 #ifdef A2_NN_NNUE
         ++nn_live_turns;
+#ifdef A2_NN_SGAUTO
+        nn_sg_need = nn_warm == 2 ? nn_est_camps + std::max<std::uint64_t>(nn_need[w.enemies.empty() ? 0 : nn_near() > 10 ? 1 : 2], A2_NN_LAZY_FLOOR) + 2000 : 0;
+#endif
         return;
 #endif
         if (nn_live_turns++ >= 1 && nn_warm == 2 && nn_zstage == 0) {
@@ -1514,6 +1534,15 @@ void Bot::nn_turn_end() {
             nn_warm = 2;
         }
     }
+#if defined(A2_NN_NNUE) && defined(A2_NN_Q16) && A2_NN_Q16
+    {
+        static int rb = 0;
+        if (++rb >= 128 && nn_lv.x_ok && bc::fuel_remaining() >= 16000 + static_cast<std::uint64_t>(A2_NN_RESERVE)) {
+            nn::live_rebuild(nn_lv);
+            rb = 0;
+        }
+    }
+#endif
 #ifdef A2_NN_NNUE
     if (nn_warm == 2) {
         for (int n = 0; n < 4; ++n) {

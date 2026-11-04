@@ -57,12 +57,13 @@ patch("common.h", ANCHOR, f"""{extra}#ifndef A2_NN
 #if defined(A2_NN_LIVE) && A2_NN_LIVE
 inline unsigned long long nn_field_fuel = 0; // fuel of v92's optional distance-field building this turn (build_fields)
 inline unsigned long long nn_spent = 0;      // fuel the network spent so far this turn (v92's fuel checks add it back)
+inline unsigned long long nn_sg_need = 0;    // A2_NN_SGAUTO: what the scoring will need after v92's target search
 #endif
 {ANCHOR}
 """)
 # A2_NN_SGCACHE=n (E123): v92's target search runs every n rounds while its pick stays open (22k fuel on average; the blend only needs it as an anchor).
 patch("bot.h", "    int score_groups(int participants_hint, int& best_need, float& best_score);\n",
-      "    int score_groups(int participants_hint, int& best_need, float& best_score);\n#ifdef A2_NN_SGCACHE\n    int score_groups_full(int participants_hint, int& best_need, float& best_score);\n#endif\n")
+      "    int score_groups(int participants_hint, int& best_need, float& best_score);\n#if defined(A2_NN_SGCACHE) || defined(A2_NN_SGAUTO)\n    int score_groups_full(int participants_hint, int& best_need, float& best_score);\n#endif\n")
 patch("bot.cpp", "int Bot::score_groups(int participants_hint, int& best_need, float& best_score) {\n", """#ifdef A2_NN_SGCACHE
 int Bot::score_groups(int participants_hint, int& best_need, float& best_score) {
     static int last = -1000, hint = -1, pick = -1, need = 1;
@@ -74,6 +75,25 @@ int Bot::score_groups(int participants_hint, int& best_need, float& best_score) 
     }
     pick = score_groups_full(participants_hint, best_need, best_score);
     last = round, hint = participants_hint, need = best_need, sc = best_score;
+    return pick;
+}
+int Bot::score_groups_full(int participants_hint, int& best_need, float& best_score) {
+#elif defined(A2_NN_SGAUTO)
+// E124: on a turn the fuel cannot cover both v92's search and the network's scoring, the search is the one skipped: its last pick stands, if still open
+int Bot::score_groups(int participants_hint, int& best_need, float& best_score) {
+    static int hint = -1, pick = -1, need = 1;
+    static float sc = 0.0f;
+    static std::uint64_t est = 25000;
+    const std::uint64_t left = bc::fuel_remaining();
+    if (nn_sg_need && left < nn_sg_need + est && hint == participants_hint && pick >= 0 && pick < static_cast<int>(w.groups.size()) &&
+        w.groups[static_cast<std::size_t>(pick)].state != GroupState::respawning && avoid_until[static_cast<std::size_t>(pick)] <= round) {
+        best_need = need, best_score = sc;
+        return pick;
+    }
+    pick = score_groups_full(participants_hint, best_need, best_score);
+    const std::uint64_t now = bc::fuel_remaining();
+    if (left > now) est = std::max(left - now, est - est / 32);
+    hint = participants_hint, need = best_need, sc = best_score;
     return pick;
 }
 int Bot::score_groups_full(int participants_hint, int& best_need, float& best_score) {

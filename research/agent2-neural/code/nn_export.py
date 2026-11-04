@@ -65,6 +65,28 @@ L.append("}")
 # exact below 4096, then every 16th value, interpolated by slogi (E123)
 L.append("inline constexpr float kSlog[4096] = {" + ", ".join(f"{math.log1p(i):.7e}f" for i in range(4096)) + "};")
 L.append("inline constexpr float kSlog16[2050] = {" + ", ".join(f"{math.log1p(i * 16):.7e}f" for i in range(2050)) + "};")
+# E124: 16-bit copies for A2_NN_Q16 (one-layer encoders): weights Q14, input-major; biases at the scale of what they add to (encoder Q10, trunk layer 0 Q9, layer 1 Q8, q Q7)
+if all(len([m for m in net.enc[k] if isinstance(m, torch.nn.Linear)]) == 1 for k in BLK):
+    def q14(t):
+        return ", ".join(str(int(v)) for v in (t * 16384.0).round().clamp(-32768, 32767).long().flatten().tolist())
+
+    def qs(t, bits):
+        return ", ".join(str(int(v)) for v in (t * float(1 << bits)).round().clamp(-32768, 32767).long().flatten().tolist())
+
+    for k in BLK:
+        m = net.enc[k][0]
+        L.append(f"inline constexpr short k{k}_W0_TQ[] = {{{q14(m.weight.t())}}};")
+        L.append(f"inline constexpr short k{k}_b0Q[] = {{{qs(m.bias, 10)}}};")
+    lin = [m for m in net.trunk if isinstance(m, torch.nn.Linear)]
+    L.append(f"inline constexpr short kT_W0_TQ[] = {{{q14(lin[0].weight.t())}}};")
+    L.append(f"inline constexpr short kT_b0Q[] = {{{qs(lin[0].bias, 9)}}};")
+    L.append(f"inline constexpr short kT_W1_TQ[] = {{{q14(lin[1].weight.t())}}};")
+    L.append(f"inline constexpr short kT_b1Q[] = {{{qs(lin[1].bias, 8)}}};")
+    L.append(f"inline constexpr short kP_target_qW_TQ[] = {{{q14(net.q['target'].weight.t())}}};")
+    L.append(f"inline constexpr short kP_target_qbQ[] = {{{qs(net.q['target'].bias, 7)}}};")
+    L.append(f"inline constexpr short kP_target_kWQ[] = {{{q14(net.k['target'].weight)}}};")
+    L.append(f"inline constexpr short kP_target_kbQ[] = {{{qs(net.k['target'].bias, 9)}}};")
+    L.append(f"inline constexpr short kP_target_EQ[] = {{{qs(net.extra['target'], 10)}}};")
 L.append("} // namespace nnw")
 L.append("#define NNW_HAS_SLOG 1")
 L.append("#define NNW_HAS_T 1")

@@ -335,7 +335,230 @@ inline void target_fresh(const std::int16_t* f, const float* z, Out& o) {
     pointer(z, kP_target_qW, kP_target_qb, kP_target_kW, kP_target_kb, ents, pc, kNC, kP_target_E, 1, o.target);
 }
 
-#if defined(A2_NN_LIVE) && A2_NN_LIVE
+#if defined(A2_NN_Q16) && A2_NN_Q16
+// E124: the deployed network in 16-bit fixed point. Fuel counts instructions and an instruction does the same work whatever its width, so i16x8 does 8 multiply-adds where f32x4 does 4.
+// Inputs Q11 (clamped to +-7.8), weights Q14, q15mulr_sat + add_sat: encoder Q10, trunk layer 0 Q9, layer 1 Q8, q Q7, r Q6. nn_q16_check.py: same blend decision on 99.78% of recorded rows, logits off by 0.04 on average.
+// Kept sums collect up to 1 unit of rounding per update: a camp or self sum is rebuilt every kQReset updates, trunk layer 0's when live_rebuild is called.
+#ifndef A2_NN_EPSQ
+#define A2_NN_EPSQ 0 // changes of a trunk input up to this many units (Q10) are left for later
+#endif
+static_assert(kE % 8 == 0 && nnw::kTrunk % 8 == 0, "A2_NN_Q16 needs multiples of 8");
+inline constexpr int kQReset = 32;
+template <int NKEEP>
+struct CacheQ {
+    v128_t acc[kE / 8];
+    std::int16_t xq[NKEEP], raw[NKEEP];
+    int upd = 0;
+    bool ok = false;
+};
+using CampCache = CacheQ<nnw::kc_nkeep>;
+struct Live {
+    CacheQ<nnw::ks_nkeep> sc;
+    std::int16_t eg[1][kE], es[1][kE], ea[kNA][kE], ee[kNE][kE], ec[kNC][kE], el[kNL][kE];
+    bool pg[1], ps[1], pa[kNA], pe[kNE], pc[kNC], pl[kNL];
+    std::int16_t x[nnw::kTrunkIn], acc0[nnw::kTrunk], r[kE];
+    std::int32_t c0 = 0;
+    int beh = -1;
+    bool z_ok = false, x_ok = false;
+    std::vector<CampCache> cache;
+};
+// value as Q11, no float-to-int checks (one SIMD instruction)
+inline int qin(float v) {
+    const int q = wasm_i32x4_extract_lane(wasm_i32x4_trunc_sat_f32x4(wasm_f32x4_splat(v * 2048.0f)), 0);
+    return q > 16000 ? 16000 : q < -16000 ? -16000 : q;
+}
+template <int OUT>
+inline void add_col16(v128_t* a, const short* t, const v128_t xv) {
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 8; ++k) a[k] = wasm_i16x8_add_sat(a[k], wasm_i16x8_q15mulr_sat(wasm_v128_load(t + 8 * k), xv));
+}
+template <int OUT>
+inline void dense16(const short* T, const short* b, const std::int16_t* x, int in, std::int16_t* y, bool relu) {
+    v128_t a[OUT / 8];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 8; ++k) a[k] = b ? wasm_v128_load(b + 8 * k) : wasm_i16x8_splat(0);
+    for (int i = 0; i < in; ++i, T += OUT) {
+        if (x[i] == 0) continue;
+        add_col16<OUT>(a, T, wasm_i16x8_splat(x[i]));
+    }
+    const v128_t zero = wasm_i16x8_splat(0);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 8; ++k) wasm_v128_store(y + 8 * k, relu ? wasm_i16x8_max(a[k], zero) : a[k]);
+}
+template <int N, int W, int NKEEP, int TYPEF, int NTYPE>
+inline void encode16(const std::int16_t* f, const int* keep, const float* mu, const float* sd, const short* T, const short* b, std::int16_t emb[][kE], bool* present, bool always) {
+    const v128_t zero = wasm_i16x8_splat(0);
+    for (int e = 0; e < N; ++e) {
+        const std::int16_t* r = f + e * W;
+        present[e] = always || r[0] != 0;
+        if (!present[e]) continue;
+        v128_t a[kE / 8];
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 8; ++k) a[k] = wasm_v128_load(b + 8 * k);
+        for (int i = 0; i < NKEEP; ++i) {
+            const int q = qin((slogi(r[keep[i]]) - mu[i]) / sd[i]);
+            if (q != 0) add_col16<kE>(a, T + i * kE, wasm_i16x8_splat(static_cast<short>(q)));
+        }
+        if constexpr (TYPEF >= 0) add_col16<kE>(a, T + (NKEEP + std::clamp<int>(r[TYPEF], 0, NTYPE - 1)) * kE, wasm_i16x8_splat(2048));
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 8; ++k) wasm_v128_store(emb[e] + 8 * k, wasm_i16x8_max(a[k], zero));
+    }
+}
+inline void pool16(const std::int16_t emb[][kE], const bool* present, int n, std::int16_t* mean, std::int16_t* mx) {
+    int cnt = 0;
+    for (int e = 0; e < n; ++e) cnt += present[e];
+    v128_t sm[kE / 8], mv[kE / 8];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kE / 8; ++k) sm[k] = wasm_i16x8_splat(0), mv[k] = wasm_i16x8_splat(0);
+    if (cnt) {
+        const v128_t inv = wasm_i16x8_splat(static_cast<short>(cnt == 1 ? 32767 : 32768 / cnt));
+        for (int e = 0; e < n; ++e) {
+            if (!present[e]) continue;
+#pragma clang loop unroll(full)
+            for (int k = 0; k < kE / 8; ++k) {
+                const v128_t v = wasm_v128_load(emb[e] + 8 * k);
+                sm[k] = wasm_i16x8_add_sat(sm[k], wasm_i16x8_q15mulr_sat(v, inv)), mv[k] = wasm_i16x8_max(mv[k], v);
+            }
+        }
+    }
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kE / 8; ++k) wasm_v128_store(mean + 8 * k, sm[k]), wasm_v128_store(mx + 8 * k, mv[k]);
+}
+// one kept encoder sum: only the inputs that changed
+template <int NKEEP>
+inline void kept_sum(CacheQ<NKEEP>& c, const std::int16_t* r, const int* keep, const float* mu, const float* sd, const short* T, const short* b, std::int16_t* out, const short* type_col) {
+    v128_t a[kE / 8];
+    if (!c.ok) {
+        std::fill(c.xq, c.xq + NKEEP, static_cast<std::int16_t>(0));
+        std::fill(c.raw, c.raw + NKEEP, static_cast<std::int16_t>(-32768));
+        c.upd = 0;
+    }
+    if (!c.ok || c.upd >= kQReset) {
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 8; ++k) a[k] = wasm_v128_load(b + 8 * k);
+        if (type_col) add_col16<kE>(a, type_col, wasm_i16x8_splat(2048));
+        for (int i = 0; i < NKEEP; ++i)
+            if (c.xq[i]) add_col16<kE>(a, T + i * kE, wasm_i16x8_splat(c.xq[i]));
+        c.upd = 0, c.ok = true;
+    } else {
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 8; ++k) a[k] = c.acc[k];
+    }
+    for (int i = 0; i < NKEEP; ++i) {
+        const std::int16_t v = r[keep[i]];
+        if (v == c.raw[i]) continue;
+        const int q = qin((slogi(v) - mu[i]) / sd[i]), dq = q - c.xq[i];
+        c.raw[i] = v;
+        if (dq == 0) continue;
+        add_col16<kE>(a, T + i * kE, wasm_i16x8_splat(static_cast<short>(dq)));
+        c.xq[i] = static_cast<std::int16_t>(q);
+    }
+    ++c.upd;
+    const v128_t zero = wasm_i16x8_splat(0);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kE / 8; ++k) {
+        c.acc[k] = a[k];
+        wasm_v128_store(out + 8 * k, wasm_i16x8_max(a[k], zero));
+    }
+}
+inline void live_camps(const std::int16_t* f, Live& lv, std::size_t n_groups) {
+    using namespace nnw;
+    if (lv.cache.size() != n_groups) lv.cache.assign(n_groups, CampCache{});
+    for (int e = 0; e < kNC; ++e) {
+        const std::int16_t* r = f + kc_off + e * kc_w;
+        lv.pc[e] = r[0] != 0;
+        if (!lv.pc[e]) continue;
+        kept_sum(lv.cache[static_cast<std::size_t>(r[1])], r, kc_keep, kc_mu, kc_sd, kc_W0_TQ, kc_b0Q, lv.ec[e], nullptr);
+    }
+}
+inline void live_in(Live& lv, int d, int n, const std::int16_t* nx) {
+    using namespace nnw;
+    v128_t a[kTrunk / 8];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 8; ++k) a[k] = wasm_v128_load(lv.acc0 + 8 * k);
+    const short* T = kT_W0_TQ + d * kTrunk;
+    for (int i = 0; i < n; ++i, T += kTrunk) {
+        const int dv = nx[i] - lv.x[d + i];
+        if (dv <= A2_NN_EPSQ && dv >= -(A2_NN_EPSQ)) continue;
+        add_col16<kTrunk>(a, T, wasm_i16x8_splat(static_cast<short>(dv)));
+        lv.x[d + i] = nx[i];
+    }
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 8; ++k) wasm_v128_store(lv.acc0 + 8 * k, a[k]);
+}
+// rebuild trunk layer 0's kept sum from its inputs: the rounding it collected goes away (about 10k fuel, every so often)
+inline void live_rebuild(Live& lv) {
+    using namespace nnw;
+    v128_t a[kTrunk / 8];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 8; ++k) a[k] = wasm_v128_load(kT_b0Q + 8 * k);
+    const short* T = kT_W0_TQ;
+    for (int i = 0; i < kTrunkIn; ++i, T += kTrunk)
+        if (lv.x[i]) add_col16<kTrunk>(a, T, wasm_i16x8_splat(lv.x[i]));
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 8; ++k) wasm_v128_store(lv.acc0 + 8 * k, a[k]);
+}
+// block b: 0 global, 1 self, 2 allies, 3 enemies, 4 camps (their embeddings come from live_camps), 5 altars
+inline void live_block(const std::int16_t* f, Live& lv, int b) {
+    using namespace nnw;
+    if (!lv.x_ok) {
+        std::fill(lv.x, lv.x + kTrunkIn, static_cast<std::int16_t>(0));
+        std::copy(kT_b0Q, kT_b0Q + kTrunk, lv.acc0);
+        lv.x_ok = true;
+    }
+    std::int16_t p[2 * kE];
+    if (b == 0) {
+        encode16<kg_n, kg_w, kg_nkeep, kg_type, kg_ntype>(f + kg_off, kg_keep, kg_mu, kg_sd, kg_W0_TQ, kg_b0Q, lv.eg, lv.pg, true);
+        live_in(lv, 0, kE, lv.eg[0]);
+    } else if (b == 1) {
+        const std::int16_t* r = f + ks_off;
+        kept_sum(lv.sc, r, ks_keep, ks_mu, ks_sd, ks_W0_TQ, ks_b0Q, lv.es[0], ks_W0_TQ + (ks_nkeep + std::clamp<int>(r[ks_type], 0, ks_ntype - 1)) * kE);
+        lv.ps[0] = true;
+        live_in(lv, kE, kE, lv.es[0]);
+    } else if (b == 2) {
+        encode16<ka_n, ka_w, ka_nkeep, ka_type, ka_ntype>(f + ka_off, ka_keep, ka_mu, ka_sd, ka_W0_TQ, ka_b0Q, lv.ea, lv.pa, false);
+        pool16(lv.ea, lv.pa, kNA, p, p + kE);
+        live_in(lv, 2 * kE, 2 * kE, p);
+    } else if (b == 3) {
+        encode16<ke_n, ke_w, ke_nkeep, ke_type, ke_ntype>(f + ke_off, ke_keep, ke_mu, ke_sd, ke_W0_TQ, ke_b0Q, lv.ee, lv.pe, false);
+        pool16(lv.ee, lv.pe, kNE, p, p + kE);
+        live_in(lv, 4 * kE, 2 * kE, p);
+    } else if (b == 4) {
+        pool16(lv.ec, lv.pc, kNC, p, p + kE);
+        live_in(lv, 6 * kE, 2 * kE, p);
+    } else {
+        encode16<kl_n, kl_w, kl_nkeep, kl_type, kl_ntype>(f + kl_off, kl_keep, kl_mu, kl_sd, kl_W0_TQ, kl_b0Q, lv.el, lv.pl, false);
+        pool16(lv.el, lv.pl, kNL, p, p + kE);
+        live_in(lv, 8 * kE, 2 * kE, p);
+    }
+}
+inline std::int32_t dot16(const short* a, const std::int16_t* b) {
+    v128_t s = wasm_i32x4_splat(0);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kE / 8; ++k) s = wasm_i32x4_add(s, wasm_i32x4_dot_i16x8(wasm_v128_load(a + 8 * k), wasm_v128_load(b + 8 * k)));
+    return wasm_i32x4_extract_lane(s, 0) + wasm_i32x4_extract_lane(s, 1) + wasm_i32x4_extract_lane(s, 2) + wasm_i32x4_extract_lane(s, 3);
+}
+inline void live_top(Live& lv) {
+    using namespace nnw;
+    std::int16_t h0[kTrunk], h1[kTrunk], q[kE];
+    const v128_t zero = wasm_i16x8_splat(0);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 8; ++k) wasm_v128_store(h0 + 8 * k, wasm_i16x8_max(wasm_v128_load(lv.acc0 + 8 * k), zero));
+    dense16<kTrunk>(kT_W1_TQ, kT_b1Q, h0, kTrunk, h1, true);
+    dense16<kE>(kP_target_qW_TQ, kP_target_qbQ, h1, kTrunk, q, false);
+    dense16<kE>(kP_target_kWQ, nullptr, q, kE, lv.r, false); // r = Wk^T q
+    lv.c0 = dot16(kP_target_kbQ, q);                         // Q9 x Q7 = Q16
+    lv.z_ok = true;
+}
+inline constexpr int kLiveStages = 7;                                // (the staged design is float only)
+inline void live_stage(const std::int16_t*, Live&, int) {}
+// target logits from the kept pointer vector and the camp embeddings in lv: Q10 x Q6 = Q16
+inline void live_target(const Live& lv, Out& o) {
+    const float sc = 1.0f / (65536.0f * std::sqrt(static_cast<float>(kE)));
+    for (int i = 0; i < kNC; ++i) o.target[i] = lv.pc[i] ? static_cast<float>(dot16(lv.ec[i], lv.r) + lv.c0) * sc : -1e9f;
+    o.target[kNC] = static_cast<float>(dot16(nnw::kP_target_EQ, lv.r) + lv.c0) * sc;
+}
+#elif defined(A2_NN_LIVE) && A2_NN_LIVE
 // Real-fuel forward (A2_NN_LIVE, E121, the student's one-layer encoders): the same sums as forward() with compile-time
 // sizes, so the accumulators are wasm locals (fuel counts instructions). A camp's embedding is kept per group and only
 // the inputs that changed since the last decision are added in. The trunk's summary is kept as the target pointer's
