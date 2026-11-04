@@ -37,7 +37,7 @@ reproduce the scored candidate; a default build is the baseline. Policy freeze30
 
 One exact next command from this checkout (use a new name for each reproduction):
 
-`python tools/jd_g5070_resume_0715/reproduce.py --variant cpg --name user-check-01`
+`python "C:\Users\omdha\.codex\worktrees\g5070-resume-0715\doomsday\tools\jd_g5070_resume_0715\reproduce.py" --variant cpg --name user-check-01`
 
 ## Supporting work and limits
 
