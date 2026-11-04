@@ -23,7 +23,7 @@ def key(m):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--wave", type=int, choices=(5, 6), default=5)
+    parser.add_argument("--wave", type=int, choices=(5, 6, 7), default=5)
     wave = parser.parse_args().wave
     raw = CACHE / f"discovery{wave}"
     as_of = datetime.fromisoformat((raw / "as-of.txt").read_text().strip())
@@ -32,8 +32,7 @@ def main():
     above = {t["teamId"]: t for t in teams if t["rank"] < ours["rank"] or t["name"] in RIVALS}
     assert sum(t["rank"] < ours["rank"] for t in above.values()) == ours["rank"] - 1
     prior_paths = [HERE / "DISCOVERY_SAMPLE.json", *(HERE / f"discovery{i}/DISCOVERY_SAMPLE.json" for i in (2, 3, 4))]
-    if wave == 6:
-        prior_paths.append(HERE / "DISCOVERY5_SAMPLE.json")
+    prior_paths.extend(HERE / f"DISCOVERY{i}_SAMPLE.json" for i in range(5, wave))
     prior = [m for f in prior_paths for m in read(f)["matches"]]
     targeted = read(HERE / "uk-rivals/SAMPLE.json")["matches"]
     excluded = {m["groupId"] or m["matchId"] for m in prior} | {m["group"] for m in targeted}
@@ -41,6 +40,8 @@ def main():
                                        for m in targeted}
     paths = [*sorted((CACHE / "discovery48/raw").glob("ranked-*.json")), CACHE / "ranked-resume-1.json",
              *(CACHE / f"discovery{i}/matches.json" for i in range(3, wave + 1))]
+    if wave == 7:
+        paths.extend(sorted(raw.glob("ranked-page-*.json")))
     census = {m["matchId"]: m for f in paths for m in read(f)["matches"]}
     losses = []
     for m in census.values():
@@ -70,7 +71,8 @@ def main():
         chosen.append({**row, "partition": "confirm" if len(chosen) % 3 == 2 else "discovery"})
         if len(chosen) == 24:
             break
-    assert len(chosen) == 24
+    expected = 11 if wave == 7 else 24
+    assert len(chosen) == expected, (len(chosen), len(losses), counts)
     result = {"as_of": as_of.isoformat(), "our_rank": ours["rank"], "ranked_census": len(census),
               "eligible_fresh_losses": len(losses), "source_sha256": {p.relative_to(CACHE).as_posix(): sha256(p.read_bytes()).hexdigest()
               for p in [*paths, raw / "ladder.json"]}, "matches": chosen}

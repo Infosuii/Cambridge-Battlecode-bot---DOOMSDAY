@@ -60,7 +60,7 @@ def side(summary, profile, camp, deaths, index):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("split", choices=("discovery", "confirm"))
-    parser.add_argument("--wave", type=int, choices=(5, 6), default=5)
+    parser.add_argument("--wave", type=int, choices=(5, 6, 7), default=5)
     args = parser.parse_args()
     matches = [r for r in read(HERE / f"DISCOVERY{args.wave}_SAMPLE.json")["matches"] if r["partition"] == args.split]
     local = CACHE / f"discovery{args.wave}" / args.split
