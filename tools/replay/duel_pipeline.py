@@ -70,7 +70,11 @@ try:
     arms = [('v92', a.base)] + [(c, None) for c in a.cands] + ([(a.recheck, a.base)] if a.recheck else [])
     for arm, v in arms:
         plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
-        if arm in plan['arms']: print('arm', arm, 'already played'); continue
+        if arm in plan['arms']:
+            if plan['arms'][arm].get('contaminated'):
+                raise SystemExit(f'arm {arm} was marked contaminated; use a fresh plan')
+            print('arm', arm, 'already played')
+            continue
         required_pin_sources(plan, arm)
         if v is None:
             if arm in vers:

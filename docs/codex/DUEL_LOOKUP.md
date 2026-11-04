@@ -27,3 +27,7 @@ Reproduce with `py docs/codex/test_duel_upload.py`. All four scenarios pass agai
 ## Verify the active selection is pinned
 
 An offline activation test returned v80 as both active and selected while the pinned flag was false. The old early return skipped pinning. It also returned early for active v80 and selected v81. Activation and fallback now require a single read to show the requested version both active and selected, with pinned true. The regression fixture verifies both failures and the already-pinned no-op. The archived Plan C paired recount reproduced byte for byte again. No live activation was performed.
+
+## Detect older submissions that change during an arm
+
+The old post-arm check ignored older uploads that activated and returned to inactive during an arm. An offline fixture reproduced this by changing v105's status timestamp while leaving the pinned version and final statuses the same. Capture foreign submission state after the expected activation and compare it after the arm. Changed state now marks the arm contaminated and fails through the normal restoration path. A contaminated recorded arm cannot be silently reused. This detects visible state drift and cannot recover activity absent from both platform snapshots. Offline upload, pin and contamination tests passed. The archived 120-pair recount reproduced byte for byte. No live calls were used by the tests.

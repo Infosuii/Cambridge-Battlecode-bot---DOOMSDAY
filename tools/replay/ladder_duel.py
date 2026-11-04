@@ -70,13 +70,21 @@ def wait_for_quota():
     raise SystemExit('rolling match-group budget did not clear')
 
 
-def pinned_version():
-    state = cli_json(['submissions', 'list', '--json'])
+def selected_pin(state):
     active = (state.get('active') or {}).get('version')
     selected = (state.get('selected') or {}).get('version')
     if state.get('pinned') is True and active == selected:
         return active
     return None
+
+
+def pinned_version():
+    return selected_pin(cli_json(['submissions', 'list', '--json']))
+
+
+def foreign_submission_states(state, version):
+    return {s['version']: (s.get('id'), s.get('status'), s.get('statusAt'))
+            for s in state['submissions'] if s['version'] != version}
 
 
 def activate(version):
@@ -177,6 +185,10 @@ def main():
     if a.action == 'run':
         pin_sources = required_pin_sources(plan, a.arm)
         activate(a.version)
+        initial = cli_json(['submissions', 'list', '--json'])
+        if selected_pin(initial) != a.version:
+            raise SystemExit(f'arm {a.arm}: requested version lost its pin before queueing')
+        before = foreign_submission_states(initial, a.version)
         since = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time() - 60))
         ids = []
         for i, g in enumerate(plan['groups']):
@@ -212,6 +224,15 @@ def main():
                 break
             time.sleep(30)
         print(f'arm {a.arm}: {done}/{len(want)} groups finished', flush=True)
+        final = cli_json(['submissions', 'list', '--json'])
+        after = foreign_submission_states(final, a.version)
+        changed = {v for v in before.keys() | after.keys() if before.get(v) != after.get(v)}
+        if selected_pin(final) != a.version:
+            changed.add((final.get('active') or {}).get('version') or a.version)
+        if changed:
+            plan['arms'][a.arm]['contaminated'] = sorted(changed)
+            Path(a.plan).write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
+            raise SystemExit(f'arm {a.arm} contaminated: submission state changed for {sorted(changed)}')
         if done != len(plan['groups']):
             raise SystemExit(f'arm {a.arm} incomplete: {done}/{len(plan["groups"])} groups finished')
         return
