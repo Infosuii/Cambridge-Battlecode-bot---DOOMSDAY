@@ -15,10 +15,11 @@ const auto levels = safe_field.compute_to_with_expansion_count(blocked, ring, si
 if (fdist(safe_field, pos) == kUnreach && levels + 1 >= cap) return true;"""
 
 
-def apply_ward_context(src):
+def apply_ward_context(src, retry=False):
+    retry_field = "\n    int safe_tribute_retry_round = -1;" if retry else ""
     apply(src / "bot.h", (("    bool force_tribute = false;", """    bool force_tribute = false;
 #if CODEX_SAFE_TRIBUTE_CAP
-    bool ward_refreshed_this_turn = false;
+    bool ward_refreshed_this_turn = false;""" + retry_field + """
 #endif"""),))
     apply(src / "bot.cpp", (
         ("void Bot::play_turn() {", """void Bot::play_turn() {
@@ -35,7 +36,7 @@ def apply_ward_context(src):
     ))
 
 
-def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False, ward_decide=False):
+def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False, ward_decide=False, ward_retry=False):
     prepare_path(src, enabled)
     header = src / "common.h"
     data = header.read_bytes()
@@ -55,16 +56,21 @@ def prepare(src, enabled, *, specialized=False, shared=False, post_ward=False, w
                 bc::bitboard visited;
                 safe_field.compute_to(blocked, ring, single(pos), visited);"""
     original_search = "                safe_field.compute_to(blocked, ring, single(pos), visited);"
-    if shared or (post_ward and not specialized) or ward_decide:
-        body = indent(CAP_SEARCH, " " * 16)
-        if post_ward or ward_decide:
-            reserve = "decide" if ward_decide else "observe"
-            body = (f"                if (ward_refreshed_this_turn && rb::left() < rb::kReserve.{reserve}) {{\n" +
-                    indent(CAP_SEARCH, " " * 20) + "\n                } else {\n    " + original_search + "\n                }")
+    if shared or (post_ward and not specialized) or ward_decide or ward_retry:
+        search = CAP_SEARCH
+        body = indent(search, " " * 16)
+        if post_ward or ward_decide or ward_retry:
+            reserve = "decide" if ward_decide or ward_retry else "observe"
+            guard = f"ward_refreshed_this_turn && rb::left() < rb::kReserve.{reserve}"
+            if ward_retry:
+                guard = f"safe_tribute_retry_round == round || ({guard})"
+                search = search.replace("return true;", "{\n    safe_tribute_retry_round = round + 1;\n    return true;\n}")
+            body = (f"                if ({guard}) {{\n" + indent(search, " " * 20) +
+                    "\n                } else {\n    " + original_search + "\n                }")
         capped = "#if CODEX_SAFE_TRIBUTE_CAP\n" + body + "\n#else\n" + original_search + "\n#endif"
         apply(src / "bot.cpp", ((safe_search, safe_search.replace(original_search, capped)),))
-        if post_ward or ward_decide:
-            apply_ward_context(src)
+        if post_ward or ward_decide or ward_retry:
+            apply_ward_context(src, retry=ward_retry)
         return
 
     apply(src / "bot.h", (
@@ -133,11 +139,12 @@ if __name__ == "__main__":
     variant_args.add_argument("--post-ward", action="store_true")
     variant_args.add_argument("--combined", action="store_true")
     variant_args.add_argument("--ward-decide", action="store_true")
+    variant_args.add_argument("--ward-retry", action="store_true")
     args = parser.parse_args()
     if args.src:
         prepare(args.src, not args.off, specialized=args.specialized or args.combined,
-                shared=args.shared, post_ward=args.post_ward or args.combined, ward_decide=args.ward_decide)
+                shared=args.shared, post_ward=args.post_ward or args.combined, ward_decide=args.ward_decide, ward_retry=args.ward_retry)
     else:
-        suffix = next((name for enabled, name in ((args.ward_decide, "ward-decide"), (args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
+        suffix = next((name for enabled, name in ((args.ward_retry, "ward-retry"), (args.ward_decide, "ward-decide"), (args.combined, "combined"), (args.post_ward, "post-ward"), (args.shared, "shared"),
                                                   (args.specialized, "specialized")) if enabled), "cap")
         verify(args.verify, variant=f"safe-tribute-{suffix}")

@@ -72,8 +72,9 @@ def main():
     mode.add_argument("--post-ward-tribute", action="store_true")
     mode.add_argument("--combined-tribute", action="store_true")
     mode.add_argument("--ward-decide-tribute", action="store_true")
+    mode.add_argument("--ward-retry-tribute", action="store_true")
     args = parser.parse_args()
-    arm = next((name for enabled, name in ((args.ward_decide_tribute, "ward-decide"), (args.combined_tribute, "combined"), (args.post_ward_tribute, "post-ward"),
+    arm = next((name for enabled, name in ((args.ward_retry_tribute, "ward-retry"), (args.ward_decide_tribute, "ward-decide"), (args.combined_tribute, "combined"), (args.post_ward_tribute, "post-ward"),
                                           (args.shared_tribute, "shared"),
                                           (args.specialized_tribute, "specialized"),
                                           (args.safe_tribute, "capped"), (args.path, "path")) if enabled), "mask")
@@ -91,6 +92,8 @@ def main():
                      partial(prepare_safe_tribute, specialized=True, post_ward=True)),
         "ward-decide": (bench.CACHE / "cpg-safe-tribute-ward-decide-heart", "CPG_SAFE_TRIBUTE_WARD_DECIDE_HEART.json",
                         partial(prepare_safe_tribute, ward_decide=True)),
+        "ward-retry": (bench.CACHE / "cpg-safe-tribute-ward-retry-heart", "CPG_SAFE_TRIBUTE_WARD_RETRY_HEART.json",
+                       partial(prepare_safe_tribute, ward_retry=True)),
     }[arm]
     OUT = directory
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")

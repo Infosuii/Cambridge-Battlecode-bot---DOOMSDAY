@@ -11,9 +11,11 @@ from verify_heart_camp_mask_fixture import actions
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--ward-decide", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--ward-decide", action="store_true")
+    mode.add_argument("--ward-retry", action="store_true")
     args = parser.parse_args()
-    variant = "ward-decide" if args.ward_decide else "combined"
+    variant = "ward-retry" if args.ward_retry else "ward-decide" if args.ward_decide else "combined"
     out_dir = bench.CACHE / f"safe-tribute-{variant}-mixed-fixture"
     frozen = read(HERE / "CPG_POST_WARD_MIXED_STRESS.json")
     (case,) = frozen["affected"]
@@ -25,7 +27,8 @@ def main():
     trace.REFERENCE_OUT = RAW
     (out_dir / "games").mkdir(parents=True)
     src = out_dir / "source/src"
-    prepare(src, True, specialized=not args.ward_decide, post_ward=not args.ward_decide, ward_decide=args.ward_decide)
+    combined = variant == "combined"
+    prepare(src, True, specialized=combined, post_ward=combined, ward_decide=args.ward_decide, ward_retry=args.ward_retry)
     wasm = build(src, out_dir / "candidate", COMPILED_SEED)
     row = trace.play((case, mp, wasm))
     turns = []
