@@ -1,0 +1,3 @@
+# EXP-094 direct-rival camp exposure recount
+
+In the 19 losses DOOMSDAY had 23 qualifying early near-camp damage episodes and its opponents had 30. In the 11 wins the counts were four and 13. Opponents had more episodes in nine losses and four wins, while DOOMSDAY had more in four losses and two wins. In the loss sample two DOOMSDAY champions and one opposing champion died within eight rounds of the measured drop. One DOOMSDAY episode ended with a higher gem balance after eight rounds. The diagnostic measures proximity and health, so it supplies no basis for a general camp-retreat rule or attribution of the damage to a camp. [Frozen replay results](uk-rivals/EARLY_CAMP_EXPOSURE.json).
