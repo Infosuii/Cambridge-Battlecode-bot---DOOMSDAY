@@ -1,0 +1,5 @@
+# Discovery 5 — Early economy and gem conversion
+
+Freeze 24 distinct recent ranked losses to teams currently above DOOMSDAY or among the three named rivals. Exclude every group and exact opponent/map/side/draft cell from the preceding four discovery samples and the direct rival review. Use a fixed hash order with at most four games per opponent and reserve every third game. Use the earlier two-seed, four-opponent subsystem ablation as the existing control for unchanged v92 subsystems.
+
+Measure inferred camp captures and earned gold, gem collection and banking through rounds 150 and 300, and gems carried before deaths through round 600. Compare these with the previously measured ward and first-contact signals. A proposed conversion mechanism requires a consistent directional result in at least five of eight reserved games and an own-view turning point that identifies what the acting champion could observe. Replay death carry is measured from the preceding round snapshot and can differ from exact gem loss at the death event.
