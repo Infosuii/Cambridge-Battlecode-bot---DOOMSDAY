@@ -88,6 +88,10 @@ ACTION_SCHEMAS = {
     # cl1 macro head: c-row 0..11 (12 nearest camp groups) or 12 = none / outside the 12 nearest. Legal iff c-row present.
     "target13-cl1": ActionSchema("target13-cl1", 13, "hybrid",
                                  "v92's camp-group target mapped to a cl1 c-row; 12 = none or outside the 12 nearest"),
+    # Acting schema of CLRL_ACT (JOHNDOE #36): rows 0..11 select that camp group, 12 = no farm target this turn.
+    # Not the teacher label target13-cl1 (whose 12 meant none OR outside the 12 rows).
+    "target13-cl1-nofarm-v1": ActionSchema("target13-cl1-nofarm-v1", 13, "hybrid",
+                                           "actor's farm target: c-row 0..11, or 12 = no farm target this turn"),
     "target11-v1": ActionSchema("target11-v1", 11, "hybrid",
                                 "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
     # Full primitive control gets a new versioned schema (conditional heads: move/attack/cast/bank/buy/ward) when the
@@ -121,6 +125,7 @@ COLUMNS = {
     "truncated": ("uint8", ""),      # body's last decision and the game did not end (round cap, timeout, log cut)
     "boundary": ("uint8", ""),       # observation-only row at a truncation cut: action -1, weight 0, excluded from losses
     "bootstrap_valid": ("uint8", ""),  # on a truncated decision: 1 iff the next row is this body's boundary row
+    "decision_index": ("int32", ""),  # consecutive per body within an episode (0, 1, 2, ...); boundary rows continue it
     "h0": ("float32", "h"),          # recurrent state before this decision; absent when hidden_size == 0
     # Primitive outcome of the turn (manifest prim_labels: true), measured by diffing the body's state at capture and
     # at the end of its turn: bits 1 moved, 2 attacked, 4 cast, 8 recall started, 16 submit started, 32 bought,
@@ -168,6 +173,8 @@ def required_columns(manifest: dict) -> list:
         skip.update(PRIM_COLUMNS)
     if not manifest.get("fuel_twin", False):
         skip.update(TWIN_COLUMNS)
+    if not manifest.get("decision_index", False):  # on-policy shards declare it (FIRST_PPO_RUN.md)
+        skip.add("decision_index")
     return [c for c in COLUMNS if c not in skip]
 
 
