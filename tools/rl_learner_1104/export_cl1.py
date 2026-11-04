@@ -37,7 +37,7 @@ def numpy_forward(state, entities, present, globals_, hidden, reset):
     r, z = sig(ir + hr), sig(iz + hz)
     n = np.tanh(inn + r * hn)
     hidden = (1 - z) * n + z * h0
-    camp = np.concatenate((encoded['camp'], np.broadcast_to(hidden[:, None], (len(hidden), 12, 16))), -1)
+    camp = np.concatenate((encoded['camp'], np.broadcast_to(hidden[:, None], (len(hidden), 12, hidden.shape[-1]))), -1)
     score = linear(np.tanh(linear(camp, 'pointer')), 'score')[..., 0]
     logits = np.concatenate((score, linear(hidden, 'none')), -1)
     mask = np.concatenate((present['camp'], np.ones((len(hidden), 1), dtype=bool)), -1)
@@ -53,14 +53,14 @@ def main():
     checkpoint = torch.load(args.checkpoint, weights_only=True, map_location='cpu')
     if checkpoint['preprocess'] != PREPROCESS_VERSION:
         raise ValueError('preprocess mismatch')
-    model = CampPointer().eval()
+    model = CampPointer(**checkpoint.get('architecture',{})).eval()
     model.load_state_dict(checkpoint['state_dict'])
     state = {k: v.detach().numpy() for k, v in model.state_dict().items()}
     all_raw = np.fromfile(args.raw, dtype='<i2').reshape(-1, 448)
     selected = np.linspace(0, len(all_raw) - 1, 8, dtype=int)
     raw = torch.from_numpy(all_raw[selected].copy())
     torch.manual_seed(1104)
-    h = torch.randn(8, 16) * .2
+    h = torch.randn(8, model.memory.hidden_size) * .2
     reset = torch.tensor([1, 0, 1, 0, 0, 1, 0, 1], dtype=torch.bool)
     with torch.no_grad():
         logits, nh = model(raw, h, reset)
@@ -73,7 +73,8 @@ def main():
     tensors = {k: {'shape': list(v.shape), 'values': v.reshape(-1).tolist()} for k, v in state.items()}
     export = {'format': 'jd-cl1-pointer-f32-v1', 'preprocess': PREPROCESS_VERSION,
               'training': checkpoint['sampling'], 'encoder_source': checkpoint['encoder_source'],
-              'pool_order': sorted(entities), 'hidden': 16, 'tensors': tensors,
+              'pool_order': sorted(entities), 'hidden': model.memory.hidden_size,
+              'architecture':model.architecture,'tensors': tensors,
               'limits': 'Hybrid macro policy; training provenance above. Not approved for ladder or full control.'}
     weights = json.dumps(export, separators=(',', ':')) + '\n'
     (out / 'actor.json').write_text(weights)
