@@ -66,14 +66,6 @@
       "split": "confirmation_reserved"
     },
     {
-      "file": "01gold-rush.map26a",
-      "sha256": "6e564fdf09fdf67a4182a909d6985737b488742e64f2c3e164204e78bc64c898",
-      "bytes": 650,
-      "family": "gold-rush",
-      "previously_exposed": false,
-      "split": "confirmation_reserved"
-    },
-    {
       "file": "01shortcut.map26a",
       "sha256": "f77db387292e66a8aad7e912c179787db0c41b6632ee841a21593dfc279ecb3a",
       "bytes": 4346,
@@ -146,14 +138,15 @@
       "split": "confirmation_reserved"
     }
   ],
-  "remaining_maps": 18,
-  "remaining_families": 17,
+  "remaining_maps": 17,
+  "remaining_families": 16,
   "excluded_families": [
+    "gold-rush",
     "swirl",
     "the-line",
     "vault"
   ],
   "source_manifest_sha256": "a1fcb51e115097707a31351a670ab389766649ee71bba63c661dedd8f584de3c",
-  "exposure_overlay_sha256": "9c0eccdd01c6b6ac05e7decf34be94f8b97483a30a796c8205ca177f24ca5104",
-  "note": "Effective eligibility after live replay review. Original split is retained for audit. No near-variant or Agent2-pretraining nonexposure guarantee."
+  "exposure_overlay_sha256": "35612b42947b23ca6f2bff81564d93b5b3212f3a5fd7b964d0cfea0eb5a72904",
+  "note": "Live-reviewed families excluded; no sealed nearvariant/pretrainingnonexposureclaim."
 }
