@@ -1,5 +1,6 @@
 """Freeze 16 discovery and eight confirmation losses outside all earlier samples."""
 from collections import Counter
+import argparse
 from datetime import datetime, timedelta
 from hashlib import sha256
 import json
@@ -21,19 +22,25 @@ def key(m):
 
 
 def main():
-    as_of = datetime.fromisoformat((RAW / "as-of.txt").read_text().strip())
-    teams = read(RAW / "ladder.json")["teams"]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--wave", type=int, choices=(5, 6), default=5)
+    wave = parser.parse_args().wave
+    raw = CACHE / f"discovery{wave}"
+    as_of = datetime.fromisoformat((raw / "as-of.txt").read_text().strip())
+    teams = read(raw / "ladder.json")["teams"]
     ours = next(t for t in teams if t["teamId"] == TEAM)
     above = {t["teamId"]: t for t in teams if t["rank"] < ours["rank"] or t["name"] in RIVALS}
     assert sum(t["rank"] < ours["rank"] for t in above.values()) == ours["rank"] - 1
     prior_paths = [HERE / "DISCOVERY_SAMPLE.json", *(HERE / f"discovery{i}/DISCOVERY_SAMPLE.json" for i in (2, 3, 4))]
+    if wave == 6:
+        prior_paths.append(HERE / "DISCOVERY5_SAMPLE.json")
     prior = [m for f in prior_paths for m in read(f)["matches"]]
     targeted = read(HERE / "uk-rivals/SAMPLE.json")["matches"]
     excluded = {m["groupId"] or m["matchId"] for m in prior} | {m["group"] for m in targeted}
     cells = {key(m) for m in prior} | {(m["opponent"], m["map"], m["side"], tuple(m["draft"]), tuple(m["opponent_draft"]))
                                        for m in targeted}
     paths = [*sorted((CACHE / "discovery48/raw").glob("ranked-*.json")), CACHE / "ranked-resume-1.json",
-             *(CACHE / f"discovery{i}/matches.json" for i in (3, 4, 5))]
+             *(CACHE / f"discovery{i}/matches.json" for i in range(3, wave + 1))]
     census = {m["matchId"]: m for f in paths for m in read(f)["matches"]}
     losses = []
     for m in census.values():
@@ -52,7 +59,7 @@ def main():
             losses.append(row)
     counts = Counter()
     chosen = []
-    ordered = sorted(losses, key=lambda r: sha256(f"discovery5-1104:{r['matchId']}".encode()).digest())
+    ordered = sorted(losses, key=lambda r: sha256(f"discovery{wave}-1104:{r['matchId']}".encode()).digest())
     for row in ordered:
         group = row["groupId"] or row["matchId"]
         if group in excluded or key(row) in cells or counts[row["opp_team_id"]] >= 4:
@@ -66,8 +73,8 @@ def main():
     assert len(chosen) == 24
     result = {"as_of": as_of.isoformat(), "our_rank": ours["rank"], "ranked_census": len(census),
               "eligible_fresh_losses": len(losses), "source_sha256": {p.relative_to(CACHE).as_posix(): sha256(p.read_bytes()).hexdigest()
-              for p in [*paths, RAW / "ladder.json"]}, "matches": chosen}
-    with (HERE / "DISCOVERY5_SAMPLE.json").open("x", encoding="utf8", newline="\n") as f:
+              for p in [*paths, raw / "ladder.json"]}, "matches": chosen}
+    with (HERE / f"DISCOVERY{wave}_SAMPLE.json").open("x", encoding="utf8", newline="\n") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
         f.write("\n")
     print("Froze", len(chosen), "of", len(losses), "eligible losses at rank", ours["rank"], flush=True)

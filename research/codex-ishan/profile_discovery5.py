@@ -9,7 +9,7 @@ import subprocess
 import sys
 from zipfile import ZipFile
 
-from freeze_discovery5 import HERE, RAW, read
+from freeze_discovery5 import CACHE, HERE, read
 
 sys.path.insert(0, str(HERE / "discovery4"))
 from capture_metrics import team_metrics
@@ -60,9 +60,10 @@ def side(summary, profile, camp, deaths, index):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("split", choices=("discovery", "confirm"))
+    parser.add_argument("--wave", type=int, choices=(5, 6), default=5)
     args = parser.parse_args()
-    matches = [r for r in read(HERE / "DISCOVERY5_SAMPLE.json")["matches"] if r["partition"] == args.split]
-    local = RAW / args.split
+    matches = [r for r in read(HERE / f"DISCOVERY{args.wave}_SAMPLE.json")["matches"] if r["partition"] == args.split]
+    local = CACHE / f"discovery{args.wave}" / args.split
     profiles = replays(matches, local)
     rows = []
     for m in matches:
@@ -88,7 +89,7 @@ def main():
     bank_starts = Counter(r["first_sustained_bank_gap"] or "none" for r in rows)
     report = {"n": len(rows), "round300": totals, "events": events, "first_sustained_bank_gap": dict(bank_starts),
               "lost_600_mean_ours_winner": [mean(r[k]["lost"]["600"] for r in rows) for k in ("ours", "winner")]}
-    with (HERE / f"DISCOVERY5_{args.split.upper()}.json").open("x", encoding="utf8", newline="\n") as out:
+    with (HERE / f"DISCOVERY{args.wave}_{args.split.upper()}.json").open("x", encoding="utf8", newline="\n") as out:
         json.dump({**report, "rows": rows}, out, indent=2, ensure_ascii=False)
         out.write("\n")
     print(report, flush=True)
