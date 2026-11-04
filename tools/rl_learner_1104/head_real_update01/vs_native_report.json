@@ -1,0 +1,515 @@
+{
+  "scope": "Direct local development challenge of first learned head against frozen native neural baseline; NOT evolving-best Agent2 or ladder confirmation",
+  "status": "COMPLETE",
+  "plan": {
+    "candidate_hashes": {
+      "head1": "9a370e50a563191e9c2da2fa088ed6b75f57262321976d1b2e4099390286e209"
+    },
+    "opponent_hash": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177",
+    "opponent_kind": "Frozen native neural baseline, afb43b88/student_i2m; not a claim of best current Agent2 configuration",
+    "maps": [
+      {
+        "file": "00ambush.map26a",
+        "sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579",
+        "bytes": 23272,
+        "family": "ambush",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00contest.map26a",
+        "sha256": "554240a5a793f8c1ac9c518cb6edbacab0129ec4dfd94b199331aaebd0bf418a",
+        "bytes": 806,
+        "family": "contest",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00corners.map26a",
+        "sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+        "bytes": 2642,
+        "family": "corners",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00crater.map26a",
+        "sha256": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+        "bytes": 5628,
+        "family": "crater",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00dunes.map26a",
+        "sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f",
+        "bytes": 16312,
+        "family": "dunes",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00elkring.map26a",
+        "sha256": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+        "bytes": 524,
+        "family": "elkring",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00monolith.map26a",
+        "sha256": "ba5674bf2ab26336eb99df0c9e97c16b27bd231deffc023de1d873a05a558313",
+        "bytes": 1623,
+        "family": "monoliths",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00oasis.map26a",
+        "sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+        "bytes": 1472,
+        "family": "oasis",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "01broken-curve.map26a",
+        "sha256": "1763423b171f3b61128b2a913a10f46ba550e7a2e79ae27dd89e915c952b5117",
+        "bytes": 9973,
+        "family": "broken-curve",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "01hooks.map26a",
+        "sha256": "23e58fe8f41ff66761ade251d3d10a9c3eead864f9ad74f12ad9e34f4bece378",
+        "bytes": 4165,
+        "family": "hooks",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "01starfish.map26a",
+        "sha256": "1edf115a0a788c010107148f975570961acc8e9fba4a013ad60f5ca2389cbb83",
+        "bytes": 8223,
+        "family": "starfish",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "02geodes.map26a",
+        "sha256": "12b1d1a4ac658c95fe2625e9aa8b66143d77e1d8399fb7a75de033d7ac4a784e",
+        "bytes": 21246,
+        "family": "geodes",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03ambush-field.map26a",
+        "sha256": "8f6cb1112f89cc99ee4a9f9eadc9f84423168f7e4d518510035ab05b48540c2e",
+        "bytes": 387142,
+        "family": "ambush",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03homonoliths.map26a",
+        "sha256": "f95e09158a7125a4100eb64535309b2583fdbe567d69afe5b14db11d2488a11f",
+        "bytes": 11263,
+        "family": "monoliths",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03shrines.map26a",
+        "sha256": "77a36faca7294e02ed8f34f5de93a71d208f824dd1c01669979b51c8aeae255e",
+        "bytes": 1799,
+        "family": "shrines",
+        "previously_exposed": false,
+        "split": "development"
+      }
+    ],
+    "split": "development",
+    "fuel": 100000,
+    "source_ref": "fcf889ae35b9822749b5bc1da4cbc912f50cdb92"
+  },
+  "games": [
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1010,
+      "theirs": 555,
+      "own_fuel_outs": 79,
+      "opponent_fuel_outs": 28,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 0.0,
+      "ours": 942,
+      "theirs": 1030,
+      "own_fuel_outs": 112,
+      "opponent_fuel_outs": 52,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "score": 0.0,
+      "ours": 0,
+      "theirs": 1000,
+      "own_fuel_outs": 40,
+      "opponent_fuel_outs": 29,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "score": 0.0,
+      "ours": 0,
+      "theirs": 1000,
+      "own_fuel_outs": 33,
+      "opponent_fuel_outs": 26,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1093,
+      "theirs": 411,
+      "own_fuel_outs": 23,
+      "opponent_fuel_outs": 30,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "score": 0.0,
+      "ours": 596,
+      "theirs": 1028,
+      "own_fuel_outs": 36,
+      "opponent_fuel_outs": 47,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "score": 0.0,
+      "ours": 319,
+      "theirs": 1007,
+      "own_fuel_outs": 41,
+      "opponent_fuel_outs": 11,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1004,
+      "theirs": 488,
+      "own_fuel_outs": 24,
+      "opponent_fuel_outs": 15,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "score": 0.0,
+      "ours": 927,
+      "theirs": 1023,
+      "own_fuel_outs": 35,
+      "opponent_fuel_outs": 27,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "score": 0.0,
+      "ours": 397,
+      "theirs": 1098,
+      "own_fuel_outs": 28,
+      "opponent_fuel_outs": 17,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "score": 0.0,
+      "ours": 910,
+      "theirs": 1022,
+      "own_fuel_outs": 24,
+      "opponent_fuel_outs": 3,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "score": 0.0,
+      "ours": 750,
+      "theirs": 1001,
+      "own_fuel_outs": 20,
+      "opponent_fuel_outs": 4,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "ours": 953,
+      "theirs": 1021,
+      "own_fuel_outs": 78,
+      "opponent_fuel_outs": 38,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1001,
+      "theirs": 998,
+      "own_fuel_outs": 60,
+      "opponent_fuel_outs": 34,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "score": 0.0,
+      "ours": 249,
+      "theirs": 1026,
+      "own_fuel_outs": 19,
+      "opponent_fuel_outs": 5,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "score": 0.0,
+      "ours": 472,
+      "theirs": 1020,
+      "own_fuel_outs": 25,
+      "opponent_fuel_outs": 11,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1140,
+      "theirs": 833,
+      "own_fuel_outs": 13,
+      "opponent_fuel_outs": 3,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "score": 0.0,
+      "ours": 820,
+      "theirs": 1001,
+      "own_fuel_outs": 15,
+      "opponent_fuel_outs": 5,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "score": 0.0,
+      "ours": 68,
+      "theirs": 1009,
+      "own_fuel_outs": 28,
+      "opponent_fuel_outs": 9,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1020,
+      "theirs": 261,
+      "own_fuel_outs": 28,
+      "opponent_fuel_outs": 3,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1093,
+      "theirs": 258,
+      "own_fuel_outs": 45,
+      "opponent_fuel_outs": 14,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "score": 0.0,
+      "ours": 278,
+      "theirs": 1010,
+      "own_fuel_outs": 31,
+      "opponent_fuel_outs": 7,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1032,
+      "theirs": 873,
+      "own_fuel_outs": 36,
+      "opponent_fuel_outs": 11,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1010,
+      "theirs": 827,
+      "own_fuel_outs": 29,
+      "opponent_fuel_outs": 7,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1073,
+      "theirs": 966,
+      "own_fuel_outs": 26,
+      "opponent_fuel_outs": 9,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1051,
+      "theirs": 790,
+      "own_fuel_outs": 31,
+      "opponent_fuel_outs": 7,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "score": 0.0,
+      "ours": 0,
+      "theirs": 1200,
+      "own_fuel_outs": 25,
+      "opponent_fuel_outs": 9,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "score": 0.0,
+      "ours": 0,
+      "theirs": 1200,
+      "own_fuel_outs": 49,
+      "opponent_fuel_outs": 8,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "score": 1.0,
+      "ours": 1006,
+      "theirs": 955,
+      "own_fuel_outs": 22,
+      "opponent_fuel_outs": 4,
+      "own_faults": 0,
+      "opponent_faults": 0
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "score": 1.0,
+      "ours": 1006,
+      "theirs": 728,
+      "own_fuel_outs": 17,
+      "opponent_fuel_outs": 1,
+      "own_faults": 0,
+      "opponent_faults": 0
+    }
+  ],
+  "win_score": 13.0,
+  "cells": 30,
+  "families": 13,
+  "family_cluster_bootstrap95": [
+    0.25,
+    0.6176470588235294
+  ],
+  "own_fuel_outs": 1072,
+  "opponent_fuel_outs": 474,
+  "faults": 0,
+  "wall_seconds": 32.7949784998782,
+  "notes": [
+    "A second opponent family beyond v92; all15development maps/both sides; no training on these outcomes",
+    "This is the OLD one-shot head runtime, not R1 latest cache fix; do not attribute results to new implementation",
+    "Freshest Agent2 branch source remains afb43b88 within6c2244e2; baseline configuration is pinned, not certified latest best bot",
+    "Confirmation remains reserved and unrun"
+  ]
+}
