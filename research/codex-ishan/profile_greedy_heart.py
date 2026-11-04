@@ -49,7 +49,7 @@ def cast_sample(phase):
     return f"codex_heart_phase({CAST_PHASES.index(phase)}, round, type);"
 
 
-def instrument_cast(src, target_round):
+def instrument_cast(src, target_round, rejection):
     apply(src / "bot.cpp", (
         ('#include "bot.h"', f'''#include "bot.h"
 
@@ -91,6 +91,33 @@ static void codex_heart_phase(int phase, int round, bc::champion_type type) {{
         codex_heart_walked = codex_heart_exclusive = -1;
     }}'''),
     ))
+    if rejection:
+        apply(src / "bot.cpp", (
+            ("static int codex_heart_walked = -1, codex_heart_exclusive = -1;",
+             """static int codex_heart_walked = -1, codex_heart_exclusive = -1;
+static int codex_heart_error = -1;
+static vec2 codex_heart_rejected_tile;"""),
+            ("        } catch (...) { }\n    }\n    return false;\n}\n#endif\n\nbool Bot::cast_on_camp(int ci) {",
+             f"""        }} catch (const bc::error& e) {{
+            if (round == {target_round}) {{
+                codex_heart_error = static_cast<int>(e.code());
+                codex_heart_rejected_tile = best;
+            }}
+        }} catch (...) {{ }}
+    }}
+    return false;
+}}
+#endif
+
+bool Bot::cast_on_camp(int ci) {{"""),
+            ("        codex_heart_walked = codex_heart_exclusive = -1;",
+             """        if (codex_heart_error >= 0) {
+            std::printf("CODEX_HEART_REJECT %d %d %d\\n", codex_heart_error, codex_heart_rejected_tile.x,
+                        codex_heart_rejected_tile.y);
+            codex_heart_error = -1;
+        }
+        codex_heart_walked = codex_heart_exclusive = -1;"""),
+        ))
 
 
 def instrument_attack(src, dispatch):
@@ -152,6 +179,7 @@ def play(item):
     cast_phases = {CAST_PHASES[int(i)]: [int(r), int(f)]
                    for i, r, f in re.findall(rb"CODEX_HEART_CAST (\d+) (\d+) (\d+)", log)}
     cast_state = [list(map(int, s)) for s in re.findall(rb"CODEX_HEART_STATE (-?\d+) (-?\d+)", log)]
+    rejections = [list(map(int, s)) for s in re.findall(rb"CODEX_HEART_REJECT (\d+) (-?\d+) (-?\d+)", log)]
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -165,7 +193,8 @@ def play(item):
     same_prefix = bool(t0 and t1 and before == after[:len(before)])
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors, "events": events,
             "same_event": same_event, "same_input": same_input, "same_action_prefix": same_prefix,
-            "cast_phases": cast_phases, "cast_state": cast_state, "base_turn": t0, "diagnostic_turn": t1}
+            "cast_phases": cast_phases, "cast_state": cast_state, "rejections": rejections,
+            "base_turn": t0, "diagnostic_turn": t1}
 
 
 def main():
@@ -177,17 +206,19 @@ def main():
     mode.add_argument("--attack", action="store_true")
     mode.add_argument("--dispatch", action="store_true")
     mode.add_argument("--remaining-scan", action="store_true")
+    mode.add_argument("--rejection", action="store_true")
     args = parser.parse_args()
-    cast, attack = args.cast or args.remaining_scan, args.attack or args.dispatch
-    remaining = args.remaining or attack or args.remaining_scan
+    remaining_scan = args.remaining_scan or args.rejection
+    cast, attack = args.cast or remaining_scan, args.attack or args.dispatch
+    remaining = args.remaining or attack or remaining_scan
     if args.cast:
         OUT = bench.CACHE / "cpg-greedy-heart-cast"
     if remaining:
         OUT = bench.CACHE / "cpg-heart-camp-mask-remaining"
     if attack:
         OUT = bench.CACHE / ("cpg-heart-camp-mask-dispatch" if args.dispatch else "cpg-heart-camp-mask-attack")
-    if args.remaining_scan:
-        OUT = bench.CACHE / "cpg-heart-camp-mask-scan"
+    if remaining_scan:
+        OUT = bench.CACHE / ("cpg-heart-camp-mask-rejection" if args.rejection else "cpg-heart-camp-mask-scan")
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")
     cases = [r for r in source["affected"] if r["arm"] == "full"]
     assert len(cases) == 3 and all(len(r["events"]) == 1 for r in cases)
@@ -212,7 +243,7 @@ def main():
         instrument_attack(src, args.dispatch)
     elif cast:
         (target_round,) = rounds
-        instrument_cast(src, target_round)
+        instrument_cast(src, target_round, args.rejection)
     else:
         stages = (*STAGES, "f_camps") if remaining else STAGES
         prepare_coarse(src, rounds, stages)
@@ -234,8 +265,10 @@ def main():
     result = {"engine": bench.ENGINE, "reference": reference, "diagnostic": bench.digest(wasm),
               "seed": SEED, "n": len(rows), "matched": len(matched),
               "phases": [r["cast_phases"] if cast or attack else r["diagnostic"]["examples"] for r in matched],
-              "cast_state": [r["cast_state"] for r in matched] if cast else []}
-    name = ("CPG_HEART_CAMP_MASK_SCAN.json" if args.remaining_scan else
+              "cast_state": [r["cast_state"] for r in matched] if cast else [],
+              "rejections": [r["rejections"] for r in matched] if args.rejection else []}
+    name = ("CPG_HEART_CAMP_MASK_REJECTION.json" if args.rejection else
+            "CPG_HEART_CAMP_MASK_SCAN.json" if args.remaining_scan else
             "CPG_HEART_CAMP_MASK_DISPATCH.json" if args.dispatch else "CPG_HEART_CAMP_MASK_ATTACK.json" if attack else
             "CPG_HEART_CAMP_MASK_REMAINING.json" if remaining else
             "CPG_GREEDY_HEART_CAST.json" if cast else "CPG_GREEDY_HEART_TRACE.json")
