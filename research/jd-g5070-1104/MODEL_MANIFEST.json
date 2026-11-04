@@ -496,6 +496,59 @@
      "stop": "2026-11-04T04:26:46Z",
      "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
      "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 8,
+     "sha256": "24845b7ad533ba8c4759c80fa2d1b105b14ff8c9d4ce78f04598e79af8b110e5",
+     "parent_sha256": "176f4ac9ea5b8c51161b72d482e2f42b07dce3f255917645d46ed10a18db9c13",
+     "header_sha256": "9ab9d5ba5024b5bf149b9f3c4bd921007f6973eb40531bc649fefe2a0e79f254",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter8.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter7.npz",
+      "new_rows": 186862,
+      "new_games": 534,
+      "recorder_wasm_sha256": "bdf5142168d535c2e58bb41426d17171ecf432bcaeceb2bec9e59bb7e57563d2",
+      "recorder_header_sha256": "7dd920cda5410a012e54aebbfe85615a8df9b1a6c76caf98223442e8a10b1719",
+      "recorder_wins": 308,
+      "recorder_fuel_outs": 1158,
+      "aggregate_rows": 1483134,
+      "iterations": 8,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.23106663580799924,
+      "agree": {
+       "behaviour": 0.9646,
+       "target": 0.8925,
+       "option": 0.9969,
+       "attack": 0.9944,
+       "cast": 0.9828,
+       "cast_tgt": 0.8446
+      }
+     },
+     "eval": {
+      "wasm_sha256": "1a49e54dba1dd2c189bc922ad69d69c8c82b7dfd0b0df188a87f70147cd37f54",
+      "played": 160,
+      "cells": 160,
+      "wins": 86,
+      "winrate": 53.75,
+      "base_winrate": 58.12,
+      "d_score": -4.38,
+      "fuel_outs": 337,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:26:46Z",
+     "stop": "2026-11-04T04:33:18Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
     }
    ]
   }

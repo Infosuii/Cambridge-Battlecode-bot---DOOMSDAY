@@ -7278,6 +7278,8 @@ bool Bot::farm() {
             }
             force_tribute = false;
         }
+        // A second scoring pass this turn only with room for it (otherwise the next turn chooses without the group).
+        if (bc::fuel_remaining() < 60000) return false;
         ++jdst::prog_rescore;
         best = score_groups(1, best_need, best_score);
         staging_since = -1;
