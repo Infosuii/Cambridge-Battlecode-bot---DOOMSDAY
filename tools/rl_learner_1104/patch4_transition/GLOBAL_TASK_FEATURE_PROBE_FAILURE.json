@@ -1,1 +1,67 @@
-cat: outputs/rl-execution/GLOBAL_TASK_FEATURE_PROBE_FAILURE.json: No such file or directory
+{
+  "status": "FAILED_FUEL_ADMISSION",
+  "scope": "Prepatch global-feature shadow probe; not valid training data or a deployment candidate",
+  "rows": 24,
+  "groups": [
+    22
+  ],
+  "feature_cost_median": 68237.0,
+  "feature_cost_max": 71269,
+  "cross_round_completion_markers": 13,
+  "invalid_records": [
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      5,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      5,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      1,
+      4
+    ]
+  ],
+  "conclusion": "All-group feature expansion and logging exceed the available budget on this ABI. Must separate shared context, cache static group features and/or stage collection with explicit state ages; do not train from or deploy this collector.",
+  "patch4_target_not_available": true
+}
