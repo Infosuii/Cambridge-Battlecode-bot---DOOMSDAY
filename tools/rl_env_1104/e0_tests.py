@@ -88,7 +88,9 @@ class E0(unittest.TestCase):
         for mp in MAPS:
             _, base = self.game("bots/v92", "bots/v92", mp, f"base-{mp}", True)
             _, rec = self.game(self.rec, "bots/v92", mp, f"recA-{mp}", False)
-            self.assertEqual(scores(rec), scores(base), mp)
+            self.assertEqual(scores(rec), scores(base), mp + " recorder as A")
+            _, recb = self.game("bots/v92", self.rec, mp, f"recB-{mp}", False)
+            self.assertEqual(scores(recb), scores(base), mp + " recorder as B")
 
     def test_3_deterministic_rows(self):
         mp = MAPS[0]

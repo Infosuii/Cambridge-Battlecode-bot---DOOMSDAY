@@ -32,7 +32,9 @@ LAY = C.LAYOUTS[LAYOUT]
 NF, NA = LAY.nf, C.ACTION_SCHEMAS[SCHEMA].n
 C_OFF, C_W = LAY.offset("c"), LAY.width("c")
 LOG_LIMIT = 64 * 1024 * 1024
-REWARD_SPEC = "cl1-gems-v0: own team submitted-gems gain / 100 over the decision interval; +1 / -1 / 0 at game end"
+# Smoke reward for teacher traces only, NOT the RL objective (the learner defines win/loss + potential-based shaping).
+REWARD_SPEC = ("teacher-smoke-v0: own team submitted-gems gain / 100 over the decision interval; +1 / -1 / 0 at game "
+               "end. Diagnostic only: the deposit term can dominate the terminal term")
 
 
 def sha256(path: str) -> str:
@@ -72,6 +74,16 @@ def absp(path: str) -> str:
     return os.path.abspath(os.path.join(ROOT, path)).replace("\\", "/")
 
 
+def build_hash(bot: str, work: str, release: bool) -> str:
+    """SHA-256 of `bot` built in the same mode the games use (run-batch builds it the same way)."""
+    out = os.path.join(work, os.path.basename(bot.rstrip("/")) + ("-release" if release else "-debug") + ".wasm")
+    r = subprocess.run([CLI, "build", bot] + (["--release"] if release else []) + ["--output", out], cwd=ROOT,
+                       capture_output=True, text=True, timeout=900)
+    if r.returncode or not os.path.exists(out):
+        raise SystemExit(f"build of {bot} failed: " + r.stdout[-2000:])
+    return sha256(out)
+
+
 def git_head() -> str:
     r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True)
     return r.stdout.strip()
@@ -87,17 +99,21 @@ def timeline_at(runs: list, round_: int) -> int:
     return int(runs[-1]["value"]) if runs else 0
 
 
-def parse_rows(stdout: str) -> list:
+def parse_rows(stdout: str, bad: list | None = None) -> list:
+    """CLR1 rows; malformed ones (wrong field count, bad base64, wrong length) are counted into `bad`, never dropped
+    silently: the caller marks the episode incomplete."""
     rows = []
     for line in stdout.splitlines():
         if not line.startswith("CLR1 "):
             continue
         q = line.split(" ")
-        if len(q) != 10:
-            continue
         try:
-            x = struct.unpack(f"<{NF}h", base64.b64decode(q[9]))
+            if len(q) != 10:
+                raise ValueError("field count")
+            x = struct.unpack(f"<{NF}h", base64.b64decode(q[9], validate=True))
         except Exception:
+            if bad is not None:
+                bad.append(line[:80])
             continue
         rows.append(dict(round=int(q[1]), slot=int(q[2]), body=int(q[3]), macro=int(q[4]), prim=int(q[5]),
                          dx=max(-127, min(127, int(q[6]))), dy=max(-127, min(127, int(q[7]))), reset=int(q[8]), x=x))
@@ -109,7 +125,8 @@ def episode_from(bundle: str, summary_path: str | None, side: str, meta_base: di
     team_l = side.lower()
     with zipfile.ZipFile(bundle) as z:
         out = z.read(f"team-{team_l}.stdout").replace(b"\0", b"").decode("utf-8", "replace")
-    rows = parse_rows(out)
+    bad: list = []
+    rows = parse_rows(out, bad)
     summary = None
     if summary_path and os.path.exists(summary_path):
         with open(summary_path, encoding="utf-8") as f:
@@ -117,11 +134,16 @@ def episode_from(bundle: str, summary_path: str | None, side: str, meta_base: di
     our = "teamA" if side == "A" else "teamB"
     if summary:
         m = summary["match"]
-        end_round, outcome = int(m["roundsCompleted"]), m["outcome"]
+        # True boundary: a game can end inside a round (finalRoundPartial); the last started round then counts.
+        end_round = int(m["roundsStarted"]) if m.get("finalRoundPartial") else int(m["roundsCompleted"])
+        outcome = m["outcome"]
         status = "terminated"
         tl = next(t["runs"] for t in summary["teamTimelines"] if t["owner"] == our and t["metric"] == "submittedGems")
-        meta = dict(meta_base, map_hash=m["mapHash"], seed=m["seed"], rounds_completed=end_round, outcome=outcome,
-                    reward_complete=True)
+        meta = dict(meta_base, map_hash=m["mapHash"], seed=m["seed"], rounds_completed=int(m["roundsCompleted"]),
+                    rounds_started=int(m["roundsStarted"]), final_round_partial=bool(m.get("finalRoundPartial")),
+                    final_substep=m.get("finalSubstep"), end_round=end_round, outcome=outcome, reward_complete=True,
+                    engine_build_hash=m.get("engineBuildHash"), engine_version=m.get("engineVersion"),
+                    bot_faults=summary.get("diagnostics", {}).get("botFaults"))
     else:
         end_round, outcome, tl = max([r["round"] for r in rows] or [0]), None, None
         status = "truncated"
@@ -130,6 +152,10 @@ def episode_from(bundle: str, summary_path: str | None, side: str, meta_base: di
     if len(out.encode()) >= LOG_LIMIT - 4096:
         status = "truncated_log"
         meta["reward_complete"] = False
+    if bad:
+        status = "incomplete" if status == "terminated" else status
+        meta["reward_complete"] = False
+    meta["malformed_rows"] = len(bad)
     meta.update(status=status, our_team=our)
 
     rows.sort(key=lambda r: (r["body"], r["round"]))
@@ -196,11 +222,13 @@ def main() -> None:
                 engine=dict(cambc="4.0.0", engine="2.0.0"))
     writer = C.ShardWriter(run_dir, base)
     done = writer.done_keys()
+    opp_hash = build_hash(opp, work, release=False)
 
     games, lines = [], []
     for mp in a.maps:
         for side in a.sides.split(","):
-            key = f"{os.path.basename(mp)}|{opp}|{side}"
+            # Retry key: map content + recorder build + opponent build + mode + side (not the basename alone).
+            key = f"{sha256(os.path.join(ROOT, mp))[:16]}|{rec_hash[:16]}|{opp_hash[:16]}|debug|{side}"
             if key in done:
                 continue
             gi = len(games)
@@ -226,7 +254,6 @@ def main() -> None:
     with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
         f.write(r.stdout + "\n---\n" + r.stderr)
 
-    opp_hash = None
     report = []
     for g in games:
         bundle = g["rep"]
@@ -235,16 +262,17 @@ def main() -> None:
                      if n.startswith(os.path.basename(bundle))]
             bundle = cands[0] if cands else None
         if not bundle:
-            report.append((g["key"], "failed (no replay bundle)"))
+            report.append((g["map"] + " " + g["side"], "failed (no replay bundle)"))
             continue
-        meta_base = dict(key=g["key"], map_file=g["map"], map_file_sha256=sha256(os.path.join(ROOT, g["map"])),
+        meta_base = dict(key=g["key"], map_file=g["map"], build_mode="debug", map_file_sha256=sha256(os.path.join(ROOT, g["map"])),
                          opponent=dict(name=opp, wasm_sha256=opp_hash), side=g["side"])
         meta, cols, rows = episode_from(bundle, g["st"], g["side"], meta_base)
         if not rows:
-            report.append((g["key"], "failed (no CLR1 rows)"))
+            report.append((g["map"] + " " + g["side"], "failed (no CLR1 rows)"))
             continue
         writer.add_episode(meta, cols)
-        report.append((g["key"], f"{meta['status']} rows={len(rows)} outcome={meta['outcome']} our={meta['our_team']}"))
+        report.append((g["map"] + " " + g["side"], f"{meta['status']} rows={len(rows)} malformed={meta['malformed_rows']} "
+                                                  f"outcome={meta['outcome']} our={meta['our_team']}"))
     shard = writer.flush()
     for k, s in report:
         print(f"{k}: {s}")

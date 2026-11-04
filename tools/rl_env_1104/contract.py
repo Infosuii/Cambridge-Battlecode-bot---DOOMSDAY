@@ -132,7 +132,7 @@ COLUMNS = {
 PRIM_COLUMNS = ("prim", "move_dx", "move_dy")
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
-EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "failed")
+EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "incomplete", "failed")  # incomplete: malformed rows
 SAMPLING = ("complete", "subsampled", "teacher")  # complete = every policy decision logged (A2_NN_RL_KEEP=1)
 
 
@@ -378,7 +378,7 @@ def validate(man: dict, cols: dict) -> list:
         if meta.get("ppo_eligible") and meta["status"] not in ("terminated", "truncated"):
             errs.append(f"episode {e}: ppo_eligible with status {meta['status']}")
         for i in (r for (ee, _), r in last_dec.items() if ee == e):
-            if meta["status"] in ("truncated_log", "failed") and bval[i]:
+            if meta["status"] in ("truncated_log", "incomplete", "failed") and bval[i]:
                 errs.append(f"episode {e}: {meta['status']} episode may not bootstrap (row {i})")
             if meta["status"] == "terminated" and not term[i]:
                 errs.append(f"episode {e}: terminated game but body's last row {i} not marked terminated")
