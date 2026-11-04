@@ -65,6 +65,8 @@ public:
     int clna_explore(int v92g, int ng);       // rl-env exploration-only baseline over the frozen blend (nnrec.cpp)
     void clna_skip(int v92g, int ng);         // log a farm point where no admitted decision was made
     int clna_round = -1;                      // round of this turn's admitted decision (-1 none)
+    int clna_index = 0;                       // consecutive admitted decisions of this body
+    void clna_end();                          // end of turn (main.cpp): log the executed target
 #endif
 #endif
     int nn_group = -1, nn_beh = -1;

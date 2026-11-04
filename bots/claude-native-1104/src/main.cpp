@@ -40,6 +40,9 @@ int main() {
             else {
                 const std::uint32_t r0 = bc::round_number();
                 bot.play_turn();
+#ifdef CLNA_EPS
+                bot.clna_end();
+#endif
 #if defined(A2_NN_PIPE) && A2_NN_PIPE
                 bot.nn_pipe_step();
 #endif
@@ -56,6 +59,9 @@ int main() {
 #else
             else {
                 bot.play_turn();
+#ifdef CLNA_EPS
+                bot.clna_end();
+#endif
 #if A2_NN_MACRO && defined(A2_NN_RL)
                 bot.nn_rl_end();
 #endif

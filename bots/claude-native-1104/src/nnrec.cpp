@@ -1157,12 +1157,18 @@ int Bot::clna_explore(int v92g, int ng) {
     }
     const double logp = std::log(p[c]);
     clna_round = round;
+    ++clna_index;
     debug_block({
-        std::printf("CNA1 %d %d %u %d %d %.9f %.4f %d %d %d", round, slot, my_id, ref, ug[c], logp, eps, v92g, ng, nu);
+        std::printf("CNA1 %d %d %u %d %d %d %.9f %.4f %d %d %d", round, slot, my_id, clna_index, ref, ug[c], logp, eps, v92g, ng, nu);
         for (int k = 0; k < nu; ++k) std::printf(" %d:%.9f", ug[k], uq[k]);
         std::printf(" %s\n", b64(nn_lf, kNF).c_str());
     });
     return ug[c];
+}
+void Bot::clna_end() {
+    if (clna_round != round) return;
+    clna_round = -1;
+    debug_block({ std::printf("CNX1 %d %d %u %d\n", round, slot, my_id, target_group); });
 }
 void Bot::clna_skip(int v92g, int ng) {
     debug_block({ std::printf("CNS1 %d %d %u %d %d %d\n", round, slot, my_id, v92g, ng, nn_stay ? 1 : 0); });
