@@ -37,7 +37,7 @@ w.flush()                         # atomic: writes shard_XXXXX.tmp then renames
 
 | column | dtype | shape | meaning |
 |---|---|---|---|
-| `x_fresh` | int16 | [N, NF] | features captured this decision (Agent 2 NRL X) |
+| `x_fresh` | int16 | [N, NF] | features captured this decision (Agent 2 NRL X); all zero when the manifest sets `features_logged: false` (release logger CNR1), and then the self-id check is skipped |
 | `x_stale` | int16 | [N, NF] | summary features in force (NRZ X); zeros if `has_stale`=0 |
 | `has_stale` | uint8 | [N] | |
 | `feat_round`, `stale_round`, `act_round` | int32 | [N] | capture round, summary round (-1 unknown), action round; `stale ≤ feat ≤ act` |

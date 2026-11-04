@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import math
 import os
 import shutil
 import struct
@@ -37,7 +38,7 @@ REWARD_SPEC = ("mc-terminal-gamma1-v1: every decision of the team's complete gam
 NF, NA = C.LAYOUTS[LAYOUT].nf, C.ACTION_SCHEMAS[SCHEMA].n
 
 
-def prepare(work: str, eps: float) -> tuple:
+def prepare(work: str, eps: float, release: bool = False) -> tuple:
     src = os.path.join(ROOT, "bots", "claude-native-1104", "src")
     dest = os.path.join(work, "bots", "clna")
     shutil.rmtree(dest, ignore_errors=True)
@@ -46,13 +47,17 @@ def prepare(work: str, eps: float) -> tuple:
     with open(ch, encoding="utf-8") as f:
         text = f.read()
     with open(ch, "w", encoding="utf-8", newline="") as f:
-        f.write(f"#define CLNA_EPS {eps!r}\n" + text)
-    wasm = os.path.join(work, "clna-debug.wasm")
-    r = subprocess.run([CLI, "build", K.rel(dest), "--output", wasm], cwd=ROOT, capture_output=True, text=True,
-                       timeout=900)
+        f.write(f"#define CLNA_EPS {eps!r}\n" + ("#define CLNA_RLOG 1\n" if release else "") + text)
+    wasm = os.path.join(work, "clna-release.wasm" if release else "clna-debug.wasm")
+    r = subprocess.run([CLI, "build", K.rel(dest)] + (["--release"] if release else []) + ["--output", wasm], cwd=ROOT,
+                       capture_output=True, text=True, timeout=900)
     if r.returncode or not os.path.exists(wasm):
         raise SystemExit("native build failed: " + r.stdout[-3000:] + r.stderr[-3000:])
     return K.rel(dest), K.sha256(wasm)
+
+
+def hexd(h: str) -> float:
+    return struct.unpack("<d", int(h, 16).to_bytes(8, "little"))[0]
 
 
 def parse(stdout: str) -> tuple:
@@ -60,7 +65,20 @@ def parse(stdout: str) -> tuple:
     for line in stdout.splitlines():
         q = line.split(" ")
         try:
-            if q[0] == "CNA2":
+            if q[0] == "CNR1":  # release logger: raw float bits, no features; logp rebuilt from the mixture
+                nu = int(q[10])
+                if len(q) != 11 + nu + GATE_N:
+                    raise ValueError
+                cands = [x.split(":") for x in q[11:11 + nu]]
+                groups, qs = [int(g) for g, _ in cands], [hexd(v) for _, v in cands]
+                alpha, ref, ch = hexd(q[7]), int(q[5]), int(q[6])
+                p = alpha * qs[groups.index(ch)] + ((1 - alpha) if ch == ref else 0.0)
+                dec.append(dict(round=int(q[1]), eround=-1, slot=int(q[2]), body=int(q[3]), index=int(q[4]), ref=ref,
+                                chosen=ch, logp=math.log(p), eps=alpha, v92=int(q[8]), nn=int(q[9]), groups=groups,
+                                q=qs, gx=[hexd(v) for v in q[11 + nu:11 + nu + GATE_N]], x=(0,) * NF))
+            elif q[0] == "CNX3":
+                exe[(int(q[3]), int(q[4]))] = (int(q[5]), -1)
+            elif q[0] == "CNA2":
                 nu = int(q[12])
                 if len(q) != 13 + nu + GATE_N + 1:
                     raise ValueError
@@ -199,21 +217,27 @@ def main() -> None:
     ap.add_argument("--jobs", type=int, default=1)
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--out", default=os.path.join("runs", "rl_env_1104"))
+    ap.add_argument("--release", action="store_true",
+                    help="release logging build (CLNA_RLOG): the collected build is the deployable one (JOHNDOE #69)")
     a = ap.parse_args()
     run_dir = os.path.join(ROOT, a.out, a.run_ns)
     work = os.path.join(ROOT, "artifacts", "tmp", "rl_env_1104", a.run_ns)
     os.makedirs(work, exist_ok=True)
-    bot, wasm_sha = prepare(work, a.eps)
+    bot, wasm_sha = prepare(work, a.eps, a.release)
     opp = a.opponent.replace("\\", "/")
-    opp_hash = K.build_hash(opp, work, release=False)
+    opp_hash = K.build_hash(opp, work, release=a.release)
+    mode = "release" if a.release else "debug"
     base = dict(layout=LAYOUT, action_schema=SCHEMA, sampling="complete", stale_block=False, hidden_size=0,
                 decision_index=True, native_cands=True, gate_inputs=GATE_N, eps=a.eps,
                 action_kind="latent_group_at_blend_boundary", executor="frozen v92 farm() after the blend (fixed)",
                 return_convention="gamma=1 complete-game Monte Carlo: G_t = reward column = team outcome",
-                observation_point="native-blend-farm", data_origin="engine", reward_spec=REWARD_SPEC, run_ns=a.run_ns, log_limit=K.LOG_LIMIT,
+                observation_point="native-blend-farm", data_origin="engine",
+                features_logged=not a.release, features=("absent: release logger (CNR1) logs q, gate inputs and alpha only; x_fresh zero" if a.release
+                          else "layout 2 fresh features (CNA2)"), reward_spec=REWARD_SPEC, run_ns=a.run_ns, log_limit=K.LOG_LIMIT,
                 policy=dict(name="native-blend-eps", backbone="agent2 student_i2m (frozen)",
                             checkpoint_sha256="05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
-                            wasm_sha256=wasm_sha, build="debug", flags=[f"CLNA_EPS={a.eps}"],
+                            wasm_sha256=wasm_sha, build=mode,
+                            flags=[f"CLNA_EPS={a.eps}"] + (["CLNA_RLOG=1"] if a.release else []),
                             gate_header_sha256=K.sha256(os.path.join(bot, "src", "clna_gate.h")),
                             source_commit=K.git_head()),
                 engine=dict(cambc="4.0.0", engine="2.0.0"))
@@ -222,7 +246,7 @@ def main() -> None:
     games, lines = [], []
     for mp in a.maps:
         for side in a.sides.split(","):
-            key = f"{K.sha256(os.path.join(ROOT, mp))[:16]}|{wasm_sha[:16]}|{opp_hash[:16]}|debug|{side}"
+            key = f"{K.sha256(os.path.join(ROOT, mp))[:16]}|{wasm_sha[:16]}|{opp_hash[:16]}|{mode}|{side}"
             if key in done:
                 continue
             gi = len(games)
@@ -240,8 +264,8 @@ def main() -> None:
     with open(man, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
     r = subprocess.run([CLI, "run-batch", K.rel(man), "--jobs", str(a.jobs), "--json", "--color", "never",
-                        "--log-limit", str(K.LOG_LIMIT), "--timeout", str(a.timeout)], cwd=ROOT, capture_output=True,
-                       text=True)
+                        "--log-limit", str(K.LOG_LIMIT), "--timeout", str(a.timeout)] + (["--release"] if a.release else []),
+                       cwd=ROOT, capture_output=True, text=True)
     with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
         f.write(r.stdout + "\n---\n" + r.stderr)
     for g in games:
@@ -253,7 +277,7 @@ def main() -> None:
             with open(g["st"], encoding="utf-8") as f:
                 summary = json.load(f)
         meta = dict(key=g["key"], map_file=g["map"], map_file_sha256=K.sha256(os.path.join(ROOT, g["map"])),
-                    opponent=dict(name=opp, wasm_sha256=opp_hash), side=g["side"], build_mode="debug")
+                    opponent=dict(name=opp, wasm_sha256=opp_hash), side=g["side"], build_mode=mode)
         if summary is None:
             meta["map_hash"] = meta["map_file_sha256"]
         meta, cols, _ = episode(g["rep"], summary, g["side"], meta)

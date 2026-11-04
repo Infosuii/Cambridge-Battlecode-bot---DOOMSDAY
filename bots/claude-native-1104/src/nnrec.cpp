@@ -1111,6 +1111,33 @@ int Bot::nn_ens_sample(int v92g) {
 #endif
 #include "clna_gate.h"
 static std::uint64_t clna_rng = 0;
+#if CLNA_RLOG
+// Release logger (JOHNDOE #69): the logging build IS the collected and evaluated policy, so logging is charged and
+// deterministic: one fixed buffer, raw IEEE-754 bits as hex (no float formatting), one write per decision. It never
+// branches on output success and never touches the RNG.
+static char clna_rbuf[1024];
+static int clna_rpos = 0;
+static void clna_rhex(std::uint64_t v, int digits) {
+    static const char H[] = "0123456789abcdef";
+    for (int i = digits - 1; i >= 0; --i) clna_rbuf[clna_rpos + i] = H[v & 15], v >>= 4;
+    clna_rpos += digits;
+}
+static void clna_rch(char c) { clna_rbuf[clna_rpos++] = c; }
+static void clna_rint(long v) {  // decimal integer
+    char t[24];
+    int n = 0;
+    const bool neg = v < 0;
+    unsigned long u = neg ? static_cast<unsigned long>(-v) : static_cast<unsigned long>(v);
+    do t[n++] = static_cast<char>('0' + u % 10), u /= 10; while (u);
+    if (neg) clna_rch('-');
+    while (n) clna_rch(t[--n]);
+}
+static void clna_rdbl(double d) {
+    std::uint64_t u;
+    __builtin_memcpy(&u, &d, sizeof u);
+    clna_rhex(u, 16);
+}
+#endif
 // Base64 into a static buffer: logging must not touch the heap (allocator state is shared with charged code).
 static const char* clna_b64(const std::int16_t* p, int n) {
     static char out[4 * ((2 * 828 + 2) / 3) + 1];
@@ -1192,6 +1219,22 @@ int Bot::clna_explore(int v92g, int ng) {
             break;
         }
     }
+#if CLNA_RLOG
+    // CNR1 <round> <slot> <id> <index> <ref> <chosen> <alpha:hex64> <v92> <nn> <k> {<group>:<q hex64>}*k {<x hex64>}*8
+    // (old logp is reconstructed offline from alpha, q, ref and the chosen group)
+    ++clna_index;
+    clna_round = round;
+    clna_rpos = 0;
+    for (const char* p = "CNR1 "; *p; ++p) clna_rch(*p);
+    clna_rint(round), clna_rch(' '), clna_rint(slot), clna_rch(' '), clna_rint(static_cast<long>(my_id)), clna_rch(' ');
+    clna_rint(clna_index), clna_rch(' '), clna_rint(ref), clna_rch(' '), clna_rint(ug[c]), clna_rch(' ');
+    clna_rdbl(eps), clna_rch(' '), clna_rint(v92g), clna_rch(' '), clna_rint(ng), clna_rch(' '), clna_rint(nu);
+    for (int k = 0; k < nu; ++k) clna_rch(' '), clna_rint(ug[k]), clna_rch(':'), clna_rdbl(uq[k]);
+    for (int i = 0; i < clna_gate::kN; ++i) clna_rch(' '), clna_rdbl(gx[i]);
+    clna_rch('\n'), clna_rch(0);
+    std::fputs(clna_rbuf, stdout);
+    return ug[c];
+#endif
     // Everything below that only serves the log runs inside debug_block: charged log-only work made debug and
     // release play different games (JOHNDOE #63-#65).
     debug_block({
@@ -1209,6 +1252,17 @@ int Bot::clna_explore(int v92g, int ng) {
     return ug[c];
 }
 void Bot::clna_end() {
+#if CLNA_RLOG
+    if (clna_round == round) {  // CNX3 <round> <slot> <id> <index> <executed group>
+        clna_round = -1;
+        clna_rpos = 0;
+        for (const char* p = "CNX3 "; *p; ++p) clna_rch(*p);
+        clna_rint(round), clna_rch(' '), clna_rint(slot), clna_rch(' '), clna_rint(static_cast<long>(my_id)), clna_rch(' ');
+        clna_rint(clna_index), clna_rch(' '), clna_rint(target_group), clna_rch('\n'), clna_rch(0);
+        std::fputs(clna_rbuf, stdout);
+    }
+    return;
+#endif
     debug_block({
         if (clna_round == round) {
             clna_round = -1;

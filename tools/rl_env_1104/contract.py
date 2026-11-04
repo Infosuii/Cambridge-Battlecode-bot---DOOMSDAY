@@ -378,7 +378,7 @@ def validate(man: dict, cols: dict) -> list:
             errs.append(f"row {i}: logp/has_logp mismatch")
         elif hasl[i] == 1 and logp[i] > 1e-6:
             errs.append(f"row {i}: logp {logp[i]} > 0")
-        if xf[i * nf + lay.self_id_index] != body[i]:
+        if man.get("features_logged", True) and xf[i * nf + lay.self_id_index] != body[i]:
             errs.append(f"row {i}: body_id {body[i]} != self-id feature {xf[i * nf + lay.self_id_index]}")
         if ar[i] < fr[i] or (sr[i] >= 0 and sr[i] > fr[i]):
             errs.append(f"row {i}: round order stale {sr[i]} <= feat {fr[i]} <= act {ar[i]} violated")
