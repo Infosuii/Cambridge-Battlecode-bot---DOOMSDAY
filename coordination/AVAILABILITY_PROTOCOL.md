@@ -36,6 +36,9 @@ Check every five minutes. Activity timeout is strictly `now - last_verified_cont
 
 Loss of GitHub/network access is `MONITOR_UNKNOWN`, not evidence every worker is offline. Do not revoke/reallocate on failed or partial reads, missing pagination, an unparseable registry or clock uncertainty. Retry and report a prolonged monitoring failure. Backlogs are processed in server-time order after recovery; a real >30-minute control gap is still handled even if its late heartbeat arrives before the next poll.
 
+
+An unregistered worker known to lack access to the private coordination channel is also MONITOR_UNKNOWN, not an inferred offline controller. Set expiry_eligible=false until a verified direct/relayed control channel is established. In particular, Agent 2 / Iniya is linked to dsds32wed, whose repository permission was checked as none; silence there must not authorize duplicate RL training. Ask for account access or a trustworthy relay, and start its liveness timer from actual registration.
+
 ## Return detection — only after a >30-minute absence
 
 Only workers previously transitioned to UNAVAILABLE_30M are eligible for a return notification. New comments/registered-branch pushes can trigger a challenge; a valid fresh controller READY response establishes `RETURNING`. Short gaps never emit OFFLINE or RETURNED events.
