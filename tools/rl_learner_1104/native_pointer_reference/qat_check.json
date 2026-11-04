@@ -1,0 +1,14 @@
+{
+  "scope": "Exact live consumed-input forward replay plus diagnostic STE gradient; NO RL update or playing-strength claim",
+  "rows": 24,
+  "target_float32_logits_bit_exact": true,
+  "query_folded_pointer_bias_bit_exact": true,
+  "trainable_parameters": 1040,
+  "gradient_norm": 18.974082255894494,
+  "limitations": [
+    "STE is a surrogate gradient, not mathematical derivative through integer rounding.",
+    "Initial master weights reconstructed from quantized header; optimizer state not restored.",
+    "Integer-overflow cases explicitly unsupported/refused.",
+    "Native header export and fresh stochastic complete-game collector still required before training."
+  ]
+}
