@@ -23,6 +23,11 @@ constexpr int kNF = kG + kS + kA * kAW + kE * kEW + kC * kCW + kL * kLW; // 448
 static_assert(kNF == 448, "cl1 layout size");
 constexpr int kOffS = kG, kOffA = kOffS + kS, kOffE = kOffA + kA * kAW, kOffC = kOffE + kE * kEW, kOffL = kOffC + kC * kCW;
 constexpr int kAgeCap = 2000;
+// Charged fuel of one recorder block outside its free window (guard entry/exit and the call), measured with
+// e0_tests.py test 4 against a v92 debug build; refunded inside the block so the recorder's charged cost is zero.
+#ifndef CLRL_REFUND
+#define CLRL_REFUND 12
+#endif
 
 struct Seen {
     std::uint32_t id = 0;
@@ -253,6 +258,7 @@ template <class BotT>
 static void capture(const BotT& b) {
     using namespace clrl;
     debug_block({
+        ::cambc::detail::sdk_fuel_adjust(CLRL_REFUND);
         try {
             encode(b);
             const auto& me = bc::self();
@@ -273,6 +279,7 @@ template <class BotT>
 static void finish(const BotT& b) {
     using namespace clrl;
     debug_block({
+        ::cambc::detail::sdk_fuel_adjust(CLRL_REFUND);
         try {
             const int now = static_cast<int>(bc::round_number());
             if (st.captured) {
