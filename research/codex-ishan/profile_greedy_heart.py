@@ -49,7 +49,7 @@ def cast_sample(phase):
     return f"codex_heart_phase({CAST_PHASES.index(phase)}, round, type);"
 
 
-def instrument_cast(src):
+def instrument_cast(src, target_round):
     apply(src / "bot.cpp", (
         ('#include "bot.h"', f'''#include "bot.h"
 
@@ -58,7 +58,7 @@ static unsigned long long codex_heart_fuel[{len(CAST_PHASES)}];
 static int codex_heart_walked = -1, codex_heart_exclusive = -1;
 
 static void codex_heart_phase(int phase, int round, bc::champion_type type) {{
-    if (round != 232 || type != bc::champion_type::heart_of_ruin) return;
+    if (round != {target_round} || type != bc::champion_type::heart_of_ruin) return;
     codex_heart_round[phase] = bc::round_number();
     codex_heart_fuel[phase] = bc::fuel_remaining();
 }}'''),
@@ -71,10 +71,10 @@ static void codex_heart_phase(int phase, int round, bc::champion_type type) {{
          "    " + cast_sample("strike_before") + "\n    const bool struck = cast_camp_strike(ci);\n    " +
          cast_sample("strike_after") + "\n    if (struck) return true;"),
         ("        int best_hits = 0, best_home = kUnreach;",
-         """        if (round == 232) {
+         f"""        if (round == {target_round}) {{
             codex_heart_walked = walked;
             codex_heart_exclusive = sp.excludes_walk;
-        }
+        }}
         """ + cast_sample("scan_start") + "\n        int best_hits = 0, best_home = kUnreach;"),
         ("        if (best.x < 0 || best_hits <= 0) return false;\n        try {\n            if (bc::self().abilities()[s].use(best)) {",
          "        " + cast_sample("scan_end") + "\n        if (best.x < 0 || best_hits <= 0) return false;\n        try {\n            " +
@@ -176,21 +176,24 @@ def main():
     mode.add_argument("--remaining", action="store_true")
     mode.add_argument("--attack", action="store_true")
     mode.add_argument("--dispatch", action="store_true")
+    mode.add_argument("--remaining-scan", action="store_true")
     args = parser.parse_args()
-    cast, attack = args.cast, args.attack or args.dispatch
-    remaining = args.remaining or attack
-    if cast:
+    cast, attack = args.cast or args.remaining_scan, args.attack or args.dispatch
+    remaining = args.remaining or attack or args.remaining_scan
+    if args.cast:
         OUT = bench.CACHE / "cpg-greedy-heart-cast"
     if remaining:
         OUT = bench.CACHE / "cpg-heart-camp-mask-remaining"
     if attack:
         OUT = bench.CACHE / ("cpg-heart-camp-mask-dispatch" if args.dispatch else "cpg-heart-camp-mask-attack")
+    if args.remaining_scan:
+        OUT = bench.CACHE / "cpg-heart-camp-mask-scan"
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")
     cases = [r for r in source["affected"] if r["arm"] == "full"]
     assert len(cases) == 3 and all(len(r["events"]) == 1 for r in cases)
     assert all(r["events"][0]["owner"]["name"] == "Heart of Ruin" for r in cases)
     reference = source["binaries"]["full"]
-    if cast:
+    if args.cast:
         cases = [r for r in cases if r["events"][0]["timestamp"]["round"] == 232]
     controls = []
     if remaining:
@@ -208,7 +211,8 @@ def main():
     if attack:
         instrument_attack(src, args.dispatch)
     elif cast:
-        instrument_cast(src)
+        (target_round,) = rounds
+        instrument_cast(src, target_round)
     else:
         stages = (*STAGES, "f_camps") if remaining else STAGES
         prepare_coarse(src, rounds, stages)
@@ -231,7 +235,8 @@ def main():
               "seed": SEED, "n": len(rows), "matched": len(matched),
               "phases": [r["cast_phases"] if cast or attack else r["diagnostic"]["examples"] for r in matched],
               "cast_state": [r["cast_state"] for r in matched] if cast else []}
-    name = ("CPG_HEART_CAMP_MASK_DISPATCH.json" if args.dispatch else "CPG_HEART_CAMP_MASK_ATTACK.json" if attack else
+    name = ("CPG_HEART_CAMP_MASK_SCAN.json" if args.remaining_scan else
+            "CPG_HEART_CAMP_MASK_DISPATCH.json" if args.dispatch else "CPG_HEART_CAMP_MASK_ATTACK.json" if attack else
             "CPG_HEART_CAMP_MASK_REMAINING.json" if remaining else
             "CPG_GREEDY_HEART_CAST.json" if cast else "CPG_GREEDY_HEART_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
