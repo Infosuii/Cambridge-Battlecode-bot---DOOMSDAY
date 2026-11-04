@@ -243,6 +243,9 @@ void World::prelabel_bushes(std::uint64_t floor) {
 }
 #endif
 
+#if JD_GOVLOG
+unsigned jd_bush_deferred = 0; // JD_GOV bit 4: lookups that met an unfinished (resumable) cluster labelling
+#endif
 int World::bush_cluster(vec2 p) {
     if (p.x < 0 || p.y < 0 || p.x >= width || p.y >= height || !bit(bushes, p)) return -1;
 #if X1_BUSHPRE
@@ -256,7 +259,12 @@ int World::bush_cluster(vec2 p) {
             pre_push(p);
             pre_step(lazy);
         }
-        if (!bit(bush_labeled, p)) return -1;
+        if (!bit(bush_labeled, p)) {
+#if JD_GOVLOG
+            ++jd_bush_deferred;
+#endif
+            return -1;
+        }
     }
 #endif
     if (!bit(bush_labeled, p)) {

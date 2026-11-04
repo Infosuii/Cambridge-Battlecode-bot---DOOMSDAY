@@ -722,9 +722,14 @@ bool ml_draft_pick(std::uint32_t size) {
             }
             if (z > plan_z) plan_z = z, plan = k;
         }
+#if JD_MEM
+        const std::uint8_t mlb = static_cast<std::uint8_t>(0x80 | plan);
+        jd_draft_submit(jdmem::kMlPlan, &mlb, 1); // byte 7 only: keeps the header and an A2_DPLAN plan
+#else
         std::vector<std::uint8_t> mem(8, 0);
         mem[7] = static_cast<std::uint8_t>(0x80 | plan);
         bc::draft_memory = mem;
+#endif
     }
 #endif
     return true;
@@ -902,9 +907,14 @@ void play_draft() {
     try {
         const auto& plan = team_plan_bytes(size);
         if (!plan.empty() && 8 + plan.size() <= bc::constants::draft_memory_bytes) {
+#if JD_MEM
+            // Plan region from byte 8 only: the 8 zero bytes the plain write puts first erased the ML plan byte 7.
+            jd_draft_submit(jdmem::kDPlan, reinterpret_cast<const std::uint8_t*>(plan.data()), plan.size());
+#else
             std::vector<std::uint8_t> all(8, 0);
             all.insert(all.end(), plan.begin(), plan.end());
             bc::draft_memory = all;
+#endif
         }
     } catch (...) {
     }

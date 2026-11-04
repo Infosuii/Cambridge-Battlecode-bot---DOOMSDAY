@@ -295,8 +295,24 @@ def hist_pct(h, p):
 
 def cmd_prof(a):
     agg = {}
+    sus_trails, sus_at = [], collections.Counter()
     for c, g, st, rp in run_games(a.run):
+        if a.map and c['map'] != a.map:
+            continue
         for ln in stdout_lines(rp, c['side']):
+            if ln.startswith('JDSUS'):
+                # the interval that crossed: from the mark before the first '*' reading to it
+                head, _, body = ln.partition(':')
+                marks = body.split()
+                for i, mk in enumerate(marks):
+                    if mk.endswith('*'):
+                        prev = marks[i - 1].split('=')[0] if i else '?'
+                        key = f'{prev}->{mk.split("=")[0]}'
+                        sus_at[key] += 1
+                        break
+                if len(sus_trails) < 60:
+                    sus_trails.append(dict(game=g, map=c['map'], line=ln[:600]))
+                continue
             m = JDPF.match(ln)
             if not m:
                 continue
@@ -327,9 +343,14 @@ def cmd_prof(a):
                     sus += v >= b
         pert[arm] = dict(summ(vals), suspensions=sus, engine_fuel_exhausted=ex)
     b = load_bench()
-    b['stages'] = dict(run=a.run, note='1k-fuel histogram percentiles (upper bin edge); "stage*" rows aggregate names; '
-                       'value = fuel from the previous checkpoint to this one', rows=rows, perturbation=pert)
+    if 'rows' in b.get('stages', {}):
+        b['stages'] = {}
+    b.setdefault('stages', {})[a.run + (':' + a.map if a.map else '')] = dict(
+        note='1k-fuel histogram percentiles (upper bin edge); "stage*" rows aggregate names; '
+             'value = fuel from the previous checkpoint to this one', rows=rows, perturbation=pert,
+        suspended_trails=sus_trails[:60], suspended_at=dict(sus_at.most_common(25)))
     save_bench(b)
+    print('suspended at (last mark before the new budget):', sus_at.most_common(15))
     for r in rows:
         if r['name'].endswith('*') or r['name'] == 'TURN':
             print(json.dumps(r))
@@ -343,6 +364,7 @@ def main():
         p = sp.add_parser(n)
         p.add_argument('--run', required=True)
         p.add_argument('--arm', default='cand')
+        p.add_argument('--map', default='', help='prof: only this map')
         p.set_defaults(fn=f)
     a = ap.parse_args()
     a.fn(a)

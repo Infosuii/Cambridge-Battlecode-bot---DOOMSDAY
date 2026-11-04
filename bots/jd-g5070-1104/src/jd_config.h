@@ -12,13 +12,39 @@
 #ifndef JD_FUELPROBE
 #define JD_FUELPROBE 0
 #endif
-// JD_GOV: whole-turn fuel reservations in runtime_budget.h (FEAT-002).
+// JD_GOV: whole-turn fuel reservations in runtime_budget.h (FEAT-002), bits for the three stages the baseline profile
+// caught suspending (FUEL_BENCH.md): 1 = group-field order preparation admitted only with room for a full field
+// (first champion turn on 98x98 maps: every body suspended), 2 = siege line-of-sight table initialisation admitted
+// only with its worst case plus the execute and tail reservations (fallback: the unfiltered siege ring this turn),
+// 4 = resumable bush-cluster labelling (the existing X1_BUSHPRE mechanism, floor 50k: an unfinished cluster reads as
+// unknown and resumes next turn; ward_reveal labelled ~72k in one go).
 #ifndef JD_GOV
 #define JD_GOV 0
+#endif
+#if (JD_GOV & 4) && !defined(X1_BUSHPRE)
+#define X1_BUSHPRE 50
+#endif
+// JD_GOVLOG: diagnostic governor trigger counters (JDGOV lines every 100 rounds).
+#ifndef JD_GOVLOG
+#define JD_GOVLOG 0
 #endif
 // JD_MEM: shared-word / draft-buffer codec and region ownership (FEAT-002).
 #ifndef JD_MEM
 #define JD_MEM 0
+#endif
+// Memory fixes proven by tools/jd_g5070-1104/tests/mem_test.cpp (each its own switch; MEMORY_SCHEMA.md):
+// JD_EVTONCE = N: apply each distinct respawn-event word once per reader and reject decodes more than N rounds ahead
+// (an unchanged event read again after 64+ rounds decodes as a phantom future respawn, up to 191 rounds ahead).
+#ifndef JD_EVTONCE
+#define JD_EVTONCE 0
+#endif
+// JD_SIGHTAGE: an unchanged enemy sighting keeps ageing on the reader's clock (mod-64 age made it fresh again).
+#ifndef JD_SIGHTAGE
+#define JD_SIGHTAGE 0
+#endif
+// JD_MEMLOG: diagnostic trigger counters for JD_EVTONCE / JD_SIGHTAGE (JDMEM lines every 250 rounds).
+#ifndef JD_MEMLOG
+#define JD_MEMLOG 0
 #endif
 // JD_NN: neural actor runtime (FEAT-003); JD_NN_EVENT: event-driven inference cadence.
 #ifndef JD_NN

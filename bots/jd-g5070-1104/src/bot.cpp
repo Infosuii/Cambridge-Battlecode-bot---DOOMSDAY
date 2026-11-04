@@ -592,6 +592,15 @@ void Bot::refresh_self() {
 bool Bot::spell_ready(int s) const { return spells[s].present && cooldown[s] == 0 && !cast_done; }
 
 // ---------------------------------------------------------------- shared memory
+#if JD_MEM || JD_EVTONCE || JD_SIGHTAGE
+#include "jd_mem.h"
+namespace jdmemrt {
+inline jdmem::EventOnce evt;
+inline jdmem::SightClock sight;
+inline int evt_ready = -1;                                             // ready round of the last accepted event
+inline unsigned evt_phantoms = 0, sight_phantoms = 0, evt_horizon = 0; // JD_MEMLOG trigger counters
+} // namespace jdmemrt
+#endif
 
 std::uint64_t Bot::read_shared() const {
     std::uint64_t v = 0;
@@ -614,8 +623,12 @@ void Bot::write_claim(int group, bool onsite) {
 #else
     (void)onsite;
 #endif
+#if JD_MEM
+    v = jdmem::set_code(v, slot, code);
+#else
     v &= ~(kClaimMask << (slot * kClaimBits));
     v |= code << (slot * kClaimBits);
+#endif
     bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&v, 1});
     shared = v;
     decode_claims();
@@ -642,8 +655,12 @@ void Bot::decode_claims() {
 void Bot::unmark_onsite() {
     if (slot >= kClaimSlots || !claim_onsite(slot)) return;
     std::uint64_t v = read_shared();
+#if JD_MEM
+    v = jdmem::set_code(v, slot, static_cast<std::uint64_t>(claim_cache[static_cast<std::size_t>(slot)]));
+#else
     v &= ~(kClaimMask << (slot * kClaimBits));
     v |= static_cast<std::uint64_t>(claim_cache[static_cast<std::size_t>(slot)]) << (slot * kClaimBits);
+#endif
     bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&v, 1});
     shared = v;
     decode_claims();
@@ -663,8 +680,12 @@ void Bot::mark_onsite(int group) {
 void Bot::write_order(int code) {
     if (slot >= kClaimSlots) return;
     std::uint64_t v = read_shared();
+#if JD_MEM
+    v = jdmem::set_code(v, slot, static_cast<std::uint64_t>(code));
+#else
     v &= ~(kClaimMask << (slot * kClaimBits));
     v |= (static_cast<std::uint64_t>(code) & kClaimMask) << (slot * kClaimBits);
+#endif
     bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&v, 1});
     shared = v;
     decode_claims();
@@ -684,17 +705,26 @@ void Bot::share_sighting(bool call_for_help) {
         if (age < 0) age += kSightRoundMask + 1;
         if (age <= 2) return;
     }
+#if JD_MEM
+    v = jdmem::set_sighting(v, best->pos.x, best->pos.y, round, call_for_help);
+#else
     v &= (std::uint64_t{1} << kSightX) - 1;
     v |= static_cast<std::uint64_t>(best->pos.x & 127) << kSightX;
     v |= static_cast<std::uint64_t>(best->pos.y & 127) << kSightY;
     v |= static_cast<std::uint64_t>(round & kSightRoundMask) << kSightRound;
     if (call_for_help) v |= std::uint64_t{1} << kDistressBit;
+#endif
     bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&v, 1});
     shared = v;
     decode_claims();
 }
 
 void Bot::read_sighting() {
+#if JD_MEMLOG
+    if (round % 50 == 0)
+        std::printf("JDMEM R%d s%d evt_phantom %u evt_horizon %u sight_phantom %u\n", round, slot, jdmemrt::evt_phantoms,
+            jdmemrt::evt_horizon, jdmemrt::sight_phantoms);
+#endif
 #if APEX_EVENTS
     if ((shared >> 63) & 1) {
         // A teammate's group event: group (7 bits) and its respawn-ready round mod 256 (8 bits).
@@ -708,6 +738,22 @@ void Bot::read_sighting() {
         // after its clear: a later ready round is a stale message, not a future respawn.
         if (ready > round + X1_RESPAWNFIX) return;
 #endif
+#if JD_EVTONCE
+        // JD_EVTONCE (mem_test test_event_phantom): the same unchanged event word re-read every turn wraps after 64
+        // rounds into a phantom future respawn. Apply each distinct event once; reject decodes past the horizon.
+        {
+            const bool repeat = jdmemrt::evt.have && (shared & jdmem::kTopField) == jdmemrt::evt.last;
+            if (!jdmemrt::evt.accept(shared, round, JD_EVTONCE)) {
+#if JD_MEMLOG
+                if (repeat && ready > round && ready != jdmemrt::evt_ready) ++jdmemrt::evt_phantoms;
+                if (!repeat) ++jdmemrt::evt_horizon;
+#endif
+                (void)repeat;
+                return;
+            }
+            jdmemrt::evt_ready = ready;
+        }
+#endif
         w.apply_event(gi, ready, round);
         return;
     }
@@ -716,6 +762,16 @@ void Bot::read_sighting() {
     if ((shared >> kSightX) == 0) return; // nothing published yet
     int age = (round & kSightRoundMask) - r;
     if (age < 0) age += kSightRoundMask + 1;
+#if JD_SIGHTAGE
+    {
+        // JD_SIGHTAGE (mem_test test_sighting_age_wrap): an unchanged sighting keeps ageing on our clock.
+        const int true_age = jdmemrt::sight.age(shared, round);
+#if JD_MEMLOG
+        if (age <= 10 && true_age > 10) ++jdmemrt::sight_phantoms;
+#endif
+        age = true_age;
+    }
+#endif
     if (age > 10) return;
     const vec2 p{static_cast<int>((shared >> kSightX) & 127), static_cast<int>((shared >> kSightY) & 127)};
     if (p.x < w.width && p.y < w.height) {
@@ -5367,6 +5423,14 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 static std::vector<std::uint8_t> los_ready;
                 static std::vector<std::uint8_t> opq;
                 static int opq_w = 0, opq_h = 0;
+#if JD_GOV & 2
+                // JD_GOV bit 2: the opacity table is built once per VM (~6.75 fuel per map tile: 65k on 98x98, where it
+                // suspended mid-siege). Admit it only with its worst case plus the execute and tail reservations;
+                // refused, this turn uses the unfiltered ring (the same tiles as when no camp's sight table is ready).
+                if (opq.empty() && !rb::admit_optional(rb::kSiegeInit, 7ull * static_cast<std::uint64_t>(w.width * w.height) + 3000)) {
+                    ring &= ~danger_zone & ~w.static_blocked;
+                } else {
+#endif
                 if (opq.empty()) {
                     opq_w = bc::map::width(); opq_h = bc::map::height();
                     opq.assign(static_cast<std::size_t>(opq_w * opq_h), 0);
@@ -5412,6 +5476,9 @@ bool Bot::fight_camps(GroupRec& g, int need) {
                 ring &= ~danger_zone & ~w.static_blocked;
                 bc::bitboard seeing = ring & any;
                 if (!seeing.is_empty() && (complete || !X1_SIEGE_STRICT)) ring = seeing; // a partial union keeps only tiles that see a live camp (audit B04)
+#if JD_GOV & 2
+                }
+#endif
             }
             if (false) {
 #else
@@ -7171,7 +7238,15 @@ void Bot::build_fields() {
         };
         if (!w.altar_ready && quota > 0 && room()) w.ensure_altar_field(), --quota;
         if ((tune::kTerritory < 1.0f || HOME_SIDE || tune::kNumbersInvade < 99) && !w.enemy_ready && quota > 0 && room()) w.ensure_enemy_field(), --quota;
+#if JD_GOV & 1
+        // JD_GOV bit 1: the order preparation (groups x camps distance lookups and a sort; ~20k on 98x98 maps, where
+        // it suspended every body's first turn) runs only with room for a full field plus the tail reservation; the
+        // loop below needs the order, so a refused preparation simply waits for a turn with room.
+        if (!w.fields_ready() && quota > 0 && w.field_order.empty() && rb::admit(rb::kFieldOrder, full, rb::kReserve.tail))
+            w.prepare_field_order();
+#else
         if (!w.fields_ready() && quota > 0) w.prepare_field_order();
+#endif
         while (!w.fields_ready() && quota > 0 && !w.field_order.empty() && room()) {
             PROF(field);
             if (!w.build_next_group_field(full)) return;
@@ -7203,6 +7278,9 @@ void Bot::play_turn() {
 #if JD_FUELPROF
     a2tel::jdpf::Guard jd_guard;
     a2tel::jdpf::who = static_cast<int>(type);
+#endif
+#if JD_GOV
+    rb::begin_turn();
 #endif
 #ifdef APEX_FUEL_NOISE
     {
@@ -8126,16 +8204,23 @@ void Bot::play_turn() {
         if (!((v >> 63) & 1) && (v >> kSightX) != 0) {
             int age = (round & kSightRoundMask) - static_cast<int>((v >> kSightRound) & kSightRoundMask);
             if (age < 0) age += kSightRoundMask + 1;
+#if JD_SIGHTAGE
+            age = jdmemrt::sight.age(v, round); // a wrapped old sighting must not block the event
+#endif
             fresh_sighting = age <= (APEX_EVENTS >= 2 ? 11 : 4); // v2: never overwrite a sighting teammates still use (<= 10)
         }
         if (!fresh_sighting) {
             const int gi = w.pending_events.back();
             w.pending_events.pop_back();
             if (gi < 127) {
+#if JD_MEM
+                v = jdmem::set_event(v, gi, w.groups[static_cast<std::size_t>(gi)].respawn_round);
+#else
                 v &= (std::uint64_t{1} << kSightX) - 1;
                 v |= static_cast<std::uint64_t>(gi) << kSightX;
                 v |= static_cast<std::uint64_t>(w.groups[static_cast<std::size_t>(gi)].respawn_round & 255) << kSightY;
                 v |= std::uint64_t{1} << 63;
+#endif
                 bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&v, 1});
                 shared = v;
                 decode_claims();
@@ -8145,6 +8230,9 @@ void Bot::play_turn() {
     if (w.pending_events.size() > 8) w.pending_events.erase(w.pending_events.begin());
 #endif
     PROF_CHECK("events");
+#if JD_GOV
+    rb::enter(rb::kDecide);
+#endif
     if (bit(w.ally_spawn, pos) || type == bc::champion_type::tavi) {
         shop();
         refresh_emblems();
@@ -8295,6 +8383,18 @@ void Bot::play_turn() {
                 mic_can_attack0 ? 1 : 0, me.can_attack() ? 1 : 0, walked ? 1 : 0, al3, en3, gems,
                 ne ? static_cast<int>(ne->type) : -1);
         }
+    }
+#endif
+#if JD_GOV
+    rb::enter(rb::kTail);
+#endif
+#if JD_GOVLOG
+    if (round % 100 == 0) {
+        std::printf("JDGOV R%d t%d", round, static_cast<int>(type));
+        for (int s = 0; s < rb::kStages; ++s)
+            if (rb::ran[s] || rb::skipped[s]) std::printf(" %s %u/%u", rb::kStageName[s], rb::ran[s], rb::skipped[s]);
+        extern unsigned jd_bush_deferred;
+        std::printf(" bush_deferred %u\n", jd_bush_deferred);
     }
 #endif
     drop_ward();

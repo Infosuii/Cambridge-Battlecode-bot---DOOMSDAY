@@ -1,5 +1,8 @@
 // V58_DIRECTOR: repeated shared jobs, with a bounded coordinator and local assignment caches.
 #include "bot.h"
+#if JD_MEM
+#include "jd_mem_bc.h"
+#endif
 
 #if V58_DIRECTOR
 void economy_record_roster() {
@@ -13,6 +16,10 @@ void economy_record_roster() {
             if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(bc::champion_type::issac);
         } else if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(pick >= 4 ? pick + 1 : pick);
     }
+#if JD_MEM
+    jd_draft_submit(jdmem::kRoster, roster.data(), roster.size());
+    return;
+#endif
     // The SDK only submits a prefix. Read the current host bytes (not the startup snapshot) to preserve this turn's plan.
     std::array<std::uint8_t, 1016> memory{};
     bc::detail::check(bc::detail::sdk_read_draft_memory(0, memory.data(), static_cast<std::uint32_t>(memory.size())));

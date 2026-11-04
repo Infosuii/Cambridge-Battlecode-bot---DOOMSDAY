@@ -1,5 +1,5 @@
+#include "jd_config.h" // jd-g5070-1104 experiment flags (all default 0 = v92); first, so JD switches can set X1 flags
 #include "x1_config.h" // x1 experiment flags (default 0 = v81hl)
-#include "jd_config.h" // jd-g5070-1104 experiment flags (all default 0 = v92)
 // LADDER_TABLES: on recognised current ladder maps use the user's bot's per-map lineup and strategy profile (ext's
 // V70_DRAFT_TABLE / V71_MAP_KNOBS); LADDER_HOME: keep the home side on those maps (0 = off there).
 #ifndef LADDER_TABLES
@@ -1482,7 +1482,7 @@ struct Pt {
     const char* where;
     std::uint64_t fuel;
 };
-inline constexpr int kPts = 80;
+inline constexpr int kPts = 160;
 inline Pt pts[kPts], pending[kPts];
 inline int npts = 0, npending = 0;
 inline bool pending_first = false;
@@ -1506,7 +1506,7 @@ inline void record(const Pt* t, int n, bool first, bool crossed_turn) {
 }
 // Emitting is chunked: every 100 rounds a dump starts, and each turn that ends with 40k fuel left writes at most
 // kPerTurn entries (hand-formatted, one fwrite) and clears them, until the table is empty.
-inline constexpr int kPerTurn = 12;
+inline constexpr int kPerTurn = 6;
 inline int cursor = -1; // next slot to emit, -1 = no dump in progress
 inline void dump(std::uint32_t round, int who) {
     if (cursor < 0) {
@@ -1517,7 +1517,8 @@ inline void dump(std::uint32_t round, int who) {
     if (bc::fuel_remaining() < 40000) return;
     char* p = dump_buf;
     int emitted = 0;
-    for (; cursor < kSlots && emitted < kPerTurn; ++cursor) {
+    // An entry costs ~3-5k fuel to format: stop while 25k are still left (measured: 12 entries could suspend).
+    for (; cursor < kSlots && emitted < kPerTurn && bc::fuel_remaining() > 25000; ++cursor) {
         Stat& s = stats[cursor];
         if (!s.name) continue;
         p = put_s(p, "JDPF R"), p = put_u(p, round), p = put_s(p, " t"), p = put_u(p, static_cast<std::uint64_t>(who));
@@ -1554,6 +1555,17 @@ struct Guard {
         } else if (crossed) {
             record(pts, npts, turns == 0, true);
             ++turns;
+            // The suspended turn's trail (we are on a fresh budget now): JDSUS R<round> t<type> n<marks>: name=fuel ...
+            // with '*' after the first reading of the new budget.
+            char* p = dump_buf;
+            p = put_s(p, "JDSUS R"), p = put_u(p, round0), p = put_s(p, " t"), p = put_u(p, static_cast<std::uint64_t>(who));
+            p = put_s(p, " n"), p = put_u(p, static_cast<std::uint64_t>(npts)), *p++ = ':';
+            for (int i = 0; i < npts; ++i) {
+                *p++ = ' ', p = put_s(p, pts[i].where), *p++ = '=', p = put_u(p, pts[i].fuel);
+                if (i > 0 && pts[i].fuel > pts[i - 1].fuel) *p++ = '*';
+            }
+            *p++ = '\n';
+            std::fwrite(dump_buf, 1, static_cast<std::size_t>(p - dump_buf), stdout);
         } else {
             for (int i = 0; i < npts; ++i) pending[i] = pts[i];
             npending = npts, pending_first = turns == 0;

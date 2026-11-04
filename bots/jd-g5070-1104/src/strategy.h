@@ -5,6 +5,9 @@
 // overrides the bot plays exactly as before. tools/search.py tunes the APEX_C<k>_* and adaptation macros.
 #pragma once
 #include "common.h"
+#if JD_MEM
+#include "jd_mem_bc.h"
+#endif
 
 #ifndef APEX_BRAIN
 #define APEX_BRAIN 0
@@ -418,6 +421,15 @@ inline void record_draft(unsigned team_size, int max_group = 0, unsigned flags =
     const std::uint8_t cl8 = static_cast<std::uint8_t>(cls), ts8 = static_cast<std::uint8_t>(team_size),
         cs8 = static_cast<std::uint8_t>(std::min(casters, 255)), mg8 = static_cast<std::uint8_t>(std::min(std::max(max_group, 0), 255)),
         fl8 = static_cast<std::uint8_t>(flags & 3);
+#if JD_MEM
+    {
+        // Brain region 0-5 through the owner/merge (same bytes as below; other regions keep their current host bytes).
+        const std::array<std::uint8_t, 6> mem{kMagic, ts8, cs8, cl8, mg8, fl8};
+        const std::size_t n = std::min<std::size_t>(bc::constants::draft_memory_bytes, 6);
+        if (n >= 4) jd_draft_submit(jdmem::kBrain, mem.data(), n);
+        return;
+    }
+#endif
     if (bc::constants::draft_memory_bytes >= 6) {
         const std::array<std::uint8_t, 6> mem{kMagic, ts8, cs8, cl8, mg8, fl8};
         bc::draft_memory = mem;
