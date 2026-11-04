@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T03:23:30.844Z",
+  "updated_at": "2026-11-04T03:33:30.876Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 12,
+      "seq": 13,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:18:54Z",
+      "last_control_at": "2026-11-04T03:28:52Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621606257,
+      "last_control_comment_id": 6621748710,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 11,
+      "seq": 12,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:22:36Z",
+      "last_control_at": "2026-11-04T03:32:32Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,7 +51,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621658379,
+      "last_control_comment_id": 6621800500,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -218,8 +218,15 @@
       "session": "builder-g5070-1104-20261104-0105",
       "comment_id": 6620425743,
       "at": "2026-11-04T01:55:30Z"
+    },
+    {
+      "id": "challenge:builder-g5070-1104:6621477578",
+      "type": "CHALLENGE",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T03:33:43Z",
+      "nonce": "avail-333-6621477578"
     }
   ],
   "note": "Builder and Claude adopted; current sessions bound to epoch1 tasks. Agent2 remains MONITOR_UNKNOWN without a control channel. No expiry/reassignment.",
-  "last_complete_check_at": "2026-11-04T03:23:30.844Z"
+  "last_complete_check_at": "2026-11-04T03:33:30.876Z"
 }
