@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T11:50:58Z",
+  "updated_at": "2026-11-04T13:01:55Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -19,7 +19,7 @@
       ],
       "session": "johndoe-rl-design-20261104-1139",
       "seq": 3,
-      "state": "WAITING",
+      "state": "UNAVAILABLE_30M",
       "protocol_ack": true,
       "last_control_at": "2026-11-04T11:50:58Z",
       "capabilities": [
@@ -28,7 +28,7 @@
         "ideation"
       ],
       "free_capacity": 1,
-      "requires_new_assignment": false,
+      "requires_new_assignment": true,
       "last_control_comment_id": 6629852131,
       "checkpoint": "51d61696cb6d5dc555869dc2f8f00d34f84d9a43",
       "expiry_eligible": true,
@@ -39,7 +39,8 @@
           "retired_at": "2026-11-04T11:40:01Z"
         }
       ],
-      "branch": "johndoe/rl-belief-design-1104"
+      "branch": "johndoe/rl-belief-design-1104",
+      "unavailable_since": "2026-11-04T13:01:55Z"
     },
     "claude": {
       "accounts": [
@@ -369,10 +370,10 @@
     },
     {
       "id": "rl-strategy-design-1104",
-      "owner": "johndoe",
-      "owner_session": "johndoe-rl-design-20261104-1139",
-      "epoch": 1,
-      "state": "WAITING_REVIEW",
+      "owner": null,
+      "owner_session": null,
+      "epoch": 2,
+      "state": "READY_UNASSIGNED",
       "requires": [
         "review",
         "ideation"
@@ -385,7 +386,10 @@
       "research_handoff_comment_id": 6629852131,
       "review_requested_from": "R1shik123",
       "review_request_comment_id": 6629770123,
-      "blocker": "R1shik123 new-session READY/review and verified compute access pending; no heavy-run owner assigned."
+      "blocker": "R1shik123 new-session READY/review and verified compute access pending; no heavy-run owner assigned.",
+      "previous_owner": "johndoe",
+      "previous_owner_session": "johndoe-rl-design-20261104-1139",
+      "transition_id": "expire:johndoe:6629852131"
     }
   ],
   "events": [
@@ -583,6 +587,18 @@
       "task": "rl-strategy-design-1104",
       "epoch": 1,
       "comment_id": 6629852131
+    },
+    {
+      "id": "expire:johndoe:6629852131",
+      "type": "EXPIRY",
+      "agent": "johndoe",
+      "session": "johndoe-rl-design-20261104-1139",
+      "at": "2026-11-04T13:01:55Z",
+      "last_control_at": "2026-11-04T11:50:58Z",
+      "affected_tasks": [
+        "rl-strategy-design-1104"
+      ],
+      "note": "Process late activity gap before fresh implementation dispatch. Research artifact preserved; old epoch not reclaimed."
     }
   ],
   "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
