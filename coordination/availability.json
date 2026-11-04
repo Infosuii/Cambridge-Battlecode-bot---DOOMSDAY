@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T16:07:34Z",
+  "updated_at": "2026-11-04T16:07:39Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -17,11 +17,11 @@
       "accounts": [
         "johndoe123983"
       ],
-      "session": "johndoe-rl-learner-e2-20261104-1418",
-      "seq": 2,
-      "state": "UNAVAILABLE_30M",
+      "session": "johndoe-rl-learner-e3-20261104-1606",
+      "seq": 1,
+      "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T14:17:11Z",
+      "last_control_at": "2026-11-04T16:07:39Z",
       "capabilities": [
         "coordination",
         "review",
@@ -31,9 +31,9 @@
         "kaggle-operation"
       ],
       "free_capacity": 0,
-      "requires_new_assignment": true,
-      "last_control_comment_id": 6632974681,
-      "checkpoint": "e16b76ab05a62ef556e494c331bbf713d771de03",
+      "requires_new_assignment": false,
+      "last_control_comment_id": 6635561957,
+      "checkpoint": "bebbc20b5f17d6ef84a3410537ebcaaf974d86c6",
       "expiry_eligible": true,
       "retired_sessions": [
         {
@@ -50,9 +50,14 @@
           "session": "johndoe-rl-implementation-20261104-1302",
           "last_seq": 2,
           "retired_at": "2026-11-04T14:16:47Z"
+        },
+        {
+          "session": "johndoe-rl-learner-e2-20261104-1418",
+          "last_seq": 3,
+          "retired_at": "2026-11-04T16:07:39Z"
         }
       ],
-      "branch": "johndoe/rl-belief-design-1104",
+      "branch": "johndoe/rl-learner-e3-1104",
       "unavailable_since": "2026-11-04T15:40:43Z",
       "last_substantive_at": "2026-11-04T15:10:42Z"
     },
@@ -419,23 +424,23 @@
     },
     {
       "id": "rl-learner-integration-1104",
-      "owner": null,
-      "owner_session": null,
+      "owner": "johndoe",
+      "owner_session": "johndoe-rl-learner-e3-20261104-1606",
       "epoch": 3,
-      "state": "READY_UNASSIGNED",
+      "state": "ASSIGNED_PENDING_ACK",
       "requires": [
         "implementation",
         "light-build"
       ],
-      "branch": "johndoe/rl-belief-design-1104",
+      "branch": "johndoe/rl-learner-e3-1104",
       "checkpoint": "bebbc20b5f17d6ef84a3410537ebcaaf974d86c6",
       "platform_sensitive": false,
       "scope": "Independent learner/preprocessing/BC and own-policy PPO integration, local Mac and Kaggle; Azure paused",
       "previous_owner": "johndoe",
       "previous_owner_session": "johndoe-rl-learner-e2-20261104-1418",
       "transition_id": "expire:johndoe:6634227330",
-      "run_namespace": "jd-cl1-e2",
-      "assignment_id": "assign:johndoe:6632965722:e2",
+      "run_namespace": "jd-cl1-e3",
+      "assignment_id": "assign:johndoe:6635561957:e3",
       "ack_comment_id": 6632974681
     },
     {
@@ -732,6 +737,15 @@
         "rl-learner-integration-1104"
       ],
       "note": "Verified >30m public controller gap before16:05 return; preserve completed learner and imported checkpoint. No process running, old epoch not reclaimed."
+    },
+    {
+      "id": "assign:johndoe:6635561957:e3",
+      "type": "REGISTRATION_AND_NEW_ASSIGNMENT",
+      "agent": "johndoe",
+      "session": "johndoe-rl-learner-e3-20261104-1606",
+      "at": "2026-11-04T16:07:39Z",
+      "task": "rl-learner-integration-1104",
+      "epoch": 3
     }
   ],
   "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
