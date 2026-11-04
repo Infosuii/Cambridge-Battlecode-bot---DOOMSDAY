@@ -80,7 +80,7 @@ def build_trace(directory, rounds, phase=None):
     condition = " || ".join(f"round == {rnd}" for rnd in rounds)
     if phase == "farm":
         instrument_farm(src, condition)
-    elif phase == "farm-state":
+    elif phase in ("farm-state", "bank"):
         marker = 'PROF_CHECK("d_farm");'
         apply(src / "bot.cpp", ((marker, marker + f'''
         if (({condition}) && type == bc::champion_type::heart_of_ruin && static_cast<int>(bc::round_number()) != round) {{
@@ -90,6 +90,42 @@ def build_trace(directory, rounds, phase=None):
             std::printf("CODEX_PATH_MODE %d %s %d %d %d %d\\n", round, mode, target_group, state,
                         force_tribute, ward_refreshed_this_turn);
         }}'''),))
+        if phase == "bank":
+            original = """                } else {
+                    safe_field.compute_to(blocked, ring, single(pos), visited);
+                }
+#else
+                safe_field.compute_to(blocked, ring, single(pos), visited);"""
+            apply(src / "bot.cpp", (
+                ('#include "bot.h"', '''#include "bot.h"
+
+static int codex_mixed_bank_source;
+static unsigned codex_mixed_bank_before_round, codex_mixed_bank_after_round;
+static unsigned long long codex_mixed_bank_before, codex_mixed_bank_after;'''),
+                (original, f'''                }} else {{
+                    const bool sample = ({condition}) && type == bc::champion_type::heart_of_ruin;
+                    if (sample) {{
+                        codex_mixed_bank_source = round;
+                        codex_mixed_bank_before_round = bc::round_number();
+                        codex_mixed_bank_before = bc::fuel_remaining();
+                    }}
+                    safe_field.compute_to(blocked, ring, single(pos), visited);
+                    if (sample) {{
+                        codex_mixed_bank_after_round = bc::round_number();
+                        codex_mixed_bank_after = bc::fuel_remaining();
+                    }}
+                }}
+#else
+                safe_field.compute_to(blocked, ring, single(pos), visited);'''),
+                ('                        force_tribute, ward_refreshed_this_turn);',
+                 f'''                        force_tribute, ward_refreshed_this_turn);
+            if (codex_mixed_bank_source == round) {{
+                std::printf("CODEX_PATH_FARM %d %d %u %llu\\n", round, {trace.FARM_PHASES.index('safe_before')},
+                            codex_mixed_bank_before_round, codex_mixed_bank_before);
+                std::printf("CODEX_PATH_FARM %d %d %u %llu\\n", round, {trace.FARM_PHASES.index('safe_after')},
+                            codex_mixed_bank_after_round, codex_mixed_bank_after);
+            }}'''),
+            ))
     elif phase:
         marker = f'PROF_CHECK("{phase}");'
         apply(src / "bot.cpp", ((marker, marker + f'''
@@ -108,6 +144,7 @@ def main():
     mode.add_argument("--single-boundaries", action="store_true")
     mode.add_argument("--farm", action="store_true")
     mode.add_argument("--farm-state", action="store_true")
+    mode.add_argument("--bank", action="store_true")
     args = parser.parse_args()
     single, farm = args.single_boundaries, args.farm
     frozen = read(HERE / "CPG_POST_WARD_MIXED_STRESS.json")
@@ -133,6 +170,10 @@ def main():
         phases = ("farm-state",)
         paths = {"farm-state": bench.CACHE / "post-ward-mixed-heart-farm-state"}
         binaries = [build_trace(paths["farm-state"], rounds, "farm-state")]
+    elif args.bank:
+        phases = ("bank",)
+        paths = {"bank": bench.CACHE / "post-ward-mixed-heart-bank"}
+        binaries = [build_trace(paths["bank"], rounds, "bank")]
     else:
         phases = ("coarse",)
         paths = {"coarse": OUT}
@@ -142,10 +183,11 @@ def main():
         bench.OUT = trace.OUT = paths[phase]
         row = trace.play((case, mp, wasm))
         rows[phase] = {"diagnostic": bench.digest(wasm),
-                       "matches": {r["round"]: (r["fuel"] if farm else r["mode"] if args.farm_state else r["phases"])
+                       "matches": {r["round"]: (r["fuel"] if farm or args.bank else r["mode"] if args.farm_state else r["phases"])
                                    for r in row["checks"] if r["matched"]}, "row": row}
     report = {"engine": bench.ENGINE, "reference": frozen["wasm"], "seed": COMPILED_SEED}
     name = ("CPG_POST_WARD_MIXED_HEART_BOUNDARIES.json" if single else
+            "CPG_POST_WARD_MIXED_HEART_BANK.json" if args.bank else
             "CPG_POST_WARD_MIXED_HEART_FARM_STATE.json" if args.farm_state else
             "CPG_POST_WARD_MIXED_HEART_FARM.json" if farm else "CPG_POST_WARD_MIXED_HEART_TRACE.json")
     result = {**report, "boundaries": rows} if single else {**report, **rows[phases[0]]}
