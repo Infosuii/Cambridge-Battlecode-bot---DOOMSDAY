@@ -1,0 +1,363 @@
+{
+  "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "release": "21706291ed992004bab8bb6b369f40675d4a7ca7b0b7b4bceae62c07f28f2e0c",
+  "profile": "328956fc6fd85c93ad7746c3781616f37a8b8e89780c06283a901922a7e1bf44",
+  "summary": {
+    "n": 720,
+    "base_score": 542,
+    "candidate_score": 532,
+    "delta_pp": -1.389,
+    "map_cluster_ci_pp": [
+      -5.139,
+      2.222
+    ],
+    "fuel": [
+      2,
+      9
+    ],
+    "round1": [
+      0,
+      0
+    ],
+    "faults": [
+      0,
+      0
+    ],
+    "per_cell_fuel_regressions": 7
+  },
+  "crossings": {
+    "bushpre -> end": 2,
+    "sg_los -> sg_seeing": 1,
+    "tail_prelock -> tail_priority": 1,
+    "farmmove -> d_farm": 1,
+    "d_opp -> decide": 1,
+    "tail_priority -> tail": 1,
+    "d_farm -> d_opp": 1,
+    "decide -> tail_drop": 1
+  },
+  "error_cells": 0,
+  "affected": [
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pf_pool_77068",
+        "side": "B",
+        "score": 0,
+        "engine_seed": "17273290511124419394",
+        "map_hash": "a2cf46b1a502089b0f85e8287cc866b4cdd6b5658a8534c2dcb22778de1a3d86",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pf_pool_77068",
+        "side": "B",
+        "score": 0,
+        "engine_seed": "17273290511124419394",
+        "map_hash": "a2cf46b1a502089b0f85e8287cc866b4cdd6b5658a8534c2dcb22778de1a3d86",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {},
+        "examples": {}
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "1402717557678275239",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "1402717557678275239",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "sg_los -> sg_seeing": 1
+        },
+        "examples": {
+          "sg_los -> sg_seeing": "A2SUS R93 t0 to R94: start=99952 refresh=97794 w_vis=94990 w_groups=93072 w_hot=89322 w_champs=86804 w_ward=85914 w_sight=85728 w_update=85652 world=85563 episode=85493 sight=85012 events=84924 shop=84811 support=84566 ahead_mine=84001 ahead_allied=83843 ahead_local=82169 ahead_place=78018 wardrev=77930 ambush_enter=77864 ambush=77766 enemies=77674 farm0=77050 score0=76827 farmsel=49986 farmmove=49445 f_alive=49369 c_zones=48041 s_inc=47539 s_dps=47272 sg_ring=46626 sg_init=1515 sg_los=905 sg_seeing=99068* wt_primary_enter=95995 wt_primary_done=92871 f_camps=89926 d_farm=89851 d_opp=89710 decide=89465 tail_drop=89391 tail_dropped=89325 tail_prelock=89259 tail_priority=89158 tail=88956 field=80846 field=72191 fields=72104 bushpre=48910 end=48832"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77112",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "15856324914354777083",
+        "map_hash": "bc2cfca59e3f4e526ff63c630e95785b3cd3cde322cb4f50ea710e05c9f064be",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77112",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "15856324914354777083",
+        "map_hash": "bc2cfca59e3f4e526ff63c630e95785b3cd3cde322cb4f50ea710e05c9f064be",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "tail_prelock -> tail_priority": 1
+        },
+        "examples": {
+          "tail_prelock -> tail_priority": "A2SUS R299 t0 to R300: start=99952 refresh=97938 w_vis=94920 w_groups=92245 w_hot=90046 w_champs=86191 w_ward=85561 w_sight=85471 w_update=85395 world=85306 episode=85236 sight=85043 events=84955 shop=84842 support=84538 ahead_mine=84210 ahead_allied=84052 ahead_local=82222 ahead_place=77972 wardrev=77884 ambush_enter=77818 ambush=77720 enemies=77628 farm0=75029 score0=74460 farmsel=51253 farmmove=50719 f_alive=50643 c_zones=49366 s_inc=48209 s_dps=47865 sg_ring=47153 sg_init=12466 sg_los=11916 sg_seeing=10467 f_camps=802 d_farm=727 d_opp=555 decide=251 tail_drop=177 tail_dropped=111 tail_prelock=45 tail_priority=99956* tail=99861 fields=99708 bushpre=99633 end=99555"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "7220320424399303839",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "7220320424399303839",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "farmmove -> d_farm": 1
+        },
+        "examples": {
+          "farmmove -> d_farm": "A2SUS R650 t0 to R651: start=99952 refresh=97705 w_vis=95289 w_groups=93614 w_hot=91583 w_champs=88593 w_ward=87867 w_sight=87681 w_update=87605 world=87516 episode=87446 sight=86965 events=86810 shop=86697 support=86216 reactive_scan=83941 reactive_place=79078 w_vis=76542 w_groups=74867 w_hot=72836 w_champs=69877 w_ward=68214 w_sight=68028 wardrev=67952 ambush_enter=67886 ambush_refresh=33888 w_vis=31486 w_groups=29811 w_hot=27780 w_champs=24821 w_ward=23158 w_sight=22972 ambush=22896 enemies=22804 farm0=11746 farmsel=11579 farmmove=11085 d_farm=99741* d_opp=99600 decide=99395 tail_drop=99321 tail_dropped=99255 tail_prelock=99189 tail_priority=99036 tail=98764 fields=98611 bushpre=98536 end=98458"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pool_1116",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "978751808151258941",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pool_1116",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "978751808151258941",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "d_opp -> decide": 1
+        },
+        "examples": {
+          "d_opp -> decide": "A2SUS R767 t0 to R768: start=99952 refresh=97830 w_vis=94393 w_groups=90786 w_hot=86523 w_champs=82207 w_ward=81251 w_sight=80988 w_update=78735 world=78568 episode=78498 sight=77928 events=77846 shop=77733 support=77407 wardrev=77159 ambush_enter=77093 ambush=76995 e_in=76795 e_altar=76729 e_lock=76663 e_bush=74643 e_td=46652 e_mid=45433 e_prestand=39692 e_stand=39622 e_noflee=39554 enemies=39421 farm0=18150 farmsel=17992 farmmove=17553 f_alive=17477 c_zones=15951 s_inc=15480 c_staged=15408 c_safe=15192 c_walked=1133 c_pick1=887 f_camps=371 d_farm=296 d_opp=78 decide=99796* tail_drop=99722 tail_dropped=99656 tail_prelock=99590 tail_priority=99223 tail=98937 fields=98780 bushpre=98705 end=98627"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "978751808151258941",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "978751808151258941",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "fuel_outs": 2,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "tail_priority -> tail": 1,
+          "d_farm -> d_opp": 1
+        },
+        "examples": {
+          "tail_priority -> tail": "A2SUS R420 t0 to R421: start=99952 refresh=97845 w_vis=94951 w_groups=91145 w_hot=86790 w_champs=83427 w_ward=81636 w_sight=81269 w_update=79204 world=79037 episode=78967 sight=78309 events=78227 shop=78114 support=77788 wardrev=77526 ambush_enter=77460 ambush=77362 e_in=77168 e_altar=77102 e_lock=77036 e_bush=75034 e_td=43715 e_mid=42728 e_prestand=33625 e_stand=33555 e_noflee=33487 enemies=33354 farm0=17440 farmsel=17282 farmmove=16843 f_alive=16767 c_zones=15424 s_inc=15086 c_staged=15014 c_safe=14808 c_walked=2180 c_pick1=1931 f_camps=952 d_farm=877 d_opp=730 decide=520 tail_drop=446 tail_dropped=380 tail_prelock=314 tail_priority=213 tail=99991* fields=99834 bushpre=99759 end=99681",
+          "d_farm -> d_opp": "A2SUS R562 t0 to R563: start=99952 refresh=97845 w_vis=95032 w_groups=91219 w_hot=86943 w_champs=83580 w_ward=82696 w_sight=82149 w_update=79990 world=79823 episode=79753 sight=78963 events=78881 shop=78768 support=78442 wardrev=78138 ambush_enter=78072 ambush=77974 e_in=77774 e_altar=77708 e_lock=77642 e_bush=75003 e_td=44225 e_mid=43238 e_prestand=34064 e_stand=33994 e_noflee=33926 enemies=33793 farm0=17590 farmsel=17432 farmmove=16993 f_alive=16917 c_zones=15452 s_inc=14950 c_staged=14878 c_safe=14662 c_walked=1464 c_pick1=1063 f_camps=84 d_farm=9 d_opp=99827* decide=99617 tail_drop=99543 tail_dropped=99477 tail_prelock=99411 tail_priority=99310 tail=99024 fields=98867 bushpre=98792 end=98714"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pool_1119",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "931967966388986653",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "v92",
+        "map": "pool_1119",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "931967966388986653",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "bushpre -> end": 1
+        },
+        "examples": {
+          "bushpre -> end": "A2SUS R93 t0 to R94: start=99952 refresh=97695 w_vis=93758 w_groups=90404 w_hot=87828 w_champs=84212 w_ward=83378 w_sight=83011 w_update=81811 world=81644 episode=81574 sight=80913 events=80831 shop=80718 support=80428 wardrev=80166 ambush_enter=80100 ambush=80002 e_in=79616 e_altar=79550 e_lock=79484 e_bush=77464 e_td=48847 e_mid=47473 e_prestand=41802 e_stand=41732 e_noflee=41664 enemies=41531 farm0=21838 farmsel=21680 farmmove=21238 f_alive=21162 c_zones=19602 s_inc=19280 c_staged=19208 c_safe=18971 c_walked=2586 c_pick1=2290 f_camps=1511 d_farm=1436 d_opp=1218 decide=928 tail_drop=854 tail_dropped=788 tail_prelock=722 tail_priority=621 tail=327 fields=170 bushpre=55 end=99982*"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "931967966388986653",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "931967966388986653",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "bushpre -> end": 1
+        },
+        "examples": {
+          "bushpre -> end": "A2SUS R93 t0 to R94: start=99952 refresh=97695 w_vis=93758 w_groups=90404 w_hot=87828 w_champs=84212 w_ward=83378 w_sight=83011 w_update=81811 world=81644 episode=81574 sight=80913 events=80831 shop=80718 support=80428 wardrev=80166 ambush_enter=80100 ambush=80002 e_in=79616 e_altar=79550 e_lock=79484 e_bush=77464 e_td=48847 e_mid=47473 e_prestand=41802 e_stand=41732 e_noflee=41664 enemies=41531 farm0=21838 farmsel=21680 farmmove=21238 f_alive=21162 c_zones=19602 s_inc=19280 c_staged=19208 c_safe=18971 c_walked=2586 c_pick1=2290 f_camps=1511 d_farm=1436 d_opp=1218 decide=928 tail_drop=854 tail_dropped=788 tail_prelock=722 tail_priority=621 tail=327 fields=170 bushpre=55 end=99982*"
+        }
+      }
+    },
+    {
+      "exact": {
+        "arm": "exact",
+        "noise_seed": 0,
+        "opponent": "p65pack",
+        "map": "pool_1159",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "451841006544151737",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "profile": {
+        "arm": "profile",
+        "noise_seed": 0,
+        "opponent": "p65pack",
+        "map": "pool_1159",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "451841006544151737",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {
+          "decide -> tail_drop": 1
+        },
+        "examples": {
+          "decide -> tail_drop": "A2SUS R676 t0 to R677: start=99952 refresh=97938 w_vis=94202 w_groups=90127 w_hot=86223 w_champs=83480 w_ward=82694 w_sight=82604 w_update=82528 world=82439 episode=82369 sight=82209 events=82121 shop=82008 support=81763 ahead_mine=81435 ahead_allied=81277 ahead_local=79310 ahead_place=75060 wardrev=74972 ambush_enter=74906 ambush=74808 enemies=74716 farm0=74215 score0=73779 farmsel=49871 farmmove=49364 f_alive=49288 c_zones=47728 s_inc=47185 s_dps=46854 sg_ring=46015 sg_init=4052 sg_los=3420 sg_seeing=1677 f_camps=455 d_farm=380 d_opp=239 decide=0 tail_drop=99944* tail_dropped=99878 tail_prelock=99812 tail_priority=99445 tail=99350 fields=99197 bushpre=99122 end=99044"
+        }
+      }
+    }
+  ]
+}
