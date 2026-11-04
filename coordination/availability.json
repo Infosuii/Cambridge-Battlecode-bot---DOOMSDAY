@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T11:24:27Z",
+  "updated_at": "2026-11-04T11:28:40Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -8,7 +8,9 @@
   "dispatcher": {
     "primary": "johndoe",
     "backup": "claude",
-    "mutation_rule": "GitHub contents current-blob-SHA compare-and-swap; no force overwrite"
+    "mutation_rule": "GitHub contents current-blob-SHA compare-and-swap; no force overwrite",
+    "state": "STOPPED_BY_USER",
+    "stopped_at": "2026-11-04T11:28:40Z"
   },
   "agents": {
     "johndoe": {
@@ -17,7 +19,7 @@
       ],
       "session": "johndoe-manager-20261104-0140",
       "seq": 55,
-      "state": "ACTIVE",
+      "state": "STOPPED",
       "protocol_ack": true,
       "last_control_at": "2026-11-04T11:09:45Z",
       "capabilities": [
@@ -25,10 +27,12 @@
         "review",
         "ideation"
       ],
-      "free_capacity": 1,
+      "free_capacity": 0,
       "requires_new_assignment": false,
       "last_control_comment_id": 6629116840,
-      "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
+      "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
+      "stop_reason": "User explicitly ended this dispatch and requested CPG delivery.",
+      "expiry_eligible": false
     },
     "claude": {
       "accounts": [
@@ -36,7 +40,7 @@
       ],
       "session": "claude-r1shik-20261104-0045",
       "seq": 59,
-      "state": "ACTIVE",
+      "state": "STOPPED",
       "protocol_ack": true,
       "last_control_at": "2026-11-04T11:22:33Z",
       "adoption_until": "2026-11-04T02:10:22Z",
@@ -49,10 +53,12 @@
         "platform-verify",
         "light-build"
       ],
-      "free_capacity": 1,
+      "free_capacity": 0,
       "requires_new_assignment": false,
       "last_control_comment_id": 6629314524,
-      "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
+      "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898",
+      "stop_reason": "User explicitly ended this dispatch and requested CPG delivery.",
+      "expiry_eligible": false
     },
     "builder-g5070-1104": {
       "accounts": [
@@ -290,29 +296,33 @@
     },
     {
       "id": "ladder-coordination",
-      "owner": "claude",
-      "owner_session": "claude-r1shik-20261104-0045",
+      "owner": null,
+      "owner_session": null,
       "epoch": 1,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "ladder-coordination"
       ],
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898",
       "platform_sensitive": true,
-      "platform_state": "NO_LOCK_REQUESTED"
+      "platform_state": "NO_LOCK_REQUESTED",
+      "released_by": "user_instruction",
+      "released_at": "2026-11-04T11:28:40Z"
     },
     {
       "id": "upstream-review",
-      "owner": "johndoe",
-      "owner_session": "johndoe-manager-20261104-0140",
+      "owner": null,
+      "owner_session": null,
       "epoch": 1,
-      "state": "ACTIVE",
+      "state": "RELEASED",
       "requires": [
         "review"
       ],
       "branch": "johndoe/qualifier-build-prompt",
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
-      "platform_sensitive": false
+      "platform_sensitive": false,
+      "released_by": "user_instruction",
+      "released_at": "2026-11-04T11:28:40Z"
     },
     {
       "id": "rl-distill-local",
@@ -516,9 +526,19 @@
       "last_substantive_at": "2026-11-04T08:38:25Z",
       "affected_tasks": [],
       "note": "All four execution tracks explicitly released/completed before lapse; no finished work reopened. No platform lock or outstanding operation reported."
+    },
+    {
+      "id": "user-stop-cpg-delivery-20261104",
+      "type": "USER_STOP",
+      "at": "2026-11-04T11:28:40Z",
+      "agents": [
+        "johndoe",
+        "claude"
+      ],
+      "note": "User ended this work; both JOHNDOE automations deleted. CPG source delivery packaged. Agent2 training ownership unchanged."
     }
   ],
-  "note": "Builder local execution released at epoch3; exact remote publication verified. No reassignment of finished tracks. v80 retained; no platform actions. Agent2 access blocker unchanged.",
+  "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
   "last_complete_check_at": "2026-11-04T11:24:27Z",
   "reported_jobs": {
     "rl-dagger-01": {
