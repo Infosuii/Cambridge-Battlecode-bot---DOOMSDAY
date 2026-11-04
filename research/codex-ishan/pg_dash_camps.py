@@ -123,12 +123,43 @@ def probe():
         f.write("\n")
 
 
+def verify_release():
+    frozen = cases(read(HERE / "PG_BUDGET_BROAD_TRACE.json"))
+    maps = {p.stem: p for p in partition("dev")}
+    for name in sorted({r["opponent"] for r in frozen}):
+        file, expected = bench.OPPS[name]
+        assert bench.digest(bench.CACHE / file) == expected
+    base = bench.ROOT / "bots/codex-pg-budget/bot.wasm"
+    candidate = bench.ROOT / "bots/codex-pg-dash/bot.wasm"
+    assert bench.digest(base) == "36854b76366f762f65853b3b66819e9c2d4742982ef7fcd69294931daf977e75"
+    assert bench.digest(candidate) == read(HERE / "PG_DASH_BUILDS.json")["primary"]
+    bench.OUT = bench.CACHE / "pg-dash-exact-dev"
+    (bench.OUT / "games").mkdir(parents=True)
+    jobs = [(arm, 0, r["opponent"], maps[r["map"]], r["side"], wasm)
+            for r in frozen for arm, wasm in (("base", base), ("candidate", candidate))]
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        rows = list(pool.map(bench.one, jobs))
+    for r, (b, c) in zip(frozen, zip(rows[::2], rows[1::2], strict=True), strict=True):
+        assert all(r[k] == b[k] == c[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
+    report = {"engine": bench.ENGINE, "base": bench.digest(base), "candidate": bench.digest(candidate), "rows": rows}
+    with (HERE / "PG_DASH_EXACT_DEV.json").open("x", encoding="utf8", newline="\n") as f:
+        json.dump(report, f, indent=2)
+        f.write("\n")
+    for arm in ("base", "candidate"):
+        arm_rows = [r for r in rows if r["arm"] == arm]
+        print(arm, len(arm_rows), "fuel", sum(r["fuel_outs"] for r in arm_rows),
+              "fault or code cells", sum(bool(r["faults"] or r["diagnostic_codes"]) for r in arm_rows))
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--src", type=Path)
     p.add_argument("--off", action="store_true")
+    p.add_argument("--verify-release", action="store_true")
     a = p.parse_args()
     if a.src:
         prepare(a.src, not a.off, True, False)
+    elif a.verify_release:
+        verify_release()
     else:
         probe()
