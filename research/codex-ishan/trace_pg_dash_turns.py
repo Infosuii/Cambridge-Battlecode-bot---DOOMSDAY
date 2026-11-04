@@ -43,10 +43,14 @@ def prepare_scoped(src, champion, round_number):
 
 def prepare_move(src, champion, round_number):
     prepare(src, True, True, False)
+    add_move_trace(src, f"round == {round_number} && type == bc::champion_type::{champion}")
+
+
+def add_move_trace(src, condition):
     path = src / "bot.cpp"
     data = path.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
-    addition = (f"if (round == {round_number} && type == bc::champion_type::{champion}) "
+    addition = (f"if ({condition}) "
                 'std::printf("CODEX_MOVE %s R%d engineR%u (%d,%d) fuel%llu mode=%s\\n", '
                 '__func__, round, bc::round_number(), pos.x, pos.y, '
                 'static_cast<unsigned long long>(bc::fuel_remaining()), mode);').encode()

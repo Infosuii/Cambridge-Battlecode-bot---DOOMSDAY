@@ -13,9 +13,7 @@ from large_roster_stress import HERE, OUT as STRESS, bench, read
 from pg_ambush_guard import prepare
 from profile_pg_budget_broad import augment
 import profile_pg_runtime as trace
-
-OUT = bench.CACHE / "large-roster-profile-604211"
-
+from trace_pg_dash_turns import add_move_trace
 
 def prepare_coarse(src, rounds):
     code = src / "bot.cpp"
@@ -40,7 +38,7 @@ static int codex_last_suspension = -1;
     ))
 
 
-def play_coarse(job):
+def play_scoped(job):
     row = bench.one(job, log_limit=trace.LIMIT)
     case = bench.OUT / "games" / f"profile-0-{row['opponent']}-{row['map']}-{row['side']}"
     with ZipFile(next(case.glob("*.repl26a"))) as bundle:
@@ -53,12 +51,15 @@ def play_coarse(job):
         phase = line.split()[-1]
         counts[phase] += 1
         examples.setdefault(phase, line)
-    return {**row, "crossings": dict(counts), "examples": examples}
+    moves = [s.decode("ascii", "replace") for s in re.findall(rb"CODEX_MOVE [^\n]+", log)]
+    return {**row, "crossings": dict(counts), "examples": examples, "moves": moves}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--coarse", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--coarse", action="store_true")
+    mode.add_argument("--moves", action="store_true")
     args = parser.parse_args()
     stress = read(HERE / "LARGE_ROSTER_STRESS.json")
     affected = stress["affected"]
@@ -73,13 +74,18 @@ def main():
         if len(controls) == 8:
             break
     assert len(affected) == 18 and len(controls) == 8
-    bench.OUT = trace.OUT = bench.CACHE / "large-roster-coarse-604211" if args.coarse else OUT
+    variant = "moves" if args.moves else "coarse" if args.coarse else "profile"
+    bench.OUT = trace.OUT = bench.CACHE / f"large-roster-{variant}-604211"
     (bench.OUT / "games").mkdir(parents=True)
     project = bench.OUT / "diagnostic"
     src = project / "src"
     prepare(src, True)
+    rounds = {e["timestamp"]["round"] for r in affected for e in r["events"]}
     if args.coarse:
-        prepare_coarse(src, {e["timestamp"]["round"] for r in affected for e in r["events"]})
+        prepare_coarse(src, rounds)
+    elif args.moves:
+        actors = {(e["timestamp"]["round"], e["owner"]["name"].lower()) for r in affected for e in r["events"]}
+        add_move_trace(src, " || ".join(f"(round == {r} && type == bc::champion_type::{t})" for r, t in sorted(actors)))
     else:
         trace.instrument(src)
         augment(src)
@@ -96,7 +102,7 @@ def main():
         assert bench.digest(bench.CACHE / file) == expected
     jobs = [("profile", 0, r["opponent"], maps[r["map"]], r["side"], wasm) for r in affected + controls]
     with ThreadPoolExecutor(max_workers=8) as pool:
-        profiled = list(pool.map(play_coarse if args.coarse else trace.play, jobs))
+        profiled = list(pool.map(trace.play if variant == "profile" else play_scoped, jobs))
     counts = Counter()
     joins = []
     for base, row in zip(affected + controls, profiled, strict=True):
@@ -115,7 +121,7 @@ def main():
     report = {"wasm": bench.digest(wasm), "n": len(profiled), "fuel": sum(r["fuel_outs"] for r in profiled),
               "error_cells": sum(bool(r["faults"] or r["diagnostic_codes"]) for r in profiled),
               "crossings": dict(counts.most_common()), "joins": joins, "rows": profiled}
-    name = "LARGE_ROSTER_COARSE.json" if args.coarse else "LARGE_ROSTER_PROFILE.json"
+    name = f"LARGE_ROSTER_{variant.upper()}.json"
     with (HERE / name).open("x", encoding="utf8", newline="\n") as f:
         json.dump(report, f, indent=2)
         f.write("\n")
