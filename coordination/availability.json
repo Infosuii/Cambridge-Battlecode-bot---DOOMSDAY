@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T01:52:59.959Z",
+  "updated_at": "2026-11-04T01:58:00.131Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -34,10 +34,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 1,
+      "seq": 2,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T01:44:33Z",
+      "last_control_at": "2026-11-04T01:53:48Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -50,17 +50,18 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6620267152
+      "last_control_comment_id": 6620401434,
+      "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
       "accounts": [
         "Infosuii"
       ],
-      "session": null,
-      "seq": 0,
-      "state": "AWAITING_ADOPTION",
-      "protocol_ack": false,
-      "last_control_at": null,
+      "session": "builder-g5070-1104-20261104-0105",
+      "seq": 1,
+      "state": "ACTIVE",
+      "protocol_ack": true,
+      "last_control_at": "2026-11-04T01:55:30Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -73,7 +74,9 @@
       "free_capacity": 0,
       "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-1104",
-      "deadline": "2026-11-04T13:05:00Z"
+      "deadline": "2026-11-04T13:05:00Z",
+      "last_control_comment_id": 6620425743,
+      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a"
     },
     "agent2": {
       "accounts": [],
@@ -100,54 +103,54 @@
     {
       "id": "candidate-integration",
       "owner": "builder-g5070-1104",
-      "owner_session": null,
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 1,
-      "state": "AWAITING_ADOPTION",
+      "state": "ACTIVE",
       "requires": [
         "heavy-build",
         "evaluation"
       ],
       "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "4d12d052",
+      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
       "platform_sensitive": false
     },
     {
       "id": "fuel-memory-runtime",
       "owner": "builder-g5070-1104",
-      "owner_session": null,
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 1,
-      "state": "AWAITING_ADOPTION",
+      "state": "ACTIVE",
       "requires": [
         "runtime"
       ],
       "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": null,
+      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
       "platform_sensitive": false
     },
     {
       "id": "basic-decision-strategy",
       "owner": "builder-g5070-1104",
-      "owner_session": null,
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 1,
-      "state": "AWAITING_ADOPTION",
+      "state": "ACTIVE",
       "requires": [
         "strategy"
       ],
       "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": null,
+      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
       "platform_sensitive": false
     },
     {
       "id": "rl-actor-export",
       "owner": "builder-g5070-1104",
-      "owner_session": null,
+      "owner_session": "builder-g5070-1104-20261104-0105",
       "epoch": 1,
-      "state": "AWAITING_ADOPTION",
+      "state": "ACTIVE",
       "requires": [
         "rl-export"
       ],
       "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": null,
+      "checkpoint": "9f54cf8cd8f09c5e7a71e583a30be93e90d38b0a",
       "platform_sensitive": false
     },
     {
@@ -173,7 +176,7 @@
       "requires": [
         "ladder-coordination"
       ],
-      "checkpoint": null,
+      "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898",
       "platform_sensitive": true,
       "platform_state": "NO_LOCK_REQUESTED"
     },
@@ -206,8 +209,16 @@
       "agent": "agent2",
       "at": "2026-11-04T01:47:59.878Z",
       "evidence": "Github get_repo_collaborator_permission=none; commit56b60b9 authorLogin=dsds32wed; Claude#7 reports no relay"
+    },
+    {
+      "id": "register:builder-g5070-1104:6620425743",
+      "type": "REGISTRATION",
+      "agent": "builder-g5070-1104",
+      "session": "builder-g5070-1104-20261104-0105",
+      "comment_id": 6620425743,
+      "at": "2026-11-04T01:55:30Z"
     }
   ],
-  "note": "Claude registration accepted; builder adoption pending within grace. Agent2 has no observable CONTROL channel, so timeout/reallocation cannot be safely inferred for it. No task expired or reassigned.",
-  "last_complete_check_at": "2026-11-04T01:52:59.959Z"
+  "note": "Builder and Claude adopted; current sessions bound to epoch1 tasks. Agent2 remains MONITOR_UNKNOWN without a control channel. No expiry/reassignment.",
+  "last_complete_check_at": "2026-11-04T01:58:00.131Z"
 }
