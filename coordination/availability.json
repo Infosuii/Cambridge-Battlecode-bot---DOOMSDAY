@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T11:40:01Z",
+  "updated_at": "2026-11-04T11:50:58Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -18,19 +18,19 @@
         "johndoe123983"
       ],
       "session": "johndoe-rl-design-20261104-1139",
-      "seq": 1,
-      "state": "ACTIVE",
+      "seq": 3,
+      "state": "WAITING",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T11:40:01Z",
+      "last_control_at": "2026-11-04T11:50:58Z",
       "capabilities": [
         "coordination",
         "review",
         "ideation"
       ],
-      "free_capacity": 0,
+      "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6629642115,
-      "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
+      "last_control_comment_id": 6629852131,
+      "checkpoint": "51d61696cb6d5dc555869dc2f8f00d34f84d9a43",
       "expiry_eligible": true,
       "retired_sessions": [
         {
@@ -372,15 +372,20 @@
       "owner": "johndoe",
       "owner_session": "johndoe-rl-design-20261104-1139",
       "epoch": 1,
-      "state": "ACTIVE",
+      "state": "WAITING_REVIEW",
       "requires": [
         "review",
         "ideation"
       ],
       "branch": "johndoe/rl-belief-design-1104",
-      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
+      "checkpoint": "51d61696cb6d5dc555869dc2f8f00d34f84d9a43",
       "platform_sensitive": false,
-      "scope": "Research/specification and offline evidence audit; no duplicate training or platform operations"
+      "scope": "Research/specification and offline evidence audit; no duplicate training or platform operations",
+      "ack_comment_id": 6629667198,
+      "research_handoff_comment_id": 6629852131,
+      "review_requested_from": "R1shik123",
+      "review_request_comment_id": 6629770123,
+      "blocker": "R1shik123 new-session READY/review and verified compute access pending; no heavy-run owner assigned."
     }
   ],
   "events": [
@@ -570,6 +575,14 @@
         "rl-strategy-design-1104:1"
       ],
       "note": "Fresh user authorization; former completed/released work remains released."
+    },
+    {
+      "id": "rl-design-checkpoint:51d61696cb6d5dc555869dc2f8f00d34f84d9a43",
+      "type": "RESEARCH_CHECKPOINT",
+      "at": "2026-11-04T11:50:58Z",
+      "task": "rl-strategy-design-1104",
+      "epoch": 1,
+      "comment_id": 6629852131
     }
   ],
   "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
