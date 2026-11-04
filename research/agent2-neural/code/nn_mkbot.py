@@ -203,6 +203,33 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
 #ifdef A2_NN_FCMP
     if (best >= 0 && nn_group >= 0) nn_fcmp(best);
 #endif
+#ifdef A2_NN_EPI
+    // E126: episodes. From an override candidate, for A2_NN_EPI rounds, this champion plays the blend (on) or plain v92 (off) at random. The log + the match timelines measure what overrides do, by situation.
+    {
+        static int epi_until = -1;
+        static bool epi_on = true;
+        static std::uint32_t epi_n = 0;
+        if (best >= 0 && nn_group >= 0 && !nn_stay && nn_group < static_cast<int>(w.groups.size())) {
+            if (nn_group != best && !nn_ens_keep(best, nn_group) && round >= epi_until) {
+                epi_until = round + A2_NN_EPI;
+                std::uint32_t h = (static_cast<std::uint32_t>(A2_NN_EPI_SEED) * 2654435761u) ^ (static_cast<std::uint32_t>(my_id) * 40503u) ^ (++epi_n * 2246822519u);
+                h = h * 1664525u + 1013904223u, h = h * 1664525u + 1013904223u;
+                epi_on = ((h >> 16) & 1u) != 0u;
+                const auto& ga = w.groups[static_cast<std::size_t>(nn_group)];
+                const auto& gb = w.groups[static_cast<std::size_t>(best)];
+                float sv = nn_pub.far, sn = nn_pub.far;
+                for (int i = 0; i < nn_pub.n; ++i) {
+                    if (nn_pub.eg[i] == best) sv = nn_pub.es[i];
+                    if (nn_pub.eg[i] == nn_group) sn = nn_pub.es[i];
+                }
+                std::printf("NEP %d %s %d %d %d %d %d %d %d %u %u %u %u %.0f %.0f %d %d %d %.0f %.0f %d %d %d %d %d %d %.2f %d %d\\n", round, bc::to_string(type).c_str(), slot, epi_on ? 1 : 0, best, nn_group, target_group,
+                            w.group_distance(nn_group, pos), w.group_distance(best, pos), ga.gems, gb.gems, ga.gold, gb.gold, ga.hp_left(w.camps), gb.hp_left(w.camps), static_cast<int>(ga.state), static_cast<int>(gb.state), best_need,
+                            static_cast<float>(hp), static_cast<float>(max_hp), static_cast<int>(gems), static_cast<int>(gold), static_cast<int>(w.enemies.size()), allies_near_group(ga), allies_near_group(gb), static_cast<int>(w.groups.size()), sn - sv, ga.respawn, gb.respawn);
+            }
+            if (round < epi_until && !epi_on) nn_group = best;
+        }
+    }
+#endif
 #ifdef A2_NN_ENS
 #if defined(A2_NN_RLIVE) && A2_NN_RLIVE
     if (best >= 0 && nn_group >= 0 && !nn_stay) nn_group = nn_ens_sample(best);
@@ -329,6 +356,11 @@ if xf:
             }
             bc::draft_memory = all;
 """)
+if "A2_CTLOG" in defs:  # E126: a line per turn in contact
+    sys.path.insert(0, LAB)
+    from e126_ctlog import patch_ctlog
+    _s = open(S + "bot.cpp", encoding="utf-8").read()
+    open(S + "bot.cpp", "w", encoding="utf-8", newline="\n").write(patch_ctlog(_s))
 shutil.copy(os.path.join(LAB, "nnrec.cpp"), S + "nnrec.cpp")
 shutil.copy(os.path.join(LAB, "nn_infer.h"), S + "nn_infer.h")
 shutil.copy(WEIGHTS, S + "nn_weights.h")
