@@ -14,7 +14,7 @@ from qualify_local import DEV
 OUT = bench.CACHE / "dash-low-fuel-stress"
 
 
-def instrument(src):
+def instrument(src, condition="true"):
     bot = src / "bot.cpp"
     apply(bot, (
         ('#include "bot.h"', '''#include "bot.h"
@@ -30,9 +30,11 @@ static struct CodexDashStress {
         ('''                return true;
             }
         } catch (const std::exception& e) {
-            LOG("dash error %s\\n", e.what());''', '''                const std::uint64_t left = bc::fuel_remaining();
-                if (left < rb::kTailReserve && best_d > 0)
-                    codex_dash_stress = {true, round, static_cast<int>(type), best_d, left, pos};
+            LOG("dash error %s\\n", e.what());''', '''                if (''' + condition + ''') {
+                    const std::uint64_t left = bc::fuel_remaining();
+                    if (left < rb::kTailReserve && best_d > 0)
+                        codex_dash_stress = {true, round, static_cast<int>(type), best_d, left, pos};
+                }
                 return true;
             }
         } catch (const std::exception& e) {
