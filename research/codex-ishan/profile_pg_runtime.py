@@ -12,7 +12,7 @@ from bounded_verdict import apply
 from pg_rivals import prepare
 
 HERE = Path(__file__).resolve().parent
-OUT = bench.CACHE / "pg-rival-runtime"
+OUT = bench.CACHE / "pg-rival-runtime-r1"
 LIMIT = 1048576
 OPPONENTS = ("x3inv", "public-khiri")
 
@@ -33,7 +33,7 @@ def instrument(src):
     data = bot.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
     spans = (
-        (b"bool Bot::ward_ahead()", b"bool Bot::ward_reveal()", (
+        (b"bool Bot::ward_ahead()", b"#if A2_FOG", (
             ("    const int mine = w.bush_cluster(pos);", """    PROF_CHECK("ahead_mine");
     const int mine = w.bush_cluster(pos);
     PROF_CHECK("ahead_allied");"""),
