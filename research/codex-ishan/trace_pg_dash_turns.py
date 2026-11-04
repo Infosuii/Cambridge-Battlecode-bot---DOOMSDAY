@@ -57,7 +57,7 @@ def prepare_move(src, champion, round_number):
             indentation = line[:len(line) - len(line.lstrip())]
             lines[i] = line + nl + indentation + addition
             count += 1
-    assert count == 13
+    assert count == 12
     path.write_bytes(nl.join(lines))
 
 
@@ -94,7 +94,7 @@ def main():
     for _, _, _, opponent, _, _ in CASES:
         name, sha = bench.OPPS[opponent]
         assert bench.digest(bench.CACHE / name) == sha
-    bench.OUT = bench.CACHE / "pg-dash-move-trace" if args.move else OUT
+    bench.OUT = bench.CACHE / "pg-dash-move-trace-r2" if args.move else OUT
     (bench.OUT / "games").mkdir(parents=True)
     with ThreadPoolExecutor(max_workers=2) as pool:
         rows = list(pool.map(lambda case: probe(case, maps, mode), CASES))
