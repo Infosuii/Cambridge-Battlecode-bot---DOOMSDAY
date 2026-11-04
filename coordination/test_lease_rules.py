@@ -46,8 +46,14 @@ class LeaseTests(unittest.TestCase):
         new = revoke_tasks([t], "builder", transition_id="t-e2")[0]
         self.assertEqual(new["epoch"], 2)
         self.assertEqual(new["platform_state"], "QUARANTINED")
-        self.assertFalse(can_publish(new, "builder", "s1", 1))
+        self.assertFalse(can_publish(new, "builder", "s1", 1, now="2026-11-04T01:31:00Z", owner_last_control_at=BASE))
         self.assertEqual(revoke_tasks([new], "builder", transition_id="retry")[0], new)
+
+    def test_publish_checks_expiry_even_before_dispatcher_revokes(self):
+        t = dict(owner="builder", owner_session="s1", epoch=1, state="ACTIVE")
+        self.assertTrue(can_publish(t, "builder", "s1", 1, now="2026-11-04T01:30:00Z", owner_last_control_at=BASE))
+        self.assertFalse(can_publish(t, "builder", "s1", 1, now="2026-11-04T01:30:01Z", owner_last_control_at=BASE))
+        self.assertFalse(can_publish(t, "builder", "s1", 1, now="2026-11-04T01:01:00Z", owner_last_control_at=BASE, reads_complete=False))
 
     def test_heavy_work_requires_live_capable_worker(self):
         w = dict(protocol_ack=True, state="ACTIVE", last_control_at=BASE, capabilities=["review"], free_capacity=1)
