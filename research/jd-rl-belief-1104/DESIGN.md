@@ -19,6 +19,7 @@ Important findings to preserve:
 - nnc4 is a v92 residual blend: v92 proposes a camp; the network overrides with a 2-logit margin. Banking remains v92. Its exact overrun rate is not established.
 - Layout 4 has 556 inputs, versus layout 2's 500. Never drop its weights into the old CPG actor without an explicit layout adapter and golden tests. New global block is 22 wide and camp block 27 wide.
 - E123 fixed coarse signed-log lookup interpolation. Old exported tables/headers need re-export; export precision and lookup parity both matter.
+- The newly published `nn_export.py` still formats weights/tables with `:.7e` (eight significant digits), which does not guarantee float32 round trips. This is a source inspection finding, not a demonstrated gameplay regression. E0 must compare checkpoint values, the actual header and compiled results; the existing exact exporter from the CPG work is useful reference material, not a blind compatible replacement.
 - More network width did not reliably improve results. At 20M fuel, delayed summaries materially hurt official-map results. Neither 20M wins nor offline imitation agreement is a deployment result.
 - Approximately 94% of measured blend overrides retained the existing target when v92 wanted to switch. A cheap target-retention baseline is therefore a mandatory ablation, not a demonstrated replacement.
 - The existing trainer records fresh camp features and stale summary features separately and recomputes the blend distribution. Keep that useful contract. Its debug-only sampling/logging does not incur release fuel costs; audit that exploration changes no policy computation, feature timing or scheduling.
@@ -50,6 +51,22 @@ Keep observation, feature age, legality, chosen action, actual SDK action outcom
 Model the action API faithfully: if a turn allows several ordered SDK calls, represent an ordered, conditional action bundle with masks recomputed after each executed phase. Do not assume movement, cast, attack and bank can be freely combined or reordered. The initial adapter must derive phases from SDK/source traces. Death is not necessarily episode termination because bodies can respawn; engine termination and collector truncation have different bootstrap rules.
 
 ## Actor architecture
+
+```mermaid
+flowchart LR
+  O[Legal observations and history] --> F[Bounded fresh feature encoder]
+  O --> B[Bayesian mode and location beliefs]
+  B --> F
+  F --> R[Small per-body recurrent actor]
+  R --> A[Conditional legal action heads]
+  A --> X[SDK executor and fuel reserve]
+  X --> O
+  S[Training-only global state] --> V[Centralized critic]
+  R --> P[Recurrent PPO learner]
+  V --> P
+  P --> R
+  L[Frozen opponents and self-play league] --> O
+```
 
 Input is symbolic rather than pixels. Reuse the validated entity schema and cheap geometry, with a new versioned ABI for belief/recurrent features. Start with bounded rows: self; up to five allies; eight visible/recent enemies; ten candidate camps plus a deterministic overflow candidate; four altars; compact globals; candidate legal moves; timestamps and belief confidence. Test candidate coverage and truncation bias on large maps before fixing these limits. All selection/order rules must be shared by Python and C++.
 
