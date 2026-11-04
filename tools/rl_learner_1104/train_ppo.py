@@ -33,7 +33,7 @@ def main():
     spec=json.loads(actor_bytes)
     if spec['format']!='jd-cl1-pointer-f32-v1' or spec['preprocess']!=PREPROCESS_VERSION:
         raise ValueError('actor format mismatch; Agent2-native weights cannot load here')
-    actor=CampPointer()
+    actor=CampPointer(**spec.get('architecture',{}))
     state={k:torch.tensor(v['values'],dtype=torch.float32).reshape(v['shape']) for k,v in spec['tensors'].items()}
     if any(not torch.isfinite(v).all() for v in state.values()):
         raise ValueError('nonfinite actor tensor')
@@ -58,7 +58,7 @@ def main():
                   actor_optimizer=actor_opt,critic_optimizer=critic_opt)
     out.mkdir(parents=True,exist_ok=False)
     checkpoint=out/'actor_checkpoint.pt'
-    torch.save(dict(state_dict=actor.state_dict(),preprocess=PREPROCESS_VERSION,
+    torch.save(dict(state_dict=actor.state_dict(),architecture=actor.architecture,preprocess=PREPROCESS_VERSION,
                     encoder_source=man['policy']['encoder_sha256'],
                     sampling='synthetic-test-PPO' if origin=='synthetic-test' else 'complete-own-policy-PPO',task_epoch=3),checkpoint)
     exported=subprocess.run([sys.executable,str(Path(__file__).with_name('export_cl1.py')),
