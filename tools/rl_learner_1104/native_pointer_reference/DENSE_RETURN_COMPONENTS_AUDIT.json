@@ -1,0 +1,29 @@
+{
+  "scope": "Training-only reward COMPONENT construction, no mixture/PPO update chosen",
+  "games": 32,
+  "rows": 127879,
+  "families": 8,
+  "horizon": 150,
+  "future_window": "(command engine round, min(round+150,final)]",
+  "past_window": "[max(0,round-150),round)",
+  "same_round_events_excluded": true,
+  "brute_force_row_checks": 96,
+  "independent_event_accounting": true,
+  "source_data_sha256": "0d21eafe0311a5393db703af6061008a21662662ab2df0d8ba1f056e7fad56d9",
+  "output_sha256": "03beb7c15e1aefdc88dec01d2ec779324666680bf2fd1b1f2bb0a9e9d8bd07b2",
+  "component_means": {
+    "future_own": 143.01581964200534,
+    "future_enemy": 137.30361513618342,
+    "past_own": 122.59690801460756,
+    "past_enemy": 123.44583551638658,
+    "future_body": 28.258353599887393,
+    "future_rounds": 143.86804713831043,
+    "full_horizon": 0.9170778626670525
+  },
+  "limitations": [
+    "No dense reward scalarization, discount, critic or learning claim.",
+    "Same-round captures excluded conservatively because actor logs lack input/substep clock.",
+    "Late decisions have shorter actual follow-up explicitly recorded; not silently dropped.",
+    "Components are future labels only; never actor features."
+  ]
+}
