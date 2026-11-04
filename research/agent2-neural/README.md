@@ -6,28 +6,30 @@ These are Agent 2's results on the CAMBC (Cambridge Battlecode 2026) bot, engine
 
 All results vs v92 (or v92 with +-0.5% noise on its camp scores, `mk_v92j.py`, which gives new games on the same maps). Full log: `docs/EXPERIMENTS.md` (E120-E124).
 
-**Best bot at the real fuel limit: `nnc4`** (RL checkpoint 4, `models/nn_rl5_student_4.pt`). It is the first real-fuel network bot above v92 on official maps. It has only played v92 and noisy copies of it, and its fuel overrun rate is not measured yet.
+**No network bot is clearly above v92 on official maps at the real fuel limit yet.** `nnc4` (RL checkpoint 4, `models/nn_rl5_student_4.pt`) looked like it was, but the gain does not survive tiny noise on its own scores:
 
-| Test, real fuel, on games it was not picked on | Result |
-|---|---|
-| Official maps, 380 games | 56.3% (+-2.5) |
-| Fresh pool-like maps, 498 games | 53.6% (+-2.2) |
-| Unseen maps, 100 games | 61.0% (+-4.9) |
+| Official maps, real fuel | Without own-score noise | With own-score noise |
+|---|---|---|
+| `nnc4` (checkpoint 4) | 56.3% (380 games it was not picked on) | 44.5% (560 games) |
+| `nnc0` (its starting point) | 48.6% (280 games) | 49.3% (560 games) |
+
+So RL most likely learned specific lines of play against a deterministic v92 on these maps, not a stronger policy. Do not treat `nnc4` as an improvement. On other maps it is about level with its start: fresh 53.6% against 53.4%. Unseen 61.0% (100 games, no comparison).
 
 How it plays:
 - v92 chooses a target as usual. The network overrides only if another camp scores more than 2 logits higher (`A2_NN_ENS=2`).
 - Camps are scored inside `farm()`, after v92's choice, on the fuel left (`A2_NN_LAZY`). The network's slow part is refreshed in stages on spare fuel. v92 banks.
 - Two new inputs start at zero weight for RL: an exact enemy and ally respawn countdown, and the draft turn's analysis (7.5M of the 10M draft fuel) (`A2_NN_XF`).
 
-**Best result without the fuel limit: the same blend with everything fresh every turn, at 20M fuel: official 63.3%, fresh 56.2%.** It needs about 160k fuel a turn or more against the 100k limit, so it cannot run on the platform yet.
+**Best result without the fuel limit: the same blend with everything fresh every turn, at 20M fuel: official about 59%, fresh about 56%.** Deterministic games make each build one draw: the first runs showed 63.3%, and tiny noise on the bot's own scores (`A2_NN_LJIT`) brought it to about 59%. It needs more fuel than the 100k limit, so it cannot run on the platform yet.
 
 Other findings:
 - **Bug fixed:** the fast path's log table used the nearest step for values >= 4096, and the error was multiplied by 1 / sd on the way in: logits off by up to 6.8. Weight headers exported before this must be re-exported.
 - **Larger networks do not help:** 24x96 and 32x128 show no steady gain at 20M, and 24x96 is no better at real fuel.
 - **How fresh the summary is matters more than size:** official maps at 20M, every turn 63.3%, every 2 turns 55.0%, every 4 turns 47.6%. Self + camps fresh gets 58.1%, with global + enemies too 63.8%.
-- **What the blend's overrides are:** 94% keep the current target when v92 wants to switch (official maps: walking distance 8 vs 22, gems 29 vs 125). A zero-fuel "stay" rule for plain v92 is being tested.
-- **Scoring later in the turn appears to cost about 8 points at 20M** (51-57% against 62-63%). Cause not found yet.
-- **Overruns track lower scores** across runs: roughly 6 points per 1% of turns. Direct test in `results/e124_sk*.tsv`.
+- **What the blend's overrides are:** 94% keep the current target when v92 wants to switch (official maps: walking distance 8 vs 22, gems 29 vs 125). A fixed "stay" rule in plain v92 does not reproduce it (official 46-52%, fresh 45-50%): the network chooses when to stay.
+- **The scoring moment does not matter:** start of the turn and inside `farm()` both reach about 59% once own-score noise gives independent lines of play. An apparent 8-point gap was noise.
+- **Lost turns:** v92 forced to lose 0.3% / 1% of its turns shows no measurable cost at these rates (`results/e124_sk*.tsv`).
+- **Testing:** with deterministic games a single build is one draw, even against noisy opponents. Compare bots with own-score noise too.
 
 ## Summary
 

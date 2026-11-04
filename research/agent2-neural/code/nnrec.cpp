@@ -924,6 +924,15 @@ void Bot::nn_lazy_score() {
 #endif
         if (nn_lv.z_ok) {
             nn::live_target(nn_lv, nn_lo);
+#ifdef A2_NN_LJIT
+            // tiny noise on the bot's own scores: another line of play from the same bot, for testing (deterministic games: a build is one draw)
+            for (int i = 0; i < kC + 1; ++i) {
+                std::uint32_t h = (static_cast<std::uint32_t>(A2_NN_LJIT) * 2654435761u) ^ (static_cast<std::uint32_t>(i) * 40503u) ^
+                                  (static_cast<std::uint32_t>(round / 8) * 2246822519u) ^ (static_cast<std::uint32_t>(slot) * 97u);
+                h = h * 1664525u + 1013904223u, h = h * 1664525u + 1013904223u;
+                nn_lo.target[i] += static_cast<float>(A2_NN_LJIT_A) * (static_cast<float>(h >> 8) / 16777216.0f - 0.5f);
+            }
+#endif
             nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
         }
         const std::uint64_t f1 = bc::fuel_remaining();
