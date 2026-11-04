@@ -35,7 +35,7 @@ if LAYOUT == 4:
     FLAGS.append("A2_NN_XF=1")  # E123: the respawn countdown and the draft-turn analysis as inputs
 NNUE = os.environ.get("NN_NNUE", "0") == "1"  # E123: self + camps fresh every turn, other blocks by turns: a row's features are the network's whole input
 if NNUE:
-    FLAGS += ["A2_NN_LAZY=1", "A2_NN_NNUE=1"]
+    FLAGS += ["A2_NN_NNUE=1", "A2_NN_Q16=1", "A2_NN_TTL=3", "A2_NN_RESERVE=3000"]  # scoring at the start of the turn, 16-bit network
 if os.environ.get("NN_LAZY", "0") == "1":  # E123: camps scored in farm() after v92's own choice, with safer fuel margins (nnlz4)
     FLAGS += ["A2_NN_LAZY=1", "A2_NN_RESERVE=4000", "A2_NN_LAZY_FLOOR=20000"]
 ENS = float(os.environ.get("NN_ENS", "0"))  # E123: blend with v92's own target choice, a bonus of this many logits on it; v92's target search runs again

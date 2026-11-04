@@ -836,6 +836,14 @@ void Bot::nn_lazy_score() {
         std::fill(nn_lf, nn_lf + kNF, static_cast<std::int16_t>(0));
         nn_feats_t<kC, kAF>(nn_lf, near_e, 3);
         nn::forward(nn_lf, nn_lo, nn::kHBeh | nn::kHTarget);
+#ifdef A2_NN_LJIT
+        for (int i = 0; i < kC + 1; ++i) {
+            std::uint32_t h = (static_cast<std::uint32_t>(A2_NN_LJIT) * 2654435761u) ^ (static_cast<std::uint32_t>(i) * 40503u) ^
+                              (static_cast<std::uint32_t>(round / 8) * 2246822519u) ^ (static_cast<std::uint32_t>(slot) * 97u);
+            h = h * 1664525u + 1013904223u, h = h * 1664525u + 1013904223u;
+            nn_lo.target[i] += static_cast<float>(A2_NN_LJIT_A) * (static_cast<float>(h >> 8) / 16777216.0f - 0.5f);
+        }
+#endif
         nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
 #ifdef A2_NN_DBG
         if (round <= A2_NN_DBG) {
@@ -985,6 +993,38 @@ void Bot::nn_lazy_score() {
     }
 }
 #endif
+#ifdef A2_NN_FCMP
+// E124 diagnosis at 20M: why does scoring in farm() lose against the start of the turn? Same turn, same bot: this turn's features at the start of the turn (nn_lf) against the same features taken at v92's target choice.
+void Bot::nn_fcmp(int v92g) {
+    static int calls = 0, diff_top = 0, diff_blend = 0, any = 0;
+    static int cnt[kNF] = {};
+    static std::int16_t tmp[kNF];
+    static nn::Out o2;
+    std::fill(tmp, tmp + kNF, static_cast<std::int16_t>(0));
+    nn_feats_t<kC, kAF>(tmp, nn_near(), 3);
+    bool d = false;
+    for (int i = 0; i < kNF; ++i)
+        if (tmp[i] != nn_lf[i]) ++cnt[i], d = true;
+    any += d;
+    nn::forward(tmp, o2, nn::kHBeh | nn::kHTarget);
+    const NNPub p2 = nn_make_pub(tmp, o2.target, kC + 1, kC, kG + kS + kA * kAF + kE * kEF, -1, round);
+    diff_top += p2.rank[0] != nn_pub.rank[0];
+    const bool k1 = nn_pub.rank[0] < 0 || nn_ens_keep(v92g, nn_pub.rank[0]);
+    float sv = p2.far, sn = -1e30f;
+    for (int i = 0; i < p2.n; ++i) {
+        if (p2.eg[i] == v92g) sv = p2.es[i];
+        if (p2.eg[i] == p2.rank[0]) sn = p2.es[i];
+    }
+    const bool k2 = p2.rank[0] < 0 || sv + static_cast<float>(A2_NN_ENS) >= sn;
+    diff_blend += k1 != k2 || (!k1 && p2.rank[0] != nn_pub.rank[0]);
+    if (++calls % 1000 == 0) {
+        std::printf("NNFC calls %d rows with any difference %d, top camp differs %d, blend decision differs %d |", calls, any, diff_top, diff_blend);
+        for (int i = 0; i < kNF; ++i)
+            if (cnt[i] * 50 > calls) std::printf(" %d:%d", i, cnt[i]);
+        std::printf("\n");
+    }
+}
+#endif
 #ifdef A2_NN_ENSLOG
 // E124: the blend's states for training a smaller model (nn_ens_rec.py, 20M fuel): every disagreement between the network's top group and v92's choice, 1 in 8 of the rest
 static std::int16_t nn_ef[kNF] = {};
@@ -1104,9 +1144,107 @@ void Bot::nn_decide() {
                 std::fill(nn_lf, nn_lf + kNF, static_cast<std::int16_t>(0));
                 nn_feats_t<kC, kAF>(nn_lf, near_e, 3);
                 nn::forward(nn_lf, nn_lo, nn::kHBeh | nn::kHTarget);
+#ifdef A2_NN_LJIT
+        for (int i = 0; i < kC + 1; ++i) {
+            std::uint32_t h = (static_cast<std::uint32_t>(A2_NN_LJIT) * 2654435761u) ^ (static_cast<std::uint32_t>(i) * 40503u) ^
+                              (static_cast<std::uint32_t>(round / 8) * 2246822519u) ^ (static_cast<std::uint32_t>(slot) * 97u);
+            h = h * 1664525u + 1013904223u, h = h * 1664525u + 1013904223u;
+            nn_lo.target[i] += static_cast<float>(A2_NN_LJIT_A) * (static_cast<float>(h >> 8) / 16777216.0f - 0.5f);
+        }
+#endif
                 nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
             }
             apply();
+            return;
+        }
+#endif
+#if defined(A2_NN_NNUE) && !defined(A2_NN_LAZY)
+        // E124: the scoring moment matters: the plain network at the start of the turn 62.9% on official maps at 20M (nnd6), in farm() 51-56% (nnd2, nnd3). So at the start of the turn: self + camps
+        // (+ enemies in view) fresh, the rest of the network from the kept sums; the other blocks refresh at the end of the turn. In contact the decision in force holds. v92's fuel checks ignore what this spends (nn_spent).
+        {
+            constexpr int kCOffL = kG + kS + kA * kAF + kE * kEF;
+            static bool first_scoring = true;
+            nn_mark = 0, nn_path = 3, nn_round0 = bc::round_number();
+            const int near_e = nn_near();
+            if (near_e <= 6) {
+                ++nn_c_contact;
+                apply();
+                return;
+            }
+            if (nn_live_turns++ == 0) return;
+            nn_kind = w.enemies.empty() ? 0 : near_e > 10 ? 1 : 2;
+            const std::uint64_t left = bc::fuel_remaining(), floor_f = std::max<std::uint64_t>(nn_need[nn_kind], 15000) + static_cast<std::uint64_t>(A2_NN_RESERVE);
+            if (nn_warm == 2 && left >= nn_est_camps + floor_f) {
+                const auto r0 = bc::round_number();
+                std::fill(nn_lf + kCOffL, nn_lf + kCOffL + kC * kCF, static_cast<std::int16_t>(0));
+                std::fill(nn_lf + kG, nn_lf + kG + kS, static_cast<std::int16_t>(0));
+#if A2_FUELLOG
+                static std::uint64_t cost[6] = {}, cost_n = 0;
+                std::uint64_t cf = bc::fuel_remaining();
+                const auto cmark = [&](int i) {
+                    const std::uint64_t now = bc::fuel_remaining();
+                    cost[i] += cf - now, cf = now;
+                };
+#else
+                const auto cmark = [](int) {};
+#endif
+                nn_feats_t<kC, kAF>(nn_lf, near_e, 2 | 4);
+                cmark(0);
+                nn::live_camps(nn_lf, nn_lv, w.groups.size());
+                cmark(1);
+                nn::live_block(nn_lf, nn_lv, 1);
+                cmark(2);
+                nn::live_block(nn_lf, nn_lv, 4);
+                cmark(3);
+                std::uint64_t enemy_used = 0;
+                {
+                    const std::uint64_t fe0 = bc::fuel_remaining();
+                    if (!w.enemies.empty() && fe0 >= nn_xest[0] + 12000 + floor_f) {
+                        nn_x_refresh(0);
+                        const std::uint64_t fe1 = bc::fuel_remaining();
+                        enemy_used = fe0 > fe1 ? fe0 - fe1 : 0;
+                    }
+                }
+                cmark(4);
+                if (nn_xdone == 15) {
+                    nn::live_top(nn_lv);
+#if defined(A2_NN_RLIVE) && A2_NN_RLIVE
+                    debug_block({
+                        std::copy(nn_lf, nn_lf + kNF, nn_zf);
+                        ++nn_zid;
+                    });
+#endif
+                }
+                cmark(5);
+                if (nn_lv.z_ok) {
+                    nn::live_target(nn_lv, nn_lo);
+                    nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
+                }
+                const std::uint64_t f1 = bc::fuel_remaining();
+#if A2_FUELLOG
+                if (++cost_n % 200 == 0)
+                    std::printf("nncost n %llu feats %llu camps %llu self %llu pool %llu enemy %llu top %llu est %llu need %llu %llu %llu xest %llu %llu %llu %llu\n", static_cast<unsigned long long>(cost_n),
+                                static_cast<unsigned long long>(cost[0] / cost_n), static_cast<unsigned long long>(cost[1] / cost_n), static_cast<unsigned long long>(cost[2] / cost_n),
+                                static_cast<unsigned long long>(cost[3] / cost_n), static_cast<unsigned long long>(cost[4] / cost_n), static_cast<unsigned long long>(cost[5] / cost_n),
+                                static_cast<unsigned long long>(nn_est_camps), static_cast<unsigned long long>(nn_need[0]), static_cast<unsigned long long>(nn_need[1]), static_cast<unsigned long long>(nn_need[2]),
+                                static_cast<unsigned long long>(nn_xest[0]), static_cast<unsigned long long>(nn_xest[1]), static_cast<unsigned long long>(nn_xest[2]), static_cast<unsigned long long>(nn_xest[3]));
+#endif
+                if (bc::round_number() != r0 || f1 > left) {
+                    nn_est_camps = std::max(nn_est_camps, std::min<std::uint64_t>(left, 60000)); // (never out of reach)
+                } else {
+                    const std::uint64_t used = left - f1 - std::min(enemy_used, left - f1);
+                    nn_sum_camps += used;
+                    if (!first_scoring) nn_est_camps = std::max(used + used / 8, nn_est_camps - nn_est_camps / 32); // (the first carries one-time setup)
+                }
+                first_scoring = false;
+                ++nn_c_camps, nn_path = 1;
+            } else {
+                nn_est_camps -= nn_est_camps / 16; // (an estimate pushed up by one costly turn must not lock the scoring out)
+                ++nn_c_hold, nn_path = 0;
+            }
+            apply();
+            nn_mark = bc::fuel_remaining(), nn_round0 = bc::round_number(), nn_field_fuel = 0;
+            nn_spent = left >= nn_mark ? left - nn_mark : 0;
             return;
         }
 #endif
@@ -1507,7 +1645,7 @@ void Bot::nn_turn_end() {
         used -= std::min<std::uint64_t>(used, nn_field_fuel); // v92's optional distance-field building takes what is left: not a need
         nn_field_fuel = 0;
         auto& n = nn_need[nn_kind];
-#ifdef A2_NN_LAZY
+#if defined(A2_NN_LAZY) || defined(A2_NN_NNUE)
         n = std::max(used, n - n / 16);
 #else
         n = std::max(used, n - n / 32);

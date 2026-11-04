@@ -146,6 +146,9 @@ public:
 #ifdef A2_NN_ENSLOG
     void nn_ens_log(int v92g, int ng);
 #endif
+#ifdef A2_NN_FCMP
+    void nn_fcmp(int v92g);
+#endif
 #ifdef A2_NN_ENS
     bool nn_ens_keep(int v92g, int ng) const; // blend with v92's choice (nnrec.cpp)
     int nn_ens_sample(int v92g);              // the same in RL rollouts (A2_NN_RLIVE)
@@ -192,6 +195,9 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
 #endif
 #ifdef A2_NN_ENSLOG
     if (best >= 0 && nn_group >= 0) nn_ens_log(best, nn_group);
+#endif
+#ifdef A2_NN_FCMP
+    if (best >= 0 && nn_group >= 0) nn_fcmp(best);
 #endif
 #ifdef A2_NN_ENS
 #if defined(A2_NN_RLIVE) && A2_NN_RLIVE
