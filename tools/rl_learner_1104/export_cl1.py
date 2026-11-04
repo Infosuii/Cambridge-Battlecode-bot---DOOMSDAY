@@ -74,10 +74,10 @@ def main():
     export = {'format': 'jd-cl1-pointer-f32-v1', 'preprocess': PREPROCESS_VERSION,
               'training': checkpoint['sampling'], 'encoder_source': checkpoint['encoder_source'],
               'pool_order': sorted(entities), 'hidden': 16, 'tensors': tensors,
-              'limits': 'Hybrid teacher-BC diagnostic only. Not approved for ladder or a full-control policy.'}
+              'limits': 'Hybrid macro policy; training provenance above. Not approved for ladder or full control.'}
     weights = json.dumps(export, separators=(',', ':')) + '\n'
     (out / 'actor.json').write_text(weights)
-    header = ['#pragma once', '// Independently trained BC smoke, not a production candidate.', 'namespace jd_cl1_weights {']
+    header = ['#pragma once', '// Trained macro actor; see export provenance. Not a production candidate.', 'namespace jd_cl1_weights {']
     for k, v in state.items():
         vals = ','.join(format(float(x), '.9e') + 'f' for x in v.reshape(-1))
         header.append('inline constexpr float ' + k.replace('.', '_') + '[] = {' + vals + '};')
