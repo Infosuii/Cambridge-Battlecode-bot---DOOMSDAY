@@ -37,9 +37,10 @@ static void clna_rdbl(double d) {
 namespace cur {  // the current writer, as in nnrec.cpp
 static char clna_rbuf[1024];
 struct ClnaHex2 {
-    char t[512];
+    std::uint16_t t[256];
     constexpr ClnaHex2() : t{} {
-        for (int i = 0; i < 256; ++i) t[2 * i] = "0123456789abcdef"[i >> 4], t[2 * i + 1] = "0123456789abcdef"[i & 15];
+        for (int i = 0; i < 256; ++i)
+            t[i] = static_cast<std::uint16_t>("0123456789abcdef"[i >> 4] | ("0123456789abcdef"[i & 15] << 8));
     }
 };
 static constexpr ClnaHex2 clna_hex2{};
@@ -55,11 +56,7 @@ static char* clna_rint(char* o, long v) {
 static char* clna_rdbl(char* o, double d) {
     std::uint64_t u;
     __builtin_memcpy(&u, &d, sizeof u);
-    for (int i = 7; i >= 0; --i) {
-        const unsigned b = static_cast<unsigned>(u & 255u);
-        o[2 * i] = clna_hex2.t[2 * b], o[2 * i + 1] = clna_hex2.t[2 * b + 1];
-        u >>= 8;
-    }
+    for (int i = 7; i >= 0; --i) __builtin_memcpy(o + 2 * i, &clna_hex2.t[u & 255u], 2), u >>= 8;
     return o + 16;
 }
 }  // namespace cur
