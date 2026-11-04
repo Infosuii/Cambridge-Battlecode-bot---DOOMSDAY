@@ -1,0 +1,5 @@
+# EXP-047 — Freeze the redundant-arrival opportunity test
+
+V92 already discounts small claimed jobs and skips a payout that an ally is capturing. Focus on the residual case where its final opening route still selects a live group and an observed healthy claimant can clear it alone before our champion would arrive. Estimate both approaches from the same existing group field. Use the observed ally's strength and focus, and require estimated camp damage to fit within 75% of the ally's health. A different unclaimed reward-bearing group must already be among the scored first targets.
+
+Trace the final original choice and the first qualifying alternative without changing the action. Freeze 64 development cells on 16 conformance maps, both sides and both varied opponents. Require at least two independently affected maps, both opponents represented, and zero faults or codes. Repeated turns with the same original and alternative count as one opportunity per champion and case. If this fails, keep the existing staffing policy.
