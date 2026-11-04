@@ -94,8 +94,10 @@ def eligible(worker, task, now):
             and worker.get("free_capacity", 0) > 0)
 
 
-def can_publish(task, agent_id, session, epoch):
+def can_publish(task, agent_id, session, epoch, *, now, owner_last_control_at, reads_complete=True):
     return (task.get("owner") == agent_id
             and task.get("owner_session") == session
             and task.get("epoch") == epoch
-            and task.get("state") == "ACTIVE")
+            and task.get("state") == "ACTIVE"
+            and lease_state(owner_last_control_at, now, reads_complete=reads_complete)
+                in {"ACTIVE", "CHALLENGE"})
