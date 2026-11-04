@@ -1,0 +1,121 @@
+{
+  "scope": "Exact byte codec and actual release engine fuel probe; not integrated logger or gameplay",
+  "roundtrip_cases": 275,
+  "capacity_refusal": "passed",
+  "rows": [
+    {
+      "payload_bytes": 256,
+      "codec": "hex",
+      "output_bytes": 512,
+      "format_fuel": 3604,
+      "write_fuel": 578
+    },
+    {
+      "payload_bytes": 256,
+      "codec": "base64",
+      "output_bytes": 344,
+      "format_fuel": 6120,
+      "write_fuel": 410
+    },
+    {
+      "payload_bytes": 256,
+      "codec": "hex_simd",
+      "output_bytes": 512,
+      "format_fuel": 703,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 640,
+      "codec": "hex",
+      "output_bytes": 1280,
+      "format_fuel": 8956,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 640,
+      "codec": "base64",
+      "output_bytes": 856,
+      "format_fuel": 15208,
+      "write_fuel": 922
+    },
+    {
+      "payload_bytes": 640,
+      "codec": "hex_simd",
+      "output_bytes": 1280,
+      "format_fuel": 1711,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 896,
+      "codec": "hex",
+      "output_bytes": 1792,
+      "format_fuel": 12524,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 896,
+      "codec": "base64",
+      "output_bytes": 1196,
+      "format_fuel": 21255,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 896,
+      "codec": "hex_simd",
+      "output_bytes": 1792,
+      "format_fuel": 2383,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 1024,
+      "codec": "hex",
+      "output_bytes": 2048,
+      "format_fuel": 14308,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 1024,
+      "codec": "base64",
+      "output_bytes": 1368,
+      "format_fuel": 24296,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 1024,
+      "codec": "hex_simd",
+      "output_bytes": 2048,
+      "format_fuel": 2719,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 4096,
+      "codec": "hex",
+      "output_bytes": 8192,
+      "format_fuel": 57124,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 4096,
+      "codec": "base64",
+      "output_bytes": 5464,
+      "format_fuel": 97000,
+      "write_fuel": 242
+    },
+    {
+      "payload_bytes": 4096,
+      "codec": "hex_simd",
+      "output_bytes": 8192,
+      "format_fuel": 10783,
+      "write_fuel": 242
+    }
+  ],
+  "header_sha256": "858fd4ddd19b8b0ff5078c87a0b6f8da5d1112fabaa841c0e5e35d53db6fe3bb",
+  "wasm_sha256": "fd43c20275b5503dd0a3957d4557ac3083aa95dc7b59675c95da544558aeff67",
+  "notes": [
+    "No semantic payload schema defined or changed",
+    "Hex comparison is2chars/raw byte, not existing16char/double CNR logger",
+    "Excludes payload packing, checksum, headers and buffering effects",
+    "Two fuel reads included in each measured interval; raw transport only",
+    "Initial ordinary base64 uses less bandwidth but MORE fuel than scalar hex in this probe; choose measured implementation"
+  ]
+}
