@@ -1,0 +1,183 @@
+{
+ "kind": "first bounded native gate update (mc-terminal-gamma1-v1); NOT a strength claim",
+ "version": "clna-gate-v1-b2e4294e4f5d",
+ "oracle_cases": 9,
+ "oracle_max_error": 1.3877787807814457e-17,
+ "behaviour_replay_max_error": 4.911004385377282e-07,
+ "games": [
+  {
+   "key": "3fed84091b160ff0|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00anvil.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 2314
+  },
+  {
+   "key": "3fed84091b160ff0|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00anvil.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 2371
+  },
+  {
+   "key": "fea9c8e766be4011|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00breadcrumbs.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 1205
+  },
+  {
+   "key": "fea9c8e766be4011|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00breadcrumbs.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1376
+  },
+  {
+   "key": "6e3c67956080f8da|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00collision.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 1666
+  },
+  {
+   "key": "6e3c67956080f8da|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00collision.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1580
+  },
+  {
+   "key": "76b5ce0895130f5f|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00eight.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 3155
+  },
+  {
+   "key": "76b5ce0895130f5f|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00eight.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 2910
+  },
+  {
+   "key": "2d80c4fd704de4a4|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00galaxy.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 3441
+  },
+  {
+   "key": "2d80c4fd704de4a4|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00galaxy.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 2789
+  },
+  {
+   "key": "80af89f07723d23d|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00gem-fields.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 1961
+  },
+  {
+   "key": "80af89f07723d23d|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00gem-fields.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 2076
+  },
+  {
+   "key": "1dfe5669ebcdf39e|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00gemfight.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 1492
+  },
+  {
+   "key": "1dfe5669ebcdf39e|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00gemfight.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1288
+  },
+  {
+   "key": "a97f4ab5707d1572|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00happy-halloween.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 2781
+  },
+  {
+   "key": "a97f4ab5707d1572|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00happy-halloween.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 2739
+  }
+ ],
+ "decisions": 35144,
+ "outcome_mean": -0.125,
+ "epochs": [
+  {
+   "epoch": 0,
+   "loss": -289.93749995002304,
+   "approx_kl": -4.63864007745473e-12,
+   "alpha_mean": 0.02000000000000001,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 1,
+   "loss": -290.0418656631259,
+   "approx_kl": 6.310108997577502e-05,
+   "alpha_mean": 0.01718998780682054,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 2,
+   "loss": -289.80218318377274,
+   "approx_kl": 0.00022459131264861384,
+   "alpha_mean": 0.01491297258286127,
+   "clip_frac": 0.004808786706123378
+  },
+  {
+   "epoch": 3,
+   "loss": -290.077138250437,
+   "approx_kl": 0.00010044604042628093,
+   "alpha_mean": 0.016810023957112598,
+   "clip_frac": 0.0014511723195993625
+  }
+ ],
+ "alpha_before": {
+  "mean": 0.02000000000000001,
+  "min": 0.020000000000000004,
+  "max": 0.020000000000000004
+ },
+ "alpha_after": {
+  "mean": 0.019283119705913503,
+  "min": 0.01617281097437934,
+  "max": 0.023817466152862315
+ },
+ "gate_w": [
+  -0.024751322343945503,
+  0.16918587684631348,
+  -0.06965220719575882,
+  -0.07840539515018463,
+  -0.07253781706094742,
+  -0.049276936799287796,
+  0.18744218349456787,
+  -0.04679455608129501
+ ],
+ "gate_b": -3.938628625737781,
+ "shards": [
+  "runs/rl_env_1104/nat-rel-train-01"
+ ],
+ "rejected_episodes": [],
+ "objective": "sum of decision surrogates per game, mean over games",
+ "reward_spec": "mc-terminal-gamma1-v1",
+ "gate_abi_hash": "ae31eb71eecd6fd04ab03998b2c9307ba8b2246fb8f200dc1767d9eb002bf3b7",
+ "resumed_from": null,
+ "updates": 4
+}

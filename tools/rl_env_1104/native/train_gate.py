@@ -64,7 +64,7 @@ def oracle_check(path):
     return len(d["cases"]), worst
 
 
-def load(root, game_offset):
+def load(root, game_offset, train_maps=None):
     rows = dict(q=[], ref=[], a=[], logp=[], x=[], G=[], game=[])
     games, rejected = [], []
     for man, cols in C.iter_shards(root, layout=2, action_schema="native-blend-eps-v1"):
@@ -74,7 +74,9 @@ def load(root, game_offset):
                 continue
             sel = cols["episode"] == e
             why = None
-            if not spec_ok:
+            if train_maps is not None and meta.get("map_file", "").replace(chr(92), "/").split("/")[-1] not in train_maps:
+                why = f"map {meta.get('map_file')} is not in the manifest training split"
+            elif not spec_ok:
                 why = f"reward_spec {str(man.get('reward_spec'))[:40]!r} is not {REWARD_SPEC_ID}"
             elif meta.get("terminal_outcome") not in (-1, 0, 1) or meta.get("status") != "terminated":
                 why = f"no proven outcome (status {meta.get('status')}, outcome {meta.get('terminal_outcome')})"
@@ -116,6 +118,7 @@ def main():
     ap.add_argument("--lr", type=float, default=0.05)
     ap.add_argument("--clip", type=float, default=0.2)
     ap.add_argument("--resume", help="gate.pt from an earlier run (same gate ABI)")
+    ap.add_argument("--map-manifest", help="evaluation map manifest: reject episodes on maps outside its training split")
     a = ap.parse_args()
     if os.path.exists(a.out):
         raise SystemExit("output directory must be new")
@@ -123,9 +126,13 @@ def main():
     n_fx, fx_err = oracle_check(a.fixtures)
     if fx_err > 1e-9:
         raise SystemExit(f"mixture formula disagrees with the oracle: {fx_err}")
+    train_maps = None
+    if a.map_manifest:
+        with open(a.map_manifest, encoding="utf-8") as f:
+            train_maps = {m["file"] for m in json.load(f)["maps"] if m["split"] == "training"}
     R, games, rejected = None, [], []
     for root in a.shards:
-        part, g, rj = load(root, len(games))
+        part, g, rj = load(root, len(games), train_maps)
         games += g
         rejected += rj
         if part is not None:
@@ -155,6 +162,8 @@ def main():
         raise SystemExit(f"behaviour logp replay failed: {replay_err}")
     outcomes = np.array([g["outcome"] for g in games], dtype=np.float64)
     adv = t["G"] - float(outcomes.mean())
+    if float(outcomes.std()) == 0.0:
+        raise SystemExit(f"all {len(games)} games have outcome {outcomes[0]:+g}: zero advantage, no learning signal")
     ng = len(games)
     opt = torch.optim.Adam([w, b], lr=a.lr)
     if ck is not None:
@@ -171,7 +180,7 @@ def main():
         opt.step()
         with torch.no_grad():
             kl = float((t["logp"] - lp).mean())
-        hist.append(dict(epoch=ep, loss=float(loss), approx_kl=kl, alpha_mean=float(al.mean()),
+        hist.append(dict(epoch=ep, loss=float(loss.detach()), approx_kl=kl, alpha_mean=float(al.detach().mean()),
                          clip_frac=float(((ratio - 1).abs() > a.clip).double().mean())))
     with torch.no_grad():
         lp1, al1 = mixture_logp(w, b, t["x"], t["q"], ref, act)

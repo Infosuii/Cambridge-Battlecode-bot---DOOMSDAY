@@ -1,0 +1,413 @@
+{
+ "kind": "matched evaluation (descriptive; deterministic engine)",
+ "status": "COMPLETE",
+ "failed_games": 0,
+ "split": "development",
+ "manifest": {
+  "path": "artifacts/tmp/rl_env_1104/eval_manifest.json",
+  "sha256": "a1fcb51e115097707a31351a670ab389766649ee71bba63c661dedd8f584de3c",
+  "schema": "jd-eval-map-candidate-v1",
+  "status": "PROVISIONAL_REQUIRES_GEOMETRY_AUDIT"
+ },
+ "build": "release",
+ "wasm_sha256": {
+  "nolog": "1a81c3d9cb6153792027aedf51fe8abcfdbe85b0f726b9264015af194bae690c",
+  "rlog": "9f8cf58b454074a683a66ba965912ff1066f85b02f4bb16d6bd0626006ae76e8",
+  "v92": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+ },
+ "reference": "nolog",
+ "candidates": {
+  "nolog": "artifacts/tmp/rl_env_1104/rlog-ab/nolog",
+  "rlog": "artifacts/tmp/rl_env_1104/rlog-ab/rlog"
+ },
+ "opponents": {
+  "v92": "bots/v92"
+ },
+ "maps": [
+  "00ambush.map26a",
+  "00contest.map26a",
+  "00corners.map26a",
+  "00crater.map26a"
+ ],
+ "sides": "A,B",
+ "cells": [
+  "554240a5a793f8c1|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "554240a5a793f8c1|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "81ac8b6689f275d2|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "81ac8b6689f275d2|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "97906cc38f503e02|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "97906cc38f503e02|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "dc977a695c82870d|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+  "dc977a695c82870d|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default"
+ ],
+ "summary": {
+  "nolog vs v92": {
+   "games": 8,
+   "score": 3.0,
+   "win_rate": 0.375,
+   "wilson95": [
+    0.1368,
+    0.6943
+   ],
+   "family_bootstrap95": [
+    0.125,
+    0.5
+   ],
+   "fuel_outs": 360,
+   "faults": 0,
+   "failed": 0
+  },
+  "nolog vs ALL": {
+   "games": 8,
+   "score": 3.0,
+   "win_rate": 0.375,
+   "wilson95": [
+    0.1368,
+    0.6943
+   ],
+   "family_bootstrap95": [
+    0.125,
+    0.5
+   ],
+   "fuel_outs": 360,
+   "faults": 0,
+   "failed": 0
+  },
+  "rlog vs v92": {
+   "games": 8,
+   "score": 5.0,
+   "win_rate": 0.625,
+   "wilson95": [
+    0.3057,
+    0.8632
+   ],
+   "family_bootstrap95": [
+    0.25,
+    1.0
+   ],
+   "fuel_outs": 655,
+   "faults": 0,
+   "failed": 0
+  },
+  "rlog vs ALL": {
+   "games": 8,
+   "score": 5.0,
+   "win_rate": 0.625,
+   "wilson95": [
+    0.3057,
+    0.8632
+   ],
+   "family_bootstrap95": [
+    0.25,
+    1.0
+   ],
+   "fuel_outs": 655,
+   "faults": 0,
+   "failed": 0
+  }
+ },
+ "comparisons": {
+  "rlog - nolog": {
+   "status": "COMPLETE",
+   "paired_delta": 0.25,
+   "ci95": [
+    0.0,
+    0.5
+   ],
+   "family_balanced_delta": 0.25,
+   "families": 4,
+   "cells": 8,
+   "enough_families_for_proposed_confirmation_gate": false
+  }
+ },
+ "games": [
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00ambush.map26a",
+   "family": "ambush",
+   "side": "A",
+   "cell": "81ac8b6689f275d2|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 1.0,
+   "ours": 1026,
+   "theirs": 931,
+   "rounds": 1285,
+   "fuel_outs": 67,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00ambush.map26a",
+   "family": "ambush",
+   "side": "B",
+   "cell": "81ac8b6689f275d2|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 0.0,
+   "ours": 921,
+   "theirs": 1003,
+   "rounds": 1318,
+   "fuel_outs": 90,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00contest.map26a",
+   "family": "contest",
+   "side": "A",
+   "cell": "554240a5a793f8c1|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 0.0,
+   "ours": 0,
+   "theirs": 1000,
+   "rounds": 1823,
+   "fuel_outs": 53,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00contest.map26a",
+   "family": "contest",
+   "side": "B",
+   "cell": "554240a5a793f8c1|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 0.0,
+   "ours": 0,
+   "theirs": 1000,
+   "rounds": 1808,
+   "fuel_outs": 51,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00corners.map26a",
+   "family": "corners",
+   "side": "A",
+   "cell": "97906cc38f503e02|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 1.0,
+   "ours": 1005,
+   "theirs": 403,
+   "rounds": 1071,
+   "fuel_outs": 40,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00corners.map26a",
+   "family": "corners",
+   "side": "B",
+   "cell": "97906cc38f503e02|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 0.0,
+   "ours": 447,
+   "theirs": 1002,
+   "rounds": 1119,
+   "fuel_outs": 34,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00crater.map26a",
+   "family": "crater",
+   "side": "A",
+   "cell": "dc977a695c82870d|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 0.0,
+   "ours": 56,
+   "theirs": 1034,
+   "rounds": 1136,
+   "fuel_outs": 7,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "nolog",
+   "opponent": "v92",
+   "map": "00crater.map26a",
+   "family": "crater",
+   "side": "B",
+   "cell": "dc977a695c82870d|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 1.0,
+   "ours": 1021,
+   "theirs": 232,
+   "rounds": 1332,
+   "fuel_outs": 18,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00ambush.map26a",
+   "family": "ambush",
+   "side": "A",
+   "cell": "81ac8b6689f275d2|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 1.0,
+   "ours": 1019,
+   "theirs": 715,
+   "rounds": 1353,
+   "fuel_outs": 140,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00ambush.map26a",
+   "family": "ambush",
+   "side": "B",
+   "cell": "81ac8b6689f275d2|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 0.0,
+   "ours": 737,
+   "theirs": 1022,
+   "rounds": 1266,
+   "fuel_outs": 114,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00contest.map26a",
+   "family": "contest",
+   "side": "A",
+   "cell": "554240a5a793f8c1|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 0.0,
+   "ours": 400,
+   "theirs": 800,
+   "rounds": 2000,
+   "fuel_outs": 106,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00contest.map26a",
+   "family": "contest",
+   "side": "B",
+   "cell": "554240a5a793f8c1|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 0.0,
+   "ours": 0,
+   "theirs": 1200,
+   "rounds": 1931,
+   "fuel_outs": 88,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00corners.map26a",
+   "family": "corners",
+   "side": "A",
+   "cell": "97906cc38f503e02|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 1.0,
+   "ours": 1006,
+   "theirs": 927,
+   "rounds": 1271,
+   "fuel_outs": 69,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00corners.map26a",
+   "family": "corners",
+   "side": "B",
+   "cell": "97906cc38f503e02|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 1.0,
+   "ours": 1000,
+   "theirs": 658,
+   "rounds": 1254,
+   "fuel_outs": 60,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00crater.map26a",
+   "family": "crater",
+   "side": "A",
+   "cell": "dc977a695c82870d|A|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamA",
+   "score": 1.0,
+   "ours": 1009,
+   "theirs": 253,
+   "rounds": 1377,
+   "fuel_outs": 49,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  },
+  {
+   "candidate": "rlog",
+   "opponent": "v92",
+   "map": "00crater.map26a",
+   "family": "crater",
+   "side": "B",
+   "cell": "dc977a695c82870d|B|5704d7ba41acca8f|release|cambc4.0.0|timeout900|seed-default",
+   "status": "ok",
+   "outcome": "teamB",
+   "score": 1.0,
+   "ours": 1014,
+   "theirs": 91,
+   "rounds": 1267,
+   "fuel_outs": 29,
+   "opp_fuel_outs": 0,
+   "faults": 0,
+   "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21"
+  }
+ ]
+}
