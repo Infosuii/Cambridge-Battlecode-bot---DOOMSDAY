@@ -8,14 +8,15 @@ from large_roster_stress import HERE, bench, read
 from pg_travel_scan import prepare as prepare_travel
 from qualify_local import DEV, build, partition
 
-OUT = bench.CACHE / "contact-retreat-dev"
+OUT = bench.CACHE / "contact-retreat-dev-r2"
 SEEDS = (6311, 7333)
 
 
 def prepare(src, enabled):
     prepare_travel(src, enabled)
     if enabled:
-        apply(src / "jd_config.h", (("#define JD_CONTACT 0", "#define JD_CONTACT 2"),))
+        apply(src / "jd_config.h", (("#define JD_CONTACT 0\n#define JD_PROGRESS 1",
+                                      "#define JD_CONTACT 2\n#define JD_PROGRESS 1"),))
     apply(src / "bot.cpp", (
         ("    if (!in_danger && nearest && !(target && target_ttk <= 1.0f)) {",
          """    if (!in_danger && nearest && !(target && target_ttk <= 1.0f) &&
