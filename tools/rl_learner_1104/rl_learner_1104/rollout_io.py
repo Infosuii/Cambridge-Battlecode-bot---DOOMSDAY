@@ -120,7 +120,8 @@ def trajectories(man, cols, actor_sha256, *, gamma=.995):
                         actor_sha256=actor_sha256,reward_spec=REWARD_SPEC,temperature=man['temperature'],
                         incomplete=False,fuel_failed=False,log_cut=False,policy_wasm_sha256=policy['wasm_sha256'],
                         encoder_sha256=policy['encoder_sha256'],engine_build_hash=info['engine_build_hash'],
-                        map_sha256=info['map_hash'],episode_key=info['key'],body_id=int(body))
+                        map_sha256=info['map_hash'],episode_key=info['key'],body_id=int(body),
+                        hidden_size=man.get('actor_hidden_size',16))
             t = Trajectory(torch.from_numpy(x.copy()),torch.from_numpy(nxt),
                            torch.from_numpy(cols['action'][decisions].astype(np.int64)),
                            torch.from_numpy(cols['executed'][decisions].astype(np.int64)),
