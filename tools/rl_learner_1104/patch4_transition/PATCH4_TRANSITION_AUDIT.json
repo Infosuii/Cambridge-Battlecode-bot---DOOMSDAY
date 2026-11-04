@@ -1,0 +1,227 @@
+{
+  "scope": "Current immutable runtime designs vs user-provided future patch4 expectations, no strength claim",
+  "match_engine_version": "2.0.0",
+  "match_engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "sdk_version": "4.0.0",
+  "actual_designs": {
+    "ryth": {
+      "base_health": 1200.0,
+      "base_strength": 45.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 4.5,
+      "focus_growth": 10.0
+    },
+    "vesper_vale": {
+      "base_health": 1000.0,
+      "base_strength": 45.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 5.0,
+      "focus_growth": 10.0
+    },
+    "vendetta": {
+      "base_health": 1000.0,
+      "base_strength": 70.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 6.0,
+      "focus_growth": 10.0
+    },
+    "cassi": {
+      "base_health": 600.0,
+      "base_strength": 30.0,
+      "base_focus": 100.0,
+      "health_growth": 65.0,
+      "strength_growth": 3.0,
+      "focus_growth": 13.0
+    },
+    "issac": {
+      "base_health": 900.0,
+      "base_strength": 45.0,
+      "base_focus": 100.0,
+      "health_growth": 80.0,
+      "strength_growth": 3.0,
+      "focus_growth": 10.0
+    },
+    "stellar": {
+      "base_health": 650.0,
+      "base_strength": 30.0,
+      "base_focus": 70.0,
+      "health_growth": 65.0,
+      "strength_growth": 3.5,
+      "focus_growth": 8.5
+    },
+    "prism": {
+      "base_health": 700.0,
+      "base_strength": 35.0,
+      "base_focus": 80.0,
+      "health_growth": 65.0,
+      "strength_growth": 2.5,
+      "focus_growth": 8.0
+    },
+    "marcella": {
+      "base_health": 1200.0,
+      "base_strength": 45.0,
+      "base_focus": 60.0,
+      "health_growth": 100.0,
+      "strength_growth": 4.5,
+      "focus_growth": 14.0
+    },
+    "willow": {
+      "base_health": 700.0,
+      "base_strength": 55.0,
+      "base_focus": 140.0,
+      "health_growth": 50.0,
+      "strength_growth": 3.0,
+      "focus_growth": 5.0
+    },
+    "ren": {
+      "base_health": 900.0,
+      "base_strength": 35.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 5.0,
+      "focus_growth": 9.0
+    },
+    "varg": {
+      "base_health": 1000.0,
+      "base_strength": 45.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 5.0,
+      "focus_growth": 10.0
+    },
+    "tavi": {
+      "base_health": 900.0,
+      "base_strength": 45.0,
+      "base_focus": 110.0,
+      "health_growth": 75.0,
+      "strength_growth": 5.0,
+      "focus_growth": 10.0
+    },
+    "heart_of_ruin": {
+      "base_health": 1000.0,
+      "base_strength": 30.0,
+      "base_focus": 100.0,
+      "health_growth": 100.0,
+      "strength_growth": 3.0,
+      "focus_growth": 10.0
+    }
+  },
+  "actual_item_metadata": {
+    "67": {
+      "health_points": 0.0,
+      "strength_points": 5.0,
+      "focus_points": 0.0,
+      "passive_magnitude": 0.0500000007,
+      "cost": 150.0,
+      "combine_count": 0.0
+    },
+    "73": {
+      "health_points": 0.0,
+      "strength_points": 35.0,
+      "focus_points": 0.0,
+      "passive_magnitude": 0.0,
+      "cost": 750.0,
+      "combine_count": 0.0
+    }
+  },
+  "target_design_comparison": [
+    {
+      "champion": "vendetta",
+      "field": "base_health",
+      "current_local": 1000.0,
+      "patch4_expected_from_user": 900,
+      "matches_expected": false
+    },
+    {
+      "champion": "vendetta",
+      "field": "base_strength",
+      "current_local": 70.0,
+      "patch4_expected_from_user": 65,
+      "matches_expected": false
+    },
+    {
+      "champion": "vesper_vale",
+      "field": "base_strength",
+      "current_local": 45.0,
+      "patch4_expected_from_user": 35,
+      "matches_expected": false
+    },
+    {
+      "champion": "stellar",
+      "field": "base_focus",
+      "current_local": 70.0,
+      "patch4_expected_from_user": 85,
+      "matches_expected": false
+    },
+    {
+      "champion": "prism",
+      "field": "base_focus",
+      "current_local": 80.0,
+      "patch4_expected_from_user": 90,
+      "matches_expected": false
+    },
+    {
+      "champion": "marcella",
+      "field": "base_strength",
+      "current_local": 45.0,
+      "patch4_expected_from_user": 40,
+      "matches_expected": false
+    },
+    {
+      "champion": "marcella",
+      "field": "strength_growth",
+      "current_local": 4.5,
+      "patch4_expected_from_user": 3.5,
+      "matches_expected": false
+    },
+    {
+      "champion": "marcella",
+      "field": "focus_growth",
+      "current_local": 14.0,
+      "patch4_expected_from_user": 10,
+      "matches_expected": false
+    },
+    {
+      "champion": "varg",
+      "field": "base_strength",
+      "current_local": 45.0,
+      "patch4_expected_from_user": 50,
+      "matches_expected": false
+    },
+    {
+      "champion": "heart_of_ruin",
+      "field": "base_focus",
+      "current_local": 100.0,
+      "patch4_expected_from_user": 80,
+      "matches_expected": false
+    },
+    {
+      "champion": "heart_of_ruin",
+      "field": "focus_growth",
+      "current_local": 10.0,
+      "patch4_expected_from_user": 9,
+      "matches_expected": false
+    }
+  ],
+  "target_engine_released": false,
+  "target_release_source": "User says tomorrow, time unknown",
+  "source_audit": {
+    "V58_PATCH": 1,
+    "champion_stats": "Dynamic SDK champion_design reads in Bot::init; disabled old constexpr tables preserved but not active.",
+    "skirmish_multiplier": "Dynamic item passive_magnitude in refresh_emblems.",
+    "shopping": "Runtime cost/combine_count/result used by active shopping path.",
+    "strategy_caveat": "Draft priorities, shop plan and learned weights remain trained/selected on old balance; dynamic reads do not validate decision quality."
+  },
+  "diagnostics": {
+    "botFaults": {
+      "teamA": 0,
+      "teamB": 0
+    },
+    "codes": [],
+    "detailedCaptureComplete": true
+  },
+  "audit_log_sha256": "0d2609b4c72ef6c3b4769c7cc7375acde699a10b4cbbec7122b70ce3081176d6"
+}
