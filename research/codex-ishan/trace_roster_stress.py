@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 from zipfile import ZipFile
 
-from large_roster_stress import HERE, OUT, bench, read
+from large_roster_stress import DENSE_OUT, HERE, OUT, bench, read
 from large_roster_noised import OUT as NOISED_OUT
 
 
@@ -36,17 +36,23 @@ def trace(row, run_dir):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--noised", action="store_true")
+    suite = parser.add_mutually_exclusive_group()
+    suite.add_argument("--noised", action="store_true")
+    suite.add_argument("--dense", action="store_true")
     args = parser.parse_args()
-    run_dir = NOISED_OUT if args.noised else OUT
-    stress = read(HERE / ("LARGE_ROSTER_NOISE.json" if args.noised else "LARGE_ROSTER_STRESS.json"))
+    if args.noised:
+        run_dir, report_name, turns_name = NOISED_OUT, "LARGE_ROSTER_NOISE.json", "LARGE_ROSTER_NOISE_TURNS.json"
+    elif args.dense:
+        run_dir, report_name, turns_name = DENSE_OUT, "DENSE_ROSTER_STRESS.json", "DENSE_ROSTER_TURNS.json"
+    else:
+        run_dir, report_name, turns_name = OUT, "LARGE_ROSTER_STRESS.json", "LARGE_ROSTER_TURNS.json"
+    stress = read(HERE / report_name)
     with ThreadPoolExecutor(max_workers=6) as pool:
         rows = [r for group in pool.map(lambda row: trace(row, run_dir), stress["affected"]) for r in group]
     counts = Counter(tuple(a["kind"] for a in r["actions_before_suspension"]) for r in rows)
     assert len(rows) == stress["fuel"]
     report = {"n": len(rows), "action_counts": [{"kinds": k, "count": n} for k, n in counts.most_common()], "rows": rows}
-    name = "LARGE_ROSTER_NOISE_TURNS.json" if args.noised else "LARGE_ROSTER_TURNS.json"
-    with (HERE / name).open("x", encoding="utf8", newline="\n") as f:
+    with (HERE / turns_name).open("x", encoding="utf8", newline="\n") as f:
         json.dump(report, f, indent=2)
         f.write("\n")
     for row in rows:
