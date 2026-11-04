@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T09:04:21Z",
+  "updated_at": "2026-11-04T09:09:52Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -60,7 +60,7 @@
       ],
       "session": "builder-g5070-resume-0715-20261104-0715",
       "seq": 9,
-      "state": "ACTIVE",
+      "state": "UNAVAILABLE_30M",
       "protocol_ack": true,
       "last_control_at": "2026-11-04T08:36:07Z",
       "adoption_until": "2026-11-04T02:10:22Z",
@@ -72,13 +72,13 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 1,
-      "requires_new_assignment": false,
+      "free_capacity": 0,
+      "requires_new_assignment": true,
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
       "deadline": "2026-11-04T13:05:00Z",
       "last_control_comment_id": 6626419919,
       "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
-      "unavailable_since": "2026-11-04T05:09:26Z",
+      "unavailable_since": "2026-11-04T09:08:25Z",
       "retired_sessions": [
         {
           "session": "builder-g5070-1104-20261104-0105",
@@ -505,10 +505,21 @@
       "at": "2026-11-04T08:56:56Z",
       "nonce": "avail-854-6626419919",
       "comment_id": 6626794606
+    },
+    {
+      "id": "expire:builder-g5070-1104:6626419919",
+      "type": "EXPIRY",
+      "agent": "builder-g5070-1104",
+      "session": "builder-g5070-resume-0715-20261104-0715",
+      "at": "2026-11-04T09:09:52Z",
+      "last_control_at": "2026-11-04T08:36:07Z",
+      "last_substantive_at": "2026-11-04T08:38:25Z",
+      "affected_tasks": [],
+      "note": "All four execution tracks explicitly released/completed before lapse; no finished work reopened. No platform lock or outstanding operation reported."
     }
   ],
   "note": "Builder local execution released at epoch3; exact remote publication verified. No reassignment of finished tracks. v80 retained; no platform actions. Agent2 access blocker unchanged.",
-  "last_complete_check_at": "2026-11-04T09:04:21Z",
+  "last_complete_check_at": "2026-11-04T09:09:52Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
