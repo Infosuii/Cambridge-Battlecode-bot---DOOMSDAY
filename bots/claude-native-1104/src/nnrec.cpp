@@ -671,10 +671,24 @@ struct ClnaCtx {
     std::int16_t x[160];
     alignas(16) float acc[64];
     int done = 0;        // inputs of x accumulated so far (0..160)
-    bool ready = false;  // h (in acc) complete
+    bool ready = false;  // h (in acc) complete, and the h-only terms below
+    float ek[16], ef[4], bias = 0, far = 0;
+    double alpha = 0;
 };
 static ClnaSnap clna_snap;
 static ClnaCtx clna_pend, clna_act;  // being staged / completed and in use
+static int clna_skips[4] = {};       // this turn's skipped decisions by reason (CNK row at the end of the turn)
+struct ClnaRow {                     // this turn's head decision, written as CNR3 at the end of the turn (clna_end)
+    bool pending = false;
+    int round = 0, slot = 0, index = 0, ref = 0, chosen = 0, v92 = 0, nn = 0, n = 0, pub = 0, ctx = 0, nu = 0;
+    long id = 0;
+    double alpha = 0, p = 0;
+    int ug[14] = {}, map[11] = {};
+    float nat[11] = {};
+    std::int16_t ec[10][16] = {}, ft[10][4] = {};  // (x is clna_act.x: the context in use changes only in clna_turn_end)
+    long f_before = 0, f_head = 0, f_left = 0, f_stash = 0;  // CLNA_FPROF
+};
+static ClnaRow clna_row;
 static void clna_take_snap(const std::int16_t* f, int coff, int at) {
     if (clna_pend.at < 0) std::copy(nn_lv.x, nn_lv.x + 160, clna_pend.x), clna_pend.at = at, clna_pend.done = 0, clna_pend.ready = false;
     int n = 0;
@@ -1178,30 +1192,40 @@ static void clna_stage() {  // one stage of the pending context; a completed one
     if (end == 160)
         for (int j = 0; j < 16; ++j) a[j] = wasm_f32x4_max(a[j], wasm_f32x4_splat(0)), c.ready = true;
     for (int j = 0; j < 16; ++j) wasm_v128_store(c.acc + 4 * j, a[j]);
-    if (c.ready) clna_act = c, c.at = -1;  // the next nn_pub starts a new pending context
+    if (c.ready) {
+        // everything of jd_head::scores that depends on h alone, once per context (same operations, same order):
+        // q = query(h), the folded pointer bias / key / feature vectors, the far residual and alpha
+        const float* h = c.acc;
+        float q[16];
+        jd_head::dense<16>(h, w + 10304, 64, q, false);
+        c.bias = 0;
+        for (int j = 0; j < 16; ++j) c.bias += (w[11600 + j] + w[11680 + j]) * q[j];
+        for (int i = 0; i < 16; ++i) {
+            c.ek[i] = 0;
+            for (int j = 0; j < 16; ++j) c.ek[i] += w[11344 + i * 16 + j] * q[j];
+        }
+        for (int i = 0; i < 4; ++i) {
+            c.ef[i] = 0;
+            for (int j = 0; j < 16; ++j) c.ef[i] += w[11616 + i * 16 + j] * q[j];
+        }
+        float far = w[11760], gate = w[11825];
+        for (int j = 0; j < 64; ++j) far += h[j] * w[11696 + j], gate += h[j] * w[11761 + j];
+        c.far = far, c.alpha = 1 / (1 + std::exp(-double(gate)));
+        clna_act = c, c.at = -1;  // the next nn_pub starts a new pending context
+    }
 }
-// jd_head::scores + probabilities from a ready h (the rest of the head, unchanged operations)
-static void clna_head_rest(const float* h, const float* camps, const float* features, const float* native, int n,
+// the rest of jd_head::scores + probabilities: per-camp dot products and the mixture (unchanged operations)
+static void clna_head_rest(const ClnaCtx& cx, const float* camps, const float* features, const float* native, int n,
                            const bool* valid, const int* map, int reference, int p, double* out, double& alpha) {
-    const float* w = clna_head::kW;
-    float q[16], ek[16] = {}, ef[4] = {}, logits[64];
-    jd_head::dense<16>(h, w + 10304, 64, q, false);
-    float bias = 0;
-    for (int j = 0; j < 16; ++j) bias += (w[11600 + j] + w[11680 + j]) * q[j];
-    for (int i = 0; i < 16; ++i)
-        for (int j = 0; j < 16; ++j) ek[i] += w[11344 + i * 16 + j] * q[j];
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 16; ++j) ef[i] += w[11616 + i * 16 + j] * q[j];
+    float logits[64];
     for (int k = 0; k < n; ++k) {
-        float z = bias;
-        for (int j = 0; j < 16; ++j) z += camps[k * 16 + j] * ek[j];
-        for (int j = 0; j < 4; ++j) z += features[k * 4 + j] * ef[j];
+        float z = cx.bias;
+        for (int j = 0; j < 16; ++j) z += camps[k * 16 + j] * cx.ek[j];
+        for (int j = 0; j < 4; ++j) z += features[k * 4 + j] * cx.ef[j];
         logits[k] = native[k] + z / 4;
     }
-    float far = w[11760], gate = w[11825];
-    for (int j = 0; j < 64; ++j) far += h[j] * w[11696 + j], gate += h[j] * w[11761 + j];
-    logits[n] = native[n] + far;
-    alpha = 1 / (1 + std::exp(-double(gate)));
+    logits[n] = native[n] + cx.far;
+    alpha = cx.alpha;
     float mx = -INFINITY;
     for (int j = 0; j <= n; ++j)
         if (valid[j] && logits[j] > mx) mx = logits[j];
@@ -1334,10 +1358,7 @@ int Bot::clna_explore(int v92g, int ng) {
                         : bc::fuel_remaining() < static_cast<std::uint64_t>(CLNA_HEAD_MIN) ? 3 : !clna_act.ready ? 4 : 0;
         if (why) {
             clna_round = -1;
-            char* o = clna_rstr(clna_rbuf, "CNS2 ");
-            o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
-            *o++ = ' ', o = clna_rint(o, why), *o++ = '\n';
-            std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+            ++clna_skips[why - 1];  // reported at the end of the turn (CNK, clna_turn_end)
             return ref;
         }
         float cf[10 * 16], ff[10 * 4], nat[11];
@@ -1356,7 +1377,7 @@ int Bot::clna_explore(int v92g, int ng) {
 #if CLNA_FPROF
         const std::uint64_t clna_h0 = bc::fuel_remaining();
 #endif
-        clna_head_rest(clna_act.acc, cf, ff, nat, n, val, map, kr, nu, ph, alpha);
+        clna_head_rest(clna_act, cf, ff, nat, n, val, map, kr, nu, ph, alpha);
 #if CLNA_FPROF
         const std::uint64_t clna_h1 = bc::fuel_remaining();
 #endif
@@ -1373,30 +1394,22 @@ int Bot::clna_explore(int v92g, int ng) {
         //      <p chosen:hex64> <groups: nu x hex8> <slot->physical: (n+1) x hex8> <native logits: (n+1) x hex32 bits>
         //      <x: 160 int16> <ec: 16n int16> <fields: 4n int16>   (the last three as raw little-endian bytes in hex,
         //      jd_codec::hex_simd; groups < 256 always: World groups are at most ~51)
+        // (fuel) the row is only stashed here and formatted/written at the end of the turn (clna_end), right before its
+        // CNX3: same bytes, same order, off the decision path
         ++clna_index;
         clna_round = round;
-        char* o = clna_rstr(clna_rbuf, "CNR3 ");
-        o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
-        *o++ = ' ', o = clna_rint(o, clna_index), *o++ = ' ', o = clna_rint(o, ref), *o++ = ' ', o = clna_rint(o, ug[c]);
-        *o++ = ' ', o = clna_rint(o, v92g), *o++ = ' ', o = clna_rint(o, ng), *o++ = ' ', o = clna_rint(o, n);
-        *o++ = ' ', o = clna_rint(o, nn_pub.at), *o++ = ' ', o = clna_rint(o, clna_act.at), *o++ = ' ', o = clna_rint(o, nu);
-        *o++ = ' ', o = clna_rdbl(o, alpha), *o++ = ' ', o = clna_rdbl(o, ph[c]);
-        *o++ = ' ', o = clna_rh8(o, ug, nu);
-        *o++ = ' ', o = clna_rh8(o, map, n + 1);
-        *o++ = ' ';
-        for (int j = 0; j <= n; ++j) o = clna_rf32(o, nat[j]);
-        const auto cap = [&] { return sizeof clna_rbuf - static_cast<std::size_t>(o - clna_rbuf); };
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(clna_act.x), 2 * 160, o, cap());
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&clna_snap.ec[0][0]), 2 * 16 * n, o, cap());
-        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&clna_snap.ft[0][0]), 2 * 4 * n, o, cap());
+        ClnaRow& w = clna_row;
+        w = ClnaRow{};
+        w.pending = true, w.round = round, w.slot = slot, w.id = static_cast<long>(my_id), w.index = clna_index;
+        w.ref = ref, w.chosen = ug[c], w.v92 = v92g, w.nn = ng, w.n = n, w.pub = nn_pub.at, w.ctx = clna_act.at, w.nu = nu;
+        w.alpha = alpha, w.p = ph[c];
+        std::copy(ug, ug + nu, w.ug), std::copy(map, map + n + 1, w.map), std::copy(nat, nat + n + 1, w.nat);
+        std::copy(&clna_snap.ec[0][0], &clna_snap.ec[0][0] + 16 * n, &w.ec[0][0]);
+        std::copy(&clna_snap.ft[0][0], &clna_snap.ft[0][0] + 4 * n, &w.ft[0][0]);
 #if CLNA_FPROF
-        // measurement builds: " F <before head> <head rest> <before log> <log so far>"
-        o = clna_rstr(o, " F "), o = clna_rint(o, static_cast<long>(clna_f0 - clna_h0)), *o++ = ' ';
-        o = clna_rint(o, static_cast<long>(clna_h0 - clna_h1)), *o++ = ' ', o = clna_rint(o, static_cast<long>(clna_h1));
-        *o++ = ' ', o = clna_rint(o, static_cast<long>(clna_h1 - bc::fuel_remaining()));
+        w.f_before = static_cast<long>(clna_f0 - clna_h0), w.f_head = static_cast<long>(clna_h0 - clna_h1);
+        w.f_left = static_cast<long>(clna_h1), w.f_stash = static_cast<long>(clna_h1 - bc::fuel_remaining());
 #endif
-        *o++ = '\n';
-        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
         return ug[c];
     }
 #endif
@@ -1496,6 +1509,33 @@ int Bot::clna_explore(int v92g, int ng) {
     return ug[c];
 }
 void Bot::clna_end() {
+#ifdef CLNA_HEAD
+    if (clna_row.pending) {  // the decision's CNR3 row (format: clna_explore), then its CNX3 below
+        const ClnaRow& w = clna_row;
+        clna_row.pending = false;
+        char* o = clna_rstr(clna_rbuf, "CNR3 ");
+        o = clna_rint(o, w.round), *o++ = ' ', o = clna_rint(o, w.slot), *o++ = ' ', o = clna_rint(o, w.id);
+        *o++ = ' ', o = clna_rint(o, w.index), *o++ = ' ', o = clna_rint(o, w.ref), *o++ = ' ', o = clna_rint(o, w.chosen);
+        *o++ = ' ', o = clna_rint(o, w.v92), *o++ = ' ', o = clna_rint(o, w.nn), *o++ = ' ', o = clna_rint(o, w.n);
+        *o++ = ' ', o = clna_rint(o, w.pub), *o++ = ' ', o = clna_rint(o, w.ctx), *o++ = ' ', o = clna_rint(o, w.nu);
+        *o++ = ' ', o = clna_rdbl(o, w.alpha), *o++ = ' ', o = clna_rdbl(o, w.p);
+        *o++ = ' ', o = clna_rh8(o, w.ug, w.nu);
+        *o++ = ' ', o = clna_rh8(o, w.map, w.n + 1);
+        *o++ = ' ';
+        for (int j = 0; j <= w.n; ++j) o = clna_rf32(o, w.nat[j]);
+        const auto cap = [&] { return sizeof clna_rbuf - static_cast<std::size_t>(o - clna_rbuf); };
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(clna_act.x), 2 * 160, o, cap());
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ec[0][0]), 2 * 16 * w.n, o, cap());
+        *o++ = ' ', o += jd_codec::hex_simd(reinterpret_cast<const std::uint8_t*>(&w.ft[0][0]), 2 * 4 * w.n, o, cap());
+#if CLNA_FPROF
+        // measurement builds: " F <before head> <head rest> <fuel left after head> <stash>"
+        o = clna_rstr(o, " F "), o = clna_rint(o, w.f_before), *o++ = ' ', o = clna_rint(o, w.f_head), *o++ = ' ';
+        o = clna_rint(o, w.f_left), *o++ = ' ', o = clna_rint(o, w.f_stash);
+#endif
+        *o++ = '\n';
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+    }
+#endif
 #if CLNA_RLOG
     if (clna_round == round) {  // CNX3 <round> <slot> <id> <index> <executed group>
         clna_round = -1;
@@ -1534,8 +1574,19 @@ void Bot::clna_turn_end() {
     const int d0 = clna_pend.at >= 0 ? clna_pend.done : -16;
 #endif
     const auto r0 = bc::round_number();
-    while (clna_pend.at >= 0 && bc::fuel_remaining() > static_cast<std::uint64_t>(CLNA_STAGE_MIN) && bc::round_number() == r0)
+    // (the last stage also computes the h-only terms, ~8k more)
+    while (clna_pend.at >= 0 && bc::round_number() == r0 &&
+           bc::fuel_remaining() > static_cast<std::uint64_t>(CLNA_STAGE_MIN) + (clna_pend.done == 144 ? 9000u : 0u))
         clna_stage();
+    // skips of this turn's decisions, one row at the end of the turn instead of one per skip on the decision path:
+    // CNK <round> <slot> <id> <unpaired> <reference outside> <fuel guard> <no context>
+    if ((clna_skips[0] | clna_skips[1] | clna_skips[2] | clna_skips[3]) && bc::round_number() == r0) {
+        char* k = clna_rstr(clna_rbuf, "CNK ");
+        k = clna_rint(k, round), *k++ = ' ', k = clna_rint(k, slot), *k++ = ' ', k = clna_rint(k, static_cast<long>(my_id));
+        for (int i = 0; i < 4; ++i) *k++ = ' ', k = clna_rint(k, clna_skips[i]), clna_skips[i] = 0;
+        *k++ = '\n';
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(k - clna_rbuf), stdout);
+    }
 #if CLNA_FPROF
     // measurement builds: CNF <round> <slot> <fuel left before> <after> <stages before> <after> <context in use round>
     char* o = clna_rstr(clna_rbuf, "CNF ");

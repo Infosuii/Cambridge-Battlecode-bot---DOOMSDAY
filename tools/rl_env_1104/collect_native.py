@@ -96,6 +96,10 @@ def parse(stdout: str) -> tuple:
                                 nn=h["nn"], groups=h["groups"], q=qs, gx=[], x=(0,) * NF, head=h))
             elif q[0] == "CNS2":  # fuel guard / pairing skip: the reference acted, no stochastic decision
                 skips += 1
+            elif q[0] == "CNK":  # per-turn skip counts by reason (head builds after cfe27aa3)
+                if len(q) != 8:
+                    raise ValueError
+                skips += sum(int(v) for v in q[4:8])
             elif q[0] == "CNR1":  # release logger: raw float bits, no features; logp rebuilt from the mixture
                 nu = int(q[10])
                 if len(q) != 11 + nu + GATE_N:
