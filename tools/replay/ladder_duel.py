@@ -94,6 +94,17 @@ def finished_groups(group_ids, previous=None):
     return by
 
 
+def required_pin_sources(plan, arm):
+    pin_arm = plan.get('pin_arm', 'v92')
+    size = len(plan['groups'])
+    if arm == pin_arm:
+        return [None] * size
+    ids = plan['arms'].get(pin_arm, {}).get('groups', [])
+    if len(ids) != size or not all(isinstance(gid, str) and gid for gid in ids) or len(set(ids)) != size:
+        raise SystemExit(f'{arm}: complete unique pin sources from {pin_arm} required before activation')
+    return ids
+
+
 def gem_margin(match_id, side):
     # Submitted-gem margin from the native summary, cached local-only.
     cache = ROOT / 'artifacts/local-only/duels' / f'{match_id}.json'
@@ -149,6 +160,7 @@ def main():
 
     plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
     if a.action == 'run':
+        pin_sources = required_pin_sources(plan, a.arm)
         activate(a.version)
         since = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time() - 60))
         ids = []
@@ -157,8 +169,7 @@ def main():
             for attempt in range(6):
                 # Pin the opponent's bot to the one it ran in the base arm's group (--source-group): an active team can
                 # upload a new version between arms, which would break the pairing.
-                base = plan['arms'].get(plan.get('pin_arm', 'v92'), {}).get('groups') if a.arm != plan.get('pin_arm', 'v92') else None
-                pin = ['--source-group', base[i]] if base and i < len(base) and base[i] else []
+                pin = ['--source-group', pin_sources[i]] if pin_sources[i] else []
                 r = cli(['match-groups', 'create', g['opponentId'], '--maps', ','.join(g['maps']), '--sides', ','.join(g['sides']), '--json'] + pin)
                 try:
                     gid = json.loads((r.stdout or '').strip().splitlines()[0])['groupId']
