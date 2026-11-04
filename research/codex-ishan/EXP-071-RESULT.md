@@ -1,0 +1,3 @@
+# EXP-071 Heart suspension trace
+
+The original R229 visible input, move, dash and native suspension matched in each narrowly instrumented release. Fuel fell from 3,732 before the accepted cast to 3,536 after it. The retarget path was disabled and the direct basic attack received 3,361 fuel. The catch ran in the next round with 99,997 fuel and SDK error 42, an invalid attack target. The trace does not identify whether the camp died or became unavailable. [Cast boundary](HEART_CAST_BOUNDARY.json), [caller](HEART_RETARGET_BOUNDARY.json), [attack](HEART_ATTACK_BOUNDARY.json), [error](HEART_ERROR_BOUNDARY.json).

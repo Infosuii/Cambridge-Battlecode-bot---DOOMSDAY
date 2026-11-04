@@ -53,10 +53,12 @@ def read_turn(directory, round_number, side, actor):
     return state
 
 
-def verify(wasm, escape_only=False):
+def verify(wasm, escape_only=False, *, heart_attack=False):
     exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
     assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
     name = "pg-escape-followup" if escape_only else "pg-dash-followup"
+    if heart_attack:
+        name = "pg-heart-attack"
     bench.OUT = bench.CACHE / f"{name}-stress"
     (bench.OUT / "games").mkdir(parents=True)
     jobs = []
@@ -77,15 +79,18 @@ def verify(wasm, escape_only=False):
         assert all(b[k] == c[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
     checked = []
     targets = CASES[1:2] if escape_only else CASES[1:]
+    if heart_attack:
+        targets = CASES[:2]
     for _, mp, opponent, side, round_number, actor, champion, _ in targets:
         b, c = next((b, c) for b, c in pairs if (b["map"], b["opponent"], b["side"]) == (mp, opponent, side))
         old, new = (read_turn(bench.OUT / "games" / f"{r['arm']}-0-{opponent}-{mp}-{side}", round_number, side, actor)
                     for r in (b, c))
         old_event, new_event = (any(e["owner"]["name"] == champion and e["timestamp"]["round"] == round_number
                                     for e in native_fuel(r, bench.OUT)) for r in (b, c))
+        actions = 2 if champion == "Heart of Ruin" else 1
         checked.append({"map": mp, "champion": champion, "round": round_number, "old_event": old_event, "new_event": new_event,
                         "same_input_and_dash": bool(old and new and old["observation"] == new["observation"] and
-                                                    old["executed_actions"][:1] == new["executed_actions"][:1])})
+                                                    old["executed_actions"][:actions] == new["executed_actions"][:actions])})
     fuel = [sum(r["fuel_outs"] for r in rows if r["arm"] == a) for a in ("base", "candidate")]
     increased = sum(c["fuel_outs"] > b["fuel_outs"] for b, c in pairs)
     errors = sum(bool(r["faults"] or r["diagnostic_codes"]) for r in rows)

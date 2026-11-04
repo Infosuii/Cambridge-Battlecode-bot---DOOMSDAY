@@ -13,7 +13,7 @@ from trace_post_cast import CASES, play
 import trace_post_cast
 
 
-def instrument(src, retarget):
+def instrument(src, retarget, attack, error):
     bot = src / "bot.cpp"
     marker = "bool Bot::cast_camp_strike(int ci) {"
     end = "bool Bot::cast_on_camp(int ci) {"
@@ -61,19 +61,59 @@ bool Bot::cast_camp_strike(int ci) {"""),
                     codex_heart_step[0], codex_heart_step[1], codex_heart_step[2], codex_heart_step[3], codex_heart_step[4]);
         codex_heart_before = codex_heart_after = 0;"""),
         ))
+    if attack:
+        apply(bot, (
+            ("static unsigned long long codex_heart_before, codex_heart_after;", ""),
+            ("bool Bot::attack_unit(const bc::unit& target, vec2 where) {", """static unsigned long long codex_heart_before, codex_heart_after, codex_heart_attack[5];
+
+bool Bot::attack_unit(const bc::unit& target, vec2 where) {
+    if (codex_heart_after) codex_heart_attack[0] = bc::fuel_remaining();"""),
+            ("    if (!me.can_attack() || cheb(pos, where) > range) return false;\n    try {\n        me.attack(target);",
+             """    if (!me.can_attack() || cheb(pos, where) > range) {
+        if (codex_heart_after) codex_heart_attack[1] = bc::fuel_remaining();
+        return false;
+    }
+    if (codex_heart_after) codex_heart_attack[2] = bc::fuel_remaining();
+    try {
+        me.attack(target);
+        if (codex_heart_after) codex_heart_attack[3] = bc::fuel_remaining();"""),
+            ('        LOG("attack error %s\\n", e.what());', '''        if (codex_heart_after) codex_heart_attack[4] = bc::fuel_remaining();
+        LOG("attack error %s\\n", e.what());'''),
+            ("        codex_heart_before = codex_heart_after = 0;", """        std::printf("CODEX_HEART_BOUNDARY attack %llu %llu %llu %llu %llu\\n",
+                    codex_heart_attack[0], codex_heart_attack[1], codex_heart_attack[2], codex_heart_attack[3], codex_heart_attack[4]);
+        codex_heart_before = codex_heart_after = 0;"""),
+        ))
+    if error:
+        apply(bot, (
+            ("static unsigned long long codex_heart_before, codex_heart_after, codex_heart_attack[5];",
+             """static unsigned long long codex_heart_before, codex_heart_after, codex_heart_attack[5];
+static int codex_heart_error = -1;"""),
+            ("        if (codex_heart_after) codex_heart_attack[4] = bc::fuel_remaining();",
+             """        if (codex_heart_after) {
+            codex_heart_attack[4] = bc::fuel_remaining();
+            if (const auto* failure = dynamic_cast<const bc::error*>(&e))
+                codex_heart_error = static_cast<int>(failure->code());
+        }"""),
+            ("        codex_heart_before = codex_heart_after = 0;", """        std::printf("CODEX_HEART_BOUNDARY error %d\\n", codex_heart_error);
+        codex_heart_before = codex_heart_after = 0;"""),
+        ))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--retarget", action="store_true")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--retarget", action="store_true")
+    modes.add_argument("--attack", action="store_true")
+    modes.add_argument("--error", action="store_true")
     args = parser.parse_args()
-    name = "heart-retarget-boundary" if args.retarget else "heart-cast-boundary"
+    phase = next((phase for phase in ("retarget", "attack", "error") if getattr(args, phase)), "cast")
+    name = f"heart-{phase}-boundary"
     out = bench.CACHE / name
     (out / "games").mkdir(parents=True)
     bench.OUT = trace_post_cast.OUT = out
     project = out / "diagnostic"
     prepare(project / "src", True)
-    instrument(project / "src", args.retarget)
+    instrument(project / "src", args.retarget, args.attack or args.error, args.error)
     wasm = project / "bot.wasm"
     with (out / "build.log").open("wb") as log:
         subprocess.run([bench.CLI, "build", project, "--release", "--output", wasm],
