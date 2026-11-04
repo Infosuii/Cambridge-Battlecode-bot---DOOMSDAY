@@ -2,6 +2,12 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 20:51 GMT
+
+- [EXP-117](../../research/codex-ishan/EXP-117-RESULT.md) transferred the bounded scan to the independent PG travel-scan replay. It reproduced the switch-off seed-7013 build and Marcella's original R536 observation, ward and attack. All six suspensions disappeared.
+- [EXP-118](../../research/codex-ishan/EXP-118-RESULT.md) bounded dense far scans and used a fixed SDK destination for small and nearby masks. It preserved all 896 target selections and passed both native development continuation checks, plus reproducible builds and switch-off identity. Exact release `ca5b2a73f2dff4d494d7ed58f471f1e4b547eaffe678757fa49f697a0c632f36`. The official pool gave 101/172 versus 86/172, 26 versus 160 native suspensions, and 12 versus 28 round one. One previously clean game suspended, so it failed L0. No L1, L2, upload, ladder duel or holdout. The official-pool cell identities and individual outcomes do not inform the next edit.
+- [EXP-119](../../research/codex-ishan/EXP-119.md) is running 800 independent paired games under a fresh common noise seed. This is an ordinary-budget diagnostic to find the next reproducible mechanism. The last signed-in platform check still showed v80 pinned and shared quota unused. Issues #5 and #6 were read and this branch made no ladder changes or lock request.
+
 ## Qualifier research through 4 Nov 2026, 20:41 GMT
 
 - Signed-in CLI verified platform v80 active, selected and pinned, status at 20:30:41.736Z and quota 0/50. This branch has made zero ladder mutations. No lock request or ACK is pending.

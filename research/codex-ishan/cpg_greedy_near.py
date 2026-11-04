@@ -50,4 +50,4 @@ if __name__ == "__main__":
     if args.src:
         prepare(args.src, not args.off)
     else:
-        verify(args.verify, nearby=True)
+        verify(args.verify, variant="greedy-near")

@@ -52,10 +52,9 @@ def pair(base, mp, wasm):
     return {"base": base, "candidate": current, "same_draft": draft_equal, "errors": bool(errors)}
 
 
-def verify(wasm, *, nearby=False):
+def verify(wasm, *, variant="decision-guard"):
     global OUT
-    if nearby:
-        OUT = bench.CACHE / "cpg-greedy-near-stress"
+    OUT = bench.CACHE / f"cpg-{variant}-stress"
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     source = read(HERE / "CPG_BUDGET_MARGIN.json")
@@ -91,7 +90,7 @@ def verify(wasm, *, nearby=False):
     result = {"reference": source["sha256"], "sha256": bench.digest(wasm), "engine": bench.ENGINE,
               "n": len(rows), "fuel": fuel, "increases": increases, "error_or_draft_cells": errors,
               "same_input_and_actions": matched, "standard_event_removed": removed, "pass": passed}
-    name = "CPG_GREEDY_NEAR_EXACT.json" if nearby else "CPG_DECISION_GUARD_EXACT.json"
+    name = f"CPG_{variant.upper().replace('-', '_')}_EXACT.json"
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows, "base_turn": b, "candidate_turn": c}, out, indent=2)
         out.write("\n")
