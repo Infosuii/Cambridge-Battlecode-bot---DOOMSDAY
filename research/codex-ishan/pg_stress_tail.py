@@ -10,15 +10,22 @@ from pg_ambush_guard import prepare as prepare_ambush
 from pg_tail_guard import add_guard
 
 
-def verify(wasm, name, phases):
+def prepare(src, enabled):
+    prepare_ambush(src, enabled)
+    add_guard(src, enabled)
+
+
+def verify(wasm, name, phases, baseline_file=None, selected_events=None):
     profile = read(HERE / "LARGE_ROSTER_COARSE.json")
     key = lambda r: (r["map"], r["opponent"], r["side"])
-    by_cell = {key(r): r for r in read(STRESS / "rows.json")}
+    base_rows = read(baseline_file)["candidate"] if baseline_file else read(STRESS / "rows.json")
+    by_cell = {key(r): r for r in base_rows}
     baseline = [by_cell[key(r)] for r in profile["rows"]]
     targets = {}
     for join in profile["joins"]:
         rounds = {int(re.search(r" R(\d+)", value).group(1)) for phase, value in join["examples"].items() if phase in phases}
-        selected = {(champion, rnd) for champion, rnd in join["matched_native"] if rnd in rounds}
+        selected = {(champion, rnd) for champion, rnd in join["matched_native"] if rnd in rounds and
+                    (selected_events is None or (join["map"], champion, rnd) in selected_events)}
         if selected:
             targets[key(join)] = selected
     assert len({map_name for map_name, _, _ in targets}) >= 2
@@ -67,7 +74,6 @@ if __name__ == "__main__":
     parser.add_argument("--off", action="store_true")
     args = parser.parse_args()
     if args.src:
-        prepare_ambush(args.src, not args.off)
-        add_guard(args.src, not args.off)
+        prepare(args.src, not args.off)
     else:
         verify(args.verify, "pg-stress-tail", {"tail"})
