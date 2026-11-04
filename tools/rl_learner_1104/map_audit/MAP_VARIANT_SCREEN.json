@@ -1,0 +1,149 @@
+{
+  "kind": "heuristic_cross_split_map_similarity_screen",
+  "maps": 86,
+  "method": "16x16 normalized position distributions for terrain, combined spawn and separate camp kinds; mean soft-Jaccard across nonempty channels; max over D4 orientations.",
+  "limitations": "Heuristic only. Different resolutions, tile quantization, resource amounts, path connectivity and camp-group semantics can differ. No threshold establishes independence; do not automatically change split or claim it sealed.",
+  "outcomes_used": false,
+  "top_cross_split_pairs": [
+    {
+      "a": "01hooks.map26a",
+      "a_split": "development",
+      "b": "adgato-gemcombat1.map26a",
+      "b_split": "training",
+      "similarity": 0.2561537627412709
+    },
+    {
+      "a": "00eight.map26a",
+      "a_split": "training",
+      "b": "02guardians.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.24666081800008205
+    },
+    {
+      "a": "01boss-battle.map26a",
+      "a_split": "training",
+      "b": "02guardians.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.24070621039963336
+    },
+    {
+      "a": "03colosseum.map26a",
+      "a_split": "training",
+      "b": "03membrane.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.20541392023619912
+    },
+    {
+      "a": "02the-pack.map26a",
+      "a_split": "training",
+      "b": "03membrane.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.2030945994145992
+    },
+    {
+      "a": "03membrane.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "adgato-gemcombat5.map26a",
+      "b_split": "training",
+      "similarity": 0.16621770091233487
+    },
+    {
+      "a": "03fan.map26a",
+      "a_split": "training",
+      "b": "03membrane.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.1658430409100697
+    },
+    {
+      "a": "03membrane.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "adgato-gemcombat4.map26a",
+      "b_split": "training",
+      "similarity": 0.162518314474338
+    },
+    {
+      "a": "01hooks.map26a",
+      "a_split": "development",
+      "b": "adgato-gemcombat5.map26a",
+      "b_split": "training",
+      "similarity": 0.16219319222935136
+    },
+    {
+      "a": "00breadcrumbs.map26a",
+      "a_split": "training",
+      "b": "03membrane.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.16175937735400908
+    },
+    {
+      "a": "00galaxy.map26a",
+      "a_split": "training",
+      "b": "00interlock.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.16043234097040887
+    },
+    {
+      "a": "02treasure-box.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "03colosseum.map26a",
+      "b_split": "training",
+      "similarity": 0.15870230325338033
+    },
+    {
+      "a": "01concentrated-wealth.map26a",
+      "a_split": "training",
+      "b": "01corridors.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.15134278012836883
+    },
+    {
+      "a": "00great-wall.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "02tangle.map26a",
+      "b_split": "training",
+      "similarity": 0.1487196235554966
+    },
+    {
+      "a": "03membrane.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "03ultrastarvation.map26a",
+      "b_split": "training",
+      "similarity": 0.147084606981364
+    },
+    {
+      "a": "01elk-arena.map26a",
+      "a_split": "training",
+      "b": "03homonoliths.map26a",
+      "b_split": "development",
+      "similarity": 0.14454571085181847
+    },
+    {
+      "a": "01broken-curve.map26a",
+      "a_split": "development",
+      "b": "01fracture.map26a",
+      "b_split": "confirmation_reserved",
+      "similarity": 0.1445355534195257
+    },
+    {
+      "a": "01fracture.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "03fan.map26a",
+      "b_split": "training",
+      "similarity": 0.14388214999961527
+    },
+    {
+      "a": "00contest.map26a",
+      "a_split": "development",
+      "b": "01elk-arena.map26a",
+      "b_split": "training",
+      "similarity": 0.14362054681027342
+    },
+    {
+      "a": "02guardians.map26a",
+      "a_split": "confirmation_reserved",
+      "b": "03showdown.map26a",
+      "b_split": "training",
+      "similarity": 0.14266420265830748
+    }
+  ]
+}
