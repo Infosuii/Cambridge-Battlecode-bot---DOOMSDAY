@@ -13,18 +13,20 @@ from pg_camp_reserve import prepare as prepare_reserve
 from trace_post_cast import CASES
 
 
-def prepare(src, enabled):
+def prepare(src, enabled, escape_only=False):
     prepare_reserve(src, enabled)
     header = src / "common.h"
     data = header.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
     header.write_bytes(f"#define CODEX_PG_DASH_FOLLOWUP {int(enabled)}".encode() + nl + data)
-    apply(src / "bot.cpp", (
-        ("    if (allow_dash) try_dash(field, blocked);", """#if CODEX_PG_DASH_FOLLOWUP
+    if not escape_only:
+        apply(src / "bot.cpp", (("    if (allow_dash) try_dash(field, blocked);", """#if CODEX_PG_DASH_FOLLOWUP
     if (allow_dash && try_dash(field, blocked) && !rb::fits(0, X1_WALK_RESERVE)) return true;
 #else
     if (allow_dash) try_dash(field, blocked);
 #endif"""),
+        ))
+    apply(src / "bot.cpp", (
         ('        mode = "flee-dash";\n        heading_home = hp < max_hp * 0.5f;\n        retreat_from(nearest->pos);',
          '''        mode = "flee-dash";
         heading_home = hp < max_hp * 0.5f;
@@ -51,10 +53,11 @@ def read_turn(directory, round_number, side, actor):
     return state
 
 
-def verify(wasm):
+def verify(wasm, escape_only=False):
     exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
     assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
-    bench.OUT = bench.CACHE / "pg-dash-followup-stress"
+    name = "pg-escape-followup" if escape_only else "pg-dash-followup"
+    bench.OUT = bench.CACHE / f"{name}-stress"
     (bench.OUT / "games").mkdir(parents=True)
     jobs = []
     for directory, manifest_name, profile in ((STRESS, "LARGE_ROSTER_MAPS.json", "LARGE_ROSTER_COARSE.json"),
@@ -73,13 +76,14 @@ def verify(wasm):
     for b, c in pairs:
         assert all(b[k] == c[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
     checked = []
-    for _, name, opponent, side, round_number, actor, champion, _ in CASES[1:]:
-        b, c = next((b, c) for b, c in pairs if (b["map"], b["opponent"], b["side"]) == (name, opponent, side))
-        old, new = (read_turn(bench.OUT / "games" / f"{r['arm']}-0-{opponent}-{name}-{side}", round_number, side, actor)
+    targets = CASES[1:2] if escape_only else CASES[1:]
+    for _, mp, opponent, side, round_number, actor, champion, _ in targets:
+        b, c = next((b, c) for b, c in pairs if (b["map"], b["opponent"], b["side"]) == (mp, opponent, side))
+        old, new = (read_turn(bench.OUT / "games" / f"{r['arm']}-0-{opponent}-{mp}-{side}", round_number, side, actor)
                     for r in (b, c))
         old_event, new_event = (any(e["owner"]["name"] == champion and e["timestamp"]["round"] == round_number
                                     for e in native_fuel(r, bench.OUT)) for r in (b, c))
-        checked.append({"map": name, "champion": champion, "round": round_number, "old_event": old_event, "new_event": new_event,
+        checked.append({"map": mp, "champion": champion, "round": round_number, "old_event": old_event, "new_event": new_event,
                         "same_input_and_dash": bool(old and new and old["observation"] == new["observation"] and
                                                     old["executed_actions"][:1] == new["executed_actions"][:1])})
     fuel = [sum(r["fuel_outs"] for r in rows if r["arm"] == a) for a in ("base", "candidate")]
@@ -89,7 +93,7 @@ def verify(wasm):
               all(r["old_event"] and not r["new_event"] and r["same_input_and_dash"] for r in checked))
     result = {"engine": bench.ENGINE, "sha256": bench.digest(wasm), "n": len(pairs), "fuel": fuel, "increased": increased,
               "error_cells": errors, "checked": checked, "pass": passed}
-    with (HERE / "PG-DASH-FOLLOWUP_EXACT_STRESS.json").open("x", encoding="utf8", newline="\n") as out:
+    with (HERE / f"{name.upper()}_EXACT_STRESS.json").open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
@@ -101,8 +105,9 @@ if __name__ == "__main__":
     target.add_argument("--src", type=Path)
     target.add_argument("--verify", type=Path)
     parser.add_argument("--off", action="store_true")
+    parser.add_argument("--escape-only", action="store_true")
     args = parser.parse_args()
     if args.src:
-        prepare(args.src, not args.off)
+        prepare(args.src, not args.off, args.escape_only)
     else:
-        verify(args.verify)
+        verify(args.verify, args.escape_only)
