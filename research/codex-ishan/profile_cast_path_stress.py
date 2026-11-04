@@ -20,7 +20,8 @@ STAGES = ("world", "support", "wardrev", "ambush", "e_in", "e_td", "enemies", "f
           "farmsel", "d_farm", "decide", "tail", "fields", "bushpre")
 FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones",
                "c_staged", "c_safe", "c_walked", "c_cast", "d_farm", "altar_before", "altar_after",
-               "bank_before", "bank_after", "wait_walk_before", "wait_walk_after", "safe_before", "safe_after")
+               "bank_before", "bank_after", "wait_walk_before", "wait_walk_after", "safe_before", "safe_after",
+               "f_alive", "reward_walk_before", "wait_begin")
 
 
 def instrument_issac(src):
@@ -189,9 +190,9 @@ def play(item):
     with ZipFile(bundle) as archive:
         log = archive.read(f"team-{side.lower()}.stdout")
     markers = re.findall(rb"CODEX_STRESS R(\d+) t\d+ ([a-z_0-9]+)", log)
-    samples = [list(map(int, m)) for m in re.findall(rb"CODEX_CASSI_FARM (\d+) (\d+) (\d+) (\d+)", log)]
+    samples = [list(map(int, m)) for m in re.findall(rb"CODEX_(?:CASSI|PATH)_FARM (\d+) (\d+) (\d+) (\d+)", log)]
     states = {int(r): [int(s), bool(int(ready)), bool(int(gated)), bool(int(no_bank))] for r, s, ready, gated, no_bank in
-              re.findall(rb"CODEX_CASSI_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
+              re.findall(rb"CODEX_(?:CASSI|PATH)_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
     combat = [list(map(int, m)) for m in re.findall(rb"CODEX_ISSAC_COMBAT (\d+) (\d+) (\d+)", log)]
     bank = [list(map(int, m)) for m in re.findall(rb"CODEX_VEND_BANK (\d+) (\d+) (\d+) (\d+)", log)]
     a, b = (read(p / "native.json") for p in (old, new))
