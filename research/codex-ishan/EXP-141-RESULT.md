@@ -1,0 +1,3 @@
+# EXP-141 shared safe-route cap
+
+The shared cap removed all three seed-14107 native events without adding one and kept Cassi's original R321 input and ward. Its Heart replays changed two original trajectories before their required actions. The ordinary-budget development arm remained at six versus zero, but the reduced-budget arm went from 61 to 63 with one increased game. Two builds matched `52e5b4b8960d894b5691b095b1e090321095e9efb5524585adf8424218b9d744` and all-off reproduced v92. The exact gates failed and L0 did not run. [Seed-14107 controls](CPG_SAFE_TRIBUTE_SHARED_FIXTURE.json), [Heart controls](CPG_SAFE_TRIBUTE_SHARED_HEART.json), [development pairs](CPG_SAFE_TRIBUTE_SHARED_EXACT.json).

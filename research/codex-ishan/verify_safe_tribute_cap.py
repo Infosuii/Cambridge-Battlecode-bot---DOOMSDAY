@@ -45,17 +45,21 @@ def play(item):
 def main():
     global OUT
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--specialized", action="store_true")
-    specialized = parser.parse_args().specialized
-    if specialized:
-        OUT = bench.CACHE / "cpg-safe-tribute-specialized-fixture"
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--specialized", action="store_true")
+    mode.add_argument("--shared", action="store_true")
+    mode.add_argument("--post-ward", action="store_true")
+    args = parser.parse_args()
+    variant = next((name for enabled, name in ((args.post_ward, "post-ward"), (args.shared, "shared"),
+                                               (args.specialized, "specialized")) if enabled), "cap")
+    OUT = bench.CACHE / f"cpg-safe-tribute-{variant}-fixture"
     source = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     cases = source["affected"]
     assert source["seed"] == SEED and len(cases) == 2
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
-    prepare(src, True, specialized=specialized)
+    prepare(src, True, specialized=args.specialized, shared=args.shared, post_ward=args.post_ward)
     wasm = build(src, OUT / "candidate", SEED)
     jobs = []
     for row in cases:
@@ -75,7 +79,7 @@ def main():
     result = {"engine": bench.ENGINE, "reference": source["wasm"], "candidate": bench.digest(wasm),
               "seed": SEED, "n": len(rows), "errors": errors, "increases": increases, "turns": turns,
               "pass": passed and not errors and not increases}
-    name = "CPG_SAFE_TRIBUTE_SPECIALIZED_FIXTURE.json" if specialized else "CPG_SAFE_TRIBUTE_CAP_FIXTURE.json"
+    name = f"CPG_SAFE_TRIBUTE_{variant.upper().replace('-', '_')}_FIXTURE.json"
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
