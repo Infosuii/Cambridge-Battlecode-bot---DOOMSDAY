@@ -22,6 +22,10 @@ TAIL = {"bushpre -> end", "tail_prelock -> tail_priority", "tail_priority -> tai
 
 def prepare(src, enabled, diagnostic):
     prepare_dash(src, enabled, True, diagnostic)
+    add_guard(src, enabled)
+
+
+def add_guard(src, enabled):
     header = src / "common.h"
     data = header.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
