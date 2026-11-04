@@ -1,0 +1,29 @@
+{
+  "scope": "Opt-in learner-only Q15 vectorization parity and throughput; not actor/fuel/strength result",
+  "synthetic_checks": [
+    {
+      "saturated": false,
+      "forward_exact": true,
+      "max_gradient_error": 0.0
+    },
+    {
+      "saturated": true,
+      "forward_exact": true,
+      "max_gradient_error": 0.0
+    }
+  ],
+  "actual_consumed_rows": 512,
+  "actual_model_logits_bit_exact": true,
+  "max_model_gradient_error": 0.0,
+  "median_forward_backward_seconds": {
+    "reference": 0.10575983300805092,
+    "fast": 0.0717490827664733
+  },
+  "speedup": 1.4740234847639067,
+  "current_paired_trial_modified": false,
+  "limitations": [
+    "Fast path proves all prefix sums remain int16; otherwise uses unchanged sequential saturated recurrence.",
+    "512-row CPUmicrobenchmark with2threads; complete training throughput and memory need separate evaluation.",
+    "Not enabled in the running pairedtrial; preserve experimental comparability."
+  ]
+}
