@@ -245,6 +245,16 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
                     ga.hp_left(w.camps), gb.hp_left(w.camps), static_cast<int>(ga.state), static_cast<int>(gb.state), static_cast<float>(hp), static_cast<int>(gems), static_cast<int>(w.enemies.size()));
     }
 #endif
+#ifdef A2_STACK
+    {
+        const int a2c = a2stack::cfg();
+        if (a2c & 2) nn_group = best;
+        if ((a2c & 4) && best >= 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) {
+            const auto& gs = w.groups[static_cast<std::size_t>(nn_group)];
+            if (gs.state == GroupState::alive && !gs.harmless && hp < 0.6f * max_hp && champions_needed(gs, gs.hp_left(w.camps)) > 1) nn_group = best;
+        }
+    }
+#endif
 #ifdef A2_NN_CAMPSAFE
     // E127: no override onto a dangerous live camp that needs a crew while hurt (platform: camp deaths 1.7 a game against v92's 0.9)
     if (best >= 0 && nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) {
@@ -258,6 +268,9 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
         best = nn_group, best_need = champions_needed(w.groups[static_cast<std::size_t>(nn_group)], w.groups[static_cast<std::size_t>(nn_group)].hp_left(w.camps));
 #else
     if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
+#endif
+#ifdef A2_STACK
+    if (a2stack::cfg() & 1) best_need = 1;
 #endif
 #ifdef A2_NN_NEED1
     // E126: no waiting for helpers on v92's own picks either
@@ -375,6 +388,10 @@ if "A2_CTLOG" in defs:  # E126: a line per turn in contact
 shutil.copy(os.path.join(LAB, "nnrec.cpp"), S + "nnrec.cpp")
 shutil.copy(os.path.join(LAB, "nn_infer.h"), S + "nn_infer.h")
 shutil.copy(WEIGHTS, S + "nn_weights.h")
+if "A2_STACK" in defs:  # E128: run-time options per map and side
+    sys.path.insert(0, LAB)
+    import e128_stack
+    e128_stack.apply(S, defs, defs.get("A2_STACK_TABLE_FILE"))
 r = subprocess.run([os.path.join(ROOT, "v4", "cambc.exe"), "build", f"bots/{NAME}", "--release"], cwd=os.path.join(ROOT, "v4"),
                    capture_output=True, text=True)
 ok = os.path.exists(os.path.join(B, NAME, ".cambc", "build-release", "bot.wasm")) and r.returncode == 0
