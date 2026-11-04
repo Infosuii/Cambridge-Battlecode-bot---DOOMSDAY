@@ -6398,6 +6398,7 @@ bool Bot::farm() {
     prof::farm_route_skip += bc::fuel_remaining() < tune::kRouteFuel;
     prof::td_then_farm += prof::td_round == round;
 #endif
+#if !CLRL_ACT  // option 3: with the actor, v92's own target search (score_groups and claims) does not run
     if (low_fuel) {
         if (target_group < 0 || target_group >= static_cast<int>(w.groups.size()) || avoid_until[target_group] > round) {
 #if APEX_PROFILE
@@ -6589,9 +6590,11 @@ bool Bot::farm() {
         if (planned >= 0) best = planned;
     }
 #endif
+#endif
     PROF_CHECK("farmsel");
 #if CLRL_ACT
-    best = ClrlAct::decide(*this, best, kClaimDead);
+    (void)low_fuel;
+    best = ClrlAct::decide(*this, -1, kClaimDead);  // the actor alone chooses (v92_row then reads -1)
 #endif
 
     // The planner chose a bank trip first (APEX_PLAN).
