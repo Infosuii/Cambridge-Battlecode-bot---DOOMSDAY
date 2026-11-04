@@ -653,6 +653,29 @@ static NNPub nn_pub;
 static nn::Live nn_lv;
 static nn::Out nn_lo;
 static std::int16_t nn_lf[kNF] = {};
+#ifdef CLNA_HEAD
+// Target-head input snapshot (clna-head-abi-v1, tools/rl_env_1104/native/head_export.py): the frozen runtime's trunk
+// input and camp embeddings (Q10) and four camp fields at the moment nn_pub is built, so the head sees the inputs behind
+// the logits it adjusts. Slots in nn_pub order (valid camp rows).
+static_assert(A2_NN_Q16 && nnw::kTrunkIn == 160 && nnw::kEnc == 16, "clna-head-abi-v1: Q16 runtime, context 160, camp 16");
+struct ClnaSnap {
+    int at = -1, n = 0;
+    std::int16_t x[160], ec[10][16], ft[10][4];
+};
+static ClnaSnap clna_snap;
+static void clna_take_snap(const std::int16_t* f, int coff, int at) {
+    std::copy(nn_lv.x, nn_lv.x + 160, clna_snap.x);
+    int n = 0;
+    for (int i = 0; i < kC && n < 10; ++i) {
+        const std::int16_t* r = f + coff + i * kCF;
+        if (r[0] != 1) continue;
+        std::copy(nn_lv.ec[i], nn_lv.ec[i] + 16, clna_snap.ec[n]);
+        clna_snap.ft[n][0] = r[16], clna_snap.ft[n][1] = r[14], clna_snap.ft[n][2] = r[20], clna_snap.ft[n][3] = r[21];
+        ++n;
+    }
+    clna_snap.n = n, clna_snap.at = at;
+}
+#endif
 #ifdef A2_NN_LAZY
 static std::uint64_t nn_need[3] = {16000, 18000, 20000}, nn_mark = 0, nn_est_camps = 30000, nn_sum_camps = 0; // (nn_need: what v92 spends after its target choice)
 #else
@@ -942,6 +965,9 @@ void Bot::nn_lazy_score() {
             }
 #endif
             nn_pub = nn_make_pub(nn_lf, nn_lo.target, kC + 1, kC, kCOffL, -1, round);
+#ifdef CLNA_HEAD
+            clna_take_snap(nn_lf, kCOffL, round);
+#endif
         }
         const std::uint64_t f1 = bc::fuel_remaining();
         if (bc::round_number() != r0 || f1 > f0) {
@@ -1110,18 +1136,26 @@ int Bot::nn_ens_sample(int v92g) {
 #define CLNA_SEED 1104
 #endif
 #include "clna_gate.h"
+#ifdef CLNA_HEAD
+#ifndef CLNA_HEAD_MIN
+#define CLNA_HEAD_MIN 50000  // fuel left needed to run the head (~34k, JOHNDOE #78) and log it; else the reference acts
+#endif
+#include "clna_head_w.h"
+#include "jd_head.h"
+#endif
 static std::uint64_t clna_rng = 0;
 #if CLNA_RLOG
 // Release logger (JOHNDOE #69): the logging build IS the collected and evaluated policy, so logging is charged and
 // deterministic: one fixed buffer, raw IEEE-754 bits as hex (no float formatting), one write per decision. It never
 // branches on output success and never touches the RNG.
-// (fuel) The writers take and return a local cursor and emit two hex digits per table lookup: the per-character
-// formatting was ~18 fuel/char (CLNA_FPROF). Output is byte-identical to the first CNR1 writer.
-static char clna_rbuf[1024];
-struct ClnaHex2 {
-    char t[512];
+// (fuel) The writers take and return a local cursor and store two hex digits per table load (one 16-bit store): the
+// per-character formatting was ~18 fuel/char (CLNA_FPROF). Output is byte-identical to the first CNR1 writer.
+static char clna_rbuf[4096];  // (CNR2: ~2.1k characters at 10 slots)
+struct ClnaHex2 {  // byte -> its two hex digits as one little-endian uint16 (first digit in the low byte)
+    std::uint16_t t[256];
     constexpr ClnaHex2() : t{} {
-        for (int i = 0; i < 256; ++i) t[2 * i] = "0123456789abcdef"[i >> 4], t[2 * i + 1] = "0123456789abcdef"[i & 15];
+        for (int i = 0; i < 256; ++i)
+            t[i] = static_cast<std::uint16_t>("0123456789abcdef"[i >> 4] | ("0123456789abcdef"[i & 15] << 8));
     }
 };
 static constexpr ClnaHex2 clna_hex2{};
@@ -1137,17 +1171,33 @@ static char* clna_rint(char* o, long v) {  // decimal integer
 static char* clna_rdbl(char* o, double d) {  // raw IEEE-754 bits, 16 hex digits
     std::uint64_t u;
     __builtin_memcpy(&u, &d, sizeof u);
-    for (int i = 7; i >= 0; --i) {
-        const unsigned b = static_cast<unsigned>(u & 255u);
-        o[2 * i] = clna_hex2.t[2 * b], o[2 * i + 1] = clna_hex2.t[2 * b + 1];
-        u >>= 8;
-    }
+    for (int i = 7; i >= 0; --i) __builtin_memcpy(o + 2 * i, &clna_hex2.t[u & 255u], 2), u >>= 8;
     return o + 16;
 }
 static char* clna_rstr(char* o, const char* s) {
     while (*s) *o++ = *s++;
     return o;
 }
+#ifdef CLNA_HEAD
+static char* clna_rf32(char* o, float d) {  // raw IEEE-754 single bits, 8 hex digits
+    std::uint32_t u;
+    __builtin_memcpy(&u, &d, sizeof u);
+    for (int i = 3; i >= 0; --i) __builtin_memcpy(o + 2 * i, &clna_hex2.t[u & 255u], 2), u >>= 8;
+    return o + 8;
+}
+static char* clna_rh16(char* o, const std::int16_t* v, int n) {  // int16 array as one token, 4 hex digits each (two's complement)
+    for (int i = 0; i < n; ++i, o += 4) {
+        const unsigned u = static_cast<std::uint16_t>(v[i]);
+        const std::uint32_t w = clna_hex2.t[u >> 8] | (static_cast<std::uint32_t>(clna_hex2.t[u & 255u]) << 16);
+        __builtin_memcpy(o, &w, 4);
+    }
+    return o;
+}
+static char* clna_rh8(char* o, const int* v, int n) {  // values 0..255 as one token, 2 hex digits each
+    for (int i = 0; i < n; ++i, o += 2) __builtin_memcpy(o, &clna_hex2.t[v[i] & 255], 2);
+    return o;
+}
+#endif
 #endif
 // Base64 into a static buffer: logging must not touch the heap (allocator state is shared with charged code).
 static const char* clna_b64(const std::int16_t* p, int n) {
@@ -1207,6 +1257,91 @@ int Bot::clna_explore(int v92g, int ng) {
     }
     int kr = 0;
     while (kr < nu && ug[kr] != ref) ++kr;
+#ifdef CLNA_HEAD
+#if !CLNA_RLOG
+#error "CLNA_HEAD needs the release logger (CLNA_RLOG 1)"
+#endif
+    {
+        // Target head (clna-head-abi-v1, JOHNDOE's jd_head): pi = (1 - alpha(h)) [ref] + alpha(h) softmax(native + residual(h))
+        // over the n scored slots + far, merged per physical group. Skips (the reference acts, no stochastic row):
+        // 1 snapshot not paired with nn_pub, 2 reference outside the slots, 3 not enough fuel left.
+        const int n = nn_pub.n;
+        const int why = (clna_snap.at != nn_pub.at || clna_snap.n != n || n > 10 || m != n + 1) ? 1 : kr == nu ? 2
+                        : bc::fuel_remaining() < static_cast<std::uint64_t>(CLNA_HEAD_MIN) ? 3 : 0;
+        if (why) {
+            clna_round = -1;
+            char* o = clna_rstr(clna_rbuf, "CNS2 ");
+            o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
+            *o++ = ' ', o = clna_rint(o, why), *o++ = '\n';
+            std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+            return ref;
+        }
+        float xf[160], cf[10 * 16], ff[10 * 4], nat[11];
+        int map[11];
+        bool val[11];
+        for (int i = 0; i < 160; ++i) xf[i] = static_cast<float>(clna_snap.x[i]) * (1.0f / 1024.0f);
+        for (int k = 0; k < n; ++k) {
+            for (int j = 0; j < 16; ++j) cf[k * 16 + j] = static_cast<float>(clna_snap.ec[k][j]) * (1.0f / 1024.0f);
+            const std::int16_t* t = clna_snap.ft[k];
+            ff[k * 4 + 0] = static_cast<float>(t[0] < 0 ? 256 : std::min<int>(t[0], 256)) * (1.0f / 32.0f);
+            ff[k * 4 + 1] = static_cast<float>(std::clamp<int>(t[1], 0, 8)) * 0.25f;
+            ff[k * 4 + 2] = static_cast<float>(std::clamp<int>(t[2], 0, 8)) * 0.25f;
+            ff[k * 4 + 3] = t[3] ? 1.0f : 0.0f;
+            nat[k] = nn_pub.es[k];
+        }
+        nat[n] = nn_pub.far;
+        for (int j = 0; j <= n; ++j) {
+            int k = 0;
+            while (ug[k] != pg[j]) ++k;
+            val[j] = true, map[j] = k;
+        }
+        double ph[14], alpha = 0, acc = 0;
+#if CLNA_FPROF
+        const std::uint64_t clna_h0 = bc::fuel_remaining();
+#endif
+        jd_head::probabilities(clna_head::kW, xf, cf, ff, nat, n, val, map, kr, nu, ph, alpha);
+#if CLNA_FPROF
+        const std::uint64_t clna_h1 = bc::fuel_remaining();
+#endif
+        const double u = clna_u01();
+        int c = nu - 1;
+        for (int k = 0; k < nu; ++k) {
+            acc += ph[k];
+            if (u < acc) {
+                c = k;
+                break;
+            }
+        }
+        // CNR2 <round> <slot> <id> <index> <ref> <chosen> <v92> <nn> <n> <pub round> <nu> <alpha:hex64> <p chosen:hex64>
+        //      <groups: nu x hex8> <slot->physical: (n+1) x hex8> <native logits: (n+1) x hex32> <x: 160 x hex16>
+        //      <ec: 16n x hex16> <fields: 4n x hex16>   (every token one run of hex digits; the trainer rebuilds each head
+        //      input exactly from these integers and float bits; groups < 256 always: World groups are at most ~51)
+        ++clna_index;
+        clna_round = round;
+        char* o = clna_rstr(clna_rbuf, "CNR2 ");
+        o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
+        *o++ = ' ', o = clna_rint(o, clna_index), *o++ = ' ', o = clna_rint(o, ref), *o++ = ' ', o = clna_rint(o, ug[c]);
+        *o++ = ' ', o = clna_rint(o, v92g), *o++ = ' ', o = clna_rint(o, ng), *o++ = ' ', o = clna_rint(o, n);
+        *o++ = ' ', o = clna_rint(o, nn_pub.at), *o++ = ' ', o = clna_rint(o, nu);
+        *o++ = ' ', o = clna_rdbl(o, alpha), *o++ = ' ', o = clna_rdbl(o, ph[c]);
+        *o++ = ' ', o = clna_rh8(o, ug, nu);
+        *o++ = ' ', o = clna_rh8(o, map, n + 1);
+        *o++ = ' ';
+        for (int j = 0; j <= n; ++j) o = clna_rf32(o, nat[j]);
+        *o++ = ' ', o = clna_rh16(o, clna_snap.x, 160);
+        *o++ = ' ', o = clna_rh16(o, &clna_snap.ec[0][0], 16 * n);
+        *o++ = ' ', o = clna_rh16(o, &clna_snap.ft[0][0], 4 * n);
+#if CLNA_FPROF
+        // measurement builds: " F <before head> <head> <before log> <log so far>"
+        o = clna_rstr(o, " F "), o = clna_rint(o, static_cast<long>(clna_f0 - clna_h0)), *o++ = ' ';
+        o = clna_rint(o, static_cast<long>(clna_h0 - clna_h1)), *o++ = ' ', o = clna_rint(o, static_cast<long>(clna_h1));
+        *o++ = ' ', o = clna_rint(o, static_cast<long>(clna_h1 - bc::fuel_remaining()));
+#endif
+        *o++ = '\n';
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+        return ug[c];
+    }
+#endif
     if (kr == nu) ug[nu] = ref, uq[nu++] = 0.0;
     // Learnable gate alpha(h) over explicit legal inputs (clna_gate.h); the default weights give alpha = CLNA_EPS.
     double gx[clna_gate::kN];
