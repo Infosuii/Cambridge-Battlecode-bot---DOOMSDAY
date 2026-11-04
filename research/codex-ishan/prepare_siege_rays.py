@@ -31,7 +31,7 @@ def prepare(src, enabled):
         b"                            bool clear = true;",
         b"                            for (int k = 0; k < ray.count && clear; ++k) {",
         b"                                const auto offset = ray.offsets[k];",
-        b"                                clear = !opaque_at(q.x + offset.x, q.y + offset.y);",
+        b"                                clear = !opaque_at(vec2{q.x + offset.x, q.y + offset.y});",
         b"                            }",
         b"                            if (clear) set_bit(v, q);",
         b"#else",
