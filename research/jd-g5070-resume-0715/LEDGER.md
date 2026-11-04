@@ -6,9 +6,9 @@ All policy code was frozen before final confirmation. Final results never feed t
 |---|---|---|
 | Baseline reproduction | Accepted | Canonical WASM hash;96 paired cells exactly identical, no faults. |
 | CONTACT3 + GOV5 | Conditionally useful (experimental) | Selection +5.88pp;2232-cell confirmation +4.435pp (95% map-cluster CI +2.240,+6.586),99 net wins. C2 loses6/48 cells on4 maps (CI -33.33,+4.17); universal promotion gate remains unmet. No tuning on that slice. |
-| CONTACT3 + PROGRESS1 + GOV5 | Retry required pending final comparison | Selection +4.75pp, CI includes0; independently frozen alongside simpler candidate. No assumption that component gains add. |
+| CONTACT3 + PROGRESS1 + GOV5 | Accepted (local evidence), not release-qualified | Selection +4.75pp; confirmation +84 net wins/2232 cells. Trails the simpler candidate (+99) in aggregate; selected for delivery because no category/opponent point estimate breaches the declared-10pp gate. Incremental routing benefit is inconclusive. No assumption that component gains add. |
 | PROGRESS1 + GOV5 | Conditionally useful | Selection +3.50pp (-0.88,+7.75). Not selected as an additional finalist. |
-| Complete pending-pick roster | Accepted infrastructure / Parked strategy | 108384 legal prefixes;78 body instances in18 engine games across slots0-5 agree with actual roster. All800 selection cells exactly neutral. Default off. |
+| Complete pending-pick roster | Accepted infrastructure / Parked strategy | 108384 legal prefixes;88 body instances in20 engine games across slots0-5 agree with actual roster. All800 selection cells exactly neutral. Default off. |
 | Early fields alone | Retry required | First conf58 vs56 wins, fuel169 vs147. Verify activation before interpreting score. |
 | Early fields + GOV5 | Retry required | Focused dependency test64 vs56 conf wins, fuel55 vs147. Heavy-map fixture builds0 fields; small-map fixture36 field builds on round1. Remaining first-turn budget on large maps cannot fit minimum full-field depth. The heavy-map gain cannot be attributed to route precompute. Kept off; no holdout tuning. |
 | Neural exact exporter | Accepted infrastructure | Every56609 float32 literals round-trips exactly; old exporter changed1813. Checkpoint lineage retained, no overwrites. |
@@ -26,3 +26,5 @@ identity and actual engine/map/randomness matching were checked. Official diagno
 returns are not separately counted. Total fuel reductions do not prove zero new suspension failure modes in every cell.
 
 Remote push is blocked by automatic approval review. No alternate publication route or official platform action was used.
+
+Runtime-only final control: +25 net wins/2232 cells (+1.12pp, CI-0.762,+3.047); fuel790 vs1532. Accepted as fuel infrastructure; not a demonstrated standalone strength upgrade.

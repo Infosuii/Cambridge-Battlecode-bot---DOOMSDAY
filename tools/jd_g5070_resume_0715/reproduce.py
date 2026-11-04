@@ -8,8 +8,8 @@ ROOT=HERE.parents[1]
 
 def cmd(args):subprocess.run([sys.executable,str(HERE/'run.py'),*args],check=True)
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--name',required=True);p.add_argument('--archive',type=Path);a=p.parse_args()
-    package=json.loads((ROOT/'research/jd-g5070-resume-0715/PACKAGE.json').read_text())
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--name',required=True);p.add_argument('--archive',type=Path);p.add_argument('--variant',choices=['cg','cpg'],default='cg');a=p.parse_args()
+    package=json.loads((ROOT/'research/jd-g5070-resume-0715'/('PACKAGE_'+a.variant.upper()+'.json')).read_text())
     archive=a.archive or Path(package['path'])
     assert r.sha_file(archive)==package['sha256'],'Archive checksum mismatch'
     dest=r.EVAL/'resume/reproduction'/a.name
@@ -23,7 +23,7 @@ def main():
     alias='repro-'+a.name
     cmd(['freeze','jd-g5070-resume-0715','--src',str(dest/'src'),'--alias',alias])
     actual=r.load_frozen()['bots'][r.resolve(alias)]['wasm_sha256']
-    expected='e36f44134ed7ca2e9fc914bee73c0b76a826519e0b74446e88c43140a72fe0a2'
+    expected=package['wasm_sha256']
     assert actual==expected,(actual,expected)
     name='repro-'+a.name
     cmd(['run','--name',name,'--cand',alias,'--base','v92','--opps','v92,x3inv,p65pack','--maps','conf','--limit','3','--jobs','2','--task','candidate-integration'])

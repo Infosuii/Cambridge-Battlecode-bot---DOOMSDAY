@@ -29,7 +29,7 @@ def main():
         result['status']='Accepted (local evidence)' if result['combined']['ci95'][0]>0 and result['fresh']['ci95'][0]>0 and arms['cand']['faults']==0 and arms['cand']['fuel_outs']<=arms['base']['fuel_outs'] and all(s['delta_pp']>=-10 for k in ['opp','category'] for s in strata[k].values()) else 'Conditionally useful / experimental; promotion gate not met'
         result['severe_strata']=[dict(dimension=k,stratum=v,**s) for k,t in strata.items() for v,s in t.items() if s['delta_pp'] < -10]
         results[variant]=result
-    payload=dict(source_freeze=json.loads((OUT/'FINAL_FREEZE.json').read_text()),final=results,notes=['No tuning after freeze','Pool includes all70 current official maps; fresh51104=100 unseen generated maps','C1-C7 only for maps with measured atlas categories; generated maps reported by size/opponent and as unclassified','Silent SDK action-failure returns are not instrumented; official diagnostic codes audited separately'])
+    payload=dict(source_freeze=json.loads((OUT/'FINAL_FREEZE.json').read_text()),final=results,notes=['No tuning after freeze','Pool includes the pinned70 official maps from the handoff; fresh51104=100 unseen generated maps','C1-C7 only for maps with measured atlas categories; generated maps reported by size/opponent and as unclassified','Silent SDK action-failure returns are not instrumented; official diagnostic codes audited separately'])
     (OUT/'RESULTS.json').write_text(json.dumps(payload,indent=2))
     for k,v in results.items(): print(k,v['combined'],v['fresh'],v['status'],v['arms'])
 if __name__=='__main__':main()
