@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T01:58:00.131Z",
+  "updated_at": "2026-11-04T02:03:00.117Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 3,
+      "seq": 4,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T01:49:46Z",
+      "last_control_at": "2026-11-04T01:58:39Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,17 +27,17 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6620343673
+      "last_control_comment_id": 6620470283
     },
     "claude": {
       "accounts": [
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 2,
+      "seq": 3,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T01:53:48Z",
+      "last_control_at": "2026-11-04T02:02:41Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -50,7 +50,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6620401434,
+      "last_control_comment_id": 6620529438,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -220,5 +220,5 @@
     }
   ],
   "note": "Builder and Claude adopted; current sessions bound to epoch1 tasks. Agent2 remains MONITOR_UNKNOWN without a control channel. No expiry/reassignment.",
-  "last_complete_check_at": "2026-11-04T01:58:00.131Z"
+  "last_complete_check_at": "2026-11-04T02:03:00.117Z"
 }
