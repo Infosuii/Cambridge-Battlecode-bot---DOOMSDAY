@@ -62,3 +62,13 @@ Actor capacity can then grow with recurrent strategic memory or a larger offline
 7. If improvement is absent, diagnose distribution, intervention rate and credit assignment before spending the remaining GPU budget.
 
 R1 owns implementation and most runs. JOHNDOE reviews the selected schema and first replay report. This route reduces an engineering obstacle; it does not by itself establish an advantage over Agent2.
+
+## Deployment correction: the mixture must be able to depart from the teacher
+
+For a fixed epsilon < 0.5, the reference action has probability at least 1-epsilon > 0.5, while every other action has probability at most epsilon. Therefore argmax of the full mixture ALWAYS returns the reference, regardless of what the residual learns. A fixed low-epsilon mixture is an exploration/bootstrap experiment or an explicitly stochastic deployed policy; it is not a route to a stronger deterministic argmax bot by itself.
+
+For a deterministic-capable candidate, use a learnable gate alpha(h)=sigmoid(g(h)) and pi=(1-alpha)*delta_reference + alpha*q_theta, initialized near 0.02 or 0.10 for the initial experiment. Keep the reference executor frozen, but allow alpha to grow beyond 0.5 where learning supports intervention; do not impose a permanent small cap. The gate is part of the policy: PPO must replay and differentiate the FULL aggregated mixture probability, including both routes to the reference action. Keep all parameters fixed while collecting each batch. Compare stochastic deployment and greedy deployment independently. Increasing alpha is not evidence of improved play.
+
+The alternative is to keep fixed-epsilon collection initially and later define a separate direct residual policy, collect fresh on-policy data, and evaluate that policy independently. Do not silently switch epsilon to 1 or strip the teacher term at export and call it the same trained policy.
+
+Define the reference regularizer precisely: KL from a deterministic teacher to an exploring student is directional, and KL(student || deterministic teacher) is infinite whenever the student assigns nonzero override probability. Prefer a declared full-support reference distribution on the SAME legal final-action support, or a finite teacher-action cross-entropy. Record direction, temperature, probability floor and mask semantics. Do not compute a KL on illegal-action negative-infinity logits. These constraints fix a design ambiguity; they do not require postponing the first replayable episode.
