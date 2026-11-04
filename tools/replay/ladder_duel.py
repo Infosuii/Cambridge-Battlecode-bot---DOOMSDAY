@@ -60,6 +60,16 @@ def cli_json(args):
     raise SystemExit('no JSON from cambc ' + ' '.join(args) + ': ' + (r.stdout + r.stderr)[-300:])
 
 
+def wait_for_quota():
+    # Team lock caps this worker at 45 groups in the platform's rolling hour.
+    # Reading the shared count also avoids spending another worker's headroom.
+    for _ in range(180):
+        if cli_json(['match-groups', 'quota', '--json'])['quota']['used'] < 45:
+            return
+        time.sleep(30)
+    raise SystemExit('rolling match-group budget did not clear')
+
+
 def active_version():
     return cli_json(['submissions', 'list', '--json'])['active']['version']
 
@@ -170,6 +180,7 @@ def main():
                 # Pin the opponent's bot to the one it ran in the base arm's group (--source-group): an active team can
                 # upload a new version between arms, which would break the pairing.
                 pin = ['--source-group', pin_sources[i]] if pin_sources[i] else []
+                wait_for_quota()
                 r = cli(['match-groups', 'create', g['opponentId'], '--maps', ','.join(g['maps']), '--sides', ','.join(g['sides']), '--json'] + pin)
                 try:
                     gid = json.loads((r.stdout or '').strip().splitlines()[0])['groupId']
@@ -196,6 +207,8 @@ def main():
                 break
             time.sleep(30)
         print(f'arm {a.arm}: {done}/{len(want)} groups finished', flush=True)
+        if done != len(plan['groups']):
+            raise SystemExit(f'arm {a.arm} incomplete: {done}/{len(plan["groups"])} groups finished')
         return
 
     # report

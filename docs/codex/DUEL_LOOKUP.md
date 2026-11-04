@@ -11,3 +11,9 @@ Reproduction: export `research/x3/duel/duel_20261103c.json` from handover commit
 ## Required pin sources
 
 A second local regression fixture gave the run action an empty baseline arm and replaced activation with an exception. The previous code reached activation; it would have omitted `--source-group` for missing slots. The new code exits before that call. Tests also rejected null, duplicate, short and empty ID lists for a candidate or recheck. A first baseline is allowed to establish the pin groups; a complete candidate arm gets exactly its ordered baseline IDs. This check is about preparation and was exercised without any authenticated CLI or platform mutation.
+
+## Quota and restoration on early exit
+
+The previous run path printed completion after a partial arm and returned success; the parent also ignored a failed child and restored only after the main loop. It could advance to another arm after incomplete work, or leave the candidate active after an exception. The new child fails on partial completion; the parent checks child exits and attempts to verify the fallback in its `finally` path whenever an arm or upload was attempted. A compile still queued, pending, building or compiling at the end of the wait now aborts. Before any create call, the child reads the rolling quota and waits if the shared count has reached 45.
+
+Offline mocks verified that a child failure results in exactly one fallback restore and no next arm, a missing pin reaches neither upload nor restore, a persistently compiling queue causes no mutation, and quota readings 45/46/44 cause two waits. The unchanged archived baseline replay from captured groups still gives 57/120 against v92audit's 47/120. There were no live pipeline invocations.
