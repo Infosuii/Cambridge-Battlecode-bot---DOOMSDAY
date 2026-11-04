@@ -1,0 +1,127 @@
+{
+  "warning": "Times are not match version assignments. Neither endpoint exposes own or opponent submission ID or source-group lineage.",
+  "periods": {
+    "ranked": {
+      "earliest": "2026-11-04T10:10:03.020Z",
+      "latest": "2026-11-04T13:20:01.950Z",
+      "windows": {
+        "before-v105-upload": {
+          "results": {
+            "loss": 22,
+            "win": 23
+          },
+          "unique_opponents": 9
+        },
+        "upload-to-inactive": {
+          "results": {
+            "loss": 25,
+            "win": 20
+          },
+          "unique_opponents": 8
+        },
+        "inactive-to-v80-status": {
+          "results": {
+            "loss": 4,
+            "win": 6
+          },
+          "unique_opponents": 2
+        },
+        "after-v80-status": {
+          "results": {},
+          "unique_opponents": 0
+        }
+      }
+    },
+    "unranked": {
+      "earliest": "2026-11-04T08:41:30.203Z",
+      "latest": "2026-11-04T12:23:13.951Z",
+      "windows": {
+        "before-v105-upload": {
+          "results": {
+            "loss": 31,
+            "win": 54
+          },
+          "unique_opponents": 6
+        },
+        "upload-to-inactive": {
+          "results": {
+            "win": 9,
+            "loss": 6
+          },
+          "unique_opponents": 3
+        },
+        "inactive-to-v80-status": {
+          "results": {},
+          "unique_opponents": 0
+        },
+        "after-v80-status": {
+          "results": {},
+          "unique_opponents": 0
+        }
+      }
+    }
+  },
+  "unranked_groups": [
+    {
+      "groupId": "01a1a654-38bd-77d6-a860-f43475abde1c",
+      "planIndex": null,
+      "games": 5,
+      "createdAt": "2026-11-04T11:31:39.840Z",
+      "results": {
+        "loss": 2,
+        "win": 3
+      }
+    },
+    {
+      "groupId": "01a1a669-0a1e-7670-84b8-6456f2c28fbb",
+      "planIndex": null,
+      "games": 5,
+      "createdAt": "2026-11-04T11:54:24.160Z",
+      "results": {
+        "win": 5
+      }
+    },
+    {
+      "groupId": "01a1a683-6f18-705b-82f7-7e4d6e4efa18",
+      "planIndex": null,
+      "games": 5,
+      "createdAt": "2026-11-04T12:23:13.947Z",
+      "results": {
+        "win": 1,
+        "loss": 4
+      }
+    }
+  ],
+  "archived_plan_c_arms": {
+    "v92": {
+      "version": 80,
+      "groups": 24,
+      "contaminated": null
+    },
+    "pf13": {
+      "version": 98,
+      "groups": 24,
+      "contaminated": null
+    },
+    "pf4": {
+      "version": 99,
+      "groups": 24,
+      "contaminated": null
+    },
+    "pf10": {
+      "version": 100,
+      "groups": 24,
+      "contaminated": null
+    },
+    "pf9": {
+      "version": 101,
+      "groups": 24,
+      "contaminated": null
+    },
+    "v92audit": {
+      "version": 103,
+      "groups": 24,
+      "contaminated": null
+    }
+  }
+}
