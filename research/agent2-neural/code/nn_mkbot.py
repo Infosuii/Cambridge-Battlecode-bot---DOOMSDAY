@@ -210,7 +210,13 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
     if (best >= 0 && nn_group >= 0 && !nn_stay && nn_ens_keep(best, nn_group)) nn_group = best;
 #endif
 #endif
+#ifdef A2_NN_NEED
+    // E126: an override keeps v92's crew rule: the camp gets the helpers it needs, rather than a lone attack (best_need 1)
+    if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best)
+        best = nn_group, best_need = champions_needed(w.groups[static_cast<std::size_t>(nn_group)], w.groups[static_cast<std::size_t>(nn_group)].hp_left(w.camps));
+#else
     if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
+#endif
 #ifdef A2_NN_RL
 #if A2_NN_MACRO
     nn_rl_tgt_applied = true; // the NRB row at the end of the turn carries this choice
