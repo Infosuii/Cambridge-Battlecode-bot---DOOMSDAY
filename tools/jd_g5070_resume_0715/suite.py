@@ -8,7 +8,7 @@ def run(args):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--phase',choices=['conf','select'],required=True);a=p.parse_args()
-    aliases=['resume-cpg','resume-contactgov','resume-progressgov','resume-fields-r1','resume-roster-r1']
+    aliases=['resume-cpg','resume-contactgov','resume-progressgov','resume-roster-r1'] if a.phase=='select' else ['resume-cpg','resume-contactgov','resume-progressgov','resume-fields-r1','resume-roster-r1']
     for alias in aliases:
         name=f'resume-{a.phase}-{alias.removeprefix("resume-")}-01'
         run(['run','--name',name,'--cand',alias,'--base','v92','--opps',

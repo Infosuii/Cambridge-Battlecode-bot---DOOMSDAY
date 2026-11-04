@@ -1,3 +1,4 @@
+#include "jd_roster.h"
 #include "neural_policy.h"
 // Draft: farming speed first, then durability. Both teams may own the same champion.
 #include "draft.h"
@@ -78,14 +79,11 @@ void jd_pick(cd choice) {
     ours.push_back(choice);
     std::array<std::uint8_t, 1016> bytes{};
     bc::detail::check(bc::detail::sdk_read_draft_memory(0, bytes.data(), bytes.size()));
-    std::array<std::uint8_t, 8> roster{0x58, 0, 0, 0, 0, 0, 0, 0};
-    for (auto pick : ours) {
-        auto add = [&](bc::champion_type t) {
-            if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(t);
-        };
-        if (pick == cd::cassi_and_issac) { add(bc::champion_type::cassi); add(bc::champion_type::issac); }
-        else { int t = static_cast<int>(pick); add(static_cast<bc::champion_type>(t >= 4 ? t + 1 : t)); }
-    }
+    static_assert(static_cast<int>(cd::cassi_and_issac)==3);
+    static_assert(static_cast<int>(bc::champion_type::stellar)==5);
+    std::vector<std::uint8_t> picks;
+    for (auto pick:ours) picks.push_back(static_cast<std::uint8_t>(pick));
+    const auto roster=jd_roster::encode(picks);
     std::copy(roster.begin(), roster.end(), bytes.begin() + 1008);
     bc::draft_memory = bytes;
 #endif

@@ -508,6 +508,11 @@ void Bot::init() {
             slot_type[s] = static_cast<bc::champion_type>(static_cast<std::uint8_t>(bc::draft_memory[1010 + s]));
     }
 #endif
+#if JD_LASTPICK && JD_STRATLOG
+    std::printf("JDROSTER %d %d", slot, team_size);
+    for (int s=0; s<team_size; ++s) std::printf(" %d", static_cast<int>(slot_type[s]));
+    std::printf("\n");
+#endif
     my_id = static_cast<std::uint32_t>(static_cast<bc::handle_champion_t>(me));
     type = me.champion_name();
     const auto abilities = me.abilities();
@@ -8320,9 +8325,19 @@ void Bot::play_turn() {
 #endif
         if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);
 #if JD_FIELDS
+#if JD_STRATLOG
+        const auto fields_before=w.fields_built;
+        const auto fuel_before=bc::fuel_remaining();
+#endif
         // Use first-body surplus only, retaining 100k for the current action.
         while (!w.fields_ready() && bc::fuel_remaining() > 110000 &&
                w.build_next_group_field(bc::fuel_remaining() - 100000)) {}
+#if JD_STRATLOG
+        if (fields_before != w.fields_built)
+            std::printf("JDFIELDS %d %d %u %u %llu\n", round, slot,
+                        static_cast<unsigned>(fields_before),static_cast<unsigned>(w.fields_built),
+                        static_cast<unsigned long long>(fuel_before-bc::fuel_remaining()));
+#endif
 #endif
 #if A2_NN
         nn_decide();

@@ -159,3 +159,13 @@
 #ifndef JD_LASTPICK
 #define JD_LASTPICK 0
 #endif
+
+// The event pipeline's measured reservations assume the fast input-major kernels.
+#if JD_NN_EVENT
+#ifndef A2_NN_FAST
+#define A2_NN_FAST 1
+#endif
+#if !A2_NN_FAST
+#error "JD_NN_EVENT requires A2_NN_FAST; the unbounded feature builder is unsafe"
+#endif
+#endif

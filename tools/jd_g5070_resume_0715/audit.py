@@ -25,14 +25,23 @@ def audit(name):
     if results['played'] != meta['games']: errors.append('game-count mismatch')
     games={ (g['arm'],g['opp'],g['map'],g['side']):g for g in results['games'] }
     regressions=[]
+    diagnostic_codes={'cand':{},'base':{}}
     for cell in meta['cells_list']:
         key=(cell['opp'],cell['map'],cell['side'])
         a=games.get(('cand',*key)); b=games.get(('base',*key),a)
         if not a or not b: continue
+        for arm in ('cand','base'):
+            st=out/'games'/('__'.join((arm,*key))+'.json')
+            if not st.exists():continue
+            codes=json.loads(st.read_text())['diagnostics']['codes']
+            for code in codes:
+                label=json.dumps(code,sort_keys=True)
+                diagnostic_codes[arm][label]=diagnostic_codes[arm].get(label,0)+1
         df=a['fuel_outs']-b['fuel_outs']
         if df>0: regressions.append(dict(opp=key[0],map=key[1],side=key[2],extra_fuel_outs=df,score_delta=a['score']-b['score']))
     payload=dict(run=name,input_errors=sorted(set(errors)),paired=results['paired'],arms=results['arms'],
                  fuel_regression_cells=sorted(regressions,key=lambda x:-x['extra_fuel_outs']),
+                 reported_diagnostic_codes=diagnostic_codes, action_rejection_coverage='Official diagnostic codes; silent API false returns are not separately instrumented',
                  decision='invalid' if errors else 'measured; promotion requires independent confirmation and behavior checks')
     (out/'integrity.json').write_text(json.dumps(payload,indent=2))
     print(json.dumps(payload,indent=2))
