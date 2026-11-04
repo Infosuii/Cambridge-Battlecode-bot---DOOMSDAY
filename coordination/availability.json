@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T07:33:33.802Z",
+  "updated_at": "2026-11-04T07:38:33.857Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-resume-0715-20261104-0715",
-      "seq": 2,
+      "seq": 3,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T07:25:12Z",
+      "last_control_at": "2026-11-04T07:34:24Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -76,8 +76,8 @@
       "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6625170687,
-      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "last_control_comment_id": 6625328147,
+      "checkpoint": "02bdddf5",
       "unavailable_since": "2026-11-04T05:09:26Z",
       "retired_sessions": [
         {
@@ -90,7 +90,16 @@
         "original-builder-machine",
         "local-checkout",
         "local-evaluation"
-      ]
+      ],
+      "publication_blocker": {
+        "comment_id": 6625328147,
+        "at": "2026-11-04T07:34:24Z",
+        "state": "APPROVAL_REVIEW_REJECTED",
+        "action": "git push",
+        "reason": "Builder reports source-export permission issue",
+        "local_checkpoint": "02bdddf5",
+        "note": "Local work continues; no access workaround or reallocation."
+      }
     },
     "agent2": {
       "accounts": [],
@@ -444,10 +453,17 @@
       "agent": "builder-g5070-1104",
       "session": "builder-g5070-resume-0715-20261104-0715",
       "at": "2026-11-04T07:25:12Z"
+    },
+    {
+      "id": "publish-blocker:6625328147",
+      "type": "PUBLICATION_BLOCKER",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T07:34:24Z",
+      "comment_id": 6625328147
     }
   ],
   "note": "Resumed builder current epoch3 ACK accepted on unique branch/new directories. Development active, local-distill STOPPED; no platform operations.",
-  "last_complete_check_at": "2026-11-04T07:33:33.802Z",
+  "last_complete_check_at": "2026-11-04T07:38:33.857Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
