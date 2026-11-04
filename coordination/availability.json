@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T03:03:30.475Z",
+  "updated_at": "2026-11-04T03:13:30.568Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 10,
+      "seq": 11,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T02:58:51Z",
+      "last_control_at": "2026-11-04T03:08:53Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621320793,
+      "last_control_comment_id": 6621459079,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 9,
+      "seq": 10,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T03:02:34Z",
+      "last_control_at": "2026-11-04T03:12:41Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,7 +51,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6621371621,
+      "last_control_comment_id": 6621513908,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-1104-20261104-0105",
-      "seq": 4,
+      "seq": 5,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T02:49:16Z",
+      "last_control_at": "2026-11-04T03:10:14Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -76,8 +76,8 @@
       "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-1104",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6621190524,
-      "checkpoint": "1a521ef8"
+      "last_control_comment_id": 6621477578,
+      "checkpoint": "1e62dd80"
     },
     "agent2": {
       "accounts": [],
@@ -221,5 +221,5 @@
     }
   ],
   "note": "Builder and Claude adopted; current sessions bound to epoch1 tasks. Agent2 remains MONITOR_UNKNOWN without a control channel. No expiry/reassignment.",
-  "last_complete_check_at": "2026-11-04T03:03:30.475Z"
+  "last_complete_check_at": "2026-11-04T03:13:30.568Z"
 }
