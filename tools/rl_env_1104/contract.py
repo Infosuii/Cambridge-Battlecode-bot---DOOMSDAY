@@ -92,6 +92,10 @@ ACTION_SCHEMAS = {
     # Not the teacher label target13-cl1 (whose 12 meant none OR outside the 12 rows).
     "target13-cl1-nofarm-v1": ActionSchema("target13-cl1-nofarm-v1", 13, "hybrid",
                                            "actor's farm target: c-row 0..11, or 12 = no farm target this turn"),
+    # Native exploration mixture over the frozen Agent 2 blend (bots/claude-native-1104 CLNA_EPS): action = index into
+    # this decision's candidate list (cand_group), up to 14 physical camp groups (scored groups + far -> v92 + reference).
+    "native-blend-eps-v1": ActionSchema("native-blend-eps-v1", 14, "hybrid",
+                                        "index into cand_group; pi = (1-eps)[ref] + eps*softmax(native scores), merged"),
     "target11-v1": ActionSchema("target11-v1", 11, "hybrid",
                                 "camp-group pointer over the c block; 10 = far; legal iff c-row valid"),
     # Full primitive control gets a new versioned schema (conditional heads: move/attack/cast/bank/buy/ward) when the
@@ -140,6 +144,13 @@ PRIM_COLUMNS = ("prim", "move_dx", "move_dy")
 COLUMNS["fuel_delta"] = ("int32", "")     # sum over our team's turns this round: recorder - twin
 COLUMNS["fuel_diverged"] = ("uint8", "")  # 1 if any of our team's turns this round differ from the twin
 TWIN_COLUMNS = ("fuel_delta", "fuel_diverged")
+# Native candidate columns (manifest native_cands: true). Shape key "a" = the schema's n (14).
+COLUMNS["cand_group"] = ("int16", "a")   # physical World group of each candidate slot; -1 = unused slot
+COLUMNS["cand_q"] = ("float32", "a")     # softmax(native scores) mass per candidate (merged duplicates)
+COLUMNS["eps"] = ("float32", "")         # mixture weight of the softmax part
+COLUMNS["ref_slot"] = ("int16", "")      # candidate index of the frozen reference executor's group
+COLUMNS["fuel_out"] = ("uint8", "")      # this body ran out of fuel between this decision and its next one
+NATIVE_COLUMNS = ("cand_group", "cand_q", "eps", "ref_slot", "fuel_out")
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "incomplete", "failed")  # incomplete: malformed rows
@@ -175,6 +186,8 @@ def required_columns(manifest: dict) -> list:
         skip.update(TWIN_COLUMNS)
     if not manifest.get("decision_index", False):  # on-policy shards declare it (FIRST_PPO_RUN.md)
         skip.add("decision_index")
+    if not manifest.get("native_cands", False):
+        skip.update(NATIVE_COLUMNS)
     return [c for c in COLUMNS if c not in skip]
 
 

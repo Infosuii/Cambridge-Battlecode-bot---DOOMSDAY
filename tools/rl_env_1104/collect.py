@@ -145,7 +145,7 @@ def episode_from(bundle: str, summary_path: str | None, side: str, meta_base: di
     """Build (meta, column lists) for our team in one finished or cut game."""
     team_l = side.lower()
     with zipfile.ZipFile(bundle) as z:
-        out = z.read(f"team-{team_l}.stdout").replace(b"\0", b"").decode("utf-8", "replace")
+        out = z.read(f"team-{team_l}.stdout").replace(b"\0", b"\n").decode("utf-8", "replace")  # NUL padding = lost output: line break
     bad: list = []
     rows = parse_rows(out, bad)
     summary = None

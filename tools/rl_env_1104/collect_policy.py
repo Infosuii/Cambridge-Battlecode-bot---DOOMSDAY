@@ -90,7 +90,9 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
     team_l, our = side.lower(), ("teamA" if side == "A" else "teamB")
     with zipfile.ZipFile(bundle) as z:
         raw = z.read(f"team-{team_l}.stdout")
-    out = raw.replace(bytes(1), b"").decode("utf-8", "replace")
+    # The engine pads stdout with NUL bytes where a suspended turn lost output: treat them as line breaks, so an
+    # intact row before the padding still parses and any split row is counted as malformed, never misread.
+    out = raw.replace(bytes(1), b"\n").decode("utf-8", "replace")
     dec, exe, bad = parse(out)
     flags = dict(incomplete=False, fuel_failed=False, log_cut=False)
     problems = []

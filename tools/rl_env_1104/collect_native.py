@@ -1,0 +1,259 @@
+"""Collect native exploration-mixture rollouts (bots/claude-native-1104, CLNA_EPS) into rlenv-2 shards.
+
+Builds the native bot (Agent 2 student_i2m backbone, frozen) with CLNA_EPS as a non-release build, plays games via
+`cambc run-batch`, and turns our team's CNA1 decision rows + CNX1 executed rows + the match summary into one episode
+per game, schema native-blend-eps-v1 (layout 2 features, 500 int16). Suspension-aware: fuel-out events from the
+summary are mapped to the body and decision interval they fall in (fuel_out column), instead of rejecting the game.
+A malformed row, a missing executed row, an index gap, a log cut or a missing summary make the episode ineligible.
+Downstream reassignment by v92's later farm() code (executed group != chosen) is kept and flagged per row
+(executed = -1 when the executed group is not a candidate) and counted per episode.
+
+usage (repo root):
+  python tools/rl_env_1104/collect_native.py --eps 0.02 --run-ns nat-smoke-01 \
+      --maps maps/ladder-pool/00corners.map26a --opponent bots/v92 --sides A [--jobs 1]
+"""
+from __future__ import annotations
+
+import argparse
+import base64
+import json
+import os
+import shutil
+import struct
+import subprocess
+import sys
+import zipfile
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import collect as K  # noqa: E402
+import contract as C  # noqa: E402
+
+ROOT, CLI = K.ROOT, K.CLI
+SCHEMA, LAYOUT = "native-blend-eps-v1", 2
+NF, NA = C.LAYOUTS[LAYOUT].nf, C.ACTION_SCHEMAS[SCHEMA].n
+
+
+def prepare(work: str, eps: float) -> tuple:
+    src = os.path.join(ROOT, "bots", "claude-native-1104", "src")
+    dest = os.path.join(work, "bots", "clna")
+    shutil.rmtree(dest, ignore_errors=True)
+    shutil.copytree(src, os.path.join(dest, "src"), ignore=shutil.ignore_patterns(".cambc", "compile_commands.json"))
+    ch = os.path.join(dest, "src", "common.h")
+    with open(ch, encoding="utf-8") as f:
+        text = f.read()
+    with open(ch, "w", encoding="utf-8", newline="") as f:
+        f.write(f"#define CLNA_EPS {eps!r}\n" + text)
+    wasm = os.path.join(work, "clna-debug.wasm")
+    r = subprocess.run([CLI, "build", K.rel(dest), "--output", wasm], cwd=ROOT, capture_output=True, text=True,
+                       timeout=900)
+    if r.returncode or not os.path.exists(wasm):
+        raise SystemExit("native build failed: " + r.stdout[-3000:] + r.stderr[-3000:])
+    return K.rel(dest), K.sha256(wasm)
+
+
+def parse(stdout: str) -> tuple:
+    dec, exe, skips, bad = [], {}, 0, 0
+    for line in stdout.splitlines():
+        q = line.split(" ")
+        try:
+            if q[0] == "CNA1":
+                nu = int(q[11])
+                if len(q) != 13 + nu:
+                    raise ValueError
+                cands = [tuple(x.split(":")) for x in q[12:12 + nu]]
+                x = struct.unpack(f"<{NF}h", base64.b64decode(q[12 + nu], validate=True))
+                dec.append(dict(round=int(q[1]), slot=int(q[2]), body=int(q[3]), index=int(q[4]), ref=int(q[5]),
+                                chosen=int(q[6]), logp=float(q[7]), eps=float(q[8]), v92=int(q[9]), nn=int(q[10]),
+                                groups=[int(g) for g, _ in cands], q=[float(v) for _, v in cands], x=x))
+            elif q[0] == "CNX1":
+                exe[(int(q[1]), int(q[3]))] = int(q[4])
+            elif q[0] == "CNS1":
+                skips += 1
+        except Exception:
+            bad += 1
+    return dec, exe, skips, bad
+
+
+def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
+    team_l, our = side.lower(), ("teamA" if side == "A" else "teamB")
+    theirs = "teamB" if our == "teamA" else "teamA"
+    with zipfile.ZipFile(bundle) as z:
+        raw = z.read(f"team-{team_l}.stdout")
+    # The engine pads stdout with NUL bytes where a suspended turn lost output: treat them as line breaks, so an
+    # intact row before the padding still parses and any split row is counted as malformed, never misread.
+    dec, exe, skips, bad = parse(raw.replace(bytes(1), b"\n").decode("utf-8", "replace"))
+    problems, flags = [], dict(incomplete=False, log_cut=False)
+    if bad:
+        flags["incomplete"] = True
+        problems.append(f"{bad} malformed rows")
+    if len(raw) >= K.LOG_LIMIT - 4096:
+        flags["log_cut"] = True
+        problems.append("stdout at log limit")
+    fuel_rounds: dict = {}
+    if summary is None:
+        flags["incomplete"] = True
+        problems.append("no match summary")
+        status, end_round, outcome = "truncated", max([d["round"] for d in dec] or [0]), None
+    else:
+        m = summary["match"]
+        status, outcome = "terminated", m["outcome"]
+        end_round = int(m["roundsStarted"]) if m.get("finalRoundPartial") else int(m["roundsCompleted"])
+        for e in summary["events"]:
+            if e["kind"] == "fuelExhausted" and e["owner"].get("team") == our:
+                fuel_rounds.setdefault(int(e["owner"]["id"]), []).extend(int(x["timestamp"]["round"]) for x in e["entries"])
+        scores = {t["team"]: int(t["submittedGems"]) for t in summary["teams"]}
+        meta.update(map_hash=m["mapHash"], seed=m["seed"], engine_build_hash=m.get("engineBuildHash"),
+                    rounds_completed=int(m["roundsCompleted"]), end_round=end_round,
+                    final_scores=dict(ours=scores.get(our, 0), theirs=scores.get(theirs, 0)),
+                    terminal_outcome=(1 if outcome == our else (-1 if outcome == theirs else 0)),
+                    fuel_outs=sum(len(v) for v in fuel_rounds.values()),
+                    bot_faults=summary.get("diagnostics", {}).get("botFaults", {}).get(our, 0))
+        if meta["bot_faults"]:
+            flags["incomplete"] = True
+            problems.append(f"{meta['bot_faults']} bot faults")
+    dec.sort(key=lambda d: (d["body"], d["round"]))
+    gaps = reassigned = no_exec = 0
+    cols = {c: [] for c in C.required_columns(dict(hidden_size=0, stale_block=False, decision_index=True,
+                                                    native_cands=True))}
+    for i, d in enumerate(dec):
+        first = i == 0 or dec[i - 1]["body"] != d["body"]
+        last = i + 1 == len(dec) or dec[i + 1]["body"] != d["body"]
+        if not first and d["index"] != dec[i - 1]["index"] + 1:
+            gaps += 1
+        nxt = end_round if last else dec[i + 1]["round"]
+        groups = (d["groups"] + [-1] * NA)[:NA]
+        qs = (d["q"] + [0.0] * NA)[:NA]
+        act = groups.index(d["chosen"]) if d["chosen"] in groups else -1
+        ref = groups.index(d["ref"]) if d["ref"] in groups else -1
+        ex_g = exe.get((d["round"], d["body"]))
+        if ex_g is None:
+            no_exec += 1
+            ex = -1
+        else:
+            ex = groups.index(ex_g) if ex_g in groups else -1
+            reassigned += ex_g != d["chosen"]
+        fo = any(d["round"] <= r < max(nxt, d["round"] + 1) for r in fuel_rounds.get(d["body"], []))
+        cols["x_fresh"] += d["x"]
+        cols["has_stale"].append(0)
+        cols["feat_round"].append(d["round"])
+        cols["stale_round"].append(-1)
+        cols["act_round"].append(d["round"])
+        cols["body_id"].append(d["body"])
+        cols["slot"].append(d["slot"])
+        cols["mask"] += [1 if g >= 0 else 0 for g in groups]
+        cols["action"].append(act)
+        cols["teacher_action"].append(ref)
+        cols["executed"].append(ex)
+        cols["logp"].append(d["logp"])
+        cols["has_logp"].append(1)
+        cols["weight"].append(1.0)
+        cols["changed"].append(1 if first or dec[i - 1]["chosen"] != d["chosen"] else 0)
+        cols["reset"].append(1 if first else 0)
+        cols["reward"].append(0.0)
+        cols["dt_rounds"].append(max(0, nxt - d["round"]))
+        cols["terminated"].append(1 if last and status == "terminated" else 0)
+        cols["truncated"].append(1 if last and status != "terminated" else 0)
+        cols["boundary"].append(0)
+        cols["bootstrap_valid"].append(0)
+        cols["decision_index"].append(d["index"])
+        cols["cand_group"] += groups
+        cols["cand_q"] += qs
+        cols["eps"].append(d["eps"])
+        cols["ref_slot"].append(ref)
+        cols["fuel_out"].append(1 if fo else 0)
+    if gaps:
+        flags["incomplete"] = True
+        problems.append(f"{gaps} decision-index gaps")
+    if no_exec:
+        flags["incomplete"] = True
+        problems.append(f"{no_exec} decisions without an executed row")
+    if not dec:
+        flags["incomplete"] = True
+        problems.append("no decisions")
+    cols.pop("episode", None)
+    eligible = status == "terminated" and not any(flags.values())
+    meta.update(status=status, our_team=our, outcome=outcome, decisions=len(dec), skips=skips,
+                reassigned=reassigned, fuel_out_rows=sum(cols["fuel_out"]), problems=problems,
+                reward_complete=eligible, ppo_eligible=eligible, **flags)
+    return meta, cols, dec
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--eps", type=float, required=True)
+    ap.add_argument("--run-ns", required=True)
+    ap.add_argument("--maps", nargs="+", required=True)
+    ap.add_argument("--opponent", default="bots/v92")
+    ap.add_argument("--sides", default="A")
+    ap.add_argument("--jobs", type=int, default=1)
+    ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--out", default=os.path.join("runs", "rl_env_1104"))
+    a = ap.parse_args()
+    run_dir = os.path.join(ROOT, a.out, a.run_ns)
+    work = os.path.join(ROOT, "artifacts", "tmp", "rl_env_1104", a.run_ns)
+    os.makedirs(work, exist_ok=True)
+    bot, wasm_sha = prepare(work, a.eps)
+    opp = a.opponent.replace("\\", "/")
+    opp_hash = K.build_hash(opp, work, release=False)
+    base = dict(layout=LAYOUT, action_schema=SCHEMA, sampling="complete", stale_block=False, hidden_size=0,
+                decision_index=True, native_cands=True, eps=a.eps, observation_point="native-blend-farm",
+                data_origin="engine", reward_spec="jd-teamwin-potential-v1", run_ns=a.run_ns, log_limit=K.LOG_LIMIT,
+                policy=dict(name="native-blend-eps", backbone="agent2 student_i2m (frozen)",
+                            checkpoint_sha256="05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
+                            wasm_sha256=wasm_sha, build="debug", flags=[f"CLNA_EPS={a.eps}"],
+                            source_commit=K.git_head()),
+                engine=dict(cambc="4.0.0", engine="2.0.0"))
+    writer = C.ShardWriter(run_dir, base)
+    done = writer.done_keys()
+    games, lines = [], []
+    for mp in a.maps:
+        for side in a.sides.split(","):
+            key = f"{K.sha256(os.path.join(ROOT, mp))[:16]}|{wasm_sha[:16]}|{opp_hash[:16]}|debug|{side}"
+            if key in done:
+                continue
+            gi = len(games)
+            rep, st = os.path.join(work, f"g{gi}.repl26a"), os.path.join(work, f"g{gi}.json")
+            for p in (rep, st):
+                if os.path.exists(p):
+                    os.remove(p)
+            pair = (K.absp(bot), K.absp(opp)) if side == "A" else (K.absp(opp), K.absp(bot))
+            lines.append(f"{pair[0]} {pair[1]} {K.absp(mp)} {K.absp(rep)} --statistics {K.absp(st)} --json")
+            games.append(dict(key=key, map=mp, side=side, rep=rep, st=st))
+    if not games:
+        print("nothing to do")
+        return
+    man = os.path.join(work, "batch.txt")
+    with open(man, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    r = subprocess.run([CLI, "run-batch", K.rel(man), "--jobs", str(a.jobs), "--json", "--color", "never",
+                        "--log-limit", str(K.LOG_LIMIT), "--timeout", str(a.timeout)], cwd=ROOT, capture_output=True,
+                       text=True)
+    with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
+        f.write(r.stdout + "\n---\n" + r.stderr)
+    for g in games:
+        if not os.path.exists(g["rep"]):
+            print(f"{g['map']} {g['side']}: failed (no replay bundle)")
+            continue
+        summary = None
+        if os.path.exists(g["st"]):
+            with open(g["st"], encoding="utf-8") as f:
+                summary = json.load(f)
+        meta = dict(key=g["key"], map_file=g["map"], map_file_sha256=K.sha256(os.path.join(ROOT, g["map"])),
+                    opponent=dict(name=opp, wasm_sha256=opp_hash), side=g["side"], build_mode="debug")
+        if summary is None:
+            meta["map_hash"] = meta["map_file_sha256"]
+        meta, cols, _ = episode(g["rep"], summary, g["side"], meta)
+        writer.add_episode(meta, cols)
+        print(f"{g['map']} {g['side']}: {meta['status']} {meta.get('final_scores')} decisions={meta['decisions']} "
+              f"skips={meta['skips']} reassigned={meta['reassigned']} fuel_out_rows={meta['fuel_out_rows']} "
+              f"fuel_outs={meta.get('fuel_outs')} ppo_eligible={meta['ppo_eligible']} problems={meta['problems']}")
+    shard = writer.flush()
+    if shard:
+        m, c = C.load_shard(shard, use_numpy=False)
+        errs = C.validate(m, c)
+        print(f"shard {K.rel(shard)}: rows {m['rows']}, validate: {'OK' if not errs else errs[:5]}, wasm {wasm_sha[:16]}")
+
+
+if __name__ == "__main__":
+    main()
