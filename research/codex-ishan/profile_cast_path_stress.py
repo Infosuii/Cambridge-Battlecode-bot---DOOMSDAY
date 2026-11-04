@@ -7,6 +7,7 @@ from zipfile import ZipFile
 
 from bounded_verdict import apply
 from cpg_heart_cast_path import prepare
+from cpg_safe_tribute_cap import prepare as prepare_tribute
 from large_roster_stress import HERE, OUT as STRESS, bench, native_fuel, read
 from pg_dash_followup import read_turn
 from profile_roster_stress import prepare_coarse, summarize_scoped
@@ -14,6 +15,7 @@ from qualify_local import build
 from stress_heart_cast_path import OUT as RAW, SEED
 
 OUT = bench.CACHE / "heart-cast-path-stress-profile-14107"
+REFERENCE_OUT = RAW
 STAGES = ("world", "support", "wardrev", "ambush", "e_in", "e_td", "enemies", "farm0",
           "farmsel", "d_farm", "decide", "tail", "fields", "bushpre")
 FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones",
@@ -41,6 +43,44 @@ static unsigned long long codex_issac_before, codex_issac_after;'''),
     if (codex_issac_round) {
         std::printf("CODEX_ISSAC_COMBAT %u %llu %llu\\n", codex_issac_round, codex_issac_before, codex_issac_after);
         codex_issac_round = 0;
+    }'''),
+    ))
+
+
+def instrument_vendetta(src):
+    route = """#if CODEX_SAFE_TRIBUTE_CAP
+                if constexpr (bounded_wait) {
+                    const auto cap = rb::search_cap(rb::kTailReserve);
+                    if (cap == 0) return true;
+                    const auto levels = safe_field.compute_to_with_expansion_count(blocked, ring, single(pos), visited, cap);
+                    // An unfinished search does not establish that the plain route is safe.
+                    if (fdist(safe_field, pos) == kUnreach && levels + 1 >= cap) return true;
+                } else
+#endif
+                {
+                    safe_field.compute_to(blocked, ring, single(pos), visited);
+                }"""
+    apply(src / "bot.cpp", (
+        ('#include "bot.h"', '''#include "bot.h"
+
+static unsigned codex_vend_bank_round;
+static bool codex_vend_bank_bounded;
+static unsigned long long codex_vend_bank_before, codex_vend_bank_after;'''),
+        (route, '''                const bool sample = round == 614 && type == bc::champion_type::vendetta;
+                if (sample) {
+                    codex_vend_bank_bounded = bounded_wait;
+                    codex_vend_bank_before = bc::fuel_remaining();
+                }
+''' + route + '''
+                if (sample) {
+                    codex_vend_bank_round = bc::round_number();
+                    codex_vend_bank_after = bc::fuel_remaining();
+                }'''),
+        ('void Bot::play_turn() {', '''void Bot::play_turn() {
+    if (codex_vend_bank_round) {
+        std::printf("CODEX_VEND_BANK %u %d %llu %llu\\n", codex_vend_bank_round, codex_vend_bank_bounded,
+                    codex_vend_bank_before, codex_vend_bank_after);
+        codex_vend_bank_round = 0;
     }'''),
     ))
 
@@ -143,7 +183,7 @@ def play(item):
     row = bench.one(("profile", SEED, opponent, mp, side, wasm), fuel=100000, log_limit=1048576)
     assert all(base[k] == row[k] for k in ("map_hash", "engine_seed", "opponent", "side"))
     key = f"{SEED}-{opponent}-{mp.stem}-{side}"
-    old, new = RAW / "games" / f"path-{key}", OUT / "games" / f"profile-{key}"
+    old, new = REFERENCE_OUT / "games" / f"{base['arm']}-{key}", OUT / "games" / f"profile-{key}"
     row = summarize_scoped(row, new)
     (bundle,) = new.glob("*.repl26a")
     with ZipFile(bundle) as archive:
@@ -153,6 +193,7 @@ def play(item):
     states = {int(r): [int(s), bool(int(ready)), bool(int(gated)), bool(int(no_bank))] for r, s, ready, gated, no_bank in
               re.findall(rb"CODEX_CASSI_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
     combat = [list(map(int, m)) for m in re.findall(rb"CODEX_ISSAC_COMBAT (\d+) (\d+) (\d+)", log)]
+    bank = [list(map(int, m)) for m in re.findall(rb"CODEX_VEND_BANK (\d+) (\d+) (\d+) (\d+)", log)]
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -173,17 +214,18 @@ def play(item):
                        "matched": same_draft and not errors and native_match and same_input and same_actions,
                        "base_turn": old_turn, "diagnostic_turn": new_turn})
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors,
-            "observed": observed, "checks": checks, "combat": combat}
+            "observed": observed, "checks": checks, "combat": combat, "bank": bank}
 
 
 def main():
-    global OUT
+    global OUT, REFERENCE_OUT
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--farm", action="store_true")
     mode.add_argument("--altar", action="store_true")
     mode.add_argument("--wait", action="store_true")
     mode.add_argument("--issac", action="store_true")
+    mode.add_argument("--vendetta", action="store_true")
     args = parser.parse_args()
     farm, altar, wait = args.farm or args.altar or args.wait, args.altar, args.wait
     if farm:
@@ -191,6 +233,9 @@ def main():
         OUT = bench.CACHE / f"heart-cast-path-cassi-{suffix}-14107"
     if args.issac:
         OUT = bench.CACHE / "heart-cast-path-issac-combat-14107"
+    if args.vendetta:
+        OUT = bench.CACHE / "safe-tribute-vendetta-bank-14107"
+        REFERENCE_OUT = bench.CACHE / "cpg-safe-tribute-specialized-fixture"
     frozen = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     assert frozen["seed"] == SEED and frozen["n"] == 800
     cases = frozen["affected"]
@@ -200,15 +245,25 @@ def main():
         cases = [r for r in cases if r["events"][0]["owner"]["name"] == "Cassi"]
     if args.issac:
         cases = [r for r in cases if r["events"][0]["owner"]["name"] == "Issac"]
+    reference = frozen["wasm"]
+    if args.vendetta:
+        fixture = read(HERE / "CPG_SAFE_TRIBUTE_SPECIALIZED_FIXTURE.json")
+        reference = fixture["candidate"]
+        cases = [{**p["candidate"], "events": p["events"]} for p in fixture["rows"] if p["new_events"]]
+        assert len(cases) == 1 and cases[0]["events"][0]["timestamp"]["round"] == 614
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
-    prepare(src, True)
+    if args.vendetta:
+        prepare_tribute(src, True, specialized=True)
+        instrument_vendetta(src)
+    else:
+        prepare(src, True)
     if args.issac:
         instrument_issac(src)
     elif farm:
         instrument_farm(src, altar, wait)
-    else:
+    elif not args.vendetta:
         rounds = sorted({rnd for rnd, _ in events})
         prepare_coarse(src, rounds, STAGES)
         initial = " || ".join(f"round == {rnd}" for rnd in rounds)
@@ -225,11 +280,14 @@ def main():
     with ThreadPoolExecutor(max_workers=2) as pool:
         rows = list(pool.map(play, jobs))
     matches = {r["round"]: r["fuel"] if farm else r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
-    result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "diagnostic": bench.digest(wasm),
+    result = {"engine": bench.ENGINE, "reference": reference, "diagnostic": bench.digest(wasm),
               "seed": SEED, "matches": matches, "n": len(rows)}
     if args.issac:
         result["combat"] = [cell["combat"] for cell in rows]
-    name = ("CPG_CAST_PATH_ISSAC_COMBAT.json" if args.issac else
+    if args.vendetta:
+        result["bank"] = [cell["bank"] for cell in rows]
+    name = ("CPG_SAFE_TRIBUTE_VENDETTA_BANK.json" if args.vendetta else
+            "CPG_CAST_PATH_ISSAC_COMBAT.json" if args.issac else
             "CPG_CAST_PATH_CASSI_WAIT.json" if wait else "CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
             "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:

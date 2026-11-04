@@ -1,0 +1,3 @@
+# EXP-139 compile-time wait-time cap
+
+The specialized build reproduced both Cassi fixes, all three Heart controls and the 320 matched development pairs. It also reproduced the prior build's new Vendetta R614 suspension in the Issac control. The strict fixture again rejected the exact hash before L0. Two clean builds matched `3795c90fc8e6054a17de5be6a482da6e3b58547cd47b9668dd7c21e02415ddbb` and all-off reproduced v92. [Exact fixture](CPG_SAFE_TRIBUTE_SPECIALIZED_FIXTURE.json), [development pairs](CPG_SAFE_TRIBUTE_SPECIALIZED_EXACT.json), [Heart controls](CPG_SAFE_TRIBUTE_SPECIALIZED_HEART.json).

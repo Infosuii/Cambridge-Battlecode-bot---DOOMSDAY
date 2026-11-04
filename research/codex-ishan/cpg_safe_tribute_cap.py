@@ -7,7 +7,7 @@ from cpg_decision_guard import verify
 from cpg_heart_cast_path import prepare as prepare_path
 
 
-def prepare(src, enabled):
+def prepare(src, enabled, *, specialized=False):
     prepare_path(src, enabled)
     header = src / "common.h"
     data = header.read_bytes()
@@ -63,6 +63,21 @@ bool Bot::tribute_if_needed() {
                     safe_field.compute_to(blocked, ring, single(pos), visited);
                 }""")),
     ))
+    if specialized:
+        apply(src / "bot.h", (("    bool tribute_if_needed(bool bounded_wait = false);",
+                               "    template<bool bounded_wait = false>\n    bool tribute_if_needed();"),))
+        apply(src / "bot.cpp", (
+            ("bool Bot::tribute_if_needed(bool bounded_wait) {",
+             "template<bool bounded_wait>\nbool Bot::tribute_if_needed() {"),
+            ("                if (bounded_wait) {", "                if constexpr (bounded_wait) {"),
+            ("                return tribute_if_needed(true);", "                return tribute_if_needed<true>();"),
+            ("float Bot::incoming_from_group(const GroupRec& g, vec2 at) const {",
+             """#if CODEX_SAFE_TRIBUTE_CAP
+template bool Bot::tribute_if_needed<false>();
+#endif
+
+float Bot::incoming_from_group(const GroupRec& g, vec2 at) const {"""),
+        ))
 
 
 if __name__ == "__main__":
@@ -71,8 +86,9 @@ if __name__ == "__main__":
     target.add_argument("--src", type=Path)
     target.add_argument("--verify", type=Path)
     parser.add_argument("--off", action="store_true")
+    parser.add_argument("--specialized", action="store_true")
     args = parser.parse_args()
     if args.src:
-        prepare(args.src, not args.off)
+        prepare(args.src, not args.off, specialized=args.specialized)
     else:
-        verify(args.verify, variant="safe-tribute-cap")
+        verify(args.verify, variant="safe-tribute-specialized" if args.specialized else "safe-tribute-cap")

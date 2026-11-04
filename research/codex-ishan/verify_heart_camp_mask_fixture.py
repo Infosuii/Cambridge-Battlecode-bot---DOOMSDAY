@@ -1,6 +1,7 @@
 """Verify the matched Heart cast and the other two independent stress cases."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from functools import partial
 import json
 
 from cpg_heart_camp_mask import prepare
@@ -66,12 +67,15 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--path", action="store_true")
     mode.add_argument("--safe-tribute", action="store_true")
+    mode.add_argument("--specialized-tribute", action="store_true")
     args = parser.parse_args()
-    arm = "capped" if args.safe_tribute else "path" if args.path else "mask"
+    arm = "specialized" if args.specialized_tribute else "capped" if args.safe_tribute else "path" if args.path else "mask"
     directory, name, prepare_source = {
         "mask": (MASK_FIXTURE, "CPG_HEART_CAMP_MASK_FIXTURE.json", prepare),
         "path": (bench.CACHE / "cpg-heart-cast-path-fixture", "CPG_HEART_CAST_PATH_FIXTURE.json", prepare_path),
         "capped": (bench.CACHE / "cpg-safe-tribute-cap-heart", "CPG_SAFE_TRIBUTE_CAP_HEART.json", prepare_safe_tribute),
+        "specialized": (bench.CACHE / "cpg-safe-tribute-specialized-heart", "CPG_SAFE_TRIBUTE_SPECIALIZED_HEART.json",
+                        partial(prepare_safe_tribute, specialized=True)),
     }[arm]
     OUT = directory
     source = read(HERE / "CPG_GREEDY_PAIR_STRESS.json")

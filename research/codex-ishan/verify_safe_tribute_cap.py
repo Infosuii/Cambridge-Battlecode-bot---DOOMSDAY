@@ -1,4 +1,5 @@
 """Check the original Cassi crossings and the Issac control on the capped source."""
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
 
@@ -42,13 +43,19 @@ def play(item):
 
 
 def main():
+    global OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--specialized", action="store_true")
+    specialized = parser.parse_args().specialized
+    if specialized:
+        OUT = bench.CACHE / "cpg-safe-tribute-specialized-fixture"
     source = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     cases = source["affected"]
     assert source["seed"] == SEED and len(cases) == 2
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
-    prepare(src, True)
+    prepare(src, True, specialized=specialized)
     wasm = build(src, OUT / "candidate", SEED)
     jobs = []
     for row in cases:
@@ -68,7 +75,8 @@ def main():
     result = {"engine": bench.ENGINE, "reference": source["wasm"], "candidate": bench.digest(wasm),
               "seed": SEED, "n": len(rows), "errors": errors, "increases": increases, "turns": turns,
               "pass": passed and not errors and not increases}
-    with (HERE / "CPG_SAFE_TRIBUTE_CAP_FIXTURE.json").open("x", encoding="utf8", newline="\n") as out:
+    name = "CPG_SAFE_TRIBUTE_SPECIALIZED_FIXTURE.json" if specialized else "CPG_SAFE_TRIBUTE_CAP_FIXTURE.json"
+    with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
