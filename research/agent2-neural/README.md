@@ -6,7 +6,9 @@ These are Agent 2's results on the CAMBC (Cambridge Battlecode 2026) bot, engine
 
 All results vs v92 (or v92 with +-0.5% noise on its camp scores, `mk_v92j.py`, which gives new games on the same maps). Full log: `docs/EXPERIMENTS.md` (E120-E124).
 
-**No network bot is clearly above v92 on official maps at the real fuel limit yet.** `nnc4` (RL checkpoint 4, `models/nn_rl5_student_4.pt`) looked like it was, but the gain does not survive tiny noise on its own scores:
+**Best bot at the real fuel limit: `nnq4`, the blend in 16-bit with the distance-field fix** (student `models/student_i2m.pt`, flags in `code/e125_fields.sh`). Against v92 and noisy copies only, half the games with noise on its own scores: official 54.6% +- 1.3 (1,440 games), fresh 53.5% +- 1.6 (996), unseen 57.8% +- 2.0 (600). Key fix: v92 kept a 30-35k margin before building a distance field, so on big maps most fields were missing for 100+ rounds; official maps over 60 wide went from 37% to about 58%. More fuel per turn no longer helps it. Not trained with RL yet.
+
+**RL checkpoint 4 is not an improvement.** `nnc4` (RL checkpoint 4, `models/nn_rl5_student_4.pt`) looked like it was, but the gain does not survive tiny noise on its own scores:
 
 | Official maps, real fuel | Without own-score noise | With own-score noise |
 |---|---|---|

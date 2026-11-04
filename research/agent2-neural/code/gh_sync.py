@@ -37,7 +37,7 @@ for f in ("nn1_ladder.tsv", "nn1_unseen.tsv", "nn2_ladder.tsv", "nn2_unseen.tsv"
 
 # E120-E124: the real-fuel work, its results and the models behind them
 for f in ("nn_rl3.py", "nn_rl4.py", "nn_dag4.py", "nn_distill.py", "nn_tiny.py", "nn_tiny2.py", "nn_xf_expand.py", "nn_ens_rec.py", "nn_ens_why.py", "nn_ens_rule.py", "nn_livecheck.py", "nnd_check.py", "nnd_compare.py",
-          "fuel_probe.py", "live_stats.py", "held_run.py", "e95_run.py", "e123_report.py", "e124_c4.py", "mk_v92j.py", "mk_v92stay.py", "mk_v92sk.py", "mappre.h", "sched.h", "regen_maps.sh"):
+          "fuel_probe.py", "live_stats.py", "held_run.py", "e95_run.py", "e123_report.py", "e124_c4.py", "mk_v92j.py", "mk_v92stay.py", "mk_v92sk.py", "mk_v92f.py", "e125_big.py", "e125_c4.py", "e125_fields.sh", "nn_q16_check.py", "mappre.h", "sched.h", "regen_maps.sh"):
     FILES["code/" + f] = os.path.join(L, f)
 for t in glob.glob(os.path.join(L, "e12[0-9]*.tsv")) + glob.glob(os.path.join(L, "e12[0-9]*.out")):
     FILES["results/" + os.path.basename(t)] = t
