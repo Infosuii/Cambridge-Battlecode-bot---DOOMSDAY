@@ -1,5 +1,6 @@
 """Check whether the identical greedy edit removes the independent Marcella continuation."""
 import argparse
+from functools import partial
 import json
 
 from cpg_greedy_full import apply_full
@@ -13,11 +14,13 @@ from qualify_local import build
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--full", action="store_true")
+    variant_args = parser.add_mutually_exclusive_group()
+    variant_args.add_argument("--full", action="store_true")
+    variant_args.add_argument("--scratch", action="store_true")
     args = parser.parse_args()
     _, rnd, actor, side, name, opponent, seed = CASES[1]
-    variant = "full" if args.full else "near"
-    inject = apply_full if args.full else apply_nearby
+    variant = "scratch" if args.scratch else "full" if args.full else "near"
+    inject = partial(apply_full, scratch=args.scratch) if args.full or args.scratch else apply_nearby
     root = bench.CACHE / f"marcella-greedy-{variant}"
     bench.OUT = root
     (root / "games").mkdir(parents=True)

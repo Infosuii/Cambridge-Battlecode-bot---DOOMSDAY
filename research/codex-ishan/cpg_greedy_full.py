@@ -49,14 +49,18 @@ NEAREST = """static vec2 greedy_nearest(const bc::bitboard& goals, vec2 pos) {
 """
 
 
-def apply_full(src, enabled):
+def apply_full(src, enabled, *, scratch=False):
     header = src / "common.h"
     data = header.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"
     header.write_bytes(f"#define CODEX_GREEDY_FULL {int(enabled)}".encode() + nl + data)
+    nearest = NEAREST
+    if scratch:
+        nearest = nearest.replace("        std::array<vec2, nearby_area> positions;",
+                                  "        static std::array<vec2, nearby_area> positions;")
     apply(src / "bot.cpp", (
         ("bool Bot::greedy_step(const bc::bitboard& goals) {",
-         "#if CODEX_GREEDY_FULL\n" + NEAREST + "#endif\n\nbool Bot::greedy_step(const bc::bitboard& goals) {"),
+         "#if CODEX_GREEDY_FULL\n" + nearest + "#endif\n\nbool Bot::greedy_step(const bc::bitboard& goals) {"),
         ("""    vec2 goal{-1, -1};
     int gd = 1 << 20;
     for (vec2 g : goals.positions()) {
@@ -79,9 +83,9 @@ def apply_full(src, enabled):
     ))
 
 
-def prepare(src, enabled):
+def prepare(src, enabled, *, scratch=False):
     prepare_runtime(src, enabled, packed=True)
-    apply_full(src, enabled)
+    apply_full(src, enabled, scratch=scratch)
 
 
 if __name__ == "__main__":
@@ -90,8 +94,9 @@ if __name__ == "__main__":
     target.add_argument("--src", type=Path)
     target.add_argument("--verify", type=Path)
     parser.add_argument("--off", action="store_true")
+    parser.add_argument("--scratch", action="store_true")
     args = parser.parse_args()
     if args.src:
-        prepare(args.src, not args.off)
+        prepare(args.src, not args.off, scratch=args.scratch)
     else:
-        verify(args.verify, variant="greedy-full")
+        verify(args.verify, variant="greedy-scratch" if args.scratch else "greedy-full")

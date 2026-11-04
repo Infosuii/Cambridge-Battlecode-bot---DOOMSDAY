@@ -1,4 +1,5 @@
 """Measure exact target equivalence and charged fuel across native SDK masks."""
+import argparse
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -8,7 +9,7 @@ import subprocess
 from zipfile import ZipFile
 
 from bounded_verdict import apply
-from cpg_greedy_full import prepare
+from cpg_greedy_full import NEAREST, prepare
 from cpg_greedy_near import NEARBY
 from large_roster_stress import HERE, bench, read
 from qualify_local import partition
@@ -16,9 +17,8 @@ from qualify_local import partition
 OUT = bench.CACHE / "cpg-greedy-full-equivalence"
 
 
-def instrument(src):
-    apply(src / "bot.cpp", (
-        ("void Bot::play_turn() {", """static vec2 old_nearest(const bc::bitboard& goals, vec2 pos) {
+def instrument(src, scratch):
+    reference = """static vec2 old_nearest(const bc::bitboard& goals, vec2 pos) {
 """ + NEARBY + """    int distance = 1 << 20;
     vec2 target{-1, -1};
     for (vec2 p : candidates.positions()) {
@@ -27,7 +27,11 @@ def instrument(src):
     }
     return target;
 }
-
+"""
+    if scratch:
+        reference = NEAREST.replace("greedy_nearest", "old_nearest", 1)
+    apply(src / "bot.cpp", (
+        ("void Bot::play_turn() {", reference + """
 static void verify_greedy_full() {
     const auto allies = bc::champions(bc::team::ally);
     if (allies.empty() || !(allies.front() == bc::self())) return;
@@ -86,11 +90,17 @@ def play(job):
 
 
 def main():
+    global OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--scratch", action="store_true")
+    scratch = parser.parse_args().scratch
+    variant = "scratch" if scratch else "full"
+    OUT = bench.CACHE / f"cpg-greedy-{variant}-equivalence"
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     project = OUT / "diagnostic"
-    prepare(project / "src", True)
-    instrument(project / "src")
+    prepare(project / "src", True, scratch=scratch)
+    instrument(project / "src", scratch)
     wasm = project / "bot.wasm"
     with (OUT / "build.log").open("wb") as log:
         subprocess.run([bench.CLI, "build", project, "--release", "--output", wasm], cwd=bench.ROOT,
@@ -109,12 +119,14 @@ def main():
             grouped[category].append(new - old)
     costs = {category: {"n": len(values), "median_delta": median(values), "max_delta": max(values)}
              for category, values in grouped.items()}
+    categories = ("near", "small") if scratch else ("near", "far")
+    limit = 100 if scratch else 1000
     passed = (len(rows) == 32 and not differences and not errors and
-              all(costs[k]["median_delta"] < 0 for k in ("near", "far")) and
-              all(v["max_delta"] <= 1000 for v in costs.values()))
+              all(costs[k]["median_delta"] < 0 for k in categories) and
+              all(v["max_delta"] <= limit for v in costs.values()))
     result = {"engine": bench.ENGINE, "diagnostic": bench.digest(wasm), "n": len(rows),
               "differences": differences, "errors": errors, "costs": costs, "pass": passed}
-    with (HERE / "CPG_GREEDY_FULL_PROOF.json").open("x", encoding="utf8", newline="\n") as out:
+    with (HERE / f"CPG_GREEDY_{variant.upper()}_PROOF.json").open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
