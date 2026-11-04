@@ -1,0 +1,905 @@
+{
+ "layout": 2,
+ "action_schema": "native-head-v1",
+ "sampling": "complete",
+ "stale_block": false,
+ "hidden_size": 0,
+ "decision_index": true,
+ "native_cands": true,
+ "gate_inputs": 0,
+ "eps": 0.02,
+ "action_kind": "latent_group_at_blend_boundary (target head)",
+ "executor": "frozen v92 farm() after the blend (fixed)",
+ "return_convention": "gamma=1 complete-game Monte Carlo: G_t = reward column = team outcome",
+ "observation_point": "native-blend-farm",
+ "data_origin": "engine",
+ "features_logged": false,
+ "features": "absent: x_fresh zero; the head's inputs are the head_* columns (clna-head-abi-v1)",
+ "reward_spec": "mc-terminal-gamma1-v1: every decision of the team's complete game gets the team's final outcome (+1 win / 0 draw / -1 loss) as its undiscounted return; no shaping, no bootstrap (JOHNDOE #61)",
+ "run_ns": "head-a-01",
+ "log_limit": 67108864,
+ "policy": {
+  "name": "native-target-head",
+  "backbone": "agent2 student_i2m (frozen)",
+  "checkpoint_sha256": "05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
+  "wasm_sha256": "a742fcd06402a7624ae9ae0315853ca827aa54074b0f50e6f9cc7e2d4aecb185",
+  "build": "release",
+  "flags": [
+   "CLNA_EPS=0.02",
+   "CLNA_RLOG=1",
+   "CLNA_HEAD=1"
+  ],
+  "gate_header_sha256": "2dc3f652e079580e16a2aa7c37ed153ea45dbe8725ffcba6e120fc3bb3331685",
+  "source_commit": "cfe27aa3c9a824dab5ffda27554513b1e9ba1be8"
+ },
+ "engine": {
+  "cambc": "4.0.0",
+  "engine": "2.0.0"
+ },
+ "head_inputs": true,
+ "head": {
+  "abi": "clna-head-abi-v1|ctx=nn_lv.x*2^-10[160]|camp=nn_lv.ec*2^-10[16]|feat=wd(-1->256,clip0..256)/32,claim(clip0..8)/4,closer(clip0..8)/4,committed|native=nn_pub.es+far|jd_head e6807c95|n<=10",
+  "abi_hash": "521fd13aa634d0cd545a897fb5e64e3fdf5961a26725da2e33eef5db0a0e1e82",
+  "version": "clna-head-v1-init1104-14960dd8be0d",
+  "header_sha256": "05234fd76ef9336b17201a6e8fb8124781c16ba3e914d69374d1f5e4b9443589",
+  "guard_min_fuel": 35000,
+  "stage_min_fuel": 4500,
+  "skips": "CNS2 rows: 1 camp snapshot unpaired, 2 reference outside slots, 3 fuel guard, 4 no completed context; the reference acts deterministically and no row/logp is stored"
+ },
+ "contract_version": "rlenv-2",
+ "rows": 24893,
+ "episodes": [
+  {
+   "key": "3fed84091b160ff0|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00anvil.map26a",
+   "map_file_sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+   "seed": "5663678701683232326",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 2000,
+   "end_round": 2000,
+   "final_scores": {
+    "ours": 791,
+    "theirs": 922
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 10,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamB",
+   "decisions": 1601,
+   "skips": 561,
+   "reassigned": 8,
+   "fuel_out_rows": 9,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1601
+  },
+  {
+   "key": "3fed84091b160ff0|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00anvil.map26a",
+   "map_file_sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+   "seed": "5663678701683232326",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 2000,
+   "end_round": 2000,
+   "final_scores": {
+    "ours": 417,
+    "theirs": 105
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 1,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 1081,
+   "skips": 1715,
+   "reassigned": 0,
+   "fuel_out_rows": 0,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1081
+  },
+  {
+   "key": "fea9c8e766be4011|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00breadcrumbs.map26a",
+   "map_file_sha256": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+   "seed": "8710723277736697722",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1310,
+   "end_round": 1311,
+   "final_scores": {
+    "ours": 1010,
+    "theirs": 917
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 12,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 1280,
+   "skips": 381,
+   "reassigned": 0,
+   "fuel_out_rows": 8,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1280
+  },
+  {
+   "key": "fea9c8e766be4011|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00breadcrumbs.map26a",
+   "map_file_sha256": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+   "seed": "8710723277736697722",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1444,
+   "end_round": 1445,
+   "final_scores": {
+    "ours": 911,
+    "theirs": 1147
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 12,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamA",
+   "decisions": 1067,
+   "skips": 345,
+   "reassigned": 0,
+   "fuel_out_rows": 9,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1067
+  },
+  {
+   "key": "6e3c67956080f8da|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00collision.map26a",
+   "map_file_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+   "seed": "17615240315955964814",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1110,
+   "end_round": 1111,
+   "final_scores": {
+    "ours": 1018,
+    "theirs": 361
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 12,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 1431,
+   "skips": 222,
+   "reassigned": 6,
+   "fuel_out_rows": 11,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1431
+  },
+  {
+   "key": "6e3c67956080f8da|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00collision.map26a",
+   "map_file_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+   "seed": "17615240315955964814",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1334,
+   "end_round": 1335,
+   "final_scores": {
+    "ours": 761,
+    "theirs": 1046
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 8,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamA",
+   "decisions": 1544,
+   "skips": 316,
+   "reassigned": 8,
+   "fuel_out_rows": 6,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1544
+  },
+  {
+   "key": "76b5ce0895130f5f|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00eight.map26a",
+   "map_file_sha256": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+   "seed": "4688072832035281268",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1136,
+   "end_round": 1137,
+   "final_scores": {
+    "ours": 238,
+    "theirs": 1032
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 17,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamB",
+   "decisions": 1087,
+   "skips": 1194,
+   "reassigned": 5,
+   "fuel_out_rows": 14,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1087
+  },
+  {
+   "key": "76b5ce0895130f5f|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00eight.map26a",
+   "map_file_sha256": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+   "seed": "4688072832035281268",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1389,
+   "end_round": 1390,
+   "final_scores": {
+    "ours": 636,
+    "theirs": 1049
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 28,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamA",
+   "decisions": 1535,
+   "skips": 1341,
+   "reassigned": 11,
+   "fuel_out_rows": 25,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1535
+  },
+  {
+   "key": "2d80c4fd704de4a4|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00galaxy.map26a",
+   "map_file_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+   "seed": "12933880416027256304",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1023,
+   "end_round": 1024,
+   "final_scores": {
+    "ours": 1013,
+    "theirs": 336
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 31,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 2096,
+   "skips": 482,
+   "reassigned": 3,
+   "fuel_out_rows": 28,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 2096
+  },
+  {
+   "key": "2d80c4fd704de4a4|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00galaxy.map26a",
+   "map_file_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+   "seed": "12933880416027256304",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1023,
+   "end_round": 1024,
+   "final_scores": {
+    "ours": 1034,
+    "theirs": 460
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 37,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 2201,
+   "skips": 451,
+   "reassigned": 3,
+   "fuel_out_rows": 37,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 2201
+  },
+  {
+   "key": "80af89f07723d23d|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00gem-fields.map26a",
+   "map_file_sha256": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+   "seed": "14897117031117991802",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 600,
+   "end_round": 601,
+   "final_scores": {
+    "ours": 930,
+    "theirs": 1027
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 20,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamB",
+   "decisions": 1653,
+   "skips": 348,
+   "reassigned": 11,
+   "fuel_out_rows": 16,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1653
+  },
+  {
+   "key": "80af89f07723d23d|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00gem-fields.map26a",
+   "map_file_sha256": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+   "seed": "14897117031117991802",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 607,
+   "end_round": 608,
+   "final_scores": {
+    "ours": 897,
+    "theirs": 1016
+   },
+   "terminal_outcome": -1,
+   "fuel_outs": 14,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamA",
+   "decisions": 1795,
+   "skips": 223,
+   "reassigned": 8,
+   "fuel_out_rows": 10,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 1795
+  },
+  {
+   "key": "1dfe5669ebcdf39e|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00gemfight.map26a",
+   "map_file_sha256": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+   "seed": "6660413107115884897",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 918,
+   "end_round": 919,
+   "final_scores": {
+    "ours": 1049,
+    "theirs": 543
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 11,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 808,
+   "skips": 689,
+   "reassigned": 4,
+   "fuel_out_rows": 10,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 808
+  },
+  {
+   "key": "1dfe5669ebcdf39e|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00gemfight.map26a",
+   "map_file_sha256": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+   "seed": "6660413107115884897",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1118,
+   "end_round": 1119,
+   "final_scores": {
+    "ours": 1006,
+    "theirs": 604
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 14,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 824,
+   "skips": 870,
+   "reassigned": 1,
+   "fuel_out_rows": 14,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 824
+  },
+  {
+   "key": "a97f4ab5707d1572|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00happy-halloween.map26a",
+   "map_file_sha256": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+   "seed": "4467987705341662628",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1050,
+   "end_round": 1051,
+   "final_scores": {
+    "ours": 1060,
+    "theirs": 744
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 26,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 2213,
+   "skips": 762,
+   "reassigned": 12,
+   "fuel_out_rows": 21,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 2213
+  },
+  {
+   "key": "a97f4ab5707d1572|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00happy-halloween.map26a",
+   "map_file_sha256": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+   "seed": "4467987705341662628",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1031,
+   "end_round": 1032,
+   "final_scores": {
+    "ours": 1010,
+    "theirs": 944
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 39,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 2677,
+   "skips": 720,
+   "reassigned": 12,
+   "fuel_out_rows": 31,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 2677
+  }
+ ],
+ "columns": {
+  "x_fresh": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    500
+   ]
+  },
+  "has_stale": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "feat_round": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "stale_round": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "act_round": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "episode": {
+   "dtype": "uint32",
+   "shape": [
+    24893
+   ]
+  },
+  "body_id": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "slot": {
+   "dtype": "int8",
+   "shape": [
+    24893
+   ]
+  },
+  "mask": {
+   "dtype": "uint8",
+   "shape": [
+    24893,
+    14
+   ]
+  },
+  "action": {
+   "dtype": "int16",
+   "shape": [
+    24893
+   ]
+  },
+  "teacher_action": {
+   "dtype": "int16",
+   "shape": [
+    24893
+   ]
+  },
+  "executed": {
+   "dtype": "int16",
+   "shape": [
+    24893
+   ]
+  },
+  "logp": {
+   "dtype": "float32",
+   "shape": [
+    24893
+   ]
+  },
+  "has_logp": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "weight": {
+   "dtype": "float32",
+   "shape": [
+    24893
+   ]
+  },
+  "changed": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "reset": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "reward": {
+   "dtype": "float32",
+   "shape": [
+    24893
+   ]
+  },
+  "dt_rounds": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "terminated": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "truncated": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "boundary": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "bootstrap_valid": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "decision_index": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "cand_group": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    14
+   ]
+  },
+  "cand_q": {
+   "dtype": "float32",
+   "shape": [
+    24893,
+    14
+   ]
+  },
+  "eps": {
+   "dtype": "float32",
+   "shape": [
+    24893
+   ]
+  },
+  "ref_slot": {
+   "dtype": "int16",
+   "shape": [
+    24893
+   ]
+  },
+  "fuel_out": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "gate_x": {
+   "dtype": "float32",
+   "shape": [
+    24893,
+    0
+   ]
+  },
+  "engine_round": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "engine_round_done": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "head_ctx": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    160
+   ]
+  },
+  "head_camp": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    160
+   ]
+  },
+  "head_feat": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    40
+   ]
+  },
+  "head_native": {
+   "dtype": "float32",
+   "shape": [
+    24893,
+    11
+   ]
+  },
+  "head_valid": {
+   "dtype": "uint8",
+   "shape": [
+    24893,
+    11
+   ]
+  },
+  "head_map": {
+   "dtype": "int16",
+   "shape": [
+    24893,
+    11
+   ]
+  },
+  "head_n": {
+   "dtype": "uint8",
+   "shape": [
+    24893
+   ]
+  },
+  "head_pub": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  },
+  "head_ctx_round": {
+   "dtype": "int32",
+   "shape": [
+    24893
+   ]
+  }
+ },
+ "created_utc": "2026-11-04T19:00:56Z"
+}
