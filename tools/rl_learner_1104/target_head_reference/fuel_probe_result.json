@@ -1,0 +1,74 @@
+{
+  "scope": "Release WASM isolated arithmetic microbenchmark, NOT integrated actor or strength evidence",
+  "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "compiler": "wasi-sdk33 clang22.1, cambc4 release -msimd128",
+  "source_sha256": "4e2e69b6ec85ad597e2f9a6e87b4ca70342caef02edaf219d52b3b387d6b9f84",
+  "wasm_sha256": "b34d70f12eed079c351883b638e99ab40f5eceb1c137e3a67623475d90084a89",
+  "parameters": 11826,
+  "seed": 71,
+  "fuel_read_pair_cost": 5,
+  "rows": [
+    {
+      "camps": 10,
+      "mode": 0,
+      "fuel": 258258,
+      "checksum": 0.458323419
+    },
+    {
+      "camps": 10,
+      "mode": 1,
+      "fuel": 83142,
+      "checksum": 0.458323419
+    },
+    {
+      "camps": 10,
+      "mode": 2,
+      "fuel": 42504,
+      "checksum": 0.458323419
+    },
+    {
+      "camps": 10,
+      "mode": 3,
+      "fuel": 33624,
+      "checksum": 0.458323419
+    },
+    {
+      "camps": 51,
+      "mode": 0,
+      "fuel": 534147,
+      "checksum": 0.472523093
+    },
+    {
+      "camps": 51,
+      "mode": 1,
+      "fuel": 171579,
+      "checksum": 0.472523093
+    },
+    {
+      "camps": 51,
+      "mode": 2,
+      "fuel": 93016,
+      "checksum": 0.472523093
+    },
+    {
+      "camps": 51,
+      "mode": 3,
+      "fuel": 39979,
+      "checksum": 0.472523093
+    }
+  ],
+  "modes": {
+    "0": "scalar dense",
+    "1": "output-major SIMD",
+    "2": "input-major SIMD compile-time unrolled outputs",
+    "3": "mode2 context/query + algebraically folded shared keys/features"
+  },
+  "notes": [
+    "Dense random synthetic weights and inputs. Draft turn gives extra budget to measure large kernels; units are actual engine fuel. Bot immediately resigns; no gameplay inference.",
+    "Includes two fuel reads and checksum sink, excludes setup, output logging, native backbone, masks/softmax/mapping, and sampling.",
+    "No zero-query initial-state shortcut: nonzero synthetic learned query used.",
+    "Mode3 preserves real-number math; float32 operation order differs, requiring per-logit probability/export replay under actual learned weights.",
+    "51 camps is arithmetic scaling evidence only; current actor support is nearest10 plus fallback.",
+    "No claim that33kfuel fits current native decision budget; profile integrated threshold and suspensions."
+  ]
+}
