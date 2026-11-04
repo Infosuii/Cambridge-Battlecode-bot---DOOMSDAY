@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T04:53:31.901Z",
+  "updated_at": "2026-11-04T05:03:32.053Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 21,
+      "seq": 22,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T04:48:53Z",
+      "last_control_at": "2026-11-04T04:58:55Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6622841287,
+      "last_control_comment_id": 6622974317,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 20,
+      "seq": 21,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T04:52:32Z",
+      "last_control_at": "2026-11-04T05:02:50Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,7 +51,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6622888795,
+      "last_control_comment_id": 6623028701,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
@@ -383,10 +383,17 @@
       "agent": "builder-g5070-1104",
       "at": "2026-11-04T03:55:11Z",
       "boundary_exception": "Builder reports user run configuration allows only existing branch. Accept single-writer commit/explicit epoch provenance instead of branch switch; no other worker assigned."
+    },
+    {
+      "id": "challenge:builder-g5070-1104:6622710803",
+      "type": "CHALLENGE",
+      "agent": "builder-g5070-1104",
+      "at": "2026-11-04T05:03:44Z",
+      "nonce": "avail-503-6622710803"
     }
   ],
   "note": "Builder epoch2/current local-distillation ACK accepted. Same single authorized branch with commit ancestry and explicit task/session/epoch artifact provenance; timestamps alone insufficient. Agent2 training unchanged.",
-  "last_complete_check_at": "2026-11-04T04:53:31.901Z",
+  "last_complete_check_at": "2026-11-04T05:03:32.053Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
