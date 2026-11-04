@@ -15,11 +15,10 @@ from profile_pg_budget_broad import augment
 import profile_pg_runtime as trace
 from trace_pg_dash_turns import add_move_trace
 
-def prepare_coarse(src, rounds):
+def prepare_coarse(src, rounds, stages=("world", "support", "wardrev", "ambush", "enemies", "farmsel", "c_walked",
+                                       "c_cast", "d_farm", "decide", "tail", "fields", "bushpre")):
     code = src / "bot.cpp"
     condition = " || ".join(f"round == {r}" for r in sorted(rounds))
-    stages = ("world", "support", "wardrev", "ambush", "enemies", "farmsel", "c_walked", "c_cast",
-              "d_farm", "decide", "tail", "fields", "bushpre")
     apply(code, (
         ('#include "bot.h"', '''#include "bot.h"
 
@@ -40,7 +39,7 @@ static int codex_last_suspension = -1;
 
 def play_scoped(job):
     row = bench.one(job, log_limit=trace.LIMIT)
-    case = bench.OUT / "games" / f"profile-0-{row['opponent']}-{row['map']}-{row['side']}"
+    case = bench.OUT / "games" / f"profile-{row['noise_seed']}-{row['opponent']}-{row['map']}-{row['side']}"
     with ZipFile(next(case.glob("*.repl26a"))) as bundle:
         log = bundle.read(f"team-{row['side'].lower()}.stdout")
     markers = re.findall(rb"CODEX_STRESS R\d+ t\d+ [a-z_]+", log)
