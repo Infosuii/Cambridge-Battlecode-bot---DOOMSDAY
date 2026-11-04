@@ -1868,3 +1868,46 @@ champion on the leader's group) 400-700 31.5; pairs from 400 22.8.
 - Ladder gap by map size (new bot without tables vs v92): official width <= 40 38% (50 games), 41-60 59% (58), > 60
   41% (32); pool-test 58 / 69 / 53%. Same shape, but official maps are 14-20 points harder at every size: v92 was
   developed on them; earlier RL used them in only 7.6% of games. nn_rl3 now trains 70% on ladder maps.
+
+## E120 (3 Nov, 22:15) - candidate x3mf2 (team zip candidates_20261103) + fuel facts for the fuel fit
+- Macro RL (nn_rl3) paused after iteration 2 (best: vs v92 ladder 77/140, pool-test 180/300, 58.4%); bot nnm_i2 =
+  that checkpoint (identity check: 77/140 again). Resume: python -P agent2/lab/nn_rl3.py agent2/nn_rl3 agent2/nn_rl2/best.pt
+  14 --games 800 --eval-every 2 (NOT the original command line, which starts with rm -rf agent2/nn_rl3).
+- x3mf2 = x3 (v92 code + x1 configs) + per-map knob fits for competition maps (X1_MAPFIT) + per-map counter table
+  (X1_COUNTER: the variant that beat a given opponent on each map) + fuel-scaled fight search (tsearch) + farm learner.
+- nnm_i2 vs x3mf2 (fuel 20M): maps_poolfresh 0-124 x 2: 145/250 = 58.0%; unseen (mazetest 0-49 + real200b 50-124) x 2:
+  149/250 = 59.6%. v92 vs x3mf2 (real fuel): pool 125/250, unseen 125/250 = 50.0% - and 247 of 250 maps give gem-for-gem
+  identical games with sides swapped: off the official maps x3mf2 plays exactly like v92. Its value is only on the
+  official maps (fits / counters), which this test did not cover.
+- Real fuel (replay team-X.fuel: 13-byte header, then u64 LE; first 8 = [10M, 100k, 200k, 100k] x 2, then fuel used per
+  unit turn): draft turn 10M (v92 uses 25k), first champion turn 200k, every later turn 100k, no sign of carry-over.
+  v92 uses median 56k per turn (p10 25k, p90 71k, max 140k on first turns). Free per turn for the network: ~30-45k.
+- Teacher (iteration 2) with A2_NN_FAST, fuel 20M (fuel_probe.py, A2_NN_FUEL): features 40.5k + network 1.09M per
+  decision. At real fuel it hits the 100k cap on 92% of turns, prints nothing (no decision completes), loses 0/2; the
+  engine does not count it as a bot fault (diagnostics.botFaults 0).
+- Student (distilled from the iteration-2 teacher, 28,889 parameters; nn_distill 8 epochs on nn_labels_dag3): same argmax
+  as the teacher on held-out maps: target 93.9%, behaviour 91.0%. At 20M fuel (vs v92, ladder 140 / pool-test 300 /
+  fresh 498): teacher nnm_i2 77 / 180 / 306 (61.4%); A2_NN_FAST teacher nnf_t 58 / 169; FAST student nnf_s 61 / 170;
+  network also in contact nnf_sc 59 / 170; keep decision in contact (A2_NN_CHOLD) nnf_sh 62 / 183 / 284 (57.0%).
+  The FAST contact skip is not the cause; 77/140 was likely inflated by checkpoint selection on the same 140 games.
+- Fuel profile (A2_NN_PROF, student, per decision): network 157k = trunk 55k + camp encoder 48k + rest; features 40k
+  (camp features 31-44k). Input-major dense with zero skipping, SIMD pooling, exported transposed weights, cached
+  per-group constants: network 83k, features 25k; same strength (nnf_sh2 fresh 284/498, as nnf_sh).
+- Pipelined deployment (A2_NN_PIPE): the forward cut into 6 stages + features, run at the end of each turn while the
+  fuel left covers the stage's worst cost (+1/8) plus A2_NN_RESERVE (5k, the user's 2-5k margin); published decisions
+  expire after 8 rounds (v92 decides). Real fuel, 10 games: 0-1 overruns per game (A2_FUELLOG), 84-495 decisions per
+  champion per game. Bugs fixed on the way: turn-boundary underflow of the cost estimate, the slog table fill (~60k)
+  on first use (now lazy), and the bank gate (no decision in force = v92 never banked -> 0/10).
+- Real-fuel pipeline v1 vs v92 (ladder 140 / fresh 498): control that never acts nnp0 59 / 245 (49.2%), targets + force-only
+  bank nnp1 51 / 121 (24.3%), targets + full bank gate nnp2 44 / 95 (19.1%). NOT VALID as a measure of the idea: pf was not
+  cleared between decisions, so absent enemies / allies stayed in the input as ghosts (fixed: std::fill before nn_feats).
+  Rules (GameRules.md, Fuel): unused fuel does not carry over; a bot out of fuel is suspended and resumes next round.
+- Staleness at 20M fuel, fresh features (vs v92, baseline nnf_sh3 every turn 284/498 = 57.0%, same score on the latest
+  code): decide every 4, applied 3 late, nnf_e4 58/247 = 23.5% (partial: RAM watchdog; baseline on those games 57.1%);
+  every 8, 6 late, nnf_e8 76/498 = 15.3%. Holding decisions costs > 30 points: the network has only played with fresh
+  decisions, so a held target at a finished group (or a held bank gate) is a state it never trained on.
+- Not used: the SDK's fuel_pause / fuel_resume (debug blocks). Free compute through them would be exploiting the platform.
+- Partial held-out check, official maps, 20M fuel (job stopped on request; results kept in e120_held.tsv): vs b5_c3 nnm_i2 100/140
+  = 71.4%, v92 94/140 = 67.1%, nnf_sh 85/140 = 60.7%; vs v61_c3 nnm_i2 93/140 = 66.4%. Correction to the note above: the
+  student + A2_NN_FAST drop on official maps is 10.7 points against both v92 and b5_c3, so it is not all checkpoint-selection
+  luck. A2_NN_FAST teacher nnf_t also fell (58/140), so the fast path looks responsible rather than the small network; cause open.

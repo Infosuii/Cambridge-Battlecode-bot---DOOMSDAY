@@ -1793,3 +1793,121 @@ champion on the leader's group) 400-700 31.5; pairs from 400 22.8.
   memory (this champion's history: rounds since target change, target changes in 50 rounds, health 5 / 20 turns ago,
   movement over 10 turns, bag 20 turns ago, rounds since bank / contact / respawn; camp flag "current target").
   500 features; pipeline agent2/lab/nn_pipeline.sh.
+
+## E117 (3 Nov) - neural bot: DAgger, pool-like maps, RL (PPO)
+- DAgger for the target head (agent2/lab/nn_dagger.sh; nn2dag = recorder + network acting, rows keep v92's own choice
+  from farm()): network target play vs v92 ladder 9.3% -> 27.9% -> 35.0% -> 45.0% (iterations 1-3; aggregated
+  3.2M rows). nn3 (student, target + bank): ladder 43.6%, pool-test 54.7%. Teacher in the bot needs ~2M fuel a turn
+  (--fuel-quantum 20000000; at 1M it overran and lost 0/140).
+- Pool-like maps: tools/viz/mapmake6.js draws size / shape / symmetry / walls / holes / bush patches / altars / groups /
+  walk-straight buckets from the 70 pool maps (agent2/lab/map_stats.js); v4/maps_pooltest (300, held out),
+  v4/maps_pooltrain (600). The old unseen suites were 70-110 wide, scattered bushes, no holes, 6-12 altars, open.
+- Throughput: 224 games/min (5 jobs) -> 252 (10 jobs) -> 295 (10 jobs, 600 rounds); CPU-bound.
+- RL 1 (agent2/nn_rl1, PPO on the target head, per-game return): T=1.0 dithered (rollouts 15% vs v92); T=0.4,
+  8 iterations flat in rollouts (53-58%), but held-out vs v92: iteration 8 ladder 42.1% (DAgger-3 41.4%), pool-test
+  59.0% (54.0%).
+- RL 2 fixes (agent2/lab/nn_rl.py): decisions logged only when farm() applies the choice; return = own value change
+  (banked by this champion + carried) over 100 rounds / 30 + 0.5 x team banked-lead change / 60 + 0.3 x result;
+  every target change + 10% of keep turns weighted x10; KL on the behaviour head (banking shares the trunk);
+  800 games / iteration, lr 2e-4, 4 epochs; held-out deterministic eval vs v92 every 2 iterations (ladder 70 x 2 +
+  pool-test 0-149 x 2), best kept. Pilot (2 iterations from RL-1 iteration 8): corr(return, result) +0.33, critic EV
+  +0.04, behaviour KL 0.0004; eval ladder 70/140 = 50.0%, pool-test 182/300 = 60.7%, total 57.3% (DAgger-3 50.0%).
+  Full run continuing; the best checkpoint is to be confirmed on pool-test 150-299 and vs x3ctr (selection bias).
+- RL 2 continued: GAE (--gae) raised critic EV 0.05 -> 0.34; held-out evals iter 8 / 10: 55.5% / 54.8%; best stays
+  iteration 6 (ladder 69/140, pool-test 185/300, 57.7%; agent2/nn_rl2/best.pt). Target-only RL plateaued ~55-58%.
+- Macro policy RL prepared (not run yet): nnrec.cpp A2_NN_MACRO (behaviour options held until done, contact fight /
+  flee verdict = A2_NN bit 4, out-of-contact options bit 8 via nn_option_out, NRB rows with gold / team kills / own
+  deaths), nn_mkbot.py patches, agent2/lab/nn_rl3.py (joint PPO + GAE, league incl. v4/bots/p65pack = p65 + A2_PACK +
+  A2_JACKPOT, nnsnap, ladder-weighted maps, iteration-0 eval). Unit tests pass; nnm_test compiles. Smoke test (2 games
+  vs v92): logging works, but on 00contest the network banked 0 gems (lost 0-1000) and team kills read 0 in the other
+  game - check count_enemy_deaths and the bank / farm options before the pilot.
+- Best RL network (nn_rl2 iteration 6, bot nnbest = A2_NN 3 teacher, fuel 20M both sides) vs v92, fresh sets:
+  249 new pool-like maps (mapmake6 seed 77001, v4/maps_poolfresh, never used in training or selection) 308/498 =
+  61.8%; unseen mazetest 0-99 + real200b 50-199: 295/500 = 59.0%; official pool (70 x 2, earlier) 69/140 = 49.3%.
+- Statistics JSON = per-round truth: championTimelines (gems, submittedGems, earnedGold, kills, assists, deaths, damage
+  ...; run-length, one sample per round), teamTimelines (submittedGems), events. Bot champion handle = roster id.
+  nn_rl3 now takes rewards from these timelines (the bot-side death / bank tracking counted channel gaps as deaths and
+  missed banks) and gives the critic the full state (all champions' gems / banked / gold / kills / deaths).
+- Macro "farm" option now keeps v92's go-home and banking triggers (smoke test: the network team banked 0 and died 48
+  times on 00contest when farm skipped them).
+- Macro policy ablation (best RL network, deterministic, vs v92; ladder 140 + pool-test 0-149 x 2): all parts
+  (A2_NN 15) 40.2%; contact verdict only (7) ladder 26.4%, pool 46.3%; options only (11) ladder 45.0%, pool 54.3%;
+  target + bank (3, reference) 57.7%. The forced fight / flee verdict (imitating v92's mode) is far worse than v92's
+  own fight engine -> dropped; "farm" now = v92's whole default chain (skipping its hunt / converge cost ~6 points),
+  the network forces only bank / home / regroup / hunt.
+- Draft memory: the draft instance gets 100x fuel on its first turn and can submit draft memory (>= 1016 bytes; v92
+  uses 6) that every champion reads after the draft - the place for a full first-turn map analysis.
+- Macro starting point (deterministic, vs v92, ladder 140 + pool-test 300): options only, farm = v92's chain 47.3%;
+  + logit bias -3 on hunt / home / regroup 49.5% (the bias moved probability onto bank: low-health "home" turns became
+  forced bank trips); + bank only at v92's tribute step 50.7%; keep-5% scheme (abandoned: a forced option could never
+  win the argmax). Final design: an RL-only option head (none / hunt / home / regroup / bank now; fresh head = zero
+  weights + "none" bias 7, ~0.4% forced options per turn), banking stays the behaviour head's argmax at v92's tribute
+  step. Baseline = the best bot exactly: ladder 69/140, pool-test 185/300, 57.7%.
+- Version-3 features ready (not run): nnrec.cpp nn_feats_t<NC, AF> (500 = 10 camps / 12 ally fields; 828 = 24 camps +
+  allies' claimed targets from shared memory), A2_NN_LAYOUT / A2_NNREC_LAYOUT, NN_LAYOUT for the Python side
+  (labels regression identical on 3 games), agent2/lab/nn_v3.sh (the best RL network plays, version-3 features logged,
+  labels = what the bot did).
+
+## E118 (3 Nov) - where the ladder gap comes from; version-3 network; v92 official-map bug
+- vs v92 (with its tables), real engine, fuel 20M both sides, ladder = 70 maps x 2 sides:
+  new bot (best RL network, A2_NN 3) tables on 69/140 = 49.3%; all tables off (LADDER_TABLES 0, A2_LADFIT 0) 66/140 =
+  47.1%, pool-test 184/300 = 61.3% (tables on: 61.7%); v92 without tables 67/140 = 47.9%. The per-map tables are worth
+  ~2 points (noise; E89 measured ladfit at +0.4 in the real engine). They are not why the network only ties v92 on the
+  ladder - the new bot does not need them.
+- v92 bug: is_official_map() (old nova_map_id table, 17 maps) recognises 15 of the 70 current ladder maps, so v92 runs
+  its unseen-map rules (NOVA_GOLD_UNSEEN gold weight 0.10, NOVA_DUO_MAPS) on 55 ladder maps. v4/bots/v92of
+  (agent2/lab/mk_v92of.py: also accept the 70 ladfit fingerprints) vs v92: 82/140 = 58.6% (+8.6, ~2 SE). To validate.
+- Version-3 network (agent2/lab/nn_v3.sh: 828 features = 24 camp groups + allies' claimed targets + ladder map id;
+  1,074 games with the best RL network playing; teacher held-out target 97.6%, attack-acted 95.6%): in play ladder
+  25/140 = 17.9%, pool-test 89/300 = 29.7%. C++ = PyTorch (0.009); the failure is compounding error (as nn2t before
+  DAgger): the 97.6% is mostly "keep the current target". Needs DAgger with the RL network as the expert.
+- E119 official-map fix validation (real fuel, ladder 70 x 2): v92of vs x1 57.9% (v92 85.0%), vs v81 57.9% (82.9%),
+  vs b5_c3 67.9% (68.6%), vs x3ctr 34.3% (0.7%), vs v92 52.1%; network on the fixed base vs v92 48.6%. Rejected: v92's
+  ladfit corrections were fitted against v81 / x1 on these exact maps (deterministic -> memorised), so any behaviour
+  change loses ~25 points to them; vs held-out b5 no change. v81 / x1 results on ladder maps are inflated for v92.
+- Ladder gap by map size (new bot without tables vs v92): official width <= 40 38% (50 games), 41-60 59% (58), > 60
+  41% (32); pool-test 58 / 69 / 53%. Same shape, but official maps are 14-20 points harder at every size: v92 was
+  developed on them; earlier RL used them in only 7.6% of games. nn_rl3 now trains 70% on ladder maps.
+
+## E120 (3 Nov, 22:15) - candidate x3mf2 (team zip candidates_20261103) + fuel facts for the fuel fit
+- Macro RL (nn_rl3) paused after iteration 2 (best: vs v92 ladder 77/140, pool-test 180/300, 58.4%); bot nnm_i2 =
+  that checkpoint (identity check: 77/140 again). Resume: python -P agent2/lab/nn_rl3.py agent2/nn_rl3 agent2/nn_rl2/best.pt
+  14 --games 800 --eval-every 2 (NOT the original command line, which starts with rm -rf agent2/nn_rl3).
+- x3mf2 = x3 (v92 code + x1 configs) + per-map knob fits for competition maps (X1_MAPFIT) + per-map counter table
+  (X1_COUNTER: the variant that beat a given opponent on each map) + fuel-scaled fight search (tsearch) + farm learner.
+- nnm_i2 vs x3mf2 (fuel 20M): maps_poolfresh 0-124 x 2: 145/250 = 58.0%; unseen (mazetest 0-49 + real200b 50-124) x 2:
+  149/250 = 59.6%. v92 vs x3mf2 (real fuel): pool 125/250, unseen 125/250 = 50.0% - and 247 of 250 maps give gem-for-gem
+  identical games with sides swapped: off the official maps x3mf2 plays exactly like v92. Its value is only on the
+  official maps (fits / counters), which this test did not cover.
+- Real fuel (replay team-X.fuel: 13-byte header, then u64 LE; first 8 = [10M, 100k, 200k, 100k] x 2, then fuel used per
+  unit turn): draft turn 10M (v92 uses 25k), first champion turn 200k, every later turn 100k, no sign of carry-over.
+  v92 uses median 56k per turn (p10 25k, p90 71k, max 140k on first turns). Free per turn for the network: ~30-45k.
+- Teacher (iteration 2) with A2_NN_FAST, fuel 20M (fuel_probe.py, A2_NN_FUEL): features 40.5k + network 1.09M per
+  decision. At real fuel it hits the 100k cap on 92% of turns, prints nothing (no decision completes), loses 0/2; the
+  engine does not count it as a bot fault (diagnostics.botFaults 0).
+- Student (distilled from the iteration-2 teacher, 28,889 parameters; nn_distill 8 epochs on nn_labels_dag3): same argmax
+  as the teacher on held-out maps: target 93.9%, behaviour 91.0%. At 20M fuel (vs v92, ladder 140 / pool-test 300 /
+  fresh 498): teacher nnm_i2 77 / 180 / 306 (61.4%); A2_NN_FAST teacher nnf_t 58 / 169; FAST student nnf_s 61 / 170;
+  network also in contact nnf_sc 59 / 170; keep decision in contact (A2_NN_CHOLD) nnf_sh 62 / 183 / 284 (57.0%).
+  The FAST contact skip is not the cause; 77/140 was likely inflated by checkpoint selection on the same 140 games.
+- Fuel profile (A2_NN_PROF, student, per decision): network 157k = trunk 55k + camp encoder 48k + rest; features 40k
+  (camp features 31-44k). Input-major dense with zero skipping, SIMD pooling, exported transposed weights, cached
+  per-group constants: network 83k, features 25k; same strength (nnf_sh2 fresh 284/498, as nnf_sh).
+- Pipelined deployment (A2_NN_PIPE): the forward cut into 6 stages + features, run at the end of each turn while the
+  fuel left covers the stage's worst cost (+1/8) plus A2_NN_RESERVE (5k, the user's 2-5k margin); published decisions
+  expire after 8 rounds (v92 decides). Real fuel, 10 games: 0-1 overruns per game (A2_FUELLOG), 84-495 decisions per
+  champion per game. Bugs fixed on the way: turn-boundary underflow of the cost estimate, the slog table fill (~60k)
+  on first use (now lazy), and the bank gate (no decision in force = v92 never banked -> 0/10).
+- Real-fuel pipeline v1 vs v92 (ladder 140 / fresh 498): control that never acts nnp0 59 / 245 (49.2%), targets + force-only
+  bank nnp1 51 / 121 (24.3%), targets + full bank gate nnp2 44 / 95 (19.1%). NOT VALID as a measure of the idea: pf was not
+  cleared between decisions, so absent enemies / allies stayed in the input as ghosts (fixed: std::fill before nn_feats).
+  Rules (GameRules.md, Fuel): unused fuel does not carry over; a bot out of fuel is suspended and resumes next round.
+- Staleness at 20M fuel, fresh features (vs v92, baseline nnf_sh3 every turn 284/498 = 57.0%, same score on the latest
+  code): decide every 4, applied 3 late, nnf_e4 58/247 = 23.5% (partial: RAM watchdog; baseline on those games 57.1%);
+  every 8, 6 late, nnf_e8 76/498 = 15.3%. Holding decisions costs > 30 points: the network has only played with fresh
+  decisions, so a held target at a finished group (or a held bank gate) is a state it never trained on.
+- Not used: the SDK's fuel_pause / fuel_resume (debug blocks). Free compute through them would be exploiting the platform.
+- Partial held-out check, official maps, 20M fuel (job stopped on request; results kept in e120_held.tsv): vs b5_c3 nnm_i2 100/140
+  = 71.4%, v92 94/140 = 67.1%, nnf_sh 85/140 = 60.7%; vs v61_c3 nnm_i2 93/140 = 66.4%. Correction to the note above: the
+  student + A2_NN_FAST drop on official maps is 10.7 points against both v92 and b5_c3, so it is not all checkpoint-selection
+  luck. A2_NN_FAST teacher nnf_t also fell (58/140), so the fast path looks responsible rather than the small network; cause open.

@@ -14,6 +14,8 @@ All results are real-engine games against v92, with fuel effectively off for bot
 |---|---|---|---|
 | Best RL network (`agent2/nn_rl2/best.pt`), network picks camp targets + bank timing | 49.3% | **61.8%** | **59.0%** |
 | Same, with every v92 per-map table switched off | 47.1% | 61.3% (pool-test) | – |
+| Macro RL iteration 2 (`agent2/nn_rl3/best.pt`), picked on these ladder games, so treat its 55.0% with care | 55.0% | 61.4% | – |
+| Student of iteration 2 (`agent2/student_i2.pt`), deciding every turn | 44.3% | 57.0% | – |
 
 - **v92's per-map tables** (`ladfit`, `LADDER_TABLES`) are worth only about 2 points (E118). The network does not need them.
 - **Why the ladder result is lower:**
@@ -62,7 +64,9 @@ All results are real-engine games against v92, with fuel effectively off for bot
 agent2/lab/          scripts (below)
 agent2/plans/        design + plan docs
 agent2/EXPERIMENTS.md
-agent2/nn_rl2/best.pt          best RL network (layout 2, teacher) - start RL from this
+agent2/nn_rl2/best.pt          RL 2 best network (layout 2, teacher) - the macro run starts from this
+agent2/nn_rl3/best.pt          macro RL iteration 2 (layout 2, teacher)
+agent2/student_i2.pt           student distilled from macro RL iteration 2
 agent2/nn_out_dag3/*.pt        DAgger-3 imitation teacher / student (layout 2)
 agent2/nn_out_v3/*.pt          layout-3 teacher / student (behaviour cloning; fails in play without DAgger, see E118)
 v4/bots/<bot>/src              v92 (base for every build) + league opponents x1 x3ctr p65 p65pack b5_c3 v61_c3 v81
@@ -105,7 +109,7 @@ python -P agent2/lab/held_run.py agent2/lab/check_ladder.tsv nnbest v92,b5_c3 la
 python -P agent2/lab/held_run.py agent2/lab/check_pool.tsv nnbest v92 maps_pooltest:0:150 --fuel 20000000
 ```
 
-**Macro-policy RL, the current main run.** Each iteration is 800 games, about 7–8 minutes; a held-out check runs every 2 iterations.
+**Macro-policy RL, the current main run.** Each iteration is 800 games, about 12 minutes on Agent 2's PC; a held-out check runs every 2 iterations.
 
 ```bash
 python -P agent2/lab/nn_rl3.py agent2/nn_rl3_run agent2/nn_rl2/best.pt 14 --games 800 --eval-every 2
@@ -138,6 +142,16 @@ python -P agent2/lab/nn_export.py agent2/student_rl.pt student agent2/student_rl
 
 `LABELS.npz` is any `nn_labels.py` output, for example one recorded below.
 
+**Fuel-fit bots and the fuel probe.** Build flags go after the weights header. All of these need `A2_NN=11 A2_NN_MACRO=1 A2_NN_FAST=1`.
+
+```bash
+python -P agent2/lab/nn_export.py agent2/student_i2.pt student agent2/student_i2_w.h
+python -P agent2/lab/nn_mkbot.py nnp agent2/student_i2_w.h A2_NN=11 A2_NN_MACRO=1 A2_NN_FAST=1 A2_NN_PIPE=1 A2_NN_RESERVE=5000 A2_NN_VALID=1 A2_NN_BEH=0 A2_NN_TTL=30 A2_FUELLOG=1
+python -P agent2/lab/fuel_probe.py nnp v92 maps:0:5
+```
+
+Leaving out `--fuel` uses the real per-turn fuel. With `A2_FUELLOG=1` the replay's `team-X.stdout` holds `fuellog` lines (overruns) and `nnpipe` lines (decisions, stage cost estimates). Bots built with `A2_NN_FUEL=1` also print `NNFUEL` lines (fuel per decision), which `fuel_probe.py` summarises; `A2_NN_PROF=1` adds the per-stage profile lines `NNPROF` and `NNFPROF`.
+
 **The whole pipeline from scratch** (records data with the real engine; see the script headers).
 - `nn_pipeline.sh TAG`: recorder (v92 + `nnrec.cpp`), record, label, train, export.
 - `nn_dagger.sh I WEIGHTS.h LABELS.npz:frac ...`: one DAgger iteration for the target head.
@@ -146,9 +160,11 @@ python -P agent2/lab/nn_export.py agent2/student_rl.pt student agent2/student_rl
 
 ## Key settings and gotchas
 
-- **Fuel.** In the real game each turn has about 100k fuel; the teacher network needs about 2M. Every result above is with fuel effectively off (20M) for both sides.
-  - Fuel-fit code exists but is not yet compiled or tested: `A2_NN_FAST` in `nnrec.cpp` and `nn_infer.h` (SIMD layers, log table, only the heads used, no network in contact, fuel-aware distance fields).
-  - The student network plus `A2_NN_FAST` is the route to a submittable bot.
+- **Fuel.** Every result above is with fuel effectively off (20M) for both sides. The real budget is 10M on the draft turn, 200k on a champion's first turn, then 100k per turn, and unused fuel doesn't carry over. v92 uses a median of 56k per turn.
+  - Cost per decision: teacher about 1.13M; student about 109k with the fast path (network 83k, features 25k).
+  - A bot out of fuel is suspended and finishes on the next round's fuel, which loses that turn. The engine doesn't report it as a fault, so check `A2_FUELLOG` overruns.
+  - `A2_NN_PIPE=1` spreads a decision over several turns, using only the fuel left after v92's turn minus `A2_NN_RESERVE`. Holding decisions is the open problem: every 4 turns applied 3 late scored 23.5% against 57.0% for deciding every turn.
+  - Don't use the SDK's `fuel_pause` / `fuel_resume`. Free compute through them would be exploiting the platform.
 - **Determinism.** A map + side + pair of bots is always the same game. More games need more maps, and a per-map fit against one opponent is memorisation (see x3ctr, v92 vs v81 / x1).
 - **Design lessons.** Forcing the network's fight / flee verdict cost 18 points, and replacing v92's routines with network options cost 6–10. Always start the network as a residual on v92: the option head ships as "none".
 - **Layout 3** (24 groups, ally claims, map id) is wired end to end and C++ matches PyTorch to 0.009, but behaviour cloning failed in play (17.9%). It needs DAgger with the RL network as the expert running inside the same bot.
@@ -157,14 +173,19 @@ python -P agent2/lab/nn_export.py agent2/student_rl.pt student agent2/student_rl
   - `A2_NN_RL=1 A2_NN_RL_T=0.4 A2_NN_OPT_T=1.0` for rollouts;
   - `A2_NN_LAYOUT=3`;
   - `TOP_LADDER_TABLES=0 TOP_A2_LADFIT=0` switch off v92's tables;
-  - `BASE=nnrec A2_NNREC=4` makes a recorder (with `A2_NNREC_LAYOUT=3` it logs layout-3 features).
+  - `BASE=nnrec A2_NNREC=4` makes a recorder (with `A2_NNREC_LAYOUT=3` it logs layout-3 features);
+  - fuel fit: `A2_NN_FAST=1`, `A2_NN_PIPE=1`, `A2_NN_RESERVE=N`, `A2_NN_CHOLD=1` (keep the decision in force during contact);
+  - held decisions: `A2_NN_EVERY=k A2_NN_LAG=l` (simulated at any fuel), `A2_NN_VALID=1` (drop targets that have finished, take the next choice), `A2_NN_BEH=0|1|2` (v92 banks / network may only force a bank / network's bank gate), `A2_NN_TTL=N` (expire a decision after N rounds).
 
-## Status (3 Nov, 21:50)
+## Status (4 Nov, about 01:20)
 
-- **Running on Agent 2's PC:** macro RL from `best.pt`, 14 iterations, 70% ladder maps.
+Full findings are in `../README.md` and in `agent2/EXPERIMENTS.md` (E120).
+
+- **Macro RL:** paused at iteration 2 on Agent 2's PC. To resume, run only the `python` command above, which continues from `state.json`.
+- **Running on Agent 2's PC:** fixes for held decisions, tested on 498 fresh games against v92, including the pipeline at real fuel.
 - **Next, in order of expected gain:**
-  1. confirm the best macro checkpoint on fresh maps and against b5 / v61;
-  2. fuel fit: distil, compile `A2_NN_FAST`, measure at real fuel;
+  1. a fuel-fit bot that keeps its gains at real fuel; if the fixes aren't enough, train on rollouts that include the decision delays;
+  2. resume macro RL, with team candidates like x3mf2 added to the opponents;
   3. layout 3 with DAgger;
   4. fight learning.
 - **Nothing has been submitted.** Submitting and ladder trials are the user's decision.

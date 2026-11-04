@@ -66,6 +66,25 @@ void Bot::nn_track() {
     h.prev_round = r;
 }
 
+#ifdef A2_NN_PROF
+// feature fuel profile (A2_NN_PROF, E120): mean fuel per feature build of each section, printed every 200 builds
+static void nn_fprof(int stage) {
+    static std::uint64_t last = 0, sum[8] = {}, calls = 0;
+    const std::uint64_t now = bc::fuel_remaining();
+    if (stage > 0) sum[stage] += last - now;
+    else ++calls;
+    last = bc::fuel_remaining();
+    if (stage == 7 && calls % 200 == 0) {
+        auto m = [&](int s) { return static_cast<unsigned long long>(sum[s] / calls); };
+        std::printf("NNFPROF glob %llu self %llu ally %llu enemy %llu fields %llu camp %llu altar %llu\n", m(1), m(2), m(3), m(4),
+                    m(5), m(6), m(7));
+    }
+}
+#define NN_FPROF(s) nn_fprof(s)
+#else
+#define NN_FPROF(s)
+#endif
+
 // The network features of this turn for NC camp groups and AF fields per ally: 10 / 12 = the 500-feature network,
 // 24 / 16 = version 3 (more of the map, and each ally's claimed target from shared memory). `near` = Chebyshev distance
 // to the nearest visible enemy.
@@ -75,6 +94,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
     int k = 0;
     auto& me = bc::self();
     const auto st = me.state();
+    NN_FPROF(0);
     // global (16)
     int alive_e = 0;
     for (const auto& e : w.enemies) alive_e += e.hp > 0;
@@ -112,6 +132,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
     f[k + 14] = q(fight ? 1 : 0);
     f[k + 15] = q(near);
     k += kG;
+    NN_FPROF(1);
     // self (32)
     f[k + 0] = q(static_cast<float>(static_cast<int>(type)));
     f[k + 1] = q(hp);
@@ -161,6 +182,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         f[k + 43] = q(target_group >= 0 ? 1 : 0);
     }
     k += kS;
+    NN_FPROF(2);
     // allies (5 x AF), nearest first
     std::vector<const AllyRec*> al;
     for (const auto& a : w.allies) al.push_back(&a);
@@ -197,6 +219,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
             }
         }
     }
+    NN_FPROF(3);
     // enemies (8 x 16): visible first (nearest first), then recent sightings not matching a visible enemy
     std::vector<const EnemyRec*> en;
     for (const auto& e : w.enemies)
@@ -238,6 +261,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         ++ei, k += kEF;
     }
     k += (kE - ei) * kEF;
+    NN_FPROF(4);
     // camp groups (10 x 20), nearest by walking distance first. Map analysis (the user's first-turn idea): every group's
     // distance field, the enemy field (side margins) and the altar field are built on the first turns (fuel ignored).
 #if A2_NN_FAST
@@ -250,16 +274,42 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         for (int it = 0; it < 64 && w.build_next_group_field(4000000); ++it) {
         }
 #endif
+#if !A2_NN_FAST
     w.ensure_enemy_field();
     w.ensure_altar_field();
+#endif
+    // (A2_NN_FAST: v92 builds these one-time fields on its own fuel schedule; until then the features read "not ready")
+    NN_FPROF(5);
+    // fields read at a group centre's nearest walkable neighbour (camp tiles block some fields)
+    auto near_d = [&](const bc::distance_field& fld, vec2 c) {
+        int best = kUnreach;
+        for (int dy = -1; dy <= 1; ++dy)
+            for (int dx = -1; dx <= 1; ++dx) {
+                const vec2 qq{c.x + dx, c.y + dy};
+                if (qq.x >= 0 && qq.y >= 0 && qq.x < w.width && qq.y < w.height) best = std::min<int>(best, fdist(fld, qq) + ((dx || dy) ? 1 : 0));
+            }
+        return std::min(best, 999);
+    };
+    // per-group constants (E120 fuel fit, the first-turn map analysis): centre, camp count, spawn-field and altar-field
+    // value at the centre; computed once per group (the altar value once the altar field exists), same values as before
+    struct GStat { vec2 c; int n, spn, alt; };
+    static std::vector<GStat> gst;
+    static bool gst_bridges = false; // the spawn / altar fields are rebuilt once when bridges turn on: recompute then
+    if (gst.size() != w.groups.size() || gst_bridges != w.bridges_on) {
+        gst_bridges = w.bridges_on;
+        gst.assign(w.groups.size(), GStat{{0, 0}, 0, 0, -2});
+        for (std::size_t gi = 0; gi < w.groups.size(); ++gi) {
+            int sx = 0, sy = 0, n = 0;
+            for (int ci : w.groups[gi].camps) sx += w.camps[static_cast<std::size_t>(ci)].pos.x, sy += w.camps[static_cast<std::size_t>(ci)].pos.y, ++n;
+            gst[gi].n = n;
+            if (n) gst[gi].c = vec2{(sx + n / 2) / n, (sy + n / 2) / n}, gst[gi].spn = near_d(w.spawn_field, gst[gi].c);
+        }
+    }
     struct GC { int gi; vec2 c; int d, wd; };
     std::vector<GC> gc;
     for (std::size_t gi = 0; gi < w.groups.size(); ++gi) {
-        const auto& g = w.groups[gi];
-        int sx = 0, sy = 0, n = 0;
-        for (int ci : g.camps) sx += w.camps[static_cast<std::size_t>(ci)].pos.x, sy += w.camps[static_cast<std::size_t>(ci)].pos.y, ++n;
-        if (!n) continue;
-        const vec2 c{(sx + n / 2) / n, (sy + n / 2) / n};
+        if (!gst[gi].n) continue;
+        const vec2 c = gst[gi].c;
         int wd = -1;
         if (w.has_field(static_cast<int>(gi))) {
             const int d = w.group_distance(static_cast<int>(gi), pos);
@@ -295,18 +345,10 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         const int gi2 = gc[static_cast<std::size_t>(i)].gi;
         f[k + 16] = q(gc[static_cast<std::size_t>(i)].wd);
         f[k + 17] = q(w.enemy_ready && gi2 < static_cast<int>(w.group_margin.size()) ? w.group_margin[static_cast<std::size_t>(gi2)] : 0);
-        // fields read at the centre's nearest walkable neighbour (camp tiles block some fields)
-        auto near_d = [&](const bc::distance_field& fld) {
-            int best = kUnreach;
-            for (int dy = -1; dy <= 1; ++dy)
-                for (int dx = -1; dx <= 1; ++dx) {
-                    const vec2 qq{c.x + dx, c.y + dy};
-                    if (qq.x >= 0 && qq.y >= 0 && qq.x < w.width && qq.y < w.height) best = std::min<int>(best, fdist(fld, qq) + ((dx || dy) ? 1 : 0));
-                }
-            return std::min(best, 999);
-        };
-        f[k + 18] = q(w.altar_ready ? near_d(w.altar_field) : -1);
-        f[k + 19] = q(near_d(w.spawn_field));
+        auto& gs = gst[static_cast<std::size_t>(gi2)];
+        if (gs.alt == -2 && w.altar_ready) gs.alt = near_d(w.altar_field, c);
+        f[k + 18] = q(w.altar_ready ? gs.alt : -1);
+        f[k + 19] = q(gs.spn);
         // allies that reach this group before us (walking), the team's coverage of it
         int closer = 0;
         if (w.has_field(gi2)) {
@@ -316,6 +358,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         f[k + 20] = q(closer);
         f[k + 21] = q(gi2 == target_group ? 1 : 0); // our current (committed) target
     }
+    NN_FPROF(6);
     // altars (4 x 8), nearest first
     std::vector<vec2> alt(w.altars.begin(), w.altars.end());
     std::sort(alt.begin(), alt.end(), [&](vec2 a, vec2 b) { return cheb(a, pos) < cheb(b, pos); });
@@ -334,6 +377,7 @@ void Bot::nn_feats_t(std::int16_t* f, int near) {
         f[k + 6] = q(fdist(w.spawn_field, a));
         f[k + 7] = q(a.x * 128 + a.y);
     }
+    NN_FPROF(7);
 }
 
 void Bot::nn_feats(std::int16_t* f, int near) { nn_feats_t<kC, kAF>(f, near); }
@@ -389,6 +433,37 @@ void Bot::nnrec_end() {
 
 #if A2_NN
 #include "nn_infer.h"
+#if A2_NN_FAST && !defined(A2_NN_RL)
+#ifndef A2_NN_TTL
+#define A2_NN_TTL 1000000 // a decision older than this many rounds is dropped (v92 decides until the next one)
+#endif
+#ifndef A2_NN_BEH
+#define A2_NN_BEH 2 // bank gate: 2 the network's as published, 1 it may only force a bank (0 = v92 decides), 0 v92 banks
+#endif
+#ifndef A2_NN_VALID
+#define A2_NN_VALID 0 // 1: a held target that went to respawning since its features were taken is skipped (next choice)
+#endif
+// The decision in force (E120, decisions held over several turns): the network's best target groups, each with its
+// group's state when the features were taken, and its bank gate. A rank < 0 is the network's "none" slot: v92 chooses.
+struct NNPub {
+    int rank[4] = {-1, -1, -1, -1}, st[4] = {0, 0, 0, 0};
+    int beh = -1, at = -1000000;
+};
+static NNPub nn_pub;
+static NNPub nn_make_pub(const std::int16_t* f, const float* target, int n, int nc, int coff, int beh, int at) {
+    NNPub p;
+    p.beh = beh, p.at = at;
+    float v[32];
+    std::copy(target, target + n, v);
+    for (int r = 0; r < 4; ++r) {
+        const int t = static_cast<int>(std::max_element(v, v + n) - v);
+        if (t >= nc || f[coff + t * kCF] != 1) break;
+        p.rank[r] = f[coff + t * kCF + 1], p.st[r] = f[coff + t * kCF + 7];
+        v[t] = -2e9f;
+    }
+    return p;
+}
+#endif
 // Neural bot (A2_NN bits: 1 the student picks the farming target group, 2 it decides when to bank).
 void Bot::nn_decide() {
     nn_group = -1, nn_beh = -1;
@@ -396,8 +471,54 @@ void Bot::nn_decide() {
     if (!inited) return;
     nn_track();
 #if A2_NN_FAST && !defined(A2_NN_RL)
-    // deployment: in contact v92's fight code decides and needs the fuel - no network this turn
-    if (nn_near() <= 6) return;
+    // apply the decision in force: the best target that is still worth going to (A2_NN_VALID), and the bank gate
+    auto apply = [&] {
+        if (round - nn_pub.at > A2_NN_TTL) return;
+        for (int r = 0; r < 4 && nn_pub.rank[r] >= 0; ++r) {
+#if A2_NN_VALID
+            if (w.groups[static_cast<std::size_t>(nn_pub.rank[r])].state == GroupState::respawning &&
+                nn_pub.st[r] != static_cast<int>(GroupState::respawning))
+                continue;
+#endif
+            nn_group = nn_pub.rank[r];
+            break;
+        }
+#if A2_NN_BEH == 2
+        nn_beh = nn_pub.beh;
+#elif A2_NN_BEH == 1
+        nn_beh = nn_pub.beh == 1 ? 1 : -1;
+#endif
+    };
+#if defined(A2_NN_PIPE) && A2_NN_PIPE
+    // pipelined deployment: the decision in force was computed by nn_pipe_step() from the last turns' spare fuel
+    apply();
+    return;
+#endif
+    // deployment: in contact v92's fight code decides and needs the fuel - no network this turn (A2_NN_CONTACT=1: run
+    // it anyway; E120 at 20M fuel: ladder 59 vs 61 / 140, pool-test 170 vs 170 / 300, so skipping costs nothing).
+    // A2_NN_CHOLD=1 keeps the decision in force during contact instead of handing it back to v92 (pool-test 183 / 300).
+#if defined(A2_NN_EVERY) && A2_NN_EVERY > 1
+    // pipelined deployment, simulated (E120): the network runs on every A2_NN_EVERY-th network turn of this champion and
+    // its decision takes effect A2_NN_LAG turns later (as if computed over several turns' spare fuel); until then the
+    // decision in force holds
+    static int nn_tick = 0, nn_pend_at = -1;
+    static NNPub nn_pend;
+    if (nn_pend_at >= 0 && round >= nn_pend_at) nn_pub = nn_pend, nn_pend_at = -1;
+#endif
+#if !defined(A2_NN_CONTACT) || !A2_NN_CONTACT
+    if (nn_near() <= 6) {
+#if defined(A2_NN_CHOLD) && A2_NN_CHOLD
+        apply();
+#endif
+        return;
+    }
+#endif
+#if defined(A2_NN_EVERY) && A2_NN_EVERY > 1
+    if (nn_tick++ % A2_NN_EVERY != 0) {
+        apply();
+        return;
+    }
+#endif
 #endif
 #if A2_NN_LAYOUT == 3
     constexpr int kNFa = kNF3, NCt = kC3, kCOff = kG + kS + kA * kAF3 + kE * kEF; // the acting network's layout
@@ -540,12 +661,85 @@ void Bot::nn_decide() {
     }
 #endif
     if (t < NCt && f[kCOff + t * kCF] == 1) nn_group = f[kCOff + t * kCF + 1];
+#if A2_NN_FAST && !defined(A2_NN_RL)
+    {
+        const NNPub made = nn_make_pub(f, o.target, NCt + 1, NCt, kCOff, nn_beh, round);
+#if defined(A2_NN_EVERY) && A2_NN_EVERY > 1 && defined(A2_NN_LAG) && A2_NN_LAG > 0
+        nn_pend = made, nn_pend_at = round + A2_NN_LAG;
+#else
+        nn_pub = made;
+#endif
+        nn_group = -1, nn_beh = -1;
+        apply();
+    }
+#endif
 #ifdef A2_NN_DBG
     if (round % 25 == 0)
         std::printf("NND %s %.5f %.5f %.5f %.5f %.5f\n", b64(f, kNFa).c_str(), o.behaviour[0], o.behaviour[1], o.target[0],
                     o.attack[18], o.cast_tgt[24]);
 #endif
 }
+
+#if defined(A2_NN_PIPE) && A2_NN_PIPE
+#ifndef A2_NN_RESERVE
+#define A2_NN_RESERVE 5000 // fuel every turn leaves unspent (the user's 2-5k margin against overrunning into the next turn)
+#endif
+// End of turn (main.cpp, after play_turn): advance the pipelined network with the fuel this turn left. Step 0 takes the
+// features (only out of contact), steps 1..6 are nn::pipe_stage 0..5, then the decision is published for the next
+// turns. A step starts only if the fuel left covers the most it has cost so far (+1/8) plus A2_NN_RESERVE; the
+// starting estimates are the E120 profile's per-stage costs with margin.
+void Bot::nn_pipe_step() {
+    static nn::Pipe p;
+    static std::int16_t pf[kNF] = {};
+    static int next = 0;
+    // E120 profile (student, A2_NN_FAST): features ~25k, g+s+a ~10k, e+l <= 12k, camp halves ~15k, pool + trunk 0 ~20k,
+    // trunk 1 + heads ~16k
+    static std::uint64_t est[1 + nn::kPipeStages] = {34000, 13000, 14000, 17000, 17000, 24000, 19000};
+    static bool ran[1 + nn::kPipeStages] = {};
+    if (!inited) return;
+#if A2_FUELLOG
+    static int published = 0, last_pub = 0, logged = -1;
+    if (round % 250 == 0 && round != logged) {
+        logged = round;
+        std::printf("nnpipe round %d decisions %d (last at %d) est %llu %llu %llu %llu %llu %llu %llu\n", round, published, last_pub,
+                    static_cast<unsigned long long>(est[0]), static_cast<unsigned long long>(est[1]), static_cast<unsigned long long>(est[2]),
+                    static_cast<unsigned long long>(est[3]), static_cast<unsigned long long>(est[4]), static_cast<unsigned long long>(est[5]),
+                    static_cast<unsigned long long>(est[6]));
+    }
+#endif
+    for (;;) {
+        const std::uint64_t left = bc::fuel_remaining();
+        if (left < est[next] + static_cast<std::uint64_t>(A2_NN_RESERVE)) return;
+        const auto r0 = bc::round_number();
+        if (next == 0) {
+            if (nn_near() <= 6) return; // no new decision from a fight state
+            std::fill(pf, pf + kNF, static_cast<std::int16_t>(0)); // absent entities must read 0, not the last decision's
+            nn_feats(pf, nn_near());
+        } else {
+            nn::pipe_stage(p, pf, next - 1);
+        }
+        if (bc::round_number() != r0) {
+            // the step ran past the end of the turn and finished on the next turn's fuel (that turn's play is lost):
+            // it needs more than was left. Its result is still valid, so the pipeline carries on.
+            est[next] = std::max(est[next], left + static_cast<std::uint64_t>(A2_NN_RESERVE));
+        } else if (ran[next]) {
+            const std::uint64_t used = left - bc::fuel_remaining();
+            est[next] = std::max(est[next], used + used / 8); // (the first run carries one-time setup: not counted)
+        }
+        ran[next] = true;
+        if (++next == 1 + nn::kPipeStages) {
+            next = 0;
+#if !defined(A2_NN_PIPE_NOPUB) || !A2_NN_PIPE_NOPUB // (control: compute everything, never act on it)
+            nn_pub = nn_make_pub(pf, p.o.target, kC + 1, kC, kG + kS + kA * kAF + kE * kEF, nn::argmax(p.o.behaviour), round);
+#endif
+#if A2_FUELLOG
+            ++published, last_pub = round;
+#endif
+            return; // at most one decision per turn
+        }
+    }
+}
+#endif
 
 #if A2_NN_MACRO
 // Out-of-contact options of the option head (called in play_turn's dispatch after the win-now bank; false = v92's own

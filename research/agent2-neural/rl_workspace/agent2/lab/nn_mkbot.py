@@ -70,6 +70,7 @@ public:
     int nn_rl_gold = 0, nn_rl_kills = 0, nn_rl_deaths = 0;
     bool nn_option_out();        // out-of-contact options (dispatch, bit 8)
     void nn_rl_end();            // end of turn: the NRB row
+    void nn_pipe_step();         // A2_NN_PIPE, end of turn: advance the pipelined network with the fuel left
 #endif
 """)
 patch("bot.cpp", "        if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);\n",
@@ -104,8 +105,11 @@ patch("bot.cpp", '    PROF_CHECK("farmsel");\n', '''    PROF_CHECK("farmsel");
 ''')
 # 2: v92's ordinary banking call only when the network says bank, and then the trip is forced (the macro policy's bank
 # option acts here too: forcing it earlier in v92's order lost ~8 points, E117)
+# (A2_NN_FAST deployment: with no network decision in force, nn_beh < 0, v92 banks as usual - E120: without this the
+# pipelined bot never banked between decisions and lost 10/10)
 patch("bot.cpp", "    } else if (tribute_if_needed()) {\n        mode = \"tribute\";\n",
-      "    } else if (\n#if A2_NN & 2\n        nn_beh == 1 && gems > 0 && (force_tribute = true) &&\n#endif\n        tribute_if_needed()) {\n        mode = \"tribute\";\n")
+      "    } else if (\n#if (A2_NN & 2) && A2_NN_FAST\n        (nn_beh < 0 || (nn_beh == 1 && gems > 0 && (force_tribute = true))) &&\n"
+      "#elif A2_NN & 2\n        nn_beh == 1 && gems > 0 && (force_tribute = true) &&\n#endif\n        tribute_if_needed()) {\n        mode = \"tribute\";\n")
 # A2_NN_MACRO 4: in contact, the held option fight / flee sets v92's verdict (where the engine lab forces it)
 patch("bot.cpp", "#if A2_LAB\n    {\n        // Engine lab (lab.h kinds 4 / 5): from the first turn an enemy is within 4",
       "#if (A2_NN & 4) && A2_NN_MACRO\n    if (nn_hold_contact && nn_beh == 2) {\n        winning = true;\n        in_danger = false;\n"
@@ -116,9 +120,13 @@ patch("bot.cpp", "#if A2_LAB\n    {\n        // Engine lab (lab.h kinds 4 / 5): 
 patch("bot.cpp", '        mode = "tribute-win";\n    } else if (go_home_if_needed()) {',
       '        mode = "tribute-win";\n#if (A2_NN & 8) && A2_NN_MACRO\n    } else if (nn_option_out()) {\n#endif\n    } else if (go_home_if_needed()) {')
 if BASE != "nnrec":
-    # macro RL rows are printed at the end of every turn
+    # macro RL rows are printed at the end of every turn; A2_NN_PIPE advances the pipelined network there (also in the
+    # A2_FUELLOG branch, which counts turns that overran into the next round)
     patch("main.cpp", "            else\n                bot.play_turn();\n#endif",
-          "            else {\n                bot.play_turn();\n#if A2_NN_MACRO && defined(A2_NN_RL)\n                bot.nn_rl_end();\n#endif\n            }\n#endif")
+          "            else {\n                bot.play_turn();\n#if A2_NN_MACRO && defined(A2_NN_RL)\n                bot.nn_rl_end();\n#endif\n"
+          "#if defined(A2_NN_PIPE) && A2_NN_PIPE\n                bot.nn_pipe_step();\n#endif\n            }\n#endif")
+    patch("main.cpp", "                bot.play_turn();\n                ++turns;\n",
+          "                bot.play_turn();\n#if defined(A2_NN_PIPE) && A2_NN_PIPE\n                bot.nn_pipe_step();\n#endif\n                ++turns;\n")
 if top:
     c = open(S + "common.h", encoding="utf-8").read()
     open(S + "common.h", "w", encoding="utf-8", newline="\n").write("".join(f"#define {k} {v}\n" for k, v in top.items()) + c)

@@ -15,9 +15,16 @@ import glob, json, os, sys
 import numpy as np
 
 D, OUTF = sys.argv[1], sys.argv[2]
-NF = 500
-G, S, A, AF, E, EF, C, CF, L, LF = 0, 16, 60, 12, 120, 16, 248, 22, 468, 8  # offsets and per-entity widths
-NA, NE, NC, NL = 5, 8, 10, 4
+if int(os.environ.get("NN_LAYOUT", "2")) == 3:  # version 3: 24 camp groups, allies' claimed targets (828 features)
+    NF = 828
+    G, S, A, AF, E, EF, C, CF, L, LF = 0, 16, 60, 16, 140, 16, 268, 22, 796, 8
+    NA, NE, NC, NL = 5, 8, 24, 4
+else:
+    NF = 500
+    G, S, A, AF, E, EF, C, CF, L, LF = 0, 16, 60, 12, 120, 16, 248, 22, 468, 8  # offsets and per-entity widths
+    NA, NE, NC, NL = 5, 8, 10, 4
+T_FAR, A_NONE = NC, NE + NC                                  # target: far; attack: none
+CT_A, CT_E, CT_C, CT_DIR = 1, 1 + NA, 1 + NA + NE, 1 + NA + NE + NC  # cast target offsets (self = 0); own tile = CT_DIR + 8
 DIRS = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
 BEH = {0: "approach stage wait-respawn capture to-capture capture-stand siege fight nofarm-camp reveal snipe-camp",
        1: "tribute tribute-win plan-bank",
@@ -47,12 +54,12 @@ for k, f in enumerate(files):
         tg = m[4]
         if tg >= 0:
             hit = np.where((cpresent == 1) & (cg == tg))[0]
-            Y[i, 1] = hit[0] if len(hit) else 10
+            Y[i, 1] = hit[0] if len(hit) else T_FAR
         px, py = int(x[S + 18]), int(x[S + 19])
         ehandle = x[E + 14:E + NE * EF:EF]
         ahandle = x[A + 10:A + NA * AF:AF]
         epresent = x[E:E + NE * EF:EF]
-        step, att, cast, ctgt, cpre, util, shop = 8, 18, 0, -1, 0, 0, 0
+        step, att, cast, ctgt, cpre, util, shop = 8, A_NONE, 0, -1, 0, 0, 0
         moved = False
         cmap = camps.get(str(m[1]), {})
         for a in acts:
@@ -62,37 +69,37 @@ for k, f in enumerate(files):
                 dx, dy = np.sign(v[0] - px), np.sign(v[1] - py)
                 if (dx, dy) in DIRS:
                     step = DIRS.index((dx, dy)); moved = True
-            elif t == "a" and v[2] == 0 and att == 18:
+            elif t == "a" and v[2] == 0 and att == A_NONE:
                 if v[0] == 1:
                     h = np.where((epresent == 1) & (ehandle == v[1]))[0]
                     if len(h): att = h[0]
                 elif v[0] == 2 and v[1] in cmap:
                     h = np.where((cpresent == 1) & (cg == cmap[v[1]]))[0]
-                    if len(h): att = 8 + h[0]
+                    if len(h): att = NE + h[0]
             elif t == "c" and v[5] == 1 and cast == 0:
                 cast = 1 + v[0]; cpre = 0 if moved else 1
                 if v[1] == 1 and v[2] == int(x[S + 31]):
                     ctgt = 0
                 elif v[1] == 1:
                     h = np.where((ahandle == v[2]) & (x[A:A + NA * AF:AF] == 1))[0]
-                    if len(h): ctgt = 1 + h[0]
+                    if len(h): ctgt = CT_A + h[0]
                     else:
                         h = np.where((epresent == 1) & (ehandle == v[2]))[0]
-                        ctgt = 6 + h[0] if len(h) else 32
+                        ctgt = CT_E + h[0] if len(h) else CT_DIR + 8
                 elif v[1] == 2 and v[2] in cmap:
                     h = np.where((cpresent == 1) & (cg == cmap[v[2]]))[0]
-                    ctgt = 14 + h[0] if len(h) else 32
+                    ctgt = CT_C + h[0] if len(h) else CT_DIR + 8
                 else:
                     # position cast: the enemy within 2 of the point, else the camp group whose centre is within 4
                     gx, gy = v[3] - px, v[4] - py
                     sd = (int(np.sign(gx)), int(np.sign(gy)))
-                    ctgt = 24 + DIRS.index(sd) if sd in DIRS else 32  # direction of a dash / far point; 32 = own tile
+                    ctgt = CT_DIR + DIRS.index(sd) if sd in DIRS else CT_DIR + 8  # direction of a dash / far point; 32 = own tile
                     ed = [max(abs(int(x[E + j * EF + 2]) - gx), abs(int(x[E + j * EF + 3]) - gy)) if epresent[j] else 99 for j in range(NE)]
                     cd = [max(abs(int(x[C + j * CF + 2]) - gx), abs(int(x[C + j * CF + 3]) - gy)) if cpresent[j] else 99 for j in range(NC)]
                     if min(ed) <= 2:
-                        ctgt = 6 + int(np.argmin(ed))
+                        ctgt = CT_E + int(np.argmin(ed))
                     elif min(cd) <= 4:
-                        ctgt = 14 + int(np.argmin(cd))
+                        ctgt = CT_C + int(np.argmin(cd))
             elif t == "r": util = 1
             elif t == "s": util = 2
             elif t == "w" and v[2] == 1: util = 3

@@ -9,11 +9,42 @@ import torch.nn.functional as F
 
 NT = 13  # champion type ids 0..12
 # block offsets / counts / widths in the 500-vector
-BLK = {"g": (0, 1, 16), "s": (16, 1, 44), "a": (60, 5, 12), "e": (120, 8, 16), "c": (248, 10, 22), "l": (468, 4, 8)}
+import os as _os
+LAYOUT = int(_os.environ.get("NN_LAYOUT", "2"))  # 2: 500 features; 3: 828 (24 camp groups, allies' claimed targets)
+if LAYOUT == 3:
+    BLK = {"g": (0, 1, 16), "s": (16, 1, 44), "a": (60, 5, 16), "e": (140, 8, 16), "c": (268, 24, 22), "l": (796, 4, 8)}
+else:
+    BLK = {"g": (0, 1, 16), "s": (16, 1, 44), "a": (60, 5, 12), "e": (120, 8, 16), "c": (248, 10, 22), "l": (468, 4, 8)}
+NFEAT = max(o + n * w for o, n, w in BLK.values())
 DROP = {"g": [13], "s": [29, 31], "a": [10], "e": [14], "c": [1], "l": [7]}  # identifiers / v92-internal
-TYPEF = {"s": 0, "a": 1, "e": 1}  # field holding a champion type (one-hot instead of numeric)
+TYPEF = {"s": 0, "a": 1, "e": 1}  # field holding a category (one-hot instead of numeric): champion type ...
+NTYPE = {"s": NT, "a": NT, "e": NT}  # ... with this many classes
+NMAPS = 71  # version 3: global field 13 = ladder map id (1-70 = v92's ladfit maps, 0 = not a ladder map)
+if LAYOUT == 3:
+    DROP["g"] = []
+    TYPEF["g"], NTYPE["g"] = 13, NMAPS
 HEADS = ["behaviour", "target", "step", "attack", "cast", "cast_tgt", "cast_pre", "utility", "shop"]
-NCLS = {"behaviour": 8, "step": 9, "cast": 3, "cast_pre": 2, "utility": 6, "shop": 88}
+NCLS = {"behaviour": 8, "step": 9, "cast": 3, "cast_pre": 2, "utility": 6, "shop": 88,
+        "option": 5}  # option: RL-only residual head (0 none = v92 + the imitation heads, 1 hunt, 2 home, 3 regroup, 4 bank now)
+OPT_NONE_BIAS = 7.0  # a fresh option head says "none" (bias 7, zero weights; ~0.4% forced options per turn): the start = the best bot
+
+
+def init_option(net):
+    """Zero the option head except a strong "none" bias (used whenever a checkpoint has no trained option head)."""
+    with torch.no_grad():
+        net.lin["option"].weight.zero_()
+        net.lin["option"].bias.zero_()
+        net.lin["option"].bias[0] = OPT_NONE_BIAS
+
+
+def load(net, path, device="cpu"):
+    """Load a checkpoint; checkpoints from before the option head get the fresh "none" option head."""
+    sd = torch.load(path, map_location=device)
+    missing, unexpected = net.load_state_dict(sd, strict=False)
+    assert not unexpected and all(k.startswith("lin.option") for k in missing), (missing, unexpected)
+    if missing:
+        init_option(net)
+    return net
 
 
 def split_blocks(X):
@@ -46,8 +77,8 @@ class Prep(nn.Module):
         for k in BLK:
             x = (self.raw(B, k) - getattr(self, f"mu_{k}")) / getattr(self, f"sd_{k}")
             if k in TYPEF:
-                t = B[k][..., TYPEF[k]].long().clamp(0, NT - 1)
-                x = torch.cat([x, F.one_hot(t, NT).float()], -1)
+                t = B[k][..., TYPEF[k]].long().clamp(0, NTYPE[k] - 1)
+                x = torch.cat([x, F.one_hot(t, NTYPE[k]).float()], -1)
             out[k] = x
         return out
 
@@ -79,7 +110,7 @@ class Net(nn.Module):
     def __init__(self, prep, enc=64, enc_layers=2, trunk=128, trunk_layers=2):
         super().__init__()
         self.prep = prep
-        dims = {k: len(prep.keep[k]) + (NT if k in TYPEF else 0) for k in BLK}
+        dims = {k: len(prep.keep[k]) + (NTYPE[k] if k in TYPEF else 0) for k in BLK}
         self.enc = nn.ModuleDict({k: mlp(dims[k], enc, enc_layers) for k in BLK})
         pooled = enc * 2 + enc * 2 * 4  # global + self (single), allies / enemies / camps / altars (mean + max)
         self.trunk = mlp(pooled, trunk, trunk_layers)

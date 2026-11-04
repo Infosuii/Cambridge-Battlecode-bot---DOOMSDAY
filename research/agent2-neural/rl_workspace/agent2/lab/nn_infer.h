@@ -27,9 +27,44 @@ struct Out {
     float target[kNC + 1], attack[kNE + kNC + 1], cast_tgt[1 + kNA + kNE + kNC + 9];
 };
 
+#if defined(__wasm_simd128__) && defined(A2_NN_FAST) && A2_NN_FAST
+// input-major copy of a weight matrix ([in][out]), made once per matrix on first use
+inline const float* transposed(const float* W, int in, int out) {
+#ifdef NNW_HAS_T
+    if (const float* t = nnw::transposed_of(W)) return t; // exported input-major copy (no work at run time)
+#endif
+    struct E { const float* w; float* t; };
+    static E cache[64];
+    static int n = 0;
+    for (int k = 0; k < n; ++k)
+        if (cache[k].w == W) return cache[k].t;
+    float* t = new float[static_cast<std::size_t>(in) * static_cast<std::size_t>(out)];
+    for (int o = 0; o < out; ++o)
+        for (int i = 0; i < in; ++i) t[i * out + o] = W[o * in + i];
+    if (n < 64) cache[n++] = {W, t};
+    return t;
+}
+#endif
+
 inline void dense(const float* W, const float* b, const float* x, int in, int out, float* y, bool relu) {
 #if defined(__wasm_simd128__) && defined(A2_NN_FAST) && A2_NN_FAST
-    // 4-wide multiply-adds (A2_NN_FAST): ~4x fewer instructions (fuel) than the scalar loop
+    if (out % 4 == 0 && out <= 128) {
+        // input-major (E120): each input is broadcast once and updates 4 outputs per multiply-add; inputs that are 0
+        // (after a ReLU, or an unset one-hot) are skipped. Same sums as the row loop, in another order.
+        const float* T = transposed(W, in, out);
+        v128_t acc[32];
+        for (int k = 0; k < out / 4; ++k) acc[k] = wasm_v128_load(b + 4 * k);
+        for (int i = 0; i < in; ++i) {
+            if (x[i] == 0.0f) continue;
+            const v128_t xv = wasm_f32x4_splat(x[i]);
+            const float* t = T + i * out;
+            for (int k = 0; k < out / 4; ++k) acc[k] = wasm_f32x4_add(acc[k], wasm_f32x4_mul(wasm_v128_load(t + 4 * k), xv));
+        }
+        const v128_t zero = wasm_f32x4_splat(0.0f);
+        for (int k = 0; k < out / 4; ++k) wasm_v128_store(y + 4 * k, relu ? wasm_f32x4_pmax(acc[k], zero) : acc[k]);
+        return;
+    }
+    // 4-wide multiply-adds along each row (output counts that are not a multiple of 4)
     for (int o = 0; o < out; ++o) {
         const float* w = W + o * in;
         v128_t acc = wasm_f32x4_splat(0.0f);
@@ -50,17 +85,19 @@ inline void dense(const float* W, const float* b, const float* x, int in, int ou
 #endif
 }
 
-// signed log1p of an int16 feature; A2_NN_FAST reads a table for |v| < 4096 (filled once)
+// signed log1p of an int16 feature; A2_NN_FAST memoises |v| < 4096 in a table (each entry computed on first use, so
+// no ~60k-fuel fill on the first call; 0 = not yet computed, and log1p(0) = 0 anyway)
 inline float slog(float v) {
 #if defined(A2_NN_FAST) && A2_NN_FAST
     static float tab[4096];
-    static bool ready = false;
-    if (!ready) {
-        for (int i = 0; i < 4096; ++i) tab[i] = std::log1p(static_cast<float>(i));
-        ready = true;
-    }
     const int a = static_cast<int>(v < 0 ? -v : v);
-    const float l = a < 4096 ? tab[a] : std::log1p(static_cast<float>(a));
+    float l;
+    if (a < 4096) {
+        if (tab[a] == 0.0f && a > 0) tab[a] = std::log1p(static_cast<float>(a));
+        l = tab[a];
+    } else {
+        l = std::log1p(static_cast<float>(a));
+    }
     return v < 0 ? -l : l;
 #else
     return v < 0 ? -std::log1p(-v) : std::log1p(v);
@@ -71,8 +108,8 @@ inline float slog(float v) {
 // layers -> emb [n][kE]
 template <int N, int W, int NKEEP, int TYPEF, int NTYPE, int LAYERS>
 inline void encode(const std::int16_t* f, const int* keep, const float* mu, const float* sd, const float* const* Ws,
-                   const float* const* bs, const int* ins, float emb[][kE], bool* present, bool always) {
-    for (int e = 0; e < N; ++e) {
+                   const float* const* bs, const int* ins, float emb[][kE], bool* present, bool always, int e0 = 0, int e1 = N) {
+    for (int e = e0; e < e1; ++e) {
         const std::int16_t* r = f + e * W;
         present[e] = always || r[0] != 0;
         if (!present[e]) continue;
@@ -100,6 +137,27 @@ inline void encode(const std::int16_t* f, const int* keep, const float* mu, cons
 
 
 inline void pool(const float emb[][kE], const bool* present, int n, float* mean, float* mx) {
+#if defined(__wasm_simd128__) && defined(A2_NN_FAST) && A2_NN_FAST
+    if constexpr (kE % 4 == 0) {
+        v128_t sm[kE / 4], mv[kE / 4];
+        for (int k = 0; k < kE / 4; ++k) sm[k] = wasm_f32x4_splat(0.0f), mv[k] = wasm_f32x4_splat(-1e30f);
+        int cnt = 0;
+        for (int e = 0; e < n; ++e) {
+            if (!present[e]) continue;
+            ++cnt;
+            for (int k = 0; k < kE / 4; ++k) {
+                const v128_t v = wasm_v128_load(emb[e] + 4 * k);
+                sm[k] = wasm_f32x4_add(sm[k], v), mv[k] = wasm_f32x4_pmax(mv[k], v);
+            }
+        }
+        const v128_t inv = wasm_f32x4_splat(cnt ? 1.0f / static_cast<float>(cnt) : 0.0f), zero = wasm_f32x4_splat(0.0f);
+        for (int k = 0; k < kE / 4; ++k) {
+            wasm_v128_store(mean + 4 * k, wasm_f32x4_mul(sm[k], inv));
+            wasm_v128_store(mx + 4 * k, cnt ? mv[k] : zero);
+        }
+        return;
+    }
+#endif
     int c = 0;
     for (int j = 0; j < kE; ++j) mean[j] = 0.0f, mx[j] = -1e30f;
     for (int e = 0; e < n; ++e) {
@@ -136,6 +194,25 @@ inline void pointer(const float* z, const float* qW, const float* qb, const floa
 // head mask for forward(): the bot reads only behaviour (bank gate), target and option; the rest feed training only
 inline constexpr unsigned kHBeh = 1, kHTarget = 2, kHOption = 4, kHMicro = 8, kHAll = 15;
 
+#ifdef A2_NN_PROF
+// stage fuel profile (A2_NN_PROF, E120): mean fuel per forward of each stage, printed every 200 forwards
+inline void prof(int stage) {
+    static std::uint64_t last = 0, sum[12] = {}, calls = 0;
+    const std::uint64_t now = bc::fuel_remaining();
+    if (stage > 0) sum[stage] += last - now;
+    else ++calls;
+    last = bc::fuel_remaining();
+    if (stage == 10 && calls % 200 == 0) {
+        auto m = [&](int s) { return static_cast<unsigned long long>(sum[s] / calls); };
+        std::printf("NNPROF glob %llu self %llu ally %llu enemy %llu camp %llu altar %llu pool %llu trunk %llu beh+opt %llu target %llu\n",
+                    m(1), m(2), m(3), m(4), m(5), m(6), m(7), m(8), m(9), m(10));
+    }
+}
+#define NN_PROF(s) prof(s)
+#else
+#define NN_PROF(s)
+#endif
+
 template <class Tag = void>
 inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
     using namespace nnw;
@@ -144,12 +221,19 @@ inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
 #define LAYER_ARRAYS(X)                                                                                                      const float* X##W[] = {k##X##_W0, k##X##_W1v};                                                                         const float* X##B[] = {k##X##_b0, k##X##_b1v};                                                                         const int X##I[] = {k##X##_in0, kE};
     LAYER_ARRAYS(g) LAYER_ARRAYS(s) LAYER_ARRAYS(a) LAYER_ARRAYS(e) LAYER_ARRAYS(c) LAYER_ARRAYS(l)
 #undef LAYER_ARRAYS
+    NN_PROF(0);
     encode<kg_n, kg_w, kg_nkeep, kg_type, kg_ntype, kg_layers>(f + kg_off, kg_keep, kg_mu, kg_sd, gW, gB, gI, eg, pg, true);
+    NN_PROF(1);
     encode<ks_n, ks_w, ks_nkeep, ks_type, ks_ntype, ks_layers>(f + ks_off, ks_keep, ks_mu, ks_sd, sW, sB, sI, es, ps, true);
+    NN_PROF(2);
     encode<ka_n, ka_w, ka_nkeep, ka_type, ka_ntype, ka_layers>(f + ka_off, ka_keep, ka_mu, ka_sd, aW, aB, aI, ea, pa, false);
+    NN_PROF(3);
     encode<ke_n, ke_w, ke_nkeep, ke_type, ke_ntype, ke_layers>(f + ke_off, ke_keep, ke_mu, ke_sd, eW, eB, eI, ee, pe, false);
+    NN_PROF(4);
     encode<kc_n, kc_w, kc_nkeep, kc_type, kc_ntype, kc_layers>(f + kc_off, kc_keep, kc_mu, kc_sd, cW, cB, cI, ec, pc, false);
+    NN_PROF(5);
     encode<kl_n, kl_w, kl_nkeep, kl_type, kl_ntype, kl_layers>(f + kl_off, kl_keep, kl_mu, kl_sd, lW, lB, lI, el, pl, false);
+    NN_PROF(6);
     float x[kTrunkIn];
     int d = 0;
     std::copy(eg[0], eg[0] + kE, x + d), d += kE;
@@ -158,9 +242,11 @@ inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
     pool(ee, pe, kNE, x + d, x + d + kE), d += 2 * kE;
     pool(ec, pc, kNC, x + d, x + d + kE), d += 2 * kE;
     pool(el, pl, kNL, x + d, x + d + kE), d += 2 * kE;
+    NN_PROF(7);
     float h0[kTrunk], h1[kTrunk];
     dense(kT_W0, kT_b0, x, kTrunkIn, kTrunk, h0, true);
     dense(kT_W1, kT_b1, h0, kTrunk, kTrunk, h1, true);
+    NN_PROF(8);
     const float* z = h1;
     if (heads & kHBeh) dense(kH_behaviour_W, kH_behaviour_b, z, kTrunk, 8, o.behaviour, false);
     if (heads & kHMicro) {
@@ -176,11 +262,13 @@ inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
 #else
     o.option[0] = 1e9f, o.option[1] = o.option[2] = o.option[3] = o.option[4] = 0.0f; // no option head: always "none"
 #endif
+    NN_PROF(9);
     if (heads & kHTarget) {
         const float* ents[kNC];
         for (int i = 0; i < kNC; ++i) ents[i] = ec[i];
         pointer(z, kP_target_qW, kP_target_qb, kP_target_kW, kP_target_kb, ents, pc, kNC, kP_target_E, 1, o.target);
     }
+    NN_PROF(10);
     if (heads & kHMicro) {
         const float* ents[kNE + kNC];
         bool pr[kNE + kNC];
@@ -204,4 +292,68 @@ template <int N>
 inline int argmax(const float (&v)[N]) {
     return static_cast<int>(std::max_element(v, v + N) - v);
 }
+
+#if defined(A2_NN_PIPE) && A2_NN_PIPE
+// Pipelined forward (A2_NN_PIPE, E120 fuel fit): forward() cut into stages that may run on different turns (the bot
+// runs them at the end of its turns while the fuel left covers a stage plus a reserve); the intermediate buffers live in
+// Pipe between turns. Stage 0 global + self + allies, 1 enemies + altars, 2 / 3 camps (first / second half), 4 pooling
+// + trunk layer 0, 5 trunk layer 1 + the heads the bot reads (behaviour, option, target).
+inline constexpr int kPipeStages = 6;
+struct Pipe {
+    float eg[1][kE], es[1][kE], ea[kNA][kE], ee[kNE][kE], ec[kNC][kE], el[kNL][kE];
+    bool pg[1], ps[1], pa[kNA], pe[kNE], pc[kNC], pl[kNL];
+    float x[nnw::kTrunkIn], h0[nnw::kTrunk], h1[nnw::kTrunk];
+    Out o;
+};
+inline void pipe_stage(Pipe& p, const std::int16_t* f, int s) {
+    using namespace nnw;
+#define LAYER_ARRAYS(X)                                                                                                      const float* X##W[] = {k##X##_W0, k##X##_W1v};                                                                         const float* X##B[] = {k##X##_b0, k##X##_b1v};                                                                         const int X##I[] = {k##X##_in0, kE};
+    LAYER_ARRAYS(g) LAYER_ARRAYS(s) LAYER_ARRAYS(a) LAYER_ARRAYS(e) LAYER_ARRAYS(c) LAYER_ARRAYS(l)
+#undef LAYER_ARRAYS
+    switch (s) {
+    case 0:
+        encode<kg_n, kg_w, kg_nkeep, kg_type, kg_ntype, kg_layers>(f + kg_off, kg_keep, kg_mu, kg_sd, gW, gB, gI, p.eg, p.pg, true);
+        encode<ks_n, ks_w, ks_nkeep, ks_type, ks_ntype, ks_layers>(f + ks_off, ks_keep, ks_mu, ks_sd, sW, sB, sI, p.es, p.ps, true);
+        encode<ka_n, ka_w, ka_nkeep, ka_type, ka_ntype, ka_layers>(f + ka_off, ka_keep, ka_mu, ka_sd, aW, aB, aI, p.ea, p.pa, false);
+        break;
+    case 1:
+        encode<ke_n, ke_w, ke_nkeep, ke_type, ke_ntype, ke_layers>(f + ke_off, ke_keep, ke_mu, ke_sd, eW, eB, eI, p.ee, p.pe, false);
+        encode<kl_n, kl_w, kl_nkeep, kl_type, kl_ntype, kl_layers>(f + kl_off, kl_keep, kl_mu, kl_sd, lW, lB, lI, p.el, p.pl, false);
+        break;
+    case 2:
+        encode<kc_n, kc_w, kc_nkeep, kc_type, kc_ntype, kc_layers>(f + kc_off, kc_keep, kc_mu, kc_sd, cW, cB, cI, p.ec, p.pc, false, 0,
+                                                                   kNC / 2);
+        break;
+    case 3:
+        encode<kc_n, kc_w, kc_nkeep, kc_type, kc_ntype, kc_layers>(f + kc_off, kc_keep, kc_mu, kc_sd, cW, cB, cI, p.ec, p.pc, false,
+                                                                   kNC / 2, kNC);
+        break;
+    case 4: {
+        int d = 0;
+        std::copy(p.eg[0], p.eg[0] + kE, p.x + d), d += kE;
+        std::copy(p.es[0], p.es[0] + kE, p.x + d), d += kE;
+        pool(p.ea, p.pa, kNA, p.x + d, p.x + d + kE), d += 2 * kE;
+        pool(p.ee, p.pe, kNE, p.x + d, p.x + d + kE), d += 2 * kE;
+        pool(p.ec, p.pc, kNC, p.x + d, p.x + d + kE), d += 2 * kE;
+        pool(p.el, p.pl, kNL, p.x + d, p.x + d + kE), d += 2 * kE;
+        dense(kT_W0, kT_b0, p.x, kTrunkIn, kTrunk, p.h0, true);
+        break;
+    }
+    default: {
+        dense(kT_W1, kT_b1, p.h0, kTrunk, kTrunk, p.h1, true);
+        const float* z = p.h1;
+        dense(kH_behaviour_W, kH_behaviour_b, z, kTrunk, 8, p.o.behaviour, false);
+#ifdef NNW_HAS_OPTION
+        dense(kH_option_W, kH_option_b, z, kTrunk, 5, p.o.option, false);
+#else
+        p.o.option[0] = 1e9f, p.o.option[1] = p.o.option[2] = p.o.option[3] = p.o.option[4] = 0.0f;
+#endif
+        const float* ents[kNC];
+        for (int i = 0; i < kNC; ++i) ents[i] = p.ec[i];
+        pointer(z, kP_target_qW, kP_target_qb, kP_target_kW, kP_target_kb, ents, p.pc, kNC, kP_target_E, 1, p.o.target);
+        break;
+    }
+    }
+}
+#endif
 } // namespace nn

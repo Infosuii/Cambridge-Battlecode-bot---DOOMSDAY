@@ -20,7 +20,8 @@ SETS = arg("--sets", "maps,maps_real250,maps_test4,maps_new4,maps_maze").split("
 OPPS = arg("--opps", "v92,x1,x3ctr,v81,b5_c3").split(",")
 EVERY = int(arg("--every", "1"))
 BOT = arg("--bot", "nnrec")  # recorder build (nn2dag etc. for DAgger)
-NF = 500
+FUEL = arg("--fuel", "1000000")  # 20000000 when a teacher network acts
+NF = 828 if int(os.environ.get("NN_LAYOUT", "2")) == 3 else 500
 os.makedirs(os.path.join(OUT, "replays"), exist_ok=True)
 MODES_F = os.path.join(OUT, "modes.json")
 modes = json.load(open(MODES_F)) if os.path.exists(MODES_F) else {}
@@ -88,7 +89,7 @@ for c0 in range(0, len(jobs), CH):
         print("free RAM under 3 GB, waiting", flush=True); time.sleep(60)
     t0 = time.time()
     p = subprocess.Popen([os.path.join(V4, "cambc.exe"), "run-batch", man, "--jobs", "8", "--json", "--color", "never", "--release",
-                          "--fuel-quantum", "1000000", "--log-limit", "67108864"], cwd=V4, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                          "--fuel-quantum", FUEL, "--log-limit", "67108864"], cwd=V4, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     killed = False
     while p.poll() is None:
         time.sleep(3)
