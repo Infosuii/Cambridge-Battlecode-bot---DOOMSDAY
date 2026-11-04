@@ -36,8 +36,10 @@ def run(job):
             "earned_gold": timeline(native, team, "earnedGold", ROUND_LIMIT)}
 
 
-def main(variant="opening-window", build_file="OPENING_WINDOW_BUILDS.json", result_file="OPENING_WINDOW_BEHAVIOR.json"):
-    global OUT
+def main(variant="opening-window", build_file="OPENING_WINDOW_BUILDS.json", result_file="OPENING_WINDOW_BEHAVIOR.json",
+         round_limit=150):
+    global OUT, ROUND_LIMIT
+    ROUND_LIMIT = round_limit
     OUT = bench.CACHE / f"{variant}-behavior"
     builds = json.loads((HERE / build_file).read_bytes())
     binaries = {"base": bench.CACHE / "v92.wasm", "window": bench.ROOT / "bots" / f"codex-{variant}" / "bot.wasm"}

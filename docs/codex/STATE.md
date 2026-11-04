@@ -2,6 +2,12 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 19:29 GMT
+
+- Signed-in CLI verified platform v80 active, selected and pinned, quota 0/50. Issues #5 and #6 rechecked. Neither contains a new applicable ladder grant. This branch made zero platform mutations. No lock request or ACK is pending.
+- [EXP-080](../../research/codex-ishan/EXP-080-RESULT.md) held the original landing ordering in a 4,968,822-offset comparison and removed all three original suspensions while preserving the same inputs and actions across the 39-game development fixture. Exact release `4c94d59916f2b15a5bdaf16d32290efd3ad32dbfa4e05087dca9958f202a9793`. Pool 90/172 vs 86/172, b/c 36/32, 38 vs 160 native suspensions, 16 vs 28 round-one, two newly suspended and zero faults or codes. Failed L0. The independent 1,600-game two-seed stress recheck (EXP-082) is running.
+- [EXP-081](../../research/codex-ishan/EXP-081-RESULT.md) found zero eligible cached-ward expiry turns in 64 games. [EXP-083](../../research/codex-ishan/EXP-083-RESULT.md) found 102 early pre-movement one-cast opportunities on 14 of 16 maps against both opponents. [EXP-084](../../research/codex-ishan/EXP-084.md) is building the release and all-off control and then tests collection and same-input native clears on the 64 development pairs. It only enters L0 if those gates pass. No selection or holdout was opened.
+
 ## Qualifier research through 4 Nov 2026, 19:14 GMT
 
 - Signed-in CLI verified platform v80 active, selected and pinned at 19:14Z, active status at 19:10:39.466Z, with quota 0/50. The v92 reference is `5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47`. This branch made zero platform mutations and used no groups. No lock or ACK is pending. [Issue #5 local gate](https://github.com/Infosuii/neural-networkk-battlecode/issues/5#issuecomment-6619834870), [later authorization rule](https://github.com/Infosuii/neural-networkk-battlecode/issues/5#issuecomment-6630433510).

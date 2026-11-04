@@ -12,10 +12,16 @@ from probe_wait_payout import OPPONENTS, bench, partition
 OUT = bench.CACHE / "cast-before-walk-dev-r2"
 
 
-def prepare(src):
+def prepare(src, *, diagnostic=True, enabled=True):
     copytree(bench.ROOT / "bots/v92/src", src)
+    if not diagnostic:
+        header = src / "common.h"
+        data = header.read_bytes()
+        nl = b"\r\n" if b"\r\n" in data else b"\n"
+        header.write_bytes(f"#define CODEX_PREWALK_CLEAR {int(enabled)}".encode() + nl + data)
     apply(src / "bot.cpp", (
         ('        mode = "approach";\n#if A2_APPROACHFIX', '''        mode = "approach";
+''' + ("" if diagnostic else "#if CODEX_PREWALK_CLEAR\n") + '''\
         int codex_clear_slot = -1, codex_clear_camp = -1;
         if (round <= 300 && !walked && !cast_done && hp >= 0.65f * max_hp && w.enemies.empty() &&
             bc::fuel_remaining() > rb::kTailReserve) {
@@ -41,7 +47,25 @@ def prepare(src):
             }
             if (remaining != 1) codex_clear_slot = -1;
         }
+''' + ("" if diagnostic else '''\
+        if (codex_clear_slot >= 0) {
+            try {
+                if (bc::self().abilities()[codex_clear_slot].use(w.camps[codex_clear_camp].camp)) {
+                    cast_done = true;
+                    mode = "stand-cast-camp";
+                    return true;
+                }
+            } catch (const std::exception& error) {
+                LOG("camp cast error %s\\n", error.what());
+            }
+        }
+#endif
+''') + '''\
 #if A2_APPROACHFIX'''),
+    ))
+    if not diagnostic:
+        return
+    apply(src / "bot.cpp", (
         ("        if (!melee) {\n#if V58_ACT & 12", '''        if (codex_clear_slot >= 0 && walked)
             std::printf("CODEX_CAST_BEFORE_WALK R%d S%d C%d A%d\\n", round, slot, codex_clear_camp, codex_clear_slot);
         if (!melee) {
