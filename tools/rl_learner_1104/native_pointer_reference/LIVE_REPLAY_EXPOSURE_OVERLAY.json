@@ -1,0 +1,62 @@
+{
+  "scope": "Exposure overlay on provisional original split; never silently claim reviewed live maps are untouched holdout",
+  "observed_at_utc": "2026-11-04T21:13:13.004083+00:00",
+  "replays": [
+    {
+      "archive": "match-01a1a84c-79d3-724d-9f30-e7322b45e089.zip",
+      "archive_sha256": "1a9403b9560547a164e9df411979aae18cf26748ed65be687a17f8577dff3a61",
+      "map": "00split.map26a",
+      "family": "split",
+      "map_sha256": "1db691b7def9cb585314c7c4139ef1b79df87fcdbfab9d86ef31666c4709a4c4",
+      "original_split": "training",
+      "exposure": "User-provided live replay; analyst sees outcomes and state transitions",
+      "exclude_from_future_confirmation": false
+    },
+    {
+      "archive": "match-01a1a84c-79d3-7aa6-a735-3c0b076a8796.zip",
+      "archive_sha256": "fc7827fd3997ef011fb6d23588cfa0d8e11707694d515fa3d63e1ca3d2b28ca6",
+      "map": "00vault.map26a",
+      "family": "vault",
+      "map_sha256": "aa5f5e981789c8f3f3658b5a989cbce00dc0fc91075b6ea5e771c42a2d839454",
+      "original_split": "confirmation_reserved",
+      "exposure": "User-provided live replay; analyst sees outcomes and state transitions",
+      "exclude_from_future_confirmation": true
+    },
+    {
+      "archive": "match-01a1a84c-79d3-7d13-a163-080a5e6db2b3.zip",
+      "archive_sha256": "f51d2a86703b4edf5461325195f7c03eb3f0c5362e2074f2e561d4d532418fd0",
+      "map": "00the-line.map26a",
+      "family": "the-line",
+      "map_sha256": "87a410356a18a703909b980eafb4888780e3785509ce54ff59ded5295b6acd7d",
+      "original_split": "confirmation_reserved",
+      "exposure": "User-provided live replay; analyst sees outcomes and state transitions",
+      "exclude_from_future_confirmation": true
+    },
+    {
+      "archive": "match-01a1a84c-79d3-7e30-a2d6-052ed702b440.zip",
+      "archive_sha256": "ba17e1f911656fbf14172844930efbfd7c7b1f530547cabe562911f9fcb345f1",
+      "map": "00stampede.map26a",
+      "family": "stampede",
+      "map_sha256": "49807e4756ec1b2030ed2ca7ebdd8a07f1a6ed7f2d2bd751e6941f5c0c877cdc",
+      "original_split": "training",
+      "exposure": "User-provided live replay; analyst sees outcomes and state transitions",
+      "exclude_from_future_confirmation": false
+    },
+    {
+      "archive": "match-01a1a84c-79d3-7edf-b35c-647a165f5c41.zip",
+      "archive_sha256": "5fe14f423528aa46d5fe3c0b5d5e53e1acd999fdd12ad2501873c3e9600b8299",
+      "map": "00swirl.map26a",
+      "family": "swirl",
+      "map_sha256": "e6f860670947b1326f34c86515db8ef6893c565eaa69e3f9a6464ec5744e1c93",
+      "original_split": "confirmation_reserved",
+      "exposure": "User-provided live replay; analyst sees outcomes and state transitions",
+      "exclude_from_future_confirmation": true
+    }
+  ],
+  "excluded_confirmation_families": [
+    "swirl",
+    "the-line",
+    "vault"
+  ],
+  "note": "Current frozen trainingblock was completed before replay findings; no reserved-map rows used for gradient training. Future confirmation must exclude these families and any near variants. Original manifest remains auditable."
+}
