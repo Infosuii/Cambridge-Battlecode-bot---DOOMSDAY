@@ -23,3 +23,7 @@ Offline mocks verified that a child failure results in exactly one fallback rest
 An offline pipeline fixture delivered the requested candidate as v102 and a concurrent unrelated upload as v103, both with the same archive filename. The old selector accepted every new row and chose v103. It also started an arm with no attributable upload or with duplicate matching receipts. The revised pipeline attaches a unique note, selects one new exact match, and uses the existing fallback path on ambiguity, absent receipt or compile timeout. It does not submit a second time when the first outcome is uncertain.
 
 Reproduce with `py docs/codex/test_duel_upload.py`. All four scenarios pass against the fake CLI. The 48 cached Plan C groups reproduced the archived recount byte for byte (v92 57/120, v92audit 47/120, b/c=13/23, z=-1.667). This verifies attribution and preserves the historical recount. No real submission or ladder match was created.
+
+## Verify the active selection is pinned
+
+An offline activation test returned v80 as both active and selected while the pinned flag was false. The old early return skipped pinning. It also returned early for active v80 and selected v81. Activation and fallback now require a single read to show the requested version both active and selected, with pinned true. The regression fixture verifies both failures and the already-pinned no-op. The archived Plan C paired recount reproduced byte for byte again. No live activation was performed.

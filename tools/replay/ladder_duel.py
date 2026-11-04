@@ -70,20 +70,25 @@ def wait_for_quota():
     raise SystemExit('rolling match-group budget did not clear')
 
 
-def active_version():
-    return cli_json(['submissions', 'list', '--json'])['active']['version']
+def pinned_version():
+    state = cli_json(['submissions', 'list', '--json'])
+    active = (state.get('active') or {}).get('version')
+    selected = (state.get('selected') or {}).get('version')
+    if state.get('pinned') is True and active == selected:
+        return active
+    return None
 
 
 def activate(version):
-    if active_version() == version:
+    if pinned_version() == version:
         return
     r = cli(['submissions', 'activate', str(version)])
     print('activate', version, 'exit', r.returncode, flush=True)
     for _ in range(60):
-        if active_version() == version:
+        if pinned_version() == version:
             return
         time.sleep(10)
-    raise SystemExit(f'version {version} did not become active')
+    raise SystemExit(f'version {version} did not become active and pinned')
 
 
 def finished_groups(group_ids, previous=None):
@@ -149,7 +154,7 @@ def main():
 
     if a.action == 'restore':
         activate(a.version)
-        print('active', active_version())
+        print('active and pinned', pinned_version())
         return
 
     if a.action == 'plan':
