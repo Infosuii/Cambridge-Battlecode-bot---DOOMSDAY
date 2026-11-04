@@ -2,6 +2,13 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 4 Nov 2026, 20:41 GMT
+
+- Signed-in CLI verified platform v80 active, selected and pinned, status at 20:30:41.736Z and quota 0/50. This branch has made zero ladder mutations. No lock request or ACK is pending.
+- [EXP-115](../../research/codex-ishan/EXP-115-RESULT.md) reproduced Vendetta's R1077 continuation while the greedy fallback enumerated 7,796 goals, with 13,080 fuel remaining and nearest goal three tiles away. [EXP-116](../../research/codex-ishan/EXP-116-RESULT.md) preserved target choice on all 384 native SDK checks and eliminated all six original standard-budget events across 160 paired development games. No new suspensions at 100k or 80k and no changed drafts or faults. Two clean builds matched `bcd627768482a0bc2cc73fb5e71ad39cb351b55dde53d8480555f29b563372ac` and all-off reproduced v92.
+- EXP-116 ties the highest local win count at 101/172 against v92, with 31 suspensions versus 160 and 12 round-one versus 28. Both teams had zero faults and codes. Two previously clean games suspended and failed L0. No formal L1, L2, ladder duel or holdout has run. Do not use the two pool cell identities for mechanism selection.
+- [EXP-117](../../research/codex-ishan/EXP-117.md) independently applies the greedy edit to the archived PG Marcella source and checks the original R536 replay. The exact transfer run is underway.
+
 ## Qualifier research through 4 Nov 2026, 20:03 GMT
 
 - Signed-in CLI verified v80 active, selected and pinned, active status at 20:00:35.968Z, quota 0/50. Issues #5 and #6 were rechecked. This branch made zero ladder changes. No lock or ACK is pending.

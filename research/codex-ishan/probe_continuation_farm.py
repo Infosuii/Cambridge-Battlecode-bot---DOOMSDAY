@@ -19,9 +19,18 @@ CASES = (
     ("marcella", 536, 4, "A", "pool_605209", "public-khiri", 7013),
 )
 CAMP_STAGES = ("c_zones", "s_inc", "sg_ring", "sg_init", "sg_los", "sg_seeing", "c_safe", "c_walked", "c_cast")
+FORK_STAGES = ("s_dps", "s_stage", "c_staged", "stage_before", "stage_after", "disengage_before", "disengage_after")
 
 
-def instrument(src, champion, rnd, split, camp):
+def camp_sample(phase):
+    index = (CAMP_STAGES + FORK_STAGES).index(phase)
+    return f'''    if (round == 1077 && type == bc::champion_type::vendetta) {{
+        codex_camp_fuel[{index}] = bc::fuel_remaining();
+        codex_camp_round[{index}] = bc::round_number();
+    }}'''
+
+
+def instrument(src, champion, rnd, split, camp, fork, greedy):
     apply(src / "bot.cpp", (
         ('#include "bot.h"', '''#include "bot.h"
 
@@ -63,24 +72,61 @@ static int codex_farm_group = -1, codex_farm_state = -1;"""),
         codex_farm_round = 0;"""),
         ))
     if camp:
+        phases = CAMP_STAGES + FORK_STAGES[:3] if fork else CAMP_STAGES
+        size = len(CAMP_STAGES + FORK_STAGES)
         apply(src / "bot.cpp", (
             ("static int codex_farm_group = -1, codex_farm_state = -1;",
              f'''static int codex_farm_group = -1, codex_farm_state = -1;
-static unsigned codex_camp_round[{len(CAMP_STAGES)}];
-static unsigned long long codex_camp_fuel[{len(CAMP_STAGES)}];'''),
-            *((f'    PROF_CHECK("{phase}");', f'''    PROF_CHECK("{phase}");
-    if (round == 1077 && type == bc::champion_type::vendetta) {{
-        codex_camp_fuel[{i}] = bc::fuel_remaining();
-        codex_camp_round[{i}] = bc::round_number();
-    }}''') for i, phase in enumerate(CAMP_STAGES)),
-            ("        codex_farm_round = 0;", f'''        for (int i = 0; i < {len(CAMP_STAGES)}; ++i)
+static unsigned codex_camp_round[{size}];
+static unsigned long long codex_camp_fuel[{size}];'''),
+            *((f'    PROF_CHECK("{phase}");', f'    PROF_CHECK("{phase}");\n' + camp_sample(phase))
+              for phase in phases),
+            ("        codex_farm_round = 0;", f'''        for (int i = 0; i < {size}; ++i)
             if (codex_camp_round[i])
                 std::printf("CODEX_CAMP_PHASE %d %u %llu\\n", i, codex_camp_round[i], codex_camp_fuel[i]);
         codex_farm_round = 0;'''),
         ))
+    if fork:
+        apply(src / "bot.cpp", (
+            ("        if (!bit(stage, pos)) walk_toward(stage);",
+             "        if (!bit(stage, pos)) {\n" + camp_sample("stage_before") +
+             "\n            walk_toward(stage);\n" + camp_sample("stage_after") + "\n        }"),
+            ("        if (!moved) walk_toward(~danger_zone & ~w.static_blocked);",
+             "        if (!moved) {\n" + camp_sample("disengage_before") +
+             "\n            walk_toward(~danger_zone & ~w.static_blocked);\n" +
+             camp_sample("disengage_after") + "\n        }"),
+        ))
+    if greedy:
+        apply(src / "bot.cpp", (
+            ('#include "bot.h"', '''#include "bot.h"
+
+static unsigned codex_greedy_round, codex_goal_count;
+static unsigned long long codex_greedy_before, codex_greedy_after;
+static int codex_goal_distance;'''),
+            ("    int gd = 1 << 20;\n    for (vec2 g : goals.positions()) {", """    int gd = 1 << 20;
+    const bool sample = round == 1077 && type == bc::champion_type::vendetta;
+    if (sample) {
+        codex_goal_count = goals.count();
+        codex_greedy_before = bc::fuel_remaining();
+    }
+    for (vec2 g : goals.positions()) {"""),
+            ("    if (goal.x < 0) return false;\n    const bc::bitboard blocked = w.static_blocked | w.unit_tiles;", """    if (sample) {
+        codex_greedy_after = bc::fuel_remaining();
+        codex_greedy_round = bc::round_number();
+        codex_goal_distance = gd;
+    }
+    if (goal.x < 0) return false;
+    const bc::bitboard blocked = w.static_blocked | w.unit_tiles;"""),
+            ("void Bot::play_turn() {", """void Bot::play_turn() {
+    if (codex_greedy_round) {
+        std::printf("CODEX_GREEDY_PHASE %u %u %llu %llu %d\\n", codex_greedy_round, codex_goal_count,
+                    codex_greedy_before, codex_greedy_after, codex_goal_distance);
+        codex_greedy_round = 0;
+    }"""),
+        ))
 
 
-def run(case, split, camp):
+def run(case, split, camp, fork, greedy):
     champion, rnd, actor, side, name, opp, seed = case
     src = OUT / f"{champion}/src"
     if seed:
@@ -95,7 +141,7 @@ def run(case, split, camp):
         original = bench.CACHE / f"cpg-budget-margin/games/100000-0-{opp}-{name}-{side}"
         original_hash = read(HERE / "CPG_BUDGET_MARGIN.json")["sha256"]
         manifest = read(HERE / "DENSE_ROSTER_MAPS.json")["maps"]
-    instrument(src, champion, rnd, split, camp)
+    instrument(src, champion, rnd, split, camp, fork, greedy)
     assert bench.digest(mp) == manifest[mp.name]
     file, expected = bench.OPPS[opp]
     assert bench.digest(bench.CACHE / file) == expected
@@ -115,8 +161,9 @@ def run(case, split, camp):
         log = z.read(f"team-{side.lower()}.stdout")
     samples = [list(map(int, r)) for r in re.findall(rb"CODEX_FARM_BOUNDARY (\d+) (\d+) (\d+)", log)]
     phases = [list(map(int, r)) for r in re.findall(rb"CODEX_FARM_SPLIT (\d+) (\d+) (\d+) (\d+) (-?\d+) (-?\d+)", log)]
-    camp_phases = {CAMP_STAGES[int(i)]: [int(r), int(f)]
+    camp_phases = {(CAMP_STAGES + FORK_STAGES)[int(i)]: [int(r), int(f)]
                    for i, r, f in re.findall(rb"CODEX_CAMP_PHASE (\d+) (\d+) (\d+)", log)}
+    greedy_samples = [list(map(int, r)) for r in re.findall(rb"CODEX_GREEDY_PHASE (\d+) (\d+) (\d+) (\d+) (\d+)", log)]
     a, b = (read(p / "native.json") for p in (original, new))
     assert all(a["match"][k] == b["match"][k] for k in ("seed", "mapHash", "engineBuildHash"))
     older, newer = (read_turn(p, rnd, side, actor) for p in (original, new))
@@ -128,7 +175,8 @@ def run(case, split, camp):
     return {"map": name, "opponent": opp, "round": rnd, "champion": champion, "reference": original_hash,
             "diagnostic": bench.digest(wasm), "same_draft": a["roster"]["draft"] == b["roster"]["draft"],
             "same_observation": same, "same_actions": old_actions == new_actions,
-            "native_event": matched_event, "samples": samples, "phases": phases, "camp_phases": camp_phases, "row": row}
+            "native_event": matched_event, "samples": samples, "phases": phases, "camp_phases": camp_phases,
+            "greedy_samples": greedy_samples, "row": row}
 
 
 def main():
@@ -137,17 +185,25 @@ def main():
     modes = parser.add_mutually_exclusive_group()
     modes.add_argument("--split", action="store_true")
     modes.add_argument("--camp", action="store_true")
+    modes.add_argument("--fork", action="store_true")
+    modes.add_argument("--greedy", action="store_true")
     args = parser.parse_args()
-    split = args.split or args.camp
-    if args.camp:
+    split = args.split or args.camp or args.fork or args.greedy
+    if args.greedy:
+        OUT = bench.CACHE / "continuation-farm-greedy"
+    elif args.fork:
+        OUT = bench.CACHE / "continuation-farm-fork"
+    elif args.camp:
         OUT = bench.CACHE / "continuation-farm-camp"
     elif split:
         OUT = bench.CACHE / "continuation-farm-split"
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     with ThreadPoolExecutor(max_workers=2) as pool:
-        rows = list(pool.map(lambda c: run(c, split, args.camp), CASES[:1] if split else CASES))
-    name = ("CPG_CONTINUATION_CAMP.json" if args.camp else
+        rows = list(pool.map(lambda c: run(c, split, args.camp or args.fork, args.fork, args.greedy),
+                             CASES[:1] if split else CASES))
+    name = ("CPG_CONTINUATION_GREEDY.json" if args.greedy else "CPG_CONTINUATION_FORK.json" if args.fork else
+            "CPG_CONTINUATION_CAMP.json" if args.camp else
             "CPG_CONTINUATION_FARM_SPLIT.json" if split else "CPG_CONTINUATION_FARM.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({"engine": bench.ENGINE, "rows": rows}, out, indent=2)
