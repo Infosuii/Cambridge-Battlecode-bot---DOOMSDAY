@@ -1,6 +1,9 @@
 """Localize the three standard-budget events from the frozen seed-14107 stress run."""
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
+import re
+from zipfile import ZipFile
 
 from bounded_verdict import apply
 from cpg_heart_cast_path import prepare
@@ -13,6 +16,43 @@ from stress_heart_cast_path import OUT as RAW, SEED
 OUT = bench.CACHE / "heart-cast-path-stress-profile-14107"
 STAGES = ("world", "support", "wardrev", "ambush", "e_in", "e_td", "enemies", "farm0",
           "farmsel", "d_farm", "decide", "tail", "fields", "bushpre")
+FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones",
+               "c_staged", "c_safe", "c_walked", "c_cast", "d_farm")
+
+
+def instrument_farm(src):
+    count = len(FARM_PHASES)
+
+    def marker(phase):
+        return ("if ((round == 321 || round == 334) && type == bc::champion_type::cassi) "
+                f"codex_cassi_sample({FARM_PHASES.index(phase)}, round);")
+
+    apply(src / "bot.cpp", (
+        ('#include "bot.h"', f'''#include "bot.h"
+
+static unsigned codex_cassi_round;
+static unsigned codex_cassi_engine[{count}];
+static unsigned long long codex_cassi_fuel[{count}];
+
+[[gnu::noinline]] static void codex_cassi_sample(int phase, int round) {{
+    codex_cassi_round = round;
+    codex_cassi_engine[phase] = bc::round_number();
+    codex_cassi_fuel[phase] = bc::fuel_remaining();
+}}'''),
+        ('        if (!farm()) mode = "nofarm";', '        ' + marker("farm_begin") + '\n        if (!farm()) mode = "nofarm";'),
+        *((f'PROF_CHECK("{phase}");', f'PROF_CHECK("{phase}"); ' + marker(phase))
+          for phase in FARM_PHASES if phase != "farm_begin"),
+        ("void Bot::play_turn() {", f'''void Bot::play_turn() {{
+    if (codex_cassi_round) {{
+        for (int i = 0; i < {count}; ++i) {{
+            if (codex_cassi_engine[i])
+                std::printf("CODEX_CASSI_FARM %u %d %u %llu\\n", codex_cassi_round, i,
+                            codex_cassi_engine[i], codex_cassi_fuel[i]);
+            codex_cassi_engine[i] = 0;
+        }}
+        codex_cassi_round = 0;
+    }}'''),
+    ))
 
 
 def play(item):
@@ -23,6 +63,11 @@ def play(item):
     key = f"{SEED}-{opponent}-{mp.stem}-{side}"
     old, new = RAW / "games" / f"path-{key}", OUT / "games" / f"profile-{key}"
     row = summarize_scoped(row, new)
+    (bundle,) = new.glob("*.repl26a")
+    with ZipFile(bundle) as archive:
+        log = archive.read(f"team-{side.lower()}.stdout")
+    markers = re.findall(rb"CODEX_STRESS R(\d+) t\d+ ([a-z_0-9]+)", log)
+    samples = [list(map(int, m)) for m in re.findall(rb"CODEX_CASSI_FARM (\d+) (\d+) (\d+) (\d+)", log)]
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -36,9 +81,10 @@ def play(item):
         native_match = any(e["owner"] == event["owner"] and e["timestamp"]["round"] == rnd for e in observed)
         same_input = bool(old_turn and new_turn and old_turn["observation"] == new_turn["observation"])
         same_actions = bool(old_turn and new_turn and actions[0] == actions[1])
-        phases = [phase for phase, marker in row["examples"].items() if f" R{rnd} " in marker]
+        phases = [phase.decode() for recorded, phase in markers if int(recorded) == rnd]
+        fuel = {FARM_PHASES[i]: [engine_round, left] for recorded, i, engine_round, left in samples if recorded == rnd}
         checks.append({"round": rnd, "actor": actor, "same_input": same_input, "same_actions": same_actions,
-                       "same_event": native_match, "phases": phases,
+                       "same_event": native_match, "phases": phases, "fuel": fuel,
                        "matched": same_draft and not errors and native_match and same_input and same_actions,
                        "base_turn": old_turn, "diagnostic_turn": new_turn})
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors,
@@ -46,20 +92,31 @@ def play(item):
 
 
 def main():
+    global OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--farm", action="store_true")
+    farm = parser.parse_args().farm
+    if farm:
+        OUT = bench.CACHE / "heart-cast-path-cassi-farm-14107"
     frozen = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     assert frozen["seed"] == SEED and frozen["n"] == 800
     cases = frozen["affected"]
     events = [(e["timestamp"]["round"], e["owner"]["name"].lower()) for r in cases for e in r["events"]]
     assert events == [(321, "cassi"), (334, "cassi"), (566, "issac")]
+    if farm:
+        cases = [r for r in cases if r["events"][0]["owner"]["name"] == "Cassi"]
     bench.OUT = OUT
     (OUT / "games").mkdir(parents=True)
     src = OUT / "source/src"
     prepare(src, True)
-    rounds = sorted({rnd for rnd, _ in events})
-    prepare_coarse(src, rounds, STAGES)
-    initial = " || ".join(f"round == {rnd}" for rnd in rounds)
-    condition = " || ".join(f"(round == {rnd} && type == bc::champion_type::{champion})" for rnd, champion in events)
-    apply(src / "bot.cpp", ((f"    codex_stress_trace = {initial};", f"    codex_stress_trace = {condition};"),))
+    if farm:
+        instrument_farm(src)
+    else:
+        rounds = sorted({rnd for rnd, _ in events})
+        prepare_coarse(src, rounds, STAGES)
+        initial = " || ".join(f"round == {rnd}" for rnd in rounds)
+        condition = " || ".join(f"(round == {rnd} && type == bc::champion_type::{champion})" for rnd, champion in events)
+        apply(src / "bot.cpp", ((f"    codex_stress_trace = {initial};", f"    codex_stress_trace = {condition};"),))
     wasm = build(src, OUT / "diagnostic", SEED)
     jobs = []
     for row in cases:
@@ -70,10 +127,11 @@ def main():
         jobs.append((row, mp, wasm))
     with ThreadPoolExecutor(max_workers=2) as pool:
         rows = list(pool.map(play, jobs))
-    matches = {r["round"]: r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
+    matches = {r["round"]: r["fuel"] if farm else r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
     result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "diagnostic": bench.digest(wasm),
               "seed": SEED, "matches": matches, "n": len(rows)}
-    with (HERE / "CPG_HEART_CAST_PATH_STRESS_TRACE.json").open("x", encoding="utf8", newline="\n") as out:
+    name = "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json"
+    with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
     print(result, flush=True)
