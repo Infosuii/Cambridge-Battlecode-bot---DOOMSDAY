@@ -18,6 +18,7 @@ LOG_LIMIT = 1048576
 SOURCE = bench.ROOT / "bots/v92/src"
 RESULT = "RUNTIME_WARD_SPLIT.json"
 DEEP = False
+FARM = False
 
 def prepare():
     src = PROJECT / "src"
@@ -57,6 +58,38 @@ def prepare():
             prefix = " " * (len(anchor)-len(anchor.lstrip()))
             region = region.replace(key, (prefix + f'PROF_CHECK("{mark}");').encode() + newline + key, 1)
         data = data[:start] + region + data[end:]
+    if FARM:
+        def insert(start, end, entries):
+            nonlocal data
+            first = data.index(start)
+            last = data.index(end, first+len(start))
+            region = data[first:last]
+            for before, mark in entries:
+                key = before.encode()
+                assert region.count(key) == 1, before
+                prefix = " " * (len(before)-len(before.lstrip()))
+                region = region.replace(key, (prefix + f'PROF_CHECK("{mark}");').encode() + newline + key, 1)
+            data = data[:first] + region + data[last:]
+
+        insert(b"bool Bot::farm()", b"void Bot::opportunistic_attack()", [
+            ('        mode = "capture";', "farm_capture"),
+            ('        mode = "wait-respawn";', "farm_respawn"),
+        ])
+        insert(b"bool Bot::fight_camps(", b"bool Bot::farm()", [
+            ('    auto pick_target = [&]() {', "camp_enter"),
+            ('    const float incoming = incoming_from_group(g, pos);', "camp_threat"),
+            ('        mode = "stage";', "camp_stage"),
+            ('            mode = "siege";', "camp_siege"),
+            ('    struct NearCamp {', "camp_safety_scan"),
+            ('        mode = "disengage";', "camp_disengage"),
+            ('    if (t < 0 && NOVA_BUSH_WARD && reveal_bush_camp(g)) t = pick_target();', "camp_bush_ward"),
+        ])
+        insert(b"bool Bot::walk_toward(", b"bool Bot::ward_ahead()", [
+            ('    PROF(move);', "walk_enter"),
+            ('    std::uint16_t levels = field.compute_to_with_expansion_count(fblocked, goals, single(pos), visited, cap);', "walk_compute"),
+            ('        levels = field.compute_to_with_expansion_count(terrain, goals_in & ~w.static_blocked, single(pos), visited, cap);', "walk_terrain"),
+            ('    if (tp_held != 0 && !combat_move && w.enemies.empty() && try_teleport(field)) return true;', "walk_teleport"),
+        ])
     bot.write_bytes(data)
     world = src / "world.cpp"
     data = world.read_bytes()
@@ -93,13 +126,14 @@ def run(job):
     return {**row, "stdout_bytes":len(raw), "spans":dict(spans), "examples":examples}
 
 def main():
-    global OUT, PROJECT, WASM, SOURCE, RESULT, DEEP
+    global OUT, PROJECT, WASM, SOURCE, RESULT, DEEP, FARM
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--detail", choices=("v92", "codex-ward-local-labels"))
+    ap.add_argument("--detail", choices=("v92", "codex-ward-local-labels", "farm"))
     args = ap.parse_args()
     if args.detail:
-        DEEP = True
-        SOURCE = bench.ROOT / "bots" / args.detail / "src"
+        FARM = args.detail == "farm"
+        DEEP = not FARM
+        SOURCE = bench.ROOT / "bots" / ("v92" if FARM else args.detail) / "src"
         OUT = bench.CACHE / f"runtime-ward-detail-{args.detail}"
         PROJECT = OUT / "diagnostic"
         WASM = PROJECT / "bot.wasm"
