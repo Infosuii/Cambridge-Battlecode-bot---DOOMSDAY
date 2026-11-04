@@ -9,7 +9,7 @@ from zipfile import ZipFile
 from bounded_verdict import apply
 from probe_wait_payout import OPPONENTS, bench, partition
 
-OUT = bench.CACHE / "cast-before-walk-dev"
+OUT = bench.CACHE / "cast-before-walk-dev-r2"
 
 
 def prepare(src):
@@ -42,9 +42,10 @@ def prepare(src):
             if (remaining != 1) codex_clear_slot = -1;
         }
 #if A2_APPROACHFIX'''),
-        ('        PROF_CHECK("c_walked"); if (!melee) {', '''        if (codex_clear_slot >= 0 && walked)
+        ("        if (!melee) {\n#if V58_ACT & 12", '''        if (codex_clear_slot >= 0 && walked)
             std::printf("CODEX_CAST_BEFORE_WALK R%d S%d C%d A%d\\n", round, slot, codex_clear_camp, codex_clear_slot);
-        PROF_CHECK("c_walked"); if (!melee) {'''),
+        if (!melee) {
+#if V58_ACT & 12'''),
     ))
     apply(src / "main.cpp", (("                play_draft();", """                static bool capture_announced = false;
                 if (!capture_announced) { std::puts("CODEX_CAST_BEFORE_WALK_CAPTURE"); capture_announced = true; }
