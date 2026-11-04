@@ -10,6 +10,10 @@ from v92_travel_scan import verify
 
 def prepare(src, enabled):
     copytree(bench.ROOT / "bots/v92/src", src)
+    apply_pack(src, enabled)
+
+
+def apply_pack(src, enabled):
     header = src / "common.h"
     data = header.read_bytes()
     nl = b"\r\n" if b"\r\n" in data else b"\n"

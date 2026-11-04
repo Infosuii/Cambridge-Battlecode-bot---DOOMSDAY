@@ -64,10 +64,13 @@ def play(job):
     row = bench.one(job)
     arm, seed, opp, mp, side, _ = job
     path = bench.OUT / "games" / f"{arm}-{seed}-{opp}-{mp.stem}-{side}" / "native.json"
-    n = read(path)["match"]
+    native = read(path)
+    n = native["match"]
     area = n["width"] * n["height"]
     size = "small" if area < 1600 else "medium" if area < 4900 else "large"
-    return {**row, "size": size, "category": categories(row["map"])}
+    opponent_team = "teamB" if side == "A" else "teamA"
+    return {**row, "size": size, "category": categories(row["map"]),
+            "opponent_faults": native["diagnostics"]["botFaults"][opponent_team]}
 
 
 def main():
@@ -124,7 +127,7 @@ def main():
             grouped[b[key]].append((b, c))
         strata[key] = {k: bench.summary(p) for k, p in sorted(grouped.items())}
     overall = bench.summary(pairs)
-    errors = sum(r["faults"] > 0 or bool(r["diagnostic_codes"]) for r in rows)
+    errors = sum(bool(r["faults"] or r["opponent_faults"] or r["diagnostic_codes"]) for r in rows)
     passed = (not errors and overall["map_cluster_ci_pp"][1] >= 0 and
               all(v["delta_pp"] >= -10 for by_key in strata.values() for v in by_key.values()))
     result = {"candidate_release": digest, "reference_release": V92, "engine": bench.ENGINE,
