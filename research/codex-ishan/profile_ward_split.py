@@ -1,6 +1,7 @@
 """Separate ward search, placement and post-action observation in dev fuel trails."""
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+import argparse
 import json
 import re
 import shutil
@@ -14,10 +15,13 @@ PROJECT = OUT / "diagnostic"
 WASM = PROJECT / "bot.wasm"
 OPPONENTS = ("v92", "x3inv")
 LOG_LIMIT = 1048576
+SOURCE = bench.ROOT / "bots/v92/src"
+RESULT = "RUNTIME_WARD_SPLIT.json"
+DEEP = False
 
 def prepare():
     src = PROJECT / "src"
-    shutil.copytree(bench.ROOT / "bots/v92/src", src)
+    shutil.copytree(SOURCE, src)
     header = src / "common.h"
     header.write_bytes(b"#define A2_TEL 1\n" + header.read_bytes())
     bot = src / "bot.cpp"
@@ -37,6 +41,22 @@ def prepare():
         key = before.encode().replace(b"\n", newline)
         assert data.count(key) == 1, before
         data = data.replace(key, after.encode().replace(b"\n", newline), 1)
+    if DEEP:
+        start = data.index(b"bool Bot::ward_ahead() {")
+        end = data.index(b"\nbool ", start)
+        region = data[start:end]
+        for anchor, mark in [
+            ("    const int mine = w.bush_cluster(pos);", "ahead_mine"),
+            ("    vec2 aim = pos;", "ahead_coverage_done"),
+            ("    if (best.x < 0) return false;", "ahead_scan_done"),
+            ("        const bc::bitboard wt = bc::vision::ward_tiles(team::ally);", "ahead_coverage_enter"),
+            ("        if (me.place_ward(best)) {", "ahead_place"),
+        ]:
+            key = anchor.encode()
+            assert region.count(key) == 1, anchor
+            prefix = " " * (len(anchor)-len(anchor.lstrip()))
+            region = region.replace(key, (prefix + f'PROF_CHECK("{mark}");').encode() + newline + key, 1)
+        data = data[:start] + region + data[end:]
     bot.write_bytes(data)
     world = src / "world.cpp"
     data = world.read_bytes()
@@ -73,6 +93,17 @@ def run(job):
     return {**row, "stdout_bytes":len(raw), "spans":dict(spans), "examples":examples}
 
 def main():
+    global OUT, PROJECT, WASM, SOURCE, RESULT, DEEP
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--detail", choices=("v92", "codex-ward-local-labels"))
+    args = ap.parse_args()
+    if args.detail:
+        DEEP = True
+        SOURCE = bench.ROOT / "bots" / args.detail / "src"
+        OUT = bench.CACHE / f"runtime-ward-detail-{args.detail}"
+        PROJECT = OUT / "diagnostic"
+        WASM = PROJECT / "bot.wasm"
+        RESULT = f"RUNTIME_WARD_DETAIL_{args.detail.upper()}.json"
     prepare()
     bench.OUT = OUT
     for name in OPPONENTS:
@@ -96,7 +127,7 @@ def main():
     result = {"engine":bench.ENGINE,"fixture_sha256":bench.digest(WASM),"cells":len(rows),
               "native_fuel_outs":sum(r["fuel_outs"] for r in rows),"traced_crossings":sum(totals.values()),
               "crossings":dict(totals.most_common()),"examples":examples,"rows":rows}
-    target = bench.ROOT / "research/codex-ishan/RUNTIME_WARD_SPLIT.json"
+    target = bench.ROOT / "research/codex-ishan" / RESULT
     with target.open("x", encoding="utf8", newline="\n") as out:
         json.dump(result,out,indent=2)
         out.write("\n")
