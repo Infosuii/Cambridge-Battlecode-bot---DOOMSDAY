@@ -12,6 +12,8 @@ Autonomous decisions and outcomes (classes: Accepted / Retry required / Conditio
 - Toolchain-identity smoke `conf-smoke-01`: 3/6 wins, 0 faults, 0 fuel-outs (Claude's reference matches on these);
   mean banked 893.3 versus Claude's 734.7. Claude did not post his three maps, so this is recorded as a map-set
   difference, not a toolchain difference; the hash identity is the binding check. **Accepted**.
+- Claude then named his maps (00corners, 00crater, 01gold-rush). `conf-smoke-02` on them: 3/6, 0 faults,
+  0 fuel-outs, mean banked 734.7, an exact match. Toolchain identity **Accepted**.
 - Baseline `base-v92-pool-01` (v92 vs x3inv, b5_c3, v61_c3, public-khiri; 86 pool maps x 2 sides = 688 games):
   688 played, 0 missing, 0 failed, 0 faults, 72.1% wins, **705 fuel-outs in 183 games** (engine `fuelExhausted`
   events; the replay-trace count agrees exactly, 705). Fuel-outs concentrate on maps (02the-pack 99, 01islands 81,

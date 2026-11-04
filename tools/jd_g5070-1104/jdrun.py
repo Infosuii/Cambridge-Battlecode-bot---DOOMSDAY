@@ -39,7 +39,7 @@ FROZEN = EVAL / 'frozen.json'
 SEED = 1104
 RESAMPLES = 2000
 # Frozen partitions (research/jd-g5070-1104/GATES.md, hashes in RUN_MANIFEST.json).
-HOLDOUT_MAPS = {'pool', 'fresh51104', 'official70'}
+HOLDOUT_MAPS = {'pool', 'fresh51104', 'official70', 'smoke3'}  # smoke3 = 3 pool maps of Claude's harness check
 HOLDOUT_OPPS = {'b5_c3', 'v61_c3', 'public-decrest', 'public-wardens', 'x3mf2'}
 PARTITION_OF = {'conf': 'dev', 'dev': 'dev', 'select': 'selection'}
 sys.path.insert(0, str(REPO / 'tools'))

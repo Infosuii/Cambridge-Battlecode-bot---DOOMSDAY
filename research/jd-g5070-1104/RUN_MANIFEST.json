@@ -48,7 +48,7 @@
   "conf-smoke-01": {"games": 6, "seconds": 1.1, "jobs": 6},
   "sizing": "~400 games/min at jobs 14 on pool maps vs mixed opponents: a 2,232-cell x 2-arm holdout is ~11 min"
  },
- "toolchain_identity_smoke": {"run": "conf-smoke-01", "maps": "first 3 of pool (00ambush, 00anvil, 00breadcrumbs)", "result": "3/6 wins, 0 faults, 0 fuel-outs, mean banked 893.3", "claude_reference": "3/6, 0 faults, 0 fuel-outs, mean banked 734.7", "note": "wins/faults/fuel-outs match; banked differs, most likely because Claude's 3 maps are not these (his map list was not posted). The WASM hash identity is the binding check."},
+ "toolchain_identity_smoke": {"run": "conf-smoke-02", "maps": "Claude's maps 00corners, 00crater, 01gold-rush (set smoke3), v92 self-play both sides", "result": "3/6 wins, 0 faults, 0 fuel-outs, mean banked 734.7", "claude_reference": "3/6, 0 faults, 0 fuel-outs, mean banked 734.7", "verdict": "exact match", "earlier": "conf-smoke-01 on 00ambush/00anvil/00breadcrumbs: 3/6, 0 faults, 0 fuel-outs, mean banked 893.3 (different maps)"},
  "fuel_quantum": "official (none passed)",
  "timeouts": {"per_match_s": 900}
 }
