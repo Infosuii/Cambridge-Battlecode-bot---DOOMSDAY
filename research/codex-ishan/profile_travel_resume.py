@@ -36,14 +36,42 @@ bool Bot::attack_unit(const bc::unit& target, vec2 where) {"""),
     ))
 
 
+def prepare_disengage(src):
+    apply(src / "bot.cpp", (
+        ('#include "bot.h"', '''#include "bot.h"
+
+static unsigned codex_disengage_round;
+static unsigned long long codex_disengage_before, codex_disengage_after;'''),
+        ("        if (!moved) walk_toward(~danger_zone & ~w.static_blocked);", """        if (!moved) {
+            const bool sample = round == 536 && type == bc::champion_type::marcella;
+            if (sample) codex_disengage_before = bc::fuel_remaining();
+            walk_toward(~danger_zone & ~w.static_blocked);
+            if (sample) {
+                codex_disengage_after = bc::fuel_remaining();
+                codex_disengage_round = bc::round_number();
+            }
+        }"""),
+        ("void Bot::play_turn() {", """void Bot::play_turn() {
+    if (codex_disengage_round) {
+        std::printf("CODEX_RESUME_DISENGAGE %u %llu %llu\\n", codex_disengage_round,
+                    codex_disengage_before, codex_disengage_after);
+        codex_disengage_round = 0;
+    }"""),
+    ))
+
+
 def main():
     global OUT
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--recount", action="store_true")
-    parser.add_argument("--attack", action="store_true")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--attack", action="store_true")
+    modes.add_argument("--disengage", action="store_true")
     args = parser.parse_args()
     if args.attack:
         OUT = bench.CACHE / "travel-scan-resume-attack"
+    elif args.disengage:
+        OUT = bench.CACHE / "travel-scan-resume-disengage"
     bench.OUT = OUT
     manifest = read(HERE / "TRAVEL_SCAN_ROSTER_NOISE.json")
     row = next(r for r in manifest["affected"] if r["fuel_outs"] == 6)
@@ -72,6 +100,8 @@ def main():
         prepare(src, True)
         if args.attack:
             prepare_attack(src)
+        elif args.disengage:
+            prepare_disengage(src)
         else:
             prepare_coarse(src, {ROUND}, (*STAGES, "fields", "bushpre"))
         wasm = build(src, project, seed)
@@ -82,12 +112,15 @@ def main():
               "same_observation": bool(b and c and b["observation"] == c["observation"]),
               "same_first_two_actions": bool(b and c and b["executed_actions"][:2] == c["executed_actions"][:2]),
               "events": native_fuel(current, OUT), "row": current, "base_turn": b, "trace_turn": c}
-    name = "TRAVEL_RESUME_ATTACK.json" if args.attack else "TRAVEL_RESUME_PROFILE.json"
-    if args.attack:
+    name = ("TRAVEL_RESUME_ATTACK.json" if args.attack else "TRAVEL_RESUME_DISENGAGE.json" if args.disengage else
+            "TRAVEL_RESUME_PROFILE.json")
+    if args.attack or args.disengage:
         (archive,) = (p for p in trace.glob("*.repl26a") if p.name != "raw.repl26a")
         with ZipFile(archive) as z:
             log = z.read(f"team-{side.lower()}.stdout")
-        result["post_attack"] = [list(map(int, x)) for x in re.findall(rb"CODEX_RESUME_ATTACK (\d+) (\d+)", log)]
+        pattern = (rb"CODEX_RESUME_ATTACK (\d+) (\d+)" if args.attack else
+                   rb"CODEX_RESUME_DISENGAGE (\d+) (\d+) (\d+)")
+        result["samples"] = [list(map(int, x)) for x in re.findall(pattern, log)]
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump(result, out, indent=2)
         out.write("\n")
