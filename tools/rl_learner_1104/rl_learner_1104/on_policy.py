@@ -14,6 +14,7 @@ from .model import Critic, masked_distribution
 from .returns import gae
 
 REWARD_SPEC = 'jd-teamwin-potential-v1'
+ACTION_SCHEMA = 'target13-cl1-nofarm-v1'
 
 
 def team_reward(ours, theirs, next_ours, next_theirs, winning_gems, elapsed,
@@ -57,7 +58,7 @@ class Trajectory:
 
 def validate(t, actor_sha256):
     m = t.metadata
-    required = {'sampling': 'complete', 'layout': 10, 'action_schema': 'target13-cl1',
+    required = {'sampling': 'complete', 'layout': 10, 'action_schema': ACTION_SCHEMA,
                 'preprocess': PREPROCESS_VERSION, 'actor_sha256': actor_sha256,
                 'reward_spec': REWARD_SPEC, 'temperature': 1.0, 'incomplete': False,
                 'fuel_failed': False, 'log_cut': False}
