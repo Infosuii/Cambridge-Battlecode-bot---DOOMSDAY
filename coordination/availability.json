@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T11:28:40Z",
+  "updated_at": "2026-11-04T11:40:01Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -9,7 +9,7 @@
     "primary": "johndoe",
     "backup": "claude",
     "mutation_rule": "GitHub contents current-blob-SHA compare-and-swap; no force overwrite",
-    "state": "STOPPED_BY_USER",
+    "state": "ACTIVE_ON_DEMAND",
     "stopped_at": "2026-11-04T11:28:40Z"
   },
   "agents": {
@@ -17,11 +17,11 @@
       "accounts": [
         "johndoe123983"
       ],
-      "session": "johndoe-manager-20261104-0140",
-      "seq": 55,
-      "state": "STOPPED",
+      "session": "johndoe-rl-design-20261104-1139",
+      "seq": 1,
+      "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T11:09:45Z",
+      "last_control_at": "2026-11-04T11:40:01Z",
       "capabilities": [
         "coordination",
         "review",
@@ -29,10 +29,17 @@
       ],
       "free_capacity": 0,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6629116840,
+      "last_control_comment_id": 6629642115,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
-      "stop_reason": "User explicitly ended this dispatch and requested CPG delivery.",
-      "expiry_eligible": false
+      "expiry_eligible": true,
+      "retired_sessions": [
+        {
+          "session": "johndoe-manager-20261104-0140",
+          "last_seq": 56,
+          "retired_at": "2026-11-04T11:40:01Z"
+        }
+      ],
+      "branch": "johndoe/rl-belief-design-1104"
     },
     "claude": {
       "accounts": [
@@ -359,6 +366,21 @@
       "transition_id": "expire:builder-g5070-1104:6622710803",
       "stop_report_comment_id": 6625117099,
       "note": "New controller on original machine reports processes absent, iteration31 complete then interrupted recording ~07:01Z. Preserve checkpoints; no restart. Read-only harvest under candidate-integration epoch3."
+    },
+    {
+      "id": "rl-strategy-design-1104",
+      "owner": "johndoe",
+      "owner_session": "johndoe-rl-design-20261104-1139",
+      "epoch": 1,
+      "state": "ACTIVE",
+      "requires": [
+        "review",
+        "ideation"
+      ],
+      "branch": "johndoe/rl-belief-design-1104",
+      "checkpoint": "cb8d0105e4047f75924556268f23053eb634699a",
+      "platform_sensitive": false,
+      "scope": "Research/specification and offline evidence audit; no duplicate training or platform operations"
     }
   ],
   "events": [
@@ -536,6 +558,18 @@
         "claude"
       ],
       "note": "User ended this work; both JOHNDOE automations deleted. CPG source delivery packaged. Agent2 training ownership unchanged."
+    },
+    {
+      "id": "new-rl-design:6629642115",
+      "type": "REGISTRATION_AND_NEW_ASSIGNMENT",
+      "agent": "johndoe",
+      "session": "johndoe-rl-design-20261104-1139",
+      "comment_id": 6629642115,
+      "at": "2026-11-04T11:40:01Z",
+      "tasks": [
+        "rl-strategy-design-1104:1"
+      ],
+      "note": "Fresh user authorization; former completed/released work remains released."
     }
   ],
   "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
