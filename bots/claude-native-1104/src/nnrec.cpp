@@ -1115,27 +1115,38 @@ static std::uint64_t clna_rng = 0;
 // Release logger (JOHNDOE #69): the logging build IS the collected and evaluated policy, so logging is charged and
 // deterministic: one fixed buffer, raw IEEE-754 bits as hex (no float formatting), one write per decision. It never
 // branches on output success and never touches the RNG.
+// (fuel) The writers take and return a local cursor and emit two hex digits per table lookup: the per-character
+// formatting was ~18 fuel/char (CLNA_FPROF). Output is byte-identical to the first CNR1 writer.
 static char clna_rbuf[1024];
-static int clna_rpos = 0;
-static void clna_rhex(std::uint64_t v, int digits) {
-    static const char H[] = "0123456789abcdef";
-    for (int i = digits - 1; i >= 0; --i) clna_rbuf[clna_rpos + i] = H[v & 15], v >>= 4;
-    clna_rpos += digits;
-}
-static void clna_rch(char c) { clna_rbuf[clna_rpos++] = c; }
-static void clna_rint(long v) {  // decimal integer
+struct ClnaHex2 {
+    char t[512];
+    constexpr ClnaHex2() : t{} {
+        for (int i = 0; i < 256; ++i) t[2 * i] = "0123456789abcdef"[i >> 4], t[2 * i + 1] = "0123456789abcdef"[i & 15];
+    }
+};
+static constexpr ClnaHex2 clna_hex2{};
+static char* clna_rint(char* o, long v) {  // decimal integer
     char t[24];
     int n = 0;
-    const bool neg = v < 0;
-    unsigned long u = neg ? static_cast<unsigned long>(-v) : static_cast<unsigned long>(v);
+    unsigned long u = v < 0 ? 0ul - static_cast<unsigned long>(v) : static_cast<unsigned long>(v);
+    if (v < 0) *o++ = '-';
     do t[n++] = static_cast<char>('0' + u % 10), u /= 10; while (u);
-    if (neg) clna_rch('-');
-    while (n) clna_rch(t[--n]);
+    while (n) *o++ = t[--n];
+    return o;
 }
-static void clna_rdbl(double d) {
+static char* clna_rdbl(char* o, double d) {  // raw IEEE-754 bits, 16 hex digits
     std::uint64_t u;
     __builtin_memcpy(&u, &d, sizeof u);
-    clna_rhex(u, 16);
+    for (int i = 7; i >= 0; --i) {
+        const unsigned b = static_cast<unsigned>(u & 255u);
+        o[2 * i] = clna_hex2.t[2 * b], o[2 * i + 1] = clna_hex2.t[2 * b + 1];
+        u >>= 8;
+    }
+    return o + 16;
+}
+static char* clna_rstr(char* o, const char* s) {
+    while (*s) *o++ = *s++;
+    return o;
 }
 #endif
 // Base64 into a static buffer: logging must not touch the heap (allocator state is shared with charged code).
@@ -1163,7 +1174,16 @@ static double clna_u01() {
     z ^= z >> 31;
     return static_cast<double>(z >> 11) * (1.0 / 9007199254740992.0);
 }
+#if CLNA_FPROF
+// Fuel profile of the release logger (measurement builds only): each CNR1 row ends " F <compute> <log>", compute =
+// this decision's mixture work, log = what the logging rows (CNR1 + CNX3) cost since the previous CNR1 row, write = the
+// fputs part of log.
+static std::uint64_t clna_flog = 0, clna_fwr = 0;
+#endif
 int Bot::clna_explore(int v92g, int ng) {
+#if CLNA_FPROF
+    const std::uint64_t clna_f0 = bc::fuel_remaining();
+#endif
     if (!clna_rng) clna_rng = static_cast<std::uint64_t>(CLNA_SEED) * 0x100000001B3ull ^ (static_cast<std::uint64_t>(my_id) << 17);
     const int ref = nn_ens_keep(v92g, ng) ? v92g : ng;
     int pg[13];
@@ -1176,10 +1196,10 @@ int Bot::clna_explore(int v92g, int ng) {
     int ug[14];
     double uq[14];
     int nu = 0;
-    double z = 0;
-    for (int i = 0; i < m; ++i) z += std::exp(lg[i] - mx);
+    double z = 0, ex[13];
+    for (int i = 0; i < m; ++i) ex[i] = std::exp(lg[i] - mx), z += ex[i];  // (fuel) each exp once; same values
     for (int i = 0; i < m; ++i) {
-        const double q = std::exp(lg[i] - mx) / z;
+        const double q = ex[i] / z;
         int k = 0;
         while (k < nu && ug[k] != pg[i]) ++k;
         if (k == nu) ug[nu] = pg[i], uq[nu++] = 0.0;
@@ -1222,17 +1242,32 @@ int Bot::clna_explore(int v92g, int ng) {
 #if CLNA_RLOG
     // CNR1 <round> <slot> <id> <index> <ref> <chosen> <alpha:hex64> <v92> <nn> <k> {<group>:<q hex64>}*k {<x hex64>}*8
     // (old logp is reconstructed offline from alpha, q, ref and the chosen group)
+#if CLNA_FPROF
+    const std::uint64_t clna_f1 = bc::fuel_remaining();
+#endif
     ++clna_index;
     clna_round = round;
-    clna_rpos = 0;
-    for (const char* p = "CNR1 "; *p; ++p) clna_rch(*p);
-    clna_rint(round), clna_rch(' '), clna_rint(slot), clna_rch(' '), clna_rint(static_cast<long>(my_id)), clna_rch(' ');
-    clna_rint(clna_index), clna_rch(' '), clna_rint(ref), clna_rch(' '), clna_rint(ug[c]), clna_rch(' ');
-    clna_rdbl(eps), clna_rch(' '), clna_rint(v92g), clna_rch(' '), clna_rint(ng), clna_rch(' '), clna_rint(nu);
-    for (int k = 0; k < nu; ++k) clna_rch(' '), clna_rint(ug[k]), clna_rch(':'), clna_rdbl(uq[k]);
-    for (int i = 0; i < clna_gate::kN; ++i) clna_rch(' '), clna_rdbl(gx[i]);
-    clna_rch('\n'), clna_rch(0);
-    std::fputs(clna_rbuf, stdout);
+    char* o = clna_rstr(clna_rbuf, "CNR1 ");
+    o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
+    *o++ = ' ', o = clna_rint(o, clna_index), *o++ = ' ', o = clna_rint(o, ref), *o++ = ' ', o = clna_rint(o, ug[c]);
+    *o++ = ' ', o = clna_rdbl(o, eps), *o++ = ' ', o = clna_rint(o, v92g), *o++ = ' ', o = clna_rint(o, ng);
+    *o++ = ' ', o = clna_rint(o, nu);
+    for (int k = 0; k < nu; ++k) *o++ = ' ', o = clna_rint(o, ug[k]), *o++ = ':', o = clna_rdbl(o, uq[k]);
+    for (int i = 0; i < clna_gate::kN; ++i) *o++ = ' ', o = clna_rdbl(o, gx[i]);
+#if CLNA_FPROF
+    o = clna_rstr(o, " F "), o = clna_rint(o, static_cast<long>(clna_f0 - clna_f1)), *o++ = ' ';
+    o = clna_rint(o, static_cast<long>(clna_flog)), *o++ = ' ', o = clna_rint(o, static_cast<long>(clna_fwr));
+    clna_flog = clna_fwr = 0;
+#endif
+    *o++ = '\n';
+#if CLNA_FPROF
+    const std::uint64_t clna_f2 = bc::fuel_remaining();
+#endif
+    std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+#if CLNA_FPROF
+    const std::uint64_t clna_f3 = bc::fuel_remaining();
+    clna_flog += clna_f1 - clna_f3, clna_fwr += clna_f2 - clna_f3;
+#endif
     return ug[c];
 #endif
     // Everything below that only serves the log runs inside debug_block: charged log-only work made debug and
@@ -1255,11 +1290,20 @@ void Bot::clna_end() {
 #if CLNA_RLOG
     if (clna_round == round) {  // CNX3 <round> <slot> <id> <index> <executed group>
         clna_round = -1;
-        clna_rpos = 0;
-        for (const char* p = "CNX3 "; *p; ++p) clna_rch(*p);
-        clna_rint(round), clna_rch(' '), clna_rint(slot), clna_rch(' '), clna_rint(static_cast<long>(my_id)), clna_rch(' ');
-        clna_rint(clna_index), clna_rch(' '), clna_rint(target_group), clna_rch('\n'), clna_rch(0);
-        std::fputs(clna_rbuf, stdout);
+#if CLNA_FPROF
+        const std::uint64_t clna_f1 = bc::fuel_remaining();
+#endif
+        char* o = clna_rstr(clna_rbuf, "CNX3 ");
+        o = clna_rint(o, round), *o++ = ' ', o = clna_rint(o, slot), *o++ = ' ', o = clna_rint(o, static_cast<long>(my_id));
+        *o++ = ' ', o = clna_rint(o, clna_index), *o++ = ' ', o = clna_rint(o, target_group), *o++ = '\n';
+#if CLNA_FPROF
+        const std::uint64_t clna_f2 = bc::fuel_remaining();
+#endif
+        std::fwrite(clna_rbuf, 1, static_cast<std::size_t>(o - clna_rbuf), stdout);
+#if CLNA_FPROF
+        const std::uint64_t clna_f3 = bc::fuel_remaining();
+        clna_flog += clna_f1 - clna_f3, clna_fwr += clna_f2 - clna_f3;
+#endif
     }
     return;
 #endif
