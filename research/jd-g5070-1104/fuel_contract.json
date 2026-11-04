@@ -1,5 +1,5 @@
 {
- "generated_by": "tools/jd_g5070-1104/fuelbench.py probe --run diag-fprobe-02",
+ "generated_by": "tools/jd_g5070-1104/fuelbench.py probe --run diag-fprobe-03",
  "build": "JD_FUELPROBE=1 (diagnostic; main.cpp prints one JDFP line per unit turn)",
  "engine": "cambc 4.0.0 / engine 2.0.0 (official fuel, no --fuel-quantum)",
  "cells": [
@@ -163,11 +163,11 @@
    },
    "trace_used": {
     "n": 16,
-    "p50": 126760,
-    "p95": 135188,
-    "p99": 135188,
-    "max": 135188,
-    "mean": 110923.5
+    "p50": 128038,
+    "p95": 136466,
+    "p99": 136466,
+    "max": 136466,
+    "mean": 112194.5
    },
    "startup_before_main": {
     "n": 16,
@@ -219,7 +219,7 @@
   },
   "respawn_first_turn": {
    "budget_entry": {
-    "n": 35,
+    "n": 34,
     "p50": 99997,
     "p95": 99997,
     "p99": 99997,
@@ -227,18 +227,18 @@
     "mean": 99997.0
    },
    "used": {
-    "n": 35,
-    "p50": 75386,
+    "n": 34,
+    "p50": 75992,
     "p95": 89500,
     "p99": 89500,
     "max": 89500,
-    "mean": 71547.4
+    "mean": 71838.5
    },
    "suspended": 0
   },
   "dead_turn": {
    "budget_entry": {
-    "n": 2152,
+    "n": 2092,
     "p50": 99997,
     "p95": 99997,
     "p99": 99997,
@@ -246,18 +246,18 @@
     "mean": 99997.0
    },
    "used": {
-    "n": 2152,
-    "p50": 4286,
-    "p95": 39771,
+    "n": 2092,
+    "p50": 4455,
+    "p95": 39831,
     "p99": 42509,
     "max": 52030,
-    "mean": 9146.9
+    "mean": 9346.2
    },
    "suspended": 0
   },
   "ordinary": {
    "budget_entry": {
-    "n": 69648,
+    "n": 69503,
     "p50": 99997,
     "p95": 99997,
     "p99": 99997,
@@ -265,15 +265,15 @@
     "mean": 99997.0
    },
    "used": {
-    "n": 69550,
-    "p50": 53599,
-    "p95": 79419,
-    "p99": 85686,
+    "n": 69405,
+    "p50": 53501,
+    "p95": 79476,
+    "p99": 85750,
     "max": 99775,
-    "mean": 51163.9
+    "mean": 51146.1
    },
    "suspended": 98,
-   "n": 69648
+   "n": 69503
   }
  },
  "after_suspension": {
@@ -340,7 +340,7 @@
    "p95": 24635,
    "p99": 24830,
    "max": 24830,
-   "mean": 13929.7
+   "mean": 13927.6
   },
   "df_per_chunk": {
    "n": 92,
@@ -368,12 +368,6 @@
     69,
     99,
     24539
-   ],
-   [
-    84,
-    69,
-    99,
-    24618
    ],
    [
     84,
@@ -489,10 +483,166 @@
    "game": "cand__v92-448de19b2a28__pool_1907__B"
   }
  ],
+ "slot_mapping": {
+  "games": 16,
+  "vms": 92,
+  "order_match": 0,
+  "order_mismatch": 92,
+  "self_listed": 92,
+  "unseen_allies": 0,
+  "examples": [
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2*",
+     "10",
+     "3",
+     "4",
+     "7",
+     "12"
+    ]
+   },
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2",
+     "10*",
+     "3",
+     "4",
+     "7",
+     "12"
+    ]
+   },
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2",
+     "10",
+     "3*",
+     "4",
+     "7",
+     "12"
+    ]
+   },
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2",
+     "10",
+     "3",
+     "4*",
+     "7",
+     "12"
+    ]
+   },
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2",
+     "10",
+     "3",
+     "4",
+     "7*",
+     "12"
+    ]
+   },
+   {
+    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
+    "picks": [
+     2,
+     9,
+     3,
+     6
+    ],
+    "expected": [
+     2,
+     10,
+     3,
+     4,
+     7
+    ],
+    "slots": [
+     "2",
+     "10",
+     "3",
+     "4",
+     "7",
+     "12*"
+    ]
+   }
+  ],
+  "prefix_match": 92,
+  "bodies_missing_from_last_visible_draft": 112
+ },
  "draft_trace_cross_check": [
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77028__A",
-   "draft_first_trace_used": 57722,
+   "draft_first_trace_used": 59000,
    "draft_first_budget": 10000000,
    "probe_in": 9986293,
    "probe_used": 28747,
@@ -500,7 +650,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77028__B",
-   "draft_first_trace_used": 57722,
+   "draft_first_trace_used": 59000,
    "draft_first_budget": 10000000,
    "probe_in": 9986293,
    "probe_used": 28747,
@@ -508,7 +658,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77041__A",
-   "draft_first_trace_used": 135188,
+   "draft_first_trace_used": 136466,
    "draft_first_budget": 10000000,
    "probe_in": 9982955,
    "probe_used": 84490,
@@ -516,7 +666,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77041__B",
-   "draft_first_trace_used": 135188,
+   "draft_first_trace_used": 136466,
    "draft_first_budget": 10000000,
    "probe_in": 9982955,
    "probe_used": 84490,
@@ -524,7 +674,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77127__A",
-   "draft_first_trace_used": 124024,
+   "draft_first_trace_used": 125274,
    "draft_first_budget": 10000000,
    "probe_in": 9985724,
    "probe_used": 91158,
@@ -532,7 +682,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pf_pool_77127__B",
-   "draft_first_trace_used": 124024,
+   "draft_first_trace_used": 125274,
    "draft_first_budget": 10000000,
    "probe_in": 9985724,
    "probe_used": 91158,
@@ -540,7 +690,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pool_1907__A",
-   "draft_first_trace_used": 126760,
+   "draft_first_trace_used": 128038,
    "draft_first_budget": 10000000,
    "probe_in": 9984690,
    "probe_used": 74353,
@@ -548,7 +698,7 @@
   },
   {
    "game": "cand__v92-448de19b2a28__pool_1907__B",
-   "draft_first_trace_used": 126760,
+   "draft_first_trace_used": 128038,
    "draft_first_budget": 10000000,
    "probe_in": 9984690,
    "probe_used": 74353,

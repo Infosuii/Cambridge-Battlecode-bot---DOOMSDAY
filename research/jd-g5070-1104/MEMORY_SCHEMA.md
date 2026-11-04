@@ -120,8 +120,22 @@ at most), and with a header written on the first and the last pick. Each body sl
 the draft bytes plus the shared word alone: team size, map class, body type (from the roster), claim kind/group,
 onsite, dead and idle. Unused slots of smaller teams stay idle. Without the V58 roster (default off), an ally's body
 type is unknown until it is seen (`init` falls back to `vesper_vale`). The roster region is the existing remedy, and
-the fixture proves it maps picks to slots in pick order. The engine mapping from pick order to `champions(ally)`
-order is recorded by the JD_FUELPROBE `JDFP P/S` lines (see fuel_contract.json `slot_mapping`).
+the fixture proves it maps picks to slots in pick order.
+
+Engine check (JD_FUELPROBE `JDFP P/S` lines, `diag-fprobe-03`, 16 games, 92 gameplay VMs; fuel_contract.json
+`slot_mapping`):
+- `bc::champions(ally)` order equals our pick order with Cassi+Issac expanded to two bodies. This holds for every
+  pick the draft VM could see, in 92 of 92 VMs.
+- Every ally's `champion_name()` was readable on the first play turn (0 unseen in 92 VMs), so init's `vesper_vale`
+  fallback did not fire in these games.
+- **The draft VM's last turn does not see its own pick** in `current_draft(ally)`: 112 bodies were missing over 92
+  VMs, which is the last pick, or 2 bodies when it is Cassi+Issac. Two consequences:
+  - Anything written on the last draft turn misses that pick. This includes `economy_record_roster` (V58, default
+    off): its body count is then short by the last pick, so `init`'s `count == bodies` check always rejects it.
+  - The brain header's enemy-caster count misses enemy picks made after our last turn.
+
+  A roster for gameplay must therefore be completed in gameplay from `champions(ally)`, or written with the last
+  pick appended by the draft code that chose it.
 
 ## Fixes (each its own switch, default 0)
 

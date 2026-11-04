@@ -1,0 +1,263 @@
+{
+ "name": "diag-fprobe-01",
+ "reported": "2026-11-04T02:02:05Z",
+ "cand": "jd-fprobe-229b65ba29ef",
+ "base": "v92-448de19b2a28",
+ "maps": "probe4",
+ "sides": "AB",
+ "fuel_quantum": 0,
+ "label": "official fuel",
+ "expected_games": 32,
+ "played": 32,
+ "missing": 0,
+ "failed": 0,
+ "bootstrap": {
+  "resamples": 2000,
+  "seed": 1104,
+  "cluster": "map"
+ },
+ "arms": {
+  "cand": {
+   "played": 16,
+   "wins": 7,
+   "draws": 0,
+   "faults": 0,
+   "opp_faults": 0,
+   "fuel_outs": 147,
+   "trace_over": 147,
+   "fuel_out_games": 15,
+   "mean_banked": 962.2,
+   "mean_deaths": 2.31,
+   "max_ordinary_fuel": 100000
+  },
+  "base": {
+   "played": 16,
+   "wins": 8,
+   "draws": 0,
+   "faults": 0,
+   "opp_faults": 0,
+   "fuel_outs": 129,
+   "trace_over": 129,
+   "fuel_out_games": 13,
+   "mean_banked": 956.8,
+   "mean_deaths": 3.44,
+   "max_ordinary_fuel": 100000
+  }
+ },
+ "paired": {
+  "cells": 16,
+  "maps": 4,
+  "cand_winrate": 43.75,
+  "base_winrate": 50.0,
+  "d_score": -6.25,
+  "ci95": [
+   -25.0,
+   12.5
+  ],
+  "d_banked": 5.4
+ },
+ "per_opp": {
+  "v92-448de19b2a28": {
+   "cells": 8,
+   "maps": 4,
+   "cand_winrate": 25.0,
+   "base_winrate": 50.0,
+   "d_score": -25.0,
+   "ci95": [
+    -50.0,
+    0.0
+   ],
+   "d_banked": -34.5
+  },
+  "x3inv-c5da472cafd8": {
+   "cells": 8,
+   "maps": 4,
+   "cand_winrate": 62.5,
+   "base_winrate": 50.0,
+   "d_score": 12.5,
+   "ci95": [
+    -50.0,
+    75.0
+   ],
+   "d_banked": 45.4
+  }
+ },
+ "per_cat": {
+  "generated": {
+   "cells": 16,
+   "maps": 4,
+   "cand_winrate": 43.75,
+   "base_winrate": 50.0,
+   "d_score": -6.25,
+   "ci95": [
+    -25.0,
+    12.5
+   ],
+   "d_banked": 5.4
+  }
+ },
+ "per_size": {
+  "large": {
+   "cells": 8,
+   "maps": 2,
+   "cand_winrate": 37.5,
+   "base_winrate": 50.0,
+   "d_score": -12.5,
+   "ci95": [
+    -25.0,
+    0.0
+   ],
+   "d_banked": -16.5
+  },
+  "medium": {
+   "cells": 8,
+   "maps": 2,
+   "cand_winrate": 50.0,
+   "base_winrate": 50.0,
+   "d_score": 0.0,
+   "ci95": [
+    -25.0,
+    25.0
+   ],
+   "d_banked": 27.4
+  }
+ },
+ "failed_list": [],
+ "missing_list": [],
+ "batch": {
+  "finished": "2026-11-04T02:01:12Z",
+  "seconds": 5.3,
+  "returncode": 0
+ },
+ "games_per_min": 362.26,
+ "cells": [
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77028",
+   "A",
+   0.0,
+   1.0,
+   -63
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77028",
+   "B",
+   0.0,
+   0.0,
+   19
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77041",
+   "A",
+   0.0,
+   0.0,
+   -210
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77041",
+   "B",
+   0.0,
+   1.0,
+   -35
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77127",
+   "A",
+   1.0,
+   1.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77127",
+   "B",
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "pool_1907",
+   "A",
+   0.0,
+   1.0,
+   -21
+  ],
+  [
+   "v92-448de19b2a28",
+   "pool_1907",
+   "B",
+   1.0,
+   0.0,
+   34
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77028",
+   "A",
+   1.0,
+   0.0,
+   24
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77028",
+   "B",
+   1.0,
+   0.0,
+   261
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77041",
+   "A",
+   0.0,
+   0.0,
+   -10
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77041",
+   "B",
+   1.0,
+   0.0,
+   134
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77127",
+   "A",
+   0.0,
+   1.0,
+   -22
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77127",
+   "B",
+   1.0,
+   1.0,
+   0
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pool_1907",
+   "A",
+   1.0,
+   1.0,
+   0
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pool_1907",
+   "B",
+   0.0,
+   1.0,
+   -24
+  ]
+ ]
+}

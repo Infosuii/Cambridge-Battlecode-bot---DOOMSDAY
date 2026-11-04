@@ -170,7 +170,11 @@ def cmd_probe(a):
             sm['self_listed'] += any(s.endswith('*') and int(s.rstrip('*')) == v['self'] for s in v['slots'])
             sm['unseen_allies'] += sum(t < 0 for t in types)
             ok = len(types) == len(exp) and all(t < 0 or t == e for t, e in zip(types, exp))
+            # The draft VM's last turn does not yet see its own pick in current_draft: compare the visible prefix.
+            prefix = len(exp) <= len(types) and all(t < 0 or t == e for t, e in zip(types, exp))
             sm['order_match' if ok else 'order_mismatch'] += 1
+            sm['prefix_match'] = sm.get('prefix_match', 0) + prefix
+            sm['bodies_missing_from_last_visible_draft'] = sm.get('bodies_missing_from_last_visible_draft', 0) + (len(types) - len(exp))
             if not ok and len(sm['examples']) < 6:
                 sm['examples'].append(dict(game=g, picks=last_picks[g], expected=exp, slots=v['slots']))
     cfirst = rows['C']

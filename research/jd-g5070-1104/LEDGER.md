@@ -79,3 +79,43 @@ Autonomous decisions and outcomes (classes: Accepted / Retry required / Conditio
   - `scr-mem-01` JD_MEM + JD_EVTONCE=160 (+ JD_SIGHTAGE, which never triggers): 0 faults, fuel-outs 456 vs 461,
     paired +1.25 (CI -1.39 to +4.03). Per opponent: p65pack +2.2, x3inv +2.2, v92 +0.6, khiri 0. **Conditionally
     useful**: a correctness fix (phantom respawns) with no measurable dev gain; the default stays 0.
+  - `scr-govmem-01` JD_GOV=7 + JD_MEM + JD_EVTONCE=160: 0 faults, fuel-outs 55 vs 461, but paired **-0.28** (CI
+    -3.19 to +2.64). Per opponent: p65pack +1.7, v92 -1.7, x3inv -1.1; large maps -2.5. The two single-switch deltas
+    do not add. Every fuel change reshuffles fight outcomes, so dev deltas of about 2 points are within game-chaos
+    noise. No combination is carried forward on dev evidence.
+- Claude (#6, 02:32Z) asked how JD_EVTONCE differs from X1_RESPAWNFIX (the v92audit bundle lost 47-57 on the ladder,
+  only 10 games paired). X1_RESPAWNFIX only rejects decodes more than N rounds ahead, and still re-applies the same
+  word every turn. The fixture shows it passes 279 of the 341 phantom turns. JD_EVTONCE applies each distinct word
+  once and keeps the same horizon, so it is a superset. Claude also asked for the switch to be tested on its own
+  through dev and selection: scr-mem-01 already ran it without JD_GOV, and selection runs follow.
+- Selection screens (100 select maps x {v92, x3ctr, p65, v86h} x both sides = 800 paired cells; v92 base: 412 wins,
+  317 fuel-outs in 109 games):
+  - `sel-gov-01` JD_GOV=7: 0 faults, **fuel-outs 10 vs 317 (-97%)**, paired **-2.12** (CI -6.5 to +2.1). x3ctr
+    -8.5 (CI -15.5 to -1.5); large maps -11.7 (CI -24.2 to +0.8), which is below the -10 stratum rule.
+    **Rejected as a bundle.** Suspensions are not where v92 loses games: a suspended turn still finishes its work on
+    the next budget and loses one action, while deferring the work costs decision quality on big maps.
+  - Per-bit ablation:
+    - `sel-gov1-01` (field-order admission): fuel-outs 308 vs 317, paired +0.12 (CI -1.12 to +1.38), small -1.1,
+      medium +1.9, large -0.8. Neutral, safe infrastructure. **Conditionally useful** (keep available, default 0).
+    - `sel-gov2-01` (row-chunked siege table): fuel-outs 246 vs 317, paired -1.5 (CI -4.0 to +0.9), large -5.5 (CI
+      -16.4 to +3.9). The unfiltered ring during the build costs siege quality. **Parked.**
+    - `sel-gov4-01` (resumable bush labelling, X1_BUSHPRE 50): **fuel-outs 83 vs 317 (-74%)**, paired -0.12 (CI
+      -4.12 to +3.88). v86h +4.0, x3ctr -4.5, medium +2.8, large -3.1. Neutral within noise, and it removes the
+      largest share of suspensions. **Conditionally useful.**
+    - `sel-noop-01` neutral control (X1_NOOP: a behaviour-free volatile increment): paired -0.12 (CI -0.88 to
+      +0.62), fuel-outs 316 vs 317. A tiny fuel shift changes few games. Switches that move a lot of fuel per turn
+      (bit 4 prelabels every turn) reshuffle many more cells, hence their wider CIs. A deterministic v92 base is one
+      draw per cell, and every candidate shares that draw, so their deltas are correlated. For example, every variant
+      is negative on the same 16 large selection maps.
+    - `sel-gov5-01` **JD_GOV=5** (bits 1+4): 0 faults, **fuel-outs 87 vs 317 (-73%; games 75 vs 109)**, paired
+      **0.00** (CI -4.0 to +4.0). v86h +4.0, v92 +1.0, p65 -0.5, x3ctr -4.5; small -1.7, medium +2.8, large -2.3. No
+      stratum below -10. **Conditionally useful**: neutral fuel-safety infrastructure with no win gain. It is the
+      recommended governor setting if a later mechanism needs fuel headroom (NN inference, contact search). Default 0
+      until FEAT-005.
+- FEAT-002 decision: no JD_* default changes. JD_GOV and JD_EVTONCE do not raise win rate, and the evidence (Claude
+  agrees, #6 02:52Z) says suspensions are not where v92 loses. Remaining effort goes to decision quality (FEAT-004)
+  and the RL actor (FEAT-003). The governor API (`rb::admit_optional` with kNN/kTactical/kRoute) is the admission
+  path for those mechanisms.
+  - `sel-evt-01` JD_EVTONCE=160 alone: 0 faults, fuel-outs 320 vs 317, paired -0.88 (CI -3.75 to +1.88), large
+    -5.5. With dev +1.25 and selection -0.88, it has no measurable game gain. **Parked**: correct by fixture, not
+    worth enabling.
