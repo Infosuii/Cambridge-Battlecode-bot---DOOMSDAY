@@ -231,6 +231,271 @@
      "stop": "2026-11-04T04:00:22Z",
      "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
      "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 3,
+     "sha256": "d9e1f35cb5744d9558bad73176357073515373412fdbe46dded344a35a4fa93b",
+     "parent_sha256": "155d313ce142933b6a03f647936219c56c546c090996b1444d71e40509c63c3f",
+     "header_sha256": "0262767c79429a7fa339bbd827fd67004286b367d378ab6ebc3b3f2cdcc73f5e",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter3.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter2.npz",
+      "new_rows": 184749,
+      "new_games": 534,
+      "recorder_wasm_sha256": "14a3e779d52440df538cda6e4b93c9ea10ab68b0723a9d8e41d39f91ce3ea485",
+      "recorder_header_sha256": "afc2c85ab356fca42a518d73371df9a7ce7d5e4f45be804ad4a393f92200a7d0",
+      "recorder_wins": 287,
+      "recorder_fuel_outs": 1163,
+      "aggregate_rows": 553696,
+      "iterations": 3,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.2765391041889733,
+      "agree": {
+       "behaviour": 0.959,
+       "target": 0.8802,
+       "option": 0.9957,
+       "attack": 0.9929,
+       "cast": 0.9803,
+       "cast_tgt": 0.8333
+      }
+     },
+     "eval": {
+      "wasm_sha256": "7966a2ba34a2cbe761d001e745c741449eb69b2356748de3fb63bb85f4d63e6b",
+      "played": 160,
+      "cells": 160,
+      "wins": 82,
+      "winrate": 51.25,
+      "base_winrate": 58.12,
+      "d_score": -6.88,
+      "fuel_outs": 332,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:00:22Z",
+     "stop": "2026-11-04T04:05:34Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 4,
+     "sha256": "690a21dc064c360ac3ea7d47a92e795bc71c0f845fbd80770211a8cca026ab2e",
+     "parent_sha256": "d9e1f35cb5744d9558bad73176357073515373412fdbe46dded344a35a4fa93b",
+     "header_sha256": "452f95380902bd4561f315410965ab31df4c1a00a6490b7b391555c03aab1116",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter4.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter3.npz",
+      "new_rows": 185778,
+      "new_games": 534,
+      "recorder_wasm_sha256": "cc3cffe6b60f999af6f0e5cc59b14c5272e2b6ce2a98e75c3f7c1d940e87df5a",
+      "recorder_header_sha256": "0262767c79429a7fa339bbd827fd67004286b367d378ab6ebc3b3f2cdcc73f5e",
+      "recorder_wins": 281,
+      "recorder_fuel_outs": 1169,
+      "aggregate_rows": 739474,
+      "iterations": 4,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.2598916065343773,
+      "agree": {
+       "behaviour": 0.9621,
+       "target": 0.8843,
+       "option": 0.9957,
+       "attack": 0.9934,
+       "cast": 0.9807,
+       "cast_tgt": 0.8366
+      }
+     },
+     "eval": {
+      "wasm_sha256": "1bed1cc16ce54c83683fedf6d9934519a1d95a0f9d42d750fb5ed7d33cc20b8b",
+      "played": 160,
+      "cells": 160,
+      "wins": 98,
+      "winrate": 61.25,
+      "base_winrate": 58.12,
+      "d_score": 3.12,
+      "fuel_outs": 337,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:05:34Z",
+     "stop": "2026-11-04T04:10:26Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 5,
+     "sha256": "0c6919cc0367a1bb955d8311c9087b00f69e259f66c5f23dd01693bbb3a8fb4e",
+     "parent_sha256": "690a21dc064c360ac3ea7d47a92e795bc71c0f845fbd80770211a8cca026ab2e",
+     "header_sha256": "cc0a69e370d13cbe92fd3bc69ab308ba3ccaaea964c8d38a3d697544749ae03b",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter5.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter4.npz",
+      "new_rows": 184762,
+      "new_games": 534,
+      "recorder_wasm_sha256": "296b2d7b6b1b7dd59761733ed0c413167fe365e7b69d3ea71b466db02c8782d9",
+      "recorder_header_sha256": "452f95380902bd4561f315410965ab31df4c1a00a6490b7b391555c03aab1116",
+      "recorder_wins": 298,
+      "recorder_fuel_outs": 1163,
+      "aggregate_rows": 924236,
+      "iterations": 5,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.25044787191417905,
+      "agree": {
+       "behaviour": 0.9635,
+       "target": 0.8866,
+       "option": 0.9958,
+       "attack": 0.9933,
+       "cast": 0.9816,
+       "cast_tgt": 0.8401
+      }
+     },
+     "eval": {
+      "wasm_sha256": "46fc38088a338d081063f56296749bcd35eb43db421217bea9e9910415715fe6",
+      "played": 160,
+      "cells": 160,
+      "wins": 88,
+      "winrate": 55.0,
+      "base_winrate": 58.12,
+      "d_score": -3.12,
+      "fuel_outs": 344,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:10:26Z",
+     "stop": "2026-11-04T04:15:29Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 6,
+     "sha256": "b5e1df3b6912b075fbcac1c3afc96918036bf2f01bc774591f656415e944ed0a",
+     "parent_sha256": "0c6919cc0367a1bb955d8311c9087b00f69e259f66c5f23dd01693bbb3a8fb4e",
+     "header_sha256": "96704574613ebad5f56b76d007f086490a87978524a17b612dbcb1ae7b6a9d64",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter6.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter5.npz",
+      "new_rows": 185846,
+      "new_games": 534,
+      "recorder_wasm_sha256": "9f50e436061073ef0d48938697e6821b66d4f81b39dabdb081f681211defe53b",
+      "recorder_header_sha256": "cc0a69e370d13cbe92fd3bc69ab308ba3ccaaea964c8d38a3d697544749ae03b",
+      "recorder_wins": 307,
+      "recorder_fuel_outs": 1160,
+      "aggregate_rows": 1110082,
+      "iterations": 6,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.24122476328484674,
+      "agree": {
+       "behaviour": 0.9636,
+       "target": 0.8892,
+       "option": 0.9963,
+       "attack": 0.9936,
+       "cast": 0.9819,
+       "cast_tgt": 0.8426
+      }
+     },
+     "eval": {
+      "wasm_sha256": "0edd24aa7dac9e2dda7c39f9c533d4e028548f31bbd534e6cf824bd02291c295",
+      "played": 160,
+      "cells": 160,
+      "wins": 92,
+      "winrate": 57.5,
+      "base_winrate": 58.12,
+      "d_score": -0.62,
+      "fuel_outs": 341,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:15:29Z",
+     "stop": "2026-11-04T04:21:29Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
+    },
+    {
+     "iter": 7,
+     "sha256": "176f4ac9ea5b8c51161b72d482e2f42b07dce3f255917645d46ed10a18db9c13",
+     "parent_sha256": "b5e1df3b6912b075fbcac1c3afc96918036bf2f01bc774591f656415e944ed0a",
+     "header_sha256": "7dd920cda5410a012e54aebbfe85615a8df9b1a6c76caf98223442e8a10b1719",
+     "ckpt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\ckpt\\iter7.pt",
+     "data": {
+      "new": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\rl\\rl-dagger-01\\data\\iter6.npz",
+      "new_rows": 186190,
+      "new_games": 534,
+      "recorder_wasm_sha256": "ec26b66bfd50d574e3fc0b7bed013a0a9ccd9890139583c539586cc8c424492c",
+      "recorder_header_sha256": "96704574613ebad5f56b76d007f086490a87978524a17b612dbcb1ae7b6a9d64",
+      "recorder_wins": 296,
+      "recorder_fuel_outs": 1154,
+      "aggregate_rows": 1296272,
+      "iterations": 7,
+      "maps": "poolfresh sorted 121-209",
+      "opps": [
+       "v92-448de19b2a28",
+       "x3inv-c5da472cafd8",
+       "p65pack-a1a0211b8399"
+      ],
+      "fuel": "official",
+      "cadence": "JD_NN_EVENT"
+     },
+     "train_after": {
+      "kl": 0.2348667880694238,
+      "agree": {
+       "behaviour": 0.9643,
+       "target": 0.8904,
+       "option": 0.9966,
+       "attack": 0.9941,
+       "cast": 0.9827,
+       "cast_tgt": 0.8434
+      }
+     },
+     "eval": {
+      "wasm_sha256": "fa66f68672401928a3c87d51917ff5d27ea8a5662779f48ca77788a552f9dce7",
+      "played": 160,
+      "cells": 160,
+      "wins": 97,
+      "winrate": 60.62,
+      "base_winrate": 58.12,
+      "d_score": 2.5,
+      "fuel_outs": 335,
+      "faults": 0,
+      "base_fuel_outs": 85
+     },
+     "start": "2026-11-04T04:21:29Z",
+     "stop": "2026-11-04T04:26:46Z",
+     "command": "C:\\projects\\cambridge battlecode\\battlecode part 2\\.venv-jd\\Scripts\\python.exe tools/jd_g5070-1104/rl_dagger.py --run rl-dagger-01 --hours 5 --jobs 5 --cpus 14-19",
+     "source": "agent2-neural 56b60b9638a0c32116d2d8d86ee31570e9faa868 + f64657c64339c4025243c7166e3e05556740cea3"
     }
    ]
   }

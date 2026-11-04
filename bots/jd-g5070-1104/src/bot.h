@@ -439,6 +439,16 @@ private:
 #if X1_FLEEDROP || X1_FLEEFIX
     int flee_group = -1; // X1_FLEEDROP / X1_FLEEFIX: the camp target dropped at the last flee
 #endif
+#if JD_CONTACT
+    bool jd_flee_strike(const EnemyRec& e, bool keep_dash); // JD_CONTACT bit 1: hit with everything that keeps the step available
+    bool jd_step_needed() const;            // JD_CONTACT bit 1: a visible enemy can reach us next turn if we stay
+#endif
+#if JD_PROGRESS
+    // JD_PROGRESS: travel progress toward the farm target (field distance), reset on a new target or an interruption.
+    int jdp_group = -1, jdp_best = 1 << 20, jdp_stuck = 0, jdp_osc = 0, jdp_round = -10;
+    vec2 jdp_p1{-1, -1}, jdp_p2{-1, -1};
+    int jd_progress_check(int gi); // 0 = progress or not travelling; 1 no progress, 2 oscillation, 3 unreachable
+#endif
     bool no_initiate = false;    // solo members in pair mode: no help calls this turn
     int call_ban_until = -1;     // after a help call times out, no new calls until this round
     float camp_taken_mult = 1.0f; // camp damage we take: jungle emblem 0.7, durability 0.9

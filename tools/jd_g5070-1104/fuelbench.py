@@ -392,12 +392,12 @@ def cmd_prof(a):
 
 
 def cmd_triggers(a):
-    """Sum the last cumulative JDGOV / JDMEM counter line of each body (per game) of a JD_GOVLOG/JD_MEMLOG build."""
+    """Sum the last cumulative JDGOV / JDMEM / JDCT counter line of each body (per game) of a JD_GOVLOG/JD_MEMLOG/JD_STRATLOG build."""
     tot, games_with = collections.Counter(), collections.Counter()
     for c, g, st, rp in run_games(a.run):
         last = {}
         for ln in stdout_lines(rp, c['side']):
-            if ln.startswith(('JDGOV', 'JDMEM')):
+            if ln.startswith(('JDGOV', 'JDMEM', 'JDCT')):
                 p = ln.split()
                 last[(p[0], p[2])] = p[3:]
         seen = set()

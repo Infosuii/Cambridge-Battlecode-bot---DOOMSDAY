@@ -3303,6 +3303,64 @@ bool Bot::melee_caught() {
     return true;
 }
 
+#if JD_CONTACT || JD_PROGRESS
+// JD_STRATLOG trigger counters (per champion VM, cumulative).
+namespace jdst {
+unsigned strike = 0, strike_spell = 0, strike_reset = 0, shoot = 0, diseng = 0, diseng_carrier = 0;
+unsigned prog_stuck = 0, prog_osc = 0, prog_unreach = 0, prog_bank = 0, prog_rescore = 0;
+} // namespace jdst
+#endif
+#if JD_CONTACT
+bool Bot::jd_flee_strike(const EnemyRec& e, bool keep_dash) {
+    bool hit = false;
+    bool keep_cast = false; // one cast per turn: a ready dash stays available for the escape
+    for (int s = 0; s < 2 && keep_dash; ++s) keep_cast |= spell_ready(s) && spells[s].kind == bc::ability_kind::dash;
+    for (int s = 0; s < 2 && !cast_done && !keep_cast; ++s) {
+        const auto& sp = spells[s];
+        if (!spell_ready(s) || sp.excludes_walk || !sp.enemies) continue;
+        if (sp.kind != bc::ability_kind::damage && sp.kind != bc::ability_kind::cc && sp.kind != bc::ability_kind::aoe_damage) continue;
+        if (cheb(pos, e.pos) > static_cast<int>(sp.range)) continue;
+        try {
+            const auto ab = bc::self().abilities()[s];
+            if (sp.kind == bc::ability_kind::aoe_damage ? ab.use(e.pos) : ab.use(e.unit)) {
+                cast_done = true;
+                hit = true;
+                ++jdst::strike_spell;
+            }
+        } catch (const std::exception& ex) {
+            LOG("flee strike error %s\n", ex.what());
+        }
+    }
+    if (cheb(pos, e.pos) <= range && attack_unit(e.unit, e.pos)) {
+        hit = true;
+        bool reset_walks = true;
+        for (int s = 0; s < 2; ++s)
+            if (spells[s].present && spells[s].kind == bc::ability_kind::attack_reset && spells[s].excludes_walk) reset_walks = false;
+        if (reset_walks && !keep_cast && !cast_done && use_reset_and_attack(e.unit, e.pos)) ++jdst::strike_reset;
+    }
+    if (hit) ++jdst::strike;
+    return hit;
+}
+bool Bot::jd_step_needed() const {
+    if (bit(w.hot_zone, pos)) return true; // an awake camp hits this tile
+    for (const auto& e : w.enemies) {
+        if (e.hp <= 0) continue;
+        int reach = e.range + 1;
+        if (e.type == bc::champion_type::vesper_vale || e.type == bc::champion_type::vendetta || e.type == bc::champion_type::ren ||
+            e.type == bc::champion_type::heart_of_ruin) {
+            for (std::uint32_t s2 = 0; s2 < 2; ++s2) {
+                std::int32_t cd = 9;
+                if (d::sdk_champion_cooldown(e.id, s2, &cd) == 0 && cd <= 1) {
+                    reach += 2; // a dash may be ready
+                    break;
+                }
+            }
+        }
+        if (cheb(e.pos, pos) <= reach) return true;
+    }
+    return false;
+}
+#endif
 bool Bot::handle_enemies() {
 #if A2_BURST_HOLD
     a2_hold_burst = false;
@@ -4323,6 +4381,36 @@ bool Bot::handle_enemies() {
         }
     }
 #endif
+#if JD_CONTACT & 2
+    // JD_CONTACT bit 2: leave an unsupported contact early (legal data only: visible units and the shared claims).
+    if (!in_danger && nearest && !(target && target_ttk <= 1.0f)) {
+        int support = 1, threats = 0;
+        for (const auto& a : w.allies) support += a.id != my_id && cheb(a.pos, pos) <= 5 && a.hp >= 0.4f * a.max_hp;
+        if (target_group >= 0 && target_group < static_cast<int>(w.groups.size()) && !w.groups[target_group].camps.empty() &&
+            cheb(w.camps[w.groups[target_group].camps[0]].pos, pos) <= 6)
+            for (int s = 0; s < std::min(team_size, kClaimSlots); ++s) {
+                if (s == slot || !claim_onsite(s) || claim_cache[static_cast<std::size_t>(s)] != target_group) continue;
+                bool seen = false;
+                for (const auto& a : w.allies) seen |= a.id == ally_handle[static_cast<std::size_t>(s)];
+                support += !seen;
+            }
+        for (const auto& e : w.enemies) {
+            if (e.hp <= 0) continue;
+            const int de = cheb(e.pos, pos);
+            if (bit(w.enemy_spawn, e.pos) && de > e.range + 2) continue;
+            threats += std::max(0, de - e.range) <= 3;
+        }
+        const bool carrier = gems >= 25, hurt = hp < 0.6f * max_hp;
+        const bool leave = (!winning && threats > support && (hurt || carrier)) || (winning && gems >= 40 && threats > support);
+        if (leave) {
+            in_danger = true;
+            winning = false;
+            if (threat_on_me <= 0) threat_on_me = 1.0f;
+            ++jdst::diseng;
+            if (carrier) ++jdst::diseng_carrier;
+        }
+    }
+#endif
     if (tune::kTribDeny & 2) {
         if (in_danger && !winning) try_lock_altar(); // leaving: cancel whatever tribute we can reach
         else if (deny_tribute()) return true;
@@ -4424,7 +4512,11 @@ bool Bot::handle_enemies() {
         const EnemyRec* adj = nullptr;
         for (const auto& e : w.enemies)
             if (cheb(e.pos, pos) <= range && (!adj || e.hp < adj->hp)) adj = &e;
+#if JD_CONTACT & 1
+        if (adj && (!target || cheb(target->pos, pos) > range) && jd_flee_strike(*adj, true)) {
+#else
         if (adj && (!target || cheb(target->pos, pos) > range) && attack_unit(adj->unit, adj->pos)) {
+#endif
 #if A2_TEL
             a2tel::fleehit_round = round;
 #endif
@@ -4442,6 +4534,15 @@ bool Bot::handle_enemies() {
         }
         mode = "flee";
         if (tune::kRangedFlee && !melee && nearest && cheb(nearest->pos, pos) <= 4) {
+#if JD_CONTACT & 1
+            // Flee strike, ranged: no visible enemy reaches us next turn if we stay, so the step can wait; shoot now.
+            if (target && cheb(target->pos, pos) <= range && bc::self().can_attack() && !jd_step_needed() && jd_flee_strike(*target, false)) {
+                mode = "flee-shoot";
+                ++jdst::shoot;
+                heading_home = hp < max_hp * 0.5f;
+                return true;
+            }
+#endif
             // Ranged flight (APEX_RANGED_FLEE, from apex_v21): a ranged basic attack ends our movement. Stun the
             // nearest chaser when the stun still lets us walk, step away, and shoot only when no step is possible.
             for (int s2 = 0; s2 < 2; ++s2) {
@@ -4491,7 +4592,11 @@ bool Bot::handle_enemies() {
                 attack_unit(target->unit, target->pos);
                 return true; // ranged: shooting used the move
             }
+#if JD_CONTACT & 1
+            jd_flee_strike(*target, false);
+#else
             attack_unit(target->unit, target->pos);
+#endif
         }
         const int planned = tune::kEscapeSearch ? run_escape(false) : 0;
         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2) || X1_RT_REGROUP) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
@@ -6824,6 +6929,43 @@ bool Bot::is_official_map() {
     return official_map == 1;
 }
 
+#if JD_PROGRESS
+int Bot::jd_progress_check(int gi) {
+    const bool consecutive = jdp_round == round - 1;
+    jdp_round = round;
+    if (gi != jdp_group || !consecutive || !w.has_field(gi)) {
+        // New target, or another behaviour took the last turn: start a new run.
+        jdp_group = w.has_field(gi) ? gi : -1;
+        jdp_best = jdp_group >= 0 ? w.group_distance(gi, pos) : (1 << 20);
+        jdp_stuck = jdp_osc = 0;
+        jdp_p2 = vec2{-1, -1};
+        jdp_p1 = pos;
+        return 0;
+    }
+    const int dist = w.group_distance(gi, pos);
+    const vec2 p2 = jdp_p1;
+    const vec2 p1_prev = jdp_p2;
+    jdp_p2 = jdp_p1;
+    jdp_p1 = pos;
+    if (dist >= static_cast<int>(kUnreach)) return 3;
+    if (dist <= 5) { // on site or staging: progress is the fight or the wait, not the walk
+        jdp_best = dist;
+        jdp_stuck = jdp_osc = 0;
+        return 0;
+    }
+    if (dist < jdp_best) {
+        jdp_best = dist;
+        jdp_stuck = 0;
+    } else {
+        ++jdp_stuck;
+    }
+    // A-B-A: back on the tile of two farm turns ago after leaving it.
+    if (pos == p1_prev && pos != p2) ++jdp_osc;
+    if (jdp_stuck >= JD_PROGRESS_N) return 1;
+    if (jdp_osc >= 3) return 2;
+    return 0;
+}
+#endif
 bool Bot::farm() {
     PROF(farm);
     PROF_CHECK("farm0");
@@ -7073,33 +7215,6 @@ bool Bot::farm() {
 #endif
 #endif
 #endif
-#if A2_NN & 1
-    nn_v92best = best;
-#if JD_NN_EVENT && JD_NN_RESID
-    if (nn_group >= 0 && nn_group != best && !jd_nn_resid_ok(best)) nn_group = -1;
-#endif
-#ifdef A2_NN_TDBG
-    {
-        static int agree = 0, total = 0, none = 0;
-        ++total, agree += nn_group == best, none += nn_group < 0;
-        if (total % 100 == 0) std::printf("NNT r%d slot %d agree %d/%d none %d (v92 %d nn %d mode %s)\n", round, slot, agree, total, none, best, nn_group, mode);
-    }
-#endif
-    if (nn_group >= 0 && nn_group < static_cast<int>(w.groups.size()) && nn_group != best) best = nn_group, best_need = 1;
-#ifdef A2_NN_RL
-#if A2_NN_MACRO
-    nn_rl_tgt_applied = true; // the NRB row at the end of the turn carries this choice
-    nn_rl_chg = best != target_group;
-#else
-    // RL: log the applied choice (state, sampled action, log-prob, target changed, own value) - farm turns only
-    if (!nn_rl_feat.empty()) {
-        std::printf("NRL %d %d %d %.5f %d %d %s\n", round, slot, nn_rl_a, nn_rl_lp, best != target_group ? 1 : 0, nn_rl_val,
-                    nn_rl_feat.c_str());
-        nn_rl_feat.clear();
-    }
-#endif
-#endif
-#endif
 
     // The planner chose a bank trip first (APEX_PLAN).
     if (tune::kPlan && plan_bank_round == round && gems >= 10) {
@@ -7144,6 +7259,35 @@ bool Bot::farm() {
         write_claim(best);
         if (best < 0) return false;
     }
+#if JD_PROGRESS
+    if (const int why = jd_progress_check(best)) {
+        // No travel progress: release the claim, keep the group out of the scoring for a while and choose again.
+        if (why == 1) ++jdst::prog_stuck;
+        else if (why == 2) ++jdst::prog_osc;
+        else ++jdst::prog_unreach;
+        avoid_until[static_cast<std::size_t>(best)] = round + JD_PROGRESS_TTL;
+        write_claim(-1);
+        target_group = -1;
+        jdp_group = -1;
+        if (gems >= 20) {
+            force_tribute = true;
+            if (tribute_if_needed()) {
+                mode = "jd-bank";
+                ++jdst::prog_bank;
+                return true;
+            }
+            force_tribute = false;
+        }
+        ++jdst::prog_rescore;
+        best = score_groups(1, best_need, best_score);
+        staging_since = -1;
+        staging_walk_since = -1;
+        my_claim_since = round;
+        target_group = best;
+        write_claim(best);
+        if (best < 0) return false;
+    }
+#endif
     auto& g = w.groups[best];
     if (tune::kRecallTravel > 0 && g.state != GroupState::reward && w.enemies.empty() && !bit(w.hot_zone, pos) &&
         !bit(w.ally_spawn, pos) && w.has_field(best)) {
@@ -8492,6 +8636,13 @@ void Bot::play_turn() {
         extern unsigned jd_bush_deferred;
         std::printf(" bush_deferred %u\n", jd_bush_deferred);
     }
+#endif
+#if JD_STRATLOG && (JD_CONTACT || JD_PROGRESS)
+    if (round % 100 == 0)
+        std::printf("JDCT R%d t%d strike %u strike_spell %u strike_reset %u shoot %u diseng %u diseng_carrier %u prog_stuck %u "
+                    "prog_osc %u prog_unreach %u prog_bank %u prog_rescore %u\n",
+            round, static_cast<int>(type), jdst::strike, jdst::strike_spell, jdst::strike_reset, jdst::shoot, jdst::diseng,
+            jdst::diseng_carrier, jdst::prog_stuck, jdst::prog_osc, jdst::prog_unreach, jdst::prog_bank, jdst::prog_rescore);
 #endif
     drop_ward();
     if (tune::kTSearch && w.enemies.empty()) ts_prewarm(); // champion kits for the search, on calm turns

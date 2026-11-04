@@ -116,11 +116,33 @@
 #if JD_NN_EVENT && (!(A2_NN & 1) || !JD_GOV)
 #error "JD_NN_EVENT needs JD_NN & 1 and the JD_GOV reservation API"
 #endif
-// JD_CONTACT: contact movement and action ordering (FEAT-004).
+// JD_CONTACT: contact action quality (FEAT-004, DEFECTS.md; 74% of our deaths in lost dev games came in mode=flee).
+// Bit 1, flee strike: a fleeing melee champion hits the enemy in reach with a damage/stun spell that leaves its step
+// available (never an exclusive cast or a dash), its basic attack and an attack reset before stepping away (v92: the
+// basic attack only); a fleeing ranged champion within 4 tiles of an enemy shoots instead of stepping when no visible
+// enemy can reach it next turn (its range + 1 step, + 2 for a dasher with a ready spell; v92 always steps).
+// Bit 2, earlier disengage: when not committed to a fight, leave once the enemies that can arrive within 3 turns
+// outnumber our support (us + healthy visible allies within 5 + allies whose claim is on site at our target and who
+// are out of view) and we are hurt (< 60%) or carrying (>= 25 gems); a carrier with >= 40 gems also leaves a fight
+// it was committed to when outnumbered. Fallback everywhere: v92's decision.
 #ifndef JD_CONTACT
 #define JD_CONTACT 0
 #endif
-// JD_PROGRESS: no-progress / oscillation / unreachable target detection (FEAT-004).
+// JD_PROGRESS: travel progress toward the farm target (FEAT-004). While more than 5 field steps from the target
+// group, JD_PROGRESS_N consecutive farm turns without a new best distance, 3 A-B-A oscillations or an unreachable
+// distance field release the claim, keep the group out of the scoring for JD_PROGRESS_TTL rounds and re-score
+// (a bag of >= 20 gems is banked first when a tribute is possible). An interrupted run (another behaviour took a
+// turn) starts again. Captures, staging (within 5 steps), recalls and tributes are never touched.
 #ifndef JD_PROGRESS
 #define JD_PROGRESS 0
+#endif
+#ifndef JD_PROGRESS_N
+#define JD_PROGRESS_N 8
+#endif
+#ifndef JD_PROGRESS_TTL
+#define JD_PROGRESS_TTL 40
+#endif
+// JD_STRATLOG: diagnostic trigger counters for JD_CONTACT / JD_PROGRESS (JDCT / JDPG lines every 100 rounds).
+#ifndef JD_STRATLOG
+#define JD_STRATLOG 0
 #endif

@@ -45,9 +45,11 @@ def patch_text(s, old, new, name):
     return s.replace(old, new), True
 
 
-def patch(fn, old, new):
+def patch(fn, old, new, marker=None):
     p = os.path.join(SRC, fn)
     s = open(p, encoding="utf-8").read()
+    if marker and marker in s:
+        return False  # applied before and then edited by a later patch (FARMSEL + RESID): never insert a second copy
     s2, changed = patch_text(s, old, new, fn)
     if changed:
         open(p, "w", encoding="utf-8", newline="\n").write(s2)
@@ -208,7 +210,7 @@ def main():
     ch = []
     ch.append(patch("bot.h", BOT_H_OLD, BOT_H_NEW))
     ch.append(patch("bot.cpp", BELIEF, BELIEF + "#if A2_NN\n        nn_decide();\n#endif\n"))
-    ch.append(patch("bot.cpp", FARMSEL_OLD, FARMSEL_NEW))
+    ch.append(patch("bot.cpp", FARMSEL_OLD, FARMSEL_NEW, marker="    nn_v92best = best;\n"))
     ch.append(patch("bot.cpp", BANK_OLD, BANK_NEW))
     ch.append(patch("bot.cpp", LAB_OLD, LAB_NEW))
     ch.append(patch("bot.cpp", OPT_OLD, OPT_NEW))
