@@ -1,0 +1,263 @@
+{
+  "scope": "Past-data-only training value baseline; no actor update or gameplay improvement claim",
+  "past_games": 160,
+  "training_games": 128,
+  "validation_games": 32,
+  "training_families": 32,
+  "validation_families": 8,
+  "parameters": 9,
+  "feature_names": [
+    "round/2000",
+    "own score/1000",
+    "enemy score/1000",
+    "score margin/1000",
+    "own fraction",
+    "own50roundgain/100",
+    "enemy50roundgain/100",
+    "50roundmarginchange/100"
+  ],
+  "timestamp_contract": "GemSubmission timestamps strictly less than actual command engine_round; same/future-round events excluded; event sums checked against final score for accounting only",
+  "objective": "Game-weighted binary log likelihood plus unit Gaussian weight penalty; value=2sigmoid(logit)-1",
+  "train_mse": 0.7120273113250732,
+  "validation_mse": 0.8595623970031738,
+  "validation_constant_mse": 1.011962890625,
+  "validation_zero_mse": 1.0,
+  "family_cluster_95_mse_difference": [
+    -0.37626408418873325,
+    0.14083048840984702
+  ],
+  "validated_against_constant": false,
+  "past_only_prefix_check": "pass",
+  "limitations": [
+    "Regularized logistic predictor, not a calibrated Bayesian posterior.",
+    "Game weighting prevents counting32 frames as32 independent terminal rewards; uncertainty is clustered by held-out family.",
+    "Predictive gain does not establish policy-gradient variance reduction or playing-strength gain.",
+    "Must freeze before using it on future actor batches; no same-batch return fitting."
+  ],
+  "per_game": [
+    {
+      "game": 4,
+      "family": "fields",
+      "model_mse": 0.6019406318664551,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 5,
+      "family": "fields",
+      "model_mse": 1.1850756406784058,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 6,
+      "family": "fields",
+      "model_mse": 1.4342188835144043,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 7,
+      "family": "fields",
+      "model_mse": 1.2328622341156006,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 12,
+      "family": "galaxy",
+      "model_mse": 0.9294981360435486,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 13,
+      "family": "galaxy",
+      "model_mse": 0.2895451784133911,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 14,
+      "family": "galaxy",
+      "model_mse": 0.7669318914413452,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 15,
+      "family": "galaxy",
+      "model_mse": 0.23706722259521484,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 60,
+      "family": "the-pond",
+      "model_mse": 1.4270503520965576,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 61,
+      "family": "the-pond",
+      "model_mse": 0.7444416284561157,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 62,
+      "family": "the-pond",
+      "model_mse": 0.29600661993026733,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 63,
+      "family": "the-pond",
+      "model_mse": 0.6032201051712036,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 64,
+      "family": "concentrated-wealth",
+      "model_mse": 0.44506773352622986,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 65,
+      "family": "concentrated-wealth",
+      "model_mse": 0.27230212092399597,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 66,
+      "family": "concentrated-wealth",
+      "model_mse": 0.24718844890594482,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 67,
+      "family": "concentrated-wealth",
+      "model_mse": 1.5495469570159912,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 76,
+      "family": "stalactites",
+      "model_mse": 1.1928538084030151,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 77,
+      "family": "stalactites",
+      "model_mse": 2.7846338748931885,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 78,
+      "family": "stalactites",
+      "model_mse": 1.3918039798736572,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 79,
+      "family": "stalactites",
+      "model_mse": 1.7187947034835815,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 112,
+      "family": "twisty",
+      "model_mse": 1.3381166458129883,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 113,
+      "family": "twisty",
+      "model_mse": 0.5562306642532349,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 114,
+      "family": "twisty",
+      "model_mse": 1.2285844087600708,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 115,
+      "family": "twisty",
+      "model_mse": 0.8472728133201599,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 136,
+      "family": "split",
+      "model_mse": 0.4238913953304291,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 137,
+      "family": "split",
+      "model_mse": 0.723539412021637,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 138,
+      "family": "split",
+      "model_mse": 0.6527954936027527,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 139,
+      "family": "split",
+      "model_mse": 0.2068839818239212,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 156,
+      "family": "ribs",
+      "model_mse": 1.471700668334961,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 157,
+      "family": "ribs",
+      "model_mse": 0.23839221894741058,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 158,
+      "family": "ribs",
+      "model_mse": 0.12840232253074646,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 159,
+      "family": "ribs",
+      "model_mse": 0.34013688564300537,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    }
+  ]
+}
