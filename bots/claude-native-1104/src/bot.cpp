@@ -1,6 +1,7 @@
 // Apex champion logic: farm camp groups efficiently, bank gems at altars, shop on spawn,
 // and take good fights while avoiding bad ones.
 #include "bot.h"
+#include "clfp.h"
 #include "neural_policy.h"
 #if A2_MLPLAN
 #include "ml_plan.h"
@@ -6642,7 +6643,9 @@ bool Bot::farm() {
     }
 #endif
 #ifdef A2_NN_LAZY
+    CLFP_MARK(3);
     nn_lazy_score();
+    CLFP_MARK(4);
 #endif
 #ifdef A2_NN_ENSLOG
     if (best >= 0 && nn_group >= 0) nn_ens_log(best, nn_group);
@@ -7533,7 +7536,9 @@ void Bot::play_turn() {
 #endif
         if (tune::kBelief) w.update_beliefs(round, tune::kDet ? static_cast<std::uint64_t>(tune::kDetSafety) : 40000);
 #if A2_NN
+        CLFP_MARK(1);
         nn_decide();
+        CLFP_MARK(2);
 #endif
 #if A2_LAB
         {

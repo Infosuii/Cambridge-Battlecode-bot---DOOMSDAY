@@ -616,6 +616,7 @@ void Bot::nnrec_end() {
 
 #if A2_NN
 #include "nn_infer.h"
+#include "clfp.h"
 #ifndef A2_NN_RESERVE
 #define A2_NN_RESERVE 1000 // fuel every turn leaves unspent: up to 99k a turn is fine (going over the 100k cap costs the next turn)
 #endif
@@ -732,6 +733,15 @@ static int nn_warm = 0;                                     // one-time setup at
 static int nn_xdone = 0, nn_xnext = 0;                      // slow blocks encoded once (bits, by place in kXOrder); the next to refresh
 static constexpr int kXOrder[4] = {3, 2, 0, 5}, kXPart[4] = {32, 16, 8, 64}; // nn::live_block's number and nn_feats_t's part: enemies, allies, global, altars
 static std::uint64_t nn_xest[4] = {12000, 12000, 4000, 9000}, nn_est_c2 = 26000;
+#ifndef CLFS
+#define CLFS 0  // fuel-safe end-of-turn refresh (learn from overruns, no decay below the last measured cost, margin)
+#endif
+#ifndef CLFS_MARGIN
+#define CLFS_MARGIN 3000
+#endif
+#if CLFS
+static std::uint64_t nn_xlast[4] = {};
+#endif
 static int nn_c_camps2 = 0;
 static int nn_xround[4] = {-1, -1, -1, -1};                 // when each was last refreshed
 #endif
@@ -829,7 +839,18 @@ void Bot::nn_x_refresh(int x) {
     nn::live_block(nn_lf, nn_lv, kXOrder[x]);
     nn_xdone |= 1 << x, nn_xround[x] = round;
     const std::uint64_t f1 = bc::fuel_remaining();
+#if CLFS
+    // Fuel-safe variant: an overrun means the block needed more than the f0 it started with; learn that instead of
+    // dropping the sample (the expensive cases are the ones that run out), and remember the last measured cost so the
+    // affordability decay in nn_turn_end cannot drift below it.
+    if (bc::round_number() != r0 || f1 > f0) {
+        nn_xest[x] = std::max(nn_xest[x], f0 + f0 / 4);
+        return;
+    }
+    nn_xlast[x] = f0 - f1;
+#else
     if (bc::round_number() != r0 || f1 > f0) return;
+#endif
     const std::uint64_t used = f0 - f1;
     nn_xest[x] = std::max(used + used / 8, nn_xest[x] - nn_xest[x] / 32);
 }
@@ -870,7 +891,8 @@ void Bot::nn_lazy_score() {
 #endif
     const int near_e = nn_near();
     nn_kind = w.enemies.empty() ? 0 : near_e > 10 ? 1 : 2;
-    const std::uint64_t f0 = bc::fuel_remaining(), floor_f = std::max<std::uint64_t>(nn_need[nn_kind], A2_NN_LAZY_FLOOR) + 2000;
+    const std::uint64_t f0 = bc::fuel_remaining(),
+                        floor_f = std::max<std::uint64_t>(nn_need[nn_kind], A2_NN_LAZY_FLOOR) + 2000 + (CLFS ? CLFS_MARGIN : 0);
     std::uint64_t enemy_used = 0;
 #if A2_FUELLOG
     {
@@ -935,7 +957,7 @@ void Bot::nn_lazy_score() {
         return;
     }
 #endif
-    if (nn_warm == 2 && f0 >= nn_est_camps + floor_f) {
+    if (nn_warm == 2 && f0 >= nn_est_camps + (CLFS ? nn_est_camps / 8 : 0) + floor_f) {
         const auto r0 = bc::round_number();
         std::fill(nn_lf + kCOffL, nn_lf + kCOffL + kC * kCF, static_cast<std::int16_t>(0));
 #ifdef A2_NN_NNUE
@@ -2311,7 +2333,9 @@ void Bot::nn_turn_end() {
         used -= std::min<std::uint64_t>(used, nn_field_fuel); // v92's optional distance-field building takes what is left: not a need
         nn_field_fuel = 0;
         auto& n = nn_need[nn_kind];
-#if defined(A2_NN_LAZY) || defined(A2_NN_NNUE)
+#if CLFS
+        n = std::max(used, n - n / 64);  // fuel-safe: hold the recent maximum longer (v92's after-scoring spend is bursty)
+#elif defined(A2_NN_LAZY) || defined(A2_NN_NNUE)
         n = std::max(used, n - n / 16);
 #else
         n = std::max(used, n - n / 32);
@@ -2322,15 +2346,16 @@ void Bot::nn_turn_end() {
 #ifdef A2_NN_NNUE
     const auto nn_round0_end = bc::round_number();
 #endif
+    CLFP_MARK(61);
     // One-time setup after v92's turn, from the first turn's spare fuel if it can, in steps that fit: all features (with the per-group
     // constants), then the first encoding of the nearest camps. The network is live as soon as the first summary is in.
     if (nn_warm < 2 && nn_live_turns >= 1) {
-        if (nn_warm == 0 && bc::fuel_remaining() >= 45000 + static_cast<std::uint64_t>(A2_NN_RESERVE)) {
+        if (nn_warm == 0 && bc::fuel_remaining() >= 45000 + static_cast<std::uint64_t>(CLFS ? 15000 + CLFS_MARGIN : A2_NN_RESERVE)) {
             std::fill(nn_lf, nn_lf + kNF, static_cast<std::int16_t>(0));
             nn_feats_t<kC, kAF>(nn_lf, nn_near(), 3);
             nn_warm = 1;
         }
-        if (nn_warm == 1 && bc::fuel_remaining() >= 35000 + static_cast<std::uint64_t>(A2_NN_RESERVE)) {
+        if (nn_warm == 1 && bc::fuel_remaining() >= 35000 + static_cast<std::uint64_t>(CLFS ? 15000 + CLFS_MARGIN : A2_NN_RESERVE)) {
             nn::live_camps(nn_lf, nn_lv, w.groups.size());
 #ifndef A2_NN_NNUE
             nn_zstage = 1, nn_zstart = round;
@@ -2341,15 +2366,17 @@ void Bot::nn_turn_end() {
 #ifdef A2_NN_FIELDS_FIRST
     if (!w.fields_ready()) return;
 #endif
+    CLFP_MARK(62);
 #if defined(A2_NN_NNUE) && defined(A2_NN_Q16) && A2_NN_Q16
     {
         static int rb = 0;
-        if (++rb >= 128 && nn_lv.x_ok && bc::fuel_remaining() >= 16000 + static_cast<std::uint64_t>(A2_NN_RESERVE)) {
+        if (++rb >= 128 && nn_lv.x_ok && bc::fuel_remaining() >= 16000 + static_cast<std::uint64_t>(CLFS ? CLFS_MARGIN + 4000 : A2_NN_RESERVE)) {
             nn::live_rebuild(nn_lv);
             rb = 0;
         }
     }
 #endif
+    CLFP_MARK(63);
 #ifdef A2_NN_NNUE
     if (nn_warm == 2) {
         for (int n = 0; n < 4; ++n) {
@@ -2358,10 +2385,17 @@ void Bot::nn_turn_end() {
                 nn_xnext = (x + 1) % 4;
                 continue;
             }
+#if CLFS
+            if (bc::fuel_remaining() < nn_xest[x] + nn_xest[x] / 4 + static_cast<std::uint64_t>(CLFS_MARGIN)) {
+                nn_xest[x] = std::max(nn_xest[x] - nn_xest[x] / 32, nn_xlast[x] + nn_xlast[x] / 8);
+                break;
+            }
+#else
             if (bc::fuel_remaining() < nn_xest[x] + static_cast<std::uint64_t>(A2_NN_RESERVE)) {
                 nn_xest[x] -= nn_xest[x] / 32;
                 break;
             }
+#endif
             nn_x_refresh(x);
             if (bc::round_number() != nn_round0_end) break;
             nn_xnext = (x + 1) % 4;

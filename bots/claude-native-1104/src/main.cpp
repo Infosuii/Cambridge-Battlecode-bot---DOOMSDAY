@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "bot.h"
+#include "clfp.h"
 #include "draft.h"
 
 #if A2_LAB
@@ -61,7 +62,11 @@ int main() {
             }
 #else
             else {
+#if CLFP
+                clfp::start();
+#endif
                 bot.play_turn();
+                CLFP_MARK(5);
 #ifdef CLNA_EPS
                 bot.clna_end();
 #endif
@@ -74,8 +79,12 @@ int main() {
 #if defined(A2_NN_LIVE) && A2_NN_LIVE
                 bot.nn_turn_end();
 #endif
+                CLFP_MARK(6);
 #ifdef CLNA_HEAD
                 bot.clna_turn_end();
+#endif
+#if CLFP
+                clfp::end();
 #endif
             }
 #endif
