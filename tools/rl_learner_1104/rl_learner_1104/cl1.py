@@ -64,18 +64,22 @@ class CampPointer(nn.Module):
     Target13 is a hybrid macro milestone; none also includes outside-12 targets.
     It is not a learned full-control bot. PyTorch GRU gate order is r,z,n.
     """
-    def __init__(self):
+    def __init__(self, enc_width=8, context_width=32, memory_width=16, pointer_width=16):
         super().__init__()
+        self.architecture = dict(enc_width=enc_width, context_width=context_width,
+                                 memory_width=memory_width, pointer_width=pointer_width)
+        if any(not isinstance(v,int) or v < 1 or v > 128 for v in self.architecture.values()):
+            raise ValueError('invalid actor dimensions')
         self.names = tuple(sorted(WIDTHS))
-        self.encoders = nn.ModuleDict({k: nn.Linear(w, 8) for k, w in WIDTHS.items()})
-        self.context = nn.Linear(GLOBAL_WIDTH + 16 * len(WIDTHS), 32)
-        self.memory = nn.GRUCell(32, 16)
-        self.pointer = nn.Linear(24, 16)
-        self.score = nn.Linear(16, 1)
-        self.none = nn.Linear(16, 1)
+        self.encoders = nn.ModuleDict({k: nn.Linear(w, enc_width) for k, w in WIDTHS.items()})
+        self.context = nn.Linear(GLOBAL_WIDTH + 2 * enc_width * len(WIDTHS), context_width)
+        self.memory = nn.GRUCell(context_width, memory_width)
+        self.pointer = nn.Linear(enc_width + memory_width, pointer_width)
+        self.score = nn.Linear(pointer_width, 1)
+        self.none = nn.Linear(memory_width, 1)
 
     def initial_state(self, batch):
-        return self.none.weight.new_zeros(batch, 16)
+        return self.none.weight.new_zeros(batch, self.memory.hidden_size)
 
     def forward(self, raw, hidden, reset):
         entities, present, globals_ = preprocess(raw)
