@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T14:16:47Z",
+  "updated_at": "2026-11-04T14:17:11Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -18,10 +18,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-rl-learner-e2-20261104-1418",
-      "seq": 1,
+      "seq": 2,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T14:16:47Z",
+      "last_control_at": "2026-11-04T14:17:11Z",
       "capabilities": [
         "coordination",
         "review",
@@ -32,7 +32,7 @@
       ],
       "free_capacity": 0,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6632965722,
+      "last_control_comment_id": 6632974681,
       "checkpoint": "e16b76ab05a62ef556e494c331bbf713d771de03",
       "expiry_eligible": true,
       "retired_sessions": [
@@ -421,7 +421,7 @@
       "owner": "johndoe",
       "owner_session": "johndoe-rl-learner-e2-20261104-1418",
       "epoch": 2,
-      "state": "ASSIGNED_PENDING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "implementation",
         "light-build"
@@ -434,7 +434,8 @@
       "previous_owner_session": "johndoe-rl-implementation-20261104-1302",
       "transition_id": "expire:johndoe:6631799314",
       "run_namespace": "jd-cl1-e2",
-      "assignment_id": "assign:johndoe:6632965722:e2"
+      "assignment_id": "assign:johndoe:6632965722:e2",
+      "ack_comment_id": 6632974681
     },
     {
       "id": "rl-env-collector-1104",
@@ -709,6 +710,14 @@
       "session": "johndoe-rl-learner-e2-20261104-1418",
       "at": "2026-11-04T14:16:47Z",
       "task": "rl-learner-integration-1104",
+      "epoch": 2
+    },
+    {
+      "id": "ack:johndoe:6632974681",
+      "type": "ASSIGNMENT_ACK",
+      "agent": "johndoe",
+      "session": "johndoe-rl-learner-e2-20261104-1418",
+      "at": "2026-11-04T14:17:11Z",
       "epoch": 2
     }
   ],
