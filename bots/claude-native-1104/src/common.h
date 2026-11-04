@@ -394,7 +394,11 @@
 #define A2_SOLE_FROM 500
 #endif
 #define A2_CAMPNET 1
+#if defined(CLFS) && CLFS  // fuel-safe build: idle fuel goes to route planning (55k start was rarely met: mean unused ~33k)
+#define A2_ROUTE_FUEL 35000
+#else
 #define A2_ROUTE_FUEL 55000
+#endif
 #define APEX_DET_SAFETY 35000
 #define A2_MLDRAFT 1
 #define A44_MOBILITY_DRAFT 1
