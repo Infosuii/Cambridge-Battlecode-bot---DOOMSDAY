@@ -150,7 +150,10 @@ COLUMNS["cand_q"] = ("float32", "a")     # softmax(native scores) mass per candi
 COLUMNS["eps"] = ("float32", "")         # mixture weight of the softmax part
 COLUMNS["ref_slot"] = ("int16", "")      # candidate index of the frozen reference executor's group
 COLUMNS["fuel_out"] = ("uint8", "")      # this body ran out of fuel between this decision and its next one
-NATIVE_COLUMNS = ("cand_group", "cand_q", "eps", "ref_slot", "fuel_out")
+COLUMNS["gate_x"] = ("float32", "g")    # the gate's legal inputs (manifest gate_inputs: n)
+COLUMNS["engine_round"] = ("int32", "")   # actual engine round at decision admission (bc::round_number)
+COLUMNS["engine_round_done"] = ("int32", "")  # actual engine round when the executed target was logged
+NATIVE_COLUMNS = ("cand_group", "cand_q", "eps", "ref_slot", "fuel_out", "gate_x", "engine_round", "engine_round_done")
 ARRAY_CODES = {"int8": "b", "uint8": "B", "int16": "h", "uint16": "H", "int32": "i", "uint32": "I", "float32": "f"}
 ITEMSIZE = {"int8": 1, "uint8": 1, "int16": 2, "uint16": 2, "int32": 4, "uint32": 4, "float32": 4}
 EPISODE_STATUS = ("terminated", "truncated", "truncated_log", "incomplete", "failed")  # incomplete: malformed rows
@@ -171,6 +174,8 @@ def column_shape(name: str, rows: int, manifest: dict) -> tuple:
         return (rows, LAYOUTS[manifest["layout"]].nf)
     if key == "a":
         return (rows, ACTION_SCHEMAS[manifest["action_schema"]].n)
+    if key == "g":
+        return (rows, manifest["gate_inputs"])
     return (rows, manifest["hidden_size"])
 
 

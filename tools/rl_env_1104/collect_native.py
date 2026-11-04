@@ -31,6 +31,9 @@ import contract as C  # noqa: E402
 
 ROOT, CLI = K.ROOT, K.CLI
 SCHEMA, LAYOUT = "native-blend-eps-v1", 2
+GATE_N = 8
+REWARD_SPEC = ("mc-terminal-gamma1-v1: every decision of the team's complete game gets the team's final outcome "
+               "(+1 win / 0 draw / -1 loss) as its undiscounted return; no shaping, no bootstrap (JOHNDOE #61)")
 NF, NA = C.LAYOUTS[LAYOUT].nf, C.ACTION_SCHEMAS[SCHEMA].n
 
 
@@ -57,17 +60,19 @@ def parse(stdout: str) -> tuple:
     for line in stdout.splitlines():
         q = line.split(" ")
         try:
-            if q[0] == "CNA1":
-                nu = int(q[11])
-                if len(q) != 13 + nu:
+            if q[0] == "CNA2":
+                nu = int(q[12])
+                if len(q) != 13 + nu + GATE_N + 1:
                     raise ValueError
-                cands = [tuple(x.split(":")) for x in q[12:12 + nu]]
-                x = struct.unpack(f"<{NF}h", base64.b64decode(q[12 + nu], validate=True))
-                dec.append(dict(round=int(q[1]), slot=int(q[2]), body=int(q[3]), index=int(q[4]), ref=int(q[5]),
-                                chosen=int(q[6]), logp=float(q[7]), eps=float(q[8]), v92=int(q[9]), nn=int(q[10]),
-                                groups=[int(g) for g, _ in cands], q=[float(v) for _, v in cands], x=x))
-            elif q[0] == "CNX1":
-                exe[(int(q[1]), int(q[3]))] = int(q[4])
+                cands = [tuple(x.split(":")) for x in q[13:13 + nu]]
+                gx = [float(v) for v in q[13 + nu:13 + nu + GATE_N]]
+                x = struct.unpack(f"<{NF}h", base64.b64decode(q[13 + nu + GATE_N], validate=True))
+                dec.append(dict(round=int(q[1]), eround=int(q[2]), slot=int(q[3]), body=int(q[4]), index=int(q[5]),
+                                ref=int(q[6]), chosen=int(q[7]), logp=float(q[8]), eps=float(q[9]), v92=int(q[10]),
+                                nn=int(q[11]), groups=[int(g) for g, _ in cands], q=[float(v) for _, v in cands],
+                                gx=gx, x=x))
+            elif q[0] == "CNX2":  # paired by (body, decision index), never by cached round alone
+                exe[(int(q[4]), int(q[5]))] = (int(q[6]), int(q[2]))
             elif q[0] == "CNS1":
                 skips += 1
         except Exception:
@@ -115,7 +120,7 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
     dec.sort(key=lambda d: (d["body"], d["round"]))
     gaps = reassigned = no_exec = 0
     cols = {c: [] for c in C.required_columns(dict(hidden_size=0, stale_block=False, decision_index=True,
-                                                    native_cands=True))}
+                                                    native_cands=True, gate_inputs=GATE_N))}
     for i, d in enumerate(dec):
         first = i == 0 or dec[i - 1]["body"] != d["body"]
         last = i + 1 == len(dec) or dec[i + 1]["body"] != d["body"]
@@ -126,7 +131,8 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
         qs = (d["q"] + [0.0] * NA)[:NA]
         act = groups.index(d["chosen"]) if d["chosen"] in groups else -1
         ref = groups.index(d["ref"]) if d["ref"] in groups else -1
-        ex_g = exe.get((d["round"], d["body"]))
+        ex_rec = exe.get((d["body"], d["index"]))
+        ex_g, ex_round = (ex_rec if ex_rec is not None else (None, -1))
         if ex_g is None:
             no_exec += 1
             ex = -1
@@ -150,7 +156,8 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
         cols["weight"].append(1.0)
         cols["changed"].append(1 if first or dec[i - 1]["chosen"] != d["chosen"] else 0)
         cols["reset"].append(1 if first else 0)
-        cols["reward"].append(0.0)
+        # mc-terminal-gamma1-v1: the team's final outcome for every decision (0 placeholder if the game is incomplete)
+        cols["reward"].append(float(meta.get("terminal_outcome", 0)) if status == "terminated" else 0.0)
         cols["dt_rounds"].append(max(0, nxt - d["round"]))
         cols["terminated"].append(1 if last and status == "terminated" else 0)
         cols["truncated"].append(1 if last and status != "terminated" else 0)
@@ -162,6 +169,9 @@ def episode(bundle: str, summary: dict | None, side: str, meta: dict) -> tuple:
         cols["eps"].append(d["eps"])
         cols["ref_slot"].append(ref)
         cols["fuel_out"].append(1 if fo else 0)
+        cols["gate_x"] += d["gx"]
+        cols["engine_round"].append(d["eround"])
+        cols["engine_round_done"].append(ex_round)
     if gaps:
         flags["incomplete"] = True
         problems.append(f"{gaps} decision-index gaps")
@@ -197,11 +207,14 @@ def main() -> None:
     opp = a.opponent.replace("\\", "/")
     opp_hash = K.build_hash(opp, work, release=False)
     base = dict(layout=LAYOUT, action_schema=SCHEMA, sampling="complete", stale_block=False, hidden_size=0,
-                decision_index=True, native_cands=True, eps=a.eps, observation_point="native-blend-farm",
-                data_origin="engine", reward_spec="jd-teamwin-potential-v1", run_ns=a.run_ns, log_limit=K.LOG_LIMIT,
+                decision_index=True, native_cands=True, gate_inputs=GATE_N, eps=a.eps,
+                action_kind="latent_group_at_blend_boundary", executor="frozen v92 farm() after the blend (fixed)",
+                return_convention="gamma=1 complete-game Monte Carlo: G_t = reward column = team outcome",
+                observation_point="native-blend-farm", data_origin="engine", reward_spec=REWARD_SPEC, run_ns=a.run_ns, log_limit=K.LOG_LIMIT,
                 policy=dict(name="native-blend-eps", backbone="agent2 student_i2m (frozen)",
                             checkpoint_sha256="05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
                             wasm_sha256=wasm_sha, build="debug", flags=[f"CLNA_EPS={a.eps}"],
+                            gate_header_sha256=K.sha256(os.path.join(bot, "src", "clna_gate.h")),
                             source_commit=K.git_head()),
                 engine=dict(cambc="4.0.0", engine="2.0.0"))
     writer = C.ShardWriter(run_dir, base)

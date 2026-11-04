@@ -1,0 +1,93 @@
+{
+ "kind": "first bounded native gate update (mc-terminal-gamma1-v1); NOT a strength claim",
+ "version": "clna-gate-v1-599ac6f9dee0",
+ "oracle_cases": 9,
+ "oracle_max_error": 1.3877787807814457e-17,
+ "behaviour_replay_max_error": 2.4126793807255353e-07,
+ "games": [
+  {
+   "key": "97906cc38f503e02|d23b26222b7079a0|f1ab1df805672363|debug|A",
+   "map": "maps/ladder-pool/00corners.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 2328
+  },
+  {
+   "key": "97906cc38f503e02|d23b26222b7079a0|f1ab1df805672363|debug|B",
+   "map": "maps/ladder-pool/00corners.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 2698
+  },
+  {
+   "key": "0fdcd925bde87ac4|d23b26222b7079a0|f1ab1df805672363|debug|A",
+   "map": "maps/ladder-pool/00oasis.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 2043
+  },
+  {
+   "key": "0fdcd925bde87ac4|d23b26222b7079a0|f1ab1df805672363|debug|B",
+   "map": "maps/ladder-pool/00oasis.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 2307
+  }
+ ],
+ "decisions": 9376,
+ "outcome_mean": 0.0,
+ "epochs": [
+  {
+   "epoch": 0,
+   "loss": -4.539588149832241e-11,
+   "approx_kl": 1.2991960074084708e-10,
+   "alpha_mean": 0.020000000000000014,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 1,
+   "loss": -3.480826253637881e-05,
+   "approx_kl": 5.3551501469730286e-05,
+   "alpha_mean": 0.01942792769205202,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 2,
+   "loss": -7.3995415901279e-05,
+   "approx_kl": 2.373341227759385e-05,
+   "alpha_mean": 0.021616030046513218,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 3,
+   "loss": 1.3278510561931522e-05,
+   "approx_kl": 4.933010028591719e-05,
+   "alpha_mean": 0.025478182850938197,
+   "clip_frac": 0.0029863481228668944
+  }
+ ],
+ "alpha_before": {
+  "mean": 0.020000000000000014,
+  "min": 0.020000000000000004,
+  "max": 0.020000000000000004
+ },
+ "alpha_after": {
+  "mean": 0.022661881468577068,
+  "min": 0.01785516922695087,
+  "max": 0.037007374027524076
+ },
+ "gate_w": [
+  -0.08920460939407349,
+  0.12029223144054413,
+  -0.1839321404695511,
+  0.15072761476039886,
+  0.14899848401546478,
+  0.13003729283809662,
+  0.149153470993042,
+  -0.018304914236068726
+ ],
+ "gate_b": -3.918386089335062,
+ "shards": [
+  "runs/rl_env_1104/nat-smoke-02"
+ ]
+}

@@ -1109,6 +1109,7 @@ int Bot::nn_ens_sample(int v92g) {
 #ifndef CLNA_SEED
 #define CLNA_SEED 1104
 #endif
+#include "clna_gate.h"
 static std::uint64_t clna_rng = 0;
 static double clna_u01() {
     clna_rng += 0x9E3779B97F4A7C15ull;
@@ -1143,7 +1144,26 @@ int Bot::clna_explore(int v92g, int ng) {
     int kr = 0;
     while (kr < nu && ug[kr] != ref) ++kr;
     if (kr == nu) ug[nu] = ref, uq[nu++] = 0.0;
-    const double eps = static_cast<double>(CLNA_EPS);
+    // Learnable gate alpha(h) over explicit legal inputs (clna_gate.h); the default weights give alpha = CLNA_EPS.
+    double gx[clna_gate::kN];
+    {
+        double qmax = 0, ent = 0;
+        for (int k = 0; k < nu; ++k) {
+            qmax = uq[k] > qmax ? uq[k] : qmax;
+            if (uq[k] > 0) ent -= uq[k] * std::log(uq[k]);
+        }
+        gx[0] = uq[kr];
+        gx[1] = qmax;
+        gx[2] = nu > 1 ? ent / std::log(static_cast<double>(nu)) : 0.0;
+        gx[3] = static_cast<double>(round) / 2000.0;
+        gx[4] = static_cast<double>(gems) / 100.0;
+        gx[5] = max_hp > 0 ? static_cast<double>(hp) / static_cast<double>(max_hp) : 0.0;
+        gx[6] = static_cast<double>(w.enemies.size() < 6 ? w.enemies.size() : 6) / 6.0;
+        gx[7] = static_cast<double>(nu) / 14.0;
+    }
+    double gz = clna_gate::kBias;
+    for (int i = 0; i < clna_gate::kN; ++i) gz += static_cast<double>(clna_gate::kW[i]) * gx[i];
+    const double eps = 1.0 / (1.0 + std::exp(-gz));  // alpha(h)
     double p[14], acc = 0;
     for (int k = 0; k < nu; ++k) p[k] = eps * uq[k] + (ug[k] == ref ? 1.0 - eps : 0.0);
     const double u = clna_u01();
@@ -1159,8 +1179,12 @@ int Bot::clna_explore(int v92g, int ng) {
     clna_round = round;
     ++clna_index;
     debug_block({
-        std::printf("CNA1 %d %d %u %d %d %d %.9f %.4f %d %d %d", round, slot, my_id, clna_index, ref, ug[c], logp, eps, v92g, ng, nu);
-        for (int k = 0; k < nu; ++k) std::printf(" %d:%.9f", ug[k], uq[k]);
+        // CNA2 <cached_round> <engine_round> <slot> <id> <index> <ref> <chosen> <logp> <alpha> <v92> <nn> <k> {g:q}*k
+        //      <gate x0..x7> <b64 features>   (round-trip %.17g for probabilities, logp and alpha)
+        std::printf("CNA2 %d %u %d %u %d %d %d %.17g %.17g %d %d %d", round, bc::round_number(), slot, my_id, clna_index, ref,
+                    ug[c], logp, eps, v92g, ng, nu);
+        for (int k = 0; k < nu; ++k) std::printf(" %d:%.17g", ug[k], uq[k]);
+        for (int i = 0; i < clna_gate::kN; ++i) std::printf(" %.17g", gx[i]);
         std::printf(" %s\n", b64(nn_lf, kNF).c_str());
     });
     return ug[c];
@@ -1168,7 +1192,7 @@ int Bot::clna_explore(int v92g, int ng) {
 void Bot::clna_end() {
     if (clna_round != round) return;
     clna_round = -1;
-    debug_block({ std::printf("CNX1 %d %d %u %d\n", round, slot, my_id, target_group); });
+    debug_block({ std::printf("CNX2 %d %u %d %u %d %d\n", round, bc::round_number(), slot, my_id, clna_index, target_group); });
 }
 void Bot::clna_skip(int v92g, int ng) {
     debug_block({ std::printf("CNS1 %d %d %u %d %d %d\n", round, slot, my_id, v92g, ng, nn_stay ? 1 : 0); });
