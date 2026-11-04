@@ -1,0 +1,976 @@
+{
+  "scope": "Fixed8round command commitment DEVELOPMENT feasibility; not learned options or ladder validation",
+  "change": "Fixed8round target hold, terminate on invalid state,visible enemy,lowHP or deadline; only jd_native_actor.inc changed; header6661 andreserve1000 unchanged",
+  "runtime_source_difference_checked": true,
+  "plan": {
+    "schema": "jd-native-query-development-eval-v1",
+    "pairs": [
+      [
+        "upper5",
+        "v92"
+      ],
+      [
+        "upper5",
+        "native"
+      ]
+    ],
+    "maps": [
+      {
+        "file": "00ambush.map26a",
+        "sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579",
+        "bytes": 23272,
+        "family": "ambush",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00contest.map26a",
+        "sha256": "554240a5a793f8c1ac9c518cb6edbacab0129ec4dfd94b199331aaebd0bf418a",
+        "bytes": 806,
+        "family": "contest",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00corners.map26a",
+        "sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+        "bytes": 2642,
+        "family": "corners",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00crater.map26a",
+        "sha256": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+        "bytes": 5628,
+        "family": "crater",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00dunes.map26a",
+        "sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f",
+        "bytes": 16312,
+        "family": "dunes",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "00elkring.map26a",
+        "sha256": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+        "bytes": 524,
+        "family": "elkring",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00monolith.map26a",
+        "sha256": "ba5674bf2ab26336eb99df0c9e97c16b27bd231deffc023de1d873a05a558313",
+        "bytes": 1623,
+        "family": "monoliths",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00oasis.map26a",
+        "sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+        "bytes": 1472,
+        "family": "oasis",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "01broken-curve.map26a",
+        "sha256": "1763423b171f3b61128b2a913a10f46ba550e7a2e79ae27dd89e915c952b5117",
+        "bytes": 9973,
+        "family": "broken-curve",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "01hooks.map26a",
+        "sha256": "23e58fe8f41ff66761ade251d3d10a9c3eead864f9ad74f12ad9e34f4bece378",
+        "bytes": 4165,
+        "family": "hooks",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "01starfish.map26a",
+        "sha256": "1edf115a0a788c010107148f975570961acc8e9fba4a013ad60f5ca2389cbb83",
+        "bytes": 8223,
+        "family": "starfish",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "02geodes.map26a",
+        "sha256": "12b1d1a4ac658c95fe2625e9aa8b66143d77e1d8399fb7a75de033d7ac4a784e",
+        "bytes": 21246,
+        "family": "geodes",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03ambush-field.map26a",
+        "sha256": "8f6cb1112f89cc99ee4a9f9eadc9f84423168f7e4d518510035ab05b48540c2e",
+        "bytes": 387142,
+        "family": "ambush",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03homonoliths.map26a",
+        "sha256": "f95e09158a7125a4100eb64535309b2583fdbe567d69afe5b14db11d2488a11f",
+        "bytes": 11263,
+        "family": "monoliths",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "03shrines.map26a",
+        "sha256": "77a36faca7294e02ed8f34f5de93a71d208f824dd1c01669979b51c8aeae255e",
+        "bytes": 1799,
+        "family": "shrines",
+        "previously_exposed": false,
+        "split": "development"
+      }
+    ],
+    "artifacts": {
+      "upper0": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper0_greedy_deploy.wasm",
+        "sha256": "09719dbf3f719e9f3e56835acc02499cfc4559a1aa8ae2d5bfb8b8100cc930cb"
+      },
+      "upper5": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native-upper-commit8/candidate.wasm",
+        "sha256": "2d7a26a5c0a7842764063bf186e1148f53cfa7fb427e06c8dd33211ce81a7274"
+      },
+      "native": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+        "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+      },
+      "v92": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+        "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+      },
+      "decrest": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-decrest-frozen/.cambc/build-release/bot-injected.wasm",
+        "sha256": "b502e467f12c4d7200ea597eb6bd094ccb6594a5bb70ef5805a9b4ae1df54a92"
+      },
+      "khiri": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-khiri-frozen/.cambc/build-release/bot-injected.wasm",
+        "sha256": "0b42527c2e6b2dc7ccc1933d01f3436415b85f166dfe276f43f2986a069eb84b"
+      },
+      "wardens": {
+        "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-wardens-frozen/.cambc/build-release/bot-injected.wasm",
+        "sha256": "3b034efc1afe426d4cac9d9e700e873224026631987b87976dd12b59d8fc2bba"
+      }
+    },
+    "fuel": 100000,
+    "round_cap": 2000,
+    "scope": "DEVELOPMENT fixed8round commitment feasibility, not sealed confirmation or ladder. No claimed strength improvement before comparison.",
+    "policy": "ISOLATED v107 fixed8round command hold versus cached exact v107. Same upper5 header, deterministic argmax command, v92bonus2,18kguard,logs off. Only target commitment added; same reserve1000. No checkpoint selection during this fixed60-game test.",
+    "latest_agent2_branch": "6c2244e268e36aa37819e4f6002b8820ba21e48a",
+    "opponent_limit": "Native/v92 full15devmaps plus3 older public policies on4outcome-independently selectedfamilies. Public pool is not current ladder strength proof.",
+    "public_maps": [
+      {
+        "file": "01starfish.map26a",
+        "sha256": "1edf115a0a788c010107148f975570961acc8e9fba4a013ad60f5ca2389cbb83",
+        "bytes": 8223,
+        "family": "starfish",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00corners.map26a",
+        "sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+        "bytes": 2642,
+        "family": "corners",
+        "previously_exposed": true,
+        "split": "development"
+      },
+      {
+        "file": "02geodes.map26a",
+        "sha256": "12b1d1a4ac658c95fe2625e9aa8b66143d77e1d8399fb7a75de033d7ac4a784e",
+        "bytes": 21246,
+        "family": "geodes",
+        "previously_exposed": false,
+        "split": "development"
+      },
+      {
+        "file": "00oasis.map26a",
+        "sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+        "bytes": 1472,
+        "family": "oasis",
+        "previously_exposed": true,
+        "split": "development"
+      }
+    ],
+    "extra_public_pairs": 0
+  },
+  "pairs": {
+    "v92": {
+      "games": 30,
+      "families": 13,
+      "baseline_wins": 16,
+      "candidate_wins": 12,
+      "baseline_draws": 0,
+      "candidate_draws": 0,
+      "paired_score_delta": -0.13333333333333333,
+      "paired_family_bootstrap_95": [
+        -0.38461538461538464,
+        0.1
+      ],
+      "baseline_fuel": 442,
+      "candidate_fuel": 454,
+      "baseline_fuel_per1000_rounds": 11.085195495698844,
+      "candidate_fuel_per1000_rounds": 11.665553214450897
+    },
+    "native": {
+      "games": 30,
+      "families": 13,
+      "baseline_wins": 17,
+      "candidate_wins": 15,
+      "baseline_draws": 0,
+      "candidate_draws": 0,
+      "paired_score_delta": -0.06666666666666667,
+      "paired_family_bootstrap_95": [
+        -0.285924369747899,
+        0.15625
+      ],
+      "baseline_fuel": 434,
+      "candidate_fuel": 396,
+      "baseline_fuel_per1000_rounds": 11.185567010309278,
+      "candidate_fuel_per1000_rounds": 10.461245839277224
+    }
+  },
+  "cells": [
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 29,
+      "candidate_fuel": 18,
+      "baseline_rounds": 1252,
+      "candidate_rounds": 1140
+    },
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 24,
+      "candidate_fuel": 19,
+      "baseline_rounds": 1248,
+      "candidate_rounds": 1323
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 18,
+      "candidate_fuel": 27,
+      "baseline_rounds": 1912,
+      "candidate_rounds": 2000
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 36,
+      "candidate_fuel": 29,
+      "baseline_rounds": 2000,
+      "candidate_rounds": 1671
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 32,
+      "candidate_fuel": 38,
+      "baseline_rounds": 1189,
+      "candidate_rounds": 1227
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 30,
+      "candidate_fuel": 51,
+      "baseline_rounds": 1182,
+      "candidate_rounds": 1078
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 5,
+      "candidate_fuel": 8,
+      "baseline_rounds": 1392,
+      "candidate_rounds": 1197
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 27,
+      "candidate_fuel": 15,
+      "baseline_rounds": 1825,
+      "candidate_rounds": 1585
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 14,
+      "candidate_fuel": 8,
+      "baseline_rounds": 1605,
+      "candidate_rounds": 1552
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 7,
+      "baseline_rounds": 1600,
+      "candidate_rounds": 1050
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 3,
+      "candidate_fuel": 3,
+      "baseline_rounds": 1000,
+      "candidate_rounds": 842
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 12,
+      "baseline_rounds": 907,
+      "candidate_rounds": 953
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 29,
+      "candidate_fuel": 43,
+      "baseline_rounds": 1200,
+      "candidate_rounds": 1088
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 42,
+      "candidate_fuel": 52,
+      "baseline_rounds": 1141,
+      "candidate_rounds": 1117
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 9,
+      "candidate_fuel": 3,
+      "baseline_rounds": 1502,
+      "candidate_rounds": 1558
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 8,
+      "baseline_rounds": 1562,
+      "candidate_rounds": 1910
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 1,
+      "baseline_rounds": 930,
+      "candidate_rounds": 950
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 3,
+      "candidate_fuel": 4,
+      "baseline_rounds": 979,
+      "candidate_rounds": 963
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 7,
+      "candidate_fuel": 7,
+      "baseline_rounds": 1441,
+      "candidate_rounds": 1447
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 6,
+      "candidate_fuel": 4,
+      "baseline_rounds": 2000,
+      "candidate_rounds": 1482
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 16,
+      "baseline_rounds": 1029,
+      "candidate_rounds": 1184
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 12,
+      "candidate_fuel": 17,
+      "baseline_rounds": 1430,
+      "candidate_rounds": 1740
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 5,
+      "baseline_rounds": 889,
+      "candidate_rounds": 968
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 14,
+      "candidate_fuel": 11,
+      "baseline_rounds": 856,
+      "candidate_rounds": 836
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 10,
+      "candidate_fuel": 9,
+      "baseline_rounds": 863,
+      "candidate_rounds": 855
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 10,
+      "candidate_fuel": 7,
+      "baseline_rounds": 898,
+      "candidate_rounds": 878
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 9,
+      "baseline_rounds": 1859,
+      "candidate_rounds": 2000
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 12,
+      "candidate_fuel": 17,
+      "baseline_rounds": 2000,
+      "candidate_rounds": 2000
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 1,
+      "candidate_fuel": 3,
+      "baseline_rounds": 1246,
+      "candidate_rounds": 1301
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "opponent": "v92",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 4,
+      "candidate_fuel": 3,
+      "baseline_rounds": 936,
+      "candidate_rounds": 1023
+    },
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 45,
+      "candidate_fuel": 36,
+      "baseline_rounds": 1290,
+      "candidate_rounds": 1152
+    },
+    {
+      "map": "00ambush.map26a",
+      "family": "ambush",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 30,
+      "candidate_fuel": 27,
+      "baseline_rounds": 1343,
+      "candidate_rounds": 1224
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 9,
+      "candidate_fuel": 19,
+      "baseline_rounds": 1643,
+      "candidate_rounds": 1675
+    },
+    {
+      "map": "00contest.map26a",
+      "family": "contest",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 20,
+      "candidate_fuel": 26,
+      "baseline_rounds": 1714,
+      "candidate_rounds": 1539
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 32,
+      "candidate_fuel": 44,
+      "baseline_rounds": 1011,
+      "candidate_rounds": 1042
+    },
+    {
+      "map": "00corners.map26a",
+      "family": "corners",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 37,
+      "candidate_fuel": 23,
+      "baseline_rounds": 1285,
+      "candidate_rounds": 1087
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 2,
+      "baseline_rounds": 1391,
+      "candidate_rounds": 1079
+    },
+    {
+      "map": "00crater.map26a",
+      "family": "crater",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 18,
+      "candidate_fuel": 13,
+      "baseline_rounds": 1435,
+      "candidate_rounds": 1548
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 10,
+      "candidate_fuel": 14,
+      "baseline_rounds": 1593,
+      "candidate_rounds": 1298
+    },
+    {
+      "map": "00dunes.map26a",
+      "family": "dunes",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 15,
+      "candidate_fuel": 6,
+      "baseline_rounds": 1502,
+      "candidate_rounds": 1107
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 9,
+      "candidate_fuel": 7,
+      "baseline_rounds": 892,
+      "candidate_rounds": 946
+    },
+    {
+      "map": "00elkring.map26a",
+      "family": "elkring",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 1,
+      "candidate_fuel": 1,
+      "baseline_rounds": 893,
+      "candidate_rounds": 819
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 29,
+      "candidate_fuel": 24,
+      "baseline_rounds": 960,
+      "candidate_rounds": 1008
+    },
+    {
+      "map": "00monolith.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 33,
+      "candidate_fuel": 32,
+      "baseline_rounds": 1060,
+      "candidate_rounds": 1097
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 10,
+      "candidate_fuel": 6,
+      "baseline_rounds": 1678,
+      "candidate_rounds": 1903
+    },
+    {
+      "map": "00oasis.map26a",
+      "family": "oasis",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 2,
+      "candidate_fuel": 1,
+      "baseline_rounds": 1503,
+      "candidate_rounds": 2000
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 4,
+      "candidate_fuel": 3,
+      "baseline_rounds": 920,
+      "candidate_rounds": 959
+    },
+    {
+      "map": "01broken-curve.map26a",
+      "family": "broken-curve",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 6,
+      "candidate_fuel": 6,
+      "baseline_rounds": 1036,
+      "candidate_rounds": 968
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 3,
+      "candidate_fuel": 4,
+      "baseline_rounds": 1813,
+      "candidate_rounds": 1363
+    },
+    {
+      "map": "01hooks.map26a",
+      "family": "hooks",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 2,
+      "candidate_fuel": 3,
+      "baseline_rounds": 1739,
+      "candidate_rounds": 1549
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 16,
+      "candidate_fuel": 10,
+      "baseline_rounds": 1236,
+      "candidate_rounds": 1508
+    },
+    {
+      "map": "01starfish.map26a",
+      "family": "starfish",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 26,
+      "candidate_fuel": 21,
+      "baseline_rounds": 1609,
+      "candidate_rounds": 1514
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 6,
+      "baseline_rounds": 825,
+      "candidate_rounds": 907
+    },
+    {
+      "map": "02geodes.map26a",
+      "family": "geodes",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 11,
+      "baseline_rounds": 849,
+      "candidate_rounds": 909
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 10,
+      "baseline_rounds": 834,
+      "candidate_rounds": 937
+    },
+    {
+      "map": "03ambush-field.map26a",
+      "family": "ambush",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 8,
+      "candidate_fuel": 10,
+      "baseline_rounds": 887,
+      "candidate_rounds": 846
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 0.0,
+      "candidate_score": 0.0,
+      "baseline_fuel": 11,
+      "candidate_fuel": 10,
+      "baseline_rounds": 1673,
+      "candidate_rounds": 1706
+    },
+    {
+      "map": "03homonoliths.map26a",
+      "family": "monoliths",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 12,
+      "candidate_fuel": 12,
+      "baseline_rounds": 1516,
+      "candidate_rounds": 1731
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "A",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 2,
+      "candidate_fuel": 5,
+      "baseline_rounds": 1321,
+      "candidate_rounds": 1216
+    },
+    {
+      "map": "03shrines.map26a",
+      "family": "shrines",
+      "side": "B",
+      "opponent": "native",
+      "baseline_score": 1.0,
+      "candidate_score": 1.0,
+      "baseline_fuel": 6,
+      "candidate_fuel": 4,
+      "baseline_rounds": 1349,
+      "candidate_rounds": 1217
+    }
+  ],
+  "wall_seconds": 63.17274495912716,
+  "limitations": [
+    "Fixed-duration rule changes command trajectories; does not implement learned option termination.",
+    "Existing downstream executor may cancel/reassign the commanded group; no full physical control claim.",
+    "Same exposed15 development maps/13 families and related opponents; no untouched confirmation.",
+    "One preset tested, no parameter sweep or candidate selected during the test."
+  ]
+}
