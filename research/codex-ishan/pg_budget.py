@@ -22,11 +22,13 @@ def prepare(src, variant, enabled=True):
     if variant in ("siege", "combined"):
         apply(config, (("#define JD_GOV 5", "#define JD_GOV 7"),))
     if variant in ("walk", "combined"):
-        apply(config, (("#define JD_CONTACT 0", "#define X1_WALKRES 12\n#define JD_CONTACT 0"),))
+        data = config.read_bytes()
+        nl = b"\r\n" if b"\r\n" in data else b"\n"
+        config.write_bytes(b"#define X1_WALKRES 12" + nl + data)
 
 
 def run(variant):
-    trace.OUT = bench.CACHE / f"pg-budget-{variant}"
+    trace.OUT = bench.CACHE / ("pg-budget-walk-r1" if variant == "walk" else f"pg-budget-{variant}")
     project = trace.OUT / "diagnostic"
     prepare(project / "src", variant)
     trace.instrument(project / "src")
