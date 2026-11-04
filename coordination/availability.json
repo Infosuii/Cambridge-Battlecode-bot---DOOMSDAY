@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "updated_at": "2026-11-04T01:40:22Z",
+  "adoption_until": "2026-11-04T02:10:22Z",
+  "timeout_seconds": 1800,
+  "challenge_after_seconds": 1200,
+  "poll_minutes": 5,
+  "dispatcher": {
+    "primary": "johndoe",
+    "backup": "claude",
+    "mutation_rule": "GitHub contents current-blob-SHA compare-and-swap; no force overwrite"
+  },
+  "agents": {
+    "johndoe": {
+      "accounts": [
+        "johndoe123983"
+      ],
+      "session": "johndoe-manager-20261104-0140",
+      "seq": 1,
+      "state": "ACTIVE",
+      "protocol_ack": true,
+      "last_control_at": "2026-11-04T01:40:22Z",
+      "capabilities": [
+        "coordination",
+        "review",
+        "ideation"
+      ],
+      "free_capacity": 1,
+      "requires_new_assignment": false
+    },
+    "claude": {
+      "accounts": [
+        "R1shik123"
+      ],
+      "session": null,
+      "seq": 0,
+      "state": "AWAITING_ADOPTION",
+      "protocol_ack": false,
+      "last_control_at": null,
+      "adoption_until": "2026-11-04T02:10:22Z",
+      "capabilities": [
+        "coordination",
+        "review",
+        "ideation",
+        "ladder-coordination"
+      ],
+      "free_capacity": 1,
+      "requires_new_assignment": false
+    },
+    "builder-g5070-1104": {
+      "accounts": [
+        "Infosuii"
+      ],
+      "session": null,
+      "seq": 0,
+      "state": "AWAITING_ADOPTION",
+      "protocol_ack": false,
+      "last_control_at": null,
+      "adoption_until": "2026-11-04T02:10:22Z",
+      "capabilities": [
+        "heavy-build",
+        "gpu",
+        "runtime",
+        "rl-export",
+        "strategy",
+        "evaluation"
+      ],
+      "free_capacity": 0,
+      "requires_new_assignment": false,
+      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "deadline": "2026-11-04T13:05:00Z"
+    },
+    "agent2": {
+      "accounts": [],
+      "identity_note": "Git author Iniya; registered posting account/session must be confirmed by Agent2 or existing coordination owner before accepting CONTROL.",
+      "session": null,
+      "seq": 0,
+      "state": "AWAITING_ADOPTION",
+      "protocol_ack": false,
+      "last_control_at": null,
+      "adoption_until": "2026-11-04T02:10:22Z",
+      "capabilities": [
+        "rl-training",
+        "gpu"
+      ],
+      "free_capacity": 0,
+      "requires_new_assignment": false,
+      "branch": "agent2-neural"
+    }
+  },
+  "tasks": [
+    {
+      "id": "candidate-integration",
+      "owner": "builder-g5070-1104",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "heavy-build",
+        "evaluation"
+      ],
+      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "checkpoint": "4d12d052",
+      "platform_sensitive": false
+    },
+    {
+      "id": "fuel-memory-runtime",
+      "owner": "builder-g5070-1104",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "runtime"
+      ],
+      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "checkpoint": null,
+      "platform_sensitive": false
+    },
+    {
+      "id": "basic-decision-strategy",
+      "owner": "builder-g5070-1104",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "strategy"
+      ],
+      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "checkpoint": null,
+      "platform_sensitive": false
+    },
+    {
+      "id": "rl-actor-export",
+      "owner": "builder-g5070-1104",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "rl-export"
+      ],
+      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "checkpoint": null,
+      "platform_sensitive": false
+    },
+    {
+      "id": "rl-training",
+      "owner": "agent2",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "rl-training",
+        "gpu"
+      ],
+      "branch": "agent2-neural",
+      "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
+      "platform_sensitive": false
+    },
+    {
+      "id": "ladder-coordination",
+      "owner": "claude",
+      "owner_session": null,
+      "epoch": 1,
+      "state": "AWAITING_ADOPTION",
+      "requires": [
+        "ladder-coordination"
+      ],
+      "checkpoint": null,
+      "platform_sensitive": true,
+      "platform_state": "NO_LOCK_REQUESTED"
+    },
+    {
+      "id": "upstream-review",
+      "owner": "johndoe",
+      "owner_session": "johndoe-manager-20261104-0140",
+      "epoch": 1,
+      "state": "ACTIVE",
+      "requires": [
+        "review"
+      ],
+      "branch": "johndoe/qualifier-build-prompt",
+      "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868",
+      "platform_sensitive": false
+    }
+  ],
+  "events": [],
+  "note": "Adoption pending for other workers. Preserve current claims during grace. Only verified fresh CONTROL comments renew liveness; runner messages/commit timestamps alone do not. Use latest issue5 ladder policy."
+}
+
