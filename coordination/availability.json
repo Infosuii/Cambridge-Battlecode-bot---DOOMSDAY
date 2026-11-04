@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T14:17:11Z",
+  "updated_at": "2026-11-04T16:07:34Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -19,7 +19,7 @@
       ],
       "session": "johndoe-rl-learner-e2-20261104-1418",
       "seq": 2,
-      "state": "ACTIVE",
+      "state": "UNAVAILABLE_30M",
       "protocol_ack": true,
       "last_control_at": "2026-11-04T14:17:11Z",
       "capabilities": [
@@ -31,7 +31,7 @@
         "kaggle-operation"
       ],
       "free_capacity": 0,
-      "requires_new_assignment": false,
+      "requires_new_assignment": true,
       "last_control_comment_id": 6632974681,
       "checkpoint": "e16b76ab05a62ef556e494c331bbf713d771de03",
       "expiry_eligible": true,
@@ -53,17 +53,18 @@
         }
       ],
       "branch": "johndoe/rl-belief-design-1104",
-      "unavailable_since": "2026-11-04T13:54:36Z"
+      "unavailable_since": "2026-11-04T15:40:43Z",
+      "last_substantive_at": "2026-11-04T15:10:42Z"
     },
     "claude": {
       "accounts": [
         "R1shik123"
       ],
       "session": "claude-rlenv-20261104-1305",
-      "seq": 12,
+      "seq": 25,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T14:12:31Z",
+      "last_control_at": "2026-11-04T16:01:42Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "implementation",
@@ -74,8 +75,8 @@
       ],
       "free_capacity": 0,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6632860731,
-      "checkpoint": "d01814e7cda32d8498500fd4eab2e1661f252ba3",
+      "last_control_comment_id": 6635433323,
+      "checkpoint": "c442f8e004a93cadf05d747e1b746edc4f044dd6",
       "expiry_eligible": true,
       "retired_sessions": [
         {
@@ -418,21 +419,21 @@
     },
     {
       "id": "rl-learner-integration-1104",
-      "owner": "johndoe",
-      "owner_session": "johndoe-rl-learner-e2-20261104-1418",
-      "epoch": 2,
-      "state": "ACTIVE",
+      "owner": null,
+      "owner_session": null,
+      "epoch": 3,
+      "state": "READY_UNASSIGNED",
       "requires": [
         "implementation",
         "light-build"
       ],
       "branch": "johndoe/rl-belief-design-1104",
-      "checkpoint": "e16b76ab05a62ef556e494c331bbf713d771de03",
+      "checkpoint": "bebbc20b5f17d6ef84a3410537ebcaaf974d86c6",
       "platform_sensitive": false,
       "scope": "Independent learner/preprocessing/BC and own-policy PPO integration, local Mac and Kaggle; Azure paused",
       "previous_owner": "johndoe",
-      "previous_owner_session": "johndoe-rl-implementation-20261104-1302",
-      "transition_id": "expire:johndoe:6631799314",
+      "previous_owner_session": "johndoe-rl-learner-e2-20261104-1418",
+      "transition_id": "expire:johndoe:6634227330",
       "run_namespace": "jd-cl1-e2",
       "assignment_id": "assign:johndoe:6632965722:e2",
       "ack_comment_id": 6632974681
@@ -448,7 +449,7 @@
         "light-build"
       ],
       "branch": "claude/rl-env-1104",
-      "checkpoint": "d01814e7cda32d8498500fd4eab2e1661f252ba3",
+      "checkpoint": "c442f8e004a93cadf05d747e1b746edc4f044dd6",
       "platform_sensitive": false,
       "requested_worker": "claude",
       "request_comment_id": 6631243875,
@@ -719,6 +720,18 @@
       "session": "johndoe-rl-learner-e2-20261104-1418",
       "at": "2026-11-04T14:17:11Z",
       "epoch": 2
+    },
+    {
+      "id": "expire:johndoe:6634227330",
+      "type": "EXPIRY",
+      "agent": "johndoe",
+      "session": "johndoe-rl-learner-e2-20261104-1418",
+      "at": "2026-11-04T16:07:34Z",
+      "last_substantive_at": "2026-11-04T15:10:42Z",
+      "affected_tasks": [
+        "rl-learner-integration-1104"
+      ],
+      "note": "Verified >30m public controller gap before16:05 return; preserve completed learner and imported checkpoint. No process running, old epoch not reclaimed."
     }
   ],
   "note": "User ended manager dispatch; completed builder work preserved; no new assignments. CPG delivery packaged, no platform actions.",
