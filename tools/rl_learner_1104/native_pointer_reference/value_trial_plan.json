@@ -1,0 +1,363 @@
+{
+  "experiment": "Fixed prior state baseline vs zero; same5200param QATactor/PPO settings and initialization",
+  "shared_initial_games": 32,
+  "subsequent_games_per_arm": 128,
+  "total_fresh_games": 288,
+  "baseline_sha256": "c628a5a5b86794ccfa62716483c7d7ec10490815b4d9d5149d6c813ed465d2ba",
+  "starting_checkpoint_sha256": "87ecbccb5a2ec613111a3c2f1be5fb8aa3510127d89bf7aaff17f66c24c9ae56",
+  "starting_header_sha256": "6661d16ace9971334ba646993729560f77bec507d4191e7527201f3e2ab21862",
+  "cycles": [
+    {
+      "cycle": 0,
+      "seed": 110601,
+      "maps": [
+        {
+          "file": "00gemfight.map26a",
+          "sha256": "1dfe5669ebcdf39e7769b5abf933c707804ee4a216881f89178e75e3dbc27239",
+          "bytes": 533,
+          "family": "gemfight",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00eight.map26a",
+          "sha256": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+          "bytes": 1185,
+          "family": "eight",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01boss-battle.map26a",
+          "sha256": "53086e249294aed6f427fe647d578303589a081e953c62a0ff8f20cade9993fa",
+          "bytes": 591,
+          "family": "boss-battle",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00ribs.map26a",
+          "sha256": "ac8b03e975303908d08c098cc41f998a0bcfaf90bbcbcc2fda3f22a92c0c9d6f",
+          "bytes": 8790,
+          "family": "ribs",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01big-world.map26a",
+          "sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+          "bytes": 20381,
+          "family": "big-world",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00gem-fields.map26a",
+          "sha256": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+          "bytes": 8014,
+          "family": "gem-fields",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00reverse-spiral.map26a",
+          "sha256": "f57669ffc98b76a5c2e4eccba41690dc193efc29f067ee960605617b2cfb48e5",
+          "bytes": 1556,
+          "family": "reverse-spiral",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "03twisty.map26a",
+          "sha256": "64d42316247a0c23038d70cfb061095795470d1be61844e3c8ef104b64fa2342",
+          "bytes": 35190,
+          "family": "twisty",
+          "previously_exposed": false,
+          "split": "training"
+        }
+      ]
+    },
+    {
+      "cycle": 1,
+      "seed": 110602,
+      "maps": [
+        {
+          "file": "02uncharted-lands.map26a",
+          "sha256": "2ddd507b959881bfd2907877916cf15b1e113bac41c5816bcdb7251137037b23",
+          "bytes": 14451,
+          "family": "uncharted-lands",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01starvation.map26a",
+          "sha256": "0b8e85603a85ca5778f92d2975c56da0e4b8df59264c42eef23108f8bbceec2a",
+          "bytes": 25161,
+          "family": "scarcity",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02tangle.map26a",
+          "sha256": "6b340bd80e0cc5fc93794ff0d8661f13087cdc8840324b0aa7f85baa076acd3e",
+          "bytes": 42910,
+          "family": "tangle",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00rows.map26a",
+          "sha256": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+          "bytes": 5288,
+          "family": "rows",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00galaxy.map26a",
+          "sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+          "bytes": 15594,
+          "family": "galaxy",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "adgato-gemcombat1.map26a",
+          "sha256": "3ad3afd3b410c72ca0d391a079943d1a290b330f996d56731686eae7b7deb8c8",
+          "bytes": 1218,
+          "family": "adgato-gemcombat",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02gift-wrapping.map26a",
+          "sha256": "98be2c3fb8a499cc2fa797aebdfce7925524aaa63238308cb4068f932012b2c0",
+          "bytes": 1605,
+          "family": "gift-wrapping",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01concentrated-wealth.map26a",
+          "sha256": "dc09c386d5e9dec3cec8bc4575c19d43233e08790e138ccd02be4644f2808c65",
+          "bytes": 10236,
+          "family": "concentrated-wealth",
+          "previously_exposed": false,
+          "split": "training"
+        }
+      ]
+    },
+    {
+      "cycle": 2,
+      "seed": 110603,
+      "maps": [
+        {
+          "file": "00rushbait-v2.map26a",
+          "sha256": "f4dcc30269aa7d0983e7d244f72c3d2a9a6d7ce918cd00495d465b78b2609157",
+          "bytes": 941,
+          "family": "rushbait",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02the-pack.map26a",
+          "sha256": "0ef770de4babebf37a6425a8adeb3fac6dec286d0d24b47268ed39f7a4fa4a5e",
+          "bytes": 3841,
+          "family": "the-pack",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00collision.map26a",
+          "sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+          "bytes": 1367,
+          "family": "collision",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02the-pond.map26a",
+          "sha256": "216f697ab34a7dd9785c1026a49faca6b3f840fbf150c3b89ff136590d8e7972",
+          "bytes": 8098,
+          "family": "the-pond",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00split.map26a",
+          "sha256": "1db691b7def9cb585314c7c4139ef1b79df87fcdbfab9d86ef31666c4709a4c4",
+          "bytes": 2742,
+          "family": "split",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "03contours.map26a",
+          "sha256": "65cc21a8265cd1a88b1662bb3e60043b08b8eab13c6e621a417bbd9d25db3cbc",
+          "bytes": 18298,
+          "family": "contours",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02fields.map26a",
+          "sha256": "2be7c5f1ec0fb50718565c9b4e60159b0e4768232fa6c4917077e989451f9695",
+          "bytes": 36985,
+          "family": "fields",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00quarry.map26a",
+          "sha256": "cc08a95cc527bfab7bab7a8a04ad1cb77ca5f541094c1432d45e889e8e34bc9a",
+          "bytes": 2582,
+          "family": "quarry",
+          "previously_exposed": false,
+          "split": "training"
+        }
+      ]
+    },
+    {
+      "cycle": 3,
+      "seed": 110604,
+      "maps": [
+        {
+          "file": "00pilgrimage.map26a",
+          "sha256": "7d7ddb9c37c77cd8b3721423e155400d936eaa76fa3c62fe24b308d0fd5eb673",
+          "bytes": 10274,
+          "family": "pilgrimage",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "03fan.map26a",
+          "sha256": "6a6162795278f6eff403d0707957a051b6a8884f341b256d3b7d5b00d0c3fefa",
+          "bytes": 3813,
+          "family": "fan",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00stampede.map26a",
+          "sha256": "49807e4756ec1b2030ed2ca7ebdd8a07f1a6ed7f2d2bd751e6941f5c0c877cdc",
+          "bytes": 6805,
+          "family": "stampede",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00packs.map26a",
+          "sha256": "60ee7a86ee377a04a77d11008b78aaed9e2c1cfcfc4302055974195e078c675a",
+          "bytes": 306,
+          "family": "packs",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02harvest.map26a",
+          "sha256": "f8b2814ded9e65bb8c0623e7b715259f56e33b63f363561280916a3a4181511f",
+          "bytes": 81004,
+          "family": "harvest",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02stalactites.map26a",
+          "sha256": "30b6943d5d93b0bc4b6e28ef1e4f32fe581e7050332030e30cd7453d61fa8ba6",
+          "bytes": 1093,
+          "family": "stalactites",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01islands.map26a",
+          "sha256": "d97cf04b738393812fb51024582e2a6cfba8a850b19ce031f2c1ad3d7b916acb",
+          "bytes": 22234,
+          "family": "islands",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00happy-halloween.map26a",
+          "sha256": "a97f4ab5707d15729c2858ce0598d62e5473ff95b38809f88cb9497f882ff6dd",
+          "bytes": 24689,
+          "family": "happy-halloween",
+          "previously_exposed": false,
+          "split": "training"
+        }
+      ]
+    },
+    {
+      "cycle": 4,
+      "seed": 110605,
+      "maps": [
+        {
+          "file": "03the-front.map26a",
+          "sha256": "1b7cdfe0b493ee2a417d4f2360f0a9995caa2c535b11858c53c87aef15f19d3f",
+          "bytes": 5088,
+          "family": "the-front",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "03honeycomb.map26a",
+          "sha256": "d03a580f7ad481987c206a26f6dcdcec1e00554ed6286d9d843473fa7972fe7b",
+          "bytes": 30767,
+          "family": "honeycomb",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "01elk-arena.map26a",
+          "sha256": "72b8e03bc4378d5f988f9c1c07609848bfb42fd8a883cce01820d96212f21c0a",
+          "bytes": 19804,
+          "family": "arenas",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "02crossing.map26a",
+          "sha256": "11284b5deab36a11eb579d6cce80a47840ede50fb3a121e819932597bb95718f",
+          "bytes": 8109,
+          "family": "crossing",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00anvil.map26a",
+          "sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+          "bytes": 1442,
+          "family": "anvil",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00quadrants.map26a",
+          "sha256": "261fe6c133f076653bda84e88965dc35c5a59a70e7730082b4c6df9ca892df92",
+          "bytes": 7031,
+          "family": "quadrants",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00road-of-riches.map26a",
+          "sha256": "8365e18788720a079a906c0430e809317236acecccf888b517a1de409689b049",
+          "bytes": 5165,
+          "family": "road-of-riches",
+          "previously_exposed": false,
+          "split": "training"
+        },
+        {
+          "file": "00breadcrumbs.map26a",
+          "sha256": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+          "bytes": 8126,
+          "family": "breadcrumbs",
+          "previously_exposed": false,
+          "split": "training"
+        }
+      ]
+    }
+  ],
+  "evaluation": "One scheduled matched greedy deployment comparison after all5 cycles; no dev-feedback scheduling or model selection inside block",
+  "fairness": "Shared cycle0 onpolicy for identical initial actors; subsequent zero/value policies each collect their OWN trajectories on same mapfamily/side/opponent/compiled-RNGseed schedule. Family/origin overlap within shared cycle0 is intentional, not two independent samples."
+}
