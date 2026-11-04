@@ -53,14 +53,12 @@ def read_turn(directory, round_number, side, actor):
     return state
 
 
-def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False):
+def verify(wasm, escape_only=False, *, heart_attack=False, travel_tail=False, name=None):
     exact = bench.ROOT / "bots/codex-pg-camp-reserve/bot.wasm"
     assert bench.digest(exact) == read(HERE / "PG_CAMP_RESERVE_BUILDS.json")["primary"]
-    name = "pg-escape-followup" if escape_only else "pg-dash-followup"
-    if heart_attack:
-        name = "pg-heart-attack"
-    if travel_tail:
-        name = "pg-travel-tail"
+    if name is None:
+        name = ("pg-travel-tail" if travel_tail else "pg-heart-attack" if heart_attack else
+                "pg-escape-followup" if escape_only else "pg-dash-followup")
     bench.OUT = bench.CACHE / f"{name}-stress"
     (bench.OUT / "games").mkdir(parents=True)
     jobs = []
