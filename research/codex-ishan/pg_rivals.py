@@ -13,7 +13,7 @@ from bounded_verdict import apply
 
 HERE = Path(__file__).resolve().parent
 ARCHIVE = bench.CACHE / "cpg-archive-1/src"
-OUT = bench.CACHE / "pg-rival-probe"
+OUT = bench.CACHE / "pg-rival-probe-r1"
 OPPONENTS = ("x3inv", "public-khiri")
 LIMIT = 1048576
 
@@ -32,8 +32,9 @@ def prepare(src, enabled, diagnostic=False):
     config.write_bytes(nl.join([*settings, data[len(expected):]]))
     if diagnostic:
         apply(src / "main.cpp", (
-            ("                play_draft();",
-             """                static bool capture_announced = false;
+            ("            if (bc::is_draft()) {\n                play_draft();",
+             """            if (bc::is_draft()) {
+                static bool capture_announced = false;
                 if (!capture_announced) { std::puts("CODEX_PG_CAPTURE"); capture_announced = true; }
                 play_draft();"""),
         ))
