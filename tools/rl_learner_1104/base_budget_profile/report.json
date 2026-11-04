@@ -1,0 +1,463 @@
+{
+  "scope": "Instrumented actual RELEASE games at100k fuel, TRAINING maps only; diagnostic costs, not strength evidence",
+  "candidate_wasm_sha256": "33b4b24e1f91fe5d49a5761f10508a92f8f24be1fe5d716c301922f0613a695c",
+  "source_ref": "8cccf446b0371d04f6c627e5a5a882ba286dd629 isolated source; CLNA defines removed; jd raw-fuel scopes added",
+  "games": 8,
+  "wall_seconds": 8.780095874797553,
+  "summary": {
+    "play_turn": {
+      "calls": 46496,
+      "interrupted_calls": 46,
+      "completed_call_raw_fuel": 2560887500,
+      "mean_completed_call_fuel": 55132.13132400431,
+      "per_game_mean_p10_p50_p90": [
+        48424.118759303674,
+        57594.41005109319,
+        58898.59865408202
+      ]
+    },
+    "heuristic_score": {
+      "calls": 11660,
+      "interrupted_calls": 0,
+      "completed_call_raw_fuel": 132241060,
+      "mean_completed_call_fuel": 11341.428816466552,
+      "per_game_mean_p10_p50_p90": [
+        1604.426803172127,
+        30189.24897308018,
+        34662.08313089698
+      ]
+    },
+    "neural_lazy": {
+      "calls": 32823,
+      "interrupted_calls": 8,
+      "completed_call_raw_fuel": 1141160380,
+      "mean_completed_call_fuel": 34775.57153740667,
+      "per_game_mean_p10_p50_p90": [
+        31376.709828088027,
+        34794.630953513784,
+        37606.388883821106
+      ]
+    },
+    "neural_decide": {
+      "calls": 41392,
+      "interrupted_calls": 0,
+      "completed_call_raw_fuel": 25101997,
+      "mean_completed_call_fuel": 606.4456175106301,
+      "per_game_mean_p10_p50_p90": [
+        580.3359310363879,
+        604.6600162786956,
+        625.1464761482647
+      ]
+    },
+    "neural_background": {
+      "calls": 46496,
+      "interrupted_calls": 65,
+      "completed_call_raw_fuel": 924221924,
+      "mean_completed_call_fuel": 19905.277163963732,
+      "per_game_mean_p10_p50_p90": [
+        16956.911763565247,
+        20295.178134311234,
+        21780.407179676815
+      ]
+    },
+    "farm": {
+      "calls": 32901,
+      "interrupted_calls": 29,
+      "completed_call_raw_fuel": 1564191381,
+      "mean_completed_call_fuel": 47584.30825626673,
+      "per_game_mean_p10_p50_p90": [
+        46293.71319697394,
+        47113.70971758451,
+        48990.160079061214
+      ]
+    }
+  },
+  "heuristic_completed_fuel_per_observed_play_turn": 2844.1384205092913,
+  "cells": [
+    {
+      "map": "00reverse-spiral.map26a",
+      "side": "A",
+      "profiled_bodies": 4,
+      "last_report_round_range": [
+        1503,
+        1514
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 6008,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 293411324,
+          "mean_completed_call_fuel": 48836.771637816244
+        },
+        "heuristic_score": {
+          "calls": 485,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 11529904,
+          "mean_completed_call_fuel": 23772.99793814433
+        },
+        "neural_lazy": {
+          "calls": 3374,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 129394633,
+          "mean_completed_call_fuel": 38350.51363366924
+        },
+        "neural_decide": {
+          "calls": 5022,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2848369,
+          "mean_completed_call_fuel": 567.1782158502589
+        },
+        "neural_background": {
+          "calls": 6008,
+          "interrupted_calls": 5,
+          "completed_call_raw_fuel": 129652203,
+          "mean_completed_call_fuel": 21597.901549225386
+        },
+        "farm": {
+          "calls": 3381,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 165243408,
+          "mean_completed_call_fuel": 48874.12244897959
+        }
+      }
+    },
+    {
+      "map": "00reverse-spiral.map26a",
+      "side": "B",
+      "profiled_bodies": 4,
+      "last_report_round_range": [
+        1250,
+        1263
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 5003,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 237448694,
+          "mean_completed_call_fuel": 47461.26204277434
+        },
+        "heuristic_score": {
+          "calls": 356,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 9937983,
+          "mean_completed_call_fuel": 27915.682584269663
+        },
+        "neural_lazy": {
+          "calls": 2739,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 102130403,
+          "mean_completed_call_fuel": 37287.478276743335
+        },
+        "neural_decide": {
+          "calls": 4152,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2432968,
+          "mean_completed_call_fuel": 585.9749518304432
+        },
+        "neural_background": {
+          "calls": 5003,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 111009062,
+          "mean_completed_call_fuel": 22206.253650730145
+        },
+        "farm": {
+          "calls": 2745,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 130798115,
+          "mean_completed_call_fuel": 47649.586520947174
+        }
+      }
+    },
+    {
+      "map": "02fields.map26a",
+      "side": "A",
+      "profiled_bodies": 6,
+      "last_report_round_range": [
+        750,
+        752
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 4471,
+          "interrupted_calls": 15,
+          "completed_call_raw_fuel": 257302600,
+          "mean_completed_call_fuel": 57742.95332136445
+        },
+        "heuristic_score": {
+          "calls": 708,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 24973479,
+          "mean_completed_call_fuel": 35273.27542372881
+        },
+        "neural_lazy": {
+          "calls": 3573,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 111169783,
+          "mean_completed_call_fuel": 31148.7203698515
+        },
+        "neural_decide": {
+          "calls": 4072,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2480951,
+          "mean_completed_call_fuel": 609.2708742632612
+        },
+        "neural_background": {
+          "calls": 4471,
+          "interrupted_calls": 11,
+          "completed_call_raw_fuel": 75738938,
+          "mean_completed_call_fuel": 16981.82466367713
+        },
+        "farm": {
+          "calls": 3579,
+          "interrupted_calls": 10,
+          "completed_call_raw_fuel": 165758727,
+          "mean_completed_call_fuel": 46444.02549733819
+        }
+      }
+    },
+    {
+      "map": "02fields.map26a",
+      "side": "B",
+      "profiled_bodies": 6,
+      "last_report_round_range": [
+        750,
+        750
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 4470,
+          "interrupted_calls": 13,
+          "completed_call_raw_fuel": 257563972,
+          "mean_completed_call_fuel": 57788.640789768906
+        },
+        "heuristic_score": {
+          "calls": 714,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 24513218,
+          "mean_completed_call_fuel": 34332.23809523809
+        },
+        "neural_lazy": {
+          "calls": 3616,
+          "interrupted_calls": 3,
+          "completed_call_raw_fuel": 113717078,
+          "mean_completed_call_fuel": 31474.41959590368
+        },
+        "neural_decide": {
+          "calls": 4143,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2486786,
+          "mean_completed_call_fuel": 600.2379917933864
+        },
+        "neural_background": {
+          "calls": 4470,
+          "interrupted_calls": 9,
+          "completed_call_raw_fuel": 75385465,
+          "mean_completed_call_fuel": 16898.78166330419
+        },
+        "farm": {
+          "calls": 3622,
+          "interrupted_calls": 10,
+          "completed_call_raw_fuel": 165946060,
+          "mean_completed_call_fuel": 45942.98449612403
+        }
+      }
+    },
+    {
+      "map": "02uncharted-lands.map26a",
+      "side": "A",
+      "profiled_bodies": 6,
+      "last_report_round_range": [
+        750,
+        762
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 4505,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 265496956,
+          "mean_completed_call_fuel": 58986.215507664965
+        },
+        "heuristic_score": {
+          "calls": 677,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 21977326,
+          "mean_completed_call_fuel": 32462.815361890694
+        },
+        "neural_lazy": {
+          "calls": 3575,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 117915332,
+          "mean_completed_call_fuel": 32983.30965034965
+        },
+        "neural_decide": {
+          "calls": 4285,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2650977,
+          "mean_completed_call_fuel": 618.6644107351225
+        },
+        "neural_background": {
+          "calls": 4505,
+          "interrupted_calls": 10,
+          "completed_call_raw_fuel": 93954528,
+          "mean_completed_call_fuel": 20902.008453837596
+        },
+        "farm": {
+          "calls": 3581,
+          "interrupted_calls": 2,
+          "completed_call_raw_fuel": 166702064,
+          "mean_completed_call_fuel": 46577.83291422185
+        }
+      }
+    },
+    {
+      "map": "02uncharted-lands.map26a",
+      "side": "B",
+      "profiled_bodies": 6,
+      "last_report_round_range": [
+        750,
+        754
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 4492,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 264168386,
+          "mean_completed_call_fuel": 58861.048573975044
+        },
+        "heuristic_score": {
+          "calls": 794,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 27313714,
+          "mean_completed_call_fuel": 34400.143576826194
+        },
+        "neural_lazy": {
+          "calls": 3715,
+          "interrupted_calls": 1,
+          "completed_call_raw_fuel": 118233648,
+          "mean_completed_call_fuel": 31834.58481421648
+        },
+        "neural_decide": {
+          "calls": 4298,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 2572270,
+          "mean_completed_call_fuel": 598.4806886924151
+        },
+        "neural_background": {
+          "calls": 4492,
+          "interrupted_calls": 5,
+          "completed_call_raw_fuel": 88427696,
+          "mean_completed_call_fuel": 19707.53198127925
+        },
+        "farm": {
+          "calls": 3721,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 172888434,
+          "mean_completed_call_fuel": 46512.89588377724
+        }
+      }
+    },
+    {
+      "map": "00stampede.map26a",
+      "side": "A",
+      "profiled_bodies": 5,
+      "last_report_round_range": [
+        1752,
+        1796
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 8781,
+          "interrupted_calls": 4,
+          "completed_call_raw_fuel": 482269775,
+          "mean_completed_call_fuel": 54946.994986897575
+        },
+        "heuristic_score": {
+          "calls": 3846,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 6659510,
+          "mean_completed_call_fuel": 1731.5418616744669
+        },
+        "neural_lazy": {
+          "calls": 5717,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 210148330,
+          "mean_completed_call_fuel": 36758.49746370474
+        },
+        "neural_decide": {
+          "calls": 7619,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 4878227,
+          "mean_completed_call_fuel": 640.2712954455965
+        },
+        "neural_background": {
+          "calls": 8781,
+          "interrupted_calls": 11,
+          "completed_call_raw_fuel": 183142369,
+          "mean_completed_call_fuel": 20882.824287343217
+        },
+        "farm": {
+          "calls": 5747,
+          "interrupted_calls": 1,
+          "completed_call_raw_fuel": 283053215,
+          "mean_completed_call_fuel": 49260.914549251655
+        }
+      }
+    },
+    {
+      "map": "00stampede.map26a",
+      "side": "B",
+      "profiled_bodies": 5,
+      "last_report_round_range": [
+        1754,
+        1772
+      ],
+      "sections": {
+        "play_turn": {
+          "calls": 8766,
+          "interrupted_calls": 6,
+          "completed_call_raw_fuel": 503225793,
+          "mean_completed_call_fuel": 57445.86678082192
+        },
+        "heuristic_score": {
+          "calls": 4080,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 5335926,
+          "mean_completed_call_fuel": 1307.825
+        },
+        "neural_lazy": {
+          "calls": 6514,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 238451173,
+          "mean_completed_call_fuel": 36605.95225667793
+        },
+        "neural_decide": {
+          "calls": 7801,
+          "interrupted_calls": 0,
+          "completed_call_raw_fuel": 4751449,
+          "mean_completed_call_fuel": 609.0820407640047
+        },
+        "neural_background": {
+          "calls": 8766,
+          "interrupted_calls": 10,
+          "completed_call_raw_fuel": 166911663,
+          "mean_completed_call_fuel": 19062.547167656463
+        },
+        "farm": {
+          "calls": 6525,
+          "interrupted_calls": 2,
+          "completed_call_raw_fuel": 313801358,
+          "mean_completed_call_fuel": 48106.907557872146
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Instrumentation/reporting changes fuel timing and trajectories; no uninstrumented strength inference.",
+    "Nested inclusive scopes: farm contains heuristic and neural lazy work; do not sum them as separate costs.",
+    "play_turn excludes main-loop nn_turn_end background and diagnostic report writes.",
+    "Reported counters are last periodic snapshots for each body, not all terminal calls. Dead/short-lived bodies without a report can be absent.",
+    "Interrupted calls omitted from measured fuel but counted separately; completed-call means have survivor bias.",
+    "Profiler uses raw remaining fuel rather than existing native virtual fuel+nn_spent accounting.",
+    "Savings require a trained replacement: removing a scorer changes reference, support and state; this report is not a deletion recommendation."
+  ]
+}
