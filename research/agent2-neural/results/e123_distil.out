@@ -1,0 +1,32 @@
+rows 1369223 (train 1208100, held-out 161123), student parameters 56905
+epoch 1: KL 2.8274, 12s | student = teacher argmax on held-out maps: behaviour 0.805, target 0.909, option 1.000, attack 0.920, cast 0.861, cast_tgt 0.630, moves 0.184, bank 0.870
+epoch 2: KL 0.8136, 23s | student = teacher argmax on held-out maps: behaviour 0.871, target 0.929, option 1.000, attack 0.950, cast 0.875, cast_tgt 0.804, moves 0.452, bank 0.873
+epoch 3: KL 0.4351, 35s | student = teacher argmax on held-out maps: behaviour 0.891, target 0.930, option 1.000, attack 0.953, cast 0.898, cast_tgt 0.824, moves 0.603, bank 0.928
+epoch 4: KL 0.3300, 46s | student = teacher argmax on held-out maps: behaviour 0.900, target 0.936, option 1.000, attack 0.952, cast 0.916, cast_tgt 0.839, moves 0.643, bank 0.914
+epoch 5: KL 0.2785, 57s | student = teacher argmax on held-out maps: behaviour 0.914, target 0.943, option 1.000, attack 0.958, cast 0.927, cast_tgt 0.846, moves 0.630, bank 0.907
+epoch 6: KL 0.2461, 69s | student = teacher argmax on held-out maps: behaviour 0.917, target 0.942, option 1.000, attack 0.964, cast 0.934, cast_tgt 0.851, moves 0.673, bank 0.945
+epoch 7: KL 0.2253, 80s | student = teacher argmax on held-out maps: behaviour 0.919, target 0.942, option 1.000, attack 0.964, cast 0.939, cast_tgt 0.858, moves 0.672, bank 0.950
+epoch 8: KL 0.2107, 92s | student = teacher argmax on held-out maps: behaviour 0.923, target 0.946, option 1.000, attack 0.966, cast 0.942, cast_tgt 0.860, moves 0.645, bank 0.925
+epoch 9: KL 0.2005, 104s | student = teacher argmax on held-out maps: behaviour 0.925, target 0.944, option 1.000, attack 0.967, cast 0.946, cast_tgt 0.862, moves 0.685, bank 0.947
+epoch 10: KL 0.1930, 115s | student = teacher argmax on held-out maps: behaviour 0.926, target 0.946, option 1.000, attack 0.967, cast 0.945, cast_tgt 0.864, moves 0.672, bank 0.947
+epoch 11: KL 0.1883, 127s | student = teacher argmax on held-out maps: behaviour 0.927, target 0.946, option 1.000, attack 0.968, cast 0.946, cast_tgt 0.865, moves 0.675, bank 0.937
+epoch 12: KL 0.1860, 139s | student = teacher argmax on held-out maps: behaviour 0.928, target 0.946, option 1.000, attack 0.968, cast 0.946, cast_tgt 0.865, moves 0.670, bank 0.940
+saved agent2/student_i2m_24x96.pt
+wrote agent2/student_i2m_24x96_w.h 1897 KB
+rows 1369223 (train 1208100, held-out 161123), student parameters 94009
+epoch 1: KL 2.4725, 12s | student = teacher argmax on held-out maps: behaviour 0.827, target 0.910, option 1.000, attack 0.920, cast 0.861, cast_tgt 0.663, moves 0.239, bank 0.876
+epoch 2: KL 0.7164, 23s | student = teacher argmax on held-out maps: behaviour 0.876, target 0.929, option 1.000, attack 0.948, cast 0.878, cast_tgt 0.796, moves 0.489, bank 0.859
+epoch 3: KL 0.4088, 35s | student = teacher argmax on held-out maps: behaviour 0.898, target 0.934, option 1.000, attack 0.954, cast 0.906, cast_tgt 0.824, moves 0.585, bank 0.941
+epoch 4: KL 0.2972, 47s | student = teacher argmax on held-out maps: behaviour 0.913, target 0.937, option 1.000, attack 0.955, cast 0.925, cast_tgt 0.843, moves 0.655, bank 0.930
+epoch 5: KL 0.2453, 58s | student = teacher argmax on held-out maps: behaviour 0.918, target 0.939, option 1.000, attack 0.959, cast 0.929, cast_tgt 0.854, moves 0.680, bank 0.943
+epoch 6: KL 0.2132, 70s | student = teacher argmax on held-out maps: behaviour 0.921, target 0.941, option 1.000, attack 0.964, cast 0.941, cast_tgt 0.862, moves 0.716, bank 0.942
+epoch 7: KL 0.1919, 81s | student = teacher argmax on held-out maps: behaviour 0.920, target 0.949, option 1.000, attack 0.967, cast 0.944, cast_tgt 0.870, moves 0.655, bank 0.956
+epoch 8: KL 0.1762, 93s | student = teacher argmax on held-out maps: behaviour 0.924, target 0.950, option 1.000, attack 0.969, cast 0.947, cast_tgt 0.873, moves 0.663, bank 0.939
+epoch 9: KL 0.1649, 104s | student = teacher argmax on held-out maps: behaviour 0.926, target 0.948, option 1.000, attack 0.970, cast 0.949, cast_tgt 0.876, moves 0.718, bank 0.955
+epoch 10: KL 0.1570, 116s | student = teacher argmax on held-out maps: behaviour 0.929, target 0.951, option 1.000, attack 0.971, cast 0.950, cast_tgt 0.877, moves 0.685, bank 0.951
+epoch 11: KL 0.1518, 127s | student = teacher argmax on held-out maps: behaviour 0.931, target 0.950, option 1.000, attack 0.971, cast 0.950, cast_tgt 0.878, moves 0.708, bank 0.951
+epoch 12: KL 0.1493, 139s | student = teacher argmax on held-out maps: behaviour 0.931, target 0.951, option 1.000, attack 0.971, cast 0.951, cast_tgt 0.879, moves 0.704, bank 0.949
+saved agent2/student_i2m_32x128.pt
+wrote agent2/student_i2m_32x128_w.h 3067 KB
+wrote agent2/nn_rl3/best_wt.h 5905 KB
+DISTIL_DONE

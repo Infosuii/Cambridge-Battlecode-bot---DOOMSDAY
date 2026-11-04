@@ -1,0 +1,14 @@
+09:48:01 EVAL iter 0 vs v92 (real fuel, deterministic): official 197/420 = 46.9%, pool-test 156/300 = 52.0%, score 48.7%
+09:53:53 iter 1: rollouts won v92 130/269, v92j1 137/255, v92j2 131/276 | rows 87662 changes + 191972 keeps | logged vs recomputed lp: median 0.0000, p90 0.0001 | corr(return, result) +0.16, critic EV +0.002 | pg -0.0211 kl 0.0057 ent 0.152 vloss 3.384 ratio 1.001 | 351s
+09:59:41 iter 2: rollouts won v92 132/272, v92j1 152/270, v92j2 135/258 | rows 85468 changes + 182970 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.25, critic EV +0.259 | pg -0.0243 kl 0.0067 ent 0.156 vloss 2.525 ratio 1.003 | 348s
+10:03:09 EVAL iter 2 vs v92 (real fuel, deterministic): official 212/420 = 50.5%, pool-test 154/300 = 51.3%, score 50.8%
+  new best: iter 2 (50.8%)
+10:08:40 iter 3: rollouts won v92 121/261, v92j1 116/262, v92j2 146/277 | rows 89264 changes + 197269 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.30, critic EV +0.359 | pg -0.0270 kl 0.0099 ent 0.151 vloss 2.127 ratio 1.003 | 331s
+10:14:28 iter 4: rollouts won v92 138/271, v92j1 158/271, v92j2 136/258 | rows 88730 changes + 199389 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.23, critic EV +0.384 | pg -0.0273 kl 0.0136 ent 0.149 vloss 2.665 ratio 1.012 | 347s
+10:17:47 EVAL iter 4 vs v92 (real fuel, deterministic): official 225/420 = 53.6%, pool-test 145/300 = 48.3%, score 51.7%
+  new best: iter 4 (51.7%)
+10:23:17 iter 5: rollouts won v92 153/279, v92j1 145/273, v92j2 132/248 | rows 85001 changes + 193626 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.23, critic EV +0.426 | pg -0.0300 kl 0.0154 ent 0.146 vloss 2.211 ratio 1.004 | 330s
+10:28:45 iter 6: rollouts won v92 144/254, v92j1 139/286, v92j2 138/260 | rows 85253 changes + 189248 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.25, critic EV +0.461 | pg -0.0284 kl 0.0210 ent 0.149 vloss 2.658 ratio 1.006 | 327s
+10:32:05 EVAL iter 6 vs v92 (real fuel, deterministic): official 197/420 = 46.9%, pool-test 159/300 = 53.0%, score 49.0%
+10:37:39 iter 7: rollouts won v92 123/259, v92j1 128/267, v92j2 128/274 | rows 86595 changes + 193318 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.27, critic EV +0.460 | pg -0.0219 kl 0.0209 ent 0.148 vloss 2.989 ratio 1.005 | 333s
+10:43:12 iter 8: rollouts won v92 138/277, v92j1 124/254, v92j2 126/269 | rows 83970 changes + 192740 keeps | logged vs recomputed lp: median 0.0000, p90 0.0000 | corr(return, result) +0.31, critic EV +0.532 | pg -0.0195 kl 0.0208 ent 0.148 vloss 2.149 ratio 1.005 | 334s

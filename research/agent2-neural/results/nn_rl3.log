@@ -1,0 +1,5 @@
+21:43:20 EVAL iter 0 vs v92 (deterministic macro policy): ladder 69/140, pool-test 185/300, total 57.7%
+21:55:20 iter 1: rollouts won v92 135/280, x1 52/116, x3ctr 51/122, p65pack 85/118, b5_c3 52/75, nnsnap 39/89 | rows 174417 important + 287485 keeps; options 2894429 (0 in contact) mix 0:100% 1:0% 2:0% 3:0% 4:0% 5:0% 6:0% 7:0% | corr(return, result) +0.19, critic EV -0.004 | pg -0.0438 kl beh 0.0001 tgt 0.0104 ent 0.295 vloss 1.475 ratio 9.705/1.070 | 720s
+22:06:58 iter 2: rollouts won v92 134/278, x1 74/111, x3ctr 56/120, p65pack 100/140, b5_c3 56/85, nnsnap 25/66 | rows 183296 important + 296566 keeps; options 2996569 (0 in contact) mix 0:100% 1:0% 2:0% 3:0% 4:0% 5:0% 6:0% 7:0% | corr(return, result) +0.23, critic EV +0.237 | pg -0.0576 kl beh 0.0002 tgt 0.0207 ent 0.297 vloss 1.558 ratio 9.132/0.996 | 698s
+22:10:29 EVAL iter 2 vs v92 (deterministic macro policy): ladder 77/140, pool-test 180/300, total 58.4%
+  new best: iter 2 (58.4%)

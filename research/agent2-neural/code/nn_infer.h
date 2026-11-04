@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <vector>
 #include "nn_weights.h"
 #if defined(__wasm_simd128__) && defined(A2_NN_FAST) && A2_NN_FAST
 #include <wasm_simd128.h>
@@ -85,10 +86,22 @@ inline void dense(const float* W, const float* b, const float* x, int in, int ou
 #endif
 }
 
-// signed log1p of an int16 feature; A2_NN_FAST memoises |v| < 4096 in a table (each entry computed on first use, so
-// no ~60k-fuel fill on the first call; 0 = not yet computed, and log1p(0) = 0 anyway)
+// signed log1p of an int16 feature; A2_NN_FAST reads the exported tables (no log1p call), or, with older weights, memoises
+// |v| < 4096 in a table (each entry computed on first use; 0 = not yet computed, and log1p(0) = 0 anyway)
+#ifdef NNW_HAS_SLOG
+inline float slogi(int v) {
+    const int a = v < 0 ? -v : v;
+    if (a < 4096) return v < 0 ? -nnw::kSlog[a] : nnw::kSlog[a];
+    // E123: interpolated. Nearest-step values (off by up to 0.002) are multiplied by 1 / sd on the way in, and some large features barely vary: logits were off by up to 6.8.
+    const int i = a >> 4;
+    const float l0 = nnw::kSlog16[i], l = l0 + static_cast<float>(a & 15) * (nnw::kSlog16[i + 1] - l0) * 0.0625f;
+    return v < 0 ? -l : l;
+}
+#endif
 inline float slog(float v) {
-#if defined(A2_NN_FAST) && A2_NN_FAST
+#if defined(A2_NN_FAST) && A2_NN_FAST && defined(NNW_HAS_SLOG)
+    return slogi(static_cast<int>(v));
+#elif defined(A2_NN_FAST) && A2_NN_FAST
     static float tab[4096];
     const int a = static_cast<int>(v < 0 ? -v : v);
     float l;
@@ -214,7 +227,7 @@ inline void prof(int stage) {
 #endif
 
 template <class Tag = void>
-inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
+inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll, float* z_out = nullptr) {
     using namespace nnw;
     float eg[1][kE], es[1][kE], ea[kNA][kE], ee[kNE][kE], ec[kNC][kE], el[kNL][kE];
     bool pg[1], ps[1], pa[kNA], pe[kNE], pc[kNC], pl[kNL];
@@ -246,8 +259,23 @@ inline void forward(const std::int16_t* f, Out& o, unsigned heads = kHAll) {
     float h0[kTrunk], h1[kTrunk];
     dense(kT_W0, kT_b0, x, kTrunkIn, kTrunk, h0, true);
     dense(kT_W1, kT_b1, h0, kTrunk, kTrunk, h1, true);
+#ifdef A2_NN_DBGX
+    {
+        // E123: intermediate values of the first A2_NN_DBGX forwards, to compare with PyTorch (nnd_check.py)
+        static int shown = 0;
+        if (shown++ < A2_NN_DBGX) {
+            std::printf("NNX");
+            for (int i = 0; i < kTrunkIn; ++i) std::printf(" %.4f", x[i]);
+            std::printf("\nNNH");
+            for (int i = 0; i < kTrunk; ++i) std::printf(" %.4f", h0[i]);
+            for (int i = 0; i < kTrunk; ++i) std::printf(" %.4f", h1[i]);
+            std::printf("\n");
+        }
+    }
+#endif
     NN_PROF(8);
     const float* z = h1;
+    if (z_out) std::copy(h1, h1 + kTrunk, z_out);
     if (heads & kHBeh) dense(kH_behaviour_W, kH_behaviour_b, z, kTrunk, 8, o.behaviour, false);
     if (heads & kHMicro) {
         dense(kH_step_W, kH_step_b, z, kTrunk, 9, o.step, false);
@@ -292,6 +320,313 @@ template <int N>
 inline int argmax(const float (&v)[N]) {
     return static_cast<int>(std::max_element(v, v + N) - v);
 }
+
+// Two-timescale decision (A2_NN_ZEVERY, E120): target logits from this turn's camp features and a kept trunk output z
+inline void target_fresh(const std::int16_t* f, const float* z, Out& o) {
+    using namespace nnw;
+    float ec[kNC][kE];
+    bool pc[kNC];
+    const float* cW[] = {kc_W0, kc_W1v};
+    const float* cB[] = {kc_b0, kc_b1v};
+    const int cI[] = {kc_in0, kE};
+    encode<kc_n, kc_w, kc_nkeep, kc_type, kc_ntype, kc_layers>(f + kc_off, kc_keep, kc_mu, kc_sd, cW, cB, cI, ec, pc, false);
+    const float* ents[kNC];
+    for (int i = 0; i < kNC; ++i) ents[i] = ec[i];
+    pointer(z, kP_target_qW, kP_target_qb, kP_target_kW, kP_target_kb, ents, pc, kNC, kP_target_E, 1, o.target);
+}
+
+#if defined(A2_NN_LIVE) && A2_NN_LIVE
+// Real-fuel forward (A2_NN_LIVE, E121, the student's one-layer encoders): the same sums as forward() with compile-time
+// sizes, so the accumulators are wasm locals (fuel counts instructions). A camp's embedding is kept per group and only
+// the inputs that changed since the last decision are added in. The trunk's summary is kept as the target pointer's
+// vector, so a turn short of fuel can score the camps alone.
+static_assert(nnw::kc_layers == 1 && nnw::kg_layers == 1 && kE % 4 == 0 && nnw::kTrunk % 4 == 0, "A2_NN_LIVE needs the student");
+struct CampCache {
+    v128_t acc[kE / 4];
+    float x[nnw::kc_nkeep];
+    std::int16_t raw[nnw::kc_nkeep];
+    bool ok = false;
+};
+#ifndef A2_NN_EPS
+#define A2_NN_EPS 0.0f // E124: changes smaller than this in the kept sums are left for later (0: exact)
+#endif
+struct SelfCache {
+    v128_t acc[kE / 4];
+    float x[nnw::ks_nkeep];
+    std::int16_t raw[nnw::ks_nkeep];
+    bool ok = false;
+};
+struct Live {
+    SelfCache sc;
+    v128_t acc1[nnw::kTrunk / 4];
+    bool acc1_ok = false;
+    float eg[1][kE], es[1][kE], ea[kNA][kE], ee[kNE][kE], ec[kNC][kE], el[kNL][kE];
+    bool pg[1], ps[1], pa[kNA], pe[kNE], pc[kNC], pl[kNL];
+    float x[nnw::kTrunkIn], acc0[nnw::kTrunk], h0[nnw::kTrunk], h1[nnw::kTrunk], r[kE], c0 = 0.0f;
+    int beh = -1, beh_next = -1;
+    bool z_ok = false, x_ok = false;
+    std::vector<CampCache> cache;
+};
+template <int OUT>
+inline void add_col(v128_t* a, const float* t, const v128_t xv) {
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 4; ++k) a[k] = wasm_f32x4_add(a[k], wasm_f32x4_mul(wasm_v128_load(t + 4 * k), xv));
+}
+template <int OUT>
+inline void dense_t(const float* T, const float* b, const float* x, int in, float* y, bool relu) {
+    v128_t a[OUT / 4];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 4; ++k) a[k] = wasm_v128_load(b + 4 * k);
+    for (int i = 0; i < in; ++i, T += OUT) {
+        if (x[i] == 0.0f) continue;
+        add_col<OUT>(a, T, wasm_f32x4_splat(x[i]));
+    }
+    const v128_t zero = wasm_f32x4_splat(0.0f);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 4; ++k) wasm_v128_store(y + 4 * k, relu ? wasm_f32x4_pmax(a[k], zero) : a[k]);
+}
+// a block of a one-layer encoder: T is the input-major weights (kept inputs, then the category one-hot column)
+template <int N, int W, int NKEEP, int TYPEF, int NTYPE>
+inline void encode_t(const std::int16_t* f, const int* keep, const float* mu, const float* sd, const float* T, const float* b,
+                     float emb[][kE], bool* present, bool always) {
+    const v128_t zero = wasm_f32x4_splat(0.0f);
+    for (int e = 0; e < N; ++e) {
+        const std::int16_t* r = f + e * W;
+        present[e] = always || r[0] != 0;
+        if (!present[e]) continue;
+        v128_t a[kE / 4];
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 4; ++k) a[k] = wasm_v128_load(b + 4 * k);
+        for (int i = 0; i < NKEEP; ++i) {
+            const float v = (slogi(r[keep[i]]) - mu[i]) / sd[i];
+            if (v != 0.0f) add_col<kE>(a, T + i * kE, wasm_f32x4_splat(v));
+        }
+        if constexpr (TYPEF >= 0) add_col<kE>(a, T + (NKEEP + std::clamp<int>(r[TYPEF], 0, NTYPE - 1)) * kE, wasm_f32x4_splat(1.0f));
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 4; ++k) wasm_v128_store(emb[e] + 4 * k, wasm_f32x4_pmax(a[k], zero));
+    }
+}
+// the camp block from this turn's features, per group: only inputs that changed since this group was last encoded
+inline void live_camps(const std::int16_t* f, Live& lv, std::size_t n_groups) {
+    using namespace nnw;
+    if (lv.cache.size() != n_groups) lv.cache.assign(n_groups, CampCache{});
+    const v128_t zero = wasm_f32x4_splat(0.0f);
+    for (int e = 0; e < kNC; ++e) {
+        const std::int16_t* r = f + kc_off + e * kc_w;
+        lv.pc[e] = r[0] != 0;
+        if (!lv.pc[e]) continue;
+        auto& c = lv.cache[static_cast<std::size_t>(r[1])];
+        v128_t a[kE / 4];
+        if (!c.ok) {
+#pragma clang loop unroll(full)
+            for (int k = 0; k < kE / 4; ++k) a[k] = wasm_v128_load(kc_b0 + 4 * k);
+            std::fill(c.x, c.x + kc_nkeep, 0.0f);
+            std::fill(c.raw, c.raw + kc_nkeep, static_cast<std::int16_t>(-32768));
+            c.ok = true;
+        } else {
+#pragma clang loop unroll(full)
+            for (int k = 0; k < kE / 4; ++k) a[k] = c.acc[k];
+        }
+        for (int i = 0; i < kc_nkeep; ++i) {
+            const std::int16_t v = r[kc_keep[i]];
+            if (v == c.raw[i]) continue;
+            const float nx = (slogi(v) - kc_mu[i]) / kc_sd[i], dx = nx - c.x[i];
+            if (dx < A2_NN_EPS && dx > -A2_NN_EPS) continue;
+            add_col<kE>(a, kc_W0_T + i * kE, wasm_f32x4_splat(dx));
+            c.raw[i] = v, c.x[i] = nx;
+        }
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 4; ++k) {
+            c.acc[k] = a[k];
+            wasm_v128_store(lv.ec[e] + 4 * k, wasm_f32x4_pmax(a[k], zero));
+        }
+    }
+}
+inline float dot_t(const float* a, const float* b) {
+    v128_t s = wasm_f32x4_splat(0.0f);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kE / 4; ++k) s = wasm_f32x4_add(s, wasm_f32x4_mul(wasm_v128_load(a + 4 * k), wasm_v128_load(b + 4 * k)));
+    return wasm_f32x4_extract_lane(s, 0) + wasm_f32x4_extract_lane(s, 1) + wasm_f32x4_extract_lane(s, 2) + wasm_f32x4_extract_lane(s, 3);
+}
+// target logits from the kept pointer vector and the camp embeddings in lv
+inline void live_target(const Live& lv, Out& o) {
+    const float sc = 1.0f / std::sqrt(static_cast<float>(kE));
+    for (int i = 0; i < kNC; ++i) o.target[i] = lv.pc[i] ? (lv.c0 + dot_t(lv.ec[i], lv.r)) * sc : -1e9f;
+    o.target[kNC] = (lv.c0 + dot_t(nnw::kP_target_E, lv.r)) * sc;
+}
+// The slow part of the network, in stages that may run on different turns, on the fuel v92 leaves at the end of its turn:
+// 0 global + self + allies, 1 enemies + altars, 2 pooling + the first third of trunk layer 0's inputs, 3 the second third, 4 the rest,
+// 5 trunk layer 1 and the bank head, 6 the pointer vector (bank gate and pointer vector published together, in the last stage).
+// f: the features taken when this refresh started. Larger students (E123) take more stages' worth of fuel: the cuts keep each stage small enough to fit a turn.
+inline constexpr int kLiveStages = 7;
+#ifdef A2_NN_NNUE
+// E123, NNUE-like: trunk layer 0 is W x + b; x has one part per block (global, self, allies mean + max, enemies, camps, altars) and W x + b is kept, so a block that changes costs only its own
+// columns. Self and camps change every turn; the other blocks as the fuel allows (nnrec.cpp). live_top runs the rest of the network in full. The result is the plain network on the features as last refreshed.
+inline void live_in(Live& lv, int d, int n, const float* nx) {
+    using namespace nnw;
+    v128_t a[kTrunk / 4];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 4; ++k) a[k] = wasm_v128_load(lv.acc0 + 4 * k);
+    const float* T = kT_W0_T + d * kTrunk;
+    for (int i = 0; i < n; ++i, T += kTrunk) {
+        const float dv = nx[i] - lv.x[d + i];
+        if (dv <= A2_NN_EPS && dv >= -A2_NN_EPS) continue;
+        add_col<kTrunk>(a, T, wasm_f32x4_splat(dv));
+        lv.x[d + i] = nx[i];
+    }
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 4; ++k) wasm_v128_store(lv.acc0 + 4 * k, a[k]);
+}
+// block b: 0 global, 1 self, 2 allies, 3 enemies, 4 camps (their embeddings come from live_camps), 5 altars
+inline void live_block(const std::int16_t* f, Live& lv, int b) {
+    using namespace nnw;
+    if (!lv.x_ok) {
+        std::fill(lv.x, lv.x + kTrunkIn, 0.0f);
+        std::copy(kT_b0, kT_b0 + kTrunk, lv.acc0);
+        lv.x_ok = true;
+    }
+    float p[2 * kE];
+    if (b == 0) {
+        encode_t<kg_n, kg_w, kg_nkeep, kg_type, kg_ntype>(f + kg_off, kg_keep, kg_mu, kg_sd, kg_W0_T, kg_b0, lv.eg, lv.pg, true);
+        live_in(lv, 0, kE, lv.eg[0]);
+    } else if (b == 1) {
+        auto& c = lv.sc;
+        const std::int16_t* r = f + ks_off;
+        v128_t a[kE / 4];
+        if (!c.ok) {
+#pragma clang loop unroll(full)
+            for (int k = 0; k < kE / 4; ++k) a[k] = wasm_v128_load(ks_b0 + 4 * k);
+            std::fill(c.x, c.x + ks_nkeep, 0.0f);
+            std::fill(c.raw, c.raw + ks_nkeep, static_cast<std::int16_t>(-32768));
+            add_col<kE>(a, ks_W0_T + (ks_nkeep + std::clamp<int>(r[ks_type], 0, ks_ntype - 1)) * kE, wasm_f32x4_splat(1.0f));
+            c.ok = true;
+        } else {
+#pragma clang loop unroll(full)
+            for (int k = 0; k < kE / 4; ++k) a[k] = c.acc[k];
+        }
+        for (int i = 0; i < ks_nkeep; ++i) {
+            const std::int16_t v = r[ks_keep[i]];
+            if (v == c.raw[i]) continue;
+            const float nx = (slogi(v) - ks_mu[i]) / ks_sd[i], dx = nx - c.x[i];
+            if (dx < A2_NN_EPS && dx > -A2_NN_EPS) continue;
+            add_col<kE>(a, ks_W0_T + i * kE, wasm_f32x4_splat(dx));
+            c.raw[i] = v, c.x[i] = nx;
+        }
+        const v128_t zero = wasm_f32x4_splat(0.0f);
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kE / 4; ++k) {
+            c.acc[k] = a[k];
+            wasm_v128_store(lv.es[0] + 4 * k, wasm_f32x4_pmax(a[k], zero));
+        }
+        lv.ps[0] = true;
+        live_in(lv, kE, kE, lv.es[0]);
+    } else if (b == 2) {
+        encode_t<ka_n, ka_w, ka_nkeep, ka_type, ka_ntype>(f + ka_off, ka_keep, ka_mu, ka_sd, ka_W0_T, ka_b0, lv.ea, lv.pa, false);
+        pool(lv.ea, lv.pa, kNA, p, p + kE);
+        live_in(lv, 2 * kE, 2 * kE, p);
+    } else if (b == 3) {
+        encode_t<ke_n, ke_w, ke_nkeep, ke_type, ke_ntype>(f + ke_off, ke_keep, ke_mu, ke_sd, ke_W0_T, ke_b0, lv.ee, lv.pe, false);
+        pool(lv.ee, lv.pe, kNE, p, p + kE);
+        live_in(lv, 4 * kE, 2 * kE, p);
+    } else if (b == 4) {
+        pool(lv.ec, lv.pc, kNC, p, p + kE);
+        live_in(lv, 6 * kE, 2 * kE, p);
+    } else {
+        encode_t<kl_n, kl_w, kl_nkeep, kl_type, kl_ntype>(f + kl_off, kl_keep, kl_mu, kl_sd, kl_W0_T, kl_b0, lv.el, lv.pl, false);
+        pool(lv.el, lv.pl, kNL, p, p + kE);
+        live_in(lv, 8 * kE, 2 * kE, p);
+    }
+}
+inline void live_top(Live& lv) {
+    using namespace nnw;
+    float q[kE], h0n[kTrunk];
+    const v128_t zero = wasm_f32x4_splat(0.0f);
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 4; ++k) wasm_v128_store(h0n + 4 * k, wasm_f32x4_pmax(wasm_v128_load(lv.acc0 + 4 * k), zero));
+    // trunk layer 1 is W1 h0 + b1, kept as well: only the units of layer 0 that changed cost anything
+    v128_t a1[kTrunk / 4];
+    if (!lv.acc1_ok) {
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kTrunk / 4; ++k) a1[k] = wasm_v128_load(kT_b1 + 4 * k);
+        std::fill(lv.h0, lv.h0 + kTrunk, 0.0f);
+        lv.acc1_ok = true;
+    } else {
+#pragma clang loop unroll(full)
+        for (int k = 0; k < kTrunk / 4; ++k) a1[k] = lv.acc1[k];
+    }
+    const float* T1 = kT_W1_T;
+    for (int i = 0; i < kTrunk; ++i, T1 += kTrunk) {
+        const float dv = h0n[i] - lv.h0[i];
+        if (dv <= A2_NN_EPS && dv >= -A2_NN_EPS) continue;
+        add_col<kTrunk>(a1, T1, wasm_f32x4_splat(dv));
+        lv.h0[i] = h0n[i];
+    }
+#pragma clang loop unroll(full)
+    for (int k = 0; k < kTrunk / 4; ++k) {
+        lv.acc1[k] = a1[k];
+        wasm_v128_store(lv.h1 + 4 * k, wasm_f32x4_pmax(a1[k], zero));
+    }
+    dense_t<kE>(kP_target_qW_T, kP_target_qb, lv.h1, kTrunk, q, false);
+    static const float kNoBias[kE] = {};
+    dense_t<kE>(kP_target_kW, kNoBias, q, kE, lv.r, false);
+    lv.c0 = dot_t(kP_target_kb, q);
+    lv.z_ok = true;
+}
+#endif
+template <int OUT>
+inline void acc_cols(const float* T, const float* x, int i0, int i1, float* acc) {
+    v128_t a[OUT / 4];
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 4; ++k) a[k] = wasm_v128_load(acc + 4 * k);
+    T += i0 * OUT;
+    for (int i = i0; i < i1; ++i, T += OUT) {
+        if (x[i] == 0.0f) continue;
+        add_col<OUT>(a, T, wasm_f32x4_splat(x[i]));
+    }
+#pragma clang loop unroll(full)
+    for (int k = 0; k < OUT / 4; ++k) wasm_v128_store(acc + 4 * k, a[k]);
+}
+inline void live_stage(const std::int16_t* f, Live& lv, int s) {
+    using namespace nnw;
+    if (s == 0) {
+        encode_t<kg_n, kg_w, kg_nkeep, kg_type, kg_ntype>(f + kg_off, kg_keep, kg_mu, kg_sd, kg_W0_T, kg_b0, lv.eg, lv.pg, true);
+        encode_t<ks_n, ks_w, ks_nkeep, ks_type, ks_ntype>(f + ks_off, ks_keep, ks_mu, ks_sd, ks_W0_T, ks_b0, lv.es, lv.ps, true);
+        encode_t<ka_n, ka_w, ka_nkeep, ka_type, ka_ntype>(f + ka_off, ka_keep, ka_mu, ka_sd, ka_W0_T, ka_b0, lv.ea, lv.pa, false);
+    } else if (s == 1) {
+        encode_t<ke_n, ke_w, ke_nkeep, ke_type, ke_ntype>(f + ke_off, ke_keep, ke_mu, ke_sd, ke_W0_T, ke_b0, lv.ee, lv.pe, false);
+        encode_t<kl_n, kl_w, kl_nkeep, kl_type, kl_ntype>(f + kl_off, kl_keep, kl_mu, kl_sd, kl_W0_T, kl_b0, lv.el, lv.pl, false);
+    } else if (s == 2) {
+        int d = 0;
+        std::copy(lv.eg[0], lv.eg[0] + kE, lv.x + d), d += kE;
+        std::copy(lv.es[0], lv.es[0] + kE, lv.x + d), d += kE;
+        pool(lv.ea, lv.pa, kNA, lv.x + d, lv.x + d + kE), d += 2 * kE;
+        pool(lv.ee, lv.pe, kNE, lv.x + d, lv.x + d + kE), d += 2 * kE;
+        pool(lv.ec, lv.pc, kNC, lv.x + d, lv.x + d + kE), d += 2 * kE;
+        pool(lv.el, lv.pl, kNL, lv.x + d, lv.x + d + kE), d += 2 * kE;
+        std::copy(kT_b0, kT_b0 + kTrunk, lv.acc0);
+        acc_cols<kTrunk>(kT_W0_T, lv.x, 0, kTrunkIn / 3, lv.acc0);
+    } else if (s == 3) {
+        acc_cols<kTrunk>(kT_W0_T, lv.x, kTrunkIn / 3, 2 * kTrunkIn / 3, lv.acc0);
+    } else if (s == 4) {
+        acc_cols<kTrunk>(kT_W0_T, lv.x, 2 * kTrunkIn / 3, kTrunkIn, lv.acc0);
+        for (int k = 0; k < kTrunk; ++k) lv.h0[k] = lv.acc0[k] > 0.0f ? lv.acc0[k] : 0.0f;
+    } else if (s == 5) {
+        float beh[8];
+        dense_t<kTrunk>(kT_W1_T, kT_b1, lv.h0, kTrunk, lv.h1, true);
+        dense_t<8>(kH_behaviour_W_T, kH_behaviour_b, lv.h1, kTrunk, beh, false);
+        lv.beh_next = argmax(beh);
+    } else {
+        float q[kE];
+        dense_t<kE>(kP_target_qW_T, kP_target_qb, lv.h1, kTrunk, q, false);
+        // r = Wk^T q: rows of kW are per output of the key layer, which is what dense_t walks; no bias, no ReLU
+        static const float kNoBias[kE] = {};
+        dense_t<kE>(kP_target_kW, kNoBias, q, kE, lv.r, false);
+        lv.c0 = dot_t(kP_target_kb, q);
+        lv.beh = lv.beh_next;
+        lv.z_ok = true;
+    }
+}
+#endif
 
 #if defined(A2_NN_PIPE) && A2_NN_PIPE
 // Pipelined forward (A2_NN_PIPE, E120 fuel fit): forward() cut into stages that may run on different turns (the bot

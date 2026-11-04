@@ -1,6 +1,6 @@
 """Neural bot: export a trained net (nn_train.py student.pt / teacher.pt) to a C++ header for nn_infer.h.
 usage: python -P nn_export.py NET.pt student|teacher OUT.h"""
-import os, sys
+import math, os, sys
 import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -61,7 +61,12 @@ for name, _ in TR:
     L.append(f"    if (W == {name}) return {name}_T;")
 L.append("    return nullptr;")
 L.append("}")
+# signed-log tables for the A2_NN_FAST input prep (E121: first-use log1p calls cost about 200 fuel each and dominated first decisions):
+# exact below 4096, then every 16th value, interpolated by slogi (E123)
+L.append("inline constexpr float kSlog[4096] = {" + ", ".join(f"{math.log1p(i):.7e}f" for i in range(4096)) + "};")
+L.append("inline constexpr float kSlog16[2050] = {" + ", ".join(f"{math.log1p(i * 16):.7e}f" for i in range(2050)) + "};")
 L.append("} // namespace nnw")
+L.append("#define NNW_HAS_SLOG 1")
 L.append("#define NNW_HAS_T 1")
 open(OUTF, "w", newline="\n").write("\n".join(L) + "\n")
 print("wrote", OUTF, os.path.getsize(OUTF) // 1024, "KB")

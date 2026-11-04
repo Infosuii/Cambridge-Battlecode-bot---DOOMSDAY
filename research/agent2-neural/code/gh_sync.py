@@ -2,7 +2,7 @@
 seconds: pull (rebase), copy the curated files into DEST, commit and push only when something changed. Run it in the
 user's Terminal panel (GitHub credentials live there). No data dumps, replays or credentials are copied.
 usage (project root): python -P agent2/lab/gh_sync.py REPO_DIR [--interval 600] [--once]"""
-import os, shutil, subprocess, sys, time
+import glob, os, shutil, subprocess, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 A = sys.argv[1:]
@@ -35,11 +35,29 @@ for f in ("nn1_ladder.tsv", "nn1_unseen.tsv", "nn2_ladder.tsv", "nn2_unseen.tsv"
     FILES["results/" + f] = os.path.join(L, f)
 
 
+# E120-E124: the real-fuel work, its results and the models behind them
+for f in ("nn_rl3.py", "nn_rl4.py", "nn_dag4.py", "nn_distill.py", "nn_tiny.py", "nn_tiny2.py", "nn_xf_expand.py", "nn_ens_rec.py", "nn_ens_why.py", "nn_ens_rule.py", "nn_livecheck.py", "nnd_check.py", "nnd_compare.py",
+          "fuel_probe.py", "live_stats.py", "held_run.py", "e95_run.py", "e123_report.py", "e124_c4.py", "mk_v92j.py", "mk_v92stay.py", "mk_v92sk.py", "mappre.h", "sched.h", "regen_maps.sh"):
+    FILES["code/" + f] = os.path.join(L, f)
+for t in glob.glob(os.path.join(L, "e12[0-9]*.tsv")) + glob.glob(os.path.join(L, "e12[0-9]*.out")):
+    FILES["results/" + os.path.basename(t)] = t
+FILES["results/nn_rl3.log"] = os.path.join(ROOT, "agent2", "nn_rl3", "rl.log")
+FILES["results/nn_rl4b.log"] = os.path.join(ROOT, "agent2", "nn_rl4b", "rl.log")
+FILES["results/nn_rl5.log"] = os.path.join(ROOT, "agent2", "nn_rl5", "rl.log")
+FILES["models/nn_rl3_teacher_best.pt"] = os.path.join(ROOT, "agent2", "nn_rl3", "best.pt")
+FILES["models/student_i2m.pt"] = os.path.join(ROOT, "agent2", "student_i2m.pt")
+FILES["models/student_i2m_xf.pt"] = os.path.join(ROOT, "agent2", "student_i2m_xf.pt")
+FILES["models/nn_rl5_student_4.pt"] = os.path.join(ROOT, "agent2", "nn_rl5", "student_4.pt")
+FILES["models/nn_rl5_student_w_4.h"] = os.path.join(ROOT, "agent2", "nn_rl5", "student_w_4.h")
+
+
 def git(*a):
     return subprocess.run(["git", "-C", REPO, *a], capture_output=True, text=True)
 
 
 def sync():
+    for t in glob.glob(os.path.join(L, "e12[0-9]*.tsv")) + glob.glob(os.path.join(L, "e12[0-9]*.out")):
+        FILES["results/" + os.path.basename(t)] = t
     git("checkout", BRANCH)
     has_remote = git("ls-remote", "--exit-code", "--heads", "origin", BRANCH).returncode == 0
     r = git("pull", "--rebase", "--autostash", "origin", BRANCH) if has_remote else git("status")

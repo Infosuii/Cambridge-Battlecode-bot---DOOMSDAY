@@ -86,7 +86,7 @@ public:
     void play_turn();
 #if A2_NNREC
     void nn_feats(std::int16_t* f, int near); // the 500 network features of this turn (nnrec.cpp)
-    template <int NC, int AF> void nn_feats_t(std::int16_t* f, int near);
+    template <int NC, int AF> void nn_feats_t(std::int16_t* f, int near, int parts = 3); // parts: 1 all but camps, 2 camps
     void nn_feats3(std::int16_t* f, int near); // version 3: 24 camp groups + allies' claimed targets (828)
     int nn_near() const;
     void nn_track();             // per-turn history for the network's memory features

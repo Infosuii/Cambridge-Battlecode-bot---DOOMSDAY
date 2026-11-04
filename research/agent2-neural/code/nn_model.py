@@ -13,6 +13,8 @@ import os as _os
 LAYOUT = int(_os.environ.get("NN_LAYOUT", "2"))  # 2: 500 features; 3: 828 (24 camp groups, allies' claimed targets)
 if LAYOUT == 3:
     BLK = {"g": (0, 1, 16), "s": (16, 1, 44), "a": (60, 5, 16), "e": (140, 8, 16), "c": (268, 24, 22), "l": (796, 4, 8)}
+elif LAYOUT == 4:  # E123 (A2_NN_XF): 6 more global fields (exact deaths and respawn countdown), 5 more camp fields (draft-turn analysis)
+    BLK = {"g": (0, 1, 22), "s": (22, 1, 44), "a": (66, 5, 12), "e": (126, 8, 16), "c": (254, 10, 27), "l": (524, 4, 8)}
 else:
     BLK = {"g": (0, 1, 16), "s": (16, 1, 44), "a": (60, 5, 12), "e": (120, 8, 16), "c": (248, 10, 22), "l": (468, 4, 8)}
 NFEAT = max(o + n * w for o, n, w in BLK.values())
@@ -155,7 +157,9 @@ def teacher(prep):
 
 
 def student(prep):
-    return Net(prep, 16, 1, 64, 2)
+    # NN_STUDENT=ENCxTRUNK (E123): larger students for the same one-layer encoder / two-layer trunk shape (default 16x64)
+    e, t = (int(v) for v in _os.environ.get("NN_STUDENT", "16x64").split("x"))
+    return Net(prep, e, 1, t, 2)
 
 
 def losses(out, Y, weights=None):

@@ -1,87 +1,33 @@
-# Agent 2 findings — neural bot and large-gains experiments (updated 4 Nov 2026)
+# Agent 2 findings — neural bot and large-gains experiments (3-4 Nov 2026)
 
 These are Agent 2's results on the CAMBC (Cambridge Battlecode 2026) bot, engine 2.0.0 (cambc 4.0.0). Unless a test says otherwise, every number comes from real-engine `run-batch` games played against v92, the best hand-written bot.
 
-**To run it yourself:** see `rl_workspace/README_RL.md`. It has everything needed, including the full experiment log.
+## Latest status (4 Nov 2026)
 
-## Where things stand (4 Nov, about 01:20)
+All results vs v92 (or v92 with +-0.5% noise on its camp scores, `mk_v92j.py`, which gives new games on the same maps). Full log: `docs/EXPERIMENTS.md` (E120-E124).
 
-- **Best bot you can submit: still v92.** No network bot fits the real fuel limit yet, and nothing has been submitted.
-- **The network is stronger than v92 only with fuel off** (20M per turn for both bots). It gains about 9–12 points on new maps. On the official maps it's about level to slightly ahead, and that part is less certain (see below).
-- **Making it fit real fuel is the blocker.** The cost is down to about 109k per decision, against roughly 30–45k free per turn. Spreading a decision over several turns works mechanically, but holding decisions costs over 30 points. Fixes for that are being tested now.
+**Best bot at the real fuel limit: `nnc4`** (RL checkpoint 4, `models/nn_rl5_student_4.pt`). It is the first real-fuel network bot above v92 on official maps. It has only played v92 and noisy copies of it, and its fuel overrun rate is not measured yet.
 
-### Network results with fuel off (20M per turn, both bots)
+| Test, real fuel, on games it was not picked on | Result |
+|---|---|
+| Official maps, 380 games | 56.3% (+-2.5) |
+| Fresh pool-like maps, 498 games | 53.6% (+-2.2) |
+| Unseen maps, 100 games | 61.0% (+-4.9) |
 
-| Bot | Official maps vs v92 (140) | Pool-test (300) | Fresh pool-like (498) | Unseen (500) |
-|---|---|---|---|---|
-| RL 2 best (`agent2/nn_rl2/best.pt`) | 69 (49.3%) | 185 (61.7%) | 308 (61.8%) | 295 (59.0%) |
-| Same, all v92 per-map tables off | 66 (47.1%) | 184 (61.3%) | – | – |
-| Macro RL iteration 2 (`agent2/nn_rl3/best.pt`) | 77 (55.0%) | 180 (60.0%) | 306 (61.4%) | – |
-| Student of iteration 2, deciding every turn | 62 (44.3%) | 183 (61.0%) | 284 (57.0%) | – |
+How it plays:
+- v92 chooses a target as usual. The network overrides only if another camp scores more than 2 logits higher (`A2_NN_ENS=2`).
+- Camps are scored inside `farm()`, after v92's choice, on the fuel left (`A2_NN_LAZY`). The network's slow part is refreshed in stages on spare fuel. v92 banks.
+- Two new inputs start at zero weight for RL: an exact enemy and ally respawn countdown, and the draft turn's analysis (7.5M of the 10M draft fuel) (`A2_NN_XF`).
 
-- **Treat the 77/140 with care.** That checkpoint was picked as the best on these same 140 deterministic games, and it trains on those maps. The 10.7-point drop to the student isn't all luck, though (next bullet).
-- **Partial held-out check on the official maps** (`results/e120_held_partial.tsv`, job stopped early, 140 games each): against b5_c3, the teacher 71.4%, v92 67.1%, the student 60.7%. Against v61_c3, the teacher 66.4% (v92 not measured). b5_c3 is 10% of the RL opponents, so v61_c3 is the cleaner of the two.
-- **v92's per-map tables are worth only about 2 points** against v92 (E118), so the network doesn't need them.
-- **Why official maps are harder:** the network wins official maps 41–60 wide 59%, but only 38% at 40 wide or less and 41% above 60 (47.1% version, E119). The same split on pool-test maps is 58 / 69 / 53%. It wins from both sides on 26% of official maps and loses from both on 31%, against 41% and 17% on fresh pool-like maps. Earlier RL trained on official maps only 7.6% of the time; `nn_rl3.py` now uses 70%.
-- **Student copy quality:** the same choice as the teacher on 93.9% of targets and 91.0% of bank decisions on held-out maps. In play it's 0–4 points weaker on pool-like maps, but 10.7 points weaker on official maps, against both v92 and b5_c3. The fast code path looks responsible rather than the small network, because the teacher on the fast path also fell to 58/140. **Cause not found yet.** The fast path changes how the distance fields get built, so that's the first thing to check.
+**Best result without the fuel limit: the same blend with everything fresh every turn, at 20M fuel: official 63.3%, fresh 56.2%.** It needs about 160k fuel a turn or more against the 100k limit, so it cannot run on the platform yet.
 
-### Team candidate x3mf2 (`candidates_20261103.zip`)
-
-| Matchup | Fuel | Pool-like (250) | Unseen (250) |
-|---|---|---|---|
-| Macro RL iteration 2 vs x3mf2 | 20M | 145 (58.0%) | 149 (59.6%) |
-| v92 vs x3mf2 | real | 125 (50.0%) | 125 (50.0%) |
-
-Off the official maps x3mf2 plays exactly like v92: 247 of those 250 maps gave gem-for-gem identical games with the sides swapped. Its differences are its per-map settings and counter tables, so its value is only on the official maps, which this test did not cover. At 20M fuel its fight search also runs deeper than it could on the ladder.
-
-### Real fuel: what the engine actually gives
-
-Decoded from each replay's `team-a.fuel` / `team-b.fuel`: a 13-byte header, then 64-bit little-endian values. The first 8 are settings; the rest are fuel used per unit turn.
-
-| Per unit turn | Budget | v92 used (one logged game, 6,684 turns) |
-|---|---|---|
-| Draft turn | 10M | 25k |
-| First champion turn | 200k | about 140k |
-| Every later turn | 100k | median 56k, 10th–90th percentile 25–71k |
-
-- Unused fuel does **not** carry over (`GameRules.md`).
-- A bot out of fuel is suspended and finishes on the next round's fuel, which costs it that turn. The engine does not report this as a bot fault (`diagnostics.botFaults` stays 0), so a bot can silently lose every other turn.
-
-### Fuel fit so far (`code/fuel_probe.py`, E120)
-
-| Fuel per decision | Network | Features | Total |
-|---|---|---|---|
-| Teacher, fast path | 1.09M | 40k | about 1.13M |
-| Student, fast path | 158k | 40k | about 198k |
-| Student + speed-ups | **83k** | **25k** | **about 109k** |
-
-- **Speed-ups, none of which change the maths:** the dense layers walk the inputs instead of the outputs and skip zero inputs, pooling uses SIMD, and the transposed weights are exported ahead of time. Per-group constants such as camp-group centres are cached once. The new code scored 284/498, the same as the old.
-- **Largest remaining costs:** trunk about 26k, camp encoder about 29k, camp features about 16k.
-- **Pipeline (`A2_NN_PIPE`):** the network is cut into 6 stages plus features. They run after v92's turn, only while the fuel left covers the next stage plus a 5k reserve. In a 10-game log, 9 games had 0 overruns and 1 had a single overrun, with 84–495 decisions per champion per game.
-
-### What holding decisions costs (20M fuel, fresh features, vs v92)
-
-| Decision cadence | Score | Every-turn student on the same games |
-|---|---|---|
-| Every turn | 284/498 (57.0%) | – |
-| Every 4 turns, applied 3 late | 58/247 (23.5%, partial) | 57.1% |
-| Every 8 turns, applied 6 late | 76/498 (15.3%) | 57.0% |
-
-My best explanation, not yet proven: the network has only ever played with fresh decisions, so a held target at a finished camp, or a held bank decision, puts it in situations it never trained on.
-
-**Invalid numbers, kept only so nobody reuses them:** the first real-fuel pipeline runs (`results/e120_pipe_*.tsv`, bots `nnp1` and `nnp2`, 19–36%) had a bug. The feature buffer wasn't cleared between decisions, so absent enemies and allies stayed in the input. The control `nnp0`, which never acts, is unaffected: 59/140 on official maps and 245/498 (49.2%) on fresh ones.
-
-### Running now, not in this update
-
-Five variants on the same 498 fresh games against v92:
-
-- dropping finished targets for the network's next choice;
-- leaving banking to v92;
-- both of those together;
-- the pipeline at 20M with the bug fixed;
-- the pipeline at real fuel with both fixes.
-
-The macro RL run is paused at iteration 2. To resume, run only the `python` line in `rl_workspace/README_RL.md`.
+Other findings:
+- **Bug fixed:** the fast path's log table used the nearest step for values >= 4096, and the error was multiplied by 1 / sd on the way in: logits off by up to 6.8. Weight headers exported before this must be re-exported.
+- **Larger networks do not help:** 24x96 and 32x128 show no steady gain at 20M, and 24x96 is no better at real fuel.
+- **How fresh the summary is matters more than size:** official maps at 20M, every turn 63.3%, every 2 turns 55.0%, every 4 turns 47.6%. Self + camps fresh gets 58.1%, with global + enemies too 63.8%.
+- **What the blend's overrides are:** 94% keep the current target when v92 wants to switch (official maps: walking distance 8 vs 22, gems 29 vs 125). A zero-fuel "stay" rule for plain v92 is being tested.
+- **Scoring later in the turn appears to cost about 8 points at 20M** (51-57% against 62-63%). Cause not found yet.
+- **Overruns track lower scores** across runs: roughly 6 points per 1% of turns. Direct test in `results/e124_sk*.tsv`.
 
 ## Summary
 
@@ -90,7 +36,7 @@ The macro RL run is paused at iteration 2. To resume, run only the `python` line
 | Hand-tuned macro changes (E101–E113: imitation layer, economy core, schedule optimiser, contest model, item builds, self-play draft, endgame / intel / wards, top-team structure + ES) | Level with v92 or behind it, against v92's own family of bots |
 | Opponent-specific counters (E114) | Top teams' openings are repeatable and team-specific up to round ~100. The draft identifies the opponent only 46% of the time. Building this needs current-engine replays (platform login) |
 | Rules diff 1.0.3 → 2.0.0 (E115) | Balance changes only: Vesper, Marcella, Heart of Ruin and Ryth nerfed; Varg, Issac, Cassi, Ren, Tavi, Willow, Stellar and Prism buffed |
-| **Neural bot (E116–E120, this folder)** | Imitation + DAgger reaches about v92's level. RL gains 9–12 points on new maps with fuel off. It does not yet fit real fuel |
+| **Neural bot (E116, this folder)** | Imitation + DAgger reaches about v92's level. Reinforcement learning (PPO) is running |
 
 ## Neural bot
 
@@ -133,7 +79,7 @@ All results against v92 with fuel ignored. "Ladder" is the 70 ladder map-sides �
 
 - **What went wrong first:** offline imitation accuracy (96% on targets) collapsed in play to 10–60% agreement with v92 because errors compound. The network committed to wrong targets and ended up in states v92 never visits.
 - **The fix:** DAgger. The network acts, and every state it reaches is labelled with v92's own choice, which v92 computes each turn just before the network overrides it. After three iterations the bot plays at about v92's level.
-- **Fuel:** in-bot inference over-runs the real fuel budget, so rollouts use `--fuel-quantum 20000000`. See the fuel sections above for the current state.
+- **Fuel:** in-bot inference over-runs the real fuel budget. Fuel is ignored for now; this needs optimisation (quantised int8 with wasm SIMD) before any submission. The teacher needs about 2M fuel a turn, so rollouts use `--fuel-quantum 20000000`.
 
 ### Pool-like maps
 
@@ -154,17 +100,18 @@ It produced two suites:
 - `maps_pooltest` (300 maps): the new held-out test suite;
 - `maps_pooltrain` (600 maps): training data.
 
-### Reinforcement learning
+### In progress
 
-- **RL 2 (`code/nn_rl.py`):** started from the DAgger-3 teacher, trains the target head. Each iteration plays real-engine games with the bot sampling its target choices, followed by a PPO step on the GPU. Checkpoints are tested deterministically against v92 (`results/rl2.log`).
-- **Macro RL (`rl_workspace/agent2/lab/nn_rl3.py`, `results/rl3_macro.log`):** adds an option head that starts at "none", so its first check matched its starting network exactly (69/140, 185/300). Rewards come from the match statistics timelines, and the critic sees the full game state during training only. It trains 70% on official maps against six opponents. Options barely explore in this run (about 0.4% of decisions), so its gains so far come from the target head.
+Reinforcement learning (`code/nn_rl.py`), started from the DAgger-3 teacher:
+
+- each iteration plays 400 real-engine games against v92, x1 and x3ctr, with the bot sampling its target choices;
+- each update is a PPO step on the GPU, with a critic baseline, a KL penalty to the imitation policy and an entropy bonus;
+- checkpoints are tested deterministically against v92 on ladder and pool-like maps.
 
 ## Layout
 
-- `rl_workspace/`: everything needed to run it, with `README_RL.md` as the guide.
-- `docs/`: experiment log (E101–E120), plans (large gains v3, neural bot, game analysis).
-- `code/`: recorder, labels, model, training, export, C++ inference, DAgger and pipeline scripts, RL, fuel probe, map tools, B1 opponent-repeatability analysis.
-- `models/`: DAgger-3 teacher and student (`.pt`) and the exported student C++ header. The RL networks are in `rl_workspace/agent2/`.
-- `results/`: per-game result tables (bot, opponent, map, side, win, gems) and RL logs.
+- `docs/`: experiment log (E101–E116), plans (large gains v3, neural bot, game analysis).
+- `code/`: recorder, labels, model, training, export, C++ inference, DAgger and pipeline scripts, RL, map tools, B1 opponent-repeatability analysis.
+- `models/`: DAgger-3 teacher and student (`.pt`) and the exported student C++ header.
 
 No credentials, platform data or replay dumps are included.
