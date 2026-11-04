@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T07:13:33.603Z",
+  "updated_at": "2026-11-04T07:23:33.676Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -16,10 +16,10 @@
         "johndoe123983"
       ],
       "session": "johndoe-manager-20261104-0140",
-      "seq": 35,
+      "seq": 36,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T07:09:00Z",
+      "last_control_at": "2026-11-04T07:19:16Z",
       "capabilities": [
         "coordination",
         "review",
@@ -27,7 +27,7 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6624895660,
+      "last_control_comment_id": 6625074337,
       "checkpoint": "56b60b9638a0c32116d2d8d86ee31570e9faa868"
     },
     "claude": {
@@ -35,10 +35,10 @@
         "R1shik123"
       ],
       "session": "claude-r1shik-20261104-0045",
-      "seq": 34,
+      "seq": 35,
       "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T07:12:36Z",
+      "last_control_at": "2026-11-04T07:22:47Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "coordination",
@@ -51,18 +51,18 @@
       ],
       "free_capacity": 1,
       "requires_new_assignment": false,
-      "last_control_comment_id": 6624957943,
+      "last_control_comment_id": 6625131555,
       "checkpoint": "33c16873bae27d68d0076c730b025dda3e9cd898"
     },
     "builder-g5070-1104": {
       "accounts": [
         "Infosuii"
       ],
-      "session": "builder-g5070-1104-20261104-0105",
-      "seq": 11,
-      "state": "UNAVAILABLE_30M",
+      "session": "builder-g5070-resume-0715-20261104-0715",
+      "seq": 1,
+      "state": "RETURNING",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T04:39:26Z",
+      "last_control_at": "2026-11-04T07:21:52Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -72,13 +72,25 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 0,
+      "free_capacity": 1,
       "requires_new_assignment": true,
-      "branch": "johndoe/qualifier-builder-g5070-1104",
+      "branch": "johndoe/qualifier-builder-g5070-resume-0715",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6622710803,
-      "checkpoint": "6273ab12",
-      "unavailable_since": "2026-11-04T05:09:26Z"
+      "last_control_comment_id": 6625117099,
+      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
+      "unavailable_since": "2026-11-04T05:09:26Z",
+      "retired_sessions": [
+        {
+          "session": "builder-g5070-1104-20261104-0105",
+          "last_seq": 11,
+          "retired_at": "2026-11-04T07:21:52Z"
+        }
+      ],
+      "access": [
+        "original-builder-machine",
+        "local-checkout",
+        "local-evaluation"
+      ]
     },
     "agent2": {
       "accounts": [],
@@ -104,25 +116,25 @@
   "tasks": [
     {
       "id": "candidate-integration",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "heavy-build",
         "evaluation"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
+      "branch": "johndoe/qualifier-builder-g5070-resume-0715",
+      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
       "transition_id": "expire:builder-g5070-1104:6622710803",
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
-      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "assignment_id": "assign:builder-g5070-1104:6625117099:e3",
       "deadline": "2026-11-04T13:05:00Z",
       "epoch_boundary": {
-        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "after_commit": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
         "required_run_metadata": [
           "agent",
           "session",
@@ -131,31 +143,31 @@
           "git_head",
           "wasm_hash",
           "map_hashes"
-        ],
-        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+        ]
       },
-      "ack_comment_id": 6622104045
+      "ack_comment_id": 6622104045,
+      "run_namespace": "jd-g5070-resume-0715"
     },
     {
       "id": "fuel-memory-runtime",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "runtime"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
+      "branch": "johndoe/qualifier-builder-g5070-resume-0715",
+      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
       "transition_id": "expire:builder-g5070-1104:6622710803",
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
-      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "assignment_id": "assign:builder-g5070-1104:6625117099:e3",
       "deadline": "2026-11-04T13:05:00Z",
       "epoch_boundary": {
-        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "after_commit": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
         "required_run_metadata": [
           "agent",
           "session",
@@ -164,31 +176,31 @@
           "git_head",
           "wasm_hash",
           "map_hashes"
-        ],
-        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+        ]
       },
-      "ack_comment_id": 6622104045
+      "ack_comment_id": 6622104045,
+      "run_namespace": "jd-g5070-resume-0715"
     },
     {
       "id": "basic-decision-strategy",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "strategy"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
+      "branch": "johndoe/qualifier-builder-g5070-resume-0715",
+      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
       "transition_id": "expire:builder-g5070-1104:6622710803",
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
-      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "assignment_id": "assign:builder-g5070-1104:6625117099:e3",
       "deadline": "2026-11-04T13:05:00Z",
       "epoch_boundary": {
-        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "after_commit": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
         "required_run_metadata": [
           "agent",
           "session",
@@ -197,31 +209,31 @@
           "git_head",
           "wasm_hash",
           "map_hashes"
-        ],
-        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+        ]
       },
-      "ack_comment_id": 6622104045
+      "ack_comment_id": 6622104045,
+      "run_namespace": "jd-g5070-resume-0715"
     },
     {
       "id": "rl-actor-export",
-      "owner": null,
-      "owner_session": null,
+      "owner": "builder-g5070-1104",
+      "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "READY_UNASSIGNED",
+      "state": "AWAITING_ACK",
       "requires": [
         "rl-export"
       ],
-      "branch": "johndoe/qualifier-builder-g5070-1104",
-      "checkpoint": "f64657c64339c4025243c7166e3e05556740cea3",
+      "branch": "johndoe/qualifier-builder-g5070-resume-0715",
+      "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
       "platform_sensitive": false,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
       "transition_id": "expire:builder-g5070-1104:6622710803",
       "previous_branch": "johndoe/qualifier-builder-g5070-1104",
-      "assignment_id": "assign:builder-g5070-1104:6622025860:e2",
+      "assignment_id": "assign:builder-g5070-1104:6625117099:e3",
       "deadline": "2026-11-04T13:05:00Z",
       "epoch_boundary": {
-        "after_commit": "f64657c64339c4025243c7166e3e05556740cea3",
+        "after_commit": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
         "required_run_metadata": [
           "agent",
           "session",
@@ -230,10 +242,10 @@
           "git_head",
           "wasm_hash",
           "map_hashes"
-        ],
-        "note": "Single authorized worker branch; prior ownership fenced. Wall-clock alone is insufficient; verify ancestry and explicit epoch metadata before integration."
+        ]
       },
-      "ack_comment_id": 6622104045
+      "ack_comment_id": 6622104045,
+      "run_namespace": "jd-g5070-resume-0715"
     },
     {
       "id": "rl-training",
@@ -280,7 +292,7 @@
       "owner": null,
       "owner_session": null,
       "epoch": 2,
-      "state": "READY_UNASSIGNED",
+      "state": "STOPPED",
       "requires": [
         "gpu"
       ],
@@ -307,7 +319,9 @@
       "ack_comment_id": 6622104045,
       "previous_owner": "builder-g5070-1104",
       "previous_owner_session": "builder-g5070-1104-20261104-0105",
-      "transition_id": "expire:builder-g5070-1104:6622710803"
+      "transition_id": "expire:builder-g5070-1104:6622710803",
+      "stop_report_comment_id": 6625117099,
+      "note": "New controller on original machine reports processes absent, iteration31 complete then interrupted recording ~07:01Z. Preserve checkpoints; no restart. Read-only harvest under candidate-integration epoch3."
     }
   ],
   "events": [
@@ -403,23 +417,45 @@
         "rl-distill-local"
       ],
       "blocker": "No other live adopted worker has verified matching capabilities and compute/process access. Existing training process state unknown; do not duplicate."
+    },
+    {
+      "id": "return:builder-g5070-1104:6625117099",
+      "type": "CONFIRMED_RETURN",
+      "agent": "builder-g5070-1104",
+      "session": "builder-g5070-resume-0715-20261104-0715",
+      "at": "2026-11-04T07:21:52Z"
+    },
+    {
+      "id": "assign:builder-g5070-1104:6625117099:e3",
+      "type": "ASSIGNMENT_PENDING_ACK",
+      "agent": "builder-g5070-1104",
+      "session": "builder-g5070-resume-0715-20261104-0715",
+      "at": "2026-11-04T07:23:47Z",
+      "tasks": [
+        "candidate-integration",
+        "fuel-memory-runtime",
+        "basic-decision-strategy",
+        "rl-actor-export"
+      ]
     }
   ],
-  "note": "Builder second >30m control lapse; four development tasks now epoch3 and local-distill epoch2 READY_UNASSIGNED. Preserve artifacts/deadlines; fresh READY required. No process or platform operations.",
-  "last_complete_check_at": "2026-11-04T07:13:33.603Z",
+  "note": "New builder controller registered on original compute; four development tracks epoch3 AWAITING_ACK on unique resume branch. Local distillation reported stopped, no restart. Agent2 upstream ownership unchanged.",
+  "last_complete_check_at": "2026-11-04T07:23:33.676Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
-      "comment_id": 6622025860,
-      "reported_at": "2026-11-04T03:41:55Z",
-      "state": "CONTROLLER_REPORTED_RUNNING",
+      "comment_id": 6625117099,
+      "reported_at": "2026-11-04T07:21:52Z",
+      "state": "CONTROLLER_REPORTED_STOPPED",
       "location": "builder machine jd-eval/rl/rl-dagger-01/ckpt",
       "note": "Separate process report; does not renew controller. Do not duplicate/kill; local-distillation task registration and current-epoch ACK pending.",
       "pid": 25780,
       "launcher_pid": 23600,
       "started_at": "2026-11-04T03:42:05Z",
       "stop_by": "2026-11-04T08:42:00Z",
-      "independently_verified": false
+      "independently_verified": false,
+      "last_completed_iteration": 31,
+      "interrupted_batch_at": "2026-11-04T07:01:00Z"
     }
   },
   "platform_observation": {
