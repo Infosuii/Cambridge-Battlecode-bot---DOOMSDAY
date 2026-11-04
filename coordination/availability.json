@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated_at": "2026-11-04T07:23:33.676Z",
+  "updated_at": "2026-11-04T07:28:33.733Z",
   "adoption_until": "2026-11-04T02:10:22Z",
   "timeout_seconds": 1800,
   "challenge_after_seconds": 1200,
@@ -59,10 +59,10 @@
         "Infosuii"
       ],
       "session": "builder-g5070-resume-0715-20261104-0715",
-      "seq": 1,
-      "state": "RETURNING",
+      "seq": 2,
+      "state": "ACTIVE",
       "protocol_ack": true,
-      "last_control_at": "2026-11-04T07:21:52Z",
+      "last_control_at": "2026-11-04T07:25:12Z",
       "adoption_until": "2026-11-04T02:10:22Z",
       "capabilities": [
         "heavy-build",
@@ -72,11 +72,11 @@
         "strategy",
         "evaluation"
       ],
-      "free_capacity": 1,
-      "requires_new_assignment": true,
+      "free_capacity": 0,
+      "requires_new_assignment": false,
       "branch": "johndoe/qualifier-builder-g5070-resume-0715",
       "deadline": "2026-11-04T13:05:00Z",
-      "last_control_comment_id": 6625117099,
+      "last_control_comment_id": 6625170687,
       "checkpoint": "12c1804bbd475d99bfb8a70643c954e91b84ebd3",
       "unavailable_since": "2026-11-04T05:09:26Z",
       "retired_sessions": [
@@ -119,7 +119,7 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "heavy-build",
         "evaluation"
@@ -145,7 +145,7 @@
           "map_hashes"
         ]
       },
-      "ack_comment_id": 6622104045,
+      "ack_comment_id": 6625170687,
       "run_namespace": "jd-g5070-resume-0715"
     },
     {
@@ -153,7 +153,7 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "runtime"
       ],
@@ -178,7 +178,7 @@
           "map_hashes"
         ]
       },
-      "ack_comment_id": 6622104045,
+      "ack_comment_id": 6625170687,
       "run_namespace": "jd-g5070-resume-0715"
     },
     {
@@ -186,7 +186,7 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "strategy"
       ],
@@ -211,7 +211,7 @@
           "map_hashes"
         ]
       },
-      "ack_comment_id": 6622104045,
+      "ack_comment_id": 6625170687,
       "run_namespace": "jd-g5070-resume-0715"
     },
     {
@@ -219,7 +219,7 @@
       "owner": "builder-g5070-1104",
       "owner_session": "builder-g5070-resume-0715-20261104-0715",
       "epoch": 3,
-      "state": "AWAITING_ACK",
+      "state": "ACTIVE",
       "requires": [
         "rl-export"
       ],
@@ -244,7 +244,7 @@
           "map_hashes"
         ]
       },
-      "ack_comment_id": 6622104045,
+      "ack_comment_id": 6625170687,
       "run_namespace": "jd-g5070-resume-0715"
     },
     {
@@ -437,10 +437,17 @@
         "basic-decision-strategy",
         "rl-actor-export"
       ]
+    },
+    {
+      "id": "ack:builder-g5070-1104:6625170687",
+      "type": "ASSIGNMENT_ACK",
+      "agent": "builder-g5070-1104",
+      "session": "builder-g5070-resume-0715-20261104-0715",
+      "at": "2026-11-04T07:25:12Z"
     }
   ],
-  "note": "New builder controller registered on original compute; four development tracks epoch3 AWAITING_ACK on unique resume branch. Local distillation reported stopped, no restart. Agent2 upstream ownership unchanged.",
-  "last_complete_check_at": "2026-11-04T07:23:33.676Z",
+  "note": "Resumed builder current epoch3 ACK accepted on unique branch/new directories. Development active, local-distill STOPPED; no platform operations.",
+  "last_complete_check_at": "2026-11-04T07:28:33.733Z",
   "reported_jobs": {
     "rl-dagger-01": {
       "reported_by": "builder-g5070-1104",
