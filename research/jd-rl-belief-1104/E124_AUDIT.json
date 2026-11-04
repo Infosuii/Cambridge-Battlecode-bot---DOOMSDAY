@@ -1,0 +1,57 @@
+{
+  "source_commit": "0b0ae8e475c65c2901a0aad02842c58a0fee6c55",
+  "bootstrap": {
+    "seed": 1104,
+    "replicates": 10000,
+    "unit": "map; both sides and opponent variants together"
+  },
+  "limitations": [
+    "Known official maps; new opponent jitter does not make new maps.",
+    "Checkpoint comparison/selection used these results; intervals are exploratory.",
+    "No match manifests, WASM hashes or fuel telemetry independently verified.",
+    "Win rates against v92-family opponents do not compare nnc4 directly with CPG."
+  ],
+  "official": {
+    "cells": 380,
+    "maps": 70,
+    "wins": 214.0,
+    "win_rate": 0.5631578947368421,
+    "map_cluster_percentile_95": [
+      0.505,
+      0.6223958333333334
+    ]
+  },
+  "fresh": {
+    "cells": 498,
+    "maps": 249,
+    "wins": 267.0,
+    "win_rate": 0.536144578313253,
+    "map_cluster_percentile_95": [
+      0.4939759036144578,
+      0.5803212851405622
+    ]
+  },
+  "unseen": {
+    "cells": 100,
+    "maps": 50,
+    "wins": 61.0,
+    "win_rate": 0.61,
+    "map_cluster_percentile_95": [
+      0.52,
+      0.69
+    ]
+  },
+  "nnc4_minus_nnc0_same_cells": {
+    "cells": 280,
+    "delta": 0.075,
+    "map_cluster_percentile_95": [
+      -0.014285714285714285,
+      0.16785714285714284
+    ]
+  },
+  "input_sha256": {
+    "e124_c4.tsv": "23e499221aa3b6a8ed0564f16a0e6b7ce21d53d16c11794307f7c9c75553954b",
+    "e124_fresh.tsv": "5afbd2a92883629a95b29197eb0334a0f0ce3aaebffbf558468ea57c25f02152",
+    "e124_off.tsv": "754fa6315fa2c419788d07144c00931ac9622178547e0ec0e0eecb2ea26d616d"
+  }
+}
