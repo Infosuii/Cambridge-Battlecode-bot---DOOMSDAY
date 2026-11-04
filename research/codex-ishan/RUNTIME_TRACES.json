@@ -1,0 +1,510 @@
+{
+  "scope": "Diagnostic only: A2_TEL adds charged overhead, not release outcomes",
+  "games": 64,
+  "engine": "2.0.0",
+  "wasm_sha256": "16306a5d41b87cd1b28b992c61617644284d360a86dda2ddb0b9a50ac34aedf9",
+  "suspension_intervals": {
+    "e_prefight -> enemies": 1,
+    "farmmove -> decide": 18,
+    "e_bush -> td0": 1,
+    "e_stand -> enemies": 2,
+    "wardrev -> w_vis": 3,
+    "enemies -> decide": 1,
+    "support -> w_vis": 43,
+    "support -> wardrev": 13,
+    "decide -> tail": 1,
+    "tail -> field": 1
+  },
+  "traces": [
+    {
+      "map": "pf_pool_77035",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R241 t12 to R242: start=99952 refresh=97560 w_vis=95146 w_groups=91645 w_hot=89222 w_champs=85539 w_ward=84833 w_sight=84526 w_update=82821 world=82654 episode=82584 sight=81970 events=81888 shop=81783 support=81397 wardrev=78151 ambush=77985 e_in=77717 e_altar=77651 e_lock=77585 e_bush=77486 td0=75808 td1=46736 e_td=46663 e_mid=45467 e_prestand=45396 e_stand=45326 e_noflee=45258 e_prefight=45127 enemies=89114* decide=88836 tail=88455 fields=88310 end=88232"
+      ]
+    },
+    {
+      "map": "pf_pool_77035",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77035",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77035",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77042",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R98 t2 to R99: start=99952 refresh=97700 w_vis=94599 w_groups=91314 w_hot=89239 w_champs=86110 w_ward=85453 w_sight=84334 w_update=82404 world=82237 episode=82167 sight=80886 events=80804 shop=80699 support=80409 wardrev=79912 ambush=79814 e_in=79614 e_altar=79548 e_lock=79482 e_bush=77472 td0=75915 td1=44790 e_td=44717 e_mid=43732 e_prestand=43661 e_stand=43591 e_noflee=43523 enemies=43390 farm0=24409 duo_start=24279 duo_end=24196 farmsel=24119 farmmove=23743 decide=99912* tail=99583 fields=99435 end=99357"
+      ]
+    },
+    {
+      "map": "pf_pool_77042",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77042",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R98 t2 to R99: start=99952 refresh=97700 w_vis=94599 w_groups=91314 w_hot=89239 w_champs=86110 w_ward=85453 w_sight=84334 w_update=82404 world=82237 episode=82167 sight=80886 events=80804 shop=80699 support=80409 wardrev=79912 ambush=79814 e_in=79614 e_altar=79548 e_lock=79482 e_bush=77472 td0=75915 td1=44790 e_td=44717 e_mid=43732 e_prestand=43661 e_stand=43591 e_noflee=43523 enemies=43390 farm0=24409 duo_start=24279 duo_end=24196 farmsel=24119 farmmove=23743 decide=99912* tail=99583 fields=99435 end=99357"
+      ]
+    },
+    {
+      "map": "pf_pool_77042",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77068",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77068",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77068",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77068",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77076",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77076",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77076",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77076",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77082",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R2 t9 to R3: start=99952 refresh=97811 w_vis=94683 w_groups=92873 w_hot=89133 w_champs=84329 w_ward=83547 w_sight=83457 w_update=83381 world=83292 episode=83222 sight=83113 events=83025 shop=82884 support=82594 wardrev=78063 ambush=77965 enemies=77873 farm0=77230 duo_start=77115 duo_end=74851 score0=74763 farmsel=34454 farmmove=34071 decide=18996* tail=18866 fields=18664 end=18586",
+        "A2SUS R84 t1 to R85: start=99952 refresh=97647 w_vis=94913 w_groups=91735 w_hot=87998 w_champs=81849 w_ward=79988 w_sight=77729 w_update=75837 world=75514 episode=75444 sight=74453 events=74371 shop=74266 support=74066 w_vis=17810 w_groups=16015 w_hot=12278 w_champs=6129 w_ward=5367 w_sight=3217 wardrev=1325 ambush=1159 e_in=963 e_altar=897 e_lock=831 e_bush=732 td0=96722* td1=57322 e_td=57249 e_mid=55442 e_prestand=55226 e_stand=53833 enemies=47454 decide=47160 tail=46596 fields=46451 end=46373"
+      ]
+    },
+    {
+      "map": "pf_pool_77082",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R2 t9 to R3: start=99952 refresh=97811 w_vis=94683 w_groups=92873 w_hot=89133 w_champs=84329 w_ward=83547 w_sight=83457 w_update=83381 world=83292 episode=83222 sight=83113 events=83025 shop=82884 support=82594 wardrev=78038 ambush=77940 enemies=77848 farm0=77193 duo_start=77078 duo_end=74814 score0=74726 farmsel=34436 farmmove=34053 decide=18210* tail=18080 fields=17878 end=17800",
+        "A2SUS R261 t9 to R262: start=99952 refresh=97784 w_vis=94419 w_groups=91364 w_hot=87602 w_champs=83511 w_ward=81994 w_sight=80857 w_update=79127 world=78908 episode=78838 sight=77796 events=77714 shop=77609 support=77319 w_vis=25489 w_groups=23666 w_hot=19904 w_champs=15813 w_ward=15031 w_sight=13871 wardrev=12141 ambush=12043 e_in=11670 e_altar=11604 e_lock=11538 e_bush=9528 td0=7616 td1=6600 e_td=6526 e_mid=5436 e_prestand=5352 e_stand=4563 enemies=99384* decide=99021 tail=98612 fields=98473 end=98395",
+        "A2SUS R379 t9 to R380: start=99952 refresh=97841 w_vis=94496 w_groups=91444 w_hot=87700 w_champs=83574 w_ward=82035 w_sight=81069 w_update=79234 world=79067 episode=78997 sight=78021 events=77939 shop=77834 support=77589 wardrev=28945 ambush=28847 e_in=28647 e_altar=28581 e_lock=28515 e_bush=26505 td0=24824 td1=23830 e_td=23756 e_mid=22537 e_prestand=22466 e_stand=22396 e_noflee=22328 enemies=22195 farm0=10005 duo_start=9866 duo_end=9783 farmsel=9706 farmmove=9327 decide=96025* tail=95704 fields=95565 end=95487"
+      ]
+    },
+    {
+      "map": "pf_pool_77082",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R2 t9 to R3: start=99952 refresh=97811 w_vis=94683 w_groups=92873 w_hot=89133 w_champs=84329 w_ward=83547 w_sight=83457 w_update=83381 world=83292 episode=83222 sight=83113 events=83025 shop=82884 support=82594 wardrev=78063 ambush=77965 enemies=77873 farm0=77230 duo_start=77115 duo_end=74851 score0=74763 farmsel=34454 farmmove=34071 decide=18996* tail=18866 fields=18664 end=18586",
+        "A2SUS R416 t1 to R417: start=99952 refresh=97832 w_vis=95098 w_groups=91765 w_hot=88085 w_champs=84261 w_ward=83499 w_sight=82855 w_update=81799 world=81632 episode=81562 sight=80897 events=80815 shop=80710 support=80447 wardrev=71619 w_vis=94098* w_groups=91016 w_hot=87336 w_champs=83481 w_ward=82719 w_sight=82052 ambush=80353 e_in=80159 e_altar=80093 e_lock=80027 e_bush=79673 e_mid=77185 e_prestand=77110 e_stand=77040 e_noflee=76972 enemies=76839 farm0=64941 duo_start=64826 duo_end=64532 score0=64444 farmsel=39379 farmmove=38996 decide=23390 tail=23069 fields=22930 end=22852"
+      ]
+    },
+    {
+      "map": "pf_pool_77082",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R2 t9 to R3: start=99952 refresh=97811 w_vis=94683 w_groups=92873 w_hot=89133 w_champs=84329 w_ward=83547 w_sight=83457 w_update=83381 world=83292 episode=83222 sight=83113 events=83025 shop=82884 support=82594 wardrev=78038 ambush=77940 enemies=77848 farm0=77193 duo_start=77078 duo_end=74814 score0=74726 farmsel=34436 farmmove=34053 decide=18210* tail=18080 fields=17878 end=17800",
+        "A2SUS R564 t10 to R565: start=99952 refresh=97832 w_vis=95272 w_groups=92223 w_hot=88472 w_champs=85405 w_ward=83908 w_sight=83111 w_update=82055 world=81888 episode=81818 sight=80940 events=80858 shop=80753 support=80503 wardrev=76821 ambush=76655 e_in=76459 e_altar=76393 e_lock=76327 e_bush=76228 td0=74673 td1=49474 e_td=49401 e_mid=48561 e_prestand=48364 e_stand=47467 enemies=176 decide=99865* tail=99484 fields=99345 end=99267"
+      ]
+    },
+    {
+      "map": "pf_pool_77125",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R47 t7 to R48: start=99952 refresh=97674 w_vis=94618 w_groups=91616 w_hot=89173 w_champs=85741 w_ward=84867 w_sight=84777 w_update=84701 world=84612 episode=84542 sight=84349 events=84261 shop=84156 support=83866 w_vis=95010* w_groups=92116 w_hot=89673 w_champs=87139 w_ward=86373 w_sight=86283 wardrev=86207 ambush=86109 enemies=86017 farm0=85510 duo_start=85395 duo_end=85243 score0=85155 route0=58888 route1=53471 farmsel=50083 farmmove=49700 decide=38535 tail=38405 fields=38203 end=38125"
+      ]
+    },
+    {
+      "map": "pf_pool_77125",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pf_pool_77125",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R47 t7 to R48: start=99952 refresh=97674 w_vis=94618 w_groups=91616 w_hot=89173 w_champs=85741 w_ward=84867 w_sight=84777 w_update=84701 world=84612 episode=84542 sight=84349 events=84261 shop=84156 support=83866 w_vis=95010* w_groups=92116 w_hot=89673 w_champs=87139 w_ward=86373 w_sight=86283 wardrev=86207 ambush=86109 enemies=86017 farm0=85510 duo_start=85395 duo_end=85243 score0=85155 route0=58888 route1=53471 farmsel=50083 farmmove=49700 decide=38535 tail=38405 fields=38203 end=38125",
+        "A2SUS R142 t10 to R143: start=99952 refresh=97685 w_vis=95110 w_groups=92763 w_hot=90303 w_champs=88231 w_ward=86979 w_sight=86587 w_update=86511 world=86422 episode=86352 sight=85783 events=85628 shop=85523 support=85323 wardrev=77588 w_vis=69082* w_groups=66500 w_hot=64040 w_champs=61071 w_ward=59584 w_sight=58820 ambush=57796 e_in=57600 e_altar=57534 e_lock=57468 e_bush=57369 td0=55819 td1=53262 e_td=53189 e_mid=52232 e_prestand=52161 e_stand=52091 e_noflee=52023 e_prefight=51904 enemies=44435 decide=44102 tail=43781 fields=43636 end=43558",
+        "A2SUS R142 t12 to R143: start=99952 refresh=97488 w_vis=94739 w_groups=92334 w_hot=89888 w_champs=86952 w_ward=86383 w_sight=85285 w_update=84438 world=84271 episode=84201 sight=83228 events=83146 shop=83041 support=82841 wardrev=82322 ambush=82224 e_in=82028 e_altar=81962 e_lock=81896 e_bush=81797 td0=80230 td1=53186 e_td=53113 e_mid=52266 e_prestand=52069 e_stand=51360 enemies=67447* decide=67134 tail=66813 fields=66668 end=66590",
+        "A2SUS R440 t4 to R441: start=99952 refresh=97832 w_vis=95532 w_groups=92412 w_hot=90042 w_champs=86978 w_ward=85491 w_sight=85167 w_update=85091 world=85002 episode=84932 sight=84495 events=84340 shop=84235 support=83990 w_vis=95817* w_groups=93161 w_hot=90791 w_champs=87258 w_ward=86006 w_sight=85362 wardrev=84573 ambush=84475 e_in=83422 e_altar=83356 e_lock=83290 e_bush=81216 td0=79341 td1=75489 e_td=75416 e_mid=74226 e_prestand=74155 e_stand=74085 e_noflee=74017 e_prefight=73898 enemies=65701 decide=65368 tail=65047 fields=64908 end=64830",
+        "A2SUS R442 t3 to R443: start=99952 refresh=97937 w_vis=95363 w_groups=92736 w_hot=90369 w_champs=88053 w_ward=86588 w_sight=86370 w_update=86294 world=86205 episode=86135 sight=85529 events=85374 shop=85269 support=84979 w_vis=96769* w_groups=94926 w_hot=92559 w_champs=90243 w_ward=89497 w_sight=89263 wardrev=89187 ambush=89089 enemies=88997 farm0=88085 duo_start=87970 duo_end=87639 score0=87551 route0=67506 route1=58521 farmsel=57938 farmmove=57562 decide=48094 tail=47729 fields=47585 end=47507"
+      ]
+    },
+    {
+      "map": "pf_pool_77125",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R82 t10 to R83: start=99952 refresh=97700 w_vis=95439 w_groups=92744 w_hot=90377 w_champs=85849 w_ward=85103 w_sight=84917 w_update=84841 world=84752 episode=84682 sight=84201 events=84046 shop=83941 support=83741 w_vis=96941* w_groups=95330 w_hot=92963 w_champs=89414 w_ward=88903 w_sight=88416 wardrev=87627 ambush=87529 e_in=86358 e_altar=86292 e_lock=86226 e_bush=84600 td0=82871 td1=79282 e_td=79209 e_mid=78031 e_prestand=77960 e_stand=77890 e_noflee=77822 e_prefight=77703 enemies=69641 decide=69308 tail=69009 fields=68864 end=68786",
+        "A2SUS R87 t3 to R88: start=99952 refresh=97793 w_vis=95297 w_groups=92772 w_hot=90405 w_champs=86682 w_ward=85936 w_sight=85734 w_update=85658 world=85569 episode=85499 sight=84974 events=84819 shop=84714 support=84424 wardrev=99918* ambush=99820 enemies=99728 decide=90884 tail=90551 field=81009 field=71467 fields=71380 end=71302",
+        "A2SUS R201 t2 to R202: start=99952 refresh=97793 w_vis=95297 w_groups=92580 w_hot=90216 w_champs=87934 w_ward=87188 w_sight=87018 w_update=86942 world=86853 episode=86783 sight=86434 events=86279 shop=86174 support=85929 w_vis=98996* w_groups=96279 w_hot=93915 w_champs=91633 w_ward=90146 w_sight=89976 wardrev=89900 ambush=89802 enemies=89710 decide=81214 tail=80923 fields=80779 end=80701",
+        "A2SUS R435 t7 to R436: start=99952 refresh=97785 w_vis=95115 w_groups=91956 w_hot=89507 w_champs=86450 w_ward=84963 w_sight=84767 w_update=84691 world=84602 episode=84532 sight=84183 events=84028 shop=83923 support=83633 w_vis=95929* w_groups=93137 w_hot=90688 w_champs=87636 w_ward=86890 w_sight=86583 wardrev=85559 ambush=85461 e_in=84408 e_altar=84342 e_lock=84276 e_bush=82266 td0=80694 td1=60662 e_td=60589 e_mid=59315 e_prestand=59244 e_stand=59174 e_noflee=59106 e_prefight=58987 enemies=58173 decide=57850 tail=57529 fields=57390 end=57312",
+        "A2SUS R567 t4 to R568: start=99952 refresh=97832 w_vis=95336 w_groups=92600 w_hot=90154 w_champs=87114 w_ward=86368 w_sight=86182 w_update=86106 world=86017 episode=85947 sight=85686 events=85598 shop=85493 support=85248 wardrev=77740 w_vis=56043* w_groups=53307 w_hot=50861 w_champs=47852 w_ward=47106 w_sight=46920 ambush=46844 enemies=46752 farm0=46301 duo_start=46186 duo_end=46030 score0=45942 farmsel=34743 farmmove=34367 decide=24488 tail=24181 fields=24037 end=23959"
+      ]
+    },
+    {
+      "map": "pool_1113",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1113",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1113",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1113",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1116",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R67 t3 to R68: start=99952 refresh=97353 w_vis=93745 w_groups=90320 w_hot=85910 w_champs=82944 w_ward=81932 w_sight=81842 w_update=81766 world=81677 episode=81607 sight=81447 events=81359 shop=81254 support=80964 wardrev=75501 ambush=75403 enemies=75311 farm0=74804 duo_start=74689 duo_end=74436 score0=74348 farmsel=46578 farmmove=46199 decide=13247* tail=13117 fields=12890 end=12812"
+      ]
+    },
+    {
+      "map": "pool_1116",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1116",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R67 t3 to R68: start=99952 refresh=97353 w_vis=93745 w_groups=90320 w_hot=85910 w_champs=82944 w_ward=81932 w_sight=81842 w_update=81766 world=81677 episode=81607 sight=81447 events=81359 shop=81254 support=80964 wardrev=75501 ambush=75403 enemies=75311 farm0=74804 duo_start=74689 duo_end=74436 score0=74348 farmsel=46578 farmmove=46199 decide=13247* tail=13117 fields=12890 end=12812"
+      ]
+    },
+    {
+      "map": "pool_1116",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R383 t1 to R384: start=99952 refresh=97844 w_vis=94950 w_groups=90854 w_hot=86395 w_champs=83032 w_ward=82148 w_sight=81567 w_update=80267 world=80100 episode=80030 sight=79284 events=79202 shop=79097 support=78807 wardrev=78517 ambush=78419 e_in=78219 e_altar=78153 e_lock=78087 e_bush=76374 td0=74801 td1=46480 e_td=46407 e_mid=45422 e_prestand=34140 e_stand=34070 e_noflee=34002 enemies=33869 farm0=17603 duo_start=17473 duo_end=17390 farmsel=17313 farmmove=16937 decide=0 tail=99727* fields=99579 end=99501",
+        "A2SUS R389 t1 to R390: start=99952 refresh=97844 w_vis=94717 w_groups=90856 w_hot=86397 w_champs=83269 w_ward=82620 w_sight=82353 w_update=81288 world=81121 episode=81051 sight=80525 events=80443 shop=80338 support=80093 wardrev=79803 ambush=79705 e_in=79505 e_altar=79439 e_lock=79373 e_bush=77660 td0=76289 td1=44967 e_td=44894 e_mid=43925 e_prestand=32914 e_stand=32844 e_noflee=32776 enemies=32643 farm0=16646 duo_start=16516 duo_end=16433 farmsel=16356 farmmove=15980 decide=99520* tail=99199 fields=99051 end=98973",
+        "A2SUS R423 t1 to R424: start=99952 refresh=97844 w_vis=94950 w_groups=91048 w_hot=86589 w_champs=83226 w_ward=82342 w_sight=81915 w_update=80615 world=80448 episode=80378 sight=79713 events=79631 shop=79526 support=79263 wardrev=78948 ambush=78850 e_in=78650 e_altar=78584 e_lock=78518 e_bush=76805 td0=75232 td1=44654 e_td=44581 e_mid=43612 e_prestand=33435 e_stand=33365 e_noflee=33297 enemies=33164 farm0=17059 duo_start=16929 duo_end=16846 farmsel=16769 farmmove=16393 decide=99669* tail=99348 fields=99200 end=99122",
+        "A2SUS R503 t3 to R504: start=99952 refresh=97937 w_vis=94889 w_groups=91266 w_hot=86850 w_champs=84232 w_ward=83348 w_sight=83210 w_update=83134 world=83045 episode=82975 sight=82626 events=82471 shop=82366 support=82121 wardrev=76639 ambush=76541 enemies=76449 farm0=58661 duo_start=58546 duo_end=58285 score0=58197 farmsel=34714 farmmove=34331 decide=3628* tail=3439 fields=3223 end=3145"
+      ]
+    },
+    {
+      "map": "pool_1118",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R245 t3 to R246: start=99952 refresh=97793 w_vis=94980 w_groups=91305 w_hot=88317 w_champs=84969 w_ward=84085 w_sight=83851 w_update=83775 world=83686 episode=83616 sight=83003 events=82848 shop=82743 support=82498 wardrev=75694 ambush=75596 enemies=75504 farm0=74583 duo_start=74468 duo_end=74207 score0=74119 farmsel=44910 farmmove=44527 decide=24081* tail=23716 fields=23489 end=23411"
+      ]
+    },
+    {
+      "map": "pool_1118",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R70 t3 to R71: start=99952 refresh=97811 w_vis=94763 w_groups=91534 w_hot=88552 w_champs=85198 w_ward=84314 w_sight=84224 w_update=84148 world=84059 episode=83989 sight=83796 events=83708 shop=83603 support=83313 wardrev=77978 ambush=77880 enemies=77788 farm0=77170 duo_start=77055 duo_end=76811 score0=76723 farmsel=48608 farmmove=48225 decide=28679* tail=28549 fields=28322 end=28244"
+      ]
+    },
+    {
+      "map": "pool_1118",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R245 t3 to R246: start=99952 refresh=97793 w_vis=94980 w_groups=91305 w_hot=88317 w_champs=84969 w_ward=84085 w_sight=83851 w_update=83775 world=83686 episode=83616 sight=83003 events=82848 shop=82743 support=82498 wardrev=75694 ambush=75596 enemies=75504 farm0=74583 duo_start=74468 duo_end=74207 score0=74119 farmsel=44910 farmmove=44527 decide=24081* tail=23716 fields=23489 end=23411"
+      ]
+    },
+    {
+      "map": "pool_1118",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R70 t3 to R71: start=99952 refresh=97811 w_vis=94763 w_groups=91534 w_hot=88552 w_champs=85198 w_ward=84314 w_sight=84224 w_update=84148 world=84059 episode=83989 sight=83796 events=83708 shop=83603 support=83313 wardrev=77978 ambush=77880 enemies=77788 farm0=77170 duo_start=77055 duo_end=76811 score0=76723 farmsel=48608 farmmove=48225 decide=28679* tail=28549 fields=28322 end=28244"
+      ]
+    },
+    {
+      "map": "pool_1119",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1119",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1119",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1119",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R287 t1 to R288: start=99952 refresh=97937 w_vis=93942 w_groups=90406 w_hot=87694 w_champs=84836 w_ward=84002 w_sight=83912 w_update=83836 world=83747 episode=83677 sight=83401 events=83313 shop=83208 support=82918 wardrev=82645 ambush=82547 enemies=82455 farm0=81948 duo_start=81833 duo_end=81569 score0=81481 farmsel=50690 farmmove=50307 decide=156 tail=26 field=89121* field=78429 fields=78342 end=78264"
+      ]
+    },
+    {
+      "map": "pool_1147",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1147",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1147",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1147",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1157",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1157",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1157",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1157",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1159",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1159",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1159",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1159",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1207",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1207",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1207",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1207",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1369",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1369",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1369",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1369",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": []
+    },
+    {
+      "map": "pool_1907",
+      "side": "A",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R6 t4 to R7: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83570 w_vis=62661* w_groups=61000 w_hot=59893 w_champs=53476 w_ward=52732 w_sight=52642 wardrev=52566 ambush=52468 enemies=52376 farm0=51562 duo_start=51447 duo_end=51291 score0=51203 farmsel=33553 farmmove=33177 decide=21898 tail=21768 fields=21566 end=21488",
+        "A2SUS R8 t12 to R9: start=99952 refresh=97671 w_vis=94231 w_groups=92570 w_hot=91463 w_champs=85766 w_ward=85022 w_sight=84932 w_update=84856 world=84767 episode=84697 sight=84588 events=84500 shop=84395 support=84150 w_vis=63273* w_groups=61612 w_hot=60505 w_champs=54115 w_ward=53371 w_sight=53281 wardrev=53205 ambush=53107 enemies=53015 farm0=52213 duo_start=52098 duo_end=51946 score0=51858 farmsel=33790 farmmove=33414 decide=17822 tail=17692 fields=17490 end=17412",
+        "A2SUS R9 t2 to R10: start=99952 refresh=97811 w_vis=94755 w_groups=93074 w_hot=91967 w_champs=86426 w_ward=85662 w_sight=85572 w_update=85496 world=85407 episode=85337 sight=85228 events=85140 shop=85035 support=84790 w_vis=63566* w_groups=61777 w_hot=60670 w_champs=54328 w_ward=53456 w_sight=53366 wardrev=53290 ambush=53192 enemies=53100 farm0=52286 duo_start=52171 duo_end=52021 score0=51933 farmsel=34909 farmmove=34533 decide=21339 tail=21209 fields=21007 end=20929",
+        "A2SUS R9 t3 to R10: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85906 w_ward=85162 w_sight=85072 w_update=84996 world=84907 episode=84837 sight=84728 events=84640 shop=84535 support=84245 wardrev=65898* ambush=65800 enemies=65708 farm0=64979 duo_start=64864 duo_end=64611 score0=64523 farmsel=39977 farmmove=39601 decide=25195 tail=25065 fields=24863 end=24785",
+        "A2SUS R10 t7 to R11: start=99952 refresh=97674 w_vis=94234 w_groups=92573 w_hot=91466 w_champs=85796 w_ward=85052 w_sight=84962 w_update=84886 world=84797 episode=84727 sight=84618 events=84530 shop=84425 support=84135 w_vis=63130* w_groups=61469 w_hot=60362 w_champs=53972 w_ward=53228 w_sight=53138 wardrev=53062 ambush=52964 enemies=52872 farm0=52046 duo_start=51931 duo_end=51779 score0=51691 farmsel=33861 farmmove=33485 decide=18723 tail=18593 fields=18391 end=18313",
+        "A2SUS R10 t10 to R11: start=99952 refresh=97811 w_vis=94763 w_groups=92974 w_hot=91867 w_champs=86245 w_ward=85373 w_sight=85283 w_update=85207 world=85118 episode=85048 sight=84939 events=84851 shop=84746 support=84456 w_vis=62998* w_groups=61317 w_hot=60210 w_champs=53976 w_ward=53212 w_sight=53122 wardrev=53046 ambush=52948 enemies=52856 farm0=52042 duo_start=51927 duo_end=51775 score0=51687 farmsel=34571 farmmove=34195 decide=15118 tail=14988 fields=14786 end=14708",
+        "A2SUS R28 t4 to R29: start=99952 refresh=97811 w_vis=95149 w_groups=92590 w_hot=91489 w_champs=88425 w_ward=87681 w_sight=87591 w_update=87515 world=87426 episode=87356 sight=87196 events=87108 shop=87003 support=86758 w_vis=90571* w_groups=88012 w_hot=86911 w_champs=83847 w_ward=83103 w_sight=83013 wardrev=82937 ambush=82839 enemies=82747 farm0=82153 duo_start=82038 duo_end=81882 score0=81794 route0=61308 route1=56854 farmsel=54992 farmmove=54616 decide=41381 tail=41251 fields=41049 end=40971",
+        "A2SUS R28 t12 to R29: start=99952 refresh=97671 w_vis=95157 w_groups=92603 w_hot=91502 w_champs=86273 w_ward=85529 w_sight=85439 w_update=85363 world=85274 episode=85204 sight=85011 events=84923 shop=84818 support=84573 w_vis=87300* w_groups=84746 w_hot=83645 w_champs=77675 w_ward=76931 w_sight=76841 wardrev=76765 ambush=76667 enemies=76575 farm0=75737 duo_start=75622 duo_end=75470 score0=75382 farmsel=49483 farmmove=49107 decide=46085 tail=45955 fields=45753 end=45675",
+        "A2SUS R34 t3 to R35: start=99952 refresh=97811 w_vis=95297 w_groups=92755 w_hot=91657 w_champs=87239 w_ward=86495 w_sight=86405 w_update=86329 world=86240 episode=86170 sight=85977 events=85889 shop=85784 support=85494 wardrev=79626 ambush=79528 enemies=79436 farm0=78744 duo_start=78629 duo_end=78376 score0=78288 farmsel=46432 farmmove=46049 decide=46638* tail=46508 fields=46306 end=46228",
+        "A2SUS R37 t7 to R38: start=99952 refresh=97674 w_vis=95160 w_groups=92618 w_hot=91520 w_champs=86990 w_ward=86246 w_sight=86156 w_update=86080 world=85991 episode=85921 sight=85728 events=85640 shop=85535 support=85245 w_vis=89046* w_groups=86222 w_hot=85124 w_champs=79901 w_ward=79157 w_sight=79067 wardrev=78991 ambush=78893 enemies=78801 farm0=78036 duo_start=77921 duo_end=77769 score0=77681 farmsel=52330 farmmove=51954 decide=39978 tail=39848 fields=39646 end=39568",
+        "A2SUS R38 t2 to R39: start=99952 refresh=97811 w_vis=94763 w_groups=91941 w_hot=90843 w_champs=85243 w_ward=84371 w_sight=84281 w_update=84205 world=84116 episode=84046 sight=83886 events=83558 shop=83453 support=83208 w_vis=85964* w_groups=83275 w_hot=82177 w_champs=76685 w_ward=75921 w_sight=75831 wardrev=75755 ambush=75657 enemies=75565 farm0=74800 duo_start=74685 duo_end=74535 score0=74447 farmsel=38214 farmmove=37831 decide=21258 tail=21128 fields=20926 end=20848",
+        "A2SUS R38 t3 to R39: start=99952 refresh=97811 w_vis=94518 w_groups=91674 w_hot=90576 w_champs=85811 w_ward=85047 w_sight=84957 w_update=84881 world=84792 episode=84722 sight=84562 events=84234 shop=84129 support=83839 wardrev=90244* ambush=90146 enemies=90054 farm0=89350 duo_start=89235 duo_end=88982 score0=88894 route0=62993 route1=58573 farmsel=34980 farmmove=34604 decide=18450 tail=18320 fields=18118 end=18040",
+        "A2SUS R73 t10 to R74: start=99952 refresh=97811 w_vis=94763 w_groups=92170 w_hot=91107 w_champs=86230 w_ward=85358 w_sight=85268 w_update=85192 world=85103 episode=85033 sight=84840 events=84752 shop=84647 support=84357 w_vis=88035* w_groups=85550 w_hot=84487 w_champs=79718 w_ward=78954 w_sight=78864 wardrev=78788 ambush=78690 enemies=78598 farm0=77882 duo_start=77767 duo_end=77615 score0=77527 route0=55637 route1=50965 farmsel=50827 farmmove=50451 decide=39184 tail=39054 fields=38852 end=38774"
+      ]
+    },
+    {
+      "map": "pool_1907",
+      "side": "B",
+      "opponent": "v92",
+      "suspensions": [
+        "A2SUS R6 t4 to R7: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83570 w_vis=63547* w_groups=61886 w_hot=60779 w_champs=54362 w_ward=53618 w_sight=53528 wardrev=53452 ambush=53354 enemies=53262 farm0=52448 duo_start=52333 duo_end=52177 score0=52089 farmsel=34677 farmmove=34301 decide=23054 tail=22924 fields=22722 end=22644",
+        "A2SUS R8 t12 to R9: start=99952 refresh=97671 w_vis=94231 w_groups=92570 w_hot=91463 w_champs=85046 w_ward=84302 w_sight=84212 w_update=84136 world=84047 episode=83977 sight=83868 events=83780 shop=83675 support=83430 w_vis=64159* w_groups=62498 w_hot=61391 w_champs=54974 w_ward=54230 w_sight=54140 wardrev=54064 ambush=53966 enemies=53874 farm0=53060 duo_start=52945 duo_end=52793 score0=52705 farmsel=34918 farmmove=34542 decide=19176 tail=19046 fields=18844 end=18766",
+        "A2SUS R9 t2 to R10: start=99952 refresh=97811 w_vis=94755 w_groups=93074 w_hot=91967 w_champs=85706 w_ward=84942 w_sight=84852 w_update=84776 world=84687 episode=84617 sight=84508 events=84420 shop=84315 support=84070 wardrev=66692* ambush=66594 enemies=66502 farm0=65712 duo_start=65597 duo_end=65447 score0=65359 farmsel=42174 farmmove=41798 decide=28868 tail=28738 fields=28536 end=28458",
+        "A2SUS R9 t3 to R10: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83525 w_vis=62770* w_groups=61109 w_hot=60002 w_champs=53585 w_ward=52841 w_sight=52751 wardrev=52675 ambush=52577 enemies=52485 farm0=51695 duo_start=51580 duo_end=51327 score0=51239 farmsel=34713 farmmove=34337 decide=19892 tail=19762 fields=19560 end=19482",
+        "A2SUS R10 t10 to R11: start=99952 refresh=97811 w_vis=94763 w_groups=92974 w_hot=91867 w_champs=86218 w_ward=85346 w_sight=85256 w_update=85180 world=85091 episode=85021 sight=84912 events=84824 shop=84719 support=84429 w_vis=63090* w_groups=61409 w_hot=60302 w_champs=54068 w_ward=53304 w_sight=53214 wardrev=53138 ambush=53040 enemies=52948 farm0=52122 duo_start=52007 duo_end=51855 score0=51767 farmsel=34582 farmmove=34206 decide=15066 tail=14936 fields=14734 end=14656",
+        "A2SUS R11 t7 to R12: start=99952 refresh=97674 w_vis=94234 w_groups=92573 w_hot=91466 w_champs=87234 w_ward=86490 w_sight=86400 w_update=86324 world=86235 episode=86165 sight=86056 events=85968 shop=85863 support=85573 wardrev=68242* ambush=68144 enemies=68052 farm0=67397 duo_start=67282 duo_end=67130 score0=67042 farmsel=43103 farmmove=42727 decide=28435 tail=28305 fields=28103 end=28025",
+        "A2SUS R23 t12 to R24: start=99952 refresh=97671 w_vis=95157 w_groups=92819 w_hot=91715 w_champs=87212 w_ward=86468 w_sight=86378 w_update=86302 world=86213 episode=86143 sight=85950 events=85862 shop=85757 support=85512 w_vis=90560* w_groups=88222 w_hot=87118 w_champs=81895 w_ward=81151 w_sight=81061 wardrev=80985 ambush=80887 enemies=80795 farm0=80018 duo_start=79903 duo_end=79751 score0=79663 farmsel=46022 farmmove=45646 decide=33495 tail=33365 fields=33163 end=33085",
+        "A2SUS R25 t4 to R26: start=99952 refresh=97811 w_vis=95297 w_groups=92954 w_hot=91850 w_champs=86712 w_ward=85968 w_sight=85878 w_update=85802 world=85713 episode=85643 sight=85483 events=85395 shop=85290 support=85045 w_vis=89009* w_groups=86666 w_hot=85562 w_champs=80312 w_ward=79568 w_sight=79478 wardrev=79402 ambush=79304 enemies=79212 farm0=78435 duo_start=78320 duo_end=78164 score0=78076 farmsel=51878 farmmove=51502 decide=37842 tail=37712 fields=37510 end=37432",
+        "A2SUS R28 t3 to R29: start=99952 refresh=97811 w_vis=95297 w_groups=92954 w_hot=91850 w_champs=87320 w_ward=86576 w_sight=86486 w_update=86410 world=86321 episode=86251 sight=86091 events=86003 shop=85898 support=85608 w_vis=90174* w_groups=87690 w_hot=86586 w_champs=81363 w_ward=80619 w_sight=80529 wardrev=80453 ambush=80355 enemies=80263 farm0=79510 duo_start=79395 duo_end=79142 score0=79054 farmsel=51611 farmmove=51235 decide=37067 tail=36937 fields=36735 end=36657",
+        "A2SUS R30 t10 to R31: start=99952 refresh=97811 w_vis=94755 w_groups=92397 w_hot=91293 w_champs=85779 w_ward=85015 w_sight=84925 w_update=84849 world=84760 episode=84690 sight=84434 events=84346 shop=84241 support=83951 wardrev=91948* ambush=91850 enemies=91758 farm0=91005 duo_start=90890 duo_end=90738 score0=90650 route0=70545 route1=65771 farmsel=49012 farmmove=48636 decide=35176 tail=35046 fields=34844 end=34766",
+        "A2SUS R30 t7 to R31: start=99952 refresh=97674 w_vis=95160 w_groups=92795 w_hot=91691 w_champs=87161 w_ward=86417 w_sight=86327 w_update=86251 world=86162 episode=86092 sight=85836 events=85748 shop=85643 support=85353 wardrev=93016* ambush=92918 enemies=92826 farm0=92134 duo_start=92019 duo_end=91867 score0=91779 route0=68382 route1=63892 farmsel=61011 farmmove=60635 decide=44094 tail=43964 fields=43762 end=43684",
+        "A2SUS R37 t2 to R38: start=99952 refresh=97806 w_vis=94750 w_groups=92046 w_hot=90945 w_champs=88407 w_ward=87643 w_sight=87553 w_update=87477 world=87388 episode=87318 sight=87158 events=87070 shop=86965 support=86720 w_vis=90104* w_groups=87292 w_hot=86191 w_champs=83545 w_ward=82673 w_sight=82583 wardrev=82507 ambush=82409 enemies=82317 farm0=81810 duo_start=81695 duo_end=81545 score0=81457 route0=62431 route1=53700 farmsel=52079 farmmove=51695 decide=35378 tail=35248 fields=35046 end=34968"
+      ]
+    },
+    {
+      "map": "pool_1907",
+      "side": "A",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R6 t4 to R7: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83570 w_vis=62661* w_groups=61000 w_hot=59893 w_champs=53476 w_ward=52732 w_sight=52642 wardrev=52566 ambush=52468 enemies=52376 farm0=51562 duo_start=51447 duo_end=51291 score0=51203 farmsel=33553 farmmove=33177 decide=21898 tail=21768 fields=21566 end=21488",
+        "A2SUS R8 t12 to R9: start=99952 refresh=97671 w_vis=94231 w_groups=92570 w_hot=91463 w_champs=85766 w_ward=85022 w_sight=84932 w_update=84856 world=84767 episode=84697 sight=84588 events=84500 shop=84395 support=84150 w_vis=63273* w_groups=61612 w_hot=60505 w_champs=54115 w_ward=53371 w_sight=53281 wardrev=53205 ambush=53107 enemies=53015 farm0=52213 duo_start=52098 duo_end=51946 score0=51858 farmsel=33790 farmmove=33414 decide=17822 tail=17692 fields=17490 end=17412",
+        "A2SUS R9 t2 to R10: start=99952 refresh=97811 w_vis=94755 w_groups=93074 w_hot=91967 w_champs=86426 w_ward=85662 w_sight=85572 w_update=85496 world=85407 episode=85337 sight=85228 events=85140 shop=85035 support=84790 w_vis=63566* w_groups=61777 w_hot=60670 w_champs=54328 w_ward=53456 w_sight=53366 wardrev=53290 ambush=53192 enemies=53100 farm0=52286 duo_start=52171 duo_end=52021 score0=51933 farmsel=34909 farmmove=34533 decide=21339 tail=21209 fields=21007 end=20929",
+        "A2SUS R9 t3 to R10: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85906 w_ward=85162 w_sight=85072 w_update=84996 world=84907 episode=84837 sight=84728 events=84640 shop=84535 support=84245 wardrev=65898* ambush=65800 enemies=65708 farm0=64979 duo_start=64864 duo_end=64611 score0=64523 farmsel=39977 farmmove=39601 decide=25195 tail=25065 fields=24863 end=24785",
+        "A2SUS R10 t7 to R11: start=99952 refresh=97674 w_vis=94234 w_groups=92573 w_hot=91466 w_champs=85796 w_ward=85052 w_sight=84962 w_update=84886 world=84797 episode=84727 sight=84618 events=84530 shop=84425 support=84135 w_vis=63130* w_groups=61469 w_hot=60362 w_champs=53972 w_ward=53228 w_sight=53138 wardrev=53062 ambush=52964 enemies=52872 farm0=52046 duo_start=51931 duo_end=51779 score0=51691 farmsel=33861 farmmove=33485 decide=18723 tail=18593 fields=18391 end=18313",
+        "A2SUS R10 t10 to R11: start=99952 refresh=97811 w_vis=94763 w_groups=92974 w_hot=91867 w_champs=86245 w_ward=85373 w_sight=85283 w_update=85207 world=85118 episode=85048 sight=84939 events=84851 shop=84746 support=84456 w_vis=62998* w_groups=61317 w_hot=60210 w_champs=53976 w_ward=53212 w_sight=53122 wardrev=53046 ambush=52948 enemies=52856 farm0=52042 duo_start=51927 duo_end=51775 score0=51687 farmsel=34571 farmmove=34195 decide=15118 tail=14988 fields=14786 end=14708",
+        "A2SUS R28 t4 to R29: start=99952 refresh=97811 w_vis=95149 w_groups=92590 w_hot=91489 w_champs=88425 w_ward=87681 w_sight=87591 w_update=87515 world=87426 episode=87356 sight=87196 events=87108 shop=87003 support=86758 w_vis=90571* w_groups=88012 w_hot=86911 w_champs=83847 w_ward=83103 w_sight=83013 wardrev=82937 ambush=82839 enemies=82747 farm0=82153 duo_start=82038 duo_end=81882 score0=81794 route0=61308 route1=56854 farmsel=54992 farmmove=54616 decide=41381 tail=41251 fields=41049 end=40971",
+        "A2SUS R28 t12 to R29: start=99952 refresh=97671 w_vis=95157 w_groups=92603 w_hot=91502 w_champs=86273 w_ward=85529 w_sight=85439 w_update=85363 world=85274 episode=85204 sight=85011 events=84923 shop=84818 support=84573 w_vis=87300* w_groups=84746 w_hot=83645 w_champs=77675 w_ward=76931 w_sight=76841 wardrev=76765 ambush=76667 enemies=76575 farm0=75737 duo_start=75622 duo_end=75470 score0=75382 farmsel=49483 farmmove=49107 decide=46085 tail=45955 fields=45753 end=45675",
+        "A2SUS R34 t3 to R35: start=99952 refresh=97811 w_vis=95297 w_groups=92755 w_hot=91657 w_champs=87239 w_ward=86495 w_sight=86405 w_update=86329 world=86240 episode=86170 sight=85977 events=85889 shop=85784 support=85494 wardrev=79626 ambush=79528 enemies=79436 farm0=78744 duo_start=78629 duo_end=78376 score0=78288 farmsel=46432 farmmove=46049 decide=46638* tail=46508 fields=46306 end=46228",
+        "A2SUS R37 t7 to R38: start=99952 refresh=97674 w_vis=95160 w_groups=92618 w_hot=91520 w_champs=86990 w_ward=86246 w_sight=86156 w_update=86080 world=85991 episode=85921 sight=85728 events=85640 shop=85535 support=85245 w_vis=89046* w_groups=86222 w_hot=85124 w_champs=79901 w_ward=79157 w_sight=79067 wardrev=78991 ambush=78893 enemies=78801 farm0=78036 duo_start=77921 duo_end=77769 score0=77681 farmsel=52330 farmmove=51954 decide=39978 tail=39848 fields=39646 end=39568",
+        "A2SUS R38 t2 to R39: start=99952 refresh=97811 w_vis=94763 w_groups=91941 w_hot=90843 w_champs=85243 w_ward=84371 w_sight=84281 w_update=84205 world=84116 episode=84046 sight=83886 events=83558 shop=83453 support=83208 w_vis=85964* w_groups=83275 w_hot=82177 w_champs=76685 w_ward=75921 w_sight=75831 wardrev=75755 ambush=75657 enemies=75565 farm0=74800 duo_start=74685 duo_end=74535 score0=74447 farmsel=38214 farmmove=37831 decide=21258 tail=21128 fields=20926 end=20848",
+        "A2SUS R38 t3 to R39: start=99952 refresh=97811 w_vis=94518 w_groups=91674 w_hot=90576 w_champs=85811 w_ward=85047 w_sight=84957 w_update=84881 world=84792 episode=84722 sight=84562 events=84234 shop=84129 support=83839 wardrev=90244* ambush=90146 enemies=90054 farm0=89350 duo_start=89235 duo_end=88982 score0=88894 route0=62993 route1=58573 farmsel=34980 farmmove=34604 decide=18450 tail=18320 fields=18118 end=18040",
+        "A2SUS R73 t10 to R74: start=99952 refresh=97811 w_vis=94763 w_groups=92170 w_hot=91107 w_champs=86230 w_ward=85358 w_sight=85268 w_update=85192 world=85103 episode=85033 sight=84840 events=84752 shop=84647 support=84357 w_vis=88035* w_groups=85550 w_hot=84487 w_champs=79718 w_ward=78954 w_sight=78864 wardrev=78788 ambush=78690 enemies=78598 farm0=77882 duo_start=77767 duo_end=77615 score0=77527 route0=55637 route1=50965 farmsel=50827 farmmove=50451 decide=39184 tail=39054 fields=38852 end=38774"
+      ]
+    },
+    {
+      "map": "pool_1907",
+      "side": "B",
+      "opponent": "x3inv",
+      "suspensions": [
+        "A2SUS R6 t4 to R7: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83570 w_vis=63547* w_groups=61886 w_hot=60779 w_champs=54362 w_ward=53618 w_sight=53528 wardrev=53452 ambush=53354 enemies=53262 farm0=52448 duo_start=52333 duo_end=52177 score0=52089 farmsel=34677 farmmove=34301 decide=23054 tail=22924 fields=22722 end=22644",
+        "A2SUS R8 t12 to R9: start=99952 refresh=97671 w_vis=94231 w_groups=92570 w_hot=91463 w_champs=85046 w_ward=84302 w_sight=84212 w_update=84136 world=84047 episode=83977 sight=83868 events=83780 shop=83675 support=83430 w_vis=64159* w_groups=62498 w_hot=61391 w_champs=54974 w_ward=54230 w_sight=54140 wardrev=54064 ambush=53966 enemies=53874 farm0=53060 duo_start=52945 duo_end=52793 score0=52705 farmsel=34918 farmmove=34542 decide=19176 tail=19046 fields=18844 end=18766",
+        "A2SUS R9 t2 to R10: start=99952 refresh=97811 w_vis=94755 w_groups=93074 w_hot=91967 w_champs=85706 w_ward=84942 w_sight=84852 w_update=84776 world=84687 episode=84617 sight=84508 events=84420 shop=84315 support=84070 wardrev=66692* ambush=66594 enemies=66502 farm0=65712 duo_start=65597 duo_end=65447 score0=65359 farmsel=42174 farmmove=41798 decide=28868 tail=28738 fields=28536 end=28458",
+        "A2SUS R9 t3 to R10: start=99952 refresh=97811 w_vis=94371 w_groups=92710 w_hot=91603 w_champs=85186 w_ward=84442 w_sight=84352 w_update=84276 world=84187 episode=84117 sight=84008 events=83920 shop=83815 support=83525 w_vis=62770* w_groups=61109 w_hot=60002 w_champs=53585 w_ward=52841 w_sight=52751 wardrev=52675 ambush=52577 enemies=52485 farm0=51695 duo_start=51580 duo_end=51327 score0=51239 farmsel=34713 farmmove=34337 decide=19892 tail=19762 fields=19560 end=19482",
+        "A2SUS R10 t10 to R11: start=99952 refresh=97811 w_vis=94763 w_groups=92974 w_hot=91867 w_champs=86218 w_ward=85346 w_sight=85256 w_update=85180 world=85091 episode=85021 sight=84912 events=84824 shop=84719 support=84429 w_vis=63090* w_groups=61409 w_hot=60302 w_champs=54068 w_ward=53304 w_sight=53214 wardrev=53138 ambush=53040 enemies=52948 farm0=52122 duo_start=52007 duo_end=51855 score0=51767 farmsel=34582 farmmove=34206 decide=15066 tail=14936 fields=14734 end=14656",
+        "A2SUS R11 t7 to R12: start=99952 refresh=97674 w_vis=94234 w_groups=92573 w_hot=91466 w_champs=87234 w_ward=86490 w_sight=86400 w_update=86324 world=86235 episode=86165 sight=86056 events=85968 shop=85863 support=85573 wardrev=68242* ambush=68144 enemies=68052 farm0=67397 duo_start=67282 duo_end=67130 score0=67042 farmsel=43103 farmmove=42727 decide=28435 tail=28305 fields=28103 end=28025",
+        "A2SUS R23 t12 to R24: start=99952 refresh=97671 w_vis=95157 w_groups=92819 w_hot=91715 w_champs=87212 w_ward=86468 w_sight=86378 w_update=86302 world=86213 episode=86143 sight=85950 events=85862 shop=85757 support=85512 w_vis=90560* w_groups=88222 w_hot=87118 w_champs=81895 w_ward=81151 w_sight=81061 wardrev=80985 ambush=80887 enemies=80795 farm0=80018 duo_start=79903 duo_end=79751 score0=79663 farmsel=46022 farmmove=45646 decide=33495 tail=33365 fields=33163 end=33085",
+        "A2SUS R25 t4 to R26: start=99952 refresh=97811 w_vis=95297 w_groups=92954 w_hot=91850 w_champs=86712 w_ward=85968 w_sight=85878 w_update=85802 world=85713 episode=85643 sight=85483 events=85395 shop=85290 support=85045 w_vis=89009* w_groups=86666 w_hot=85562 w_champs=80312 w_ward=79568 w_sight=79478 wardrev=79402 ambush=79304 enemies=79212 farm0=78435 duo_start=78320 duo_end=78164 score0=78076 farmsel=51878 farmmove=51502 decide=37842 tail=37712 fields=37510 end=37432",
+        "A2SUS R28 t3 to R29: start=99952 refresh=97811 w_vis=95297 w_groups=92954 w_hot=91850 w_champs=87320 w_ward=86576 w_sight=86486 w_update=86410 world=86321 episode=86251 sight=86091 events=86003 shop=85898 support=85608 w_vis=90174* w_groups=87690 w_hot=86586 w_champs=81363 w_ward=80619 w_sight=80529 wardrev=80453 ambush=80355 enemies=80263 farm0=79510 duo_start=79395 duo_end=79142 score0=79054 farmsel=51611 farmmove=51235 decide=37067 tail=36937 fields=36735 end=36657",
+        "A2SUS R30 t10 to R31: start=99952 refresh=97811 w_vis=94755 w_groups=92397 w_hot=91293 w_champs=85779 w_ward=85015 w_sight=84925 w_update=84849 world=84760 episode=84690 sight=84434 events=84346 shop=84241 support=83951 wardrev=91948* ambush=91850 enemies=91758 farm0=91005 duo_start=90890 duo_end=90738 score0=90650 route0=70545 route1=65771 farmsel=49012 farmmove=48636 decide=35176 tail=35046 fields=34844 end=34766",
+        "A2SUS R30 t7 to R31: start=99952 refresh=97674 w_vis=95160 w_groups=92795 w_hot=91691 w_champs=87161 w_ward=86417 w_sight=86327 w_update=86251 world=86162 episode=86092 sight=85836 events=85748 shop=85643 support=85353 wardrev=93016* ambush=92918 enemies=92826 farm0=92134 duo_start=92019 duo_end=91867 score0=91779 route0=68382 route1=63892 farmsel=61011 farmmove=60635 decide=44094 tail=43964 fields=43762 end=43684",
+        "A2SUS R37 t2 to R38: start=99952 refresh=97806 w_vis=94750 w_groups=92046 w_hot=90945 w_champs=88407 w_ward=87643 w_sight=87553 w_update=87477 world=87388 episode=87318 sight=87158 events=87070 shop=86965 support=86720 w_vis=90104* w_groups=87292 w_hot=86191 w_champs=83545 w_ward=82673 w_sight=82583 wardrev=82507 ambush=82409 enemies=82317 farm0=81810 duo_start=81695 duo_end=81545 score0=81457 route0=62431 route1=53700 farmsel=52079 farmmove=51695 decide=35378 tail=35248 fields=35046 end=34968"
+      ]
+    }
+  ]
+}
