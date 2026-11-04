@@ -1,0 +1,9 @@
+# Plan C group lookup regression
+
+**MEASURED:** In the 4 November read-only capture, the twentieth unranked page (100 games per page) ended at 3 November 17:43:24 UTC, later than archived Plan C baseline arm's 16:24:12 UTC search start. The old report searched at most 20 pages. Its historical log `pipeline_c3.log` contained only 10 paired cells. Direct `cambc match-groups show <id> --json` still returned five finished matches for each of all 48 recorded groups.
+
+The [recount](PLAN_C_AUDIT_RECOUNT.json) verifies opponent team ID, map name, side, position, engine version and the 120 match ID pairs. It reproduces v80/v92 at 57/120; v103/v92audit is 47/120, b/c=13/23, z=-1.6667. The recorded pin setting is in the archived plan; the read API does not expose the actual opponent submission or pin lineage. Never use this result as pin verification.
+
+**Fix:** use group-ID reads and cache completed groups across polling sweeps; the report no longer depends on the age or volume of unrelated matches. The new path reran the full archived baseline and audit report against the live CLI's captured group responses. It returned 57/120 and 47/120 with 120 pairs; a second poll of a completed group did not query it again. No replayed arm or gate decision changed.
+
+Reproduction: export `research/x3/duel/duel_20261103c.json` from handover commit `33c16873` to `artifacts/codex-p0/archived-plan-c-readonly.json`; capture the 48 recorded group IDs under `artifacts/codex-p0/duel-group-cache/<id>.json` with the official read command; run `py docs/codex/audit_archived_duel.py artifacts/codex-p0/archived-plan-c-readonly.json v92 v92audit --out <new-output.json>`. On this machine, a directly launched CLI can read the account, but Python subprocesses receive "Sign in first"; the recount uses direct CLI captures. Do not run the mutation pipeline until its own subprocess authentication and restoration have been verified.

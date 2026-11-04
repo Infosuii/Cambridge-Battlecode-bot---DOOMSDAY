@@ -76,21 +76,21 @@ def activate(version):
     raise SystemExit(f'version {version} did not become active')
 
 
-def finished_groups(group_ids, since):
-    """Our unranked matches since `since`, grouped by group id, for the given ids."""
-    found, cursor = {}, None
-    for _ in range(20):
-        args = ['matches', 'list', '--team', 'me', '--kind', 'unranked', '--limit', '100', '--json'] + (['--cursor', cursor] if cursor else [])
-        d = cli_json(args)
-        for m in d['matches']:
-            found[m['matchId']] = m
-        cursor = d.get('nextCursor')
-        if not cursor or (d['matches'] and min(m['createdAt'] for m in d['matches']) < since):
-            break
-    by = defaultdict(list)
-    for m in found.values():
-        if m['groupId'] in group_ids:
-            by[m['groupId']].append(m)
+def finished_groups(group_ids, previous=None):
+    """Read the requested groups by ID; retain completed groups across polls."""
+    by = {}
+    for gid in sorted(group_ids):
+        cached = (previous or {}).get(gid, [])
+        if len(cached) == 5 and all(m['status'] == 'finished' for m in cached):
+            by[gid] = cached
+            continue
+        d = cli_json(['match-groups', 'show', gid, '--json'])
+        if d.get('groupId') != gid or d.get('nextCursor'):
+            raise SystemExit(f'unexpected match group response for {gid}')
+        matches = d['matches']
+        if any(m['groupId'] != gid for m in matches):
+            raise SystemExit(f'match from a different group in response for {gid}')
+        by[gid] = matches
     return by
 
 
@@ -177,8 +177,9 @@ def main():
         Path(a.plan).write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
         want = {g for g in ids if g}
         print(f'arm {a.arm}: queued {len(want)} groups; waiting for them to finish', flush=True)
+        by = {}
         for _ in range(240):
-            by = finished_groups(want, since)
+            by = finished_groups(want, by)
             done = sum(1 for gid in want if len(by.get(gid, [])) == 5 and all(m['status'] == 'finished' for m in by[gid]))
             if done == len(want):
                 break
@@ -192,7 +193,7 @@ def main():
     for arm in arms:
         info = plan['arms'][arm]
         want = {g for g in info['groups'] if g}
-        by = finished_groups(want, info['since'])
+        by = finished_groups(want)
         res = {}
         for i, gid in enumerate(info['groups']):
             for m in by.get(gid, []):
