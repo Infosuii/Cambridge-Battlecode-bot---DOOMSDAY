@@ -17,17 +17,18 @@ OUT = bench.CACHE / "heart-cast-path-stress-profile-14107"
 STAGES = ("world", "support", "wardrev", "ambush", "e_in", "e_td", "enemies", "farm0",
           "farmsel", "d_farm", "decide", "tail", "fields", "bushpre")
 FARM_PHASES = ("wardrev", "farm_begin", "farm0", "farmsel", "farmmove", "c_zones",
-               "c_staged", "c_safe", "c_walked", "c_cast", "d_farm")
+               "c_staged", "c_safe", "c_walked", "c_cast", "d_farm", "altar_before", "altar_after")
 
 
-def instrument_farm(src):
+def instrument_farm(src, altar):
     count = len(FARM_PHASES)
 
     def marker(phase):
         return ("if ((round == 321 || round == 334) && type == bc::champion_type::cassi) "
                 f"codex_cassi_sample({FARM_PHASES.index(phase)}, round);")
 
-    apply(src / "bot.cpp", (
+    phases = ("farmmove", "d_farm") if altar else FARM_PHASES[:-2]
+    edits = [
         ('#include "bot.h"', f'''#include "bot.h"
 
 static unsigned codex_cassi_round;
@@ -39,9 +40,8 @@ static unsigned long long codex_cassi_fuel[{count}];
     codex_cassi_engine[phase] = bc::round_number();
     codex_cassi_fuel[phase] = bc::fuel_remaining();
 }}'''),
-        ('        if (!farm()) mode = "nofarm";', '        ' + marker("farm_begin") + '\n        if (!farm()) mode = "nofarm";'),
         *((f'PROF_CHECK("{phase}");', f'PROF_CHECK("{phase}"); ' + marker(phase))
-          for phase in FARM_PHASES if phase != "farm_begin"),
+          for phase in phases if phase != "farm_begin"),
         ("void Bot::play_turn() {", f'''void Bot::play_turn() {{
     if (codex_cassi_round) {{
         for (int i = 0; i < {count}; ++i) {{
@@ -52,7 +52,38 @@ static unsigned long long codex_cassi_fuel[{count}];
         }}
         codex_cassi_round = 0;
     }}'''),
-    ))
+    ]
+    if altar:
+        edits.extend((
+            ('    switch (g.state) {\n    case GroupState::reward: {\n        mode = "capture";',
+             '''    if ((round == 321 || round == 334) && type == bc::champion_type::cassi) {
+        codex_cassi_state = static_cast<int>(g.state);
+        codex_cassi_altar_ready = w.altar_ready;
+        codex_cassi_altar_gated = w.altar_gated;
+        codex_cassi_no_bank = w.no_bank;
+    }
+    switch (g.state) {
+    case GroupState::reward: {
+        mode = "capture";'''),
+            ('            const int altar_trip = gems >= 10 && w.ensure_altar_field()\n',
+             '            ' + marker("altar_before") + '\n' +
+             '            const bool has_altar = gems >= 10 && w.ensure_altar_field();\n' +
+             '            ' + marker("altar_after") + '\n            const int altar_trip = has_altar\n'),
+        ))
+    else:
+        edits.append(('        if (!farm()) mode = "nofarm";',
+                      '        ' + marker("farm_begin") + '\n        if (!farm()) mode = "nofarm";'))
+    apply(src / "bot.cpp", edits)
+    if altar:
+        apply(src / "bot.cpp", (
+            ('static unsigned codex_cassi_round;', '''static unsigned codex_cassi_round;
+static int codex_cassi_state = -1;
+static bool codex_cassi_altar_ready, codex_cassi_altar_gated, codex_cassi_no_bank;'''),
+            ('        codex_cassi_round = 0;', '''        std::printf("CODEX_CASSI_STATE %u %d %d %d %d\\n", codex_cassi_round,
+                    codex_cassi_state, codex_cassi_altar_ready, codex_cassi_altar_gated, codex_cassi_no_bank);
+        codex_cassi_state = -1;
+        codex_cassi_round = 0;'''),
+        ))
 
 
 def play(item):
@@ -68,6 +99,8 @@ def play(item):
         log = archive.read(f"team-{side.lower()}.stdout")
     markers = re.findall(rb"CODEX_STRESS R(\d+) t\d+ ([a-z_0-9]+)", log)
     samples = [list(map(int, m)) for m in re.findall(rb"CODEX_CASSI_FARM (\d+) (\d+) (\d+) (\d+)", log)]
+    states = {int(r): [int(s), bool(int(ready)), bool(int(gated)), bool(int(no_bank))] for r, s, ready, gated, no_bank in
+              re.findall(rb"CODEX_CASSI_STATE (\d+) (-?\d+) (\d+) (\d+) (\d+)", log)}
     a, b = (read(p / "native.json") for p in (old, new))
     same_draft = a["roster"]["draft"] == b["roster"]["draft"]
     errors = bool(b["diagnostics"]["codes"] or any(b["diagnostics"]["botFaults"].values()))
@@ -84,7 +117,7 @@ def play(item):
         phases = [phase.decode() for recorded, phase in markers if int(recorded) == rnd]
         fuel = {FARM_PHASES[i]: [engine_round, left] for recorded, i, engine_round, left in samples if recorded == rnd}
         checks.append({"round": rnd, "actor": actor, "same_input": same_input, "same_actions": same_actions,
-                       "same_event": native_match, "phases": phases, "fuel": fuel,
+                       "same_event": native_match, "phases": phases, "fuel": fuel, "state": states.get(rnd),
                        "matched": same_draft and not errors and native_match and same_input and same_actions,
                        "base_turn": old_turn, "diagnostic_turn": new_turn})
     return {"base": base, "diagnostic": row, "same_draft": same_draft, "errors": errors,
@@ -94,10 +127,13 @@ def play(item):
 def main():
     global OUT
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--farm", action="store_true")
-    farm = parser.parse_args().farm
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--farm", action="store_true")
+    mode.add_argument("--altar", action="store_true")
+    args = parser.parse_args()
+    farm, altar = args.farm or args.altar, args.altar
     if farm:
-        OUT = bench.CACHE / "heart-cast-path-cassi-farm-14107"
+        OUT = bench.CACHE / ("heart-cast-path-cassi-altar-14107" if altar else "heart-cast-path-cassi-farm-14107")
     frozen = read(HERE / "CPG_HEART_CAST_PATH_STRESS.json")
     assert frozen["seed"] == SEED and frozen["n"] == 800
     cases = frozen["affected"]
@@ -110,7 +146,7 @@ def main():
     src = OUT / "source/src"
     prepare(src, True)
     if farm:
-        instrument_farm(src)
+        instrument_farm(src, altar)
     else:
         rounds = sorted({rnd for rnd, _ in events})
         prepare_coarse(src, rounds, STAGES)
@@ -130,7 +166,8 @@ def main():
     matches = {r["round"]: r["fuel"] if farm else r["phases"] for cell in rows for r in cell["checks"] if r["matched"]}
     result = {"engine": bench.ENGINE, "reference": frozen["wasm"], "diagnostic": bench.digest(wasm),
               "seed": SEED, "matches": matches, "n": len(rows)}
-    name = "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json"
+    name = ("CPG_CAST_PATH_CASSI_ALTAR.json" if altar else
+            "CPG_CAST_PATH_CASSI_FARM.json" if farm else "CPG_HEART_CAST_PATH_STRESS_TRACE.json")
     with (HERE / name).open("x", encoding="utf8", newline="\n") as out:
         json.dump({**result, "rows": rows}, out, indent=2)
         out.write("\n")
