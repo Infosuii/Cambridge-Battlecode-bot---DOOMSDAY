@@ -11,13 +11,21 @@
  "zero_control": {"v92_release_wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47", "jd_default_release_wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47", "result": "identical (matches the documented v92 = platform v80 hash)", "candidate_commit": "55674489"},
  "machine": {"os": "Windows 11", "cpu": "Intel Core Ultra 7 255HX (20 cores / 20 threads)", "ram_gb": 31.4, "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU 12 GB", "jobs_limit": 14},
  "eval_root": "c:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval (outside the repo; replays, stats, wasm never committed)",
+ "anti_overfitting_rule": "User directive ~01:45Z, binding on all later steps: frozen dev/selection/holdout partitions of maps and opponents (below, details in GATES.md); never tune, debug or trace defects on the holdout (jdrun.py refuses holdout maps/opponents without --holdout); select on matched paired wins across diverse opponents/maps with map-clustered CI, not v92 self-play or one familiar opponent; v81/x1 are inflated; few knobs, geometry/continuous features over map-identity rules; report the dev-vs-holdout gap per finalist, dev-only gains are 'Conditionally useful'; do not chase single ladder results.",
+ "partitions": {
+  "development": {"maps": ["dev", "conf"], "opponents": ["v92", "x3inv", "p65pack", "public-khiri"]},
+  "selection": {"maps": ["select"], "opponents": ["v92", "x3ctr", "p65", "v86h"]},
+  "final_holdout": {"maps": ["pool", "fresh51104"], "opponents": ["v92", "b5_c3", "v61_c3", "public-decrest", "public-wardens", "x3mf2"], "note": "official70 is a subset of pool"}
+ },
  "map_sets": {
-  "conf": {"count": 16, "digest16": "2412526d83bc78ee"},
-  "dev": {"count": 40, "digest16": "d881b3acc05d425e", "generator": "a2 tools/viz/mapmake6.js seed 1104 (30) + 10 fixed ladder-pool maps"},
-  "pool": {"count": 86, "digest16": "a12607ec22bd6d44", "source": "maps/ladder-pool"},
-  "fresh51104": {"count": 100, "digest16": "f18d4d0a48f6c07d", "generator": "mapmake6.js seed 51104", "use": "final holdout only"},
-  "official70": {"count": 70, "digest16": "099e8d3507b70614", "source": "a2 v4/maps @ 56b60b96"},
-  "digest_rule": "sha256 over sorted lines '<file sha256> <file name>' joined by newline, first 16 hex"
+  "conf": {"count": 16, "sha256": "94b6b4b43167ba179171f6ff3d616d802531c5cd632704412126cc3a21506852", "source": "the 16 largest dev maps by file size"},
+  "dev": {"count": 90, "sha256": "4268c4752502f768848d11ac1bd460a2cc6fc12e32756f240dbc9d71d9114b06", "source": "a2 tools/viz/mapmake6.js seed 1104 (30) + a2 v4/maps_poolfresh sorted 1-60 (pf_ prefix)"},
+  "select": {"count": 100, "sha256": "2a3b97fddbaf326fdfd7e1523b8e51ab007db38e037b3e7295977b04819f1d2a", "source": "mapmake6.js seed 3307 (40) + a2 v4/maps_poolfresh sorted 61-120 (pf_ prefix)"},
+  "pool": {"count": 86, "sha256": "a12607ec22bd6d44321c1c62fc9a6b543a278f60538142edd86a20e79e38093d", "source": "maps/ladder-pool", "use": "final holdout"},
+  "fresh51104": {"count": 100, "sha256": "f18d4d0a48f6c07dff7bff483e234be14fbd0ba334073b8796c51df518e338a5", "source": "mapmake6.js seed 51104", "use": "final holdout only"},
+  "official70": {"count": 70, "digest16": "099e8d3507b70614", "source": "a2 v4/maps @ 56b60b96", "note": "all 70 are byte-identical to pool maps"},
+  "cross_set_duplicates": "none between generated/poolfresh sets; official70 subset of pool",
+  "digest_rule": "sha256 over sorted lines '<file sha256 lowercase> <file name>' joined by newline"
  },
  "frozen_bots": {
   "v92-448de19b2a28": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47",
@@ -30,10 +38,13 @@
   "public-decrest-85e4ba326dd5": "895070576bb79501a1b46edf901b72bceda9d242a77e1a256986e4c1cd818183",
   "public-wardens-96ec60f39a45": "c639099741de3d521c7e664d88a53387bf598eec67dab9760074c48019158aae",
   "x3mf2-aa10b5c575c0": "711886abdda76c57fdf5bf06611c0b3d4c1fb0159d50f77a05301c20aaf13263",
-  "sources": "worktree bots/<name>/src; p65pack, b5_c3, v61_c3 from a2 v4/bots @ 56b60b96"
+  "p65-cd73af993b57": "ebd1504fa1c39e88ed1da01ac9f53d79b30830e4bef86e644ef3c13d1a01c473",
+  "v86h-e8c1b2ea03c5": "0fae1c17ee73bd758529b92f7d7ab55f1dea6f2ecf0865cdac423b2ecd5640fb",
+  "sources": "worktree bots/<name>/src; p65, p65pack, b5_c3, v61_c3 from a2 v4/bots @ 56b60b96"
  },
  "throughput": {
   "base-v92-pool-01": {"games": 688, "seconds": 102.3, "games_per_min": 403.5, "jobs": 14},
+  "base-v92-dev-01": {"games": 720, "seconds": 86.6, "games_per_min": 498.9, "jobs": 14},
   "conf-smoke-01": {"games": 6, "seconds": 1.1, "jobs": 6},
   "sizing": "~400 games/min at jobs 14 on pool maps vs mixed opponents: a 2,232-cell x 2-arm holdout is ~11 min"
  },

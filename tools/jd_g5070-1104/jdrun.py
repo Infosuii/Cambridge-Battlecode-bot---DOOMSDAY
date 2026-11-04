@@ -3,7 +3,8 @@
 
   py tools/jd_g5070-1104/jdrun.py freeze <bot> [--src DIR] [--defines JD_X=1,...]
   py tools/jd_g5070-1104/jdrun.py run --name <fresh> --cand <frozen> --base <frozen> --opps a,b --maps <set>
-        [--limit N] [--sides AB] [--jobs 14] [--fuel-quantum N] [--timeout 900] [--background]
+        [--limit N] [--sides AB] [--jobs 14] [--fuel-quantum N] [--timeout 900] [--background] [--holdout]
+        (holdout maps pool/fresh51104/official70 and holdout opponents need --holdout: confirmation only)
   py tools/jd_g5070-1104/jdrun.py report --name <run>
   py tools/jd_g5070-1104/jdrun.py list
 
@@ -37,6 +38,10 @@ RESEARCH = REPO / 'research' / 'jd-g5070-1104'
 FROZEN = EVAL / 'frozen.json'
 SEED = 1104
 RESAMPLES = 2000
+# Frozen partitions (research/jd-g5070-1104/GATES.md, hashes in RUN_MANIFEST.json).
+HOLDOUT_MAPS = {'pool', 'fresh51104', 'official70'}
+HOLDOUT_OPPS = {'b5_c3', 'v61_c3', 'public-decrest', 'public-wardens', 'x3mf2'}
+PARTITION_OF = {'conf': 'dev', 'dev': 'dev', 'select': 'selection'}
 sys.path.insert(0, str(REPO / 'tools'))
 from dz import fuel_values  # noqa: E402  (replay fuel trace decoder: 8 settings, then fuel used per unit turn)
 
@@ -143,6 +148,11 @@ def cmd_run(a):
     out = EVAL / 'runs' / a.name
     if out.exists() or (RESEARCH / 'runs' / f'{a.name}.json').exists():
         raise SystemExit(f'refusing reused run name {a.name}')
+    # Partition guard (GATES.md): holdout maps/opponents are never used for tuning; such runs need --holdout,
+    # which is recorded in run.json so every result says which partition it came from.
+    held = a.maps in HOLDOUT_MAPS or any(o == h or o.startswith(h + '-') for o in a.opps.split(',') for h in HOLDOUT_OPPS)
+    if held and not a.holdout:
+        raise SystemExit(f'{a.maps}/{a.opps} touches the final holdout partition; pass --holdout (confirmation only)')
     cand, base = resolve(a.cand), resolve(a.base)
     maps = map_set(a.maps, a.limit)
     cs = cells(a, maps)
@@ -162,6 +172,7 @@ def cmd_run(a):
     meta = dict(name=a.name, created=now(), cand=cand, base=base, base_is_cand=cand == base, opps=a.opps.split(','),
                 maps=a.maps, limit=a.limit, sides=a.sides, jobs=a.jobs, fuel_quantum=a.fuel_quantum,
                 timeout=a.timeout, games=len(rows), cells=len(cs),
+                partition='holdout' if held else PARTITION_OF.get(a.maps, 'other'),
                 wasm={b: fz[b]['wasm_sha256'] for b in {cand, base, *[c['opp'] for c in cs]}},
                 map_sha256={m.stem: sha_file(m) for m in maps}, git_head=git_head(), cli_sha256=sha_file(CLI),
                 cells_list=[{k: v for k, v in c.items() if k != 'map_path'} for c in cs])
@@ -241,16 +252,20 @@ def decode_game(stats: Path, replay: Path, side: str):
                 fuel_outs=exhaust, trace_over=over, fuel_budgets=list(budgets), unit_turns=len(fuel),
                 fuel_p50=q(0.5), fuel_p99=q(0.99), fuel_max=ordinary[-1] if ordinary else 0,
                 engine=m.get('engineVersion'), engine_hash=m.get('engineBuildHash'), seed=m.get('seed'),
-                map_hash=m.get('mapHash'), camp_clears=sum(len(e['entries']) for e in d['events']
+                map_hash=m.get('mapHash'), area=int(m.get('width', 0)) * int(m.get('height', 0)), camp_clears=sum(len(e['entries']) for e in d['events']
                                                            if e['kind'] == 'campClear' and e['owner']['team'] == me))
 
 
 def category(map_name):
-    if map_name.startswith('pool_'):
+    if 'pool_' in map_name:
         return 'generated'
     if map_name[:2] in ('00', '01', '02', '03'):
         return 'pool' + map_name[:2]
     return map_name.split('-')[0]
+
+
+def size_bucket(area):
+    return 'small' if area < 1600 else ('medium' if area < 4900 else 'large')
 
 
 def bootstrap(by_map, rng):
@@ -291,6 +306,7 @@ def cmd_report(a):
         gb = games.get(game_id('base' if 'base' in arms else 'cand', c))
         if gc and gb:
             pairs.append(dict(opp=c['opp'], map=c['map'], side=c['side'], cat=category(c['map']),
+                              size=size_bucket(gc['area']),
                               d_score=100 * (gc['score'] - gb['score']), d_banked=gc['banked'] - gb['banked'],
                               d_deaths=gc['deaths'] - gb['deaths'], cand_score=gc['score'], base_score=gb['score']))
     rng = random.Random(SEED)
@@ -325,6 +341,7 @@ def cmd_report(a):
                arms={arm: arm_totals(arm) for arm in arms}, paired=summarize(pairs),
                per_opp={o: summarize([p for p in pairs if p['opp'] == o]) for o in sorted({p['opp'] for p in pairs})},
                per_cat={k: summarize([p for p in pairs if p['cat'] == k]) for k in sorted({p['cat'] for p in pairs})},
+               per_size={k: summarize([p for p in pairs if p['size'] == k]) for k in sorted({p['size'] for p in pairs})},
                failed_list=failed[:50], missing_list=missing[:50])
     if (out / 'done.json').exists():
         res['batch'] = json.loads((out / 'done.json').read_text(encoding='utf-8'))
@@ -344,6 +361,8 @@ def cmd_report(a):
         print(f'  opp {o}: {json.dumps(s)}')
     for k, s in res['per_cat'].items():
         print(f'  cat {k}: {json.dumps(s)}')
+    for k, s in res['per_size'].items():
+        print(f'  size {k}: {json.dumps(s)}')
     if res.get('games_per_min'):
         print(f'  throughput: {res["games_per_min"]} games/min')
 
@@ -374,6 +393,7 @@ def main():
     r.add_argument('--fuel-quantum', type=int, default=0, help='labelled diagnostics only')
     r.add_argument('--timeout', type=int, default=900)
     r.add_argument('--background', action='store_true')
+    r.add_argument('--holdout', action='store_true', help='allow final-holdout maps/opponents (confirmation only)')
     rp = sp.add_parser('report')
     rp.add_argument('--name', required=True)
     sp.add_parser('list')

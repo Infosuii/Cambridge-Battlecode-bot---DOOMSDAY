@@ -1,0 +1,158 @@
+{
+ "name": "conf-smoke-01",
+ "reported": "2026-11-04T01:45:33Z",
+ "cand": "v92-448de19b2a28",
+ "base": "v92-448de19b2a28",
+ "maps": "pool",
+ "sides": "AB",
+ "fuel_quantum": 0,
+ "label": "official fuel",
+ "expected_games": 6,
+ "played": 6,
+ "missing": 0,
+ "failed": 0,
+ "bootstrap": {
+  "resamples": 2000,
+  "seed": 1104,
+  "cluster": "map"
+ },
+ "arms": {
+  "cand": {
+   "played": 6,
+   "wins": 3,
+   "draws": 0,
+   "faults": 0,
+   "opp_faults": 0,
+   "fuel_outs": 0,
+   "trace_over": 0,
+   "fuel_out_games": 0,
+   "mean_banked": 893.3,
+   "mean_deaths": 10.67,
+   "max_ordinary_fuel": 99592
+  }
+ },
+ "paired": {
+  "cells": 6,
+  "maps": 3,
+  "cand_winrate": 50.0,
+  "base_winrate": 50.0,
+  "d_score": 0.0,
+  "ci95": [
+   0.0,
+   0.0
+  ],
+  "d_banked": 0.0
+ },
+ "per_opp": {
+  "v92-448de19b2a28": {
+   "cells": 6,
+   "maps": 3,
+   "cand_winrate": 50.0,
+   "base_winrate": 50.0,
+   "d_score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "d_banked": 0.0
+  }
+ },
+ "per_cat": {
+  "pool00": {
+   "cells": 6,
+   "maps": 3,
+   "cand_winrate": 50.0,
+   "base_winrate": 50.0,
+   "d_score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "d_banked": 0.0
+  }
+ },
+ "per_size": {
+  "large": {
+   "cells": 2,
+   "maps": 1,
+   "cand_winrate": 50.0,
+   "base_winrate": 50.0,
+   "d_score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "d_banked": 0.0
+  },
+  "small": {
+   "cells": 4,
+   "maps": 2,
+   "cand_winrate": 50.0,
+   "base_winrate": 50.0,
+   "d_score": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ],
+   "d_banked": 0.0
+  }
+ },
+ "failed_list": [],
+ "missing_list": [],
+ "batch": {
+  "finished": "2026-11-04T01:36:23Z",
+  "seconds": 1.1,
+  "returncode": 0
+ },
+ "games_per_min": 327.27,
+ "cells": [
+  [
+   "v92-448de19b2a28",
+   "00ambush",
+   "A",
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "00ambush",
+   "B",
+   1.0,
+   1.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "00anvil",
+   "A",
+   1.0,
+   1.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "00anvil",
+   "B",
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "00breadcrumbs",
+   "A",
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   "v92-448de19b2a28",
+   "00breadcrumbs",
+   "B",
+   1.0,
+   1.0,
+   0
+  ]
+ ]
+}
