@@ -12,7 +12,7 @@ import ablate_dev as bench
 from bounded_verdict import apply
 
 HERE = Path(__file__).resolve().parent
-OUT = bench.CACHE / "vesper-passive-dev"
+OUT = bench.CACHE / "vesper-passive-dev-r1"
 sys.path.insert(0, str(HERE / "discovery4"))
 from metrics import timeline
 
@@ -31,7 +31,7 @@ def prepare(src, enabled):
     data = data.replace(anchor, nl.join([
         b"#if CODEX_VESPER_PASSIVE",
         b"        const float adjusted = type == bc::champion_type::vesper_vale && round <= 150",
-        b"            ? weight * (1.0f + static_cast<float>(bc::constants::vesper_vale_bonus_gold_percent) / 100.0f)",
+        b"            ? weight * (1.0f + static_cast<float>(bc::constants::passive_abilities::vesper_vale_bonus_gold_percent) / 100.0f)",
         b"            : weight;",
         b"        if (tune::kGoldTaper <= 0) return adjusted;",
         b"#else",
