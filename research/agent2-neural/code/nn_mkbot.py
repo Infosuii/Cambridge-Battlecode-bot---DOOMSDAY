@@ -121,7 +121,11 @@ patch("bot.cpp", "        int quota = field_calls++ == 0 ? (NOVA_FUEL_FIRST ? 10
 #endif
 """)
 patch("bot.cpp", "                full + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);\n", """#if defined(A2_NN_LIVE) && A2_NN_LIVE
+#ifdef A2_FIELD_MARGIN
+                full + static_cast<std::uint64_t>(field_calls <= 1 ? 20000 : A2_FIELD_MARGIN);
+#else
                 full + static_cast<std::uint64_t>(field_calls <= 1 ? 20000 : NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);
+#endif
 #else
                 full + static_cast<std::uint64_t>(NOVA_FUEL_OPEN ? 30000 : tune::kDetSafety);
 #endif

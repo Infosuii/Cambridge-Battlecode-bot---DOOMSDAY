@@ -13,7 +13,7 @@ All results vs v92 (or v92 with +-0.5% noise on its camp scores, `mk_v92j.py`, w
 | `nnc4` (checkpoint 4) | 56.3% (380 games it was not picked on) | 44.5% (560 games) |
 | `nnc0` (its starting point) | 48.6% (280 games) | 49.3% (560 games) |
 
-So RL most likely learned specific lines of play against a deterministic v92 on these maps, not a stronger policy. Do not treat `nnc4` as an improvement. On other maps it is about level with its start: fresh 53.6% against 53.4%. Unseen 61.0% (100 games, no comparison).
+So RL most likely learned specific lines of play against a deterministic v92 on these maps, not a stronger policy. Do not treat `nnc4` as an improvement. A retest on 600 games no earlier test played (no own-score noise), `nnc4` against its start: official 52.3% against 49.7% (paired +2.7 +- 3.9), unseen 49.3% against 54.3% (paired -5.0 +- 3.7). Fresh 53.6% against 53.4%.
 
 How it plays:
 - v92 chooses a target as usual. The network overrides only if another camp scores more than 2 logits higher (`A2_NN_ENS=2`).

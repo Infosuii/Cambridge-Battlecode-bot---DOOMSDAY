@@ -790,6 +790,14 @@ void Bot::nn_lazy_score() {
     static bool first_camps = true;
     nn_group = -1;
     if (nn_live_turns <= 1) return;
+#ifdef A2_NN_FIELDS_FIRST
+    // E125: on big maps a distance field costs about 43k and is built at the end of the turn: until they are all built the network does not score (v92's choice stands), or v92 and the network would both play
+    // the opening without walking distances (official maps over 60 wide: 35-40% at real fuel, 58% at 20M)
+    if (!w.fields_ready()) {
+        nn_mark = bc::fuel_remaining(), nn_round0 = bc::round_number(), nn_field_fuel = 0;
+        return;
+    }
+#endif
 #ifdef A2_NN_ENSEVERY
     // E123: the network has a say only when v92 wants to change target, or every A2_NN_ENSEVERY rounds (v92 and the current target agree on most turns); the fuel of the other turns goes to the slow blocks
     if (nn_v92best == target_group && (round + slot) % A2_NN_ENSEVERY != 0) {
@@ -1681,6 +1689,9 @@ void Bot::nn_turn_end() {
             nn_warm = 2;
         }
     }
+#ifdef A2_NN_FIELDS_FIRST
+    if (!w.fields_ready()) return;
+#endif
 #if defined(A2_NN_NNUE) && defined(A2_NN_Q16) && A2_NN_Q16
     {
         static int rb = 0;
