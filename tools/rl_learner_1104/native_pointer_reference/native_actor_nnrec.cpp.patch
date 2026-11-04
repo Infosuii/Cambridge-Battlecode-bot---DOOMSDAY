@@ -1,0 +1,65 @@
+--- a/nnrec.cpp
++++ b/nnrec.cpp
+@@ -665,6 +665,7 @@
+ struct ClnaSnap {
+     int at = -1, n = 0;
+     std::int16_t ec[10][16], ft[10][4];
++    std::int16_t jd_h1[64]; int jd_h1_at=-1, jd_state[10];
+ #ifdef CLNA_COND
+     std::int16_t x[160];  // conditional head: the context of the same nn_pub, used one-shot on invoke (no staging)
+ #endif
+@@ -694,8 +695,27 @@
+ static ClnaRow clna_row;
+ static int clna_memo_hits = 0, clna_memo_misses = 0;  // (CLNA_FPROF reports them)
+ static void clna_take_snap(const std::int16_t* f, int coff, int at) {
++#ifdef JD_NATIVE_ACTOR
++    int jd_n=0;
++#if JD_NATIVE_LOG
++    std::copy(nn_lv.jd_h1,nn_lv.jd_h1+64,clna_snap.jd_h1);clna_snap.jd_h1_at=nn_lv.jd_h1_at;
++#endif
++    for(int i=0;i<kC && jd_n<10;++i){
++        const auto* row=f+coff+i*kCF;
++        if(row[0]!=1)continue;
++        clna_snap.jd_state[jd_n]=row[7];
++#if JD_NATIVE_LOG
++        std::copy(nn_lv.ec[i],nn_lv.ec[i]+16,clna_snap.ec[jd_n]);
++#endif
++        ++jd_n;
++    }
++    clna_snap.n=jd_n;clna_snap.at=at;
++    return;
++#endif
++
+ #ifdef CLNA_COND
+     std::copy(nn_lv.x, nn_lv.x + 160, clna_snap.x);
++    std::copy(nn_lv.jd_h1,nn_lv.jd_h1+64,clna_snap.jd_h1);clna_snap.jd_h1_at=nn_lv.jd_h1_at;
+     if (false)
+ #endif
+     // Exact memoisation (JOHNDOE #90): a new context whose 320 raw bytes equal the completed one in use needs no staging;
+@@ -709,6 +729,7 @@
+     for (int i = 0; i < kC && n < 10; ++i) {
+         const std::int16_t* r = f + coff + i * kCF;
+         if (r[0] != 1) continue;
++        clna_snap.jd_state[n]=r[7];
+         std::copy(nn_lv.ec[i], nn_lv.ec[i] + 16, clna_snap.ec[n]);
+         clna_snap.ft[n][0] = r[16], clna_snap.ft[n][1] = r[14], clna_snap.ft[n][2] = r[20], clna_snap.ft[n][3] = r[21];
+         ++n;
+@@ -1381,6 +1402,7 @@
+ #endif
+     if (!clna_rng) clna_rng = static_cast<std::uint64_t>(CLNA_SEED) * 0x100000001B3ull ^ (static_cast<std::uint64_t>(my_id) << 17);
+     const int ref = nn_ens_keep(v92g, ng) ? v92g : ng;
++#include "jd_native_actor.inc"
+     int pg[13];
+     double lg[13];
+     int m = 0;
+@@ -1712,6 +1734,10 @@
+ }
+ #ifdef CLNA_HEAD
+ void Bot::clna_turn_end() {
++#if defined(JD_NATIVE_ACTOR) && !JD_NATIVE_LOG
++    return; // deployment: no collector skip logs or added-head staging
++#endif
++
+     // spare fuel after everything else this turn: advance the context projection of the current snapshot
+ #if CLNA_FPROF
+     const std::uint64_t f0 = bc::fuel_remaining();
