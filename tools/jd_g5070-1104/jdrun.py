@@ -365,6 +365,14 @@ def cmd_report(a):
         print(f'  size {k}: {json.dumps(s)}')
     if res.get('games_per_min'):
         print(f'  throughput: {res["games_per_min"]} games/min')
+    if a.cells:
+        print('  cell: opp map side | cand score banked deaths faults fuel_outs | base score banked deaths faults fuel_outs | d_score')
+        for c in meta['cells_list']:
+            gc = games.get(game_id('cand', c))
+            gb = games.get(game_id('base' if 'base' in arms else 'cand', c))
+            fmt = lambda g: f'{g["score"]} {g["banked"]} {g["deaths"]} {g["faults"]} {g["fuel_outs"]}' if g else 'MISSING'
+            d = f'{100 * (gc["score"] - gb["score"]):+.0f}' if gc and gb else 'n/a'
+            print(f'  cell: {c["opp"]} {c["map"]} {c["side"]} | {fmt(gc)} | {fmt(gb)} | {d}')
 
 
 def cmd_list(_a):
@@ -396,6 +404,7 @@ def main():
     r.add_argument('--holdout', action='store_true', help='allow final-holdout maps/opponents (confirmation only)')
     rp = sp.add_parser('report')
     rp.add_argument('--name', required=True)
+    rp.add_argument('--cells', action='store_true', help='print every paired cell')
     sp.add_parser('list')
     b = sp.add_parser('_batch')
     b.add_argument('--name', required=True)
