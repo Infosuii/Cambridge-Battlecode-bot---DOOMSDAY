@@ -1,0 +1,1212 @@
+{
+  "release": "1cbbe34d97163db4b889ca77fd6cba71ddf976403d77e9029cd9ff90796e7fb2",
+  "trace": "56cc66840ed7ace69f1132c6c86a7efd9842d225c9f1e37dd287897b3cb70cf7",
+  "joins": [
+    {
+      "map": "pool_719398",
+      "target_event": false,
+      "markers": [
+        "CODEX_POST_CAST use_reset_and_attack R26 engineR26 fuel41340"
+      ],
+      "same_observation": false,
+      "same_first_action": false
+    },
+    {
+      "map": "pool_719496",
+      "target_event": true,
+      "markers": [
+        "CODEX_POST_CAST dash_away R26 engineR26 fuel9355"
+      ],
+      "same_observation": true,
+      "same_first_action": true
+    },
+    {
+      "map": "pool_604904",
+      "target_event": true,
+      "markers": [
+        "CODEX_POST_CAST try_dash R1215 engineR1215 fuel192"
+      ],
+      "same_observation": true,
+      "same_first_action": true
+    }
+  ],
+  "rows": [
+    {
+      "arm": "exact",
+      "noise_seed": 0,
+      "opponent": "x3inv",
+      "map": "pool_719398",
+      "side": "A",
+      "score": 1,
+      "engine_seed": "7623465682887274916",
+      "map_hash": "190f59147e3b1f9f2b20eea0c206606123ba4a28c6f4bbf90198b48c35eb12f2",
+      "fuel_outs": 1,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": true,
+      "markers": [],
+      "state": {
+        "round": 229,
+        "team": 0,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 0,
+            "type": 12,
+            "pos": {
+              "x": 26,
+              "y": 20
+            },
+            "hp": 770,
+            "max_hp": 1000,
+            "gems": 0,
+            "gold": 140,
+            "cooldowns": [
+              6,
+              0
+            ]
+          },
+          "visible_enemies": [],
+          "visible_camps": [
+            {
+              "id": 99,
+              "pos": {
+                "x": 24,
+                "y": 22
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 4,
+            "from": {
+              "x": 26,
+              "y": 20
+            },
+            "to": {
+              "x": 25,
+              "y": 21
+            },
+            "substep": 0
+          },
+          {
+            "kind": 6,
+            "from": {
+              "x": 25,
+              "y": 21
+            },
+            "to": {
+              "x": 23,
+              "y": 21
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 23,
+              "y": 21
+            },
+            "to": {
+              "x": 23,
+              "y": 21
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "arm": "trace",
+      "noise_seed": 0,
+      "opponent": "x3inv",
+      "map": "pool_719398",
+      "side": "A",
+      "score": 1,
+      "engine_seed": "7623465682887274916",
+      "map_hash": "190f59147e3b1f9f2b20eea0c206606123ba4a28c6f4bbf90198b48c35eb12f2",
+      "fuel_outs": 0,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": false,
+      "markers": [
+        "CODEX_POST_CAST use_reset_and_attack R26 engineR26 fuel41340"
+      ],
+      "state": {
+        "round": 229,
+        "team": 0,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 0,
+            "type": 12,
+            "pos": {
+              "x": 49,
+              "y": 8
+            },
+            "hp": 770,
+            "max_hp": 1000,
+            "gems": 14,
+            "gold": 120,
+            "cooldowns": [
+              4,
+              1
+            ]
+          },
+          "visible_enemies": [],
+          "visible_camps": []
+        },
+        "executed_actions": [
+          {
+            "kind": 4,
+            "from": {
+              "x": 49,
+              "y": 8
+            },
+            "to": {
+              "x": 50,
+              "y": 8
+            },
+            "substep": 0
+          },
+          {
+            "kind": 8,
+            "from": {
+              "x": 50,
+              "y": 8
+            },
+            "to": {
+              "x": 50,
+              "y": 8
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "arm": "exact",
+      "noise_seed": 0,
+      "opponent": "p65pack",
+      "map": "pool_719496",
+      "side": "A",
+      "score": 0,
+      "engine_seed": "8919143230617798562",
+      "map_hash": "21bd1f76b898201ef22b8c8ca72c54ad016e25a4452f9e85df2c26800a48eb0a",
+      "fuel_outs": 1,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": true,
+      "markers": [],
+      "state": {
+        "round": 26,
+        "team": 0,
+        "actor": 3,
+        "observation": {
+          "actor": {
+            "id": 3,
+            "team": 0,
+            "type": 4,
+            "pos": {
+              "x": 11,
+              "y": 22
+            },
+            "hp": 900,
+            "max_hp": 900,
+            "gems": 0,
+            "gold": 0,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 6,
+              "team": 1,
+              "type": 7,
+              "pos": {
+                "x": 14,
+                "y": 22
+              },
+              "hp": 1140,
+              "max_hp": 1200,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 7,
+              "team": 1,
+              "type": 2,
+              "pos": {
+                "x": 14,
+                "y": 24
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 8,
+              "team": 1,
+              "type": 11,
+              "pos": {
+                "x": 14,
+                "y": 25
+              },
+              "hp": 870,
+              "max_hp": 900,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 9,
+              "team": 1,
+              "type": 1,
+              "pos": {
+                "x": 16,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": 10,
+              "team": 1,
+              "type": 12,
+              "pos": {
+                "x": 14,
+                "y": 23
+              },
+              "hp": 800,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                4,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 0,
+              "pos": {
+                "x": 12,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 2,
+              "pos": {
+                "x": 12,
+                "y": 28
+              },
+              "hp": 120
+            },
+            {
+              "id": 4,
+              "pos": {
+                "x": 11,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 7,
+              "pos": {
+                "x": 11,
+                "y": 20
+              },
+              "hp": 5000
+            },
+            {
+              "id": 9,
+              "pos": {
+                "x": 11,
+                "y": 19
+              },
+              "hp": 5000
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 11,
+              "y": 22
+            },
+            "to": {
+              "x": 9,
+              "y": 20
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 9,
+              "y": 20
+            },
+            "to": {
+              "x": 9,
+              "y": 20
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "arm": "trace",
+      "noise_seed": 0,
+      "opponent": "p65pack",
+      "map": "pool_719496",
+      "side": "A",
+      "score": 0,
+      "engine_seed": "8919143230617798562",
+      "map_hash": "21bd1f76b898201ef22b8c8ca72c54ad016e25a4452f9e85df2c26800a48eb0a",
+      "fuel_outs": 1,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": true,
+      "markers": [
+        "CODEX_POST_CAST dash_away R26 engineR26 fuel9355"
+      ],
+      "state": {
+        "round": 26,
+        "team": 0,
+        "actor": 3,
+        "observation": {
+          "actor": {
+            "id": 3,
+            "team": 0,
+            "type": 4,
+            "pos": {
+              "x": 11,
+              "y": 22
+            },
+            "hp": 900,
+            "max_hp": 900,
+            "gems": 0,
+            "gold": 0,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 6,
+              "team": 1,
+              "type": 7,
+              "pos": {
+                "x": 14,
+                "y": 22
+              },
+              "hp": 1140,
+              "max_hp": 1200,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 7,
+              "team": 1,
+              "type": 2,
+              "pos": {
+                "x": 14,
+                "y": 24
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 8,
+              "team": 1,
+              "type": 11,
+              "pos": {
+                "x": 14,
+                "y": 25
+              },
+              "hp": 870,
+              "max_hp": 900,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                0
+              ]
+            },
+            {
+              "id": 9,
+              "team": 1,
+              "type": 1,
+              "pos": {
+                "x": 16,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                1
+              ]
+            },
+            {
+              "id": 10,
+              "team": 1,
+              "type": 12,
+              "pos": {
+                "x": 14,
+                "y": 23
+              },
+              "hp": 800,
+              "max_hp": 1000,
+              "gems": 0,
+              "cooldowns": [
+                4,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 0,
+              "pos": {
+                "x": 12,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 2,
+              "pos": {
+                "x": 12,
+                "y": 28
+              },
+              "hp": 120
+            },
+            {
+              "id": 4,
+              "pos": {
+                "x": 11,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 7,
+              "pos": {
+                "x": 11,
+                "y": 20
+              },
+              "hp": 5000
+            },
+            {
+              "id": 9,
+              "pos": {
+                "x": 11,
+                "y": 19
+              },
+              "hp": 5000
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 11,
+              "y": 22
+            },
+            "to": {
+              "x": 9,
+              "y": 20
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 9,
+              "y": 20
+            },
+            "to": {
+              "x": 9,
+              "y": 20
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "arm": "exact",
+      "noise_seed": 0,
+      "opponent": "p65pack",
+      "map": "pool_604904",
+      "side": "B",
+      "score": 0,
+      "engine_seed": "1077026138885283164",
+      "map_hash": "9889e2834e2396bcd3f04cdd616146cafd923d9ad20b148f3dfd677a0e536bb0",
+      "fuel_outs": 1,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": true,
+      "markers": [],
+      "state": {
+        "round": 1215,
+        "team": 1,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 1,
+            "type": 2,
+            "pos": {
+              "x": 10,
+              "y": 11
+            },
+            "hp": 1244.000244140625,
+            "max_hp": 2000,
+            "gems": 88,
+            "gold": 165,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 9,
+              "pos": {
+                "x": 13,
+                "y": 7
+              },
+              "hp": 1900,
+              "max_hp": 1900,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": 3,
+              "team": 0,
+              "type": 12,
+              "pos": {
+                "x": 21,
+                "y": 0
+              },
+              "hp": 2300,
+              "max_hp": 2300,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                3
+              ]
+            }
+          ],
+          "visible_camps": []
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 10,
+              "y": 11
+            },
+            "to": {
+              "x": 12,
+              "y": 9
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 12,
+              "y": 9
+            },
+            "to": {
+              "x": 12,
+              "y": 9
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "arm": "trace",
+      "noise_seed": 0,
+      "opponent": "p65pack",
+      "map": "pool_604904",
+      "side": "B",
+      "score": 0,
+      "engine_seed": "1077026138885283164",
+      "map_hash": "9889e2834e2396bcd3f04cdd616146cafd923d9ad20b148f3dfd677a0e536bb0",
+      "fuel_outs": 1,
+      "round1_fuel_outs": 0,
+      "faults": 0,
+      "diagnostic_codes": [],
+      "target_event": true,
+      "markers": [
+        "CODEX_POST_CAST try_dash R1215 engineR1215 fuel192"
+      ],
+      "state": {
+        "round": 1215,
+        "team": 1,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 1,
+            "type": 2,
+            "pos": {
+              "x": 10,
+              "y": 11
+            },
+            "hp": 1244.000244140625,
+            "max_hp": 2000,
+            "gems": 88,
+            "gold": 165,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 9,
+              "pos": {
+                "x": 13,
+                "y": 7
+              },
+              "hp": 1900,
+              "max_hp": 1900,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                2
+              ]
+            },
+            {
+              "id": 3,
+              "team": 0,
+              "type": 12,
+              "pos": {
+                "x": 21,
+                "y": 0
+              },
+              "hp": 2300,
+              "max_hp": 2300,
+              "gems": 0,
+              "cooldowns": [
+                0,
+                3
+              ]
+            }
+          ],
+          "visible_camps": []
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 10,
+              "y": 11
+            },
+            "to": {
+              "x": 12,
+              "y": 9
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 12,
+              "y": 9
+            },
+            "to": {
+              "x": 12,
+              "y": 9
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    }
+  ]
+}
