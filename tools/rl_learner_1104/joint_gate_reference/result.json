@@ -1,0 +1,15 @@
+{
+  "scope": "Enumerated synthetic policy math only; NOT game training/instruction benchmark",
+  "gradient_marginal_equivalence": "passed",
+  "score_function_gradient": "passed",
+  "reference_alias_routes": "passed",
+  "no_q_on_hold": "passed",
+  "resource_mask_has_no_logp": "passed",
+  "sampled_invokes": 499,
+  "batch": 1000,
+  "notes": [
+    "Latent PPO clipping is a different surrogate from marginal physical-action PPO",
+    "Cheap gate must consume cheap legal features and avoid always-running added projection stages",
+    "No measured gameplay or total-fuel saving claimed"
+  ]
+}
