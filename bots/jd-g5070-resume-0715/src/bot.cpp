@@ -8328,6 +8328,13 @@ void Bot::play_turn() {
 #if JD_STRATLOG
         const auto fields_before=w.fields_built;
         const auto fuel_before=bc::fuel_remaining();
+        static bool checked_fields=false;
+        if (!checked_fields) {
+            checked_fields=true;
+            std::printf("JDFIELDSCHECK %d %d %u %u %llu\n",round,slot,
+                        static_cast<unsigned>(w.fields_built),static_cast<unsigned>(w.groups.size()),
+                        static_cast<unsigned long long>(fuel_before));
+        }
 #endif
         // Use first-body surplus only, retaining 100k for the current action.
         while (!w.fields_ready() && bc::fuel_remaining() > 110000 &&
