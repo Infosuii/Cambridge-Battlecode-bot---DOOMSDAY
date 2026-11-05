@@ -2,6 +2,14 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Qualifier research through 5 Nov 2026, 19:48 GMT
+
+- Latest user says continue; preserve the original bot mission and all gates. Still no eligible live candidate or ACK request.
+- [EXP-173](../../research/codex-ishan/EXP-173-RESULT.md) matched5 current-source suspension stages. [EXP-174](../../research/codex-ishan/EXP-174-RESULT.md) caught inline-off byte mismatch and per-line logging perturbation. Preprocessor-erased probes restore exact baselinec1a22367. No candidate threshold was weakened.
+- [EXP-175](../../research/codex-ishan/EXP-175-RESULT.md) isolates one actor-round per diagnostic and defers one buffered write until the next ordinary turn, then resigns.4/5cases match original input/actions/native crossing. Actual spans: scoring top7227fuel starting673; publication1590starting1051; camp feature63050starting62478; slow-block6342starting2798. HeartR285unmatched, excluded. All are charged real100k release measurements, not safety/strength tests.
+- A deeper camp subsection probe is running session3973: profile_live109_campdetail.py, artifacts engine3-live109-runtime-target-campdetail, expected result LIVE109_RUNTIME_TARGET_CAMPDETAIL.json. It separates static group cache, ordering and feature rows at matched CassiR17 before choosing an optimization. Off must matchc1a22367. Parent helper profile_live109_target.py now accepts a fresh label and case subset; frozen R4 outputs remain unchanged.
+- Current source/live remains v109, exact archivec013c216 and localf3d919e9; latest platform read pinnedtrue. No platform uploads/activations/groups from this chat. Runtime-owner support proposal remains on own branch, no teammate source edited. Last remote commit2bf1495e before this update.
+
 ## Qualifier research through 5 Nov 2026, 16:46 GMT
 
 - User requested ETA/status and continuation. Reported roughly1-2h for the next diagnosis/gated-test cycle, with no reliable ETA for ladder-proven superiority. Keep working; no checkpoint/final approval request is pending.

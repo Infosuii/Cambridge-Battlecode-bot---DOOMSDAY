@@ -38,11 +38,11 @@ inline void flush() {
     count = 0;
 }
 }
+#define CODEX_FINE_MARK(...) codex_trace::mark(__VA_ARGS__)
+#define CODEX_FINE_FLUSH() codex_trace::flush()
 #else
-namespace codex_trace {
-inline void mark(const char*, int, int, long long = 0, long long = 0) {}
-inline void flush() {}
-}
+#define CODEX_FINE_MARK(...) ((void)0)
+#define CODEX_FINE_FLUSH() ((void)0)
 #endif
 '''
 
@@ -97,18 +97,22 @@ def prepare(target, enabled):
         ("    nn_feats_t<kC, kAF>(nn_lf, nn_near(), kXPart[x]);", '    codex_trace::mark("x_feats_begin", static_cast<int>(type), round, x);\n    nn_feats_t<kC, kAF>(nn_lf, nn_near(), kXPart[x]);\n    codex_trace::mark("x_feats_end", static_cast<int>(type), round, x);'),
         ("    nn::live_block(nn_lf, nn_lv, kXOrder[x]);", '    codex_trace::mark("x_block_begin", static_cast<int>(type), round, x);\n    nn::live_block(nn_lf, nn_lv, kXOrder[x]);\n    codex_trace::mark("x_block_end", static_cast<int>(type), round, x);'),
     ))
+    for name in ("main.cpp", "bot.cpp", "nnrec.cpp"):
+        path = target / name
+        data = path.read_text(encoding="utf8").replace("codex_trace::mark(", "CODEX_FINE_MARK(").replace("codex_trace::flush()", "CODEX_FINE_FLUSH()")
+        path.write_text(data, encoding="utf8", newline="\n")
 
 
 def main():
-    output = bench.CACHE / "engine3-live109-runtime-fine-r2"
+    output = bench.CACHE / "engine3-live109-runtime-fine-r3"
     output.mkdir()
     source, off_source = output / "source", output / "off-source"
     prepare(source, True)
     prepare(off_source, False)
-    off = build(off_source, SDK_ROOT / "bots/live109-fine-off-11801", 11801)
+    off = build(off_source, SDK_ROOT / "bots/live109-fine-r3-off-11801", 11801)
     expected = read(HERE / "ENGINE3_LIVE109_GREEDY_DEV.json")["binaries"]["base-11801"]
     assert bench.digest(off) == expected
-    wasm = build(source, SDK_ROOT / "bots/live109-fine-11801", 11801)
+    wasm = build(source, SDK_ROOT / "bots/live109-fine-r3-11801", 11801)
     cases = read(HERE / "LIVE109_RUNTIME_MATCHED_TURNS.json")["rows"]
     jobs = sorted({(r["map"], r["side"], r["opponent"]) for r in cases})
     maps = {mp.stem: mp for mp in partition("dev")}
