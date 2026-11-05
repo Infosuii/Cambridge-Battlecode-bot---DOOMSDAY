@@ -15,9 +15,10 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--stellar", action="store_true")
     mode.add_argument("--varg", action="store_true")
+    mode.add_argument("--greedy", action="store_true")
     parser.add_argument("--jobs", type=int, default=3)
     args = parser.parse_args()
-    variant = "stellar" if args.stellar else "varg" if args.varg else None
+    variant = "stellar" if args.stellar else "varg" if args.varg else "greedy" if args.greedy else None
     identity = read(HERE / "LIVE109_SOURCE_VERIFIED.json")
     safety = read(HERE / "ENGINE3_REBASELINE_POOL.json")
     assert safety["pass"] and bench.digest(CLI) == CLI_HASH
@@ -42,7 +43,7 @@ def main():
         maps = [mp for name in sorted(grouped) for mp in sorted(grouped[name], key=bench.digest)[:2]]
         assert len(maps) == 12 and all(len(rows) >= 2 for rows in grouped.values())
         manifest = {mp.name: {"sha256": bench.digest(mp), "category": categories["maps"][mp.stem]["category"]} for mp in maps}
-        if args.varg:
+        if not args.stellar:
             assert manifest == read(HERE / "LIVE109_STELLAR_DEV_MAPS.json")
         else:
             with (HERE / "LIVE109_STELLAR_DEV_MAPS.json").open("x", encoding="utf8", newline="\n") as out:
@@ -56,7 +57,7 @@ def main():
     for name, wasm in opponents.items():
         assert bench.digest(wasm) == bench.OPPS[name][1]
     opponents["live109"] = reference
-    seeds = (7331, 9029) if args.stellar else (8219, 10627) if args.varg else (3157, 6421)
+    seeds = (7331, 9029) if args.stellar else (8219, 10627) if args.varg else (11801, 13997) if args.greedy else (3157, 6421)
     label = f"live109-{variant}" if variant else "live109-control"
     binaries = {(arm, seed): build(src, SDK_ROOT / "bots" / f"{label}-{arm}-{seed}", seed)
                 for arm, src in (("base", source), ("candidate", candidate_source)) for seed in seeds}

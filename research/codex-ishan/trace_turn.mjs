@@ -1,9 +1,9 @@
-// Read one player's own view and executed actions from an engine-2 replay.
+// Read one player's own view and executed actions from an explicitly selected replay engine.
 import fs from 'node:fs';
 import { engine, defaultAssets, verifyAssets } from '../../tools/replay/engine.mjs';
 const [replay, rArg, teamArg, actorArg, outFile] = process.argv.slice(2);
-if (!outFile || process.env.NFS_REPLAY_ENGINE !== '2.0.0') {
-  throw new Error('Usage: set NFS_REPLAY_ENGINE=2.0.0; node trace_turn.mjs replay round teamIndex actorIndex output');
+if (!outFile || !['2.0.0', '3.0.0'].includes(process.env.NFS_REPLAY_ENGINE)) {
+  throw new Error('Usage: set NFS_REPLAY_ENGINE=2.0.0 or 3.0.0; node trace_turn.mjs replay round teamIndex actorIndex output');
 }
 const R = Number(rArg), team = Number(teamArg), actor = Number(actorArg);
 const assets = defaultAssets();

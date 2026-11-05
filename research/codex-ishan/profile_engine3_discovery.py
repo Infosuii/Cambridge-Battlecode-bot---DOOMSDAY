@@ -2,6 +2,7 @@
 import argparse
 from collections import Counter, defaultdict
 import json
+from math import isclose
 from statistics import mean, median
 
 from discovery_metrics import timeline
@@ -45,6 +46,11 @@ def main():
     for match in selected:
         doc = read(OUT / "summaries" / (match["matchId"] + ".json"))
         assert (doc["match"]["engineVersion"], doc["match"]["engineBuildHash"]) == ("3.0.0", ENGINE)
+        for team in ("teamA", "teamB"):
+            for metric in METRICS:
+                expected = sum(float(c["metrics"][metric]) for c in doc["champions"] if c["team"] == team)
+                observed = timeline(doc, team, metric, doc["match"]["roundsStarted"] + 1)
+                assert isclose(expected, observed, rel_tol=1e-9, abs_tol=1e-3), (match["matchId"], team, metric, expected, observed)
         ours = "team" + match["side"].upper()
         rival = "teamB" if ours == "teamA" else "teamA"
         us, them = profile(doc, ours), profile(doc, rival)
@@ -70,10 +76,11 @@ def main():
     for opponent in sorted({r["opponent"] for r in rows}):
         subset = [r for r in rows if r["opponent"] == opponent]
         per_opponent[opponent] = {"n": len(subset), "patterns": dict(Counter(k for r in subset for k, v in r["patterns"].items() if v))}
-    margins = {metric: {str(r): {"median_ours_rival": [median(row[side]["metrics"][metric][str(r)] for row in rows) for side in ("ours", "rival")],
-                               "mean_rival_minus_ours": mean(row["rival"]["metrics"][metric][str(r)] - row["ours"]["metrics"][metric][str(r)] for row in rows)}
+    margins = {metric: {str(r): {"n": sum(r != 800 or not row["ended_before800"] for row in rows),
+                               "median_ours_rival": [median(row[side]["metrics"][metric][str(r)] for row in rows if r != 800 or not row["ended_before800"]) for side in ("ours", "rival")],
+                               "mean_rival_minus_ours": mean(row["rival"]["metrics"][metric][str(r)] - row["ours"]["metrics"][metric][str(r)] for row in rows if r != 800 or not row["ended_before800"])}
                         for r in (150, 300, 800)} for metric in METRICS}
-    result = {"partition": args.partition, "n": len(rows), "groups": len({r["group"] for r in rows}), "engine": ENGINE,
+    result = {"partition": args.partition, "n": len(rows), "groups": len({r["group"] for r in rows}), "engine": ENGINE, "native_terminal_totals_verified": True,
               "patterns": counts, "both_deposit": sum(r["both_deposit"] for r in rows), "running_at800": sum(not r["ended_before800"] for r in rows),
               "first_sustained_gold_lead": dict(Counter(r["first_sustained_gold_lead"] or "none" for r in rows)),
               "margins": margins, "per_opponent": per_opponent, "rows": rows}
