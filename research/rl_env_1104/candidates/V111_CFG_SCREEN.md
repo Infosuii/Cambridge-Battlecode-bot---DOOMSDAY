@@ -27,3 +27,19 @@ need 63/120 vs stock 71/120. Paired **-0.067 [-0.200, +0.050]**. It is worse vs 
 **Reading.**
 - Most existing bits look earned: turning off 2048 or 4096, or turning on 512 or 16384, hurts.
 - nomarcfun is the best of seven arms. That is a multiple-comparison winner, so it is frozen as-is and confirmed on held-out maps (below) before it counts as a candidate.
+
+## Held-out confirmation of nomarcfun (e3-v111-nomarcfun-holdout-01, 336 games, 0 failed)
+
+21 generated holdout maps from f584c0ad, whose templates are not among the 15 development maps (12 template families; `manifests/genholdout_f584c0ad.json`). The four opponents are the same as above, both sides, release, engine 3.
+
+| opponent | stock v111 | nomarcfun |
+|---|---|---|
+| nnfinal | 20/42 | 21/42 |
+| v86h | 20/42 | 15/42 |
+| x3inv | 32/42 | 29/42 |
+| v109 | 24/42 | 19/42 |
+| ALL | 96/168 | 84/168 |
+
+Paired nomarcfun - v111: **-0.071 [-0.138, +0.006]** (12 families).
+
+**Verdict: rejected.** The development gain (+0.050) was a seven-arm selection effect and reverses on held-out maps. Stock v111 remains the best verified build. None of the a2stack single-bit changes beats it.
