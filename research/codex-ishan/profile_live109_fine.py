@@ -58,9 +58,9 @@ def scoped(path, start, end, edits):
     path.write_text(data[:first] + body + data[last:], encoding="utf8", newline="\n")
 
 
-def prepare(target, enabled):
-    source = SDK_ROOT / "bots/live109/src"
-    identity = read(HERE / "LIVE109_SOURCE_VERIFIED.json")
+def prepare(target, enabled, reference_name="live109"):
+    source = SDK_ROOT / "bots" / reference_name / "src"
+    identity = read(HERE / f"{reference_name.upper()}_SOURCE_VERIFIED.json")
     assert all(bench.digest(source / name) == value for name, value in identity["source_file_hashes"].items())
     copytree(source, target)
     header = target / "common.h"

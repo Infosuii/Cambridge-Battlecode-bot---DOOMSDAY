@@ -53,8 +53,8 @@ inline void flush() {
 '''
 
 
-def prepare(src, enabled, case):
-    prepare_fine(src, enabled)
+def prepare(src, enabled, case, reference_name="live109"):
+    prepare_fine(src, enabled, reference_name=reference_name)
     (src / "codex_trace.h").write_text(f"#define CODEX_TARGET_TYPE {case['type']}\n#define CODEX_TARGET_ROUND {case['round']}\n" + HEADER, encoding="utf8", newline="\n")
     apply(src / "main.cpp", (("        CODEX_FINE_FLUSH();", """#if CODEX_FINE
         if (codex_trace::count) {
@@ -67,14 +67,14 @@ def prepare(src, enabled, case):
     apply(src / "nnrec.cpp", (("#define NN_FPROF(s)\n", '#define NN_FPROF(s) CODEX_FINE_MARK("feat" #s, static_cast<int>(type), round)\n'),))
 
 
-def main(*, label="r4", cases=None, prepare_fn=prepare):
+def main(*, label="r4", cases=None, prepare_fn=prepare, build_fn=build, expected_hash=None, project_prefix="live109-target"):
     output = bench.CACHE / f"engine3-live109-runtime-target-{label}"
     output.mkdir()
     cases = cases or read(HERE / "LIVE109_RUNTIME_MATCHED_TURNS.json")["rows"]
     off_source = output / "off-source"
     prepare_fn(off_source, False, cases[0])
-    off = build(off_source, SDK_ROOT / "bots" / f"live109-target-{label}-off-11801", 11801)
-    expected = read(HERE / "ENGINE3_LIVE109_GREEDY_DEV.json")["binaries"]["base-11801"]
+    off = build_fn(off_source, SDK_ROOT / "bots" / f"{project_prefix}-{label}-off-11801", 11801)
+    expected = expected_hash or read(HERE / "ENGINE3_LIVE109_GREEDY_DEV.json")["binaries"]["base-11801"]
     assert bench.digest(off) == expected
     maps = {mp.stem: mp for mp in partition("dev")}
 
@@ -82,7 +82,7 @@ def main(*, label="r4", cases=None, prepare_fn=prepare):
         stage_label = case["stage"].replace("->", "-")
         source = output / ("source-" + stage_label)
         prepare_fn(source, True, case)
-        wasm = build(source, SDK_ROOT / "bots" / f"live109-target-{label}-{stage_label}-11801", 11801)
+        wasm = build_fn(source, SDK_ROOT / "bots" / f"{project_prefix}-{label}-{stage_label}-11801", 11801)
         directory = output / ("game-" + stage_label)
         directory.mkdir()
         side, opponent = case["side"], case["opponent"]
