@@ -37,3 +37,16 @@ is partly legitimate crewing, since only one body gets the capture.
 Next candidate (for whoever owns the policy): commitment hysteresis in farm(). Keep the committed group unless the new
 pick beats it by a margin, it becomes infeasible, or a fixed number of rounds passes without progress. Measure with
 this exact trace: the "nobody collected" time share should fall, with camp gems per game and wins checked on dev cells.
+
+## Follow-up: commitment hysteresis (CL_HOLD 20) and the gold-farming check
+
+- 85% of the "nobody collected" time is on camps that nobody clears at all in the window (6% enemy, 6% teammate,
+  3% this body gold-only). So it is genuinely abandoned travel, not gold farming.
+- CL_HOLD 20 (keep the committed group for 20 rounds unless it respawns, an enemy is in view, or HP < 50%), engine 3,
+  50 training maps x A/B, paired with v109: vs v92 46/100 (0.00, CI [-0.12, +0.11]), vs native 43/100 (-0.05, CI
+  [-0.18, +0.08]); fuel-outs 829/932 vs 781/907. **No gain.**
+- The same trace on the hold build (30 dev games vs v92): "nobody collected" 33.3% vs 32.9% without it. The hold does
+  not reduce the churn. The switches that waste travel happen when its exceptions apply, most likely when enemies come
+  into view (v92 reacting to threats) or at low HP, not during quiet re-scoring.
+- Implication: the churn is threat-driven retargeting. A fix has to change how v92 responds to visible enemies
+  mid-commitment (or let the body finish captures it can safely finish), not add a quiet-time hold.
