@@ -1,0 +1,5 @@
+# EXP-197 result — Clean cache candidate fails broader safety
+
+MEASURED: all-off0896a189,duplicate clean release0b73e25c19e3edf737fe62656c578148286d21e717b06b578fcf2b72fa7c83f6. Original independent VendettaR1 own view and pre-end gameplay match; that actor/R1 native fuel-out disappears. No probe code/logging in release. All60large-development cases record786fuel-outs versus836stock111,R112versus36,zero faults/codes,but3per-cell increases. Fixed-build51versus52wins/60,-1.667pp[-5.000,0.000]is context only.
+
+Reject under preregistered safety; no full official pool,noisy panel,selection,holdout or platform action. The180-pair cache equivalence/draft/validation proof remains infrastructure evidence,not strength or qualification. LIVE111_DRAFT_CACHE_RELEASE_LARGE.json preserves full pairs; the separate DRAFT_AUDIT.json checks each played release draft. EXP198 traces a stock111later crossing,and EXP200 independently selects the first remaining developmentR1event on this rejected exact candidate; neither uses pool failure identities or silently modifies it.
