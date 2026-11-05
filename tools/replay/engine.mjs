@@ -7,16 +7,21 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const VERSION = process.env.NFS_REPLAY_ENGINE ?? '1.0.3';
-if (!['1.0.3','2.0.0'].includes(VERSION)) throw new Error('unsupported replay engine '+VERSION);
-const WASM = VERSION === '2.0.0' ? 'v2_0_0-hWOQ1R8f.wasm' : 'v1_0_3-DRqNt1t2.wasm';
-const PANEL = VERSION === '2.0.0' ? 'PanelChrome-DXwmYkIC.js' : 'PanelChrome-BXlTYAwV.js';
+if (!['1.0.3','2.0.0','3.0.0'].includes(VERSION)) throw new Error('unsupported replay engine '+VERSION);
+const WASM = VERSION === '3.0.0' ? 'v3_0_0-DBS2ESWO.wasm' : VERSION === '2.0.0' ? 'v2_0_0-hWOQ1R8f.wasm' : 'v1_0_3-DRqNt1t2.wasm';
+const PANEL = VERSION === '3.0.0' ? 'PanelChrome-DRtW3oWL.js' : VERSION === '2.0.0' ? 'PanelChrome-DXwmYkIC.js' : 'PanelChrome-BXlTYAwV.js';
+const PINNED3 = {
+  'v3_0_0-DBS2ESWO.wasm': 'a994b10dc50b79e0421cde5a172c309b47bf8707646f8759778554eeb524e046',
+  'PanelChrome-DRtW3oWL.js': 'f4d42ccf4a3cc2ed5da94b496a2dc4da286e3e1d034fc95265be92a86e67a9fa',
+  'Geometry-w-4tLJJi.js': '967709322bdb4be8ed90edbffbb01d03427365462b23778c74f52a129e5e8d55',
+};
 const PINNED2 = {
   'v2_0_0-hWOQ1R8f.wasm': 'd910a59eb8a01e1bc4ad4faed1c1f7ca9258b346f895e36446eb88a4d17f3b18',
   'PanelChrome-DXwmYkIC.js': 'f655bc3eb8f9a0cf3175048dc32a0b02d311c382de4174cbc406f649a2977145',
   'Geometry-w-4tLJJi.js': '967709322bdb4be8ed90edbffbb01d03427365462b23778c74f52a129e5e8d55',
 };
-// Default remains historical1.0.3; new-rule analysis must explicitly select NFS_REPLAY_ENGINE=2.0.0.
-export const PINNED = VERSION === '2.0.0' ? PINNED2 : {
+// Newer rules require an explicit NFS_REPLAY_ENGINE selection.
+export const PINNED = VERSION === '3.0.0' ? PINNED3 : VERSION === '2.0.0' ? PINNED2 : {
   'v1_0_3-DRqNt1t2.wasm': '029ecd290dc400e75418178ec386d72cbd7d9f2fc2a2e451bf594ca23566df48',
   'PanelChrome-BXlTYAwV.js': '960affde6198366d2347bd21f43efec5bc06acc6cb0c53e5f7f96dbf87f027e6',
   'rolldown-runtime-hePW80VL.js': '580ad8c58061a4dde99bde0a56905e382f0568516ee2f5b84dbfb52085709021',
