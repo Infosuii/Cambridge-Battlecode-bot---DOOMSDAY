@@ -50,3 +50,16 @@ this exact trace: the "nobody collected" time share should fall, with camp gems 
   into view (v92 reacting to threats) or at low HP, not during quiet re-scoring.
 - Implication: the churn is threat-driven retargeting. A fix has to change how v92 responds to visible enemies
   mid-commitment (or let the body finish captures it can safely finish), not add a quiet-time hold.
+
+## Correction (trace v2: enemy count and nearest-enemy distance logged at every switch, 90 dev games)
+
+The "threat-driven" reading above was wrong.
+- At wasted switches (camp never cleared) an enemy is visible in 19% of cases, the same as at productive switches (21%).
+  The nearest enemy is within 5 tiles at 1%, and HP < 50% at 6%.
+- Wasted commitments last a median of **4 rounds** (productive ones 24). They are quick flips: of 1,689 midgame
+  commitments of at most 6 rounds, 34% return to the previous target (A->B->A).
+  - 46% are v92 re-scoring after v92, mostly in "approach" mode.
+  - 32% are native actor <-> v92 alternation: the actor's command applies on turns it runs, and v92's pick reasserts
+    on the next turn.
+- CL_HOLD 20 did engage (short flips 23% -> 17% of commitments; commitments -14%), yet wins did not move (vs v92 0.00,
+  vs native -0.05). So target flip-flopping is real but is not the binding constraint on strength in these games.
