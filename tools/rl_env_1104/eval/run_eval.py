@@ -31,7 +31,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 CLI = os.environ.get("CAMBC") or os.path.join(ROOT, "tools", "vendor", "cambc.exe" if os.name == "nt" else "cambc")  # CAMBC: e.g. cambc 5.0.0 (engine 3.0.0)
-MAP_DIR = os.environ.get("EVAL_MAP_DIR") or os.path.join(ROOT, "maps", "ladder-pool")  # EVAL_MAP_DIR: e.g. SDK5 maps for the 04 held-out panel
+MAP_DIR = os.path.abspath(os.environ.get("EVAL_MAP_DIR") or os.path.join(ROOT, "maps", "ladder-pool"))  # EVAL_MAP_DIR: e.g. SDK5 maps for the 04 held-out panel
 
 
 def sha256(path: str) -> str:
@@ -176,7 +176,7 @@ def main() -> None:
                     gi = len(cells)
                     rep, st = os.path.join(work, f"g{gi}.repl26a"), os.path.join(work, f"g{gi}.json")
                     pair = (absp(cp), absp(op)) if side == "A" else (absp(op), absp(cp))
-                    lines.append(f"{pair[0]} {pair[1]} {absp(os.path.join('maps', 'ladder-pool', m['file']))} "
+                    lines.append(f"{pair[0]} {pair[1]} {absp(os.path.join(MAP_DIR, m['file']))} "
                                  f"{rep.replace(chr(92), '/')} --statistics {st.replace(chr(92), '/')} --json")
                     cell = (f"{m['sha256'][:16]}|{side}|{hashes[on][:16]}|{mode}|cambc4.0.0|timeout{a.timeout}"
                             "|seed-default")
