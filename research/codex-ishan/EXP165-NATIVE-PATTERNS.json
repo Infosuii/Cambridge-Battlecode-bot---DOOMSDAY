@@ -1,0 +1,12 @@
+{
+  "scope": "Frozen before reading current-engine native metrics; confirm only after discovery results are recorded.",
+  "patterns": {
+    "early_income_without_deaths": "Rival earnedGold minus ours at R150 >=100, and both teams have zero deaths at R150.",
+    "early_gem_acquisition": "Rival collectedGems at R300 exceeds ours.",
+    "first_bank_later": "Both teams deposit, and our first deposit round exceeds rival first deposit round.",
+    "fewer_wards_300": "Our wardPlacement count through R300 is below rival count.",
+    "damage_conversion_gap": "Our monsterDamageDone through R300 >= rival, but our collectedGems through R300 < rival.",
+    "midgame_total_gems_deficit": "At R800, own submittedGems plus held gems is below rival submittedGems plus held gems; games ending before R800 reported separately."
+  },
+  "interpretation": "Descriptive associations in an outcome-selected case sample, with group clustering and imperfect source identity. No causal estimate, champion decision or policy tuned on confirmation."
+}
