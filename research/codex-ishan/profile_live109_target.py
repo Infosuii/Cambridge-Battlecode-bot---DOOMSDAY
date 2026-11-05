@@ -12,6 +12,7 @@ from engine3_qualify import build
 from freeze_engine3_discovery import write
 from profile_live109_fine import prepare as prepare_fine
 from qualify_local import partition
+from turn_prefix import action_prefix
 
 HEADER = r'''#pragma once
 #if CODEX_FINE
@@ -110,12 +111,7 @@ def main(*, label="r4", cases=None, prepare_fn=prepare, build_fn=build, expected
         baseline = read(bench.ROOT / case["traces"]["base"]["path"])
         for data in (turn, baseline):
             data["observation"].pop("input")
-        def prefix(data):
-            result = []
-            for action in data["executed_actions"]:
-                if action["kind"] == 26: break
-                result.append(action)
-            return result
+        prefix = action_prefix
         matched = turn["observation"] == baseline["observation"] and prefix(turn) == prefix(baseline)
         own_events = [entry["timestamp"]["round"] for event in native["events"] if event["kind"] == "fuelExhausted" and event["owner"]["id"] == case["actor"] and event["owner"]["team"] == "team" + side for entry in event["entries"]]
         crossings = [{"from": a["mark"], "to": b["mark"], "start": a, "end": b,
