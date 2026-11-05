@@ -19,23 +19,21 @@ constexpr std::uint32_t magic=0x43464f31u;
 #if CODEX_DRAFT_CACHE_PROBE
 inline bool bypass=false;
 inline std::uint64_t draft_before=0,draft_after=0;
+inline bool memory_preserved=false;
 #endif
 inline std::uint32_t checksum(const std::uint16_t* values,std::size_t n) {
     std::uint32_t h=2166136261u;
     for(std::size_t i=0;i<n;++i) h=(h^values[i])*16777619u;
     return h;
 }
-inline bool load(World& w) {
-    if(bc::is_draft() || w.bridges_on || bc::draft_memory.size()<end || w.groups.empty()) return false;
-#if CODEX_DRAFT_CACHE_PROBE
-    if(bypass) return false;
-#endif
+inline bool decode(World& w,const std::byte* data,std::size_t size) {
+    if(w.bridges_on || size<end || w.groups.empty()) return false;
     Header h{};
-    std::memcpy(&h,bc::draft_memory.data()+offset,sizeof(h));
+    std::memcpy(&h,data+offset,sizeof(h));
     if(h.magic!=magic || h.version!=1 || h.count!=w.groups.size() || h.count>(end-offset-sizeof(h))/2 ||
        h.width!=w.width || h.height!=w.height) return false;
     std::array<std::uint16_t,240> order{};
-    std::memcpy(order.data(),bc::draft_memory.data()+offset+sizeof(h),2*h.count);
+    std::memcpy(order.data(),data+offset+sizeof(h),2*h.count);
     if(checksum(order.data(),h.count)!=h.checksum) return false;
     std::array<std::uint8_t,240> seen{};
     for(unsigned i=0;i<h.count;++i) {
@@ -46,6 +44,13 @@ inline bool load(World& w) {
     w.field_order.resize(h.count);
     for(unsigned i=0;i<h.count;++i) w.field_order[i]=order[i];
     return true;
+}
+inline bool load(World& w) {
+    if(bc::is_draft()) return false;
+#if CODEX_DRAFT_CACHE_PROBE
+    if(bypass) return false;
+#endif
+    return decode(w,bc::draft_memory.data(),bc::draft_memory.size());
 }
 inline void store() {
     static bool done=false;
@@ -67,11 +72,21 @@ inline void store() {
              static_cast<std::uint16_t>(w.width),static_cast<std::uint16_t>(w.height)};
     std::array<std::uint8_t,end> memory{};
     bc::detail::check(bc::detail::sdk_read_draft_memory(0,memory.data(),memory.size()));
+#if CODEX_DRAFT_CACHE_PROBE
+    const auto prefix=memory;
+    std::array<std::uint8_t,16> tail{};
+    bc::detail::check(bc::detail::sdk_read_draft_memory(end,tail.data(),tail.size()));
+#endif
     std::memcpy(memory.data()+offset,&h,sizeof(h));
     std::memcpy(memory.data()+offset+sizeof(h),order.data(),2*count);
     bc::draft_memory=memory;
 #if CODEX_DRAFT_CACHE_PROBE
     draft_after=bc::fuel_remaining();
+    std::array<std::uint8_t,end> after{};
+    bc::detail::check(bc::detail::sdk_read_draft_memory(0,after.data(),after.size()));
+    std::array<std::uint8_t,16> after_tail{};
+    bc::detail::check(bc::detail::sdk_read_draft_memory(end,after_tail.data(),after_tail.size()));
+    memory_preserved=std::equal(prefix.begin(),prefix.begin()+offset,after.begin()) && tail==after_tail;
 #endif
 }
 }
