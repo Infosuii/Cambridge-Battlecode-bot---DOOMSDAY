@@ -21,5 +21,5 @@ Runner: `cambc run-batch` accepts only project directories, so when a .wasm gues
 
 **Reading.**
 - Strength: v111 is level with v109 on this panel, with a slight positive point estimate everywhere and no opponent showing a negative estimate.
-- Fuel-outs: v111 runs out of fuel 57% more often (466 vs 297), consistent with Ishan's v111 safety baseline. v109 carries CLFS (the fuel-safe refresh); v111 does not.
+- Fuel-outs: v111 runs out of fuel 57% more often (466 vs 297), consistent with Ishan's v111 safety baseline. v109 has full CLFS 1, while v111 compiles CLFS 9, which turns on only the slow-block estimates and the warm-up/rebuild margins. The fuel gap is therefore probably the missing parts (scoring margin and slower need decay) and/or v111's larger network, but that is not tested here.
 - This is a stock-vs-stock strength comparison only. It does not tune anything or duplicate Ishan's runtime qualification.
