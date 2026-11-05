@@ -30,7 +30,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
-CLI = os.path.join(ROOT, "tools", "vendor", "cambc.exe" if os.name == "nt" else "cambc")
+CLI = os.environ.get("CAMBC") or os.path.join(ROOT, "tools", "vendor", "cambc.exe" if os.name == "nt" else "cambc")  # CAMBC: e.g. cambc 5.0.0 (engine 3.0.0)
 MAP_DIR = os.path.join(ROOT, "maps", "ladder-pool")
 
 
