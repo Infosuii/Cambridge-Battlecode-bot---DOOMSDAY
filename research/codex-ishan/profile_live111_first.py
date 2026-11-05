@@ -17,8 +17,8 @@ def exact_build(source, project, unused_seed):
     return project / "bot.wasm"
 
 
-def instrument(source, enabled, case):
-    prepare(source, enabled, case, reference_name="live111")
+def instrument(source, enabled, case, reference_name="live111"):
+    prepare(source, enabled, case, reference_name=reference_name)
     header = HEADER.replace("inline unsigned count = 0;", """inline unsigned count = 0;
 inline bool active = false;
 inline void begin(int type, int round) { active = type == CODEX_TARGET_TYPE && round == CODEX_TARGET_ROUND; }""")

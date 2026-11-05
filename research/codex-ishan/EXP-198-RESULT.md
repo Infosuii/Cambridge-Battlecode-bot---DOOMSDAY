@@ -1,0 +1,5 @@
+# EXP-198 result — Matched lazy scorer radically underestimates its cost
+
+MEASURED: LIVE109_RUNTIME_TARGET_LATE111.json explicitly contains current111 despite historical helper prefix. Off0896a189; enabled diagnostic matches original IssacR70 actor3,pf_pool_77038/public-khiri own view,pre-end gameplay and native actor/round. Real fuel at lazy_gate50564,nn_est_camps2001,tail floor18775. Through lazy_pub after ordinary refill:54440charged. live_top stage(lazy4to5)uses6999starting4836and crossesR70to71. Coarse world/enemies/farm/decide nn_spent0; this event is not evidence for a virtual-core budget cause.
+
+Approximate charged boundary spans include feature camp section13913,live_camps18737,self block7285,pool block3588,top6999,publish1713,plus smaller boundaries and probe overhead. Runtime code decays nn_est_camps while unused,skips first completed-cost update and caps overrun updates at startingfuel/NNUE ceiling. These are candidate explanations,not proven history. EXP199 records first_camps/full-call/hold counters on the same matched state before any forecast change. No global budget or threshold patch from this observation alone. No platform action.

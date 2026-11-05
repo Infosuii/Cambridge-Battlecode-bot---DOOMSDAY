@@ -1,0 +1,3 @@
+# EXP-200 result — Remaining candidateR1 still crosses field preparation
+
+MEASURED: exact rejected cache source0b73e25c has12remaining R1events in independent60large-dev cases. First stable-mapSHA sideA case is Issac actor1,pool_1119/public-khiri. LIVE109_RUNTIME_TARGET_CACHEFIRST111.json matches own view/actions/nativeR1,off0b73e25c. Tail-to-field spends32158starting14065,crossingR1to2. Derived41-file manifest and remaining-event plan are explicit; this is not platform111unmodified or an official-pool failure. EXP201 separates preparation and travel-mode metadata. No candidate or gate change.
