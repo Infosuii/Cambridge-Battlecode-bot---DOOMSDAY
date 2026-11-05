@@ -1,0 +1,31 @@
+{
+  "schema": "doomsday-active-bot-v1",
+  "status": "LIVE_BASE_IDENTITY_CONFIRMATION_PENDING",
+  "active_line": "Current live bot only; R1 reported v108",
+  "reported_live_version": 108,
+  "reported_selected_version": 108,
+  "report_source": "issue5 CLAUDE #78",
+  "source_base_zip_sha256": "d08636c5cedddb4161fb5467384900dcc97b5f6447e8ec385b31e2d52808dc68",
+  "runtime_delta_commit": "8595a231f695c0ad92201d79db5fd61d5803f184",
+  "header_sha256": "6661d16ace9971334ba646993729560f77bec507d4191e7527201f3e2ab21862",
+  "defines": {
+    "CLFS": 1,
+    "CLFS_MARGIN": 3000,
+    "route_fuel": 55000
+  },
+  "local_reconstruction_wasm_sha256": "f71bbe3bde4be15088114c189a4df8f1512e134446f03b0489cf400dc0c94b09",
+  "exact_live_wasm_sha256": null,
+  "r1_identity_ack": null,
+  "owners": {
+    "learning_strategy": "JOHNDOE",
+    "runtime_platform_collection": "R1shik123"
+  },
+  "rule": "One active source/runtime/weights manifest. Coordinate source changes and every platform upload before switching. Previous RL160/nonCLFS continuation archived, not active candidates.",
+  "training": {
+    "stage": "PREPARING_FROM_LIVE_BASE",
+    "planned_games": 1024,
+    "initial_weights": "live baseline header6661d16a",
+    "logging_mode": "Stochastic collector of same source line; records likelihoods and is not the greedy release policy; no live logging upload yet."
+  },
+  "platform": "R1 retains LOCK/ACK/UNLOCK, verifies active/selected and outstanding matches before operations. User authorized unranked collection and logs+replays."
+}
