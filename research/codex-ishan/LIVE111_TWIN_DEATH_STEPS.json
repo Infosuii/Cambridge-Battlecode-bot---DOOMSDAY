@@ -1,0 +1,130 @@
+{
+  "rows": [
+    {
+      "case": {
+        "matchId": "01a1acd7-48e4-7af8-9cf1-cb9e423b15f0",
+        "opponent": "bentheboss",
+        "round": 66,
+        "team": 1,
+        "actors": [
+          8,
+          9
+        ],
+        "replay": "C:\\dd\\codex-20261104\\artifacts\\codex-p0\\live111-discovery-20261105\\analysis-discovery\\replays\\01a1acd7-48e4-7af8-9cf1-cb9e423b15f0.repl26a",
+        "replay_sha256": "bba9852d5c60a4d14175439c1fed63d02f4b8f42d05c792a6456c0f732315908"
+      },
+      "trace_sha256": "ff1a6119b0e0770023d4cd799374474636164603b6c998d734f18b1a9b8a1686",
+      "death_transitions": [
+        {
+          "before": {
+            "round": 65,
+            "phase": 10,
+            "input": 2297,
+            "step": {
+              "phase": 10,
+              "kind": 5,
+              "actor": {
+                "kind": 1,
+                "index": 5
+              },
+              "from": {
+                "x": 19,
+                "y": 28
+              },
+              "to": {
+                "x": 18,
+                "y": 29
+              },
+              "round": 65,
+              "inputPosition": 2297,
+              "substep": 0,
+              "priority": 0
+            },
+            "twins": [
+              {
+                "id": 8,
+                "type": 3,
+                "alive": true,
+                "hp": 40,
+                "max_hp": 600,
+                "pos": {
+                  "x": 18,
+                  "y": 29
+                },
+                "gems": 0,
+                "gold": 0
+              },
+              {
+                "id": 9,
+                "type": 4,
+                "alive": true,
+                "hp": 700,
+                "max_hp": 900,
+                "pos": {
+                  "x": 17,
+                  "y": 31
+                },
+                "gems": 70,
+                "gold": 0
+              }
+            ]
+          },
+          "after": {
+            "round": 66,
+            "phase": 10,
+            "input": 2312,
+            "step": {
+              "phase": 10,
+              "kind": 5,
+              "actor": {
+                "kind": 1,
+                "index": 1
+              },
+              "from": {
+                "x": 18,
+                "y": 28
+              },
+              "to": {
+                "x": 18,
+                "y": 29
+              },
+              "round": 66,
+              "inputPosition": 2312,
+              "substep": 0,
+              "priority": 0
+            },
+            "twins": [
+              {
+                "id": 8,
+                "type": 3,
+                "alive": false,
+                "hp": 0,
+                "max_hp": 600,
+                "gems": 0,
+                "gold": 0
+              },
+              {
+                "id": 9,
+                "type": 4,
+                "alive": false,
+                "hp": 0,
+                "max_hp": 900,
+                "gems": 0,
+                "gold": 0
+              }
+            ]
+          },
+          "newly_dead": [
+            8,
+            9
+          ]
+        }
+      ]
+    }
+  ],
+  "absent": [
+    "QS2isLaw",
+    "0xDEADBEEF"
+  ],
+  "limits": "Historic source interval inferred; step actor/target and health identify observed transitions,not private policy intention."
+}

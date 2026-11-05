@@ -1,0 +1,7 @@
+# EXP-190 result — Cassi death destroys a healthy Issac carrier
+
+MEASURED: discovery-only selection yields one qualifying named-rival case, bentheboss match01a1acd7-48e4-7af8-9cf1-cb9e423b15f0. No qualifying linked no-hit discovery case exists for QS2isLaw or0xDEADBEEF in this frozen cohort; do not claim an analysis of such a case. Plan and exact transition hashes are in LIVE111_TWIN_TRACE_PLAN.json / LIVE111_TWIN_DEATH_STEPS.json.
+
+AtR65 the traced Cassi(8,teamB) falls to40/600HP at(18,29); Issac(9) has700/900HP and70gems at(17,31). AtR66,input2312,enemy Marcella(1) attacks Cassi's tile: both twins become dead in the same observed step. Native death/gemLoss entries at the same input confirm Marcella as killer and70gems lost by Issac. No own twin fuelExhausted entry appears duringR55-66.
+
+Cassi own viewsR64/R65 show270/600 then185/600HP,three visible enemies and one-tile retreat actions. Her cooldowns are[0,4] then[0,3]. Current source tactics.cpp151 maps Cassi's stun to slot1,so these views do not show a ready stun; bot.cpp4203 documents that a ranged basic attack ends movement. Do not equate the no-hit window with an available safe retaliation. Current source could follow its intentional flee branch,but exact historic source/private branch identity is inferred and has not been reproduced. This case motivates coupled-twin survival/banking investigation,not an immediate combat/draft patch.
