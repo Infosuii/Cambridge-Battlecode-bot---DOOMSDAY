@@ -18,26 +18,10 @@
       "split": "confirmation_reserved"
     },
     {
-      "file": "00great-wall.map26a",
-      "sha256": "1b22e5c068175913889a1ff497d310de303a9b1ddf78672f26c0777fda9f5bf2",
-      "bytes": 5599,
-      "family": "great-wall",
-      "previously_exposed": false,
-      "split": "confirmation_reserved"
-    },
-    {
       "file": "00interlock.map26a",
       "sha256": "140e5bc3ac11c7f74dfc4ed99cc53739a34be8d3f71a7f4d0520dc4a3c197e19",
       "bytes": 1614,
       "family": "interlock",
-      "previously_exposed": false,
-      "split": "confirmation_reserved"
-    },
-    {
-      "file": "00lanes.map26a",
-      "sha256": "8ca26ed2ea65c7d80ceb9604a7431ca1dc056922912b4e2f46cad06051e4886a",
-      "bytes": 807,
-      "family": "lanes",
       "previously_exposed": false,
       "split": "confirmation_reserved"
     },
@@ -78,14 +62,6 @@
       "sha256": "5cca9ed6eaaf6ef15a170a4ea78488237fda7b256e182a2e3360a14b485e09c3",
       "bytes": 3244,
       "family": "the-farm",
-      "previously_exposed": false,
-      "split": "confirmation_reserved"
-    },
-    {
-      "file": "01yellow-brick-road.map26a",
-      "sha256": "130453395278cdabb1ff80564357a99ca8394afaef006fdede8beb88924a8fa0",
-      "bytes": 15319,
-      "family": "yellow-brick-road",
       "previously_exposed": false,
       "split": "confirmation_reserved"
     },
@@ -138,15 +114,22 @@
       "split": "confirmation_reserved"
     }
   ],
-  "remaining_maps": 17,
-  "remaining_families": 16,
+  "remaining_maps": 14,
+  "remaining_families": 13,
   "excluded_families": [
+    "comb",
     "gold-rush",
+    "great-wall",
+    "lanes",
+    "meander",
+    "pinwheel",
     "swirl",
     "the-line",
-    "vault"
+    "vault",
+    "yellow-brick-road",
+    "yin-yang"
   ],
   "source_manifest_sha256": "a1fcb51e115097707a31351a670ab389766649ee71bba63c661dedd8f584de3c",
-  "exposure_overlay_sha256": "35612b42947b23ca6f2bff81564d93b5b3212f3a5fd7b964d0cfea0eb5a72904",
-  "note": "Live-reviewed families excluded; no sealed nearvariant/pretrainingnonexposureclaim."
+  "exposure_overlay_sha256": "21837bcb0c5b113937a866de2612044d34fd65f58e304c8c5ac1785d29d248d1",
+  "note": "Original86-map confirmation subset only; MatchSet3 reviewedfamilies removed. Not a sealed holdout: near-variant/pretraining exposure unresolved and new128-map pool not yet fully audited."
 }
