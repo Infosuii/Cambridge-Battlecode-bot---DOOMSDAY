@@ -1,4 +1,5 @@
 """Fresh paired development comparison with the exact active source archive."""
+import argparse
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -10,28 +11,49 @@ from qualify_local import DEV, partition
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--stellar", action="store_true")
+    args = parser.parse_args()
     identity = read(HERE / "LIVE109_SOURCE_VERIFIED.json")
     safety = read(HERE / "ENGINE3_REBASELINE_POOL.json")
     assert safety["pass"] and bench.digest(CLI) == CLI_HASH
     source = SDK_ROOT / "bots/live109/src"
     reference = SDK_ROOT / "bots/live109/bot.wasm"
-    candidate_source = SDK_ROOT / "bots/retry-e3/src"
-    candidate = SDK_ROOT / "bots/retry-e3/bot.wasm"
+    candidate_name = "live109-stellar" if args.stellar else "retry-e3"
+    candidate_source = SDK_ROOT / "bots" / candidate_name / "src"
+    candidate = SDK_ROOT / "bots" / candidate_name / "bot.wasm"
     assert bench.digest(reference) == identity["wasm_sha256"]
-    assert bench.digest(candidate) == safety["builds"]["candidate"]
+    if args.stellar:
+        builds = read(HERE / "LIVE109_STELLAR_BUILDS.json")
+        assert builds["primary"] == builds["rebuild"] == bench.digest(candidate)
+        assert builds["off"] == identity["wasm_sha256"]
+    else:
+        assert bench.digest(candidate) == safety["builds"]["candidate"]
     assert all(bench.digest(source / file) == expected for file, expected in identity["source_file_hashes"].items())
-    maps = partition("conf")
     categories = read(HERE / "ENGINE3_CATEGORIES_DEV.json")
+    if args.stellar:
+        grouped = defaultdict(list)
+        for mp in partition("dev"):
+            grouped[categories["maps"][mp.stem]["category"]].append(mp)
+        maps = [mp for name in sorted(grouped) for mp in sorted(grouped[name], key=bench.digest)[:2]]
+        assert len(maps) == 12 and all(len(rows) >= 2 for rows in grouped.values())
+        manifest = {mp.name: {"sha256": bench.digest(mp), "category": categories["maps"][mp.stem]["category"]} for mp in maps}
+        with (HERE / "LIVE109_STELLAR_DEV_MAPS.json").open("x", encoding="utf8", newline="\n") as out:
+            json.dump(manifest, out, indent=2)
+            out.write("\n")
+    else:
+        maps = partition("conf")
     assert categories["pool_atlas_verified"]
     assert all(categories["maps"][mp.stem]["map_hash"] == bench.digest(mp) for mp in maps)
     opponents = {name: bench.CACHE / bench.OPPS[name][0] for name in DEV}
     for name, wasm in opponents.items():
         assert bench.digest(wasm) == bench.OPPS[name][1]
     opponents["live109"] = reference
-    seeds = (3157, 6421)
-    binaries = {(arm, seed): build(src, SDK_ROOT / "bots" / f"live-control-{arm}-{seed}", seed)
+    seeds = (7331, 9029) if args.stellar else (3157, 6421)
+    label = "live109-stellar" if args.stellar else "live109-control"
+    binaries = {(arm, seed): build(src, SDK_ROOT / "bots" / f"{label}-{arm}-{seed}", seed)
                 for arm, src in (("base", source), ("candidate", candidate_source)) for seed in seeds}
-    output = bench.CACHE / "engine3-live109-control"
+    output = bench.CACHE / f"engine3-{label}"
     output.mkdir()
     for seed in seeds:
         for opponent in opponents:
@@ -60,11 +82,12 @@ def main():
     passed = (not errors and overall["map_cluster_ci_pp"][1] >= 0 and
               all(v["delta_pp"] >= -10 for values in strata.values() for v in values.values()))
     result = {"reference_release": identity["wasm_sha256"], "reference_archive": identity["archive_sha256"],
-              "candidate_release": safety["builds"]["candidate"], "engine": ENGINE, "cli_sha256": CLI_HASH,
+              "candidate_release": bench.digest(candidate), "engine": ENGINE, "cli_sha256": CLI_HASH,
               "n_maps": len(maps), "seeds": seeds, "pass": passed, "overall": overall, "strata": strata,
               "error_cells": errors, "opponents": {name: bench.digest(wasm) for name, wasm in opponents.items()},
               "binaries": {f"{arm}-{seed}": bench.digest(wasm) for (arm, seed), wasm in binaries.items()}}
-    with (HERE / "ENGINE3_LIVE109_CONTROL.json").open("x", encoding="utf8", newline="\n") as out:
+    result_name = "ENGINE3_LIVE109_STELLAR_DEV.json" if args.stellar else "ENGINE3_LIVE109_CONTROL.json"
+    with (HERE / result_name).open("x", encoding="utf8", newline="\n") as out:
         json.dump(result, out, indent=2)
         out.write("\n")
     with (output / "rows.json").open("x", encoding="utf8", newline="\n") as out:
