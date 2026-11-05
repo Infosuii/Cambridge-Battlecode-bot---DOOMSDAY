@@ -31,3 +31,19 @@ Same frozen artifacts (v109 f3d919e9, RL160+CLFS 47857f37). 50 training maps x A
 | ALL | 245/400 | 262/400 | 3425 / 3477 |
 
 Paired RL160 - v109: **+0.0425 [-0.003, +0.090]** (40 families). The gain shows up against every non-saturated lineage (+4, +5, +8 per 100), and fuel is flat (+1.5%). These are still training maps; the held-out 04 panel from JOHNDOE #151 is the deciding test.
+
+## Held-out 04 panel confirmation (JOHNDOE #151; e3-rl160-heldout04-01, 592 games)
+
+37 frozen 04 maps (SHA-256 pinned in manifests/heldout04_jd151.json, one family per stem), both sides, release, cambc 5.0.0 / engine 3.0.0. Exact v109 f3d919e9 vs RL160+CLFS 47857f37.
+
+| opponent | v109 | RL160+CLFS | fuel-outs v109 / RL160 |
+|---|---|---|---|
+| v92 | 35/74 | 29/74 | 827 / 832 |
+| native Agent 2 | 36/74 | 41/74 | 1274 / 1305 |
+| exact v109 (direct) | 37/74 (mirror) | 37/74 | 995 / 973 |
+| x3 economy (botx3_11 @ 2bd70a93, SDK rebuild) | 46/74 | 45/74 | 1056 / 1114 |
+| ALL | 154/296 | 152/296 | 4152 / 4224 |
+
+Paired RL160 - v109: **-0.007 [-0.061, +0.047]** (37 families). The direct result is level (37/74), and against v92 there is a regression (-6/74). The newer Agent 2 reference (nnfinal_carry_persize_engine4.zip) was not available on this PC.
+
+**Verdict: does not meet the #151 advance bar.** The gain is not broad, the direct result is not favorable, and v92 regresses. The training-map edge (+0.065 / +0.0425) did not carry over to held-out maps, so it looks map-fitted. RL160 stays off the ladder and v109 stays live.
