@@ -42,3 +42,23 @@ The carrier columns come from JOHNDOE's carrier_events.py audit (1a6d171b), via 
 
 - **carrier/altar pressure: admit as a sparring style.** The intended change is visible against v109: the rate of enemy 30+ carriers lost rises from 0.053 to 0.087, and enemy gems lost at death rise from 78 to 104 per game. It keeps its own economy (raiders still farm near the altar) and wins 11/30 vs v109 and 14/30 vs v92. The pressure effect does not appear against v92 or native, whose carriers bank by other routes.
 - **camp invader: not admitted in this form.** Its raiders reach enemy-side camps and start fights: enemy gems lost at death roughly double vs v109 (78 to 150). But they churn between targets and seldom finish captures, so enemy camp income rises instead of falling (839 to 963). That is not the intended denial behavior. The next step is a v2 with a sticky raid target (commit until the group is taken, lost or respawning) and reward-first selection.
+
+## Invader v2 and v3 (e3-spar-calib-02 / -03; 180 games each, logs on; same 15 dev maps x A/B, release, engine 3)
+
+- **v2, style 3 (WASM a25fceb1):** sticky raid target. A raider commits until the group respawns or is avoided, with a 60-round timeout and then a 40-round ban, and goes reward-first.
+- **v3, style 4 (WASM f53a2327):** a raider takes only finished enemy-side rewards, or ones back within 10 rounds, within 25 tiles, and one raider per group. Otherwise it plays the parent.
+
+A commitment *completes* when our team collects from the group during it plus a 10-round tail (`tools/rl_env_1104/strategy/spar_commits.py`).
+
+| | vs v109 | vs v92 | vs native | paired vs parent | commits/game | completed | enemy took first | enemy camp gems vs v109 (parent 839) |
+|---|---|---|---|---|---|---|---|---|
+| parent v109 | 15/30 | 15/30 | 14/30 | - | - | - | - | 839 |
+| v1 (style 1) | 11/30 | 12/30 | 6/30 | -0.167 [-0.296, -0.026] | 38 target changes | - | - | 963 |
+| v2 (style 3) | 9/30 | 10/30 | 10/30 | -0.167 [-0.250, -0.078] | 38.6 | 12% | 38% | 938 |
+| v3 (style 4) | 15/30 | 16/30 | 12/30 | -0.011 [-0.133, +0.103] | 8.1 | 18% | 39% | 847 |
+
+**Verdict: no invader admitted.**
+- v2 commitments mostly run to the timeout (mean 62 rounds), and 4 in 5 do not complete.
+- v3 keeps the parent's strength but changes little. Contested camp gems are 227 vs 225, and enemy camp income is unchanged against v109 and v92 (847 vs 839, 787 vs 787), falling only against native (899 vs 960).
+- By the time a raider reaches a finished enemy-side reward, the enemy that cleared it has usually captured it: 39-52% of commitments end that way.
+- An invader that actually denies would need capture-state information (who is on the reward tiles and how long is left), not distance-ranked targets. I am not iterating further here without agreement.
