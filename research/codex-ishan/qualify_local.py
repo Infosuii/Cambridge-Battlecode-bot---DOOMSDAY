@@ -39,9 +39,18 @@ def partition(name):
 
 
 def categories(name):
-    if "pool_" in name:
-        return "generated"
-    return "pool" + name[:2] if name[:2] in ("00", "01", "02", "03") else name.split("-")[0]
+    known = read(bench.ROOT / "research/x3/atlas/categories.json")
+    if name in known:
+        return known[name]
+    for stage in ("DEV", "SELECT"):
+        path = HERE / f"ENGINE3_CATEGORIES_{stage}.json"
+        if path.exists():
+            cache = read(path)
+            assert cache["pool_atlas_verified"]
+            assert cache["rules_sha256"] == bench.digest(bench.ROOT / "research/x3/atlas/categories_rules.json")
+            if name in cache["maps"]:
+                return cache["maps"][name]["category"]
+    raise ValueError(f"No verified atlas category for {name}")
 
 
 def build(src, project, seed):

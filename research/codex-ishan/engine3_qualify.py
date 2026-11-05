@@ -9,7 +9,7 @@ import subprocess
 
 import ablate_dev as bench
 from engine3_pool import CLI, CLI_HASH, ENGINE, HERE, SDK_ROOT, one, read
-from qualify_local import DEV, OTHER, SEL, categories, partition
+from qualify_local import DEV, OTHER, SEL, partition
 
 
 def build(src, project, seed):
@@ -29,12 +29,12 @@ def build(src, project, seed):
 
 
 def play(job):
-    arm, seed, opponent, mp, side, wasm, reference, output = job
+    arm, seed, opponent, mp, side, wasm, reference, output, category = job
     row = one((arm, mp, side, wasm, reference), output=output, seed=seed, opponent=opponent)
     doc = read(output / f"{mp.stem}-{side}-{arm}" / "native.json")
     area = doc["match"]["width"] * doc["match"]["height"]
     return {**row, "size": "small" if area < 1600 else "medium" if area < 4900 else "large",
-            "category": categories(mp.stem)}
+            "category": category}
 
 
 def main():
@@ -54,7 +54,12 @@ def main():
     else:
         development = read(HERE / "ENGINE3_RETRY_L1.json")
         assert development["pass"] and development["candidate_release"] == release
+        category_audit = read(HERE / "ENGINE3_RETRY_L1_CATEGORY_AUDIT.json")
+        assert category_audit["pass"] and category_audit["candidate_release"] == release
         maps, opponents, seeds = partition("select"), SEL, (1907, 4111)
+    category_cache = read(HERE / f"ENGINE3_CATEGORIES_{'DEV' if args.stage == 'L1' else 'SELECT'}.json")
+    assert category_cache["pool_atlas_verified"]
+    assert all(category_cache["maps"][mp.stem]["map_hash"] == bench.digest(mp) for mp in maps)
     bench.OPPS.update(OTHER)
     for opponent in opponents:
         file, expected = bench.OPPS[opponent]
@@ -67,7 +72,7 @@ def main():
         for opponent in opponents:
             (output / f"{seed}-{opponent}").mkdir()
     jobs = [(arm, seed, opponent, mp, side, binaries[arm, seed], bench.CACHE / bench.OPPS[opponent][0],
-             output / f"{seed}-{opponent}") for mp in maps for opponent in opponents for side in "AB"
+             output / f"{seed}-{opponent}", category_cache["maps"][mp.stem]["category"]) for mp in maps for opponent in opponents for side in "AB"
             for seed in seeds for arm in ("base", "candidate")]
     rows = []
     with ThreadPoolExecutor(max_workers=args.jobs) as pool:
