@@ -1,5 +1,6 @@
 """Aggregate preregistered native and replay patterns without fitting a policy."""
 from collections import Counter, defaultdict
+import argparse
 import json
 from statistics import mean, median
 
@@ -20,19 +21,19 @@ def grouped_rates(rows, eligible, predicate):
             "equal_group_rate": mean(mean(v) for v in groups.values()) if groups else None}
 
 
-def main():
+def main(prefix="LIVE109"):
     native_patterns = read(HERE / "EXP165-NATIVE-PATTERNS.json")["patterns"]
     replay_patterns = read(HERE / "EXP165-REPLAY-PATTERNS.json")["patterns"]
     result = {"scope": "Outcome-selected descriptive current-engine cases/controls; group-cluster rates, imperfect source identity. Not causal, not a strength or release test.", "native": {}, "replay": {}}
     for partition in ("discovery", "confirm", "control"):
-        data = read(HERE / f"LIVE109_NATIVE_{partition.upper()}.json")
+        data = read(HERE / f"{prefix}_NATIVE_{partition.upper()}.json")
         rows = data["rows"]
         report = {"n": len(rows), "groups": data["groups"], "patterns": {}}
         for pattern in native_patterns:
             eligible = (lambda r: r["both_deposit"]) if pattern == "first_bank_later" else (lambda r: not r["ended_before800"]) if pattern == "midgame_total_gems_deficit" else (lambda r: True)
             report["patterns"][pattern] = grouped_rates(rows, eligible, lambda r: r["patterns"][pattern])
         result["native"][partition] = report
-        replay = read(HERE / f"LIVE109_REPLAY_{partition.upper()}.json")["rows"]
+        replay = read(HERE / f"{prefix}_REPLAY_{partition.upper()}.json")["rows"]
         predicates = {
             "less_capture_gold300": lambda r: r["ours"]["inferred_capture_gold300"] < r["rival"]["inferred_capture_gold300"],
             "less_grouped_early": lambda r: r["ours"]["grouped_early"] < r["rival"]["grouped_early"],
@@ -50,9 +51,11 @@ def main():
                          "no_hit_deaths600": [sum(r[side]["no_pvp_basic_or_cast_deaths600"] for r in replay) for side in ("ours", "rival")],
                          "median_capture_gold300": [median(r[side]["inferred_capture_gold300"] for r in replay) for side in ("ours", "rival")]}
         result["replay"][partition] = replay_report
-    write(HERE / "LIVE109_DISCOVERY_PATTERN_REPORT.json", result)
+    write(HERE / f"{prefix}_DISCOVERY_PATTERN_REPORT.json", result)
     print(json.dumps(result, indent=2), flush=True)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--prefix", default="LIVE109")
+    main(parser.parse_args().prefix)

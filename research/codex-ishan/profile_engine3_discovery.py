@@ -3,6 +3,7 @@ import argparse
 from collections import Counter, defaultdict
 import json
 from math import isclose
+from pathlib import Path
 from statistics import mean, median
 
 from discovery_metrics import timeline
@@ -36,15 +37,17 @@ def profile(doc, team):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("partition", choices=("discovery", "confirm", "control"))
+    parser.add_argument("--prefix", default="LIVE109")
+    parser.add_argument("--data-dir", type=Path, default=OUT)
     args = parser.parse_args()
     pattern = read(HERE / "EXP165-NATIVE-PATTERNS.json")
     if args.partition == "confirm":
-        assert (HERE / "LIVE109_NATIVE_DISCOVERY.json").exists()
-    selected = [r for r in read(HERE / "LIVE109_DISCOVERY_SPLIT.json")["matches"] if r["partition"] == args.partition]
-    assert selected and all((OUT / "summaries" / (r["matchId"] + ".json")).exists() for r in selected)
+        assert (HERE / f"{args.prefix}_NATIVE_DISCOVERY.json").exists()
+    selected = [r for r in read(HERE / f"{args.prefix}_DISCOVERY_SPLIT.json")["matches"] if r["partition"] == args.partition]
+    assert selected and all((args.data_dir / "summaries" / (r["matchId"] + ".json")).exists() for r in selected)
     rows = []
     for match in selected:
-        doc = read(OUT / "summaries" / (match["matchId"] + ".json"))
+        doc = read(args.data_dir / "summaries" / (match["matchId"] + ".json"))
         assert (doc["match"]["engineVersion"], doc["match"]["engineBuildHash"]) == ("3.0.0", ENGINE)
         for team in ("teamA", "teamB"):
             for metric in METRICS:
@@ -84,7 +87,7 @@ def main():
               "patterns": counts, "both_deposit": sum(r["both_deposit"] for r in rows), "running_at800": sum(not r["ended_before800"] for r in rows),
               "first_sustained_gold_lead": dict(Counter(r["first_sustained_gold_lead"] or "none" for r in rows)),
               "margins": margins, "per_opponent": per_opponent, "rows": rows}
-    write(HERE / f"LIVE109_NATIVE_{args.partition.upper()}.json", result)
+    write(HERE / f"{args.prefix}_NATIVE_{args.partition.upper()}.json", result)
     print(json.dumps({k: result[k] for k in ("partition", "n", "groups", "patterns", "both_deposit", "running_at800", "first_sustained_gold_lead")}, indent=2), flush=True)
     print(json.dumps({m: result["margins"][m] for m in ("earnedGold", "collectedGems", "deaths")}, indent=2), flush=True)
 

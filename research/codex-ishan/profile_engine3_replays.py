@@ -17,12 +17,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("partition", choices=("discovery", "confirm", "control"))
     parser.add_argument("--recount", action="store_true")
+    parser.add_argument("--prefix", default="LIVE109")
+    parser.add_argument("--data-dir", type=Path, default=OUT)
     args = parser.parse_args()
+    prefix, data_dir = args.prefix, args.data_dir
     if args.partition == "confirm":
-        assert (HERE / "LIVE109_REPLAY_DISCOVERY.json").exists()
-    rows = [r for r in read(HERE / "LIVE109_DISCOVERY_REPLAY_SAMPLE.json")["matches"] if r["partition"] == args.partition]
-    assert rows and all((OUT / "replays" / (r["matchId"] + ".zip")).exists() for r in rows)
-    output = OUT / f"analysis-{args.partition}"
+        assert (HERE / f"{prefix}_REPLAY_DISCOVERY.json").exists()
+    rows = [r for r in read(HERE / f"{prefix}_DISCOVERY_REPLAY_SAMPLE.json")["matches"] if r["partition"] == args.partition]
+    assert rows and all((data_dir / "replays" / (r["matchId"] + ".zip")).exists() for r in rows)
+    output = data_dir / f"analysis-{args.partition}"
     if output.exists() and not args.recount:
         print("Existing analysis retained; use --recount to validate completed outputs.", flush=True)
         return
@@ -33,7 +36,7 @@ def main():
     archive_hashes = {}
     for row in rows:
         mid = row["matchId"]
-        archive = OUT / "replays" / (mid + ".zip")
+        archive = data_dir / "replays" / (mid + ".zip")
         destination = extracts / (mid + ".repl26a")
         if args.recount:
             with ZipFile(archive) as bundle:
@@ -55,14 +58,14 @@ def main():
     if not args.recount:
         with ThreadPoolExecutor(max_workers=3) as pool:
             list(pool.map(run_tool, (("winner_profile", []), ("death_context", ["600"]), ("capture_pressure", []))))
-    assert all((OUT / "summaries" / (r["matchId"] + ".json")).exists() for r in rows)
+    assert all((data_dir / "summaries" / (r["matchId"] + ".json")).exists() for r in rows)
     deaths = {r["id"]: r["deaths"] for r in read(output / "death_context.json")}
     winners = {Path(r["id"]).stem: r for r in read(output / "winner_profile.json")}
     captures = {r["id"]: r for r in read(output / "capture_pressure.json")}
     measured = []
     for row in rows:
         mid = row["matchId"]
-        native = read(OUT / "summaries" / (mid + ".json"))
+        native = read(data_dir / "summaries" / (mid + ".json"))
         rec = {**row}
         for name, team in (("ours", int(row["side"].upper() == "B")), ("rival", int(row["side"].upper() != "B"))):
             tag = "team" + "AB"[team]
@@ -80,7 +83,7 @@ def main():
     report = {"partition": args.partition, "n": len(rows), "native_death_counts_match": True,
               "archive_sha256": archive_hashes, "tool_output_sha256": {tool: bench.digest(output / (tool + ".json")) for tool in ("winner_profile", "death_context", "capture_pressure")},
               "rows": measured}
-    write(HERE / f"LIVE109_REPLAY_{args.partition.upper()}.json", report)
+    write(HERE / f"{prefix}_REPLAY_{args.partition.upper()}.json", report)
     print({"partition": args.partition, "n": len(rows), "native_death_counts_match": True}, flush=True)
 
 
