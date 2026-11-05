@@ -54,3 +54,21 @@ Paired deltas (family-clustered 95% CI):
 
 Reports: runs/rl_env_1104/eval/{clfs3-train-01, clfs3r35-train-01, v107clfs-train-01, clfsr-train-vsnative-01,
 clfs3-01, clfsr-dev-01}; profiler tools/rl_env_1104/strategy/fuel_profile.py.
+
+## Engine 3.0.0 (cambc 5.0.0, build 96ce858f) and v108 (2026-11-05)
+
+The ladder moved to engine 3.0.0 (5 champions per team); everything above is engine 2.0.0. Re-measured on engine 3,
+50 training maps x A/B, release:
+
+| matchup | v107 | v107 + CLFS | paired CLFS - v107 |
+|---|---|---|---|
+| vs v92 | 50/100, 2319 fuel-outs | 46/100, 781 | -0.04 [-0.16, +0.09] |
+| vs native Agent 2 | 48/100, 2174 | 48/100, 907 | 0.00 [-0.16, +0.15] |
+
+Live: own fuel-rollovers 470 vs opponents' 147 in the user's 20 unique v107 games (JOHNDOE #142). Shipped as **v108** =
+exact v107 source (d08636c5) + the CLFS nnrec.cpp/bot.cpp/main.cpp/clfp.h diff of 8595a231 + `#define CLFS 1`
+(route search unchanged at 55k). Submitted 2026-11-05 via `cambc submit`; the team follows the newest ready version,
+so v108 went live on build.
+
+Item-build tests on engine 3 (vs v92, paired to v107): Bruiser-only after Prospector 24/100; Prospector, Jungle,
+Durability then Bruiser 36/100; V58 emblems then Bruiser instead of Collectors + Greed 50/100 (identical). Not adopted.
