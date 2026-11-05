@@ -29,6 +29,9 @@ def freeze(registry_path, map_manifest, map_dir, holdout, seed, matched=False):
             raise ValueError(f"Invalid league role or style: {name}")
         if role == "sparring" and not item.get("admission_evidence"):
             raise ValueError(f"Missing sparring admission review: {name}")
+        limit = item.get("max_games", 2 * MAX_PAIRS_PER_STYLE)
+        if type(limit) is not int or limit not in range(2, 2 * MAX_PAIRS_PER_STYLE + 1, 2):
+            raise ValueError(f"max_games must be an even number from 2 through 8: {name}")
         binary = (registry_path.parent / item["wasm"]).resolve()
         if digest(binary) != item["sha256"]:
             raise ValueError(f"Opponent hash mismatch: {name}")
@@ -52,6 +55,7 @@ def freeze(registry_path, map_manifest, map_dir, holdout, seed, matched=False):
         for _ in range(quota):
             options = [name for name, item in opponents.items()
                        if item["role"] == role and style_counts[item["style"]] < MAX_PAIRS_PER_STYLE
+                       and 2 * selected[name] < item.get("max_games", 2 * MAX_PAIRS_PER_STYLE)
                        and control_style_counts[opponents[control_names[name]]["style"]] < MAX_PAIRS_PER_STYLE]
             if not options:
                 break
