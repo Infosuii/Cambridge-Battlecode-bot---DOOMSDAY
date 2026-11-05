@@ -186,7 +186,7 @@ def main() -> None:
     with open(batch, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
     cmd = [CLI, "run-batch", batch.replace("\\", "/"), "--jobs", str(a.jobs), "--json", "--color", "never",
-           "--timeout", str(a.timeout), "--log-limit", "0"] + (["--release"] if a.release else [])
+           "--timeout", str(a.timeout), "--log-limit", os.environ.get("EVAL_LOG_LIMIT", "0")] + (["--release"] if a.release else [])
     r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
     with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
         f.write(r.stdout + "\n---\n" + r.stderr)

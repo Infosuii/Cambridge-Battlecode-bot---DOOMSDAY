@@ -1,6 +1,6 @@
 """Apply a sparring style to a copy of exact v109 source (JOHNDOE #151 sparring calibration).
 
-usage: python -I spar_patch.py <src_dir> <style>   style 1 = camp invader, 2 = carrier/altar pressure
+usage: python -I spar_patch.py <src_dir> <style>   style 1 = camp invader, 2 = carrier/altar pressure, 3 = camp invader v2 (sticky target)
 
 Both styles use two raiders (claim slots 0 and 1) from round SPAR_FROM, while healthy and carrying less than
 SPAR_GEMS. Every other body and every other turn plays unchanged v109.
@@ -34,6 +34,8 @@ patch("bot.h", "    bool hunt();\n", """    bool hunt();
     bool spar_post();
     int spar_last = -2;
     std::uint32_t spar_chased = 0xffffffffu;
+    int spar_commit = -1, spar_commit_round = 0;
+    std::vector<int> spar_ban;
 #endif
 """)
 
@@ -44,6 +46,9 @@ impl = r'''
 #endif
 #ifndef SPAR_GEMS
 #define SPAR_GEMS 40
+#endif
+#ifndef SPAR_COMMIT
+#define SPAR_COMMIT 60
 #endif
 #ifndef SPAR_CARRY
 #define SPAR_CARRY 20
@@ -70,14 +75,36 @@ int Bot::spar_pick() {
         if (altar.x < 0 || cheb(a, B) < cheb(altar, B)) altar = a;
     if (altar.x < 0) return -1;
 #endif
+#if SPAR_STYLE == 3
+    // v2: commit to one raid group until it is taken (respawning), avoided, or SPAR_COMMIT rounds pass; a timed-out
+    // group is banned for 40 rounds so the raiders stop churning between enemy-side targets.
+    if (spar_ban.size() != w.groups.size()) spar_ban.assign(w.groups.size(), 0);
+    if (spar_commit >= 0 && spar_commit < static_cast<int>(w.groups.size())) {
+        const auto& cg = w.groups[static_cast<std::size_t>(spar_commit)];
+        const bool gone = cg.state == GroupState::respawning ||
+            (static_cast<std::size_t>(spar_commit) < avoid_until.size() && avoid_until[static_cast<std::size_t>(spar_commit)] > round);
+        if (!gone && round - spar_commit_round <= SPAR_COMMIT) {
+            if (spar_commit != spar_last) {
+                std::printf("SPR %d %u %d %d %d\n", round, my_id, slot, SPAR_STYLE, spar_commit);
+                spar_last = spar_commit;
+            }
+            return spar_commit;
+        }
+        if (!gone) spar_ban[static_cast<std::size_t>(spar_commit)] = round + 40;
+        spar_commit = -1;
+    }
+#endif
     int best = -1, best_key = 1 << 30;
     for (std::size_t gi = 0; gi < w.groups.size(); ++gi) {
         const auto& g = w.groups[gi];
+#if SPAR_STYLE == 3
+        if (spar_ban[gi] > round) continue;
+#endif
         if (g.camps.empty() || (g.gems == 0 && g.gold < 40)) continue;
         if (gi < avoid_until.size() && avoid_until[gi] > round) continue;
         if (g.state == GroupState::respawning && g.respawn_round - round > 15) continue;
         const vec2 c = w.camps[static_cast<std::size_t>(g.camps[0])].pos;
-#if SPAR_STYLE == 1
+#if SPAR_STYLE == 1 || SPAR_STYLE == 3
         if (cheb(c, B) * 10 >= cheb(c, A) * 8) continue; // enemy side only
 #else
         if (cheb(c, altar) > 16) continue; // around the enemy altar
@@ -85,10 +112,13 @@ int Bot::spar_pick() {
         const int d = w.has_field(static_cast<int>(gi)) ? w.group_distance(static_cast<int>(gi), pos) : cheb(c, pos);
         if (d >= kUnreach) continue;
         int key = d;
-        if (g.state == GroupState::reward) key -= 15;
+        if (g.state == GroupState::reward) key -= SPAR_STYLE == 3 ? 30 : 15;
         if (round - g.enemy_round <= 30) key -= 10;
         if (key < best_key) best_key = key, best = static_cast<int>(gi);
     }
+#if SPAR_STYLE == 3
+    if (best >= 0) spar_commit = best, spar_commit_round = round;
+#endif
     if (best != spar_last) {
         std::printf("SPR %d %u %d %d %d\n", round, my_id, slot, SPAR_STYLE, best);
         spar_last = best;
