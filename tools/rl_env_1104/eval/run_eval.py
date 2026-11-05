@@ -31,7 +31,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 CLI = os.environ.get("CAMBC") or os.path.join(ROOT, "tools", "vendor", "cambc.exe" if os.name == "nt" else "cambc")  # CAMBC: e.g. cambc 5.0.0 (engine 3.0.0)
-MAP_DIR = os.path.join(ROOT, "maps", "ladder-pool")
+MAP_DIR = os.environ.get("EVAL_MAP_DIR") or os.path.join(ROOT, "maps", "ladder-pool")  # EVAL_MAP_DIR: e.g. SDK5 maps for the 04 held-out panel
 
 
 def sha256(path: str) -> str:

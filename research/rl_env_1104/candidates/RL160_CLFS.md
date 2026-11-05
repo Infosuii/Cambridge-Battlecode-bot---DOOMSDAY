@@ -17,3 +17,17 @@
 
 Reports: runs/rl_env_1104/eval/e3-cand-clfs-train-01, e3-cand-clfs-dev-01. Status: strongest engine-3 candidate so far,
 not significant alone; awaiting the joint confirmation screen before any ladder change (JOHNDOE #150).
+
+## Broader opponent pool (e3-rl160-pool-01, training maps, 800 games)
+
+Same frozen artifacts (v109 f3d919e9, RL160+CLFS 47857f37). 50 training maps x A/B, cambc 5.0.0 / engine 3.0.0, release.
+
+| opponent | v109 | RL160+CLFS | fuel-outs v109 / RL160 |
+|---|---|---|---|
+| x3inv | 50/100 | 54/100 | 920 / 922 |
+| dz | 99/100 | 99/100 | 890 / 883 |
+| v86h | 50/100 | 55/100 | 834 / 842 |
+| jd-g5070-1104 | 46/100 | 54/100 | 781 / 830 |
+| ALL | 245/400 | 262/400 | 3425 / 3477 |
+
+Paired RL160 - v109: **+0.0425 [-0.003, +0.090]** (40 families). The gain shows up against every non-saturated lineage (+4, +5, +8 per 100), and fuel is flat (+1.5%). These are still training maps; the held-out 04 panel from JOHNDOE #151 is the deciding test.
