@@ -1,10 +1,10 @@
 {
   "schema": "doomsday-active-bot-v1",
-  "status": "LIVE_BASE_IDENTITY_CONFIRMATION_PENDING",
-  "active_line": "Current live bot only; R1 reported v108",
-  "reported_live_version": 108,
-  "reported_selected_version": 108,
-  "report_source": "issue5 CLAUDE #78",
+  "status": "SOURCE_IDENTITY_VERIFIED",
+  "active_line": "v109 uses the same verified source archive as v108",
+  "reported_live_version": 109,
+  "reported_selected_version": 109,
+  "report_source": "Issue #5 comment 6661140647, signed-in platform observation reported by Ishan",
   "source_base_zip_sha256": "d08636c5cedddb4161fb5467384900dcc97b5f6447e8ec385b31e2d52808dc68",
   "runtime_delta_commit": "8595a231f695c0ad92201d79db5fd61d5803f184",
   "header_sha256": "6661d16ace9971334ba646993729560f77bec507d4191e7527201f3e2ab21862",
@@ -22,10 +22,22 @@
   },
   "rule": "One active source/runtime/weights manifest. Coordinate source changes and every platform upload before switching. Previous RL160/nonCLFS continuation archived, not active candidates.",
   "training": {
-    "stage": "PREPARING_FROM_LIVE_BASE",
-    "planned_games": 1024,
-    "initial_weights": "live baseline header6661d16a",
-    "logging_mode": "Stochastic collector of same source line; records likelihoods and is not the greedy release policy; no live logging upload yet."
+    "stage": "COMPLETE_FAILED_STRENGTH_GATE",
+    "games": 1024,
+    "final_header_sha256": "2340623439151f4131c4c26621eae6ff7fedfb054b6c7d5ac2968163232c4d34",
+    "fixed_evaluation_games": 666,
+    "primary_baseline_wins": 72,
+    "primary_candidate_wins": 65,
+    "direct_candidate_wins": 32,
+    "direct_games": 74,
+    "disposition": "Experimental artifact only"
   },
-  "platform": "R1 retains LOCK/ACK/UNLOCK, verifies active/selected and outstanding matches before operations. User authorized unranked collection and logs+replays."
+  "platform": "R1 retains LOCK/ACK/UNLOCK, verifies active/selected and outstanding matches before operations. User authorized unranked collection and logs+replays.",
+  "verified_upload_source_sha256": "c013c216393de628334c1d38d4c24d6abdd1b8bf159d8ffb262711040febd5e8",
+  "source_identity_evidence": {
+    "ref": "2ea5b6d8",
+    "path": "research/codex-ishan/LIVE109_SOURCE_VERIFIED.json",
+    "matched_files": 45
+  },
+  "local_windows_rebuild_wasm_sha256": "f3d919e9a0e870c131b821742d370f40cbdb78dbc04a22945add78d95da91775"
 }
