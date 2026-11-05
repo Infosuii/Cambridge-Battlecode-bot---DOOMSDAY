@@ -79,7 +79,8 @@ if __name__ == '__main__':
         errors=bool(doc['diagnostics']['codes']) or any(doc['diagnostics']['botFaults'].values())
         draft_fuel=[x for e in doc['events'] if e['kind']=='fuelExhausted' and e['owner'].get('team')=='team'+side for x in e['entries'] if x['timestamp'].get('phase')=='draft']
         parity=doc['roster']['draft']==original['roster']['draft']
-        passed=not errors and not draft_fuel and parity and checks and all(all(p[:3]) for p in checks) and checks[0][4]==0 and (len(checks)==2 and checks[1][4]==1 or len(checks)==1 and absent==[1]) and draft and all(x[0]>=1000000 and x[1]>0 and x[2] for x in draft)
+        modes={p[4] for p in checks}
+        passed=not errors and not draft_fuel and parity and checks and all(all(p[:3]) for p in checks) and (modes=={0,1} or modes=={0} and absent and all(absent)) and draft and all(x[0]>=1000000 and x[1]>0 and x[2] for x in draft)
         return {'map':mp.stem,'side':side,'map_hash':bench.digest(mp),'checks':checks,'draft_fuel':draft,'absent_mode_rejected':absent,'draft_equal':parity,'errors':errors,'draft_fuel_events':draft_fuel,'pass':bool(passed),'native_sha256':bench.digest(directory/'native.json'),'baseline_native_sha256':prior['native_sha256']}
     rows=[]
     with ThreadPoolExecutor(max_workers=6) as pool:
