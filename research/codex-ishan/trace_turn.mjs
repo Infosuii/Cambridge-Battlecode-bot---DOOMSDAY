@@ -18,7 +18,7 @@ const actions = [];
 for (;;) {
   check(X.Game_Visualiser_ReadTimelineState(E.h, tsnap));
   const s = E.PC.I(dv(), tsnap);
-  if (s.round > R || s.outcome) break;
+  if ((s.phase !== 12 && s.round > R) || s.outcome) break;
   const k = s.step;
   if (observed && k.round === R && k.actor.kind === 1 && k.actor.index === actor && k.kind) {
     actions.push({ kind: k.kind, from: k.from, to: k.to, substep: k.substep });
