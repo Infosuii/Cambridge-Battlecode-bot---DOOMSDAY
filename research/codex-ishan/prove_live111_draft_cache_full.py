@@ -65,7 +65,7 @@ if __name__ == "__main__":
         own=wasm if arm=="probe" else control
         bots=(own,reference) if side=="A" else (reference,own)
         with (directory/"run.log").open("wb") as log:
-            subprocess.run([CLI,"run",*bots,"--map",mp,"--release","--fuel","100000","--rounds","3","--log-limit","1048576" if arm=="probe" else "0","--statistics",directory/"native.json","--out-dir",directory,"--json"],cwd=SDK_ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=180)
+            subprocess.run([CLI,"run",*bots,"--map",mp,"--release","--fuel","100000",*(["--rounds","3"] if arm=="probe" else []),"--log-limit","1048576" if arm=="probe" else "0","--statistics",directory/"native.json","--out-dir",directory,"--json"],cwd=SDK_ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=180)
         doc=read(directory/"native.json");assert doc["match"]["engineBuildHash"]==ENGINE and doc["match"]["mapHash"]==bench.digest(mp) and doc["diagnostics"]["detailedCaptureComplete"]
         row={"arm":arm,"map":mp.stem,"side":side,"map_hash":bench.digest(mp),"engine_seed":doc["match"]["seed"],"draft":doc["roster"]["draft"],"errors":bool(doc["diagnostics"]["codes"]) or any(doc["diagnostics"]["botFaults"].values())}
         if arm=="probe":
