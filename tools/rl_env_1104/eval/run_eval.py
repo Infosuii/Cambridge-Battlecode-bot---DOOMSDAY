@@ -57,7 +57,9 @@ def named(items: list) -> list:
 
 
 def build_hash(bot: str, work: str, release: bool) -> str:
-    out = os.path.join(work, os.path.basename(bot.rstrip("/")) + ("-rel" if release else "-dbg") + ".wasm")
+    if bot.lower().endswith(".wasm"):  # a pinned prebuilt guest (e.g. JOHNDOE #167 nnfinal 317e4ad9): played as-is
+        return sha256(os.path.join(ROOT, bot))
+    out =os.path.join(work, os.path.basename(bot.rstrip("/")) + ("-rel" if release else "-dbg") + ".wasm")
     r = subprocess.run([CLI, "build", bot] + (["--release"] if release else []) + ["--output", out], cwd=ROOT,
                        capture_output=True, text=True, timeout=900)
     if r.returncode or not os.path.exists(out):
@@ -187,9 +189,36 @@ def main() -> None:
         f.write("\n".join(lines) + "\n")
     cmd = [CLI, "run-batch", batch.replace("\\", "/"), "--jobs", str(a.jobs), "--json", "--color", "never",
            "--timeout", str(a.timeout), "--log-limit", os.environ.get("EVAL_LOG_LIMIT", "0")] + (["--release"] if a.release else [])
-    r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
-    with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
-        f.write(r.stdout + "\n---\n" + r.stderr)
+    if any(p.lower().endswith(".wasm") for _, p in cands + opps):
+        # run-batch accepts only project directories; a pinned prebuilt guest is played game by game with `cambc run`
+        import concurrent.futures
+
+        # play the WASMs built (and hashed) above: concurrent `cambc run` builds of one bot dir collide
+        built = {}
+        for _, p in cands + opps:
+            if not p.lower().endswith(".wasm"):
+                built[absp(p)] = os.path.join(work, os.path.basename(p.rstrip("/")) + ("-rel" if a.release else "-dbg") + ".wasm").replace("\\", "/")
+
+        def one(line: str) -> str:
+            q = line.split()
+            q[0], q[1] = built.get(q[0], q[0]), built.get(q[1], q[1])
+            gdir = q[3][:-len(".repl26a")]
+            c1 = [CLI, "run", q[0], q[1], "--map", q[2], "-o", gdir, "--statistics", q[5], "--json",
+                  "--log-limit", os.environ.get("EVAL_LOG_LIMIT", "0")] + (["--release"] if a.release else [])
+            try:
+                p = subprocess.run(c1, cwd=ROOT, capture_output=True, text=True, timeout=a.timeout)
+                return f"{gdir}: rc {p.returncode}\n{p.stdout[-400:]}{p.stderr[-400:]}"
+            except subprocess.TimeoutExpired:
+                return f"{gdir}: timeout"
+
+        with concurrent.futures.ThreadPoolExecutor(a.jobs) as ex:
+            logs = list(ex.map(one, lines))
+        with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
+            f.write("\n".join(logs))
+    else:
+        r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+        with open(os.path.join(work, "batch.log"), "w", encoding="utf-8") as f:
+            f.write(r.stdout + "\n---\n" + r.stderr)
     rows = []
     for c in cells:
         row = dict(candidate=c["candidate"], opponent=c["opponent"], map=c["map"], family=c["family"], side=c["side"],
