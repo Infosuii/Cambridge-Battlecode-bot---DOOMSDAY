@@ -21,14 +21,14 @@ def main():
     reference = SDK_ROOT / "bots/live109/bot.wasm"
     candidate_name = "live109-stellar" if args.stellar else "retry-e3"
     candidate_source = SDK_ROOT / "bots" / candidate_name / "src"
-    candidate = SDK_ROOT / "bots" / candidate_name / "bot.wasm"
+    candidate_wasm = SDK_ROOT / "bots" / candidate_name / "bot.wasm"
     assert bench.digest(reference) == identity["wasm_sha256"]
     if args.stellar:
         builds = read(HERE / "LIVE109_STELLAR_BUILDS.json")
-        assert builds["primary"] == builds["rebuild"] == bench.digest(candidate)
+        assert builds["primary"] == builds["rebuild"] == bench.digest(candidate_wasm)
         assert builds["off"] == identity["wasm_sha256"]
     else:
-        assert bench.digest(candidate) == safety["builds"]["candidate"]
+        assert bench.digest(candidate_wasm) == safety["builds"]["candidate"]
     assert all(bench.digest(source / file) == expected for file, expected in identity["source_file_hashes"].items())
     categories = read(HERE / "ENGINE3_CATEGORIES_DEV.json")
     if args.stellar:
@@ -82,7 +82,7 @@ def main():
     passed = (not errors and overall["map_cluster_ci_pp"][1] >= 0 and
               all(v["delta_pp"] >= -10 for values in strata.values() for v in values.values()))
     result = {"reference_release": identity["wasm_sha256"], "reference_archive": identity["archive_sha256"],
-              "candidate_release": bench.digest(candidate), "engine": ENGINE, "cli_sha256": CLI_HASH,
+              "candidate_release": bench.digest(candidate_wasm), "engine": ENGINE, "cli_sha256": CLI_HASH,
               "n_maps": len(maps), "seeds": seeds, "pass": passed, "overall": overall, "strata": strata,
               "error_cells": errors, "opponents": {name: bench.digest(wasm) for name, wasm in opponents.items()},
               "binaries": {f"{arm}-{seed}": bench.digest(wasm) for (arm, seed), wasm in binaries.items()}}
