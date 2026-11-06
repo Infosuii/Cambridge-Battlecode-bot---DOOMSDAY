@@ -93,7 +93,7 @@ def prepare(target, enabled, reference_name="live109"):
         ("            nn::live_rebuild(nn_lv);", '            codex_trace::mark("rebuild_begin", static_cast<int>(type), round);\n            nn::live_rebuild(nn_lv);\n            codex_trace::mark("rebuild_end", static_cast<int>(type), round);'),
         ("            nn_x_refresh(x);", '            codex_trace::mark("x_begin", static_cast<int>(type), round, x, nn_xest[x]);\n            nn_x_refresh(x);\n            codex_trace::mark("x_end", static_cast<int>(type), round, x, nn_xest[x]);'),
     ))
-    scoped(path, "void Bot::nn_x_refresh(int x) {", "#endif", (
+    scoped(path, "void Bot::nn_x_refresh(int x) {", "void Bot::nn_lazy_score() {", (
         ("    nn_feats_t<kC, kAF>(nn_lf, nn_near(), kXPart[x]);", '    codex_trace::mark("x_feats_begin", static_cast<int>(type), round, x);\n    nn_feats_t<kC, kAF>(nn_lf, nn_near(), kXPart[x]);\n    codex_trace::mark("x_feats_end", static_cast<int>(type), round, x);'),
         ("    nn::live_block(nn_lf, nn_lv, kXOrder[x]);", '    codex_trace::mark("x_block_begin", static_cast<int>(type), round, x);\n    nn::live_block(nn_lf, nn_lv, kXOrder[x]);\n    codex_trace::mark("x_block_end", static_cast<int>(type), round, x);'),
     ))
