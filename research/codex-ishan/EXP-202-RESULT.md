@@ -1,0 +1,7 @@
+# EXP-202 result — Both static travel modes and all cache controls pass
+
+MEASURED: LIVE111_DUAL_CACHE_PROOF_RECOUNT.json verifies180new development probe games and180completed exact stock111controls. Every native SHA/engine/map/seed/control relationship was rechecked. All180draft/equality/memory/rejection checks pass; two map-sides exercise the actual bridged travel mode,the remaining cases verify absent-mode fallback. Off0896a189,diagnostic36fdab33. Only one development geometry enables this bridge model; the proof makes no broad gameplay or strength claim.
+
+Original PROOF.json preserves two false report failures from requiring exactly two stdout lines. Both affected sides have five walking checks and one bridged check across physical bot instances; all are positive. EXP203 fixes cardinality by requiring the appropriate mode set while retaining every equality/error/draft/memory condition. Its card says six walking checks imprecisely; the saved data and recount show five. Synthetic failed equality,missing mode,unexpected mode and changed draft remain rejected. No source/cache/engine/gameplay threshold changed in that repair.
+
+Proof work uses ordinary charged draft/gameplay allowances; on the bridged geometry it spans intoR2. Do not interpret unlike allocation states or diagnostic fuel as a production speed/strength result. Next EXP204 freezes a clean two-mode release and repeats independent mechanism/safety gates; no previous release hash is qualified by this proof. No platform action.
