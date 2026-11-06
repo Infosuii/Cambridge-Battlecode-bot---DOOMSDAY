@@ -1,0 +1,626 @@
+{
+  "engine": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "off_matches_recorded_baseline": true,
+  "off": "8b8813b72eab18de0cbd2ec3e8b868c5f2699182f8e7159ac88804b8bb520ea2",
+  "rows": [
+    {
+      "case": {
+        "map": "pool_1111",
+        "side": "A",
+        "opponent": "x3inv",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "stage": "ownedjointregression111",
+        "round": 218,
+        "actor": 1,
+        "champion": "Varg",
+        "type": 10,
+        "traces": {
+          "base": {
+            "path": "artifacts/codex-p0/live111-owned-joint-regression-20261106/turn.json",
+            "sha256": "9d812e7a0326146f589cdeb7802d19019c3c9216cb3454d9606fcaea15938b6e"
+          }
+        }
+      },
+      "diagnostic": "c8197c7ca07cce3d33380c582edcfb1d36deb9cc8813730a935e481e1ad8f116",
+      "directory": "artifacts/codex-p0/engine3-live109-runtime-target-ownedjointward111/game-ownedjointregression111",
+      "same_own_view": true,
+      "same_action_prefix": true,
+      "matched_view_and_prefix": true,
+      "same_native_actor_round": true,
+      "native_rounds": [
+        218
+      ],
+      "turn_sha256": "9d812e7a0326146f589cdeb7802d19019c3c9216cb3454d9606fcaea15938b6e",
+      "samples": [
+        {
+          "mark": "main_begin",
+          "actual_round": 218,
+          "fuel": 99911,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "tail_begin",
+          "actual_round": 218,
+          "fuel": 98177,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "refresh",
+          "actual_round": 218,
+          "fuel": 97634,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "w_update",
+          "actual_round": 218,
+          "fuel": 87802,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "world",
+          "actual_round": 218,
+          "fuel": 87021,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "episode",
+          "actual_round": 218,
+          "fuel": 86956,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "sight",
+          "actual_round": 218,
+          "fuel": 86663,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "events",
+          "actual_round": 218,
+          "fuel": 86578,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "shop",
+          "actual_round": 218,
+          "fuel": 86478,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "support",
+          "actual_round": 218,
+          "fuel": 86218,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "ward_reveal_profile",
+          "actual_round": 218,
+          "fuel": 86148,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "ward_ahead_profile",
+          "actual_round": 218,
+          "fuel": 85862,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 85530,
+          "a": 3462,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 85389,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 84283,
+          "a": 2106,
+          "b": 1
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 84102,
+          "a": 1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 83922,
+          "a": 2111,
+          "b": 1
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 83741,
+          "a": 1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 83152,
+          "a": 3330,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 83011,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 82788,
+          "a": 3331,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 82647,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 82424,
+          "a": 3332,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 82283,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 82060,
+          "a": 3333,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 81919,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 81696,
+          "a": 3334,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 81555,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 81323,
+          "a": 3395,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 81182,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 80959,
+          "a": 3396,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 80818,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 80595,
+          "a": 3397,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 80454,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 80231,
+          "a": 3398,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 80090,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 79867,
+          "a": 3399,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 79726,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 79494,
+          "a": 3460,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 79353,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 79130,
+          "a": 3461,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 78989,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 78766,
+          "a": 3462,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 78625,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 78402,
+          "a": 3463,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 78261,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 78038,
+          "a": 3464,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 77897,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 77665,
+          "a": 3525,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 77524,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 77301,
+          "a": 3526,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 77160,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 76937,
+          "a": 3527,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 76796,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 76573,
+          "a": 3528,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 218,
+          "fuel": 76432,
+          "a": -1,
+          "b": 2
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 218,
+          "fuel": 76209,
+          "a": 3529,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 91736,
+          "a": 2,
+          "b": 3
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 219,
+          "fuel": 91366,
+          "a": 3590,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 91225,
+          "a": -1,
+          "b": 3
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 219,
+          "fuel": 91002,
+          "a": 3591,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 90861,
+          "a": -1,
+          "b": 3
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 219,
+          "fuel": 90638,
+          "a": 3592,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 90497,
+          "a": -1,
+          "b": 3
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 219,
+          "fuel": 90274,
+          "a": 3593,
+          "b": 0
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 90133,
+          "a": -1,
+          "b": 3
+        },
+        {
+          "mark": "bush_begin",
+          "actual_round": 219,
+          "fuel": 89910,
+          "a": 3594,
+          "b": 1
+        },
+        {
+          "mark": "bush_end",
+          "actual_round": 219,
+          "fuel": 89729,
+          "a": 2,
+          "b": 3
+        },
+        {
+          "mark": "ward_return",
+          "actual_round": 219,
+          "fuel": 89451,
+          "a": 1,
+          "b": 0
+        },
+        {
+          "mark": "ward_update_begin",
+          "actual_round": 219,
+          "fuel": 89390,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "ward_update_end",
+          "actual_round": 219,
+          "fuel": 79753,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "wardrev",
+          "actual_round": 219,
+          "fuel": 79689,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "ambush",
+          "actual_round": 219,
+          "fuel": 79598,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "enemies",
+          "actual_round": 219,
+          "fuel": 79512,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "farm_begin",
+          "actual_round": 219,
+          "fuel": 70392,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "farm_end",
+          "actual_round": 219,
+          "fuel": 17014,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "decide",
+          "actual_round": 219,
+          "fuel": 16675,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "tail",
+          "actual_round": 219,
+          "fuel": 16467,
+          "a": 0,
+          "b": 212
+        },
+        {
+          "mark": "fields",
+          "actual_round": 219,
+          "fuel": 16288,
+          "a": 0,
+          "b": 213
+        },
+        {
+          "mark": "main_play_end",
+          "actual_round": 219,
+          "fuel": 16219,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "main_nn_end",
+          "actual_round": 219,
+          "fuel": 15907,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "buffered_crossings": [
+        {
+          "from": "bush_begin",
+          "to": "bush_end",
+          "start": {
+            "mark": "bush_begin",
+            "actual_round": 218,
+            "fuel": 76209,
+            "a": 3529,
+            "b": 0
+          },
+          "end": {
+            "mark": "bush_end",
+            "actual_round": 219,
+            "fuel": 91736,
+            "a": 2,
+            "b": 3
+          },
+          "charged_spend": 84473
+        }
+      ]
+    }
+  ]
+}
