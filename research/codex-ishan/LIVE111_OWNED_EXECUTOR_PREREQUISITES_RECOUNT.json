@@ -1,0 +1,39 @@
+{
+  "pass": true,
+  "mechanism_recount": [
+    {
+      "patched": false,
+      "native_sha256": "8e53371e9368e96f97f3c210d674aee8da7445c3a01018ab2cb2717f19705596",
+      "archive_sha256": "d7738b9bcf3318cd6b476a6d8cdeb6fa3783022e37c88863a1b7de3f67949a0f",
+      "stdout_sha256": "db02a193231d1c679bb5e6142d6c8d3ca20e75fdae1c2f732e50dce2781a95ef",
+      "old_actions": 0,
+      "actual_actions": 0,
+      "actor_fuel_rounds": [
+        70,
+        74
+      ]
+    },
+    {
+      "patched": true,
+      "native_sha256": "a23f402b34b13812ae498c041586e5c25abd4bc79c4da91cef69e90d704f1288",
+      "archive_sha256": "550aefbb14fa26933775e8758116379fd3c4641c5dbf8cd915b9d018a9ee93e5",
+      "stdout_sha256": "7df24291b0b5898855f77b4a11b83510038c6c9813a84a4a5c9bf2572620abc1",
+      "old_actions": 0,
+      "actual_actions": 1,
+      "actor_fuel_rounds": []
+    }
+  ],
+  "guard_native_archive_stdout_reopened": 6,
+  "clean_release": "698d1f8c2154eb17d4cea4f7f2b1414002017066f3c335fe77b645a1edbb83a9",
+  "optimized_ir_sha256": "78aa4bbdb269c58e6ac33a3eeac3ab04cfbc56b0b6bb84b401b8066896546c0f",
+  "optimized_ir_artifact": "artifacts/codex-p0/live111-owned-optimized-access-20261106/nnrec.ll",
+  "direct_global_graph_access_functions": {
+    "__cxx_global_array_dtor.23": 3,
+    "_ZN3Bot12nn_x_refreshEi": 1,
+    "_ZN3Bot13nn_lazy_scoreEv": 1,
+    "_ZN3Bot11nn_turn_endEv": 11,
+    "_GLOBAL__sub_I_nnrec.cpp": 9
+  },
+  "nn_decide_has_no_direct_graph_access": true,
+  "limits": "Current pinned configuration/source audit and charged isolated controls,not a formal all-state proof or global safety/strength. Source staged/slow writers are fenced; producer Frame pointer access is separately audited. Pre-guard fuel remains recorded."
+}
