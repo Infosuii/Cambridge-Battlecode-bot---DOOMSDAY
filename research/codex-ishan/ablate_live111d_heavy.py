@@ -44,7 +44,7 @@ if __name__ == '__main__':
     out.mkdir()
     cats = read(HERE / 'ENGINE3_CATEGORIES_DEV.json')['maps']
     old = read(HERE/'LIVE111_HEAVY_PLAN.json')['maps']
-    confirmation = read(HERE/'LIVE111_ROUTE_RUNTIME_CONFIRM_PLAN.json')['maps']
+    confirmation = read(HERE/'LIVE111_ROUTE_RUNTIME_PLAN.json')['maps']
     excluded = {Path(name).stem for name in old} | {Path(name).stem for name in confirmation}
     eligible = [p for p in partition('dev') if p.stem not in excluded]
     maps=[]
