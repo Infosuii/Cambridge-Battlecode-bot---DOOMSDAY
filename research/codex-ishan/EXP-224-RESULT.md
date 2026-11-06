@@ -1,0 +1,7 @@
+# EXP-224/R2 result — Frozen-frame target logits agree; stale results are refused
+
+MEASURED: COHERENT_NN_FRAME_FIXED_STATE.json passes its numerical prerequisite,with raw LIVE109_RUNTIME_TARGET_COHERENTFRAME111R2.json. Disabled0896a189;same initial original IssacR70 own view. All11 target logits match bit-for-bit,both states ready,and captured input hash1293107362 remains unchanged across ordinary owner turns. Completion atR75 hasage5; unchangedTTL2 correctly rejects it. Native actorR70fuel-out remains. No faults/codes. No production safety,progress or win claim.
+
+Within-stage marked costs (including small charged marks): deep-copy6064fuel;camp encoding18758,self7319,camp pooling3614,top7017,target head499. Input-hash measurement costs extra diagnostic work. Unused fuel surrendered at the four deliberate end_turn boundaries is not compute cost: the generic trace helper's cross-round charged_spend field cannot be interpreted as stage compute at those boundaries. Only within-stage begin/end spans are used here.
+
+The first driver stopped before compilation because an anchor matched NNUE and alternative branches. EXP225 separately demonstrates2old/1repaired matches,retains partial source,and reruns into a freshR2directory with a new exact disabled build. No prior output or test was weakened. EXP226 broadens input/cache/turn-age coverage before a scheduler may be designed or qualified.

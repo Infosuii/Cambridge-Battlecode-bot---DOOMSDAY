@@ -1,0 +1,289 @@
+{
+  "scope": "Outcome-selected descriptive current-engine cases/controls; group-cluster rates, imperfect source identity. Not causal, not a strength or release test.",
+  "native": {
+    "discovery": {
+      "n": 10,
+      "groups": 4,
+      "patterns": {
+        "early_income_without_deaths": {
+          "n": 10,
+          "count": 3,
+          "groups": 4,
+          "game_rate": 0.3,
+          "equal_group_rate": 0.225
+        },
+        "early_gem_acquisition": {
+          "n": 10,
+          "count": 8,
+          "groups": 4,
+          "game_rate": 0.8,
+          "equal_group_rate": 0.625
+        },
+        "first_bank_later": {
+          "n": 9,
+          "count": 6,
+          "groups": 4,
+          "game_rate": 0.6666666666666666,
+          "equal_group_rate": 0.5625
+        },
+        "fewer_wards_300": {
+          "n": 10,
+          "count": 7,
+          "groups": 4,
+          "game_rate": 0.7,
+          "equal_group_rate": 0.65
+        },
+        "damage_conversion_gap": {
+          "n": 10,
+          "count": 0,
+          "groups": 4,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        },
+        "midgame_total_gems_deficit": {
+          "n": 7,
+          "count": 5,
+          "groups": 4,
+          "game_rate": 0.7142857142857143,
+          "equal_group_rate": 0.6875
+        }
+      }
+    },
+    "confirm": {
+      "n": 2,
+      "groups": 1,
+      "patterns": {
+        "early_income_without_deaths": {
+          "n": 2,
+          "count": 0,
+          "groups": 1,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        },
+        "early_gem_acquisition": {
+          "n": 2,
+          "count": 2,
+          "groups": 1,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "first_bank_later": {
+          "n": 2,
+          "count": 2,
+          "groups": 1,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "fewer_wards_300": {
+          "n": 2,
+          "count": 2,
+          "groups": 1,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "damage_conversion_gap": {
+          "n": 2,
+          "count": 0,
+          "groups": 1,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        },
+        "midgame_total_gems_deficit": {
+          "n": 1,
+          "count": 1,
+          "groups": 1,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        }
+      }
+    },
+    "control": {
+      "n": 8,
+      "groups": 3,
+      "patterns": {
+        "early_income_without_deaths": {
+          "n": 8,
+          "count": 0,
+          "groups": 3,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        },
+        "early_gem_acquisition": {
+          "n": 8,
+          "count": 2,
+          "groups": 3,
+          "game_rate": 0.25,
+          "equal_group_rate": 0.19444444444444445
+        },
+        "first_bank_later": {
+          "n": 5,
+          "count": 3,
+          "groups": 3,
+          "game_rate": 0.6,
+          "equal_group_rate": 0.3333333333333333
+        },
+        "fewer_wards_300": {
+          "n": 8,
+          "count": 8,
+          "groups": 3,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "damage_conversion_gap": {
+          "n": 8,
+          "count": 1,
+          "groups": 3,
+          "game_rate": 0.125,
+          "equal_group_rate": 0.08333333333333333
+        },
+        "midgame_total_gems_deficit": {
+          "n": 8,
+          "count": 1,
+          "groups": 3,
+          "game_rate": 0.125,
+          "equal_group_rate": 0.1111111111111111
+        }
+      }
+    }
+  },
+  "replay": {
+    "discovery": {
+      "n": 10,
+      "groups": 4,
+      "patterns": {
+        "less_capture_gold300": {
+          "n": 10,
+          "count": 6,
+          "groups": 4,
+          "game_rate": 0.6,
+          "equal_group_rate": 0.525
+        },
+        "less_grouped_early": {
+          "n": 10,
+          "count": 8,
+          "groups": 4,
+          "game_rate": 0.8,
+          "equal_group_rate": 0.75
+        },
+        "more_no_hit_deaths600": {
+          "n": 10,
+          "count": 5,
+          "groups": 4,
+          "game_rate": 0.5,
+          "equal_group_rate": 0.675
+        },
+        "slower_capture_conversion300": {
+          "n": 9,
+          "count": 4,
+          "groups": 4,
+          "game_rate": 0.4444444444444444,
+          "equal_group_rate": 0.4
+        }
+      },
+      "deaths600": [
+        48,
+        33
+      ],
+      "no_hit_deaths600": [
+        14,
+        9
+      ],
+      "median_capture_gold300": [
+        920.0,
+        1140.0
+      ]
+    },
+    "confirm": {
+      "n": 2,
+      "groups": 1,
+      "patterns": {
+        "less_capture_gold300": {
+          "n": 2,
+          "count": 2,
+          "groups": 1,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "less_grouped_early": {
+          "n": 2,
+          "count": 1,
+          "groups": 1,
+          "game_rate": 0.5,
+          "equal_group_rate": 0.5
+        },
+        "more_no_hit_deaths600": {
+          "n": 2,
+          "count": 1,
+          "groups": 1,
+          "game_rate": 0.5,
+          "equal_group_rate": 0.5
+        },
+        "slower_capture_conversion300": {
+          "n": 2,
+          "count": 0,
+          "groups": 1,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        }
+      },
+      "deaths600": [
+        5,
+        1
+      ],
+      "no_hit_deaths600": [
+        2,
+        1
+      ],
+      "median_capture_gold300": [
+        745.0,
+        791.0
+      ]
+    },
+    "control": {
+      "n": 8,
+      "groups": 3,
+      "patterns": {
+        "less_capture_gold300": {
+          "n": 8,
+          "count": 3,
+          "groups": 3,
+          "game_rate": 0.375,
+          "equal_group_rate": 0.5277777777777778
+        },
+        "less_grouped_early": {
+          "n": 8,
+          "count": 8,
+          "groups": 3,
+          "game_rate": 1,
+          "equal_group_rate": 1
+        },
+        "more_no_hit_deaths600": {
+          "n": 8,
+          "count": 0,
+          "groups": 3,
+          "game_rate": 0,
+          "equal_group_rate": 0
+        },
+        "slower_capture_conversion300": {
+          "n": 8,
+          "count": 1,
+          "groups": 3,
+          "game_rate": 0.125,
+          "equal_group_rate": 0.1111111111111111
+        }
+      },
+      "deaths600": [
+        25,
+        57
+      ],
+      "no_hit_deaths600": [
+        7,
+        11
+      ],
+      "median_capture_gold300": [
+        912.5,
+        480.0
+      ]
+    }
+  }
+}
