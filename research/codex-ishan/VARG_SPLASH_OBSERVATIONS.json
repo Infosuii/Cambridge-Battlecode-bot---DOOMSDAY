@@ -1,0 +1,514 @@
+{
+  "plan_sha256": "c88902f4373ab9ee25519346876bc85fb515de27d325314287e37efe174b4fc9",
+  "builds": {
+    "nearest": {
+      "path": "C:\\dd\\codex-sdk5-20261105\\bots\\varg-splash-nearest-20261106\\bot.wasm",
+      "wasm": "57db7f6113e403824e3f98dfcf88ab14d420851c60a333f4a5957acda53cf550",
+      "source": "7efd2fdf1666f773e5b20ccd93be896d0d469cb24a7f3cfae177a4ef02a8333c"
+    },
+    "multi": {
+      "path": "C:\\dd\\codex-sdk5-20261105\\bots\\varg-splash-multi-20261106\\bot.wasm",
+      "wasm": "d07961431eec4a1aa7c19687bccd1ea51bef5d223e0e66cf916f544766c78254",
+      "source": "4a470a55df4b824ecb63e23400997042ec0a677a682492708beaa33462b9a1bc"
+    }
+  },
+  "rows": [
+    {
+      "mode": "nearest",
+      "map": "pool_1217",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pool_1217-A",
+      "native_sha256": "417c6cfc85b3492fc9d25e3667d0214a01beff75c04df231d7b7681c83851038",
+      "archive_sha256": "289bc828f105fe14400454c46a310c0d3fcebb94e7df50fb77bd898447367d9a",
+      "stdout": "VARG_UNAVAILABLE 120\n",
+      "observation": null,
+      "unavailable": [
+        "VARG_UNAVAILABLE 120"
+      ],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "nearest",
+      "map": "pool_1217",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pool_1217-B",
+      "native_sha256": "bd3d64ba856ed497ec43fb1710e8c666c9de997443f7c65e17a9005425232d3f",
+      "archive_sha256": "707edf63fb02ada1d2023b9344e4a65c632133c42382d8a98ba4f86d96647dfb",
+      "stdout": "VARG_UNAVAILABLE 120\n",
+      "observation": null,
+      "unavailable": [
+        "VARG_UNAVAILABLE 120"
+      ],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "nearest",
+      "map": "pf_pool_77035",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pf_pool_77035-A",
+      "native_sha256": "00d21235222364de07388832cdb7ec76b1e5fa979bb381eead6a43e404ae228b",
+      "archive_sha256": "042d8faeae8a6613df18ae6f7d8194f5586f356006f32b591cdaecff136d7ad2",
+      "stdout": "VARG_ATTACK 13 0 13 6 20 68 14 7 1112014848 2 0 2109 0\nVARG_CAMP 66 20 15 7 1159069696 1158864896\nVARG_CAMP 68 20 14 7 1123024896 1116471296\n",
+      "observation": {
+        "round": 13,
+        "actor": 0,
+        "position": [
+          13,
+          6
+        ],
+        "group": 20,
+        "target": 68,
+        "target_position": [
+          14,
+          7
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 2109,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 66,
+            "group": 20,
+            "position": [
+              15,
+              7
+            ],
+            "hp_before": 2400.0,
+            "hp_after": 2350.0,
+            "damage": 50.0
+          },
+          {
+            "id": 68,
+            "group": 20,
+            "position": [
+              14,
+              7
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "nearest",
+      "map": "pf_pool_77035",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pf_pool_77035-B",
+      "native_sha256": "c7a6bdce816cfd23b3842b72e643fd26032d025f14a60a14d25f3c4cdb7950e7",
+      "archive_sha256": "ab6fe906a2df09b3787d714e29e7e4ba6632d1d8855afb29ea17613b74f51fc1",
+      "stdout": "VARG_ATTACK 13 6 49 65 21 69 48 65 1112014848 2 0 2165 0\nVARG_CAMP 67 21 47 65 1159069696 1158864896\nVARG_CAMP 69 21 48 65 1123024896 1116471296\n",
+      "observation": {
+        "round": 13,
+        "actor": 6,
+        "position": [
+          49,
+          65
+        ],
+        "group": 21,
+        "target": 69,
+        "target_position": [
+          48,
+          65
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 2165,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 67,
+            "group": 21,
+            "position": [
+              47,
+              65
+            ],
+            "hp_before": 2400.0,
+            "hp_after": 2350.0,
+            "damage": 50.0
+          },
+          {
+            "id": 69,
+            "group": 21,
+            "position": [
+              48,
+              65
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "nearest",
+      "map": "pf_pool_77072",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pf_pool_77072-A",
+      "native_sha256": "b76849e28a34db233df502bd5c16e1362efb2474d20fc230a677355661ac0210",
+      "archive_sha256": "c3dd44af07b081b1dda9828edb0d306f5aab1be6853cc97f08d655498c5325ad",
+      "stdout": "VARG_ATTACK 8 0 8 0 1 13 9 0 1112014848 2 0 485 0\nVARG_CAMP 7 1 10 0 1123024896 1116471296\nVARG_CAMP 13 1 9 0 1123024896 1116471296\n",
+      "observation": {
+        "round": 8,
+        "actor": 0,
+        "position": [
+          8,
+          0
+        ],
+        "group": 1,
+        "target": 13,
+        "target_position": [
+          9,
+          0
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 485,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 7,
+            "group": 1,
+            "position": [
+              10,
+              0
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          },
+          {
+            "id": 13,
+            "group": 1,
+            "position": [
+              9,
+              0
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "nearest",
+      "map": "pf_pool_77072",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/nearest-pf_pool_77072-B",
+      "native_sha256": "a92f276f6242fdd932760d7f9812afcb9d8f50864caf65233f0bf6a62122cd19",
+      "archive_sha256": "0d2474074f8c94820f171c972dbd87dd2d70bf6cd4f91c74b54b812477b72655",
+      "stdout": "VARG_ATTACK 8 3 42 29 0 12 41 30 1112014848 2 0 345 0\nVARG_CAMP 6 0 40 30 1123024896 1116471296\nVARG_CAMP 12 0 41 30 1123024896 1116471296\n",
+      "observation": {
+        "round": 8,
+        "actor": 3,
+        "position": [
+          42,
+          29
+        ],
+        "group": 0,
+        "target": 12,
+        "target_position": [
+          41,
+          30
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 345,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 6,
+            "group": 0,
+            "position": [
+              40,
+              30
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          },
+          {
+            "id": 12,
+            "group": 0,
+            "position": [
+              41,
+              30
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pool_1217",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pool_1217-A",
+      "native_sha256": "417c6cfc85b3492fc9d25e3667d0214a01beff75c04df231d7b7681c83851038",
+      "archive_sha256": "664035cb0734e541cde8ca9e696db81f34be16e01223369978d68dd5f3c7f908",
+      "stdout": "VARG_UNAVAILABLE 120\n",
+      "observation": null,
+      "unavailable": [
+        "VARG_UNAVAILABLE 120"
+      ],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pool_1217",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pool_1217-B",
+      "native_sha256": "bd3d64ba856ed497ec43fb1710e8c666c9de997443f7c65e17a9005425232d3f",
+      "archive_sha256": "bd96ea764612f5bec0e92467ab00c13b8d91adcb59ae410092e1ba5495bf2b3a",
+      "stdout": "VARG_UNAVAILABLE 120\n",
+      "observation": null,
+      "unavailable": [
+        "VARG_UNAVAILABLE 120"
+      ],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pf_pool_77035",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pf_pool_77035-A",
+      "native_sha256": "00d21235222364de07388832cdb7ec76b1e5fa979bb381eead6a43e404ae228b",
+      "archive_sha256": "3815529b33ea2a7ee0d84726409cf1bd1504e17ff4351365b74b48762e8df999",
+      "stdout": "VARG_ATTACK 13 0 13 6 20 68 14 7 1112014848 2 0 2109 0\nVARG_CAMP 66 20 15 7 1159069696 1158864896\nVARG_CAMP 68 20 14 7 1123024896 1116471296\n",
+      "observation": {
+        "round": 13,
+        "actor": 0,
+        "position": [
+          13,
+          6
+        ],
+        "group": 20,
+        "target": 68,
+        "target_position": [
+          14,
+          7
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 2109,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 66,
+            "group": 20,
+            "position": [
+              15,
+              7
+            ],
+            "hp_before": 2400.0,
+            "hp_after": 2350.0,
+            "damage": 50.0
+          },
+          {
+            "id": 68,
+            "group": 20,
+            "position": [
+              14,
+              7
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pf_pool_77035",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pf_pool_77035-B",
+      "native_sha256": "c7a6bdce816cfd23b3842b72e643fd26032d025f14a60a14d25f3c4cdb7950e7",
+      "archive_sha256": "7cc780df40e30445a92aa87480f2cf95b0f6b741acacb8ccf8ae7afbca605228",
+      "stdout": "VARG_ATTACK 13 6 49 65 21 69 48 65 1112014848 2 0 2165 0\nVARG_CAMP 67 21 47 65 1159069696 1158864896\nVARG_CAMP 69 21 48 65 1123024896 1116471296\n",
+      "observation": {
+        "round": 13,
+        "actor": 6,
+        "position": [
+          49,
+          65
+        ],
+        "group": 21,
+        "target": 69,
+        "target_position": [
+          48,
+          65
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 2165,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 67,
+            "group": 21,
+            "position": [
+              47,
+              65
+            ],
+            "hp_before": 2400.0,
+            "hp_after": 2350.0,
+            "damage": 50.0
+          },
+          {
+            "id": 69,
+            "group": 21,
+            "position": [
+              48,
+              65
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pf_pool_77072",
+      "side": "A",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pf_pool_77072-A",
+      "native_sha256": "b76849e28a34db233df502bd5c16e1362efb2474d20fc230a677355661ac0210",
+      "archive_sha256": "1529ed7cb797668e60457f2efb0f9abfc13d59f577fef684185718361a17b295",
+      "stdout": "VARG_ATTACK 8 0 8 0 1 13 9 0 1112014848 2 0 485 0\nVARG_CAMP 7 1 10 0 1123024896 1116471296\nVARG_CAMP 13 1 9 0 1123024896 1116471296\n",
+      "observation": {
+        "round": 8,
+        "actor": 0,
+        "position": [
+          8,
+          0
+        ],
+        "group": 1,
+        "target": 13,
+        "target_position": [
+          9,
+          0
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 485,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 7,
+            "group": 1,
+            "position": [
+              10,
+              0
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          },
+          {
+            "id": 13,
+            "group": 1,
+            "position": [
+              9,
+              0
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    },
+    {
+      "mode": "multi",
+      "map": "pf_pool_77072",
+      "side": "B",
+      "directory": "artifacts/codex-p0/varg-splash-20261106/multi-pf_pool_77072-B",
+      "native_sha256": "a92f276f6242fdd932760d7f9812afcb9d8f50864caf65233f0bf6a62122cd19",
+      "archive_sha256": "854540b4c567963ecdcd20527af896876c1b13e86684dc63c1ecd9bdf77fbee1",
+      "stdout": "VARG_ATTACK 8 3 42 29 0 12 41 30 1112014848 2 0 345 0\nVARG_CAMP 6 0 40 30 1123024896 1116471296\nVARG_CAMP 12 0 41 30 1123024896 1116471296\n",
+      "observation": {
+        "round": 8,
+        "actor": 3,
+        "position": [
+          42,
+          29
+        ],
+        "group": 0,
+        "target": 12,
+        "target_position": [
+          41,
+          30
+        ],
+        "strength": 50.0,
+        "partial": false,
+        "attack_snapshot_fuel": 345,
+        "rounds_crossed": 0,
+        "camps": [
+          {
+            "id": 6,
+            "group": 0,
+            "position": [
+              40,
+              30
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          },
+          {
+            "id": 12,
+            "group": 0,
+            "position": [
+              41,
+              30
+            ],
+            "hp_before": 120.0,
+            "hp_after": 70.0,
+            "damage": 50.0
+          }
+        ]
+      },
+      "unavailable": [],
+      "fuel": 0,
+      "errors": false
+    }
+  ],
+  "games": 12,
+  "observed": 8,
+  "fuel": 0,
+  "errors": 0,
+  "native_damage_audit": "PENDING; snapshots alone do not establish mechanics."
+}

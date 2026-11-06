@@ -1,0 +1,118 @@
+{
+  "pass": true,
+  "baseline_games": 273,
+  "reports": [
+    {
+      "prefix": "LIVE111",
+      "partition": "discovery",
+      "games": 33,
+      "native_round_corrections": 47,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "c21dc7bc3ea8cd3ae85ffc311ccc114bb6ed105d0471bfaa06d75a7b99690e9d"
+    },
+    {
+      "prefix": "LIVE111",
+      "partition": "control",
+      "games": 18,
+      "native_round_corrections": 13,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "44027ea26a159a1c860114138f7fe05839d89e6ac308dac2d211978b7f8a3246"
+    },
+    {
+      "prefix": "LIVE111",
+      "partition": "confirm",
+      "games": 28,
+      "native_round_corrections": 14,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "499c82556139effab6f62cd1fc85c953121af115b175c2cb4aa78f59f8758a41"
+    },
+    {
+      "prefix": "LIVE111B",
+      "partition": "discovery",
+      "games": 59,
+      "native_round_corrections": 94,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "61cec80d229ec9a8aed1e51f5ccf27d8de21a1d01b1499408bdb2808eaf26693"
+    },
+    {
+      "prefix": "LIVE111B",
+      "partition": "control",
+      "games": 18,
+      "native_round_corrections": 21,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "36c854fbc6cd9a48c9687efb327597dbe1d03794989ced95b32e2940f01bdc15"
+    },
+    {
+      "prefix": "LIVE111B",
+      "partition": "confirm",
+      "games": 21,
+      "native_round_corrections": 32,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "dbd0fe259d69d85d93269ef74951d459152bc99276daab128a37e498652a0ef1"
+    },
+    {
+      "prefix": "LIVE111C",
+      "partition": "discovery",
+      "games": 10,
+      "native_round_corrections": 16,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "44a091ffbb4cf55fef8c37341517a0175c5a8ef5c60bf5b5864b1a125019bc87"
+    },
+    {
+      "prefix": "LIVE111C",
+      "partition": "control",
+      "games": 8,
+      "native_round_corrections": 18,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "843351993133981c8d902dd9230badce2d7f48b4193d2b3b1448849bd46d7bc8"
+    },
+    {
+      "prefix": "LIVE111C",
+      "partition": "confirm",
+      "games": 2,
+      "native_round_corrections": 0,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "6a4696e79cab79b8b3633c152cf5e05010d1a11c148e83a58b0f6f6f897f1b64"
+    },
+    {
+      "prefix": "LIVE111D",
+      "partition": "discovery",
+      "games": 45,
+      "native_round_corrections": 63,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "7e3a0fa2ae8cb27bbeb439412801f6c43c2d5a10977a424f4e77116dd3de7c76"
+    },
+    {
+      "prefix": "LIVE111D",
+      "partition": "control",
+      "games": 18,
+      "native_round_corrections": 16,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "36f941e2bad7750191317b7dfd94100cd80f8423ccf3b65489d7cc3a2b54fa46"
+    },
+    {
+      "prefix": "LIVE111D",
+      "partition": "confirm",
+      "games": 13,
+      "native_round_corrections": 30,
+      "saved_metrics_unchanged": true,
+      "raw_context_sha256": "288690f5ddf452346799cb9fe5af7f624473bd94acae955df9350ced1443443b"
+    }
+  ],
+  "demonstration": {
+    "matchId": "01a1afba-9133-79ad-aba9-4e57efde7fd0",
+    "native_sha256": "d39ffb44510eba32a2114225eacde641b4637a0f4ba310fb74afc8dc927eb289",
+    "raw_context_sha256": "d422343aab9cbfc857cc9f875a3a4750e77dd621a8e4865c513b2bec13a6c5cd",
+    "exact_alignment": [
+      {
+        "actor": 5,
+        "sampled_round": 600,
+        "native_round": 601,
+        "native_input": 13022,
+        "native_phase": "camps",
+        "inside_cutoff": false
+      }
+    ]
+  },
+  "limits": "Exact native cutoff and actor bijection only; sampled activity context is still round-window data, not exact private decision causality."
+}

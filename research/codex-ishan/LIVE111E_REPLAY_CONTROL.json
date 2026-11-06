@@ -1,0 +1,3926 @@
+{
+  "partition": "control",
+  "n": 17,
+  "native_death_counts_match": true,
+  "exact_native_cutoff_correlated": true,
+  "archive_sha256": {
+    "01a1afb3-ad27-78be-9625-73168eae3d81": "f935c69e9b3a6ca70eea94324cf17b1918d694cfcca2fab8db91a82e1cf1d66b",
+    "01a1af8c-cbfd-76b4-af0d-d911e867fc42": "6a947c4a303fb6b98a2e22b9342fc141ab77a13ab4d96e0dec0a765abfb9f250",
+    "01a1af9f-1b01-7d30-a42b-73e60fc4bf08": "5e35703b30c4d80114905f8dd7f762272f7e35447336c14bc63e0d4ee35b1a99",
+    "01a1afba-9133-70e0-a47b-822b9ac8731e": "889c6dea786b675b4c28fe5e55bec121fb61714b7cf5d72d736d25b2ba6118c0",
+    "01a1afba-9133-77d3-8d34-e393d9173144": "ed02be08fe5de26e0d7b927d45fbfc6058617cfddd437b8ce8848ce74e09dd15",
+    "01a1af8c-cbfd-7d8f-8c4d-f5e0cd4c2c0c": "ef4f959292f52b00cc002494760b044616f40efa300b2c8ee7f0bf9f632fba5f",
+    "01a1afaf-dabb-7195-8ddd-d51407ffe4fc": "70942db1497b08b88e085af33298d34f7d34ef87b90c9c626b042d06477bfcfd",
+    "01a1af8c-cbfd-7667-a43b-f9b5de658cd3": "0529e4d01af43c0648a8c6fd70c111164e43eedbb4e13227ac36ddbb5dbf15a8",
+    "01a1afb3-ad27-703a-91f2-566c9a192215": "5f7fd4bb8df279829fd56ccbc71a334fd44a3a15387e8be4184418f4ead8e0c9",
+    "01a1af8c-cbfd-7621-aeed-1351b95345d6": "5b86d03f282839de9b6a1ecd0f3dd66ac414b40aba3eb6c8f83743a850d14c29",
+    "01a1afaf-dabb-760f-81ab-91d06ab08629": "bc1d9b888fc9331b915a160d48208bf6e34d5a24ba0e09c4c81e0c5d5c63d985",
+    "01a1afaf-dabb-7f01-a11d-cd6a731e438b": "b303a544d3a331bb84490f6b5288b2dcc7f22078bcb8bcc41a5c1b9879eb299b",
+    "01a1afdf-308f-763f-b85f-ad5ca4be56a1": "43054186c4eb5d0de877a01e55dd1c0a8571b058bad17049fafe93d80a39e595",
+    "01a1af86-1529-7684-bf7b-43b6594b3be2": "543fdc11d438360f33ddfefd16ca3c6d1bceb07e9c0e6b008620bf2976a35325",
+    "01a1af83-c4bb-7c30-a357-693db3439786": "d07a893d50ef7079c24dc46629aa9bd681472f269fbf0cedf9663e9e15e2d4a3",
+    "01a1af94-8db3-707b-a2b0-5ac46d750530": "517d05531e32404abf717f1c7a74509b4296f969c2bb654499c473f02219e086",
+    "01a1afd6-0854-779f-bd9a-ffe93f57e3e2": "8b2027642bea931fdaaa692b5e915a09c5e40ecc23d9892148ecc2a4217e6bca"
+  },
+  "tool_output_sha256": {
+    "winner_profile": "8ac2744f53932dc1e6b42484d5b9ba1d4977b0b275ce3532d472b913a7b9d364",
+    "death_context": "be66790169f59e221d67c60519cc56fd787cae2f2e228c172e2c4669a3f4eb60",
+    "capture_pressure": "ee50c78828e8ee346d1a3477aac8e4c391b04beb2f5e1191ea8fc0fb1e7be8e1"
+  },
+  "rows": [
+    {
+      "matchId": "01a1afb3-ad27-78be-9625-73168eae3d81",
+      "group": "01a1afb3-ad21-735b-b59a-926006de2162",
+      "createdAt": "2026-11-06T07:12:30.503Z",
+      "map": "03homonoliths",
+      "side": "a",
+      "opponent": "bentheboss",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        3,
+        6,
+        2
+      ],
+      "their_draft": [
+        1,
+        6,
+        0
+      ],
+      "cell_key": "f4cbb16487977fdf0b0204f831515c64e55b81175d50966e78c39965effc4f10",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 0,
+            "sampled_round": 480,
+            "native_round": 480,
+            "native_input": 8937,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 480,
+            "native_round": 480,
+            "native_input": 8937,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 4,
+            "sampled_round": 355,
+            "native_round": 355,
+            "native_input": 6687,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 2,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "3": 1,
+          "4": 1
+        },
+        "grouped_early": 0.417,
+        "workers_together": 1.06,
+        "first_contact": {
+          "round": 44,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 0,
+            "round": 6,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 1
+          },
+          {
+            "g": 20,
+            "round": 10,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 1
+          },
+          {
+            "g": 8,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 1
+          },
+          {
+            "g": 12,
+            "round": 19,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 18,
+            "size": 1
+          }
+        ],
+        "inferred_capture_gold300": 620,
+        "inferred_capture_count300": 30,
+        "inferred_clear_to_capture_delays": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "1": 1
+        },
+        "grouped_early": 0.462,
+        "workers_together": 1.09,
+        "first_contact": {
+          "round": 44,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 1,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 1
+          },
+          {
+            "g": 21,
+            "round": 12,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 1
+          },
+          {
+            "g": 9,
+            "round": 14,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 1
+          },
+          {
+            "g": 23,
+            "round": 22,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 1
+          }
+        ],
+        "inferred_capture_gold300": 768,
+        "inferred_capture_count300": 33,
+        "inferred_clear_to_capture_delays": [
+          7,
+          8,
+          8,
+          8,
+          8,
+          6,
+          13,
+          14,
+          6,
+          6,
+          12
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af8c-cbfd-76b4-af0d-d911e867fc42",
+      "group": "01a1af8c-cbe6-75f2-bfab-fb416aec73d0",
+      "createdAt": "2026-11-06T06:30:02.839Z",
+      "map": "03colosseum",
+      "side": "b",
+      "opponent": "dromedaries",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        11,
+        3,
+        10,
+        7,
+        6
+      ],
+      "cell_key": "21a794b7a87ae290b0244c86681c5c23980ef31bae205e3a3affa003d7a3ed15",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 8,
+            "sampled_round": 147,
+            "native_round": 147,
+            "native_input": 3809,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 147,
+            "native_round": 147,
+            "native_input": 3809,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 171,
+            "native_round": 171,
+            "native_input": 4425,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 233,
+            "native_round": 233,
+            "native_input": 5740,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 233,
+            "native_round": 233,
+            "native_input": 5740,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 362,
+            "native_round": 362,
+            "native_input": 8624,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 362,
+            "native_round": 362,
+            "native_input": 8624,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 452,
+            "native_round": 452,
+            "native_input": 10802,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 3,
+            "sampled_round": 179,
+            "native_round": 179,
+            "native_input": 4591,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 189,
+            "native_round": 189,
+            "native_input": 4813,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 189,
+            "native_round": 189,
+            "native_input": 4813,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 250,
+            "native_round": 250,
+            "native_input": 6089,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 271,
+            "native_round": 271,
+            "native_input": 6613,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 300,
+            "native_round": 300,
+            "native_input": 7294,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 300,
+            "native_round": 300,
+            "native_input": 7294,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 303,
+            "native_round": 303,
+            "native_input": 7373,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 350,
+            "native_round": 350,
+            "native_input": 8353,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 455,
+            "native_round": 455,
+            "native_input": 10883,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 520,
+            "native_round": 520,
+            "native_input": 12396,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 520,
+            "native_round": 520,
+            "native_input": 12396,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 574,
+            "native_round": 574,
+            "native_input": 13657,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 8,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "3": 3,
+          "4": 3,
+          "10": 2
+        },
+        "grouped_early": 0.569,
+        "workers_together": 1.24,
+        "first_contact": {
+          "round": 61,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.47,
+          "enemy_hp": 0.89,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 0,
+            "round": 3,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 4
+          },
+          {
+            "g": 12,
+            "round": 5,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 2
+          },
+          {
+            "g": 10,
+            "round": 9,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 10,
+            "size": 2
+          },
+          {
+            "g": 14,
+            "round": 11,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 3
+          }
+        ],
+        "inferred_capture_gold300": 2396,
+        "inferred_capture_count300": 33,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          6,
+          6,
+          14,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          6,
+          5,
+          6,
+          8,
+          6,
+          6,
+          5,
+          6,
+          5,
+          6,
+          3,
+          6,
+          6,
+          4,
+          6,
+          4,
+          4,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 13,
+        "no_pvp_basic_or_cast_deaths600": 3,
+        "deaths_by_type": {
+          "11": 2,
+          "3": 3,
+          "4": 3,
+          "8": 2,
+          "12": 2,
+          "7": 1
+        },
+        "grouped_early": 0.889,
+        "workers_together": 1.63,
+        "first_contact": {
+          "round": 61,
+          "allies4": 3,
+          "enemies6": 1,
+          "hp": 0.89,
+          "enemy_hp": 0.47,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 1,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 4
+          },
+          {
+            "g": 3,
+            "round": 16,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 4
+          },
+          {
+            "g": 7,
+            "round": 27,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 16,
+            "size": 3
+          },
+          {
+            "g": 11,
+            "round": 27,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 10,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 680,
+        "inferred_capture_count300": 10,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          5,
+          5,
+          8,
+          6,
+          6,
+          5,
+          6,
+          7
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af9f-1b01-7d30-a42b-73e60fc4bf08",
+      "group": "01a1af9f-1ae7-776c-8c34-3adba0bdfcf0",
+      "createdAt": "2026-11-06T06:50:02.690Z",
+      "map": "04wilds",
+      "side": "b",
+      "opponent": "Zarzorki",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        11,
+        1,
+        6,
+        0,
+        2
+      ],
+      "cell_key": "bf3540737def0a0c8d6f1bc58c9eb3ade3e7616a3971f9d765724a5b2fa6ebbe",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [],
+        "rival": []
+      },
+      "ours": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.506,
+        "workers_together": 1.28,
+        "first_contact": {
+          "round": 495,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.56,
+          "enemy_hp": 0.78,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 11,
+            "round": 18,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 22,
+            "size": 3
+          },
+          {
+            "g": 7,
+            "round": 22,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 27,
+            "size": 4
+          },
+          {
+            "g": 19,
+            "round": 36,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 32,
+            "size": 2
+          },
+          {
+            "g": 20,
+            "round": 45,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 45,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 1168,
+        "inferred_capture_count300": 12,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          5,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.561,
+        "workers_together": 1.57,
+        "first_contact": {
+          "round": 495,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.78,
+          "enemy_hp": 0.56,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 10,
+            "round": 20,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 22,
+            "size": 3
+          },
+          {
+            "g": 6,
+            "round": 40,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 27,
+            "size": 4
+          },
+          {
+            "g": 25,
+            "round": 54,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 42,
+            "size": 5
+          },
+          {
+            "g": 0,
+            "round": 81,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 42,
+            "size": 3
+          }
+        ],
+        "inferred_capture_gold300": 1252,
+        "inferred_capture_count300": 12,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afba-9133-70e0-a47b-822b9ac8731e",
+      "group": "01a1afba-9119-771f-88e4-2117bcd85c10",
+      "createdAt": "2026-11-06T07:20:02.397Z",
+      "map": "01broken_curve",
+      "side": "b",
+      "opponent": "Nameless",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        11,
+        2,
+        9
+      ],
+      "their_draft": [
+        11,
+        6,
+        1
+      ],
+      "cell_key": "cd53447f269a960e7b6d12f0ed46070bd1fdcb088c5eeb19e0dfca26d0125b48",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 3,
+            "sampled_round": 549,
+            "native_round": 549,
+            "native_input": 7118,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 1,
+            "sampled_round": 79,
+            "native_round": 79,
+            "native_input": 1057,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 134,
+            "native_round": 134,
+            "native_input": 1761,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 316,
+            "native_round": 317,
+            "native_input": 4149,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "12": 1
+        },
+        "grouped_early": 0.579,
+        "workers_together": 1.26,
+        "first_contact": {
+          "round": 22,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 0.64,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 9,
+            "round": 3,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 2
+          },
+          {
+            "g": 3,
+            "round": 15,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 9,
+            "size": 5
+          },
+          {
+            "g": 21,
+            "round": 16,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 14,
+            "size": 2
+          },
+          {
+            "g": 15,
+            "round": 46,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 1044,
+        "inferred_capture_count300": 14,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          5,
+          6,
+          6,
+          6,
+          5,
+          6,
+          5,
+          5,
+          5
+        ]
+      },
+      "rival": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "7": 1,
+          "1": 1,
+          "12": 1
+        },
+        "grouped_early": 0.53,
+        "workers_together": 1.24,
+        "first_contact": {
+          "round": 22,
+          "allies4": 1,
+          "enemies6": 2,
+          "hp": 1,
+          "enemy_hp": 0.82,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 8,
+            "round": 5,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 2
+          },
+          {
+            "g": 2,
+            "round": 22,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 9,
+            "size": 5
+          },
+          {
+            "g": 17,
+            "round": 27,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 17,
+            "size": 2
+          },
+          {
+            "g": 14,
+            "round": 28,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 651,
+        "inferred_capture_count300": 8,
+        "inferred_clear_to_capture_delays": [
+          7,
+          6,
+          6,
+          6,
+          6,
+          7,
+          6,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afba-9133-77d3-8d34-e393d9173144",
+      "group": "01a1afba-9119-771f-88e4-2117bcd85c10",
+      "createdAt": "2026-11-06T07:20:02.420Z",
+      "map": "04plaza",
+      "side": "b",
+      "opponent": "Nameless",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        9,
+        6
+      ],
+      "their_draft": [
+        11,
+        6,
+        1
+      ],
+      "cell_key": "223db7e20bf90040e21ff8b170f2e5ab4d138a581943ec222316def7cfa4a305",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 4,
+            "sampled_round": 396,
+            "native_round": 396,
+            "native_input": 5636,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 425,
+            "native_round": 425,
+            "native_input": 5968,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 502,
+            "native_round": 502,
+            "native_input": 6915,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 554,
+            "native_round": 554,
+            "native_input": 7637,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 0,
+            "sampled_round": 396,
+            "native_round": 396,
+            "native_input": 5639,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 4,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "10": 2,
+          "2": 2
+        },
+        "grouped_early": 0.509,
+        "workers_together": 1.21,
+        "first_contact": {
+          "round": 9,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 7,
+            "round": 7,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 4
+          },
+          {
+            "g": 11,
+            "round": 9,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 9,
+            "size": 3
+          },
+          {
+            "g": 10,
+            "round": 10,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 10,
+            "size": 3
+          },
+          {
+            "g": 6,
+            "round": 15,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 15,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 1290,
+        "inferred_capture_count300": 15,
+        "inferred_clear_to_capture_delays": [
+          20,
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          5,
+          5,
+          6,
+          6,
+          6,
+          5
+        ]
+      },
+      "rival": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "12": 1
+        },
+        "grouped_early": 0.448,
+        "workers_together": 1.2,
+        "first_contact": {
+          "round": 9,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 4,
+            "round": 10,
+            "workers": 2,
+            "own_side": false,
+            "dist_own": 12,
+            "size": 3
+          },
+          {
+            "g": 5,
+            "round": 14,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 12,
+            "size": 3
+          },
+          {
+            "g": 6,
+            "round": 15,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 4
+          },
+          {
+            "g": 19,
+            "round": 45,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 591,
+        "inferred_capture_count300": 6,
+        "inferred_clear_to_capture_delays": [
+          34,
+          6,
+          5,
+          5,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af8c-cbfd-7d8f-8c4d-f5e0cd4c2c0c",
+      "group": "01a1af8c-cbe6-75f2-bfab-fb416aec73d0",
+      "createdAt": "2026-11-06T06:30:02.817Z",
+      "map": "04fault_lines",
+      "side": "b",
+      "opponent": "dromedaries",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        11,
+        6,
+        3
+      ],
+      "their_draft": [
+        11,
+        10,
+        7,
+        6
+      ],
+      "cell_key": "07736a3f366ad51df015dc8f28ae8659fea721217a086f8c792170a9992aebcc",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 7,
+            "sampled_round": 96,
+            "native_round": 96,
+            "native_input": 2064,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 96,
+            "native_round": 96,
+            "native_input": 2064,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 183,
+            "native_round": 183,
+            "native_input": 3669,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 183,
+            "native_round": 183,
+            "native_input": 3669,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 282,
+            "native_round": 282,
+            "native_input": 5420,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 303,
+            "native_round": 303,
+            "native_input": 5875,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 331,
+            "native_round": 331,
+            "native_input": 6394,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 516,
+            "native_round": 516,
+            "native_input": 9960,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 516,
+            "native_round": 516,
+            "native_input": 9960,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 524,
+            "native_round": 524,
+            "native_input": 10111,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 562,
+            "native_round": 562,
+            "native_input": 10737,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 2,
+            "sampled_round": 92,
+            "native_round": 92,
+            "native_input": 1976,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 102,
+            "native_round": 102,
+            "native_input": 2166,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 171,
+            "native_round": 171,
+            "native_input": 3417,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 195,
+            "native_round": 195,
+            "native_input": 3905,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 199,
+            "native_round": 199,
+            "native_input": 3984,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 207,
+            "native_round": 207,
+            "native_input": 4131,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 382,
+            "native_round": 382,
+            "native_input": 7370,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 412,
+            "native_round": 412,
+            "native_input": 8034,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 423,
+            "native_round": 423,
+            "native_input": 8272,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 424,
+            "native_round": 424,
+            "native_input": 8288,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 514,
+            "native_round": 514,
+            "native_input": 9893,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 11,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "3": 3,
+          "4": 3,
+          "2": 1,
+          "12": 2,
+          "7": 2
+        },
+        "grouped_early": 0.566,
+        "workers_together": 1.24,
+        "first_contact": {
+          "round": 35,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.6,
+          "enemy_hp": 0.98,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 5,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 3
+          },
+          {
+            "g": 12,
+            "round": 10,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 4
+          },
+          {
+            "g": 10,
+            "round": 13,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 15,
+            "size": 2
+          },
+          {
+            "g": 6,
+            "round": 27,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 20,
+            "size": 5
+          }
+        ],
+        "inferred_capture_gold300": 450,
+        "inferred_capture_count300": 6,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          5,
+          9
+        ]
+      },
+      "rival": {
+        "deaths600": 11,
+        "no_pvp_basic_or_cast_deaths600": 5,
+        "deaths_by_type": {
+          "8": 3,
+          "11": 4,
+          "12": 2,
+          "7": 2
+        },
+        "grouped_early": 0.643,
+        "workers_together": 1.68,
+        "first_contact": {
+          "round": 35,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.98,
+          "enemy_hp": 0.6,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 4,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 3
+          },
+          {
+            "g": 2,
+            "round": 22,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 14,
+            "size": 4
+          },
+          {
+            "g": 13,
+            "round": 70,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 4
+          },
+          {
+            "g": 11,
+            "round": 142,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 15,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 240,
+        "inferred_capture_count300": 3,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          6
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afaf-dabb-7195-8ddd-d51407ffe4fc",
+      "group": "01a1afaf-dab7-7ebb-a002-3362bf25ebc1",
+      "createdAt": "2026-11-06T07:08:20.028Z",
+      "map": "01concentrated_wealth",
+      "side": "b",
+      "opponent": "an iq too high",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        0,
+        8
+      ],
+      "their_draft": [
+        1,
+        2,
+        11,
+        6,
+        0
+      ],
+      "cell_key": "d346f5e236f723a90a0dca81b24499931703b87c7476240875a3eff302a3ee01",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 10,
+            "sampled_round": 227,
+            "native_round": 227,
+            "native_input": 8384,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 516,
+            "native_round": 516,
+            "native_input": 18449,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 516,
+            "native_round": 516,
+            "native_input": 18449,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 525,
+            "native_round": 525,
+            "native_input": 18797,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 530,
+            "native_round": 530,
+            "native_input": 18989,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 4,
+            "sampled_round": 206,
+            "native_round": 206,
+            "native_input": 7614,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 377,
+            "native_round": 377,
+            "native_input": 13825,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 424,
+            "native_round": 424,
+            "native_input": 15415,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 447,
+            "native_round": 447,
+            "native_input": 16205,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 455,
+            "native_round": 455,
+            "native_input": 16472,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 562,
+            "native_round": 562,
+            "native_input": 20015,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 5,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "9": 1,
+          "3": 1,
+          "4": 1,
+          "10": 1,
+          "0": 1
+        },
+        "grouped_early": 0.625,
+        "workers_together": 1.41,
+        "first_contact": {
+          "round": 79,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 0.84,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 6,
+            "round": 23,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 27,
+            "size": 3
+          },
+          {
+            "g": 0,
+            "round": 28,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 28,
+            "size": 21
+          },
+          {
+            "g": 4,
+            "round": 66,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 57,
+            "size": 3
+          },
+          {
+            "g": 10,
+            "round": 271,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 41,
+            "size": 1
+          }
+        ],
+        "inferred_capture_gold300": 420,
+        "inferred_capture_count300": 5,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          7,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 6,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "0": 2,
+          "1": 1,
+          "12": 1,
+          "2": 2
+        },
+        "grouped_early": 0.765,
+        "workers_together": 1.94,
+        "first_contact": {
+          "round": 79,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.84,
+          "enemy_hp": 1,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 5,
+            "round": 24,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 28,
+            "size": 3
+          },
+          {
+            "g": 9,
+            "round": 47,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 41,
+            "size": 1
+          },
+          {
+            "g": 0,
+            "round": 92,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 28,
+            "size": 21
+          },
+          {
+            "g": 8,
+            "round": 95,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 33,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 1365,
+        "inferred_capture_count300": 11,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          6,
+          6,
+          23,
+          6,
+          6,
+          6
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af8c-cbfd-7667-a43b-f9b5de658cd3",
+      "group": "01a1af8c-cbe6-75f2-bfab-fb416aec73d0",
+      "createdAt": "2026-11-06T06:30:02.842Z",
+      "map": "00gem_fields",
+      "side": "b",
+      "opponent": "dromedaries",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        6,
+        7,
+        11,
+        9
+      ],
+      "their_draft": [
+        11,
+        3,
+        10,
+        7,
+        6
+      ],
+      "cell_key": "e91ca6206878ad596e8b26511d55b7e77f391fd71f300ec198f3f40f017e59e4",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 6,
+            "sampled_round": 238,
+            "native_round": 238,
+            "native_input": 5567,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 1,
+            "sampled_round": 118,
+            "native_round": 118,
+            "native_input": 2777,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 118,
+            "native_round": 118,
+            "native_input": 2777,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 233,
+            "native_round": 233,
+            "native_input": 5421,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 4,
+            "sampled_round": 238,
+            "native_round": 238,
+            "native_input": 5538,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 249,
+            "native_round": 249,
+            "native_input": 5815,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 249,
+            "native_round": 249,
+            "native_input": 5815,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 260,
+            "native_round": 260,
+            "native_input": 6032,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 585,
+            "native_round": 585,
+            "native_input": 13175,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "2": 1
+        },
+        "grouped_early": 0.619,
+        "workers_together": 1.55,
+        "first_contact": {
+          "round": 32,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.8,
+          "enemy_hp": 0.94,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 5,
+            "round": 12,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 10,
+            "size": 9
+          },
+          {
+            "g": 6,
+            "round": 35,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 16,
+            "size": 1
+          },
+          {
+            "g": 2,
+            "round": 48,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 23,
+            "size": 6
+          },
+          {
+            "g": 13,
+            "round": 52,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 22,
+            "size": 1
+          }
+        ],
+        "inferred_capture_gold300": 530,
+        "inferred_capture_count300": 7,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          5,
+          5,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 8,
+        "no_pvp_basic_or_cast_deaths600": 4,
+        "deaths_by_type": {
+          "3": 2,
+          "4": 2,
+          "12": 1,
+          "8": 1,
+          "11": 2
+        },
+        "grouped_early": 0.827,
+        "workers_together": 1.95,
+        "first_contact": {
+          "round": 32,
+          "allies4": 5,
+          "enemies6": 1,
+          "hp": 0.94,
+          "enemy_hp": 0.8,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 14,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 1
+          },
+          {
+            "g": 0,
+            "round": 12,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 11,
+            "size": 1
+          },
+          {
+            "g": 4,
+            "round": 20,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 10,
+            "size": 9
+          },
+          {
+            "g": 10,
+            "round": 59,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 23,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 490,
+        "inferred_capture_count300": 6,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          6,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afb3-ad27-703a-91f2-566c9a192215",
+      "group": "01a1afb3-ad21-735b-b59a-926006de2162",
+      "createdAt": "2026-11-06T07:12:30.505Z",
+      "map": "04dunes",
+      "side": "a",
+      "opponent": "bentheboss",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        1,
+        6,
+        8,
+        3,
+        0
+      ],
+      "cell_key": "34e4d092d99b426325191b3f7c6a78656d181920eb9515bd8c9923f42dc73308",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 0,
+            "sampled_round": 414,
+            "native_round": 414,
+            "native_input": 14315,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 551,
+            "native_round": 551,
+            "native_input": 19110,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 589,
+            "native_round": 589,
+            "native_input": 20414,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 11,
+            "sampled_round": 190,
+            "native_round": 190,
+            "native_input": 6745,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 300,
+            "native_round": 300,
+            "native_input": 10448,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 555,
+            "native_round": 555,
+            "native_input": 19242,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "2": 1,
+          "10": 1,
+          "12": 1
+        },
+        "grouped_early": 0.48,
+        "workers_together": 1.19,
+        "first_contact": {
+          "round": 50,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 0.58,
+          "enemy_hp": 0.91,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 7,
+            "round": 17,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 5
+          },
+          {
+            "g": 3,
+            "round": 19,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 17,
+            "size": 3
+          },
+          {
+            "g": 1,
+            "round": 19,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 4
+          },
+          {
+            "g": 5,
+            "round": 21,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 23,
+            "size": 3
+          }
+        ],
+        "inferred_capture_gold300": 980,
+        "inferred_capture_count300": 16,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          6,
+          5,
+          6,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "0": 1,
+          "9": 2
+        },
+        "grouped_early": 0.723,
+        "workers_together": 1.39,
+        "first_contact": {
+          "round": 50,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 0.91,
+          "enemy_hp": 0.58,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 4,
+            "round": 15,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 17,
+            "size": 3
+          },
+          {
+            "g": 2,
+            "round": 20,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 4
+          },
+          {
+            "g": 8,
+            "round": 26,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 5
+          },
+          {
+            "g": 0,
+            "round": 50,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 27,
+            "size": 5
+          }
+        ],
+        "inferred_capture_gold300": 952,
+        "inferred_capture_count300": 12,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          5,
+          5,
+          6,
+          5,
+          7,
+          5,
+          5,
+          5,
+          11,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af8c-cbfd-7621-aeed-1351b95345d6",
+      "group": "01a1af8c-cbe6-75f2-bfab-fb416aec73d0",
+      "createdAt": "2026-11-06T06:30:02.804Z",
+      "map": "00fragment",
+      "side": "b",
+      "opponent": "dromedaries",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        6,
+        11
+      ],
+      "their_draft": [
+        11,
+        6,
+        3
+      ],
+      "cell_key": "3c5ae9e507cc4c2bf176ed587384b0fe2ba81fa7d56e81a63699a3f476e7a43e",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 4,
+            "sampled_round": 390,
+            "native_round": 390,
+            "native_input": 6094,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 2,
+            "sampled_round": 67,
+            "native_round": 67,
+            "native_input": 1138,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 67,
+            "native_round": 67,
+            "native_input": 1138,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 161,
+            "native_round": 161,
+            "native_input": 2606,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 161,
+            "native_round": 161,
+            "native_input": 2606,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 169,
+            "native_round": 169,
+            "native_input": 2737,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 482,
+            "native_round": 482,
+            "native_input": 7483,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 482,
+            "native_round": 482,
+            "native_input": 7483,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 486,
+            "native_round": 486,
+            "native_input": 7554,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 560,
+            "native_round": 560,
+            "native_input": 8546,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 560,
+            "native_round": 560,
+            "native_input": 8546,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "2": 1
+        },
+        "grouped_early": 0.507,
+        "workers_together": 1.3,
+        "first_contact": {
+          "round": 10,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.93,
+          "enemy_hp": 0.98,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 5,
+            "round": 6,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 2
+          },
+          {
+            "g": 1,
+            "round": 10,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 10,
+            "size": 4
+          },
+          {
+            "g": 3,
+            "round": 12,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 2
+          },
+          {
+            "g": 0,
+            "round": 122,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 15,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 825,
+        "inferred_capture_count300": 9,
+        "inferred_clear_to_capture_delays": [
+          6,
+          5,
+          6,
+          5,
+          6,
+          13
+        ]
+      },
+      "rival": {
+        "deaths600": 10,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "3": 4,
+          "4": 4,
+          "12": 2
+        },
+        "grouped_early": 0.794,
+        "workers_together": 2.09,
+        "first_contact": {
+          "round": 10,
+          "allies4": 3,
+          "enemies6": 1,
+          "hp": 0.98,
+          "enemy_hp": 0.93,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 0,
+            "round": 8,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 10,
+            "size": 4
+          },
+          {
+            "g": 1,
+            "round": 31,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 15,
+            "size": 4
+          },
+          {
+            "g": 2,
+            "round": 83,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 2
+          },
+          {
+            "g": 4,
+            "round": 205,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 7,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 480,
+        "inferred_capture_count300": 5,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          5,
+          6
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afaf-dabb-760f-81ab-91d06ab08629",
+      "group": "01a1afaf-dab7-7ebb-a002-3362bf25ebc1",
+      "createdAt": "2026-11-06T07:08:20.028Z",
+      "map": "01boss_battle",
+      "side": "b",
+      "opponent": "an iq too high",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        0,
+        8
+      ],
+      "their_draft": [
+        1,
+        2,
+        11,
+        6,
+        0
+      ],
+      "cell_key": "e5551022e1b4bbb4a9acc9f4b130dfb0d459d618aa92010aeb9310c133461a79",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 5,
+            "sampled_round": 94,
+            "native_round": 95,
+            "native_input": 3363,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 173,
+            "native_round": 174,
+            "native_input": 5990,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 252,
+            "native_round": 253,
+            "native_input": 8756,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 253,
+            "native_round": 254,
+            "native_input": 8793,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 253,
+            "native_round": 254,
+            "native_input": 8793,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 330,
+            "native_round": 331,
+            "native_input": 11256,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 337,
+            "native_round": 338,
+            "native_input": 11480,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 337,
+            "native_round": 338,
+            "native_input": 11480,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 409,
+            "native_round": 410,
+            "native_input": 13794,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 418,
+            "native_round": 419,
+            "native_input": 14106,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 418,
+            "native_round": 419,
+            "native_input": 14106,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 488,
+            "native_round": 489,
+            "native_input": 16381,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 5,
+            "sampled_round": 582,
+            "native_round": 583,
+            "native_input": 19619,
+            "native_phase": "camps",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": []
+      },
+      "ours": {
+        "deaths600": 13,
+        "no_pvp_basic_or_cast_deaths600": 9,
+        "deaths_by_type": {
+          "2": 7,
+          "3": 3,
+          "4": 3
+        },
+        "grouped_early": 0.707,
+        "workers_together": 1.98,
+        "first_contact": {
+          "round": 68,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 0.98,
+          "enemy_hp": 0.46,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 22,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 4
+          },
+          {
+            "g": 24,
+            "round": 13,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 15,
+            "size": 3
+          },
+          {
+            "g": 13,
+            "round": 27,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 21,
+            "size": 3
+          },
+          {
+            "g": 5,
+            "round": 30,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 17,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 1673,
+        "inferred_capture_count300": 15,
+        "inferred_clear_to_capture_delays": [
+          6,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          6,
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "rival": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.738,
+        "workers_together": 2.25,
+        "first_contact": {
+          "round": 68,
+          "allies4": 3,
+          "enemies6": 1,
+          "hp": 0.46,
+          "enemy_hp": 0.98,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 8,
+            "round": 13,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 4
+          },
+          {
+            "g": 21,
+            "round": 43,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 13,
+            "size": 4
+          },
+          {
+            "g": 4,
+            "round": 68,
+            "workers": 3,
+            "own_side": true,
+            "dist_own": 18,
+            "size": 4
+          },
+          {
+            "g": 12,
+            "round": 89,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 20,
+            "size": 3
+          }
+        ],
+        "inferred_capture_gold300": 3187,
+        "inferred_capture_count300": 17,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          6,
+          5,
+          7,
+          4,
+          6,
+          5,
+          4,
+          9,
+          5,
+          3,
+          6,
+          4,
+          7,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afaf-dabb-7f01-a11d-cd6a731e438b",
+      "group": "01a1afaf-dab7-7ebb-a002-3362bf25ebc1",
+      "createdAt": "2026-11-06T07:08:20.028Z",
+      "map": "01corridors",
+      "side": "a",
+      "opponent": "an iq too high",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        1,
+        2,
+        11,
+        6,
+        0
+      ],
+      "cell_key": "e57d4d83e7b9d4b06165c59dc46d4ddbd34a118ae924d062ac4f584231793182",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 0,
+            "sampled_round": 496,
+            "native_round": 496,
+            "native_input": 17709,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 8,
+            "sampled_round": 400,
+            "native_round": 400,
+            "native_input": 14500,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 431,
+            "native_round": 431,
+            "native_input": 15554,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 596,
+            "native_round": 596,
+            "native_input": 21341,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 1,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "2": 1
+        },
+        "grouped_early": 0.462,
+        "workers_together": 1.49,
+        "first_contact": {
+          "round": 74,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.78,
+          "enemy_hp": 1,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 5,
+            "round": 25,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 4
+          },
+          {
+            "g": 11,
+            "round": 27,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 20,
+            "size": 4
+          },
+          {
+            "g": 4,
+            "round": 72,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 20,
+            "size": 6
+          },
+          {
+            "g": 2,
+            "round": 90,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 24,
+            "size": 6
+          }
+        ],
+        "inferred_capture_gold300": 1135,
+        "inferred_capture_count300": 8,
+        "inferred_clear_to_capture_delays": [
+          10,
+          9,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "12": 1,
+          "2": 2
+        },
+        "grouped_early": 0.904,
+        "workers_together": 1.71,
+        "first_contact": {
+          "round": 74,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 0.78,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 1,
+            "round": 16,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 19,
+            "size": 6
+          },
+          {
+            "g": 6,
+            "round": 223,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 19,
+            "size": 6
+          },
+          {
+            "g": 5,
+            "round": 319,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 19,
+            "size": 4
+          },
+          {
+            "g": 4,
+            "round": 751,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 20,
+            "size": 6
+          }
+        ],
+        "inferred_capture_gold300": 446,
+        "inferred_capture_count300": 2,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afdf-308f-763f-b85f-ad5ca4be56a1",
+      "group": "01a1afdf-3076-7841-9976-c81aee3852a0",
+      "createdAt": "2026-11-06T08:00:02.522Z",
+      "map": "04restricted_area",
+      "side": "a",
+      "opponent": "smurphy",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        2,
+        6,
+        0
+      ],
+      "their_draft": [
+        1,
+        6,
+        3
+      ],
+      "cell_key": "b3358c636ba4cd3c9c666c846b06e07ccf96ba27c2539a251dbc2df0b8fa7a6e",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 1,
+            "sampled_round": 71,
+            "native_round": 71,
+            "native_input": 1661,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 0,
+            "sampled_round": 193,
+            "native_round": 193,
+            "native_input": 4473,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 2,
+            "sampled_round": 473,
+            "native_round": 473,
+            "native_input": 10395,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 5,
+            "sampled_round": 335,
+            "native_round": 335,
+            "native_input": 7627,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 335,
+            "native_round": 335,
+            "native_input": 7627,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 567,
+            "native_round": 567,
+            "native_input": 12518,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 1,
+        "deaths_by_type": {
+          "7": 1,
+          "2": 1,
+          "0": 1
+        },
+        "grouped_early": 0.339,
+        "workers_together": 1.11,
+        "first_contact": {
+          "round": 30,
+          "allies4": 2,
+          "enemies6": 2,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 11,
+            "round": 7,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 9,
+            "size": 2
+          },
+          {
+            "g": 5,
+            "round": 16,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 9,
+            "size": 4
+          },
+          {
+            "g": 4,
+            "round": 22,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 14,
+            "size": 4
+          },
+          {
+            "g": 13,
+            "round": 29,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 17,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 160,
+        "inferred_capture_count300": 4,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          6,
+          5
+        ]
+      },
+      "rival": {
+        "deaths600": 3,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "3": 1,
+          "4": 1,
+          "1": 1
+        },
+        "grouped_early": 0.524,
+        "workers_together": 1.24,
+        "first_contact": {
+          "round": 30,
+          "allies4": 2,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 12,
+            "round": 6,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 2
+          },
+          {
+            "g": 1,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 14,
+            "size": 2
+          },
+          {
+            "g": 6,
+            "round": 25,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 8,
+            "size": 4
+          },
+          {
+            "g": 3,
+            "round": 28,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 20,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 279,
+        "inferred_capture_count300": 6,
+        "inferred_clear_to_capture_delays": [
+          6,
+          7,
+          7,
+          8,
+          7
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af86-1529-7684-bf7b-43b6594b3be2",
+      "group": "01a1af86-1521-7d59-a841-1cc2b1416e8a",
+      "createdAt": "2026-11-06T06:22:42.476Z",
+      "map": "04orchard",
+      "side": "b",
+      "opponent": "an iq too high",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        1,
+        2,
+        11,
+        6,
+        0
+      ],
+      "cell_key": "5d7e7234fcb34c0a485a2e6e6fb521ec65bffbaa2073975a60a4de4197220559",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [],
+        "rival": []
+      },
+      "ours": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.483,
+        "workers_together": 1.26,
+        "first_contact": {
+          "round": 256,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.34,
+          "enemy_hp": 0.88,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 1,
+            "round": 4,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 6,
+            "size": 5
+          },
+          {
+            "g": 9,
+            "round": 7,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 5,
+            "size": 3
+          },
+          {
+            "g": 13,
+            "round": 18,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 11,
+            "size": 4
+          },
+          {
+            "g": 19,
+            "round": 33,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 37,
+            "size": 9
+          }
+        ],
+        "inferred_capture_gold300": 2756,
+        "inferred_capture_count300": 17,
+        "inferred_clear_to_capture_delays": [
+          5,
+          6,
+          19,
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          6,
+          6,
+          5,
+          6,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.661,
+        "workers_together": 1.83,
+        "first_contact": {
+          "round": 256,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 0.88,
+          "enemy_hp": 0.34,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 0,
+            "round": 9,
+            "workers": 3,
+            "own_side": true,
+            "dist_own": 5,
+            "size": 5
+          },
+          {
+            "g": 8,
+            "round": 13,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 5,
+            "size": 3
+          },
+          {
+            "g": 6,
+            "round": 33,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 3
+          },
+          {
+            "g": 2,
+            "round": 37,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 5
+          }
+        ],
+        "inferred_capture_gold300": 3050,
+        "inferred_capture_count300": 17,
+        "inferred_clear_to_capture_delays": [
+          5,
+          5,
+          5,
+          5,
+          4,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          4,
+          5,
+          3,
+          4
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af83-c4bb-7c30-a357-693db3439786",
+      "group": "01a1af83-c4b9-76d6-8db0-cef9dde80cb6",
+      "createdAt": "2026-11-06T06:20:10.811Z",
+      "map": "03one_gem",
+      "side": "a",
+      "opponent": "bentheboss",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        9,
+        3,
+        6,
+        11
+      ],
+      "their_draft": [
+        1,
+        6,
+        8,
+        3,
+        0
+      ],
+      "cell_key": "0471a77d3818cf09d58ca0682218916e4c43cb56bae58f681c4796d466f11ed9",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 2,
+            "sampled_round": 511,
+            "native_round": 511,
+            "native_input": 16705,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 3,
+            "sampled_round": 511,
+            "native_round": 511,
+            "native_input": 16705,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": [
+          {
+            "actor": 6,
+            "sampled_round": 126,
+            "native_round": 126,
+            "native_input": 4416,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 206,
+            "native_round": 206,
+            "native_input": 6957,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 248,
+            "native_round": 248,
+            "native_input": 8307,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 10,
+            "sampled_round": 248,
+            "native_round": 248,
+            "native_input": 8307,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 300,
+            "native_round": 300,
+            "native_input": 9852,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 351,
+            "native_round": 351,
+            "native_input": 11399,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 412,
+            "native_round": 412,
+            "native_input": 13345,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 7,
+            "sampled_round": 487,
+            "native_round": 487,
+            "native_input": 15906,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 11,
+            "sampled_round": 507,
+            "native_round": 507,
+            "native_input": 16549,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 9,
+            "sampled_round": 513,
+            "native_round": 513,
+            "native_input": 16758,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 10,
+            "sampled_round": 513,
+            "native_round": 513,
+            "native_input": 16758,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 8,
+            "sampled_round": 524,
+            "native_round": 524,
+            "native_input": 17029,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 6,
+            "sampled_round": 526,
+            "native_round": 526,
+            "native_input": 17082,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ]
+      },
+      "ours": {
+        "deaths600": 2,
+        "no_pvp_basic_or_cast_deaths600": 2,
+        "deaths_by_type": {
+          "3": 1,
+          "4": 1
+        },
+        "grouped_early": 0.508,
+        "workers_together": 1.19,
+        "first_contact": {
+          "round": 45,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 13,
+            "round": 6,
+            "workers": 5,
+            "own_side": true,
+            "dist_own": 4,
+            "size": 2
+          },
+          {
+            "g": 31,
+            "round": 12,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 2
+          },
+          {
+            "g": 25,
+            "round": 23,
+            "workers": 2,
+            "own_side": true,
+            "dist_own": 11,
+            "size": 2
+          },
+          {
+            "g": 11,
+            "round": 23,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 24,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 1669,
+        "inferred_capture_count300": 32,
+        "inferred_clear_to_capture_delays": [
+          7,
+          11,
+          5,
+          5,
+          7,
+          5,
+          5,
+          6,
+          5,
+          5,
+          6,
+          5,
+          6,
+          6,
+          5,
+          6,
+          5,
+          6,
+          5,
+          5,
+          6,
+          6,
+          5,
+          5,
+          5,
+          9,
+          5,
+          5,
+          6,
+          5
+        ]
+      },
+      "rival": {
+        "deaths600": 13,
+        "no_pvp_basic_or_cast_deaths600": 3,
+        "deaths_by_type": {
+          "1": 5,
+          "3": 2,
+          "4": 2,
+          "9": 2,
+          "7": 1,
+          "0": 1
+        },
+        "grouped_early": 0.393,
+        "workers_together": 1.12,
+        "first_contact": {
+          "round": 45,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 14,
+            "round": 7,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 4,
+            "size": 2
+          },
+          {
+            "g": 32,
+            "round": 10,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 2
+          },
+          {
+            "g": 26,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 11,
+            "size": 2
+          },
+          {
+            "g": 6,
+            "round": 21,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 11,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 2212,
+        "inferred_capture_count300": 41,
+        "inferred_clear_to_capture_delays": [
+          6,
+          5,
+          7,
+          6,
+          5,
+          6,
+          6,
+          5,
+          7,
+          5,
+          5,
+          5,
+          7,
+          6,
+          7,
+          5,
+          7,
+          6,
+          6,
+          5,
+          5,
+          5,
+          7,
+          5,
+          5,
+          7,
+          6,
+          5,
+          7,
+          5,
+          5,
+          7,
+          5,
+          5,
+          6,
+          5,
+          3,
+          4,
+          3,
+          4,
+          3
+        ]
+      }
+    },
+    {
+      "matchId": "01a1af94-8db3-707b-a2b0-5ac46d750530",
+      "group": "01a1af94-8db1-72a7-a1a6-cb9f816941ef",
+      "createdAt": "2026-11-06T06:38:30.837Z",
+      "map": "00stampede",
+      "side": "a",
+      "opponent": "smurphy",
+      "result": "win",
+      "kind": "unranked",
+      "our_draft": [
+        2,
+        6,
+        7,
+        11,
+        9
+      ],
+      "their_draft": [
+        6,
+        2,
+        8,
+        3,
+        7
+      ],
+      "cell_key": "9df93e76f5778fe5164aabff733a0ca99a81ebd0049152efe768ba17b0a3e36e",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [
+          {
+            "actor": 0,
+            "sampled_round": 338,
+            "native_round": 338,
+            "native_input": 12077,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          },
+          {
+            "actor": 1,
+            "sampled_round": 382,
+            "native_round": 382,
+            "native_input": 13541,
+            "native_phase": "champions",
+            "inside_cutoff": true
+          }
+        ],
+        "rival": []
+      },
+      "ours": {
+        "deaths600": 2,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {
+          "2": 1,
+          "7": 1
+        },
+        "grouped_early": 0.408,
+        "workers_together": 1.05,
+        "first_contact": {
+          "round": 28,
+          "allies4": 1,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 2,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 2
+          },
+          {
+            "g": 4,
+            "round": 30,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 33,
+            "size": 2
+          },
+          {
+            "g": 6,
+            "round": 42,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 41,
+            "size": 2
+          },
+          {
+            "g": 8,
+            "round": 53,
+            "workers": 1,
+            "own_side": false,
+            "dist_own": 49,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 800,
+        "inferred_capture_count300": 20,
+        "inferred_clear_to_capture_delays": [
+          8,
+          6,
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          10,
+          6,
+          8
+        ]
+      },
+      "rival": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.696,
+        "workers_together": 1.64,
+        "first_contact": {
+          "round": 28,
+          "allies4": 3,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 1,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 3,
+            "round": 10,
+            "workers": 3,
+            "own_side": true,
+            "dist_own": 12,
+            "size": 2
+          },
+          {
+            "g": 1,
+            "round": 28,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 23,
+            "size": 2
+          },
+          {
+            "g": 11,
+            "round": 37,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 24,
+            "size": 4
+          },
+          {
+            "g": 5,
+            "round": 46,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 33,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 1260,
+        "inferred_capture_count300": 23,
+        "inferred_clear_to_capture_delays": [
+          6,
+          6,
+          5,
+          6,
+          8,
+          6,
+          7,
+          5,
+          8,
+          5,
+          3,
+          8,
+          4,
+          3,
+          4,
+          7,
+          4,
+          4,
+          3,
+          7,
+          4
+        ]
+      }
+    },
+    {
+      "matchId": "01a1afd6-0854-779f-bd9a-ffe93f57e3e2",
+      "group": "01a1afd6-0831-728d-9da0-e3922a873048",
+      "createdAt": "2026-11-06T07:50:02.382Z",
+      "map": "02harvest",
+      "side": "b",
+      "opponent": "The Party of Heroes",
+      "result": "win",
+      "kind": "ranked",
+      "our_draft": [
+        1,
+        11,
+        2,
+        0,
+        6
+      ],
+      "their_draft": [
+        0,
+        1,
+        2,
+        6,
+        11
+      ],
+      "cell_key": "a9774836d0c8be4540af380d80f208d660555d1771ecc86cc9e656f31f7bc61f",
+      "partition": "control",
+      "death_native_alignment": {
+        "ours": [],
+        "rival": []
+      },
+      "ours": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.403,
+        "workers_together": 1.21,
+        "first_contact": {
+          "round": 121,
+          "allies4": 1,
+          "enemies6": 3,
+          "hp": 0.97,
+          "enemy_hp": 0.84,
+          "own_side": false
+        },
+        "route": [
+          {
+            "g": 11,
+            "round": 12,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 15,
+            "size": 1
+          },
+          {
+            "g": 13,
+            "round": 20,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 3
+          },
+          {
+            "g": 15,
+            "round": 43,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 27,
+            "size": 4
+          },
+          {
+            "g": 5,
+            "round": 52,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 18,
+            "size": 2
+          }
+        ],
+        "inferred_capture_gold300": 980,
+        "inferred_capture_count300": 14,
+        "inferred_clear_to_capture_delays": [
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          5,
+          6,
+          6,
+          5,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rival": {
+        "deaths600": 0,
+        "no_pvp_basic_or_cast_deaths600": 0,
+        "deaths_by_type": {},
+        "grouped_early": 0.45,
+        "workers_together": 1.39,
+        "first_contact": {
+          "round": 121,
+          "allies4": 3,
+          "enemies6": 1,
+          "hp": 1,
+          "enemy_hp": 0.97,
+          "own_side": true
+        },
+        "route": [
+          {
+            "g": 10,
+            "round": 11,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 15,
+            "size": 1
+          },
+          {
+            "g": 12,
+            "round": 29,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 19,
+            "size": 3
+          },
+          {
+            "g": 4,
+            "round": 29,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 18,
+            "size": 2
+          },
+          {
+            "g": 14,
+            "round": 56,
+            "workers": 1,
+            "own_side": true,
+            "dist_own": 27,
+            "size": 4
+          }
+        ],
+        "inferred_capture_gold300": 879,
+        "inferred_capture_count300": 12,
+        "inferred_clear_to_capture_delays": [
+          8,
+          5,
+          5,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    }
+  ]
+}

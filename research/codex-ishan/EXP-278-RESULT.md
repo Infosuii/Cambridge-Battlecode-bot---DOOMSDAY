@@ -1,0 +1,7 @@
+# EXP278 result — scoped Varg fanout verified, incomplete controls
+
+MEASURED: all12preregistered real100k legal fixtures complete with0native faults/codes/fuel. Eight yield one basic attack, four retain explicit R120unavailable. Nearest-any and nearest-multi modes choose the same group on each map-side, so eight observations represent only four distinct reached cases across two maps. No isolated, clipped/overkill, cross-group or unseen-neighbour example was observed; those controls remain unavailable, not passed.
+
+In every observed case Varg strength50causes two same-group camps to lose50HP each, including a neighbour distance2from the attacker but1from the primary. SDK before/after IEEE754snapshots, native monsterDamageDone100and the official engine3replay's exact attack-step camp HP changes agree. Exactly one basic attack and zero casts occur per reached replay; no other actor attacks. VARG_SPLASH_RECOUNT.json reopens every source/native/archive/stdout and official replay. Four unreached cases have zero native monster damage and zero replay attacks. No production bot/model changed.
+
+This establishes full-strength splash in those four geometries, not a general radius boundary, complete-clear DPS, safety or win claim. It does not justify substituting2for1.6: camp health imbalance, overkill, target availability, movement, cooldown and incoming damage must be measured over complete group tasks next. Original rejected AOE/pre-walk and forced-Varg hashes remain rejected.
