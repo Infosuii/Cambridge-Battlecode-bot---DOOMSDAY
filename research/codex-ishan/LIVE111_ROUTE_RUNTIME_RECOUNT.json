@@ -1,0 +1,124 @@
+{
+  "raw_native_recount_pass": true,
+  "binary_source_pins_pass": true,
+  "games": 960,
+  "result_sha256": "9f49351ea131d5bfdfe92fc846ab741fb9b9549757265f7ac1493eaf13d8a587",
+  "rows_sha256": "c9ccdf10f7077331fb1060ef4a1cad2a5b54aaf9bbd1cef012309f574a96c27c",
+  "reports": {
+    "stock->route": {
+      "n": 240,
+      "base_score": 177,
+      "candidate_score": 163,
+      "delta_pp": -5.833,
+      "map_cluster_ci_pp": [
+        -17.083,
+        4.583
+      ],
+      "fuel": [
+        1145,
+        534
+      ],
+      "round1": [
+        0,
+        0
+      ],
+      "faults": [
+        0,
+        0
+      ],
+      "per_cell_fuel_regressions": 41
+    },
+    "stock->nn_off": {
+      "n": 240,
+      "base_score": 177,
+      "candidate_score": 177,
+      "delta_pp": 0.0,
+      "map_cluster_ci_pp": [
+        -10.0,
+        9.167
+      ],
+      "fuel": [
+        1145,
+        102
+      ],
+      "round1": [
+        0,
+        0
+      ],
+      "faults": [
+        0,
+        0
+      ],
+      "per_cell_fuel_regressions": 0
+    },
+    "stock->joint": {
+      "n": 240,
+      "base_score": 177,
+      "candidate_score": 179,
+      "delta_pp": 0.833,
+      "map_cluster_ci_pp": [
+        -7.5,
+        9.167
+      ],
+      "fuel": [
+        1145,
+        103
+      ],
+      "round1": [
+        0,
+        0
+      ],
+      "faults": [
+        0,
+        0
+      ],
+      "per_cell_fuel_regressions": 0
+    },
+    "nn_off->joint": {
+      "n": 240,
+      "base_score": 177,
+      "candidate_score": 179,
+      "delta_pp": 0.833,
+      "map_cluster_ci_pp": [
+        -9.167,
+        11.25
+      ],
+      "fuel": [
+        102,
+        103
+      ],
+      "round1": [
+        0,
+        0
+      ],
+      "faults": [
+        0,
+        0
+      ],
+      "per_cell_fuel_regressions": 1
+    },
+    "route->joint": {
+      "n": 240,
+      "base_score": 163,
+      "candidate_score": 179,
+      "delta_pp": 6.667,
+      "map_cluster_ci_pp": [
+        0.0,
+        13.75
+      ],
+      "fuel": [
+        534,
+        103
+      ],
+      "round1": [
+        0,
+        0
+      ],
+      "faults": [
+        0,
+        0
+      ],
+      "per_cell_fuel_regressions": 0
+    }
+  }
+}
