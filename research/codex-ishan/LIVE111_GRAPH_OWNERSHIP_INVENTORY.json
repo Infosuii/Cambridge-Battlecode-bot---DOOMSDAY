@@ -1,0 +1,145 @@
+{
+  "platform_source": 111,
+  "exact_release": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423",
+  "source_archive": "72e9a198135d9b42361a223be505e379b1cf286e1223ee3daf1fbb90a34f8463",
+  "compile_commands_sha256": "2aa4e8520a6c465ba700f45c95ed6f0676b2eb7ca239d70eedeb4e6f3809dde3",
+  "preprocessor_args": [
+    "C:\\Users\\ishan\\AppData\\Local\\cambc\\wasi-sdk-33\\bin\\clang++.exe",
+    "--target=wasm32-wasip1",
+    "--sysroot=C:/Users/ishan/AppData/Local/cambc/wasi-sdk-33/share/wasi-sysroot",
+    "-IC:/dd/codex-sdk5-20261105/sdk/cpp",
+    "-isystem",
+    "C:/Users/ishan/AppData/Local/cambc/wasi-sdk-33/share/cmake/../../share/wasi-sysroot/include/wasm32-wasip1/eh/c++/v1",
+    "-O3",
+    "-DNDEBUG",
+    "-std=c++20",
+    "-msimd128",
+    "-mbulk-memory",
+    "-mbulk-memory-opt",
+    "-fwasm-exceptions",
+    "-mllvm",
+    "-wasm-use-legacy-eh=false",
+    "-E",
+    "-dD",
+    "C:\\dd\\codex-sdk5-20261105\\bots\\live111\\src\\nnrec.cpp"
+  ],
+  "preprocessed_sha256": "78191af694de804afed7c786ad6534df10360665a488c0a77c266912009f16d0",
+  "artifact": "artifacts/codex-p0/live111-graph-ownership-20261106/nnrec.preprocessed.cpp",
+  "macros": {
+    "V58_ACT": "12",
+    "A2_NN_MACRO": "1",
+    "A2_NN_FAST": "1",
+    "A2_NN_VALID": "1",
+    "A2_NN_BEH": "0",
+    "A2_NN_ENS": "2",
+    "A2_NN_LIVE": "1",
+    "A2_NN_LAZY": "1",
+    "A2_NN_NNUE": "1",
+    "A2_NN_Q16": "1",
+    "A2_NN_SGAUTO": "1",
+    "A2_NN_FIELDS_FIRST": "1",
+    "CLFS": "9",
+    "A2_NN": "11",
+    "A2_NN_LAYOUT": "2",
+    "A2_NNREC_LAYOUT": "2",
+    "A2_NNREC": "0",
+    "A2_NN_XF": "0",
+    "A2_NN_EPSQ": "0",
+    "A2_NN_RESERVE": "1000",
+    "A2_NN_TTL": "1000000",
+    "A2_NN_ZSTART": "0",
+    "A2_NN_ZFRESH": "0",
+    "CLFS_MARGIN": "3000",
+    "A2_NN_LAZY_FLOOR": "8000",
+    "A2_NN_LAZY_TTL": "2",
+    "A2_NN_NNUE_CEIL": "70000"
+  },
+  "references": [
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 654,
+      "code": "static nn::Live nn_lv;"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 723,
+      "code": "nn::live_stage(nn_lf, nn_lv, s);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 776,
+      "code": "nn::live_block(nn_lf, nn_lv, kXOrder[x]);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 912,
+      "code": "nn::live_camps(nn_lf, nn_lv, w.groups.size());"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 914,
+      "code": "nn::live_block(nn_lf, nn_lv, 1);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 916,
+      "code": "nn::live_block(nn_lf, nn_lv, 4);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 929,
+      "code": "nn::live_top(nn_lv);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 952,
+      "code": "if (nn_lv.z_ok) {"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 953,
+      "code": "nn::live_target(nn_lv, nn_lo);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1327,
+      "code": "const int gate = round - nn_zround <= 0 ? nn_lv.beh : -1;"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1351,
+      "code": "nn::live_camps(nn_lf, nn_lv, w.groups.size());"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1355,
+      "code": "const int gate_now = round - nn_zround <= 0 ? nn_lv.beh : -1;"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1356,
+      "code": "if (nn_lv.z_ok) {"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1357,
+      "code": "nn::live_target(nn_lv, nn_lo);"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1717,
+      "code": "nn::live_camps(nn_lf, nn_lv, w.groups.size());"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1730,
+      "code": "if (++rb >= 128 && nn_lv.x_ok && bc::fuel_remaining() >= 16000 + static_cast<std::uint64_t>((9 & 8) ? 3000 + 4000 : 1000)) {"
+    },
+    {
+      "file": "C:\\\\dd\\\\codex-sdk5-20261105\\\\bots\\\\live111\\\\src\\\\nnrec.cpp",
+      "line": 1731,
+      "code": "nn::live_rebuild(nn_lv);"
+    }
+  ],
+  "limits": "Compiled-reference inventory only; no exclusive-owner implementation, correctness or safety proof. Original source/build objects unchanged."
+}
