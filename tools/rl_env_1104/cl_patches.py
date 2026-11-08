@@ -248,7 +248,136 @@ def newmap_table(src, table_h):
 """)
 
 
-PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec, "earlyshop": earlyshop}
+def winrecall(src):
+    """CL_WINRECALL: break the win-now recall loop (JOHNDOE #171: a 414-gem Vendetta cancelled and restarted recall
+    every round R1154-1168 and the game was lost with 465 gems held). The channel guard cancels a recall when the bag
+    finishes the race; if banking then fails, go_home_if_needed recalled again the same turn. After a win-cancel no
+    recall is started for 3 rounds (walking home / to the altar is still allowed)."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define CL_WINRECALL 1\n")
+    patch(src, "bot.h", "    int target_group = -1;\n", "    int target_group = -1;\n#if CL_WINRECALL\n    int cl_wincancel_round = -100;\n#endif\n")
+    patch(src, "bot.cpp", """    if (state.contains(bc::champion_state::recalling) && win_now() && hp >= max_hp * tune::kDangerHp) {
+        try {
+            me.cancel_recall();""", """    if (state.contains(bc::champion_state::recalling) && win_now() && hp >= max_hp * tune::kDangerHp) {
+#if CL_WINRECALL
+        cl_wincancel_round = round;
+#endif
+        try {
+            me.cancel_recall();""")
+    patch(src, "bot.cpp", """    if (dist > tune::kShopWalkDist && !enemy_close) {
+        try {
+            me.recall();""", """    if (dist > tune::kShopWalkDist && !enemy_close
+#if CL_WINRECALL
+        && round - cl_wincancel_round > 3
+#endif
+    ) {
+        try {
+            me.recall();""")
+
+
+def aoereach(src):
+    """CL_AOEREACH: an area spell (radius r) can hit a camp at distance range + r by aiming at a tile within range next
+    to it (ISHAN EXP-217/218: verified for Ryth, Stellar and Prism at distance 5). cast_on_camp rejected every camp
+    beyond `range`; it now aims such casts at the in-range tile adjacent to the camp that hits the most live camps."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define CL_AOEREACH 1\n")
+    patch(src, "bot.cpp", """        if (sp.excludes_walk && walked) continue;
+        if (cheb(pos, c.pos) > static_cast<int>(sp.range)) continue;
+        // Stuns win champion fights""", """        if (sp.excludes_walk && walked) continue;
+#if CL_AOEREACH
+        if (cheb(pos, c.pos) > static_cast<int>(sp.range) +
+                (sp.kind == bc::ability_kind::aoe_damage ? static_cast<int>(sp.radius) : 0)) continue;
+#else
+        if (cheb(pos, c.pos) > static_cast<int>(sp.range)) continue;
+#endif
+        // Stuns win champion fights""")
+    patch(src, "bot.cpp", """    try {
+        const auto ab = bc::self().abilities()[best];
+        const bool ok = spells[best].kind == bc::ability_kind::aoe_damage ? ab.use(c.pos) : ab.use(c.camp);""", """    try {
+        const auto ab = bc::self().abilities()[best];
+#if CL_AOEREACH
+        vec2 aim = c.pos;
+        if (spells[best].kind == bc::ability_kind::aoe_damage && cheb(pos, c.pos) > static_cast<int>(spells[best].range)) {
+            const int rr = static_cast<int>(spells[best].radius);
+            int best_hits = -1;
+            for (int dx = -rr; dx <= rr; ++dx)
+                for (int dy = -rr; dy <= rr; ++dy) {
+                    const vec2 t{c.pos.x + dx, c.pos.y + dy};
+                    if (t.x < 0 || t.y < 0 || t.x >= w.width || t.y >= w.height) continue;
+                    if (cheb(pos, t) > static_cast<int>(spells[best].range)) continue;
+                    int hits = 0;
+                    for (int other : w.groups[w.group_of_camp_tile(c.pos)].camps)
+                        if (!w.camps[other].dead && cheb(w.camps[other].pos, t) <= rr) ++hits;
+                    if (hits > best_hits) best_hits = hits, aim = t;
+                }
+        }
+        const bool ok = spells[best].kind == bc::ability_kind::aoe_damage ? ab.use(aim) : ab.use(c.camp);
+#else
+        const bool ok = spells[best].kind == bc::ability_kind::aoe_damage ? ab.use(c.pos) : ab.use(c.camp);
+#endif""")
+
+
+def clfs(src, value):
+    """CLFS (JOHNDOE's fuel-safe change in parts, nnrec.cpp): 1 slow-block estimates, 2 scoring margin, 4 slower need
+    decay, 8 warm-up and rebuild margins. v112/v114 ship 9. Ishan EXP-179 (on v111): 11 +2.9pp [-2.5, +9.2] with
+    fuel-outs 692 vs 961; 13 -1.7pp. v114 locally: ~10.4 fuel-outs a game, 19% of turns above 90k of the 100k budget."""
+    patch(src, "common.h", "#ifndef CLFS\n#define CLFS 9\n", f"#ifndef CLFS\n#define CLFS {value}\n")
+
+
+def goldtrip(src, until=300, k=3.75, minrate=0.6):
+    """CL_GOLDTRIP: a situational gold-only shopping trip instead of CL_EARLYSHOP's fixed 90 gold. Before round
+    CL_GOLDTRIP_UNTIL a trip also starts below the per-map threshold (tune::kShopGold, still the upper bound) when
+      buyable >= CL_GOLDTRIP_K x income x trip
+    buyable: the gold shop() would spend on the build plan right now (its own loop, so 0 when nothing is affordable);
+    income: this champion's own gold per round so far (at least CL_GOLDTRIP_MINRATE);
+    trip: rounds lost: a recall channel plus the walk back out, or a walk both ways within kShopWalkDist of spawn.
+    K = 3.75 puts a typical 30-round recall trip at ~90 gold of buyable items with ~0.8 gold/round (ladder: 341/5 per
+    champion by R100), the early-shop level; near spawn it drops to ~40, far out it rises to ~135."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n",
+          f"#define A2_KITFIX 31\n#define CL_GOLDTRIP 1\n#define CL_GOLDTRIP_UNTIL {until}\n#define CL_GOLDTRIP_K {k}f\n"
+          f"#define CL_GOLDTRIP_MINRATE {minrate}f\n")
+    patch(src, "bot.h", "    bool shop_done = false;", "    int cl_earned = 0; // CL_GOLDTRIP: gold this champion has earned\n    bool shop_done = false;")
+    patch(src, "bot.cpp", "    gold = static_cast<int>(me.gold_count());\n    for (int s = 0; s < 2; ++s) {",
+          """    {
+        const int g_before = gold;
+        gold = static_cast<int>(me.gold_count());
+        if (gold > g_before) cl_earned += gold - g_before; // shop() keeps `gold` current when it spends
+    }
+    for (int s = 0; s < 2; ++s) {""")
+    patch(src, "bot.cpp", "    bool rich = gold >= tune::kShopGold && !shop_done;\n", """    bool rich = gold >= tune::kShopGold && !shop_done;
+#if CL_GOLDTRIP
+    if (!rich && !shop_done && gold >= 30 && round < CL_GOLDTRIP_UNTIL) {
+        // what shop() would spend now (same plan loop, without can_buy, which needs the spawn)
+        static const auto cl_plan = build_for(type);
+        const auto counts = bc::self().item_count();
+        std::array<int, static_cast<std::size_t>(bc::item_type::count)> taken{};
+        int left = gold, buyable = 0;
+        for (const auto& step : cl_plan) {
+            const int cost = std::max(1, static_cast<int>(step.item.cost()));
+            int owned = taken[static_cast<std::size_t>(step.item)] + static_cast<int>(counts[step.item]);
+            if (const auto emblem = step.item.result()) owned += static_cast<int>(counts[*emblem] * step.item.combine_count());
+            const int want = std::min(step.total - owned, left / cost);
+            if (want <= 0) continue;
+            taken[static_cast<std::size_t>(step.item)] += want;
+            buyable += want * cost, left -= want * cost;
+            if (left < 30) break;
+        }
+        const int dist = static_cast<int>(fdist(w.spawn_field, pos));
+        const int trip = dist > tune::kShopWalkDist ? bc::constants::recall_time + dist : 2 * dist;
+        const float rate = std::max(CL_GOLDTRIP_MINRATE, static_cast<float>(cl_earned) / static_cast<float>(std::max(1, round)));
+        rich = buyable > 0 && static_cast<float>(buyable) >= CL_GOLDTRIP_K * rate * static_cast<float>(trip);
+    }
+#endif
+""")
+
+
+TABLE_G3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "research", "rl_env_1104", "candidates",
+                        "profiles", "profile_table_g3.h")
+
+PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec, "earlyshop": earlyshop,
+           "winrecall": winrecall, "aoereach": aoereach,
+           "clfs9": lambda s: patch(s, "common.h", "#ifndef CLFS\n#define CLFS 15\n", "#ifndef CLFS\n#define CLFS 9\n"),
+           "clfs11": lambda s: clfs(s, 11), "clfs15": lambda s: clfs(s, 15),
+           "table": lambda s: newmap_table(s, TABLE_G3),
+           "goldtrip": goldtrip, "goldtrip_all": lambda s: goldtrip(s, until=100000)}
 
 if __name__ == "__main__":
     src = sys.argv[1]
