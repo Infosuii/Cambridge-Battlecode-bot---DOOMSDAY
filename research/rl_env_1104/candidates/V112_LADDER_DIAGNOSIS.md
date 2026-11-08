@@ -117,3 +117,24 @@ Draft share (per team-game):
 - **Our roster sits far from the engine-3 meta.** On our own ladder data, v112 plays Vesper (32 games) and Willow (25) much worse than our usual picks. A roster change therefore needs per-champion play work and a retrain, consistent with the local "top draft" switch scoring -0.35 without retraining.
 - **Prism check (probe bot):** the engine-reported focus includes Prism's +1.5 per carried gem (90 base; 150.5 with 35 gems). Our threat model already uses it. Prism kills from 5 tiles are move-then-cast inside our 5-tile window, not a blind spot.
 - **Spell reach:** the engine design dump shows every spell reaches at most 4 tiles.
+
+## Final held-out panel (final-cl1-02)
+
+**Setup.** 53 maps: 32 live-pool maps held out of all training plus 21 generated holdout maps. 6 opponents: v112, nnfinal, v86h, x3inv, x3mf2 and x3ctr3 (the last two never trained against), both sides, 636 games per candidate, paired with v112.
+
+| candidate | score | paired vs v112 | family-balanced |
+|---|---|---|---|
+| v112 | 353/636 (55.5%) | - | - |
+| cl1 iter 16 (PPO retrain on v112 + CL_CONTEST) | 331/636 (52.0%) | -0.035 [-0.082, +0.011] | -0.030 |
+| CL_EARLYSHOP (shop at 90 gold before R300) | 365/636 (57.4%) | **+0.019 [-0.023, +0.066]** | +0.030 |
+
+**cl1 retrain.** The checkpoint-selection panel showed noise around baseline (53.1 → 47.9 / 49.0 / 47.9 → 53.1%). On the held-out panel the retrain is slightly negative. Not shipped. This matches the team's earlier PPO runs (native-current +0.7pp, team-win: retry required).
+
+**Early shopping.** Mildly positive; consistent with top-team spending (91/168 of team gold spent by R50, vs our 31/147). Proposed as v113. The upload is held for an explicit go-ahead.
+
+## Per-map profiles for unrecognised maps (in progress)
+
+- **The gap.** v112's LADDER_TABLES recognise 45 of the 128 live-pool maps by fingerprint (verified: 45 exact matches, no collisions). On those maps v112 wins 70/123 = 56.9% on the ladder; on the other 83 maps it wins 103/207 = 49.8%, against the same opponent ratings.
+- **Selection run (profsel-01).** The 8 most-selected research/v71 profiles (nomid, gold, group, gems, mid, teamfight, softcaut, ranged), each applied only on unrecognised maps, against v112, nnfinal and v86h, both sides, paired with v112.
+- **Table.** Maps switch only on a paired gain of at least 2 games with at most 1 lost cell (`train/profile_table.py`), as a fingerprint table (`cl_patches.newmap_table`).
+- **Validation.** The table is then checked against different opponents.
