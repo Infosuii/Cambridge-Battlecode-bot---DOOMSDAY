@@ -73,3 +73,21 @@ The v112 trace copy (`MD` and `CP` rows) on the stall maps (`v112-stall-trace-01
 ## Next
 
 Retrain the target network on the patched bot (Om's point: weights tuned to the old behaviour). Use the archived PPO trainer, ported to CPU (`artifacts/tmp/agentic_restore/cl_train.sh`), starting from v112's exact g12 checkpoint. The checkpoint export reproduces v112's `nn_weights.h` byte for byte.
+
+## CL_WAITCAP (e3-v112-waitcap-01, 512 games, same 32-map live-pool panel)
+
+**Mechanism.** Final targets that are respawns more than 20 rounds away are replaced by the v92 pick and avoided until 15 rounds before the respawn. The network's candidate set ignores the avoid list.
+
+**Result.** Paired -0.023 [-0.090, +0.043] (130/256 vs 136/256), margin -22 per game. **Not a verified improvement; left out of the retrain bundle.**
+
+## Retrain (in progress)
+
+`cl1` is a CPU PPO run on base `cl112` (v112 + CL_CONTEST), starting from v112's exact g12 network (critic value_10).
+
+| setting | value |
+|---|---|
+| league | v112 .20, nnfinal .15, v86h .10, x3inv .10, v111 .10, nnm4 .10, v92 .05, x1 .05, x3ctr .05, p65pack .10 |
+| training maps | the 96 live-pool maps outside the 32-map evaluation panel (80%), generated pool maps (20%) |
+| iterations | 16 x 192 games |
+| checkpoint selection | 12 training-pool maps x 4 opponents x 2 sides, every 4 iterations |
+| final judgement | the held-out 32-map panel and 21 generated holdout maps, paired against v112 |
