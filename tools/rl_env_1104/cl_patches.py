@@ -175,7 +175,80 @@ def hiderec(src):
     patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define A2_HIDEREC 1\n")
 
 
-PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec}
+def earlyshop(src, gold=90, until=300):
+    """CL_EARLYSHOP: before round CL_EARLYSHOP_UNTIL the gold-only shopping trip starts at CL_EARLYSHOP gold instead of
+    v112's knob-tuned ~174. Ladder evidence (2400+ teams vs v112): top teams have spent 91/168 of team gold by R50 and
+    285/395 by R100 (us 31/147 and 176/341), and earn 25-31% more gold by R100-R300 with the same clear count by R50."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n", f"#define A2_KITFIX 31\n#define CL_EARLYSHOP {gold}\n#define CL_EARLYSHOP_UNTIL {until}\n")
+    patch(src, "bot.cpp", "    tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));\n",
+          """    tune::kShopGold = std::max(30, static_cast<int>(static_cast<float>(tune::kShopGold) * GT_SHOP));
+#if CL_EARLYSHOP
+    if (round < CL_EARLYSHOP_UNTIL) tune::kShopGold = std::min(tune::kShopGold, CL_EARLYSHOP);
+#endif
+""")
+
+
+PROFILES = {  # tools/v67/c_profiles.py --list (deltas on the lab knob vector, research/v71)
+    "aggr": {0: 1.0, 22: 1.0, 23: 1.0, 43: 1.0}, "caut": {0: -1.0, 22: -1.0, 23: -1.0, 43: -1.0, 3: 2.0, 1: 1.0},
+    "bank": {4: -1.5, 36: 1.5, 37: -1.0}, "hoard": {4: 1.5, 36: -1.0}, "hunt": {5: 1.0, 7: 1.0, 13: -1.0, 44: 1.0, 6: -1.0},
+    "group": {11: 3.0, 38: -1.0, 41: 1.0}, "gems": {8: -1.5}, "gold": {8: 1.5}, "mid": {40: 2.0}, "nomid": {40: -2.0},
+    "search": {24: -1.0, 25: 1.0, 31: 1.0}, "ranged": {32: -1.5, 23: 1.0}, "ranged2": {32: -3.0, 23: 2.0},
+    "huntranged": {5: 1.0, 7: 1.0, 13: -1.0, 44: 1.0, 6: -1.0, 32: -1.5, 23: 1.0}, "softcaut": {0: -0.5, 22: -0.5, 23: -0.5, 3: 1.0},
+    "softaggr": {0: 0.5, 22: 0.5, 23: 0.5}, "teamfight": {41: 2.0}, "spread": {10: -2.0, 11: -3.0}, "wait": {9: 2.0},
+    "nowait": {9: -2.0}, "shopmore": {12: 2.0}, "shopless": {12: -2.0}, "calm": {2: -1.0},
+}
+
+
+def profile(src, name):
+    """CL_NEWMAP_PROFILE: apply one research/v71 knob profile on maps v112's LADDER_TABLES do not recognise (83 of the
+    128 live-pool maps; v112 wins 49.8% there vs 56.9% on the 45 tuned maps). Recognised maps are unchanged."""
+    d = PROFILES[name]
+    vals = ", ".join(f"{{{k}, {v}f}}" for k, v in d.items())
+    patch(src, "common.h", "#define A2_KITFIX 31\n", f"#define A2_KITFIX 31\n#define CL_NEWMAP_PROFILE {vals}\n")
+    patch(src, "bot.cpp", "                break;\n            }\n        }\n#endif\n    }\n#endif\n#if A2_LAB\n",
+          """                break;
+            }
+        }
+#endif
+#ifdef CL_NEWMAP_PROFILE
+        if (!ladder_known) {
+            static constexpr float kClProf[][2] = {CL_NEWMAP_PROFILE};
+            for (const auto& p : kClProf) lab::knobs[static_cast<int>(p[0])] += p[1];
+        }
+#endif
+    }
+#endif
+#if A2_LAB
+""")
+
+
+def newmap_table(src, table_h):
+    """CL_NEWMAP_TABLE: per-map research/v71 profile (cl_newmap_table.h from train/profile_table.py) on maps v112's
+    LADDER_TABLES do not recognise, matched by the same fingerprint (width, height, groups, total group gems)."""
+    import shutil
+    shutil.copy(table_h, os.path.join(src, "cl_newmap_table.h"))
+    patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define CL_NEWMAP_TABLE 1\n")
+    patch(src, "bot.cpp", '#include "a2map.h"\n', '#include "a2map.h"\n#if CL_NEWMAP_TABLE\n#include "cl_newmap_table.h"\n#endif\n')
+    patch(src, "bot.cpp", "                break;\n            }\n        }\n#endif\n    }\n#endif\n#if A2_LAB\n",
+          """                break;
+            }
+        }
+#endif
+#if CL_NEWMAP_TABLE
+        if (!ladder_known)
+            for (const auto& row : cl_newmap::kRows)
+                if (row.w == w.width && row.h == w.height && row.groups == n_groups && row.gems == total_gems) {
+                    for (int i = 0; i < 48; ++i) lab::knobs[i] += cl_newmap::kDelta[row.profile][i];
+                    break;
+                }
+#endif
+    }
+#endif
+#if A2_LAB
+""")
+
+
+PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec, "earlyshop": earlyshop}
 
 if __name__ == "__main__":
     src = sys.argv[1]
