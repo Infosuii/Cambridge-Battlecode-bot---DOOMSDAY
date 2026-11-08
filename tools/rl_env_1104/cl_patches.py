@@ -143,7 +143,32 @@ void Bot::opportunistic_attack() {'''
     // E126""")
 
 
-PATCHES = {"contest": contest}
+def waitcap(src):
+    """CL_WAITCAP: never stand waiting for a respawn more than CL_WAITCAP rounds away. The network's candidate set is
+    the 10 nearest groups regardless of avoid_until, so after every override a far respawn is replaced by the v92
+    pick (score_groups skips avoided groups); the group is avoided until CL_WAITBACK rounds before it respawns.
+    Local evidence (v112-stall-trace-01): 04standing-stones home camps held 57-round waits from round 40."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define CL_WAITCAP 20\n")
+    patch(src, "bot.cpp", "#ifdef A2_NN_NEED\n    // E126", """#if CL_WAITCAP
+#ifndef CL_WAITBACK
+#define CL_WAITBACK 15
+#endif
+    for (int tries = 0; tries < 2 && best >= 0 && best < static_cast<int>(w.groups.size()); ++tries) {
+        const auto& gw = w.groups[static_cast<std::size_t>(best)];
+        if (gw.state != GroupState::respawning) break;
+        const int wd = w.has_field(best) ? w.group_distance(best, pos) : 0;
+        if (gw.respawn_round - round - std::min(wd, 60) <= CL_WAITCAP) break;
+        if (best < static_cast<int>(avoid_until.size()))
+            avoid_until[static_cast<std::size_t>(best)] = std::max(avoid_until[static_cast<std::size_t>(best)], gw.respawn_round - CL_WAITBACK);
+        if (nn_group == best) nn_group = -1;
+        best = score_groups(1, best_need, best_score);
+    }
+#endif
+#ifdef A2_NN_NEED
+    // E126""")
+
+
+PATCHES = {"contest": contest, "waitcap": waitcap}
 
 if __name__ == "__main__":
     src = sys.argv[1]
