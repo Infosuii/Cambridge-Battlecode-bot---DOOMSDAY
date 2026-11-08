@@ -1,6 +1,14 @@
-# DOOMSDAY qualifier state — 6 November 2026
+# DOOMSDAY qualifier state — 8 November 2026
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
+
+## Wrap-up — 8 November 2026, 23:46 GMT
+
+- Ishan asked to wrap up to conserve weekly usage. See [final report](FINAL_REPORT.md). No new experiment or release action pending in this workstream.
+- Fresh read-only CLI check at 23:46 GMT: active and selected v114, submission `2d96e758-d567-4642-b33c-1e963cba2924`, pinned false, frozen false. The v111 status below is historical. Issue #5 reports v114 is another worker's early-shop and per-map-profile upload. This workstream has no exact v114 source or binary pin, no release gate for it, and no pinned rival proof.
+- EXP283 rejected. EXP286 verified the early base reward deficit. The corrected EXP289/290 census reproduced all 73 case records and did not establish a general contested-hold fix in the held-back losses.
+- EXP291 is built, unplayed, and parked. The initial converter failed before compilation. Its corrected R2 build produced an all-off binary byte-identical to v92 (`5704d7ba`), duplicate planner-only builds (`3778a745`), and duplicate task-contract builds (`9f0c630e`). Build identity establishes no gameplay or fuel result.
+- New-idea duel cutoff has passed. Feature freeze is 8 November at 23:59 GMT. No candidate from this branch is eligible for release. Master fallback is platform v80 (repo v92); any platform mutation needs a new issue #5 lock and Ishan's fresh ACK. This workstream used zero ladder quota and holds no lock.
 
 ## Current work — 6 Nov 2026, shared capability rejected / native camp-value attribution
 
