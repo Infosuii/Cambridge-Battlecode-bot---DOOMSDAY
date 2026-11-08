@@ -138,3 +138,36 @@ Draft share (per team-game):
 - **Selection run (profsel-01).** The 8 most-selected research/v71 profiles (nomid, gold, group, gems, mid, teamfight, softcaut, ranged), each applied only on unrecognised maps, against v112, nnfinal and v86h, both sides, paired with v112.
 - **Table.** Maps switch only on a paired gain of at least 2 games with at most 1 lost cell (`train/profile_table.py`), as a fingerprint table (`cl_patches.newmap_table`).
 - **Validation.** The table is then checked against different opponents.
+
+## Per-map profile selection and independent validation
+
+**Selection (profsel-01).** 83 unrecognised maps; opponents v112, nnfinal, v86h, both sides; 498 games per profile, paired with v112.
+
+| profile (all 83 maps) | paired vs v112 |
+|---|---|
+| group | +0.004 |
+| ranged | 0.000 |
+| gold | -0.010 |
+| softcaut | -0.014 |
+| nomid | -0.016 |
+| teamfight | -0.032 |
+| mid | -0.074 |
+| gems | -0.076 |
+
+No global profile helps. Per-map tables (`profiles/profile_table_g{2,3}`):
+- **Strict (gain >= 3 of 6 cells, <= 1 lost):** 16 maps switch (nomid 5, group 3, mid 3, gold 3, softcaut 1, gems 1); +51 games in-sample.
+- **Loose (gain >= 2):** 38 maps switch; +95 games in-sample.
+
+**Validation (tabval-01).** Same 83 maps; opponents never used in selection (x3inv, x3mf2, x3ctr3), both sides; 498 games per candidate.
+
+| candidate | score | paired vs v112 |
+|---|---|---|
+| v112 | 286/498 | - |
+| loose table | 289/498 | +0.006 [-0.040, +0.050] |
+| strict table | 293/498 | +0.014 [-0.012, +0.040] (+7 on the 96 changed cells) |
+| strict table + early shop | 300/498 | **+0.028 [-0.036, +0.090]** |
+
+- **Strict table:** survives out of sample (+7 games where in-sample was +51), so it shrinks but stays positive. The loose table's extra maps are mostly noise.
+- **Early shopping:** positive again on new maps with new opponents (about +1.4 on top of the table), consistent with +1.9 on the 53-map panel.
+
+**Proposed v113** = v112 + CL_EARLYSHOP + CL_NEWMAP_TABLE (strict). Local WASM: 2c147d877d4d18f58fea9fdcf8b973daaf35678378a4abcd1e1e35390f13d804. Source: `artifacts/tmp/upload_v113/src` (41 files). The diff from v112 is the three defines, the table include, the table application and the early-shop cap.
