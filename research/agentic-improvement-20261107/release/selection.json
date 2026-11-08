@@ -1,0 +1,15 @@
+{
+  "candidate": "auto_bank_arrive_learned",
+  "approved_for_delivery": true,
+  "classification": "Experimental delivery; substantial upgrade unproven",
+  "rationale": "Choose the corrected, deep-routing bot with retained g12 learned weights and the verified banking/progress repairs. On the exact 164 final maps it scored 166/328 directly against v111 and gained 1.2576 reference percentage points. On the 44 current official published maps it scored 47/88 directly and was essentially level against references (-0.2841 percentage points), better reference retention than either registered retuned finalist. Earlier ancestry validation also supported this learned parent (+2.7820 reference points, 167/328 direct). The new retreat-threshold adjustment had slightly higher pooled reference gain but weaker published-map reference retention and no direct advantage. Retain the tested parent as the best judged experimental upload; preserve all alternate candidates and negative results.",
+  "limitations": "This is a pragmatic, adaptive selection from four frozen-source candidates after registered retune validation and a disclosed unchanged-parent diagnostic. It is not a new independent promotion result. The selected candidate's 95% map-cluster reference interval is [-1.2205, +3.6204] percentage points and its direct-score interval is [45.7317%, 55.1905%]. The +8-point/60%-direct substantial target was not met. Published maps may have historical exposure; generated maps are not a ladder-frequency sample. Local source/build evidence does not establish identical server Wasm or a ladder ELO gain. Upload and activation are explicitly authorized by the user's 8 November instruction; automatic deployment remains disabled in the continuous controller.",
+  "evidence": {
+    "registered_retune": "training/runs/bounded-delivery-retune-v1/outcomes.json",
+    "same_map_parent_comparison": "training/runs/delivery-parent-comparison-20261108/outcomes.json",
+    "prior_ancestry": "training/runs/ancestry-generalization-v1",
+    "map_correction": "training/runs/bounded-delivery-retune-v1/published-map-correction-20261108/decision.json"
+  },
+  "deployment_authorization": "User: continue and once bot packaged push to ladder",
+  "expected_live_version": 111
+}

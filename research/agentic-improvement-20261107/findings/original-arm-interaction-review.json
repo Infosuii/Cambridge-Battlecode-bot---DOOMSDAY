@@ -1,0 +1,329 @@
+{
+  "scope": "Descriptive, post-selection analysis of a fixed completed TRAIN/FRESH panel. Does not change candidates or final protocol. Selected cases are not an estimate of failure frequency; matched strategy interventions produce different trajectories.",
+  "effective_parameters": {
+    "9": "Wait weight multiplied by exp(0.4*k9)",
+    "10": "Required helper pool multiplied by exp(0.3*k10)",
+    "14": "Staging timeout max(1,base+lround(3*k14)); -0.5 changes integer-rounded waiting, subject to profiles/clamp"
+  },
+  "train_metrics": {
+    "auto_rt7_o_k10p": {
+      "candidate": "auto_rt7_o_k10p",
+      "reference_gain": 0.03776041666666674,
+      "direct_rate": 0.5625,
+      "goal_margin": -0.04223958333333326
+    },
+    "auto_rt7_o_k09n": {
+      "candidate": "auto_rt7_o_k09n",
+      "reference_gain": 0.03385416666666674,
+      "direct_rate": 0.5729166666666666,
+      "goal_margin": -0.04614583333333326
+    },
+    "auto_rt7_o_j001": {
+      "candidate": "auto_rt7_o_j001",
+      "reference_gain": 0.00520833333333337,
+      "direct_rate": 0.4895833333333333,
+      "goal_margin": -0.11041666666666666
+    },
+    "auto_rt7_o_j002": {
+      "candidate": "auto_rt7_o_j002",
+      "reference_gain": 0.02734375,
+      "direct_rate": 0.4583333333333333,
+      "goal_margin": -0.14166666666666666
+    },
+    "auto_rt7_o_k14n": {
+      "candidate": "auto_rt7_o_k14n",
+      "reference_gain": 0.02213541666666674,
+      "direct_rate": 0.5625,
+      "goal_margin": -0.05786458333333326
+    }
+  },
+  "train_control": {
+    "candidate": "auto_rt7_o_c000",
+    "reference_gain": 0.00911458333333337,
+    "direct_rate": 0.4895833333333333,
+    "goal_margin": -0.11041666666666666
+  },
+  "fresh_metrics": {
+    "auto_rt7_o_k10p": {
+      "candidate": "auto_rt7_o_k10p",
+      "reference_gain": 0.03645833333333326,
+      "direct_rate": 0.4270833333333333,
+      "goal_margin": -0.17291666666666666
+    },
+    "auto_rt7_o_k09n": {
+      "candidate": "auto_rt7_o_k09n",
+      "reference_gain": 0.015625,
+      "direct_rate": 0.4583333333333333,
+      "goal_margin": -0.14166666666666666
+    },
+    "auto_rt7_o_j001": {
+      "candidate": "auto_rt7_o_j001",
+      "reference_gain": -0.01041666666666674,
+      "direct_rate": 0.4375,
+      "goal_margin": -0.16249999999999998
+    },
+    "auto_rt7_o_j002": {
+      "candidate": "auto_rt7_o_j002",
+      "reference_gain": 0.04296875,
+      "direct_rate": 0.375,
+      "goal_margin": -0.22499999999999998
+    },
+    "auto_rt7_o_k14n": {
+      "candidate": "auto_rt7_o_k14n",
+      "reference_gain": 0.03385416666666663,
+      "direct_rate": 0.4895833333333333,
+      "goal_margin": -0.11041666666666666
+    }
+  },
+  "fresh_control_direct_rate": 0.4791666666666667,
+  "train_paired_A_B_interaction": {
+    "reference_gain": -0.05729166666666674,
+    "direct_rate": -0.15624999999999994
+  },
+  "fresh_domain_deltas_vs_control": {
+    "auto_rt7_o_k10p": {
+      "generated": -0.005208333333333259,
+      "named_profile": 0.0625,
+      "other_published": -0.01041666666666663
+    },
+    "auto_rt7_o_k09n": {
+      "generated": -0.015625,
+      "named_profile": 0.04166666666666674,
+      "other_published": -0.05208333333333337
+    },
+    "auto_rt7_o_j001": {
+      "generated": -0.01041666666666663,
+      "named_profile": -0.03645833333333326,
+      "other_published": -0.08854166666666669
+    },
+    "auto_rt7_o_j002": {
+      "generated": 0.015625,
+      "named_profile": 0.0625,
+      "other_published": -0.02604166666666663
+    },
+    "auto_rt7_o_k14n": {
+      "generated": 0.02083333333333337,
+      "named_profile": 0.0,
+      "other_published": -0.01041666666666663
+    }
+  },
+  "common_horizon_failures": [
+    {
+      "map": "00collision",
+      "opponent": "ref_p65pack",
+      "side": "a",
+      "common_horizon": 600,
+      "candidates": {
+        "auto_rt7_o_c000": {
+          "score": 1.0,
+          "rounds_completed": 1104,
+          "common_horizon": {
+            "camp_gems": 380.0,
+            "combat_gems": 50.0,
+            "banked": 409.0,
+            "lost_gems": 0.0,
+            "deaths": 0.0,
+            "camp_deaths": 0.0,
+            "clears": 44.0,
+            "fuel": 3.0,
+            "captures": 46,
+            "earnedGold": 3809.0,
+            "gems": 21.0,
+            "monsterDamageTaken": 11693.3998336792
+          },
+          "native_sha256": "98af8465b3f91e6a8b5b76a60695cfcd08c73f477b01869069991aac99c6e7bc"
+        },
+        "auto_rt7_o_k10p": {
+          "score": 1.0,
+          "rounds_completed": 948,
+          "common_horizon": {
+            "camp_gems": 411.0,
+            "combat_gems": 54.0,
+            "banked": 406.0,
+            "lost_gems": 0.0,
+            "deaths": 0.0,
+            "camp_deaths": 0.0,
+            "clears": 53.0,
+            "fuel": 3.0,
+            "captures": 52,
+            "earnedGold": 4217.0,
+            "gems": 59.0,
+            "monsterDamageTaken": 13982.79983139038
+          },
+          "native_sha256": "9954674e747a74830482426269214bc68e092748b3946c67fb9dc7584d1d8109"
+        },
+        "auto_rt7_o_k09n": {
+          "score": 1.0,
+          "rounds_completed": 1013,
+          "common_horizon": {
+            "camp_gems": 292.0,
+            "combat_gems": 11.0,
+            "banked": 295.0,
+            "lost_gems": 8.0,
+            "deaths": 1.0,
+            "camp_deaths": 0.0,
+            "clears": 49.0,
+            "fuel": 4.0,
+            "captures": 49,
+            "earnedGold": 3932.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 9648.799862861633
+          },
+          "native_sha256": "2090e18acac29e0954c0c249e8e28f61fdf529ad1e2e734f00df79b00ded694f"
+        },
+        "auto_rt7_o_j001": {
+          "score": 0.0,
+          "rounds_completed": 1309,
+          "common_horizon": {
+            "camp_gems": 212.0,
+            "combat_gems": 71.0,
+            "banked": 248.0,
+            "lost_gems": 20.0,
+            "deaths": 1.0,
+            "camp_deaths": 0.0,
+            "clears": 42.0,
+            "fuel": 3.0,
+            "captures": 41,
+            "earnedGold": 3101.0,
+            "gems": 15.0,
+            "monsterDamageTaken": 16585.199774742126
+          },
+          "native_sha256": "9c86cc58fbd246a5de8ddc75622fc47016aa893a227f71283589acfeb643dd88"
+        },
+        "auto_rt7_o_k14n": {
+          "score": 1.0,
+          "rounds_completed": 1104,
+          "common_horizon": {
+            "camp_gems": 380.0,
+            "combat_gems": 50.0,
+            "banked": 409.0,
+            "lost_gems": 0.0,
+            "deaths": 0.0,
+            "camp_deaths": 0.0,
+            "clears": 44.0,
+            "fuel": 3.0,
+            "captures": 46,
+            "earnedGold": 3809.0,
+            "gems": 21.0,
+            "monsterDamageTaken": 11693.3998336792
+          },
+          "native_sha256": "98af8465b3f91e6a8b5b76a60695cfcd08c73f477b01869069991aac99c6e7bc"
+        }
+      }
+    },
+    {
+      "map": "03homonoliths",
+      "opponent": "ref_x1",
+      "side": "b",
+      "common_horizon": 600,
+      "candidates": {
+        "auto_rt7_o_c000": {
+          "score": 1.0,
+          "rounds_completed": 2000,
+          "common_horizon": {
+            "camp_gems": 0.0,
+            "combat_gems": 0.0,
+            "banked": 0.0,
+            "lost_gems": 0.0,
+            "deaths": 1.0,
+            "camp_deaths": 0.0,
+            "clears": 95.0,
+            "fuel": 3.0,
+            "captures": 97,
+            "earnedGold": 2325.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 0.0
+          },
+          "native_sha256": "d1c7753f8cf8d772db7b80389ad622adda85dfdf234ab58164852919f3bb81e9"
+        },
+        "auto_rt7_o_k10p": {
+          "score": 1.0,
+          "rounds_completed": 2000,
+          "common_horizon": {
+            "camp_gems": 0.0,
+            "combat_gems": 0.0,
+            "banked": 0.0,
+            "lost_gems": 0.0,
+            "deaths": 1.0,
+            "camp_deaths": 0.0,
+            "clears": 95.0,
+            "fuel": 3.0,
+            "captures": 97,
+            "earnedGold": 2325.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 0.0
+          },
+          "native_sha256": "d1c7753f8cf8d772db7b80389ad622adda85dfdf234ab58164852919f3bb81e9"
+        },
+        "auto_rt7_o_k09n": {
+          "score": 0.0,
+          "rounds_completed": 2000,
+          "common_horizon": {
+            "camp_gems": 0.0,
+            "combat_gems": 0.0,
+            "banked": 0.0,
+            "lost_gems": 0.0,
+            "deaths": 2.0,
+            "camp_deaths": 0.0,
+            "clears": 92.0,
+            "fuel": 3.0,
+            "captures": 92,
+            "earnedGold": 2220.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 0.0
+          },
+          "native_sha256": "f1c59fa116c8989737f1e090660c4da5811e885b1f5edaf509077a18e6c88aeb"
+        },
+        "auto_rt7_o_j001": {
+          "score": 0.0,
+          "rounds_completed": 2000,
+          "common_horizon": {
+            "camp_gems": 0.0,
+            "combat_gems": 0.0,
+            "banked": 0.0,
+            "lost_gems": 0.0,
+            "deaths": 2.0,
+            "camp_deaths": 0.0,
+            "clears": 92.0,
+            "fuel": 3.0,
+            "captures": 92,
+            "earnedGold": 2220.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 0.0
+          },
+          "native_sha256": "f1c59fa116c8989737f1e090660c4da5811e885b1f5edaf509077a18e6c88aeb"
+        },
+        "auto_rt7_o_k14n": {
+          "score": 0.0,
+          "rounds_completed": 2000,
+          "common_horizon": {
+            "camp_gems": 0.0,
+            "combat_gems": 0.0,
+            "banked": 0.0,
+            "lost_gems": 0.0,
+            "deaths": 1.0,
+            "camp_deaths": 0.0,
+            "clears": 94.0,
+            "fuel": 3.0,
+            "captures": 93,
+            "earnedGold": 2330.0,
+            "gems": 0.0,
+            "monsterDamageTaken": 0.0
+          },
+          "native_sha256": "219bbe7aefd7a08fd946bcd8edeb5a15e53a219eaaae315446d33c869678d9a3"
+        }
+      }
+    }
+  ],
+  "conclusions": [
+    "Full joint repair lost the individual TRAIN benefits: negative reference and direct-score interaction. A source-correct combination can still be strategically harmful.",
+    "Damped joint repair had positive FRESH reference gain but weak direct score. Reference-only optimization would conceal this weakness.",
+    "Shorter staging wait was the only direction satisfying the registered cross-panel qualification and domain constraints. Its FRESH direct score remains below50%; final validation is still required.",
+    "Selected regressions include death/collection changes and unbanked gems. Full-game count differences can reflect different match lengths; common-horizon views are supplied before proposing a causal mechanism."
+  ],
+  "input_sha256": {
+    "autonomy\\data\\benchmarks\\bounded-delivery-retune-20261107-o-train\\results.json": "21e36dfe3c68c95fc04db97584ab92541ea7e0467fc1faddfa4963028f07df0c",
+    "autonomy\\data\\benchmarks\\bounded-delivery-retune-20261107-o-fresh\\results.json": "ba112d7947e23cd4cc86aa7a636f1c2434961e2718cdc7becc5788fa59a569c5",
+    "autonomy\\data\\benchmarks\\bounded-delivery-retune-20261107-o-repairs\\results.json": "2a1689dbd04c49009c934b7e88559c562631379f94f49ec9a89177288836e312"
+  }
+}
