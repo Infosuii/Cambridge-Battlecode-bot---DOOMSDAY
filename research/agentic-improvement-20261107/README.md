@@ -13,6 +13,9 @@ The full experiment and parent comparison played 151,272 local games.
 
 ## Read first
 
+- `followups/contested-capture-20261108/`: 5,886 further local games, a verified
+  contested-objective stall, repaired handoff, matched on/off confirmation and
+  defensive regressions. This repair was not promoted; v112 remains active.
 - `findings/strategy-review.md`: why the experimental approach changed and what
   the measurements support.
 - `findings/final-report.md`: complete selection rationale, four-candidate
