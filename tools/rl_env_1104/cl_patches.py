@@ -168,7 +168,14 @@ def waitcap(src):
     // E126""")
 
 
-PATCHES = {"contest": contest, "waitcap": waitcap}
+def hiderec(src):
+    """A2_HIDEREC=1 (existing, default off in v112): a recall begun from a bush no enemy can see into is not cancelled
+    by the channel guard. Without it the bush recall and the guard alternate every turn while an enemy waits outside
+    (lab logs: 77% of bush recalls cancelled the next turn; JOHNDOE #171 stalled recall loop)."""
+    patch(src, "common.h", "#define A2_KITFIX 31\n", "#define A2_KITFIX 31\n#define A2_HIDEREC 1\n")
+
+
+PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec}
 
 if __name__ == "__main__":
     src = sys.argv[1]

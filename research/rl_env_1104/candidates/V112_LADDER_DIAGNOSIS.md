@@ -91,3 +91,29 @@ Retrain the target network on the patched bot (Om's point: weights tuned to the 
 | iterations | 16 x 192 games |
 | checkpoint selection | 12 training-pool maps x 4 opponents x 2 sides, every 4 iterations |
 | final judgement | the held-out 32-map panel and 21 generated holdout maps, paired against v112 |
+
+## Top teams vs us (engine 3)
+
+Sample: 40 recent ranked games between 2400+ teams (80 team-games), compared with v112's 320 games.
+
+| | earned gold R100 | R300 | R600 | camps cleared by R300 | deaths/game |
+|---|---|---|---|---|---|
+| top teams | 395 | 1549 | 3467 | 19.9 | 10.5 |
+| us (v112) | 341 | 1244 | 2660 | 16.3 | 9.1 |
+
+Draft share (per team-game):
+
+| champion | top teams | us |
+|---|---|---|
+| Cassi & Issac | 0.90 | 0.53 |
+| Heart of Ruin | 0.81 | 0.77 |
+| Vesper Vale | 0.57 | 0.09 |
+| Prism | 0.44 | 0.00 |
+| Willow | 0.42 | 0.07 |
+| Marcella | 0.42 | 0.87 |
+| Vendetta | 0.35 | 1.00 |
+| Varg | 0.19 | 0.82 |
+
+- **Our roster sits far from the engine-3 meta.** On our own ladder data, v112 plays Vesper (32 games) and Willow (25) much worse than our usual picks. A roster change therefore needs per-champion play work and a retrain, consistent with the local "top draft" switch scoring -0.35 without retraining.
+- **Prism check (probe bot):** the engine-reported focus includes Prism's +1.5 per carried gem (90 base; 150.5 with 35 gems). Our threat model already uses it. Prism kills from 5 tiles are move-then-cast inside our 5-tile window, not a blind spot.
+- **Spell reach:** the engine design dump shows every spell reaches at most 4 tiles.
