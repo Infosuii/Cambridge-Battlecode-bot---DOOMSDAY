@@ -57,7 +57,7 @@ def main() -> None:
     names = sorted(PROFILES)
     rows = []
     for m, p in sorted(choice.items()):
-        fp = fps.get(m)
+        fp = fps.get(m[:-7] if m.endswith(".map26a") else m)
         if fp:
             rows.append((fp, names.index(p), m, p))
     json.dump(dict(min_gain=a.min_gain, max_loss=a.max_loss, choice=choice, evidence=evidence), open(a.out + ".json", "w"), indent=1)
