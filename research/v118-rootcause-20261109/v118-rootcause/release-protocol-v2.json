@@ -1,0 +1,20 @@
+{
+  "created": "2026-11-09T16:23:10.377450+00:00",
+  "context": "Written after protocol v1 failed G4 for v18HDR on the published holdout; new candidate adds W/T/Q (+Z if selected) on the HDR base. Selection between v18HDRWTQ and v18HDRWTQZ uses dev panels only (v118-eval-z).",
+  "incumbent": "hp01 (v117)",
+  "primary_sealed_set": {
+    "maps": "arena/maps_v118_confirm (96 maps, seed 261110118, generated before candidate selection)",
+    "manifest_sha256": "e780c1231e8ae352f328ec5c4dcb7466682a5f692307a96487f8bb5224c08afb",
+    "styles": "9 local references x both sides, plus direct vs hp01 both sides"
+  },
+  "secondary_reused_set": "40-map published holdout from map-split.json (opened once before for v18HDR); reported, gate below",
+  "gates": {
+    "P1_targets": "release builds: Homonoliths median first home capture <= 600; Islands quiet stall pairs <= 0.75 x hp01; camp deaths per game on the 5 camp maps < hp01; no fault",
+    "P2_faults": "zero candidate bot faults in every confirmation game",
+    "P3_fuel": "fuel exhaustion per game <= 1.2 x hp01 + 0.05 (primary set)",
+    "P4_primary_strength": "primary set: paired diff vs hp01 >= 0 and map-cluster bootstrap p10 >= -1.5 pp",
+    "P5_direct": "direct vs hp01 on the primary set >= 50%",
+    "P6_secondary": "published holdout: paired diff vs hp01 >= -1.0 pp (point estimate); p10 reported"
+  },
+  "ladder": "submission only after all gates pass and the active version is rechecked; ladder results reported separately"
+}

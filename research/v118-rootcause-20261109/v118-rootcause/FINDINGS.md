@@ -26,7 +26,7 @@ Evidence labels: **[replay]** ladder replay observation, **[source]** source-con
 ## 3. Swirl outnumbered contact: traced; gates Parked
 
 - [replay] Varg advanced on 3–4 enemies with no ally within 6, was stunned, and died.
-- [traced] Over 40 local games on 5 brawl maps, turns ending closer to ≥3 enemies with no healthy ally support break down as: `fight-champ` (handle_enemies committed) 528 episodes, 26% died within 15 rounds; fallbacks `approach` 4%, `join` 9%, `tribute` 6%. Combat itself chooses the approach; a declining branch does not fall through to an advance.
+- [traced] Over 40 local games on 5 brawl maps, turns ending closer to ≥3 enemies with no healthy ally support break down as: `fight-champ` (handle_enemies committed) 528 episodes; fallbacks `approach`, `join`, `tribute`. Combat itself chooses the approach; a declining branch does not fall through to an advance. **CORRECTION (session 2):** the first death analysis read native `death` events backwards. In those events the **owner is the champion that died** and the entry target is the killer. Corrected rates of dying within 15 rounds: `fight-champ` 11%, `approach` 6%, `join` 1%, **`flee` 33%** (the deadliest). For N, our deaths were unchanged (11.6 vs 11.4 per game) while enemy deaths fell 11.6 → 8.5, so passivity costs kills, not lives. See §8.
 - [source] `winning` compares time-to-kill against time-to-die. Both numbers gates are compiled off (`A3_NUMBERS 0`, `APEX_OUTNUMBERED 0`).
 - Paired development (880 games each): N (`A3_NUMBERS 1`) −127, deaths 10.3 → 7.2/game. O (`APEX_OUTNUMBERED 2`) −43. Focused repair L (lone champion vs ≥3 foes) −1/880 alone, and HDRL −34/2,704 versus HDR +20. Passivity costs more economy than it saves in deaths. **Classification: Parked.** The ladder cluster is opponent-specific (SkibidiSloppers 0–5 with an upgraded Vesper carry), and the local references don't reproduce it.
 
@@ -74,3 +74,34 @@ Pre-registered gates (`release-protocol.json`): G1 targets ✅, G2 faults ✅, G
 **v18HDR is packaged (`release/v18HDR`) with `approved_for_upload: false`.** The ladder was not touched. The CLI session was also logged out at check time (`cambc login` required), so the active ladder version could not be re-read. The last recorded active version was 117 (activated 2026-11-09T10:41Z). Teammate branch `claude/v115-fuel-merge-1109` reports v115 cancelled and the team pinned to v106 around 00:24Z, before v117. Recheck before any change.
 
 Classifications: H Accepted (target), D+R Accepted (target), HDR whole-bot Conditionally useful (non-inferior within noise on 4 panels; the formal holdout gate failed), N/O/L Parked, retrain/blend Retry required, banking Parked pending a decision trace.
+
+## 8. Session 2 (later 2026-11-09): new ladder data, banking and camp-safety fixes
+
+**Ladder (v117 active):** 175 games since the 11:38Z inventory, 102–73 (ranked 50–50, unranked 52–23), zero faults, fuel exhaustion 2.27/game. Data is in `../ladder-new-20261109/`: `matches.json`, `games.json`, `death-context.json` (decoded 8-round pre-death windows for 861 deaths), and replays/summaries under `matches/`.
+- Losses: we die 11.8/game vs 6.5. Killers are Vesper Vale 3.9/loss, Vendetta 2.2, Marcella 1.8, **camps 1.6** (1.0 per win). We lose 111 gems/loss on death.
+- Decoded deaths: 61% outnumbered; 38% go from >90% HP to dead within 8 rounds; most happen with allies nearby (lost team fights). 72% of camp deaths have an enemy within 6 tiles.
+- Native timelines miss the final partial round's submissions; use `n['teams'][i]['submittedGems']` for final scores. Corrected: 7/73 losses ended with our unbanked bags ≥ the deficit.
+
+**W (winning-bag banking): Accepted.** [traced] 78 local winning-bag episodes:
+- The A2_ALTARFIX stuck lockout (80 rounds) also shelved game-winning bags; one Varg held 651–777 gems with `win_now()` for 345 rounds.
+- The tribute-win branch also waited for danger-level HP while 2 tiles from an altar.
+
+Fix: winning bags ignore the lockout, retry `walk_toward(altar_ring)` when stuck, and may bank at any HP when an altar is within 10 with no enemy within 8. Result: +10/2,704 vs HDR (90% CI −2..+23), zero faults, no fuel change.
+
+**T (late-bank ordering): kept (neutral, −2/2,704).** A late carrier banks before `hunt()` and the other branches. Twisty ladder loss pattern.
+
+**Camp safety:**
+- [traced] 712 local camp deaths: `flee` 43% (`retreat_from` had no camp term), `home-escape` 26% (nearest-exit walk ignoring damage).
+- C (general flee penalty + escape step + per-turn `camp_hot` in the world update): −76/2,704 (CI −132..−19). Its halves: flee-only −60, escape-only −48. The shared per-turn world-update cost was the common factor: hot-path work costs games at the fuel limit.
+- K (lazy, no world change, dash only near-lethal): −35. Camp deaths −18%, but enemy kills fell too: fleeing through camps also drags chasers into camp fire.
+- **Q (lethal-only: refuse only flee steps where camps alone would kill; damage-aware exit only when two more rounds would be lethal): kept.** 0/2,704 vs W (CI −37..+37). On the 12 incident maps camp deaths fall 3.81 → 3.07/game and our deaths 12.97 → 12.57.
+
+**Z (camp-aware time-to-die in handle_enemies): Parked.** −29/2,704 vs WTQ. Our deaths −6% and camp deaths −11%, but enemy kills −6% and incident score −7/216: the N passivity pattern again.
+
+**Candidate `v18HDRWTQ`** (H+D+R+W+T+Q): +31 vs hp01 over 2,740 dev games (CI −30..+90), zero faults, fuel 3.41 vs ~3.37/game (dev). Packaged in `../release/v18HDRWTQ` with `approved_for_upload: false`. Confirmation protocol v2 (`release-protocol-v2.json`) was pre-registered before selection: sealed 96 fresh maps in `../arena/maps_v118_confirm` (seed 261110118, manifest `e780c123`) plus the reused published holdout. **Not yet run:** `python v118-rootcause/confirm_v2.py v18HDRWTQ`.
+
+**Next levers (evidence-ranked):**
+1. Fights inside awake camp range (72% of ladder camp deaths have enemies near); any change must keep kills (the Z/N lesson).
+2. Burst deaths in outnumbered team fights against item-fed Vesper Vale; local references don't reproduce them, so consider the proxy opponent (`bots/proxy`) or ladder groups.
+3. The `flee` mover is the deadliest mode (33% die within 15 rounds); `run_escape` (APEX_ESCAPE_SEARCH) is compiled off.
+4. Teleport crystals can't be emergency escapes (3-turn channel cancelled by stuns or damage).

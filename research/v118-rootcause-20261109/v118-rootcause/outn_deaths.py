@@ -11,9 +11,9 @@ for r in rows:
     deaths=collections.defaultdict(list)
     for e in n['events']:
         if e['kind']!='death':continue
-        for v in e['entries']:
-            t=v['target']
-            if t.get('team')==us and t.get('kind')=='champion': deaths[t['name'].split()[0].lower()].append(v['timestamp']['round'])
+        # owner = the champion that died; entry target = its killer
+        if e['owner'].get('team')==us and e['owner'].get('kind')=='champion':
+            for v in e['entries']: deaths[e['owner']['name'].split()[0].lower()].append(v['timestamp']['round'])
     last={}
     for l in stdout(r['replay_bundle'],r['side']).splitlines():
         if not l.startswith('OUTN'):continue

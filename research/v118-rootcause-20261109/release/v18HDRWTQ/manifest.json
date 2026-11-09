@@ -1,0 +1,29 @@
+{
+  "candidate": "v18HDRWTQ",
+  "letters": "H home siege, D relaxed bridge dash, R route veto, W winning-bag banking, T late-bank ordering, Q lethal-only camp safety",
+  "parent": {
+    "name": "hp01",
+    "ladder_version": 117,
+    "source_digest": "ea9a68340c2a7030204069c50776ca1193383a413d582446c39eb208018cf8e5"
+  },
+  "source_digest": "5989f5e4cf39d07d7eefa46caf2e1dd11558ce811344aadd89e9a6f6666616f6",
+  "source_zip": {
+    "file": "source.zip",
+    "sha256": "be528dd7c2c9cc0815e636a918a1cd53620babc1e14db6e222db7d51851cf4af"
+  },
+  "wasm": {
+    "file": "bot-injected.wasm",
+    "sha256": "95be3919f7a44cab99cf27acf67b52423f32f0c1d39ffad22612b98d2616ce2e"
+  },
+  "nn_weights_sha256": "ee60a7a5ccbc15010a4578ea20a3505ce4035a96acd178a9d67395a94650a7e7",
+  "sdk_digest": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+  "cli_sha256": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+  "engine": "3.0.0",
+  "engine_build": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "dev_evidence": "v118-rootcause/v118-eval-wtq.json, v118-eval-z.json (+31 vs hp01 over 2740 paired dev games, CI -30..+90; zero faults)",
+  "protocol": "v118-rootcause/release-protocol-v2.json (sha 389bfe62d7d4027c)",
+  "approved_for_upload": false,
+  "reason": "Pre-registered confirmation (protocol v2: sealed maps_v118_confirm + reused published holdout) not yet run.",
+  "rollback": "cambc submissions activate 117 --json; verify active == selected == 117",
+  "created": "2026-11-09T16:29:04.629495+00:00"
+}

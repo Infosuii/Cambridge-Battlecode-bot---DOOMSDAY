@@ -7,9 +7,8 @@ def one(r):
     d=collections.Counter()
     for e in n['events']:
         if e['kind']!='death':continue
-        for v in e['entries']:
-            t=v['target']
-            if t.get('kind')=='champion':d['us' if t.get('team')==us else 'them']+=1
+        if e['owner'].get('kind')=='champion':  # owner = the champion that died
+            d['us' if e['owner'].get('team')==us else 'them']+=len(e['entries'])
     held=next((int(float(t.get('gems',0) or 0)) for t in n['teams'] if t['team']==us),0)
     return r['candidate'],r['map'],r['opponent'],r['side'],d['us'],d['them'],r['score'],r['rounds']
 def deaths(labels):

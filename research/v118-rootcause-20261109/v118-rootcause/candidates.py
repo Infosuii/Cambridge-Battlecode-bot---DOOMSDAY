@@ -107,3 +107,95 @@ def edit_L(files, foes=3):
 
 
 EDITS['L'] = edit_L
+
+
+CS_DEFAULTS = '''
+#ifndef CS_FLEE
+#define CS_FLEE 1
+#endif
+#ifndef CS_ESCAPE
+#define CS_ESCAPE 1
+#endif
+#ifndef CS_FLEE_W
+#define CS_FLEE_W 600.0f
+#endif
+#ifndef CS_SDK_AWAKE
+#define CS_SDK_AWAKE 0
+#endif
+'''
+
+
+CRLF, LF = chr(13) + chr(10), chr(10)
+
+
+def edit_C(files):
+    """Camp safety: camp damage in the flee step and a damage-minimising home-escape step (with dash)."""
+    files['common.h'] = (files['common.h'].decode() + CS_DEFAULTS).encode()
+    h = files['bot.h'].decode().replace(CRLF, LF)
+    h = replace(h, '    bool retreat_from(vec2 threat);\n', '    bool retreat_from(vec2 threat);\n'
+                '    void cs_build();\n    float camp_hit(vec2 q);\n    int camp_penalty(vec2 q);\n    bool cs_escape();\n'
+                '    struct CsCamp { vec2 p; float s; int r; };\n    std::array<CsCamp, 24> csc{};\n    int n_csc = 0, cs_round = -1;\n')
+    files['bot.h'] = h.encode()
+    wh = files['world.h'].decode().replace(CRLF, LF)
+    wh = replace(wh, '    bc::bitboard hot_zone;', '    std::vector<char> camp_hot; // v118 CS: camps counted in hot_zone\n    bc::bitboard awake_tiles;   // v118 CS: SDK awake camp tiles (CS_SDK_AWAKE)\n    bc::bitboard hot_zone;')
+    files['world.h'] = wh.encode()
+    wc = files['world.cpp'].decode().replace(CRLF, LF)
+    wc = replace(wc, '    hot_zone.clear();\n    for (const auto& g : groups) {',
+                 '    hot_zone.clear();\n    camp_hot.assign(camps.size(), 0);\n    awake_tiles.clear();\n'
+                 '    if (CS_SDK_AWAKE) {\n        try {\n            bc::vision::awake_camp_tiles_into(awake_tiles);\n        } catch (...) {\n            awake_tiles.clear();\n        }\n    }\n'
+                 '    for (const auto& g : groups) {')
+    wc = replace(wc, '            if (!c.dead && c.strength > 0 && (c.hp < c.max_hp || awake)) hot_zone.draw_chebyshev(c.pos, static_cast<float>(c.range));',
+                 '            if (!c.dead && c.strength > 0 && (c.hp < c.max_hp || awake || (CS_SDK_AWAKE && bit(awake_tiles, c.pos)))) {\n'
+                 '                hot_zone.draw_chebyshev(c.pos, static_cast<float>(c.range));\n                camp_hot[static_cast<std::size_t>(i)] = 1;\n            }')
+    files['world.cpp'] = wc.encode()
+    c = files['bot.cpp'].decode()
+    c = replace(c, 'bool Bot::retreat_from(vec2 threat) {', (HERE / 'cs_funcs.inc').read_text() + 'bool Bot::retreat_from(vec2 threat) {')
+    c = replace(c, '    int here = away(pos) - home_w * fdist(w.spawn_field, pos) - ally_pull(pos);',
+                '    int here = away(pos) - home_w * fdist(w.spawn_field, pos) - ally_pull(pos) - (CS_FLEE ? camp_penalty(pos) : 0);')
+    c = replace(c, '        int sc = away(q) - home_w * static_cast<int>(fdist(w.spawn_field, q)) - ally_pull(q);',
+                '        int sc = away(q) - home_w * static_cast<int>(fdist(w.spawn_field, q)) - ally_pull(q) - (CS_FLEE ? camp_penalty(q) : 0);')
+    c = replace(c, '        mode = "home-escape";\n        walk_toward(~w.hot_zone & ~w.static_blocked);',
+                '        mode = "home-escape";\n        if (!(CS_ESCAPE && cs_escape())) walk_toward(~w.hot_zone & ~w.static_blocked);')
+    files['bot.cpp'] = c.encode()
+
+
+def edit_A(files):
+    files['common.h'] = b'#define CS_SDK_AWAKE 1\n' + files['common.h']
+
+
+EDITS['C'] = edit_C
+EDITS['A'] = edit_A
+
+
+WB_FUNC = '''
+// WB (v118): a bag that wins the game on submission. Local trace of 78 winning-bag episodes: the A2_ALTARFIX stuck
+// lockout (80 rounds) also shelved winning bags (a Varg carried 651-777 gems with win_now() for 345 rounds while
+// farming), and the tribute-win branch waited for full danger health even two tiles from an altar with no enemy near.
+bool Bot::wb_safe_close() {
+    if (!w.altar_ready || fdist(w.altar_field, pos) > WB_CLOSE) return false;
+    for (const auto& e : w.enemies)
+        if (cheb(e.pos, pos) <= 8) return false;
+    return true;
+}
+
+'''
+
+
+def edit_W(files):
+    """Winning-bag banking: no stuck lockout for game-winning bags; bank them at any health when close and unthreatened."""
+    files['common.h'] = (files['common.h'].decode() + '\n#ifndef WB_CLOSE\n#define WB_CLOSE 10\n#endif\n').encode()
+    h = files['bot.h'].decode().replace(CRLF, LF)
+    files['bot.h'] = replace(h, '    bool go_home_if_needed();\n', '    bool go_home_if_needed();\n    bool wb_safe_close();\n').encode()
+    c = files['bot.cpp'].decode()
+    c = replace(c, 'bool Bot::tribute_if_needed() {', WB_FUNC + 'bool Bot::tribute_if_needed() {')
+    c = replace(c, '    if (round < tribute_off_until) {', '    if (round < tribute_off_until && !win_now()) {')
+    c = replace(c, '            tribute_off_until = round + 80;\n            return false;',
+                '            if (!win_now()) {\n                tribute_off_until = round + 80;\n                return false;\n            }\n'
+                '            // Never shelve a winning bag: try the unit-aware walk to any altar tile instead.\n'
+                '            if (walk_toward(w.altar_ring)) return true;')
+    c = replace(c, '    } else if (win_now() && hp >= max_hp * tune::kDangerHp && tribute_if_needed()) {',
+                '    } else if (win_now() && (hp >= max_hp * tune::kDangerHp || wb_safe_close()) && tribute_if_needed()) {')
+    files['bot.cpp'] = c.encode()
+
+
+EDITS['W'] = edit_W
