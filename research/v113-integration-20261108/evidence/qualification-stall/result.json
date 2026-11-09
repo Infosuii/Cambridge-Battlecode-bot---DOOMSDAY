@@ -1,0 +1,133 @@
+{
+  "candidate": "sw08",
+  "approved_for_upload": false,
+  "gates": {
+    "zero_faults_and_codes": true,
+    "fuel_rate_bounded": true,
+    "fewer_trailing_quiet_stalls": true,
+    "b113_reference_gain": false,
+    "b113_direct": false,
+    "b113_worst_style_bounded": false,
+    "b114_reference_gain": false,
+    "b114_direct": true,
+    "b114_worst_style_bounded": false
+  },
+  "comparisons": {
+    "b113": {
+      "games": 504,
+      "maps": 28,
+      "candidate_score": 0.6924603174603174,
+      "control_score": 0.6527777777777778,
+      "gain": 0.03968253968253969,
+      "map_cluster_bootstrap_95": [
+        -0.02579365079365079,
+        0.10719246031745963
+      ],
+      "style_deltas": {
+        "b111": -0.125,
+        "nnm4": 0.07142857142857142,
+        "ref_hold_rush100": -0.017857142857142856,
+        "ref_p65pack": 0.07142857142857142,
+        "ref_x1": 0.16071428571428573,
+        "ref_x3ctr": 0.16071428571428573,
+        "teammate_john_nnfinal": 0.0,
+        "teammate_max_gx": 0.017857142857142856,
+        "v92": 0.017857142857142856
+      },
+      "fresh_generated_gain": 0.03968253968253969,
+      "fresh_generated_maps": 28,
+      "published_gain": null
+    },
+    "b114": {
+      "games": 504,
+      "maps": 28,
+      "candidate_score": 0.6924603174603174,
+      "control_score": 0.6190476190476191,
+      "gain": 0.07341269841269839,
+      "map_cluster_bootstrap_95": [
+        -0.00595238095238095,
+        0.15674603174603172
+      ],
+      "style_deltas": {
+        "b111": -0.14285714285714285,
+        "nnm4": -0.05357142857142857,
+        "ref_hold_rush100": 0.03571428571428571,
+        "ref_p65pack": 0.03571428571428571,
+        "ref_x1": 0.07142857142857142,
+        "ref_x3ctr": 0.21428571428571427,
+        "teammate_john_nnfinal": 0.17857142857142858,
+        "teammate_max_gx": 0.16071428571428573,
+        "v92": 0.16071428571428573
+      },
+      "fresh_generated_gain": 0.07341269841269839,
+      "fresh_generated_maps": 28,
+      "published_gain": null
+    },
+    "mx500": {
+      "games": 504,
+      "maps": 28,
+      "candidate_score": 0.6924603174603174,
+      "control_score": 0.6904761904761905,
+      "gain": 0.001984126984126985,
+      "map_cluster_bootstrap_95": [
+        -0.06944444444444445,
+        0.0734126984126984
+      ],
+      "style_deltas": {
+        "b111": -0.16071428571428573,
+        "nnm4": -0.08928571428571429,
+        "ref_hold_rush100": -0.10714285714285714,
+        "ref_p65pack": 0.017857142857142856,
+        "ref_x1": 0.07142857142857142,
+        "ref_x3ctr": 0.07142857142857142,
+        "teammate_john_nnfinal": 0.10714285714285714,
+        "teammate_max_gx": 0.05357142857142857,
+        "v92": 0.05357142857142857
+      },
+      "fresh_generated_gain": 0.001984126984126985,
+      "fresh_generated_maps": 28,
+      "published_gain": null
+    }
+  },
+  "head_to_head": {
+    "b113": {
+      "score": 25.0,
+      "games": 56
+    },
+    "b114": {
+      "score": 35.0,
+      "games": 56
+    }
+  },
+  "fuel_rates": {
+    "sw08": {
+      "events": 1348,
+      "scheduled_champion_rounds": 2538480,
+      "per_1000_scheduled_champion_rounds": 0.5310264410198229
+    },
+    "b113": {
+      "events": 1310,
+      "scheduled_champion_rounds": 2550828,
+      "per_1000_scheduled_champion_rounds": 0.5135587346540026
+    },
+    "b114": {
+      "events": 5351,
+      "scheduled_champion_rounds": 2568006,
+      "per_1000_scheduled_champion_rounds": 2.0837178729333186
+    },
+    "mx500": {
+      "events": 1373,
+      "scheduled_champion_rounds": 2571684,
+      "per_1000_scheduled_champion_rounds": 0.5338914112309289
+    }
+  },
+  "trailing_quiet_stall_rates": {
+    "b114": 0.019570321355973887,
+    "mx500": 0.03202656383890317,
+    "sw08": 0.01617447521749541
+  },
+  "games": 2128,
+  "protocol_sha256": "de1c460283dd89d234f4bd07938076e7b1e07a861c003f2c7f7eb4e021f1fb9d",
+  "source_sha256": "2825556d614befcba121864c5086d52de44ce3d375045c2562c36ec4f16a6dbf",
+  "wasm_sha256": "59b0803cd6fcbd48ff31abd56c9d04330c31588087bb89b8a21580137c6b4919"
+}
