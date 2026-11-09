@@ -369,6 +369,35 @@ def goldtrip(src, until=300, k=3.75, minrate=0.6):
 """)
 
 
+def honest(src):
+    """v113's honest fuel checks alone: every `(bc::fuel_remaining() + nn_spent)` (v92's checks adding back what the
+    network spent this turn) becomes `bc::fuel_remaining()`, in every source file."""
+    n = 0
+    for f in os.listdir(src):
+        if f.endswith((".cpp", ".h")):
+            p = os.path.join(src, f)
+            t = open(p, encoding="utf-8", newline="").read()
+            n += t.count("(bc::fuel_remaining() + nn_spent)")
+            open(p, "w", encoding="utf-8", newline="").write(t.replace("(bc::fuel_remaining() + nn_spent)", "bc::fuel_remaining()"))
+    assert n > 0, "no nn_spent fuel checks found"
+
+
+def v113fixes(src):
+    """v113's non-fuel fixes alone (patches/: hunks of v112 -> v113 bot.cpp that are not fuel-check swaps, plus bot.h):
+    channel_retry.h (a cancelled recall/submission is not restarted on the same tile unless safe), gem submission in
+    altar range during the route-timeout window, explicit enemy altar-lock query trying every open altar first."""
+    import shutil
+    import subprocess
+    here = os.path.join(os.path.dirname(os.path.abspath(__file__)), "patches")
+    shutil.copy(os.path.join(here, "channel_retry.h"), os.path.join(src, "channel_retry.h"))
+    for name in ("bot.cpp", "bot.h"):
+        p = os.path.join(src, name)
+        t = open(p, encoding="utf-8", newline="").read().replace("\r\n", "\n")
+        open(p, "w", encoding="utf-8", newline="").write(t)
+        r = subprocess.run(["patch", "-s", "-F3", p, os.path.join(here, f"v113_fixes_{name}.diff")], capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout + r.stderr
+
+
 TABLE_G3 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "research", "rl_env_1104", "candidates",
                         "profiles", "profile_table_g3.h")
 
@@ -377,7 +406,8 @@ PATCHES = {"contest": contest, "waitcap": waitcap, "hiderec": hiderec, "earlysho
            "clfs9": lambda s: patch(s, "common.h", "#ifndef CLFS\n#define CLFS 15\n", "#ifndef CLFS\n#define CLFS 9\n"),
            "clfs11": lambda s: clfs(s, 11), "clfs15": lambda s: clfs(s, 15),
            "table": lambda s: newmap_table(s, TABLE_G3),
-           "goldtrip": goldtrip, "goldtrip_all": lambda s: goldtrip(s, until=100000)}
+           "goldtrip": goldtrip, "goldtrip_all": lambda s: goldtrip(s, until=100000),
+           "honest": honest, "v113fixes": v113fixes}
 
 if __name__ == "__main__":
     src = sys.argv[1]
