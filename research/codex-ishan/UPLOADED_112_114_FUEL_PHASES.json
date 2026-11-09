@@ -1,0 +1,223 @@
+{
+  "pool_sha256": "418b426d5e433f9b2309aa71b6fb2b6db649d34a5d56f218be0a5c6781abf977",
+  "reopened": 688,
+  "all": {
+    "v92": {
+      "round_bins": {
+        "1-1": 28,
+        "2-50": 44,
+        "51-150": 35,
+        "151-300": 35,
+        "301-600": 27,
+        "601-end": 34
+      },
+      "mean_rounds": 1228.2558139534883,
+      "median_rounds": 1140.0
+    },
+    "v112": {
+      "round_bins": {
+        "1-1": 62,
+        "2-50": 243,
+        "51-150": 330,
+        "151-300": 225,
+        "301-600": 312,
+        "601-end": 438
+      },
+      "mean_rounds": 1217.2558139534883,
+      "median_rounds": 1162.0
+    },
+    "v113": {
+      "round_bins": {
+        "1-1": 64,
+        "2-50": 148,
+        "51-150": 102,
+        "151-300": 31,
+        "301-600": 39,
+        "601-end": 52
+      },
+      "mean_rounds": 1192.0697674418604,
+      "median_rounds": 1145.5
+    },
+    "v114": {
+      "round_bins": {
+        "1-1": 64,
+        "2-50": 240,
+        "51-150": 361,
+        "151-300": 191,
+        "301-600": 282,
+        "601-end": 457
+      },
+      "mean_rounds": 1190.8255813953488,
+      "median_rounds": 1137.5
+    }
+  },
+  "common_round_exposure": {
+    "150": {
+      "all_arms_reached_round": 172,
+      "fuel_through_round": {
+        "v92": 107,
+        "v112": 635,
+        "v113": 314,
+        "v114": 665
+      }
+    },
+    "300": {
+      "all_arms_reached_round": 172,
+      "fuel_through_round": {
+        "v92": 142,
+        "v112": 860,
+        "v113": 345,
+        "v114": 856
+      }
+    },
+    "600": {
+      "all_arms_reached_round": 161,
+      "fuel_through_round": {
+        "v92": 164,
+        "v112": 1146,
+        "v113": 383,
+        "v114": 1117
+      }
+    },
+    "800": {
+      "all_arms_reached_round": 135,
+      "fuel_through_round": {
+        "v92": 113,
+        "v112": 986,
+        "v113": 272,
+        "v114": 972
+      }
+    }
+  },
+  "paired_directions": {
+    "v92->v113": {
+      "1-1": {
+        "decreased_cells": 0,
+        "tied_cells": 163,
+        "increased_cells": 9
+      },
+      "2-50": {
+        "decreased_cells": 10,
+        "tied_cells": 123,
+        "increased_cells": 39
+      },
+      "51-150": {
+        "decreased_cells": 7,
+        "tied_cells": 136,
+        "increased_cells": 29
+      },
+      "151-300": {
+        "decreased_cells": 12,
+        "tied_cells": 148,
+        "increased_cells": 12
+      },
+      "301-600": {
+        "decreased_cells": 7,
+        "tied_cells": 146,
+        "increased_cells": 19
+      },
+      "601-end": {
+        "decreased_cells": 7,
+        "tied_cells": 142,
+        "increased_cells": 23
+      }
+    },
+    "v112->v113": {
+      "1-1": {
+        "decreased_cells": 0,
+        "tied_cells": 171,
+        "increased_cells": 1
+      },
+      "2-50": {
+        "decreased_cells": 59,
+        "tied_cells": 112,
+        "increased_cells": 1
+      },
+      "51-150": {
+        "decreased_cells": 90,
+        "tied_cells": 80,
+        "increased_cells": 2
+      },
+      "151-300": {
+        "decreased_cells": 75,
+        "tied_cells": 93,
+        "increased_cells": 4
+      },
+      "301-600": {
+        "decreased_cells": 92,
+        "tied_cells": 74,
+        "increased_cells": 6
+      },
+      "601-end": {
+        "decreased_cells": 100,
+        "tied_cells": 65,
+        "increased_cells": 7
+      }
+    },
+    "v112->v114": {
+      "1-1": {
+        "decreased_cells": 0,
+        "tied_cells": 171,
+        "increased_cells": 1
+      },
+      "2-50": {
+        "decreased_cells": 12,
+        "tied_cells": 150,
+        "increased_cells": 10
+      },
+      "51-150": {
+        "decreased_cells": 31,
+        "tied_cells": 100,
+        "increased_cells": 41
+      },
+      "151-300": {
+        "decreased_cells": 54,
+        "tied_cells": 77,
+        "increased_cells": 41
+      },
+      "301-600": {
+        "decreased_cells": 59,
+        "tied_cells": 69,
+        "increased_cells": 44
+      },
+      "601-end": {
+        "decreased_cells": 52,
+        "tied_cells": 70,
+        "increased_cells": 50
+      }
+    },
+    "v113->v114": {
+      "1-1": {
+        "decreased_cells": 0,
+        "tied_cells": 172,
+        "increased_cells": 0
+      },
+      "2-50": {
+        "decreased_cells": 3,
+        "tied_cells": 108,
+        "increased_cells": 61
+      },
+      "51-150": {
+        "decreased_cells": 1,
+        "tied_cells": 72,
+        "increased_cells": 99
+      },
+      "151-300": {
+        "decreased_cells": 6,
+        "tied_cells": 95,
+        "increased_cells": 71
+      },
+      "301-600": {
+        "decreased_cells": 4,
+        "tied_cells": 82,
+        "increased_cells": 86
+      },
+      "601-end": {
+        "decreased_cells": 9,
+        "tied_cells": 69,
+        "increased_cells": 94
+      }
+    }
+  },
+  "limits": "Event timing only. Completed-round matching is descriptive and may select on game trajectory. Native summaries do not expose the code path that exhausted fuel."
+}
