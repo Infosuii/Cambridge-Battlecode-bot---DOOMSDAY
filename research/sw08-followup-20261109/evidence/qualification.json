@@ -1,0 +1,163 @@
+{
+  "candidate": "sfhs002",
+  "expected_ladder": {
+    "version": 113,
+    "id": "ff2f3acc-c4af-48fd-b2a2-85121a367e64"
+  },
+  "gates": {
+    "zero_faults_and_codes": true,
+    "current_reference_gain": false,
+    "positive_cluster_confidence": false,
+    "direct_v113_above_half": false,
+    "worst_style_bounded": true,
+    "parent_score_preserved": true,
+    "fuel_rate_bounded": true,
+    "stall_guard_pass": false,
+    "published_active_bounded": true
+  },
+  "approved_for_upload": false,
+  "comparisons": {
+    "sw08": {
+      "games": 480,
+      "maps": 40,
+      "candidate_score": 0.63125,
+      "control_score": 0.6541666666666667,
+      "gain": -0.02291666666666666,
+      "map_cluster_bootstrap_95": [
+        -0.07708333333333334,
+        0.033333333333333326
+      ],
+      "style_deltas": {
+        "b111": -0.0625,
+        "nnm4": -0.1375,
+        "ref_hold_rush100": 0.0375,
+        "ref_x1": 0.0125,
+        "teammate_john_nnfinal": -0.0125,
+        "v92": 0.025
+      },
+      "fresh_generated_gain": -0.02291666666666666,
+      "fresh_generated_maps": 40,
+      "published_gain": null
+    },
+    "b113": {
+      "games": 480,
+      "maps": 40,
+      "candidate_score": 0.63125,
+      "control_score": 0.6770833333333334,
+      "gain": -0.04583333333333332,
+      "map_cluster_bootstrap_95": [
+        -0.09791666666666668,
+        0.008333333333333331
+      ],
+      "style_deltas": {
+        "b111": -0.0375,
+        "nnm4": -0.1,
+        "ref_hold_rush100": -0.025,
+        "ref_x1": -0.0375,
+        "teammate_john_nnfinal": -0.0375,
+        "v92": -0.0375
+      },
+      "fresh_generated_gain": -0.04583333333333332,
+      "fresh_generated_maps": 40,
+      "published_gain": null
+    },
+    "b114": {
+      "games": 480,
+      "maps": 40,
+      "candidate_score": 0.63125,
+      "control_score": 0.61875,
+      "gain": 0.012500000000000011,
+      "map_cluster_bootstrap_95": [
+        -0.05416666666666666,
+        0.08125000000000002
+      ],
+      "style_deltas": {
+        "b111": -0.0625,
+        "nnm4": -0.15,
+        "ref_hold_rush100": 0.1,
+        "ref_x1": 0.0875,
+        "teammate_john_nnfinal": -0.025,
+        "v92": 0.125
+      },
+      "fresh_generated_gain": 0.012500000000000011,
+      "fresh_generated_maps": 40,
+      "published_gain": null
+    }
+  },
+  "head_to_head": {
+    "score": 0.475,
+    "opponents": {
+      "b114": 0.5,
+      "b113": 0.45
+    },
+    "fuel": 503,
+    "faults": 0,
+    "games": 160
+  },
+  "stall_rates": {
+    "sfhs002": 0.03205511057295033,
+    "sw08": 0.018026945653821996
+  },
+  "published_stall_counts": {
+    "sfhs002": {
+      "alive_pairs": 51919,
+      "stationary_pairs": 18538,
+      "movable_idle_pairs": 9877,
+      "channel_pairs": 2505,
+      "reward_wait_pairs": 6112,
+      "stall_pairs": 3323,
+      "fuel_overlap_pairs": 2,
+      "channel_restarts": 0,
+      "trailing_quiet_pairs": 1306,
+      "games": 8
+    },
+    "sw08": {
+      "alive_pairs": 48001,
+      "stationary_pairs": 16888,
+      "movable_idle_pairs": 8914,
+      "channel_pairs": 2082,
+      "reward_wait_pairs": 5862,
+      "stall_pairs": 2706,
+      "fuel_overlap_pairs": 0,
+      "channel_restarts": 0,
+      "trailing_quiet_pairs": 1200,
+      "games": 8
+    }
+  },
+  "published_direct": {
+    "score": 0.5416666666666666,
+    "opponents": {
+      "b114": 0.5,
+      "b113": 0.5833333333333334
+    },
+    "fuel": 453,
+    "faults": 0,
+    "games": 96
+  },
+  "fuel_rates": {
+    "sfhs002": {
+      "events": 1590,
+      "scheduled_champion_rounds": 2482530,
+      "per_1000_scheduled_champion_rounds": 0.6404756437988665
+    },
+    "sw08": {
+      "events": 1544,
+      "scheduled_champion_rounds": 2467578,
+      "per_1000_scheduled_champion_rounds": 0.6257147697053548
+    },
+    "b113": {
+      "events": 1616,
+      "scheduled_champion_rounds": 2456016,
+      "per_1000_scheduled_champion_rounds": 0.6579761695363548
+    },
+    "b114": {
+      "events": 5682,
+      "scheduled_champion_rounds": 2460426,
+      "per_1000_scheduled_champion_rounds": 2.309356184660705
+    }
+  },
+  "games": 2192,
+  "source_sha256": "370635dea82e61807381aa0e749f46fbf6c8f877f2bb2f3649cb29414f329081",
+  "wasm_sha256": "2746e43d9cfd2d61469d06133ad58e465d935e489fc93a6ae4571edbec68347b",
+  "protocol_sha256": "3b514bbd603415d1a5eac24f47ef1bda7c8da34ced0929aec615c009a995b023"
+}

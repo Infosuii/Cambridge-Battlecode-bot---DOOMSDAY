@@ -1,0 +1,436 @@
+{
+  "selected": {
+    "name": "sfhs002",
+    "valid": true,
+    "rank": 1.2135416666666667,
+    "pooled": {
+      "iteration": 2,
+      "actor": "sfhs002",
+      "score": 0.6770833333333334,
+      "opponents": {
+        "b111": 0.6458333333333334,
+        "nnm4": 0.5833333333333334,
+        "v92": 0.6458333333333334,
+        "ref_x1": 0.8125,
+        "ref_hold_rush100": 0.8333333333333334,
+        "teammate_john_nnfinal": 0.5416666666666666
+      },
+      "fuel": 1054,
+      "games": 288,
+      "purpose": "Development checkpoint selection, never final promotion"
+    },
+    "head_to_head": {
+      "score": 0.6145833333333334,
+      "opponents": {
+        "b113": 0.625,
+        "b114": 0.6041666666666666
+      },
+      "fuel": 365,
+      "faults": 0,
+      "games": 96
+    },
+    "weights": {
+      "alpha": 1.0,
+      "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-handoff\\student_2.pt",
+      "trained_iteration": 2,
+      "source_parent": "sf06"
+    },
+    "source_sha256": "370635dea82e61807381aa0e749f46fbf6c8f877f2bb2f3649cb29414f329081",
+    "wasm_sha256": "2746e43d9cfd2d61469d06133ad58e465d935e489fc93a6ae4571edbec68347b"
+  },
+  "ranking": [
+    {
+      "name": "sfhs002",
+      "valid": true,
+      "rank": 1.2135416666666667,
+      "pooled": {
+        "iteration": 2,
+        "actor": "sfhs002",
+        "score": 0.6770833333333334,
+        "opponents": {
+          "b111": 0.6458333333333334,
+          "nnm4": 0.5833333333333334,
+          "v92": 0.6458333333333334,
+          "ref_x1": 0.8125,
+          "ref_hold_rush100": 0.8333333333333334,
+          "teammate_john_nnfinal": 0.5416666666666666
+        },
+        "fuel": 1054,
+        "games": 288,
+        "purpose": "Development checkpoint selection, never final promotion"
+      },
+      "head_to_head": {
+        "score": 0.6145833333333334,
+        "opponents": {
+          "b113": 0.625,
+          "b114": 0.6041666666666666
+        },
+        "fuel": 365,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 1.0,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-handoff\\student_2.pt",
+        "trained_iteration": 2,
+        "source_parent": "sf06"
+      }
+    },
+    {
+      "name": "sfs000",
+      "valid": true,
+      "rank": 1.1486111111111112,
+      "pooled": {
+        "iteration": 0,
+        "actor": "sfs000",
+        "score": 0.6736111111111112,
+        "opponents": {
+          "b111": 0.5833333333333334,
+          "nnm4": 0.6666666666666666,
+          "v92": 0.7708333333333334,
+          "ref_x1": 0.7083333333333334,
+          "ref_hold_rush100": 0.7916666666666666,
+          "teammate_john_nnfinal": 0.5208333333333334
+        },
+        "fuel": 1061,
+        "games": 288,
+        "purpose": "Development checkpoint selection, never final promotion"
+      },
+      "head_to_head": {
+        "score": 0.5416666666666666,
+        "opponents": {
+          "b113": 0.5416666666666666,
+          "b114": 0.5416666666666666
+        },
+        "fuel": 351,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 0.0,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\student_0.pt",
+        "trained_iteration": 0
+      }
+    },
+    {
+      "name": "sf06",
+      "valid": true,
+      "rank": 1.1368055555555556,
+      "pooled": {
+        "score": 0.6909722222222222,
+        "opponents": {
+          "ref_x1": 0.8333333333333334,
+          "b111": 0.5833333333333334,
+          "ref_hold_rush100": 0.8958333333333334,
+          "teammate_john_nnfinal": 0.4791666666666667,
+          "v92": 0.7291666666666666,
+          "nnm4": 0.625
+        },
+        "fuel": 1047,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.4895833333333333,
+        "opponents": {
+          "b113": 0.4791666666666667,
+          "b114": 0.5
+        },
+        "fuel": 345,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": null
+    },
+    {
+      "name": "sf07",
+      "valid": true,
+      "rank": 1.1322916666666667,
+      "pooled": {
+        "score": 0.6770833333333334,
+        "opponents": {
+          "ref_x1": 0.8333333333333334,
+          "b111": 0.5208333333333334,
+          "ref_hold_rush100": 0.8125,
+          "teammate_john_nnfinal": 0.5,
+          "v92": 0.75,
+          "nnm4": 0.6458333333333334
+        },
+        "fuel": 1068,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.5208333333333334,
+        "opponents": {
+          "b113": 0.5625,
+          "b114": 0.4791666666666667
+        },
+        "fuel": 374,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": null
+    },
+    {
+      "name": "sw08",
+      "valid": false,
+      "rank": 1.1739583333333334,
+      "pooled": {
+        "score": 0.6979166666666666,
+        "opponents": {
+          "ref_x1": 0.7916666666666666,
+          "v92": 0.7916666666666666,
+          "ref_hold_rush100": 0.7708333333333334,
+          "nnm4": 0.6458333333333334,
+          "teammate_john_nnfinal": 0.5833333333333334,
+          "b111": 0.6041666666666666
+        },
+        "fuel": 1052,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.5729166666666666,
+        "opponents": {
+          "b113": 0.5,
+          "b114": 0.6458333333333334
+        },
+        "fuel": 351,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": null
+    },
+    {
+      "name": "sfs004",
+      "valid": false,
+      "rank": 1.1395833333333334,
+      "pooled": {
+        "iteration": 4,
+        "actor": "sfs004",
+        "score": 0.65625,
+        "opponents": {
+          "b111": 0.5416666666666666,
+          "nnm4": 0.6041666666666666,
+          "v92": 0.7291666666666666,
+          "ref_x1": 0.7916666666666666,
+          "ref_hold_rush100": 0.8333333333333334,
+          "teammate_john_nnfinal": 0.4375
+        },
+        "fuel": 1024,
+        "games": 288,
+        "purpose": "Development checkpoint selection, never final promotion"
+      },
+      "head_to_head": {
+        "score": 0.625,
+        "opponents": {
+          "b113": 0.5625,
+          "b114": 0.6875
+        },
+        "fuel": 363,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 1.0,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\student_4.pt",
+        "trained_iteration": 4
+      }
+    },
+    {
+      "name": "sfs002",
+      "valid": false,
+      "rank": 1.1385416666666666,
+      "pooled": {
+        "iteration": 2,
+        "actor": "sfs002",
+        "score": 0.65625,
+        "opponents": {
+          "b111": 0.6458333333333334,
+          "nnm4": 0.5833333333333334,
+          "v92": 0.7291666666666666,
+          "ref_x1": 0.7708333333333334,
+          "ref_hold_rush100": 0.75,
+          "teammate_john_nnfinal": 0.4583333333333333
+        },
+        "fuel": 1033,
+        "games": 288,
+        "purpose": "Development checkpoint selection, never final promotion"
+      },
+      "head_to_head": {
+        "score": 0.53125,
+        "opponents": {
+          "b113": 0.5,
+          "b114": 0.5625
+        },
+        "fuel": 360,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 1.0,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\student_2.pt",
+        "trained_iteration": 2
+      }
+    },
+    {
+      "name": "sfd25",
+      "valid": false,
+      "rank": 1.129513888888889,
+      "pooled": {
+        "score": 0.6597222222222222,
+        "opponents": {
+          "ref_x1": 0.7708333333333334,
+          "v92": 0.7291666666666666,
+          "ref_hold_rush100": 0.8125,
+          "nnm4": 0.5625,
+          "teammate_john_nnfinal": 0.4791666666666667,
+          "b111": 0.6041666666666666
+        },
+        "fuel": 1047,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.5104166666666666,
+        "opponents": {
+          "b113": 0.5208333333333334,
+          "b114": 0.5
+        },
+        "fuel": 354,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 0.25,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\sfd25.pt",
+        "trained_iteration": 2
+      }
+    },
+    {
+      "name": "sfhd50",
+      "valid": false,
+      "rank": 1.098263888888889,
+      "pooled": {
+        "score": 0.6493055555555556,
+        "opponents": {
+          "ref_x1": 0.8125,
+          "v92": 0.7291666666666666,
+          "ref_hold_rush100": 0.8125,
+          "nnm4": 0.4583333333333333,
+          "teammate_john_nnfinal": 0.5208333333333334,
+          "b111": 0.5625
+        },
+        "fuel": 1056,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.5104166666666666,
+        "opponents": {
+          "b113": 0.5,
+          "b114": 0.5208333333333334
+        },
+        "fuel": 351,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 0.5,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\sfhd50.pt",
+        "trained_iteration": 2,
+        "source_parent": "sf06"
+      }
+    },
+    {
+      "name": "sfd50",
+      "valid": false,
+      "rank": 1.0263888888888888,
+      "pooled": {
+        "score": 0.6284722222222222,
+        "opponents": {
+          "ref_x1": 0.7916666666666666,
+          "v92": 0.7708333333333334,
+          "ref_hold_rush100": 0.7291666666666666,
+          "nnm4": 0.5208333333333334,
+          "teammate_john_nnfinal": 0.4583333333333333,
+          "b111": 0.5
+        },
+        "fuel": 1058,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.4583333333333333,
+        "opponents": {
+          "b113": 0.4375,
+          "b114": 0.4791666666666667
+        },
+        "fuel": 349,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 0.5,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\sfd50.pt",
+        "trained_iteration": 2
+      }
+    },
+    {
+      "name": "sfm50",
+      "valid": false,
+      "rank": 1.0229166666666667,
+      "pooled": {
+        "score": 0.6145833333333334,
+        "opponents": {
+          "ref_x1": 0.8333333333333334,
+          "v92": 0.6041666666666666,
+          "ref_hold_rush100": 0.7708333333333334,
+          "nnm4": 0.5,
+          "teammate_john_nnfinal": 0.5208333333333334,
+          "b111": 0.4583333333333333
+        },
+        "fuel": 1043,
+        "faults": 0,
+        "games": 288
+      },
+      "head_to_head": {
+        "score": 0.5208333333333334,
+        "opponents": {
+          "b113": 0.4791666666666667,
+          "b114": 0.5625
+        },
+        "fuel": 347,
+        "faults": 0,
+        "games": 96
+      },
+      "weights": {
+        "alpha": 0.5,
+        "weight_checkpoint": "C:\\Users\\omdha\\.codex\\worktrees\\agentic-findings-publish-20261107\\x1resume\\v113-integration-20261108\\training\\sw08-followup-masked\\sfd50.pt",
+        "trained_iteration": 2,
+        "source_parent": "sf06"
+      }
+    }
+  ],
+  "parent": "sf01",
+  "trained_checkpoint": {
+    "iteration": 2,
+    "actor": "sfs002",
+    "score": 0.65625,
+    "opponents": {
+      "b111": 0.6458333333333334,
+      "nnm4": 0.5833333333333334,
+      "v92": 0.7291666666666666,
+      "ref_x1": 0.7708333333333334,
+      "ref_hold_rush100": 0.75,
+      "teammate_john_nnfinal": 0.4583333333333333
+    },
+    "fuel": 1033,
+    "games": 288,
+    "purpose": "Development checkpoint selection, never final promotion"
+  },
+  "head_to_head_b113_weight": 0.4,
+  "head_to_head_b114_weight": 0.1,
+  "qualification_data_used": false
+}
