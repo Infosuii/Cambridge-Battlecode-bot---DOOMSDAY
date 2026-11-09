@@ -1,0 +1,16 @@
+{
+  "created": "2026-11-09T13:08:06.077586+00:00",
+  "incumbent": "hp01 (v117, source ea9a68340c2a, wasm f9088c1d)",
+  "split_sha256": "e4d31f6e615e5d9cfdcf45d3181dac19b7f1d5150de19f93cb0da1441f6fcfc1",
+  "holdout": "40 published maps in map-split.json x 9 local reference styles x both sides; opened once for the single selected candidate and the incumbent; plus direct candidate-vs-hp01 on the 40 holdout maps, both sides",
+  "selection": "all tuning/selection on the 88 dev maps only; exactly one candidate is taken to the holdout",
+  "gates": {
+    "G1_targets": "release builds: Homonoliths median first home-group capture <= 600 with score >= hp01; Islands quiet trailing stall pairs <= 0.75 x hp01 with score >= hp01",
+    "G2_build_faults": "clean release build from recorded source digest; zero candidate bot faults in every holdout game",
+    "G3_fuel": "candidate fuel exhaustion events per game <= 1.2 x hp01 + 0.05 on holdout",
+    "G4_strength": "holdout reference score: candidate - hp01 >= 0 points (paired) and map-cluster bootstrap 10th percentile of paired difference >= -2.0 percentage points",
+    "G5_direct": "direct candidate vs hp01 on holdout >= 50%",
+    "G6_inspection": "report 5 worst maps and worst opponent by paired difference; any map losing >= 6 of 18 paired games needs a written explanation"
+  },
+  "ladder": "ladder evidence reported separately; no ladder data used for local gates"
+}

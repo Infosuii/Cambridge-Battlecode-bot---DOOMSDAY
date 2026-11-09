@@ -1,0 +1,35 @@
+Looking in indexes: https://download.pytorch.org/whl/cu128
+Collecting torch==2.11.0
+  Using cached torch-2.11.0%2Bcu128-cp313-cp313-win_amd64.whl.metadata (29 kB)
+Collecting filelock (from torch==2.11.0)
+  Using cached filelock-4.2.4-py3-none-any.whl.metadata (2.0 kB)
+Requirement already satisfied: typing-extensions>=4.10.0 in C:\Users\omdha\AppData\Local\Programs\Python\Python313\Lib\site-packages (from torch==2.11.0) (4.16.0)
+Collecting setuptools<82 (from torch==2.11.0)
+  Using cached setuptools-78.1.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting sympy>=1.13.3 (from torch==2.11.0)
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx>=2.5.1 (from torch==2.11.0)
+  Using cached networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+Collecting jinja2 (from torch==2.11.0)
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec>=0.8.5 (from torch==2.11.0)
+  Using cached fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch==2.11.0)
+  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch==2.11.0)
+  Using cached markupsafe-3.0.3-cp313-cp313-win_amd64.whl.metadata (2.8 kB)
+Using cached torch-2.11.0%2Bcu128-cp313-cp313-win_amd64.whl (2753.2 MB)
+Using cached setuptools-78.1.0-py3-none-any.whl (1.3 MB)
+Using cached fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Using cached networkx-3.7-py3-none-any.whl (2.1 MB)
+Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+Using cached filelock-4.2.4-py3-none-any.whl (162 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached markupsafe-3.0.3-cp313-cp313-win_amd64.whl (15 kB)
+Installing collected packages: mpmath, sympy, setuptools, networkx, MarkupSafe, fsspec, filelock, jinja2, torch
+
+Successfully installed MarkupSafe-3.0.3 filelock-4.2.4 fsspec-2026.9.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.7 setuptools-78.1.0 sympy-1.14.0 torch-2.11.0+cu128
+
+[notice] A new release of pip is available: 26.2.1 -> 26.3
+[notice] To update, run: python.exe -m pip install --upgrade pip
