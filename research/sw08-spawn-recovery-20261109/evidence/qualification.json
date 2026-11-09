@@ -1,0 +1,99 @@
+{
+  "candidate": "hp01",
+  "gates": {
+    "no_faults_or_codes": true,
+    "pooled_strength_preserved": true,
+    "cluster_lower_bounded": true,
+    "direct_strength_preserved": false,
+    "no_large_style_drop": true,
+    "fuel_bounded": true,
+    "stall_guard_pass": true
+  },
+  "approved_for_upload": false,
+  "expected_ladder": {
+    "version": 113,
+    "id": "ff2f3acc-c4af-48fd-b2a2-85121a367e64"
+  },
+  "comparisons": {
+    "b113": {
+      "games": 400,
+      "maps": 40,
+      "candidate_score": 0.625,
+      "control_score": 0.6225,
+      "gain": 0.002500000000000001,
+      "map_cluster_bootstrap_95": [
+        -0.0225,
+        0.027500000000000004
+      ],
+      "style_deltas": {
+        "b111": 0.0,
+        "nnm4": 0.0125,
+        "ref_hold_rush100": -0.025,
+        "ref_x1": 0.025,
+        "teammate_john_nnfinal": 0.0
+      },
+      "fresh_generated_gain": 0.002500000000000001,
+      "fresh_generated_maps": 40,
+      "published_gain": null
+    }
+  },
+  "head_to_head": {
+    "score": 0.4625,
+    "opponents": {
+      "b113": 0.4625
+    },
+    "fuel": 297,
+    "faults": 0,
+    "games": 80
+  },
+  "fuel_rates": {
+    "hp01": {
+      "events": 1347,
+      "scheduled_champion_rounds": 2051358,
+      "per_1000_scheduled_champion_rounds": 0.6566381879710904
+    },
+    "b113": {
+      "events": 1349,
+      "scheduled_champion_rounds": 2048586,
+      "per_1000_scheduled_champion_rounds": 0.6585029869383077
+    }
+  },
+  "fixture": {
+    "fixture_rates": {
+      "b113": 0.0329795847550749,
+      "hp01": 0.005631151840538122,
+      "hp02": 0.005316941990011525,
+      "hp03": 0.005224311271755308
+    },
+    "fixture_trace": {
+      "b113": {
+        "wait": 6505,
+        "max": 584,
+        "safe_steps": 0,
+        "counterattacks": 0
+      },
+      "hp01": {
+        "wait": 1375,
+        "max": 100,
+        "safe_steps": 0,
+        "counterattacks": 2056
+      },
+      "hp02": {
+        "wait": 1257,
+        "max": 100,
+        "safe_steps": 0,
+        "counterattacks": 2196
+      },
+      "hp03": {
+        "wait": 1257,
+        "max": 100,
+        "safe_steps": 0,
+        "counterattacks": 2196
+      }
+    }
+  },
+  "games": 880,
+  "protocol_sha256": "661a18a4a8307385f6340fc4dff0c0cbed6d19fe15ca35afa3424e84178ff408",
+  "source_sha256": "ea9a68340c2a7030204069c50776ca1193383a413d582446c39eb208018cf8e5",
+  "wasm_sha256": "f9088c1daa3e78f46a058833811124c7a164f9a67ee463f93bb72d17e60e4777"
+}

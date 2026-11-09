@@ -1,0 +1,125 @@
+{
+  "fixture_rates": {
+    "b113": 0.0329795847550749,
+    "hp01": 0.005631151840538122,
+    "hp02": 0.005316941990011525,
+    "hp03": 0.005224311271755308
+  },
+  "fixture_trace": {
+    "b113": {
+      "wait": 6505,
+      "max": 584,
+      "safe_steps": 0,
+      "counterattacks": 0
+    },
+    "hp01": {
+      "wait": 1375,
+      "max": 100,
+      "safe_steps": 0,
+      "counterattacks": 2056
+    },
+    "hp02": {
+      "wait": 1257,
+      "max": 100,
+      "safe_steps": 0,
+      "counterattacks": 2196
+    },
+    "hp03": {
+      "wait": 1257,
+      "max": 100,
+      "safe_steps": 0,
+      "counterattacks": 2196
+    }
+  },
+  "viable": [
+    "hp01",
+    "hp02",
+    "hp03"
+  ],
+  "winner": "hp01",
+  "pooled": {
+    "b113": {
+      "score": 0.6166666666666667,
+      "opponents": {
+        "ref_hold_rush100": 0.8333333333333334,
+        "teammate_john_nnfinal": 0.5208333333333334,
+        "b111": 0.4375,
+        "ref_x1": 0.7916666666666666,
+        "nnm4": 0.5
+      },
+      "fuel": 783,
+      "faults": 0,
+      "games": 240
+    },
+    "hp01": {
+      "score": 0.6333333333333333,
+      "opponents": {
+        "ref_hold_rush100": 0.8333333333333334,
+        "teammate_john_nnfinal": 0.5208333333333334,
+        "b111": 0.5416666666666666,
+        "ref_x1": 0.7708333333333334,
+        "nnm4": 0.5
+      },
+      "fuel": 763,
+      "faults": 0,
+      "games": 240
+    },
+    "hp02": {
+      "score": 0.6458333333333334,
+      "opponents": {
+        "ref_hold_rush100": 0.8541666666666666,
+        "teammate_john_nnfinal": 0.5416666666666666,
+        "b111": 0.5,
+        "ref_x1": 0.7708333333333334,
+        "nnm4": 0.5625
+      },
+      "fuel": 786,
+      "faults": 0,
+      "games": 240
+    },
+    "hp03": {
+      "score": 0.6291666666666667,
+      "opponents": {
+        "ref_hold_rush100": 0.875,
+        "teammate_john_nnfinal": 0.5416666666666666,
+        "b111": 0.5,
+        "ref_x1": 0.7083333333333334,
+        "nnm4": 0.5208333333333334
+      },
+      "fuel": 781,
+      "faults": 0,
+      "games": 240
+    }
+  },
+  "direct": {
+    "hp01": {
+      "score": 0.5,
+      "opponents": {
+        "b113": 0.5
+      },
+      "fuel": 148,
+      "faults": 0,
+      "games": 48
+    },
+    "hp02": {
+      "score": 0.4583333333333333,
+      "opponents": {
+        "b113": 0.4583333333333333
+      },
+      "fuel": 146,
+      "faults": 0,
+      "games": 48
+    },
+    "hp03": {
+      "score": 0.4375,
+      "opponents": {
+        "b113": 0.4375
+      },
+      "fuel": 146,
+      "faults": 0,
+      "games": 48
+    }
+  },
+  "wasm_sha256": "f9088c1daa3e78f46a058833811124c7a164f9a67ee463f93bb72d17e60e4777",
+  "source_sha256": "ea9a68340c2a7030204069c50776ca1193383a413d582446c39eb208018cf8e5"
+}
