@@ -2,6 +2,14 @@
 
 Resume: read this file and issues [#5](https://github.com/Infosuii/neural-networkk-battlecode/issues/5) and [#6](https://github.com/Infosuii/neural-networkk-battlecode/issues/6), verify live submission and check for other holders before any integration or ladder request. Work only on `ishan/codex-20261104`, isolated at `C:/dd/codex-20261104`, created from current `build/z-plan` `df2975cbd45c5b2d13c74d73a68af0cdf4927c30`. The short path avoids Windows build problems. Push only to the same-named remote branch, using an explicit refspec.
 
+## Post-freeze analysis — 9 November 2026
+
+- Ishan resumed analysis after wrap-up. Read-only CLI check at 00:02 GMT showed v114 active and selected, pinned false and frozen false. The official patch index refreshed to the same 4 November Patch 4.0.0. UK qualifier lock is Tuesday 10 November at 23:59 GMT. No new candidate feature, platform mutation, ladder quota, lock or ACK by this workstream.
+- [EXP292](../../research/codex-ishan/EXP-292-RESULT.md) retrieved the exact v112/v113/v114 source archives from the team download controls and built each twice. Local hashes are 932030e0 / b985b041 / 2c147d87, respectively. Server WASM hashes are unavailable. v113 combines actual-fuel admission, CLFS and channel retry changes. v114 has early shop and a 16-map table, and retains v112 fuel logic.
+- All 688 real-budget pool games audited, all 172 v92 controls fully reproduced. v92 203 total / 28 R1 fuel-outs. v112 1610 / 62 with 151 total and 9 R1 per-cell regressions. v113 436 / 64 with 61 and 9. v114 1595 / 64 with 144 and 9. Zero faults or diagnostic codes across all arms. All three fail the original safety rule. Fixed local win scores and ranked time windows give no pinned strength comparison. Fallback remains platform v80, repo v92.
+- Ranked audit covers 555 finished games and 95 complete native summaries. The short nominal v113 window gave 18/30 and the first group after v114's active status timestamp 2/5. Public records lack per-match submission IDs. Native resource accounting confirms production is the largest terminal deficit in 32/49 audited losses.
+- [EXP293](../../research/codex-ishan/EXP-293-RESULT.md) confirms 4/20 against 0xDEADBEEF during the frozen window, 3/17 after removal of three byte-identical native/replay repeats. In the 14 distinct losses we led by 236 camp gems through R300 and fell behind by 3,506 after R300, with 150 fewer clears and 154 fewer captures in that late interval. The measured net late cross-team final-clear association was only 22 base gems. No QS2isLaw/bentheboss games were in this ranked window.
+
 ## Wrap-up — 8 November 2026, 23:46 GMT
 
 - Ishan asked to wrap up to conserve weekly usage. See [final report](FINAL_REPORT.md). No new experiment or release action pending in this workstream.
