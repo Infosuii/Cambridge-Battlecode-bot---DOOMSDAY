@@ -28,11 +28,13 @@ for (const job of jobs) {
       if (snap.awaitingInput) {
         const camps = job.camps.map(c => {
           const observed = snap.camps.find(s => s.entity.index === c.handle);
-          if (!observed || observed.type !== c.type ||
-              observed.position.x !== c.x || observed.position.y !== c.y) {
+          const atSpawn = observed?.position.x === c.x && observed?.position.y === c.y;
+          const deadOffMap = observed?.health === 0 &&
+            observed.position.x === -1 && observed.position.y === -1;
+          if (!observed || observed.type !== c.type || !(atSpawn || deadOffMap)) {
             throw new Error('Runtime camp identity mismatch');
           }
-          return { id: c.handle, hp: observed.health };
+          return { id: c.handle, hp: observed.health, dead_off_map: deadOffMap };
         });
         const actors = snap.champions.filter(c => c.alive && c.position).map(c => ({
           id: c.entity.index, team: c.team, type: c.type, x: c.position.x, y: c.position.y,

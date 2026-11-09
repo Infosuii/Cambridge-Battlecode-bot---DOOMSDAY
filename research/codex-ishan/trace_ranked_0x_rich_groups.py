@@ -11,7 +11,8 @@ from engine3_pool import HERE, bench, read
 
 PARENT = HERE / "RANKED_0XDEADBEEF_REWARD_AUDIT.json"
 TOOL = HERE / "trace_ranked_0x_rich_groups.mjs"
-RESULTS = OUT / "0x-rich-group-trace"
+RESULTS = OUT / "0x-rich-group-trace-r2"
+PLAN = HERE / "RANKED_0XDEADBEEF_RICH_GROUP_R2_PLAN.json"
 
 
 def base_gap(row, phase):
@@ -62,7 +63,11 @@ def main():
     RESULTS.mkdir()
     plan = {"source_sha256": bench.digest(PARENT), "tool_sha256": bench.digest(TOOL), "jobs": jobs,
             "selection": "Two distinct losses with largest post-300 base deficit and their largest lost groups. One distinct win with largest terminal base lead and its highest net group. First four relevant captures in each."}
-    write(HERE / "RANKED_0XDEADBEEF_RICH_GROUP_PLAN.json", plan)
+    original = HERE / "RANKED_0XDEADBEEF_RICH_GROUP_PLAN.json"
+    attempt = read(HERE / "RANKED_0XDEADBEEF_RICH_GROUP_ATTEMPT.json")
+    assert bench.digest(original) == attempt["plan_sha256"] and jobs == read(original)["jobs"]
+    plan["original_plan_sha256"] = attempt["plan_sha256"]
+    write(PLAN, plan)
     write(RESULTS / "jobs.json", jobs)
     subprocess.run(["node", TOOL, RESULTS / "jobs.json", RESULTS / "snapshots.json"], cwd=bench.ROOT,
                    env={**os.environ, "NFS_REPLAY_ENGINE": "3.0.0"}, check=True)
@@ -96,8 +101,8 @@ def main():
                        "group": job["group"], "base_gems": job["base_gems"], "respawn": job["respawn"],
                        "captures": job["captures"], "trace": trace})
         print(job["map"], job["group"], [(cap["round"], cap["sample_at_capture"]) for cap in job["captures"]], flush=True)
-    write(HERE / "RANKED_0XDEADBEEF_RICH_GROUP_TRACE.json",
-          {"plan_sha256": bench.digest(HERE / "RANKED_0XDEADBEEF_RICH_GROUP_PLAN.json"),
+    write(HERE / "RANKED_0XDEADBEEF_RICH_GROUP_R2_TRACE.json",
+          {"plan_sha256": bench.digest(PLAN),
            "raw_trace_sha256": bench.digest(RESULTS / "snapshots.json"), "rows": result,
            "limits": "First champion phase, before ordinary actions of the recorded round. Chebyshev proximity ignores obstacles, threat and private target. Reported actors and camp states are public replay observations, not a legal path or ownership counterfactual."})
 
