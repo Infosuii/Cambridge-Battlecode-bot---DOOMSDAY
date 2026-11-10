@@ -371,7 +371,7 @@ the region even when the sweeper is elsewhere.
   `time += 5 + 3 * camps + dd(i, next)`. Keep the start and direction with the highest total. This puts contested
   and gold clusters first without a special rule.
 - **Step 3: write the order.** Emit each region's entries in that order (today they are emitted in `members`
-  order). Bump the version byte to 2 in `draft_write` (three places write it) and accept `at(1) == 2` in
+  order). Bump the version byte to 2 in `draft_write` (two places write it: `buf[kOff + 1] = 1;` and `buf.push_back(1);`) and accept `at(1) == 2` in
   `mapplan::read`.
 - **Game side.** In `cl_plan_init`, while decoding entries, also fill
   `std::vector<int> sweep_tour;` (group indices of **our** region in stored order) and
