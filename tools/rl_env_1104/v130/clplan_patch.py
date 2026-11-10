@@ -37,6 +37,7 @@ patch("bot.h", "    float soak_coefficient(int group, float hp_left);\n",
       "    std::vector<std::int8_t> sweep_region_of; // per group: 1-based sweep region, 0 = none\n"
       "    void cl_plan_init();\n"
       "    float sweep_mult(int gi);\n"
+      "    bool sweep_idle();\n"
       "    float cl_effort(const GroupRec& g, int gi, float hp_left, float team_dps);\n")
 patch("bot.cpp",
       "    my_id = static_cast<std::uint32_t>(static_cast<bc::handle_champion_t>(me));\n    type = me.champion_name();\n",
@@ -77,11 +78,30 @@ void Bot::cl_plan_init() {
     debug_block({ if (slot == 0 || my_sweep_region > 0) std::printf("CLPLAN_GAME slot %d sweeper_region %d sweepers %d/%d entries %zu\n", slot, my_sweep_region, sweep_slot[0], sweep_slot[1], cl_plan.entries.size()); });
 }
 
+// CL_PLAN bit 32 (dynamic sweepers): every group of our region is down for more than CL_SW_IDLE rounds, so we play
+// as a normal champion meanwhile (crews, golems beside the clusters, fights, banking) instead of waiting there.
+bool Bot::sweep_idle() {
+    static int cached_round = -1;
+    static bool idle = false;
+    if (cached_round == round) return idle;
+    cached_round = round;
+    int n = 0;
+    for (std::size_t g = 0; g < sweep_region_of.size(); ++g) {
+        if (sweep_region_of[g] != my_sweep_region) continue;
+        ++n;
+        const auto& gr = w.groups[g];
+        if (gr.state != GroupState::respawning || gr.respawn_round - round <= CL_SW_IDLE) return idle = false;
+    }
+    idle = n > 0;
+    return idle;
+}
+
 // CL_PLAN bit 1: a sweeper farms its region; the others leave a living sweeper's region to it.
 float Bot::sweep_mult(int gi) {
     if (!(CL_PLAN & 1) || gi < 0 || gi >= static_cast<int>(sweep_region_of.size())) return 1.0f;
     const int rg = sweep_region_of[static_cast<std::size_t>(gi)];
     if (my_sweep_region > 0) {
+        if ((CL_PLAN & 32) && sweep_idle()) return 1.0f; // region down: a normal champion
         if (rg == my_sweep_region) return CL_SW_IN;
         return w.groups[static_cast<std::size_t>(gi)].state == GroupState::reward ? 1.0f : CL_SW_OUT;
     }
@@ -119,7 +139,8 @@ patch("bot.cpp", "// Follow-up table for one champion alone, rebuilt once per tu
 patch("bot.cpp",
       "            wait = static_cast<int>(wait * (NOVA_BIGCAMP * 0.01f)); // big strips respawn on a cycle: cheap waiting\n",
       "            wait = static_cast<int>(wait * (NOVA_BIGCAMP * 0.01f)); // big strips respawn on a cycle: cheap waiting\n"
-      "        if ((CL_PLAN & 1) && my_sweep_region > 0 && gi < sweep_region_of.size() && sweep_region_of[gi] == my_sweep_region)\n"
+      "        if ((CL_PLAN & 1) && my_sweep_region > 0 && gi < sweep_region_of.size() && sweep_region_of[gi] == my_sweep_region &&\n"
+      "            !((CL_PLAN & 32) && sweep_idle()))\n"
       "            wait = static_cast<int>(static_cast<float>(wait) * CL_SW_WAITW); // CL_PLAN: a sweeper waits on its loop\n")
 patch("bot.cpp",
       "        const float mid_mult = gi < mid_group.size() && mid_group[gi] ? A2_MID_W * std::exp(0.3f * LABK(40)) : 1.0f;\n",

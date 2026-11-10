@@ -16,7 +16,7 @@
 #include <vector>
 
 #ifndef CL_PLAN
-#define CL_PLAN 1 // bits: 1 sweepers, 2 effort terms (heal and bank trips), 4 carry risk, 8 sweeper banking
+#define CL_PLAN 1 // bits: 32 dynamic sweepers, 1 sweepers, 2 effort terms (heal and bank trips), 4 carry risk, 8 sweeper banking
 #endif
 #ifndef CL_PLAN_FLOOR
 #define CL_PLAN_FLOOR 4000000 // draft fuel left for the rest of the draft (v220's own map read runs after this)
@@ -47,6 +47,9 @@
 #endif
 #ifndef CL_SW_WAITW
 #define CL_SW_WAITW 0.4f // sweeper: weight of respawn waits inside its region
+#endif
+#ifndef CL_SW_IDLE
+#define CL_SW_IDLE 12 // CL_PLAN bit 32: region down longer than this: play as a normal champion
 #endif
 #ifndef CL_SW_CARRY
 #define CL_SW_CARRY 28 // sweeper: bank once carrying this many gems (CL_PLAN bit 8)
