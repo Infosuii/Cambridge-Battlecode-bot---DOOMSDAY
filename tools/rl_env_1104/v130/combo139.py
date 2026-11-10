@@ -15,6 +15,7 @@ ap.add_argument("--crew", type=int, default=0)
 ap.add_argument("--join", action="store_true")
 ap.add_argument("--port141", action="store_true")
 ap.add_argument("--frc", action="store_true")
+ap.add_argument("--bankfix", action="store_true")
 ap.add_argument("--ring", action="store_true")
 ap.add_argument("--knob", action="append", default=[])
 a = ap.parse_args()
@@ -35,6 +36,8 @@ if a.bt:
     run("trib_patch.py", src)
 if a.follow:
     run("follow_patch.py", src)
+if a.bankfix:
+    run("bankfix_patch.py", src)
 if a.frc:
     run("frc_patch.py", src)
 if a.ring:
