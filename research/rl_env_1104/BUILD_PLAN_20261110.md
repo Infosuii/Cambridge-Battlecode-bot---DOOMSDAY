@@ -232,7 +232,8 @@ Results are paired games against v139 on two panels (636 + 498 games) unless sta
 ## 7. Build order and how to test
 
 1. **Build 1:** v139 + A1 + A2. **Build 2:** `upload_final` + A1 + A2. **Build 3:** Build 2 + B1 (+ B4).
-   **Build 4:** Build 3 + B3. Add A3 and B2 last, each alone.
+   **Build 4:** Build 3 + B3. **Build 5:** Build 4 + the route upgrades of section 8 (R1, R2, R3 + R4, R5 in that
+   order). Add A3 and B2 last, each alone.
 2. Compile check: `cambc build <dir> --release --output x.wasm`. Crash check:
    `cambc run <dir> artifacts/tmp/rl_env_1104/v141src --map artifacts/tmp/ladderpool_maps/03colosseum.map26a --rounds 300 --release -o <out>`.
 3. Local paired test, two candidates at a time, about 25 minutes:
@@ -252,7 +253,249 @@ Results are paired games against v139 on two panels (636 + 498 games) unless sta
 5. Uploading: `cambc submit <dir> --note "..."`. The site is in "pinned version" mode (Om pinned v141), so a new
    upload does not go live until someone runs `cambc submissions activate <version>`. Post every switch in issue #5.
 
-## 8. Analysis tools (all in `tools/rl_env_1104/`)
+## 8. Route and sweep upgrades (the draft-turn plan and the in-game replanning)
+
+**What exists today.** `tools/rl_env_1104/v130/mapplan.h` (function `mapplan::draft_write`, run once on the 10M-fuel
+draft turn) and the game-side functions that `clplan_patch.py` inserts into `bot.cpp` (`Bot::cl_plan_init`,
+`Bot::sweep_mult`, `Bot::sweep_idle`). The draft side: harmless gem/gold cluster groups only; walking distances
+between them (`dist`, read with `dd(a, b)`); regions grown from seeds (`grow`), rated by
+`val / max(loop, respawn)` where `loop_of` is a nearest-neighbour tour; 1-2 sweepers. It writes, from draft-memory
+byte 16: magic `0xC7`, version 1, sweeper count, region of sweeper 0 and 1, region count, per region (rate x 100,
+altar steps), entry count, entries (x, y, region). It uses about 4M of the 10M fuel and under 100 of 1,008 bytes.
+The game side multiplies group values: x3 inside the sweeper's region, x0.35 outside, x0.6 for teammates looking at
+a living sweeper's region; when every region group is down for more than 12 rounds the sweeper plays normally.
+
+**How to work on it.** Build a tree first
+(`combo139.py <repo> <base src> <out> --bt --plan 61 --frc --ring --port141 --bankfix`), then edit
+`<out>/src/mapplan.h` and `<out>/src/bot.cpp` directly. Fold the edits back into `mapplan.h` /
+`clplan_patch.py` afterwards if there is time. Put the new switches in `mapplan.h` next to the other `CL_*`
+defines. Every step below is independent unless it says otherwise; do them in the order given.
+
+Known weaknesses, in order of expected value: (1) the tour is computed and then thrown away, the sweeper re-decides
+greedily; (2) while its clusters are down the sweeper either waits or switches off entirely; (3) the plan is never
+checked against what the region really yields; (4) the enemy's reach is one flat x0.5 factor; (5) teammates avoid
+the region even when the sweeper is elsewhere.
+
+### R1. Slack filling: never wait when a job fits before the next respawn (replaces the 12-round on/off rule)
+- **Why:** removes the "sitting ducks" turns without giving up the region. Bit 32 today is all or nothing.
+- **Draft side:** nothing.
+- **Game side, step 1.** Replace `Bot::sweep_idle()` by a slack function (keep the per-round cache):
+  ```cpp
+  // Rounds until the next group of our region is available (0 = one is up now).
+  int Bot::sweep_slack() {
+      static int cached_round = -1, slack = 0;
+      if (cached_round == round) return slack;
+      cached_round = round;
+      slack = 9999;
+      for (std::size_t g = 0; g < sweep_region_of.size(); ++g) {
+          if (sweep_region_of[g] != my_sweep_region) continue;
+          const auto& gr = w.groups[g];
+          slack = std::min(slack, gr.state == GroupState::respawning ? std::max(0, gr.respawn_round - round) : 0);
+      }
+      return slack;
+  }
+  ```
+- **Step 2.** `sweep_mult` gets the approach as a second argument (`float Bot::sweep_mult(int gi, int approach)`);
+  update the declaration in `bot.h` and the call
+  `const float sw_mult = sweep_mult(static_cast<int>(gi), approach);` (`approach` is a local of the group loop in
+  `score_groups_full`, defined a few lines above). Inside, for a sweeper looking at a group outside its region:
+  ```cpp
+  if (my_sweep_region > 0) {
+      if (rg == my_sweep_region) return CL_SW_IN;
+      if (w.groups[static_cast<std::size_t>(gi)].state == GroupState::reward) return 1.0f;
+      // CL_SLACK: a side job is a normal job when the round trip fits before our next respawn.
+      return 2 * approach + capture_time + CL_SLACK_MARGIN <= sweep_slack() ? 1.0f : CL_SW_OUT;
+  }
+  ```
+  with `#define CL_SLACK_MARGIN 4`.
+- **Step 3.** The kill time is only known later in the loop. After the line that computes `kill`
+  (anchor `const float kill = siege ? hp_left / sdps :`) add:
+  ```cpp
+  if (my_sweep_region > 0 && gi < sweep_region_of.size() && sweep_region_of[gi] != my_sweep_region &&
+      g.state != GroupState::reward && sw_mult >= 1.0f &&
+      2 * approach + static_cast<int>(kill) + capture_time + CL_SLACK_MARGIN > sweep_slack())
+      value_slack = CL_SW_OUT; // does not fit after all
+  ```
+  Declare `float value_slack = 1.0f;` before it and multiply it in where `value *= sw_mult;` is applied.
+- **Step 4.** Remove the two `(CL_PLAN & 32) && sweep_idle()` uses (in `sweep_mult` and in the wait discount);
+  the wait discount for region groups stays as it is.
+- **Check:** debug print `round, slot, sweep_slack(), target_group, in/out of region` every 10 rounds for a sweeper.
+  It should leave for side jobs when the slack is 15+ and be back within about 3 rounds of the respawn.
+
+### R2. Keep and follow the route (store the tour order; contested and gold clusters first on lap one)
+- **Why:** the planned tour avoids zig-zag, and its first lap can be ordered so the clusters the enemy would reach
+  first are taken first.
+- **Draft side, step 1: a better tour, kept.** Add next to `loop_of`:
+  ```cpp
+  // Cyclic visiting order of the members: nearest neighbour from the member nearest our spawn, then 2-opt.
+  auto tour_of = [&](const std::vector<int>& m) {
+      std::vector<int> t;
+      std::vector<char> seen(m.size(), 0);
+      std::size_t cur = 0;
+      for (std::size_t i = 1; i < m.size(); ++i)
+          if (gs[static_cast<std::size_t>(m[i])].dus < gs[static_cast<std::size_t>(m[cur])].dus) cur = i;
+      seen[cur] = 1;
+      t.push_back(m[cur]);
+      for (std::size_t step = 1; step < m.size(); ++step) {
+          std::size_t nxt = m.size();
+          int nd = kUnreach + 1;
+          for (std::size_t i = 0; i < m.size(); ++i)
+              if (!seen[i] && dd(t.back(), m[i]) < nd) nd = dd(t.back(), m[i]), nxt = i;
+          if (nxt == m.size()) break;
+          seen[nxt] = 1;
+          t.push_back(m[nxt]);
+      }
+      bool improved = true;
+      for (int pass = 0; improved && pass < 20; ++pass) {
+          improved = false;
+          for (std::size_t i = 1; i + 1 < t.size(); ++i)
+              for (std::size_t j = i + 1; j < t.size(); ++j) {
+                  const int a = t[i - 1], b = t[i], c = t[j], e = t[(j + 1) % t.size()];
+                  if (dd(a, c) + dd(b, e) < dd(a, b) + dd(c, e)) {
+                      std::reverse(t.begin() + static_cast<std::ptrdiff_t>(i), t.begin() + static_cast<std::ptrdiff_t>(j) + 1);
+                      improved = true;
+                  }
+              }
+      }
+      return t;
+  };
+  ```
+  Cost: a few thousand distance reads per region. Run it only for the regions that are written out (not inside
+  `grow`).
+- **Step 2: choose the start and direction for lap one.** For a tour `t` of n groups there are 2n ways to walk it
+  (start at any stop, either direction). For each, simulate lap one:
+  `time = gs[first].dus`, then for each stop `i` in order: the stop is **lost** if
+  `gs[i].dthem + CL_PLAN_ENEMY_LAG < time` (the enemy got there first; `#define CL_PLAN_ENEMY_LAG 10`), otherwise
+  add its opening value `gems + CL_PLAN_GOLDW_OPEN * gold` (`#define CL_PLAN_GOLDW_OPEN 0.6f`: gold decides the
+  first 150 rounds) weighted by `1 / (1 + time / 100)` (sooner is better); then
+  `time += 5 + 3 * camps + dd(i, next)`. Keep the start and direction with the highest total. This puts contested
+  and gold clusters first without a special rule.
+- **Step 3: write the order.** Emit each region's entries in that order (today they are emitted in `members`
+  order). Bump the version byte to 2 in `draft_write` (three places write it) and accept `at(1) == 2` in
+  `mapplan::read`.
+- **Game side.** In `cl_plan_init`, while decoding entries, also fill
+  `std::vector<int> sweep_tour;` (group indices of **our** region in stored order) and
+  `std::vector<std::int8_t> sweep_order_of;` (per group: its index in that tour, -1 otherwise). Declare both in
+  `bot.h`. Then the next stop, found without any stored state:
+  ```cpp
+  // The stop after the region group captured most recently (the one with the latest respawn round).
+  int Bot::sweep_next() {
+      int last = -1, latest = -1;
+      for (std::size_t k = 0; k < sweep_tour.size(); ++k) {
+          const auto& gr = w.groups[static_cast<std::size_t>(sweep_tour[k])];
+          if (gr.state == GroupState::respawning && gr.respawn_round > latest) latest = gr.respawn_round, last = static_cast<int>(k);
+      }
+      if (sweep_tour.empty()) return -1;
+      return sweep_tour[static_cast<std::size_t>((last + 1) % static_cast<int>(sweep_tour.size()))]; // lap one: stop 0
+  }
+  ```
+  In `sweep_mult`, for the sweeper: `if (rg == my_sweep_region) return gi == sweep_next() ? CL_SW_IN * CL_SW_NEXT : CL_SW_IN;`
+  with `#define CL_SW_NEXT 1.4f`. It is a bonus, not an override: an available stop that is much nearer still wins.
+- **Check:** print the tour and each sweeper target; on `04wheel` and `03colosseum` the targets should follow the
+  stored order with no back-and-forth.
+
+### R3. Reality check: drop a region that does not pay
+- **Why:** protects against a wrong plan on an odd map and against an enemy who camps the region. The plan already
+  stores the expected value per round (`cl_plan.rate[region]`, value = gems + 0.15 x gold).
+- **Change** (`bot.h`): `int sweep_prev_gems = 0, sweep_prev_gold = 0, sweep_check_round = 150; float sweep_gain = 0.0f;`
+  (`bot.cpp`, `Bot::play_turn`, directly after the early-carry anchor line used in A2):
+  ```cpp
+  if (my_sweep_region > 0) { // CL_REAL: what the region really yields against the plan
+      sweep_gain += static_cast<float>(std::max(0, gems - sweep_prev_gems)) + CL_PLAN_GOLDW * static_cast<float>(std::max(0, gold - sweep_prev_gold));
+      if (round >= sweep_check_round + 100) {
+          if (sweep_gain < CL_SW_REAL * cl_plan.rate[my_sweep_region] * 100.0f) sweep_drop();
+          sweep_gain = 0.0f;
+          sweep_check_round = round;
+      }
+  }
+  sweep_prev_gems = gems;
+  sweep_prev_gold = gold;
+  ```
+  with `#define CL_SW_REAL 0.5f`. `sweep_drop()` is R4; without R4 it is just `my_sweep_region = 0;`.
+- **Note:** the first check is at round 250, so the walk to the region and lap one are not judged.
+
+### R4. Backup region
+- **Draft side:** raise `kMaxRegions` to 3. After the sweepers' regions are chosen, mark their members in `excl`,
+  call `grow` over the seeds once more and, if a `good` region comes out, append it to `used` **without** assigning
+  it to a sweeper. The per-region header and the entries already carry the region index, so the format does not
+  change. (`mapplan::read` clamps to `kMaxRegions`; `Plan::rate` and `Plan::dalt` are sized by it.)
+- **Game side:**
+  ```cpp
+  // Leave our region: the first sweeper takes the unassigned backup region if there is one, anyone else stops sweeping.
+  void Bot::sweep_drop() {
+      int backup = 0;
+      for (int u = 1; u <= mapplan::kMaxRegions; ++u)
+          if (cl_plan.rate[u] > 0.0f && u != cl_plan.region_of_sweeper[0] && u != cl_plan.region_of_sweeper[1]) backup = u;
+      my_sweep_region = (sweep_slot[0] == slot && backup != my_sweep_region) ? backup : 0;
+      // rebuild sweep_tour / sweep_order_of for the new region (same loop as in cl_plan_init)
+  }
+  ```
+  Move the tour-building loop of R2 into a small helper so both `cl_plan_init` and `sweep_drop` call it.
+
+### R5. Free the region for teammates when the sweeper is not there
+- **Why:** today teammates see the region at x0.6 for as long as the sweeper lives, even while it is banking,
+  shopping or on a side job, so the clusters sit there.
+- **Change** (`sweep_mult`, the branch for champions that are not this region's sweeper). The condition is
+  `claim_of(sweep_slot[k]) != static_cast<int>(kClaimCodeDead)`; replace it by "the sweeper's current claim is a
+  group of that region":
+  ```cpp
+  const int c = claim_of(sweep_slot[k]);
+  if (c >= 0 && c < static_cast<int>(sweep_region_of.size()) && sweep_region_of[static_cast<std::size_t>(c)] == rg) return CL_SW_OTHER;
+  ```
+  (`claim_of` returns the claimed group index, or the dead / idle codes 126 / 127, which fail the range test on
+  maps with fewer groups; on maps with more than 126 groups keep the explicit dead-code test as well.)
+
+### R6. Number of sweepers relative to the map (instead of a fixed threshold)
+- **Why:** `CL_PLAN_MIN 0.16` is an absolute rate; on a rich map a 0.2 region is a poor use of a champion and on a
+  starved map a 0.12 region is the best job there is.
+- **Change** (`draft_write`). In the first loop over all camp groups, before the `harmless` filter drops the
+  monsters, accumulate the whole map's value per round:
+  `map_rate += (info.gems + CL_PLAN_GOLDW * info.gold) / 50.0f;` (use the group's own respawn where it is read).
+  Then `const float per_body = map_rate / std::max(1.0f, static_cast<float>(team_size)) * CL_PLAN_SHARE;`
+  (`#define CL_PLAN_SHARE 0.5f`: a team realistically collects about half the map) and in `good()` replace
+  `r.value >= CL_PLAN_MIN` by `r.value >= std::max(CL_PLAN_MIN, CL_PLAN_REL * per_body)` (`#define CL_PLAN_REL 1.0f`).
+- **Check:** print `map_rate`, `per_body` and each candidate's value on all 128 maps (2-round debug games, see
+  `probe_all.sh` in the session scratchpad for the loop) and look at how many maps get 0, 1 and 2 sweepers.
+
+### R7. Enemy reach per cluster (replaces the flat x0.5 side factor)
+- **Change** (`grow`, where `margin` and `side` are computed): replace `side` by the share of the region's value
+  we reach first: for each member `w_i = val_of(i)`, `ours_i = dus <= dthem + CL_PLAN_ENEMY_LAG ? 1.0 : 0.4`;
+  `share = sum(w_i * ours_i) / sum(w_i)`; `r.value = r.rate * share * alt`.
+
+### R8. Who sweeps: the fastest cluster clearer, not the weakest fighter
+- **Why:** a cluster has 120 health; the sweeper's job is hits per cluster and steps saved.
+- **Change** (`Bot::cl_plan_init`, the sort of candidates). In `Bot::init`, where `kBase[i]` is filled from
+  `design.base_stats`, also store `kBaseRange[i] = s.base_attack_range;` (new global array beside `kBase`). Sort
+  key, ascending: `hits = ceil(120 / max(1, base strength))`, then `-range`, then `hp * str` (today's key). Keep
+  the Cassi / Issac exclusion.
+
+### R9. Bank stop inside the loop (optional)
+- **Draft side:** per written region, store one more byte: the tour index whose group has the smallest `dalt`
+  (the cheapest detour). **Game side:** when the sweeper's last captured stop (see `sweep_next`) is that index and
+  the bag is 12 or more, set `tune::kTributeCarry = std::min(tune::kTributeCarry, 12)` for the turn (same place as
+  the `CL_SW_CARRY` line that `clplan_patch.py` adds). This changes the header layout: bump the version again.
+
+### R10. Opening simulator (stretch: the highest ceiling, the most work)
+- **Idea:** with about 6M draft fuel spare, play the first 150 rounds in a crude model for a few whole-team
+  openings and write the best one into one draft-memory byte that every champion reads on turn 1.
+- **Model:** bodies = the lineup we are about to pick (base health and strength from `bc::champion_designs`, a
+  fixed 20 for spell damage); groups = every camp group with total health, total strength, gems, gold, respawn;
+  walking times from the same distance fields. One event queue: a body walks to its job, kills it in
+  `health / strength` rounds while losing `group strength x kill time` health, captures for 5 rounds, takes the
+  reward, goes home to heal below 40% health (walk both ways), buys a shard per 30 gold (+ strength). No enemy.
+- **Openings to compare:** (a) everyone greedy by value per round (today's behaviour); (b) one sweeper; (c) two
+  sweepers; (d) pairs on elk groups first. Score = gold + 2 x gems at round 150.
+- **Output:** byte `kOff - 1` (free today) = the opening's index; the game side applies it by switching sweepers
+  on or off and, for (d), by setting `best_need` to 2 for elk groups before round 150.
+- **Risk:** the model ignores the enemy, so treat its choice as a tie-breaker between openings that are all sane.
+
+### Order and tests for section 8
+1. R1, then R2, then R3 + R4, then R5. R6-R8 are draft-side refinements; R9-R10 only if time remains.
+2. After each: compile, run the plan printout on `04wheel`, `03colosseum`, `04sanctum`, `04gem-caverns` and
+   `02the-pack` (2-3 round debug games print the `CLPLAN` lines), then one full debug game to watch the sweeper.
+3. Then the paired test of section 7 against the build without the step.
+
+## 9. Analysis tools (all in `tools/rl_env_1104/`)
 
 - `time_budget.py`: where the turns go and where gems and gold come from, by phase, wins v losses.
 - `early_deaths.py`: which early leads predict the result; anatomy of deaths before round 300.
