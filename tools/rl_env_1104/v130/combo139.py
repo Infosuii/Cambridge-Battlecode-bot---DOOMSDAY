@@ -11,6 +11,7 @@ ap.add_argument("out")
 ap.add_argument("--bt", action="store_true")
 ap.add_argument("--follow", action="store_true")
 ap.add_argument("--plan", type=int, default=0)
+ap.add_argument("--crew", type=int, default=0)
 ap.add_argument("--knob", action="append", default=[])
 a = ap.parse_args()
 assert not os.path.exists(a.out), a.out
@@ -30,6 +31,8 @@ if a.bt:
     run("trib_patch.py", src)
 if a.follow:
     run("follow_patch.py", src)
+if a.crew:
+    run("crew_patch.py", src, str(a.crew))
 if a.plan:
     run("clplan_patch.py", a.repo, src, str(a.plan))
 for kv in a.knob:
