@@ -18,6 +18,9 @@
 #ifndef CL_PLAN
 #define CL_PLAN 1 // bits: 1 sweepers, 2 effort terms (heal and bank trips), 4 carry risk, 8 sweeper banking
 #endif
+#ifndef CL_PLAN_FLOOR
+#define CL_PLAN_FLOOR 4000000 // draft fuel left for the rest of the draft (v220's own map read runs after this)
+#endif
 #ifndef CL_PLAN_RADIUS
 #define CL_PLAN_RADIUS 16 // walking steps from a region's seed to its other groups
 #endif
@@ -67,7 +70,7 @@ inline constexpr int kMaxEntries = 120;
 // Draft side: analyse the map and submit [0..kOff) zero + plan. Call before brain::record_draft on a turn with fuel.
 inline bool draft_write(unsigned team_size) {
     if (!(CL_PLAN & 1)) return false;
-    if (bc::fuel_remaining() < 3000000ull) return false;
+    if (bc::fuel_remaining() < static_cast<std::uint64_t>(CL_PLAN_FLOOR) + 2000000ull) return false;
     namespace d = cambc::detail;
     std::uint32_t n = 0;
     if (d::sdk_map_num_camp_groups(&n) != 0 || n == 0 || n > 400) return false;
@@ -139,7 +142,7 @@ inline bool draft_write(unsigned team_size) {
     // Pairwise walking distances (one field per group, read at the other groups' camps).
     std::vector<std::uint16_t> dist(static_cast<std::size_t>(ng * ng), static_cast<std::uint16_t>(kUnreach));
     for (int a = 0; a < ng; ++a) {
-        if (bc::fuel_remaining() < 1500000ull) return false;
+        if (bc::fuel_remaining() < static_cast<std::uint64_t>(CL_PLAN_FLOOR)) return false;
         f_g.compute(blocked, gs[a].tiles, visited);
         for (int b = 0; b < ng; ++b) {
             int best = kUnreach;
@@ -234,7 +237,7 @@ inline bool draft_write(unsigned team_size) {
     auto good = [&](const R& r) { return r.value >= CL_PLAN_MIN && (r.members.size() >= 2 || r.val >= 21.0f); };
     std::vector<R> cands;
     for (const auto& sd : seeds) {
-        if (bc::fuel_remaining() < 1500000ull) break;
+        if (bc::fuel_remaining() < static_cast<std::uint64_t>(CL_PLAN_FLOOR)) break;
         R r = grow(sd.second);
         if (good(r)) cands.push_back(std::move(r));
     }
@@ -251,7 +254,7 @@ inline bool draft_write(unsigned team_size) {
             for (int i : cands[0].members) excl[static_cast<std::size_t>(i)] = 1;
             R best;
             for (const auto& sd : seeds) {
-                if (excl[static_cast<std::size_t>(sd.second)] || bc::fuel_remaining() < 1500000ull) continue;
+                if (excl[static_cast<std::size_t>(sd.second)] || bc::fuel_remaining() < static_cast<std::uint64_t>(CL_PLAN_FLOOR)) continue;
                 R r = grow(sd.second);
                 if (good(r) && r.value > best.value) best = std::move(r);
             }
