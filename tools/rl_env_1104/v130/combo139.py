@@ -14,6 +14,8 @@ ap.add_argument("--plan", type=int, default=0)
 ap.add_argument("--crew", type=int, default=0)
 ap.add_argument("--join", action="store_true")
 ap.add_argument("--port141", action="store_true")
+ap.add_argument("--frc", action="store_true")
+ap.add_argument("--ring", action="store_true")
 ap.add_argument("--knob", action="append", default=[])
 a = ap.parse_args()
 assert not os.path.exists(a.out), a.out
@@ -33,6 +35,10 @@ if a.bt:
     run("trib_patch.py", src)
 if a.follow:
     run("follow_patch.py", src)
+if a.frc:
+    run("frc_patch.py", src)
+if a.ring:
+    run("ring_patch.py", src)
 if a.port141:
     run("port141_patch.py", src)
 if a.join:
