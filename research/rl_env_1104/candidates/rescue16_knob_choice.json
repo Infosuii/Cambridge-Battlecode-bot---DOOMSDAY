@@ -1,0 +1,488 @@
+{
+ "kind": "knob",
+ "base": "v137",
+ "min_gain": 3.0,
+ "max_loss": 1,
+ "choice": {
+  "00pilgrimage": "caut",
+  "00road-of-riches": "spread",
+  "00split": "wait",
+  "00the-line": "softcaut",
+  "02the-pack": "shopmore",
+  "03one-gem": "search",
+  "03ultrastarvation": "hunt",
+  "04barbell": "search",
+  "04courtyard": "teamfight",
+  "04horseshoes": "nomid",
+  "04hourglass": "hoard",
+  "04lines": "group",
+  "04mesas": "spread",
+  "04wheel": "mid"
+ },
+ "evidence": {
+  "00pilgrimage": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_caut",
+   "best_gain": 4.0,
+   "top": [
+    [
+     "r_caut",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_huntranged",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_hoard",
+     {
+      "gain": 3.0,
+      "losses": 0
+     }
+    ]
+   ]
+  },
+  "00road-of-riches": {
+   "cells": 12,
+   "base": 2.0,
+   "best": "r_spread",
+   "best_gain": 4.0,
+   "top": [
+    [
+     "r_spread",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_gems",
+     {
+      "gain": 3.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_group",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "00split": {
+   "cells": 12,
+   "base": 1.0,
+   "best": "r_wait",
+   "best_gain": 8.0,
+   "top": [
+    [
+     "r_wait",
+     {
+      "gain": 8.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_hoard",
+     {
+      "gain": 7.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_huntranged",
+     {
+      "gain": 7.0,
+      "losses": 0
+     }
+    ]
+   ]
+  },
+  "00the-line": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_softcaut",
+   "best_gain": 7.0,
+   "top": [
+    [
+     "r_softcaut",
+     {
+      "gain": 7.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_spread",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_wait",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "01starvation": {
+   "cells": 12,
+   "base": 4.0,
+   "best": null,
+   "best_gain": 0.0,
+   "top": [
+    [
+     "r_hoard",
+     {
+      "gain": 2.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_mid",
+     {
+      "gain": 2.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_nomid",
+     {
+      "gain": 2.0,
+      "losses": 2
+     }
+    ]
+   ]
+  },
+  "02the-pack": {
+   "cells": 12,
+   "base": 1.0,
+   "best": "r_shopmore",
+   "best_gain": 6.0,
+   "top": [
+    [
+     "r_shopmore",
+     {
+      "gain": 6.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_teamfight",
+     {
+      "gain": 6.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_group",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ]
+   ]
+  },
+  "03membrane": {
+   "cells": 12,
+   "base": 7.0,
+   "best": null,
+   "best_gain": 0.0,
+   "top": [
+    [
+     "r_gold",
+     {
+      "gain": 1.0,
+      "losses": 2
+     }
+    ],
+    [
+     "r_aggr",
+     {
+      "gain": 0.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_bank",
+     {
+      "gain": 0.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "03one-gem": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_search",
+   "best_gain": 4.0,
+   "top": [
+    [
+     "r_search",
+     {
+      "gain": 4.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_hoard",
+     {
+      "gain": 3.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_shopmore",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "03ultrastarvation": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_hunt",
+   "best_gain": 5.0,
+   "top": [
+    [
+     "r_hunt",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_bank",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_mid",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "04barbell": {
+   "cells": 12,
+   "base": 6.0,
+   "best": "r_search",
+   "best_gain": 5.0,
+   "top": [
+    [
+     "r_search",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_spread",
+     {
+      "gain": 4.0,
+      "losses": 2
+     }
+    ],
+    [
+     "r_wait",
+     {
+      "gain": 4.0,
+      "losses": 2
+     }
+    ]
+   ]
+  },
+  "04courtyard": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_teamfight",
+   "best_gain": 5.0,
+   "top": [
+    [
+     "r_spread",
+     {
+      "gain": 6.0,
+      "losses": 2
+     }
+    ],
+    [
+     "r_teamfight",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_calm",
+     {
+      "gain": 4.0,
+      "losses": 2
+     }
+    ]
+   ]
+  },
+  "04horseshoes": {
+   "cells": 12,
+   "base": 3.0,
+   "best": "r_nomid",
+   "best_gain": 8.0,
+   "top": [
+    [
+     "r_nomid",
+     {
+      "gain": 8.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_gems",
+     {
+      "gain": 6.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_mid",
+     {
+      "gain": 6.0,
+      "losses": 0
+     }
+    ]
+   ]
+  },
+  "04hourglass": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_hoard",
+   "best_gain": 6.0,
+   "top": [
+    [
+     "r_hoard",
+     {
+      "gain": 6.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_nomid",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_ranged",
+     {
+      "gain": 5.0,
+      "losses": 0
+     }
+    ]
+   ]
+  },
+  "04lines": {
+   "cells": 12,
+   "base": 4.0,
+   "best": "r_group",
+   "best_gain": 6.0,
+   "top": [
+    [
+     "r_group",
+     {
+      "gain": 6.0,
+      "losses": 0
+     }
+    ],
+    [
+     "r_aggr",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_calm",
+     {
+      "gain": 3.0,
+      "losses": 2
+     }
+    ]
+   ]
+  },
+  "04mesas": {
+   "cells": 12,
+   "base": 3.0,
+   "best": "r_spread",
+   "best_gain": 4.0,
+   "top": [
+    [
+     "r_spread",
+     {
+      "gain": 4.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_hunt",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_huntranged",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ]
+   ]
+  },
+  "04wheel": {
+   "cells": 12,
+   "base": 6.0,
+   "best": "r_mid",
+   "best_gain": 5.0,
+   "top": [
+    [
+     "r_mid",
+     {
+      "gain": 5.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_huntranged",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ],
+    [
+     "r_teamfight",
+     {
+      "gain": 3.0,
+      "losses": 1
+     }
+    ]
+   ]
+  }
+ }
+}
