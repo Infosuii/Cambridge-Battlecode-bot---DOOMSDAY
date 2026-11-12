@@ -1,20 +1,37 @@
-# Ladder bots (team DOOMSDAY)
+# Bots
 
-Full submission sources of the heuristic bot lineage, one directory per version (`src/` is what `cambc submit` uploads).
+More than 250 bot builds, grouped by workstream. In each folder, `src/` is exactly what `cambc submit` uploads.
+Where a version has a `CHANGES.md`, it records what changed and how the change measured.
 
-| Version | Source | Notes |
-|---|---|---|
-| v48 | `C:\projects\cambridge battlecode\bot v48\danger20_engine103.zip` | heuristic, trained draft net (`A2_MLDRAFT`) and danger net (`UB_DANGER`) on |
-| v50 | `C:\projects\cambridge battlecode\bot v50\bot.zip` | v48 lineage, draft net and camp net (`A2_CAMPNET`, about 3 hours of in-engine RL); no danger net |
-| v51 | this repository | v50 plus the moated-island fix; submitted 2026-10-25 as bot version 51 (see `v51/CHANGES.md`) |
-| v53 | this repository | frozen platform version53; see `v53/CHANGES.md` |
-| v54 | this repository | frozen platform version54; coordinated economy and teleport logistics |
-| v55 | this repository | submitted as platform version55 at2026-10-25 18:53:28UTC; completed camp missions, Heart camp strikes, legal mirrored drafts; evidence in `research/v55/V55_RELEASE.json` |
-| v56 | this repository | v55 plus shop completion (`V56_SHOP_DONE`); never submitted |
-| v57 | this repository | submitted as platform version 56 at 2026-10-25 21:25 UTC; v56 plus `UB_ENEMY_CAMP` 1.0 (contest the middle); evidence in `research/v57/V57_RELEASE.json` |
-| v58 | this repository | Submitted as platform57 on2026-10-26; selected, compilation queued at last check.64.0% over672games vs v57; fuel0.999/game; both required holdouts pass; see `v58/CHANGES.md` and `research/v58/V58_RELEASE.json` |
-| proxy | this repository | not a ladder bot: local stand-in for the top 12 (their per-map drafts, item milestones, recall trick, fitted fight knobs on v65's code); see `proxy/CHANGES.md` and `research/proxy/README.md` |
-| mimic | this repository | new executor with replay-trained decisions; research only, never submitted. v9 loses 240/240 to v65, but matches 14/15 existing ladder-arm orderings; see `mimic/CHANGES.md` and `research/mimic/README.md` for limits |
-| v67 | this repository | frozen map/side portfolio: 220/240 strict local wins vs v65, but only137/240 on untouched3/4 and7/8; overfitted, higher fuel, no ladder claim. Further controller research continues; see `research/v67/README.md`. Never submitted. |
+| Folder | What's inside |
+|---|---|
+| [`mainline/`](mainline) | The ladder lineage, **v48 → v115e**, with single-change variants such as `v62a–f`, `v66x_*`/`v66y_*` and `v92*`. Includes `live-69`, a frozen copy of platform version 69. |
+| [`x-series/`](x-series) | z-plan development bots: `x1`/`x2`/`x3`, map-table bots `x3mf`/`x3mf2`, counter tables `x3ctr*`, the `x3inv*` sparring partners, and portfolio profiles `pf0`–`pf13`. The default `x3` build is byte-identical to v92. |
+| [`gigabot/`](gigabot) | gigabot (gx): about 100 single-mechanism increments (`gx-bankproof01`, `gx-siege01` …), each with a matched control, plus `gx-final`. |
+| [`codex/`](codex) | Candidates from the Codex agentic loop: siege, ward, bush, opening and fuel variants, and `codex-live111-frozen`. |
+| [`botx3/`](botx3) | The team-economy line, `botx3` and `botx3_1`–`botx3_11`. |
+| [`rl-env/`](rl-env) | Qualifier-week builds from the RL environment (`claude-rlenv-1104`, `claude-native-1104`) and johndoe's g5070 qualifier builders. |
+| [`neural/`](neural) | `agent2-v61` (Agent 2's neural experiments) and `mimic`, a replay-trained policy prototype. |
+| [`doomsday-zero/`](doomsday-zero) | DOOMSDAY Zero, the clean-slate C++20 rewrite started on 28 Oct. |
+| [`opponents/`](opponents) | Sparring partners: `proxy` (a stand-in for the top ladder teams) and three public bots. |
 
-Build: `cambc build bots/v51 --release --output <file>.wasm`. Local head-to-head: `tools/bot_match.py`, `tools/bench3.sh` (cached builds and verified complete runs). Compare candidates with `tools/bench_compare.py`; retain a mechanism only when its map-clustered 95% interval is above zero against its base.
+## Key versions
+
+| Version | Why it matters |
+|---|---|
+| `mainline/v58` | Economy package on the Sprint 3 rules: 430/672 vs v57. Submitted as platform 57. |
+| `mainline/v61` | Platform 60. Rank 54 on 26 Oct. |
+| `mainline/v74` | Per-map draft and knob tables. Best on the ladder in the top-12 duel; platform 68. |
+| `mainline/v92` | The reference bot from 2 Nov (platform 75 / 80). The base of most later work. |
+| `mainline/v113` | Om's fuel fix on top of v112, the Codex build that was live at our peak of rank 41. Base of v114–v117. |
+| `mainline/v115e` | Ishan's v113 + v114 merge with extra network fixes. |
+
+Later live builds (v117–v138) came from the Codex workstream and the rl-env patch pipeline. Their sources are in
+`research/codex-live/` (release zips) and `tools/rl_env_1104/` (patch scripts on top of v130/v135). See
+[docs/timeline.md](../docs/timeline.md).
+
+## Building
+
+```bash
+cambc build bots/mainline/v92 --release --output v92.wasm
+```

@@ -1,27 +1,21 @@
-# Research log
+# Research
 
-Everything measured or decided about each bot version is in that version's folder. Each version folder has the same
-layout:
+Every experiment, benchmark, ladder analysis and rejected idea, grouped by workstream. Reports are Markdown, and
+measurements are JSON or TSV next to them.
 
-| Path | Contents |
-|---|---|
-| `vNN/VNN_*.md`, `vNN/VNN_*.json` | Plans, build logs, analyses and the release record (`VNN_RELEASE.json`: source hashes, Wasm and bundle hashes, submission time). |
-| `vNN/results/` | Bench outputs: per-seed text summaries plus `-bayes`, `-cluster` and `-validation` JSON from `tools/bench_bayes.py`, `tools/bench_compare.py` and `tools/check_bench_run.py`. |
-| `vNN/experiments/` | Patches for experiments that were kept or are still open, relative to the previous frozen version. `tools/reproduce_v55.py` and `tools/reproduce_v58.py` rebuild them exactly. |
-| `vNN/rejected/` | Diffs of ideas that lost, kept so nobody runs them again. |
-
-| Version | What happened | Start with |
+| Folder | What's inside | Start with |
 |---|---|---|
-| v51 | Moated-island fix; submitted as platform 51 | `../bots/v51/CHANGES.md` |
-| v52 | Sole-gem-camp rule; submitted as platform 52. 36-replay study of the top teams against it | `v52/V52_PLAN.md`, `v52/top-teams-2026-10-25/REPORT.md` |
-| v53 | Open-job scan hoist; submitted as platform 53. Loss and champion-life analyses | `v53/V53_LOSS_REPORT.md` |
-| v54 | Crew jobs, item milestones, lead lock, teleports: +149 vs v53; submitted as platform 54 | `v54/V54_BUILD_LOG.md` |
-| v55 | Completed camp missions, Heart farming strikes: +106 vs v54; submitted as platform 55 | `v55/V55_BUILD_LOG.md` |
-| v56 | Shop completion; never submitted | `../bots/v56/CHANGES.md` |
-| v57 | Contest the middle: +122 vs v55, +85 on the fresh holdout; submitted as platform 56. Sprint 3 loss review | `v57/V57_FRESH_MAPS.md`, `v57/V57_SPRINT3_LOSS_REVIEW.md` |
-| v58 | Economy package (capture, collectors, Greed) on the Sprint 3 rules: 430/672, +153 vs v57; **submitted as platform 57** | `v58/V58_SPRINT3_RESULTS.md`, `v58/V58_RELEASE.json`, `../bots/v58/CHANGES.md` |
-| agent2-v61 | Agent 2's own v61 (not `bots/v61` on other branches): 55.0% vs the v60 dev in the real engine; everything tried after it (E58–E71) and the MOBA-AI research report | `agent2-v61/README.md` |
+| [`versions/`](versions) | One folder per mainline version (v51–v81): plans, build logs, bench results (`results/`), kept experiments (`experiments/`) and rejected diffs (`rejected/`) | [`v58/V58_SPRINT3_RESULTS.md`](versions/v58/V58_SPRINT3_RESULTS.md) |
+| [`x-series/`](x-series) | z-plan: map atlas, categories, portfolio, counter tables, anti-overfit study, ladder duels, x1 audit | [`x3/ANTI_OVERFIT.md`](x-series/x3/ANTI_OVERFIT.md), [`x3/MAP_IDEA_FINDINGS.md`](x-series/x3/MAP_IDEA_FINDINGS.md) |
+| [`codex-live/`](codex-live) | Om's Codex live line: agentic improvement, v113 integration, the v118 root-cause cycle, sw08 spawn recovery, Ishan's Codex analysis | [`v118-rootcause-20261109`](codex-live/v118-rootcause-20261109) |
+| [`rl-env/`](rl-env) | The RL environment and qualifier-week work, the v112 ladder diagnosis, the final hand-over, johndoe's PPO learner and belief design | [`rl_env_1104/HANDOVER_2026-11-09.md`](rl-env/rl_env_1104/HANDOVER_2026-11-09.md) |
+| [`neural/`](neural) | Agent 2's neural bot (nnq4 blend, RL checkpoints), findings E56–E76, the early policy-v2 behaviour-cloning runs | [`agent2-neural/README.md`](neural/agent2-neural/README.md) |
+| [`doomsday-zero/`](doomsday-zero) | The clean-slate rewrite: plans, mechanics studies, model calibration, run results | [`dz/HANDOFF.md`](doomsday-zero/dz/HANDOFF.md) |
+| [`gigabot/`](gigabot) | gigabot (gx) runs and its status reports | [`reports/FINAL_REPORT.md`](gigabot/reports/FINAL_REPORT.md) |
+| [`botx3/`](botx3) | The team-economy line | [`botx3-20261102`](botx3/botx3-20261102) |
+| [`analysis/`](analysis) | Studies outside any single version: top-team losses, deep game analysis, strategic audit, master plan, elite meta, maps, proxy and mimic opponents | [`top-losses-20261026`](analysis/top-losses-20261026) |
 
-`early/` holds the 2026-10-24 neural-policy work: night run reports, training logs and fuel probes. `misc/` holds a
-few results that belong to no single version and `SPRINT3_SDK_FACTS.json` (the Sprint 3 rule changes read from the
-SDK).
+The headline results are collected in [docs/findings.md](../docs/findings.md).
+
+Raw game-evidence archives (`evidence.zip`) were removed from the current tree to keep it small. They are still in the
+git history: see [archive/REMOVED_FROM_TREE.tsv](../archive/REMOVED_FROM_TREE.tsv).
