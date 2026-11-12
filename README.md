@@ -1,5 +1,10 @@
 # DOOMSDAY Battlecode bot
 
+**Latest paused botx3 work (3 November 2026):** see [HANDOFF.md](HANDOFF.md),
+[fresh-machine setup](SETUP_FRESH_MACHINE.md), and [next-agent prompt](NEXT_AGENT_PROMPT.md).
+Full release: `bots/botx3_11`; strongest broad measured: `bots/botx3_1`.
+Official ladder submission/publication/activation is forbidden for this work.
+
 **Active pure algorithm build:** branch `build/pure-algorithm-zero`, fresh C++ source
 in [bots/dz](bots/dz/README.md). Start at [CONTINUE_HERE.md](CONTINUE_HERE.md) and
 [the DZ handoff](research/dz/HANDOFF.md). The walking skeleton passed 292 release

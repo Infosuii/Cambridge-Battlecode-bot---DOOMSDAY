@@ -1,40 +1,11 @@
-Continue building our pure-algorithm Cambridge Battlecode bot (DOOMSDAY Zero, "DZ") until the Z plan is finished.
+Continue botx3 development in https://github.com/Infosuii/neural-networkk-battlecode on branch dev/botx3-team-economy-20261102. This is a fresh laptop and fresh agent. Read AGENTS.md, HANDOFF.md, SETUP_FRESH_MACHINE.md and PAUSED_STATE.json first. Root latest documents supersede older historical handoffs. Verify files with python tools/botx3_resume.py verify; install the pinned native toolchain per setup, check host tests and one targeted local game before a larger run.
 
-Repository: https://github.com/Infosuii/neural-networkk-battlecode
-Branch: build/pure-algorithm-zero (latest pushed commit). Clone it on this laptop:
-  git clone --branch build/pure-algorithm-zero https://github.com/Infosuii/neural-networkk-battlecode.git
-The companion lab plan lives on branch lab/box of the same repository (git fetch origin lab/box); it holds the
-v74h/v75/v76 lab bots and tools (tools/lab/branch_farm.py, plan_model.py, branch_prefix.py, screen120.py).
+The prior session is paused; this prompt is the continuation instruction when the user starts you on it. Local development/tests and Git pushes are authorized. Never submit, publish or activate on the official ladder. Do not touch other checkouts or frozen original x1. Preserve all numbered releases and exact original sources/hashes. The repository contains all needed source, SDK/CMake configuration, exact Wasm releases/controls, maps, opponents, completed rows/manifests, compact game receipts, selected native diagnostics and portable tools. Installed toolchains and bulk raw replay/summary caches are excluded and can be regenerated.
 
-Read in this order:
-1. research/dz/COMBINED_PLAN_2026-10-31.md: the single plan. It combines the Z plan, the lab/v76 plan, a 24-paper
-   research review, lab4's branching evidence and the elite-meta study, with an ordered task list (A1-A4, B1-B4,
-   C1-C4, D1-D5), each with an exit gate.
-2. The PAUSED section at the TOP of CLAUDE_HANDOFF.md, then CONTINUE_HERE.md (fresh-machine setup).
-3. research/dz/z-integration-2026-10-31/README.md and RESULTS.json (diagnosis and every screen so far), and
-   research/dz/vm2-2026-10-31/RESULTS.json (the passed V-M2 engagement model).
+Latest full-feature release is bots/botx3_11 (all implemented restored features); strongest broad measured version is botx3_1. Do not silently discard the full integration because it currently loses. Create actual numbered version12 from full11. bots/botx3/src defaults OFF and is not itself the latest full release; use each numbered version's explicit config and features.json. Many speculative historical retry ideas remain unimplemented; do not pretend all are done. Spend most time improving the bot after a short audit, rather than producing more tested-candidate snapshots or running giant matrices first.
 
-Setup on a fresh Windows laptop: Git, Python 3.12+ (numpy, scikit-learn), Node 24, and a C++20 g++ (winget
-BrechtSanders.WinLibs.POSIX.UCRT works; set DZ_CXX to its g++.exe). Then follow CONTINUE_HERE.md: verify and restore
-the pinned runtime and supporting evidence, tools/dz.py host / build / verify. The default build must hash to
-5cf28cb74612... (the selected release).
+First investigate v11 anti-feed: dev56/112 versus same-code control61; net-only and combined both56. Check actual native trigger/config/input execution, death-window net trades, plan4 timing, failed/gained native replays and fuel. Two or three focused repairs are justified only by identifiable mechanisms. Then improve draft-summary long-distance/asymmetric fallback so metadata survives unsupported pair encoding, and explicitly dispatch legacy byte480 team-memory versus rich byte8 format. Remaining full integration/fuel regression, planner forecast-versus-bank horizon, potential soak cache alias and chip's absent competitive activation are documented. Suspected runaway ECON was checked and not found; do not erase learned knobs as an ungrounded fix.
 
-First actions:
-- Resume the in-flight runs in section 3 of the combined plan (tools/dz_z14_screen.sh; the EE2, gold and style
-  screens if any are missing).
-- Build the per-map table (tools/dz_plan_select.py), confirm it against v74 and the holdout.
-- Then work down the task list: A1 native team plans, A2 branch farm and learned plan selection on DZ, B1 EE2
-  decisions plus the enemy-side model, A3 lambda_gold fit, C1 market claims, C2 big groups and gates, C3 elite
-  experiments, then combine, ablate, and run G5/G6/G2, Z15 hardening, and G7 once.
+Mandatory protocol: never reject an idea solely on its first worse benchmark. Verify compilation/effective configuration/activation/intended inputs; inspect dependencies/shared state/order; inspect failed native replays, separating bugs and fuel from strategy; make approximately2–3 motivated repairs where promising; test interactions (base/A/B/A+B when plausible) and conditional map/opponent/state effects. Classify Accepted, Retry required, Conditionally useful, Parked or Rejected with mechanism/evidence/attempts/uncertainty. Failed gate alone is not Rejected; do not run arbitrary settings to rescue weak ideas.
 
-Work autonomously and in depth. Implement every idea in the plan, don't ask the user to decide, pick the best
-option and say why in one line. Every behaviour change goes behind a DZ_* flag that defaults to 0 until its gate
-passes. Screen against one opponent and confirm on another (deterministic games make best-of-K overfit). Keep faults
-and fuel-outs at 0.
-
-Authorised: local builds, tests, matches, read-only public replay downloads, map and item tuning on the 70 maps,
-and pushes to build/pure-algorithm-zero. Not authorised: submitting, activating, or launching ladder matches or
-duels. Old bots are opponents only; never copy their code (re-implement lab ideas natively). Preserve
-config/paths.json and completed experiments, use fresh run names, commit evidence capsules with tools/dz.py's
-protocol, and keep the handoff sections and this prompt updated and pushed. If the user's usage is getting low,
-pause, write the handoffs, commit and push everything, and update this prompt.
+All supplied development/broad maps are spent. Use same-code controls and exact inputs because layout changes alter deterministic play. Report game counts, wins, faults, fuel events and environmental scope, not only collection. Conformance is mechanism evidence, not competitive strength. New unseen maps are needed for transfer claims. Never enable X3_BANK_PROBE or X1_FUEL_PROBE in releases. Keep updates concise, finish concrete repairs and relevant checks, preserve reproducible evidence, then push the continuation and refreshed handoff to the authorized branch.

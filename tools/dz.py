@@ -53,10 +53,29 @@ def write(path, value):
 
 def build(bot, wasm):
     wasm.parent.mkdir(parents=True, exist_ok=True)
+    # g5070 local-only: identical frozen builds recur in every map/opponent cell.
+    # Key all source, SDK, cmake, project configuration and CLI bytes, never flags alone.
+    digest = hashlib.sha256()
+    for base in (Path(bot)/'src', ROOT/'sdk', ROOT/'cmake'):
+        for p in sorted(base.rglob('*')):
+            if p.is_file():
+                digest.update(p.relative_to(base).as_posix().encode()); digest.update(p.read_bytes())
+    digest.update((ROOT/'cambc.toml').read_bytes()); digest.update(sha(CLI).encode())
+    cache = ROOT/'artifacts/local-only/g5070/build-cache'/digest.hexdigest()
+    if cache.with_suffix('.wasm').is_file() and cache.with_suffix('.json').is_file():
+        receipt = json.loads(cache.with_suffix('.json').read_text())
+        if sha(cache.with_suffix('.wasm')) != receipt['sha256']:
+            raise RuntimeError('local build cache integrity mismatch')
+        shutil.copyfile(cache.with_suffix('.wasm'), wasm)
+        wasm.with_suffix('.build.log').write_text('g5070 exact-input build cache hit '+digest.hexdigest()+'\n'+receipt['log'], encoding='utf-8')
+        return wasm
     log = run([CLI, 'build', bot, '--release', '--output', wasm])
     wasm.with_suffix('.build.log').write_text(log, encoding='utf-8')
     if not wasm.is_file():
         raise RuntimeError('build returned success without a Wasm output')
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(wasm, cache.with_suffix('.wasm'))
+    write(cache.with_suffix('.json'), dict(sha256=sha(wasm), log=log))
     return wasm
 
 def host_tests():

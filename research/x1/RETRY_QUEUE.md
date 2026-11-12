@@ -1,5 +1,7 @@
 # Retry protocol and retry queue (2026-11-01, user rule: "retry features before you reject")
 
+**Mandatory update, 2 November:** [FAILURE_PROTOCOL.md](FAILURE_PROTOCOL.md) governs outcome classification and focused retries. A failed gate is not a rejected idea. Verify implementation and actual activation, inspect dependencies and failed replays, attempt approximately 2–3 justified repairs, test plausible interactions and conditional environments. Use Accepted / Retry required / Conditionally useful / Parked / Rejected. The historical R0–R3 table below describes the earlier campaign; it does not require arbitrary extra variants or a joint search without a plausible dependency.
+
 No feature is rejected after one test. A single test can fail for reasons that are not the idea: one opponent build,
 one map style, one parameter value, a trigger that never fires, or a piece that only helps when tuned together with
 the rest (Agent 2's main finding: every v86h piece was neutral alone and +7 combined).
@@ -8,7 +10,7 @@ the rest (Agent 2's main finding: every v86h piece was neutral alone and +7 comb
 
 | Step | What | Passes when |
 |---|---|---|
-| R0 fires | The build differs from the base (`tools/x1_flag_hashes.py`) **and** the behaviour triggers in games (telemetry count or changed-game count > 0) | Otherwise it is a dead path: fix the trigger, do not score it |
+| R0 fires | Verify effective configuration and intended inputs, then confirm actual activation with telemetry or directly inspected decision traces. Binary/result differences alone do not prove activation. | Otherwise fix or instrument the path before interpreting its strategic value |
 | R1 independent retest | Full gate: 70 ladder + 50 ladder-style + maze-style maps, both sides, vs v88 (`x2`) **and** its seed build `x2-s2` | Gain ≥ 0 on the total |
 | R2 variants | At least two other parameter values (or a v2 that fixes the weakness the first test showed) | Any variant ≥ 0 |
 | R3 combined | Included as a switch (and its knobs) in the joint structure + knob search (Phase 7) | The search keeps it on, or the final ablation shows a loss without it |

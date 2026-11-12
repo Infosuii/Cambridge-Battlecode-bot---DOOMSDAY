@@ -1,0 +1,88 @@
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.9s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/.cambc/build-release
+[0/2] Re-checking globbed directories...
+[1/16] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/draft-paths-v3/builds/control/src/neural_policy.cpp.obj
+[2/16] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/draft-paths-v3/builds/control/src/team_economy.cpp.obj
+[3/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/economy.cpp.obj
+[4/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/tactics.cpp.obj
+[5/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/deny.cpp.obj
+[6/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/fight.cpp.obj
+[7/16] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/draft-paths-v3/builds/control/src/pressure.cpp.obj
+[8/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/main.cpp.obj
+[9/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/episode.cpp.obj
+[10/16] Building CXX object CMakeFiles/bot.dir/a5a4d844a7dd5c4b791f21dd9b6649d0/draft-paths-v3/builds/control/src/draft_paths.cpp.obj
+[11/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/draft.cpp.obj
+[12/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/world.cpp.obj
+[13/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp.obj
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp:804:26: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^  ~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp:804:26: note: use '&' for a bitwise operation
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~
+      |                          &
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp:804:26: note: remove constant to silence this warning
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp:941:56: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^  ~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/tsearch.cpp:941:56: note: use '|' for a bitwise operation
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+
+      |                                                        ^~
+
+      |                                                        |
+
+2 warnings generated.
+
+[14/16] Building CXX object CMakeFiles/bot.dir/5c13b44fb22fe8d575d977a0981b8846/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:3713:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3713 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:3713:53: note: use '&' for a bitwise operation
+ 3713 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:3713:53: note: remove constant to silence this warning
+ 3713 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:4182:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4182 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:4182:92: note: use '|' for a bitwise operation
+ 4182 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:4200:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4200 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/src/bot.cpp:4200:82: note: use '|' for a bitwise operation
+ 4200 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+
+      |                                                                                  ^~
+
+      |                                                                                  |
+
+3 warnings generated.
+
+[15/16] Linking CXX executable bot.wasm
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.5s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/botx3-team-economy/research/botx3-20261102/draft-paths-v3/builds/control/.cambc/build
+built C:\projects\cambridge battlecode\work\botx3-team-economy\research\botx3-20261102\draft-paths-v3\builds\control\.cambc\build-release\bot-injected.wasm
+injected 1 checks into 1 functions
+stripped stale debug sections (.debug_loc, .debug_abbrev, .debug_info, .debug_str, .debug_line, .debug_ranges); pass --keep-debug to retain them

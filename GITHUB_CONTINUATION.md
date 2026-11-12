@@ -1,0 +1,1 @@
+Paused 3 November 2026. Start with HANDOFF.md, SETUP_FRESH_MACHINE.md and NEXT_AGENT_PROMPT.md in this directory. Latest full release: bots/botx3_11; strongest broad measured: bots/botx3_1. No ladder actions authorized. Older historical documents are retained as evidence, not current status.
