@@ -98,6 +98,13 @@ maps, sides, outcomes and native scores/rounds; raw responses remain local-only.
 | `patch_text.py`, `eol_like.py` | Line-ending-safe edits and diffs of bot sources. |
 | `vendor/cambc.exe` | The official CAMBC CLI 4.0.0, engine 2.0.0 (`submit`, `bundle`, `maps pull`, `match-groups`). |
 
+## Map suite (`mapgen/`)
+
+`mapgen/` reads maps through the engine's MapBuilder, generates new maps by structured resampling of the official
+maps, profiles them with a same-bot mirror, and screens/selects them. The 120-map suite (70 official + 50 generated:
+`maps/generated/dev` and `maps/generated/holdout`) and its validation are described in `mapgen/README.md`.
+`bench3.sh` accepts `MAP_DIR=maps/generated/dev` without `HOLDOUT=1`; every other map directory still requires it.
+
 ## Replay analysis (`replay/`)
 
 `replay/engine.mjs` decodes `.repl26a` replays exactly through the official visualiser engine. The other scripts in
