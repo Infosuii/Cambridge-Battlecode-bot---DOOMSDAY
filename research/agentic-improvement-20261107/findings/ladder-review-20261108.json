@@ -1,0 +1,105 @@
+{
+  "checked_on": "2026-11-08",
+  "collector_new_listing": 89,
+  "database_games": 2347,
+  "accounted_own_games": 1520,
+  "known_version_games": 15,
+  "ranked": {
+    "games": 725,
+    "wins": 371,
+    "losses": 354,
+    "mean_components": {
+      "camp_collection": 94.89379310344827,
+      "champion_collection": -4.6882758620689655,
+      "camp_loss": -19.44551724137931,
+      "champion_loss": -4.6882758620689655,
+      "held": -28.337931034482757
+    },
+    "covariance_share_noncausal": {
+      "camp_collection": 0.7121890617786834,
+      "champion_collection": 0.12875605973486123,
+      "camp_loss": -0.02113708694117032,
+      "champion_loss": 0.12875605973486123,
+      "held": 0.051435905692764426
+    },
+    "totals": {
+      "camp_collection": 659827.0,
+      "champion_collection": 104197.0,
+      "camp_loss": 20351.0,
+      "champion_loss": 107596.0,
+      "held": 68197.0,
+      "death": 5976,
+      "death_camp": 836,
+      "death_champion": 5140,
+      "fuelExhausted": 8118
+    },
+    "loss_largest_shortfall": {
+      "held": 58,
+      "camp_collection": 233,
+      "champion_collection": 60,
+      "camp_loss": 3
+    },
+    "loss_largest_grouped_shortfall": {
+      "combat_transfer": 96,
+      "held": 49,
+      "camp_collection": 207,
+      "camp_loss": 2
+    }
+  },
+  "limitations": [
+    "Covariance shares are descriptive, not causal or independent importance scores.",
+    "Historical own-version is often unknown; diagnose the team, then reproduce in frozen v111 locally.",
+    "Full-state replay diagnostics are offline only; legal bot visibility must be checked before changes.",
+    "Farming windows measure collection differences, not a counterfactual route or cost of death."
+  ],
+  "cases": [
+    {
+      "match": "01a1ae96-1242-70ac-912f-d96c39128bb5",
+      "map": "04compass",
+      "reason": "known_policy_farming_loss",
+      "our_version": 111,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    },
+    {
+      "match": "01a1ae96-0f68-7995-8d1a-89e8d67e91c4",
+      "map": "03showdown",
+      "reason": "known_policy_combat_loss",
+      "our_version": 111,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    },
+    {
+      "match": "01a1b457-99e7-79b2-8782-3b2f42be7b25",
+      "map": "04bowls",
+      "reason": "clean_farming_deficit",
+      "our_version": null,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    },
+    {
+      "match": "01a1b3b2-ce98-7391-b57f-71c723afc18d",
+      "map": "01yellow_brick_road",
+      "reason": "fuel",
+      "our_version": null,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    },
+    {
+      "match": "01a1b178-76e4-7551-a0e7-545e097ac7e0",
+      "map": "04barbell",
+      "reason": "unbanked_end",
+      "our_version": null,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    },
+    {
+      "match": "01a1ae96-0f68-790f-9970-7a8b55f7cab0",
+      "map": "04compass",
+      "reason": "same_map_observational_win",
+      "our_version": 111,
+      "score_roster_bag_parity": true,
+      "interpretation": "Observed motion/activity; does not identify intent or prove a strategy caused defeat. Full-state proximity is not actor visibility."
+    }
+  ]
+}

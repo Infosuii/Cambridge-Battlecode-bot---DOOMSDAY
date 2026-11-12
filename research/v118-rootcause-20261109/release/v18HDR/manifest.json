@@ -1,0 +1,37 @@
+{
+  "candidate": "v18HDR",
+  "version_label": "v118 candidate (v117 + home siege H + relaxed bridge dash D + route veto R)",
+  "parent": {
+    "name": "hp01",
+    "ladder_version": 117,
+    "source_digest": "ea9a68340c2a7030204069c50776ca1193383a413d582446c39eb208018cf8e5",
+    "wasm_sha256": "f9088c1daa3e78f46a058833811124c7a164f9a67ee463f93bb72d17e60e4777"
+  },
+  "source_digest": "f92b8ff4d1c0cedfd84880be39c3f7fb428da592f39f7213271733d33d898994",
+  "source_zip": {
+    "file": "source.zip",
+    "sha256": "4a65e7639123991a06566f71c4d0822ed82446ee08877fda46deee762035ef8c"
+  },
+  "wasm": {
+    "file": "bot-injected.wasm",
+    "sha256": "581898c50189c081dce52f97b6ac861f0b642790747fe8c475f0e24382db1118"
+  },
+  "nn_weights_sha256": "ee60a7a5ccbc15010a4578ea20a3505ce4035a96acd178a9d67395a94650a7e7",
+  "weights_note": "frozen v113/v117 network (identical to hp01 nn_weights.h)",
+  "sdk_digest": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+  "cli_sha256": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+  "engine": "3.0.0",
+  "engine_build": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "holdout_result_sha256": "0b54240be183eb9d21da65efe0c4995392f577c3f828dc49b52345d0147959b5",
+  "protocol_sha256": "e29ebeffdbf86215180242f5a783489a130489bfbb37019db4289ec32cf7d8e8",
+  "gates": {
+    "G2_zero_faults": true,
+    "G3_fuel": true,
+    "G4_paired_nonnegative": false,
+    "G4_bootstrap_p10": false,
+    "G5_direct": true
+  },
+  "approved_for_upload": false,
+  "reason": "Sealed holdout G4 strength gate failed (-4/720 paired, bootstrap p10 -3.6pp); targeted incidents fixed; not for ladder submission without a new decision.",
+  "rollback": "Re-activate ladder version 117 (hp01): cambc submissions activate 117 --json; verify active/selected == 117."
+}

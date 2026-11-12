@@ -1,0 +1,24 @@
+{"complete": 20, "total": 128, "elapsed_seconds": 4.0, "faults": 0}
+{"complete": 40, "total": 128, "elapsed_seconds": 7.4, "faults": 0}
+{"complete": 60, "total": 128, "elapsed_seconds": 9.7, "faults": 0}
+{"complete": 80, "total": 128, "elapsed_seconds": 12.6, "faults": 0}
+{"complete": 100, "total": 128, "elapsed_seconds": 15.5, "faults": 0}
+{"complete": 120, "total": 128, "elapsed_seconds": 18.3, "faults": 0}
+{"complete": 128, "total": 128, "elapsed_seconds": 18.8, "faults": 0}
+{
+  "dx04": {
+    "games": 128,
+    "score": 82.0,
+    "faults": 0,
+    "opponent_faults": 0,
+    "fuel": 418
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\omdha\.codex\worktrees\agentic-findings-publish-20261107\x1resume\v113-integration-20261108\v118-rootcause\map_census.py", line 52, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\omdha\.codex\worktrees\agentic-findings-publish-20261107\x1resume\v113-integration-20261108\v118-rootcause\map_census.py", line 44, in main
+    seen[int(p[2])] = dict(gems=int(p[3]), share=float(p[4]), spawn_dist=int(p[5]), harmless=int(p[6]), range=int(p[7]), hp=float(p[8]), camps=int(p[9]))
+                                                       ~^^^
+IndexError: list index out of range

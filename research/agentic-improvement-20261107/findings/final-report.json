@@ -1,0 +1,1139 @@
+{
+  "at": "2026-11-08T05:29:53.867521+00:00",
+  "selected": {
+    "candidate": "auto_bank_arrive_learned",
+    "approved_for_delivery": true,
+    "classification": "Experimental delivery; substantial upgrade unproven",
+    "rationale": "Choose the corrected, deep-routing bot with retained g12 learned weights and the verified banking/progress repairs. On the exact 164 final maps it scored 166/328 directly against v111 and gained 1.2576 reference percentage points. On the 44 current official published maps it scored 47/88 directly and was essentially level against references (-0.2841 percentage points), better reference retention than either registered retuned finalist. Earlier ancestry validation also supported this learned parent (+2.7820 reference points, 167/328 direct). The new retreat-threshold adjustment had slightly higher pooled reference gain but weaker published-map reference retention and no direct advantage. Retain the tested parent as the best judged experimental upload; preserve all alternate candidates and negative results.",
+    "limitations": "This is a pragmatic, adaptive selection from four frozen-source candidates after registered retune validation and a disclosed unchanged-parent diagnostic. It is not a new independent promotion result. The selected candidate's 95% map-cluster reference interval is [-1.2205, +3.6204] percentage points and its direct-score interval is [45.7317%, 55.1905%]. The +8-point/60%-direct substantial target was not met. Published maps may have historical exposure; generated maps are not a ladder-frequency sample. Local source/build evidence does not establish identical server Wasm or a ladder ELO gain. Upload and activation are explicitly authorized by the user's 8 November instruction; automatic deployment remains disabled in the continuous controller.",
+    "evidence": {
+      "registered_retune": "training/runs/bounded-delivery-retune-v1/outcomes.json",
+      "same_map_parent_comparison": "training/runs/delivery-parent-comparison-20261108/outcomes.json",
+      "prior_ancestry": "training/runs/ancestry-generalization-v1",
+      "map_correction": "training/runs/bounded-delivery-retune-v1/published-map-correction-20261108/decision.json"
+    },
+    "deployment_authorization": "User: continue and once bot packaged push to ladder",
+    "expected_live_version": 111
+  },
+  "release_manifest": {
+    "at": "2026-11-08T05:22:53.760907+00:00",
+    "candidate": "auto_bank_arrive_learned",
+    "source_digest": "e79a8d5851d4e0fcf424ae66f267039714fa8c241dfe0345535427ef271bbec9",
+    "source_zip": {
+      "file": "auto_bank_arrive_learned-source.zip",
+      "sha256": "9397a56e4d19e998489578debaff58be3c90892514b97bda6d4e6be57cffe001",
+      "bytes": 723302
+    },
+    "wasm": {
+      "file": "bot-injected.wasm",
+      "sha256": "932030e05e5d716891a2002ff451ee5c34ced685da16e9c48695bb72cf021937",
+      "bytes": 606065
+    },
+    "sdk_digest": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+    "cli_sha256": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+    "build_receipt": {
+      "inputs": {
+        "source": "e79a8d5851d4e0fcf424ae66f267039714fa8c241dfe0345535427ef271bbec9",
+        "sdk": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+        "cli": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+        "release": true
+      },
+      "wasm": "932030e05e5d716891a2002ff451ee5c34ced685da16e9c48695bb72cf021937"
+    },
+    "final_outcomes_sha256": "293e933ec061e88040285a8b5f12278f1f3f28a2fc61ffc9939beb82002ca51f",
+    "validation_evidence": "training\\runs\\delivery-parent-comparison-20261108\\outcomes.json",
+    "registered_retune_outcomes_sha256": "2826d9169163a1edfd25e4470bf443e35547d8871e20681cf648d8bc2915f377",
+    "selection_sha256": "324d03435f7847e3a85366b069fd4f0bf040337ff2339f83a79979965eb0dd1e",
+    "engine": "3.0.0",
+    "normal_fuel": true,
+    "warning": "Source bundle matches the tested source byte for byte. The platform compiles the source independently; identical server Wasm and ladder performance are not established by local testing."
+  },
+  "deployment": {
+    "authorization": "User: continue and once bot packaged push to ladder",
+    "created_at": "2026-11-08T05:22:57.016572+00:00",
+    "expected_version": 111,
+    "phase": "active",
+    "note": "agentic-1108:auto_bank_arrive_learned:e79a8d5851d4",
+    "before": {
+      "active": {
+        "active": true,
+        "createdAt": "2026-11-05T17:36:07.438Z",
+        "fileName": "bot.zip",
+        "hasLog": true,
+        "id": "d8f4fa54-ad2b-4e6e-aee4-cb2f248795b5",
+        "language": "cpp",
+        "note": "nnrc10: retrained network on nnm4",
+        "size": 720806,
+        "status": "active",
+        "statusAt": "2026-11-08T05:20:35.515Z",
+        "uploadedBy": "8cbd5949-b739-4e4e-ba3b-b949e1da1929",
+        "version": 111
+      },
+      "selected": {
+        "active": true,
+        "createdAt": "2026-11-05T17:36:07.438Z",
+        "fileName": "bot.zip",
+        "hasLog": true,
+        "id": "d8f4fa54-ad2b-4e6e-aee4-cb2f248795b5",
+        "language": "cpp",
+        "note": "nnrc10: retrained network on nnm4",
+        "size": 720806,
+        "status": "active",
+        "statusAt": "2026-11-08T05:20:35.515Z",
+        "uploadedBy": "8cbd5949-b739-4e4e-ba3b-b949e1da1929",
+        "version": 111
+      }
+    },
+    "at": "2026-11-08T05:22:57.811406+00:00",
+    "upload_response": "Uploading C:\\projects\\cambridge battlecode\\work\\agentic-improvement\\arena\\bots/auto_bank_arrive_learned (723302 bytes)...\nSubmitted bot version 112. View submissions at https://2026a.battlecode.co.uk/game/submissions\n",
+    "version": 112,
+    "remote": {
+      "active": true,
+      "createdAt": "2026-11-08T05:22:59.327Z",
+      "fileName": "bot.zip",
+      "hasLog": true,
+      "id": "a3b4bcb6-5c9b-44ee-b0ad-6351247d8867",
+      "language": "cpp",
+      "note": "agentic-1108:auto_bank_arrive_learned:e79a8d5851d4",
+      "size": 723302,
+      "status": "active",
+      "statusAt": "2026-11-08T05:27:17.215Z",
+      "uploadedBy": "448a281a-cb6a-4959-9c1d-adfcc79d678a",
+      "version": 112
+    },
+    "last_checked_at": "2026-11-08T05:28:29.126069+00:00",
+    "active_version": 112,
+    "activated_at": "2026-11-08T05:28:29.261373+00:00"
+  },
+  "registered_retune": {
+    "auto_rt7_o_k14n": {
+      "pooled": {
+        "candidate": "auto_rt7_o_k14n",
+        "paired_n": 2624,
+        "maps": 164,
+        "gain": 0.0038109756097560975,
+        "cluster90": [
+          -0.01600609756097561,
+          0.024009146341463415
+        ],
+        "opponent_gains": {
+          "nnm4": 0.003048780487804878,
+          "v92": -0.04878048780487805,
+          "ref_x1": 0.003048780487804878,
+          "ref_x3ctr": 0.0,
+          "ref_p65pack": 0.021341463414634148,
+          "ref_hold_rush100": 0.01524390243902439,
+          "teammate_max_gx": -0.036585365853658534,
+          "teammate_john_nnfinal": 0.07317073170731707
+        },
+        "faults": 0,
+        "direct_score": 165.0,
+        "direct_n": 328,
+        "direct_rate": 0.5030487804878049
+      },
+      "reference_cluster95": [
+        -0.020960365853658538,
+        0.027057926829268292
+      ],
+      "direct_cluster95": [
+        0.45426829268292684,
+        0.551829268292683
+      ],
+      "substantial_gate": false,
+      "scope": "One bounded retune before packaging/publishing requested by user. Finalpublished maps disjoint from this retune but historically exposed. Synthetic stress is not a ladder-frequency model. No official actions or AIcalls pergame; failed gates retain findings,not Rejected."
+    },
+    "auto_rt7_l_k01p": {
+      "pooled": {
+        "candidate": "auto_rt7_l_k01p",
+        "paired_n": 2624,
+        "maps": 164,
+        "gain": 0.018292682926829267,
+        "cluster90": [
+          -0.0022865853658536584,
+          0.038871951219512195
+        ],
+        "opponent_gains": {
+          "nnm4": 0.051829268292682924,
+          "v92": 0.0,
+          "ref_x1": 0.0,
+          "ref_x3ctr": -0.012195121951219513,
+          "ref_p65pack": 0.027439024390243903,
+          "ref_hold_rush100": 0.009146341463414634,
+          "teammate_max_gx": 0.01524390243902439,
+          "teammate_john_nnfinal": 0.054878048780487805
+        },
+        "faults": 0,
+        "direct_score": 164.0,
+        "direct_n": 328,
+        "direct_rate": 0.5
+      },
+      "reference_cluster95": [
+        -0.0064786585365853655,
+        0.041920731707317076
+      ],
+      "direct_cluster95": [
+        0.45121951219512196,
+        0.5457317073170732
+      ],
+      "substantial_gate": false,
+      "scope": "One bounded retune before packaging/publishing requested by user. Finalpublished maps disjoint from this retune but historically exposed. Synthetic stress is not a ladder-frequency model. No official actions or AIcalls pergame; failed gates retain findings,not Rejected."
+    }
+  },
+  "same_map_comparison": {
+    "candidates": {
+      "auto_bank_arrive_original": {
+        "pooled": {
+          "candidate": "auto_bank_arrive_original",
+          "paired_n": 2624,
+          "maps": 164,
+          "gain": -0.004192073170731708,
+          "cluster90": [
+            -0.024771341463414635,
+            0.01714939024390244
+          ],
+          "opponent_gains": {
+            "nnm4": 0.018292682926829267,
+            "v92": -0.039634146341463415,
+            "ref_x1": -0.006097560975609756,
+            "ref_x3ctr": -0.021341463414634148,
+            "ref_p65pack": 0.012195121951219513,
+            "ref_hold_rush100": -0.01524390243902439,
+            "teammate_max_gx": -0.027439024390243903,
+            "teammate_john_nnfinal": 0.04573170731707317
+          },
+          "faults": 0,
+          "direct_score": 162.0,
+          "direct_n": 328,
+          "direct_rate": 0.49390243902439024
+        },
+        "reference_cluster95": [
+          -0.02972560975609756,
+          0.020960365853658538
+        ],
+        "direct_cluster95": [
+          0.4451219512195122,
+          0.5426829268292683
+        ],
+        "panels": {
+          "final_a": {
+            "candidate": "auto_bank_arrive_original",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.0010416666666666667,
+            "cluster90": [
+              -0.028125,
+              0.03125
+            ],
+            "opponent_gains": {
+              "nnm4": 0.0,
+              "v92": -0.06666666666666667,
+              "ref_x1": 0.05,
+              "ref_x3ctr": -0.008333333333333333,
+              "ref_p65pack": 0.06666666666666667,
+              "ref_hold_rush100": -0.05,
+              "teammate_max_gx": -0.05,
+              "teammate_john_nnfinal": 0.06666666666666667
+            },
+            "faults": 0,
+            "direct_score": 57.0,
+            "direct_n": 120,
+            "direct_rate": 0.475
+          },
+          "final_b": {
+            "candidate": "auto_bank_arrive_original",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.010416666666666666,
+            "cluster90": [
+              -0.026041666666666668,
+              0.046875
+            ],
+            "opponent_gains": {
+              "nnm4": 0.041666666666666664,
+              "v92": 0.016666666666666666,
+              "ref_x1": 0.008333333333333333,
+              "ref_x3ctr": 0.016666666666666666,
+              "ref_p65pack": 0.008333333333333333,
+              "ref_hold_rush100": -0.041666666666666664,
+              "teammate_max_gx": 0.016666666666666666,
+              "teammate_john_nnfinal": 0.016666666666666666
+            },
+            "faults": 0,
+            "direct_score": 61.0,
+            "direct_n": 120,
+            "direct_rate": 0.5083333333333333
+          },
+          "published": {
+            "candidate": "auto_bank_arrive_original",
+            "paired_n": 704,
+            "maps": 44,
+            "gain": -0.03125,
+            "cluster90": [
+              -0.07528409090909091,
+              0.014204545454545454
+            ],
+            "opponent_gains": {
+              "nnm4": 0.011363636363636364,
+              "v92": -0.07954545454545454,
+              "ref_x1": -0.10227272727272728,
+              "ref_x3ctr": -0.09090909090909091,
+              "ref_p65pack": -0.056818181818181816,
+              "ref_hold_rush100": 0.06818181818181818,
+              "teammate_max_gx": -0.056818181818181816,
+              "teammate_john_nnfinal": 0.056818181818181816
+            },
+            "faults": 0,
+            "direct_score": 44.0,
+            "direct_n": 88,
+            "direct_rate": 0.5
+          }
+        }
+      },
+      "auto_bank_arrive_learned": {
+        "pooled": {
+          "candidate": "auto_bank_arrive_learned",
+          "paired_n": 2624,
+          "maps": 164,
+          "gain": 0.012576219512195123,
+          "cluster90": [
+            -0.008003048780487805,
+            0.03315548780487805
+          ],
+          "opponent_gains": {
+            "nnm4": 0.042682926829268296,
+            "v92": -0.006097560975609756,
+            "ref_x1": -0.009146341463414634,
+            "ref_x3ctr": 0.0,
+            "ref_p65pack": 0.01524390243902439,
+            "ref_hold_rush100": 0.009146341463414634,
+            "teammate_max_gx": 0.009146341463414634,
+            "teammate_john_nnfinal": 0.039634146341463415
+          },
+          "faults": 0,
+          "direct_score": 166.0,
+          "direct_n": 328,
+          "direct_rate": 0.5060975609756098
+        },
+        "reference_cluster95": [
+          -0.0122046493902439,
+          0.036204268292682924
+        ],
+        "direct_cluster95": [
+          0.4573170731707317,
+          0.5519054878048784
+        ],
+        "panels": {
+          "final_a": {
+            "candidate": "auto_bank_arrive_learned",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": -0.0010416666666666667,
+            "cluster90": [
+              -0.03229166666666667,
+              0.029166666666666667
+            ],
+            "opponent_gains": {
+              "nnm4": 0.016666666666666666,
+              "v92": -0.075,
+              "ref_x1": 0.041666666666666664,
+              "ref_x3ctr": -0.016666666666666666,
+              "ref_p65pack": 0.058333333333333334,
+              "ref_hold_rush100": -0.025,
+              "teammate_max_gx": -0.058333333333333334,
+              "teammate_john_nnfinal": 0.05
+            },
+            "faults": 0,
+            "direct_score": 60.0,
+            "direct_n": 120,
+            "direct_rate": 0.5
+          },
+          "final_b": {
+            "candidate": "auto_bank_arrive_learned",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.0375,
+            "cluster90": [
+              0.0010416666666666667,
+              0.07291666666666667
+            ],
+            "opponent_gains": {
+              "nnm4": 0.075,
+              "v92": 0.058333333333333334,
+              "ref_x1": 0.016666666666666666,
+              "ref_x3ctr": 0.041666666666666664,
+              "ref_p65pack": 0.025,
+              "ref_hold_rush100": 0.008333333333333333,
+              "teammate_max_gx": 0.058333333333333334,
+              "teammate_john_nnfinal": 0.016666666666666666
+            },
+            "faults": 0,
+            "direct_score": 59.0,
+            "direct_n": 120,
+            "direct_rate": 0.49166666666666664
+          },
+          "published": {
+            "candidate": "auto_bank_arrive_learned",
+            "paired_n": 704,
+            "maps": 44,
+            "gain": -0.002840909090909091,
+            "cluster90": [
+              -0.04403409090909091,
+              0.03835227272727273
+            ],
+            "opponent_gains": {
+              "nnm4": 0.03409090909090909,
+              "v92": 0.0,
+              "ref_x1": -0.11363636363636363,
+              "ref_x3ctr": -0.03409090909090909,
+              "ref_p65pack": -0.056818181818181816,
+              "ref_hold_rush100": 0.056818181818181816,
+              "teammate_max_gx": 0.03409090909090909,
+              "teammate_john_nnfinal": 0.056818181818181816
+            },
+            "faults": 0,
+            "direct_score": 47.0,
+            "direct_n": 88,
+            "direct_rate": 0.5340909090909091
+          }
+        }
+      },
+      "auto_rt7_o_k14n": {
+        "pooled": {
+          "candidate": "auto_rt7_o_k14n",
+          "paired_n": 2624,
+          "maps": 164,
+          "gain": 0.0038109756097560975,
+          "cluster90": [
+            -0.01600609756097561,
+            0.024009146341463415
+          ],
+          "opponent_gains": {
+            "nnm4": 0.003048780487804878,
+            "v92": -0.04878048780487805,
+            "ref_x1": 0.003048780487804878,
+            "ref_x3ctr": 0.0,
+            "ref_p65pack": 0.021341463414634148,
+            "ref_hold_rush100": 0.01524390243902439,
+            "teammate_max_gx": -0.036585365853658534,
+            "teammate_john_nnfinal": 0.07317073170731707
+          },
+          "faults": 0,
+          "direct_score": 165.0,
+          "direct_n": 328,
+          "direct_rate": 0.5030487804878049
+        },
+        "reference_cluster95": [
+          -0.020960365853658538,
+          0.027057926829268292
+        ],
+        "direct_cluster95": [
+          0.45426829268292684,
+          0.551829268292683
+        ],
+        "panels": {
+          "final_a": {
+            "candidate": "auto_rt7_o_k14n",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.014583333333333334,
+            "cluster90": [
+              -0.013541666666666667,
+              0.042708333333333334
+            ],
+            "opponent_gains": {
+              "nnm4": 0.06666666666666667,
+              "v92": -0.075,
+              "ref_x1": 0.03333333333333333,
+              "ref_x3ctr": 0.05,
+              "ref_p65pack": 0.06666666666666667,
+              "ref_hold_rush100": 0.03333333333333333,
+              "teammate_max_gx": -0.06666666666666667,
+              "teammate_john_nnfinal": 0.008333333333333333
+            },
+            "faults": 0,
+            "direct_score": 61.0,
+            "direct_n": 120,
+            "direct_rate": 0.5083333333333333
+          },
+          "final_b": {
+            "candidate": "auto_rt7_o_k14n",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.00625,
+            "cluster90": [
+              -0.029166666666666667,
+              0.042708333333333334
+            ],
+            "opponent_gains": {
+              "nnm4": -0.03333333333333333,
+              "v92": -0.008333333333333333,
+              "ref_x1": 0.0,
+              "ref_x3ctr": -0.008333333333333333,
+              "ref_p65pack": 0.03333333333333333,
+              "ref_hold_rush100": -0.025,
+              "teammate_max_gx": -0.008333333333333333,
+              "teammate_john_nnfinal": 0.1
+            },
+            "faults": 0,
+            "direct_score": 57.0,
+            "direct_n": 120,
+            "direct_rate": 0.475
+          },
+          "published": {
+            "candidate": "auto_rt7_o_k14n",
+            "paired_n": 704,
+            "maps": 44,
+            "gain": -0.014204545454545454,
+            "cluster90": [
+              -0.05823863636363636,
+              0.026988636363636364
+            ],
+            "opponent_gains": {
+              "nnm4": -0.03409090909090909,
+              "v92": -0.06818181818181818,
+              "ref_x1": -0.03409090909090909,
+              "ref_x3ctr": -0.056818181818181816,
+              "ref_p65pack": -0.056818181818181816,
+              "ref_hold_rush100": 0.045454545454545456,
+              "teammate_max_gx": -0.03409090909090909,
+              "teammate_john_nnfinal": 0.125
+            },
+            "faults": 0,
+            "direct_score": 47.0,
+            "direct_n": 88,
+            "direct_rate": 0.5340909090909091
+          }
+        }
+      },
+      "auto_rt7_l_k01p": {
+        "pooled": {
+          "candidate": "auto_rt7_l_k01p",
+          "paired_n": 2624,
+          "maps": 164,
+          "gain": 0.018292682926829267,
+          "cluster90": [
+            -0.0022865853658536584,
+            0.038871951219512195
+          ],
+          "opponent_gains": {
+            "nnm4": 0.051829268292682924,
+            "v92": 0.0,
+            "ref_x1": 0.0,
+            "ref_x3ctr": -0.012195121951219513,
+            "ref_p65pack": 0.027439024390243903,
+            "ref_hold_rush100": 0.009146341463414634,
+            "teammate_max_gx": 0.01524390243902439,
+            "teammate_john_nnfinal": 0.054878048780487805
+          },
+          "faults": 0,
+          "direct_score": 164.0,
+          "direct_n": 328,
+          "direct_rate": 0.5
+        },
+        "reference_cluster95": [
+          -0.0064786585365853655,
+          0.041920731707317076
+        ],
+        "direct_cluster95": [
+          0.45121951219512196,
+          0.5457317073170732
+        ],
+        "panels": {
+          "final_a": {
+            "candidate": "auto_rt7_l_k01p",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.034375,
+            "cluster90": [
+              0.005208333333333333,
+              0.06458333333333334
+            ],
+            "opponent_gains": {
+              "nnm4": 0.075,
+              "v92": -0.016666666666666666,
+              "ref_x1": 0.016666666666666666,
+              "ref_x3ctr": 0.03333333333333333,
+              "ref_p65pack": 0.08333333333333333,
+              "ref_hold_rush100": 0.008333333333333333,
+              "teammate_max_gx": -0.008333333333333333,
+              "teammate_john_nnfinal": 0.08333333333333333
+            },
+            "faults": 0,
+            "direct_score": 57.0,
+            "direct_n": 120,
+            "direct_rate": 0.475
+          },
+          "final_b": {
+            "candidate": "auto_rt7_l_k01p",
+            "paired_n": 960,
+            "maps": 60,
+            "gain": 0.029166666666666667,
+            "cluster90": [
+              -0.011458333333333333,
+              0.06875
+            ],
+            "opponent_gains": {
+              "nnm4": 0.041666666666666664,
+              "v92": 0.05,
+              "ref_x1": 0.03333333333333333,
+              "ref_x3ctr": 0.008333333333333333,
+              "ref_p65pack": 0.016666666666666666,
+              "ref_hold_rush100": -0.008333333333333333,
+              "teammate_max_gx": 0.05,
+              "teammate_john_nnfinal": 0.041666666666666664
+            },
+            "faults": 0,
+            "direct_score": 60.0,
+            "direct_n": 120,
+            "direct_rate": 0.5
+          },
+          "published": {
+            "candidate": "auto_rt7_l_k01p",
+            "paired_n": 704,
+            "maps": 44,
+            "gain": -0.018465909090909092,
+            "cluster90": [
+              -0.05397727272727273,
+              0.017045454545454544
+            ],
+            "opponent_gains": {
+              "nnm4": 0.03409090909090909,
+              "v92": -0.045454545454545456,
+              "ref_x1": -0.06818181818181818,
+              "ref_x3ctr": -0.10227272727272728,
+              "ref_p65pack": -0.03409090909090909,
+              "ref_hold_rush100": 0.03409090909090909,
+              "teammate_max_gx": 0.0,
+              "teammate_john_nnfinal": 0.03409090909090909
+            },
+            "faults": 0,
+            "direct_score": 47.0,
+            "direct_n": 88,
+            "direct_rate": 0.5340909090909091
+          }
+        }
+      }
+    },
+    "scope": "Post-retune unchanged-parent comparison on the exact already evaluated final panels, for pragmatic delivery selection. No new tuning. Does not turn registered failed gates into an independent promotion; final selection is adaptive and disclosed."
+  },
+  "new_local_games_including_parent_diagnostic": 151272,
+  "audit_receipts": [
+    {
+      "benchmark": "bounded-delivery-retune-20261107-final_a",
+      "cells": 3240,
+      "maps": 60,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_rt7_o_k14n": 0,
+        "auto_rt7_l_k01p": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 3240
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "bb266906580ae7c9d94f33978da39a9132f7fcd6908c6b4d5445bf7207a15466",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 4.52620989999923,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "eb5fd5178926e5e369b2402758f3ce63a206b51fd04dcb023f3fd1855623daf0"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-final_b",
+      "cells": 3240,
+      "maps": 60,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_rt7_o_k14n": 0,
+        "auto_rt7_l_k01p": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 3240
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "561c94edbfdb4a26d7eac9b3fdeb3091c6aaee5d090d4145f42fac827d25e6db",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 3.020349400001578,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "f34d14aa8b7bb611023fcb3686743ebde439906a0b61726bae9fac780b8d0c7a"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-l-fresh",
+      "cells": 12960,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_learned": 0,
+        "auto_rt7_l_c000": 0,
+        "auto_rt7_l_k40n": 0,
+        "auto_rt7_l_k47n": 0,
+        "auto_rt7_l_k01p": 0,
+        "auto_rt7_l_k01n": 0,
+        "auto_rt7_l_k37n": 0,
+        "auto_rt7_l_k04p": 0,
+        "auto_rt7_l_k33p": 0,
+        "auto_rt7_l_j001": 0,
+        "auto_rt7_l_j002": 0,
+        "auto_rt7_l_j003": 0,
+        "auto_rt7_l_j004": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 12960
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "17ef0fe4b7167d8fd335fd4cf411a7ea971ae5a90431c717dd576ca5dfb70366",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 10.672631099998398,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "8709a5f1f0e73b909a72024d5e85914ea2573a839ca0faf03fdaf7e82a4c1eff"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-l-repairs",
+      "cells": 9504,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_rt7_l_j001": 0,
+        "auto_rt7_l_j002": 0,
+        "auto_rt7_l_j003": 0,
+        "auto_rt7_l_j004": 0,
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_learned": 0,
+        "auto_rt7_l_c000": 0,
+        "auto_rt7_l_k47n": 0,
+        "auto_rt7_l_k01p": 0,
+        "auto_rt7_l_k40n": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 9504
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "824f28a5050d500fe721d0d433d727b89a20d464d3596920c29f7dd991fac913",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 9.82761969999774,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "dff455610d02004612aa16d1b9900d67b9f973f540528e18f163eed61e56fd54"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-l-repairs-new",
+      "cells": 3456,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_rt7_l_j001": 0,
+        "auto_rt7_l_j002": 0,
+        "auto_rt7_l_j003": 0,
+        "auto_rt7_l_j004": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 3456
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "b7a81a973f6b99f8ba13e03b9202a39ab69198f5dd3d71077c4ad0d9a99cf277",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 3.765136399997573,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "c69d18f657fd9e130f5143efd0b9c1a9339fac3c65f0bd0774a7b9ff894feb1a"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-l-train",
+      "cells": 51840,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_learned": 0,
+        "auto_rt7_l_c000": 0,
+        "auto_rt7_l_k01p": 0,
+        "auto_rt7_l_k01n": 0,
+        "auto_rt7_l_k02p": 0,
+        "auto_rt7_l_k02n": 0,
+        "auto_rt7_l_k03p": 0,
+        "auto_rt7_l_k03n": 0,
+        "auto_rt7_l_k04p": 0,
+        "auto_rt7_l_k04n": 0,
+        "auto_rt7_l_k08p": 0,
+        "auto_rt7_l_k08n": 0,
+        "auto_rt7_l_k09p": 0,
+        "auto_rt7_l_k09n": 0,
+        "auto_rt7_l_k10p": 0,
+        "auto_rt7_l_k10n": 0,
+        "auto_rt7_l_k11p": 0,
+        "auto_rt7_l_k11n": 0,
+        "auto_rt7_l_k12p": 0,
+        "auto_rt7_l_k12n": 0,
+        "auto_rt7_l_k14p": 0,
+        "auto_rt7_l_k14n": 0,
+        "auto_rt7_l_k22p": 0,
+        "auto_rt7_l_k22n": 0,
+        "auto_rt7_l_k23p": 0,
+        "auto_rt7_l_k23n": 0,
+        "auto_rt7_l_k24p": 0,
+        "auto_rt7_l_k24n": 0,
+        "auto_rt7_l_k25p": 0,
+        "auto_rt7_l_k25n": 0,
+        "auto_rt7_l_k26p": 0,
+        "auto_rt7_l_k26n": 0,
+        "auto_rt7_l_k27p": 0,
+        "auto_rt7_l_k27n": 0,
+        "auto_rt7_l_k28p": 0,
+        "auto_rt7_l_k28n": 0,
+        "auto_rt7_l_k29p": 0,
+        "auto_rt7_l_k29n": 0,
+        "auto_rt7_l_k30p": 0,
+        "auto_rt7_l_k30n": 0,
+        "auto_rt7_l_k33p": 0,
+        "auto_rt7_l_k33n": 0,
+        "auto_rt7_l_k36p": 0,
+        "auto_rt7_l_k36n": 0,
+        "auto_rt7_l_k37p": 0,
+        "auto_rt7_l_k37n": 0,
+        "auto_rt7_l_k40p": 0,
+        "auto_rt7_l_k40n": 0,
+        "auto_rt7_l_k41p": 0,
+        "auto_rt7_l_k41n": 0,
+        "auto_rt7_l_k43p": 0,
+        "auto_rt7_l_k43n": 0,
+        "auto_rt7_l_k45p": 0,
+        "auto_rt7_l_k45n": 0,
+        "auto_rt7_l_k46p": 0,
+        "auto_rt7_l_k46n": 0,
+        "auto_rt7_l_k47p": 0,
+        "auto_rt7_l_k47n": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 51840
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "1f4279a355f77b239394cb14b4ed7f67049d668d029af83ea555bdf7cb6ae041",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 75.2497927000004,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "20b2cc1f31aead85ab8ad8b00fe30cae8c90046e3e2c0128d8ad72c2a9b1922b"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-o-fresh",
+      "cells": 12960,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_original": 0,
+        "auto_rt7_o_c000": 0,
+        "auto_rt7_o_k10p": 0,
+        "auto_rt7_o_k09n": 0,
+        "auto_rt7_o_k40n": 0,
+        "auto_rt7_o_k14n": 0,
+        "auto_rt7_o_k10n": 0,
+        "auto_rt7_o_k41p": 0,
+        "auto_rt7_o_k02p": 0,
+        "auto_rt7_o_j001": 0,
+        "auto_rt7_o_j002": 0,
+        "auto_rt7_o_j003": 0,
+        "auto_rt7_o_j004": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 12960
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "ba112d7947e23cd4cc86aa7a636f1c2434961e2718cdc7becc5788fa59a569c5",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 11.43736650000028,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "db14cdc5b397accb7e020131085091fdcbeb4678cb9c6be6512da9f82c5e2880"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-o-repairs",
+      "cells": 8640,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_rt7_o_j001": 0,
+        "auto_rt7_o_j002": 0,
+        "auto_rt7_o_j003": 0,
+        "auto_rt7_o_j004": 0,
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_original": 0,
+        "auto_rt7_o_c000": 0,
+        "auto_rt7_o_k10p": 0,
+        "auto_rt7_o_k09n": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 8640
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "2a1689dbd04c49009c934b7e88559c562631379f94f49ec9a89177288836e312",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 9.624501899999814,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "c2587eaf63d937534b6c14f3d6bc23c73038278fd770a178dc1085824e31fdb2"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-o-repairs-new",
+      "cells": 3456,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_rt7_o_j001": 0,
+        "auto_rt7_o_j002": 0,
+        "auto_rt7_o_j003": 0,
+        "auto_rt7_o_j004": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 3456
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "010a9701a20117c097d091356022eeabf7424d1c823f177cdf7e7d146fe481d5",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 4.030726299999515,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "d8df82a7d7598f05285a170d8dab1559a1338065a516e103a8c42e93eaea31aa"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-o-train",
+      "cells": 51840,
+      "maps": 48,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_es_g12_parent": 0,
+        "auto_bank_arrive_original": 0,
+        "auto_rt7_o_c000": 0,
+        "auto_rt7_o_k01p": 0,
+        "auto_rt7_o_k01n": 0,
+        "auto_rt7_o_k02p": 0,
+        "auto_rt7_o_k02n": 0,
+        "auto_rt7_o_k03p": 0,
+        "auto_rt7_o_k03n": 0,
+        "auto_rt7_o_k04p": 0,
+        "auto_rt7_o_k04n": 0,
+        "auto_rt7_o_k08p": 0,
+        "auto_rt7_o_k08n": 0,
+        "auto_rt7_o_k09p": 0,
+        "auto_rt7_o_k09n": 0,
+        "auto_rt7_o_k10p": 0,
+        "auto_rt7_o_k10n": 0,
+        "auto_rt7_o_k11p": 0,
+        "auto_rt7_o_k11n": 0,
+        "auto_rt7_o_k12p": 0,
+        "auto_rt7_o_k12n": 0,
+        "auto_rt7_o_k14p": 0,
+        "auto_rt7_o_k14n": 0,
+        "auto_rt7_o_k22p": 0,
+        "auto_rt7_o_k22n": 0,
+        "auto_rt7_o_k23p": 0,
+        "auto_rt7_o_k23n": 0,
+        "auto_rt7_o_k24p": 0,
+        "auto_rt7_o_k24n": 0,
+        "auto_rt7_o_k25p": 0,
+        "auto_rt7_o_k25n": 0,
+        "auto_rt7_o_k26p": 0,
+        "auto_rt7_o_k26n": 0,
+        "auto_rt7_o_k27p": 0,
+        "auto_rt7_o_k27n": 0,
+        "auto_rt7_o_k28p": 0,
+        "auto_rt7_o_k28n": 0,
+        "auto_rt7_o_k29p": 0,
+        "auto_rt7_o_k29n": 0,
+        "auto_rt7_o_k30p": 0,
+        "auto_rt7_o_k30n": 0,
+        "auto_rt7_o_k33p": 0,
+        "auto_rt7_o_k33n": 0,
+        "auto_rt7_o_k36p": 0,
+        "auto_rt7_o_k36n": 0,
+        "auto_rt7_o_k37p": 0,
+        "auto_rt7_o_k37n": 0,
+        "auto_rt7_o_k40p": 0,
+        "auto_rt7_o_k40n": 0,
+        "auto_rt7_o_k41p": 0,
+        "auto_rt7_o_k41n": 0,
+        "auto_rt7_o_k43p": 0,
+        "auto_rt7_o_k43n": 0,
+        "auto_rt7_o_k45p": 0,
+        "auto_rt7_o_k45n": 0,
+        "auto_rt7_o_k46p": 0,
+        "auto_rt7_o_k46n": 0,
+        "auto_rt7_o_k47p": 0,
+        "auto_rt7_o_k47n": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 51840
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "21e36dfe3c68c95fc04db97584ab92541ea7e0467fc1faddfa4963028f07df0c",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 75.72064109999883,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "33167c319232aa9a56dd1f3a2851049fcf7fa648a0c8dc04056da1acbfa36fca"
+    },
+    {
+      "benchmark": "bounded-delivery-retune-20261107-published",
+      "cells": 2376,
+      "maps": 44,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "v111": 0,
+        "auto_rt7_o_k14n": 0,
+        "auto_rt7_l_k01p": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 2376
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "fd4f17274ec17e02afd041faa2ef22e2e2c1c88ee673be403f26358480852a8f",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 2.401558000001387,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "5c023e0897e23a0fb22a7b6e2217d5fdbee193f9d82a550b5168dcaf2fec2788"
+    },
+    {
+      "benchmark": "delivery-parent-diagnostic-20261108-final_a",
+      "cells": 2160,
+      "maps": 60,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_bank_arrive_original": 0,
+        "auto_bank_arrive_learned": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 2160
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "6f46165e5e38fa3b17e943d173df7b188c791986351be6ac7642a816fe035777",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 2.404982799998834,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "6ef886cda8520b8d79bfb1855770449a9a397c9b6792b1c2db0a5679bb0670ea"
+    },
+    {
+      "benchmark": "delivery-parent-diagnostic-20261108-final_b",
+      "cells": 2160,
+      "maps": 60,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_bank_arrive_original": 0,
+        "auto_bank_arrive_learned": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 2160
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "62f240d3b6fe79a4ee3ef25d10dce7f9b004ae90797af66d15322b227cc09229",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 2.4697943000028317,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "9686e3c8d512bef4c44177aa913d8f5177ac5a198e6d8c9e4c5e5c1e385d6c21"
+    },
+    {
+      "benchmark": "delivery-parent-diagnostic-20261108-published",
+      "cells": 1584,
+      "maps": 44,
+      "opponents": 9,
+      "complete_schedule": true,
+      "explicit_complete_native_captures": true,
+      "own_faults": {
+        "auto_bank_arrive_original": 0,
+        "auto_bank_arrive_learned": 0
+      },
+      "engine_builds": {
+        "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd": 1584
+      },
+      "all_frozen_wasm_and_map_hashes_match": true,
+      "results_sha256": "8a71c97be4f02cb0d054d5a24d94ae67a1e238a5d4714ffa79e6124848c5003d",
+      "both_teams_zero_faults_and_codes": true,
+      "native_map_hashes_match_frozen_inputs": true,
+      "explicit_fuel_event_counts_match": true,
+      "elapsed_seconds": 1.8937478000007104,
+      "workers": 8,
+      "verifier_sha256": "973774dca99ea8ce1826cab2ccf923112c758f2af10acd80f0e4a09b4155e8d7",
+      "scope": "Exact frozen schedule/artifacts, complete native captures, scores, current build, both-team zero faults/codes, map identity and explicit own fuel-event counts. Strength and map exposure are separate.",
+      "native_hashes_sha256": "f649eafba6fee3efbb8e04b6b59d90f095986936edaf819aabc0ef8462886569"
+    }
+  ],
+  "policy": "Experimental upload requested by user; no substantial or statistically established strength upgrade is claimed."
+}

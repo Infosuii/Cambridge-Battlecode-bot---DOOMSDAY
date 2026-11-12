@@ -1,0 +1,33 @@
+{
+  "at": "2026-11-08T05:22:53.760907+00:00",
+  "candidate": "auto_bank_arrive_learned",
+  "source_digest": "e79a8d5851d4e0fcf424ae66f267039714fa8c241dfe0345535427ef271bbec9",
+  "source_zip": {
+    "file": "auto_bank_arrive_learned-source.zip",
+    "sha256": "9397a56e4d19e998489578debaff58be3c90892514b97bda6d4e6be57cffe001",
+    "bytes": 723302
+  },
+  "wasm": {
+    "file": "bot-injected.wasm",
+    "sha256": "932030e05e5d716891a2002ff451ee5c34ced685da16e9c48695bb72cf021937",
+    "bytes": 606065
+  },
+  "sdk_digest": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+  "cli_sha256": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+  "build_receipt": {
+    "inputs": {
+      "source": "e79a8d5851d4e0fcf424ae66f267039714fa8c241dfe0345535427ef271bbec9",
+      "sdk": "37e446046220485a632badae020bea8ea9a9753b379f364bfe3cd9de71c407ee",
+      "cli": "4a94c15027d94c4702e1b84471cb25110a5d2c4e3c67976e65439d93582e774c",
+      "release": true
+    },
+    "wasm": "932030e05e5d716891a2002ff451ee5c34ced685da16e9c48695bb72cf021937"
+  },
+  "final_outcomes_sha256": "293e933ec061e88040285a8b5f12278f1f3f28a2fc61ffc9939beb82002ca51f",
+  "validation_evidence": "training\\runs\\delivery-parent-comparison-20261108\\outcomes.json",
+  "registered_retune_outcomes_sha256": "2826d9169163a1edfd25e4470bf443e35547d8871e20681cf648d8bc2915f377",
+  "selection_sha256": "324d03435f7847e3a85366b069fd4f0bf040337ff2339f83a79979965eb0dd1e",
+  "engine": "3.0.0",
+  "normal_fuel": true,
+  "warning": "Source bundle matches the tested source byte for byte. The platform compiles the source independently; identical server Wasm and ladder performance are not established by local testing."
+}

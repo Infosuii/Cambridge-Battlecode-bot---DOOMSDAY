@@ -1,0 +1,197 @@
+{
+  "candidate": "mx500",
+  "approved_for_upload": false,
+  "gates": {
+    "zero_faults_and_codes": true,
+    "current_reference_gain": false,
+    "positive_cluster_confidence": false,
+    "fresh_generated_nonnegative": false,
+    "direct_v113_above_half": false,
+    "worst_style_bounded": false,
+    "fuel_rate_bounded": true
+  },
+  "comparisons": {
+    "b111": {
+      "games": 864,
+      "maps": 48,
+      "candidate_score": 0.6180555555555556,
+      "control_score": 0.5914351851851852,
+      "gain": 0.026620370370370374,
+      "map_cluster_bootstrap_95": [
+        -0.021990740740740738,
+        0.0763888888888889
+      ],
+      "style_deltas": {
+        "b111": 0.020833333333333332,
+        "nnm4": 0.041666666666666664,
+        "ref_hold_rush100": -0.0625,
+        "ref_p65pack": -0.010416666666666666,
+        "ref_x1": 0.10416666666666667,
+        "ref_x3ctr": 0.010416666666666666,
+        "teammate_john_nnfinal": 0.03125,
+        "teammate_max_gx": 0.03125,
+        "v92": 0.07291666666666667
+      },
+      "fresh_generated_gain": 0.00925925925925926,
+      "fresh_generated_maps": 24,
+      "published_gain": 0.04398148148148148
+    },
+    "b112": {
+      "games": 864,
+      "maps": 48,
+      "candidate_score": 0.6180555555555556,
+      "control_score": 0.5844907407407407,
+      "gain": 0.03356481481481482,
+      "map_cluster_bootstrap_95": [
+        -0.010416666666666661,
+        0.0775462962962963
+      ],
+      "style_deltas": {
+        "b111": -0.03125,
+        "nnm4": 0.07291666666666667,
+        "ref_hold_rush100": -0.010416666666666666,
+        "ref_p65pack": 0.052083333333333336,
+        "ref_x1": 0.052083333333333336,
+        "ref_x3ctr": 0.0,
+        "teammate_john_nnfinal": 0.03125,
+        "teammate_max_gx": 0.0625,
+        "v92": 0.07291666666666667
+      },
+      "fresh_generated_gain": 0.05092592592592593,
+      "fresh_generated_maps": 24,
+      "published_gain": 0.016203703703703703
+    },
+    "b113": {
+      "games": 864,
+      "maps": 48,
+      "candidate_score": 0.6180555555555556,
+      "control_score": 0.6585648148148148,
+      "gain": -0.04050925925925925,
+      "map_cluster_bootstrap_95": [
+        -0.08217592592592593,
+        0.0023148148148148147
+      ],
+      "style_deltas": {
+        "b111": -0.020833333333333332,
+        "nnm4": -0.020833333333333332,
+        "ref_hold_rush100": -0.08333333333333333,
+        "ref_p65pack": -0.0625,
+        "ref_x1": 0.041666666666666664,
+        "ref_x3ctr": -0.125,
+        "teammate_john_nnfinal": -0.03125,
+        "teammate_max_gx": -0.041666666666666664,
+        "v92": -0.020833333333333332
+      },
+      "fresh_generated_gain": -0.06712962962962964,
+      "fresh_generated_maps": 24,
+      "published_gain": -0.01388888888888889
+    },
+    "b114": {
+      "games": 864,
+      "maps": 48,
+      "candidate_score": 0.6180555555555556,
+      "control_score": 0.6238425925925926,
+      "gain": -0.005787037037037042,
+      "map_cluster_bootstrap_95": [
+        -0.05555555555555556,
+        0.0474537037037037
+      ],
+      "style_deltas": {
+        "b111": -0.010416666666666666,
+        "nnm4": 0.0625,
+        "ref_hold_rush100": 0.020833333333333332,
+        "ref_p65pack": -0.010416666666666666,
+        "ref_x1": 0.041666666666666664,
+        "ref_x3ctr": -0.09375,
+        "teammate_john_nnfinal": -0.020833333333333332,
+        "teammate_max_gx": -0.03125,
+        "v92": -0.010416666666666666
+      },
+      "fresh_generated_gain": -2.3129646346357427e-18,
+      "fresh_generated_maps": 24,
+      "published_gain": -0.01157407407407407
+    },
+    "bterm": {
+      "games": 864,
+      "maps": 48,
+      "candidate_score": 0.6180555555555556,
+      "control_score": 0.5879629629629629,
+      "gain": 0.03009259259259259,
+      "map_cluster_bootstrap_95": [
+        -0.010416666666666663,
+        0.07060185185185186
+      ],
+      "style_deltas": {
+        "b111": -0.03125,
+        "nnm4": 0.125,
+        "ref_hold_rush100": -0.041666666666666664,
+        "ref_p65pack": 0.0,
+        "ref_x1": 0.08333333333333333,
+        "ref_x3ctr": -0.041666666666666664,
+        "teammate_john_nnfinal": 0.08333333333333333,
+        "teammate_max_gx": 0.041666666666666664,
+        "v92": 0.052083333333333336
+      },
+      "fresh_generated_gain": 0.02314814814814815,
+      "fresh_generated_maps": 24,
+      "published_gain": 0.037037037037037035
+    }
+  },
+  "head_to_head": {
+    "b112": {
+      "score": 49.0,
+      "games": 96
+    },
+    "b113": {
+      "score": 48.0,
+      "games": 96
+    },
+    "b114": {
+      "score": 46.0,
+      "games": 96
+    }
+  },
+  "direct_v111": {
+    "score": 50.0,
+    "games": 96
+  },
+  "fuel_rates": {
+    "mx500": {
+      "events": 3741,
+      "scheduled_champion_rounds": 4722265,
+      "per_1000_scheduled_champion_rounds": 0.792204588264318
+    },
+    "b111": {
+      "events": 15057,
+      "scheduled_champion_rounds": 4764006,
+      "per_1000_scheduled_champion_rounds": 3.160575364514654
+    },
+    "b112": {
+      "events": 14091,
+      "scheduled_champion_rounds": 4806749,
+      "per_1000_scheduled_champion_rounds": 2.9315031843768002
+    },
+    "b113": {
+      "events": 3843,
+      "scheduled_champion_rounds": 4730996,
+      "per_1000_scheduled_champion_rounds": 0.8123025257260839
+    },
+    "b114": {
+      "events": 15384,
+      "scheduled_champion_rounds": 4753335,
+      "per_1000_scheduled_champion_rounds": 3.236464503343442
+    },
+    "bterm": {
+      "events": 13935,
+      "scheduled_champion_rounds": 4810448,
+      "per_1000_scheduled_champion_rounds": 2.8968195893604918
+    }
+  },
+  "fuel_rate_ratio_vs_v113": 0.9752580635597543,
+  "substantial_goal_met": false,
+  "runtime_games": 5472,
+  "source_sha256": "e4de6eb7b13bad4040fe24d07a7ea5da7bab6271b8333db7347b2281d85f0b11",
+  "wasm_sha256": "70eec8ef7adf6046d48e731dc27e75c61b21cccfbc2a937780896791dfdbb000",
+  "protocol_sha256": "a37a42e4cad60120376325265cc18277b12bd40c60bc7dca5911387f984a488d",
+  "local_only": true
+}

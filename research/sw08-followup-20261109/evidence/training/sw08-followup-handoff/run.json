@@ -1,0 +1,31 @@
+{
+  "gpu": "NVIDIA GeForce RTX 5070 Ti Laptop GPU",
+  "torch": "2.11.0+cu128",
+  "base_source": "sf06",
+  "base_source_sha256": "2ad8d7b83a03480e853e144877dbcb9ffb366f8959a457a951feb7c5941e5479",
+  "initial": "2b5cd41e957a333e7e42774fd94054bf68aa1f759030c7ca6e74f5b137c50431",
+  "script_sha256": "b8212f01521c5330b1b98237d881d8acb60b41f32a2284b5dd32f01d254960de",
+  "reward": "team_win_MC",
+  "gamma": 1.0,
+  "lambda": 1.0,
+  "actor_lr": 1e-05,
+  "critic_lr": 0.0002,
+  "native_anchored": true,
+  "disjoint_map_roles": true,
+  "limit_iterations": 2,
+  "balanced_all_styles": true,
+  "map_plan_sha256": "46f8ba3f60338cf66ba6f2feb0d83c4c3887afb7396b6ce9476f2b3077d34dc9",
+  "training_opponent_mix": [
+    "b111",
+    "b113",
+    "nnm4",
+    "b111",
+    "b114",
+    "v92",
+    "ref_x1",
+    "b111",
+    "ref_hold_rush100",
+    "teammate_john_nnfinal"
+  ],
+  "checkpoint_selection": "development release games only"
+}
