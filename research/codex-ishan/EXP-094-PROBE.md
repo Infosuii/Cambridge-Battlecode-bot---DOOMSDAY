@@ -1,0 +1,3 @@
+# EXP-094 — Freeze the direct-rival camp exposure recount
+
+Use the existing 30 frozen direct-rival replays, including 19 losses and 11 wins. Before R150, record each champion's first five-round window with at least 25% max-HP loss. Require the champion alive, max HP unchanged, a live camp within three tiles and no enemy within six throughout the window. Read the subsequent eight rounds for gem balance, retreat distance and death. Count the same signals for both teams. This is a proximity diagnostic from the replay and does not attribute the damage source or infer a private decision. Use actual own-view actions in the selected examples before proposing any policy.

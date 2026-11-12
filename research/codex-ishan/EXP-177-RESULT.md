@@ -1,0 +1,5 @@
+# EXP-177 result — exact new live source established
+
+MEASURED via signed-in CLI and official submissions UI: active111/selected111/pinnedtrue, submissiond8f4fa54-ad2b-4e6e-aee4-cb2f248795b5, created2026-11-05T17:36:07.438Z, note `nnrc10: retrained network on nnm4`. The official40-file source ZIP hashes72e9a198135d9b42361a223be505e379b1cf286e1223ee3daf1fbb90a34f8463. Both clean local SDK5 builds hash0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423. [Every source file hash and official listing](LIVE111_SOURCE_VERIFIED.json).
+
+Source differs materially from109: weights, inference code, a2stack, bot, draft, main, common and recorder. The current runtime still enables V58_PATCH to read official balance metadata. No server-compiled WASM hash is exposed; these are exact uploaded-source and reproducible local-build identities. Archives stay local. No platform state changed by this chat. The discrepancy with team109/RL160 coordination was posted to issue5. EXP178 establishes current111 safety before any old proposal is ported or source integrated.

@@ -1,0 +1,5 @@
+# EXP-192 result — Interaction repairs R1 but fails the frozen per-cell rule
+
+MEASURED: all240four-arm cells on the60independent large-development fixtures,120new games plus120exact prior rows,engine/map/seed/opponent pinned. Stock111:52wins,836fuel,36R1. Guard-only:45wins,851fuel,0R1. Runtime-off:46wins,147fuel,24R1. Combination duplicate80a7ba8c7665b093d929186b8da14ae3115b6954bcf36c75bbc25ad8464bdf66:46wins,130fuel,0R1. Zero faults/codes. All original first-turn own-view/pre-end gameplay controls match and actor0/R1 disappears.
+
+Combination has zero per-cell increases versus stock111 but3versus runtime-off. It therefore fails the preregistered two-baseline interaction criterion and is rejected before full pool or fresh-noise qualification. The fixed deterministic score equals runtime-off and trails stock by6/60; no strength claim. LIVE111_RUNTIME_FIELD_FACTORIAL.json preserves allfour arms and comparisons. The all-off identity remains the earlier explicit0896a189control of the source generator; no combination qualification build is promoted. No rescue by changing the gate,holdout or platform action.

@@ -1,0 +1,3 @@
+# EXP-130 engine rejection explanation
+
+The diagnostic matched the original R353 input, cast entry with 3,734 fuel, and visible destination (39,30). The official engine reported code 32 and explained that the destination was unreachable within movement range. The source tile was (41,28), so the two-step diagonal has exactly one possible intermediate tile, (40,29). The original actor view recorded a live camp there and the camp-mask build subsequently hit it. The explanation diagnostic still delayed the attack. [SDK error and exact input](CPG_HEART_CAMP_MASK_EXPLAIN.json), [matched attack](CPG_HEART_CAMP_MASK_ATTACK.json).

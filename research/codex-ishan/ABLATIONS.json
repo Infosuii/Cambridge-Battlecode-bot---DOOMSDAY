@@ -1,0 +1,550 @@
+{
+  "scope": "Exploratory 16-map heavy development screen; no holdout, no ladder inference.",
+  "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "seeds": [
+    301,
+    607
+  ],
+  "map_digest": "94b6b4b43167ba179171f6ff3d616d802531c5cd632704412126cc3a21506852",
+  "changes": {
+    "base": {},
+    "lab_off": {
+      "A2_LAB": [
+        1,
+        0
+      ],
+      "A2_RTSW": [
+        1,
+        0
+      ],
+      "A2_LADFIT": [
+        1,
+        0
+      ],
+      "A2_HYB": [
+        3,
+        0
+      ],
+      "LADDER_TABLES": [
+        1,
+        0
+      ]
+    },
+    "a3_off": {
+      "A3_BACKOFF": [
+        1,
+        0
+      ],
+      "A3_BACK_EQ": [
+        "0.4f",
+        "0.0f"
+      ],
+      "A3_BIG_LINEUP": [
+        6,
+        -1
+      ]
+    },
+    "duo_off": {
+      "NOVA_DUO": [
+        5,
+        0
+      ]
+    },
+    "tsearch_off": {
+      "APEX_TS_DECIDE": [
+        1,
+        0
+      ]
+    }
+  },
+  "binaries": {
+    "base-301": "356c67fd5c993f01f33485bd0a7a43c9f6dc6f80ce5a4bd2d18f9a56167d2dd3",
+    "lab_off-301": "64a599724a80d80e8bc5ea105a68cf3a3cabf3ef5340194ef774a560f23915f9",
+    "a3_off-301": "3804f353fb1f036a29853a7095f32ef865fee42575d65fc1a903789188739091",
+    "duo_off-301": "585e28f55492f82d25f7a8936e1a02375fdb9281762af58939b92b7309c1dc77",
+    "tsearch_off-301": "106acfe43ac2d1e9af35f5b8bbb6b596126a0ca95e5be07651d0523e48b45e25",
+    "base-607": "c2db875002ab1ad80eaee7b884b15881105f8b0b78563b51d98e71f813ad53b3",
+    "lab_off-607": "a9e4d538c353743d27401841444a3cfcb91ac55a14954e041fd597eb10fcbd56",
+    "a3_off-607": "c0b4ffb2d40685b78c0c0cf51e6ce77267982044a3c26531c67ae3f30ec6f138",
+    "duo_off-607": "daad895d07c3790558f91dcc9bfcb97bb2fcc5dcd24def8cd53e2447a26206da",
+    "tsearch_off-607": "04ac97e4491be1e6b448a85ea53841f62797f3a1a1b42f6f99544233dfb70c9b"
+  },
+  "results": {
+    "lab_off": {
+      "overall": {
+        "n": 256,
+        "base_score": 193,
+        "candidate_score": 169,
+        "delta_pp": -9.375,
+        "map_cluster_ci_pp": [
+          -18.75,
+          1.562
+        ],
+        "fuel": [
+          378,
+          347
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 32
+      },
+      "per_opponent": {
+        "v92": {
+          "n": 64,
+          "base_score": 42,
+          "candidate_score": 32,
+          "delta_pp": -15.625,
+          "map_cluster_ci_pp": [
+            -37.5,
+            6.25
+          ],
+          "fuel": [
+            81,
+            73
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 9
+        },
+        "x3inv": {
+          "n": 64,
+          "base_score": 39,
+          "candidate_score": 29,
+          "delta_pp": -15.625,
+          "map_cluster_ci_pp": [
+            -35.938,
+            4.688
+          ],
+          "fuel": [
+            93,
+            78
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 4
+        },
+        "p65pack": {
+          "n": 64,
+          "base_score": 48,
+          "candidate_score": 44,
+          "delta_pp": -6.25,
+          "map_cluster_ci_pp": [
+            -20.312,
+            7.812
+          ],
+          "fuel": [
+            87,
+            80
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 11
+        },
+        "public-khiri": {
+          "n": 64,
+          "base_score": 64,
+          "candidate_score": 64,
+          "delta_pp": 0.0,
+          "map_cluster_ci_pp": [
+            0.0,
+            0.0
+          ],
+          "fuel": [
+            117,
+            116
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 8
+        }
+      }
+    },
+    "a3_off": {
+      "overall": {
+        "n": 256,
+        "base_score": 193,
+        "candidate_score": 193,
+        "delta_pp": 0.0,
+        "map_cluster_ci_pp": [
+          -2.734,
+          3.125
+        ],
+        "fuel": [
+          378,
+          376
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 1
+      },
+      "per_opponent": {
+        "v92": {
+          "n": 64,
+          "base_score": 42,
+          "candidate_score": 44,
+          "delta_pp": 3.125,
+          "map_cluster_ci_pp": [
+            -4.688,
+            14.062
+          ],
+          "fuel": [
+            81,
+            82
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 1
+        },
+        "x3inv": {
+          "n": 64,
+          "base_score": 39,
+          "candidate_score": 38,
+          "delta_pp": -1.562,
+          "map_cluster_ci_pp": [
+            -9.375,
+            4.688
+          ],
+          "fuel": [
+            93,
+            91
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 0
+        },
+        "p65pack": {
+          "n": 64,
+          "base_score": 48,
+          "candidate_score": 47,
+          "delta_pp": -1.562,
+          "map_cluster_ci_pp": [
+            -4.688,
+            0.0
+          ],
+          "fuel": [
+            87,
+            86
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 0
+        },
+        "public-khiri": {
+          "n": 64,
+          "base_score": 64,
+          "candidate_score": 64,
+          "delta_pp": 0.0,
+          "map_cluster_ci_pp": [
+            0.0,
+            0.0
+          ],
+          "fuel": [
+            117,
+            117
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 0
+        }
+      }
+    },
+    "duo_off": {
+      "overall": {
+        "n": 256,
+        "base_score": 193,
+        "candidate_score": 189,
+        "delta_pp": -1.562,
+        "map_cluster_ci_pp": [
+          -8.594,
+          6.25
+        ],
+        "fuel": [
+          378,
+          277
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 18
+      },
+      "per_opponent": {
+        "v92": {
+          "n": 64,
+          "base_score": 42,
+          "candidate_score": 35,
+          "delta_pp": -10.938,
+          "map_cluster_ci_pp": [
+            -28.125,
+            9.375
+          ],
+          "fuel": [
+            81,
+            63
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 3
+        },
+        "x3inv": {
+          "n": 64,
+          "base_score": 39,
+          "candidate_score": 42,
+          "delta_pp": 4.688,
+          "map_cluster_ci_pp": [
+            -17.188,
+            26.562
+          ],
+          "fuel": [
+            93,
+            77
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 3
+        },
+        "p65pack": {
+          "n": 64,
+          "base_score": 48,
+          "candidate_score": 48,
+          "delta_pp": 0.0,
+          "map_cluster_ci_pp": [
+            -15.625,
+            15.625
+          ],
+          "fuel": [
+            87,
+            72
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 7
+        },
+        "public-khiri": {
+          "n": 64,
+          "base_score": 64,
+          "candidate_score": 64,
+          "delta_pp": 0.0,
+          "map_cluster_ci_pp": [
+            0.0,
+            0.0
+          ],
+          "fuel": [
+            117,
+            65
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 5
+        }
+      }
+    },
+    "tsearch_off": {
+      "overall": {
+        "n": 256,
+        "base_score": 193,
+        "candidate_score": 175,
+        "delta_pp": -7.031,
+        "map_cluster_ci_pp": [
+          -12.5,
+          -1.953
+        ],
+        "fuel": [
+          378,
+          379
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 8
+      },
+      "per_opponent": {
+        "v92": {
+          "n": 64,
+          "base_score": 42,
+          "candidate_score": 31,
+          "delta_pp": -17.188,
+          "map_cluster_ci_pp": [
+            -31.25,
+            -3.125
+          ],
+          "fuel": [
+            81,
+            73
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 2
+        },
+        "x3inv": {
+          "n": 64,
+          "base_score": 39,
+          "candidate_score": 33,
+          "delta_pp": -9.375,
+          "map_cluster_ci_pp": [
+            -25.0,
+            4.688
+          ],
+          "fuel": [
+            93,
+            82
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 0
+        },
+        "p65pack": {
+          "n": 64,
+          "base_score": 48,
+          "candidate_score": 47,
+          "delta_pp": -1.562,
+          "map_cluster_ci_pp": [
+            -14.062,
+            10.938
+          ],
+          "fuel": [
+            87,
+            106
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 5
+        },
+        "public-khiri": {
+          "n": 64,
+          "base_score": 64,
+          "candidate_score": 64,
+          "delta_pp": 0.0,
+          "map_cluster_ci_pp": [
+            0.0,
+            0.0
+          ],
+          "fuel": [
+            117,
+            118
+          ],
+          "round1": [
+            0,
+            0
+          ],
+          "faults": [
+            0,
+            0
+          ],
+          "per_cell_fuel_regressions": 1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,498 @@
+{
+  "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "reference": "a8bc5d19e9f6aeca0788cfccc665f09b33e718e1554f1ebc5a1f7ac2a4fc115a",
+  "candidate": "97d52c1c6fa14821ba7bed9cd616fcef29094c8ffbbe08347f2f22c1bf1d5bdb",
+  "seed": 14107,
+  "n": 2,
+  "errors": 0,
+  "increases": 1,
+  "turns": {
+    "321": {
+      "round": 321,
+      "actor": 2,
+      "removed": true,
+      "same_input": true,
+      "same_action_prefix": true,
+      "base_actions": [
+        {
+          "kind": 14,
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 41,
+            "y": 82
+          },
+          "substep": 0
+        }
+      ],
+      "candidate_actions": [
+        {
+          "kind": 14,
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 41,
+            "y": 82
+          },
+          "substep": 0
+        },
+        {
+          "kind": 8,
+          "from": {
+            "x": 41,
+            "y": 81
+          },
+          "to": {
+            "x": 41,
+            "y": 81
+          },
+          "substep": 0
+        }
+      ]
+    },
+    "334": {
+      "round": 334,
+      "actor": 2,
+      "removed": true,
+      "same_input": false,
+      "same_action_prefix": false,
+      "base_actions": [
+        {
+          "kind": 14,
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 35,
+            "y": 91
+          },
+          "substep": 0
+        }
+      ],
+      "candidate_actions": [
+        {
+          "kind": 5,
+          "from": {
+            "x": 38,
+            "y": 90
+          },
+          "to": {
+            "x": 41,
+            "y": 93
+          },
+          "substep": 0
+        },
+        {
+          "kind": 8,
+          "from": {
+            "x": 38,
+            "y": 90
+          },
+          "to": {
+            "x": 38,
+            "y": 90
+          },
+          "substep": 0
+        }
+      ]
+    },
+    "566": {
+      "round": 566,
+      "actor": 3,
+      "removed": true,
+      "same_input": true,
+      "same_action_prefix": true,
+      "base_actions": [],
+      "candidate_actions": [
+        {
+          "kind": 9,
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "substep": 0
+        },
+        {
+          "kind": 8,
+          "from": {
+            "x": 24,
+            "y": 32
+          },
+          "to": {
+            "x": 24,
+            "y": 32
+          },
+          "substep": 0
+        }
+      ]
+    }
+  },
+  "pass": false,
+  "rows": [
+    {
+      "base": {
+        "arm": "path",
+        "noise_seed": 14107,
+        "opponent": "public-khiri",
+        "map": "pool_604287",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "13313521935580754894",
+        "map_hash": "c7155a39f563f3ced8db9be3b1f4c13edbac0f9b95b7871d89773e887893db1a",
+        "fuel_outs": 2,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "errors": false,
+        "draft": [
+          {
+            "champion": "Vendetta",
+            "team": "teamA"
+          },
+          {
+            "champion": "Cassi & Issac",
+            "team": "teamB"
+          },
+          {
+            "champion": "Varg",
+            "team": "teamA"
+          },
+          {
+            "champion": "Varg",
+            "team": "teamB"
+          },
+          {
+            "champion": "Cassi & Issac",
+            "team": "teamA"
+          },
+          {
+            "champion": "Vendetta",
+            "team": "teamB"
+          },
+          {
+            "champion": "Marcella",
+            "team": "teamA"
+          },
+          {
+            "champion": "Ryth",
+            "team": "teamB"
+          },
+          {
+            "champion": "Heart of Ruin",
+            "team": "teamA"
+          },
+          {
+            "champion": "Marcella",
+            "team": "teamB"
+          }
+        ],
+        "events": [
+          {
+            "owner": {
+              "id": 2,
+              "kind": "champion",
+              "name": "Cassi",
+              "team": "teamA"
+            },
+            "timestamp": {
+              "input": 7044,
+              "ordinal": 66969,
+              "phase": "champions",
+              "round": 321,
+              "substep": 0
+            }
+          },
+          {
+            "owner": {
+              "id": 2,
+              "kind": "champion",
+              "name": "Cassi",
+              "team": "teamA"
+            },
+            "timestamp": {
+              "input": 7359,
+              "ordinal": 69685,
+              "phase": "champions",
+              "round": 334,
+              "substep": 0
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "arm": "capped",
+        "noise_seed": 14107,
+        "opponent": "public-khiri",
+        "map": "pool_604287",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "13313521935580754894",
+        "map_hash": "c7155a39f563f3ced8db9be3b1f4c13edbac0f9b95b7871d89773e887893db1a",
+        "fuel_outs": 0,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "same_draft": true,
+      "errors": false,
+      "events": [],
+      "new_events": [],
+      "turns": [
+        {
+          "round": 321,
+          "actor": 2,
+          "removed": true,
+          "same_input": true,
+          "same_action_prefix": true,
+          "base_actions": [
+            {
+              "kind": 14,
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 41,
+                "y": 82
+              },
+              "substep": 0
+            }
+          ],
+          "candidate_actions": [
+            {
+              "kind": 14,
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 41,
+                "y": 82
+              },
+              "substep": 0
+            },
+            {
+              "kind": 8,
+              "from": {
+                "x": 41,
+                "y": 81
+              },
+              "to": {
+                "x": 41,
+                "y": 81
+              },
+              "substep": 0
+            }
+          ]
+        },
+        {
+          "round": 334,
+          "actor": 2,
+          "removed": true,
+          "same_input": false,
+          "same_action_prefix": false,
+          "base_actions": [
+            {
+              "kind": 14,
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 35,
+                "y": 91
+              },
+              "substep": 0
+            }
+          ],
+          "candidate_actions": [
+            {
+              "kind": 5,
+              "from": {
+                "x": 38,
+                "y": 90
+              },
+              "to": {
+                "x": 41,
+                "y": 93
+              },
+              "substep": 0
+            },
+            {
+              "kind": 8,
+              "from": {
+                "x": 38,
+                "y": 90
+              },
+              "to": {
+                "x": 38,
+                "y": 90
+              },
+              "substep": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base": {
+        "arm": "path",
+        "noise_seed": 14107,
+        "opponent": "x3inv",
+        "map": "pool_605209",
+        "side": "A",
+        "score": 0,
+        "engine_seed": "6774132680216036634",
+        "map_hash": "0b0be3adcbe075bf2662684178f332b5443445e619160e05f04d5b168ea3269c",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "errors": false,
+        "draft": [
+          {
+            "champion": "Vendetta",
+            "team": "teamA"
+          },
+          {
+            "champion": "Vendetta",
+            "team": "teamB"
+          },
+          {
+            "champion": "Varg",
+            "team": "teamA"
+          },
+          {
+            "champion": "Varg",
+            "team": "teamB"
+          },
+          {
+            "champion": "Cassi & Issac",
+            "team": "teamA"
+          },
+          {
+            "champion": "Cassi & Issac",
+            "team": "teamB"
+          },
+          {
+            "champion": "Marcella",
+            "team": "teamA"
+          },
+          {
+            "champion": "Marcella",
+            "team": "teamB"
+          },
+          {
+            "champion": "Heart of Ruin",
+            "team": "teamA"
+          },
+          {
+            "champion": "Heart of Ruin",
+            "team": "teamB"
+          }
+        ],
+        "events": [
+          {
+            "owner": {
+              "id": 3,
+              "kind": "champion",
+              "name": "Issac",
+              "team": "teamA"
+            },
+            "timestamp": {
+              "input": 13924,
+              "ordinal": 116811,
+              "phase": "champions",
+              "round": 566,
+              "substep": 7
+            }
+          }
+        ]
+      },
+      "candidate": {
+        "arm": "capped",
+        "noise_seed": 14107,
+        "opponent": "x3inv",
+        "map": "pool_605209",
+        "side": "A",
+        "score": 1,
+        "engine_seed": "6774132680216036634",
+        "map_hash": "0b0be3adcbe075bf2662684178f332b5443445e619160e05f04d5b168ea3269c",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": []
+      },
+      "same_draft": true,
+      "errors": false,
+      "events": [
+        {
+          "owner": {
+            "id": 0,
+            "kind": "champion",
+            "name": "Vendetta",
+            "team": "teamA"
+          },
+          "timestamp": {
+            "input": 15171,
+            "ordinal": 126734,
+            "phase": "champions",
+            "round": 614,
+            "substep": 0
+          }
+        }
+      ],
+      "new_events": [
+        [
+          0,
+          614
+        ]
+      ],
+      "turns": [
+        {
+          "round": 566,
+          "actor": 3,
+          "removed": true,
+          "same_input": true,
+          "same_action_prefix": true,
+          "base_actions": [],
+          "candidate_actions": [
+            {
+              "kind": 9,
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 0,
+                "y": 0
+              },
+              "substep": 0
+            },
+            {
+              "kind": 8,
+              "from": {
+                "x": 24,
+                "y": 32
+              },
+              "to": {
+                "x": 24,
+                "y": 32
+              },
+              "substep": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

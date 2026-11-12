@@ -1,0 +1,33 @@
+{
+  "pass": false,
+  "games": 0,
+  "plan_sha256": "f0e47cd60ac609ce3a6ab1eb82b365a8ad9e7fd8bb23239b3a091d10c9f7aa82",
+  "rows": [
+    {
+      "name": "off",
+      "source_present": true,
+      "wasm_present": false
+    },
+    {
+      "name": "planner",
+      "source_present": true,
+      "wasm_present": false
+    },
+    {
+      "name": "planner-rebuild",
+      "source_present": true,
+      "wasm_present": false
+    },
+    {
+      "name": "task",
+      "source_present": false,
+      "wasm_present": false
+    },
+    {
+      "name": "task-rebuild",
+      "source_present": false,
+      "wasm_present": false
+    }
+  ],
+  "reason": "Source converter stopped before compile: two best=target_group markers, low-fuel continuation and buddy capture; preserve buddy capture and patch only the first contextual low-fuel marker in R2."
+}

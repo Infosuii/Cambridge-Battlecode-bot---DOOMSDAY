@@ -1,0 +1,3 @@
+# PG charged runtime profile
+
+EXP-032 confirmed the approach recovery behavior and had fewer total native suspensions, while still failing the release gate. Locate the remaining fuel crossings with the frozen 64-game development conformance cohort, both sides against x3inv and public-khiri. Use the existing charged profiler and add narrow observation marks around proactive ward scans, reactive ward scans, and the two post-action observation refreshes. Report native suspensions separately from marked crossings, where a marker may miss the final turn of a game. Use only this diagnostic cohort for selecting a new budget mechanism. Do not choose official-pool cells, maps or opponents for tuning.

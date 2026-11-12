@@ -1,0 +1,5 @@
+# EXP-150 combined forced-bank and post-ward cap
+
+Two clean release builds matched at `7e056fefeeac2b3702dedfeef8e7185d43d3cbfe03152beb3e7f7251dba77303`. All-off matched frozen v92. Across 320 paired development games, the six standard-budget suspensions dropped to zero and the 61 reduced-budget suspensions held steady, with no increases, draft changes, faults or codes. All three original Heart fixtures passed. The mixed-roster fixture kept the exact R637 observation, cast and ward and removed all three suspensions with no new event. R639 and R641 observations changed after R637.
+
+Both Cassi suspensions cleared and the first ward matched. The other seed-14107 control kept one suspension overall, replacing Issac R566 with Vendetta R614. Vendetta R614 also appeared with the earlier wait-only caps. The strict fixture vetoed the release before L0. [Builds](CPG_SAFE_TRIBUTE_COMBINED_BUILDS.json), [development pairs](CPG_SAFE_TRIBUTE_COMBINED_EXACT.json), [Heart controls](CPG_SAFE_TRIBUTE_COMBINED_HEART.json), [mixed fixture](CPG_SAFE_TRIBUTE_COMBINED_MIXED.json), [Cassi and Issac controls](CPG_SAFE_TRIBUTE_COMBINED_FIXTURE.json).

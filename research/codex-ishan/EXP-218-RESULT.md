@@ -1,0 +1,5 @@
+# EXP-218 result — Actual distance-five AOE damage verified; three navigation fixtures unavailable
+
+MEASURED: OFFSET_AOE_ACTION_PROOF.json records9 charged release fixtures for Ryth,Stellar,Prism on three preselected development maps,against an idle legal opponent. Six fixtures (two per champion) reach a visible camp atdistance5 and successfully cast at a visible centre atdistance4,radius1,with immediate target health reduction. No items,basic attacks or other champion actions contribute. On a120HP cluster,Ryth reduces it to20,Stellar to1,Prism to30,consistent with current focus/modifiers. Source,probe binaries,map,native and archive hashes are saved.
+
+The nearest-spawn greedy navigation did not expose the opportunity byR120 on pool_1217 for allthree champions; allthree remain recorded as unavailable,not silently replaced. Zero native faults/codes across9games. This is a controlled mechanics proof,not evidence that the original bot commonly misses the opportunity or that a policy change wins games. Next EXP214 prerequisite is an own-source opportunity census; no production patch yet.

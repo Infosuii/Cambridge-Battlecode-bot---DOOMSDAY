@@ -1,0 +1,5 @@
+# EXP-030 release freeze
+
+The 64-cell charged probe measured 544 differing completion-window opportunities on eight dev maps against both opponents, with zero faults. Freeze the same eligibility and comparison in a release. Keep the original per-route work limit and route model. Specialize the existing loop at compile time so the usual inner loop has no window work outside the first 150 rounds. A candidate is enabled only if the original choice and the alternative are comparable, and the alternative adds at least 25% modeled value. All other paths keep the existing route decision.
+
+Run two clean releases plus switch-off identity. Verify native collection in the frozen 16-map development cohort against both x3inv and public-khiri. Measure cumulative earned gold, gold attributed to camp collection, and collected camp gems by R150, with the decision gate as stated in the probe card. Run the full official-pool L0 using exact release binaries and the existing v92 baseline. Reject on any fault, diagnostic code or map/side fuel increase. No selection or holdout play unless eligible.

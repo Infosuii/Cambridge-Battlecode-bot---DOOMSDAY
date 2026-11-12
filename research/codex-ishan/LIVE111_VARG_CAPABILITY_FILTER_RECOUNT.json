@@ -1,0 +1,113 @@
+{
+  "pass": true,
+  "candidate_filter_pass": false,
+  "native_cells_reopened": 180,
+  "old_stock_controls_equal": 60,
+  "result_sha256": "85c31b1a7502ae5d7379b455c19b9a3935af0c2410fd2c28832e3c166381610d",
+  "comparisons": {
+    "stock->geometry": {
+      "summary": {
+        "n": 60,
+        "base_score": 52,
+        "candidate_score": 49,
+        "delta_pp": -5.0,
+        "map_cluster_ci_pp": [
+          -13.333,
+          3.333
+        ],
+        "fuel": [
+          836,
+          861
+        ],
+        "round1": [
+          36,
+          36
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 27
+      },
+      "draft_equal": 60,
+      "error_cells": 0,
+      "r1_cell_increases": 0,
+      "pass": false
+    },
+    "stock->model": {
+      "summary": {
+        "n": 60,
+        "base_score": 52,
+        "candidate_score": 47,
+        "delta_pp": -8.333,
+        "map_cluster_ci_pp": [
+          -20.0,
+          3.333
+        ],
+        "fuel": [
+          836,
+          879
+        ],
+        "round1": [
+          36,
+          36
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 29
+      },
+      "draft_equal": 60,
+      "error_cells": 0,
+      "r1_cell_increases": 0,
+      "pass": false
+    },
+    "geometry->model": {
+      "summary": {
+        "n": 60,
+        "base_score": 49,
+        "candidate_score": 47,
+        "delta_pp": -3.333,
+        "map_cluster_ci_pp": [
+          -15.0,
+          6.667
+        ],
+        "fuel": [
+          861,
+          879
+        ],
+        "round1": [
+          36,
+          36
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 23
+      },
+      "draft_equal": 60,
+      "error_cells": 0,
+      "r1_cell_increases": 0,
+      "pass": false
+    }
+  },
+  "totals": {
+    "stock": {
+      "wins": 52,
+      "fuel": 836,
+      "r1": 36
+    },
+    "geometry": {
+      "wins": 49,
+      "fuel": 861,
+      "r1": 36
+    },
+    "model": {
+      "wins": 47,
+      "fuel": 879,
+      "r1": 36
+    }
+  }
+}

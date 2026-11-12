@@ -1,0 +1,3021 @@
+{
+  "engine": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "builds": {
+    "off": {
+      "path": "C:\\dd\\codex-sdk5-20261105\\bots\\live111-dual-draft-cache-release-off\\bot.wasm",
+      "sha256": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423"
+    },
+    "on": {
+      "path": "C:\\dd\\codex-sdk5-20261105\\bots\\live111-dual-draft-cache-release-on\\bot.wasm",
+      "sha256": "086a14aa12090df556962fc242ad6f6ee4b1b0f3322a1ac1395ccf0518610fe6"
+    },
+    "rebuild": {
+      "path": "C:\\dd\\codex-sdk5-20261105\\bots\\live111-dual-draft-cache-release-rebuild\\bot.wasm",
+      "sha256": "086a14aa12090df556962fc242ad6f6ee4b1b0f3322a1ac1395ccf0518610fe6"
+    }
+  },
+  "overall": {
+    "n": 60,
+    "base_score": 52,
+    "candidate_score": 51,
+    "delta_pp": -1.667,
+    "map_cluster_ci_pp": [
+      -5.0,
+      0.0
+    ],
+    "fuel": [
+      836,
+      810
+    ],
+    "round1": [
+      36,
+      0
+    ],
+    "faults": [
+      0,
+      0
+    ],
+    "per_cell_fuel_regressions": 6
+  },
+  "error_cells": 0,
+  "pass": false,
+  "pairs": [
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77041",
+        "side": "A",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 1,
+        "fuel_outs": 31,
+        "round1_fuel_outs": 6,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 19
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 1
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 1
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 14
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 13
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 57
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 1
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 13
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 1
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 13
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77041",
+        "side": "A",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 1,
+        "fuel_outs": 28,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 83
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 70
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 91
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 24,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 83
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 70
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 95
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 24,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77038",
+        "side": "B",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 95
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77038",
+        "side": "B",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77038",
+        "side": "B",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 69
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77038",
+        "side": "B",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "engine_seed": "9099514028879633852",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77041",
+        "side": "A",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 0,
+        "fuel_outs": 44,
+        "round1_fuel_outs": 6,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 19
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 1
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 1
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 14
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 88
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 13
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 57
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 1
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 13
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 99
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 1
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 13
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77041",
+        "side": "A",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 0,
+        "fuel_outs": 26,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77041",
+        "side": "B",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 0,
+        "fuel_outs": 34,
+        "round1_fuel_outs": 6,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 1
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 99
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 1
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 58
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 1
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 13
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 1
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 12
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77041",
+        "side": "B",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 0,
+        "fuel_outs": 41,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77041",
+        "side": "B",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 1,
+        "fuel_outs": 25,
+        "round1_fuel_outs": 6,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 1
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 1
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 58
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 1
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 13
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 1
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 12
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77041",
+        "side": "B",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "engine_seed": "3408026964301617734",
+        "score": 1,
+        "fuel_outs": 17,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77042",
+        "side": "A",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 0,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 75
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 76
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77042",
+        "side": "A",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 0,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77042",
+        "side": "A",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 75
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77042",
+        "side": "A",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77042",
+        "side": "B",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 74
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 65
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 72
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 98
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 56
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77042",
+        "side": "B",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77042",
+        "side": "B",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 74
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77042",
+        "side": "B",
+        "map_hash": "7ac4809dbd9dc222091d978d60de6cc2916dfd9724d0ba4bd4647dc5fd3c4f3f",
+        "engine_seed": "4340288487250786325",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 5,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 75
+          },
+          {
+            "actor": 3,
+            "name": "Ren",
+            "round": 81
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 5,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77082",
+        "side": "A",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "B",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77082",
+        "side": "B",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77082",
+        "side": "B",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 2,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77082",
+        "side": "B",
+        "map_hash": "bffb30e5a043a21068091315d15c45737fe58310d28083f45b1eadefca55ef9b",
+        "engine_seed": "1402717557678275239",
+        "score": 1,
+        "fuel_outs": 2,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77124",
+        "side": "A",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77124",
+        "side": "A",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77124",
+        "side": "A",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 8,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 94
+          },
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 96
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77124",
+        "side": "A",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77124",
+        "side": "B",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 5,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77124",
+        "side": "B",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77124",
+        "side": "B",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 12,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77124",
+        "side": "B",
+        "map_hash": "5aa41aa5065030d1af2fd807f64698eeb8894c0ff97a5c9ebbc0171fa7458a55",
+        "engine_seed": "5086747544619721500",
+        "score": 1,
+        "fuel_outs": 5,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77125",
+        "side": "A",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 0,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 42
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 59
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 80
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 76
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77125",
+        "side": "A",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 0,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77125",
+        "side": "A",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 92
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 42
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 59
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 80
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77125",
+        "side": "A",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77125",
+        "side": "B",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 19
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 70
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 27
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 70
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 83
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pf_pool_77125",
+        "side": "B",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77125",
+        "side": "B",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 22,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 19
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 71
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 97
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 83
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 27
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pf_pool_77125",
+        "side": "B",
+        "map_hash": "5f710255eeaf6a72a81e871181db0dd38046c673020f5e9fe8c37f267f3d88c3",
+        "engine_seed": "4154610503224946966",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "A",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "A",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 0,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1111",
+        "side": "A",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 76
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 74
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 82
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 53
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1111",
+        "side": "A",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "B",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 77
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1111",
+        "side": "B",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1111",
+        "side": "B",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 18,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 82
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 40
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 80
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 76
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1111",
+        "side": "B",
+        "map_hash": "f61607a550b36081396a318394158d3791c2c875ae94fae31ae5325fdb63b554",
+        "engine_seed": "7220320424399303839",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1113",
+        "side": "A",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 3,
+            "name": "Ren",
+            "round": 84
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1113",
+        "side": "A",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1113",
+        "side": "A",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 91
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1113",
+        "side": "A",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1113",
+        "side": "B",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 6,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1113",
+        "side": "B",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1113",
+        "side": "B",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 4,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1113",
+        "side": "B",
+        "map_hash": "511562b4e09693858fcdc98c85062d5e84b5cd007b0f598610adc5b6361d59ff",
+        "engine_seed": "16848082269993994174",
+        "score": 1,
+        "fuel_outs": 4,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "A",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 0,
+        "fuel_outs": 31,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 3,
+            "name": "Vesper Vale",
+            "round": 95
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "A",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 0,
+        "fuel_outs": 31,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1116",
+        "side": "A",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 1,
+        "fuel_outs": 18,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1116",
+        "side": "A",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 1,
+        "fuel_outs": 18,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "B",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 0,
+        "fuel_outs": 22,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 5,
+            "name": "Cassi",
+            "round": 97
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1116",
+        "side": "B",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 0,
+        "fuel_outs": 22,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1116",
+        "side": "B",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 1,
+        "fuel_outs": 17,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1116",
+        "side": "B",
+        "map_hash": "22118d820ab8524b6c21e65a31f67242ffb3242f75dbbedc81c57c82b9b2788b",
+        "engine_seed": "978751808151258941",
+        "score": 1,
+        "fuel_outs": 17,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1118",
+        "side": "A",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 16,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1118",
+        "side": "A",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 16,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1118",
+        "side": "A",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 14,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1118",
+        "side": "A",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 14,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1118",
+        "side": "B",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 94
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 96
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1118",
+        "side": "B",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 13,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1118",
+        "side": "B",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1118",
+        "side": "B",
+        "map_hash": "953c4435481fb6cfab2e5d140d0fff16bd219e07364ca06d3a579f0b210ab5bc",
+        "engine_seed": "13009803956743558630",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "A",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 14,
+        "round1_fuel_outs": 3,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Cassi",
+            "round": 65
+          },
+          {
+            "actor": 1,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 1,
+            "name": "Issac",
+            "round": 58
+          },
+          {
+            "actor": 2,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 3,
+            "name": "Vesper Vale",
+            "round": 1
+          },
+          {
+            "actor": 4,
+            "name": "Varg",
+            "round": 100
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "A",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 28,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1119",
+        "side": "A",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 3,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 1,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 1,
+            "name": "Issac",
+            "round": 72
+          },
+          {
+            "actor": 1,
+            "name": "Issac",
+            "round": 100
+          },
+          {
+            "actor": 2,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 3,
+            "name": "Vesper Vale",
+            "round": 1
+          },
+          {
+            "actor": 3,
+            "name": "Vesper Vale",
+            "round": 87
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1119",
+        "side": "A",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 12,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "B",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 17,
+        "round1_fuel_outs": 3,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 5,
+            "name": "Cassi",
+            "round": 82
+          },
+          {
+            "actor": 6,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 6,
+            "name": "Issac",
+            "round": 70
+          },
+          {
+            "actor": 6,
+            "name": "Issac",
+            "round": 99
+          },
+          {
+            "actor": 7,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 8,
+            "name": "Vesper Vale",
+            "round": 1
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1119",
+        "side": "B",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 22,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1119",
+        "side": "B",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 5,
+        "round1_fuel_outs": 3,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Issac",
+            "round": 1
+          },
+          {
+            "actor": 7,
+            "name": "Vendetta",
+            "round": 1
+          },
+          {
+            "actor": 8,
+            "name": "Vesper Vale",
+            "round": 1
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1119",
+        "side": "B",
+        "map_hash": "bd4771d8fb70f6adb0612e4e26beec9f9e60ba33352b605ebe3b6b47562f8565",
+        "engine_seed": "931967966388986653",
+        "score": 1,
+        "fuel_outs": 17,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1157",
+        "side": "A",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 0,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 54
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 45
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 65
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1157",
+        "side": "A",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 0,
+        "fuel_outs": 9,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1157",
+        "side": "A",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 54
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 45
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 65
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1157",
+        "side": "A",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 1,
+        "fuel_outs": 3,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1157",
+        "side": "B",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 0,
+        "fuel_outs": 14,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 60
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 36
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 40
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 92
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1157",
+        "side": "B",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 0,
+        "fuel_outs": 14,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1157",
+        "side": "B",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 60
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 36
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 40
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 92
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 97
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1157",
+        "side": "B",
+        "map_hash": "4ace84d1bfc5edd1f523c3c51af93ceb081e5f0de02560d3fe73dc66015ab5c3",
+        "engine_seed": "6994514685899371272",
+        "score": 1,
+        "fuel_outs": 7,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1159",
+        "side": "A",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 8,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 97
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1159",
+        "side": "A",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 15,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1159",
+        "side": "A",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 12,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 3,
+            "name": "Vesper Vale",
+            "round": 82
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1159",
+        "side": "A",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 11,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1159",
+        "side": "B",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 4,
+            "name": "Vendetta",
+            "round": 97
+          },
+          {
+            "actor": 5,
+            "name": "Vesper Vale",
+            "round": 59
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1159",
+        "side": "B",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 10,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1159",
+        "side": "B",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 12,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 4,
+            "name": "Vendetta",
+            "round": 72
+          },
+          {
+            "actor": 4,
+            "name": "Vendetta",
+            "round": 74
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1159",
+        "side": "B",
+        "map_hash": "9141a4e6f8fc70274da5e653578aaa1b44015cebf7800df38c72cf50e8e6e8b0",
+        "engine_seed": "451841006544151737",
+        "score": 1,
+        "fuel_outs": 12,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1207",
+        "side": "A",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 20,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1207",
+        "side": "A",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 20,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1207",
+        "side": "A",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 24,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1207",
+        "side": "A",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 24,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1207",
+        "side": "B",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 21,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1207",
+        "side": "B",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 21,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1207",
+        "side": "B",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 18,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": []
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1207",
+        "side": "B",
+        "map_hash": "9df0e2b8e9a56d37ba3cacfb4eb4a46d034836a2ac2f675fa246d17438327d03",
+        "engine_seed": "11732117969108903171",
+        "score": 1,
+        "fuel_outs": 18,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1907",
+        "side": "A",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 9
+          },
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 39
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 10
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 42
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 9
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 35
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 6
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 27
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 55
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 10
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 37
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 8
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 28
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1907",
+        "side": "A",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1907",
+        "side": "A",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 27,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 9
+          },
+          {
+            "actor": 0,
+            "name": "Vendetta",
+            "round": 39
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 10
+          },
+          {
+            "actor": 1,
+            "name": "Varg",
+            "round": 42
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 9
+          },
+          {
+            "actor": 2,
+            "name": "Cassi",
+            "round": 35
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 6
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 27
+          },
+          {
+            "actor": 3,
+            "name": "Issac",
+            "round": 55
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 10
+          },
+          {
+            "actor": 4,
+            "name": "Marcella",
+            "round": 37
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 8
+          },
+          {
+            "actor": 5,
+            "name": "Heart of Ruin",
+            "round": 28
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1907",
+        "side": "A",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 27,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1907",
+        "side": "B",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 9
+          },
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 38
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 10
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 33
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 9
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 35
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 6
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 28
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 11
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 30
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 8
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 23
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "x3inv",
+        "map": "pool_1907",
+        "side": "B",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ],
+    [
+      {
+        "arm": "stock111",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1907",
+        "side": "B",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": [],
+        "early_events": [
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 9
+          },
+          {
+            "actor": 6,
+            "name": "Vendetta",
+            "round": 38
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 10
+          },
+          {
+            "actor": 7,
+            "name": "Varg",
+            "round": 33
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 9
+          },
+          {
+            "actor": 8,
+            "name": "Cassi",
+            "round": 35
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 6
+          },
+          {
+            "actor": 9,
+            "name": "Issac",
+            "round": 28
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 11
+          },
+          {
+            "actor": 10,
+            "name": "Marcella",
+            "round": 30
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 8
+          },
+          {
+            "actor": 11,
+            "name": "Heart of Ruin",
+            "round": 23
+          }
+        ]
+      },
+      {
+        "arm": "dual-draft-cache-release",
+        "noise_seed": 1,
+        "opponent": "public-khiri",
+        "map": "pool_1907",
+        "side": "B",
+        "map_hash": "a1a1dde0f5efb22f22da2b381c947051321f8117adbe7530b70c57ee8fadf8d5",
+        "engine_seed": "12671348276425465895",
+        "score": 1,
+        "fuel_outs": 19,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "diagnostic_codes": []
+      }
+    ]
+  ]
+}

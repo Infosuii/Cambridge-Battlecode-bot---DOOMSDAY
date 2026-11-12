@@ -60,38 +60,84 @@ def cli_json(args):
     raise SystemExit('no JSON from cambc ' + ' '.join(args) + ': ' + (r.stdout + r.stderr)[-300:])
 
 
-def active_version():
-    return cli_json(['submissions', 'list', '--json'])['active']['version']
+def wait_for_quota():
+    # Team lock caps this worker at 45 groups in the platform's rolling hour.
+    # Reading the shared count also avoids spending another worker's headroom.
+    for _ in range(180):
+        if cli_json(['match-groups', 'quota', '--json'])['quota']['used'] < 45:
+            return
+        time.sleep(30)
+    raise SystemExit('rolling match-group budget did not clear')
+
+
+def selected_pin(state):
+    active = (state.get('active') or {}).get('version')
+    selected = (state.get('selected') or {}).get('version')
+    if state.get('pinned') is True and active == selected:
+        return active
+    return None
+
+
+def pinned_version():
+    return selected_pin(cli_json(['submissions', 'list', '--json']))
+
+
+def foreign_submission_states(state, version):
+    return {s['version']: (s.get('id'), s.get('status'), s.get('statusAt'))
+            for s in state['submissions'] if s['version'] != version}
+
+
+def verify_arm_state(path, plan, arm, version, before):
+    state = cli_json(['submissions', 'list', '--json'])
+    current = foreign_submission_states(state, version)
+    changed = {v for v in before.keys() | current.keys() if before.get(v) != current.get(v)}
+    if selected_pin(state) != version:
+        changed.add((state.get('active') or {}).get('version') or version)
+    if changed:
+        plan['arms'][arm]['contaminated'] = sorted(changed)
+        path.write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
+        raise SystemExit(f'arm {arm} contaminated: submission state changed for {sorted(changed)}')
 
 
 def activate(version):
-    if active_version() == version:
+    if pinned_version() == version:
         return
     r = cli(['submissions', 'activate', str(version)])
     print('activate', version, 'exit', r.returncode, flush=True)
     for _ in range(60):
-        if active_version() == version:
+        if pinned_version() == version:
             return
         time.sleep(10)
-    raise SystemExit(f'version {version} did not become active')
+    raise SystemExit(f'version {version} did not become active and pinned')
 
 
-def finished_groups(group_ids, since):
-    """Our unranked matches since `since`, grouped by group id, for the given ids."""
-    found, cursor = {}, None
-    for _ in range(20):
-        args = ['matches', 'list', '--team', 'me', '--kind', 'unranked', '--limit', '100', '--json'] + (['--cursor', cursor] if cursor else [])
-        d = cli_json(args)
-        for m in d['matches']:
-            found[m['matchId']] = m
-        cursor = d.get('nextCursor')
-        if not cursor or (d['matches'] and min(m['createdAt'] for m in d['matches']) < since):
-            break
-    by = defaultdict(list)
-    for m in found.values():
-        if m['groupId'] in group_ids:
-            by[m['groupId']].append(m)
+def finished_groups(group_ids, previous=None):
+    """Read the requested groups by ID; retain completed groups across polls."""
+    by = {}
+    for gid in sorted(group_ids):
+        cached = (previous or {}).get(gid, [])
+        if len(cached) == 5 and all(m['status'] == 'finished' for m in cached):
+            by[gid] = cached
+            continue
+        d = cli_json(['match-groups', 'show', gid, '--json'])
+        if d.get('groupId') != gid or d.get('nextCursor'):
+            raise SystemExit(f'unexpected match group response for {gid}')
+        matches = d['matches']
+        if any(m['groupId'] != gid for m in matches):
+            raise SystemExit(f'match from a different group in response for {gid}')
+        by[gid] = matches
     return by
+
+
+def required_pin_sources(plan, arm):
+    pin_arm = plan.get('pin_arm', 'v92')
+    size = len(plan['groups'])
+    if arm == pin_arm:
+        return [None] * size
+    ids = plan['arms'].get(pin_arm, {}).get('groups', [])
+    if len(ids) != size or not all(isinstance(gid, str) and gid for gid in ids) or len(set(ids)) != size:
+        raise SystemExit(f'{arm}: complete unique pin sources from {pin_arm} required before activation')
+    return ids
 
 
 def gem_margin(match_id, side):
@@ -128,7 +174,7 @@ def main():
 
     if a.action == 'restore':
         activate(a.version)
-        print('active', active_version())
+        print('active and pinned', pinned_version())
         return
 
     if a.action == 'plan':
@@ -147,9 +193,15 @@ def main():
         print(len(groups), 'groups ->', a.out)
         return
 
-    plan = json.loads(Path(a.plan).read_text(encoding='utf8'))
+    plan_path = Path(a.plan)
+    plan = json.loads(plan_path.read_text(encoding='utf8'))
     if a.action == 'run':
+        pin_sources = required_pin_sources(plan, a.arm)
         activate(a.version)
+        initial = cli_json(['submissions', 'list', '--json'])
+        if selected_pin(initial) != a.version:
+            raise SystemExit(f'arm {a.arm}: requested version lost its pin before queueing')
+        before = foreign_submission_states(initial, a.version)
         since = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time() - 60))
         ids = []
         for i, g in enumerate(plan['groups']):
@@ -157,8 +209,8 @@ def main():
             for attempt in range(6):
                 # Pin the opponent's bot to the one it ran in the base arm's group (--source-group): an active team can
                 # upload a new version between arms, which would break the pairing.
-                base = plan['arms'].get(plan.get('pin_arm', 'v92'), {}).get('groups') if a.arm != plan.get('pin_arm', 'v92') else None
-                pin = ['--source-group', base[i]] if base and i < len(base) and base[i] else []
+                pin = ['--source-group', pin_sources[i]] if pin_sources[i] else []
+                wait_for_quota()
                 r = cli(['match-groups', 'create', g['opponentId'], '--maps', ','.join(g['maps']), '--sides', ','.join(g['sides']), '--json'] + pin)
                 try:
                     gid = json.loads((r.stdout or '').strip().splitlines()[0])['groupId']
@@ -174,16 +226,21 @@ def main():
                     break
             ids.append(gid)
         plan['arms'][a.arm] = dict(version=a.version, groups=ids, since=since)
-        Path(a.plan).write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
+        plan_path.write_text(json.dumps(plan, indent=1) + '\n', encoding='utf8')
         want = {g for g in ids if g}
         print(f'arm {a.arm}: queued {len(want)} groups; waiting for them to finish', flush=True)
+        by = {}
         for _ in range(240):
-            by = finished_groups(want, since)
+            verify_arm_state(plan_path, plan, a.arm, a.version, before)
+            by = finished_groups(want, by)
             done = sum(1 for gid in want if len(by.get(gid, [])) == 5 and all(m['status'] == 'finished' for m in by[gid]))
             if done == len(want):
                 break
             time.sleep(30)
         print(f'arm {a.arm}: {done}/{len(want)} groups finished', flush=True)
+        verify_arm_state(plan_path, plan, a.arm, a.version, before)
+        if done != len(plan['groups']):
+            raise SystemExit(f'arm {a.arm} incomplete: {done}/{len(plan["groups"])} groups finished')
         return
 
     # report
@@ -192,7 +249,7 @@ def main():
     for arm in arms:
         info = plan['arms'][arm]
         want = {g for g in info['groups'] if g}
-        by = finished_groups(want, info['since'])
+        by = finished_groups(want)
         res = {}
         for i, gid in enumerate(info['groups']):
             for m in by.get(gid, []):

@@ -1,0 +1,5 @@
+# EXP-189 result — Linked twins explain most confirmation no-hit excess
+
+MEASURED: LIVE111_TWIN_DEATH_AUDIT.json recounts the original physical deaths and no-hit totals exactly, with every case stored. Same-round opposite-twin deaths account for13of34own and7of16rival no-hit deaths in discovery;13of23own and2of11rival in confirmation;1of5own and1of19rival in wins. Remaining non-twin-coincident counts are21vs9,10vs9,4vs18 respectively. These are counts across unequal physical lineups/exposure, not causal rates.
+
+Official SDK explicitly states either twin dying kills both. The audit cannot identify which twin initiated a paired death. The large confirmation excess therefore must not be called a general no-retaliation/target failure: outside coincident twin deaths, confirmation totals nearly tie. All original EXP180 metrics remain unchanged; their causal interpretation is narrowed. Investigate initiating twin events and own-view decisions before any combat or draft change. No candidate or promotion.

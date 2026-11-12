@@ -1,0 +1,1604 @@
+{
+  "scope": "EXP238 exploratory multiple-arm Discovery; no superiority/release decision",
+  "engine": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "releases": {
+    "stock": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423",
+    "lab_off": "e2a0bf9b61cb6b365ec8d0ba5bd06b89ebe1ef149a66289d00b4dc804fbb0630",
+    "a3_off": "301cc5a78a9b8005627d9327fd2115d7a696496b1d74302b3d56d2bec2d0c557",
+    "duo_off": "15ba641336fff9d9c8be20fdbef31634cef605d22ad9402858198ca8d3c12dc8",
+    "tsearch_off": "a82c0c77acebce17f1de37bbad4ca2cfb8c34568e465c0e8755948629672d936",
+    "route_off": "3ad0ab94f3a5c7d843d73aaf9b1edd2f92cd20cc5dfa423b0580ef0e4852a134"
+  },
+  "seeds": [
+    77171,
+    80309
+  ],
+  "games": 960,
+  "results": {
+    "lab_off": {
+      "overall": {
+        "n": 160,
+        "base_score": 98,
+        "candidate_score": 105,
+        "delta_pp": 4.375,
+        "map_cluster_ci_pp": [
+          -10.0,
+          18.125
+        ],
+        "fuel": [
+          792,
+          1003
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 86
+      },
+      "strata": {
+        "opponent": {
+          "live109": {
+            "n": 32,
+            "base_score": 10,
+            "candidate_score": 15,
+            "delta_pp": 15.625,
+            "map_cluster_ci_pp": [
+              -9.375,
+              43.75
+            ],
+            "fuel": [
+              159,
+              231
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 17
+          },
+          "p65pack": {
+            "n": 32,
+            "base_score": 23,
+            "candidate_score": 27,
+            "delta_pp": 12.5,
+            "map_cluster_ci_pp": [
+              -15.625,
+              37.5
+            ],
+            "fuel": [
+              165,
+              181
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 17
+          },
+          "public-khiri": {
+            "n": 32,
+            "base_score": 32,
+            "candidate_score": 32,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              130,
+              165
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 19
+          },
+          "v92": {
+            "n": 32,
+            "base_score": 16,
+            "candidate_score": 11,
+            "delta_pp": -15.625,
+            "map_cluster_ci_pp": [
+              -34.375,
+              6.25
+            ],
+            "fuel": [
+              174,
+              197
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 14
+          },
+          "x3inv": {
+            "n": 32,
+            "base_score": 17,
+            "candidate_score": 20,
+            "delta_pp": 9.375,
+            "map_cluster_ci_pp": [
+              -12.5,
+              31.25
+            ],
+            "fuel": [
+              164,
+              229
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 19
+          }
+        },
+        "category": {
+          "C1": {
+            "n": 40,
+            "base_score": 29,
+            "candidate_score": 23,
+            "delta_pp": -15.0,
+            "map_cluster_ci_pp": [
+              -35.0,
+              5.0
+            ],
+            "fuel": [
+              40,
+              51
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 17
+          },
+          "C3": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 32,
+            "delta_pp": 17.5,
+            "map_cluster_ci_pp": [
+              0.0,
+              35.0
+            ],
+            "fuel": [
+              88,
+              114
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 20
+          },
+          "C4": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 25,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              -5.0,
+              5.0
+            ],
+            "fuel": [
+              93,
+              147
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 21
+          },
+          "C5": {
+            "n": 40,
+            "base_score": 19,
+            "candidate_score": 25,
+            "delta_pp": 15.0,
+            "map_cluster_ci_pp": [
+              -5.0,
+              35.0
+            ],
+            "fuel": [
+              571,
+              691
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 28
+          }
+        },
+        "size": {
+          "large": {
+            "n": 20,
+            "base_score": 7,
+            "candidate_score": 14,
+            "delta_pp": 35.0,
+            "map_cluster_ci_pp": [
+              35.0,
+              35.0
+            ],
+            "fuel": [
+              484,
+              607
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 15
+          },
+          "medium": {
+            "n": 80,
+            "base_score": 48,
+            "candidate_score": 55,
+            "delta_pp": 8.75,
+            "map_cluster_ci_pp": [
+              -2.5,
+              26.25
+            ],
+            "fuel": [
+              225,
+              315
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 49
+          },
+          "small": {
+            "n": 60,
+            "base_score": 43,
+            "candidate_score": 36,
+            "delta_pp": -11.667,
+            "map_cluster_ci_pp": [
+              -35.0,
+              5.0
+            ],
+            "fuel": [
+              83,
+              81
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 22
+          }
+        }
+      },
+      "draft_changes": 0,
+      "error_cells": 0,
+      "mean_paired_resource_changes": {
+        "production": 28.3,
+        "fights": -10.9625,
+        "camp_loss": 0.2375,
+        "conversion": -4.0
+      }
+    },
+    "a3_off": {
+      "overall": {
+        "n": 160,
+        "base_score": 98,
+        "candidate_score": 110,
+        "delta_pp": 7.5,
+        "map_cluster_ci_pp": [
+          3.75,
+          11.875
+        ],
+        "fuel": [
+          792,
+          771
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 24
+      },
+      "strata": {
+        "opponent": {
+          "live109": {
+            "n": 32,
+            "base_score": 10,
+            "candidate_score": 11,
+            "delta_pp": 3.125,
+            "map_cluster_ci_pp": [
+              0.0,
+              9.375
+            ],
+            "fuel": [
+              159,
+              137
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 6
+          },
+          "p65pack": {
+            "n": 32,
+            "base_score": 23,
+            "candidate_score": 29,
+            "delta_pp": 18.75,
+            "map_cluster_ci_pp": [
+              3.125,
+              34.375
+            ],
+            "fuel": [
+              165,
+              161
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 5
+          },
+          "public-khiri": {
+            "n": 32,
+            "base_score": 32,
+            "candidate_score": 32,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              130,
+              124
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 0
+          },
+          "v92": {
+            "n": 32,
+            "base_score": 16,
+            "candidate_score": 18,
+            "delta_pp": 6.25,
+            "map_cluster_ci_pp": [
+              -6.25,
+              15.625
+            ],
+            "fuel": [
+              174,
+              182
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "x3inv": {
+            "n": 32,
+            "base_score": 17,
+            "candidate_score": 20,
+            "delta_pp": 9.375,
+            "map_cluster_ci_pp": [
+              -6.25,
+              25.0
+            ],
+            "fuel": [
+              164,
+              167
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 6
+          }
+        },
+        "category": {
+          "C1": {
+            "n": 40,
+            "base_score": 29,
+            "candidate_score": 29,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              40,
+              36
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 3
+          },
+          "C3": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 29,
+            "delta_pp": 10.0,
+            "map_cluster_ci_pp": [
+              10.0,
+              10.0
+            ],
+            "fuel": [
+              88,
+              82
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 4
+          },
+          "C4": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 27,
+            "delta_pp": 5.0,
+            "map_cluster_ci_pp": [
+              5.0,
+              5.0
+            ],
+            "fuel": [
+              93,
+              84
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 6
+          },
+          "C5": {
+            "n": 40,
+            "base_score": 19,
+            "candidate_score": 25,
+            "delta_pp": 15.0,
+            "map_cluster_ci_pp": [
+              10.0,
+              20.0
+            ],
+            "fuel": [
+              571,
+              569
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 11
+          }
+        },
+        "size": {
+          "large": {
+            "n": 20,
+            "base_score": 7,
+            "candidate_score": 11,
+            "delta_pp": 20.0,
+            "map_cluster_ci_pp": [
+              20.0,
+              20.0
+            ],
+            "fuel": [
+              484,
+              470
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 6
+          },
+          "medium": {
+            "n": 80,
+            "base_score": 48,
+            "candidate_score": 55,
+            "delta_pp": 8.75,
+            "map_cluster_ci_pp": [
+              6.25,
+              10.0
+            ],
+            "fuel": [
+              225,
+              225
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 13
+          },
+          "small": {
+            "n": 60,
+            "base_score": 43,
+            "candidate_score": 44,
+            "delta_pp": 1.667,
+            "map_cluster_ci_pp": [
+              0.0,
+              5.0
+            ],
+            "fuel": [
+              83,
+              76
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 5
+          }
+        }
+      },
+      "draft_changes": 0,
+      "error_cells": 0,
+      "mean_paired_resource_changes": {
+        "production": -15.7125,
+        "fights": 23.4375,
+        "camp_loss": -1.7875,
+        "conversion": 7.875
+      }
+    },
+    "duo_off": {
+      "overall": {
+        "n": 160,
+        "base_score": 98,
+        "candidate_score": 109,
+        "delta_pp": 6.875,
+        "map_cluster_ci_pp": [
+          1.25,
+          13.125
+        ],
+        "fuel": [
+          792,
+          740
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 51
+      },
+      "strata": {
+        "opponent": {
+          "live109": {
+            "n": 32,
+            "base_score": 10,
+            "candidate_score": 15,
+            "delta_pp": 15.625,
+            "map_cluster_ci_pp": [
+              -9.375,
+              37.5
+            ],
+            "fuel": [
+              159,
+              126
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "p65pack": {
+            "n": 32,
+            "base_score": 23,
+            "candidate_score": 26,
+            "delta_pp": 9.375,
+            "map_cluster_ci_pp": [
+              -6.25,
+              25.0
+            ],
+            "fuel": [
+              165,
+              166
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 13
+          },
+          "public-khiri": {
+            "n": 32,
+            "base_score": 32,
+            "candidate_score": 32,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              130,
+              118
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 11
+          },
+          "v92": {
+            "n": 32,
+            "base_score": 16,
+            "candidate_score": 18,
+            "delta_pp": 6.25,
+            "map_cluster_ci_pp": [
+              -6.25,
+              21.875
+            ],
+            "fuel": [
+              174,
+              174
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 12
+          },
+          "x3inv": {
+            "n": 32,
+            "base_score": 17,
+            "candidate_score": 18,
+            "delta_pp": 3.125,
+            "map_cluster_ci_pp": [
+              -18.75,
+              21.875
+            ],
+            "fuel": [
+              164,
+              156
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 8
+          }
+        },
+        "category": {
+          "C1": {
+            "n": 40,
+            "base_score": 29,
+            "candidate_score": 31,
+            "delta_pp": 5.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              10.0
+            ],
+            "fuel": [
+              40,
+              47
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 12
+          },
+          "C3": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 30,
+            "delta_pp": 12.5,
+            "map_cluster_ci_pp": [
+              5.0,
+              20.0
+            ],
+            "fuel": [
+              88,
+              88
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 13
+          },
+          "C4": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 29,
+            "delta_pp": 10.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              20.0
+            ],
+            "fuel": [
+              93,
+              81
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 11
+          },
+          "C5": {
+            "n": 40,
+            "base_score": 19,
+            "candidate_score": 19,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              -5.0,
+              5.0
+            ],
+            "fuel": [
+              571,
+              524
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 15
+          }
+        },
+        "size": {
+          "large": {
+            "n": 20,
+            "base_score": 7,
+            "candidate_score": 8,
+            "delta_pp": 5.0,
+            "map_cluster_ci_pp": [
+              5.0,
+              5.0
+            ],
+            "fuel": [
+              484,
+              436
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "medium": {
+            "n": 80,
+            "base_score": 48,
+            "candidate_score": 56,
+            "delta_pp": 10.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              20.0
+            ],
+            "fuel": [
+              225,
+              230
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 29
+          },
+          "small": {
+            "n": 60,
+            "base_score": 43,
+            "candidate_score": 45,
+            "delta_pp": 3.333,
+            "map_cluster_ci_pp": [
+              0.0,
+              10.0
+            ],
+            "fuel": [
+              83,
+              74
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 15
+          }
+        }
+      },
+      "draft_changes": 0,
+      "error_cells": 0,
+      "mean_paired_resource_changes": {
+        "production": 6.83125,
+        "fights": 28.9,
+        "camp_loss": -1.8375,
+        "conversion": -4.125
+      }
+    },
+    "tsearch_off": {
+      "overall": {
+        "n": 160,
+        "base_score": 98,
+        "candidate_score": 120,
+        "delta_pp": 13.75,
+        "map_cluster_ci_pp": [
+          3.75,
+          24.375
+        ],
+        "fuel": [
+          792,
+          757
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 36
+      },
+      "strata": {
+        "opponent": {
+          "live109": {
+            "n": 32,
+            "base_score": 10,
+            "candidate_score": 18,
+            "delta_pp": 25.0,
+            "map_cluster_ci_pp": [
+              -6.25,
+              56.25
+            ],
+            "fuel": [
+              159,
+              190
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "p65pack": {
+            "n": 32,
+            "base_score": 23,
+            "candidate_score": 25,
+            "delta_pp": 6.25,
+            "map_cluster_ci_pp": [
+              0.0,
+              12.5
+            ],
+            "fuel": [
+              165,
+              168
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 9
+          },
+          "public-khiri": {
+            "n": 32,
+            "base_score": 32,
+            "candidate_score": 32,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              130,
+              105
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 2
+          },
+          "v92": {
+            "n": 32,
+            "base_score": 16,
+            "candidate_score": 19,
+            "delta_pp": 9.375,
+            "map_cluster_ci_pp": [
+              -12.5,
+              28.125
+            ],
+            "fuel": [
+              174,
+              162
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 11
+          },
+          "x3inv": {
+            "n": 32,
+            "base_score": 17,
+            "candidate_score": 26,
+            "delta_pp": 28.125,
+            "map_cluster_ci_pp": [
+              6.25,
+              56.25
+            ],
+            "fuel": [
+              164,
+              132
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          }
+        },
+        "category": {
+          "C1": {
+            "n": 40,
+            "base_score": 29,
+            "candidate_score": 28,
+            "delta_pp": -2.5,
+            "map_cluster_ci_pp": [
+              -10.0,
+              5.0
+            ],
+            "fuel": [
+              40,
+              39
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 11
+          },
+          "C3": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 37,
+            "delta_pp": 30.0,
+            "map_cluster_ci_pp": [
+              20.0,
+              40.0
+            ],
+            "fuel": [
+              88,
+              87
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 8
+          },
+          "C4": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 27,
+            "delta_pp": 5.0,
+            "map_cluster_ci_pp": [
+              5.0,
+              5.0
+            ],
+            "fuel": [
+              93,
+              48
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 3
+          },
+          "C5": {
+            "n": 40,
+            "base_score": 19,
+            "candidate_score": 28,
+            "delta_pp": 22.5,
+            "map_cluster_ci_pp": [
+              15.0,
+              30.0
+            ],
+            "fuel": [
+              571,
+              583
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 14
+          }
+        },
+        "size": {
+          "large": {
+            "n": 20,
+            "base_score": 7,
+            "candidate_score": 10,
+            "delta_pp": 15.0,
+            "map_cluster_ci_pp": [
+              15.0,
+              15.0
+            ],
+            "fuel": [
+              484,
+              493
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 9
+          },
+          "medium": {
+            "n": 80,
+            "base_score": 48,
+            "candidate_score": 67,
+            "delta_pp": 23.75,
+            "map_cluster_ci_pp": [
+              11.25,
+              35.0
+            ],
+            "fuel": [
+              225,
+              195
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 15
+          },
+          "small": {
+            "n": 60,
+            "base_score": 43,
+            "candidate_score": 43,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              -10.0,
+              5.0
+            ],
+            "fuel": [
+              83,
+              69
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 12
+          }
+        }
+      },
+      "draft_changes": 0,
+      "error_cells": 0,
+      "mean_paired_resource_changes": {
+        "production": 22.2625,
+        "fights": 24.85,
+        "camp_loss": -0.58125,
+        "conversion": 0.8
+      }
+    },
+    "route_off": {
+      "overall": {
+        "n": 160,
+        "base_score": 98,
+        "candidate_score": 126,
+        "delta_pp": 17.5,
+        "map_cluster_ci_pp": [
+          6.875,
+          28.75
+        ],
+        "fuel": [
+          792,
+          739
+        ],
+        "round1": [
+          0,
+          0
+        ],
+        "faults": [
+          0,
+          0
+        ],
+        "per_cell_fuel_regressions": 32
+      },
+      "strata": {
+        "opponent": {
+          "live109": {
+            "n": 32,
+            "base_score": 10,
+            "candidate_score": 21,
+            "delta_pp": 34.375,
+            "map_cluster_ci_pp": [
+              15.625,
+              53.125
+            ],
+            "fuel": [
+              159,
+              164
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 4
+          },
+          "p65pack": {
+            "n": 32,
+            "base_score": 23,
+            "candidate_score": 28,
+            "delta_pp": 15.625,
+            "map_cluster_ci_pp": [
+              -9.375,
+              40.625
+            ],
+            "fuel": [
+              165,
+              168
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "public-khiri": {
+            "n": 32,
+            "base_score": 32,
+            "candidate_score": 32,
+            "delta_pp": 0.0,
+            "map_cluster_ci_pp": [
+              0.0,
+              0.0
+            ],
+            "fuel": [
+              130,
+              85
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "v92": {
+            "n": 32,
+            "base_score": 16,
+            "candidate_score": 22,
+            "delta_pp": 18.75,
+            "map_cluster_ci_pp": [
+              -12.5,
+              50.0
+            ],
+            "fuel": [
+              174,
+              165
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "x3inv": {
+            "n": 32,
+            "base_score": 17,
+            "candidate_score": 23,
+            "delta_pp": 18.75,
+            "map_cluster_ci_pp": [
+              -6.25,
+              43.75
+            ],
+            "fuel": [
+              164,
+              157
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          }
+        },
+        "category": {
+          "C1": {
+            "n": 40,
+            "base_score": 29,
+            "candidate_score": 30,
+            "delta_pp": 2.5,
+            "map_cluster_ci_pp": [
+              -5.0,
+              10.0
+            ],
+            "fuel": [
+              40,
+              13
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 3
+          },
+          "C3": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 38,
+            "delta_pp": 32.5,
+            "map_cluster_ci_pp": [
+              20.0,
+              45.0
+            ],
+            "fuel": [
+              88,
+              40
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 8
+          },
+          "C4": {
+            "n": 40,
+            "base_score": 25,
+            "candidate_score": 32,
+            "delta_pp": 17.5,
+            "map_cluster_ci_pp": [
+              0.0,
+              35.0
+            ],
+            "fuel": [
+              93,
+              65
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          },
+          "C5": {
+            "n": 40,
+            "base_score": 19,
+            "candidate_score": 26,
+            "delta_pp": 17.5,
+            "map_cluster_ci_pp": [
+              10.0,
+              25.0
+            ],
+            "fuel": [
+              571,
+              621
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 14
+          }
+        },
+        "size": {
+          "large": {
+            "n": 20,
+            "base_score": 7,
+            "candidate_score": 12,
+            "delta_pp": 25.0,
+            "map_cluster_ci_pp": [
+              25.0,
+              25.0
+            ],
+            "fuel": [
+              484,
+              588
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 12
+          },
+          "medium": {
+            "n": 80,
+            "base_score": 48,
+            "candidate_score": 70,
+            "delta_pp": 27.5,
+            "map_cluster_ci_pp": [
+              15.0,
+              40.0
+            ],
+            "fuel": [
+              225,
+              106
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 13
+          },
+          "small": {
+            "n": 60,
+            "base_score": 43,
+            "candidate_score": 44,
+            "delta_pp": 1.667,
+            "map_cluster_ci_pp": [
+              -5.0,
+              10.0
+            ],
+            "fuel": [
+              83,
+              45
+            ],
+            "round1": [
+              0,
+              0
+            ],
+            "faults": [
+              0,
+              0
+            ],
+            "per_cell_fuel_regressions": 7
+          }
+        }
+      },
+      "draft_changes": 0,
+      "error_cells": 0,
+      "mean_paired_resource_changes": {
+        "production": 55.03125,
+        "fights": 53.05,
+        "camp_loss": -0.99375,
+        "conversion": 2.5
+      }
+    }
+  }
+}

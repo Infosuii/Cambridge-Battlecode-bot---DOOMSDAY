@@ -1,0 +1,8 @@
+# EXP-159 result — frozen legacy CPG development and selection completed
+
+MEASURED: unchanged candidate0a52fcc5d1a32f58faca6d22ac8991ec67ece6318c4d18825586874d6ee9f24d and referencev92/platform80/local5704d7ba were evaluated on the verified engine3 build96ce858f. All numbers derive from immutable native outputs.
+
+- [L1](ENGINE3_RETRY_L1.json): 2880 games /1440 paired cells,90 frozen dev maps,1104/2701 paired noise. Candidate1092versus1063, +2.014pp, map-cluster95%[-1.389,+5.556], native suspensions2versus933, R1zero versus96, zero faults/codes. One development cell increased. [Corrected C1-C7 audit](ENGINE3_RETRY_L1_CATEGORY_AUDIT.json) passes; worst categoryC2 -7.812pp.
+- [L2](ENGINE3_RETRY_L2.json): 3200 games /1600 paired cells,100 frozen selection maps,1907/4111 paired noise. Candidate896versus844, +3.250pp, map-cluster95%[-1.125,+7.938], native suspensions1versus594, R1zero both, zero faults/codes and zero individual-cell increases. Development-to-selection difference+1.236pp. [Corrected category audit](ENGINE3_RETRY_L2_CATEGORY_AUDIT.json) passes.
+
+Both original local filters pass, with no statistically established gain. The additional exact-live-source comparison [EXP-161](EXP-161-RESULT.md) vetoes promotion:207versus222/320 paired cells and -18.750pp against the v92 opponent. This veto stands despite the completed L2 filter and lower runtime suspensions. No holdout, ladder lock, ACK, upload, activation or match group from this chat. The zero-played-arm rival plans for this exact hash are archived. New work uses the exact live source and keeps its weights/runtime frozen.

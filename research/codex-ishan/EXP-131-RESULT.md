@@ -1,0 +1,5 @@
+# EXP-131 confirmed blocked dash path
+
+Heart preserved the exact R353 observation and basic attack with no native suspension. The R232 and R685 casts retained their original destinations and had zero suspensions. No faults, draft changes or new suspensions in the three standard-budget games. The separate 320 development pairs also passed, with six to zero at 100k and no per-game increases at 80k or 100k. The two clean releases matched `5acb76741028ed82a4cc23c938ed4cd46ceef9d2612204a30a7cf02d8641674d`. All-off reproduced v92. [Builds](CPG_HEART_CAST_PATH_BUILDS.json), [Heart fixture](CPG_HEART_CAST_PATH_FIXTURE.json), [development pairs](CPG_HEART_CAST_PATH_EXACT.json).
+
+The full pool again gave 100/172 versus 86/172, with candidate-only and baseline-only wins 47 and 33. Suspensions fell from 160 to 26, including round one from 28 to 12. There were no faults or codes. One previously clean game suspended, so L0 failed. L1, L2 and ladder testing did not start. [Pool screen](CPG-HEART-CAST-PATH_POOL_SAFETY.json).

@@ -1,0 +1,1022 @@
+{
+  "engine": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "off_matches_recorded_baseline": true,
+  "off": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423",
+  "rows": [
+    {
+      "case": {
+        "stage": "coldcontrol111",
+        "round": 70,
+        "actor": 3,
+        "type": 4,
+        "champion": "Issac",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "opponent": "public-khiri",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "traces": {
+          "base": {
+            "path": "artifacts/codex-p0/live111-late-turn-baseline/turn.json",
+            "sha256": "b8d4e64e3e7142e434e63718d2bbf7d7d1641a24275cfcda237acc6a8c09f870"
+          }
+        },
+        "patched": false
+      },
+      "diagnostic": "5bfc5ea465959498e96f60bafd251ee100f541b149c7032654755088704d26fc",
+      "directory": "artifacts/codex-p0/engine3-live109-runtime-target-coldreserve111r2/game-coldcontrol111",
+      "same_own_view": true,
+      "same_action_prefix": true,
+      "matched_view_and_prefix": true,
+      "same_native_actor_round": true,
+      "native_rounds": [
+        70
+      ],
+      "turn_sha256": "b8d4e64e3e7142e434e63718d2bbf7d7d1641a24275cfcda237acc6a8c09f870",
+      "samples": [
+        {
+          "mark": "main_begin",
+          "actual_round": 70,
+          "fuel": 99909,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "refresh",
+          "actual_round": 70,
+          "fuel": 97734,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "w_update",
+          "actual_round": 70,
+          "fuel": 87711,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "world",
+          "actual_round": 70,
+          "fuel": 87077,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "episode",
+          "actual_round": 70,
+          "fuel": 87010,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "sight",
+          "actual_round": 70,
+          "fuel": 86820,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "events",
+          "actual_round": 70,
+          "fuel": 86733,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "shop",
+          "actual_round": 70,
+          "fuel": 86594,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "support",
+          "actual_round": 70,
+          "fuel": 86352,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "wardrev",
+          "actual_round": 70,
+          "fuel": 82524,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "ambush",
+          "actual_round": 70,
+          "fuel": 82431,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "enemies",
+          "actual_round": 70,
+          "fuel": 82342,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "farm0",
+          "actual_round": 70,
+          "fuel": 81873,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "score0",
+          "actual_round": 70,
+          "fuel": 81614,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "farmsel",
+          "actual_round": 70,
+          "fuel": 50740,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "teacher_pick",
+          "actual_round": 70,
+          "fuel": 50674,
+          "a": 13,
+          "b": 13
+        },
+        {
+          "mark": "lazy_in",
+          "actual_round": 70,
+          "fuel": 50610,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy_gate",
+          "actual_round": 70,
+          "fuel": 50494,
+          "a": 2001,
+          "b": 18780
+        },
+        {
+          "mark": "cold_reserved",
+          "actual_round": 70,
+          "fuel": 50430,
+          "a": 20781,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 70,
+          "fuel": 49738,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 70,
+          "fuel": 49658,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 70,
+          "fuel": 48653,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 70,
+          "fuel": 48583,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 70,
+          "fuel": 48513,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat5",
+          "actual_round": 70,
+          "fuel": 48431,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat6",
+          "actual_round": 70,
+          "fuel": 34518,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 70,
+          "fuel": 34452,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy0",
+          "actual_round": 70,
+          "fuel": 34382,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy1",
+          "actual_round": 70,
+          "fuel": 15645,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy2",
+          "actual_round": 70,
+          "fuel": 8360,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy3",
+          "actual_round": 70,
+          "fuel": 4772,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy4",
+          "actual_round": 70,
+          "fuel": 4702,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy5",
+          "actual_round": 71,
+          "fuel": 97721,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy_pub",
+          "actual_round": 71,
+          "fuel": 96008,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "cold_completed",
+          "actual_round": 71,
+          "fuel": 95867,
+          "a": 1,
+          "b": 50545
+        },
+        {
+          "mark": "farmmove",
+          "actual_round": 71,
+          "fuel": 95142,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "fight_in",
+          "actual_round": 71,
+          "fuel": 95060,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "walk_in",
+          "actual_round": 71,
+          "fuel": 92849,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "follow_in",
+          "actual_round": 71,
+          "fuel": 84063,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "decide",
+          "actual_round": 71,
+          "fuel": 81286,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "tail",
+          "actual_round": 71,
+          "fuel": 81159,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "fields",
+          "actual_round": 71,
+          "fuel": 80978,
+          "a": 0,
+          "b": 66
+        },
+        {
+          "mark": "end_in",
+          "actual_round": 71,
+          "fuel": 80897,
+          "a": 2,
+          "b": 24
+        },
+        {
+          "mark": "x_begin",
+          "actual_round": 71,
+          "fuel": 80651,
+          "a": 0,
+          "b": 10241
+        },
+        {
+          "mark": "x_feats_begin",
+          "actual_round": 71,
+          "fuel": 80281,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 71,
+          "fuel": 80138,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 71,
+          "fuel": 80058,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 71,
+          "fuel": 79993,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 71,
+          "fuel": 79923,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 71,
+          "fuel": 79799,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 71,
+          "fuel": 79727,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_feats_end",
+          "actual_round": 71,
+          "fuel": 79652,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_block_begin",
+          "actual_round": 71,
+          "fuel": 79592,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_block_end",
+          "actual_round": 71,
+          "fuel": 78447,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_end",
+          "actual_round": 71,
+          "fuel": 78307,
+          "a": 0,
+          "b": 9921
+        },
+        {
+          "mark": "x_begin",
+          "actual_round": 71,
+          "fuel": 78183,
+          "a": 1,
+          "b": 10241
+        },
+        {
+          "mark": "x_feats_begin",
+          "actual_round": 71,
+          "fuel": 77949,
+          "a": 1,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 71,
+          "fuel": 77806,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 71,
+          "fuel": 77726,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 71,
+          "fuel": 77661,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 71,
+          "fuel": 77438,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 71,
+          "fuel": 77368,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 71,
+          "fuel": 77296,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_feats_end",
+          "actual_round": 71,
+          "fuel": 77221,
+          "a": 1,
+          "b": 0
+        },
+        {
+          "mark": "x_block_begin",
+          "actual_round": 71,
+          "fuel": 77161,
+          "a": 1,
+          "b": 0
+        },
+        {
+          "mark": "x_block_end",
+          "actual_round": 71,
+          "fuel": 76108,
+          "a": 1,
+          "b": 0
+        },
+        {
+          "mark": "x_end",
+          "actual_round": 71,
+          "fuel": 75968,
+          "a": 1,
+          "b": 9921
+        },
+        {
+          "mark": "x_begin",
+          "actual_round": 71,
+          "fuel": 75844,
+          "a": 2,
+          "b": 3415
+        },
+        {
+          "mark": "x_feats_begin",
+          "actual_round": 71,
+          "fuel": 75698,
+          "a": 2,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 71,
+          "fuel": 75555,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 71,
+          "fuel": 75222,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 71,
+          "fuel": 75157,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 71,
+          "fuel": 75087,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 71,
+          "fuel": 75017,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 71,
+          "fuel": 74945,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_feats_end",
+          "actual_round": 71,
+          "fuel": 74870,
+          "a": 2,
+          "b": 0
+        },
+        {
+          "mark": "x_block_begin",
+          "actual_round": 71,
+          "fuel": 74810,
+          "a": 2,
+          "b": 0
+        },
+        {
+          "mark": "x_block_end",
+          "actual_round": 71,
+          "fuel": 72273,
+          "a": 2,
+          "b": 0
+        },
+        {
+          "mark": "x_end",
+          "actual_round": 71,
+          "fuel": 72133,
+          "a": 2,
+          "b": 4023
+        },
+        {
+          "mark": "x_begin",
+          "actual_round": 71,
+          "fuel": 72009,
+          "a": 3,
+          "b": 8045
+        },
+        {
+          "mark": "x_feats_begin",
+          "actual_round": 71,
+          "fuel": 71831,
+          "a": 3,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 71,
+          "fuel": 71688,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 71,
+          "fuel": 71608,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 71,
+          "fuel": 71543,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 71,
+          "fuel": 71450,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 71,
+          "fuel": 71357,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 71,
+          "fuel": 69787,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "x_feats_end",
+          "actual_round": 71,
+          "fuel": 69712,
+          "a": 3,
+          "b": 0
+        },
+        {
+          "mark": "x_block_begin",
+          "actual_round": 71,
+          "fuel": 69652,
+          "a": 3,
+          "b": 0
+        },
+        {
+          "mark": "x_block_end",
+          "actual_round": 71,
+          "fuel": 65350,
+          "a": 3,
+          "b": 0
+        },
+        {
+          "mark": "x_end",
+          "actual_round": 71,
+          "fuel": 65210,
+          "a": 3,
+          "b": 7794
+        }
+      ],
+      "buffered_crossings": [
+        {
+          "from": "lazy4",
+          "to": "lazy5",
+          "start": {
+            "mark": "lazy4",
+            "actual_round": 70,
+            "fuel": 4702,
+            "a": 0,
+            "b": 0
+          },
+          "end": {
+            "mark": "lazy5",
+            "actual_round": 71,
+            "fuel": 97721,
+            "a": 0,
+            "b": 0
+          },
+          "charged_spend": 6981
+        }
+      ]
+    },
+    {
+      "case": {
+        "stage": "coldpatch111",
+        "round": 70,
+        "actor": 3,
+        "type": 4,
+        "champion": "Issac",
+        "map": "pf_pool_77038",
+        "side": "A",
+        "opponent": "public-khiri",
+        "map_hash": "1466884b07c7f3ef4b86d17853ef833c35489f759328eafa553a9658d82b090f",
+        "traces": {
+          "base": {
+            "path": "artifacts/codex-p0/live111-late-turn-baseline/turn.json",
+            "sha256": "b8d4e64e3e7142e434e63718d2bbf7d7d1641a24275cfcda237acc6a8c09f870"
+          }
+        },
+        "patched": true
+      },
+      "diagnostic": "ad27d8096aa5693e843956559de6c2b2a1084f30fdf41c4942e9f1d911653281",
+      "directory": "artifacts/codex-p0/engine3-live109-runtime-target-coldreserve111r2/game-coldpatch111",
+      "same_own_view": true,
+      "same_action_prefix": false,
+      "matched_view_and_prefix": false,
+      "same_native_actor_round": false,
+      "native_rounds": [],
+      "turn_sha256": "913aeed7e34dd0d2afa9a2a7d632433bdbe5ff1b13a644a1a925a6fbac644de4",
+      "samples": [
+        {
+          "mark": "main_begin",
+          "actual_round": 70,
+          "fuel": 99909,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "refresh",
+          "actual_round": 70,
+          "fuel": 97734,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "w_update",
+          "actual_round": 70,
+          "fuel": 87711,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "world",
+          "actual_round": 70,
+          "fuel": 87050,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "episode",
+          "actual_round": 70,
+          "fuel": 86983,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "sight",
+          "actual_round": 70,
+          "fuel": 86793,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "events",
+          "actual_round": 70,
+          "fuel": 86706,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "shop",
+          "actual_round": 70,
+          "fuel": 86567,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "support",
+          "actual_round": 70,
+          "fuel": 86325,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "wardrev",
+          "actual_round": 70,
+          "fuel": 82497,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "ambush",
+          "actual_round": 70,
+          "fuel": 82404,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "enemies",
+          "actual_round": 70,
+          "fuel": 82315,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "farm0",
+          "actual_round": 70,
+          "fuel": 81846,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "farmsel",
+          "actual_round": 70,
+          "fuel": 81541,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "teacher_pick",
+          "actual_round": 70,
+          "fuel": 81475,
+          "a": 13,
+          "b": 13
+        },
+        {
+          "mark": "lazy_in",
+          "actual_round": 70,
+          "fuel": 81411,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy_gate",
+          "actual_round": 70,
+          "fuel": 81295,
+          "a": 2001,
+          "b": 18780
+        },
+        {
+          "mark": "cold_reserved",
+          "actual_round": 70,
+          "fuel": 81231,
+          "a": 88780,
+          "b": 0
+        },
+        {
+          "mark": "feat0",
+          "actual_round": 70,
+          "fuel": 80539,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat1",
+          "actual_round": 70,
+          "fuel": 80459,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat2",
+          "actual_round": 70,
+          "fuel": 79454,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat3",
+          "actual_round": 70,
+          "fuel": 79384,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat4",
+          "actual_round": 70,
+          "fuel": 79314,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat5",
+          "actual_round": 70,
+          "fuel": 79232,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat6",
+          "actual_round": 70,
+          "fuel": 65319,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "feat7",
+          "actual_round": 70,
+          "fuel": 65253,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy0",
+          "actual_round": 70,
+          "fuel": 65183,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy1",
+          "actual_round": 70,
+          "fuel": 46446,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy2",
+          "actual_round": 70,
+          "fuel": 39161,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy3",
+          "actual_round": 70,
+          "fuel": 35573,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy4",
+          "actual_round": 70,
+          "fuel": 35503,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy5",
+          "actual_round": 70,
+          "fuel": 28504,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "lazy_pub",
+          "actual_round": 70,
+          "fuel": 26791,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "cold_completed",
+          "actual_round": 70,
+          "fuel": 26614,
+          "a": 1,
+          "b": 61408
+        },
+        {
+          "mark": "farmmove",
+          "actual_round": 70,
+          "fuel": 25889,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "fight_in",
+          "actual_round": 70,
+          "fuel": 25807,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "walk_in",
+          "actual_round": 70,
+          "fuel": 23596,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "follow_in",
+          "actual_round": 70,
+          "fuel": 14810,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "decide",
+          "actual_round": 70,
+          "fuel": 12033,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "tail",
+          "actual_round": 70,
+          "fuel": 11906,
+          "a": 0,
+          "b": 65
+        },
+        {
+          "mark": "fields",
+          "actual_round": 70,
+          "fuel": 11725,
+          "a": 0,
+          "b": 66
+        },
+        {
+          "mark": "end_in",
+          "actual_round": 70,
+          "fuel": 11644,
+          "a": 2,
+          "b": 24
+        }
+      ],
+      "buffered_crossings": []
+    }
+  ]
+}

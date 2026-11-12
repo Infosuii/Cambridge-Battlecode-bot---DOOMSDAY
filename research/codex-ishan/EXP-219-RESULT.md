@@ -1,0 +1,5 @@
+# EXP-219 result — The matched R70 overrun does not invoke route search
+
+MEASURED: LIVE109_RUNTIME_TARGET_ROUTECHOICE111.json is explicitly current111 evidence despite its historical helper prefix. Disabled build0896a189; diagnosticdae891e5. Original IssacR70 initial own view,pre-end actions and native actor/round all match. Formula search enters at81614fuel and finishes around50740; teacher13,new-NN group-1 before lazy scoring. No route_before/route_after mark occurs. Source bot.cpp6185 requires more than55000fuel for route expansion,so this fixture does not establish actual route-search cost or a route-selected camp error. Existing lazy top scoring still crossesR70→71.
+
+The route-depth switch also changes keep6to1 before the group-scoring loop (bot.cpp5817) and its pruning bound/candidate collection,even when no route expansion runs. EXP220's controlled interaction is therefore needed. A separate same-state scoped keep experiment can measure that computational/pruning effect without assuming that route search ran or transferring any prior cold-reservation qualification. No policy/source threshold changed by this diagnostic.

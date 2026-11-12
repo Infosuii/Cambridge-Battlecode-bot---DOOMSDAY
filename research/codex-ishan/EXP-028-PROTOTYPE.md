@@ -1,0 +1,5 @@
+# EXP-028 opportunity and frozen prototype
+
+The [opportunity run](OPENING_FINISH_PROBE.json) completed 64 frozen development games with zero faults. It found 12 distinct decisions in ten cells across eight maps. All ten cells chose another group. The fixture hash is 26ef1323486916a44740bf78a2646bac59ad39d74e067ee6c41d5a243f3c06d3. A ready, visible one-hit estimate can still fail the native legality or combat checks.
+
+Test the narrower release design as a charged prototype first. Apply the frozen opportunity conditions only after a positive farm score, outside low-fuel fallback and role packs. Hold the previous claim for this turn and let existing fight_camps handle safety, attacks and spell ordering with one required participant. Capture debug output only from the prototype, including the live camp handle, round, slot and direct SDK post-action health. Require an observed same-turn clear on at least two independent conformance maps and zero faults before building a release. A failing check ends the prototype. A passing check proceeds to two clean builds, switch-off identity and the original 172-cell L0 safety gate. L1 and L2 open in order only if eligible.

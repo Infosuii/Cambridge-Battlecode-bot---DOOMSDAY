@@ -1,0 +1,3 @@
+# EXP-105 independent fuel-margin stress
+
+The exact packed CPG binary recorded 61 suspensions at 80,000 fuel and six at 100,000 across 160 cases per arm, with zero faults or codes. At 80k, 56 events occurred on one map across both sides and four opponents, 48 at R1 and eight at R3. The remaining five were late across five cases. At 100k, all six were consecutive Vendetta events starting at R1077 on a single separate dense map. The original R1077 own view had 12 visible camps, no visible enemies and no recorded action before suspension. These events motivate a focused trace. [Native rows](CPG_BUDGET_MARGIN.json).

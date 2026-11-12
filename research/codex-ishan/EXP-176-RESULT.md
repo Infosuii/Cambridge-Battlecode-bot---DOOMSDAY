@@ -1,0 +1,7 @@
+# EXP-176 result — original mechanism repaired, broad safety and strength veto
+
+MEASURED: duplicate release776fa079ae17edd2cb9dc85774f888bd8b79444b1973e4ea085c37d87e1ef32b, off exactlyf3d919e9. [Original11801 mechanism](LIVE109_RESERVE_MECHANISM.json) has the same CassiR17 own view and original action prefix, removes that native suspension and records zero Cassi suspensions in the candidate game. This verifies the narrow cold-allocation mechanism on that fixture.
+
+[Fresh15101/17047 screen](ENGINE3_LIVE109_RESERVE_DEV.json),480 games/240pairs,12frozen dev maps/five opponents/both sides, exact frozen109 source:162versus166wins, -1.667pp, map-cluster95%[-8.750,+5.417]. Native suspensions648versus719, R1zero both, zero faults/codes,64per-cell increases. x3inv -10.417pp, large -20pp and C7 -12.5pp fail the strength subgroup criteria. Reject this source despite its successful example and lower total fuel-outs. No wider qualification, holdout or live test; no bundling with Varg.
+
+The deeper charged camp-detail probe [artifact](LIVE109_RUNTIME_TARGET_CAMPDETAIL.json) preserves the original Cassi input/actions/native crossing. Its geometry cache takes30126fuel, preparation8835, ordering8571 and feature rows15780, with the rows crossing the deadline. Single-fixture optimization does not establish a global fix. Current site bot changed externally to111; all these results remain explicitly frozen109 research, not current111 claims.

@@ -1,0 +1,3 @@
+# EXP-091 isolated field-order reserve
+
+Two release builds matched at `f6e49b17e83763ecf38ba0dea2cb52e7fc9d3a3991405be8ba5569a8fd55c615` and all-off reproduced v92. The 39 paired development cases fell from 62 to 42 total suspensions and from 15 to zero in round one. Two cells increased later. The replays did not yield a matched acting observation and original action for the restored R1 turns. Drafts matched throughout with zero faults and codes. This candidate failed the registered fixture and did not enter the pool gate. [Exact fixture](V92_FIELD_ORDER_EXACT.json), [builds](V92_FIELD_ORDER_BUILDS.json).

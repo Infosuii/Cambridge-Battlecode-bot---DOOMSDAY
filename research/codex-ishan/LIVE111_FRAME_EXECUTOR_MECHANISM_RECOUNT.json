@@ -1,0 +1,30 @@
+{
+  "pass": true,
+  "raw_sha256": "47af1605fe7d8edb438844ae97225a4ef1ac1e65d77265989f0579c105eccc4a",
+  "checks": [
+    {
+      "patched": false,
+      "native_sha256": "8e53371e9368e96f97f3c210d674aee8da7445c3a01018ab2cb2717f19705596",
+      "archive_sha256": "0e48a8802cbfa76719201fd0006b0589f23213a7cb2401221864cf591d5bf62d",
+      "stdout_sha256": "db02a193231d1c679bb5e6142d6c8d3ca20e75fdae1c2f732e50dce2781a95ef",
+      "initial_view_equal": true,
+      "old_prefix_actions": 0,
+      "actual_prefix_actions": 0,
+      "native_actor_rounds": [
+        70,
+        74
+      ]
+    },
+    {
+      "patched": true,
+      "native_sha256": "bcc4818ee82a6022d9526b55db409129665031fbf731a541974191fc1621bcb9",
+      "archive_sha256": "e4344b341425faf9b8900d1b9d15ccde363b3f897dca54214466e8fa38e3aa4e",
+      "stdout_sha256": "95670935ab87a0d65cc7a7c88e3c52ddd561c9e88728b3502245faed937ca194",
+      "initial_view_equal": true,
+      "old_prefix_actions": 0,
+      "actual_prefix_actions": 1,
+      "native_actor_rounds": []
+    }
+  ],
+  "limitation": "One scoped matched diagnostic only; generic helper whole-prefix false is expected because normal additional actions are required. No unmeasured teacher-identity claim."
+}

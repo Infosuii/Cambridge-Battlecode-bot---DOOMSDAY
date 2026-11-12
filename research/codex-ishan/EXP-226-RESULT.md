@@ -1,0 +1,5 @@
+# EXP-226 result — 43 startup frames fail the numerical prerequisite
+
+MEASURED: COHERENT_NN_FRAME_BROAD_PROOF.json records all360planned charged cases,zero unavailable/errors. There are43failures,all in the first-full-score arm:target equality0,both-ready0,input immutable1,stale freshness0. All18032nd-score frames and137first-score frames pass. Off0896a189;probe coldc66eeddf,steady8cb29f61. Eight physical champion types are represented. Preserve this failed prerequisite; it does not qualify a production executor.
+
+Source nnrec.cpp928 computes top only when nn_xdone==15. The generic Frame always advances top: it lacks the caller's model-block readiness contract. The first failed case is pf_pool_77003/sideA,Vendetta,capturedR5; later completionR9. Partial startup inputs must not become a ready prediction merely because the pure graph can be evaluated. EXP231 adds explicit readiness admission in a newV2class and new full proof,recording the actual mask/admission/original-ready/frame-ready for every case. Old frames/results/header remain read-only. No production gate,policy threshold or model changed.

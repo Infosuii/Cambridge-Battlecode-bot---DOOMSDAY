@@ -1,0 +1,5 @@
+# EXP-154 immediate retry cap
+
+Two clean release builds matched `0a52fcc5d1a32f58faca6d22ac8991ec67ece6318c4d18825586874d6ee9f24d`, and all-off matched v92. All targeted replay checks passed. The exact R637 observation, cast and ward were preserved and the three mixed-replay suspensions cleared with no new event. The subsequent observations changed. Cassi's two suspensions cleared and Issac retained its original R566 event with no new actor-round. The 320 paired development check passed, six to zero standard-budget suspensions and 61 to 61 at 80k fuel, with zero increases, faults, codes or draft mismatches.
+
+Official pool result 98/172 versus 86/172, b/c 47/35, 27 versus 160 native suspensions, 12 versus 28 on round one and zero faults or diagnostic codes. One previously clean game suspended. L0 failed and L1 did not start. Official-pool cell identities and outcomes stay outside diagnosis. [Builds](CPG_SAFE_TRIBUTE_WARD_RETRY_BUILDS.json), [development pairs](CPG_SAFE_TRIBUTE_WARD_RETRY_EXACT.json), [mixed fixture](CPG_SAFE_TRIBUTE_WARD_RETRY_MIXED.json), [official pool](CPG-SAFE-TRIBUTE-WARD-RETRY_POOL_SAFETY.json).

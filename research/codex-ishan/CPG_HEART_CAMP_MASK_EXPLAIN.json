@@ -1,0 +1,1217 @@
+{
+  "engine": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+  "reference": "bfff51bc64e878edfcc988dbe966087773de1bcbd5783de34c5f39f8ccaf3378",
+  "diagnostic": "6cd291988e3b204edb4273d108ceefda3b763ed66ae842387950d8a7229c7b6a",
+  "seed": 11173,
+  "n": 1,
+  "matched": 0,
+  "phases": [],
+  "cast_state": [],
+  "rejections": [],
+  "explanations": [
+    [
+      [
+        true,
+        "Destination is unreachable within movement range."
+      ]
+    ]
+  ],
+  "rows": [
+    {
+      "base": {
+        "arm": "mask",
+        "noise_seed": 11173,
+        "opponent": "public-khiri",
+        "map": "pool_604903",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "14857971244501749110",
+        "map_hash": "49367a9685d91e2171b24fc5a5081f611bd62cfb6a11586e1f14a8e52acf5d69",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "events": [
+          {
+            "owner": {
+              "id": 11,
+              "kind": "champion",
+              "name": "Heart of Ruin",
+              "team": "teamB"
+            },
+            "timestamp": {
+              "input": 7995,
+              "ordinal": 73959,
+              "phase": "champions",
+              "round": 353,
+              "substep": 0
+            }
+          }
+        ]
+      },
+      "diagnostic": {
+        "arm": "profile",
+        "noise_seed": 11173,
+        "opponent": "public-khiri",
+        "map": "pool_604903",
+        "side": "B",
+        "score": 1,
+        "engine_seed": "14857971244501749110",
+        "map_hash": "49367a9685d91e2171b24fc5a5081f611bd62cfb6a11586e1f14a8e52acf5d69",
+        "fuel_outs": 1,
+        "round1_fuel_outs": 0,
+        "faults": 0,
+        "diagnostic_codes": [],
+        "crossings": {},
+        "examples": {},
+        "moves": []
+      },
+      "same_draft": true,
+      "errors": false,
+      "events": [
+        {
+          "owner": {
+            "id": 11,
+            "kind": "champion",
+            "name": "Heart of Ruin",
+            "team": "teamB"
+          },
+          "timestamp": {
+            "input": 7994,
+            "ordinal": 73959,
+            "phase": "champions",
+            "round": 353,
+            "substep": 7
+          }
+        }
+      ],
+      "same_event": true,
+      "same_input": true,
+      "same_action_prefix": false,
+      "cast_phases": {
+        "camp_cast_before": [
+          353,
+          8985
+        ],
+        "strike_before": [
+          353,
+          8918
+        ],
+        "scan_start": [
+          353,
+          8598
+        ],
+        "scan_end": [
+          353,
+          3810
+        ],
+        "cast_attempt": [
+          353,
+          3734
+        ],
+        "strike_after": [
+          354,
+          99603
+        ],
+        "camp_cast_after": [
+          354,
+          99442
+        ]
+      },
+      "cast_state": [
+        [
+          0,
+          0
+        ]
+      ],
+      "rejections": [
+        [
+          32,
+          39,
+          30
+        ]
+      ],
+      "explanations": [
+        [
+          true,
+          "Destination is unreachable within movement range."
+        ]
+      ],
+      "base_turn": {
+        "round": 353,
+        "team": 1,
+        "actor": 11,
+        "observation": {
+          "actor": {
+            "id": 11,
+            "team": 1,
+            "type": 12,
+            "pos": {
+              "x": 41,
+              "y": 28
+            },
+            "hp": 1180,
+            "max_hp": 1400,
+            "gems": 28,
+            "gold": 40,
+            "cooldowns": [
+              2,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 10,
+              "pos": {
+                "x": 43,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 4,
+              "cooldowns": [
+                0,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 103,
+              "pos": {
+                "x": 40,
+                "y": 30
+              },
+              "hp": 120
+            },
+            {
+              "id": 105,
+              "pos": {
+                "x": 40,
+                "y": 29
+              },
+              "hp": 87.64285278320312
+            },
+            {
+              "id": 107,
+              "pos": {
+                "x": 40,
+                "y": 31
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 5,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 40,
+              "y": 29
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 41,
+              "y": 28
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      },
+      "diagnostic_turn": {
+        "round": 353,
+        "team": 1,
+        "actor": 11,
+        "observation": {
+          "actor": {
+            "id": 11,
+            "team": 1,
+            "type": 12,
+            "pos": {
+              "x": 41,
+              "y": 28
+            },
+            "hp": 1180,
+            "max_hp": 1400,
+            "gems": 28,
+            "gold": 40,
+            "cooldowns": [
+              2,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 10,
+              "pos": {
+                "x": 43,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 4,
+              "cooldowns": [
+                0,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 103,
+              "pos": {
+                "x": 40,
+                "y": 30
+              },
+              "hp": 120
+            },
+            {
+              "id": 105,
+              "pos": {
+                "x": 40,
+                "y": 29
+              },
+              "hp": 87.64285278320312
+            },
+            {
+              "id": 107,
+              "pos": {
+                "x": 40,
+                "y": 31
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 26,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 41,
+              "y": 28
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    }
+  ],
+  "controls": [
+    {
+      "round": 353,
+      "actor": 11,
+      "side": "B",
+      "same_input": true,
+      "same_action_prefix": true,
+      "base_actions": [],
+      "candidate_actions": [
+        {
+          "kind": 5,
+          "from": {
+            "x": 41,
+            "y": 28
+          },
+          "to": {
+            "x": 40,
+            "y": 29
+          },
+          "substep": 0
+        }
+      ],
+      "events": [
+        {
+          "owner": {
+            "id": 11,
+            "kind": "champion",
+            "name": "Heart of Ruin",
+            "team": "teamB"
+          },
+          "timestamp": {
+            "input": 7995,
+            "ordinal": 73959,
+            "phase": "champions",
+            "round": 353,
+            "substep": 0
+          }
+        }
+      ],
+      "base_turn": {
+        "round": 353,
+        "team": 1,
+        "actor": 11,
+        "observation": {
+          "actor": {
+            "id": 11,
+            "team": 1,
+            "type": 12,
+            "pos": {
+              "x": 41,
+              "y": 28
+            },
+            "hp": 1180,
+            "max_hp": 1400,
+            "gems": 28,
+            "gold": 40,
+            "cooldowns": [
+              2,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 10,
+              "pos": {
+                "x": 43,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 4,
+              "cooldowns": [
+                0,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 103,
+              "pos": {
+                "x": 40,
+                "y": 30
+              },
+              "hp": 120
+            },
+            {
+              "id": 105,
+              "pos": {
+                "x": 40,
+                "y": 29
+              },
+              "hp": 87.64285278320312
+            },
+            {
+              "id": 107,
+              "pos": {
+                "x": 40,
+                "y": 31
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 26,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 41,
+              "y": 28
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      },
+      "candidate_turn": {
+        "round": 353,
+        "team": 1,
+        "actor": 11,
+        "observation": {
+          "actor": {
+            "id": 11,
+            "team": 1,
+            "type": 12,
+            "pos": {
+              "x": 41,
+              "y": 28
+            },
+            "hp": 1180,
+            "max_hp": 1400,
+            "gems": 28,
+            "gold": 40,
+            "cooldowns": [
+              2,
+              0
+            ]
+          },
+          "visible_enemies": [
+            {
+              "id": 2,
+              "team": 0,
+              "type": 10,
+              "pos": {
+                "x": 43,
+                "y": 25
+              },
+              "hp": 1000,
+              "max_hp": 1000,
+              "gems": 4,
+              "cooldowns": [
+                0,
+                0
+              ]
+            }
+          ],
+          "visible_camps": [
+            {
+              "id": 103,
+              "pos": {
+                "x": 40,
+                "y": 30
+              },
+              "hp": 120
+            },
+            {
+              "id": 105,
+              "pos": {
+                "x": 40,
+                "y": 29
+              },
+              "hp": 87.64285278320312
+            },
+            {
+              "id": 107,
+              "pos": {
+                "x": 40,
+                "y": 31
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 5,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 40,
+              "y": 29
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 41,
+              "y": 28
+            },
+            "to": {
+              "x": 41,
+              "y": 28
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    },
+    {
+      "round": 685,
+      "actor": 5,
+      "side": "A",
+      "same_input": true,
+      "same_action_prefix": true,
+      "base_actions": [
+        {
+          "kind": 6,
+          "from": {
+            "x": 3,
+            "y": 27
+          },
+          "to": {
+            "x": 1,
+            "y": 27
+          },
+          "substep": 0
+        }
+      ],
+      "candidate_actions": [
+        {
+          "kind": 6,
+          "from": {
+            "x": 3,
+            "y": 27
+          },
+          "to": {
+            "x": 1,
+            "y": 27
+          },
+          "substep": 0
+        },
+        {
+          "kind": 8,
+          "from": {
+            "x": 1,
+            "y": 27
+          },
+          "to": {
+            "x": 1,
+            "y": 27
+          },
+          "substep": 0
+        }
+      ],
+      "events": [],
+      "base_turn": {
+        "round": 685,
+        "team": 0,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 0,
+            "type": 12,
+            "pos": {
+              "x": 3,
+              "y": 27
+            },
+            "hp": 2000,
+            "max_hp": 2000,
+            "gems": 0,
+            "gold": 55,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [],
+          "visible_camps": [
+            {
+              "id": 13,
+              "pos": {
+                "x": 1,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 15,
+              "pos": {
+                "x": 2,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 17,
+              "pos": {
+                "x": 3,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 19,
+              "pos": {
+                "x": 2,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 21,
+              "pos": {
+                "x": 0,
+                "y": 28
+              },
+              "hp": 120
+            },
+            {
+              "id": 62,
+              "pos": {
+                "x": 1,
+                "y": 35
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 3,
+              "y": 27
+            },
+            "to": {
+              "x": 1,
+              "y": 27
+            },
+            "substep": 0
+          },
+          {
+            "kind": 26,
+            "from": {
+              "x": 1,
+              "y": 27
+            },
+            "to": {
+              "x": 1,
+              "y": 27
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      },
+      "candidate_turn": {
+        "round": 685,
+        "team": 0,
+        "actor": 5,
+        "observation": {
+          "actor": {
+            "id": 5,
+            "team": 0,
+            "type": 12,
+            "pos": {
+              "x": 3,
+              "y": 27
+            },
+            "hp": 2000,
+            "max_hp": 2000,
+            "gems": 0,
+            "gold": 55,
+            "cooldowns": [
+              0,
+              0
+            ]
+          },
+          "visible_enemies": [],
+          "visible_camps": [
+            {
+              "id": 13,
+              "pos": {
+                "x": 1,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 15,
+              "pos": {
+                "x": 2,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 17,
+              "pos": {
+                "x": 3,
+                "y": 28
+              },
+              "hp": 2400
+            },
+            {
+              "id": 19,
+              "pos": {
+                "x": 2,
+                "y": 27
+              },
+              "hp": 120
+            },
+            {
+              "id": 21,
+              "pos": {
+                "x": 0,
+                "y": 28
+              },
+              "hp": 120
+            },
+            {
+              "id": 62,
+              "pos": {
+                "x": 1,
+                "y": 35
+              },
+              "hp": 120
+            }
+          ]
+        },
+        "executed_actions": [
+          {
+            "kind": 6,
+            "from": {
+              "x": 3,
+              "y": 27
+            },
+            "to": {
+              "x": 1,
+              "y": 27
+            },
+            "substep": 0
+          },
+          {
+            "kind": 8,
+            "from": {
+              "x": 1,
+              "y": 27
+            },
+            "to": {
+              "x": 1,
+              "y": 27
+            },
+            "substep": 0
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 1
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 2
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 3
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 4
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 5
+          },
+          {
+            "kind": 3,
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            },
+            "substep": 6
+          }
+        ]
+      }
+    }
+  ]
+}

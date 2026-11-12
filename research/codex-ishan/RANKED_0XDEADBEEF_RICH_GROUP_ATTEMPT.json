@@ -1,0 +1,23 @@
+{
+  "pass": false,
+  "planned_cases": 3,
+  "completed_case_results": 0,
+  "plan_sha256": "d0ea16fdf98acabfe561f4fb6cb2e59215681fc036ee05bf07c10b76561a5fa6",
+  "first_mismatch": {
+    "match": "01a1bc5a-5e1b-77e9-8a21-d8877cd47e04",
+    "round": 870,
+    "group": 2,
+    "handle": 4,
+    "type": 1,
+    "runtime_spawn": [
+      39,
+      15
+    ],
+    "first_phase_position": [
+      -1,
+      -1
+    ],
+    "hp": 0
+  },
+  "reason": "The trace required static spawn coordinates even for dead camps represented by the public off-map sentinel. Initial runtime metadata and earlier reward census did not use this assumption."
+}

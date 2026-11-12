@@ -1,0 +1,206 @@
+{
+  "engine": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "off_matches_recorded_baseline": true,
+  "off": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423",
+  "rows": [
+    {
+      "case": {
+        "stage": "first111",
+        "round": 1,
+        "actor": 0,
+        "type": 2,
+        "champion": "Vendetta",
+        "map": "pf_pool_77041",
+        "side": "A",
+        "opponent": "public-khiri",
+        "map_hash": "97db5257a13bf2cffb0ef134f1f218f55e188af8bb22ad854d018a9cb2fada21",
+        "traces": {
+          "base": {
+            "path": "artifacts/codex-p0/live111-first-turn-baseline/turn.json",
+            "sha256": "9ff9991378a908456e147c86c43559f88579264399e5c3543a93856379cf6b89"
+          }
+        }
+      },
+      "diagnostic": "72b3dd34cddfc4ab58c04717e37f29440f3319cd6eea4d6e401516c689a3b45c",
+      "directory": "artifacts/codex-p0/engine3-live109-runtime-target-first111/game-first111",
+      "same_own_view": true,
+      "same_action_prefix": true,
+      "matched_view_and_prefix": true,
+      "same_native_actor_round": true,
+      "native_rounds": [
+        1
+      ],
+      "turn_sha256": "9ff9991378a908456e147c86c43559f88579264399e5c3543a93856379cf6b89",
+      "samples": [
+        {
+          "mark": "main_play_begin",
+          "actual_round": 1,
+          "fuel": 182363,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "init",
+          "actual_round": 1,
+          "fuel": 57308,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "refresh",
+          "actual_round": 1,
+          "fuel": 50475,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "w_update",
+          "actual_round": 1,
+          "fuel": 27042,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "world",
+          "actual_round": 1,
+          "fuel": 20621,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "episode",
+          "actual_round": 1,
+          "fuel": 20560,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "sight",
+          "actual_round": 1,
+          "fuel": 20460,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "events",
+          "actual_round": 1,
+          "fuel": 20379,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "shop",
+          "actual_round": 1,
+          "fuel": 19720,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "support",
+          "actual_round": 1,
+          "fuel": 19439,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "wardrev",
+          "actual_round": 1,
+          "fuel": 13540,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "ambush",
+          "actual_round": 1,
+          "fuel": 13460,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "enemies",
+          "actual_round": 1,
+          "fuel": 13377,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "farm0",
+          "actual_round": 1,
+          "fuel": 12652,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "decide",
+          "actual_round": 1,
+          "fuel": 11807,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "tail",
+          "actual_round": 1,
+          "fuel": 11686,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "field",
+          "actual_round": 2,
+          "fuel": 71964,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "field",
+          "actual_round": 2,
+          "fuel": 52074,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "fields",
+          "actual_round": 2,
+          "fuel": 51957,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "main_play_end",
+          "actual_round": 2,
+          "fuel": 51893,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "mark": "end_in",
+          "actual_round": 2,
+          "fuel": 51816,
+          "a": 0,
+          "b": 40
+        }
+      ],
+      "buffered_crossings": [
+        {
+          "from": "tail",
+          "to": "field",
+          "start": {
+            "mark": "tail",
+            "actual_round": 1,
+            "fuel": 11686,
+            "a": 0,
+            "b": 0
+          },
+          "end": {
+            "mark": "field",
+            "actual_round": 2,
+            "fuel": 71964,
+            "a": 0,
+            "b": 0
+          },
+          "charged_spend": 39722
+        }
+      ]
+    }
+  ]
+}

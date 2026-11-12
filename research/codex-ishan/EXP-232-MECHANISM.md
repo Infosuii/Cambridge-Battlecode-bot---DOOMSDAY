@@ -1,0 +1,7 @@
+# EXP-232 mechanism — charged progress passes one matched case
+
+MEASURED: LIVE111_FRAME_EXECUTOR_MECHANISM.json and its independent RECOUNT reopen the native summaries, complete replay output and own-view turns. Original current111 Issac actor3/R70, pf_pool_77038 versus public-khiri: unchanged initial view, control reproduces native exhaustionR70 (and74); proposal has no actor exhaustion in the captured diagnostic. The original pre-end action prefix is empty; the proposal executes one normal action inR70. Thus prefix preservation is a limited, explicit check, not identity of a rich action sequence.
+
+The immutable capturedR70 frame executes pure stages0,1,2 inR70 and3,4 inR71, then publishesR71 at age1 within unchangedTTL2. Normal gameplay occurs between stages. Final input-hash check matches; no faults/codes. Instrumented same-stage spans are18808/7369/3664/7067/546fuel; marks/hash add overhead. The original remains exhausted. No newly measured cached-teacher identity is claimed. Generic whole-prefix equality is false because the proposal's extra action is required by the frozen progress criterion.
+
+This is one scoped diagnostic, not global safety, policy equivalence, win strength or ladder evidence. The clean global release remains95fc1ce7, all-off0896a189. Proceed only to the preregistered fresh four-arm60-case native filter, joint contender fixed before results. Fresh control/cache/executor/joint games, unchanged ordinary100k and no score-noise strength claim. No upload/activation/duel.

@@ -1,0 +1,5 @@
+# EXP-161 current-live comparison veto
+
+The frozen CPG runtime candidate scored 207/320 versus exact live v109's 222/320 across five opponents, two fresh paired seeds and the 16-map stress fixture. Delta -4.688pp, map-cluster95% interval [-12.812,+3.750]. Against the v92 opponent it scored 32/64 versus v109's 44/64, delta -18.750pp and interval [-35.938,-1.562]. This fails the preregistered subgroup veto. Against live109 as the opponent it scored 24/64 versus the noisy live reference's 28/64, with a wide interval. Zero faults/codes. Native suspensions were zero versus 3,105. [Full paired comparison](ENGINE3_LIVE109_CONTROL.json).
+
+The candidate is ineligible for promotion under this supplemental comparison. Its lower suspension count does not establish better strength. Its already-running selection stage is retained as a frozen benchmark. The prepared rival plans and source bundle have zero played arms and are archived for this exact hash. No lock was requested and no ladder group was queued.

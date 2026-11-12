@@ -1,0 +1,3742 @@
+{
+  "scope": "Outcome-selected descriptive cohort; group-correlated, inferred source identity. Components are accounting, not causal interventions. Camp gems per clear also includes timing, sharing, reward mix and capture attribution.",
+  "team_tool_reference": "0025c27e:tools/rl_env_1104/strategy/resource_breakdown.py",
+  "split_sha256": "c5d69b7729e4bf0fe7c1b976d72ee1a4eab8b24fb43bd11670287bce20d2d19f",
+  "independent_terminal_and_phase_checks_pass": true,
+  "reports": {
+    "discovery": {
+      "n": 10,
+      "groups": 4,
+      "mean_banked_margin": -449.5,
+      "mean_components": {
+        "production": -251.6,
+        "fights": -94.0,
+        "camp_loss": -6.5,
+        "conversion": -97.4
+      },
+      "most_negative_unique": {
+        "conversion": 2,
+        "production": 6,
+        "fights": 2
+      },
+      "most_negative_ties": 0,
+      "nonnegative_banked_margin": 0,
+      "held_covers_banked_deficit": 0,
+      "mean_ours_rival": {
+        "camp": [
+          758.4,
+          1010.0
+        ],
+        "fight_in": [
+          60.3,
+          107.3
+        ],
+        "fight_out": [
+          107.3,
+          60.3
+        ],
+        "camp_loss": [
+          9.2,
+          2.7
+        ],
+        "banked": [
+          576.9,
+          1026.4
+        ],
+        "clears": [
+          41.5,
+          49.1
+        ],
+        "held": [
+          125.3,
+          27.9
+        ]
+      },
+      "median_gems_per_clear": [
+        21.085744680851064,
+        23.495192307692307
+      ],
+      "per_opponent": {
+        "SilverSamurai": {
+          "n": 1,
+          "groups": 1,
+          "mean_banked_margin": -323.0,
+          "mean_components": {
+            "production": -42.0,
+            "fights": -118.0,
+            "camp_loss": 0.0,
+            "conversion": -163.0
+          },
+          "most_negative_unique": {
+            "conversion": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              978.0,
+              1020.0
+            ],
+            "fight_in": [
+              20.0,
+              79.0
+            ],
+            "fight_out": [
+              79.0,
+              20.0
+            ],
+            "camp_loss": [
+              0.0,
+              0.0
+            ],
+            "banked": [
+              748.0,
+              1071.0
+            ],
+            "clears": [
+              33.0,
+              15.0
+            ],
+            "held": [
+              171.0,
+              8.0
+            ]
+          },
+          "median_gems_per_clear": [
+            29.636363636363637,
+            68.0
+          ]
+        },
+        "bbas": {
+          "n": 5,
+          "groups": 1,
+          "mean_banked_margin": -457.0,
+          "mean_components": {
+            "production": -356.8,
+            "fights": -5.6,
+            "camp_loss": -15.4,
+            "conversion": -79.2
+          },
+          "most_negative_unique": {
+            "production": 4,
+            "conversion": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              709.6,
+              1066.4
+            ],
+            "fight_in": [
+              47.2,
+              50.0
+            ],
+            "fight_out": [
+              50.0,
+              47.2
+            ],
+            "camp_loss": [
+              15.4,
+              0.0
+            ],
+            "banked": [
+              573.4,
+              1030.4
+            ],
+            "clears": [
+              50.0,
+              61.0
+            ],
+            "held": [
+              118.0,
+              38.8
+            ]
+          },
+          "median_gems_per_clear": [
+            17.136363636363637,
+            18.53125
+          ]
+        },
+        "bentheboss": {
+          "n": 2,
+          "groups": 1,
+          "mean_banked_margin": -322.5,
+          "mean_components": {
+            "production": -320.5,
+            "fights": 19.0,
+            "camp_loss": 6.0,
+            "conversion": -27.0
+          },
+          "most_negative_unique": {
+            "production": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              733.0,
+              1053.5
+            ],
+            "fight_in": [
+              151.0,
+              141.5
+            ],
+            "fight_out": [
+              141.5,
+              151.0
+            ],
+            "camp_loss": [
+              7.5,
+              13.5
+            ],
+            "banked": [
+              688.5,
+              1011.0
+            ],
+            "clears": [
+              33.0,
+              55.5
+            ],
+            "held": [
+              46.5,
+              19.5
+            ]
+          },
+          "median_gems_per_clear": [
+            24.591346153846153,
+            22.928797468354432
+          ]
+        },
+        "dromedaries": {
+          "n": 2,
+          "groups": 1,
+          "mean_banked_margin": -621.0,
+          "mean_components": {
+            "production": -24.5,
+            "fights": -416.0,
+            "camp_loss": 0.0,
+            "conversion": -180.5
+          },
+          "most_negative_unique": {
+            "fights": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              796.0,
+              820.5
+            ],
+            "fight_in": [
+              22.5,
+              230.5
+            ],
+            "fight_out": [
+              230.5,
+              22.5
+            ],
+            "camp_loss": [
+              0,
+              0.0
+            ],
+            "banked": [
+              388.5,
+              1009.5
+            ],
+            "clears": [
+              33.0,
+              30.0
+            ],
+            "held": [
+              199.5,
+              19.0
+            ]
+          },
+          "median_gems_per_clear": [
+            24.296774193548387,
+            29.09340659340659
+          ]
+        }
+      },
+      "phases": {
+        "150": {
+          "n": 10,
+          "groups": 4,
+          "mean_banked_margin": -97.5,
+          "mean_components": {
+            "production": -38.9,
+            "fights": -41.0,
+            "camp_loss": -1.1,
+            "conversion": -16.5
+          },
+          "most_negative_unique": {
+            "fights": 3,
+            "production": 4,
+            "conversion": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 2,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              89.9,
+              128.8
+            ],
+            "fight_in": [
+              0.0,
+              20.5
+            ],
+            "fight_out": [
+              20.5,
+              0.0
+            ],
+            "camp_loss": [
+              1.1,
+              0.0
+            ],
+            "banked": [
+              14.6,
+              112.1
+            ],
+            "clears": [
+              8.4,
+              6.3
+            ],
+            "held": [
+              53.7,
+              37.2
+            ]
+          },
+          "median_gems_per_clear": [
+            11.05,
+            18.5625
+          ]
+        },
+        "300": {
+          "n": 10,
+          "groups": 4,
+          "mean_banked_margin": -166.6,
+          "mean_components": {
+            "production": -72.7,
+            "fights": -50.8,
+            "camp_loss": -6.9,
+            "conversion": -36.2
+          },
+          "most_negative_unique": {
+            "fights": 3,
+            "production": 4,
+            "conversion": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 1,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              196.0,
+              268.7
+            ],
+            "fight_in": [
+              1.0,
+              26.4
+            ],
+            "fight_out": [
+              26.4,
+              1.0
+            ],
+            "camp_loss": [
+              6.9,
+              0.0
+            ],
+            "banked": [
+              80.5,
+              247.1
+            ],
+            "clears": [
+              15.4,
+              13.2
+            ],
+            "held": [
+              83.2,
+              47.0
+            ]
+          },
+          "median_gems_per_clear": [
+            12.240384615384615,
+            18.720588235294116
+          ]
+        },
+        "800": {
+          "n": 7,
+          "groups": 4,
+          "mean_banked_margin": -197.42857142857142,
+          "mean_components": {
+            "production": -149.28571428571428,
+            "fights": -64.0,
+            "camp_loss": -1.0,
+            "conversion": 16.857142857142858
+          },
+          "most_negative_unique": {
+            "fights": 2,
+            "production": 2,
+            "conversion": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 2,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              445.42857142857144,
+              594.7142857142857
+            ],
+            "fight_in": [
+              20.571428571428573,
+              52.57142857142857
+            ],
+            "fight_out": [
+              52.57142857142857,
+              20.571428571428573
+            ],
+            "camp_loss": [
+              4.857142857142857,
+              3.857142857142857
+            ],
+            "banked": [
+              348.7142857142857,
+              546.1428571428571
+            ],
+            "clears": [
+              33.57142857142857,
+              38.57142857142857
+            ],
+            "held": [
+              59.857142857142854,
+              76.71428571428571
+            ]
+          },
+          "median_gems_per_clear": [
+            13.576923076923077,
+            12.466666666666667
+          ]
+        }
+      }
+    },
+    "control": {
+      "n": 8,
+      "groups": 3,
+      "mean_banked_margin": 639.625,
+      "mean_components": {
+        "production": 660.625,
+        "fights": 2.25,
+        "camp_loss": 33.75,
+        "conversion": -57.0
+      },
+      "most_negative_unique": {},
+      "most_negative_ties": 0,
+      "nonnegative_banked_margin": 8,
+      "held_covers_banked_deficit": 0,
+      "mean_ours_rival": {
+        "camp": [
+          1105.625,
+          445.0
+        ],
+        "fight_in": [
+          152.25,
+          151.125
+        ],
+        "fight_out": [
+          151.125,
+          152.25
+        ],
+        "camp_loss": [
+          0.5,
+          34.25
+        ],
+        "banked": [
+          945.75,
+          306.125
+        ],
+        "clears": [
+          69.625,
+          38.875
+        ],
+        "held": [
+          160.5,
+          103.5
+        ]
+      },
+      "median_gems_per_clear": [
+        17.778409090909093,
+        10.875
+      ],
+      "per_opponent": {
+        "SilverSamurai": {
+          "n": 4,
+          "groups": 1,
+          "mean_banked_margin": 783.5,
+          "mean_components": {
+            "production": 642.0,
+            "fights": -78.5,
+            "camp_loss": 38.25,
+            "conversion": 181.75
+          },
+          "most_negative_unique": {},
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 4,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              931.25,
+              289.25
+            ],
+            "fight_in": [
+              1.0,
+              40.25
+            ],
+            "fight_out": [
+              40.25,
+              1.0
+            ],
+            "camp_loss": [
+              0.0,
+              38.25
+            ],
+            "banked": [
+              878.5,
+              95.0
+            ],
+            "clears": [
+              83.75,
+              39.5
+            ],
+            "held": [
+              13.5,
+              195.25
+            ]
+          },
+          "median_gems_per_clear": [
+            11.173148758514612,
+            7.0625
+          ]
+        },
+        "bentheboss": {
+          "n": 1,
+          "groups": 1,
+          "mean_banked_margin": 847.0,
+          "mean_components": {
+            "production": 629.0,
+            "fights": 268.0,
+            "camp_loss": 0,
+            "conversion": -50.0
+          },
+          "most_negative_unique": {},
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 1,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              921.0,
+              292.0
+            ],
+            "fight_in": [
+              155.0,
+              21.0
+            ],
+            "fight_out": [
+              21.0,
+              155.0
+            ],
+            "camp_loss": [
+              0,
+              0
+            ],
+            "banked": [
+              1005.0,
+              158.0
+            ],
+            "clears": [
+              44.0,
+              57.0
+            ],
+            "held": [
+              50.0,
+              0.0
+            ]
+          },
+          "median_gems_per_clear": [
+            20.931818181818183,
+            5.12280701754386
+          ]
+        },
+        "dromedaries": {
+          "n": 3,
+          "groups": 1,
+          "mean_banked_margin": 378.6666666666667,
+          "mean_components": {
+            "production": 696.0,
+            "fights": 21.333333333333332,
+            "camp_loss": 39.0,
+            "conversion": -377.6666666666667
+          },
+          "most_negative_unique": {},
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 3,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              1399.6666666666667,
+              703.6666666666666
+            ],
+            "fight_in": [
+              353.0,
+              342.3333333333333
+            ],
+            "fight_out": [
+              342.3333333333333,
+              353.0
+            ],
+            "camp_loss": [
+              1.3333333333333333,
+              40.333333333333336
+            ],
+            "banked": [
+              1015.6666666666666,
+              637.0
+            ],
+            "clears": [
+              59.333333333333336,
+              32.0
+            ],
+            "held": [
+              393.3333333333333,
+              15.666666666666666
+            ]
+          },
+          "median_gems_per_clear": [
+            27.682539682539684,
+            22.566666666666666
+          ]
+        }
+      },
+      "phases": {
+        "150": {
+          "n": 8,
+          "groups": 3,
+          "mean_banked_margin": -11.0,
+          "mean_components": {
+            "production": -8.625,
+            "fights": 0.0,
+            "camp_loss": 0.0,
+            "conversion": -2.375
+          },
+          "most_negative_unique": {
+            "production": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 7,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              31.625,
+              40.25
+            ],
+            "fight_in": [
+              0.875,
+              0.875
+            ],
+            "fight_out": [
+              0.875,
+              0.875
+            ],
+            "camp_loss": [
+              0.0,
+              0.0
+            ],
+            "banked": [
+              4.75,
+              15.75
+            ],
+            "clears": [
+              6.875,
+              4.75
+            ],
+            "held": [
+              26.875,
+              24.5
+            ]
+          },
+          "median_gems_per_clear": [
+            5.375,
+            9.916666666666668
+          ]
+        },
+        "300": {
+          "n": 8,
+          "groups": 3,
+          "mean_banked_margin": 12.75,
+          "mean_components": {
+            "production": 21.5,
+            "fights": -1.0,
+            "camp_loss": 5.875,
+            "conversion": -13.625
+          },
+          "most_negative_unique": {
+            "conversion": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 6,
+          "held_covers_banked_deficit": 2,
+          "mean_ours_rival": {
+            "camp": [
+              97.375,
+              75.875
+            ],
+            "fight_in": [
+              0.875,
+              1.375
+            ],
+            "fight_out": [
+              1.375,
+              0.875
+            ],
+            "camp_loss": [
+              0.0,
+              5.875
+            ],
+            "banked": [
+              47.375,
+              34.625
+            ],
+            "clears": [
+              14.5,
+              9.5
+            ],
+            "held": [
+              49.5,
+              35.875
+            ]
+          },
+          "median_gems_per_clear": [
+            7.152777777777778,
+            9.05
+          ]
+        },
+        "800": {
+          "n": 8,
+          "groups": 3,
+          "mean_banked_margin": 210.25,
+          "mean_components": {
+            "production": 195.875,
+            "fights": -15.5,
+            "camp_loss": 30.625,
+            "conversion": -0.75
+          },
+          "most_negative_unique": {
+            "conversion": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 7,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              445.25,
+              249.375
+            ],
+            "fight_in": [
+              26.375,
+              34.125
+            ],
+            "fight_out": [
+              34.125,
+              26.375
+            ],
+            "camp_loss": [
+              0.5,
+              31.125
+            ],
+            "banked": [
+              355.125,
+              144.875
+            ],
+            "clears": [
+              40.75,
+              23.625
+            ],
+            "held": [
+              81.875,
+              81.125
+            ]
+          },
+          "median_gems_per_clear": [
+            14.292222222222222,
+            11.286458333333332
+          ]
+        }
+      }
+    },
+    "confirm": {
+      "n": 2,
+      "groups": 1,
+      "mean_banked_margin": -426.5,
+      "mean_components": {
+        "production": -340.5,
+        "fights": -89.0,
+        "camp_loss": 0,
+        "conversion": 3.0
+      },
+      "most_negative_unique": {
+        "production": 2
+      },
+      "most_negative_ties": 0,
+      "nonnegative_banked_margin": 0,
+      "held_covers_banked_deficit": 0,
+      "mean_ours_rival": {
+        "camp": [
+          659.5,
+          1000.0
+        ],
+        "fight_in": [
+          38.5,
+          83.0
+        ],
+        "fight_out": [
+          83.0,
+          38.5
+        ],
+        "camp_loss": [
+          0,
+          0
+        ],
+        "banked": [
+          592.5,
+          1019.0
+        ],
+        "clears": [
+          38.0,
+          56.5
+        ],
+        "held": [
+          22.5,
+          25.5
+        ]
+      },
+      "median_gems_per_clear": [
+        17.645172656800565,
+        17.715360501567396
+      ],
+      "per_opponent": {
+        "bentheboss": {
+          "n": 2,
+          "groups": 1,
+          "mean_banked_margin": -426.5,
+          "mean_components": {
+            "production": -340.5,
+            "fights": -89.0,
+            "camp_loss": 0,
+            "conversion": 3.0
+          },
+          "most_negative_unique": {
+            "production": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              659.5,
+              1000.0
+            ],
+            "fight_in": [
+              38.5,
+              83.0
+            ],
+            "fight_out": [
+              83.0,
+              38.5
+            ],
+            "camp_loss": [
+              0,
+              0
+            ],
+            "banked": [
+              592.5,
+              1019.0
+            ],
+            "clears": [
+              38.0,
+              56.5
+            ],
+            "held": [
+              22.5,
+              25.5
+            ]
+          },
+          "median_gems_per_clear": [
+            17.645172656800565,
+            17.715360501567396
+          ]
+        }
+      },
+      "phases": {
+        "150": {
+          "n": 2,
+          "groups": 1,
+          "mean_banked_margin": -47.5,
+          "mean_components": {
+            "production": -50.5,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 3.0
+          },
+          "most_negative_unique": {
+            "conversion": 1,
+            "production": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              62.5,
+              113.0
+            ],
+            "fight_in": [
+              0,
+              0.0
+            ],
+            "fight_out": [
+              0.0,
+              0
+            ],
+            "camp_loss": [
+              0,
+              0
+            ],
+            "banked": [
+              28.5,
+              76.0
+            ],
+            "clears": [
+              6.5,
+              9.5
+            ],
+            "held": [
+              34.0,
+              37.0
+            ]
+          },
+          "median_gems_per_clear": [
+            9.95,
+            12.556818181818182
+          ]
+        },
+        "300": {
+          "n": 2,
+          "groups": 1,
+          "mean_banked_margin": -116.0,
+          "mean_components": {
+            "production": -107.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": -9.0
+          },
+          "most_negative_unique": {
+            "production": 2
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 1,
+          "mean_ours_rival": {
+            "camp": [
+              132.0,
+              239.0
+            ],
+            "fight_in": [
+              0,
+              0.0
+            ],
+            "fight_out": [
+              0.0,
+              0
+            ],
+            "camp_loss": [
+              0,
+              0
+            ],
+            "banked": [
+              72.0,
+              188.0
+            ],
+            "clears": [
+              14.5,
+              20.0
+            ],
+            "held": [
+              60.0,
+              51.0
+            ]
+          },
+          "median_gems_per_clear": [
+            9.401515151515152,
+            13.173333333333332
+          ]
+        },
+        "800": {
+          "n": 1,
+          "groups": 1,
+          "mean_banked_margin": -298.0,
+          "mean_components": {
+            "production": -308.0,
+            "fights": -2.0,
+            "camp_loss": 0,
+            "conversion": 12.0
+          },
+          "most_negative_unique": {
+            "production": 1
+          },
+          "most_negative_ties": 0,
+          "nonnegative_banked_margin": 0,
+          "held_covers_banked_deficit": 0,
+          "mean_ours_rival": {
+            "camp": [
+              438.0,
+              746.0
+            ],
+            "fight_in": [
+              77.0,
+              78.0
+            ],
+            "fight_out": [
+              78.0,
+              77.0
+            ],
+            "camp_loss": [
+              0,
+              0
+            ],
+            "banked": [
+              402.0,
+              700.0
+            ],
+            "clears": [
+              25.0,
+              39.0
+            ],
+            "held": [
+              35.0,
+              47.0
+            ]
+          },
+          "median_gems_per_clear": [
+            17.52,
+            19.128205128205128
+          ]
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "matchId": "01a1ae5e-abc1-7089-ad1e-c93f913a4fe2",
+      "group": "01a1ae5e-abaa-7f16-a3c2-4bc8ce4d7d2e",
+      "opponent": "SilverSamurai",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "d30f0b7527da9569143c7c8a69aa8822086a8e84274bf23644fe8ff7cb21a8ca",
+      "rounds": 1188,
+      "ours": {
+        "camp": 978.0,
+        "fight_in": 20.0,
+        "fight_out": 79.0,
+        "camp_loss": 0.0,
+        "banked": 748.0,
+        "clears": 33.0,
+        "held": 171.0,
+        "net_fight": -59.0,
+        "gems_per_clear": 29.636363636363637
+      },
+      "rival": {
+        "camp": 1020.0,
+        "fight_in": 79.0,
+        "fight_out": 20.0,
+        "camp_loss": 0.0,
+        "banked": 1071.0,
+        "clears": 15.0,
+        "held": 8.0,
+        "net_fight": 59.0,
+        "gems_per_clear": 68.0
+      },
+      "banked_margin": -323.0,
+      "components": {
+        "production": -42.0,
+        "fights": -118.0,
+        "camp_loss": 0.0,
+        "conversion": -163.0
+      },
+      "most_negative": [
+        "conversion"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 40.0,
+            "fight_in": 0,
+            "fight_out": 8.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 3.0,
+            "held": 32.0,
+            "net_fight": -8.0,
+            "gems_per_clear": 13.333333333333334
+          },
+          "rival": {
+            "camp": 66.0,
+            "fight_in": 8.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 2.0,
+            "held": 74.0,
+            "net_fight": 8.0,
+            "gems_per_clear": 33.0
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": -26.0,
+            "fights": -16.0,
+            "camp_loss": 0,
+            "conversion": 42.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 121.0,
+            "fight_in": 10.0,
+            "fight_out": 24.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 6.0,
+            "held": 107.0,
+            "net_fight": -14.0,
+            "gems_per_clear": 20.166666666666668
+          },
+          "rival": {
+            "camp": 82.0,
+            "fight_in": 24.0,
+            "fight_out": 10.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 4.0,
+            "held": 96.0,
+            "net_fight": 14.0,
+            "gems_per_clear": 20.5
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": 39.0,
+            "fights": -28.0,
+            "camp_loss": 0,
+            "conversion": -11.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 364.0,
+            "fight_in": 20.0,
+            "fight_out": 48.0,
+            "camp_loss": 0.0,
+            "banked": 224.0,
+            "clears": 18.0,
+            "held": 112.0,
+            "net_fight": -28.0,
+            "gems_per_clear": 20.22222222222222
+          },
+          "rival": {
+            "camp": 465.0,
+            "fight_in": 48.0,
+            "fight_out": 20.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 12.0,
+            "held": 493.0,
+            "net_fight": 28.0,
+            "gems_per_clear": 38.75
+          },
+          "banked_margin": 224.0,
+          "components": {
+            "production": -101.0,
+            "fights": -56.0,
+            "camp_loss": 0.0,
+            "conversion": 381.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae70-fc80-7507-a492-7ae427a4115c",
+      "group": "01a1ae70-fc68-7664-949f-995a863635ac",
+      "opponent": "bbas",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "8abae1606b7c4afd868d172e2f2ac63eb8ca3bd187995739cb67beb2c23a68e6",
+      "rounds": 1305,
+      "ours": {
+        "camp": 754.0,
+        "fight_in": 236.0,
+        "fight_out": 122.0,
+        "camp_loss": 0,
+        "banked": 828.0,
+        "clears": 44.0,
+        "held": 40.0,
+        "net_fight": 114.0,
+        "gems_per_clear": 17.136363636363637
+      },
+      "rival": {
+        "camp": 1186.0,
+        "fight_in": 122.0,
+        "fight_out": 236.0,
+        "camp_loss": 0,
+        "banked": 1006.0,
+        "clears": 64.0,
+        "held": 66.0,
+        "net_fight": -114.0,
+        "gems_per_clear": 18.53125
+      },
+      "banked_margin": -178.0,
+      "components": {
+        "production": -432.0,
+        "fights": 228.0,
+        "camp_loss": 0,
+        "conversion": 26.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 47.0,
+            "fight_in": 0,
+            "fight_out": 36.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 11.0,
+            "net_fight": -36.0,
+            "gems_per_clear": 9.4
+          },
+          "rival": {
+            "camp": 76.0,
+            "fight_in": 36.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 65.0,
+            "clears": 6.0,
+            "held": 47.0,
+            "net_fight": 36.0,
+            "gems_per_clear": 12.666666666666666
+          },
+          "banked_margin": -65.0,
+          "components": {
+            "production": -29.0,
+            "fights": -72.0,
+            "camp_loss": 0,
+            "conversion": 36.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 123.0,
+            "fight_in": 0,
+            "fight_out": 61.0,
+            "camp_loss": 0,
+            "banked": 54.0,
+            "clears": 12.0,
+            "held": 8.0,
+            "net_fight": -61.0,
+            "gems_per_clear": 10.25
+          },
+          "rival": {
+            "camp": 119.0,
+            "fight_in": 61.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 158.0,
+            "clears": 11.0,
+            "held": 22.0,
+            "net_fight": 61.0,
+            "gems_per_clear": 10.818181818181818
+          },
+          "banked_margin": -104.0,
+          "components": {
+            "production": 4.0,
+            "fights": -122.0,
+            "camp_loss": 0,
+            "conversion": 14.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 353.0,
+            "fight_in": 29.0,
+            "fight_out": 122.0,
+            "camp_loss": 0,
+            "banked": 173.0,
+            "clears": 26.0,
+            "held": 87.0,
+            "net_fight": -93.0,
+            "gems_per_clear": 13.576923076923077
+          },
+          "rival": {
+            "camp": 412.0,
+            "fight_in": 122.0,
+            "fight_out": 29.0,
+            "camp_loss": 0,
+            "banked": 484.0,
+            "clears": 37.0,
+            "held": 21.0,
+            "net_fight": 93.0,
+            "gems_per_clear": 11.135135135135135
+          },
+          "banked_margin": -311.0,
+          "components": {
+            "production": -59.0,
+            "fights": -186.0,
+            "camp_loss": 0,
+            "conversion": -66.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae70-fc80-7ae9-b6c1-2d576a9dfe93",
+      "group": "01a1ae70-fc68-7664-949f-995a863635ac",
+      "opponent": "bbas",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "779fbb3bc7aeb447f704e53f65c7c886842f33b1a43398aecc09161722f61a0b",
+      "rounds": 1079,
+      "ours": {
+        "camp": 0.0,
+        "fight_in": 0.0,
+        "fight_out": 0.0,
+        "camp_loss": 0,
+        "banked": 0,
+        "clears": 22.0,
+        "held": 0.0,
+        "net_fight": 0.0,
+        "gems_per_clear": 0.0
+      },
+      "rival": {
+        "camp": 1055.0,
+        "fight_in": 0.0,
+        "fight_out": 0.0,
+        "camp_loss": 0,
+        "banked": 1017.0,
+        "clears": 86.0,
+        "held": 38.0,
+        "net_fight": 0.0,
+        "gems_per_clear": 12.267441860465116
+      },
+      "banked_margin": -1017.0,
+      "components": {
+        "production": -1055.0,
+        "fights": 0.0,
+        "camp_loss": 0,
+        "conversion": 38.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 11.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 144.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 144.0,
+            "clears": 10.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 14.4
+          },
+          "banked_margin": -144.0,
+          "components": {
+            "production": -144.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 13.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 288.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 270.0,
+            "clears": 17.0,
+            "held": 18.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 16.941176470588236
+          },
+          "banked_margin": -270.0,
+          "components": {
+            "production": -288.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 18.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 21.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 742.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 742.0,
+            "clears": 61.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 12.163934426229508
+          },
+          "banked_margin": -742.0,
+          "components": {
+            "production": -742.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae70-fc80-7599-a2b2-72429f972c89",
+      "group": "01a1ae70-fc68-7664-949f-995a863635ac",
+      "opponent": "bbas",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "250a053f9fb0ce1ae9c507e8dccec253c9ba01198d309f8a12445125c7cf2a70",
+      "rounds": 877,
+      "ours": {
+        "camp": 1049.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 972.0,
+        "clears": 50.0,
+        "held": 77.0,
+        "net_fight": 0,
+        "gems_per_clear": 20.98
+      },
+      "rival": {
+        "camp": 1138.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 1116.0,
+        "clears": 48.0,
+        "held": 22.0,
+        "net_fight": 0,
+        "gems_per_clear": 23.708333333333332
+      },
+      "banked_margin": -144.0,
+      "components": {
+        "production": -89.0,
+        "fights": 0,
+        "camp_loss": 0,
+        "conversion": -55.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 75.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 46.0,
+            "clears": 6.0,
+            "held": 29.0,
+            "net_fight": 0,
+            "gems_per_clear": 12.5
+          },
+          "rival": {
+            "camp": 100.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 85.0,
+            "clears": 7.0,
+            "held": 15.0,
+            "net_fight": 0,
+            "gems_per_clear": 14.285714285714286
+          },
+          "banked_margin": -39.0,
+          "components": {
+            "production": -25.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -14.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 185.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 163.0,
+            "clears": 13.0,
+            "held": 22.0,
+            "net_fight": 0,
+            "gems_per_clear": 14.23076923076923
+          },
+          "rival": {
+            "camp": 223.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 219.0,
+            "clears": 16.0,
+            "held": 4.0,
+            "net_fight": 0,
+            "gems_per_clear": 13.9375
+          },
+          "banked_margin": -56.0,
+          "components": {
+            "production": -38.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -18.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 918.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 840.0,
+            "clears": 45.0,
+            "held": 78.0,
+            "net_fight": 0,
+            "gems_per_clear": 20.4
+          },
+          "rival": {
+            "camp": 858.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 835.0,
+            "clears": 43.0,
+            "held": 23.0,
+            "net_fight": 0,
+            "gems_per_clear": 19.953488372093023
+          },
+          "banked_margin": 5.0,
+          "components": {
+            "production": 60.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -55.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae70-fc80-769a-a817-dd212820b952",
+      "group": "01a1ae70-fc68-7664-949f-995a863635ac",
+      "opponent": "bbas",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "7b3cab19d6485f1982cae0ec0fc1e5323f1e7ab93c295e119c807a7f81860a99",
+      "rounds": 973,
+      "ours": {
+        "camp": 749.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 19.0,
+        "banked": 715.0,
+        "clears": 87.0,
+        "held": 15.0,
+        "net_fight": 0,
+        "gems_per_clear": 8.60919540229885
+      },
+      "rival": {
+        "camp": 1041.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 0.0,
+        "banked": 1007.0,
+        "clears": 77.0,
+        "held": 34.0,
+        "net_fight": 0,
+        "gems_per_clear": 13.519480519480519
+      },
+      "banked_margin": -292.0,
+      "components": {
+        "production": -292.0,
+        "fights": 0,
+        "camp_loss": -19.0,
+        "conversion": 19.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 16.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 16.0,
+            "clears": 13.0,
+            "held": 0.0,
+            "net_fight": 0,
+            "gems_per_clear": 1.2307692307692308
+          },
+          "rival": {
+            "camp": 121.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 119.0,
+            "clears": 8.0,
+            "held": 2.0,
+            "net_fight": 0,
+            "gems_per_clear": 15.125
+          },
+          "banked_margin": -103.0,
+          "components": {
+            "production": -105.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 2.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 82.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 67.0,
+            "clears": 27.0,
+            "held": 15.0,
+            "net_fight": 0,
+            "gems_per_clear": 3.037037037037037
+          },
+          "rival": {
+            "camp": 238.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 200.0,
+            "clears": 21.0,
+            "held": 38.0,
+            "net_fight": 0,
+            "gems_per_clear": 11.333333333333334
+          },
+          "banked_margin": -133.0,
+          "components": {
+            "production": -156.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 23.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 553.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 19.0,
+            "banked": 498.0,
+            "clears": 74.0,
+            "held": 36.0,
+            "net_fight": 0,
+            "gems_per_clear": 7.472972972972973
+          },
+          "rival": {
+            "camp": 748.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0.0,
+            "banked": 748.0,
+            "clears": 60.0,
+            "held": 0.0,
+            "net_fight": 0,
+            "gems_per_clear": 12.466666666666667
+          },
+          "banked_margin": -250.0,
+          "components": {
+            "production": -195.0,
+            "fights": 0,
+            "camp_loss": -19.0,
+            "conversion": -36.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae70-fc80-7990-81a9-eb482a668bea",
+      "group": "01a1ae70-fc68-7664-949f-995a863635ac",
+      "opponent": "bbas",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "1184004f44015fde831dd17d8817aacbac1a0b5415ae86fc549dbfd7b7083e5a",
+      "rounds": 679,
+      "ours": {
+        "camp": 996.0,
+        "fight_in": 0.0,
+        "fight_out": 128.0,
+        "camp_loss": 58.0,
+        "banked": 352.0,
+        "clears": 47.0,
+        "held": 458.0,
+        "net_fight": -128.0,
+        "gems_per_clear": 21.19148936170213
+      },
+      "rival": {
+        "camp": 912.0,
+        "fight_in": 128.0,
+        "fight_out": 0.0,
+        "camp_loss": 0,
+        "banked": 1006.0,
+        "clears": 30.0,
+        "held": 34.0,
+        "net_fight": 128.0,
+        "gems_per_clear": 30.4
+      },
+      "banked_margin": -654.0,
+      "components": {
+        "production": 84.0,
+        "fights": -256.0,
+        "camp_loss": -58.0,
+        "conversion": -424.0
+      },
+      "most_negative": [
+        "conversion"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 92.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 58.0,
+            "clears": 17.0,
+            "held": 34.0,
+            "net_fight": 0,
+            "gems_per_clear": 5.411764705882353
+          },
+          "rival": {
+            "camp": 208.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 150.0,
+            "clears": 6.0,
+            "held": 58.0,
+            "net_fight": 0,
+            "gems_per_clear": 34.666666666666664
+          },
+          "banked_margin": -92.0,
+          "components": {
+            "production": -116.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 24.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 251.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 58.0,
+            "banked": 159.0,
+            "clears": 32.0,
+            "held": 34.0,
+            "net_fight": 0,
+            "gems_per_clear": 7.84375
+          },
+          "rival": {
+            "camp": 445.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 300.0,
+            "clears": 13.0,
+            "held": 145.0,
+            "net_fight": 0,
+            "gems_per_clear": 34.23076923076923
+          },
+          "banked_margin": -141.0,
+          "components": {
+            "production": -194.0,
+            "fights": 0,
+            "camp_loss": -58.0,
+            "conversion": 111.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae73-c136-7054-85be-1fb600f415cd",
+      "group": "01a1ae73-c133-76eb-aa1f-c361f217e57b",
+      "opponent": "bentheboss",
+      "partition": "confirm",
+      "result": "loss",
+      "native_sha256": "7cb41836da45706f35528b6a6ae02ce8cbc6e164465947dab20b2f60c7ab0fe5",
+      "rounds": 783,
+      "ours": {
+        "camp": 664.0,
+        "fight_in": 0,
+        "fight_out": 32.0,
+        "camp_loss": 0,
+        "banked": 628.0,
+        "clears": 43.0,
+        "held": 4.0,
+        "net_fight": -32.0,
+        "gems_per_clear": 15.44186046511628
+      },
+      "rival": {
+        "camp": 992.0,
+        "fight_in": 32.0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 1016.0,
+        "clears": 58.0,
+        "held": 8.0,
+        "net_fight": 32.0,
+        "gems_per_clear": 17.103448275862068
+      },
+      "banked_margin": -388.0,
+      "components": {
+        "production": -328.0,
+        "fights": -64.0,
+        "camp_loss": 0,
+        "conversion": 4.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 68.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 8.0,
+            "clears": 8.0,
+            "held": 60.0,
+            "net_fight": 0,
+            "gems_per_clear": 8.5
+          },
+          "rival": {
+            "camp": 92.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 64.0,
+            "clears": 11.0,
+            "held": 28.0,
+            "net_fight": 0,
+            "gems_per_clear": 8.363636363636363
+          },
+          "banked_margin": -56.0,
+          "components": {
+            "production": -24.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -32.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 147.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 81.0,
+            "clears": 18.0,
+            "held": 66.0,
+            "net_fight": 0,
+            "gems_per_clear": 8.166666666666666
+          },
+          "rival": {
+            "camp": 207.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 144.0,
+            "clears": 25.0,
+            "held": 63.0,
+            "net_fight": 0,
+            "gems_per_clear": 8.28
+          },
+          "banked_margin": -63.0,
+          "components": {
+            "production": -60.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -3.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae73-c136-7a2b-928c-19c123007740",
+      "group": "01a1ae73-c133-76eb-aa1f-c361f217e57b",
+      "opponent": "bentheboss",
+      "partition": "confirm",
+      "result": "loss",
+      "native_sha256": "3b98d9791f493c2bbd253722471a1de4d4db252a2a21989893a8addf02b01881",
+      "rounds": 1125,
+      "ours": {
+        "camp": 655.0,
+        "fight_in": 77.0,
+        "fight_out": 134.0,
+        "camp_loss": 0,
+        "banked": 557.0,
+        "clears": 33.0,
+        "held": 41.0,
+        "net_fight": -57.0,
+        "gems_per_clear": 19.848484848484848
+      },
+      "rival": {
+        "camp": 1008.0,
+        "fight_in": 134.0,
+        "fight_out": 77.0,
+        "camp_loss": 0,
+        "banked": 1022.0,
+        "clears": 55.0,
+        "held": 43.0,
+        "net_fight": 57.0,
+        "gems_per_clear": 18.327272727272728
+      },
+      "banked_margin": -465.0,
+      "components": {
+        "production": -353.0,
+        "fights": -114.0,
+        "camp_loss": 0,
+        "conversion": 2.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 57.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 49.0,
+            "clears": 5.0,
+            "held": 8.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 11.4
+          },
+          "rival": {
+            "camp": 134.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 88.0,
+            "clears": 8.0,
+            "held": 46.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 16.75
+          },
+          "banked_margin": -39.0,
+          "components": {
+            "production": -77.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 38.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 117.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 63.0,
+            "clears": 11.0,
+            "held": 54.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 10.636363636363637
+          },
+          "rival": {
+            "camp": 271.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 232.0,
+            "clears": 15.0,
+            "held": 39.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 18.066666666666666
+          },
+          "banked_margin": -169.0,
+          "components": {
+            "production": -154.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": -15.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 438.0,
+            "fight_in": 77.0,
+            "fight_out": 78.0,
+            "camp_loss": 0,
+            "banked": 402.0,
+            "clears": 25.0,
+            "held": 35.0,
+            "net_fight": -1.0,
+            "gems_per_clear": 17.52
+          },
+          "rival": {
+            "camp": 746.0,
+            "fight_in": 78.0,
+            "fight_out": 77.0,
+            "camp_loss": 0,
+            "banked": 700.0,
+            "clears": 39.0,
+            "held": 47.0,
+            "net_fight": 1.0,
+            "gems_per_clear": 19.128205128205128
+          },
+          "banked_margin": -298.0,
+          "components": {
+            "production": -308.0,
+            "fights": -2.0,
+            "camp_loss": 0,
+            "conversion": 12.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae83-485a-733d-abe9-405f8a90ab9b",
+      "group": "01a1ae83-4841-773b-830c-9d0afe9cdae6",
+      "opponent": "dromedaries",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "22cff6ba5e819351851ce7934a598bd265518f11aabae0ddc8ae3ca56c6a11df",
+      "rounds": 957,
+      "ours": {
+        "camp": 749.0,
+        "fight_in": 45.0,
+        "fight_out": 171.0,
+        "camp_loss": 0,
+        "banked": 623.0,
+        "clears": 35.0,
+        "held": 0.0,
+        "net_fight": -126.0,
+        "gems_per_clear": 21.4
+      },
+      "rival": {
+        "camp": 908.0,
+        "fight_in": 171.0,
+        "fight_out": 45.0,
+        "camp_loss": 0.0,
+        "banked": 1011.0,
+        "clears": 39.0,
+        "held": 23.0,
+        "net_fight": 126.0,
+        "gems_per_clear": 23.28205128205128
+      },
+      "banked_margin": -388.0,
+      "components": {
+        "production": -159.0,
+        "fights": -252.0,
+        "camp_loss": 0.0,
+        "conversion": 23.0
+      },
+      "most_negative": [
+        "fights"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 110.0,
+            "fight_in": 0.0,
+            "fight_out": 52.0,
+            "camp_loss": 0,
+            "banked": 22.0,
+            "clears": 6.0,
+            "held": 36.0,
+            "net_fight": -52.0,
+            "gems_per_clear": 18.333333333333332
+          },
+          "rival": {
+            "camp": 132.0,
+            "fight_in": 52.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 162.0,
+            "clears": 6.0,
+            "held": 22.0,
+            "net_fight": 52.0,
+            "gems_per_clear": 22.0
+          },
+          "banked_margin": -140.0,
+          "components": {
+            "production": -22.0,
+            "fights": -104.0,
+            "camp_loss": 0,
+            "conversion": -14.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 244.0,
+            "fight_in": 0.0,
+            "fight_out": 70.0,
+            "camp_loss": 0,
+            "banked": 106.0,
+            "clears": 11.0,
+            "held": 68.0,
+            "net_fight": -70.0,
+            "gems_per_clear": 22.181818181818183
+          },
+          "rival": {
+            "camp": 308.0,
+            "fight_in": 70.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 312.0,
+            "clears": 14.0,
+            "held": 66.0,
+            "net_fight": 70.0,
+            "gems_per_clear": 22.0
+          },
+          "banked_margin": -206.0,
+          "components": {
+            "production": -64.0,
+            "fights": -140.0,
+            "camp_loss": 0,
+            "conversion": -2.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 680.0,
+            "fight_in": 45.0,
+            "fight_out": 137.0,
+            "camp_loss": 0,
+            "banked": 530.0,
+            "clears": 31.0,
+            "held": 58.0,
+            "net_fight": -92.0,
+            "gems_per_clear": 21.93548387096774
+          },
+          "rival": {
+            "camp": 728.0,
+            "fight_in": 137.0,
+            "fight_out": 45.0,
+            "camp_loss": 0.0,
+            "banked": 820.0,
+            "clears": 32.0,
+            "held": 0.0,
+            "net_fight": 92.0,
+            "gems_per_clear": 22.75
+          },
+          "banked_margin": -290.0,
+          "components": {
+            "production": -48.0,
+            "fights": -184.0,
+            "camp_loss": 0.0,
+            "conversion": -58.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae83-485a-7c99-9f4b-b83b63dce933",
+      "group": "01a1ae83-4841-773b-830c-9d0afe9cdae6",
+      "opponent": "dromedaries",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "0926abed63c278868f1030814430f9e73d89fb6e29fef38ac497a9721302f1bd",
+      "rounds": 582,
+      "ours": {
+        "camp": 843.0,
+        "fight_in": 0,
+        "fight_out": 290.0,
+        "camp_loss": 0,
+        "banked": 154.0,
+        "clears": 31.0,
+        "held": 399.0,
+        "net_fight": -290.0,
+        "gems_per_clear": 27.193548387096776
+      },
+      "rival": {
+        "camp": 733.0,
+        "fight_in": 290.0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 1008.0,
+        "clears": 21.0,
+        "held": 15.0,
+        "net_fight": 290.0,
+        "gems_per_clear": 34.904761904761905
+      },
+      "banked_margin": -854.0,
+      "components": {
+        "production": 110.0,
+        "fights": -580.0,
+        "camp_loss": 0,
+        "conversion": -384.0
+      },
+      "most_negative": [
+        "fights"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 233.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 11.0,
+            "held": 233.0,
+            "net_fight": 0,
+            "gems_per_clear": 21.181818181818183
+          },
+          "rival": {
+            "camp": 187.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 158.0,
+            "clears": 5.0,
+            "held": 29.0,
+            "net_fight": 0,
+            "gems_per_clear": 37.4
+          },
+          "banked_margin": -158.0,
+          "components": {
+            "production": 46.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -204.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 419.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 107.0,
+            "clears": 18.0,
+            "held": 312.0,
+            "net_fight": 0,
+            "gems_per_clear": 23.27777777777778
+          },
+          "rival": {
+            "camp": 403.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 374.0,
+            "clears": 11.0,
+            "held": 29.0,
+            "net_fight": 0,
+            "gems_per_clear": 36.63636363636363
+          },
+          "banked_margin": -267.0,
+          "components": {
+            "production": 16.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -283.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae8e-ea57-7330-9aed-2d80033b2943",
+      "group": "01a1ae8e-ea56-7a4b-a610-155b6d5319a9",
+      "opponent": "bentheboss",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "b9f57033a21accca08754bedad61ef25b343b6cefdc6143dba2d2e484eae3a59",
+      "rounds": 1769,
+      "ours": {
+        "camp": 535.0,
+        "fight_in": 211.0,
+        "fight_out": 185.0,
+        "camp_loss": 15.0,
+        "banked": 523.0,
+        "clears": 40.0,
+        "held": 23.0,
+        "net_fight": 26.0,
+        "gems_per_clear": 13.375
+      },
+      "rival": {
+        "camp": 1075.0,
+        "fight_in": 185.0,
+        "fight_out": 211.0,
+        "camp_loss": 27.0,
+        "banked": 1018.0,
+        "clears": 79.0,
+        "held": 4.0,
+        "net_fight": -26.0,
+        "gems_per_clear": 13.60759493670886
+      },
+      "banked_margin": -495.0,
+      "components": {
+        "production": -540.0,
+        "fights": 52.0,
+        "camp_loss": 12.0,
+        "conversion": -19.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 48.0,
+            "fight_in": 0.0,
+            "fight_out": 11.0,
+            "camp_loss": 11.0,
+            "banked": 4.0,
+            "clears": 5.0,
+            "held": 22.0,
+            "net_fight": -11.0,
+            "gems_per_clear": 9.6
+          },
+          "rival": {
+            "camp": 44.0,
+            "fight_in": 11.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 6.0,
+            "held": 55.0,
+            "net_fight": 11.0,
+            "gems_per_clear": 7.333333333333333
+          },
+          "banked_margin": 4.0,
+          "components": {
+            "production": 4.0,
+            "fights": -22.0,
+            "camp_loss": -11.0,
+            "conversion": 33.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 52.0,
+            "fight_in": 0.0,
+            "fight_out": 11.0,
+            "camp_loss": 11.0,
+            "banked": 30.0,
+            "clears": 8.0,
+            "held": 0.0,
+            "net_fight": -11.0,
+            "gems_per_clear": 6.5
+          },
+          "rival": {
+            "camp": 71.0,
+            "fight_in": 11.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 82.0,
+            "clears": 9.0,
+            "held": 0.0,
+            "net_fight": 11.0,
+            "gems_per_clear": 7.888888888888889
+          },
+          "banked_margin": -52.0,
+          "components": {
+            "production": -19.0,
+            "fights": -22.0,
+            "camp_loss": -11.0,
+            "conversion": 0.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 250.0,
+            "fight_in": 50.0,
+            "fight_out": 61.0,
+            "camp_loss": 15.0,
+            "banked": 176.0,
+            "clears": 20.0,
+            "held": 48.0,
+            "net_fight": -11.0,
+            "gems_per_clear": 12.5
+          },
+          "rival": {
+            "camp": 210.0,
+            "fight_in": 61.0,
+            "fight_out": 50.0,
+            "camp_loss": 27.0,
+            "banked": 194.0,
+            "clears": 25.0,
+            "held": 0.0,
+            "net_fight": 11.0,
+            "gems_per_clear": 8.4
+          },
+          "banked_margin": -18.0,
+          "components": {
+            "production": 40.0,
+            "fights": -22.0,
+            "camp_loss": 12.0,
+            "conversion": -48.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae8e-ea57-7a5a-89f9-1f4df9f23eae",
+      "group": "01a1ae8e-ea56-7a4b-a610-155b6d5319a9",
+      "opponent": "bentheboss",
+      "partition": "discovery",
+      "result": "loss",
+      "native_sha256": "beffba38744bc7eefc280c89b677a13710c44c704ead6c4a4c477b07a8d0daad",
+      "rounds": 588,
+      "ours": {
+        "camp": 931.0,
+        "fight_in": 91.0,
+        "fight_out": 98.0,
+        "camp_loss": 0,
+        "banked": 854.0,
+        "clears": 26.0,
+        "held": 70.0,
+        "net_fight": -7.0,
+        "gems_per_clear": 35.80769230769231
+      },
+      "rival": {
+        "camp": 1032.0,
+        "fight_in": 98.0,
+        "fight_out": 91.0,
+        "camp_loss": 0,
+        "banked": 1004.0,
+        "clears": 32.0,
+        "held": 35.0,
+        "net_fight": 7.0,
+        "gems_per_clear": 32.25
+      },
+      "banked_margin": -150.0,
+      "components": {
+        "production": -101.0,
+        "fights": -14.0,
+        "camp_loss": 0,
+        "conversion": -35.0
+      },
+      "most_negative": [
+        "production"
+      ],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 238.0,
+            "fight_in": 0,
+            "fight_out": 98.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 7.0,
+            "held": 140.0,
+            "net_fight": -98.0,
+            "gems_per_clear": 34.0
+          },
+          "rival": {
+            "camp": 210.0,
+            "fight_in": 98.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 238.0,
+            "clears": 7.0,
+            "held": 70.0,
+            "net_fight": 98.0,
+            "gems_per_clear": 30.0
+          },
+          "banked_margin": -238.0,
+          "components": {
+            "production": 28.0,
+            "fights": -196.0,
+            "camp_loss": 0,
+            "conversion": -70.0
+          },
+          "most_negative": [
+            "fights"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 483.0,
+            "fight_in": 0.0,
+            "fight_out": 98.0,
+            "camp_loss": 0,
+            "banked": 119.0,
+            "clears": 14.0,
+            "held": 266.0,
+            "net_fight": -98.0,
+            "gems_per_clear": 34.5
+          },
+          "rival": {
+            "camp": 510.0,
+            "fight_in": 98.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 556.0,
+            "clears": 16.0,
+            "held": 52.0,
+            "net_fight": 98.0,
+            "gems_per_clear": 31.875
+          },
+          "banked_margin": -437.0,
+          "components": {
+            "production": -27.0,
+            "fights": -196.0,
+            "camp_loss": 0,
+            "conversion": -214.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae5e-abc1-7498-bd0f-bed0ef51cbc2",
+      "group": "01a1ae5e-abaa-7f16-a3c2-4bc8ce4d7d2e",
+      "opponent": "SilverSamurai",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "e09e75ec25ce2b731b8da5967ac88c909ca9006819ec51dbb44ae35dd74863a0",
+      "rounds": 1300,
+      "ours": {
+        "camp": 1000.0,
+        "fight_in": 0.0,
+        "fight_out": 0.0,
+        "camp_loss": 0,
+        "banked": 1000.0,
+        "clears": 123.0,
+        "held": 0.0,
+        "net_fight": 0.0,
+        "gems_per_clear": 8.130081300813009
+      },
+      "rival": {
+        "camp": 0.0,
+        "fight_in": 0.0,
+        "fight_out": 0.0,
+        "camp_loss": 0.0,
+        "banked": 0,
+        "clears": 30.0,
+        "held": 0.0,
+        "net_fight": 0.0,
+        "gems_per_clear": 0.0
+      },
+      "banked_margin": 1000.0,
+      "components": {
+        "production": 1000.0,
+        "fights": 0.0,
+        "camp_loss": 0.0,
+        "conversion": 0.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 11.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 4.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": 0.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 25.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 7.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": 0.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 85.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "rival": {
+            "camp": 0.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 14.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": 0.0,
+            "fights": 0.0,
+            "camp_loss": 0.0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae5e-abc1-7278-83e4-12fd4434c5fe",
+      "group": "01a1ae5e-abaa-7f16-a3c2-4bc8ce4d7d2e",
+      "opponent": "SilverSamurai",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "a53fa9e75ef9b125239450a81e33b84b27957bf09bec9bbc3a578671910ee68c",
+      "rounds": 1058,
+      "ours": {
+        "camp": 1113.0,
+        "fight_in": 4.0,
+        "fight_out": 55.0,
+        "camp_loss": 0.0,
+        "banked": 1054.0,
+        "clears": 49.0,
+        "held": 8.0,
+        "net_fight": -51.0,
+        "gems_per_clear": 22.714285714285715
+      },
+      "rival": {
+        "camp": 142.0,
+        "fight_in": 55.0,
+        "fight_out": 4.0,
+        "camp_loss": 153.0,
+        "banked": 0,
+        "clears": 16.0,
+        "held": 40.0,
+        "net_fight": 51.0,
+        "gems_per_clear": 8.875
+      },
+      "banked_margin": 1054.0,
+      "components": {
+        "production": 971.0,
+        "fights": -102.0,
+        "camp_loss": 153.0,
+        "conversion": 32.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 44.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0.0,
+            "banked": 24.0,
+            "clears": 9.0,
+            "held": 20.0,
+            "net_fight": 0,
+            "gems_per_clear": 4.888888888888889
+          },
+          "rival": {
+            "camp": 31.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 3.0,
+            "held": 31.0,
+            "net_fight": 0,
+            "gems_per_clear": 10.333333333333334
+          },
+          "banked_margin": 24.0,
+          "components": {
+            "production": 13.0,
+            "fights": 0,
+            "camp_loss": 0.0,
+            "conversion": 11.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 92.0,
+            "fight_in": 0,
+            "fight_out": 4.0,
+            "camp_loss": 0.0,
+            "banked": 76.0,
+            "clears": 16.0,
+            "held": 12.0,
+            "net_fight": -4.0,
+            "gems_per_clear": 5.75
+          },
+          "rival": {
+            "camp": 43.0,
+            "fight_in": 4.0,
+            "fight_out": 0,
+            "camp_loss": 47.0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 0.0,
+            "net_fight": 4.0,
+            "gems_per_clear": 8.6
+          },
+          "banked_margin": 76.0,
+          "components": {
+            "production": 49.0,
+            "fights": -8.0,
+            "camp_loss": 47.0,
+            "conversion": -12.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 570.0,
+            "fight_in": 4.0,
+            "fight_out": 55.0,
+            "camp_loss": 0.0,
+            "banked": 394.0,
+            "clears": 38.0,
+            "held": 125.0,
+            "net_fight": -51.0,
+            "gems_per_clear": 15.0
+          },
+          "rival": {
+            "camp": 110.0,
+            "fight_in": 55.0,
+            "fight_out": 4.0,
+            "camp_loss": 153.0,
+            "banked": 0,
+            "clears": 12.0,
+            "held": 8.0,
+            "net_fight": 51.0,
+            "gems_per_clear": 9.166666666666666
+          },
+          "banked_margin": 394.0,
+          "components": {
+            "production": 460.0,
+            "fights": -102.0,
+            "camp_loss": 153.0,
+            "conversion": -117.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae8e-ea57-79ea-b04c-3bc68215098a",
+      "group": "01a1ae8e-ea56-7a4b-a610-155b6d5319a9",
+      "opponent": "bentheboss",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "a313067976e7b678d64994a9f5cc37b967dea52155fe3434cd22314ff525d3fe",
+      "rounds": 1462,
+      "ours": {
+        "camp": 921.0,
+        "fight_in": 155.0,
+        "fight_out": 21.0,
+        "camp_loss": 0,
+        "banked": 1005.0,
+        "clears": 44.0,
+        "held": 50.0,
+        "net_fight": 134.0,
+        "gems_per_clear": 20.931818181818183
+      },
+      "rival": {
+        "camp": 292.0,
+        "fight_in": 21.0,
+        "fight_out": 155.0,
+        "camp_loss": 0,
+        "banked": 158.0,
+        "clears": 57.0,
+        "held": 0.0,
+        "net_fight": -134.0,
+        "gems_per_clear": 5.12280701754386
+      },
+      "banked_margin": 847.0,
+      "components": {
+        "production": 629.0,
+        "fights": 268.0,
+        "camp_loss": 0,
+        "conversion": -50.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 14.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 14.0,
+            "clears": 10.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 1.4
+          },
+          "rival": {
+            "camp": 0.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 7.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 0.0
+          },
+          "banked_margin": 14.0,
+          "components": {
+            "production": 14.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 85.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 85.0,
+            "clears": 19.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 4.473684210526316
+          },
+          "rival": {
+            "camp": 43.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 43.0,
+            "clears": 19.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 2.263157894736842
+          },
+          "banked_margin": 42.0,
+          "components": {
+            "production": 42.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 386.0,
+            "fight_in": 17.0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 403.0,
+            "clears": 26.0,
+            "held": 0.0,
+            "net_fight": 17.0,
+            "gems_per_clear": 14.846153846153847
+          },
+          "rival": {
+            "camp": 125.0,
+            "fight_in": 0.0,
+            "fight_out": 17.0,
+            "camp_loss": 0,
+            "banked": 108.0,
+            "clears": 42.0,
+            "held": 0.0,
+            "net_fight": -17.0,
+            "gems_per_clear": 2.9761904761904763
+          },
+          "banked_margin": 295.0,
+          "components": {
+            "production": 261.0,
+            "fights": 34.0,
+            "camp_loss": 0,
+            "conversion": 0.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae5e-abc1-7d47-9b53-de7a3f7a537a",
+      "group": "01a1ae5e-abaa-7f16-a3c2-4bc8ce4d7d2e",
+      "opponent": "SilverSamurai",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "062b3e18431f00b3f70eedb0df9ddeb1bb74d014d7fd63cf7606647fa561ff74",
+      "rounds": 1409,
+      "ours": {
+        "camp": 1052.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 1006.0,
+        "clears": 74.0,
+        "held": 46.0,
+        "net_fight": 0,
+        "gems_per_clear": 14.216216216216216
+      },
+      "rival": {
+        "camp": 721.0,
+        "fight_in": 0,
+        "fight_out": 0,
+        "camp_loss": 0,
+        "banked": 0,
+        "clears": 56.0,
+        "held": 721.0,
+        "net_fight": 0,
+        "gems_per_clear": 12.875
+      },
+      "banked_margin": 1006.0,
+      "components": {
+        "production": 331.0,
+        "fights": 0,
+        "camp_loss": 0,
+        "conversion": 675.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 52.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 52.0,
+            "net_fight": 0,
+            "gems_per_clear": 10.4
+          },
+          "rival": {
+            "camp": 56.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 56.0,
+            "net_fight": 0,
+            "gems_per_clear": 11.2
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": -4.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 4.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 116.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 97.0,
+            "clears": 9.0,
+            "held": 19.0,
+            "net_fight": 0,
+            "gems_per_clear": 12.88888888888889
+          },
+          "rival": {
+            "camp": 125.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 11.0,
+            "held": 125.0,
+            "net_fight": 0,
+            "gems_per_clear": 11.363636363636363
+          },
+          "banked_margin": 97.0,
+          "components": {
+            "production": -9.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 106.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 482.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 455.0,
+            "clears": 35.0,
+            "held": 27.0,
+            "net_fight": 0,
+            "gems_per_clear": 13.771428571428572
+          },
+          "rival": {
+            "camp": 429.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 32.0,
+            "held": 429.0,
+            "net_fight": 0,
+            "gems_per_clear": 13.40625
+          },
+          "banked_margin": 455.0,
+          "components": {
+            "production": 53.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 402.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae83-485a-7592-a716-c01f5c1ca4ba",
+      "group": "01a1ae83-4841-773b-830c-9d0afe9cdae6",
+      "opponent": "dromedaries",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "e1af83cae9aa8855e4a0fa6c4505840db963dc676d94088389c2d8c6bcff3e9b",
+      "rounds": 1102,
+      "ours": {
+        "camp": 1402.0,
+        "fight_in": 77.0,
+        "fight_out": 375.0,
+        "camp_loss": 4.0,
+        "banked": 1013.0,
+        "clears": 43.0,
+        "held": 87.0,
+        "net_fight": -298.0,
+        "gems_per_clear": 32.604651162790695
+      },
+      "rival": {
+        "camp": 677.0,
+        "fight_in": 375.0,
+        "fight_out": 77.0,
+        "camp_loss": 65.0,
+        "banked": 875.0,
+        "clears": 30.0,
+        "held": 35.0,
+        "net_fight": 298.0,
+        "gems_per_clear": 22.566666666666666
+      },
+      "banked_margin": 138.0,
+      "components": {
+        "production": 725.0,
+        "fights": -596.0,
+        "camp_loss": 61.0,
+        "conversion": -52.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 46.0,
+            "fight_in": 7.0,
+            "fight_out": 7.0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 46.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 9.2
+          },
+          "rival": {
+            "camp": 126.0,
+            "fight_in": 7.0,
+            "fight_out": 7.0,
+            "camp_loss": 0,
+            "banked": 126.0,
+            "clears": 6.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 21.0
+          },
+          "banked_margin": -126.0,
+          "components": {
+            "production": -80.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": -46.0
+          },
+          "most_negative": [
+            "production"
+          ]
+        },
+        "300": {
+          "ours": {
+            "camp": 227.0,
+            "fight_in": 7.0,
+            "fight_out": 7.0,
+            "camp_loss": 0,
+            "banked": 109.0,
+            "clears": 10.0,
+            "held": 118.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 22.7
+          },
+          "rival": {
+            "camp": 166.0,
+            "fight_in": 7.0,
+            "fight_out": 7.0,
+            "camp_loss": 0,
+            "banked": 166.0,
+            "clears": 9.0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 18.444444444444443
+          },
+          "banked_margin": -57.0,
+          "components": {
+            "production": 61.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": -118.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 920.0,
+            "fight_in": 65.0,
+            "fight_out": 90.0,
+            "camp_loss": 4.0,
+            "banked": 856.0,
+            "clears": 35.0,
+            "held": 35.0,
+            "net_fight": -25.0,
+            "gems_per_clear": 26.285714285714285
+          },
+          "rival": {
+            "camp": 384.0,
+            "fight_in": 90.0,
+            "fight_out": 65.0,
+            "camp_loss": 40.0,
+            "banked": 369.0,
+            "clears": 20.0,
+            "held": 0.0,
+            "net_fight": 25.0,
+            "gems_per_clear": 19.2
+          },
+          "banked_margin": 487.0,
+          "components": {
+            "production": 536.0,
+            "fights": -50.0,
+            "camp_loss": 36.0,
+            "conversion": -35.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae83-485a-7429-8fbe-1f8a7849cbe3",
+      "group": "01a1ae83-4841-773b-830c-9d0afe9cdae6",
+      "opponent": "dromedaries",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "6df6368a6fd6fbd624b32b09551baac384752451618d78e77e6fb558fb9641fe",
+      "rounds": 1903,
+      "ours": {
+        "camp": 1744.0,
+        "fight_in": 885.0,
+        "fight_out": 550.0,
+        "camp_loss": 0.0,
+        "banked": 1032.0,
+        "clears": 63.0,
+        "held": 1047.0,
+        "net_fight": 335.0,
+        "gems_per_clear": 27.682539682539684
+      },
+      "rival": {
+        "camp": 757.0,
+        "fight_in": 550.0,
+        "fight_out": 885.0,
+        "camp_loss": 56.0,
+        "banked": 366.0,
+        "clears": 16.0,
+        "held": 0.0,
+        "net_fight": -335.0,
+        "gems_per_clear": 47.3125
+      },
+      "banked_margin": 666.0,
+      "components": {
+        "production": 987.0,
+        "fights": 670.0,
+        "camp_loss": 56.0,
+        "conversion": -1047.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 0,
+            "held": 0.0,
+            "net_fight": 0.0,
+            "gems_per_clear": null
+          },
+          "rival": {
+            "camp": 19.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 2.0,
+            "held": 19.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 9.5
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": -19.0,
+            "fights": 0.0,
+            "camp_loss": 0.0,
+            "conversion": 19.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 26.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 3.0,
+            "held": 26.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 8.666666666666666
+          },
+          "rival": {
+            "camp": 38.0,
+            "fight_in": 0.0,
+            "fight_out": 0.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 4.0,
+            "held": 38.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 9.5
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": -12.0,
+            "fights": 0.0,
+            "camp_loss": 0.0,
+            "conversion": 12.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 260.0,
+            "fight_in": 53.0,
+            "fight_out": 71.0,
+            "camp_loss": 0.0,
+            "banked": 0,
+            "clears": 18.0,
+            "held": 242.0,
+            "net_fight": -18.0,
+            "gems_per_clear": 14.444444444444445
+          },
+          "rival": {
+            "camp": 342.0,
+            "fight_in": 71.0,
+            "fight_out": 53.0,
+            "camp_loss": 56.0,
+            "banked": 200.0,
+            "clears": 10.0,
+            "held": 104.0,
+            "net_fight": 18.0,
+            "gems_per_clear": 34.2
+          },
+          "banked_margin": -200.0,
+          "components": {
+            "production": -82.0,
+            "fights": -36.0,
+            "camp_loss": 56.0,
+            "conversion": -138.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae83-485a-7a23-a7bb-e82aa2d12c74",
+      "group": "01a1ae83-4841-773b-830c-9d0afe9cdae6",
+      "opponent": "dromedaries",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "f81e7fea7342dc0e3574370dc84262b7e6db90941c876a4c9b10b47998a4020d",
+      "rounds": 1114,
+      "ours": {
+        "camp": 1053.0,
+        "fight_in": 97.0,
+        "fight_out": 102.0,
+        "camp_loss": 0,
+        "banked": 1002.0,
+        "clears": 72.0,
+        "held": 46.0,
+        "net_fight": -5.0,
+        "gems_per_clear": 14.625
+      },
+      "rival": {
+        "camp": 677.0,
+        "fight_in": 102.0,
+        "fight_out": 97.0,
+        "camp_loss": 0,
+        "banked": 670.0,
+        "clears": 50.0,
+        "held": 12.0,
+        "net_fight": 5.0,
+        "gems_per_clear": 13.54
+      },
+      "banked_margin": 332.0,
+      "components": {
+        "production": 376.0,
+        "fights": -10.0,
+        "camp_loss": 0,
+        "conversion": -34.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 54.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 7.0,
+            "held": 54.0,
+            "net_fight": 0,
+            "gems_per_clear": 7.714285714285714
+          },
+          "rival": {
+            "camp": 68.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 6.0,
+            "held": 68.0,
+            "net_fight": 0,
+            "gems_per_clear": 11.333333333333334
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": -14.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": 14.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 154.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 18.0,
+            "held": 154.0,
+            "net_fight": 0,
+            "gems_per_clear": 8.555555555555555
+          },
+          "rival": {
+            "camp": 144.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 68.0,
+            "clears": 12.0,
+            "held": 76.0,
+            "net_fight": 0,
+            "gems_per_clear": 12.0
+          },
+          "banked_margin": -68.0,
+          "components": {
+            "production": 10.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -78.0
+          },
+          "most_negative": [
+            "conversion"
+          ]
+        },
+        "800": {
+          "ours": {
+            "camp": 707.0,
+            "fight_in": 72.0,
+            "fight_out": 57.0,
+            "camp_loss": 0,
+            "banked": 547.0,
+            "clears": 50.0,
+            "held": 175.0,
+            "net_fight": 15.0,
+            "gems_per_clear": 14.14
+          },
+          "rival": {
+            "camp": 472.0,
+            "fight_in": 57.0,
+            "fight_out": 72.0,
+            "camp_loss": 0,
+            "banked": 419.0,
+            "clears": 35.0,
+            "held": 38.0,
+            "net_fight": -15.0,
+            "gems_per_clear": 13.485714285714286
+          },
+          "banked_margin": 128.0,
+          "components": {
+            "production": 235.0,
+            "fights": 30.0,
+            "camp_loss": 0,
+            "conversion": -137.0
+          },
+          "most_negative": []
+        }
+      }
+    },
+    {
+      "matchId": "01a1ae5e-abc1-7fb6-8140-195a36eeeacb",
+      "group": "01a1ae5e-abaa-7f16-a3c2-4bc8ce4d7d2e",
+      "opponent": "SilverSamurai",
+      "partition": "control",
+      "result": "win",
+      "native_sha256": "8a42f9fb327b1f99d6b7b625383518e3ba33ec3ff603ad360e3812f413a7c594",
+      "rounds": 2000,
+      "ours": {
+        "camp": 560.0,
+        "fight_in": 0.0,
+        "fight_out": 106.0,
+        "camp_loss": 0,
+        "banked": 454.0,
+        "clears": 89.0,
+        "held": 0.0,
+        "net_fight": -106.0,
+        "gems_per_clear": 6.292134831460674
+      },
+      "rival": {
+        "camp": 294.0,
+        "fight_in": 106.0,
+        "fight_out": 0.0,
+        "camp_loss": 0,
+        "banked": 380.0,
+        "clears": 56.0,
+        "held": 20.0,
+        "net_fight": 106.0,
+        "gems_per_clear": 5.25
+      },
+      "banked_margin": 74.0,
+      "components": {
+        "production": 266.0,
+        "fights": -212.0,
+        "camp_loss": 0,
+        "conversion": 20.0
+      },
+      "most_negative": [],
+      "phases": {
+        "150": {
+          "ours": {
+            "camp": 43.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 8.0,
+            "held": 43.0,
+            "net_fight": 0,
+            "gems_per_clear": 5.375
+          },
+          "rival": {
+            "camp": 22.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 5.0,
+            "held": 22.0,
+            "net_fight": 0,
+            "gems_per_clear": 4.4
+          },
+          "banked_margin": 0,
+          "components": {
+            "production": 21.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -21.0
+          },
+          "most_negative": []
+        },
+        "300": {
+          "ours": {
+            "camp": 79.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 12.0,
+            "clears": 16.0,
+            "held": 67.0,
+            "net_fight": 0,
+            "gems_per_clear": 4.9375
+          },
+          "rival": {
+            "camp": 48.0,
+            "fight_in": 0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 0,
+            "clears": 9.0,
+            "held": 48.0,
+            "net_fight": 0,
+            "gems_per_clear": 5.333333333333333
+          },
+          "banked_margin": 12.0,
+          "components": {
+            "production": 31.0,
+            "fights": 0,
+            "camp_loss": 0,
+            "conversion": -19.0
+          },
+          "most_negative": []
+        },
+        "800": {
+          "ours": {
+            "camp": 237.0,
+            "fight_in": 0,
+            "fight_out": 0.0,
+            "camp_loss": 0,
+            "banked": 186.0,
+            "clears": 39.0,
+            "held": 51.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 6.076923076923077
+          },
+          "rival": {
+            "camp": 133.0,
+            "fight_in": 0.0,
+            "fight_out": 0,
+            "camp_loss": 0,
+            "banked": 63.0,
+            "clears": 24.0,
+            "held": 70.0,
+            "net_fight": 0.0,
+            "gems_per_clear": 5.541666666666667
+          },
+          "banked_margin": 123.0,
+          "components": {
+            "production": 104.0,
+            "fights": 0.0,
+            "camp_loss": 0,
+            "conversion": 19.0
+          },
+          "most_negative": []
+        }
+      }
+    }
+  ]
+}

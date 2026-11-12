@@ -1,0 +1,5 @@
+# EXP-187 result — Neural-runtime ablation passes the small development filter
+
+MEASURED: LIVE111_RUNTIME_ABLATION_DEV.json stores480games/240paired cells on12preselected maps,5pinned opponents,both sides and fresh31469/34031jitter on both arms. Ablation165 versus stock111164wins,+0.417pp with map-cluster95%[-7.917,+10.000]. Native fuel-outs0versus957,R1zero both,zero faults/codes/per-cell increases. Every opponent/size/category stays within the registered-10pp veto. The result passes this diagnostic safety/strength filter but supplies no clear strength gain.
+
+Release ablationd731130a1cb7b50d549b7fd37294f1db3615f824899d0312740586cec7c00454 reproduces twice; off exact1110896a189. Only runtime NN entrypoints are bypassed to existing fallback; trained weights and neural draft retained. No long training, holdout or platform action. Next EXP191 opens original full86-map/both-side safety versus v92 mirror and exact111, then full90-map development only if L0 passes, with fresh paired noise to address selection among variants. No champion or ladder claim.

@@ -1,0 +1,7 @@
+# EXP-172 result — exact selector proof, full-game safety veto
+
+MEASURED: [current SDK proof](LIVE109_GREEDY_EQ_PROOF.json) has896 exact target selections across128 short native release games,16 frozen development maps, both sides, four positions and seven masks. Zero target differences, faults, codes or suspensions. Natural first-draft fuel ranged9989079to9990157 with no custom high quantum/debug pause. Median charged deltas: dense-near -447976.5fuel, far -398983; sparse+329, empty+595, maximum overhead595. This confirms the code-level target/tie equivalence on this probe.
+
+[480-game paired screen](ENGINE3_LIVE109_GREEDY_DEV.json),12 dev maps/five opponents/both sides/fresh11801/13997 jitter, exact current sourcef3d919e9 versus local-only greedy sourcee200c7126d67123fc30d7b3b6a7190f6d44c507af645e0aef0682cd3092b40cb:151versus154/240, delta-1.250pp, map-cluster95%[-4.167,+0.833]. Win filter passes but safety FAILS:713suspensions in both arms, six individual-cell increases; R1zero and zero faults/codes. Duplicate primary builds match and off exactly reproducesf3d919e9.
+
+Reject this hash before official safety pool/full dev/selection/holdouts/live action. Faster target enumeration did not materially reduce the measured current-line suspensions. Do not call it a runtime solution or bundle it into the unsafe Varg draft. EXP-173 profiles actual native events in the original current source to identify the present bottleneck before another fix. The proposal and results remain available to the existing runtime owner; CLFS/route/actor/weights were untouched.

@@ -1,0 +1,3 @@
+# EXP-032 release result
+
+The archived PG settings reproduce 9eabc2be35edb73b71bf09ee8e548efe54c447c2e6335bc8bbabad496070a0a4 in two builds. All-off matches v92. Across the 172 matched official-pool cases, PG won 93 versus 86, b/c 38/31. Zero faults and diagnostic codes. Total fuel suspensions fell from 160 to 96 and round-one suspensions from 28 to 16, with no round-one increases. Fourteen cells increased in full-game suspensions, including nine previously clean. The unchanged per-cell safety gate rejected it before L1/L2. No live test or holdout. [Build hashes](PG_RIVAL_BUILDS.json), [native safety rows](PG-RIVAL_POOL_SAFETY.json).

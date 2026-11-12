@@ -1,0 +1,5 @@
+# EXP-222 result — Static geometry is already cached in the current matched score
+
+MEASURED: LIVE109_RUNTIME_TARGET_FEATUREDETAIL111.json (current111) preserves original own view,pre-end actions and native IssacR70 crossing; off0896a189. GStat has24/24groups with matching walking mode0/0; GC also has24entries. Static lookup/build marks span only167fuel including two trace marks. This is a cache hit,not a cold geometry build. Do not propose draft serialization to explain this particular feature cost.
+
+Charged marked spans: dynamic GC-distance/ally-claim preparation2736fuel; stable insertion sorting2988; ten camp rows8284; whole feature5→6 span14410. Marks add small charged overhead and do not establish whole-release speedup. Actual original top inference still crossesR70→71. The rows include dynamic distances,health,claims,neighbours and lazily cached field values; an optimization must preserve every feature and tie order,not call them all static. No source,model,policy or admission change. Next executor work needs measured component bounds and coherent snapshot/publication semantics rather than another blind cold-cache assumption.
