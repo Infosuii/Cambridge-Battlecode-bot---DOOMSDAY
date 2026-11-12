@@ -9,10 +9,10 @@ The bot runs at its 100k-fuel-per-turn limit, and the engine is deterministic.
 - A change with identical behaviour that added a few instructions to a hot loop lost **70–98 over 168 games
   (−85 gems a game)**. The same no-op in a cold path played identical games.
 - **Rule:** new logic runs once per call or once per turn, never per group or per camp.
-- Agent 2's best neural result needed 20M fuel per turn (about 59% vs v92). The version that fit the real limit
+- The best neural result needed 20M fuel per turn (about 59% vs v92). The version that fit the real limit
   reached 54.6%. Making the existing code cheaper was often worth more than new ideas.
 
-→ [handoff.md §3](history/handoffs/handoff.md), [agent2-neural](../research/neural/agent2-neural/README.md)
+→ [handoff.md §3](history/handoffs/handoff.md), [nnq4-blend](../research/neural/nnq4-blend/README.md)
 
 ## 2. Determinism makes single builds a single draw
 
@@ -42,7 +42,7 @@ From 151 decoded v112 ladder losses (8 Nov):
 - **Production** was the biggest deficit in 96 of the 151 losses. Fights were the biggest in 41, conversion in 13.
 - By round 100 we had earned **18% less gold** in losses (304 vs 359). Top teams spend gold early.
 - We died about twice as often: 11–12 deaths a game against about 6. Each death hands the killer the whole bag.
-- Agent 2's controlled snowball test: **+150 gold per champion at round 100 → 84.5% win rate** (control 53.5%).
+- A controlled snowball test: **+150 gold per champion at round 100 → 84.5% win rate** (control 53.5%).
 
 → [`V112_LADDER_DIAGNOSIS.md`](../research/rl-env/rl_env_1104/candidates/V112_LADDER_DIAGNOSIS.md)
 
@@ -57,7 +57,7 @@ From 151 decoded v112 ladder losses (8 Nov):
 - **Method:** reproduce with a logging build, look for champions whose position or mode never changes, find the code
   path, and fix it cheaply. Each of these took about an hour.
 
-→ [`research/codex-live/v118-rootcause-20261109`](../research/codex-live/v118-rootcause-20261109)
+→ [`research/live-line/v118-rootcause-20261109`](../research/live-line/v118-rootcause-20261109)
 
 ## 6. Imitation alone did not work; a network beside the heuristics did
 
@@ -67,9 +67,9 @@ From 151 decoded v112 ladder losses (8 Nov):
 - How fresh the network's inputs were mattered more than its size: refreshing every turn scored 63.3%, every 4 turns
   47.6%. Larger networks (24×96, 32×128) gave no steady gain.
 
-## 7. Many agents need a protocol
+## 7. Parallel work needs a protocol
 
-Up to five machines and several AI coding agents (Claude Code, Codex/GPT) worked at once. What kept that usable:
+Up to five machines ran campaigns at once. What kept that usable:
 
 - a git message board with jobs, leases and heartbeats;
 - one owner for the live ladder version;

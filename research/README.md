@@ -7,9 +7,9 @@ measurements are JSON or TSV next to them.
 |---|---|---|
 | [`versions/`](versions) | One folder per mainline version (v51–v81): plans, build logs, bench results (`results/`), kept experiments (`experiments/`) and rejected diffs (`rejected/`) | [`v58/V58_SPRINT3_RESULTS.md`](versions/v58/V58_SPRINT3_RESULTS.md) |
 | [`x-series/`](x-series) | z-plan: map atlas, categories, portfolio, counter tables, anti-overfit study, ladder duels, x1 audit | [`x3/ANTI_OVERFIT.md`](x-series/x3/ANTI_OVERFIT.md), [`x3/MAP_IDEA_FINDINGS.md`](x-series/x3/MAP_IDEA_FINDINGS.md) |
-| [`codex-live/`](codex-live) | Om's Codex live line: agentic improvement, v113 integration, the v118 root-cause cycle, sw08 spawn recovery, Ishan's Codex analysis | [`v118-rootcause-20261109`](codex-live/v118-rootcause-20261109) |
-| [`rl-env/`](rl-env) | The RL environment and qualifier-week work, the v112 ladder diagnosis, the final hand-over, johndoe's PPO learner and belief design | [`rl_env_1104/HANDOVER_2026-11-09.md`](rl-env/rl_env_1104/HANDOVER_2026-11-09.md) |
-| [`neural/`](neural) | Agent 2's neural bot (nnq4 blend, RL checkpoints), findings E56–E76, the early policy-v2 behaviour-cloning runs | [`agent2-neural/README.md`](neural/agent2-neural/README.md) |
+| [`live-line/`](live-line) | Om's live line: the automated improvement loop, v113 integration, the v118 root-cause cycle, sw08 spawn recovery, live-safety analysis | [`v118-rootcause-20261109`](live-line/v118-rootcause-20261109) |
+| [`rl-env/`](rl-env) | The RL environment and qualifier-week work, the v112 ladder diagnosis, the final hand-over, the recurrent PPO learner and belief design | [`rl_env_1104/HANDOVER_2026-11-09.md`](rl-env/rl_env_1104/HANDOVER_2026-11-09.md) |
+| [`neural/`](neural) | The neural bot (nnq4 blend, RL checkpoints), findings E56–E76, the early policy-v2 behaviour-cloning runs | [`nnq4-blend/README.md`](neural/nnq4-blend/README.md) |
 | [`doomsday-zero/`](doomsday-zero) | The clean-slate rewrite: plans, mechanics studies, model calibration, run results | [`dz/HANDOFF.md`](doomsday-zero/dz/HANDOFF.md) |
 | [`gigabot/`](gigabot) | gigabot (gx) runs and its status reports | [`reports/FINAL_REPORT.md`](gigabot/reports/FINAL_REPORT.md) |
 | [`botx3/`](botx3) | The team-economy line | [`botx3-20261102`](botx3/botx3-20261102) |

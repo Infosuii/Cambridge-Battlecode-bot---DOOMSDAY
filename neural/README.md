@@ -1,7 +1,7 @@
 # Neural framework
 
-The 24 October attempt at a bot whose important gameplay decisions are made by a neural network. A lead agent and
-parallel agents (A–H, see [`archive/agents`](../archive/agents)) built it in "waves".
+The 24 October attempt at a bot whose important gameplay decisions are made by a neural network. It was built in
+parallel "waves" of workstreams A–H (see [`archive/framework-workspaces`](../archive/framework-workspaces)).
 
 | Folder | Role |
 |---|---|
@@ -14,7 +14,7 @@ parallel agents (A–H, see [`archive/agents`](../archive/agents)) built it in "
 
 **Outcome:** behaviour cloning on 7.3M top-team decisions trained a policy that scored 0 gems in real games, and the
 project returned to the heuristic bot. Small networks running *beside* the heuristic (the draft net, the camp net, and
-later Agent 2's nnq4 blend) were the neural parts that worked. See [docs/findings.md §6](../docs/findings.md).
+later the nnq4 blend) were the neural parts that worked. See [docs/findings.md §6](../docs/findings.md).
 
 The tests for this package are in [`tests/python`](../tests/python) and [`tests/cpp`](../tests/cpp). Paths inside
 the code still refer to the pre-cleanup layout (`python/`, `bot/` at the repository root).

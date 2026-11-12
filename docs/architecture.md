@@ -5,22 +5,7 @@ in a few decision points. One codebase evolved from v48 to the final qualifier b
 reference build, [`bots/mainline/v92`](../bots/mainline/v92/src), at about 17,000 lines. Later versions keep this
 structure.
 
-```mermaid
-flowchart TD
-    D["Draft turn<br/>draft.cpp: per-map lineups,<br/>draft net, 10x fuel"] --> I
-    I["init()<br/>world model, distance fields,<br/>map fingerprint -> per-map profile"] --> T
-    T["play_turn() each round"] --> W["world.update()<br/>vision, camps, sightings,<br/>shared-memory claims"]
-    W --> S{"at spawn?"}
-    S -- yes --> SH["shop(): build_for()<br/>shards and emblems"]
-    S -- no --> E
-    SH --> E{"enemies near?"}
-    E -- yes --> HE["handle_enemies()<br/>fight / flee / regroup,<br/>tactical search on spare fuel"]
-    E -- no --> WN{"win_now()?"}
-    WN -- yes --> TR["tribute_if_needed()<br/>bank at an altar"]
-    WN -- no --> H{"hunt()?"}
-    H -- no --> TB{"tribute_if_needed()?"}
-    TB -- no --> F["farm()<br/>score_groups() -> camp choice,<br/>route_search, crews and claims"]
-```
+<p align="center"><img src="assets/architecture.svg" alt="Bot architecture: draft phase, per-turn priority cascade, neural modules, team radio, fuel discipline" width="100%"></p>
 
 ## The pieces
 
@@ -44,12 +29,12 @@ All networks are tiny and quantised, because they must fit inside the 100k-fuel 
 - **Draft net** (`A2_MLDRAFT`) and **camp net** (`A2_CAMPNET`, 321 parameters, about 3 hours of in-engine PPO),
   from the v48–v50 era.
 - **Danger net** (`UB_DANGER`, v48) and an **item model**.
-- **The nnq4 blend** (Agent 2, 4 Nov, shipped as v106): a 16-bit student network re-scores camps inside `farm()`.
+- **The nnq4 blend** (4 Nov, shipped as v106): a 16-bit student network re-scores camps inside `farm()`.
   It overrides v92's choice only when another camp scores more than 2 logits higher. Its slow part refreshes in stages
   on spare fuel. Against v92 it scored 54.6% ± 1.3 over 1,440 games. The blend (`A2_NN_ENS`, `A2_NN_LAZY`) stayed in
   the v112–v137 live line. See
-  [`research/neural/agent2-neural`](../research/neural/agent2-neural/README.md).
-- **ES-retuned weights** (Om's Codex workstream, v112): evolution-strategy tuning of the network weights on a 20-thread
+  [`research/neural/nnq4-blend`](../research/neural/nnq4-blend/README.md).
+- **ES-retuned weights** (Om's live line, v112): evolution-strategy tuning of the network weights on a 20-thread
   workstation. This was the build live at our peak ladder rank.
 
 ## Living inside the fuel budget
@@ -69,7 +54,7 @@ The bot runs at its fuel limit almost every turn, so the code follows strict rul
 | Map atlas and portfolio | `bots/x-series/x3`, `research/x-series/x3` | About 25 map features computed by the bot itself, 7 map categories, and a 14-profile portfolio picked at round 3. Exact on 86/86 maps, but per-category choices did not transfer to unseen maps. |
 | Counter tables | `bots/x-series/x3ctr*` | Opponent-specific tables. They looked strong in sample (+37 to +89) and came out about zero out of sample. |
 | Team economy | `bots/botx3/` | Eleven versions of coordinated crews and shared economy, paused on 3 Nov. |
-| Gigabot (gx) | `bots/gigabot/` | Many single-mechanism increments, each with a matched control and a proof run. |
+| gigabot (gx) | `bots/gigabot/` | Many single-mechanism increments, each with a matched control and a proof run. |
 | DOOMSDAY Zero | `bots/doomsday-zero/` | A clean-slate C++20 rewrite with no old code or weights. It passed 292 release games with no faults and never reached strategy parity. |
 | RL environment | `bots/rl-env/`, `research/rl-env/` | A recurrent PPO learner, a belief model, and a qualifier-week fix pipeline. |
 

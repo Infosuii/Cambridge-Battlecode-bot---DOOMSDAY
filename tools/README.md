@@ -120,7 +120,7 @@ who captures camps), `respawn_delay.mjs`, `fuel_outs.mjs`, `death_context.mjs`, 
   `smoke_policy_training.py`.
 - Checks and evaluation: `run_cpp_tests.py`, `check_*.py`, `eval_*.py`, `package_release.py`, `verify_release.py`,
   `build_references.py`.
-- One-off audits and probes from the multi-agent build: `audit_*.py`, `lead_*.py`, `probe_*.py`, `stage_wave2.py`,
+- One-off audits and probes from the neural-framework build: `audit_*.py`, `lead_*.py`, `probe_*.py`, `stage_wave2.py`,
   `v2_baseline_audit.py`, `v53_diagnose.py`.
 - Machine setup and backup: `configure_dev.py`, `configure_recovery.py`, `recovery_*.py`, `publish_*.py`,
   `verify_remote_recovery.py`.
