@@ -1,7 +1,7 @@
 #pragma once
 #include "observation.h"
 namespace dz {
-bool fixed_shop(const TurnContext&, Actuator&);
+bool fixed_shop(const TurnContext&, Actuator&,const StaticWorld* = nullptr);
 #if DZ_ECONOMY_V2
 struct ShopVisit {
     cambc::item_type item;
@@ -14,6 +14,7 @@ struct ShopVisit {
 };
 ShopVisit shop_visit(const TurnContext&,const Observation&,int horizon,float income,float gold_income);
 void commit_shop_visit(const ShopVisit&);
+bool shop_visit_pending(unsigned round);
 bool planned_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
 #if DZ_HAS(GEAR_PROSPECT)
@@ -23,14 +24,18 @@ bool map_shop(const TurnContext&,Actuator&,const StaticWorld*);
 bool job_shop(const TurnContext&,Actuator&,const StaticWorld*);
 #endif
 inline bool shop(const TurnContext& tc,Actuator& act,const StaticWorld* world) {
-#if DZ_ECONOMY_V2
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    // A committed equipment transaction must buy the item its quote funded.
+    if(shop_visit_pending(tc.round))return planned_shop(tc,act,world);
+    return fixed_shop(tc,act,world);
+#elif DZ_ECONOMY_V2
     return planned_shop(tc,act,world);
 #elif DZ_JOB_GEAR
     return job_shop(tc,act,world);
 #elif DZ_HAS(GEAR_PROSPECT)
     return map_shop(tc,act,world);
 #else
-    (void)world;return fixed_shop(tc,act);
+    return fixed_shop(tc,act,world);
 #endif
 }
 }

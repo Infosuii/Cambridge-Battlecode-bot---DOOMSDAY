@@ -1,0 +1,747 @@
+diff --git a/bots/dz/src/actions.cpp b/bots/dz/src/actions.cpp
+index f01e736..ed5165a 100644
+--- a/bots/dz/src/actions.cpp
++++ b/bots/dz/src/actions.cpp
+@@ -147,8 +147,8 @@ bool escape_dash(const StaticWorld& world,const Observation& obs,const TurnConte
+     const auto began=fuel_left();
+     for(const auto& ability:me.abilities())if(ability.is_dash()&&ability.is_ready()&&ability.can_target_ground()) {
+         const auto info=std::get<cambc::ability_dash>(*ability.info());
+-        if(!retreat&&world.home.get(origin)>info.range+cambc::constants::recall_time+1&&channel_safe(world,obs,tc))continue;
+-        vec2 best=origin;float risk=before;int home=world.home.get(origin);
++        if(!retreat&&world.home_at(origin)>info.range+cambc::constants::recall_time+1&&channel_safe(world,obs,tc))continue;
++        vec2 best=origin;float risk=before;int home=world.home_at(origin);
+         for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
+             if(!dx&&!dy)continue;float paid=0;
+             for(int distance=1;distance<=std::min(8,static_cast<int>(info.range));++distance) {
+@@ -157,7 +157,7 @@ bool escape_dash(const StaticWorld& world,const Observation& obs,const TurnConte
+                 if(!world.walkable(p)||world.is_spawn(p)||obs.is_occupied(p))break;
+                 const float neutral=camp_damage({p.x,p.y},obs.camps);paid+=neutral;
+                 if(neutral>camp_damage({origin.x,origin.y},obs.camps)||obs.hp<=paid+neutral)break;
+-                const float incoming=danger(p,obs);const int h=world.home.get(p);
++                const float incoming=danger(p,obs);const int h=world.home_at(p);
+                 if(incoming<risk||(incoming==risk&&h<home)){best=p;risk=incoming;home=h;}
+             }
+         }
+@@ -248,6 +248,48 @@ void spells(const cambc::unit* target, bool enemy, bool attacked, const Observat
+         else act.cast(ability, *target);
+     }
+ }
++#if DZ_LEGACY_FARM
++bool reset_followup(const cambc::camp* previous,int group,const StaticWorld& world,Memory& mem,
++                    const Observation& obs,const TurnContext& tc,Actuator& act) {
++    if(!previous||group<0||!obs.enemies.empty()||!tc.allow(6500))return false;
++#if DZ_ECONOMY_V2
++    if(mem.crew_execution.managed||mem.siege_task.active())return false;
++#endif
++    auto& me=cambc::self();
++    if(me.can_attack()||!me.can_cast())return false;
++    for(const auto& reset:me.abilities())if(reset.is_attack_reset()&&reset.is_ready()) {
++        const cambc::camp* target=nullptr;
++        const auto here=me.position();
++        if(previous->is_visible()&&previous->health()>0&&here.chebyshev_distance(previous->position())<=me.attack_range())target=previous;
++        else {
++            LocalMask live;live.load(cambc::vision::camp_tiles());
++            const auto& job=world.groups[group];
++            for(unsigned k=0;k<job.tiles.size();++k) {
++                if(!live.test(job.tiles[k])||here.chebyshev_distance(job.tiles[k])>me.attack_range())continue;
++                const auto& camp=job.members()[k];
++                if(camp.is_visible()&&!camp.is_dead()){target=&camp;break;}
++            }
++        }
++        if(!target)return false;
++        // v76 fight_camps re-picks a living camp before use_reset_and_attack,
++        // including its active V58_ACT post-walk path. Actuator remains the
++        // sole owner of live cast/attack legality and this turn's cast budget.
++        if(act.cast(reset)&&me.can_attack()&&act.attack(*target)) {
++#if DZ_ECONOMY_V2
++            mem.last_work=tc.round;
++#else
++            (void)mem;
++#endif
++#if DZ_TRACE
++            {TraceScope scope;trace("DZ_RESET_FOLLOWUP round=%u slot=%u group=%d tile=%d,%d\n",tc.round,world.slot,
++                group,target->spawn_position().x,target->spawn_position().y);}
++#endif
++            return true;
++        }
++    }
++    return false;
++}
++#endif
+ bool step(const cambc::distance_field& field, const StaticWorld& world, Observation& obs,
+           bool retreat, Actuator& act,bool remember_failures=false
+ #if DZ_ECONOMY_V2
+@@ -626,6 +668,9 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
+         static_cast<unsigned>(static_cast<cambc::handle_champion_t>(me)),goal.index,mem.crew_execution.focus,mem.crew_execution.formed);}
+ #endif
+     spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
++#if DZ_LEGACY_FARM
++    if(goal.kind==GoalKind::Farm&&target&&!enemy)reset_followup(camp_target,goal.index,world,mem,obs,tc,act);
++#endif
+     if (bank_here(goal,world,
+ #if DZ_ECONOMY_V2
+         mem,obs,tc,
+@@ -640,7 +685,7 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
+     if (goal.kind==GoalKind::Home) {
+         auto p=me.position();
+         if (cambc::map::spawn_region(cambc::team::ally).is_set(p)) { ward_here(obs,tc,act); return; }
+-        if (world.home.get(p)>cambc::constants::recall_time+1 && channel_safe(world,obs,tc)) { act.recall(); return; }
++        if (world.home_at(p)>cambc::constants::recall_time+1 && channel_safe(world,obs,tc)) { act.recall(); return; }
+     }
+     if (goal.kind==GoalKind::Retreat && goal.destination && me.can_move()) {
+         auto p=me.position(), end=*goal.destination;
+@@ -920,13 +965,16 @@ void execute(Goal goal, StaticWorld& world, Memory& mem, Observation& obs, const
+         attacked = act.attack(*target);
+         spells(target, enemy, attacked, obs, world,enemy ? -1 : goal.index,tc, act, retreat);
+     }
++#if DZ_LEGACY_FARM
++    if(goal.kind==GoalKind::Farm&&target&&!enemy)reset_followup(camp_target,goal.index,world,mem,obs,tc,act);
++#endif
+     if (bank_here(goal,world,
+ #if DZ_ECONOMY_V2
+         mem,obs,tc,
+ #endif
+         act)) return;
+     if (goal.kind == GoalKind::Home && !cambc::map::spawn_region(cambc::team::ally).is_set(me.position()) &&
+-        world.home.get(me.position()) > cambc::constants::recall_time + 1 && channel_safe(world,obs,tc)) act.recall();
++        world.home_at(me.position()) > cambc::constants::recall_time + 1 && channel_safe(world,obs,tc)) act.recall();
+     ward_here(obs,tc,act);
+ }
+ }
+diff --git a/bots/dz/src/config.h b/bots/dz/src/config.h
+index 7faa1e3..8f742d1 100644
+--- a/bots/dz/src/config.h
++++ b/bots/dz/src/config.h
+@@ -192,6 +192,12 @@
+ #ifndef DZ_SIEGE
+ #define DZ_SIEGE 0 // Persistent gate waves with a reserved escape and heal-return; development only.
+ #endif
++#ifndef DZ_PRODUCTIVE_EXECUTION
++#define DZ_PRODUCTIVE_EXECUTION 0 // Exact static lookups and batched bounded-work checks; development only.
++#endif
++#ifndef DZ_LEGACY_FARM
++#define DZ_LEGACY_FARM 0 // Proven reset/clear execution supplies a feasible incumbent to DZ's auction; development only.
++#endif
+ 
+ // Selected release keeps these off. Development candidates do not establish
+ // model calibration, competitive parity or release admission.
+diff --git a/bots/dz/src/crew.cpp b/bots/dz/src/crew.cpp
+index 6dc5845..794500a 100644
+--- a/bots/dz/src/crew.cpp
++++ b/bots/dz/src/crew.cpp
+@@ -347,7 +347,7 @@ Goal crew_action(Goal goal,StaticWorld& w,Memory& m,const Observation& o,const T
+         }
+     }
+     if(goal.kind!=GoalKind::Farm&&state.joined&&state.group>=0&&m.neutral_recovery.active&&!state.recovering) {
+-        state.recovering=true;state.recovery_deadline=tc.round+2*std::min<int>(w.home.get(o.p),2000)+cambc::constants::recall_time+config::crew_window;
++        state.recovering=true;state.recovery_deadline=tc.round+2*std::min<int>(w.home_at(o.p),2000)+cambc::constants::recall_time+config::crew_window;
+     }
+     if(goal.kind==GoalKind::Farm&&!m.siege_task.active()&&goal.index>=0) {
+         auto owner=m.team.cohort(goal.index,traffic_word,tc.round,w.allies.size());
+diff --git a/bots/dz/src/economy.cpp b/bots/dz/src/economy.cpp
+index 2b0d76b..a897e1b 100644
+--- a/bots/dz/src/economy.cpp
++++ b/bots/dz/src/economy.cpp
+@@ -5,6 +5,9 @@
+ #include "objective_math.h"
+ #include "siege.h"
+ #include "crew.h"
++#if DZ_LEGACY_FARM
++#include "legacy_farm.h"
++#endif
+ #include <bit>
+ 
+ namespace dz {
+@@ -119,7 +122,14 @@ objective::Quote self_quote(const objective::Encounter& e,const objective::Actor
+         for(auto& c:kit.casts)c.cooldown=c.period;
+     }
+     const auto started=fuel_left();
+-    return objective::forecast_casts(e,actor,kit,[&]{return tc.allow(10000)&&started-fuel_left()<4500;});
++    unsigned checked=0;
++    return objective::forecast_casts(e,actor,kit,[&]{
++        // Each period executes at most eight small, fixed-size cast phases.
++        // Checking the host budget on every simulated turn used the entire
++        // slice before an ordinary wolf clear could finish being quoted.
++        if(DZ_PRODUCTIVE_EXECUTION&&(checked++&7u)!=0)return true;
++        return tc.allow(10000)&&started-fuel_left()<4500;
++    });
+ }
+ struct Participant { objective::Actor actor;vec2 p;unsigned slot;int range=1;unsigned handle=0;int bag=0,free_after=0,prefix=-1; };
+ bool resource_prefix(const StaticWorld& w,const Memory& m,int group) {
+@@ -173,6 +183,53 @@ bool reserved_job(const StaticWorld& w,const Memory& m,const Observation& o,int
+     }
+     return false;
+ }
++#if DZ_LEGACY_FARM
++std::optional<economy::Bid> executable_solo_bid(const StaticWorld& w,Memory& m,const Observation& o,
++                                              const TurnContext& tc,int altar,int remaining) {
++    if(!o.enemies.empty()||!tc.allow(16000))return {};
++    const auto started=fuel_left();auto timing=reset_timing();
++    if(!cambc::self().can_cast())timing.remaining=std::max(timing.remaining,1u);
++    if(!timing.period)timing.remaining=0;
++    const auto actor=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
++    struct Candidate {int group=-1,distance=0;float bound=0;};
++    std::array<Candidate,4> best{};unsigned count=0;
++    int cold=-1;float cold_bound=0;
++    const float gold_price=objective::gold_price(remaining);
++    for(unsigned g=0;g<w.groups.size();++g) {
++        if((g&3u)==0&&(!tc.allow(14000)||started-fuel_left()>5000))break;
++        const auto& group=w.groups[g];const auto& b=m.groups[g];
++        if(group.tiles.size()>8||!b.available(tc.round))continue;
++        const int d=w.distance(g,o.p);if(d>=65535)continue;
++        const float upper=(group.reward_gems+gold_price*group.reward_gold)/(d+6.f);
++        if(!group.field){if(d<=30&&upper>cold_bound){cold=g;cold_bound=upper;}continue;}
++        unsigned at=0;while(at<count&&best[at].bound>=upper)++at;
++        if(at==best.size())continue;
++        count=std::min<unsigned>(count+1,best.size());
++        for(unsigned k=count-1;k>at;--k)best[k]=best[k-1];best[at]={static_cast<int>(g),d,upper};
++    }
++    if(cold>=0&&m.field_needed<0)m.field_needed=cold; // The bid's exact-route dependency, not a random warm-up.
++    std::optional<economy::Bid> result;
++    for(unsigned k=0;k<count;++k) {
++        if(!tc.allow(10000)||started-fuel_left()>7500)break;
++        const auto [g,d,bound]=best[k];(void)bound;
++        const auto& group=w.groups[g];
++        if(reserved_job(w,m,o,g,tc))continue;
++        const auto clear=legacy_clear_quote(w,m,o,g,timing);if(!clear.safe)continue;
++        const int finish=std::max(0,d-o.range)+clear.rounds+2*group.radius+actor.capture_rounds+1;
++        if(finish<=0||finish>remaining)continue;
++        const float boost=group.cluster&&actor.prospector?1.25f:1.f;
++        float value=gold_price*std::floor(group.reward_gold*boost*actor.gold_multiplier);
++        if(altar>=0&&!group.tiles.empty()&&m.bank_access[altar].plan.loss==0) {
++            const int delivery=w.altar_distance(altar,group.tiles.front());
++            const int channel=bank_duration(o.bag+static_cast<int>(group.reward_gems*boost));
++            if(delivery<65535&&channel>=0&&finish+delivery+channel+1<=remaining)value+=std::floor(group.reward_gems*boost);
++        }
++        economy::Bid bid{g,1u<<w.slot,w.slot,value,static_cast<float>(finish)};
++        if(value>0&&(!result||bid.utility()>result->utility()))result=bid;
++    }
++    return result;
++}
++#endif
+ float upgraded_job_value(const ShopVisit& shop,const StaticWorld& w,const Memory& m,const Observation& o,const TurnContext& tc,int horizon) {
+     if(!shop.valid||!tc.allow(16000)||horizon<=0)return 0;
+     auto before=economic_actor({cambc::self(),o.p,o.hp,o.max_hp,o.strength,o.range});
+@@ -203,7 +260,7 @@ float upgraded_job_value(const ShopVisit& shop,const StaticWorld& w,const Memory
+         if(!group.field||group.strength<=0||group.tiles.empty()||group.tiles.size()>8||!m.groups[g].available(tc.round))continue;
+         ++checked;
+         int home=0,delivery=65535;
+-        for(auto p:group.tiles)home=std::max(home,static_cast<int>(w.home.get(p)));
++        for(auto p:group.tiles)home=std::max(home,static_cast<int>(w.home_at(p)));
+         for(unsigned a=0;a<w.altars.size();++a) {
+             int distance=0;for(auto p:group.tiles)distance=std::max(distance,w.altar_distance(a,p));
+             delivery=std::min(delivery,distance);
+@@ -229,7 +286,7 @@ void refresh_shop_quote(const StaticWorld& w,Memory& m,const Observation& o,cons
+     if(o.gold<static_cast<int>(cambc::item_type::monster_shard_of_strength.cost())||!o.enemies.empty()||!tc.allow(20000))return;
+     if(m.shop_quote_gold==o.gold&&m.shop_quote_income==m.economic_gem_rate&&m.shop_quote_gold_income==m.economic_gold_rate&&
+         static_cast<int>(tc.round)-m.shop_quote_round<16)return;
+-    const int home=w.home.get(o.p);if(home>=65535)return;
++    const int home=w.home_at(o.p);if(home>=65535)return;
+     // Scheduled before objective/circuit search; their bounded work must not
+     // make the gear alternative permanently disappear from the action set.
+     const int visit=2*home+1;
+@@ -252,7 +309,7 @@ std::optional<Goal> resume_trip(StaticWorld& w,Memory& m,const Observation& o,co
+         const int g=route.job();
+         if(g<0) {
+             if(route.phase==trip::Phase::Shop&&shop_visit_pending(tc.round))return Goal{GoalKind::Home};
+-            route.advance(tc.round,o.bag,false,true,w.home.get(o.p)==0);
++            route.advance(tc.round,o.bag,false,true,w.home_at(o.p)==0);
+             if(route.phase==trip::Phase::Deliver) {m.contract.objective=-1;m.economic_crew=0;return Goal{GoalKind::Bank,altar};}
+             if(route.phase==trip::Phase::Shop) {
+                 // The counterfactual future visit is an executable itinerary,
+@@ -367,7 +424,7 @@ trip::Plan collection_trip(StaticWorld& w,Memory& m,const Observation& o,const T
+ // checks, or turn an estimated delivery/risk cost into a safety certificate.
+ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc,
+                 Goal work,int altar,int altar_distance,int remaining) {
+-    const int home=w.home.get(o.p);
++    const int home=w.home_at(o.p);
+     const auto owned=cambc::self().item_count();
+     auto reduction=[&](cambc::item_family family) {
+         float value=0;
+@@ -471,7 +528,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
+             } else if(opening&&opening->quality==gate::Quality::Ready) {
+                 // Farm -> Home -> opening -> delivery. The opening quote keeps
+                 // current equipment, so a funded upgrade is not invented here.
+-                const int home_after=std::min<int>(w.home.get(group.tiles.front()),cambc::constants::recall_time)+1;
++                const int home_after=std::min<int>(w.home_at(group.tiles.front()),cambc::constants::recall_time)+1;
+                 delivery=home_after+opening_work+opening->delivery+bank_time(o.bag+static_cast<int>(q.gems));
+             }
+             choices[0]={macro::Kind::Farm,g,q.finish,delivery,discount*q.gems,discount*q.gold_low,0,
+@@ -488,7 +545,7 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
+     }
+     const float local_loss=enemy_danger(o.p,o);
+     if(circuit.count&&o.enemies.empty()&&m.shop_quote.valid&&m.shop_quote_gold==o.gold) {
+-        const int from_bank=w.home.get(w.altars[altar].tile);
++        const int from_bank=w.home_at(w.altars[altar].tile);
+         if(from_bank<65535&&circuit.finish+2*from_bank+1<remaining) {
+             // Compare bank->continue with bank->home/shop->return to the same
+             // continuation position. Cash spent is an explicit opportunity cost.
+@@ -587,6 +644,18 @@ Goal macro_goal(StaticWorld& w,Memory& m,const Observation& o,const TurnContext&
+     return work;
+ }
+ }
++#if DZ_LEGACY_FARM
++void prepare_solo_incumbent(const StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
++    m.solo_incumbent={};
++    if(m.contract.objective>=0||m.siege_task.active()||m.bank_delivery.active()||m.shopping_since>=0||o.channel())return;
++    const int remaining=std::max(1,static_cast<int>(cambc::constants::max_rounds-tc.round));
++    // Before speculative access/crew work, obtain a feasible gold-income lower
++    // bound. No future gem delivery or equipment purchase is assumed here.
++    const auto bid=executable_solo_bid(w,m,o,tc,-1,remaining);if(!bid)return;
++    m.solo_incumbent={static_cast<int>(tc.round),bid->objective,o.bag,m.hp_version[bid->objective],o.p,
++        o.hp,o.strength,o.camp_factor,o.camp_damage,bid->value,bid->duration,objective::gold_price(remaining)};
++}
++#endif
+ bool crew_ready(const StaticWorld& w,Memory& m,const Observation& o,int g,const TurnContext& tc) {
+     if(m.crew_execution.managed&&m.crew_execution.round==static_cast<int>(tc.round)&&m.crew_execution.group==g)
+         return m.crew_execution.fire;
+@@ -599,6 +668,14 @@ bool crew_ready(const StaticWorld& w,Memory& m,const Observation& o,int g,const
+         }
+         return o.hp>1.25f*incoming*(attacks+escape)+.15f*o.max_hp;
+     }
++#if DZ_LEGACY_FARM
++    if(o.enemies.empty()&&m.contract.objective==g&&m.economic_crew==(1u<<w.slot)&&tc.allow(7000)) {
++        auto timing=reset_timing();
++        if(!cambc::self().can_cast())timing.remaining=std::max(timing.remaining,1u);
++        if(!timing.period)timing.remaining=0;
++        if(legacy_clear_quote(w,m,o,g,timing).safe)return true;
++    }
++#endif
+     if(m.economic_crew==0||m.contract.objective!=g)
+         return clear_survivable(group_clear_risk(w,m,o,g),o.hp,o.max_hp);
+     const auto word=shared_word();unsigned present=1u<<w.slot;
+@@ -710,7 +787,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+             const auto item=cambc::get_item_enum(cambc::item_family::power,receipt.stat?cambc::item_stat::health:cambc::item_stat::strength);
+             const auto info=item.info();const auto owned=cambc::self().item_count();
+             const unsigned count=info.cost?std::min(16u,static_cast<unsigned>(o.gold)/info.cost):0;
+-            const int home=w.home.get(o.p),cost=count*info.cost;
++            const int home=w.home_at(o.p),cost=count*info.cost;
+             if(info.result&&count&&home<65535&&2*home+1<remaining&&receipt.value>gold_price*cost) {
+                 ShopVisit shop{item,count,owned[item],owned[*info.result],cost,static_cast<int>(tc.round),receipt.value,true};
+                 commit_shop_visit(shop);m.shopping_since=tc.round;m.shopping_deadline=tc.round+home+15;
+@@ -870,6 +947,22 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         if(helper_done||!b.available(tc.round)){m.contract.objective=-1;m.leave_crew();}
+         else m.release(tc.round);
+     }
++#if DZ_LEGACY_FARM
++    std::optional<economy::Bid> executable;
++    const auto& seed=m.solo_incumbent;
++    if(seed.round==static_cast<int>(tc.round)&&seed.group>=0&&seed.position==o.p&&seed.hp==o.hp&&seed.strength==o.strength&&
++        seed.factor==o.camp_factor&&seed.damage==o.camp_damage&&seed.bag==o.bag&&seed.version==m.hp_version[seed.group]&&
++        seed.duration<=remaining&&m.groups[seed.group].available(tc.round)&&seed.gold_price>0)
++        executable=economy::Bid{seed.group,1u<<w.slot,w.slot,seed.value*gold_price/seed.gold_price,seed.duration};
++    else executable=executable_solo_bid(w,m,o,tc,altar,remaining);
++    auto retain_executable=[&]() -> Goal {
++        const auto& bid=*executable;const auto& b=m.groups[bid.objective];
++        m.leave_crew();m.economic_crew=bid.crew;m.economic_capturer=w.slot;
++        m.contract.start(bid.objective,tc.round,w.distance(bid.objective,o.p),b.hp,b.capture);
++        return {GoalKind::Farm,bid.objective};
++    };
++    if((static_cast<int>(tc.round)<m.economic_retry_after||!tc.allow(28000))&&executable)return retain_executable();
++#endif
+     if(static_cast<int>(tc.round)<m.economic_retry_after||!tc.allow(28000))
+         return macro_goal(w,m,o,tc,{GoalKind::Home},altar,altar_distance,remaining);
+     const auto start=fuel_left();
+@@ -893,7 +986,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         if(lease.valid&&(lease.members&(1u<<slot))&&lease.leader!=w.slot&&claim.objective!=lease.objective)continue;
+         // A currently visible body at a live job is physically reserved. No
+         // claim without a visible body establishes freshness or reserves work.
+-        if(!economy::available_for_offer(claim.objective,ally.hp>=ally.max_hp-.01f&&w.home.get(ally.p)==0))continue;
++        if(!economy::available_for_offer(claim.objective,ally.hp>=ally.max_hp-.01f&&w.home_at(ally.p)==0))continue;
+         // Gold is self-only in the SDK; shopping intent comes from the visible
+         // body's claim. Visible carried bags are legal to read.
+         const int carried=ally.sdk.gem_count();
+@@ -935,7 +1028,8 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+     const auto frontier=m.objective_frontier.next(w.groups.size(),priorities);
+     const auto discovery_start=fuel_left();
+     for(unsigned entry=0;entry<frontier.count;++entry) {
+-        if(!tc.allow(30000)||discovery_start-fuel_left()>5000)break;
++        if((!DZ_PRODUCTIVE_EXECUTION||(entry&3u)==0)&&
++            (!tc.allow(30000)||discovery_start-fuel_left()>5000))break;
+         const unsigned g=frontier.groups[entry];
+         auto& b=m.groups[g];auto& group=w.groups[g];
+         // The incumbent still completes this prefix and owns its payout. It is
+@@ -998,6 +1092,9 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+     std::array<float,objective::max_crew> alternatives{};
+     float gem_rate=0,gold_rate=0,continuation_rate=-1;
+     std::vector<economy::Bid> bids;bids.reserve(48);
++#if DZ_LEGACY_FARM
++    if(executable)bids.push_back(*executable);
++#endif
+     struct EarlyQuote {int group;unsigned slot;int finish,work;float value;};
+     std::array<EarlyQuote,48> early_quotes{};unsigned early_count=0;
+     const unsigned limit=std::min<unsigned>(8,candidates.size());
+@@ -1012,7 +1109,7 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         const auto* project=candidates[index].project;
+         if(project&&project->quality==gate::Quality::Ready&&o.bag>0) {
+             const auto& view=*opening_bank(m,*project); // opening_project checked the selected model.
+-            const int finish=w.home.get(o.p)+project->rounds+project->delivery+view.channel+1;
++            const int finish=w.home_at(o.p)+project->rounds+project->delivery+view.channel+1;
+             if(finish<=remaining&&finish<=view.until-(static_cast<int>(tc.round)-view.round))
+                 bids.push_back({g,1u<<w.slot,w.slot,static_cast<float>(o.bag),static_cast<float>(finish),0,0,0,project->altar,finish});
+         }
+@@ -1224,6 +1321,10 @@ std::optional<Goal> economic_goal(StaticWorld& w,Memory& m,const Observation& o,
+         static_cast<unsigned>(std::count_if(candidates.begin(),candidates.end(),[](auto c){return c.project!=nullptr;})),o.bag);}
+ #endif
+     if(chosen.objective<0){
++#if DZ_LEGACY_FARM
++        if(executable&&std::none_of(assignments.begin(),assignments.end(),[&](const auto& a){return a.objective==executable->objective;}))
++            return retain_executable();
++#endif
+         m.leave_crew();
+         if(o.bag==0&&bootstrap>=0) {
+             // An unknown delivery forecast must not forbid acquiring the first
+diff --git a/bots/dz/src/economy.h b/bots/dz/src/economy.h
+index f7c6de3..3dc421e 100644
+--- a/bots/dz/src/economy.h
++++ b/bots/dz/src/economy.h
+@@ -6,6 +6,9 @@ namespace dz {
+ objective::Actor economic_growth(const SeenChampion&);
+ objective::Actor economic_actor(const SeenChampion&);
+ objective::Kit economic_kit(const SeenChampion&,const TurnContext&,bool normalized=false);
++#if DZ_LEGACY_FARM
++void prepare_solo_incumbent(const StaticWorld&,Memory&,const Observation&,const TurnContext&);
++#endif
+ std::optional<Goal> economic_goal(StaticWorld&,Memory&,const Observation&,const TurnContext&,int altar,int altar_distance);
+ bool crew_ready(const StaticWorld&,Memory&,const Observation&,int group,const TurnContext&);
+ }
+diff --git a/bots/dz/src/engage.cpp b/bots/dz/src/engage.cpp
+index 528bdcb..36d2614 100644
+--- a/bots/dz/src/engage.cpp
++++ b/bots/dz/src/engage.cpp
+@@ -157,7 +157,7 @@ std::optional<Goal> engagement_goal(const StaticWorld& w,Memory& m,const Observa
+     vec2 escape=o.p;float route=1e30f;
+     for(int dx=-1;dx<=1;++dx)for(int dy=-1;dy<=1;++dy) {
+         auto p=o.p+vec2{dx,dy};if(!w.walkable(p)||(p!=o.p&&o.is_occupied(p)))continue;
+-        float value=enemy_danger(p,o)+.25f*w.home.get(p);
++        float value=enemy_danger(p,o)+.25f*w.home_at(p);
+         for(const auto& ally:o.allies)if(ally.hp>.5f*ally.max_hp)value+=.5f*p.chebyshev_distance(ally.p);
+         if(value<route){route=value;escape=p;}
+     }
+diff --git a/bots/dz/src/main.cpp b/bots/dz/src/main.cpp
+index 4d83619..a5c2da1 100644
+--- a/bots/dz/src/main.cpp
++++ b/bots/dz/src/main.cpp
+@@ -1,6 +1,7 @@
+ #include "draft.h"
+ #include "gear.h"
+ #include "safemode.h"
++#include "economy.h"
+ #include "model_audit.h"
+ #include "crew.h"
+ #if DZ_ECONOMY_V2
+@@ -184,6 +185,11 @@ int main() {
+ #endif
+                         DZ_PROF('m');
+ #if DZ_ECONOMY_V2
++#if DZ_LEGACY_FARM
++                        dz::module_work(planner_health,tc,counts,"income-incumbent",[&]{
++                            dz::prepare_solo_incumbent(*world,*mem,*obs,tc);
++                        });
++#endif
+                         // A requested cold route is a dependency of the next
+                         // bid, not spare-time work after speculative crews.
+                         if(mem->field_needed>=0&&!world->groups[mem->field_needed].field)
+@@ -337,7 +343,7 @@ int main() {
+ #if DZ_ECONOMY_V2
+                             // Waiting safely at full-health spawn is available
+                             // capacity, not a committed equipment/recovery trip.
+-                            if(mem->shopping_since<0&&!mem->neutral_recovery.active&&world->home.get(cambc::self().position())==0&&
++                            if(mem->shopping_since<0&&!mem->neutral_recovery.active&&world->home_at(cambc::self().position())==0&&
+                                 obs->hp>=obs->max_hp-.01f)objective=dz::protocol::idle;
+ #endif
+                         }
+@@ -437,7 +443,7 @@ int main() {
+                 if (world && world->ready && !cambc::self().state().is_dead() && !cambc::self().is_recalling() &&
+                     !cambc::self().is_submitting_gems() && !cambc::self().is_teleporting()) {
+                     auto p = cambc::self().position();
+-                    if (world->home.get(p) > 0 && cambc::self().health() < .3f * cambc::self().max_health()) act.recall();
++                    if (world->home_at(p) > 0 && cambc::self().health() < .3f * cambc::self().max_health()) act.recall();
+                 }
+             } catch (const dz::StaleTurn&) { ++counts.stale; continue; }
+             catch (...) {}
+diff --git a/bots/dz/src/memory.h b/bots/dz/src/memory.h
+index 0fd3285..984de11 100644
+--- a/bots/dz/src/memory.h
++++ b/bots/dz/src/memory.h
+@@ -65,6 +65,12 @@ struct Memory {
+     crew::DeferredOffer deferred_crew;
+     opening::Commitment early_opening;
+     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
++#if DZ_LEGACY_FARM
++    struct SoloIncumbent {
++        int round=-1,group=-1,bag=0;unsigned version=0;
++        vec2 position{};float hp=0,strength=0,factor=0,damage=0,value=0,duration=0,gold_price=0;
++    } solo_incumbent;
++#endif
+     struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
+     int rendezvous_until=0;
+     int crew_accept_until=0;
+diff --git a/bots/dz/src/safemode.cpp b/bots/dz/src/safemode.cpp
+index 1da052f..712cbe3 100644
+--- a/bots/dz/src/safemode.cpp
++++ b/bots/dz/src/safemode.cpp
+@@ -28,7 +28,7 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick)
+     cleared=quick.publish(protocol::with_slot(shared_word(),world.slot,{protocol::idle,false}));
+     if (!state.is_dead()&&!state.contains(cambc::champion_state::recalling)&&
+         !state.contains(cambc::champion_state::submitting_gems)&&!state.contains(cambc::champion_state::teleporting)) {
+-        const auto p=me.position(); before=world.home.get(p); after=before;
++        const auto p=me.position(); before=world.home_at(p); after=before;
+         if (before>0&&before<cambc::distance_field::unreachable&&state.contains(cambc::champion_state::can_move)) {
+             const std::array<vec2,8> directions{vec2::north,vec2::north_east,vec2::east,vec2::south_east,
+                 vec2::south,vec2::south_west,vec2::west,vec2::north_west};
+@@ -36,9 +36,9 @@ void quick_home(const StaticWorld& world,const TurnContext& tc,Actuator& quick)
+                 tc.guard();
+                 if (fuel_left()<=2500) break;
+                 auto next=p+delta;
+-                if (!world.walkable(next)||world.home.get(next)>=before||cambc::vision::has_champion(next)||cambc::vision::has_camp(next)||
++                if (!world.walkable(next)||world.home_at(next)>=before||cambc::vision::has_champion(next)||cambc::vision::has_camp(next)||
+                     cambc::vision::has_teleport(next)) continue;
+-                if (quick.move(next)) { moved=true; after=world.home.get(me.position()); break; }
++                if (quick.move(next)) { moved=true; after=world.home_at(me.position()); break; }
+             }
+         }
+     }
+@@ -290,7 +290,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
+     // searches. Rebuilding those first could keep a recovered worker returning
+     // Home forever without advancing or timing out its existing approach.
+     if(mem.siege_task.active())if(auto goal=siege_goal(world,mem,obs,tc,false))return *goal;
+-    if(mem.openings.size()!=world.altars.size()&&obs.enemies.empty()&&world.home.get(obs.p)==0) {
++    if(mem.openings.size()!=world.altars.size()&&obs.enemies.empty()&&world.home_at(obs.p)==0) {
+         quote_opening(world,mem,obs,tc);return {GoalKind::Home};
+     }
+ #endif
+@@ -554,7 +554,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
+         const float value = (g.sdk.gem_value()+gold_weight(tc.round)*g.sdk.gold_value())*half_weight(world,i);
+         if (value<=0) continue;
+ #if DZ_STYLE == 2
+-        if (world.home.get(g.tiles.front())>14) continue;
++        if (world.home_at(g.tiles.front())>14) continue;
+ #elif DZ_STYLE == 3
+         if (!g.cluster) continue;
+ #endif
+@@ -686,7 +686,7 @@ Goal safe_goal(StaticWorld& world, Memory& mem, const Observation& obs, const Tu
+             if constexpr (DZ_CREW_REACH) {
+                 if (g.field && g.field->get(obs.p)>=cambc::distance_field::unreachable) continue;
+             }
+-            const int home=world.home.get(g.tiles.front());
++            const int home=world.home_at(g.tiles.front());
+             if (home>=cambc::distance_field::unreachable) continue;
+             int claims=0;
+             for (unsigned slot=0;slot<world.allies.size()&&slot<protocol::slots;++slot)
+diff --git a/bots/dz/src/siege.cpp b/bots/dz/src/siege.cpp
+index 279ee7e..bad6e02 100644
+--- a/bots/dz/src/siege.cpp
++++ b/bots/dz/src/siege.cpp
+@@ -37,6 +37,7 @@ Exposure exposure(const StaticWorld& w,const Memory& m,int group,vec2 p,float fa
+     if(group>=0)asleep.load(cambc::vision::asleep_camp_tiles());
+     const auto started=fuel_left();
+ #endif
++    unsigned checked_groups=0,checked_members=0;
+     for(unsigned g=0;g<w.groups.size();++g) {
+         const auto& design=w.groups[g];
+ #if DZ_ECONOMY_V2
+@@ -44,13 +45,14 @@ Exposure exposure(const StaticWorld& w,const Memory& m,int group,vec2 p,float fa
+ #endif
+         if(m.groups[g].state==GroupState::Respawning&&m.groups[g].ready>static_cast<int>(tc.round))continue;
+         if(design.strength<=0||w.distance_floor(g,p)>12)continue;
+-        if(!tc.allow(7000)){result.complete=false;return result;}
++        if((!DZ_PRODUCTIVE_EXECUTION||(checked_groups++&3u)==0)&&!tc.allow(7000)){result.complete=false;return result;}
+         const auto& hp=m.member_hp[g];
+         for(unsigned k=0;k<hp.size();++k) {
+             bool removed=false;for(const auto& cut:cleared)removed|=cut.group==static_cast<int>(g)&&cut.member==static_cast<int>(k);
+             if(removed)continue;
+             if(design.initial_strength[k]<=0||p.chebyshev_distance(design.tiles[k])>12)continue;
+-            if(!tc.allow(6000)||started-fuel_left()>8000){result.complete=false;return result;}
++            if((!DZ_PRODUCTIVE_EXECUTION||(checked_members++&7u)==0)&&
++                (!tc.allow(6000)||started-fuel_left()>8000)){result.complete=false;return result;}
+ #if DZ_ECONOMY_V2
+             const bool seen=visible.test(design.tiles[k]);
+             const int renewal=!seen&&hp[k]<=0?design.sdk.max_respawn_timer():0;
+@@ -112,7 +114,7 @@ EscapeRoute escape(const StaticWorld& w,const Memory& m,const Observation& o,vec
+     std::array<int,8> home{};
+     for(unsigned i=0;i<directions.size();++i) {
+         const vec2 next{from.x+directions[i].x,from.y+directions[i].y};
+-        home[i]=w.walkable(next)?w.home.get(next):65535;
++        home[i]=w.walkable(next)?w.home_at(next):65535;
+     }
+     // Put a homeward first step first without sorting or repeating SDK reads.
+     const auto best=std::min_element(home.begin(),home.end())-home.begin();
+@@ -528,7 +530,7 @@ std::optional<Goal> neutral_recovery(StaticWorld& w,Memory& m,const Observation&
+     // Visible awake camps are actual hazards. Hidden spawns are uncertain and
+     // stay in the full admission scene, but are not declared awake merely from
+     // design HP. A new unexplained HP loss activates that conservative scene.
+-    const bool recovering=m.neutral_recovery.update(false,w.home.get(o.p)==0,o.hp,o.max_hp);
++    const bool recovering=m.neutral_recovery.update(false,w.home_at(o.p)==0,o.hp,o.max_hp);
+     LocalMask visible;visible.load(cambc::vision::visible_tiles());
+     Exposure hazards;
+     for(const auto& camp:scene.view())if(visible.test({camp.p.x,camp.p.y})||injured||recovering)hazards.camps[hazards.count++]=camp;
+@@ -687,7 +689,7 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
+             if(!tc.allow(11000)||started-fuel_left()>8000)return;
+             const auto target=w.groups[t.group].tiles[t.member];Tile approach{};int nearest=65535;
+             if(plan.approach_search.active&&plan.approach_group==t.group&&plan.approach_member==t.member) {
+-                approach=plan.channel_approach;nearest=w.home.get({approach.x,approach.y});
++                approach=plan.channel_approach;nearest=w.home_at({approach.x,approach.y});
+             } else {
+               for(int dx=-o.range;dx<=o.range;++dx)for(int dy=-o.range;dy<=o.range;++dy) {
+                 if(!dx&&!dy)continue;
+@@ -697,7 +699,7 @@ void quote_opening(StaticWorld& w,Memory& m,const Observation& o,const TurnConte
+                     const int k=w.tile_members[p.y*width+p.x];
+                     if(k<0||m.member_hp[g][k]>0)continue;
+                 }
+-                const int d=w.home.get(p);
++                const int d=w.home_at(p);
+                 if(d<nearest){nearest=d;approach={p.x,p.y};}
+               }
+               if(nearest<65535) {
+@@ -807,7 +809,7 @@ const gate::Plan* opening_project(const Memory& m,const Observation& o,int group
+ }
+ std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation& o,const TurnContext& tc) {
+     if(!o.enemies.empty()||!tc.allow(12000))return std::nullopt;
+-    const auto word=shared_word();const int home=w.home.get(o.p);bool needed=false;
++    const auto word=shared_word();const int home=w.home_at(o.p);bool needed=false;
+     for(const auto& ally:o.allies) {
+         const auto slot=std::find(w.allies.begin(),w.allies.end(),ally.sdk);
+         if(slot==w.allies.end())continue;
+@@ -815,7 +817,7 @@ std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation&
+         const auto project=m.team.project(index,tc.round,w.allies.size());
+         const bool returning=claim==protocol::retreat||(project.valid&&project.task==claim&&project.intent==team::Intent::Recover&&ally.hp<ally.max_hp-.01f);
+         if(!returning)continue;
+-        if(siege::yield_lane({o.p.x,o.p.y},{ally.p.x,ally.p.y},o.hp,o.max_hp,ally.hp,ally.max_hp,home,w.home.get(ally.p)))needed=true;
++        if(siege::yield_lane({o.p.x,o.p.y},{ally.p.x,ally.p.y},o.hp,o.max_hp,ally.hp,ally.max_hp,home,w.home_at(ally.p)))needed=true;
+     }
+     if(!needed)return std::nullopt;
+     const auto threats=exposure(w,m,-1,o.p,o.camp_factor,tc);
+@@ -825,7 +827,7 @@ std::optional<Goal> yield_siege_lane(StaticWorld& w,Memory& m,const Observation&
+         const auto p=o.p+vec2{dx,dy};if(p==o.p||!free(w,m,o,p,tc.round+1))continue;
+         const bool guarded=m.neutral_moves.round==static_cast<int>(tc.round)&&m.neutral_moves.origin==Tile{o.p.x,o.p.y};
+         if(guarded&&!(m.neutral_moves.allowed&(1u<<((dx+1)*3+dy+1))))continue;
+-        const int d=w.home.get(p);if(d>=home)continue;
++        const int d=w.home_at(p);if(d>=home)continue;
+         const float incoming=camp_damage({p.x,p.y},threats.view());
+         if(o.hp<=incoming+.15f*o.max_hp)continue;
+         if(incoming<damage||(incoming==damage&&d<distance)){best=p;damage=incoming;distance=d;}
+@@ -875,7 +877,7 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
+         task.phase=siege::Phase::Escape;
+     }
+     if(task.phase==siege::Phase::Recover) {
+-        if(task.restock&&w.home.get(o.p)>0)return Goal{GoalKind::Home};
++        if(task.restock&&w.home_at(o.p)>0)return Goal{GoalKind::Home};
+         if(o.hp<.95f*o.max_hp)return Goal{GoalKind::Home};
+         if(task.finished)return finish_siege(m,o,tc);
+ #if DZ_ECONOMY_V2
+@@ -1009,7 +1011,7 @@ std::optional<Goal> siege_goal(StaticWorld& w,Memory& m,const Observation& o,con
+     } else
+     for(int dx=-o.range;dx<=o.range;++dx)for(int dy=-o.range;dy<=o.range;++dy) {
+         const auto p=target+vec2{dx,dy};if(p==target||!free(w,m,o,p,tc.round))continue;
+-        const float score=p.chebyshev_distance(o.p)+.01f*w.home.get(p);
++        const float score=p.chebyshev_distance(o.p)+.01f*w.home_at(p);
+         if(score<best){best=score;attack=p;}
+     }
+     if(best>=1e30f){defer(m,tc.round,20);return std::nullopt;}
+diff --git a/bots/dz/src/static_world.cpp b/bots/dz/src/static_world.cpp
+index ef90b57..8da2e92 100644
+--- a/bots/dz/src/static_world.cpp
++++ b/bots/dz/src/static_world.cpp
+@@ -305,6 +305,15 @@ void StaticWorld::build_one_field(const TurnContext& tc, int preferred) {
+     }
+     auto field = std::make_unique<cambc::distance_field>();
+     field->compute(blocked, roots, visited);
++#if DZ_ECONOMY_V2 && DZ_PRODUCTIVE_EXECUTION
++    auto distances=field->export_linear_buffer();
++#if DZ_TRACE
++    const auto p=cambc::self().position();
++    if(linear_distance(distances,cambc::map::width(),cambc::map::height(),p.x,p.y)!=field->get(p))
++        throw std::logic_error("distance export differs from SDK lookup");
++#endif
++    tc.guard(); groups[selected].distances=std::move(distances);
++#endif
+     tc.guard(); groups[selected].field = std::move(field);
+ }
+ const std::vector<vec2>* StaticWorld::approach_tiles(int index, const TurnContext& tc) {
+@@ -327,12 +336,20 @@ const std::vector<vec2>* StaticWorld::approach_tiles(int index, const TurnContex
+ }
+ int StaticWorld::distance(int g, vec2 p) const {
+     const auto& group = groups[g];
++#if DZ_ECONOMY_V2 && DZ_PRODUCTIVE_EXECUTION
++    if(group.field&&!group.distances.empty())
++        return linear_distance(group.distances,cambc::map::width(),cambc::map::height(),p.x,p.y);
++#endif
+     if (group.field) return group.field->get(p);
+     int result = 65535;
+     for (auto tile : group.tiles) result = std::min(result, static_cast<int>(p.chebyshev_distance(tile)));
+     return (result * 13 + 9) / 10;
+ }
+ int StaticWorld::altar_distance(unsigned a, vec2 p) const {
++#if DZ_ECONOMY_V2 && DZ_PRODUCTIVE_EXECUTION
++    if(altars[a].field&&!altars[a].distances.empty())
++        return linear_distance(altars[a].distances,cambc::map::width(),cambc::map::height(),p.x,p.y);
++#endif
+     return altars[a].field ? altars[a].field->get(p) : 65535;
+ }
+ #if DZ_BANK_AWARE_RATE
+diff --git a/bots/dz/src/static_world.h b/bots/dz/src/static_world.h
+index 1a84a35..40efe55 100644
+--- a/bots/dz/src/static_world.h
++++ b/bots/dz/src/static_world.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ #include "kernel.h"
+ #include "local_mask.h"
++#include "distance_view.h"
+ #if DZ_ECONOMY_V2
+ #include "camp_threat.h"
+ #endif
+@@ -17,6 +18,9 @@ struct Group {
+     float max_hp = 0, strength = 0;
+ #if DZ_ECONOMY_V2
+     std::vector<cambc::camp> ordered_members;
++#if DZ_PRODUCTIVE_EXECUTION
++    std::vector<std::uint16_t> distances;
++#endif
+     float reward_gems=0,reward_gold=0;
+     std::size_t stats_read=0;
+     bool stats_started=false;
+@@ -98,6 +102,13 @@ public:
+         return p.x>=0&&p.y>=0&&p.x<width&&p.y<height&&home_distances.size()==static_cast<unsigned>(width*height)?home_distances[p.y*width+p.x]:65535;
+     }
+ #endif
++    int home_at(vec2 p) const {
++#if DZ_ECONOMY_V2 && DZ_PRODUCTIVE_EXECUTION
++        return linear_distance(home_distances,cambc::map::width(),cambc::map::height(),p.x,p.y);
++#else
++        return home.get(p);
++#endif
++    }
+     std::vector<Group> groups;
+     std::vector<Altar> altars;
+     std::vector<cambc::champion> allies;
+diff --git a/tests/dz/host/core_test.cpp b/tests/dz/host/core_test.cpp
+index c03b233..73d5dc1 100644
+--- a/tests/dz/host/core_test.cpp
++++ b/tests/dz/host/core_test.cpp
+@@ -8,6 +8,7 @@
+ #include "failed_moves.h"
+ #include "clear_risk.h"
+ #include "fight.h"
++#include "distance_view.h"
+ #include "attack_clock.h"
+ #include "timed_damage.h"
+ #include "shield_clear.h"
+@@ -19,6 +20,16 @@
+ 
+ int main() {
+     using namespace dz;
++    {
++        const std::uint16_t cells[]{0,1,65535,3,4,5};
++        assert(linear_distance(cells,3,2,0,0)==0);
++        assert(linear_distance(cells,3,2,2,0)==65535);
++        assert(linear_distance(cells,3,2,1,1)==4);
++        assert(linear_distance(cells,3,2,-1,0)==65535);
++        assert(linear_distance(cells,3,2,3,0)==65535);
++        assert(linear_distance(cells,3,2,0,2)==65535);
++        assert(linear_distance(std::span<const std::uint16_t>(cells,5),3,2,0,0)==65535);
++    }
+     for (unsigned code=0;code<256;++code) assert(protocol::is_group_code(code)==(code<112));
+     assert(!protocol::is_group_code(protocol::idle)&&!protocol::is_group_code(protocol::shop));
+     FailedMoves blocked_moves;

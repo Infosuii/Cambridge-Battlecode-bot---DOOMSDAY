@@ -1,0 +1,278 @@
+{
+  "status": "FAIL / UNPROMOTED",
+  "scope": "Controlled layered correctness fixture against frozen idle; not competitive evidence. No validation or release holdout used.",
+  "selected_mac_sha256": "437f91c3a6abb160ea151be081c4d410e9e3161d4ef8042c73df2db4063581f0",
+  "selected_windows_sha256": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
+  "checks": [
+    "bank_model_test: 2000 independent shield schedules and 3836 complete/capped feasible plans",
+    "gate_plan_test including paid prerequisite ordering and resumable prefixes",
+    "siege_test: 20503 simulated heal-return visits",
+    "11 immutable capsules / 22 native cells verified"
+  ],
+  "not_checked": [
+    "Full 17-suite host runner",
+    "General native channel/shield calibration",
+    "Competitive strength / v76 parity",
+    "Combined-flags native execution",
+    "Independent validation / release holdout"
+  ],
+  "runs": [
+    {
+      "run": "dz-bank-access-01",
+      "sha256": "4fc64c6227c58080f056d66d696e120964b1f86c67ac5f176843a6b1a2163e16",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 420,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 392,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-02",
+      "sha256": "fec3d983334e60572e4d13901684d42da32ab0ea900da12590422f4c5e1bd28f",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 455,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 462,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-debug-03",
+      "sha256": "3661ef6824095b7789373923efbbd3a39818a4e713800ae34e0b9d509f1822bf",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 455,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 448,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-stage-04",
+      "sha256": "ae06204b1f354e3b0b3717fce58a530ed473e780d502649d3553fd02ced54907",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 462,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 441,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-prerequisites-05",
+      "sha256": "8dbb5bcff2e41e5b478cd3e04c937ec66c9e1ebcd1be9e20ccf875d9303a7826",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 427,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 420,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-path-06",
+      "sha256": "b7f4d3dd722c947fb0eded22950b64be555f4d91a9bf6a15a7cfae6990fea4f6",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 420,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 434,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-scheduling-07",
+      "sha256": "cbe508dcdc64e92387bd6b120d0efc66e6721bdc0a8596f3b6cfd12e96810e43",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 406,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 427,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-resumable-08",
+      "sha256": "3fca6cafd392084cfe1688046bc3b668b8f8c7c1f4f061a6593786ae9d746003",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 448,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 434,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-exits-09",
+      "sha256": "aca0933542a700df21eb182e1b26d01a92b03189614003681728c73df992727d",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 0,
+          "collected": 392,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 3
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 427,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 3
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-carrier-10",
+      "sha256": "8c2e36e226e366c5a91122e95efff6ba706dd5042fa920b236739e95c96db763",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 21,
+          "collected": 407,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 406,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    },
+    {
+      "run": "dz-bank-access-final-11",
+      "sha256": "96438ba99effb901075d33f801792391c1d6d7ed4152ce97081cc316d09266b7",
+      "cells": [
+        {
+          "side": "A",
+          "banked": 21,
+          "collected": 407,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        },
+        {
+          "side": "B",
+          "banked": 0,
+          "collected": 406,
+          "deaths": 0,
+          "faults": 0,
+          "fuel_outs": 0
+        }
+      ]
+    }
+  ],
+  "final_strict_audit": {
+    "passed": false,
+    "A_completed_cycles": 18,
+    "A_passed": true,
+    "B_completed_cycles": 0,
+    "B_passed": false
+  },
+  "comparison": {
+    "prior_escape_final02_banked_A": 240,
+    "prior_escape_final02_banked_B": 42,
+    "final11_banked_A": 21,
+    "final11_banked_B": 0,
+    "promote": false
+  },
+  "next": "Integrate opening value/cuts into dynamic crew and progression allocation; solo basic-attack opening quotes can exceed 1500 rounds. Do not scale screens."
+}

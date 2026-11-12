@@ -47,6 +47,10 @@ int main() {
         auto tc = dz::TurnContext::begin(); dz::Actuator act(tc, counts);
 #if DZ_TRACE
         dz::trace_cap = world && world->slot==DZ_TRACE_SLOT && tc.round>=DZ_TRACE_FROM && tc.round<DZ_TRACE_TO ? 60000 : 3000;
+        // A consistently busy planner may never leave the end-turn spare fuel
+        // needed to write buffered diagnostics. Drain them on a fresh budget
+        // before producing more, so missing counters cannot mimic a dead bot.
+        dz::trace_flush();
 #endif
 #if DZ_TRACE
         { ::dz::TraceScope dz_trace_scope;
@@ -140,7 +144,10 @@ int main() {
                 if(mem->siege_task.active())mem->siege_task.reset(tc.round,15);
 #endif
 #if DZ_ECONOMY_V2
-                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};
+                mem->opening_commitment={};mem->shopping_since=-1;mem->siege_depth=0;mem->delivery_trip={};mem->neutral_recovery={};mem->early_opening={};
+#if DZ_LIFECYCLE
+                mem->lifecycle={};mem->contract.objective=-1;mem->leave_crew();mem->field_needed=-1;
+#endif
 #endif
 #if DZ_TRACE
                 { ::dz::TraceScope dz_trace_scope;
@@ -219,6 +226,18 @@ int main() {
 #endif
                         DZ_PROF('m');
 #if DZ_ECONOMY_V2
+                        // A requested cold route is a dependency of the next
+                        // bid, not spare-time work after speculative crews.
+                        if(mem->field_needed>=0&&!world->groups[mem->field_needed].field)
+                            dz::module_work(field_health,tc,counts,"requested-fields",[&]{world->build_one_field(tc,mem->field_needed);});
+                        if(mem->field_needed>=0&&world->groups[mem->field_needed].field)mem->field_needed=-1;
+#if DZ_LIFECYCLE
+                        if(!dz::lifecycle_owns(*mem)) {
+#endif
+                        if(!DZ_LIFECYCLE||mem->lifecycle.altar>=0)
+                            dz::module_work(field_health,tc,counts,"bank-fields",[&]{dz::build_bank_field(*world,*mem,*obs,tc);});
+                        if(mem->contract.objective<0&&!mem->siege_task.active()&&obs->enemies.empty()&&!obs->channel())
+                            dz::module_work(field_health,tc,counts,"crew-planning",[&]{dz::progress_crew_layout(*world,*mem,tc,false);});
                         bool built_crew_route=false;
                         dz::module_work(field_health,tc,counts,"crew-fields",[&]{built_crew_route=dz::build_crew_field(*world,*mem,*obs,tc);});
                         if (!built_crew_route&&mem->field_needed>=0) {
@@ -230,6 +249,9 @@ int main() {
                                 dz::module_work(field_health,tc,counts,"fields",[&]{world->build_one_field(tc,requested);});
                             if (world->groups[requested].field) mem->field_needed=-1;
                         }
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                        }
+#endif
                         dz::Goal goal;
 #if DZ_TRACE && DZ_TRACE_PROFILE
                         const auto planner_fuel=::dz::trace_fuel_mark();
@@ -370,23 +392,40 @@ int main() {
                         }
                         else if (goal.kind == dz::GoalKind::Retreat) objective = dz::protocol::retreat;
 #if DZ_ECONOMY_V2
+                        else if(goal.kind==dz::GoalKind::Fight)objective=dz::protocol::fight;
                         const bool recovering_project=mem->crew_execution.recovering&&mem->crew_execution.group>=0&&
                             mem->crew_execution.group==mem->contract.objective&&tc.round<=static_cast<unsigned>(mem->crew_execution.recovery_deadline)&&
                             (goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat);
                         if(recovering_project)objective=dz::protocol::group_code(mem->crew_execution.group);
+                        const bool siege_project=mem->siege_task.active()&&
+                            (goal.kind==dz::GoalKind::Farm||goal.kind==dz::GoalKind::Home||goal.kind==dz::GoalKind::Retreat||
+                             (goal.kind==dz::GoalKind::YieldSpawn&&goal.destination));
+                        const int siege_owner=mem->siege_depth?mem->siege_parents[0].group:mem->siege_task.group;
+                        // Preserve the root project while withdrawing or clearing
+                        // an access prerequisite. Publishing only the child made
+                        // another solo worker take the parent's occupied lane.
+                        if(siege_project){objective=dz::protocol::group_code(siege_owner);onsite=world->group_at(cambc::self().position())==siege_owner;}
                         auto message=dz::protocol::with_slot(dz::shared_word(), world->slot, {objective, onsite});
                         const auto old_lease=dz::protocol::compact::lease(message,tc.round,2047);
                         const auto fresh_lease=dz::protocol::compact::lease(message,tc.round);
-                        unsigned leader=0;while(leader<dz::protocol::slots&&!(mem->economic_crew&(1u<<leader)))++leader;
+                        const unsigned leader=mem->economic_capturer;
                         const int offered=goal.kind==dz::GoalKind::Farm?goal.index:recovering_project?mem->crew_execution.group:-1;
-                        if(executed&&offered>=0&&leader==world->slot&&offered<112&&
-                            mem->economic_crew!=(1u<<leader)&&mem->contract.objective==offered&&
-                            !(mem->crew_execution.joined&&mem->crew_execution.group==offered&&
-                              !mem->crew_execution.recovering&&
-                              mem->groups[offered].state==dz::GroupState::Partial)&&
-                            (!fresh_lease.valid||fresh_lease.leader==world->slot))
+                        const bool capture=offered>=0&&mem->groups[offered].state==dz::GroupState::Reward;
+                        const auto& sent=mem->crew_publication;
+                        const bool relaying=sent.group==offered&&sent.members==mem->economic_crew&&sent.capturer==world->slot&&leader!=world->slot;
+                        const bool offering=executed&&offered>=0&&(!siege_project||offered==siege_owner)&&(leader==world->slot||relaying)&&offered<112&&mem->contract.objective==offered&&
+                            (std::popcount(mem->economic_crew)>1||capture);
+                        const bool changed=sent.group!=offered||sent.members!=mem->economic_crew||sent.capturer!=mem->economic_capturer;
+                        const bool pulse=dz::team::publisher(tc.round,world->allies.size())==world->slot&&
+                            dz::team::scheduled(tc.round)==dz::team::Kind::Lease;
+                        const bool handoff=capture&&fresh_lease.valid&&fresh_lease.objective==offered&&fresh_lease.capturer==world->slot;
+                        bool announced=false;
+                        if(offering&&(changed||pulse)&&(!dz::team::protected_lease(message,tc.round,world->allies.size())||
+                            fresh_lease.leader==world->slot||handoff)) {
                             message=dz::protocol::compact::with_lease(message,mem->economic_crew,mem->economic_capturer,tc.round);
-                        else if(old_lease.leader==world->slot)
+                            announced=true;
+                        } else if(old_lease.leader==world->slot&&(!offering||old_lease.objective!=offered||
+                            old_lease.members!=mem->economic_crew||old_lease.capturer!=mem->economic_capturer))
                             message=dz::protocol::compact::with_lease(message,0,0,tc.round,false);
                         act.publish(message);
 #elif DZ_HAS(MARKET)
@@ -400,8 +439,11 @@ int main() {
                         });
                         DZ_PROF('c');
                         dz::module_work(field_health,tc,counts,"fields",[&]{
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+                            if(!world->ready)world->boot(tc);
+#endif
 #if DZ_ECONOMY_V2
-                            dz::progress_crew_layout(*world,*mem,tc);
+                            dz::progress_crew_layout(*world,*mem,tc,!DZ_LIFECYCLE);
 #endif
                             world->build_one_field(tc,mem->contract.objective);
                         });

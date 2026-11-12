@@ -16,6 +16,7 @@ struct Group {
     std::vector<int> attack_ranges;
     float max_hp = 0, strength = 0;
 #if DZ_ECONOMY_V2
+    std::vector<cambc::camp> ordered_members;
     float reward_gems=0,reward_gold=0;
     std::size_t stats_read=0;
     bool stats_started=false;
@@ -31,11 +32,26 @@ struct Group {
     vec2 center{}; int radius = 0; // Chebyshev bound of the spawn tiles.
     std::vector<vec2> approach; bool approach_ready = false; // Walkable non-spawn tiles touching the group.
     std::unique_ptr<cambc::distance_field> field;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    std::unique_ptr<LocalMask> field_roots;std::size_t roots_read=0;
+#endif
     explicit Group(cambc::map::camp_group g);
+    std::span<const cambc::camp> members() const {
+#if DZ_ECONOMY_V2
+        return ordered_members;
+#else
+        return sdk.camps();
+#endif
+    }
     void init_stats();
 };
 struct Altar {
     vec2 tile; std::unique_ptr<cambc::distance_field> field;
+#if DZ_ECONOMY_V2
+    std::vector<std::pair<int,int>> bank_members;
+    std::vector<std::pair<int,int>> bank_damage_members;
+    std::size_t bank_group=0,bank_member=0;bool bank_members_ready=false;
+#endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
     std::vector<std::uint16_t> distances;
 #endif
@@ -77,6 +93,9 @@ public:
 #endif
     cambc::distance_field home;
 #if DZ_ECONOMY_V2
+    int maximum_camp_range=0;
+    LocalMask terrain_mask;
+    std::unique_ptr<cambc::distance_field> spawn_exit;
     std::vector<std::uint16_t> home_distances;
     int home_distance(Tile p) const {
         const int width=cambc::map::width(),height=cambc::map::height();
@@ -87,7 +106,19 @@ public:
     std::vector<Altar> altars;
     std::vector<cambc::champion> allies;
     unsigned slot = 0;
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+    vec2 home_anchor{};
+    int home_side_distance(vec2 p) const {const int dx=p.x-home_anchor.x,dy=p.y-home_anchor.y;return dx*dx+dy*dy;}
+#endif
     bool ready = false;
+    bool income_ready = false;
+    bool playable() const {
+#if DZ_ECONOMY_V2 && DZ_LIFECYCLE
+        return ready||income_ready;
+#else
+        return ready;
+#endif
+    }
     void load_roster(const TurnContext&);
     void boot(const TurnContext&);
     void build_one_field(const TurnContext&, int preferred = -1);

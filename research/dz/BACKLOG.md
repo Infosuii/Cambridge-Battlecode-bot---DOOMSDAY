@@ -1,30 +1,102 @@
-# DZ live implementation backlog — 2026-10-31
+# Productive lifecycle continuation — 2026-11-01
+
+Read productive-cycle-2026-11-01/README.md first. New experimental lifecycle uses
+DZ_ECONOMY_V2=1 and DZ_LIFECYCLE=1; defaults remain off. Frozen05 banks collision
+183/181 against v76lab, but its packs-B banks0. The restored/repaired map package10
+banks packs56/56 while regressing collision to80/26. All still lose. Keep both
+exact sources; repair implementation/ownership dependencies before abandoning a
+package. Startup/Heart kit/shared-resource work is implemented, not promoted.
+Native ordered cycles, source/replay provenance and the70-map coverage registry
+are retained. Fourteen map holdouts remain unopened; no map is optimised.
+
+Next: diagnose the post-resource damaging-crew/gear transition and contested
+delivery on packs; diagnose collision tempo loss against frozen05. Preserve
+the user's willingness to accept productive risk. Do not rank idle survival
+above economy or revert a whole package merely on its first losing screen.
+
+# Priority override: proven decisions before more architecture
+
+**Paused by the user, 2026-11-01.** Resume from
+[legacy-transfer-2026-11-01/HANDOFF.md](legacy-transfer-2026-11-01/HANDOFF.md),
+including the known WIP host-test compile failure and candidate24's limits.
+Restart prompts are in that directory. Do not restart tests until resumed.
+
+Read [LEGACY_TRANSFER_ROADMAP.md](LEGACY_TRANSFER_ROADMAP.md) first. The user's
+steps15–18/21 priority is now explicit: transfer the reasons for strong opening,
+farming, equipment, drafting, survival and combat decisions from v76/peer bots
+into DZ. Implement coupled repairs before testing. Preserve failed packages and
+repair implementation/dependency failures before rejecting the idea. More fuel
+must produce a useful decision or earlier action. General physical crew payoff,
+large-resource native execution and competitive parity remain open.
+
+# Current architecture checkpoint — 2026-11-01
+
+Read `architecture-2026-11-01/README.md` and its exact-source results first.
+The default release remains unchanged. Economy, joint objective work, equipment,
+combat intent, opening rollout, map draft and banking are integrated behind
+DZ_ECONOMY_V2. They are not release accepted.
+
+Next engineering/acceptance work, in order:
+
+1. Fix layered-B access and contested economic productivity. The untraced v65
+   four-cell screen fails at10.5 mean banked/0 wins. Stop scaling it. Current
+   progress-bound-01 fixes the full-health recovery loop: opening843/744 and
+   layered249/0, zero deaths/faults/fuel-outs; strict opening36/32 passes, layered-B0 fails.
+   Root arrival/order and spare-resource-prefetch followups regressed conversion
+   and were removed; see architecture-2026-11-01/FOLLOWUP.json. Investigate the
+   coupled bank root, paid access route and execution budget rather than repeat
+   arrival-only ordering trials. Retained bot source is069775d.
+2. Prove useful deferred worker receipt/join and retained opening second-leg
+   execution. Keep basic crew bids independent of optional equipment pricing.
+3. Improve productive crew conversion and layered access with paid arrival,
+   capture, respawn and delivery schedules. Keep unknown/deferred/unsafe distinct.
+4. Evaluate a materially repaired coherent contested candidate; independently
+   confirm only a promising preliminary result. No promotion from the failed screen.
+5. Close remaining conformance/calibration and final reliability/performance
+   gates before release. Preserve the registered holdout and selected defaults.
+
+Untracked `.vscode/` is unrelated and remains untouched. Historical checkpoints
+below retain their evidence and limitations.
+
+---
+
+# DZ live implementation backlog — 2026-11-01
 
 Selected release remains unchanged; no experimental strategy has passed promotion.
-Native Mac CLI works. Latest source/evidence: sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
+Native Mac CLI works. Latest source/evidence: opening-market-2026-11-01/, bank-delivery-2026-10-31/, escape-2026-10-31/, agreement-2026-10-31/, augmentation-2026-10-31/, market-2026-10-31/, cohorts-2026-10-31/, progression-2026-10-31/, sequences-2026-10-31/, cast-crew-2026-10-31/, team-economy-2026-10-31/, then
 trips-2026-10-31/, crew-2026-10-31/ and COMBINED_PLAN_2026-10-31.md.
 
-1. **Z7/Z9 contested resource and equipment progression.** Sequential crews now
-   execute real three-monster phases; final fixture 48/300 exposes side asymmetry.
-   Famine remains only 77/7 vs selected control 400/236. Complete legal per-body
-   project/resource freshness, disjoint allocation, useful reward distribution and
-   equipment progression. Verify native crew reward-credit mechanics before changing
-   recipient policy; private ally gold is not a legal observation. No larger screens.
+1. **Z7/Z8/Z11 coordinated openings and delivery.** Complete group-replacement
+   bids, fixed deadlines, observed isolated sleep entry, synchronized wake,
+   finite bank commitments and cached quoted-root routes are integrated. Final26
+   banks opening372/288, layered14/0 and wolf0/40; independent27 banks elk240/300
+   and sequential crew60/72 with the SAME candidate. All10 cells have zero deaths,
+   faults/fuel-outs, but the strict siege audit stays FALSE (layered-B0 cycles).
+   Fix layered-B access and wolf-A gem production before competitive screens.
+   Useful accepted crew opening bids remain unconfirmed. General joint ability,
+   approach/arrival and opportunity-cost models remain unfinished. Window variants
+   23/24 failed all six cells and were removed; do not re-enable them as validated
+   deadline logic. Resource financing06–08 and singleton siege leases18 also failed.
+   Default437f91c3 is preserved;31 capsules/112 cells verify, including invalid
+   early requested controls which MUST NOT be attributed to c182eb5.
 2. **Z6 ability-aware joint phases and uncertainty.** Per-member formations, checked
    serial routes/staging, paid entry/recovery and actual live readiness are integrated.
    Self casts remain restricted; general dynamic multi-actor reset/shield/CC/movement
    power and enemy uncertainty still need modelling/calibration. 120 independent BFS
    references and controlled phase advances are not V-M1. Explicitly native-check the
    earlier first-shield admission transaction (no funded trace previously retained).
-3. **Z11 independent crews and recovery/handoff.** Recovery now retains its objective
-   and finite fresh lease while healing, and respects reassignment. General concurrent
-   crews, focus/support, capture/recipient handoff and bank schedules still need native
-   confirmation. Final layered strict audit passes 50/22 cycles; scoped siege recovery
-   is not a general crew guarantee. Keep fixing structural allocation/liveness gaps.
+3. **Z11 independent crews and recovery/handoff.** Fair dated per-leader records,
+   singleton capture, negative-claim revocation, task acknowledgements and guarded
+   yielding are integrated. Home capacity no longer supplies phantom helpers.
+   Exact formation agreement has native coverage. General concurrent crews/focus/
+   support and accepted reinforcement remain unconfirmed. Final26 layered rows
+   pass22/0 strict cycles (B fails), despite zero deaths; this is not a general crew guarantee. Keep allocation/liveness open.
 4. **Z10/Z8 joint combat and macro choices.** Enemy arrival/ability uncertainty,
    actual cooldowns/CC/shields, exchange and kill-gold value, retreat paths, support
    and lost task income. Replace blanket task interruption with common decisions.
    Current bounded stationary/four-turn models are not a general combat evaluator.
+   Finite bank commitments now execute, but final26 layered collects64/21 and banks14/0;
+   safe cycles do not establish objective conversion or a competitive economy.
 5. **Z9/Z12/Z14 progression and map integration.** Conditional funded gear trips,
    bounded gear frontier and route commitments exist; wider economic calibration
    and map access/opening/draft integration remain. Full move/attack/cast/ward/

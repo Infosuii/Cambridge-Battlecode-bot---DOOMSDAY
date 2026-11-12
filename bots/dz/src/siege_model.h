@@ -28,6 +28,34 @@ EscapeRoute escape_route(Tile origin,std::span<const CampThreat> camps,std::span
     return best;
 }
 enum class Phase : std::uint8_t { None, Approach, Strike, Escape, Recover };
+inline bool bridge_affordable(float hp,float max_hp,float target_hp,float damage,float raw,float exit_damage) {
+    for(float v:{hp,max_hp,target_hp,damage,raw,exit_damage})if(!std::isfinite(v)||v<0)return false;
+    if(hp<=0||max_hp<hp||damage<=0||target_hp<=0||target_hp/damage>2000)return false;
+    const int attacks=static_cast<int>(std::ceil(target_hp/damage));
+    return hp>(attacks+1)*raw+1.25f*exit_damage+.15f*max_hp;
+}
+struct EscapeStep {
+    int round=-1;Tile origin{},next{},exit{};
+    bool arm(int now,Tile from,const EscapeRoute& route) {
+        const int dx=route.exit.x-from.x,dy=route.exit.y-from.y,distance=std::max(std::abs(dx),std::abs(dy));
+        if(!route.found||distance<=0||distance!=route.steps||(dx&&dy&&std::abs(dx)!=std::abs(dy)))return false;
+        round=now;origin=from;exit=route.exit;next={from.x+(dx>0)-(dx<0),from.y+(dy>0)-(dy<0)};return true;
+    }
+};
+template<class Walkable,class Budget=UnlimitedEscapeBudget>
+EscapeRoute retained_escape(Tile origin,Tile exit,std::span<const CampThreat> camps,Walkable open,Budget budget={}) {
+    const int dx=exit.x-origin.x,dy=exit.y-origin.y,distance=cheb(origin,exit);
+    int range=0;for(auto camp:camps)range=std::max(range,camp.range);
+    if(distance<=0||distance>2*range+2||(dx&&dy&&std::abs(dx)!=std::abs(dy)))return {};
+    const Tile direction{(dx>0)-(dx<0),(dy>0)-(dy<0)};float damage=0;
+    for(int step=1;step<=distance;++step) {
+        if(!budget())return {{},0,0,false,true};
+        const Tile p{origin.x+step*direction.x,origin.y+step*direction.y};if(!open(p))return {};
+        const float raw=camp_damage(p,camps);damage+=raw;
+        if(raw==0)return {p,damage,step,true,false};
+    }
+    return {};
+}
 struct RecoveryLatch {
     bool active=false;
     bool update(bool escape,bool at_home,float hp,float max_hp) {
@@ -41,6 +69,12 @@ inline bool backtrack_safe(float hp,float max_hp,float here,float next,float esc
     // After the next camp phase, retain a step back to the checked origin,
     // its complete escape, and one raw surprise phase. No future ally/shield.
     return hp>.15f*max_hp+1.25f*(escape+here)+next+std::max(here,next);
+}
+inline bool withdrawal_safe(float hp,float here,float next) {
+    // A zero-exposure recovery lane cannot re-enter a camp simply because the
+    // Home field is shorter that way. Certified escapes handle costlier steps.
+    return std::isfinite(hp)&&std::isfinite(here)&&std::isfinite(next)&&hp>0&&here>=0&&next>=0&&
+        next<=here&&hp>next;
 }
 inline bool yield_lane(Tile self,Tile ally,float hp,float max_hp,float ally_hp,float ally_max,int home,int ally_home) {
     return max_hp>0&&ally_max>0&&ally_hp>0&&cheb(self,ally)<=2&&home<ally_home&&
@@ -106,18 +140,27 @@ inline Wave quote(float hp,float max_hp,float target_hp,float damage,float incom
 }
 struct Task {
     int group=-1,member=-1;
+    int altar=-1;
     Phase phase=Phase::None;
     Tile attack{},exit{};
     float last_target_hp=0,escape_loss=0,incoming=0;
     float visit_hp=0;
     float shield_credit=0,required_shield=0;
     bool struck=false,finished=false,support_seen=false,restock=false;
-    bool planned_approach=false;
+    bool planned_approach=false,bridge=false;
     int checked=0,distance=65535,last_round=-1,retry_after=0,visits=0,failures=0;
     bool active() const { return group>=0&&member>=0&&phase!=Phase::None; }
     void reset(int round,int cooldown=0) { *this={};retry_after=round+cooldown; }
     void start(int g,int k,int round,int dist,float hp) {
         *this={};group=g;member=k;phase=Phase::Approach;last_target_hp=hp;checked=round;distance=dist;
+    }
+    bool resume_after_recovery(int round,float target_hp) {
+        // Initial funded restocking and an observed successful visit pay for a
+        // new approach. A failed admission or a rejected attack does not renew
+        // the progress clock merely by toggling Escape/Recover at full HP.
+        if(restock||(struck&&target_hp+.01f<visit_hp)){checked=round;distance=65535;}
+        if(round<checked||round-checked>30)return false;
+        phase=Phase::Approach;struck=false;support_seen=false;restock=false;return true;
     }
     bool progress(int round,int dist,float hp) {
         if(dist<distance||hp+.01f<last_target_hp){checked=round;distance=dist;last_target_hp=hp;failures=0;}

@@ -1,6 +1,17 @@
 #pragma once
 #include "objective_model.h"
 namespace dz::gear {
+struct Output {
+    float reset_rate=0,focus_rate=0;
+    // One sustained cast stream. This is an economic estimate, never burst
+    // damage, a guaranteed kill, or extra HP for neutral admission.
+    float rate(float strength,float focus) const {
+        if(!std::isfinite(strength)||!std::isfinite(focus)||!std::isfinite(reset_rate)||!std::isfinite(focus_rate)||
+            strength<0||focus<0||reset_rate<0||focus_rate<0)return 0;
+        const float result=strength+std::max(strength*reset_rate,focus*focus_rate);
+        return std::isfinite(result)?result:0;
+    }
+};
 enum class Passive { Power, Monster, Jungle, Durability, Treasure, Prospector, Capture, Home };
 struct Context {
     float income=.45f,gold_income=2,death_rate=.002f,death_cost=35;

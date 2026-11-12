@@ -1,5 +1,9 @@
 # Setting up a fresh device (the next agent's laptop)
 
+For the current paused DZ work, use [FRESH_LAPTOP.md](../FRESH_LAPTOP.md).
+It supersedes the historical training dependencies and machine configuration
+steps below; the DZ runner requires neither training packages nor login.
+
 Everything needed to build, test, analyse and submit is in this repository. Only the large training data stays on the training box (`docs/handoff.md` §7), and none of the next steps need it.
 
 ## 1. Prerequisites

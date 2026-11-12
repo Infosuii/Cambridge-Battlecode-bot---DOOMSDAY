@@ -8,12 +8,14 @@ struct Cast {
     CastKind kind=CastKind::None;
     unsigned cooldown=0,period=0,duration=0;
     float amount=0;
+    bool operator==(const Cast&) const=default;
 };
 struct Kit {
     std::array<Cast,2> casts{};
     bool can_cast=true,refresh_on_monster=false;
     float shield=0;
     unsigned shield_duration=0;
+    bool operator==(const Kit&) const=default;
     bool useful() const {
         return std::any_of(casts.begin(),casts.end(),[](auto c){return c.kind!=CastKind::None;});
     }

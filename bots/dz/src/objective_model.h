@@ -13,6 +13,9 @@ struct Actor {
     float gold_multiplier=1;
     bool prospector=false;
     int capture_rounds=5;
+    float health_growth=0,damage_growth=0,health_damage_growth=0;
+    unsigned power_health=0,power_strength=0;
+    bool inventory_known=false;
 };
 struct Encounter {
     std::span<const ClearMember> members;

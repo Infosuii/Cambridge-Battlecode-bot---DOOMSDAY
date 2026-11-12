@@ -20,6 +20,19 @@ struct ClearRisk {
     bool complete() const { return status==WorkStatus::Complete; }
 };
 inline constexpr std::size_t clear_risk_members=64;
+// Resource work has no incoming-damage model or fixed monster workspace.
+// Keep per-member rounding: sixty-five 1-HP clusters still take 65 attacks.
+inline ClearRisk harmless_clear_risk(std::span<const float> hp,float damage,std::uint32_t horizon=2000) {
+    if(!std::isfinite(damage)||damage<=0||horizon>2000)return {};
+    for(float value:hp)if(!std::isfinite(value)||value<0)return {};
+    std::uint32_t attacks=0;
+    for(float value:hp) {
+        if(value==0)continue;
+        if(static_cast<double>(value)>static_cast<double>(damage)*(horizon-attacks))return {WorkStatus::BeyondHorizon,attacks,0};
+        attacks+=static_cast<std::uint32_t>(std::ceil(static_cast<double>(value)/damage));
+    }
+    return {WorkStatus::Complete,attacks,0};
+}
 // Reference implementation: one job per member. Kept for host equivalence tests.
 inline ClearRisk solo_clear_risk_reference(std::span<const ClearMember> members,float damage_per_attack,std::uint32_t horizon=2000) {
     if (members.size()>clear_risk_members||horizon>2000) return {};

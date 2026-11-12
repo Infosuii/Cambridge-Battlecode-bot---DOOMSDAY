@@ -1,5 +1,6 @@
 #pragma once
 #include "camp_threat.h"
+#include <array>
 
 namespace dz::access {
 // The ledger restores DESIGN HP during a known respawn interval. Those HP are
@@ -59,5 +60,36 @@ Route itinerary(Tile start,Distance distance,Blocking blocking,Record record,Bud
         p=next;current=shortest;
     }
     return {};
+}
+struct ApproachCut { Blocker blocker;Tile tile,approach;int arrival=0; };
+struct ApproachPlan { Status status=Status::Unknown;std::array<ApproachCut,12> cuts{};unsigned count=0; };
+// Trace from the attack endpoint back to Home, then reverse the blockers.
+// Each prerequisite is attacked from its HOME side, not the still-closed side.
+// Publish only after the entire bounded route and cut list are complete.
+struct ApproachSearch {
+    std::array<Tile,129> path{};std::array<Blocker,128> blockers{};unsigned n=0;bool active=false;
+    Tile cursor{};
+    void begin(Tile endpoint){n=0;active=true;cursor=endpoint;path[0]=endpoint;}
+    template<class Distance,class Blocking,class Budget=Unlimited>
+    ApproachPlan advance(Distance home,Blocking blocking,Budget budget={},int slice=8) {
+        if(!active)return {};
+        bool full=false;
+        const auto route=itinerary(cursor,home,blocking,[&](Blocker b,Tile,Tile tile,int) {
+            if(n==blockers.size()){full=true;return false;}
+            blockers[n]=b;path[++n]=tile;return true;
+        },budget,slice);
+        cursor=route.tile;ApproachPlan result;
+        if(full){active=false;result.status=Status::Unreachable;return result;}
+        if(route.status!=Status::Clear){if(route.status==Status::Unreachable)active=false;result.status=route.status;return result;}
+        for(unsigned i=n;i>0;--i)if(blockers[i-1].group>=0) {
+            if(i==n||result.count==result.cuts.size()){active=false;return {};}
+            result.cuts[result.count++]={blockers[i-1],path[i],path[i+1],home(path[i+1])};
+        }
+        active=false;result.status=Status::Clear;return result;
+    }
+};
+template<class Distance,class Blocking,class Budget=Unlimited>
+ApproachPlan approach_cuts(Tile endpoint,Distance home,Blocking blocking,Budget budget={}) {
+    ApproachSearch search;search.begin(endpoint);return search.advance(home,blocking,budget,128);
 }
 }

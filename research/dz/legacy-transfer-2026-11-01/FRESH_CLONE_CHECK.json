@@ -1,0 +1,92 @@
+{
+  "verified_commit": "be985940a664cd6a45bcceb27df432dcc83b5db2",
+  "method": "Clean Git archive; only committed files materialised; temporary working folders rebuilt from committed capsules; evidence verification ran with CLI and asset overrides deliberately unavailable",
+  "platform": "win32",
+  "python": "3.13.15",
+  "current_gameplay_source_files_unchanged": 88,
+  "windows_cli_matches_tracked_manifest": true,
+  "restored_runs": [
+    "dz-transfer-first-phase-24",
+    "dz-transfer-execution-budget-15",
+    "dz-cycle-execution-repair-10",
+    "dz-cycle-collision-v76-05"
+  ],
+  "reference_files_restored": 20,
+  "checks": [
+    {
+      "command": [
+        "tools/dz_restore_run.py",
+        "--run",
+        "dz-transfer-first-phase-24"
+      ],
+      "passed": true,
+      "output_tail": "{\"restored_files\": 160, \"destination\": \"C:\\\\projects\\\\cambridge battlecode\\\\work\\\\neural-full-stack\\\\artifacts\\\\tmp\\\\dz-fresh-clone-be985940\\\\checkout\\\\artifacts\\\\tmp\\\\dz\\\\dz-transfer-first-phase-24\"}\n"
+    },
+    {
+      "command": [
+        "tools/dz_restore_run.py",
+        "--run",
+        "dz-transfer-execution-budget-15"
+      ],
+      "passed": true,
+      "output_tail": "{\"restored_files\": 160, \"destination\": \"C:\\\\projects\\\\cambridge battlecode\\\\work\\\\neural-full-stack\\\\artifacts\\\\tmp\\\\dz-fresh-clone-be985940\\\\checkout\\\\artifacts\\\\tmp\\\\dz\\\\dz-transfer-execution-budget-15\"}\n"
+    },
+    {
+      "command": [
+        "tools/dz_restore_run.py",
+        "--run",
+        "dz-cycle-execution-repair-10"
+      ],
+      "passed": true,
+      "output_tail": "{\"restored_files\": 147, \"destination\": \"C:\\\\projects\\\\cambridge battlecode\\\\work\\\\neural-full-stack\\\\artifacts\\\\tmp\\\\dz-fresh-clone-be985940\\\\checkout\\\\artifacts\\\\tmp\\\\dz\\\\dz-cycle-execution-repair-10\"}\n"
+    },
+    {
+      "command": [
+        "tools/dz_restore_run.py",
+        "--run",
+        "dz-cycle-collision-v76-05"
+      ],
+      "passed": true,
+      "output_tail": "{\"restored_files\": 137, \"destination\": \"C:\\\\projects\\\\cambridge battlecode\\\\work\\\\neural-full-stack\\\\artifacts\\\\tmp\\\\dz-fresh-clone-be985940\\\\checkout\\\\artifacts\\\\tmp\\\\dz\\\\dz-cycle-collision-v76-05\"}\n"
+    },
+    {
+      "command": [
+        "tools/dz_restore_run.py",
+        "--references"
+      ],
+      "passed": true,
+      "output_tail": "{\"restored_files\": 20, \"destination\": \"C:\\\\projects\\\\cambridge battlecode\\\\work\\\\neural-full-stack\\\\artifacts\\\\tmp\\\\dz-fresh-clone-be985940\\\\checkout\\\\artifacts\\\\local-only\\\\dz-cycle-reference-2026-11-01\"}\n"
+    },
+    {
+      "command": [
+        "tools/dz.py",
+        "verify",
+        "--names",
+        "dz-transfer-first-phase-24",
+        "dz-transfer-execution-budget-15",
+        "dz-cycle-execution-repair-10",
+        "dz-cycle-collision-v76-05"
+      ],
+      "passed": true,
+      "output_tail": "dz-transfer-first-phase-24: verified 6 cells, frozen source, binaries, summaries and replays\ndz-transfer-execution-budget-15: verified 6 cells, frozen source, binaries, summaries and replays\ndz-cycle-execution-repair-10: verified 4 cells, frozen source, binaries, summaries and replays\ndz-cycle-collision-v76-05: verified 2 cells, frozen source, binaries, summaries and replays\n"
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/dz",
+        "-p",
+        "test_cli_resolution.py"
+      ],
+      "passed": true,
+      "output_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.011s\n\nOK\n"
+    }
+  ],
+  "limitations": [
+    "No gameplay resumed and no new match/build launched.",
+    "Known sequence_test.cpp WIP compile failure remains documented.",
+    "Native macOS/Linux toolchains were not executed; setup and overrides are documented."
+  ]
+}

@@ -12,6 +12,15 @@
 #include "formation.h"
 #include "formation_search.h"
 #include "crew_sequence.h"
+#include "crew_progression.h"
+#include "crew_market.h"
+#include "crew_availability.h"
+#include "opening_plan.h"
+#include "objective_frontier.h"
+#include "route_dependencies.h"
+#include "team_protocol.h"
+#include "crew_agreement.h"
+#include "bank_model.h"
 #endif
 
 namespace dz {
@@ -41,17 +50,39 @@ struct Memory {
     struct AccessField { std::unique_ptr<cambc::distance_field> field;unsigned revision=~0u;int expires=0;bool closed=false; };
     std::vector<AccessField> access_fields;
     struct AccessBuild {
-        LocalMask mask;int altar=-1,expires=0;unsigned revision=~0u;
+        LocalMask mask;int expires=0;unsigned revision=~0u;bool active=false,ready=false;
         std::size_t group=0,member=0;
     } access_build;
 #endif
 #if DZ_ECONOMY_V2
+    struct Lifecycle {
+        int altar=-1,delivery_until=0,last_delivery=0,shop_until=0;
+        int job_since=0,job_until=0,generation=0,bag=0,gold=0;
+        unsigned cursor=0;
+        unsigned profile=0;bool profile_ready=false;
+        bool shopping=false;
+        int crew_candidate=-1,crew_until=0;
+        int opening_team_until=0;bool opening_team_done=false;
+        bool crew_prefix=false;int crew_exit_group=-1;Tile crew_exit{};
+    } lifecycle;
+    team::Ledger team;
+    crew::Agreement crew_agreement;
+    team::WorkRecord project_work;
     unsigned economic_crew=0, economic_capturer=0;
+    struct CrewPublication { int group=-1;unsigned members=0,capturer=0; } crew_publication;
+    struct CrewFailure { int group=-1;unsigned members=0,generation=0; } crew_failure;
+    struct CrewDecline { int group=-1,until=0;unsigned members=0; } crew_decline;
+    crew::DeferredOffer deferred_crew;
+    opening::Commitment early_opening;
     int last_work=0; // Own successful neutral attacks / capture progress, never travel alone.
     struct CastAdmission { int round=-1,group=-1;float shield=0; } cast_admission;
     int rendezvous_until=0;
+    int crew_accept_until=0;
     int economic_retry_after=0;
+    unsigned economic_cursor=0;
+    economy::Frontier objective_frontier;
     float economic_rate=0;
+    struct FightFocus {int round=-1;unsigned target=~0u;} fight_focus;
     ShopVisit shop_quote;
     int shop_quote_round=-10000,shop_quote_gold=-1;
     int shopping_since=-1,shopping_deadline=-1;
@@ -59,17 +90,34 @@ struct Memory {
     ShopVisit delivery_shop;
     float shop_quote_income=-1,shop_quote_gold_income=-1;
     std::vector<gate::Plan> openings;
+    unsigned threat_revision=0;
+    bank::Delivery bank_delivery;
+    bank::AdmissionStamp bank_admitted;
+    struct BankAccess : bank::Stamp {
+        int status=0;bank::Plan plan;
+        std::array<bank::Threat,bank::max_threats> threats{};unsigned count=0;
+        std::array<bank::Expiry,bank::max_threats> empty{};unsigned empty_count=0;
+    };
+    std::vector<BankAccess> bank_access;
+    std::vector<BankAccess> bank_future;
+    struct BankRoute {
+        std::unique_ptr<cambc::distance_field> field;
+        int altar=-1,expires=0;Tile root{};unsigned revision=~0u;bool pending=false;
+    } bank_route;
+    int bank_forecast_round=-1;unsigned bank_forecast_cursor=0;
+    int bank_future_round=-1;unsigned bank_future_cursor=0;
     gate::Commitment opening_commitment;
     std::array<siege::Task,gate::max_cuts> siege_parents{};
     unsigned siege_depth=0;
     struct SiegeMoves { int round=-1;Tile origin{};unsigned allowed=0; } siege_moves;
-    SiegeMoves neutral_moves;
+    struct NeutralMoves { int round=-1;Tile origin{};unsigned allowed=0,withdrawal=0; } neutral_moves;
+    siege::EscapeStep neutral_escape;
     siege::RecoveryLatch neutral_recovery;
     std::vector<std::vector<float>> member_strength;
+    std::vector<std::vector<int>> member_seen;
     LocalMask memory_visible;
     int memory_visible_round=-1;
     std::vector<unsigned> member_cursor;
-    std::vector<unsigned> coalition_cursor;
     std::vector<unsigned> conversions; // Observed transition into respawning, never a shifting ready tick.
     std::vector<unsigned> group_topology;
     struct NeutralFrame {
@@ -80,42 +128,76 @@ struct Memory {
         std::span<const CampThreat> risk_view() const { return {risks.data(),risk_count}; }
     } neutral;
     struct CrewExecution {
-        int round=-1,group=-1,focus=-1,since=-1;
+        int round=-1,group=-1,focus=-1,since=-1,assembly_until=-1;
         int recovery_deadline=-1;
         int last_progress=0;
+        int blocked_since=-1;Tile blocked_tile{};
         std::array<Tile,crew::max_units> last_positions{};
         unsigned position_count=0;
         Tile last_self{};bool has_self=false;
         unsigned members=0,tank=6;
         Tile destination{};
-        bool managed=false,formed=false,fire=false,joined=false,recovering=false,direct_step=false;
+        bool managed=false,formed=false,fire=false,joined=false,recovering=false,direct_step=false,sleep_entry=false;
     } crew_execution;
     struct FormationCache {
         int group=-1,expires=-1;unsigned topology=0,generation=0,units=0,camps=0;
         std::array<crew::Unit,crew::max_units> roster{};
         std::array<crew::Monster,crew::max_camps> scene{};
         crew::SequenceSearch search;
+        crew::Progression progression;
+        int progression_work=-1;
+        bool isolated=false;
+        crew::RouteDependencies dependencies;
+        bool pending() const {return search.pending()||progression.pending()||
+            (search.stage==crew::SequenceSearch::Stage::Done&&progression.stage==crew::Progression::Stage::Empty);}
     };
-    mutable FormationCache crew_layout;
+    mutable std::unique_ptr<FormationCache> crew_live,crew_draft;
+    FormationCache& crew_layout() const {
+        if(!crew_live)crew_live.reset(new FormationCache);
+        return *crew_live;
+    }
+    FormationCache& crew_proposal() const {
+        if(!crew_draft)crew_draft.reset(new FormationCache);
+        return *crew_draft;
+    }
+    void accept_crew_offer(int group,unsigned mask) {
+        if(!crew_draft||crew_draft->group!=group||crew_draft->search.stage!=crew::SequenceSearch::Stage::Done||
+            crew_draft->generation!=conversions[group]||crew_draft->topology!=topology_revision-group_topology[group])return;
+        unsigned proposed=0;for(unsigned u=0;u<crew_draft->units;++u)proposed|=1u<<crew_draft->roster[u].slot;
+        if(proposed==mask) {
+            crew_live.swap(crew_draft); // Only owning pointers move, never unvisited BFS storage.
+            if(crew_draft&&crew_draft->pending()) {
+                crew_draft->expires=0;crew_draft->search.stage=crew::SequenceSearch::Stage::Empty;crew_draft->progression={};
+            }
+        }
+    }
+    economy::CrewMarket crew_market;
+    struct CrewReward {
+        int group=-1,round=-1,gold=0,bag=0;
+        unsigned generation=0,stat=0;
+        unsigned required_gold=0,required_gems=0;
+        float value=0;
+        bool priced=false,promised=false;
+    } crew_reward;
     struct CrewField {
         std::unique_ptr<cambc::distance_field> field;
         Tile root{};int expires=-1;bool pending=false;
     } crew_field;
     void leave_crew() {
-        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_execution={};crew_field.pending=false;
+        economic_crew=0;economic_capturer=0;rendezvous_until=0;crew_accept_until=0;crew_execution={};crew_agreement={};crew_field.pending=false;
     }
     unsigned opening_cursor=0;
     float economic_gem_rate=0,economic_gold_rate=0;
     RaceClock race;
     int access_group=-1,access_member=-1;
-    struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000; };
+    struct EnemyTrack { unsigned handle=~0u;vec2 p{};int seen=-10000;float strength=0;int range=1; };
     std::array<EnemyTrack,8> enemy_tracks{};
     void track_enemies(const Observation& obs,int round) {
         for(const auto& enemy:obs.enemies) {
             const unsigned handle=static_cast<unsigned>(static_cast<cambc::handle_champion_t>(enemy.sdk));
             auto slot=std::min_element(enemy_tracks.begin(),enemy_tracks.end(),[](auto& a,auto& b){return a.seen<b.seen;});
             for(auto it=enemy_tracks.begin();it!=enemy_tracks.end();++it)if(it->handle==handle){slot=it;break;}
-            *slot={handle,enemy.p,round};
+            *slot={handle,enemy.p,round,enemy.strength,enemy.range};
         }
     }
     float pressure(vec2 p,int radius,int round) const {

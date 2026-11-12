@@ -1,5 +1,6 @@
 #pragma once
 #include "siege_model.h"
+#include "objective_cast.h"
 #include <limits>
 #include <bit>
 
@@ -12,12 +13,25 @@ struct Unit {
     int range=1,arrival=0;
     float gold_multiplier=1;
     int capture_rounds=5;
+    // Public intrinsic growth, expressed in effective monster damage per point.
+    float health_growth=0,damage_growth=0,health_damage_growth=0;
+    unsigned power_health=0,power_strength=0;
+    bool inventory_known=false;
+    bool prospector=false;
+    objective::Kit kit{};
 };
 struct Monster { unsigned member=0;Tile p{};float hp=0,damage=0;int range=0; };
 inline bool same_roles(std::span<const Unit> a,std::span<const Unit> b) {
     if(a.size()!=b.size())return false;
     for(unsigned i=0;i<a.size();++i)if(a[i].hp<=0||a[i].slot!=b[i].slot||a[i].handle!=b[i].handle||
         a[i].max_hp!=b[i].max_hp||a[i].damage!=b[i].damage||a[i].factor!=b[i].factor||a[i].range!=b[i].range)return false;
+    return true;
+}
+inline bool stronger_roles(std::span<const Unit> a,std::span<const Unit> b) {
+    if(a.size()!=b.size())return false;
+    for(unsigned i=0;i<a.size();++i)if(!std::isfinite(a[i].hp)||!std::isfinite(a[i].max_hp)||!std::isfinite(a[i].damage)||
+        a[i].hp<=0||a[i].slot!=b[i].slot||a[i].handle!=b[i].handle||a[i].max_hp<b[i].max_hp||
+        a[i].damage<b[i].damage||a[i].factor!=b[i].factor||a[i].range!=b[i].range)return false;
     return true;
 }
 inline bool same_scene(std::span<const Monster> a,std::span<const Monster> b) {

@@ -28,8 +28,8 @@ void Memory::init(const StaticWorld& world) {
     groups.resize(world.groups.size()); member_hp.resize(world.groups.size()); hp_version.assign(world.groups.size(),0);
 #if DZ_ECONOMY_V2
     member_strength.resize(world.groups.size());
+    member_seen.resize(world.groups.size());
     member_cursor.assign(world.groups.size(),0);
-    coalition_cursor.assign(world.groups.size(),2);
     conversions.assign(world.groups.size(),0);
     group_topology.assign(world.groups.size(),0);
 #endif
@@ -38,6 +38,7 @@ void Memory::init(const StaticWorld& world) {
         member_hp[g] = world.groups[g].initial_hp;
 #if DZ_ECONOMY_V2
         member_strength[g]=world.groups[g].initial_strength;
+        member_seen[g].assign(member_hp[g].size(),-10000);
 #endif
     }
     initialized = true;
@@ -69,6 +70,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
     auto hp=member_hp[index];
 #if DZ_ECONOMY_V2
     auto strength=member_strength[index];
+    auto seen=member_seen[index];
 #endif
     GroupSample sample; sample.members.resize(hp.size());
     if (auto* respawn = std::get_if<cambc::map::camp_group_respawning>(&state)) {
@@ -83,7 +85,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     } else {
 #if DZ_ECONOMY_V2
-        const auto started=fuel_left();const auto& members=g.sdk.camps();unsigned checked=0;
+        const auto started=fuel_left();const auto& members=g.members();unsigned checked=0;
         while(checked<members.size()) {
             if(!tc.allow(17000)||started-fuel_left()>6000)break;
             const unsigned i=member_cursor[index]++%members.size();++checked;
@@ -91,10 +93,11 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
             if(!memory_visible.test(g.tiles[i]))continue;
             const bool dead=camp.is_dead();sample.members[i]=dead?0:camp.health();
             if(!dead)strength[i]=std::max(strength[i],camp.strength());
+            seen[i]=tc.round;
         }
 #else
         unsigned i = 0;
-        for (const auto& camp : g.sdk.camps()) {
+        for (const auto& camp : g.members()) {
             if (!tc.allow(3500)) break;
             // A defeated camp may have no live entity view. Its state is still
             // readable when its static spawn tile is visible; do not confuse
@@ -111,6 +114,7 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
     }
     apply_group_sample(next,hp,g.initial_hp,sample,tc.round);
 #if DZ_ECONOMY_V2
+    if(sample.state==GroupState::Reward||sample.state==GroupState::Respawning)std::fill(seen.begin(),seen.end(),tc.round);
     if(conversion_observed(groups[index].state,sample.state))++conversions[index];
 #endif
 #if DZ_SIEGE || DZ_ECONOMY_V2
@@ -133,8 +137,9 @@ void Memory::observe_group(const StaticWorld& world, int index, const TurnContex
 #endif
     if (hp!=member_hp[index]) ++hp_version[index];
 #if DZ_ECONOMY_V2
-    if(strength!=member_strength[index])++hp_version[index];
+    if(strength!=member_strength[index]){++hp_version[index];++threat_revision;}
     member_strength[index]=std::move(strength);
+    member_seen[index]=std::move(seen);
 #endif
     member_hp[index]=std::move(hp);
 }
@@ -142,6 +147,7 @@ void Memory::update(const StaticWorld& world, const TurnContext& tc) {
     init(world);
 #if DZ_ECONOMY_V2
     const auto started=fuel_left();
+    team.observe(shared_word(),tc.round,world.allies.size());
 #endif
     if (contract.objective >= 0) observe_group(world, contract.objective, tc);
     // Bound the scan independently of unusually large camp counts.
@@ -155,6 +161,9 @@ void Memory::update(const StaticWorld& world, const TurnContext& tc) {
 }
 void Memory::release(int round) {
     if (contract.objective >= 0) {
+#if DZ_ECONOMY_V2
+        crew_failure={contract.objective,economic_crew,conversions[contract.objective]};
+#endif
         auto& g = groups[contract.objective];
         // Exponential back-off: a target that keeps failing (unreachable last
         // member, stale memory) must not pull champions across the map forever.

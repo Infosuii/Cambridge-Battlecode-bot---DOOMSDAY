@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-11-01T03:26:07.317597+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--name",
+    "dz-dash-actions-02",
+    "--fixture",
+    "dash",
+    "--maps",
+    "00collision",
+    "01big-world",
+    "--diagnostic-rounds",
+    "8",
+    "--workers",
+    "2",
+    "--opponent-wasm",
+    "artifacts/tmp/dz/dz-siege-access-fixtures-09/opponent.wasm"
+  ],
+  "git_head": "390fa3efe69c49b596d6488578bb7c4b5f3adb42",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "runner_sha256": "a4039d96d97c5c8598babd85795532c888fd1846d057d21d9c5be0c42202f46a",
+  "cli_sha256": "eecf921d3b1a232edb8f0d211f940d9ea6e54869cac8bbd877db9fde22902b1c",
+  "source": {
+    "src/main.cpp": "b366bd085cdc970fc03df50d30fbd710d3baf2807761fd654094e5850d1857c7"
+  },
+  "sdk": {
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "00collision": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+    "01big-world": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5"
+  },
+  "candidate_sha256": "55fe03f69e5b47b77db14f4c82d6648c483fc20be5645a56c232f0a915b3f9f1",
+  "opponent_sha256": "61fb21349bb123db02a6789878adf1828938bacc45ff7354e545c52f465dc655",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples",
+  "map_directory": "maps/local-benchmarks",
+  "fixture": "dash",
+  "candidate_bot": "dz"
+}

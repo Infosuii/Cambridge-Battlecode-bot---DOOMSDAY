@@ -1,0 +1,2484 @@
+{
+  "engine": "2.0.0",
+  "inventory": 70,
+  "reserved": 14,
+  "measured_maps": 3,
+  "completion": "Coverage inventory only; map-specific optimisation is incomplete. No map is labelled optimised.",
+  "maps": [
+    {
+      "map": "00ambush",
+      "lexical_index": 1,
+      "reserved": false,
+      "map_sha256": "81ac8b6689f275d24e57d586f2451a160484c15144f86afd0c4450e02c39e579",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00anvil",
+      "lexical_index": 2,
+      "reserved": false,
+      "map_sha256": "3fed84091b160ff09ac72a29188f91247453711e2cccbff7c9a40f774e824370",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00breadcrumbs",
+      "lexical_index": 3,
+      "reserved": false,
+      "map_sha256": "fea9c8e766be4011b8194ad13fa773c823a510b35d93c68b942132f9933763a0",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00collision",
+      "lexical_index": 4,
+      "reserved": false,
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "status": "measured_development_failure",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [
+        "ca170a4d-50d9-4491-a7ae-f8490565cc4b"
+      ],
+      "chosen_draft": [
+        "Vesper Vale",
+        "Heart of Ruin",
+        "Vendetta"
+      ],
+      "observed_rosters": [
+        {
+          "run": "dz-cycle-execution-repair-10",
+          "side": "A",
+          "roster": [
+            "Vesper Vale",
+            "Heart of Ruin",
+            "Vendetta"
+          ]
+        },
+        {
+          "run": "dz-cycle-execution-repair-10",
+          "side": "B",
+          "roster": [
+            "Vesper Vale",
+            "Heart of Ruin",
+            "Vendetta"
+          ]
+        }
+      ],
+      "map_plan": "Current experimental package; not selected for release",
+      "opening": null,
+      "roles": "Solo jobs; harmless resource helpers; authoritative managed crews/siege remain separate owners",
+      "farm_circuit": "Observed payout, finite contract, known expired respawn inspected at full design HP",
+      "capture": "Existing onsite/lower-slot soft claim; authoritative crew capturer takes precedence",
+      "bank": "Finite actual-bag task to nearest static altar; live tri-state admission; no inferred payout",
+      "gear": "Mite collision profile from current reference",
+      "contingencies": "Live neutral recovery, finite failed-job backoff, Home shopping/recovery; blocked altar planning remains incomplete",
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00collision",
+              "side": "A",
+              "rounds": 1364,
+              "outcome": "teamB",
+              "banked": 80,
+              "opponent_banked": 1050,
+              "collected": 80,
+              "gold": 785,
+              "deaths": 4,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 15,
+              "clears": 16,
+              "run": "dz-cycle-execution-repair-10",
+              "candidate_sha256": "5bee79c68dc723e9e8ae767f8ccf849a614b277c1334b998d2dfcdc2175dc260",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 3,
+              "spent_gold": 750.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 306.0,
+              "R100_spentGold": 180.0,
+              "R100_collectedGems": 33.0,
+              "R100_submittedGems": 0.0,
+              "R100_deaths": 0.0,
+              "R100_captures": 5,
+              "R100_clears": 5,
+              "R250_earnedGold": 399.0,
+              "R250_spentGold": 360.0,
+              "R250_collectedGems": 33.0,
+              "R250_submittedGems": 33.0,
+              "R250_deaths": 2.0,
+              "R250_captures": 7,
+              "R250_clears": 9
+            }
+          ]
+        },
+        "B": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00collision",
+              "side": "B",
+              "rounds": 1125,
+              "outcome": "teamA",
+              "banked": 26,
+              "opponent_banked": 1019,
+              "collected": 79,
+              "gold": 1251,
+              "deaths": 19,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 19,
+              "clears": 20,
+              "run": "dz-cycle-execution-repair-10",
+              "candidate_sha256": "5bee79c68dc723e9e8ae767f8ccf849a614b277c1334b998d2dfcdc2175dc260",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 3,
+              "spent_gold": 1110.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 166.0,
+              "R100_spentGold": 0.0,
+              "R100_collectedGems": 8.0,
+              "R100_submittedGems": 0.0,
+              "R100_deaths": 0.0,
+              "R100_captures": 2,
+              "R100_clears": 2,
+              "R250_earnedGold": 312.0,
+              "R250_spentGold": 180.0,
+              "R250_collectedGems": 12.0,
+              "R250_submittedGems": 0.0,
+              "R250_deaths": 3.0,
+              "R250_captures": 4,
+              "R250_clears": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "map": "00contest",
+      "lexical_index": 5,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00corners",
+      "lexical_index": 6,
+      "reserved": false,
+      "map_sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+      "status": "measured_development_failure",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [
+        {
+          "run": "dz-cycle-development-maps-05",
+          "side": "A",
+          "roster": [
+            "Vesper Vale",
+            "Vendetta",
+            "Ryth",
+            "Marcella",
+            "Heart of Ruin"
+          ]
+        },
+        {
+          "run": "dz-cycle-development-maps-05",
+          "side": "B",
+          "roster": [
+            "Vesper Vale",
+            "Vendetta",
+            "Ryth",
+            "Marcella",
+            "Heart of Ruin"
+          ]
+        }
+      ],
+      "map_plan": null,
+      "opening": null,
+      "roles": "Solo jobs; harmless resource helpers; authoritative managed crews/siege remain separate owners",
+      "farm_circuit": "Observed payout, finite contract, known expired respawn inspected at full design HP",
+      "capture": "Existing onsite/lower-slot soft claim; authoritative crew capturer takes precedence",
+      "bank": "Finite actual-bag task to nearest static altar; live tri-state admission; no inferred payout",
+      "gear": null,
+      "contingencies": "Live neutral recovery, finite failed-job backoff, Home shopping/recovery; blocked altar planning remains incomplete",
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00corners",
+              "side": "A",
+              "rounds": 918,
+              "outcome": "teamB",
+              "banked": 72,
+              "opponent_banked": 1018,
+              "collected": 80,
+              "gold": 2212,
+              "deaths": 9,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 37,
+              "clears": 39,
+              "run": "dz-cycle-development-maps-05",
+              "candidate_sha256": "371955b2a8b3f46882d552f181a2435d92e9e318a3089be30575c0d21cec51fd",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 5,
+              "spent_gold": 1920.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 119.0,
+              "R100_spentGold": 0.0,
+              "R100_collectedGems": 4.0,
+              "R100_submittedGems": 0.0,
+              "R100_deaths": 0.0,
+              "R100_captures": 2,
+              "R100_clears": 2,
+              "R250_earnedGold": 485.0,
+              "R250_spentGold": 330.0,
+              "R250_collectedGems": 16.0,
+              "R250_submittedGems": 12.0,
+              "R250_deaths": 2.0,
+              "R250_captures": 8,
+              "R250_clears": 8
+            }
+          ]
+        },
+        "B": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00corners",
+              "side": "B",
+              "rounds": 826,
+              "outcome": "teamA",
+              "banked": 36,
+              "opponent_banked": 1000,
+              "collected": 79,
+              "gold": 2032,
+              "deaths": 14,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 33,
+              "clears": 35,
+              "run": "dz-cycle-development-maps-05",
+              "candidate_sha256": "371955b2a8b3f46882d552f181a2435d92e9e318a3089be30575c0d21cec51fd",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 3,
+              "spent_gold": 1740.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 60.0,
+              "R100_spentGold": 0.0,
+              "R100_collectedGems": 4.0,
+              "R100_submittedGems": 0.0,
+              "R100_deaths": 1.0,
+              "R100_captures": 1,
+              "R100_clears": 2,
+              "R250_earnedGold": 279.0,
+              "R250_spentGold": 210.0,
+              "R250_collectedGems": 12.0,
+              "R250_submittedGems": 8.0,
+              "R250_deaths": 4.0,
+              "R250_captures": 5,
+              "R250_clears": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "map": "00crater",
+      "lexical_index": 7,
+      "reserved": false,
+      "map_sha256": "dc977a695c82870d186f7bb1fe54b3140a559a27dd2bfc6de9f4b1faf611ebf5",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00dunes",
+      "lexical_index": 8,
+      "reserved": false,
+      "map_sha256": "2eb504fb709dc6b7975887f1e2527811a5aa0f4d4ecb732a5c77dcaf56ebb06f",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00eight",
+      "lexical_index": 9,
+      "reserved": false,
+      "map_sha256": "76b5ce0895130f5f423f3ac6a630c5cf8e1202d4150e6ad4e287c75d21794765",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00elkring",
+      "lexical_index": 10,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00expanse",
+      "lexical_index": 11,
+      "reserved": false,
+      "map_sha256": "af4236f408f8450f7da871731f08ef80295f07fac86b541f6547639a78dc2205",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [
+        "3536220a-c571-421f-91cd-4156775e019f"
+      ],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00fragment",
+      "lexical_index": 12,
+      "reserved": false,
+      "map_sha256": "46512bf4fe1fc57d1651b15d44c283cac69cfce1914a5000d19fab979f5b8bbb",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00galaxy",
+      "lexical_index": 13,
+      "reserved": false,
+      "map_sha256": "2d80c4fd704de4a4450027b97349bac8587f3fe46e90c0d2595e415e657b41c6",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00gem-fields",
+      "lexical_index": 14,
+      "reserved": false,
+      "map_sha256": "80af89f07723d23d822ddc858616a0156ae60f9d41ffd8bd9105f924379677b5",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00gemfight",
+      "lexical_index": 15,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00great-wall",
+      "lexical_index": 16,
+      "reserved": false,
+      "map_sha256": "1b22e5c068175913889a1ff497d310de303a9b1ddf78672f26c0777fda9f5bf2",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00interlock",
+      "lexical_index": 17,
+      "reserved": false,
+      "map_sha256": "140e5bc3ac11c7f74dfc4ed99cc53739a34be8d3f71a7f4d0520dc4a3c197e19",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00lanes",
+      "lexical_index": 18,
+      "reserved": false,
+      "map_sha256": "8ca26ed2ea65c7d80ceb9604a7431ca1dc056922912b4e2f46cad06051e4886a",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00lost-world",
+      "lexical_index": 19,
+      "reserved": false,
+      "map_sha256": "566697c98eace1c84152f571e9e1fa0b54ec64e038e4695305c874bd3dc2bc6e",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00monolith",
+      "lexical_index": 20,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00oasis",
+      "lexical_index": 21,
+      "reserved": false,
+      "map_sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00packs",
+      "lexical_index": 22,
+      "reserved": false,
+      "map_sha256": "60ee7a86ee377a04a77d11008b78aaed9e2c1cfcfc4302055974195e078c675a",
+      "status": "measured_development_failure",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [
+        "1bf7d5f5-21a3-4f08-9241-ab9cddda593b"
+      ],
+      "chosen_draft": [
+        "Vesper Vale",
+        "Heart of Ruin",
+        "Vendetta"
+      ],
+      "observed_rosters": [
+        {
+          "run": "dz-cycle-execution-repair-10",
+          "side": "A",
+          "roster": [
+            "Vesper Vale",
+            "Heart of Ruin",
+            "Vendetta"
+          ]
+        },
+        {
+          "run": "dz-cycle-execution-repair-10",
+          "side": "B",
+          "roster": [
+            "Vesper Vale",
+            "Heart of Ruin",
+            "Vendetta"
+          ]
+        }
+      ],
+      "map_plan": "Current experimental package; not selected for release",
+      "opening": "Group2 from (0,0) side / group3 from (30,30) side; harmless helpers leave capture to onsite owner; deadline R80",
+      "roles": "Solo jobs; harmless resource helpers; authoritative managed crews/siege remain separate owners",
+      "farm_circuit": "Observed payout, finite contract, known expired respawn inspected at full design HP",
+      "capture": "Existing onsite/lower-slot soft claim; authoritative crew capturer takes precedence",
+      "bank": "Finite actual-bag task to nearest static altar; live tri-state admission; no inferred payout",
+      "gear": "Jungle opener from older Mite packs reference",
+      "contingencies": "Live neutral recovery, finite failed-job backoff, Home shopping/recovery; blocked altar planning remains incomplete",
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00packs",
+              "side": "A",
+              "rounds": 798,
+              "outcome": "teamB",
+              "banked": 56,
+              "opponent_banked": 1031,
+              "collected": 56,
+              "gold": 249,
+              "deaths": 12,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 2,
+              "clears": 5,
+              "run": "dz-cycle-execution-repair-10",
+              "candidate_sha256": "5bee79c68dc723e9e8ae767f8ccf849a614b277c1334b998d2dfcdc2175dc260",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 1,
+              "spent_gold": 210.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 116.0,
+              "R100_spentGold": 0.0,
+              "R100_collectedGems": 28.0,
+              "R100_submittedGems": 28.0,
+              "R100_deaths": 1.0,
+              "R100_captures": 1,
+              "R100_clears": 1,
+              "R250_earnedGold": 116.0,
+              "R250_spentGold": 60.0,
+              "R250_collectedGems": 28.0,
+              "R250_submittedGems": 28.0,
+              "R250_deaths": 1.0,
+              "R250_captures": 1,
+              "R250_clears": 3
+            }
+          ]
+        },
+        "B": {
+          "status": "measured_failure",
+          "cells": [
+            {
+              "map": "00packs",
+              "side": "B",
+              "rounds": 765,
+              "outcome": "teamA",
+              "banked": 56,
+              "opponent_banked": 1001,
+              "collected": 56,
+              "gold": 216,
+              "deaths": 17,
+              "faults": 0,
+              "opponent_faults": 0,
+              "fuel_outs": 0,
+              "captures": 2,
+              "clears": 5,
+              "run": "dz-cycle-execution-repair-10",
+              "candidate_sha256": "5bee79c68dc723e9e8ae767f8ccf849a614b277c1334b998d2dfcdc2175dc260",
+              "opponent_sha256": "9410f11349cd42c05772cd1447dc58eebba5cb022c41ed482bca811f6168edb6",
+              "complete_collect_bank_purchase_return_bodies": 0,
+              "spent_gold": 180.0,
+              "home_rounds": "unmeasured",
+              "idle_rounds": "unmeasured",
+              "R100_earnedGold": 116.0,
+              "R100_spentGold": 60.0,
+              "R100_collectedGems": 28.0,
+              "R100_submittedGems": 28.0,
+              "R100_deaths": 1.0,
+              "R100_captures": 1,
+              "R100_clears": 2,
+              "R250_earnedGold": 216.0,
+              "R250_spentGold": 180.0,
+              "R250_collectedGems": 56.0,
+              "R250_submittedGems": 56.0,
+              "R250_deaths": 3.0,
+              "R250_captures": 2,
+              "R250_clears": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "map": "00pilgrimage",
+      "lexical_index": 23,
+      "reserved": false,
+      "map_sha256": "7d7ddb9c37c77cd8b3721423e155400d936eaa76fa3c62fe24b308d0fd5eb673",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00quadrants",
+      "lexical_index": 24,
+      "reserved": false,
+      "map_sha256": "261fe6c133f076653bda84e88965dc35c5a59a70e7730082b4c6df9ca892df92",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00quarry",
+      "lexical_index": 25,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00reverse-spiral",
+      "lexical_index": 26,
+      "reserved": false,
+      "map_sha256": "f57669ffc98b76a5c2e4eccba41690dc193efc29f067ee960605617b2cfb48e5",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00ribs",
+      "lexical_index": 27,
+      "reserved": false,
+      "map_sha256": "ac8b03e975303908d08c098cc41f998a0bcfaf90bbcbcc2fda3f22a92c0c9d6f",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00road-of-riches",
+      "lexical_index": 28,
+      "reserved": false,
+      "map_sha256": "8365e18788720a079a906c0430e809317236acecccf888b517a1de409689b049",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00rows",
+      "lexical_index": 29,
+      "reserved": false,
+      "map_sha256": "6a4203ae1bfe86ad0f6b083f390cfd8e2f5e45f7e4102f6a2f27205d5333e701",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00rushbait-v2",
+      "lexical_index": 30,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00split",
+      "lexical_index": 31,
+      "reserved": false,
+      "map_sha256": "1db691b7def9cb585314c7c4139ef1b79df87fcdbfab9d86ef31666c4709a4c4",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [
+        "656686a8-4b80-4a08-814c-24e23b79ad4c"
+      ],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00stampede",
+      "lexical_index": 32,
+      "reserved": false,
+      "map_sha256": "49807e4756ec1b2030ed2ca7ebdd8a07f1a6ed7f2d2bd751e6941f5c0c877cdc",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00swirl",
+      "lexical_index": 33,
+      "reserved": false,
+      "map_sha256": "e6f860670947b1326f34c86515db8ef6893c565eaa69e3f9a6464ec5744e1c93",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00the-line",
+      "lexical_index": 34,
+      "reserved": false,
+      "map_sha256": "87a410356a18a703909b980eafb4888780e3785509ce54ff59ded5295b6acd7d",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "00vault",
+      "lexical_index": 35,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01big-world",
+      "lexical_index": 36,
+      "reserved": false,
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01boss-battle",
+      "lexical_index": 37,
+      "reserved": false,
+      "map_sha256": "53086e249294aed6f427fe647d578303589a081e953c62a0ff8f20cade9993fa",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01broken-curve",
+      "lexical_index": 38,
+      "reserved": false,
+      "map_sha256": "1763423b171f3b61128b2a913a10f46ba550e7a2e79ae27dd89e915c952b5117",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01concentrated-wealth",
+      "lexical_index": 39,
+      "reserved": false,
+      "map_sha256": "dc09c386d5e9dec3cec8bc4575c19d43233e08790e138ccd02be4644f2808c65",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01corridors",
+      "lexical_index": 40,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01elk-arena",
+      "lexical_index": 41,
+      "reserved": false,
+      "map_sha256": "72b8e03bc4378d5f988f9c1c07609848bfb42fd8a883cce01820d96212f21c0a",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01fracture",
+      "lexical_index": 42,
+      "reserved": false,
+      "map_sha256": "f82a1b99a7a70f8ab21f275dc8e22fbad6a71030f09fdd224d61977fe55dd914",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01gold-rush",
+      "lexical_index": 43,
+      "reserved": false,
+      "map_sha256": "6e564fdf09fdf67a4182a909d6985737b488742e64f2c3e164204e78bc64c898",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01hooks",
+      "lexical_index": 44,
+      "reserved": false,
+      "map_sha256": "23e58fe8f41ff66761ade251d3d10a9c3eead864f9ad74f12ad9e34f4bece378",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01islands",
+      "lexical_index": 45,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01shortcut",
+      "lexical_index": 46,
+      "reserved": false,
+      "map_sha256": "f77db387292e66a8aad7e912c179787db0c41b6632ee841a21593dfc279ecb3a",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01starfish",
+      "lexical_index": 47,
+      "reserved": false,
+      "map_sha256": "1edf115a0a788c010107148f975570961acc8e9fba4a013ad60f5ca2389cbb83",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01starvation",
+      "lexical_index": 48,
+      "reserved": false,
+      "map_sha256": "0b8e85603a85ca5778f92d2975c56da0e4b8df59264c42eef23108f8bbceec2a",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01the-farm",
+      "lexical_index": 49,
+      "reserved": false,
+      "map_sha256": "5cca9ed6eaaf6ef15a170a4ea78488237fda7b256e182a2e3360a14b485e09c3",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "01yellow-brick-road",
+      "lexical_index": 50,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02arena",
+      "lexical_index": 51,
+      "reserved": false,
+      "map_sha256": "191d904740e972d8ab513b323255018701723a8a4d9e1fff732566189ee7b920",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02crossing",
+      "lexical_index": 52,
+      "reserved": false,
+      "map_sha256": "11284b5deab36a11eb579d6cce80a47840ede50fb3a121e819932597bb95718f",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02cuts",
+      "lexical_index": 53,
+      "reserved": false,
+      "map_sha256": "b60c732505e53619dbd70697d9dad545525beae940954d5e84ddaf0874d413c0",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02famine",
+      "lexical_index": 54,
+      "reserved": false,
+      "map_sha256": "e619b259b476d0e99d13b5097e31d4af24aeca9afd1d5419eb0984c939672a58",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02fields",
+      "lexical_index": 55,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02geodes",
+      "lexical_index": 56,
+      "reserved": false,
+      "map_sha256": "12b1d1a4ac658c95fe2625e9aa8b66143d77e1d8399fb7a75de033d7ac4a784e",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02gift-wrapping",
+      "lexical_index": 57,
+      "reserved": false,
+      "map_sha256": "98be2c3fb8a499cc2fa797aebdfce7925524aaa63238308cb4068f932012b2c0",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02guardians",
+      "lexical_index": 58,
+      "reserved": false,
+      "map_sha256": "b28e0b473ebcdda91780d80477fd1729d66122ff3b82464d10c87d5e9159dc09",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02harvest",
+      "lexical_index": 59,
+      "reserved": false,
+      "map_sha256": "f8b2814ded9e65bb8c0623e7b715259f56e33b63f363561280916a3a4181511f",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02stalactites",
+      "lexical_index": 60,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02tangle",
+      "lexical_index": 61,
+      "reserved": false,
+      "map_sha256": "6b340bd80e0cc5fc93794ff0d8661f13087cdc8840324b0aa7f85baa076acd3e",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02the-pack",
+      "lexical_index": 62,
+      "reserved": false,
+      "map_sha256": "0ef770de4babebf37a6425a8adeb3fac6dec286d0d24b47268ed39f7a4fa4a5e",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02the-pond",
+      "lexical_index": 63,
+      "reserved": false,
+      "map_sha256": "216f697ab34a7dd9785c1026a49faca6b3f840fbf150c3b89ff136590d8e7972",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02treasure-box",
+      "lexical_index": 64,
+      "reserved": false,
+      "map_sha256": "c5df4adcd74d20398b403f558f2939a062883563d07dc0205008df1f1d0b8bc5",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "02uncharted-lands",
+      "lexical_index": 65,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat1",
+      "lexical_index": 66,
+      "reserved": false,
+      "map_sha256": "3ad3afd3b410c72ca0d391a079943d1a290b330f996d56731686eae7b7deb8c8",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat2",
+      "lexical_index": 67,
+      "reserved": false,
+      "map_sha256": "6a80b81c990b4f265ac4f0635eb14e9be5ef5f94c65cf369b71d7de5b2616bba",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat3",
+      "lexical_index": 68,
+      "reserved": false,
+      "map_sha256": "6697453daa8572ac15c184d65864648af1bbbba6f145d69ec6ad18907ceb440c",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat4",
+      "lexical_index": 69,
+      "reserved": false,
+      "map_sha256": "cea78b0dd915a9f98156ac2acb002057397f5f165e279bf5bbbf007ad54695e0",
+      "status": "unstudied",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "DZ_LIFECYCLE=0 preserves prior controller; generic bounded lifecycle with flag on",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat5",
+      "lexical_index": 70,
+      "reserved": true,
+      "map_sha256": null,
+      "status": "unopened_holdout",
+      "optimised": false,
+      "independently_confirmed": false,
+      "references": [],
+      "chosen_draft": null,
+      "observed_rosters": [],
+      "map_plan": null,
+      "opening": null,
+      "roles": null,
+      "farm_circuit": null,
+      "capture": null,
+      "bank": null,
+      "gear": null,
+      "contingencies": null,
+      "fallback": "Unmeasured; do not tune",
+      "sides": {
+        "A": {
+          "status": "pending",
+          "cells": []
+        },
+        "B": {
+          "status": "pending",
+          "cells": []
+        }
+      }
+    }
+  ]
+}

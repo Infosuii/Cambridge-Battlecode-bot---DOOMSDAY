@@ -1,0 +1,108 @@
+{
+  "status": "Unpromoted development; explicit formation agreement is implemented and native-exercised, not general Z6/Z7/Z10/Z11 acceptance.",
+  "runs": {
+    "dz-crew-agreement-01": {
+      "games": 4,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 85029,
+      "cells": [
+        {
+          "map": "crew-sequence",
+          "side": "A",
+          "banked": 72,
+          "collected": 72,
+          "deaths": 0,
+          "candidate_sha256": "d32d3b17fb789d55c183638ac5b0c1d4fc501ec8424c8b416e89ea49a0cc0d8c"
+        },
+        {
+          "map": "crew-sequence",
+          "side": "B",
+          "banked": 84,
+          "collected": 84,
+          "deaths": 0,
+          "candidate_sha256": "d32d3b17fb789d55c183638ac5b0c1d4fc501ec8424c8b416e89ea49a0cc0d8c"
+        },
+        {
+          "map": "isolated-elk",
+          "side": "A",
+          "banked": 405,
+          "collected": 405,
+          "deaths": 0,
+          "candidate_sha256": "d32d3b17fb789d55c183638ac5b0c1d4fc501ec8424c8b416e89ea49a0cc0d8c"
+        },
+        {
+          "map": "isolated-elk",
+          "side": "B",
+          "banked": 210,
+          "collected": 225,
+          "deaths": 0,
+          "candidate_sha256": "d32d3b17fb789d55c183638ac5b0c1d4fc501ec8424c8b416e89ea49a0cc0d8c"
+        }
+      ]
+    },
+    "dz-crew-agreement-gear-02": {
+      "games": 6,
+      "faults": 0,
+      "fuel_outs": 0,
+      "fuel_p99": 85806,
+      "cells": [
+        {
+          "map": "crew-sequence",
+          "side": "A",
+          "banked": 72,
+          "collected": 72,
+          "deaths": 0,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        },
+        {
+          "map": "crew-sequence",
+          "side": "B",
+          "banked": 84,
+          "collected": 84,
+          "deaths": 0,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        },
+        {
+          "map": "isolated-elk",
+          "side": "A",
+          "banked": 405,
+          "collected": 405,
+          "deaths": 0,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        },
+        {
+          "map": "isolated-elk",
+          "side": "B",
+          "banked": 210,
+          "collected": 225,
+          "deaths": 0,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        },
+        {
+          "map": "siege-two-layer",
+          "side": "A",
+          "banked": 325,
+          "collected": 430,
+          "deaths": 0,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        },
+        {
+          "map": "siege-two-layer",
+          "side": "B",
+          "banked": 108,
+          "collected": 316,
+          "deaths": 2,
+          "candidate_sha256": "73ccd350543454324daf37dd45cfadedd43e84408a403695b7a7fb0196e75790"
+        }
+      ]
+    }
+  },
+  "host": {
+    "suites": 16,
+    "wire_cases": 13824,
+    "shuffled_agreements": 100,
+    "independent_two_crew_agreements": 30,
+    "additional": "Old Ready barriers, generation changes, revocation and superseded-coordinator rejection."
+  }
+}

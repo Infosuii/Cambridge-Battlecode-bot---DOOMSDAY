@@ -9,7 +9,7 @@ int main() {
         for(unsigned slot=0;slot<6;++slot)word=compact::with_slot(word,slot,{static_cast<std::uint8_t>(slot+10),false});
         const auto leased=compact::with_lease(word,mask,cap,round);
         const auto plan=compact::lease(leased,round);
-        assert(plan.valid&&plan.members==mask&&plan.capturer==cap&&plan.round==round);
+        assert(plan.valid&&plan.members==mask&&plan.capturer==cap&&plan.leader==cap&&plan.objective==static_cast<int>(cap+10)&&plan.round==round);
         assert(compact::lease(leased,round+3).valid==(round+3<=2047));
         assert(!compact::lease(leased,round+4).valid);
         assert(!compact::lease(leased,round+512).valid);

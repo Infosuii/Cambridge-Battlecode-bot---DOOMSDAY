@@ -4,6 +4,7 @@
 #include <random>
 using namespace dz;
 int main() {
+    for(unsigned bank=112;bank<120;++bank)assert(!economy::available_for_offer(bank,false)&&!economy::available_for_offer(bank,true));
     using namespace objective;
     Actor solo{1000,1000,100,.5f};
     ClearMember wolf[]{ {300,40} };

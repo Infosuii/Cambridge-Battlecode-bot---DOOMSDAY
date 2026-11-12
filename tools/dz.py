@@ -26,7 +26,9 @@ def resolve_cli():
     if configured:
         return Path(shutil.which(configured) or configured).expanduser().resolve()
     if os.name == 'nt':
-        return ROOT / 'tools/vendor/cambc.exe'
+        vendored = ROOT / 'tools/vendor/cambc.exe'
+        if vendored.is_file():
+            return vendored
     native = shutil.which('cambc')
     return Path(native) if native else Path('cambc')
 
@@ -539,6 +541,11 @@ def diagnostic_checks(stdout, fixture, opponent_stdout=''):
                   'spawn_arrival_precedes_heal','one_spawn_turn_full_heal'}
         return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout and 'CT_SETUP_FAILURE' not in stdout,
                     checks=checks,missing=sorted(required-checks.keys()))
+    if fixture == 'dash':
+        checks=transcript_assertions(stdout)
+        required={f'dash_{part}_{body}' for body in (1,2,12) for part in ('geometry','cooldown','allowance','one_cast','attack')}
+        return dict(passed=not(required-checks.keys()) and all(checks.values()) and 'ERROR' not in stdout,
+                    checks=checks,missing=sorted(required-checks.keys()))
     if fixture == 'actions':
         checks = transcript_assertions(stdout)
         required = {'ranged_move_blocks_attack','ranged_attack_blocks_move','reset_restores_attack','one_cast_per_turn',
@@ -681,6 +688,7 @@ def experiment(args):
     if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.name): raise ValueError('name must use letters, digits, dash or underscore')
     if args.map_dir and args.command not in ('conformance','scenario') and not args.candidate_bot: raise ValueError('custom fixture maps are for conformance/scenario only')  # x1 benchmarks (--candidate-bot) may use unseen map sets
     if args.command=='scenario' and not args.map_dir: raise ValueError('production scenarios require a separate --map-dir')
+    if args.source and args.command not in ('smoke','scenario'): raise ValueError('--source is supported for smoke/scenario only')
     out = TMP / args.name
     out.mkdir(parents=True, exist_ok=False)
     (out/'runner').mkdir(); shutil.copyfile(Path(__file__),out/'runner/dz.py')
@@ -689,7 +697,7 @@ def experiment(args):
         reader='dz_priority_audit.mjs' if args.fixture=='priority' else 'dz_lifecycle_audit.mjs'
         shutil.copyfile(ROOT/'tools'/reader,out/'runner'/reader)
         shutil.copyfile(ROOT/'tools/replay/engine.mjs',out/'runner/replay/engine.mjs')
-    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','duel':'duel_probe','shield':'shield_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
+    fixtures = {'objective-reward':'prospector_probe','objective-capture':'prospector_probe','objective-tribute':'tribute_passive_probe','kernel':'conformance','group-visibility-first':'group_visibility_probe','group-visibility':'group_visibility_probe','tribute-passive':'tribute_passive_probe','capture-time':'prospector_probe','camp-mods':'camp_modifiers_probe','prospector':'prospector_probe','draft-miss':'draft_miss_probe','linked':'linked_probe','duel':'duel_probe','shield':'shield_probe','clear':'clear_probe','uncaught':'uncaught_probe','camps':'camp_probe','targeting':'target_probe','actions':'actions_probe','dash':'dash_probe','channels':'channel_probe','recovery':'recovery_probe','death':'death_probe','contest':'contest_probe','visibility':'visibility_probe','capture':'capture_probe','reset':'reset_probe','fingerprint':'fingerprint_probe','tribute':'tribute_probe','priority':'priority_probe'}
     injected=args.command=='conformance' and args.fixture in ('module-failure','module-stale','restart','low-fuel','draft-stale')
     source = ROOT / (f'tests/dz/{fixtures[args.fixture]}' if args.command == 'conformance' and not injected else 'bots/dz')
     if args.candidate_bot:
@@ -699,7 +707,7 @@ def experiment(args):
         if args.set and not (ROOT/'bots'/args.candidate_bot/'src/x1_config.h').exists(): raise ValueError('--set on a candidate bot needs src/x1_config.h')
         source = ROOT/'bots'/args.candidate_bot
     frozen = out / 'build/candidate'
-    if args.command=='smoke' and args.source:
+    if args.source:
         # A long screen builds every run from one frozen snapshot, so edits to bots/dz during it never mix in.
         if args.candidate_bot: raise ValueError('--source replaces bots/dz; not with --candidate-bot')
         source = Path(args.source)
@@ -943,7 +951,7 @@ def main():
         p.add_argument('--opponent', default='idle81'); p.add_argument('--opponent-wasm')
         p.add_argument('--candidate-bot', help='benchmark bots/<name> instead of DZ (smoke only)'); p.add_argument('--candidate-wasm', help='prebuilt candidate wasm (skips the build; --set is then ignored)')
         p.add_argument('--trace', action='store_true')
-        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','duel','shield','clear','low-fuel','uncaught','restart','camps','targeting','actions','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
+        p.add_argument('--fixture', choices=['objective-reward','objective-capture','objective-tribute','kernel','group-visibility-first','group-visibility','draft-stale','tribute-passive','capture-time','camp-mods','prospector','draft-miss','linked','duel','shield','clear','low-fuel','uncaught','restart','camps','targeting','actions','dash','channels','recovery','death','contest','visibility','capture','reset','fingerprint','tribute','module-failure','module-stale','priority'], default='kernel')
         p.add_argument('--fixture-opponent', action='store_true', help='use a scripted tribute/death/contest diagnostic opponent')
         p.add_argument('--diagnostic-rounds', type=int, default=12)
         p.add_argument('--set', action='append', default=[], help='override one DZ boolean flag in the frozen copy only')

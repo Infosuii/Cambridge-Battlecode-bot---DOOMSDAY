@@ -8,18 +8,26 @@ namespace dz {
 // End the turn; trace builds first write buffered trace lines from spare fuel.
 inline void end_turn_traced() {
 #if DZ_TRACE
-    trace_flush();
+    trace_flush(cambc::round_number()>=cambc::constants::max_rounds?0:30000);
 #endif
     cambc::end_turn();
 }
 struct TurnContext {
     std::uint32_t round;
     std::uint64_t fuel0;
+#if DZ_ECONOMY_V2
+    std::uint64_t protected_fuel=0;
+    TurnContext keep(std::uint64_t fuel) const {auto result=*this;result.protected_fuel=std::max(result.protected_fuel,fuel);return result;}
+#endif
     static TurnContext begin() { trace_meter.reset(); return {cambc::round_number(), fuel_left()}; }
     void guard() const { require_current(round, [] { return cambc::round_number(); }); }
     bool allow(std::uint64_t cost) const {
         guard();
-        return fuel_left() > cost + config::reserve;
+        return fuel_left() > cost + config::reserve
+#if DZ_ECONOMY_V2
+            +protected_fuel
+#endif
+            ;
     }
 };
 struct Counters { unsigned action_errors = 0, module_errors = 0, stale = 0; };
@@ -146,6 +154,7 @@ public:
     bool ward(cambc::vec2 p) { return attempt([&] { return cambc::self().place_ward(p); }); }
     bool priority(int p) { return attempt([&] { cambc::self().set_priority(p); }); }
     bool pick(cambc::champion_draft p) { return attempt([&] { cambc::draft::pick(p); }); }
+    bool draft_bytes(std::span<const std::byte> bytes) { return attempt([&] { cambc::draft_memory=bytes; }); }
     bool publish(std::uint64_t word) {
         return attempt([&] { cambc::shared_memory.write(0, std::span<const std::uint64_t>(&word, 1)); });
     }

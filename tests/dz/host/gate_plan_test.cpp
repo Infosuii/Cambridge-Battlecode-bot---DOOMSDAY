@@ -5,6 +5,37 @@
 #include <iostream>
 using namespace dz;
 int main() {
+    gate::Plan bundle;bundle.path_ready=bundle.channel_ready=true;bundle.count=bundle.priced=3;bundle.delivery=15;
+    bundle.cuts[0].group=1;bundle.cuts[1].group=2;bundle.cuts[2].group=1;
+    bundle.solo[0]={true,10,10,900};bundle.solo[1]={true,10,10,800};bundle.solo[2]={true,10,10,700};
+    auto project=gate::replace_group(bundle,1,200,30,5,2000,2000);
+    assert(project.complete&&project.work==1030&&project.finish==1051&&project.replaced==2);
+    assert(!gate::replace_group(bundle,1,200,30,5,1050,2000).complete);
+    assert(!gate::replace_group(bundle,1,200,30,5,2000,1050).complete);
+    assert(!gate::replace_group(bundle,2,200,30,5,2000,2000).complete); // No unpaid reordering.
+    assert(!gate::replace_group(bundle,1,1600,30,5,2000,2000).complete);
+    bundle.solo[0]={};assert(gate::replace_group(bundle,1,200,30,5,2000,2000).complete);
+    bundle.solo[1]={};assert(!gate::replace_group(bundle,1,200,30,5,2000,2000).complete);
+    bundle.solo[1]={true,10,10,800};bundle.priced=2;
+    assert(!gate::replace_group(bundle,1,200,30,5,2000,2000).complete);
+    gate::Commitment joint;joint.start_joint(1,3,7,5,40,20,100,600);assert(joint.deadline==828);
+    joint.start_joint(1,4,3,1,40,20,200,600);assert(joint.deadline==828&&joint.joint_group==4);
+    auto home=[](Tile p){return p.y==0&&p.x>=0&&p.x<=6?p.x:65535;};
+    auto blockers=[](Tile p){return p.x==2?access::Blocker{2,0,10}:p.x==4?access::Blocker{4,0,20}:access::Blocker{};};
+    const auto approach=access::approach_cuts({6,0},home,blockers);
+    assert(approach.status==access::Status::Clear&&approach.count==2);
+    assert(approach.cuts[0].blocker.group==2&&(approach.cuts[0].approach==Tile{1,0}));
+    assert(approach.cuts[1].blocker.group==4&&(approach.cuts[1].approach==Tile{3,0}));
+    int approach_budget=2;const auto capped=access::approach_cuts({6,0},home,blockers,[&]{return --approach_budget>=0;});
+    assert(capped.status==access::Status::Unknown&&capped.count==0);
+    access::ApproachSearch resumable;resumable.begin({6,0});
+    auto partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Unknown&&partial.count==0&&resumable.cursor.x==4);
+    partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Unknown&&partial.count==0&&resumable.cursor.x==2);
+    partial=resumable.advance(home,blockers,access::Unlimited{},2);
+    assert(partial.status==access::Status::Clear&&partial.count==2&&!resumable.active);
+    assert((partial.cuts[0].approach==Tile{1,0})&&(partial.cuts[1].approach==Tile{3,0}));
     gate::Cut cut;cut.hp=300;cut.incoming=20;cut.escape_loss=40;cut.escape_rounds=2;cut.home=5;cut.arrival=7;
     auto work=gate::price(cut,1200,1200,50);
     assert(work.valid&&work.attacks==6&&work.visits==1&&work.rounds==21);

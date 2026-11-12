@@ -79,3 +79,13 @@ checks override their hypotheses; read CONFORMANCE.md for exact scope/evidence.
   clamped to minimum. It leaves 1/2/3-round bases unchanged; 4→3, 10→7. It does
   not add banked gems or gold in the tested healthy/uncontested cases. Bank
   channels start immediately; do not add the camp-capture initialization phase.
+
+
+## 2026-10-31 — task claims are not formation consent
+
+Keep explicit experimental role/roster certificates followed by all-member Ready,
+with changed-declaration barriers and finite staging/setup costs. Prefix-compress
+the existing8-byte word; do not add flags or consume reserved evidence. Retain
+committed role plans until changed/contradicted/withdrawn. This establishes explicit
+formation agreement, not general combat, route identity or competitive acceptance.
+Current02 ordinary deaths and handshake overhead remain blockers to promotion.

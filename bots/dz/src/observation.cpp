@@ -33,7 +33,7 @@ void Observation::read_camps(const StaticWorld& world,const TurnContext& tc) {
     auto budget=fuel_left();
     for (const auto& g:world.groups) {
         if (g.strength<=0) continue;
-        auto members=g.sdk.camps();
+        auto members=g.members();
         for (unsigned i=0;i<members.size();++i) {
             if (g.initial_strength[i]<=0) continue;
             auto tile=g.tiles[i];
