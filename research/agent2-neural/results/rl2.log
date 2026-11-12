@@ -1,0 +1,17 @@
+18:24:34 iter 1: rollouts won v92 75/136, x1 67/117, x3ctr 88/147 | decisions 96725 changes + 127149 keeps, return +0.370+-1.364, corr(return, result) +0.33, critic EV -0.007 | pg -0.0106 kl 0.0086 klbeh 0.0003 ent 0.291 vloss 1.735 ratio 0.997 | 238s
+18:28:34 iter 2: rollouts won v92 58/129, x1 83/128, x3ctr 77/143 | decisions 99191 changes + 126707 keeps, return +0.316+-1.452, corr(return, result) +0.32, critic EV +0.044 | pg -0.0098 kl 0.0104 klbeh 0.0004 ent 0.297 vloss 1.972 ratio 0.998 | 240s
+18:32:01 EVAL iter 2 vs v92 (deterministic): ladder 70/140, pool-test 182/300, total 57.3%
+  new best: iter 2 (57.3%)
+18:40:07 iter 3: rollouts won v92 135/270, x1 153/249, x3ctr 157/281 | decisions 198647 changes + 248970 keeps, return +0.346+-1.515, corr(return, result) +0.29, critic EV +0.038 | pg -0.0101 kl 0.0182 klbeh 0.0005 ent 0.299 vloss 2.026 ratio 0.996 | 445s
+18:47:46 iter 4: rollouts won v92 155/280, x1 132/235, x3ctr 156/285 | decisions 189562 changes + 248124 keeps, return +0.346+-1.674, corr(return, result) +0.28, critic EV +0.042 | pg -0.0135 kl 0.0173 klbeh 0.0005 ent 0.293 vloss 2.420 ratio 0.997 | 460s
+18:51:12 EVAL iter 4 vs v92 (deterministic): ladder 69/140, pool-test 173/300, total 55.0%
+18:58:45 iter 5: rollouts won v92 114/251, x1 128/252, x3ctr 168/297 | decisions 207097 changes + 254240 keeps, return +0.277+-1.840, corr(return, result) +0.25, critic EV +0.050 | pg -0.0074 kl 0.0180 klbeh 0.0004 ent 0.310 vloss 2.671 ratio 0.996 | 453s
+19:06:11 iter 6: rollouts won v92 137/252, x1 158/268, x3ctr 155/280 | decisions 183334 changes + 252637 keeps, return +0.354+-1.790, corr(return, result) +0.25, critic EV +0.049 | pg -0.0132 kl 0.0263 klbeh 0.0006 ent 0.291 vloss 2.912 ratio 1.002 | 446s
+19:09:34 EVAL iter 6 vs v92 (deterministic): ladder 69/140, pool-test 185/300, total 57.7%
+  new best: iter 6 (57.7%)
+19:17:50 iter 7: rollouts won v92 134/254, x1 148/254, x3ctr 146/292 | decisions 184143 changes + 250103 keeps, return +0.481+-0.884, corr(return, result) +0.13, critic EV +0.281 | pg -0.0275 kl 0.0274 klbeh 0.0005 ent 0.293 vloss 0.436 ratio 0.998 | 461s
+19:25:47 iter 8: rollouts won v92 143/253, x1 176/290, x3ctr 150/257 | decisions 184815 changes + 256658 keeps, return +0.500+-0.810, corr(return, result) +0.11, critic EV +0.337 | pg -0.0253 kl 0.0387 klbeh 0.0006 ent 0.293 vloss 0.364 ratio 0.999 | 476s
+19:29:05 EVAL iter 8 vs v92 (deterministic): ladder 66/140, pool-test 178/300, total 55.5%
+19:36:50 iter 9: rollouts won v92 147/267, x1 151/249, x3ctr 164/284 | decisions 183950 changes + 252632 keeps, return +0.477+-0.885, corr(return, result) +0.14, critic EV +0.360 | pg -0.0217 kl 0.0394 klbeh 0.0007 ent 0.292 vloss 0.382 ratio 1.000 | 464s
+19:44:31 iter 10: rollouts won v92 152/275, x1 148/252, x3ctr 158/273 | decisions 184250 changes + 253842 keeps, return +0.465+-1.052, corr(return, result) +0.10, critic EV +0.304 | pg -0.0209 kl 0.0429 klbeh 0.0007 ent 0.294 vloss 0.735 ratio 0.997 | 462s
+19:47:54 EVAL iter 10 vs v92 (deterministic): ladder 70/140, pool-test 171/300, total 54.8%

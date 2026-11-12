@@ -1,0 +1,73 @@
+contacts 59707, games 1914, won 45.8%, per game 31.2; own verdict fight 23%, flee 16%, neither 61%; assigned fight 24%, flight 26%, own 50%
+
+Effect of the assignment against the champion's own verdict (reward: gold + 2 gems + 150 x (kills - deaths); team = ours minus theirs):
+  all contacts                             n  59707 | team 16: fight    -36+-  3 flee    -21+-  3 | team 64: fight    -34+-  6 flee     -6+-  5 | own 16: fight    -19+-  1 flee    -11+-  1 | own deaths 0.10 +0.15/-0.04  team kills 0.22 +0.02/-0.05
+  own verdict: fight                       n  13657 | team 16: fight    -18+-  7 flee    -26+-  6 | team 64: fight    -15+- 12 flee     -6+- 12 | own 16: fight     -3+-  3 flee    -12+-  3 | own deaths 0.10 +0.09/-0.04  team kills 0.38 +0.04/-0.08
+  own verdict: flee                        n   9782 | team 16: fight    -94+-  9 flee     -2+-  7 | team 64: fight    -99+- 16 flee    +15+- 16 | own 16: fight    -50+-  3 flee     +0+-  2 | own deaths 0.18 +0.36/-0.03  team kills 0.11 +0.02/-0.02
+  own verdict: neither                     n  36268 | team 16: fight    -28+-  4 flee    -25+-  3 | team 64: fight    -26+-  8 flee    -15+-  6 | own 16: fight    -17+-  2 flee    -14+-  1 | own deaths 0.07 +0.13/-0.03  team kills 0.19 +0.02/-0.05
+  round < 100                              n   5844 | team 16: fight    -62+-  8 flee    -33+-  7 | team 64: fight    -69+- 15 flee    -24+- 13 | own 16: fight    -34+-  3 flee    -10+-  2 | own deaths 0.09 +0.19/-0.03  team kills 0.26 -0.02/-0.07
+  round 100-400                            n  16131 | team 16: fight    -24+-  4 flee    -15+-  4 | team 64: fight    -11+-  9 flee     +7+-  8 | own 16: fight    -13+-  2 flee     -7+-  1 | own deaths 0.08 +0.12/-0.03  team kills 0.20 +0.03/-0.05
+  round 400+                               n  37732 | team 16: fight    -38+-  5 flee    -22+-  4 | team 64: fight    -41+-  9 flee    -13+-  8 | own 16: fight    -18+-  2 flee    -12+-  1 | own deaths 0.10 +0.16/-0.04  team kills 0.22 +0.03/-0.05
+
+verdict fight:
+  health > 70%                             n  12188 | team 16: fight    -14+-  7 flee    -28+-  7 | team 64: fight     -8+- 13 flee    -12+- 12 | own 16: fight     -3+-  3 flee    -13+-  3 | own deaths 0.09 +0.08/-0.04  team kills 0.39 +0.04/-0.08
+  health 40-70%                            n   1282 | team 16: fight    -29+- 28 flee     +1+- 20 | team 64: fight    -36+- 46 flee    +60+- 43 | own 16: fight     -4+- 10 flee     -6+-  8 | own deaths 0.16 +0.12/-0.07  team kills 0.31 +0.05/-0.04
+  health < 40%                             n    187 | team 16: fight   -275+-163 flee    -55+- 47 | team 64: fight   -367+-186 flee    -73+- 87 | own 16: fight     +9+- 23 flee     +7+- 15 | own deaths 0.30 +0.04/-0.14  team kills 0.27 -0.04/-0.06
+  alone against 1                          n   1364 | team 16: fight     -8+- 21 flee    -43+- 17 | team 64: fight     +5+- 37 flee    -19+- 37 | own 16: fight    -11+- 12 flee    -43+- 10 | own deaths 0.08 +0.07/-0.06  team kills 0.31 +0.06/-0.12
+  alone against 2+                         n    257 | team 16: fight    +14+- 66 flee    -62+- 53 | team 64: fight    +74+-107 flee   -113+- 95 | own 16: fight     +9+- 37 flee    -72+- 29 | own deaths 0.12 +0.11/-0.06  team kills 0.40 +0.24/-0.18
+  with allies, not outnumbered             n  11821 | team 16: fight    -21+-  7 flee    -24+-  7 | team 64: fight    -20+- 13 flee     -4+- 13 | own 16: fight     -2+-  3 flee     -7+-  3 | own deaths 0.11 +0.08/-0.04  team kills 0.39 +0.03/-0.07
+  with allies, outnumbered                 n    215 | team 16: fight    +15+- 69 flee    +52+- 53 | team 64: fight    +40+-132 flee   +153+- 95 | own 16: fight     -4+- 34 flee     -0+- 22 | own deaths 0.14 +0.30/-0.10  team kills 0.41 +0.19/-0.11
+  our health / theirs < 0.5                n     86 | team 16: fight   -137+- 97 flee    -79+- 94 | team 64: fight   -103+-184 flee   -178+-173 | own 16: fight    -41+- 33 flee    +12+- 33 | own deaths 0.26 +0.24/+0.00  team kills 0.26 -0.06/+0.08
+  0.5-1                                    n   1061 | team 16: fight    -48+- 27 flee     -1+- 26 | team 64: fight    -18+- 48 flee    +26+- 49 | own 16: fight    -25+- 14 flee     +0+- 14 | own deaths 0.19 +0.22/-0.11  team kills 0.30 +0.05/-0.08
+  1-2                                      n   4689 | team 16: fight    -14+- 12 flee    -34+- 11 | team 64: fight    -20+- 21 flee    -21+- 20 | own 16: fight     -4+-  5 flee    -15+-  4 | own deaths 0.13 +0.09/-0.07  team kills 0.35 +0.06/-0.10
+  2+                                       n   7821 | team 16: fight    -15+-  9 flee    -24+-  8 | team 64: fight    -10+- 16 flee     +1+- 16 | own 16: fight     +1+-  4 flee    -13+-  3 | own deaths 0.07 +0.06/-0.02  team kills 0.42 +0.02/-0.07
+  carrying >= 30 gems                      n   1659 | team 16: fight    -26+- 25 flee    -55+- 28 | team 64: fight     -8+- 43 flee    -25+- 42 | own 16: fight     -5+- 12 flee    -31+- 11 | own deaths 0.08 +0.04/-0.04  team kills 0.34 +0.06/-0.13
+  enemies carry >= 30 gems                 n   2059 | team 16: fight    -39+- 23 flee    -44+- 24 | team 64: fight    -18+- 36 flee    -19+- 35 | own 16: fight    -15+- 12 flee    -29+- 10 | own deaths 0.08 +0.10/-0.02  team kills 0.33 +0.02/-0.08
+  melee                                    n  10292 | team 16: fight    -21+-  8 flee    -33+-  7 | team 64: fight     -9+- 14 flee     -0+- 13 | own 16: fight     -5+-  4 flee    -14+-  3 | own deaths 0.09 +0.10/-0.06  team kills 0.40 +0.04/-0.10
+  ranged                                   n   3365 | team 16: fight    -22+- 15 flee     -4+- 12 | team 64: fight    -52+- 28 flee    -19+- 23 | own 16: fight    -12+-  5 flee     -5+-  4 | own deaths 0.15 +0.06/-0.00  team kills 0.34 +0.01/-0.01
+
+verdict flee:
+  health > 70%                             n   6964 | team 16: fight    -93+- 11 flee     -7+-  9 | team 64: fight    -98+- 20 flee     +7+- 19 | own 16: fight    -48+-  4 flee     -1+-  2 | own deaths 0.16 +0.34/-0.03  team kills 0.11 +0.03/-0.03
+  health 40-70%                            n   1942 | team 16: fight    -98+- 20 flee    +22+- 18 | team 64: fight   -108+- 30 flee    +67+- 34 | own 16: fight    -55+-  5 flee     +7+-  4 | own deaths 0.20 +0.39/-0.02  team kills 0.10 -0.02/+0.01
+  health < 40%                             n    876 | team 16: fight   -101+- 28 flee    -13+- 27 | team 64: fight    -95+- 51 flee    -23+- 50 | own 16: fight    -57+-  8 flee     -3+-  7 | own deaths 0.36 +0.39/-0.01  team kills 0.12 -0.01/-0.03
+  alone against 1                          n   3003 | team 16: fight    -88+- 14 flee    -23+- 11 | team 64: fight    -90+- 26 flee    -13+- 23 | own 16: fight    -41+-  4 flee     -4+-  3 | own deaths 0.18 +0.30/+0.01  team kills 0.08 +0.01/-0.02
+  alone against 2+                         n   1654 | team 16: fight   -111+- 16 flee    +17+- 13 | team 64: fight   -129+- 32 flee    +17+- 30 | own 16: fight    -56+-  6 flee     +8+-  4 | own deaths 0.17 +0.41/-0.06  team kills 0.08 +0.02/+0.01
+  with allies, not outnumbered             n   4622 | team 16: fight    -94+- 15 flee     -3+- 12 | team 64: fight    -93+- 26 flee    +20+- 26 | own 16: fight    -54+-  4 flee     -0+-  3 | own deaths 0.19 +0.36/-0.04  team kills 0.13 +0.02/-0.04
+  with allies, outnumbered                 n    503 | team 16: fight    -82+- 34 flee    +29+- 32 | team 64: fight   -110+- 64 flee    +62+- 70 | own 16: fight    -52+- 12 flee     -1+-  9 | own deaths 0.22 +0.43/-0.04  team kills 0.16 +0.03/+0.01
+  our health / theirs < 0.5                n   2929 | team 16: fight   -123+- 14 flee     +9+- 13 | team 64: fight   -123+- 28 flee    +31+- 26 | own 16: fight    -63+-  4 flee     +1+-  3 | own deaths 0.24 +0.42/-0.02  team kills 0.08 -0.01/-0.01
+  0.5-1                                    n   3958 | team 16: fight    -86+- 15 flee     +3+- 11 | team 64: fight   -100+- 23 flee    +23+- 23 | own 16: fight    -51+-  4 flee     +3+-  3 | own deaths 0.16 +0.36/-0.02  team kills 0.09 +0.03/+0.00
+  1-2                                      n   2354 | team 16: fight    -66+- 16 flee     -9+- 14 | team 64: fight    -62+- 31 flee    -25+- 32 | own 16: fight    -36+-  5 flee     +1+-  3 | own deaths 0.16 +0.29/-0.05  team kills 0.14 +0.04/-0.05
+  2+                                       n    541 | team 16: fight   -141+- 43 flee    -68+- 43 | team 64: fight   -146+- 81 flee    +62+- 89 | own 16: fight    -47+- 25 flee    -24+- 17 | own deaths 0.14 +0.28/-0.03  team kills 0.22 -0.03/-0.09
+  carrying >= 30 gems                      n   1800 | team 16: fight   -109+- 34 flee    -13+- 20 | team 64: fight   -131+- 48 flee    +45+- 42 | own 16: fight    -38+-  9 flee     -8+-  6 | own deaths 0.14 +0.31/-0.01  team kills 0.09 +0.04/-0.03
+  enemies carry >= 30 gems                 n   2599 | team 16: fight    -93+- 25 flee    +14+- 16 | team 64: fight   -123+- 37 flee    +49+- 33 | own 16: fight    -41+-  7 flee     -2+-  5 | own deaths 0.18 +0.31/-0.06  team kills 0.08 +0.02/-0.04
+  melee                                    n   7976 | team 16: fight    -88+- 10 flee     +4+-  8 | team 64: fight    -93+- 17 flee    +18+- 17 | own 16: fight    -50+-  3 flee     +3+-  2 | own deaths 0.17 +0.36/-0.04  team kills 0.10 +0.02/-0.01
+  ranged                                   n   1806 | team 16: fight   -128+- 20 flee    -29+- 20 | team 64: fight   -118+- 40 flee     +1+- 36 | own 16: fight    -52+-  6 flee    -11+-  4 | own deaths 0.24 +0.33/+0.03  team kills 0.14 -0.02/-0.05
+
+Rule on reward team 16 (out-of-sample, inverse propensity + model):
+  flip when predicted gain >   0: flips  33.7% (to fight 14.6%, to flee 19.1%)  gain per contact   -1.44 +- 1.52
+  flip when predicted gain >  10: flips  21.4% (to fight 9.2%, to flee 12.2%)  gain per contact   -0.98 +- 1.30
+  flip when predicted gain >  20: flips  13.4% (to fight 5.6%, to flee 7.7%)  gain per contact   -0.79 +- 1.02
+  flip when predicted gain >  40: flips   5.3% (to fight 2.3%, to flee 3.0%)  gain per contact   -0.19 +- 0.69
+  flip when predicted gain >  80: flips   0.9% (to fight 0.3%, to flee 0.5%)  gain per contact   -0.40 +- 0.30
+
+Rule on reward team 32 (out-of-sample, inverse propensity + model):
+  flip when predicted gain >   0: flips  43.9% (to fight 19.0%, to flee 24.9%)  gain per contact   -3.20 +- 2.27
+  flip when predicted gain >  10: flips  32.4% (to fight 14.2%, to flee 18.2%)  gain per contact   -2.90 +- 2.04
+  flip when predicted gain >  20: flips  23.3% (to fight 10.4%, to flee 12.9%)  gain per contact   -2.18 +- 1.78
+  flip when predicted gain >  40: flips  11.6% (to fight 5.0%, to flee 6.6%)  gain per contact   -1.54 +- 1.33
+  flip when predicted gain >  80: flips   3.2% (to fight 1.1%, to flee 2.1%)  gain per contact   -0.87 +- 0.82
+  importance (fight): [(np.float64(0.184), 'logratio'), (np.float64(0.142), 'es'), (np.float64(0.093), 'strength'), (np.float64(0.09), 'vflee'), (np.float64(0.066), 'ttd'), (np.float64(0.065), 'max'), (np.float64(0.065), 'eh'), (np.float64(0.048), 'lognum')]
+
+Rule on reward own 16 (out-of-sample, inverse propensity + model):
+  flip when predicted gain >   0: flips  37.1% (to fight 14.3%, to flee 22.8%)  gain per contact   +0.41 +- 0.57
+  flip when predicted gain >  10: flips  13.0% (to fight 6.4%, to flee 6.6%)  gain per contact   +0.13 +- 0.41
+  flip when predicted gain >  20: flips   4.5% (to fight 2.9%, to flee 1.6%)  gain per contact   -0.30 +- 0.28
+  flip when predicted gain >  40: flips   0.6% (to fight 0.5%, to flee 0.1%)  gain per contact   -0.08 +- 0.13
+  flip when predicted gain >  80: flips   0.0% (to fight 0.0%, to flee 0.0%)  gain per contact   -0.02 +- 0.02
+
+Rule on reward team 64 (out-of-sample, inverse propensity + model):
+  flip when predicted gain >   0: flips  53.9% (to fight 19.3%, to flee 34.6%)  gain per contact   -0.26 +- 3.61
+  flip when predicted gain >  10: flips  44.0% (to fight 15.5%, to flee 28.4%)  gain per contact   +0.25 +- 3.44
+  flip when predicted gain >  20: flips  34.7% (to fight 12.2%, to flee 22.5%)  gain per contact   -0.33 +- 3.08
+  flip when predicted gain >  40: flips  20.5% (to fight 7.2%, to flee 13.3%)  gain per contact   -0.97 +- 2.47
+  flip when predicted gain >  80: flips   7.8% (to fight 2.4%, to flee 5.4%)  gain per contact   -1.67 +- 1.78

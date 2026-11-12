@@ -1,0 +1,114 @@
+=== per-map statistics of the rule
+
+worst maps (pooled win < 30%): 6 games, these games won 17%, mean rounds 1258. Ours minus theirs at round:
+  earnedGold           r50:      0.0  r100:    -13.3  r200:   -119.0  r400:   -205.2
+  collectedGems        r50:      0.0  r100:      0.5  r200:    -41.8  r400:   -116.5
+  submittedGems        r50:      0.0  r100:      2.0  r200:    -40.5  r400:   -117.7
+  kills                r50:      0.0  r100:      0.2  r200:     -0.3  r400:     -0.5
+  deaths               r50:      0.0  r100:      0.0  r200:      1.3  r400:      1.3
+  monsterDamageDone    r50:      0.0  r100:     96.9  r200:   -987.2  r400:   -466.0
+  championDamageDone   r50:      0.0  r100:     91.9  r200:   -495.3  r400:   -766.6
+
+30-50%: 62 games, these games won 44%, mean rounds 1202. Ours minus theirs at round:
+  earnedGold           r50:      4.3  r100:     -3.7  r200:    -21.7  r400:   -104.6
+  collectedGems        r50:      0.2  r100:     -0.5  r200:     -5.1  r400:    -16.5
+  submittedGems        r50:     -1.5  r100:     -0.6  r200:     -6.9  r400:    -10.2
+  kills                r50:      0.0  r100:     -0.0  r200:     -0.2  r400:     -0.2
+  deaths               r50:     -0.1  r100:     -0.0  r200:      0.1  r400:      0.1
+  monsterDamageDone    r50:    162.4  r100:    497.9  r200:    375.8  r400:     25.3
+  championDamageDone   r50:     11.5  r100:    -54.8  r200:    -73.8  r400:   -201.9
+
+50-70%: 64 games, these games won 58%, mean rounds 1186. Ours minus theirs at round:
+  earnedGold           r50:     -4.5  r100:      1.6  r200:     38.4  r400:     24.9
+  collectedGems        r50:     -0.2  r100:      0.0  r200:      5.0  r400:      3.2
+  submittedGems        r50:      1.0  r100:      0.2  r200:      3.7  r400:      2.6
+  kills                r50:     -0.0  r100:      0.0  r200:      0.2  r400:      0.2
+  deaths               r50:     -0.0  r100:     -0.1  r200:     -0.1  r400:      0.0
+  monsterDamageDone    r50:    188.7  r100:    198.4  r200:    785.3  r400:    119.6
+  championDamageDone   r50:     -5.4  r100:     -0.2  r200:     69.6  r400:     81.8
+
+best (70%+): 8 games, these games won 88%, mean rounds 1092. Ours minus theirs at round:
+  earnedGold           r50:    -12.5  r100:    -38.8  r200:     33.6  r400:    301.4
+  collectedGems        r50:      0.0  r100:     -5.9  r200:     12.6  r400:     59.5
+  submittedGems        r50:      0.0  r100:      0.0  r200:     12.0  r400:     57.8
+  kills                r50:     -0.1  r100:     -0.2  r200:     -0.2  r400:     -0.1
+  deaths               r50:      0.1  r100:      0.1  r200:      0.1  r400:      0.1
+  monsterDamageDone    r50:    627.3  r100:   1212.5  r200:   2873.6  r400:   8710.4
+  championDamageDone   r50:   -165.2  r100:   -182.8  r200:    -80.6  r400:   -240.6
+
+Lineups on the worst maps (ours | theirs):
+  00lost-world          22%  rounds 751  Heart of Ruin,Marcella,Varg,Vendetta,Willow | Heart of Ruin,Marcella,Varg,Vendetta,Willow
+  00packs               24%  rounds 1216  Cassi,Issac,Varg,Vendetta | Cassi,Issac,Varg,Vendetta
+  00anvil               26%  rounds 1565  Marcella,Varg,Vendetta | Marcella,Varg,Vendetta
+  00crater              31%  rounds 1530  Heart of Ruin,Marcella,Varg,Vendetta,Willow | Heart of Ruin,Marcella,Varg,Vendetta,Willo
+  01yellow-brick-road   31%  rounds 1263  Cassi,Heart of Ruin,Issac,Marcella,Varg,Vendetta | Cassi,Heart of Ruin,Issac,Marcella,Va
+  00contest             32%  rounds 2000  Cassi,Issac,Ren,Ryth,Varg,Vendetta | Cassi,Issac,Ren,Ryth,Varg,Vendetta
+  01broken-curve        33%  rounds 970  Heart of Ruin,Varg,Vendetta | Heart of Ruin,Varg,Vendetta
+  02arena               36%  rounds 1116  Cassi,Issac,Marcella,Vendetta | Cassi,Issac,Marcella,Vendetta
+  00ambush              38%  rounds 1272  Cassi,Issac,Ren,Ryth,Varg,Vendetta | Cassi,Issac,Ren,Ryth,Varg,Vendetta
+  00road-of-riches      38%  rounds 1159  Cassi,Heart of Ruin,Issac,Marcella,Varg,Vendetta | Cassi,Heart of Ruin,Issac,Marcella,Va
+=== log builds
+v92n1ml built
+v92ml built
+v92mlj1 built
+v92mlj2 built
+=== modes
+
+worst: 60 games, won 48%
+  r50: turns per champion, ours / theirs:  approach 31.5/28.3  fight 5.0/4.5  fight-champ 2.8/3.1  flee 2.8/2.2  stage 0.0/3.3  capture 1.7/1.6  nofarm 1.1/1.4  to-capture 0.7/0.9  home 0.7/0.6  hunt 0.6/0.7  join 0.6/0.4  cmicro 0.4/0.5  wait-respawn 0.3/0.4  capture-stand 0.2/0.3
+        stuck 0.4/0.4  abandons 1.2/1.2  longest idle 1.3/4.3
+  r100: turns per champion, ours / theirs:  approach 46.3/41.6  fight 9.2/8.4  fight-champ 7.2/8.2  flee 7.4/6.5  capture 4.4/4.4  wait-respawn 3.6/3.7  to-capture 2.9/2.7  stage 0.0/5.6  home 1.8/1.6  nofarm 1.2/1.6  hunt 1.2/1.6  capture-stand 1.1/1.2  join 1.0/1.2  cmicro 0.6/1.1
+        stuck 0.8/0.6  abandons 2.2/2.5  longest idle 3.9/7.8
+  r200: turns per champion, ours / theirs:  approach 79.6/68.1  fight 19.2/19.7  fight-champ 15.0/14.3  flee 14.5/11.5  capture 10.8/12.6  wait-respawn 9.5/13.2  to-capture 6.8/7.2  stage 0.0/9.5  home 4.1/3.2  tribute 2.4/3.2  hunt 2.5/2.7  join 2.1/2.1  capture-stand 1.8/2.1  cmicro 2.0/1.6
+        stuck 1.6/1.2  abandons 3.9/4.5  longest idle 7.4/12.8
+  r400: turns per champion, ours / theirs:  approach 141.8/118.6  fight 41.5/42.4  capture 29.8/28.7  fight-champ 28.9/29.5  wait-respawn 23.4/28.8  flee 25.0/24.4  to-capture 16.6/17.7  stage 0.0/19.5  tribute 8.4/7.2  home 8.5/7.0  capture-stand 4.2/4.7  join 3.4/3.4  hunt 3.1/3.6  home-escape 3.3/2.8
+        stuck 2.9/2.3  abandons 7.3/8.4  longest idle 12.6/17.5
+
+best: 60 games, won 72%
+  r50: turns per champion, ours / theirs:  approach 31.0/26.6  fight 10.4/9.8  stage 0.0/5.3  capture 2.2/2.3  nofarm 1.1/1.3  to-capture 0.9/1.2  flee 1.1/0.6  fight-champ 0.8/0.5  bush-ward 0.6/0.4  tribute 0.4/0.4  home 0.4/0.2  wait-respawn 0.1/0.5  siege 0.0/0.5  ambush 0.1/0.1
+        stuck 2.3/2.3  abandons 1.4/1.6  longest idle 1.1/5.6
+  r100: turns per champion, ours / theirs:  approach 52.6/46.2  fight 18.8/17.3  wait-respawn 4.2/5.7  stage 0.0/9.8  capture 4.6/4.9  fight-champ 3.4/1.7  to-capture 2.4/2.5  flee 2.3/2.6  tribute 1.7/1.4  nofarm 1.3/1.5  home 1.3/0.9  bush-ward 1.4/0.5  cmicro 0.8/0.8  join 0.8/0.5
+        stuck 4.9/4.9  abandons 2.6/2.8  longest idle 4.1/11.8
+  r200: turns per champion, ours / theirs:  approach 90.1/76.7  fight 36.1/31.8  wait-respawn 13.9/15.0  capture 9.6/10.0  stage 0.0/18.0  to-capture 6.2/6.3  flee 5.2/5.9  fight-champ 6.4/4.3  tribute 3.8/3.4  home 3.3/2.5  cmicro 2.2/2.1  bush-ward 2.8/0.8  nofarm 1.4/2.0  home-escape 1.5/1.2
+        stuck 8.8/8.6  abandons 4.4/4.9  longest idle 9.7/17.0
+  r400: turns per champion, ours / theirs:  approach 163.7/145.1  fight 69.4/64.4  wait-respawn 29.9/29.6  capture 18.4/19.3  stage 0.0/31.5  fight-champ 15.1/16.1  flee 15.1/14.2  to-capture 13.6/14.2  tribute 12.6/9.3  home 7.2/6.2  bush-ward 4.3/1.5  home-escape 3.0/2.2  join 2.7/2.3  nofarm 1.6/2.7
+        stuck 17.8/18.7  abandons 8.1/8.8  longest idle 15.1/21.5
+=== deaths
+games 280, won 51.8%
+
+our deaths: 3307 deaths
+  by round: [86, 133, 225, 506, 981, 1376]
+  killer context: [('champion', 2833), ('other', 474)]
+  in contact just before: 75%; contact length mean 23.5
+   2 rounds before (2417): health 34%  enemies 2.10 allies 1.12  enemy hp 3381 ally hp 1698 nearest 2.4 gems 21
+   5 rounds before (2270): health 56%  enemies 2.09 allies 1.12  enemy hp 3399 ally hp 1689 nearest 2.8 gems 22
+  10 rounds before (1994): health 74%  enemies 2.00 allies 1.17  enemy hp 3278 ally hp 1797 nearest 3.4 gems 23
+  at the start of that contact (2487): health 86%  enemies 1.31 allies 1.27 gems 19  alone 31%  outnumbered 7%  under 50% health 8%
+  mode 2 rounds before: [('flee', 1797), ('fight-champ', 280), ('cmicro', 86), ('flee-dash', 57), ('home-escape', 37), ('approach', 34), ('bush-recall', 16), ('trib-deny', 14), ('wait-respawn', 13)]
+  mode at the start of the contact: [('approach', 686), ('flee', 357), ('wait-respawn', 246), ('fight-champ', 229), ('join', 222), ('fight', 191), ('tribute', 112), ('to-capture', 112), ('hunt', 59)]
+
+their deaths: 3162 deaths
+  by round: [94, 123, 241, 468, 927, 1309]
+  killer context: [('champion', 2760), ('other', 402)]
+  in contact just before: 78%; contact length mean 26.0
+   2 rounds before (2405): health 32%  enemies 2.14 allies 1.09  enemy hp 3227 ally hp 1562 nearest 2.4 gems 25
+   5 rounds before (2262): health 53%  enemies 2.16 allies 1.09  enemy hp 3280 ally hp 1527 nearest 2.7 gems 21
+  10 rounds before (2047): health 73%  enemies 2.05 allies 1.15  enemy hp 3191 ally hp 1616 nearest 3.4 gems 21
+  at the start of that contact (2464): health 86%  enemies 1.30 allies 1.28 gems 17  alone 29%  outnumbered 7%  under 50% health 8%
+  mode 2 rounds before: [('flee', 1779), ('fight-champ', 302), ('cmicro', 84), ('flee-dash', 46), ('home-escape', 29), ('approach', 25), ('bush-recall', 18), ('kite-cast', 16), ('ambush', 14)]
+  mode at the start of the contact: [('approach', 593), ('flee', 340), ('join', 249), ('wait-respawn', 244), ('fight-champ', 234), ('fight', 167), ('to-capture', 123), ('tribute', 115), ('capture-stand', 73)]
+
+first death is ours: 148 games, won 37%;  first death is theirs: 119 games, won 66%
+  deaths ours minus theirs by round 50: mean -0.03; -2: 11 games 55%  -1: 12 games 33%  +0: 235 games 54%  +1: 10 games 30%  +2: 8 games 25%
+  deaths ours minus theirs by round 100: mean +0.01; -2: 17 games 71%  -1: 30 games 37%  +0: 157 games 55%  +1: 38 games 37%  +2: 3 games 67%
+  deaths ours minus theirs by round 200: mean -0.05; -2: 28 games 68%  -1: 26 games 65%  +0: 130 games 54%  +1: 33 games 27%  +2: 18 games 22%
+  deaths ours minus theirs by round 400: mean +0.09; -2: 31 games 71%  -1: 35 games 63%  +0: 59 games 68%  +1: 46 games 30%  +2: 20 games 20%
+=== fight episodes
+v92fv1 built
+v92fv2 built
+v92fv3 built
+v92fv1: 638 games, won 47.0%, 19957 contacts so far, 185s
+v92fv2: 638 games, won 46.4%, 39873 contacts so far, 175s
+v92fv3: 638 games, won 44.0%, 59707 contacts so far, 175s
+saved agent2/lab/e126_fv.npz (59707, 116)
+DONE

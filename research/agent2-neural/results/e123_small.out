@@ -1,0 +1,17 @@
+epoch 12: KL 0.3542, 139s | student = teacher argmax on held-out maps: behaviour 0.903, target 0.929, option 1.000, attack 0.955, cast 0.907, cast_tgt 0.841, moves 0.571, bank 0.930
+saved agent2/student_i2m_12x48.pt
+wrote agent2/student_i2m_12x48_w.h 679 KB
+nns12x48 built
+epoch 12: KL 0.4948, 139s | student = teacher argmax on held-out maps: behaviour 0.883, target 0.920, option 1.000, attack 0.951, cast 0.884, cast_tgt 0.817, moves 0.500, bank 0.911
+saved agent2/student_i2m_8x32.pt
+wrote agent2/student_i2m_8x32_w.h 417 KB
+nns8x32 built
+09:01:33 nns12x48 vs v92: ladder 79.0/140 = 56.4%, unseen 0.0/0 = 0.0%, total 79.0/140 = 56.4% (43 s)
+09:02:16 nns8x32 vs v92: ladder 73.0/140 = 52.1%, unseen 0.0/0 = 0.0%, total 73.0/140 = 52.1% (42 s)
+09:03:00 nns12x48 vs v92j1: ladder 79.0/140 = 56.4%, unseen 0.0/0 = 0.0%, total 79.0/140 = 56.4% (42 s)
+09:03:46 nns8x32 vs v92j1: ladder 75.0/140 = 53.6%, unseen 0.0/0 = 0.0%, total 75.0/140 = 53.6% (44 s)
+09:04:31 nns12x48 vs v92j2: ladder 85.0/140 = 60.7%, unseen 0.0/0 = 0.0%, total 85.0/140 = 60.7% (43 s)
+09:05:14 nns8x32 vs v92j2: ladder 76.0/140 = 54.3%, unseen 0.0/0 = 0.0%, total 76.0/140 = 54.3% (42 s)
+09:07:26 nns12x48 vs v92: ladder 0.0/0 = 0.0%, unseen 285.0/498 = 57.2%, total 285.0/498 = 57.2% (130 s)
+09:09:46 nns8x32 vs v92: ladder 0.0/0 = 0.0%, unseen 295.0/498 = 59.2%, total 295.0/498 = 59.2% (137 s)
+E123_SMALL_DONE
