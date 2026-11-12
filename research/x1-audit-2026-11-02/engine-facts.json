@@ -1,0 +1,64 @@
+{
+  "engine": "2.0.0",
+  "settings": {
+    "captureTime": 5,
+    "campSleepTime": 2,
+    "respawnTime": 60,
+    "recallTime": 5,
+    "submitDurationMultiplier": 0.1,
+    "submitBase": 0,
+    "submitMinimum": 1,
+    "submitRange": 1,
+    "maxRounds": 2000,
+    "winningGems": 1000,
+    "killGold": 100,
+    "assistGold": 0,
+    "passiveGold": 0,
+    "sharedMemoryBytes": 8,
+    "draftMemoryBytes": 1024
+  },
+  "heart": {
+    "type": 12,
+    "hp": 1000,
+    "focus": {
+      "base": 100,
+      "items": 0,
+      "bonus": 0,
+      "effective": 100
+    },
+    "strength": {
+      "base": 30,
+      "items": 0,
+      "bonus": 0,
+      "effective": 30
+    },
+    "abilityProps": [
+      {
+        "type": 7,
+        "cooldown": 8,
+        "maxCharges": 0,
+        "target": 8,
+        "attributes": 0,
+        "range": 4,
+        "modifier": 1.5,
+        "duration": 5
+      },
+      {
+        "type": 6,
+        "cooldown": 8,
+        "maxCharges": 0,
+        "target": 16,
+        "attributes": 0,
+        "range": 2,
+        "radius": 1,
+        "modifier": 1.5,
+        "stunDuration": 1
+      }
+    ],
+    "abilities": [
+      7,
+      6
+    ]
+  }
+}
+

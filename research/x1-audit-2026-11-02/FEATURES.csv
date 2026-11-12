@@ -1,0 +1,619 @@
+feature,effective_definition,classification,source_references
+A2_ALTARFIX,3,conditional/threshold/bitmask; inspect references,"bot.cpp:4545 #if A2_ALTARFIX; bot.cpp:4629 #if A2_ALTARFIX & 2; bot.cpp:4637 #if A2_ALTARFIX & 2; bot.cpp:4685 #if A2_ALTARFIX & 4; common.h:1081 #ifndef A2_ALTARFIX // altar access: 1 drop access tiles under camps or unreachable from our spawn (none left: no_bank,; world.cpp:145 #if A2_ALTARFIX & 1; world.cpp:385 #if A2_ALTARFIX & 4; world.cpp:700 #if A2_ALTARFIX & 1"
+A2_AMBUSH,0,off,bot.cpp:7135 #if A2_AMBUSH; common.h:1100 #ifndef A2_AMBUSH // exploit candidate: one champion waits by the altar nearest the enemy spawn for their carriers
+A2_AMBUSH_FROM,60,conditional/threshold/bitmask; inspect references,common.h:1106 #ifndef A2_AMBUSH_FROM
+A2_AMBUSH_SLOT,1,on,common.h:1103 #ifndef A2_AMBUSH_SLOT
+A2_APPROACHFIX,1,on,bot.cpp:5089 #if A2_APPROACHFIX; common.h:1063 #ifndef A2_APPROACHFIX // a champion approaching one group for 25 turns without getting closer drops it for 100 rounds
+A2_ASSESS,0,off,"bot.cpp:16 #if A2_ASSESS; bot.cpp:3861 #if A2_ASSESS; common.h:998 #ifndef A2_ASSESS // fight/run: a learned assessment (assess_model.h, engine counterfactuals) overrides the verdict"
+A2_ASSESS_MARGIN,5.0f,conditional/threshold/bitmask; inspect references,common.h:1001 #ifndef A2_ASSESS_MARGIN // predicted 3-round value gap (gems) needed to override
+A2_BELIEF,0,off,bot.cpp:1281 #if A2_BELIEF; bot.cpp:3299 #if A2_BELIEF; bot.cpp:3328 #if A2_BELIEF; bot.cpp:3686 #if A2_BELIEF; bot.cpp:7098 #if A2_BELIEF; bot.h:135 #if A2_BELIEF; common.h:1136 #ifndef A2_BELIEF // track enemies out of sight: recent ones that could be in reach count in danger checks
+A2_BELIEF_AGE,3,conditional/threshold/bitmask; inspect references,common.h:1139 #ifndef A2_BELIEF_AGE
+A2_BRIDGES,1,on,bot.cpp:523 #if A2_BRIDGES; bot.cpp:914 #if A2_BRIDGES; bot.cpp:979 #if A2_BRIDGES; common.h:1066 #ifndef A2_BRIDGES // champions with a dash path over one-tile hole gaps (islands: every island is one dash away)
+A2_BURST2,0,off,bot.cpp:3343 #if A2_BURST2; common.h:1094 #ifndef A2_BURST2 // danger: two turns of enemy hits + ready spells + a stun round exceed our health (ladder burst deaths)
+A2_BURST2_K,1.0f,conditional/threshold/bitmask; inspect references,common.h:1097 #ifndef A2_BURST2_K
+A2_BURST_HOLD,0,off,"bot.cpp:1647 #if A2_BURST_HOLD; bot.cpp:1653 #if A2_BURST_HOLD; bot.cpp:1811 #if A2_BURST_HOLD; bot.cpp:3166 #if A2_BURST_HOLD; bot.cpp:3847 #if A2_BURST_HOLD; common.h:992 #ifndef A2_BURST_HOLD // Tavi/Willow/Ren/Vendetta: no burst (spell, reset combo) in a lone duel while behind on health"
+A2_BUSH_FAST,1,on,"common.h:953 #ifndef A2_BUSH_FAST // bush-cluster labelling with a fixed stack (same labels, far less fuel); world.cpp:205 #if A2_BUSH_FAST"
+A2_CAMPNET,1,on,bot.cpp:5396 #if A2_CAMPNET; bot.cpp:5485 #if A2_CAMPNET; bot.cpp:5907 #if A2_CAMPNET; bot.cpp:5946 #if A2_CAMPNET; bot.h:143 #if A2_CAMPNET; common.h:446 #ifndef A2_CAMPNET
+A2_CAMPWATCH,1,on,bot.cpp:5734 #if A2_CAMPWATCH; common.h:398 #ifndef A2_CAMPWATCH; x1_config.h:24 #ifndef A2_CAMPWATCH
+A2_CHECK,0,off,bot.cpp:2429 #if A2_CHECK; common.h:1169 #ifndef A2_CHECK // diagnostic (needs A2_TEL): every exact-result fast path also runs the original and counts mismatches; tsearch.cpp:1199 #if A2_CHECK; world.cpp:230 #if A2_CHECK
+A2_CMICRO_FAST,1,on,"common.h:959 #ifndef A2_CMICRO_FAST // caster_micro: per-tile danger cached (bit-identical sums), not recomputed per option; tsearch.cpp:1141 #if A2_CMICRO_FAST"
+A2_CN_BASE,1.0f,conditional/threshold/bitmask; inspect references,common.h:452 #ifndef A2_CN_BASE
+A2_CN_SHARP,4.0f,conditional/threshold/bitmask; inspect references,common.h:449 #ifndef A2_CN_SHARP
+A2_CN_W,0.0f,off,common.h:455 #ifndef A2_CN_W
+A2_CW_LEAD,12,conditional/threshold/bitmask; inspect references,common.h:401 #ifndef A2_CW_LEAD
+A2_CW_MEM,150,conditional/threshold/bitmask; inspect references,common.h:404 #ifndef A2_CW_MEM
+A2_CW_MULT,1.6f,conditional/threshold/bitmask; inspect references,common.h:407 #ifndef A2_CW_MULT
+A2_DANGERMAP,0,off,"bot.cpp:1132 #if A2_DANGERMAP; common.h:1091 #ifndef A2_DANGERMAP // outside fights, never step into the two-turn burst kill zone of visible enemies"
+A2_DASHX,0,off,"common.h:1085 #ifndef A2_DASHX // striking dash in the fight search, split of A2_KITFIX bit 2: 1 landing on our root action, 2 in our"
+A2_DISENGAGE,0,off,"bot.cpp:3778 #if A2_DISENGAGE; common.h:1004 #ifndef A2_DISENGAGE // lone duel, clearly behind on health, no kill this turn: step out instead of trading"
+A2_DIS_MARGIN,0.15f,conditional/threshold/bitmask; inspect references,common.h:1007 #ifndef A2_DIS_MARGIN
+A2_DPLAN,0,off,bot.cpp:2268 #if A2_DPLAN; bot.cpp:5701 #if A2_DPLAN; bot.cpp:5725 #if A2_DPLAN; bot.h:153 #if A2_DPLAN; common.h:430 #ifndef A2_DPLAN; draft.cpp:433 #if A2_DPLAN; draft.cpp:884 #if A2_DPLAN
+A2_DP_DEBUG,,conditional/threshold/bitmask; inspect references,bot.cpp:2286 #ifdef A2_DP_DEBUG
+A2_DP_LATE,40,conditional/threshold/bitmask; inspect references,common.h:439 #ifndef A2_DP_LATE
+A2_DP_MULT,3.0f,conditional/threshold/bitmask; inspect references,common.h:436 #ifndef A2_DP_MULT
+A2_DP_ROLLOUTS,40,conditional/threshold/bitmask; inspect references,common.h:442 #ifndef A2_DP_ROLLOUTS
+A2_DP_UNTIL,200,conditional/threshold/bitmask; inspect references,common.h:433 #ifndef A2_DP_UNTIL
+A2_ENEMY_NET,0,off,common.h:1016 #ifndef A2_ENEMY_NET // fight/run playouts: enemy units follow the top-team action network (act_model.h); tsearch.cpp:861 #if A2_ENEMY_NET; tsearch.h:19 #if A2_ENEMY_NET; tsearch.h:59 #if A2_ENEMY_NET || A2_TILENET; tsearch.h:163 #if A2_ENEMY_NET; tsearch.h:379 #if A2_ENEMY_NET; tsearch.h:633 #if A2_ENEMY_NET
+A2_FASTGRP,1,on,"common.h:1072 #ifndef A2_FASTGRP // world update: groups near enemies through a bitboard (same result, a fraction of the fuel); world.cpp:738 #if A2_FASTGRP"
+A2_FAST_AMBUSH,1,on,bot.cpp:2413 #if A2_FAST_AMBUSH; common.h:956 #ifndef A2_FAST_AMBUSH // counter_ambush: the same distances from one window scan instead of nine
+A2_FIELDFIRST,0,off,bot.cpp:7299 #if A2_FIELDFIRST; common.h:1069 #ifndef A2_FIELDFIRST // until every group has its walking-distance field: build one at the start of calm turns and skip
+A2_FOG,0,off,bot.cpp:2227 #if A2_FOG; bot.cpp:7347 #if A2_FOG; bot.h:160 #if A2_FOG; common.h:378 #ifndef A2_FOG
+A2_FOG_AGE,10,conditional/threshold/bitmask; inspect references,common.h:381 #ifndef A2_FOG_AGE
+A2_FOG_GEMS,15,conditional/threshold/bitmask; inspect references,common.h:390 #ifndef A2_FOG_GEMS
+A2_FOG_HP,0.8f,conditional/threshold/bitmask; inspect references,common.h:387 #ifndef A2_FOG_HP
+A2_FOG_MARGIN,2,conditional/threshold/bitmask; inspect references,common.h:393 #ifndef A2_FOG_MARGIN
+A2_FOG_R,4,conditional/threshold/bitmask; inspect references,common.h:384 #ifndef A2_FOG_R
+A2_FUELLOG,0,off,common.h:962 #ifndef A2_FUELLOG // diagnostics: print turns that ran out of fuel and spilled into the next round (main.cpp); main.cpp:27 #if A2_FUELLOG; main.cpp:39 #if A2_FUELLOG
+A2_GAPDASH,3,conditional/threshold/bitmask; inspect references,"bot.cpp:4192 #if A2_GAPDASH; common.h:1051 #ifndef A2_GAPDASH // melee 3 tiles from its fight target: dash next to it and hit (1 HoR striking dash, 2 plain dash)"
+A2_GATE_FROM,500,conditional/threshold/bitmask; inspect references,common.h:238 #ifndef A2_GATE_FROM
+A2_GATE_JOB,0,off,bot.cpp:5511 #if A2_GATE_JOB
+A2_GOV,1,on,common.h:965 #ifndef A2_GOV // fuel governor (runtime_budget.h): umbrella for the parts below
+A2_GOV_WALK,A2_GOV,conditional/threshold/bitmask; inspect references,bot.cpp:1063 #if A2_GOV_WALK; bot.cpp:1369 #if A2_GOV_WALK; bot.cpp:1382 #if A2_GOV_WALK; bot.cpp:1438 #if A2_GOV_WALK; bot.h:126 #if A2_GOV_WALK; common.h:968 #ifndef A2_GOV_WALK // path searches capped at what the fuel left pays for; a capped search takes a greedy step
+A2_GOV_WARD,A2_GOV,conditional/threshold/bitmask; inspect references,bot.cpp:2158 #if A2_GOV_WARD; common.h:971 #ifndef A2_GOV_WARD // ward_ahead waits for a turn with room when it would label a new bush cluster
+A2_GROUP_UNTIL,0,off,"common.h:1032 #ifndef A2_GROUP_UNTIL // pair / squad farming (APEX_PAIR, APEX_SQUADS) only before this round (0 = all game): early kills"
+A2_HIDEREC,0,off,bot.cpp:7078 #if A2_HIDEREC; common.h:1060 #ifndef A2_HIDEREC // the channel guard keeps a recall going while we are hidden in a bush (no bush-recall/cancel loop)
+A2_HPVAL2,0,off,common.h:1019 #ifndef A2_HPVAL2 // fight evaluator: death risk logistic in (incoming - health) instead of the quadratic share; tsearch.h:850 #if A2_HPVAL2
+A2_KITFIX,25,conditional/threshold/bitmask; inspect references,"bot.cpp:370 #elif A2_KITFIX & 16 // cambc 3.0.4 starting stats and growth (Vesper, Vendetta, Stellar, Tavi, Heart of Ruin changed); bot.cpp:386 #elif A2_KITFIX & 8 // engine 3.0 starting stats and growth (GameRules, 21 Oct); common.h:1085 #ifndef A2_DASHX // striking dash in the fight search, split of A2_KITFIX bit 2: 1 landing on our root action, 2 in our; common.h:1088 #ifndef A2_KITFIX // engine 3.0 kits, bits: 1 Heart of Ruin in the fight search's kit table (shield, dash), 2 striking dash; tsearch.h:228 #if A2_KITFIX & 4"
+A2_KNOBS,"0.2175,-0.1285,0.6144,-0.2243,-0.3362,-0.1388,0.0024,0.0269,1.3917,0.2925,0.2535,0.3947,0.4165,-0.1724,-0.6045,-0.3079,-0.0388,0.2270,-0.3459,-0.9646,0.4877,0.2531,-0.0560,0.2943,0.0064,0.3635,0.1230,-0.3917,-0.3231,-0.3286,0.2137,0.1874,0.3061,-0.0564,-0.0954,0.0861,-0.6010,0.0983,0.1237,-0.0158,0.6259,0.2595,-0.1032,-0.3582,0.0254,0.2025,-0.1000,-0.3077",conditional/threshold/bitmask; inspect references,lab.h:59 #ifdef A2_KNOBS
+A2_LAB,1,on,bot.cpp:11 #if A2_LAB; bot.cpp:136 #if A2_LAB; bot.cpp:460 #if A2_MLPLAN && A2_LAB; bot.cpp:762 #if A2_LAB; bot.cpp:3256 #if A2_LAB; bot.cpp:3463 #if A2_POLICY >= 2 && A2_LAB; bot.cpp:3590 #if A2_POLICY == 1 && A2_LAB; bot.cpp:3921 #if (A2_TEAMFIGHT & 1) || A2_LAB; bot.cpp:3974 #if A2_LAB; bot.cpp:4548 #if A2_LAB; bot.cpp:5423 #if A2_LAB; bot.cpp:5444 #if A2_LAB; bot.cpp:5458 #if A2_LAB; bot.cpp:5466 #if A2_LAB; bot.cpp:6865 #if A2_LAB; bot.cpp:6937 #if A2_LAB; bot.cpp:7103 #if A2_LAB; common.h:1027 #if A2_LAB; learner.h:15 #ifndef A2_LAB // engine-lab build (agent2/lab/host.js): the host writes the weights into w_lab before a game; learner.h:19 #if A2_LAB; main.cpp:7 #if A2_LAB; tsearch.cpp:8 #if A2_LAB
+A2_MAP_PROFILE,0,off,"bot.cpp:443 #if A2_MAP_PROFILE; common.h:1124 #ifndef A2_MAP_PROFILE // per-official-map switch overrides, bit mask (a2map.h); 0 = off"
+A2_MICLOG,0,off,bot.cpp:518 #if A2_MICLOG; bot.cpp:937 #if A2_MICLOG; bot.cpp:1697 #if A2_MICLOG; bot.cpp:1869 #if A2_MICLOG; bot.cpp:1909 #if A2_MICLOG; bot.cpp:1955 #if A2_MICLOG; bot.cpp:7015 #if A2_MICLOG; bot.cpp:7054 #if A2_MICLOG; bot.cpp:7361 #if A2_MICLOG; common.h:1048 #ifndef A2_MICLOG // debug only (lab analysis): log fight turns and spell events to stdout; never in a submission; economy.cpp:267 #if A2_MICLOG
+A2_MID_W,1.0f,conditional/threshold/bitmask; inspect references,common.h:1044 #ifndef A2_MID_W // value of camp groups in the contested middle (0.35-0.65 of the way to the enemy spawn); 1 = off
+A2_MLDRAFT,1,on,common.h:460 #ifndef A2_MLDRAFT; draft.cpp:584 #if A2_MLDRAFT; draft.cpp:856 #if A2_MLDRAFT; draft.cpp:929 #if A2_MLDRAFT
+A2_MLD_DEBUG,,conditional/threshold/bitmask; inspect references,draft.cpp:656 #ifdef A2_MLD_DEBUG
+A2_MLPLAN,0,off,bot.cpp:5 #if A2_MLPLAN; bot.cpp:460 #if A2_MLPLAN && A2_LAB; common.h:464 #ifndef A2_MLPLAN; draft.cpp:700 #if A2_MLPLAN
+A2_MOVENET,0,off,common.h:1130 #ifndef A2_MOVENET // playouts: learned 1v1 movement intent (closer / stay / away; move_model.h); tsearch.h:11 #if A2_MOVENET; tsearch.h:173 #if A2_MOVENET; tsearch.h:593 #if A2_MOVENET
+A2_PLAN,0,off,bot.cpp:1198 #if A2_PLAN; bot.cpp:1253 #if A2_PLAN >= 2; bot.cpp:6398 #if A2_PLAN; bot.h:132 #if A2_PLAN; common.h:1013 #ifndef A2_PLAN // team camp plan: each champion takes its row of a greedy team assignment by gems per turn
+A2_POLICY,0,off,"bot.cpp:3463 #if A2_POLICY >= 2 && A2_LAB; bot.cpp:3590 #if A2_POLICY == 1 && A2_LAB; common.h:1022 #ifndef A2_POLICY // lab builds: the fight/run verdict comes from a small neural policy (lab.h, trained with PPO); lab.h:20 #if A2_POLICY >= 2"
+A2_RACE,0,off,"bot.cpp:6680 #if A2_RACE; bot.cpp:6697 #if A2_RACE >= 2; bot.cpp:6705 #if A2_RACE >= 4; bot.cpp:6715 #if A2_RACE >= 3; bot.h:176 #if A2_RACE; common.h:1109 #ifndef A2_RACE // race-state layer: project both teams' finish from banking rates; safe when ahead, contest when behind"
+A2_RACE_LEAD,30.0f,conditional/threshold/bitmask; inspect references,common.h:1112 #ifndef A2_RACE_LEAD // projected lead (rounds) that switches the posture
+A2_RESETFIX,0,off,"bot.cpp:1656 #if A2_RESETFIX; common.h:1057 #ifndef A2_RESETFIX // the attack reset never goes to a target the first hit killed (another enemy in reach, or keep it)"
+A2_ROUTE_FUEL,55000,conditional/threshold/bitmask; inspect references,common.h:1643 #ifndef A2_ROUTE_FUEL // fuel the route search needs left to start (yellow-brick-road: at 40k heavy turns ran out)
+A2_SHIELDLATE,1,on,bot.cpp:1934 #if A2_SHIELDLATE; bot.cpp:7322 #if A2_SHIELDLATE; common.h:1054 #ifndef A2_SHIELDLATE // Heart of Ruin keeps the turn's cast for its striking dash when an enemy is within 3 (shield after)
+A2_SNAP,4,conditional/threshold/bitmask; inspect references,"common.h:974 #ifndef A2_SNAP // fight/run snapshot size, relevance-ranked (0 = v34's observation-order selection of up to 8); tsearch.cpp:158 #if A2_SNAP || A2_TD_AUTH || A2_TEL; tsearch.cpp:182 #if A2_SNAP; tsearch.cpp:788 #elif A2_SNAP || A2_TD_AUTH"
+A2_SOLE_FROM,500,conditional/threshold/bitmask; inspect references,common.h:241 #ifndef A2_SOLE_FROM
+A2_SOLE_GEM,1,on,bot.cpp:5494 #if A2_SOLE_GEM
+A2_SPARSE_AREA,1000.0f,conditional/threshold/bitmask; inspect references,"common.h:1118 #ifndef A2_SPARSE_AREA // ... and map tiles per champion >= this (expanse 2133, corners 1008; fragment 300, contest 500)"
+A2_SPARSE_BUILD,0,off,bot.cpp:232 #if A2_SPARSE_BUILD; bot.cpp:455 #if A2_SPARSE_BUILD; common.h:1115 #ifndef A2_SPARSE_BUILD // camp-clearing item build on sparse (farming-race) maps: gem density < A2_SPARSE_DENS; draft.cpp:1070 #if A2_SPARSE_BUILD
+A2_SPARSE_DENS,0.25f,conditional/threshold/bitmask; inspect references,common.h:1115 #ifndef A2_SPARSE_BUILD // camp-clearing item build on sparse (farming-race) maps: gem density < A2_SPARSE_DENS; common.h:1121 #ifndef A2_SPARSE_DENS
+A2_TD_AUTH,1,on,bot.cpp:3680 #if A2_TD_AUTH; common.h:977 #ifndef A2_TD_AUTH // a fight verdict clears formula danger only for risks the model represents; tsearch.cpp:158 #if A2_SNAP || A2_TD_AUTH || A2_TEL; tsearch.cpp:788 #elif A2_SNAP || A2_TD_AUTH
+A2_TEAM,2,conditional/threshold/bitmask; inspect references,"bot.cpp:1117 #if (A2_TEAM & 1); bot.cpp:1311 #if (A2_TEAM & 2); bot.cpp:7343 #if (A2_TEAM & 2); bot.h:129 #if (A2_TEAM & 2); common.h:1145 #ifndef A2_TEAM // team fight layer: bit 1 hold out of enemy reach (hurt or outnumbered), bit 2 join a visible ally's fight"
+A2_TEAMFIGHT,0,off,"bot.cpp:3921 #if (A2_TEAMFIGHT & 1) || A2_LAB; common.h:1035 #ifndef A2_TEAMFIGHT // team fight by local numbers (influence of champions that can arrive): 1 engage/disengage verdict,"
+A2_TEL,0,off,bot.cpp:1044 #if A2_TEL && X1_TEL; bot.cpp:1048 #if A2_TEL; bot.cpp:1755 #if A2_TEL && X1_TEL; bot.cpp:2338 #if A2_TEL; bot.cpp:2401 #if A2_TEL; bot.cpp:3051 #if A2_TEL; bot.cpp:3690 #if A2_TEL; bot.cpp:4088 #if A2_TEL; bot.cpp:6655 #if A2_TEL; bot.cpp:6672 #if A2_TEL; bot.cpp:7330 #if A2_TEL; common.h:949 #ifndef A2_TEL; common.h:1169 #ifndef A2_CHECK // diagnostic (needs A2_TEL): every exact-result fast path also runs the original and counts mismatches; common.h:1310 #elif A2_TEL; tsearch.cpp:158 #if A2_SNAP || A2_TD_AUTH || A2_TEL; tsearch.cpp:588 #if A2_TEL; tsearch.cpp:771 #if A2_TEL; tsearch.cpp:929 #if A2_TEL; tsearch.cpp:953 #if A2_TEL; tsearch.cpp:1073 #if A2_TEL; tsearch.cpp:1124 #if A2_TEL; tsearch.cpp:1367 #if A2_TEL; world.cpp:188 #if A2_TEL; world.cpp:216 #if A2_TEL; world.cpp:265 #if A2_TEL
+A2_TF_AVOID,0.55f,conditional/threshold/bitmask; inspect references,common.h:1041 #ifndef A2_TF_AVOID  // ... and to disengage at
+A2_TF_ENGAGE,1.8f,conditional/threshold/bitmask; inspect references,"common.h:1038 #ifndef A2_TF_ENGAGE // team strength ratio (health x damage, arrival-weighted) to engage at"
+A2_THREAT,0,off,bot.cpp:1190 #if A2_THREAT; bot.cpp:1342 #if A2_THREAT; bot.cpp:5748 #if A2_THREAT; bot.h:139 #if A2_THREAT; common.h:1148 #ifndef A2_THREAT // threat-aware camp choice and travel for exposed (hurt or carrying) champions
+A2_THREAT_AGE,4,conditional/threshold/bitmask; inspect references,common.h:1163 #ifndef A2_THREAT_AGE
+A2_THREAT_DETOUR,6,conditional/threshold/bitmask; inspect references,common.h:1166 #ifndef A2_THREAT_DETOUR
+A2_THREAT_GEMS,20,conditional/threshold/bitmask; inspect references,common.h:1154 #ifndef A2_THREAT_GEMS
+A2_THREAT_GROUP,0.5f,conditional/threshold/bitmask; inspect references,common.h:1157 #ifndef A2_THREAT_GROUP
+A2_THREAT_HP,0.7f,conditional/threshold/bitmask; inspect references,common.h:1151 #ifndef A2_THREAT_HP
+A2_THREAT_R,3,conditional/threshold/bitmask; inspect references,common.h:1160 #ifndef A2_THREAT_R
+A2_TILENET,0,off,common.h:1133 #ifndef A2_TILENET // playouts: units pick their tile with the model learned from engine fights (tile_model.h); tsearch.h:15 #if A2_TILENET; tsearch.h:59 #if A2_ENEMY_NET || A2_TILENET; tsearch.h:168 #if A2_TILENET; tsearch.h:472 #if A2_TILENET
+A2_TSFIX,0,off,"common.h:989 #ifndef A2_TSFIX // tactical search with the engine-ranked settings (lab value, committing enemies, careful allies); tsearch.cpp:510 #if A2_TSFIX"
+A2_TSFULL,0,off,common.h:986 #ifndef A2_TSFULL // engine lab only (no fuel limit): tactical search over the engine labels' full candidate list; tsearch.cpp:387 #if A2_TSFULL; tsearch.h:193 #if A2_TSFULL; tsearch.h:882 #if A2_TSFULL; tsearch.h:890 #if A2_TSFULL; tsearch.h:904 #if A2_TSFULL
+A2_TSX,0,off,"common.h:1142 #ifndef A2_TSX // action search (APEX_TSEARCH) with a fuel-guarded scoring stage, replacing the fight/run verdict; tsearch.cpp:530 #if A2_TSX"
+A2_TS_FIGHTONLY,0,off,"common.h:995 #ifndef A2_TS_FIGHTONLY // tactical search (APEX_TSEARCH) only in turns the verdict fights (in-fight moves, not flight)"
+A2_TS_FIGHT_BIAS,0.0f,off,common.h:1010 #ifndef A2_TS_FIGHT_BIAS // A2_TS_VIS only: added to the fight value before the fight/run verdict
+A2_TS_ORDER,0,off,common.h:1127 #ifndef A2_TS_ORDER // playouts: units that already acted keep their turn slot (engine alternation; agent2/lab/order_probe.js); tsearch.h:786 #if A2_TS_ORDER
+A2_TS_VIS,0,off,"common.h:983 #ifndef A2_TS_VIS // fight/run playouts: a unit attacks and casts only on what it sees (bushes, walls; engine lab); common.h:1010 #ifndef A2_TS_FIGHT_BIAS // A2_TS_VIS only: added to the fight value before the fight/run verdict; tsearch.cpp:365 #if A2_TS_VIS; tsearch.cpp:978 #if A2_TS_VIS; tsearch.h:90 #if A2_TS_VIS; tsearch.h:118 #if A2_TS_VIS; tsearch.h:531 #if A2_TS_VIS"
+A2_ZONES,0,off,"bot.cpp:5743 #if A2_ZONES; common.h:1075 #ifndef A2_ZONES // territories (commander v1, bot.cpp build_zones): 1 one sector of camp groups per champion, 2 per pair"
+A2_ZONE_W,0.5f,conditional/threshold/bitmask; inspect references,common.h:1078 #ifndef A2_ZONE_W // value of a group outside our territory (captures and team jobs excepted)
+A3_BACKOFF,1,on,"bot.cpp:3996 #if A3_NUMBERS || A3_BACKOFF; common.h:102 #ifndef A3_BACKOFF     // back off less in contact: with a numbers edge and health, keep fighting a killable target"
+A3_BACK_EQ,0.4f,conditional/threshold/bitmask; inspect references,common.h:111 #ifndef A3_BACK_EQ     // back-off-less: also at even numbers when the target is below this health share (0 = off)
+A3_BACK_HP,0.4f,conditional/threshold/bitmask; inspect references,common.h:105 #ifndef A3_BACK_HP     // back-off-less: our health floor (share of max)
+A3_BACK_K,1.25f,conditional/threshold/bitmask; inspect references,common.h:108 #ifndef A3_BACK_K      // back-off-less: our time-to-kill may be this many times our time-to-die
+A3_BACK_MIN_SIZE,0,off,common.h:120 #ifndef A3_BACK_MIN_SIZE // back-off-less only on maps with at least this many picks (0 = everywhere)
+A3_BIG_LINEUP,6,conditional/threshold/bitmask; inspect references,"common.h:114 #ifndef A3_BIG_LINEUP  // hybrid draft: on maps with at least A3_BIG_SIZE picks use this lineup, elsewhere v61's learned draft"
+A3_BIG_PICKS,"cd::vendetta, cd::varg, cd::cassi_and_issac, cd::marcella, cd::heart_of_ruin",conditional/threshold/bitmask; inspect references,draft.cpp:867 #ifdef A3_BIG_PICKS; draft.cpp:1004 #ifdef A3_BIG_PICKS
+A3_BIG_SIZE,5,conditional/threshold/bitmask; inspect references,"common.h:114 #ifndef A3_BIG_LINEUP  // hybrid draft: on maps with at least A3_BIG_SIZE picks use this lineup, elsewhere v61's learned draft; common.h:117 #ifndef A3_BIG_SIZE"
+A3_DEBUG,,conditional/threshold/bitmask; inspect references,bot.cpp:6425 #ifdef A3_DEBUG; bot.cpp:6432 #ifdef A3_DEBUG
+A3_ESCAPE,0,off,common.h:123 #ifndef A3_ESCAPE      // start escapes earlier: crystal/recall before contact when an outnumbering group approaches
+A3_FOCUS,0.0f,off,bot.cpp:3238 #if defined(A3_FOCUS); common.h:96 #ifndef A3_FOCUS       // focus fire: weight for wounded targets and for targets many allies can reach (0 = off)
+A3_ITEMS,0,off,"bot.cpp:57 #if A3_ITEMS; common.h:90 #ifndef A3_ITEMS       // earlier combat stats: 1 = Treasure, Jungle, then Power/Bruiser main stat (top-team opening)"
+A3_NUMBERS,0,off,bot.cpp:3996 #if A3_NUMBERS || A3_BACKOFF; common.h:99 #ifndef A3_NUMBERS     // engage only with a numbers edge: never commit when local foes outnumber local friends
+A3_ONE_OWNER,0,off,"common.h:87 #ifndef A3_ONE_OWNER   // one owner per capture: on a finished group, only one ally holds the region; the rest move on"
+A3_PICKS3,,conditional/threshold/bitmask; inspect references,draft.cpp:870 #ifdef A3_PICKS3; draft.cpp:1010 #ifdef A3_PICKS3
+A3_PICKS4,,conditional/threshold/bitmask; inspect references,draft.cpp:873 #ifdef A3_PICKS4; draft.cpp:1016 #ifdef A3_PICKS4
+A3_SHOP_GOLD,0,off,common.h:93 #ifndef A3_SHOP_GOLD   // gold for a shopping trip before the plan's first emblem is done (0 = v61's per-class value)
+APEX_AGGRESSION,1.2f,conditional/threshold/bitmask; inspect references,common.h:1470 #ifndef APEX_AGGRESSION
+APEX_AHEAD_AGGR,1.0063f,conditional/threshold/bitmask; inspect references,strategy.h:141 #ifndef APEX_AHEAD_AGGR        // aggression multiplier while ahead (play safe < 1)
+APEX_AHEAD_GAP,4,conditional/threshold/bitmask; inspect references,"strategy.h:138 #ifndef APEX_AHEAD_GAP         // our score lead that counts as ""ahead""; 0 = off"
+APEX_ALTAR_BONUS,0.0f,off,common.h:2104 #ifndef APEX_ALTAR_BONUS
+APEX_AWAKE_ZONE,1,on,common.h:1786 #ifndef APEX_AWAKE_ZONE
+APEX_BANK_RATIO,0.0f,off,common.h:2101 #ifndef APEX_BANK_RATIO
+APEX_BEHIND_AGGR,1.1235f,conditional/threshold/bitmask; inspect references,strategy.h:132 #ifndef APEX_BEHIND_AGGR       // aggression multiplier while behind
+APEX_BEHIND_CARRY,0.9080f,conditional/threshold/bitmask; inspect references,strategy.h:135 #ifndef APEX_BEHIND_CARRY      // tribute-carry multiplier while behind (bank sooner < 1)
+APEX_BEHIND_GAP,0,off,"strategy.h:129 #ifndef APEX_BEHIND_GAP        // enemy score lead (gems) that counts as ""behind""; 0 = off"
+APEX_BELIEF,0,off,common.h:2036 #ifndef APEX_BELIEF
+APEX_BELIEFLOG,,conditional/threshold/bitmask; inspect references,bot.cpp:7167 #ifdef APEX_BELIEFLOG
+APEX_BELIEF_ALLY,0.5f,conditional/threshold/bitmask; inspect references,common.h:2042 #ifndef APEX_BELIEF_ALLY
+APEX_BELIEF_W,0.5f,conditional/threshold/bitmask; inspect references,common.h:2039 #ifndef APEX_BELIEF_W
+APEX_BOOT_BONUS,0.3329f,conditional/threshold/bitmask; inspect references,common.h:1513 #ifndef APEX_BOOT_BONUS        // ... value harmless (gem/gold cluster) groups this much more
+APEX_BOOT_ITEMS,15,conditional/threshold/bitmask; inspect references,common.h:1510 #ifndef APEX_BOOT_ITEMS        // gold bootstrapping: champions with fewer estimated shards than this ... (v11: 10)
+APEX_BRAIN,1,on,strategy.h:9 #ifndef APEX_BRAIN
+APEX_BRAINLOG,,conditional/threshold/bitmask; inspect references,strategy.h:466 #ifdef APEX_BRAINLOG
+APEX_BUILD,0,off,common.h:1409 #ifndef APEX_BUILD
+APEX_BURST,0,off,common.h:1651 #ifndef APEX_BURST
+APEX_BUSH_AMBUSH,2,conditional/threshold/bitmask; inspect references,common.h:1573 #ifndef APEX_BUSH_AMBUSH
+APEX_BUSH_DEF,1,on,common.h:1580 #ifndef APEX_BUSH_DEF
+APEX_BUSH_HIDE,300,conditional/threshold/bitmask; inspect references,common.h:1561 #ifndef APEX_BUSH_HIDE
+APEX_BUSH_RECALL,1,on,common.h:1598 #ifndef APEX_BUSH_RECALL
+APEX_C0_AGGRESSION,1.5356f,conditional/threshold/bitmask; inspect references,strategy.h:19 #ifndef APEX_C0_AGGRESSION
+APEX_C0_DANGER_TTD,7.6922f,conditional/threshold/bitmask; inspect references,strategy.h:73 #ifndef APEX_C0_DANGER_TTD
+APEX_C0_HUNT,0,off,strategy.h:109 #ifndef APEX_C0_HUNT
+APEX_C0_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:55 #ifndef APEX_C0_RETREAT_HP
+APEX_C0_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:91 #ifndef APEX_C0_SHOP_GOLD
+APEX_C0_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:37 #ifndef APEX_C0_TRIBUTE_CARRY
+APEX_C1_AGGRESSION,1.2856f,conditional/threshold/bitmask; inspect references,strategy.h:22 #ifndef APEX_C1_AGGRESSION
+APEX_C1_DANGER_TTD,5.8849f,conditional/threshold/bitmask; inspect references,strategy.h:76 #ifndef APEX_C1_DANGER_TTD
+APEX_C1_HUNT,0,off,strategy.h:112 #ifndef APEX_C1_HUNT
+APEX_C1_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:58 #ifndef APEX_C1_RETREAT_HP
+APEX_C1_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:94 #ifndef APEX_C1_SHOP_GOLD
+APEX_C1_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:40 #ifndef APEX_C1_TRIBUTE_CARRY
+APEX_C2_AGGRESSION,1.6969f,conditional/threshold/bitmask; inspect references,strategy.h:25 #ifndef APEX_C2_AGGRESSION
+APEX_C2_DANGER_TTD,6.1961f,conditional/threshold/bitmask; inspect references,strategy.h:79 #ifndef APEX_C2_DANGER_TTD
+APEX_C2_HUNT,0,off,strategy.h:115 #ifndef APEX_C2_HUNT
+APEX_C2_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:61 #ifndef APEX_C2_RETREAT_HP
+APEX_C2_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:97 #ifndef APEX_C2_SHOP_GOLD
+APEX_C2_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:43 #ifndef APEX_C2_TRIBUTE_CARRY
+APEX_C3_AGGRESSION,1.8115f,conditional/threshold/bitmask; inspect references,strategy.h:28 #ifndef APEX_C3_AGGRESSION
+APEX_C3_DANGER_TTD,6.3794f,conditional/threshold/bitmask; inspect references,strategy.h:82 #ifndef APEX_C3_DANGER_TTD
+APEX_C3_HUNT,0,off,strategy.h:118 #ifndef APEX_C3_HUNT
+APEX_C3_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:64 #ifndef APEX_C3_RETREAT_HP
+APEX_C3_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:100 #ifndef APEX_C3_SHOP_GOLD
+APEX_C3_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:46 #ifndef APEX_C3_TRIBUTE_CARRY
+APEX_C4_AGGRESSION,1.3366f,conditional/threshold/bitmask; inspect references,strategy.h:31 #ifndef APEX_C4_AGGRESSION
+APEX_C4_DANGER_TTD,5.5131f,conditional/threshold/bitmask; inspect references,strategy.h:85 #ifndef APEX_C4_DANGER_TTD
+APEX_C4_HUNT,0,off,strategy.h:121 #ifndef APEX_C4_HUNT
+APEX_C4_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:67 #ifndef APEX_C4_RETREAT_HP
+APEX_C4_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:103 #ifndef APEX_C4_SHOP_GOLD
+APEX_C4_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:49 #ifndef APEX_C4_TRIBUTE_CARRY
+APEX_C5_AGGRESSION,1.6816f,conditional/threshold/bitmask; inspect references,strategy.h:34 #ifndef APEX_C5_AGGRESSION
+APEX_C5_DANGER_TTD,5.7688f,conditional/threshold/bitmask; inspect references,strategy.h:88 #ifndef APEX_C5_DANGER_TTD
+APEX_C5_HUNT,0,off,strategy.h:124 #ifndef APEX_C5_HUNT
+APEX_C5_RETREAT_HP,APEX_RETREAT_HP,conditional/threshold/bitmask; inspect references,strategy.h:70 #ifndef APEX_C5_RETREAT_HP
+APEX_C5_SHOP_GOLD,APEX_SHOP_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:106 #ifndef APEX_C5_SHOP_GOLD
+APEX_C5_TRIBUTE_CARRY,APEX_TRIBUTE_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:52 #ifndef APEX_C5_TRIBUTE_CARRY
+APEX_CALL_COOLDOWN,0,off,common.h:1710 #ifndef APEX_CALL_COOLDOWN
+APEX_CAP_STAFF,0,off,common.h:1690 #ifndef APEX_CAP_STAFF
+APEX_CASTER_FOCUS,1,on,common.h:1666 #ifndef APEX_CASTER_FOCUS
+APEX_CASTER_SELF_TTD,1.2325f,conditional/threshold/bitmask; inspect references,common.h:1525 #ifndef APEX_CASTER_SELF_TTD   // our casters flee this much earlier (danger threshold multiplier)
+APEX_CASTER_TTD,1.0379f,conditional/threshold/bitmask; inspect references,strategy.h:144 #ifndef APEX_CASTER_TTD        // danger-threshold multiplier against 2+ enemy casters (flee earlier > 1)
+APEX_CHANNEL_GUARD,1.0f,conditional/threshold/bitmask; inspect references,common.h:1937 #ifndef APEX_CHANNEL_GUARD
+APEX_CHASE,6,conditional/threshold/bitmask; inspect references,common.h:1474 #ifndef APEX_CHASE
+APEX_CHECK_VISION,,conditional/threshold/bitmask; inspect references,bot.cpp:7207 #ifdef APEX_CHECK_VISION
+APEX_CI_FOCUS,1,on,common.h:1702 #ifndef APEX_CI_FOCUS
+APEX_CI_OUTNUMBERED,-1,conditional/threshold/bitmask; inspect references,common.h:1944 #ifndef APEX_CI_OUTNUMBERED
+APEX_CI_RISK,1.2779f,conditional/threshold/bitmask; inspect references,common.h:1521 #ifndef APEX_CI_RISK           // risk multiplier for Cassi & Issac fights (they die together)
+APEX_CLASSDRAFT,1,on,draft.cpp:264 #ifndef APEX_CLASSDRAFT
+APEX_CMICRO,1,on,common.h:2077 #ifndef APEX_CMICRO
+APEX_CMICRO_CASSI,2,conditional/threshold/bitmask; inspect references,common.h:2089 #ifndef APEX_CMICRO_CASSI // 0: Cassi keeps the old fight logic (she fights beside Issac)
+APEX_CMICRO_FLEE_HP,0.35f,conditional/threshold/bitmask; inspect references,common.h:2086 #ifndef APEX_CMICRO_FLEE_HP
+APEX_CMICRO_RANGE,6,conditional/threshold/bitmask; inspect references,common.h:2083 #ifndef APEX_CMICRO_RANGE
+APEX_CMICRO_RISK,1.5f,conditional/threshold/bitmask; inspect references,common.h:2080 #ifndef APEX_CMICRO_RISK
+APEX_COHESION,0.05f,conditional/threshold/bitmask; inspect references,common.h:1913 #ifndef APEX_COHESION
+APEX_COHESION_DIST,8,conditional/threshold/bitmask; inspect references,common.h:1916 #ifndef APEX_COHESION_DIST
+APEX_DANGER_HP,0.1916f,conditional/threshold/bitmask; inspect references,common.h:1548 #ifndef APEX_DANGER_HP
+APEX_DANGER_TTD,6.6632f,conditional/threshold/bitmask; inspect references,common.h:1545 #ifndef APEX_DANGER_TTD
+APEX_DEATHLOG,0,off,common.h:838 #ifndef APEX_DEATHLOG
+APEX_DENYSTATS,,conditional/threshold/bitmask; inspect references,deny.cpp:79 #ifdef APEX_DENYSTATS; deny.cpp:103 #ifdef APEX_DENYSTATS
+APEX_DET,1,on,common.h:2055 #ifndef APEX_DET
+APEX_DET_FIELDS,2,conditional/threshold/bitmask; inspect references,common.h:2070 #ifndef APEX_DET_FIELDS       // distance fields built per calm turn (no enemy in view); dead turns build 4x
+APEX_DET_SAFETY,35000,conditional/threshold/bitmask; inspect references,common.h:2058 #ifndef APEX_DET_SAFETY       // fuel floor for optional work
+APEX_DET_SCORE_N,16,conditional/threshold/bitmask; inspect references,common.h:2061 #ifndef APEX_DET_SCORE_N      // camp groups fully evaluated per farm decision
+APEX_DET_TS_BUDGET,70000,conditional/threshold/bitmask; inspect references,common.h:2064 #ifndef APEX_DET_TS_BUDGET    // predicted fuel for the fight search's playouts
+APEX_DET_UNIT_COST,2200,conditional/threshold/bitmask; inspect references,"common.h:2067 #ifndef APEX_DET_UNIT_COST    // playout cost per unit per simulated round (in game: 27k for 3 units, 43-72k for 8, 4 rounds)"
+APEX_DISTRESS,0,off,common.h:1553 #ifndef APEX_DISTRESS
+APEX_DISTRESS_RANGE,14,conditional/threshold/bitmask; inspect references,common.h:1556 #ifndef APEX_DISTRESS_RANGE
+APEX_DRAFT,,conditional/threshold/bitmask; inspect references,draft.cpp:8 #ifndef APEX_DRAFT
+APEX_DRAFT_LIST,,conditional/threshold/bitmask; inspect references,draft.cpp:35 #ifdef APEX_DRAFT_LIST; draft.cpp:1064 #ifdef APEX_DRAFT_LIST
+APEX_DRAFT_T3,,conditional/threshold/bitmask; inspect references,draft.cpp:40 #ifdef APEX_DRAFT_T3; draft.cpp:1055 #ifdef APEX_DRAFT_T3
+APEX_DRAFT_T4,,conditional/threshold/bitmask; inspect references,draft.cpp:43 #ifdef APEX_DRAFT_T4; draft.cpp:1058 #ifdef APEX_DRAFT_T4
+APEX_DRAFT_T5,,conditional/threshold/bitmask; inspect references,draft.cpp:46 #ifdef APEX_DRAFT_T5; draft.cpp:1061 #ifdef APEX_DRAFT_T5
+APEX_EARLYLOG,,conditional/threshold/bitmask; inspect references,bot.cpp:7201 #ifdef APEX_EARLYLOG
+APEX_EARLY_CARRY,0,off,common.h:1977 #ifndef APEX_EARLY_CARRY
+APEX_EARLY_UNTIL,150,conditional/threshold/bitmask; inspect references,common.h:1980 #ifndef APEX_EARLY_UNTIL
+APEX_EMBLEM_MODEL,1,on,common.h:1706 #ifndef APEX_EMBLEM_MODEL
+APEX_ENDGAME_MARGIN,0,off,common.h:1448 #ifndef APEX_ENDGAME_MARGIN
+APEX_END_BANK,600,conditional/threshold/bitmask; inspect references,"common.h:1391 #ifndef APEX_END_BANK          // once either score reaches this, any bag of 10+ banks at an altar within 20 steps (0 = off)"
+APEX_EPISODES,,conditional/threshold/bitmask; inspect references,episode.cpp:11 #ifndef APEX_EPISODES
+APEX_EP_CONST,,conditional/threshold/bitmask; inspect references,episode.cpp:157 #elif defined(APEX_EP_CONST)
+APEX_EP_EXPLORE,,conditional/threshold/bitmask; inspect references,episode.cpp:14 #ifndef APEX_EP_EXPLORE; episode.cpp:150 #if APEX_EP_EXPLORE
+APEX_EP_LOG,,conditional/threshold/bitmask; inspect references,episode.cpp:17 #ifndef APEX_EP_LOG
+APEX_ESCAPE_SEARCH,0,off,common.h:1826 #ifndef APEX_ESCAPE_SEARCH
+APEX_ESCDBG,,conditional/threshold/bitmask; inspect references,bot.cpp:2755 #ifdef APEX_ESCDBG; bot.cpp:2760 #ifdef APEX_ESCDBG
+APEX_ESCORT,0,off,common.h:1674 #ifndef APEX_ESCORT            // casters follow the camp claim of the nearest healthy melee ally within this many tiles (0 = off)
+APEX_ESC_DASH_COST,0.08f,conditional/threshold/bitmask; inspect references,common.h:1840 #ifndef APEX_ESC_DASH_COST
+APEX_ESC_DEPTH,3,conditional/threshold/bitmask; inspect references,common.h:1832 #ifndef APEX_ESC_DEPTH
+APEX_ESC_FUEL,60000,conditional/threshold/bitmask; inspect references,common.h:1995 #ifndef APEX_ESC_FUEL
+APEX_ESC_HOME,2,conditional/threshold/bitmask; inspect references,common.h:1836 #ifndef APEX_ESC_HOME
+APEX_ESC_LOG,,conditional/threshold/bitmask; inspect references,bot.cpp:2763 #ifdef APEX_ESC_LOG; bot.cpp:2974 #ifdef APEX_ESC_LOG
+APEX_EVENTS,2,conditional/threshold/bitmask; inspect references,bot.cpp:681 #if APEX_EVENTS; bot.cpp:7255 #if APEX_EVENTS; common.h:1507 #ifndef APEX_EVENTS            // share group respawn timers through the sighting bits (bit 63 flags an event; v11: 2)
+APEX_FIGHTLOG,,conditional/threshold/bitmask; inspect references,bot.cpp:3828 #ifdef APEX_FIGHTLOG; bot.cpp:7012 #ifdef APEX_FIGHTLOG
+APEX_FIGHT_SIM,0,off,common.h:1537 #ifndef APEX_FIGHT_SIM
+APEX_FLEE_ALLY,0,off,common.h:1569 #ifndef APEX_FLEE_ALLY
+APEX_FLEE_HOME,150,conditional/threshold/bitmask; inspect references,common.h:1622 #ifndef APEX_FLEE_HOME
+APEX_FLEE_MULTI,1,on,common.h:1794 #ifndef APEX_FLEE_MULTI
+APEX_FUEL_NOISE,,conditional/threshold/bitmask; inspect references,bot.cpp:6658 #ifdef APEX_FUEL_NOISE
+APEX_FUEL_PROBE,0,off,common.h:872 #ifndef APEX_FUEL_PROBE; common.h:929 #if APEX_FUEL_PROBE
+APEX_GOLD_TAPER,0,off,common.h:1722 #ifndef APEX_GOLD_TAPER
+APEX_GOLD_WEIGHT,0.18f,conditional/threshold/bitmask; inspect references,common.h:1417 #ifndef APEX_GOLD_WEIGHT
+APEX_HIDE_LOS,0,off,common.h:1565 #ifndef APEX_HIDE_LOS
+APEX_HP_COST,0.0f,off,common.h:1718 #ifndef APEX_HP_COST
+APEX_HUNT,1,on,common.h:1478 #ifndef APEX_HUNT
+APEX_HUNT_FIX,1,on,common.h:1494 #ifndef APEX_HUNT_FIX
+APEX_HUNT_GEMS,15,conditional/threshold/bitmask; inspect references,common.h:1490 #ifndef APEX_HUNT_GEMS
+APEX_HUNT_HP,0.7832f,conditional/threshold/bitmask; inspect references,common.h:1486 #ifndef APEX_HUNT_HP
+APEX_HUNT_RANGE,8,conditional/threshold/bitmask; inspect references,common.h:1482 #ifndef APEX_HUNT_RANGE
+APEX_INCUMBENT,0,off,common.h:1726 #ifndef APEX_INCUMBENT
+APEX_INITIATE,1,on,common.h:1458 #ifndef APEX_INITIATE
+APEX_KITE,3,conditional/threshold/bitmask; inspect references,common.h:1517 #ifndef APEX_KITE              // casters keep enemy melee at least this many tiles away before shooting (0 = off)
+APEX_KITE_CAST,3,conditional/threshold/bitmask; inspect references,common.h:1745 #ifndef APEX_KITE_CAST
+APEX_L0,8,conditional/threshold/bitmask; inspect references,draft.cpp:267 #ifndef APEX_L0
+APEX_L1,8,conditional/threshold/bitmask; inspect references,draft.cpp:270 #ifndef APEX_L1
+APEX_L2,8,conditional/threshold/bitmask; inspect references,draft.cpp:273 #ifndef APEX_L2
+APEX_L3,8,conditional/threshold/bitmask; inspect references,draft.cpp:276 #ifndef APEX_L3
+APEX_L4,8,conditional/threshold/bitmask; inspect references,draft.cpp:279 #ifndef APEX_L4
+APEX_L5,8,conditional/threshold/bitmask; inspect references,draft.cpp:282 #ifndef APEX_L5
+APEX_LOCKS,1,on,common.h:1466 #ifndef APEX_LOCKS
+APEX_LOG,0,off,common.h:841 #ifndef APEX_LOG
+APEX_LOWHP_AGGR,0.6f,conditional/threshold/bitmask; inspect references,common.h:1732 #ifndef APEX_LOWHP_AGGR
+APEX_M0_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:285 #ifndef APEX_M0_AGGR
+APEX_M0_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:218 #ifndef APEX_M0_BOOT
+APEX_M0_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:339 #ifndef APEX_M0_CARRY
+APEX_M0_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:188 #ifndef APEX_M0_COH
+APEX_M0_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:158 #ifndef APEX_M0_GOLD
+APEX_M0_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:248 #ifndef APEX_M0_TERR
+APEX_M0_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:312 #ifndef APEX_M0_TTD
+APEX_M1_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:288 #ifndef APEX_M1_AGGR
+APEX_M1_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:221 #ifndef APEX_M1_BOOT
+APEX_M1_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:342 #ifndef APEX_M1_CARRY
+APEX_M1_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:191 #ifndef APEX_M1_COH
+APEX_M1_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:161 #ifndef APEX_M1_GOLD
+APEX_M1_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:251 #ifndef APEX_M1_TERR
+APEX_M1_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:315 #ifndef APEX_M1_TTD
+APEX_M2_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:291 #ifndef APEX_M2_AGGR
+APEX_M2_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:224 #ifndef APEX_M2_BOOT
+APEX_M2_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:345 #ifndef APEX_M2_CARRY
+APEX_M2_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:194 #ifndef APEX_M2_COH
+APEX_M2_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:164 #ifndef APEX_M2_GOLD
+APEX_M2_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:254 #ifndef APEX_M2_TERR
+APEX_M2_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:318 #ifndef APEX_M2_TTD
+APEX_M3_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:294 #ifndef APEX_M3_AGGR
+APEX_M3_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:227 #ifndef APEX_M3_BOOT
+APEX_M3_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:348 #ifndef APEX_M3_CARRY
+APEX_M3_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:197 #ifndef APEX_M3_COH
+APEX_M3_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:167 #ifndef APEX_M3_GOLD
+APEX_M3_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:257 #ifndef APEX_M3_TERR
+APEX_M3_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:321 #ifndef APEX_M3_TTD
+APEX_M4_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:297 #ifndef APEX_M4_AGGR
+APEX_M4_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:230 #ifndef APEX_M4_BOOT
+APEX_M4_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:351 #ifndef APEX_M4_CARRY
+APEX_M4_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:200 #ifndef APEX_M4_COH
+APEX_M4_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:170 #ifndef APEX_M4_GOLD
+APEX_M4_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:260 #ifndef APEX_M4_TERR
+APEX_M4_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:324 #ifndef APEX_M4_TTD
+APEX_M5_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:300 #ifndef APEX_M5_AGGR
+APEX_M5_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:233 #ifndef APEX_M5_BOOT
+APEX_M5_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:354 #ifndef APEX_M5_CARRY
+APEX_M5_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:203 #ifndef APEX_M5_COH
+APEX_M5_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:173 #ifndef APEX_M5_GOLD
+APEX_M5_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:263 #ifndef APEX_M5_TERR
+APEX_M5_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:327 #ifndef APEX_M5_TTD
+APEX_M6_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:303 #ifndef APEX_M6_AGGR
+APEX_M6_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:236 #ifndef APEX_M6_BOOT
+APEX_M6_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:357 #ifndef APEX_M6_CARRY
+APEX_M6_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:206 #ifndef APEX_M6_COH
+APEX_M6_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:176 #ifndef APEX_M6_GOLD
+APEX_M6_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:266 #ifndef APEX_M6_TERR
+APEX_M6_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:330 #ifndef APEX_M6_TTD
+APEX_M7_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:306 #ifndef APEX_M7_AGGR
+APEX_M7_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:239 #ifndef APEX_M7_BOOT
+APEX_M7_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:360 #ifndef APEX_M7_CARRY
+APEX_M7_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:209 #ifndef APEX_M7_COH
+APEX_M7_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:179 #ifndef APEX_M7_GOLD
+APEX_M7_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:269 #ifndef APEX_M7_TERR
+APEX_M7_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:333 #ifndef APEX_M7_TTD
+APEX_M8_AGGR,APEX_MALL_AGGR,conditional/threshold/bitmask; inspect references,strategy.h:309 #ifndef APEX_M8_AGGR
+APEX_M8_BOOT,APEX_MALL_BOOT,conditional/threshold/bitmask; inspect references,strategy.h:242 #ifndef APEX_M8_BOOT
+APEX_M8_CARRY,APEX_MALL_CARRY,conditional/threshold/bitmask; inspect references,strategy.h:363 #ifndef APEX_M8_CARRY
+APEX_M8_COH,APEX_MALL_COH,conditional/threshold/bitmask; inspect references,strategy.h:212 #ifndef APEX_M8_COH
+APEX_M8_GOLD,APEX_MALL_GOLD,conditional/threshold/bitmask; inspect references,strategy.h:182 #ifndef APEX_M8_GOLD
+APEX_M8_TERR,APEX_MALL_TERR,conditional/threshold/bitmask; inspect references,strategy.h:272 #ifndef APEX_M8_TERR
+APEX_M8_TTD,APEX_MALL_TTD,conditional/threshold/bitmask; inspect references,strategy.h:336 #ifndef APEX_M8_TTD
+APEX_MALL_AGGR,1.0f,conditional/threshold/bitmask; inspect references,strategy.h:276 #ifndef APEX_MALL_AGGR
+APEX_MALL_BOOT,APEX_BOOT_BONUS,conditional/threshold/bitmask; inspect references,strategy.h:215 #ifndef APEX_MALL_BOOT
+APEX_MALL_CARRY,1.0f,conditional/threshold/bitmask; inspect references,strategy.h:282 #ifndef APEX_MALL_CARRY
+APEX_MALL_COH,APEX_COHESION,conditional/threshold/bitmask; inspect references,strategy.h:185 #ifndef APEX_MALL_COH
+APEX_MALL_GOLD,APEX_GOLD_WEIGHT,conditional/threshold/bitmask; inspect references,strategy.h:155 #ifndef APEX_MALL_GOLD
+APEX_MALL_TERR,APEX_TERRITORY,conditional/threshold/bitmask; inspect references,strategy.h:245 #ifndef APEX_MALL_TERR
+APEX_MALL_TTD,1.0f,conditional/threshold/bitmask; inspect references,strategy.h:279 #ifndef APEX_MALL_TTD
+APEX_MAPDRAFT,1,on,draft.cpp:229 #ifndef APEX_MAPDRAFT
+APEX_MAPINFO,,conditional/threshold/bitmask; inspect references,draft.cpp:1024 #ifdef APEX_MAPINFO
+APEX_MD_COLLISION,,conditional/threshold/bitmask; inspect references,draft.cpp:232 #ifndef APEX_MD_COLLISION
+APEX_MD_CORNERS,,conditional/threshold/bitmask; inspect references,draft.cpp:235 #ifndef APEX_MD_CORNERS
+APEX_MD_ELKRING,4,conditional/threshold/bitmask; inspect references,draft.cpp:238 #ifndef APEX_MD_ELKRING
+APEX_MD_EXPANSE,,conditional/threshold/bitmask; inspect references,draft.cpp:241 #ifndef APEX_MD_EXPANSE
+APEX_MD_INTERLOCK,,conditional/threshold/bitmask; inspect references,draft.cpp:244 #ifndef APEX_MD_INTERLOCK
+APEX_MD_LANES,2,conditional/threshold/bitmask; inspect references,draft.cpp:247 #ifndef APEX_MD_LANES
+APEX_MD_MONOLITH,,conditional/threshold/bitmask; inspect references,draft.cpp:250 #ifndef APEX_MD_MONOLITH
+APEX_MD_OTHER,,conditional/threshold/bitmask; inspect references,draft.cpp:259 #ifndef APEX_MD_OTHER
+APEX_MD_PACKS,,conditional/threshold/bitmask; inspect references,draft.cpp:253 #ifndef APEX_MD_PACKS
+APEX_MD_ROWS,,conditional/threshold/bitmask; inspect references,draft.cpp:256 #ifndef APEX_MD_ROWS
+APEX_MODESTATS,,conditional/threshold/bitmask; inspect references,bot.cpp:7395 #ifdef APEX_MODESTATS
+APEX_NEAR_DIST,6,conditional/threshold/bitmask; inspect references,common.h:1379 #ifndef APEX_NEAR_DIST         // tribute any bag when an altar is this close (v11: 6)
+APEX_NEED_POOL,1.0176f,conditional/threshold/bitmask; inspect references,common.h:1430 #ifndef APEX_NEED_POOL
+APEX_NODASH_AGGR,0.0f,off,common.h:1814 #ifndef APEX_NODASH_AGGR
+APEX_NUMBERS,0.0f,off,common.h:2115 #ifndef APEX_NUMBERS
+APEX_NUMBERS_BONUS,0.5f,conditional/threshold/bitmask; inspect references,common.h:2121 #ifndef APEX_NUMBERS_BONUS
+APEX_NUMBERS_INVADE,99,conditional/threshold/bitmask; inspect references,common.h:2118 #ifndef APEX_NUMBERS_INVADE
+APEX_OPPLOG,,conditional/threshold/bitmask; inspect references,bot.cpp:7193 #ifdef APEX_OPPLOG
+APEX_OPP_MODEL,0,off,common.h:2127 #ifndef APEX_OPP_MODEL // learn the opponent's back-off health in game and use it in the fight search
+APEX_OUTNUMBERED,0,off,common.h:1443 #ifndef APEX_OUTNUMBERED
+APEX_PAIR,0,off,"common.h:1032 #ifndef A2_GROUP_UNTIL // pair / squad farming (APEX_PAIR, APEX_SQUADS) only before this round (0 = all game): early kills; common.h:1694 #ifndef APEX_PAIR"
+APEX_PHASE_AGGR,0,off,common.h:1919 #ifndef APEX_PHASE_AGGR
+APEX_PHASE_EARLY,0.8f,conditional/threshold/bitmask; inspect references,common.h:1922 #ifndef APEX_PHASE_EARLY
+APEX_PHASE_LATE,1.25f,conditional/threshold/bitmask; inspect references,common.h:1925 #ifndef APEX_PHASE_LATE
+APEX_PHASE_ROUND,450,conditional/threshold/bitmask; inspect references,common.h:1928 #ifndef APEX_PHASE_ROUND
+APEX_PLAN,0,off,common.h:1983 #ifndef APEX_PLAN
+APEX_PLAN_BANK_BIAS,1.0f,conditional/threshold/bitmask; inspect references,common.h:1992 #ifndef APEX_PLAN_BANK_BIAS
+APEX_PLAN_CARRY,0.75f,conditional/threshold/bitmask; inspect references,common.h:1986 #ifndef APEX_PLAN_CARRY
+APEX_PLAN_DEPTH,3,conditional/threshold/bitmask; inspect references,common.h:1989 #ifndef APEX_PLAN_DEPTH
+APEX_POSITION,0,off,common.h:1655 #ifndef APEX_POSITION
+APEX_PRELOCK,0,off,common.h:1610 #ifndef APEX_PRELOCK
+APEX_PRELOCK_SCORE,0,off,common.h:1613 #ifndef APEX_PRELOCK_SCORE
+APEX_PRIORITY,5,conditional/threshold/bitmask; inspect references,common.h:1604 #ifndef APEX_PRIORITY
+APEX_PROFILE,0,off,bot.cpp:6209 #if APEX_PROFILE; bot.cpp:6217 #if APEX_PROFILE; common.h:867 #ifndef APEX_PROFILE; common.h:1307 #if APEX_PROFILE; tsearch.cpp:768 #if APEX_PROFILE; tsearch.cpp:961 #if APEX_PROFILE
+APEX_RANGED_FLEE,1,on,common.h:1940 #ifndef APEX_RANGED_FLEE
+APEX_RECALL_TRAVEL,0,off,common.h:1820 #ifndef APEX_RECALL_TRAVEL
+APEX_RETREAT_HP,0.1288f,conditional/threshold/bitmask; inspect references,common.h:1399 #ifndef APEX_RETREAT_HP
+APEX_ROLE_SQUAD,0,off,"common.h:1682 #ifndef APEX_ROLE_SQUAD        // 1: casters + Issac farm as one pack (lowest slot leads), melee solo; 2: Ren joins the pack"
+APEX_ROUTE_DEPTH,2,conditional/threshold/bitmask; inspect references,common.h:1629 #ifndef APEX_ROUTE_DEPTH
+APEX_ROUTE_K,6,conditional/threshold/bitmask; inspect references,common.h:1632 #ifndef APEX_ROUTE_K
+APEX_ROUTE_M,3,conditional/threshold/bitmask; inspect references,common.h:1635 #ifndef APEX_ROUTE_M
+APEX_ROUTE_SLACK,0.6f,conditional/threshold/bitmask; inspect references,common.h:1647 #ifndef APEX_ROUTE_SLACK
+APEX_SAFE_ALTARS,1,on,common.h:1499 #ifndef APEX_SAFE_ALTARS
+APEX_SAVE_DASH,0,off,common.h:1770 #ifndef APEX_SAVE_DASH
+APEX_SCOREDBG,,conditional/threshold/bitmask; inspect references,bot.cpp:5650 #ifdef APEX_SCOREDBG; bot.cpp:5872 #ifdef APEX_SCOREDBG
+APEX_SHARE_GOLD,1,on,common.h:1738 #ifndef APEX_SHARE_GOLD
+APEX_SHIELD_PVP,0,off,common.h:1618 #ifndef APEX_SHIELD_PVP
+APEX_SHOP_GOLD,126,conditional/threshold/bitmask; inspect references,common.h:1404 #ifndef APEX_SHOP_GOLD
+APEX_SIDE_HP,0.0f,off,common.h:1807 #ifndef APEX_SIDE_HP
+APEX_SIEGE,1,on,common.h:1529 #ifndef APEX_SIEGE
+APEX_SIM_TURNS,6,conditional/threshold/bitmask; inspect references,common.h:1541 #ifndef APEX_SIM_TURNS
+APEX_SNIPE,0,off,common.h:2107 #ifndef APEX_SNIPE
+APEX_SOLO_INITIATE,1,on,common.h:1698 #ifndef APEX_SOLO_INITIATE
+APEX_SPELLSTAT,,conditional/threshold/bitmask; inspect references,bot.cpp:1799 #ifdef APEX_SPELLSTAT; bot.cpp:1913 #ifdef APEX_SPELLSTAT; bot.cpp:7430 #ifdef APEX_SPELLSTAT; bot.h:282 #ifdef APEX_SPELLSTAT; tsearch.cpp:1386 #ifdef APEX_SPELLSTAT
+APEX_SPELL_HOLD,0,off,common.h:1754 #ifndef APEX_SPELL_HOLD
+APEX_SPELL_HOLD_AGE,10,conditional/threshold/bitmask; inspect references,common.h:1760 #ifndef APEX_SPELL_HOLD_AGE
+APEX_SPELL_HOLD_RANGE,12,conditional/threshold/bitmask; inspect references,common.h:1757 #ifndef APEX_SPELL_HOLD_RANGE
+APEX_SQUADS,0,off,"common.h:1032 #ifndef A2_GROUP_UNTIL // pair / squad farming (APEX_PAIR, APEX_SQUADS) only before this round (0 = all game): early kills; common.h:1686 #ifndef APEX_SQUADS"
+APEX_SQUAD_SHARE,0,off,common.h:1678 #ifndef APEX_SQUAD_SHARE       // squad followers stay on the region through the capture so the reward is split
+APEX_STAGE_TIMEOUT,7,conditional/threshold/bitmask; inspect references,common.h:215 #ifndef V54_STAGE_HELPED // turns to wait at the ring when enough teammates claim the job (else APEX_STAGE_TIMEOUT); common.h:1422 #ifndef APEX_STAGE_TIMEOUT
+APEX_STALE_BAG,0,off,common.h:1383 #ifndef APEX_STALE_BAG         // a carrier of at least this many gems that flees near an altar marks it watched (0 = off)
+APEX_STALE_WATCH,40,conditional/threshold/bitmask; inspect references,common.h:1387 #ifndef APEX_STALE_WATCH       // rounds an altar stays watched; banking trips meanwhile go to another altar
+APEX_STAND,1,on,common.h:1659 #ifndef APEX_STAND
+APEX_STAND2,0,off,common.h:1777 #ifndef APEX_STAND2
+APEX_STICKY,1.5230f,conditional/threshold/bitmask; inspect references,common.h:1454 #ifndef APEX_STICKY
+APEX_TERRITORY,1.0f,conditional/threshold/bitmask; inspect references,common.h:1434 #ifndef APEX_TERRITORY
+APEX_TERRITORY_MARGIN,4,conditional/threshold/bitmask; inspect references,common.h:1437 #ifndef APEX_TERRITORY_MARGIN
+APEX_TERRITORY_UNTIL,100000,conditional/threshold/bitmask; inspect references,common.h:1934 #ifndef APEX_TERRITORY_UNTIL
+APEX_TFC,0,off,common.h:2005 #ifndef APEX_TFC
+APEX_TFC_FOLLOW_HP,0.35f,conditional/threshold/bitmask; inspect references,common.h:2019 #ifndef APEX_TFC_FOLLOW_HP
+APEX_TFC_MARGIN,3.0f,conditional/threshold/bitmask; inspect references,common.h:2013 #ifndef APEX_TFC_MARGIN
+APEX_TFC_ROUNDS,3,conditional/threshold/bitmask; inspect references,common.h:2010 #ifndef APEX_TFC_ROUNDS
+APEX_TFC_SOLO,0,off,common.h:2016 #ifndef APEX_TFC_SOLO
+APEX_THREAT_AGE,8,conditional/threshold/bitmask; inspect references,common.h:1848 #ifndef APEX_THREAT_AGE
+APEX_THREAT_DETOUR,6,conditional/threshold/bitmask; inspect references,common.h:1851 #ifndef APEX_THREAT_DETOUR
+APEX_THREAT_HP,1.0f,conditional/threshold/bitmask; inspect references,common.h:1854 #ifndef APEX_THREAT_HP
+APEX_THREAT_PATH,0,off,common.h:1845 #ifndef APEX_THREAT_PATH
+APEX_THREAT_RETREAT,0.4f,conditional/threshold/bitmask; inspect references,common.h:1800 #ifndef APEX_THREAT_RETREAT
+APEX_TRACE,0,off,common.h:864 #ifndef APEX_TRACE
+APEX_TRIBUTE_CARRY,72,conditional/threshold/bitmask; inspect references,common.h:1362 #ifndef APEX_TRIBUTE_CARRY
+APEX_TRIB_DENY,3,conditional/threshold/bitmask; inspect references,"common.h:1395 #ifndef APEX_TRIB_DENY         // tribute denial (from apex_v18b): 1 = a tributer is no threat, 2 = deny_tribute times the cancel"
+APEX_TSEARCH,0,off,"common.h:995 #ifndef A2_TS_FIGHTONLY // tactical search (APEX_TSEARCH) only in turns the verdict fights (in-fight moves, not flight); common.h:1142 #ifndef A2_TSX // action search (APEX_TSEARCH) with a fuel-guarded scoring stage, replacing the fight/run verdict; common.h:1872 #ifndef APEX_TSEARCH"
+APEX_TSLOG,,conditional/threshold/bitmask; inspect references,tsearch.cpp:593 #ifdef APEX_TSLOG; tsearch.cpp:974 #ifdef APEX_TSLOG; tsearch.cpp:1054 #ifdef APEX_TSLOG
+APEX_TSTRACE,,conditional/threshold/bitmask; inspect references,bot.cpp:7030 #ifdef APEX_TSTRACE; bot.cpp:7204 #ifdef APEX_TSTRACE; tsearch.cpp:617 #ifdef APEX_TSTRACE
+APEX_TS_ALIVE,25.0f,conditional/threshold/bitmask; inspect references,common.h:1895 #ifndef APEX_TS_ALIVE
+APEX_TS_ALLY_FLEE,0.2f,conditional/threshold/bitmask; inspect references,common.h:1910 #ifndef APEX_TS_ALLY_FLEE
+APEX_TS_BUDGET,0,off,common.h:1886 #ifndef APEX_TS_BUDGET
+APEX_TS_BUDGET_RESERVE,30000,conditional/threshold/bitmask; inspect references,common.h:1889 #ifndef APEX_TS_BUDGET_RESERVE
+APEX_TS_CALIB,0,off,common.h:1973 #ifndef APEX_TS_CALIB
+APEX_TS_CAMPS,0,off,common.h:1965 #ifndef APEX_TS_CAMPS
+APEX_TS_DECIDE,1,on,common.h:1956 #ifndef APEX_TS_DECIDE
+APEX_TS_DECIDE_MARGIN,2.0f,conditional/threshold/bitmask; inspect references,common.h:1962 #ifndef APEX_TS_DECIDE_MARGIN
+APEX_TS_DECIDE_ROUNDS,3,conditional/threshold/bitmask; inspect references,common.h:1959 #ifndef APEX_TS_DECIDE_ROUNDS
+APEX_TS_FLEE_A,0.12f,conditional/threshold/bitmask; inspect references,common.h:1904 #ifndef APEX_TS_FLEE_A
+APEX_TS_FLEE_C,0.35f,conditional/threshold/bitmask; inspect references,common.h:1907 #ifndef APEX_TS_FLEE_C
+APEX_TS_HP,12.0f,conditional/threshold/bitmask; inspect references,common.h:1898 #ifndef APEX_TS_HP
+APEX_TS_LEARNED,0,off,common.h:1952 #ifndef APEX_TS_LEARNED
+APEX_TS_LOCALNET,0,off,common.h:1969 #ifndef APEX_TS_LOCALNET
+APEX_TS_PHANTOM,0,off,common.h:2048 #ifndef APEX_TS_PHANTOM // the fight search adds expected hidden enemies (beliefs) as phantom units
+APEX_TS_RANGE,6,conditional/threshold/bitmask; inspect references,common.h:1875 #ifndef APEX_TS_RANGE
+APEX_TS_RESERVE,22000,conditional/threshold/bitmask; inspect references,common.h:1881 #ifndef APEX_TS_RESERVE
+APEX_TS_ROUNDS,2,conditional/threshold/bitmask; inspect references,common.h:1878 #ifndef APEX_TS_ROUNDS
+APEX_TS_THREAT,0.5f,conditional/threshold/bitmask; inspect references,common.h:1901 #ifndef APEX_TS_THREAT
+APEX_TS_UNIT_COST,1000,conditional/threshold/bitmask; inspect references,common.h:1892 #ifndef APEX_TS_UNIT_COST
+APEX_UNSTICK,1,on,common.h:1503 #ifndef APEX_UNSTICK
+APEX_USE_WAITS,1,on,common.h:1462 #ifndef APEX_USE_WAITS
+APEX_WAIT_WEIGHT,3.2398f,conditional/threshold/bitmask; inspect references,common.h:1426 #ifndef APEX_WAIT_WEIGHT
+APEX_WALK_DIST,7,conditional/threshold/bitmask; inspect references,common.h:1413 #ifndef APEX_WALK_DIST
+APEX_WARDS,0,off,common.h:1533 #ifndef APEX_WARDS
+APEX_WARD_AWARE,1,on,common.h:1587 #ifndef APEX_WARD_AWARE
+APEX_WARD_REVEAL,2,conditional/threshold/bitmask; inspect references,common.h:1592 #ifndef APEX_WARD_REVEAL
+APEX_WIN_FIRST,1,on,common.h:1714 #ifndef APEX_WIN_FIRST
+DEATH_NEED,1.0f,conditional/threshold/bitmask; inspect references,common.h:43 #ifndef DEATH_NEED
+DEATH_RETREAT,0.0f,off,common.h:46 #ifndef DEATH_RETREAT
+DEATH_TTD,1.0f,conditional/threshold/bitmask; inspect references,common.h:49 #ifndef DEATH_TTD
+FIRST_SAFE,0,off,common.h:12 #ifndef FIRST_SAFE
+FS_RET,0.1f,conditional/threshold/bitmask; inspect references,common.h:18 #ifndef FS_RET
+FS_TTD,1.4f,conditional/threshold/bitmask; inspect references,common.h:15 #ifndef FS_TTD
+GT_SHOP,1.0f,conditional/threshold/bitmask; inspect references,common.h:21 #ifndef GT_SHOP
+HOME_AGGR,0.8f,conditional/threshold/bitmask; inspect references,common.h:75 #ifndef HOME_AGGR
+HOME_FRONT,0,off,common.h:34 #ifndef HOME_FRONT
+HOME_FRONT_MULT,0.7f,conditional/threshold/bitmask; inspect references,common.h:37 #ifndef HOME_FRONT_MULT
+HOME_SIDE,1,on,bot.cpp:6908 #if HOME_SIDE; common.h:69 #ifndef HOME_SIDE
+HOME_TERR,0.3f,conditional/threshold/bitmask; inspect references,common.h:72 #ifndef HOME_TERR
+LADDER_HOME,1,on,common.h:7 #ifndef LADDER_HOME
+LADDER_TABLES,1,on,bot.cpp:6757 #if LADDER_TABLES; common.h:4 #ifndef LADDER_TABLES; draft.cpp:786 #if LADDER_TABLES
+MONO_MULT,1.0f,conditional/threshold/bitmask; inspect references,common.h:52 #ifndef MONO_MULT
+NOVA_AI_BIG_AREA,4000,conditional/threshold/bitmask; inspect references,common.h:740 #ifndef NOVA_AI_BIG_AREA
+NOVA_AI_BIG_LINEUP,2,conditional/threshold/bitmask; inspect references,common.h:734 #ifndef NOVA_AI_BIG_LINEUP
+NOVA_AI_MONO_LINEUP,6,conditional/threshold/bitmask; inspect references,common.h:737 #ifndef NOVA_AI_MONO_LINEUP
+NOVA_AI_SPARSE,250,conditional/threshold/bitmask; inspect references,common.h:743 #ifndef NOVA_AI_SPARSE
+NOVA_ALL_LINEUP,,conditional/threshold/bitmask; inspect references,draft.cpp:404 #ifndef NOVA_ALL_LINEUP
+NOVA_ALTAR_INFER,0,off,common.h:566 #ifndef NOVA_ALTAR_INFER
+NOVA_AMBUSH_SAFE,0.6f,conditional/threshold/bitmask; inspect references,common.h:515 #ifndef NOVA_AMBUSH_SAFE
+NOVA_AOE_AIM,0,off,common.h:622 #ifndef NOVA_AOE_AIM
+NOVA_BANK_FIX,1,on,common.h:759 #ifndef NOVA_BANK_FIX
+NOVA_BIGCAMP,0,off,common.h:724 #ifndef NOVA_BIGCAMP
+NOVA_BIGJOB,0.6f,conditional/threshold/bitmask; inspect references,common.h:530 #ifndef NOVA_BIGJOB
+NOVA_BIGJOB_FROM,60,conditional/threshold/bitmask; inspect references,common.h:535 #ifndef NOVA_BIGJOB_FROM
+NOVA_BIGJOB_MULT,6.0f,conditional/threshold/bitmask; inspect references,common.h:538 #ifndef NOVA_BIGJOB_MULT
+NOVA_BIG_MAP_GEMS,100,conditional/threshold/bitmask; inspect references,common.h:768 #ifndef NOVA_BIG_MAP_GEMS; common.h:1372 #ifndef NOVA_BIG_MAP_GEMS
+NOVA_BLEND_RACE,0,off,common.h:791 #ifndef NOVA_BLEND_RACE
+NOVA_BLEND_RETREAT,0.2000f,conditional/threshold/bitmask; inspect references,common.h:794 #ifndef NOVA_BLEND_RETREAT
+NOVA_BUDDY,0.0f,off,common.h:668 #ifndef NOVA_BUDDY
+NOVA_BUDDY_DIST,6,conditional/threshold/bitmask; inspect references,common.h:671 #ifndef NOVA_BUDDY_DIST
+NOVA_BURST_K,1.0f,conditional/threshold/bitmask; inspect references,common.h:698 #ifndef NOVA_BURST_K
+NOVA_BUSH_WARD,1,on,common.h:497 #ifndef NOVA_BUSH_WARD
+NOVA_CAMP_SAFE,0.0f,off,common.h:506 #ifndef NOVA_CAMP_SAFE
+NOVA_CASSI_BUILD,0,off,common.h:510 #ifndef NOVA_CASSI_BUILD
+NOVA_CASTER_SET,0,off,common.h:703 #ifndef NOVA_CASTER_SET
+NOVA_CI_LINK,0,off,common.h:707 #ifndef NOVA_CI_LINK
+NOVA_CI_RETREAT,1.0f,conditional/threshold/bitmask; inspect references,common.h:524 #ifndef NOVA_CI_RETREAT
+NOVA_CLASSIFY,1,on,common.h:788 #ifndef NOVA_CLASSIFY
+NOVA_CLUSTER_DRAFT,0,off,draft.cpp:416 #ifndef NOVA_CLUSTER_DRAFT
+NOVA_CLUSTER_FRAC,,conditional/threshold/bitmask; inspect references,draft.cpp:419 #ifndef NOVA_CLUSTER_FRAC
+NOVA_CLUSTER_LINEUP,,conditional/threshold/bitmask; inspect references,draft.cpp:422 #ifndef NOVA_CLUSTER_LINEUP
+NOVA_CMICRO_MELEE,0,off,common.h:554 #ifndef NOVA_CMICRO_MELEE
+NOVA_COMMIT_LATE,0.0f,off,common.h:629 #ifndef NOVA_COMMIT_LATE
+NOVA_COMMIT_RETREAT,0.0f,off,common.h:633 #ifndef NOVA_COMMIT_RETREAT
+NOVA_COUNTER,0,off,common.h:748 #ifndef NOVA_COUNTER
+NOVA_DEATH_BAG,2.0f,conditional/threshold/bitmask; inspect references,common.h:777 #ifndef NOVA_DEATH_BAG
+NOVA_DEATH_BASE,150.0f,conditional/threshold/bitmask; inspect references,common.h:774 #ifndef NOVA_DEATH_BASE
+NOVA_DENY_RYTH,1,on,common.h:548 #ifndef NOVA_DENY_RYTH
+NOVA_DRAFT_AI,0,off,common.h:729 #ifndef NOVA_DRAFT_AI
+NOVA_DUO,5,conditional/threshold/bitmask; inspect references,common.h:574 #ifndef NOVA_DUO
+NOVA_DUO_DIST,14,conditional/threshold/bitmask; inspect references,common.h:577 #ifndef NOVA_DUO_DIST
+NOVA_DUO_MAPS,1,on,common.h:582 #ifndef NOVA_DUO_MAPS
+NOVA_DUO_UNTIL,3000,conditional/threshold/bitmask; inspect references,common.h:590 #ifndef NOVA_DUO_UNTIL
+NOVA_EARLY_SAFE_K,1,on,common.h:680 #ifndef NOVA_EARLY_SAFE_K
+NOVA_EARLY_SAFE_UNTIL,0,off,common.h:677 #ifndef NOVA_EARLY_SAFE_UNTIL
+NOVA_EDGE_BAG,22,conditional/threshold/bitmask; inspect references,common.h:762 #ifndef NOVA_EDGE_BAG; common.h:1366 #ifndef NOVA_EDGE_BAG
+NOVA_EDGE_DIST,14,conditional/threshold/bitmask; inspect references,common.h:771 #ifndef NOVA_EDGE_DIST
+NOVA_EDGE_UNTIL,250,conditional/threshold/bitmask; inspect references,common.h:765 #ifndef NOVA_EDGE_UNTIL; common.h:1369 #ifndef NOVA_EDGE_UNTIL
+NOVA_F2_AVOID,0.6f,conditional/threshold/bitmask; inspect references,common.h:658 #ifndef NOVA_F2_AVOID
+NOVA_F2_ENGAGE,2.0f,conditional/threshold/bitmask; inspect references,common.h:655 #ifndef NOVA_F2_ENGAGE
+NOVA_F2_FOCUS,1.5f,conditional/threshold/bitmask; inspect references,common.h:664 #ifndef NOVA_F2_FOCUS
+NOVA_F2_RADIUS,6,conditional/threshold/bitmask; inspect references,common.h:652 #ifndef NOVA_F2_RADIUS
+NOVA_F2_REACH,6,conditional/threshold/bitmask; inspect references,common.h:661 #ifndef NOVA_F2_REACH
+NOVA_FALLBACK_LINEUP,21,conditional/threshold/bitmask; inspect references,draft.cpp:412 #ifndef NOVA_FALLBACK_LINEUP
+NOVA_FIGHT2,0,off,common.h:649 #ifndef NOVA_FIGHT2
+NOVA_FLEE_HIT,1,on,bot.cpp:4078 #if NOVA_FLEE_HIT; common.h:980 #ifndef NOVA_FLEE_HIT // a fleeing melee champion first hits the weakest adjacent enemy (ported from v36fight)
+NOVA_FUEL_FIRST,0,off,common.h:859 #ifndef NOVA_FUEL_FIRST
+NOVA_FUEL_OPEN,0,off,common.h:852 #ifndef NOVA_FUEL_OPEN
+NOVA_GOLD_UNSEEN,0.10f,conditional/threshold/bitmask; inspect references,common.h:587 #ifndef NOVA_GOLD_UNSEEN
+NOVA_LATE_CARRY,1.0f,conditional/threshold/bitmask; inspect references,common.h:595 #ifndef NOVA_LATE_CARRY
+NOVA_LATE_CARRY_R,400,conditional/threshold/bitmask; inspect references,common.h:598 #ifndef NOVA_LATE_CARRY_R
+NOVA_LEARNER,0,off,learner.h:9 #ifndef NOVA_LEARNER
+NOVA_LEARNER_W,0.0f,off,learner.h:12 #ifndef NOVA_LEARNER_W
+NOVA_MAP_LINEUPS,"24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24",conditional/threshold/bitmask; inspect references,draft.cpp:425 #ifndef NOVA_MAP_LINEUPS
+NOVA_MONO_BANK,0,off,common.h:830 #ifndef NOVA_MONO_BANK
+NOVA_NO_SIGHT,0,off,common.h:710 #ifndef NOVA_NO_SIGHT
+NOVA_PACK_C,0,off,common.h:716 #ifndef NOVA_PACK_C
+NOVA_PACK_MARGIN,2.0f,conditional/threshold/bitmask; inspect references,common.h:719 #ifndef NOVA_PACK_MARGIN
+NOVA_QUARTIC,0,off,common.h:626 #ifndef NOVA_QUARTIC
+NOVA_RACE_BANK,0,off,common.h:824 #ifndef NOVA_RACE_BANK
+NOVA_RACE_DENS,0.25f,conditional/threshold/bitmask; inspect references,common.h:827 #ifndef NOVA_RACE_DENS
+NOVA_RUSH_AGGR,1.5f,conditional/threshold/bitmask; inspect references,common.h:686 #ifndef NOVA_RUSH_AGGR
+NOVA_RUSH_GEMS,30,conditional/threshold/bitmask; inspect references,common.h:692 #ifndef NOVA_RUSH_GEMS
+NOVA_RUSH_MARGIN,0,off,common.h:695 #ifndef NOVA_RUSH_MARGIN
+NOVA_RUSH_RADIUS,20,conditional/threshold/bitmask; inspect references,common.h:689 #ifndef NOVA_RUSH_RADIUS
+NOVA_RUSH_UNTIL,0,off,common.h:683 #ifndef NOVA_RUSH_UNTIL
+NOVA_SEED,1,on,common.h:637 #ifndef NOVA_SEED
+NOVA_SEED_EPS,0.04f,conditional/threshold/bitmask; inspect references,common.h:640 #ifndef NOVA_SEED_EPS
+NOVA_SIEGE_LOS,1,on,common.h:520 #ifndef NOVA_SIEGE_LOS
+NOVA_SPAWN_HOT,0,off,common.h:644 #ifndef NOVA_SPAWN_HOT
+NOVA_SPAWN_IGNORE,2,conditional/threshold/bitmask; inspect references,common.h:674 #ifndef NOVA_SPAWN_IGNORE
+NOVA_STUN_FOCUS,0.0f,off,common.h:544 #ifndef NOVA_STUN_FOCUS
+NOVA_TD_GEM,0.75f,conditional/threshold/bitmask; inspect references,common.h:618 #ifndef NOVA_TD_GEM
+NOVA_TD_HP,3.0f,conditional/threshold/bitmask; inspect references,common.h:612 #ifndef NOVA_TD_HP
+NOVA_TD_HP_SHARE,0.0f,off,common.h:615 #ifndef NOVA_TD_HP_SHARE
+NOVA_TD_LIFE0,8.0f,conditional/threshold/bitmask; inspect references,common.h:603 #ifndef NOVA_TD_LIFE0
+NOVA_TD_LIFE1,25.0f,conditional/threshold/bitmask; inspect references,common.h:606 #ifndef NOVA_TD_LIFE1
+NOVA_TD_ROUND,450,conditional/threshold/bitmask; inspect references,common.h:609 #ifndef NOVA_TD_ROUND
+NOVA_TGT,0,off,common.h:800 #ifndef NOVA_TGT
+NOVA_TGT_THREAT,2.0f,conditional/threshold/bitmask; inspect references,common.h:803 #ifndef NOVA_TGT_THREAT
+NOVA_TGT_WOUNDED,0.75f,conditional/threshold/bitmask; inspect references,common.h:806 #ifndef NOVA_TGT_WOUNDED
+NOVA_TGT_WOUNDED_HP,0.45f,conditional/threshold/bitmask; inspect references,common.h:809 #ifndef NOVA_TGT_WOUNDED_HP
+NOVA_UNBOX,1,on,common.h:501 #ifndef NOVA_UNBOX
+NOVA_UNSEEN3,,conditional/threshold/bitmask; inspect references,draft.cpp:991 #if defined(NOVA_UNSEEN3) && defined(NOVA_UNSEEN4) && defined(NOVA_UNSEEN5)
+NOVA_UNSEEN4,,conditional/threshold/bitmask; inspect references,draft.cpp:991 #if defined(NOVA_UNSEEN3) && defined(NOVA_UNSEEN4) && defined(NOVA_UNSEEN5)
+NOVA_UNSEEN5,,conditional/threshold/bitmask; inspect references,draft.cpp:991 #if defined(NOVA_UNSEEN3) && defined(NOVA_UNSEEN4) && defined(NOVA_UNSEEN5)
+NOVA_UNSEEN_LIST,,conditional/threshold/bitmask; inspect references,draft.cpp:984 #ifdef NOVA_UNSEEN_LIST
+NOVA_WARD_AHEAD,6,conditional/threshold/bitmask; inspect references,common.h:560 #ifndef NOVA_WARD_AHEAD
+NO_MAPID,0,off,common.h:65 #ifndef NO_MAPID
+SCARCE_AGGR,1.0f,conditional/threshold/bitmask; inspect references,common.h:61 #ifndef SCARCE_AGGR
+SCARCE_CAMPS,0,off,common.h:55 #ifndef SCARCE_CAMPS
+SCARCE_TERR,1.0f,conditional/threshold/bitmask; inspect references,common.h:58 #ifndef SCARCE_TERR
+SPACING,0,off,common.h:26 #ifndef SPACING
+SPACING_W,40.0f,conditional/threshold/bitmask; inspect references,common.h:29 #ifndef SPACING_W
+UB_BUILD,1,on,common.h:467 #ifndef UB_BUILD
+UB_CAMPFIX,0,off,bot.cpp:5820 #if UB_CAMPFIX; common.h:360 #ifndef UB_CAMPFIX
+UB_CAMPFIX_SCALE,1.0f,conditional/threshold/bitmask; inspect references,common.h:363 #ifndef UB_CAMPFIX_SCALE
+UB_CAMPFIX_UNTIL,600,conditional/threshold/bitmask; inspect references,common.h:366 #ifndef UB_CAMPFIX_UNTIL
+UB_CAMPFIX_W,"0.025f, 0.163f, -1.508f, 0.545f, -0.658f, 1.424f, 0.695f, 0.705f, 0.692f, 0.100f",conditional/threshold/bitmask; inspect references,common.h:369 #ifndef UB_CAMPFIX_W
+UB_ENEMY_CAMP,1.0f,conditional/threshold/bitmask; inspect references,common.h:352 #ifndef UB_ENEMY_CAMP
+UB_FIELDLOG,,conditional/threshold/bitmask; inspect references,bot.cpp:6606 #ifdef UB_FIELDLOG
+UB_GOLD_FADE,0,off,common.h:477 #ifndef UB_GOLD_FADE
+UB_GOLD_FUNNEL,0,off,bot.cpp:5305 #if UB_GOLD_FUNNEL; common.h:373 #ifndef UB_GOLD_FUNNEL
+UB_GOLD_MULT,4.0f,conditional/threshold/bitmask; inspect references,common.h:470 #ifndef UB_GOLD_MULT
+UB_GOLD_UNTIL,250,conditional/threshold/bitmask; inspect references,common.h:473 #ifndef UB_GOLD_UNTIL
+UB_JOB_INIT,0.7f,conditional/threshold/bitmask; inspect references,common.h:425 #ifndef UB_JOB_INIT
+UB_JOB_MAX,2,conditional/threshold/bitmask; inspect references,common.h:422 #ifndef UB_JOB_MAX
+UB_PROXY,0,off,bot.cpp:211 #if UB_PROXY; common.h:348 #ifndef UB_PROXY
+UB_QCAMP,0,off,bot.cpp:5844 #if UB_QCAMP; common.h:411 #ifndef UB_QCAMP
+UB_Q_BETA,0.3f,conditional/threshold/bitmask; inspect references,common.h:414 #ifndef UB_Q_BETA
+UB_Q_W,"-25.18f, 76.18f, 13.88f, 9.27f, 37.18f, 133.15f, -33.89f, -8.98f, -112.95f, -67.69f, -32.95f, 110.33f, 45.38f, 90.69f, 25.13f, -25.07f, 129.08f, -25.72f, 105.51f, -64.36f, 85.86f, 133.22f, 27.24f, -66.46f, -18.91f, 102.09f, 131.29f, 82.63f, -13.32f, -133.00f, 40.46f, 35.47f, 46.00f, -135.80f, 40.74f, 37.77f, 121.34f, -67.82f, 118.76f, 130.16f",conditional/threshold/bitmask; inspect references,common.h:417 #ifndef UB_Q_W
+V54_HOLD,1,on,bot.cpp:6490 #if V54_HOLD; common.h:221 #ifndef V54_HOLD // lead lock: hold a tile of the sole gem camp to delay its respawn while ahead (bot.cpp farm)
+V54_HOLD_LEAD,160,conditional/threshold/bitmask; inspect references,common.h:224 #ifndef V54_HOLD_LEAD // banked-gem lead needed before holding (one stampede cycle is 160 gems)
+V54_ITEMS,3,conditional/threshold/bitmask; inspect references,"bot.cpp:173 #if V54_ITEMS; common.h:218 #ifndef V54_ITEMS // item milestones (bot.cpp build_for): 1 Treasure first emblem, 2 Bruiser stat stacks, 3 both"
+V54_ONSITE,1,on,bot.cpp:593 #if V54_ONSITE; bot.cpp:612 #if V54_ONSITE; bot.cpp:636 #if V54_ONSITE; bot.cpp:4821 #if V54_ONSITE; bot.cpp:4958 #if V54_ONSITE; bot.cpp:4992 #if V54_ONSITE; bot.cpp:6984 #if V54_ONSITE; common.h:212 #ifndef V54_ONSITE // claims carry an on-site mark so hidden teammates count as present at a camp job
+V54_STAGE_ARRIVE,1,on,"bot.cpp:4835 #if V54_STAGE_ARRIVE; bot.cpp:4943 #if V54_STAGE_ARRIVE; common.h:209 #ifndef V54_STAGE_ARRIVE // camp-job staging clock starts at the staging ring, not when the walk there begins"
+V54_STAGE_HELPED,20,conditional/threshold/bitmask; inspect references,common.h:215 #ifndef V54_STAGE_HELPED // turns to wait at the ring when enough teammates claim the job (else APEX_STAGE_TIMEOUT)
+V54_STAGE_WALK,60,conditional/threshold/bitmask; inspect references,common.h:233 #ifndef V54_STAGE_WALK // give up a camp job still not reached after this many rounds of walking
+V54_TP,1,on,"bot.cpp:790 #if V54_TP; bot.cpp:1006 #if V54_TP; bot.cpp:1112 #if V54_TP; common.h:227 #ifndef V54_TP // teleport-crystal shortcuts: carry one crystal, use it where a 3-tile hop saves walking (walk_toward)"
+V54_TP_GAIN,8,conditional/threshold/bitmask; inspect references,"common.h:230 #ifndef V54_TP_GAIN // turns a hop must save, net of its 3-turn channel"
+V55_CAST_RETARGET,0,off,bot.cpp:5150 #if V55_CAST_RETARGET; common.h:205 #ifndef V55_CAST_RETARGET
+V55_COMMIT_EVENT,1,on,bot.cpp:5407 #if V55_COMMIT_EVENT; common.h:196 #ifndef V55_COMMIT_EVENT
+V55_DRAFT_LEGAL,1,on,common.h:193 #ifndef V55_DRAFT_LEGAL; draft.cpp:665 #if !V55_DRAFT_LEGAL
+V55_HEART_CAMP,1,on,bot.cpp:1712 #if V55_HEART_CAMP; bot.cpp:1767 #if V55_HEART_CAMP; bot.cpp:1944 #if V55_HEART_CAMP; bot.h:232 #if V55_HEART_CAMP; common.h:199 #ifndef V55_HEART_CAMP
+V55_HEART_MODEL,0,off,bot.cpp:559 #if V55_HEART_MODEL; bot.cpp:1614 #if V55_HEART_MODEL; bot.h:235 #if V55_HEART_MODEL; common.h:202 #ifndef V55_HEART_MODEL
+V56_SHOP_DONE,1,on,"common.h:190 #ifndef V56_SHOP_DONE // once the build plan is complete, gold alone no longer sends a champion home"
+V58_ACT,12,conditional/threshold/bitmask; inspect references,"bot.cpp:5085 #if V58_ACT & 1; bot.cpp:5130 #if V58_ACT & 12; bot.cpp:5133 #if V58_ACT & 8; bot.cpp:5138 #if V58_ACT & 4; bot.cpp:6542 #if V58_ACT & 4; bot.cpp:7318 #if V58_ACT & 2; bot.h:70 #if V58_ACT; common.h:173 #ifndef V58_ACT // Bit1 camp casts, bit2 enemy casts, bit4 post-walk resets, bit8 legal basic attacks after dash approaches.; tactics.cpp:4 #if V58_ACT"
+V58_CAMP_CONTACT,1,on,bot.cpp:3170 #if V58_CAMP_CONTACT; bot.h:46 #if V58_CAMP_CONTACT; common.h:136 #ifndef V58_CAMP_CONTACT // Finish an already engaged nearby camp while all visible enemies remain outside immediate reach.; pressure.cpp:138 #if V58_CAMP_CONTACT
+V58_CAPTURE_FOOTWORK,1,on,common.h:133 #ifndef V58_CAPTURE_FOOTWORK // A sole unsafe capturer may step to a safe adjacent tile inside the same reward region.; pressure.cpp:26 #if V58_CAPTURE_FOOTWORK
+V58_CAPTURE_STAND,2,conditional/threshold/bitmask; inspect references,bot.cpp:3173 #if V58_CAPTURE_STAND; bot.h:50 #if V58_CAPTURE_STAND; common.h:142 #ifndef V58_CAPTURE_STAND // 1 holds safe captures; 2 elects one visible safe anchor while other champions keep fighting.; draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); pressure.cpp:5 #if V58_CAPTURE_STAND; pressure.cpp:59 #if V58_CAPTURE_STAND >= 2
+V58_CARRY_SHOP,0,off,"bot.cpp:777 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:808 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:833 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:4460 #if V58_DIRECTOR && V58_CARRY_SHOP; common.h:164 #ifndef V58_CARRY_SHOP // Complete the carry Treasure milestone using short, useful shopping trips.; draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2)"
+V58_DENY_CAP,1,on,bot.cpp:3176 #if V58_DENY_CAP; bot.h:55 #if V58_DENY_CAP; common.h:182 #ifndef V58_DENY_CAP // Contest an enemy capture only with a healthy nearby non-carrier.; pressure.cpp:102 #if V58_DENY_CAP
+V58_DIRECTOR,0,off,bot.cpp:487 #if V58_DIRECTOR; bot.cpp:618 #if V58_DIRECTOR; bot.cpp:777 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:808 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:833 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:4460 #if V58_DIRECTOR && V58_CARRY_SHOP; bot.cpp:4998 #if V58_DIRECTOR && V58_ROUTE && V58_PRECAP; bot.cpp:5275 #if V58_DIRECTOR && V58_ROUTE; bot.cpp:5297 #if V58_DIRECTOR && V58_ROUTE; bot.cpp:5491 #if V58_DIRECTOR; bot.cpp:6195 #if V58_DIRECTOR && V58_ROUTE; bot.cpp:7311 #if V58_DIRECTOR; bot.h:34 #if V58_DIRECTOR; bot.h:77 #if V58_DIRECTOR; bot.h:89 #if V58_DIRECTOR >= 2; common.h:158 #ifndef V58_DIRECTOR // 1 primary jobs; 2 nearby parallel pair; 3 permits middle camps with an enemy-side travel cost.; draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); economy.cpp:4 #if V58_DIRECTOR; economy.cpp:24 #if V58_DIRECTOR >= 2; economy.cpp:161 #if V58_DIRECTOR >= 2; economy.cpp:195 #if V58_DIRECTOR < 3; economy.cpp:209 #if V58_DIRECTOR >= 2; economy.cpp:219 #if V58_DIRECTOR >= 3; economy.cpp:243 #if V58_DIRECTOR >= 2; economy.cpp:339 #if V58_DIRECTOR >= 2; economy.cpp:363 #if V58_DIRECTOR >= 2; main.cpp:35 #if V58_DIRECTOR
+V58_DRAFT,0,off,common.h:167 #ifndef V58_DRAFT // 1 carry composition with director; 2 also permits the local capture-anchor package.; draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2)
+V58_FINISH_RESET,1,on,bot.cpp:4470 #if V58_FINISH_RESET; bot.h:43 #if V58_FINISH_RESET; common.h:139 #ifndef V58_FINISH_RESET // Complete a nearby almost-finished camp/reward before a healthy gold-only shopping reset.
+V58_HUNT_CARRY,0,off,common.h:185 #ifndef V58_HUNT_CARRY // Coordinate a carry interception only with a local advantage.
+V58_ITEM_PLAN,1,on,"bot.cpp:93 #if V58_ITEM_PLAN; common.h:130 #ifndef V58_ITEM_PLAN // Sprint3 economy package: Prospector/Capture, mitigation, then efficient stat growth."
+V58_KIT_HEART,1,on,bot.cpp:165 #if V58_KIT_HEART; common.h:151 #ifndef V58_KIT_HEART // Add early universal damage reduction before Heart's long stat stack.
+V58_KIT_MARCELLA,2,conditional/threshold/bitmask; inspect references,"bot.cpp:148 #if V58_KIT_MARCELLA; bot.cpp:150 #if V58_KIT_MARCELLA >= 2; common.h:145 #ifndef V58_KIT_MARCELLA // 1 attack-focused trial; 2 hybrid Jungle attack, durability, then focus/health/attack emblems."
+V58_KIT_TAVI,1,on,bot.cpp:160 #if V58_KIT_TAVI; common.h:148 #ifndef V58_KIT_TAVI // Treasure attack stats and an early Monster emblem for the mobile ranged farmer.
+V58_LOCKS,0,off,bot.cpp:1992 #if V58_LOCKS; bot.h:63 #if V58_LOCKS; common.h:179 #ifndef V58_LOCKS // Place timely altar locks against visible enemy banking threats.; tactics.cpp:99 #if V58_LOCKS
+V58_PATCH,1,on,"bot.cpp:368 #if V58_PATCH; bot.cpp:435 #if V58_PATCH; bot.cpp:758 #if V58_PATCH; bot.cpp:805 #if !V58_PATCH; bot.cpp:813 #if V58_PATCH; bot.cpp:837 #if V58_PATCH; bot.cpp:855 #if V58_PATCH; bot.cpp:867 #if V58_PATCH; bot.cpp:1629 #if V58_PATCH; bot.h:409 #if V58_PATCH; common.h:127 #ifndef V58_PATCH // Runtime balance metadata, complete item accounting and cached passive models."
+V58_PRECAP,0,off,"bot.cpp:4998 #if V58_DIRECTOR && V58_ROUTE && V58_PRECAP; common.h:155 #ifndef V58_PRECAP // Experimental carry prepositioning, unretained; keep separate from reward ownership."
+V58_ROUTE,0,off,bot.cpp:4998 #if V58_DIRECTOR && V58_ROUTE && V58_PRECAP; bot.cpp:5275 #if V58_DIRECTOR && V58_ROUTE; bot.cpp:5297 #if V58_DIRECTOR && V58_ROUTE; bot.cpp:6195 #if V58_DIRECTOR && V58_ROUTE; common.h:161 #ifndef V58_ROUTE // Hand rewards to a designated nearby capturer without leaving them unattended.; draft.cpp:735 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); draft.cpp:843 #if (V58_DIRECTOR && V58_ROUTE && V58_CARRY_SHOP && V58_DRAFT) || (V58_DRAFT >= 2 && V58_CAPTURE_STAND >= 2); economy.cpp:106 #if V58_ROUTE; economy.cpp:275 #if V58_ROUTE; economy.cpp:293 #if V58_ROUTE
+V58_SURVIVE,0,off,bot.cpp:4624 #if V58_SURVIVE; bot.cpp:7315 #if V58_SURVIVE; bot.h:66 #if V58_SURVIVE; common.h:170 #ifndef V58_SURVIVE // Use visible power and valuable bags to disengage before losing fights.; tactics.cpp:118 #if V58_SURVIVE
+V58_VISION,0,off,bot.cpp:6559 #if V58_VISION; bot.h:59 #if V58_VISION; common.h:176 #ifndef V58_VISION // Refresh useful personal wards at contested groups and banking routes.; tactics.cpp:56 #if V58_VISION
+X1_FAST_SIEGE,1,on,bot.cpp:4850 #if X1_FAST_SIEGE; x1_config.h:21 #ifndef X1_FAST_SIEGE
+X1_FUEL_PROBE,0,off,x1_config.h:6 #ifndef X1_FUEL_PROBE; x1_config.h:9 #if X1_FUEL_PROBE == 1; x1_config.h:12 #elif X1_FUEL_PROBE == 2
+X1_MASTERY,0,off,draft.cpp:55 #if X1_MASTERY; x1_config.h:3 #ifndef X1_MASTERY
+X1_TEL,0,off,bot.cpp:1044 #if A2_TEL && X1_TEL; bot.cpp:1755 #if A2_TEL && X1_TEL; x1_config.h:15 #ifndef X1_TEL; x1_config.h:18 #if X1_TEL
+

@@ -1,0 +1,30 @@
+flowchart TD
+  CFG["x1_config + common effective macros"] --> D["draft.cpp: map/roster selection"]
+  CFG --> P["strategy profiles → lab knobs → HOME_SIDE"]
+  D --> P
+  SDK["Engine 2.0.0 / SDK4 / personal observation"] --> W["world.cpp: camps, visible allies/enemies, sightings"]
+  SH["8-byte shared claims / sightings / respawn events"] --> W
+  W --> SH
+  P --> E["handle_enemies / tactical_decide"]
+  W --> E
+  TS["tsearch model; Heart mechanics incomplete"] --> E
+  W --> G["group scoring / soak / staffing / pruning"]
+  P --> G
+  CW["campwatch + dominant jobs + learned residual"] --> G
+  E -->|"contact handled"| EA["combat / flee / opportunistic action"]
+  E -->|"no contact handled"| WIN["individual win-now bank"]
+  WIN --> HOME["home / recovery"]
+  HOME --> JOIN["fight assistance / rush / optional hunt"]
+  JOIN --> BANK["ordinary tribute"]
+  BANK --> FARM["farm retained target / score / wait / capture"]
+  G --> FARM
+  FARM --> NAV["walk / distance fields / siege LOS"]
+  EA --> NAV
+  FARM -. "F01: next observation loses contact" .-> E
+  F["fuel reserve / admission / cache completeness"] --> TS
+  F --> G
+  F --> NAV
+  Q["shop / emblems / support / ward"] --> EA
+  BANK --> NAV
+  NAV --> SDK
+

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "F01",
+    "priority": 1,
+    "class": "confirmed policy conflict; outcome causality incomplete",
+    "finding": "Retreat hands control back to the retained farm target as current contact conditions change; cuts loses vision, while galaxy crosses engagement conditions with enemies still visible.",
+    "code": "world.cpp:565; bot.cpp:3169,4033,4163,4168,4408,5088,6191,6489,6526,7334",
+    "replays": "29ce3d7a R849–862; b4eb7654 R355–376",
+    "evidence": "Two full-game byte-identical tail traces show flee/farm alternation. Cuts alternates visible/empty contacts; galaxy retains visible enemies and falls through contact policy. Cuts ends with linked Issac losing73 gems; galaxy Marcella loses42.",
+    "confidence": "high for execution conflict and loss events; no measured win-rate effect",
+    "frequency": "demonstrated in 2 of 20 source-verified matches; broad position oscillations are not equivalent detections",
+    "impact": "73 remote-carried gems in cuts; 42 carried gems in galaxy. Neither is an isolated causal estimate of victory."
+  },
+  {
+    "id": "F02",
+    "priority": 2,
+    "class": "confirmed strategic outcome; exact allocation cause partly unresolved",
+    "finding": "Camp deployment and conversion fall behind on several maps even when bag preservation is good.",
+    "code": "bot.cpp:4740,4761,5550,5647,5721,6191,6529; world.cpp:692",
+    "replays": "f0116be3 R431–471; a59adff5 before R432; c80ce5a4 full game",
+    "evidence": "Dunes own collection 0 versus 177 in 40 rounds; faithful trace shows stage/wait/approach targets split between G0/G1/G4. Pilgrimage collection359:1016.",
+    "confidence": "high for throughput deficit; medium/low for which scoring component caused it",
+    "frequency": "9 of 11 source-verified losses finish behind in collection",
+    "impact": "Net collection deficit3368 across11 losses; accounting component, not causal treatment effect."
+  },
+  {
+    "id": "F03",
+    "priority": 3,
+    "class": "confirmed outcome; banking policy weakness hypothesis",
+    "finding": "Competitive collection does not reliably become banked score before the opponent finishes.",
+    "code": "bot.h:427; bot.cpp:4429,4550,4591,7059,7338,7351",
+    "replays": "29ce3d7a R977–995; b4eb7654 terminal; 07f0eb0a R721",
+    "evidence": "Cuts collected1106:1102 but banked859:1083, with170 still carried. Galaxy collected1133:1011 but banked951:1011 after losing152.",
+    "confidence": "high for accounting; incomplete for feasibility of banking every bag safely",
+    "frequency": "2 of11 losses collected more than opponent; loss and carried components contribute in other games too",
+    "impact": "Net preservation deficit1110 and net terminal carried deficit460 across11 losses; no independent victory estimate."
+  },
+  {
+    "id": "B01",
+    "priority": 4,
+    "class": "verified combat-model mechanics bug",
+    "finding": "Active tactical forecast omits Heart of Ruin dash landing damage/stun and missing-health damage amplification.",
+    "code": "common.h:251,1086; tsearch.h:10,228,301; tsearch.cpp:55,84,766; bot.cpp:3678",
+    "replays": "model-audit.json synthetic unchanged-model fixture; not mapped to a decisive match verdict",
+    "evidence": "A2_KITFIX25 has neither bit2 nor bit4; A2_DASHX0 => TS_DASHX0. Diagnostic damage0 versus150, stun0 versus1, half-health basic30 versus37.5.",
+    "confidence": "high for mechanics mismatch; competitive impact unmeasured",
+    "frequency": "whenever relevant modeled Heart mechanic is evaluated; exact replay verdict count not instrumented",
+    "impact": "Forecast can misrank fight/run choices; no measured match win-rate effect."
+  },
+  {
+    "id": "B02",
+    "priority": 5,
+    "class": "verified model truncation on a published map",
+    "finding": "group_soak ignores dangerous camps after the first12 in a group.",
+    "code": "bot.cpp:4741,4746,4761",
+    "replays": "map-facts.json:02the-pack group0 has48 wolves; no selected pack match",
+    "evidence": "Fixed array12 and n>=12 continue. Static current map violates model coverage, though world group capacity64 is sufficient.",
+    "confidence": "high for truncation; actual exposure and match impact unresolved",
+    "frequency": "map dependent; 48-member group exists in current86-map pool",
+    "impact": "Under identical-monster sequential model, n(n+1)/2 is78 for12 versus1176 for48; not an assertion about actual engine damage."
+  },
+  {
+    "id": "B03",
+    "priority": 6,
+    "class": "verified scoring-bound inconsistency; replay incidence unresolved",
+    "finding": "Early candidate pruning does not bound the score after later positive multipliers.",
+    "code": "bot.cpp:5647,5734,5760,5762; neural_policy.cpp:16",
+    "replays": "source arithmetic; no faithful trace of a decisive candidate being wrongly pruned",
+    "evidence": "best_case excludes campwatch1.6 and dominant-group6.0 bonuses, among others. Thus its upper-bound interpretation is invalid.",
+    "confidence": "high for invalid general upper-bound claim; occurrence/effect not demonstrated",
+    "frequency": "requires candidate reaching prune gate under the appropriate bonus conditions",
+    "impact": "Can suppress intended prioritisation; no count of actual bad selections."
+  },
+  {
+    "id": "B04",
+    "priority": 7,
+    "class": "verified conditional semantic mismatch",
+    "finding": "Fast siege accepts a partial line-of-sight union under low fuel, despite a same-tiles claim.",
+    "code": "bot.cpp:4850,4881,4898",
+    "replays": "source branch audit; current-loss incidence unknown",
+    "evidence": "Incomplete cache entries are skipped; complete||true unconditionally permits a nonempty partial union.",
+    "confidence": "high for branch semantics; match impact unknown",
+    "frequency": "cold/partially built cache and fuel below30000 with some entries available",
+    "impact": "Incomplete movement-goal set may change actions. Complete-cache geometry is stable."
+  },
+  {
+    "id": "H01",
+    "priority": 8,
+    "class": "shared-state representation risk",
+    "finding": "A stale modulo256 respawn event can be interpreted as a future event after its64-round reconstruction window.",
+    "code": "bot.cpp:680–688,7255–7275; world.cpp:459–478",
+    "replays": "unobserved shared-memory history; boundary arithmetic in DIAGNOSTICS.json",
+    "evidence": "Event contains ready modulo256 without publication round; repeated reads can lift old ready by256 if the tagged message survives. Personal visible state wins.",
+    "confidence": "high for representational ambiguity; low for actual replay incidence",
+    "frequency": "requires sufficiently stale retained event; not measured",
+    "impact": "Potential false respawn delay in unseen group."
+  },
+  {
+    "id": "H02",
+    "priority": 9,
+    "class": "shared-state coordination hypothesis",
+    "finding": "A remembered group claim need not mean the claimant is still travelling to or working that group.",
+    "code": "bot.cpp:585 write_claim,608 decode_claims,6422 target_group assignment,7334 priority chain",
+    "replays": "cuts retained target22 during flee; broader staffing error unproven",
+    "evidence": "Farm target survives combat. Compact claim encoding is not a complete intent/role protocol.",
+    "confidence": "medium for stale-intent possibility; low for a specific lost allocation",
+    "frequency": "not quantified",
+    "impact": "Could distort helpers/participants estimates; no independent causal loss estimate."
+  },
+  {
+    "id": "C01",
+    "priority": 10,
+    "class": "configuration/dependency hazard; no failed build observed",
+    "finding": "Effective features differ from nearby default comments and some nominal off switches do not disable all dependent work.",
+    "code": "common.h:1,249; x1_config.h:25; learner.h:18–25; neural_policy.cpp:16; bot.cpp:6879",
+    "replays": "effective-macros.txt; source-inventory.json; 20 exact source reproductions",
+    "evidence": "A2_LAB1 forces learner::on despite NOVA_LEARNER0; neural residual has321 nonzero trained parameters despite separate zero campnet weights. Tactical forecast remains on while action search is off.",
+    "confidence": "high for configuration facts; no standalone losing-decision attribution",
+    "frequency": "build-wide",
+    "impact": "Misreading flags can produce an incorrect audit or benchmark interpretation. No missing import/link/runtime dependency found."
+  }
+]
+

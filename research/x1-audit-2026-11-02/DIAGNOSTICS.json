@@ -1,0 +1,25 @@
+{
+  "scope": "Arithmetic receipts, not altered policy or live-game outcome tests",
+  "staleEventExample": {
+    "oldReady": 100,
+    "mod": 100,
+    "readAt164": 100,
+    "readAt165": 356
+  },
+  "soakIdenticalMonsterCoefficient": {
+    "members12": 78,
+    "members48": 1176,
+    "note": "Within the existing sequential aggregate model only; real attack geometry not represented."
+  },
+  "pruneExample": {
+    "rawValue": 100,
+    "optimisticCost": 10,
+    "stickiness": 1.523,
+    "preBonusBound": 15.23,
+    "incumbentScore": 15.5,
+    "campwatchMultiplier": 1.6,
+    "postBonusScoreAtEqualCost": 16,
+    "note": "Algebraic witness including stickiness:100*1.523/10 <15.5 <100*1.6/10. Not a recorded or fully reachable replay candidate; other terms held neutral."
+  }
+}
+
