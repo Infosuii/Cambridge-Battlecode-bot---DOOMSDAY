@@ -1,6 +1,6 @@
 """Build x1 once per switch (as dz.py --set would) and record the Wasm hash, so a sweep only plays switches that
 change the binary. Flags whose build equals the base build are dead code in this tree (identical play by
-construction); flags that share a hash with each other are played once.
+construction); flags that share a hash with each other are played once. A flag whose build fails is recorded as BUILD_FAILED.
 
 usage: python tools/x1_flag_hashes.py SNAPSHOT_SRC SPEC.json OUT.json
 """
@@ -34,8 +34,10 @@ def main():
         result['BASE'] = build_with(src, None, work); out_path.write_text(json.dumps(result, indent=1))
     for f in flags:
         if f in result: continue
-        result[f] = build_with(src, (f, '1'), work)
-        print(f, result[f][:12], 'same-as-base' if result[f] == result['BASE'] else '', flush=True)
+        try: result[f] = build_with(src, (f, '1'), work)
+        except RuntimeError as e:  # a switch whose code no longer compiles: record it, keep hashing the rest
+            result[f] = 'BUILD_FAILED'; (work.parent/f'x1-flaghash-{f}.err').write_text(str(e)[-6000:], encoding='utf-8')
+        print(f, result[f][:12], 'same-as-base' if result[f] == result['BASE'] else '', flush=True)  # BUILD_FAILED: see artifacts/tmp/x1-flaghash-FLAG.err
         out_path.write_text(json.dumps(result, indent=1))
 
 if __name__ == '__main__': main()
