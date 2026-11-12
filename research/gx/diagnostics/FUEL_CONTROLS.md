@@ -1,0 +1,7 @@
+# Separate a policy from the build that carries it
+
+Compared all 40 changed outcomes in the in-place winning bank test (339/516 vs 341/516 for x3mf). Their first different observable state ranged from round 14 to round 1041, median 152.5. Every difference preceded the first observed potential winning own bag in either replay by at least two rounds. The trigger uses exact position, channel and safety checks beyond that loose score-plus-bag condition. The observed changes in winners therefore cannot be attributed to the intended banking decision. Per-pair details are in [touchbank-first-divergence.json](touchbank-first-divergence.json).
+
+For the next cohort, compile each intervention with a volatile action setting. The control evaluates the shared eligibility checks but keeps the original decision. Active variants differ from the control in their initial data. Compare the executable sections before running and trace the first different observable state for outcome flips. Also compare each active build directly with x3mf; a useful mechanism can still have a net negative release effect.
+
+Matched families cover in-place banking, a short job during respawn wait, first-turn field reserve, route search admission, camp approach and roster roles. The fuel-only reference spends a few volatile iterations without changing the policy and measures how often the engine state changes from that intervention alone.

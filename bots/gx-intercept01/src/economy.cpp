@@ -1,0 +1,409 @@
+// V58_DIRECTOR: repeated shared jobs, with a bounded coordinator and local assignment caches.
+#include "bot.h"
+
+#if V58_DIRECTOR
+void economy_record_roster() {
+    // Public draft choices, stored after the existing brain/plan data; each champion reads this at startup.
+    if (bc::constants::draft_memory_bytes < 1016 || bc::fuel_remaining() < 4000) return;
+    std::array<std::uint8_t, 8> roster{0x58, 0, 0, 0, 0, 0, 0, 0};
+    for (auto choice : bc::draft::current_draft(team::ally)) {
+        const int pick = static_cast<int>(choice);
+        if (choice == bc::champion_draft::cassi_and_issac) {
+            if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(bc::champion_type::cassi);
+            if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(bc::champion_type::issac);
+        } else if (roster[1] < 6) roster[2 + roster[1]++] = static_cast<std::uint8_t>(pick >= 4 ? pick + 1 : pick);
+    }
+    // The SDK only submits a prefix. Read the current host bytes (not the startup snapshot) to preserve this turn's plan.
+    std::array<std::uint8_t, 1016> memory{};
+    bc::detail::check(bc::detail::sdk_read_draft_memory(0, memory.data(), static_cast<std::uint32_t>(memory.size())));
+    std::copy(roster.begin(), roster.end(), memory.begin() + 1008);
+    bc::draft_memory = memory;
+}
+
+
+#if V58_DIRECTOR >= 2
+int Bot::economy_secondary_for(int primary) {
+    if (ec_secondary_cache.size() != w.groups.size()) ec_secondary_cache.assign(w.groups.size(), -2);
+    int& cached = ec_secondary_cache[primary];
+    if (cached != -2) return cached;
+    cached = -1;
+    const vec2 anchor = w.camps[w.groups[primary].camps[0]].pos;
+    float best = 0.0f;
+    for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
+        const auto& g = w.groups[gi];
+        if (gi == primary || g.camps.empty() || g.harmless || g.gold == 0 || g.max_hp < 2400.0f || g.max_hp > 3000.0f) continue;
+        const vec2 c = w.camps[g.camps[0]].pos;
+        const int gap = cheb(c, anchor);
+        if (gap > 8) continue;
+        const float score = (g.gold + 3.0f * g.gems) / (2.0f * (gap + g.max_hp / 120.0f) + 5.0f);
+        if (score > best) best = score, cached = gi;
+    }
+    return cached;
+}
+#endif
+
+bool Bot::economy_enabled() const {
+    // The sixth 7-bit claim is unused only on teams with at most five physical bodies.
+    return team_size >= 3 && team_size < kClaimSlots && w.groups.size() <= kOnsiteGroups && round <= 300;
+}
+
+int Bot::economy_carry() const {
+    for (int s = 0; s < team_size; ++s)
+        if (claim_of(s) != static_cast<int>(kClaimCodeDead) && slot_type[s] == bc::champion_type::vesper_vale) return s;
+    for (int s = 0; s < team_size; ++s)
+        if (claim_of(s) != static_cast<int>(kClaimCodeDead)) return s; // equal initial Treasure progress: lowest-slot tie
+    return slot;
+}
+
+bool Bot::economy_carry_on(const GroupRec& g) const {
+    const int carry = economy_carry();
+    if (carry == slot) return bit(g.tiles, pos);
+    for (const auto& a : w.allies)
+        if (a.id == ally_handle[carry] && a.hp > 0 && bit(g.tiles, a.pos)) return true;
+    return false;
+}
+
+int Bot::economy_owner(const GroupRec& g) const {
+    const int carry = economy_carry();
+    int owner = bit(g.tiles, pos) ? slot : -1;
+    if (owner == carry) return owner;
+    for (const auto& a : w.allies) {
+        if (a.hp <= 0 || !bit(g.tiles, a.pos)) continue;
+        for (int s = 0; s < team_size; ++s) if (a.id == ally_handle[s]) {
+            if (s == carry) return carry;
+            if (owner < 0 || s < owner) owner = s;
+        }
+    }
+    return owner;
+}
+
+int Bot::economy_crew(int group, unsigned& mask, int requested) const {
+    (void)group;
+    const int wanted = std::min(team_size, requested > 0 ? requested : round < 60 ? 4 : ec_small_crew ? 2 : 3);
+    const int carry = economy_carry();
+    mask = 1u << carry;
+    int count = 1;
+    for (; count < wanted; ++count) {
+        int best = -1;
+        float value = -1.0f;
+        for (int s = 0; s < team_size; ++s) {
+            if ((mask & (1u << s)) || claim_of(s) == static_cast<int>(kClaimCodeDead)) continue;
+            const auto t = slot_type[s];
+            // Static kit ranking is identical across the initial spawn pack; no hidden teammate stats are read.
+            const float v = t == bc::champion_type::vendetta ? 100.0f : t == bc::champion_type::varg ? 95.0f
+                : t == bc::champion_type::heart_of_ruin ? 90.0f : t == bc::champion_type::ryth ? 85.0f
+                : t == bc::champion_type::marcella ? 80.0f : 65.0f;
+            if (v > value) value = v, best = s;
+        }
+        if (best < 0) break;
+        mask |= 1u << best;
+    }
+    return count;
+}
+
+void Bot::economy_update() {
+    if (!economy_enabled()) return;
+#if V58_ROUTE
+    // Remember the old region before adopting a new broadcast. A clearer can attack its next camp from the old
+    // region, so changing its target alone does not stop it splitting the carry's five-round capture.
+    for (int old : {ec_job, target_group}) if (old >= 0 && old < static_cast<int>(w.groups.size())) {
+        const auto& g = w.groups[old];
+        if (g.state != GroupState::reward) continue;
+        if (old == ec_job && economy_carry() == slot) ec_capture = old; // preserve the delivery before adopting a new job
+        const int owner = economy_owner(g);
+        if (bit(g.tiles, pos) && owner >= 0 && owner != slot) ec_release = old;
+    }
+#endif
+    int leader = 0;
+    while (leader < team_size && claim_of(leader) == static_cast<int>(kClaimCodeDead)) ++leader;
+    const int raw_job = static_cast<int>((shared >> (5 * kClaimBits)) & kClaimMask);
+    const int decoded = raw_job & 63;
+    const int published = decoded < static_cast<int>(w.groups.size()) ? decoded : -1;
+    const bool small_crew = (raw_job & 64) != 0;
+    if (published != ec_job) {
+        ec_job = published;
+        ec_job_since = round;
+        ec_local_epoch = -1;
+    }
+    ec_small_crew = small_crew;
+    if (ec_capture >= 0 && w.groups[ec_capture].state != GroupState::reward) ec_capture = -1;
+    if (ec_job >= 0 && w.groups[ec_job].state == GroupState::reward && economy_carry() == slot)
+        ec_capture = ec_job;
+    if (slot != leader || bc::fuel_remaining() < static_cast<std::uint64_t>(tune::kDetSafety) + 23000) return;
+    if (round - ec_replan < 10) {
+        const bool completed = ec_job >= 0 && ((w.groups[ec_job].state == GroupState::reward && economy_owner(w.groups[ec_job]) >= 0) ||
+            w.groups[ec_job].state == GroupState::respawning);
+        if (!completed) return; // including maps with no eligible job: do not repeat the empty scan every turn
+    }
+    ec_replan = round;
+    const std::uint64_t fuel_before = bc::fuel_remaining();
+    std::array<float, kClaimSlots> power{}, health{};
+    for (int s = 0; s < team_size; ++s) {
+        power[s] = 65.0f; health[s] = 700.0f; // conservative fallback for a teammate outside personal vision
+        if (s == slot) power[s] = my_dps(nullptr), health[s] = hp;
+        else for (const auto& a : w.allies) if (a.id == ally_handle[s]) {
+            power[s] = a.strength * 1.125f + a.focus * 0.125f;
+            health[s] = a.hp;
+            break;
+        }
+    }
+    std::array<unsigned, 5> crew_masks{};
+    std::array<int, 5> crew_counts{};
+    std::array<float, 5> crew_power{}, crew_health{};
+    for (int size = 2; size <= 4; ++size) {
+        crew_counts[size] = economy_crew(0, crew_masks[size], size);
+        for (int s = 0; s < team_size; ++s) if (crew_masks[size] & (1u << s)) {
+            crew_power[size] += power[s]; crew_health[size] += health[s];
+        }
+        crew_power[size] = std::max(90.0f, crew_power[size]);
+    }
+    const float carrier_bonus = slot_type[economy_carry()] == bc::champion_type::vesper_vale ? 1.33f : 1.0f;
+#if V58_DIRECTOR >= 2
+    std::array<unsigned, kOnsiteGroups> claimed_by{}, onsite_by{};
+    for (int s = 0; s < team_size; ++s) {
+        const int g = claim_of(s);
+        if (g < 0 || g >= static_cast<int>(w.groups.size())) continue;
+        claimed_by[g] |= 1u << s;
+        if (claim_onsite(s)) onsite_by[g] |= 1u << s;
+    }
+#endif
+    int pick = ec_job;
+    bool pick_small = ec_small_crew;
+    bool replace = pick < 0;
+    if (pick >= 0) {
+        const auto& g = w.groups[pick];
+        const int distance = w.has_field(pick) ? w.group_distance(pick, pos) : cheb(pos, w.camps[g.camps[0]].pos);
+        replace = (g.state == GroupState::reward && economy_owner(g) >= 0) ||
+            (g.state == GroupState::respawning && g.respawn_round - round > distance + 3) ||
+            round - ec_job_since > 65 || (!avoid_until.empty() && avoid_until[pick] > round);
+    }
+    if (replace) {
+        vec2 origin = pos;
+        if (ec_job >= 0 && !w.groups[ec_job].camps.empty()) origin = w.camps[w.groups[ec_job].camps[0]].pos;
+        float ex = 0, ey = 0, en = 0;
+        for (vec2 q : w.enemy_spawn.positions()) ex += q.x, ey += q.y, en += 1.0f;
+        if (en > 0) ex /= en, ey /= en;
+        struct Candidate { int group = -1; float value = 0, cost = 0, score = 0; bool small = false; } top[3];
+        for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
+            const auto& g = w.groups[gi];
+            if (g.camps.empty() || g.harmless || g.max_hp < 2400.0f || g.max_hp > 6500.0f || g.gold == 0 ||
+                (gi == ec_job && g.state != GroupState::alive) || (!avoid_until.empty() && avoid_until[gi] > round)) continue;
+            const vec2 c = w.camps[g.camps[0]].pos;
+            const int home = fdist(w.spawn_field, c);
+            const float enemy = std::max(std::fabs(c.x - ex), std::fabs(c.y - ey));
+            if (home == kUnreach) continue;
+#if V58_DIRECTOR < 3
+            if (round < 150 && home > 0.9f * enemy) continue;
+#endif
+            const int travel = w.has_field(gi) ? w.group_distance(gi, origin) : cheb(origin, c);
+            if (travel == kUnreach || travel > 35) continue;
+            const int wait = g.state == GroupState::respawning ? std::max(0, g.respawn_round - round - travel) : 0;
+            if (wait > 5) continue;
+            Candidate candidate;
+            const int first_size = round < 60 ? std::min(team_size, 4) : 2;
+            const int last_size = round < 60 ? first_size : 3;
+            for (int size = first_size; size <= last_size; ++size) {
+                const unsigned crew_mask = crew_masks[size];
+                const int crew = crew_counts[size];
+                if (crew < 2) continue;
+#if V58_DIRECTOR >= 2
+                const unsigned outside = claimed_by[gi] & ~crew_mask;
+                if ((outside & (outside - 1u)) != 0 || (onsite_by[gi] & outside) != 0) continue;
+#endif
+                const float dps = crew_power[size], pool = crew_health[size];
+                const float clear = g.state == GroupState::reward ? 0.0f : g.max_hp / dps;
+                if (clear > 35.0f || g.strength * clear > 0.85f * pool) continue;
+                const float value = carrier_bonus * static_cast<float>(g.gold) + 3.0f * g.gems;
+                // Spend team-rounds: three travellers/clearers cost three times one. Capture needs only its owner.
+                const float cost = crew * (travel + wait + clear
+#if V58_DIRECTOR >= 3
+                    + (round < 150 ? std::max(0.0f, home - enemy) : 0.0f)
+#endif
+                    ) + 5.0f;
+                const float rate = value / cost;
+                if (rate > candidate.score) candidate = {gi, value, cost, rate, crew <= 2};
+            }
+            for (int k = 0; k < 3; ++k) if (candidate.score > top[k].score) std::swap(candidate, top[k]);
+        }
+        // A bounded second leg among the three finalists rewards a repeatable cycle, not a single opening.
+        pick = -1;
+        float best = 0.0f;
+        for (int k = 0; k < 3; ++k) {
+            const auto& a = top[k];
+            if (a.group < 0) continue;
+            float continuation = 0.0f;
+            const vec2 at = w.camps[w.groups[a.group].camps[0]].pos;
+            for (int j = 0; j < 3; ++j) {
+                if (j == k || top[j].group < 0 || top[j].group == a.group) continue;
+                const auto& b = top[j];
+                const int leg = cheb(at, w.camps[w.groups[b.group].camps[0]].pos);
+                if (leg <= 12) continuation = std::max(continuation, b.value / (b.cost + leg));
+            }
+            float score = a.score + 0.35f * continuation;
+#if V58_DIRECTOR >= 2
+            if (round >= 60 && team_size >= 4) {
+                const int secondary = economy_secondary_for(a.group);
+                if (secondary >= 0) {
+                    const auto& side = w.groups[secondary];
+                    if (side.state != GroupState::respawning || side.respawn_round <= round + 10) {
+                        const int gap = cheb(at, w.camps[side.camps[0]].pos);
+                        score += 0.6f * (side.gold + 3.0f * side.gems) / (2.0f * (gap + side.max_hp / 120.0f) + 5.0f);
+                    }
+                }
+            }
+#endif
+            if (score > best) best = score, pick = a.group, pick_small = a.small;
+        }
+    }
+    if (pick != ec_job) ec_job_since = round;
+    ec_job = pick;
+    ec_small_crew = pick_small;
+    std::uint64_t word = read_shared();
+    word &= ~(kClaimMask << (5 * kClaimBits));
+    word |= static_cast<std::uint64_t>(pick >= 0 ? pick | (pick_small ? 64 : 0) : kClaimCodeIdle) << (5 * kClaimBits);
+    bc::shared_memory.write(0, std::span<std::uint64_t, 1>{&word, 1});
+    shared = word;
+    decode_claims();
+#if A2_MICLOG
+    std::printf("DIRECTOR R%d S%d G%d fuel%llu\n", round, slot, pick, static_cast<unsigned long long>(fuel_before - bc::fuel_remaining()));
+#else
+    (void)fuel_before;
+#endif
+}
+
+bool Bot::economy_release_capture() {
+#if V58_ROUTE
+    if (!economy_enabled() || ec_release < 0) return false;
+    const auto& g = w.groups[ec_release];
+    if (g.state != GroupState::reward || !bit(g.tiles, pos)) { ec_release = -1; return false; }
+    const int owner = economy_owner(g);
+    if (!w.enemies.empty() || owner < 0 || owner == slot) return false;
+    if (!avoid_until.empty()) avoid_until[ec_release] = round + 8;
+    target_group = -1;
+    write_claim(-1);
+    mode = "capture-handoff";
+    walk_toward(~g.tiles & ~w.static_blocked);
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool Bot::economy_precapture(const GroupRec& g, float remaining_hp) {
+#if V58_ROUTE
+    if (!economy_enabled() || melee || slot != economy_carry() || hp < 0.65f * max_hp ||
+        !w.enemies.empty() || remaining_hp > strength * 8.0f || bit(g.tiles, pos)) return false;
+    float finish_dps = 0.0f;
+    const int gi = static_cast<int>(&g - w.groups.data());
+    for (const auto& a : w.allies) {
+        if (a.hp < a.max_hp * 0.6f) continue;
+        bool assigned = false;
+        for (int s = 0; s < team_size; ++s) if (a.id == ally_handle[s] && claim_of(s) == gi) assigned = true;
+        if (!assigned) continue;
+        for (int ci : g.camps) if (!w.camps[ci].dead && cheb(a.pos, w.camps[ci].pos) <= a.range) {
+            finish_dps += a.strength;
+            break;
+        }
+    }
+    if (finish_dps <= 0 || remaining_hp > 3.0f * finish_dps) return false;
+    bc::bitboard goals = g.tiles & ~w.unit_tiles & ~w.static_blocked;
+    if (goals.is_empty()) {
+        goals.clear();
+        for (int ci : g.camps) goals.draw_chebyshev(w.camps[ci].pos, 1.0f);
+        goals &= ~w.static_blocked;
+        if (bit(goals, pos)) return false;
+        goals &= ~w.unit_tiles;
+    }
+    if (goals.is_empty()) return false;
+    if (!walk_toward(goals)) return false;
+    mode = "carry-position";
+    return true;
+#else
+    (void)g; (void)remaining_hp;
+    return false;
+#endif
+}
+
+int Bot::economy_assignment(int& need, float& score) {
+    if (!economy_enabled() || hp < 0.5f * max_hp || gems >= tune::kTributeCarry) return -1;
+    // A new broadcast must not interrupt a capture already in progress, including a satellite's small group.
+    if (target_group >= 0 && target_group < static_cast<int>(w.groups.size())) {
+        const auto& old = w.groups[target_group];
+        if (old.state == GroupState::reward && bit(old.tiles, pos) && economy_owner(old) == slot) {
+            need = 1; score = 1e9f; return target_group;
+        }
+    }
+    if (ec_capture >= 0 && w.groups[ec_capture].state == GroupState::reward) {
+        need = 1; score = 1e9f; return ec_capture;
+    }
+#if V58_DIRECTOR >= 2
+    if (ec_secondary_commit >= 0) {
+        const int old = ec_secondary_commit;
+        const auto& job = w.groups[old];
+        if (round - ec_secondary_since <= 65 && job.state != GroupState::respawning &&
+            (avoid_until.empty() || avoid_until[old] <= round)) {
+            need = job.state == GroupState::alive ? std::min(2, champions_needed(job, job.hp_left(w.camps))) : 1;
+            score = 1e9f; return old;
+        }
+        ec_secondary_commit = -1;
+    }
+#endif
+    if (ec_job < 0 || round - ec_job_since > 75) return -1;
+    if (!avoid_until.empty() && avoid_until[ec_job] > round) return -1;
+    const auto& g = w.groups[ec_job];
+    if (g.state == GroupState::respawning && g.respawn_round - round > 5) return -1;
+    unsigned mask = 0;
+    const int crew = economy_crew(ec_job, mask);
+    if (mask & (1u << slot)) {
+        if (g.state == GroupState::reward && economy_carry() != slot && economy_carry_on(g)) return -1;
+        need = g.state == GroupState::alive ? std::min(crew, std::max(2, champions_needed(g, g.hp_left(w.camps)))) : 1;
+        score = 1e9f;
+        return ec_job;
+    }
+#if V58_DIRECTOR >= 2
+    if (round >= 60) {
+        int pair[2] = {-1, -1}, count = 0;
+        for (int s = 0; s < team_size && count < 2; ++s)
+            if (!(mask & (1u << s)) && claim_of(s) != static_cast<int>(kClaimCodeDead)) pair[count++] = s;
+        if (count == 2 && (slot == pair[0] || slot == pair[1])) {
+            int candidate = -1;
+            if (slot == pair[1]) {
+                const int claimed = claim_of(pair[0]);
+                if (claimed >= 0 && claimed < static_cast<int>(w.groups.size()) && claimed != ec_job &&
+                    w.groups[claimed].max_hp >= 2400.0f && w.groups[claimed].max_hp <= 3000.0f &&
+                    cheb(w.camps[w.groups[claimed].camps[0]].pos, w.camps[g.camps[0]].pos) <= 8) candidate = claimed;
+            }
+            if (candidate < 0) candidate = economy_secondary_for(ec_job);
+            if (candidate >= 0 && w.groups[candidate].state != GroupState::respawning &&
+                (avoid_until.empty() || avoid_until[candidate] <= round)) {
+                ec_secondary_commit = candidate; ec_secondary_since = round;
+                need = std::min(2, champions_needed(w.groups[candidate], w.groups[candidate].hp_left(w.camps)));
+                score = 1e9f; return candidate;
+            }
+        }
+    }
+#endif
+    // Satellites farm small neighbours while the main pack clears; recompute only every ten rounds/job change.
+    const int epoch = round / 10;
+    if (ec_local_epoch != epoch && (ec_local_group < 0 || w.groups[ec_local_group].state == GroupState::respawning ||
+        (!avoid_until.empty() && avoid_until[ec_local_group] > round))) {
+        ec_local_epoch = epoch; ec_local_group = -1;
+        float best = 0.0f;
+        const vec2 anchor = w.camps[g.camps[0]].pos;
+        for (int gi = 0; gi < static_cast<int>(w.groups.size()); ++gi) {
+            const auto& other = w.groups[gi];
+            if (gi == ec_job || other.camps.empty() || other.max_hp > 3000.0f || other.state == GroupState::respawning ||
+                claim_count(gi) > 0 || (!avoid_until.empty() && avoid_until[gi] > round)) continue;
+            const vec2 c = w.camps[other.camps[0]].pos;
+            if (cheb(anchor, c) > 8) continue;
+            const int travel = w.has_field(gi) ? w.group_distance(gi, pos) : cheb(pos, c);
+            if (travel == kUnreach) continue;
+            if (other.max_hp > 1500.0f && champions_needed(other, other.hp_left(w.camps)) > 1) continue;
+            const float v = (other.gold + 3.0f * other.gems) / (travel + other.max_hp / std::max(1.0f, strength) + 5.0f);
+            if (v > best) best = v, ec_local_group = gi;
+        }
+    }
+    if (ec_local_group < 0 || w.groups[ec_local_group].state == GroupState::respawning) return -1;
+    need = 1; score = 1e8f; return ec_local_group;
+}
+#endif
