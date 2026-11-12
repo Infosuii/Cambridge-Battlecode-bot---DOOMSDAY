@@ -1,0 +1,2842 @@
+{
+  "evidence_policy": "One tested decision inconsistency, four associated/contextual candidates; not five proven bot bugs",
+  "priority_formula": "surrogate coverage \u00d7 subjective fixability \u00d7 subjective transfer / hours including fuel risk",
+  "priority_limits": "Planning sensitivity score, not expected win-rate gain. Coverage labels overlap; M1 uses its later associated swing window, M3/M5 share broad camp-income coverage, not an identified causal ceiling. Effort and probabilities are judgments, not measurements. Scores must not be added or read as percentages of recoverable wins.",
+  "mistakes": [
+    {
+      "id": "M1",
+      "title": "Recall cancellation ignores temporary banking disable",
+      "status": "new-open",
+      "confidence": "causal (tested), bounded decision only",
+      "definition": "Safe winning-bag recall is cancelled while tribute_off_until still forbids the requested bank; recall restarts.",
+      "code_location": "bots/live-69/src/bot.cpp: play_turn winning-bag recall condition around7005; tribute_if_needed eligibility around4535, disable timer around4639",
+      "recommended_next_step": "Require !w.no_bank && round>=tribute_off_until before the win-only cancellation; preserve the existing dangerous-channel cancellation branch. Recommendation only.",
+      "examples": [
+        "C004"
+      ],
+      "evidence_file": "TAKEOVER_RESULT.json",
+      "rejected_evidence": null,
+      "planning": {
+        "surrogate_coverage": 0.03623973447448305,
+        "fixability_judgment": 0.9,
+        "transfer_judgment": 0.3,
+        "effort_hours_including_fuel_risk": 2,
+        "score": 0.004892364154055212
+      },
+      "cost": {
+        "surrogate_drop_coverage": 0.03623973447448305,
+        "sample_loss_windows": 90,
+        "sample_loss_games": 65,
+        "causal_recoverable_gems": null,
+        "reason": "No identified mapping from conditional win probability to recoverable gems; event labels overlap and reflect downstream state."
+      },
+      "hands_off_scope": "M1 observable proxy, D3 and native final accounting only; all other mechanisms unconfirmed on reserved data",
+      "examined_proxy": {
+        "All": {
+          "loss": {
+            "n": 191,
+            "flagged": 49,
+            "occurrence": 0.25654450261780104,
+            "wilson95": [
+              0.19983486757768276,
+              0.32285398641214136
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.005235602094240838,
+            "winning_bag_wilson95": [
+              0.0009248109680105119,
+              0.029055763269374042
+            ],
+            "episodes": 101,
+            "restart_turns": 706,
+            "accepted_recall_starts": 6993
+          },
+          "win": {
+            "n": 169,
+            "flagged": 46,
+            "occurrence": 0.27218934911242604,
+            "wilson95": [
+              0.21070535101438018,
+              0.3437996819483429
+            ],
+            "winning_bag_flagged": 7,
+            "winning_bag_occurrence": 0.04142011834319527,
+            "winning_bag_wilson95": [
+              0.02020640927672203,
+              0.08301800772616194
+            ],
+            "episodes": 106,
+            "restart_turns": 777,
+            "accepted_recall_starts": 8075
+          }
+        },
+        "Climb": {
+          "loss": {
+            "n": 83,
+            "flagged": 19,
+            "occurrence": 0.2289156626506024,
+            "wilson95": [
+              0.15173364740724513,
+              0.3300806770974395
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.012048192771084338,
+            "winning_bag_wilson95": [
+              0.0021299774281082692,
+              0.06513580668032404
+            ],
+            "episodes": 47,
+            "restart_turns": 320,
+            "accepted_recall_starts": 3153
+          },
+          "win": {
+            "n": 119,
+            "flagged": 24,
+            "occurrence": 0.20168067226890757,
+            "wilson95": [
+              0.13944185925838504,
+              0.2825773785330243
+            ],
+            "winning_bag_flagged": 4,
+            "winning_bag_occurrence": 0.03361344537815126,
+            "winning_bag_wilson95": [
+              0.013147752896700837,
+              0.0832485202701503
+            ],
+            "episodes": 45,
+            "restart_turns": 305,
+            "accepted_recall_starts": 5298
+          }
+        },
+        "Learn": {
+          "loss": {
+            "n": 53,
+            "flagged": 14,
+            "occurrence": 0.2641509433962264,
+            "wilson95": [
+              0.16437353918463654,
+              0.395806644106185
+            ],
+            "winning_bag_flagged": 0,
+            "winning_bag_occurrence": 0.0,
+            "winning_bag_wilson95": [
+              0,
+              0.06758198857654187
+            ],
+            "episodes": 16,
+            "restart_turns": 124,
+            "accepted_recall_starts": 1661
+          },
+          "win": {
+            "n": 7,
+            "flagged": 1,
+            "occurrence": 0.14285714285714285,
+            "wilson95": [
+              0.02567962434474355,
+              0.5131278292743189
+            ],
+            "winning_bag_flagged": 0,
+            "winning_bag_occurrence": 0.0,
+            "winning_bag_wilson95": [
+              5.551115123125783e-17,
+              0.35433043506668743
+            ],
+            "episodes": 1,
+            "restart_turns": 6,
+            "accepted_recall_starts": 315
+          }
+        },
+        "Other": {
+          "loss": {
+            "n": 55,
+            "flagged": 16,
+            "occurrence": 0.2909090909090909,
+            "wilson95": [
+              0.18771193553959536,
+              0.42140720492754985
+            ],
+            "winning_bag_flagged": 0,
+            "winning_bag_occurrence": 0.0,
+            "winning_bag_wilson95": [
+              0,
+              0.06528490111708637
+            ],
+            "episodes": 38,
+            "restart_turns": 262,
+            "accepted_recall_starts": 2179
+          },
+          "win": {
+            "n": 43,
+            "flagged": 21,
+            "occurrence": 0.4883720930232558,
+            "wilson95": [
+              0.3461744754671859,
+              0.632476915305507
+            ],
+            "winning_bag_flagged": 3,
+            "winning_bag_occurrence": 0.06976744186046512,
+            "winning_bag_wilson95": [
+              0.024011589577214484,
+              0.18608986901241975
+            ],
+            "episodes": 60,
+            "restart_turns": 466,
+            "accepted_recall_starts": 2462
+          }
+        }
+      },
+      "reserved_proxy": {
+        "All": {
+          "loss": {
+            "n": 83,
+            "flagged": 27,
+            "occurrence": 0.3253012048192771,
+            "wilson95": [
+              0.23419333708259782,
+              0.43186478315375454
+            ],
+            "winning_bag_flagged": 2,
+            "winning_bag_occurrence": 0.024096385542168676,
+            "winning_bag_wilson95": [
+              0.006633166140727599,
+              0.08366309243416317
+            ],
+            "episodes": 87,
+            "restart_turns": 763,
+            "accepted_recall_starts": 3767
+          },
+          "win": {
+            "n": 77,
+            "flagged": 17,
+            "occurrence": 0.22077922077922077,
+            "wilson95": [
+              0.14266403041098702,
+              0.32543067461686576
+            ],
+            "winning_bag_flagged": 2,
+            "winning_bag_occurrence": 0.025974025974025976,
+            "winning_bag_wilson95": [
+              0.007152159807893181,
+              0.08984582779753134
+            ],
+            "episodes": 33,
+            "restart_turns": 277,
+            "accepted_recall_starts": 3526
+          }
+        },
+        "Climb": {
+          "loss": {
+            "n": 39,
+            "flagged": 8,
+            "occurrence": 0.20512820512820512,
+            "wilson95": [
+              0.10779718230710382,
+              0.35533968013582296
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.02564102564102564,
+            "winning_bag_wilson95": [
+              0.004540703100990098,
+              0.13180990169850076
+            ],
+            "episodes": 12,
+            "restart_turns": 84,
+            "accepted_recall_starts": 1492
+          },
+          "win": {
+            "n": 54,
+            "flagged": 12,
+            "occurrence": 0.2222222222222222,
+            "wilson95": [
+              0.13195416567633134,
+              0.3493867165963889
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.018518518518518517,
+            "winning_bag_wilson95": [
+              0.003276487718229061,
+              0.09771437488781931
+            ],
+            "episodes": 24,
+            "restart_turns": 212,
+            "accepted_recall_starts": 2408
+          }
+        },
+        "Learn": {
+          "loss": {
+            "n": 19,
+            "flagged": 4,
+            "occurrence": 0.21052631578947367,
+            "wilson95": [
+              0.08507676632916253,
+              0.43334278443814167
+            ],
+            "winning_bag_flagged": 0,
+            "winning_bag_occurrence": 0.0,
+            "winning_bag_wilson95": [
+              0,
+              0.16817922405261626
+            ],
+            "episodes": 4,
+            "restart_turns": 18,
+            "accepted_recall_starts": 601
+          },
+          "win": {
+            "n": 1,
+            "flagged": 0,
+            "occurrence": 0.0,
+            "wilson95": [
+              0,
+              0.7934506856227626
+            ],
+            "winning_bag_flagged": 0,
+            "winning_bag_occurrence": 0.0,
+            "winning_bag_wilson95": [
+              0,
+              0.7934506856227626
+            ],
+            "episodes": 0,
+            "restart_turns": 0,
+            "accepted_recall_starts": 47
+          }
+        },
+        "Other": {
+          "loss": {
+            "n": 25,
+            "flagged": 15,
+            "occurrence": 0.6,
+            "wilson95": [
+              0.40739457358967,
+              0.7659669762225203
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.04,
+            "winning_bag_wilson95": [
+              0.007096233501987265,
+              0.19544063736193734
+            ],
+            "episodes": 71,
+            "restart_turns": 661,
+            "accepted_recall_starts": 1674
+          },
+          "win": {
+            "n": 22,
+            "flagged": 5,
+            "occurrence": 0.22727272727272727,
+            "wilson95": [
+              0.10123039985248516,
+              0.4343995317522171
+            ],
+            "winning_bag_flagged": 1,
+            "winning_bag_occurrence": 0.045454545454545456,
+            "winning_bag_wilson95": [
+              0.00806942762126385,
+              0.21798045838657332
+            ],
+            "episodes": 9,
+            "restart_turns": 65,
+            "accepted_recall_starts": 1071
+          }
+        }
+      },
+      "exact_source_cases": 1,
+      "native_bag_at_risk": 736,
+      "regression_case": "tests/loss_cases/M1-recall-disabled-bank.json",
+      "winner_contrast": "Proxy is more common in examined wins; a vault control banks343 but is not the same state."
+    },
+    {
+      "id": "M2",
+      "title": "Repeated death in the same area or to the same killer",
+      "status": "known-rejected-fix; mechanism still open",
+      "confidence": "association",
+      "definition": "Existing D3: same physical actor has a prior death within250 rounds at Chebyshev radius6 or to the same enemy champion ID.",
+      "code_location": "bots/live-69/src/bot.cpp: handle_enemies around3162, V75_LONE around3988; tactics.cpp act_enemy_before_walk around27, survive_contact around127 (compiled off)",
+      "recommended_next_step": "No replacement threshold is established. Diagnose exact victims and current visibility/TTK before choosing a narrow fight-admission rule; do not re-enable a blanket watchdog or retreat switch.",
+      "examples": [
+        "C070",
+        "C082",
+        "C060"
+      ],
+      "evidence_file": "DETECTOR_DATA.json",
+      "rejected_evidence": "research/v66/RESULTS.md",
+      "planning": {
+        "surrogate_coverage": 0.018867850180013367,
+        "fixability_judgment": 0.3,
+        "transfer_judgment": 0.3,
+        "effort_hours_including_fuel_risk": 6,
+        "score": 0.0002830177527002005
+      },
+      "cost": {
+        "surrogate_drop_coverage": 0.018867850180013367,
+        "sample_loss_windows": 90,
+        "sample_loss_games": 65,
+        "causal_recoverable_gems": null,
+        "reason": "No identified mapping from conditional win probability to recoverable gems; event labels overlap and reflect downstream state."
+      },
+      "hands_off_scope": "M1 observable proxy, D3 and native final accounting only; all other mechanisms unconfirmed on reserved data",
+      "examined": {
+        "All": {
+          "losses": {
+            "n": 191,
+            "flagged": 129,
+            "occurrence": 0.675392670157068,
+            "wilson95": [
+              0.6060984784114674,
+              0.7377708418324227
+            ],
+            "events": 722,
+            "event_numerator": 722,
+            "event_denominator": 2337,
+            "event_rate": 0.3089430894308943
+          },
+          "wins": {
+            "n": 169,
+            "flagged": 74,
+            "occurrence": 0.4378698224852071,
+            "wilson95": [
+              0.36527470039932813,
+              0.5132266722268692
+            ],
+            "events": 188,
+            "event_numerator": 188,
+            "event_denominator": 1028,
+            "event_rate": 0.1828793774319066
+          },
+          "occurrence_difference": 0.23752284767186094,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 54,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.1077190296749882,
+              0.36779356524579454
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 30,
+            "clusters_with_both_outcomes": 23,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.13747228381374732,
+              0.34222689075630247
+            ]
+          },
+          "event_rate_difference": 0.12606371199898772,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 54,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.07153364794343123,
+              0.1831655746154662
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 30,
+            "clusters_with_both_outcomes": 23,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.03770063456513628,
+              0.169054806994271
+            ]
+          }
+        },
+        "Learn": {
+          "losses": {
+            "n": 53,
+            "flagged": 36,
+            "occurrence": 0.6792452830188679,
+            "wilson95": [
+              0.545185201490326,
+              0.7890778592086491
+            ],
+            "events": 259,
+            "event_numerator": 259,
+            "event_denominator": 719,
+            "event_rate": 0.36022253129346316
+          },
+          "wins": {
+            "n": 7,
+            "flagged": 4,
+            "occurrence": 0.5714285714285714,
+            "wilson95": [
+              0.2504583645276572,
+              0.8417801447485302
+            ],
+            "events": 6,
+            "event_numerator": 6,
+            "event_denominator": 28,
+            "event_rate": 0.21428571428571427
+          },
+          "occurrence_difference": 0.10781671159029649,
+          "map_cluster": {
+            "clusters": 38,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1987,
+            "interval95": [
+              -0.3653846153846154,
+              0.6333333333333333
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1979,
+            "interval95": [
+              -0.4,
+              0.6981132075471698
+            ]
+          },
+          "event_rate_difference": 0.14593681700774888,
+          "event_rate_map_cluster": {
+            "clusters": 38,
+            "clusters_with_both_outcomes": 2,
+            "valid_replicates": 1978,
+            "interval95": [
+              0.05830670926517573,
+              0.3111762789182144
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1976,
+            "interval95": [
+              0.02083148657033948,
+              0.38661710037174724
+            ]
+          }
+        },
+        "Climb": {
+          "losses": {
+            "n": 83,
+            "flagged": 50,
+            "occurrence": 0.6024096385542169,
+            "wilson95": [
+              0.49484835006906513,
+              0.7009106828958319
+            ],
+            "events": 230,
+            "event_numerator": 230,
+            "event_denominator": 879,
+            "event_rate": 0.2616609783845279
+          },
+          "wins": {
+            "n": 119,
+            "flagged": 50,
+            "occurrence": 0.42016806722689076,
+            "wilson95": [
+              0.3353441373563325,
+              0.5099849544470025
+            ],
+            "events": 113,
+            "event_numerator": 113,
+            "event_denominator": 672,
+            "event_rate": 0.16815476190476192
+          },
+          "occurrence_difference": 0.18224157132732616,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 30,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.013636363636363669,
+              0.3633795582948125
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 6,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.13049235584446855,
+              0.4404761904761905
+            ]
+          },
+          "event_rate_difference": 0.09350621647976598,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 29,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.022778460278460283,
+              0.16708310388190717
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 6,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.07695595919738657,
+              0.14942528735632185
+            ]
+          }
+        },
+        "Other": {
+          "losses": {
+            "n": 55,
+            "flagged": 43,
+            "occurrence": 0.7818181818181819,
+            "wilson95": [
+              0.6562996597815998,
+              0.8705397595887698
+            ],
+            "events": 233,
+            "event_numerator": 233,
+            "event_denominator": 739,
+            "event_rate": 0.3152909336941813
+          },
+          "wins": {
+            "n": 43,
+            "flagged": 20,
+            "occurrence": 0.46511627906976744,
+            "wilson95": [
+              0.32511057704121815,
+              0.6108435952768602
+            ],
+            "events": 69,
+            "event_numerator": 69,
+            "event_denominator": 328,
+            "event_rate": 0.21036585365853658
+          },
+          "occurrence_difference": 0.3167019027484144,
+          "map_cluster": {
+            "clusters": 62,
+            "clusters_with_both_outcomes": 12,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.133078231292517,
+              0.5022281639928698
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 19,
+            "clusters_with_both_outcomes": 14,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.13725490196078427,
+              0.47865853658536583
+            ]
+          },
+          "event_rate_difference": 0.10492508003564474,
+          "event_rate_map_cluster": {
+            "clusters": 62,
+            "clusters_with_both_outcomes": 11,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.005460723242456111,
+              0.19833381350235282
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 19,
+            "clusters_with_both_outcomes": 14,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.015575350315153391,
+              0.18526170798898073
+            ]
+          }
+        }
+      },
+      "reserved": {
+        "All": {
+          "losses": {
+            "n": 83,
+            "flagged": 45,
+            "occurrence": 0.5421686746987951,
+            "wilson95": [
+              0.43550043045331094,
+              0.6451062301792936
+            ],
+            "events": 264,
+            "event_numerator": 264,
+            "event_denominator": 946,
+            "event_rate": 0.27906976744186046
+          },
+          "wins": {
+            "n": 77,
+            "flagged": 27,
+            "occurrence": 0.35064935064935066,
+            "wilson95": [
+              0.25348675204062443,
+              0.46200576460218057
+            ],
+            "events": 72,
+            "event_numerator": 72,
+            "event_denominator": 454,
+            "event_rate": 0.15859030837004406
+          },
+          "occurrence_difference": 0.1915193240494445,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 28,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.028345418589320992,
+              0.35000000000000003
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 28,
+            "clusters_with_both_outcomes": 17,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.038461538461538436,
+              0.3687821612349914
+            ]
+          },
+          "event_rate_difference": 0.1204794590718164,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 27,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.059147036181678214,
+              0.18149839578411006
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 28,
+            "clusters_with_both_outcomes": 15,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.05015072499058673,
+              0.20308620896514173
+            ]
+          }
+        },
+        "Climb": {
+          "losses": {
+            "n": 39,
+            "flagged": 15,
+            "occurrence": 0.38461538461538464,
+            "wilson95": [
+              0.24891373465561348,
+              0.5410093854307493
+            ],
+            "events": 76,
+            "event_numerator": 76,
+            "event_denominator": 360,
+            "event_rate": 0.2111111111111111
+          },
+          "wins": {
+            "n": 54,
+            "flagged": 18,
+            "occurrence": 0.3333333333333333,
+            "wilson95": [
+              0.22241416537492573,
+              0.46639036398870637
+            ],
+            "events": 48,
+            "event_numerator": 48,
+            "event_denominator": 326,
+            "event_rate": 0.147239263803681
+          },
+          "occurrence_difference": 0.05128205128205132,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 5,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.16829004329004327,
+              0.28052995391705066
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 5,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.16996047430830039,
+              0.3076923076923077
+            ]
+          },
+          "event_rate_difference": 0.06387184730743012,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 4,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.0408149895178197,
+              0.15232942039618488
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 4,
+            "valid_replicates": 1999,
+            "interval95": [
+              -0.04444444444444445,
+              0.25806451612903225
+            ]
+          }
+        },
+        "Learn": {
+          "losses": {
+            "n": 19,
+            "flagged": 11,
+            "occurrence": 0.5789473684210527,
+            "wilson95": [
+              0.3627590353425504,
+              0.7685810871754576
+            ],
+            "events": 73,
+            "event_numerator": 73,
+            "event_denominator": 212,
+            "event_rate": 0.3443396226415094
+          },
+          "wins": {
+            "n": 1,
+            "flagged": 1,
+            "occurrence": 1.0,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ],
+            "events": 1,
+            "event_numerator": 1,
+            "event_denominator": 5,
+            "event_rate": 0.2
+          },
+          "occurrence_difference": -0.42105263157894735,
+          "map_cluster": {
+            "clusters": 15,
+            "clusters_with_both_outcomes": 0,
+            "valid_replicates": 1307,
+            "interval95": [
+              -0.7058823529411764,
+              -0.1875
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 1,
+            "valid_replicates": 1362,
+            "interval95": [
+              -0.6666666666666667,
+              -0.37037037037037035
+            ]
+          },
+          "event_rate_difference": 0.1443396226415094,
+          "event_rate_map_cluster": {
+            "clusters": 15,
+            "clusters_with_both_outcomes": 0,
+            "valid_replicates": 1309,
+            "interval95": [
+              0.001612903225806428,
+              0.26666666666666666
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 1,
+            "valid_replicates": 1332,
+            "interval95": [
+              0.03529411764705881,
+              0.26218487394957984
+            ]
+          }
+        },
+        "Other": {
+          "losses": {
+            "n": 25,
+            "flagged": 19,
+            "occurrence": 0.76,
+            "wilson95": [
+              0.5657031664457093,
+              0.8850368630659855
+            ],
+            "events": 115,
+            "event_numerator": 115,
+            "event_denominator": 374,
+            "event_rate": 0.3074866310160428
+          },
+          "wins": {
+            "n": 22,
+            "flagged": 8,
+            "occurrence": 0.36363636363636365,
+            "wilson95": [
+              0.19733204670366125,
+              0.5704829190986899
+            ],
+            "events": 23,
+            "event_numerator": 23,
+            "event_denominator": 123,
+            "event_rate": 0.18699186991869918
+          },
+          "occurrence_difference": 0.39636363636363636,
+          "map_cluster": {
+            "clusters": 43,
+            "clusters_with_both_outcomes": 4,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.12631578947368416,
+              0.657142857142857
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 17,
+            "clusters_with_both_outcomes": 11,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.015384615384615441,
+              0.7463768115942029
+            ]
+          },
+          "event_rate_difference": 0.12049476109734361,
+          "event_rate_map_cluster": {
+            "clusters": 43,
+            "clusters_with_both_outcomes": 4,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.012626262626262652,
+              0.24600168350168353
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 17,
+            "clusters_with_both_outcomes": 10,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.006871372402171894,
+              0.2872041437298214
+            ]
+          }
+        }
+      },
+      "winner_contrast": "188/1028 examined-win deaths repeat versus722/2337 loss deaths. Traces also show flee in both outcomes."
+    },
+    {
+      "id": "M3",
+      "title": "Early economy and equipment deficit",
+      "status": "known-open",
+      "confidence": "association",
+      "definition": "Paired R100/R250 collected-gem, earned-gold and inventory-cost deficits in losses; not evidence that price equals fighting power.",
+      "code_location": "bots/live-69/src/bot.cpp: opening allocation/group scoring, V71 profile and A2 per-turn block around6740\u20136910; source draft/item paths require separate ablation",
+      "recommended_next_step": "No universal numerical change is supported. Compare one opening allocation on a specified map and one existing purchase milestone at a time; hold draft and all other knobs fixed.",
+      "examples": [
+        "C018",
+        "C048",
+        "C060"
+      ],
+      "evidence_file": "TIMELINE_DATA.json",
+      "rejected_evidence": "research/v66/RESULTS.md",
+      "planning": {
+        "surrogate_coverage": 0.7049346475519536,
+        "fixability_judgment": 0.25,
+        "transfer_judgment": 0.5,
+        "effort_hours_including_fuel_risk": 12,
+        "score": 0.007343069245332849
+      },
+      "cost": {
+        "surrogate_drop_coverage": 0.7049346475519536,
+        "sample_loss_windows": 90,
+        "sample_loss_games": 65,
+        "causal_recoverable_gems": null,
+        "reason": "No identified mapping from conditional win probability to recoverable gems; event labels overlap and reflect downstream state."
+      },
+      "hands_off_scope": "M1 observable proxy, D3 and native final accounting only; all other mechanisms unconfirmed on reserved data",
+      "examined": {
+        "all": {
+          "loss": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -86.70157068062828,
+                "interval95": [
+                  -122.7890216253924,
+                  -49.34358256697322
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -86.70157068062828,
+                "interval95": [
+                  -117.36294327369961,
+                  -53.56487667009253
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -276.75392670157066,
+                "interval95": [
+                  -372.31157599053813,
+                  -187.2016632164025
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -276.75392670157066,
+                "interval95": [
+                  -392.1225371461625,
+                  -185.539846248643
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -9.141361256544503,
+                "interval95": [
+                  -18.403771259885172,
+                  3.335204081632643
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -9.141361256544503,
+                "interval95": [
+                  -18.483137468470535,
+                  -1.8327330577542484
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -57.09947643979058,
+                "interval95": [
+                  -79.80261132134156,
+                  -33.84774849094569
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -57.09947643979058,
+                "interval95": [
+                  -72.73014817629179,
+                  -43.26994555234847
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -94.61780104712042,
+                "interval95": [
+                  -132.6959065934066,
+                  -58.15524698795183
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -94.61780104712042,
+                "interval95": [
+                  -131.94938281011886,
+                  -63.28530863003101
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -332.72774869109946,
+                "interval95": [
+                  -446.8216036772217,
+                  -232.49076647486703
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -332.72774869109946,
+                "interval95": [
+                  -465.73879761904766,
+                  -227.48865053629336
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -2.1099476439790577,
+                "interval95": [
+                  -8.26469736261311,
+                  4.304525706512685
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -2.1099476439790577,
+                "interval95": [
+                  -9.822672172134252,
+                  4.316567842628923
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 191,
+                "clusters": 63,
+                "mean": -43.82722513089005,
+                "interval95": [
+                  -63.74225140712946,
+                  -24.131707610789988
+                ]
+              },
+              "opponent_id": {
+                "n": 191,
+                "clusters": 29,
+                "mean": -43.82722513089005,
+                "interval95": [
+                  -62.518729004980884,
+                  -29.4888432017544
+                ]
+              }
+            }
+          },
+          "win": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 90.53254437869822,
+                "interval95": [
+                  44.24901315789474,
+                  138.665191053122
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 90.53254437869822,
+                "interval95": [
+                  46.756878557874764,
+                  138.4275074478649
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 340.29585798816566,
+                "interval95": [
+                  247.80863614912693,
+                  433.01728356542293
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 340.29585798816566,
+                "interval95": [
+                  240.9817436661699,
+                  447.59028157463086
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 7.242603550295858,
+                "interval95": [
+                  -0.4411905350084698,
+                  14.873690524811106
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 7.242603550295858,
+                "interval95": [
+                  -18.158496732026144,
+                  13.067620560679785
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 54.06508875739645,
+                "interval95": [
+                  20.529580260918888,
+                  92.915625
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 54.06508875739645,
+                "interval95": [
+                  -4.420793460925039,
+                  80.88749999999999
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 147.04142011834318,
+                "interval95": [
+                  95.40729567307693,
+                  200.55063055365684
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 147.04142011834318,
+                "interval95": [
+                  70.03836446740858,
+                  181.43448938992043
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 393.79289940828403,
+                "interval95": [
+                  282.7539038981824,
+                  503.12159164582755
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 393.79289940828403,
+                "interval95": [
+                  257.12031116794543,
+                  497.1775749674053
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 8.100591715976332,
+                "interval95": [
+                  1.167542821334076,
+                  14.920119914996961
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 8.100591715976332,
+                "interval95": [
+                  -6.554166666666666,
+                  14.849991373360911
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 169,
+                "clusters": 61,
+                "mean": 38.89940828402367,
+                "interval95": [
+                  15.723678571428572,
+                  64.22883393829402
+                ]
+              },
+              "opponent_id": {
+                "n": 169,
+                "clusters": 24,
+                "mean": 38.89940828402367,
+                "interval95": [
+                  -10.792555580507523,
+                  53.23817733990148
+                ]
+              }
+            }
+          }
+        },
+        "Climb": {
+          "loss": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -91.80722891566265,
+                "interval95": [
+                  -121.00384615384615,
+                  -61.23205479452055
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -91.80722891566265,
+                "interval95": [
+                  -124.66666666666667,
+                  -78.60759493670886
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -193.73493975903614,
+                "interval95": [
+                  -305.49452269170575,
+                  -94.01753048780492
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -193.73493975903614,
+                "interval95": [
+                  -293.0769230769231,
+                  -156.85714285714286
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -4.144578313253012,
+                "interval95": [
+                  -16.238936335403725,
+                  12.870428826682545
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -4.144578313253012,
+                "interval95": [
+                  -19.55,
+                  2.4551282051282053
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -53.975903614457835,
+                "interval95": [
+                  -85.26086809904615,
+                  -21.661824324324325
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -53.975903614457835,
+                "interval95": [
+                  -71.89375,
+                  -45.3963963963964
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -71.33734939759036,
+                "interval95": [
+                  -109.75889705882354,
+                  -36.276280892103685
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -71.33734939759036,
+                "interval95": [
+                  -101.8212480620155,
+                  -37.30909090909091
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -239.78313253012047,
+                "interval95": [
+                  -358.5952642746914,
+                  -136.75562500000012
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -239.78313253012047,
+                "interval95": [
+                  -335.5348837209302,
+                  -203.88265180265662
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": 3.8313253012048194,
+                "interval95": [
+                  -5.14832702020202,
+                  14.907175032175022
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": 3.8313253012048194,
+                "interval95": [
+                  -11.833333333333334,
+                  10.681528662420382
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 83,
+                "clusters": 43,
+                "mean": -36.51807228915663,
+                "interval95": [
+                  -63.57718612603811,
+                  -4.922428240328053
+                ]
+              },
+              "opponent_id": {
+                "n": 83,
+                "clusters": 6,
+                "mean": -36.51807228915663,
+                "interval95": [
+                  -68.93333333333334,
+                  -20.49901315789474
+                ]
+              }
+            }
+          },
+          "win": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 84.2016806722689,
+                "interval95": [
+                  37.42668669318827,
+                  138.81822033898302
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 84.2016806722689,
+                "interval95": [
+                  -30.0,
+                  89.20124234172906
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 337.05882352941177,
+                "interval95": [
+                  222.22637288135593,
+                  461.2190078037904
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 337.05882352941177,
+                "interval95": [
+                  180.0,
+                  375.0
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 12.302521008403362,
+                "interval95": [
+                  1.125581668625147,
+                  24.309316638370102
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 12.302521008403362,
+                "interval95": [
+                  -25.751704545454544,
+                  14.168639053254438
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 55.6890756302521,
+                "interval95": [
+                  26.928020695421925,
+                  88.97562305900621
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 55.6890756302521,
+                "interval95": [
+                  -71.00681818181818,
+                  61.730088495575224
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 148.6386554621849,
+                "interval95": [
+                  92.68412552521009,
+                  208.9679830411585
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 148.6386554621849,
+                "interval95": [
+                  -3.567929292929292,
+                  156.3343195266272
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 395.4957983193277,
+                "interval95": [
+                  255.22861106944654,
+                  550.2497332994664
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 395.4957983193277,
+                "interval95": [
+                  223.54545454545453,
+                  403.8988095238095
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 8.873949579831933,
+                "interval95": [
+                  0.015592903828198014,
+                  17.855651225748222
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 8.873949579831933,
+                "interval95": [
+                  -30.0,
+                  10.651982378854626
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 119,
+                "clusters": 57,
+                "mean": 44.63865546218487,
+                "interval95": [
+                  16.11933667781494,
+                  76.9503648827952
+                ]
+              },
+              "opponent_id": {
+                "n": 119,
+                "clusters": 6,
+                "mean": 44.63865546218487,
+                "interval95": [
+                  -62.92556818181818,
+                  49.51598940855705
+                ]
+              }
+            }
+          }
+        },
+        "Learn": {
+          "loss": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -120.56603773584905,
+                "interval95": [
+                  -167.40136363636364,
+                  -72.66578947368421
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -120.56603773584905,
+                "interval95": [
+                  -161.02941176470588,
+                  -51.81818181818182
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -462.45283018867923,
+                "interval95": [
+                  -575.9280303030303,
+                  -338.17816558441564
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -462.45283018867923,
+                "interval95": [
+                  -540.983606557377,
+                  -329.2105263157895
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -11.79245283018868,
+                "interval95": [
+                  -25.306802721088438,
+                  7.921677559912854
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -11.79245283018868,
+                "interval95": [
+                  -25.366197183098592,
+                  9.083333333333334
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -59.301886792452834,
+                "interval95": [
+                  -89.8060231264637,
+                  -19.69969074715489
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -59.301886792452834,
+                "interval95": [
+                  -89.90140845070422,
+                  -15.75
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -130.03773584905662,
+                "interval95": [
+                  -177.87188405797102,
+                  -82.19656250000003
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -130.03773584905662,
+                "interval95": [
+                  -177.16438356164383,
+                  -67.225
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -522.0,
+                "interval95": [
+                  -687.4051450465244,
+                  -373.60061106346484
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -522.0,
+                "interval95": [
+                  -648.6376811594203,
+                  -307.94736842105266
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -8.981132075471699,
+                "interval95": [
+                  -17.950040663630446,
+                  -1.9199594731509662
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -8.981132075471699,
+                "interval95": [
+                  -15.970149253731343,
+                  -1.1136363636363635
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 53,
+                "clusters": 36,
+                "mean": -46.509433962264154,
+                "interval95": [
+                  -71.46940381205673,
+                  -23.9609375
+                ]
+              },
+              "opponent_id": {
+                "n": 53,
+                "clusters": 5,
+                "mean": -46.509433962264154,
+                "interval95": [
+                  -71.1159420289855,
+                  -19.613636363636363
+                ]
+              }
+            }
+          },
+          "win": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 222.85714285714286,
+                "interval95": [
+                  60.0,
+                  313.3333333333333
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 222.85714285714286,
+                "interval95": [
+                  -60.0,
+                  285.0
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 548.5714285714286,
+                "interval95": [
+                  220.0,
+                  772.5
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 548.5714285714286,
+                "interval95": [
+                  0.0,
+                  840.0
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 18.857142857142858,
+                "interval95": [
+                  11.5,
+                  31.333333333333332
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 18.857142857142858,
+                "interval95": [
+                  11.5,
+                  43.0
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 36.714285714285715,
+                "interval95": [
+                  15.5,
+                  62.166666666666664
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 36.714285714285715,
+                "interval95": [
+                  26.5,
+                  84.0
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 253.85714285714286,
+                "interval95": [
+                  93.2,
+                  343.1111111111111
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 253.85714285714286,
+                "interval95": [
+                  -7.0,
+                  342.0
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 648.0,
+                "interval95": [
+                  310.2,
+                  915.375
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 648.0,
+                "interval95": [
+                  149.0,
+                  1044.0
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 5.857142857142857,
+                "interval95": [
+                  0.0,
+                  13.2
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 5.857142857142857,
+                "interval95": [
+                  0.0,
+                  22.0
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 7,
+                "clusters": 5,
+                "mean": 20.571428571428573,
+                "interval95": [
+                  6.666666666666667,
+                  37.666666666666664
+                ]
+              },
+              "opponent_id": {
+                "n": 7,
+                "clusters": 3,
+                "mean": 20.571428571428573,
+                "interval95": [
+                  20.0,
+                  21.0
+                ]
+              }
+            }
+          }
+        },
+        "Other": {
+          "loss": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -46.36363636363637,
+                "interval95": [
+                  -136.91089193825042,
+                  36.79245283018868
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -46.36363636363637,
+                "interval95": [
+                  -113.4054255319149,
+                  13.398214285714213
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -223.0909090909091,
+                "interval95": [
+                  -381.0314516129032,
+                  -79.23290094339629
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -223.0909090909091,
+                "interval95": [
+                  -407.5943181818182,
+                  -56.12798036465639
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -14.127272727272727,
+                "interval95": [
+                  -24.720055555555554,
+                  -4.124875
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -14.127272727272727,
+                "interval95": [
+                  -22.289228723404257,
+                  -7.065826284970739
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -59.69090909090909,
+                "interval95": [
+                  -82.41270133053222,
+                  -38.6082296650718
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -59.69090909090909,
+                "interval95": [
+                  -82.91881712832108,
+                  -34.08765984654732
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -95.61818181818182,
+                "interval95": [
+                  -192.11977401129943,
+                  -22.107870370370414
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -95.61818181818182,
+                "interval95": [
+                  -170.81584905660378,
+                  -31.98295256365539
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -290.6,
+                "interval95": [
+                  -453.76625,
+                  -137.33916778975743
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -290.6,
+                "interval95": [
+                  -507.3051630434783,
+                  -99.07180082559348
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -4.454545454545454,
+                "interval95": [
+                  -11.118677966101695,
+                  1.62409674829385
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -4.454545454545454,
+                "interval95": [
+                  -10.4246740547588,
+                  1.079057017543859
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 55,
+                "clusters": 39,
+                "mean": -52.27272727272727,
+                "interval95": [
+                  -79.06677844588344,
+                  -28.19868852459017
+                ]
+              },
+              "opponent_id": {
+                "n": 55,
+                "clusters": 18,
+                "mean": -52.27272727272727,
+                "interval95": [
+                  -78.61596051464065,
+                  -23.97569444444447
+                ]
+              }
+            }
+          },
+          "win": {
+            "equipment_cost_gap_100": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 86.51162790697674,
+                "interval95": [
+                  8.997972972972972,
+                  163.4701530612245
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 86.51162790697674,
+                "interval95": [
+                  28.53369704749679,
+                  165.40736704446383
+                ]
+              }
+            },
+            "equipment_cost_gap_250": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 315.3488372093023,
+                "interval95": [
+                  120.0,
+                  502.211670480549
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 315.3488372093023,
+                "interval95": [
+                  167.60117056856186,
+                  504.37246621621597
+                ]
+              }
+            },
+            "collected_gap_100": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": -8.651162790697674,
+                "interval95": [
+                  -18.206976744186047,
+                  1.7342307692307644
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": -8.651162790697674,
+                "interval95": [
+                  -26.974406224406223,
+                  10.257386363636359
+                ]
+              }
+            },
+            "collected_gap_250": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 52.395348837209305,
+                "interval95": [
+                  -21.206475225225223,
+                  133.87980714690858
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 52.395348837209305,
+                "interval95": [
+                  -16.793125,
+                  134.48162878787875
+                ]
+              }
+            },
+            "earned_gold_gap_100": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 125.23255813953489,
+                "interval95": [
+                  29.2184866962306,
+                  219.38269817073166
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 125.23255813953489,
+                "interval95": [
+                  40.90009157509157,
+                  219.59765624999997
+                ]
+              }
+            },
+            "earned_gold_gap_250": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 347.69767441860466,
+                "interval95": [
+                  119.2156888595913,
+                  561.0071048632217
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 347.69767441860466,
+                "interval95": [
+                  150.82758408531583,
+                  569.4573437499997
+                ]
+              }
+            },
+            "banked_gap_100": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 6.325581395348837,
+                "interval95": [
+                  -10.669871794871794,
+                  24.154999999999994
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 6.325581395348837,
+                "interval95": [
+                  -8.720992083127165,
+                  28.91112745098039
+                ]
+              }
+            },
+            "banked_gap_250": {
+              "map": {
+                "n": 43,
+                "clusters": 35,
+                "mean": 26.0,
+                "interval95": [
+                  -10.620644599303136,
+                  68.33097826086953
+                ]
+              },
+              "opponent_id": {
+                "n": 43,
+                "clusters": 15,
+                "mean": 26.0,
+                "interval95": [
+                  -22.372610294117646,
+                  83.08717905405402
+                ]
+              }
+            }
+          }
+        }
+      },
+      "reserved_accounting": {
+        "All": {
+          "loss": {
+            "n": 83,
+            "final_margin": -610.1204819277109,
+            "income_margin": -509.33734939759034,
+            "preservation_margin": -66.86746987951807,
+            "carry_margin": -33.91566265060241
+          },
+          "win": {
+            "n": 77,
+            "final_margin": 611.2207792207793,
+            "income_margin": 561.4155844155844,
+            "preservation_margin": 47.675324675324674,
+            "carry_margin": 2.1298701298701297
+          }
+        },
+        "Climb": {
+          "loss": {
+            "n": 39,
+            "final_margin": -562.7948717948718,
+            "income_margin": -445.6923076923077,
+            "preservation_margin": -33.64102564102564,
+            "carry_margin": -83.46153846153847
+          },
+          "win": {
+            "n": 54,
+            "final_margin": 618.8148148148148,
+            "income_margin": 572.4444444444445,
+            "preservation_margin": 42.22222222222222,
+            "carry_margin": 4.148148148148148
+          }
+        },
+        "Learn": {
+          "loss": {
+            "n": 19,
+            "final_margin": -601.2631578947369,
+            "income_margin": -543.3684210526316,
+            "preservation_margin": -92.21052631578948,
+            "carry_margin": 34.31578947368421
+          },
+          "win": {
+            "n": 1,
+            "final_margin": 909.0,
+            "income_margin": 1056.0,
+            "preservation_margin": 76.0,
+            "carry_margin": -223.0
+          }
+        },
+        "Other": {
+          "loss": {
+            "n": 25,
+            "final_margin": -690.68,
+            "income_margin": -582.76,
+            "preservation_margin": -99.44,
+            "carry_margin": -8.48
+          },
+          "win": {
+            "n": 22,
+            "final_margin": 579.0454545454545,
+            "income_margin": 511.8636363636364,
+            "preservation_margin": 59.77272727272727,
+            "carry_margin": 7.409090909090909
+          }
+        }
+      },
+      "winner_contrast": "R100 paired inventory-cost gap: loss mean-86.7 (n191), win+90.5 (n169); map/opponent intervals in TIMELINE_DATA."
+    },
+    {
+      "id": "M4",
+      "title": "Large bags lost before conversion",
+      "status": "known-open",
+      "confidence": "association",
+      "definition": "Registered D2 high-bag native death loss>=40; card windows with such losses. A large unbanked bag is not itself a mistake.",
+      "code_location": "bots/live-69/src/bot.cpp: tribute_if_needed around4532, channel guard/recall cancellation around7005, combat-before-bank order around7280",
+      "recommended_next_step": "Fix M1 first. Test bank feasibility and interruption/escape context per carrier; do not globally lower carry65 or disable flee-attacks based on these observations.",
+      "examples": [
+        "C004",
+        "C034",
+        "C011"
+      ],
+      "evidence_file": "CARD_DATA.json",
+      "rejected_evidence": null,
+      "planning": {
+        "surrogate_coverage": 0.17059102090614753,
+        "fixability_judgment": 0.3,
+        "transfer_judgment": 0.4,
+        "effort_hours_including_fuel_risk": 8,
+        "score": 0.002558865313592213
+      },
+      "cost": {
+        "surrogate_drop_coverage": 0.17059102090614753,
+        "sample_loss_windows": 90,
+        "sample_loss_games": 65,
+        "causal_recoverable_gems": null,
+        "reason": "No identified mapping from conditional win probability to recoverable gems; event labels overlap and reflect downstream state."
+      },
+      "hands_off_scope": "M1 observable proxy, D3 and native final accounting only; all other mechanisms unconfirmed on reserved data",
+      "examined": {
+        "All": {
+          "losses": {
+            "n": 191,
+            "flagged": 103,
+            "occurrence": 0.5392670157068062,
+            "wilson95": [
+              0.4684988762750418,
+              0.6084867924362768
+            ],
+            "events": 247,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 833704,
+            "flagged_per_1000": 0.0
+          },
+          "wins": {
+            "n": 169,
+            "flagged": 51,
+            "occurrence": 0.30177514792899407,
+            "wilson95": [
+              0.2376064187264491,
+              0.3747551034618943
+            ],
+            "events": 81,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 783987,
+            "flagged_per_1000": 0.0
+          },
+          "occurrence_difference": 0.23749186777781217,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 54,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.10340557275541795,
+              0.3539817737804514
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 30,
+            "clusters_with_both_outcomes": 23,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.1606382978723404,
+              0.44202898550724645
+            ]
+          }
+        },
+        "Learn": {
+          "losses": {
+            "n": 53,
+            "flagged": 29,
+            "occurrence": 0.5471698113207547,
+            "wilson95": [
+              0.414539754871058,
+              0.6734242084707774
+            ],
+            "events": 76,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 209706,
+            "flagged_per_1000": 0.0
+          },
+          "wins": {
+            "n": 7,
+            "flagged": 2,
+            "occurrence": 0.2857142857142857,
+            "wilson95": [
+              0.08221892400405678,
+              0.6410655481673808
+            ],
+            "events": 2,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 36064,
+            "flagged_per_1000": 0.0
+          },
+          "occurrence_difference": 0.261455525606469,
+          "map_cluster": {
+            "clusters": 38,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1985,
+            "interval95": [
+              -0.20512820512820507,
+              0.6530612244897959
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1983,
+            "interval95": [
+              -0.01785714285714285,
+              0.6206896551724138
+            ]
+          }
+        },
+        "Climb": {
+          "losses": {
+            "n": 83,
+            "flagged": 38,
+            "occurrence": 0.4578313253012048,
+            "wilson95": [
+              0.35489376982070636,
+              0.5644995695466891
+            ],
+            "events": 90,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 384533,
+            "flagged_per_1000": 0.0
+          },
+          "wins": {
+            "n": 119,
+            "flagged": 38,
+            "occurrence": 0.31932773109243695,
+            "wilson95": [
+              0.24233954864250165,
+              0.40761576438609837
+            ],
+            "events": 56,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 544074,
+            "flagged_per_1000": 0.0
+          },
+          "occurrence_difference": 0.13850359420876784,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 30,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.029625779625779614,
+              0.2889463477698772
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 6,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.019230769230769218,
+              0.5510204081632653
+            ]
+          }
+        },
+        "Other": {
+          "losses": {
+            "n": 55,
+            "flagged": 36,
+            "occurrence": 0.6545454545454545,
+            "wilson95": [
+              0.5225390350756162,
+              0.7663729045791027
+            ],
+            "events": 81,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 239465,
+            "flagged_per_1000": 0.0
+          },
+          "wins": {
+            "n": 43,
+            "flagged": 11,
+            "occurrence": 0.2558139534883721,
+            "wilson95": [
+              0.14929517123808245,
+              0.40238403498846675
+            ],
+            "events": 23,
+            "flagged_champion_turns": 0,
+            "eligible_champion_turns": 203849,
+            "flagged_per_1000": 0.0
+          },
+          "occurrence_difference": 0.39873150105708244,
+          "map_cluster": {
+            "clusters": 62,
+            "clusters_with_both_outcomes": 12,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.20594965675057209,
+              0.5903846153846154
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 19,
+            "clusters_with_both_outcomes": 14,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.24404761904761907,
+              0.5868131868131868
+            ]
+          }
+        }
+      },
+      "winner_contrast": "Climb high-bag-death games38/83 losses versus38/119 wins; opponent-cluster interval crosses0. Vault loss carrier was already banking then fleeing."
+    },
+    {
+      "id": "M5",
+      "title": "Enemy receives a camp reward after our native clear",
+      "status": "known-open; confounded",
+      "confidence": "association",
+      "definition": "Registered D5 reward-to-enemy-after-native-clear event, distinct from every failed progress transition. Enemy-camp-income card label is only a broad coverage proxy.",
+      "code_location": "bots/live-69/src/bot.cpp: group job claims, capture approach/onsite completion and V69_CAPTURE_STALL; no exact faulty branch established",
+      "recommended_next_step": "No production rule established. First reproduce a handoff with exact original camp-group ID and claimant visibility; compare staying until receipt against a valid alternative within a bounded horizon.",
+      "examples": [
+        "C048",
+        "C026"
+      ],
+      "evidence_file": "DETECTOR_DATA.json",
+      "rejected_evidence": null,
+      "planning": {
+        "surrogate_coverage": 0.7049346475519536,
+        "fixability_judgment": 0.15,
+        "transfer_judgment": 0.15,
+        "effort_hours_including_fuel_risk": 12,
+        "score": 0.0013217524641599128
+      },
+      "cost": {
+        "surrogate_drop_coverage": 0.7049346475519536,
+        "sample_loss_windows": 90,
+        "sample_loss_games": 65,
+        "causal_recoverable_gems": null,
+        "reason": "No identified mapping from conditional win probability to recoverable gems; event labels overlap and reflect downstream state."
+      },
+      "hands_off_scope": "M1 observable proxy, D3 and native final accounting only; all other mechanisms unconfirmed on reserved data",
+      "examined": {
+        "All": {
+          "losses": {
+            "n": 191,
+            "flagged": 114,
+            "occurrence": 0.5968586387434555,
+            "wilson95": [
+              0.5260459035690784,
+              0.6638520792521742
+            ],
+            "events": 250,
+            "event_numerator": 250,
+            "event_denominator": 8783,
+            "event_rate": 0.028464078333143572
+          },
+          "wins": {
+            "n": 169,
+            "flagged": 82,
+            "occurrence": 0.48520710059171596,
+            "wilson95": [
+              0.4110269684978435,
+              0.5600447868893463
+            ],
+            "events": 182,
+            "event_numerator": 182,
+            "event_denominator": 9534,
+            "event_rate": 0.01908957415565345
+          },
+          "occurrence_difference": 0.1116515381517395,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 54,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.005555555555555536,
+              0.2375930521091812
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 30,
+            "clusters_with_both_outcomes": 23,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.15585275423728817,
+              0.20158532659294004
+            ]
+          },
+          "event_rate_difference": 0.009374504177490122,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 54,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.0020173926514176176,
+              0.01761845276449456
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 30,
+            "clusters_with_both_outcomes": 23,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.0023880910162988878,
+              0.014156810163114146
+            ]
+          }
+        },
+        "Learn": {
+          "losses": {
+            "n": 53,
+            "flagged": 26,
+            "occurrence": 0.49056603773584906,
+            "wilson95": [
+              0.3612424984784323,
+              0.6211647088532004
+            ],
+            "events": 54,
+            "event_numerator": 54,
+            "event_denominator": 2129,
+            "event_rate": 0.025364020666979802
+          },
+          "wins": {
+            "n": 7,
+            "flagged": 6,
+            "occurrence": 0.8571428571428571,
+            "wilson95": [
+              0.4868721707256811,
+              0.9743203756552565
+            ],
+            "events": 14,
+            "event_numerator": 14,
+            "event_denominator": 417,
+            "event_rate": 0.03357314148681055
+          },
+          "occurrence_difference": -0.36657681940700804,
+          "map_cluster": {
+            "clusters": 38,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1992,
+            "interval95": [
+              -0.6037735849056604,
+              0.08620689655172409
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1972,
+            "interval95": [
+              -0.6,
+              -0.22939068100358428
+            ]
+          },
+          "event_rate_difference": -0.008209120819830749,
+          "event_rate_map_cluster": {
+            "clusters": 38,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1990,
+            "interval95": [
+              -0.04794494019954143,
+              0.016591511936339523
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 5,
+            "clusters_with_both_outcomes": 3,
+            "valid_replicates": 1980,
+            "interval95": [
+              -0.07423400248059167,
+              0.011086960937658699
+            ]
+          }
+        },
+        "Climb": {
+          "losses": {
+            "n": 83,
+            "flagged": 52,
+            "occurrence": 0.6265060240963856,
+            "wilson95": [
+              0.5190168552955077,
+              0.7228031266023063
+            ],
+            "events": 130,
+            "event_numerator": 130,
+            "event_denominator": 4169,
+            "event_rate": 0.031182537778843847
+          },
+          "wins": {
+            "n": 119,
+            "flagged": 52,
+            "occurrence": 0.4369747899159664,
+            "wilson95": [
+              0.35120979571275196,
+              0.5266815925530388
+            ],
+            "events": 118,
+            "event_numerator": 118,
+            "event_denominator": 6886,
+            "event_rate": 0.017136218414173687
+          },
+          "occurrence_difference": 0.18953123418041917,
+          "map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 30,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.04749635935924723,
+              0.3378107457898958
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 6,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.3418604651162791,
+              0.28
+            ]
+          },
+          "event_rate_difference": 0.01404631936467016,
+          "event_rate_map_cluster": {
+            "clusters": 70,
+            "clusters_with_both_outcomes": 30,
+            "valid_replicates": 2000,
+            "interval95": [
+              0.0034095497055160393,
+              0.02729225568567146
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 6,
+            "clusters_with_both_outcomes": 6,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.005497748437021815,
+              0.01732701670992026
+            ]
+          }
+        },
+        "Other": {
+          "losses": {
+            "n": 55,
+            "flagged": 36,
+            "occurrence": 0.6545454545454545,
+            "wilson95": [
+              0.5225390350756162,
+              0.7663729045791027
+            ],
+            "events": 66,
+            "event_numerator": 66,
+            "event_denominator": 2485,
+            "event_rate": 0.026559356136820925
+          },
+          "wins": {
+            "n": 43,
+            "flagged": 24,
+            "occurrence": 0.5581395348837209,
+            "wilson95": [
+              0.41107614452824104,
+              0.6956669016082949
+            ],
+            "events": 50,
+            "event_numerator": 50,
+            "event_denominator": 2231,
+            "event_rate": 0.022411474675033616
+          },
+          "occurrence_difference": 0.09640591966173362,
+          "map_cluster": {
+            "clusters": 62,
+            "clusters_with_both_outcomes": 12,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.15217391304347827,
+              0.3148148148148148
+            ]
+          },
+          "opponent_cluster": {
+            "clusters": 19,
+            "clusters_with_both_outcomes": 14,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.11444444444444446,
+              0.2816500711237554
+            ]
+          },
+          "event_rate_difference": 0.004147881461787309,
+          "event_rate_map_cluster": {
+            "clusters": 62,
+            "clusters_with_both_outcomes": 12,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.007496357593574848,
+              0.01567038507159641
+            ]
+          },
+          "event_rate_opponent_cluster": {
+            "clusters": 19,
+            "clusters_with_both_outcomes": 14,
+            "valid_replicates": 2000,
+            "interval95": [
+              -0.005340332769396602,
+              0.011955281336219335
+            ]
+          }
+        }
+      },
+      "winner_contrast": "Climb52/83 losses versus52/119 wins; opponent-cluster interval crosses0. No exact same-state winner experiment."
+    }
+  ],
+  "ranking": [
+    "M3",
+    "M1",
+    "M4",
+    "M5",
+    "M2"
+  ]
+}

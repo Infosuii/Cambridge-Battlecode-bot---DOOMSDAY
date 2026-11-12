@@ -1,0 +1,174 @@
+{
+  "status": "frozen before source-vs-puppet runs",
+  "cases": 12,
+  "losses": 10,
+  "control_wins": 2,
+  "hands_off_used": 0,
+  "source": "byte-exact local copy of bots/live-69/src; server Wasm hash unavailable",
+  "sequence": [
+    "validate raw accepted-input parser against five excluded calibration games by API reapplication/replay bytes and every-round state hashes",
+    "check compiled puppets against original states",
+    "run frozen source against enemy puppet on exact map/side",
+    "record first differing round, including draft; trace conclusions stop at first divergence",
+    "only then trace effective knobs and candidate takeovers"
+  ],
+  "state_hash": "banked, physical champion IDs/types/teams/position/alive/health/max health/gold/gems/kills/items/consumables/channel/timers; camps and capture-group state",
+  "rows": [
+    {
+      "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+      "map": "02guardians",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C004",
+      "window": [
+        1700,
+        1712
+      ]
+    },
+    {
+      "match_id": "b495a4c0-a795-4774-9a9f-c712bc33d708",
+      "map": "00vault",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C034",
+      "window": [
+        133,
+        143
+      ]
+    },
+    {
+      "match_id": "503221be-c6b7-4736-be77-acf298bd16f5",
+      "map": "02treasure_box",
+      "cohort": "Other",
+      "opponent": "prism best girl",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C070",
+      "window": [
+        390,
+        400
+      ]
+    },
+    {
+      "match_id": "956be22e-1c55-4738-8384-07fb1ce95e05",
+      "map": "00corners",
+      "cohort": "Other",
+      "opponent": "\u5251\u6865\u591c\u722c\u8005",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C082",
+      "window": [
+        725,
+        735
+      ]
+    },
+    {
+      "match_id": "76e42a16-7524-4b71-8052-531b8052541b",
+      "map": "00galaxy",
+      "cohort": "Climb",
+      "opponent": "Univardisty of Shingtonwash",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C018",
+      "window": [
+        350,
+        365
+      ]
+    },
+    {
+      "match_id": "a5a33396-7620-4844-a113-f06b8c12a769",
+      "map": "00dunes",
+      "cohort": "Climb",
+      "opponent": "Univardisty of Shingtonwash",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C030",
+      "window": [
+        296,
+        307
+      ]
+    },
+    {
+      "match_id": "2db20b4a-fe1e-49cb-a4fe-6c33c886943e",
+      "map": "00galaxy",
+      "cohort": "Learn",
+      "opponent": "Intercontinental Fish",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C048",
+      "window": [
+        480,
+        495
+      ]
+    },
+    {
+      "match_id": "c5fd2e3d-e990-4732-aac6-960f45a6e5eb",
+      "map": "00dunes",
+      "cohort": "Learn",
+      "opponent": "newer team",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C060",
+      "window": [
+        95,
+        105
+      ]
+    },
+    {
+      "match_id": "51ce7c28-56c9-475f-9ccd-999c5e06b0f9",
+      "map": "02the_pond",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "b",
+      "card_id": "C011",
+      "window": [
+        461,
+        473
+      ]
+    },
+    {
+      "match_id": "8ebca548-42d4-481b-8e7c-85290fc7fb6c",
+      "map": "00ambush",
+      "cohort": "Climb",
+      "opponent": "error404",
+      "result": "loss",
+      "side": "a",
+      "card_id": "C026",
+      "window": [
+        577,
+        589
+      ]
+    },
+    {
+      "match_id": "f6949d45-e140-4de1-85df-de7dc60fc25e",
+      "map": "00packs",
+      "cohort": "Climb",
+      "opponent": "Rogue Lock Pickers",
+      "result": "win",
+      "side": "b",
+      "card_id": "C099",
+      "window": [
+        32,
+        42
+      ]
+    },
+    {
+      "match_id": "1d769695-04a8-402a-86d7-b3e4ccf9e270",
+      "map": "00vault",
+      "cohort": "Other",
+      "opponent": "\ud80c\udfbc\ud80c\udced\ud80c\udd71\ud80c\udc8b\ud80c\uddcc \ud80c\udfcf\ud80c\udd71 \ud80c\udc8b\ud80c\udd3f",
+      "result": "win",
+      "side": "a",
+      "card_id": "matched-C034-control",
+      "window": [
+        150,
+        160
+      ]
+    }
+  ]
+}

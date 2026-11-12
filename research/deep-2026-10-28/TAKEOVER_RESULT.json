@@ -1,0 +1,298 @@
+{
+  "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+  "case": "M1-winning-bag-disabled-bank-recall",
+  "evidence": "bounded causal diagnostic of decision rule only; not ladder/full-game effect",
+  "takeover_round": 1669,
+  "first_input_divergence": {
+    "input": 27166,
+    "round": 1669,
+    "actor": 1,
+    "expected_action": 7,
+    "actual_action": null
+  },
+  "first_state_divergence": {
+    "sample": "round:1669",
+    "round": 1669,
+    "expected_input": 27182,
+    "actual_input": 27179,
+    "changed_champion_fields": [
+      {
+        "champion": 1,
+        "field": "timer",
+        "expected": 4,
+        "actual": 3
+      }
+    ],
+    "expected_banked": [
+      "280",
+      "178"
+    ],
+    "actual_banked": [
+      "280",
+      "178"
+    ]
+  },
+  "warm_input_prefix_identical": true,
+  "warm_round_states_identical": true,
+  "first_enemy_script_rejection_round": 1701,
+  "valid_horizon_end": 1678,
+  "assertion_window": [
+    1669,
+    1672
+  ],
+  "baseline_restart_pair_rounds": [
+    1669,
+    1670,
+    1671,
+    1672
+  ],
+  "diagnostic_restart_pair_rounds": [],
+  "baseline_fails_assertion": true,
+  "diagnostic_passes_assertion": true,
+  "observations_within_valid_horizon": [
+    {
+      "r": 1668,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 10
+      },
+      "hp": 1296.4005126953125,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 1,
+      "timer": 4,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1669,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 10
+      },
+      "hp": 1296.4005126953125,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 1,
+      "timer": 3,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1670,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 10
+      },
+      "hp": 1296.4005126953125,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 1,
+      "timer": 2,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1671,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 10
+      },
+      "hp": 1296.4005126953125,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 1,
+      "timer": 1,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1672,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 10
+      },
+      "hp": 1296.4005126953125,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 1,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1673,
+      "id": 1,
+      "p": {
+        "x": 19,
+        "y": 0
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1674,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 1
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1675,
+      "id": 1,
+      "p": {
+        "x": 21,
+        "y": 2
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1676,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 3
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1677,
+      "id": 1,
+      "p": {
+        "x": 21,
+        "y": 4
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    },
+    {
+      "r": 1678,
+      "id": 1,
+      "p": {
+        "x": 20,
+        "y": 5
+      },
+      "hp": 5500,
+      "bag": 736,
+      "gold": 20,
+      "alive": true,
+      "channel": 0,
+      "timer": 0,
+      "banked": [
+        "280",
+        "178"
+      ]
+    }
+  ],
+  "diagnostic_wasm_sha256": "b690984e6ab1a23bd953bed92a15845a17ab5baa7bbcd60d5ad2be869c487843",
+  "source_identity": {
+    "plan_sha256": "49f12f44cd3d5bbf310140c0377f89a0f449b99c472994cc5b2f135016ee4685",
+    "source_hashes": {
+      "a2map.h": "84ca0c4aaef77d3c40a13b0c61d87739ba1b6e41314f437eddf949166b9ee8c1",
+      "act_model.h": "d4648c6b07b7d3ddabd2ddb403fa7d87784cf2a10465ffdfe96360111025954b",
+      "assess_model.h": "fd1de3478ea80021013ac69265da14e55b3d1e660a777d67a3de35e8a103a27a",
+      "bot.cpp": "51a6006a474764e9c4c5ef4e4c909f97f0723df4dcb547bcc5bfff29b00c1d28",
+      "bot.h": "f9e8ca3989733701408aa87a6293c84ef7d8012f750148eb751d4a2e2158ec61",
+      "common.h": "007257166c8ec06332d3fb1ba6e76b966324063cb4147315a393eb6d19346ec2",
+      "deny.cpp": "b5351989381817b4affc45fd133b92d05797f3382e1f76c87147fec87e164938",
+      "draft.cpp": "79527bf33fe56b97e72b37d321443d08e96e55725abcfce15f41ac7e4787a2ac",
+      "draft.h": "4db561906ba3464fcdc32a4021a5726bfb1a92d8944c9ce2757a6e05e413c095",
+      "draft_net.h": "51d92f70f34eb127312651b068b2d0dc52db14d844831222d16abec410806d1d",
+      "economy.cpp": "2bccddf8ef472d52cd955dcc3e43bde17ec8e9d426269730146c75044aa25b1a",
+      "episode.cpp": "cc7717533127ff6bfd6287494b24811211f0e0b515138c59f21585608d7d6bcd",
+      "ep_model.h": "b623e7562ef2e9a7e474dfee7f1a9756195caf6714017cda531835a40ea0fc1b",
+      "fight.cpp": "549336757c0642f058e4dc8e9b494110b8655d1945268b058e245cb60303dd0b",
+      "fight.h": "4ae5a21e48ce95d07632c76af5aa880aaee10ec665d859eeba5ac70ee8979d4a",
+      "lab.h": "56c26d60297744da3a353d125238f2b60064d3e26120cb80b5450380d8dd4ff4",
+      "learner.h": "6990b9c9ad1bab412daaa2d8b28d0d58cf7f24eaac97d0aac3fa298aac8ded29",
+      "local_model.h": "a92011970a96592d26f14fe2721d37cd1e302baa1e0d76192049a15887feeda3",
+      "main.cpp": "65992e90ab2dd1eda6c9cc97182da0038a1e216924a567e6a3257943fa45b38a",
+      "ml_plan.h": "b22b4213858168e4b1b563f6c04bb4e76c5af594add18e32500eb07c3201aeb5",
+      "move_model.h": "4f61a9c92c9abfc955820a79084ca7f1b6aa48d441e57096a03836287655249b",
+      "neural_policy.cpp": "7e47857cd7a7b9212379f3edf7adfe94e1f3b038aa683a2ff93f614055d6fa36",
+      "neural_policy.h": "aa2488f08f6fff5df20bd402972b91204517ed875fb701d40e1d297418e2013a",
+      "neural_weights.h": "5fec0f2e025a1c4a6329782d0ac740bcc2fc158a8e642efc61d292694dae3f83",
+      "pressure.cpp": "cd0c84d43df1144a35a3ba0fd3e942f635cb07f07522732483ba458a075b37d6",
+      "runtime_budget.h": "dc614d94b1920b79b1d5152e11193aa8a6e3019e3cfd2cc0e104ecfed28fcdf2",
+      "strategy.h": "03b3912328cdaaec50890137b9da866162bab5974c9254a96e94fd1f5277730b",
+      "tactics.cpp": "bf0538f7a7880fb379554f561e65faae79d1f0b24854ec599fcd92da6ebb4eb6",
+      "tile_model.h": "c0963cf2cf6fcac042a1db8879cf2ac3a8a368a0096b47ca45959902d210c9c4",
+      "tsearch.cpp": "78d6f9989474067f23df47ae0e6daf1f70a2275db67750be593270bbdf801abd",
+      "tsearch.h": "670c6d6e84ca25dd64c8aa09a374e8987c662d849e8d85dc81f8cfb2c5831a93",
+      "world.cpp": "e1b8bda73ee2d5fbee2d1ad754f6129ae57a248daeebdc172bc109f14d4beaeb",
+      "world.h": "36dc8f9010aa5fab61055133fbf012a7396e089fcd470f65709ef67ee1528038"
+    },
+    "scope": "actor1,R>=1669, local diagnostic only"
+  },
+  "outcome_ignored": true,
+  "limits": [
+    "Only the cancellation inconsistency is tested.",
+    "Enemy actions are fixed and cannot respond; no result beyond the bounded horizon is interpreted.",
+    "A future production fix must pass full benchmark and held-out gates."
+  ]
+}

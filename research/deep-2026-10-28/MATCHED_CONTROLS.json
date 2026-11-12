@@ -1,0 +1,5559 @@
+{
+  "method": "fixed-scale Euclidean distance on ten pre-state features plus 2*round progress; prefer same map within distance2.5, else global within2.5; winners selected on final outcome",
+  "limits": "No causal control: opponent/draft/latent memory and survivor selection remain; controls can repeat. Native events/action counts are observed ten-round follow-up, not prescription.",
+  "coverage": {
+    "own_win": {
+      "matched": 101,
+      "same_map": 77,
+      "distinct_games": 67
+    },
+    "top_winner": {
+      "matched": 96,
+      "same_map": 32,
+      "distinct_games": 23
+    }
+  },
+  "rows": [
+    {
+      "card_id": "C001",
+      "controls": {
+        "own_win": {
+          "match_id": "99581e2b-198f-4bb9-9ea2-d2c511096111",
+          "map": "00expanse",
+          "r": 1060,
+          "own_side": 1,
+          "distance": 1.032790614595789,
+          "same_map": false,
+          "end": 1070,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 8,
+            "move": 40,
+            "priority": 11,
+            "attack": 11
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 720,
+          "own_side": 1,
+          "distance": 1.5256977405946697,
+          "same_map": false,
+          "end": 730,
+          "banked_change": 37,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 10,
+            "priority": 13,
+            "move": 45,
+            "cast": 6,
+            "movement_blocked": 1,
+            "ward": 1,
+            "bank_start": 1,
+            "recall": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C002",
+      "controls": {
+        "own_win": {
+          "match_id": "1787ce95-4b4b-4cd4-be33-e229fc012394",
+          "map": "00lost_world",
+          "r": 450,
+          "own_side": 1,
+          "distance": 2.2658690883837584,
+          "same_map": true,
+          "end": 460,
+          "banked_change": 0,
+          "collected_change": 17,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 37,
+            "priority": 24,
+            "attack": 10,
+            "cast": 2,
+            "movement_blocked": 1,
+            "ward": 3,
+            "recall": 1
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 3,
+            "kill": 1,
+            "gemCollection": 2,
+            "assist": 4
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 320,
+          "own_side": 1,
+          "distance": 1.675519367328831,
+          "same_map": false,
+          "end": 330,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 510,
+          "actions": {
+            "attack": 29,
+            "cast": 9,
+            "move": 27,
+            "movement_blocked": 4,
+            "ward": 2,
+            "priority": 3,
+            "buy": 4,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "buyItem": 4,
+            "itemCombination": 3,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C003",
+      "controls": {
+        "own_win": {
+          "match_id": "4dd329db-a27e-4e68-96c2-283a084e8a1b",
+          "map": "00quarry",
+          "r": 260,
+          "own_side": 1,
+          "distance": 0.639030257612373,
+          "same_map": true,
+          "end": 270,
+          "banked_change": 0,
+          "collected_change": 32,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "cast": 6,
+            "move": 21,
+            "attack": 11,
+            "priority": 18,
+            "recall": 1,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "buyItem": 1,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 580,
+          "own_side": 1,
+          "distance": 0.9442876021450635,
+          "same_map": true,
+          "end": 590,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "move": 22,
+            "movement_blocked": 6,
+            "priority": 16,
+            "buy": 1,
+            "attack": 2,
+            "cast": 3,
+            "recall": 1
+          },
+          "native_events": {
+            "buyItem": 1,
+            "campClear": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C004",
+      "controls": {
+        "own_win": null,
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C005",
+      "controls": {
+        "own_win": null,
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C006",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 450,
+          "own_side": 0,
+          "distance": 0.5977281576698074,
+          "same_map": false,
+          "end": 460,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 6,
+            "move": 40,
+            "attack": 3
+          },
+          "native_events": {
+            "gemCollection": 3,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 520,
+          "own_side": 1,
+          "distance": 0.6694977629932625,
+          "same_map": false,
+          "end": 530,
+          "banked_change": 0,
+          "collected_change": 29,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 32,
+            "move": 25,
+            "recall": 48,
+            "attack": 25,
+            "cast": 9,
+            "priority": 10,
+            "ward": 3
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 3,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C007",
+      "controls": {
+        "own_win": {
+          "match_id": "3aaa7624-bd0f-49fe-a320-25486dba73de",
+          "map": "00expanse",
+          "r": 950,
+          "own_side": 1,
+          "distance": 0.8089570582335548,
+          "same_map": false,
+          "end": 960,
+          "banked_change": 15,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 37,
+            "move": 18,
+            "bank_start": 1,
+            "bank_complete": 1,
+            "cast": 5
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "c4266fa9-307b-42e0-8d0e-f379c6411ebd",
+          "map": "00packs",
+          "r": 1120,
+          "own_side": 0,
+          "distance": 1.414664618076268,
+          "same_map": false,
+          "end": 1130,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 7,
+            "move": 9,
+            "priority": 7,
+            "recall": 9,
+            "cast": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C008",
+      "controls": {
+        "own_win": {
+          "match_id": "4bdcd83a-4fca-4c7b-8465-c584926d016e",
+          "map": "01broken_curve",
+          "r": 370,
+          "own_side": 0,
+          "distance": 0.7899197708554355,
+          "same_map": true,
+          "end": 380,
+          "banked_change": 17,
+          "collected_change": 17,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 6,
+            "priority": 4,
+            "cast": 4,
+            "attack": 13,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "gemSubmission": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 350,
+          "own_side": 1,
+          "distance": 0.6007314620850044,
+          "same_map": false,
+          "end": 360,
+          "banked_change": 96,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 15,
+            "priority": 12,
+            "move": 25,
+            "cast": 7,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C009",
+      "controls": {
+        "own_win": {
+          "match_id": "c1f422e2-f562-452b-a33a-2f1951ce8cb8",
+          "map": "00collision",
+          "r": 620,
+          "own_side": 0,
+          "distance": 0.36794220217553236,
+          "same_map": true,
+          "end": 630,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "move": 9,
+            "priority": 8,
+            "attack": 11,
+            "cast": 3,
+            "recall": 2,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "kill": 1,
+            "assist": 1,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 470,
+          "own_side": 0,
+          "distance": 0.6238185842900006,
+          "same_map": true,
+          "end": 480,
+          "banked_change": 0,
+          "collected_change": 27,
+          "lost_change": 0,
+          "equipment_change": 240,
+          "actions": {
+            "priority": 8,
+            "recall": 1,
+            "move": 13,
+            "buy": 3,
+            "attack": 2,
+            "cast": 3
+          },
+          "native_events": {
+            "gemCollection": 3,
+            "buyItem": 3,
+            "campClear": 1,
+            "itemCombination": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C010",
+      "controls": {
+        "own_win": {
+          "match_id": "c123131b-e43d-496a-8b00-a1a0820e4f1d",
+          "map": "00collision",
+          "r": 240,
+          "own_side": 0,
+          "distance": 1.4752048423677309,
+          "same_map": true,
+          "end": 250,
+          "banked_change": 8,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 21,
+            "priority": 20,
+            "bank_start": 1,
+            "cast": 4,
+            "attack": 16,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 900,
+          "own_side": 0,
+          "distance": 1.1979391851961156,
+          "same_map": true,
+          "end": 910,
+          "banked_change": 21,
+          "collected_change": 21,
+          "lost_change": 0,
+          "equipment_change": 240,
+          "actions": {
+            "priority": 4,
+            "move": 14,
+            "bank_start": 1,
+            "buy": 2,
+            "attack": 17,
+            "cast": 6,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 2,
+            "itemCombination": 2,
+            "gemSubmission": 1,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C011",
+      "controls": {
+        "own_win": {
+          "match_id": "e498452a-6943-4213-8288-9650b13abfd2",
+          "map": "02the_pond",
+          "r": 40,
+          "own_side": 0,
+          "distance": 1.9798262823684183,
+          "same_map": true,
+          "end": 50,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 13,
+            "attack": 12,
+            "cast": 4,
+            "priority": 5,
+            "recall": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 530,
+          "own_side": 0,
+          "distance": 0.9088495408823044,
+          "same_map": false,
+          "end": 540,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 10,
+            "attack": 21,
+            "cast": 5
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C012",
+      "controls": {
+        "own_win": {
+          "match_id": "f0ce9a09-3822-4eff-97ae-bdc178197b42",
+          "map": "01concentrated_wealth",
+          "r": 110,
+          "own_side": 1,
+          "distance": 0.4688269678390615,
+          "same_map": true,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "priority": 18,
+            "move": 20,
+            "attack": 3,
+            "cast": 1
+          },
+          "native_events": {
+            "death": 1,
+            "gemLoss": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 350,
+          "own_side": 1,
+          "distance": 0.3093887975651644,
+          "same_map": false,
+          "end": 360,
+          "banked_change": 96,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 15,
+            "priority": 12,
+            "move": 25,
+            "cast": 7,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C013",
+      "controls": {
+        "own_win": {
+          "match_id": "46cf90a0-3877-47e6-8686-cd50505c2e46",
+          "map": "02crossing",
+          "r": 160,
+          "own_side": 0,
+          "distance": 1.6000437080233672,
+          "same_map": true,
+          "end": 170,
+          "banked_change": 22,
+          "collected_change": 11,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 22,
+            "ward": 1,
+            "cast": 7,
+            "priority": 4,
+            "attack": 26,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemCollection": 1,
+            "campClear": 1,
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 360,
+          "own_side": 0,
+          "distance": 0.7072124064044747,
+          "same_map": false,
+          "end": 370,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 29,
+            "move": 20,
+            "priority": 12,
+            "recall": 29,
+            "attack": 4,
+            "cast": 4
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C014",
+      "controls": {
+        "own_win": {
+          "match_id": "3a748198-07b2-457f-8167-c766d1c25369",
+          "map": "adgato_gemcombat4",
+          "r": 470,
+          "own_side": 0,
+          "distance": 0.9973852320273845,
+          "same_map": false,
+          "end": 480,
+          "banked_change": 0,
+          "collected_change": 63,
+          "lost_change": 63,
+          "equipment_change": 90,
+          "actions": {
+            "move": 14,
+            "priority": 16,
+            "cast": 7,
+            "attack": 22,
+            "buy": 1
+          },
+          "native_events": {
+            "death": 2,
+            "gemLoss": 2,
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 4,
+            "buyItem": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "63bd63d1-c3ec-41ab-94d7-7af613262eff",
+          "map": "00anvil",
+          "r": 500,
+          "own_side": 1,
+          "distance": 1.104672004077843,
+          "same_map": false,
+          "end": 510,
+          "banked_change": 26,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "attack": 4,
+            "recall": 12,
+            "cancel_channel": 8,
+            "move": 12,
+            "cast": 2,
+            "ward": 1,
+            "priority": 5,
+            "altar_lock": 1,
+            "bank_start": 1,
+            "buy": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 1,
+            "gemCollection": 1,
+            "buyItem": 1,
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C015",
+      "controls": {
+        "own_win": {
+          "match_id": "c1f422e2-f562-452b-a33a-2f1951ce8cb8",
+          "map": "00collision",
+          "r": 710,
+          "own_side": 0,
+          "distance": 0.5661157116801883,
+          "same_map": false,
+          "end": 720,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 4,
+            "move": 17,
+            "priority": 7,
+            "cast": 3
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 470,
+          "own_side": 0,
+          "distance": 0.9107808106455924,
+          "same_map": false,
+          "end": 480,
+          "banked_change": 0,
+          "collected_change": 16,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 36,
+            "priority": 4,
+            "cast": 1
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C016",
+      "controls": {
+        "own_win": {
+          "match_id": "5eee098d-3bee-42e8-9ed8-9063ddbe58d7",
+          "map": "00quadrants",
+          "r": 210,
+          "own_side": 0,
+          "distance": 1.0731626271652546,
+          "same_map": true,
+          "end": 220,
+          "banked_change": 4,
+          "collected_change": 51,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "move": 22,
+            "buy": 3,
+            "priority": 3,
+            "attack": 26,
+            "cast": 8,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "campClear": 1,
+            "buyConsumable": 1,
+            "gemSubmission": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f0fe0c14-2109-4b69-8b39-820d51da9932",
+          "map": "00crater",
+          "r": 70,
+          "own_side": 0,
+          "distance": 1.2828590180012769,
+          "same_map": false,
+          "end": 80,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "cancel_channel": 47,
+            "move": 49,
+            "recall": 49,
+            "cast": 7,
+            "buy": 1,
+            "priority": 2,
+            "ward": 5,
+            "attack": 3
+          },
+          "native_events": {
+            "buyItem": 1,
+            "wardPlacement": 5
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C017",
+      "controls": {
+        "own_win": {
+          "match_id": "b83026f1-4aca-4841-8c03-ea1aabfa8081",
+          "map": "00quadrants",
+          "r": 10,
+          "own_side": 0,
+          "distance": 1.2381679993686765,
+          "same_map": true,
+          "end": 20,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 2,
+            "move": 40
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 470,
+          "own_side": 1,
+          "distance": 0.9784546038052075,
+          "same_map": false,
+          "end": 480,
+          "banked_change": 11,
+          "collected_change": 11,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 48,
+            "move": 45,
+            "recall": 48,
+            "attack": 1,
+            "cast": 3,
+            "ward": 3,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 3,
+            "gemCollection": 1,
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C018",
+      "controls": {
+        "own_win": {
+          "match_id": "720c3068-b251-4cf0-84d8-228799eaf5b0",
+          "map": "00galaxy",
+          "r": 190,
+          "own_side": 1,
+          "distance": 1.1457905734355247,
+          "same_map": true,
+          "end": 200,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "priority": 8,
+            "move": 39,
+            "cast": 5,
+            "attack": 18
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f1410baa-195e-4ab5-b522-af860054c2b7",
+          "map": "00galaxy",
+          "r": 510,
+          "own_side": 0,
+          "distance": 1.2898625308161282,
+          "same_map": true,
+          "end": 520,
+          "banked_change": 0,
+          "collected_change": 21,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 43,
+            "move": 41,
+            "recall": 49,
+            "cast": 10,
+            "priority": 14,
+            "ward": 2,
+            "attack": 5
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "gemCollection": 2,
+            "kill": 1,
+            "assist": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C019",
+      "controls": {
+        "own_win": {
+          "match_id": "7e44d1af-88cc-491e-a4dd-6b8c2c962fab",
+          "map": "00monolith",
+          "r": 120,
+          "own_side": 0,
+          "distance": 0.35120461457105034,
+          "same_map": true,
+          "end": 130,
+          "banked_change": 0,
+          "collected_change": 11,
+          "lost_change": 0,
+          "equipment_change": 330,
+          "actions": {
+            "cast": 5,
+            "move": 39,
+            "buy": 5,
+            "attack": 5
+          },
+          "native_events": {
+            "buyItem": 3,
+            "gemCollection": 2,
+            "itemCombination": 1,
+            "campClear": 1,
+            "buyConsumable": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "77610d11-e05a-446a-b093-e026521d8212",
+          "map": "00dunes",
+          "r": 190,
+          "own_side": 0,
+          "distance": 0.4123761372994982,
+          "same_map": false,
+          "end": 200,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 29,
+            "move": 42,
+            "recall": 40,
+            "cast": 6,
+            "priority": 7,
+            "ward": 1,
+            "attack": 5
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C020",
+      "controls": {
+        "own_win": {
+          "match_id": "7eb62f62-1b48-4316-a100-b369a2857588",
+          "map": "00corners",
+          "r": 400,
+          "own_side": 0,
+          "distance": 1.3446818540027978,
+          "same_map": true,
+          "end": 410,
+          "banked_change": 35,
+          "collected_change": 23,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "attack": 15,
+            "bank_complete": 2,
+            "move": 36,
+            "priority": 16,
+            "buy": 1,
+            "bank_start": 2,
+            "cast": 4
+          },
+          "native_events": {
+            "gemSubmission": 2,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 530,
+          "own_side": 0,
+          "distance": 0.8400907570880182,
+          "same_map": true,
+          "end": 540,
+          "banked_change": 8,
+          "collected_change": 67,
+          "lost_change": 0,
+          "equipment_change": 270,
+          "actions": {
+            "cancel_channel": 38,
+            "attack": 15,
+            "recall": 41,
+            "cast": 8,
+            "move": 28,
+            "bank_start": 2,
+            "priority": 7,
+            "bank_complete": 1,
+            "buy": 2,
+            "ward": 1
+          },
+          "native_events": {
+            "gemCollection": 3,
+            "campClear": 2,
+            "gemSubmission": 1,
+            "buyItem": 2,
+            "itemCombination": 2,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C021",
+      "controls": {
+        "own_win": {
+          "match_id": "7eb62f62-1b48-4316-a100-b369a2857588",
+          "map": "00corners",
+          "r": 400,
+          "own_side": 0,
+          "distance": 1.2011769063830637,
+          "same_map": true,
+          "end": 410,
+          "banked_change": 35,
+          "collected_change": 23,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "attack": 15,
+            "bank_complete": 2,
+            "move": 36,
+            "priority": 16,
+            "buy": 1,
+            "bank_start": 2,
+            "cast": 4
+          },
+          "native_events": {
+            "gemSubmission": 2,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 440,
+          "own_side": 0,
+          "distance": 1.372938019008546,
+          "same_map": true,
+          "end": 450,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 39,
+            "move": 33,
+            "recall": 46,
+            "attack": 9,
+            "priority": 19,
+            "cast": 4,
+            "ward": 2
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C022",
+      "controls": {
+        "own_win": {
+          "match_id": "720c3068-b251-4cf0-84d8-228799eaf5b0",
+          "map": "00galaxy",
+          "r": 110,
+          "own_side": 1,
+          "distance": 0.2911986175572238,
+          "same_map": false,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 37,
+            "attack": 11,
+            "cast": 5,
+            "priority": 9
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 140,
+          "own_side": 0,
+          "distance": 0.39023003185486616,
+          "same_map": false,
+          "end": 150,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cancel_channel": 41,
+            "move": 29,
+            "recall": 48,
+            "ward": 4,
+            "attack": 10,
+            "priority": 3,
+            "cast": 4,
+            "buy": 1
+          },
+          "native_events": {
+            "wardPlacement": 4,
+            "gemCollection": 1,
+            "buyItem": 1,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C023",
+      "controls": {
+        "own_win": {
+          "match_id": "ed588203-6f6d-4ae2-bb86-40e8a63e3a9d",
+          "map": "02harvest",
+          "r": 410,
+          "own_side": 1,
+          "distance": 1.5299760283232835,
+          "same_map": true,
+          "end": 420,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "cast": 8,
+            "move": 23,
+            "attack": 25,
+            "priority": 9,
+            "buy": 2,
+            "bank_start": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "buyConsumable": 1,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "campClear": 1,
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 450,
+          "own_side": 1,
+          "distance": 1.6008453179244788,
+          "same_map": true,
+          "end": 460,
+          "banked_change": 0,
+          "collected_change": 11,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "attack": 7,
+            "recall": 43,
+            "move": 40,
+            "buy": 1,
+            "priority": 2,
+            "cancel_channel": 41,
+            "cast": 6,
+            "ward": 3,
+            "movement_blocked": 1,
+            "bank_start": 1
+          },
+          "native_events": {
+            "buyItem": 1,
+            "wardPlacement": 3,
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C024",
+      "controls": {
+        "own_win": {
+          "match_id": "17282444-d44b-4e35-badb-e8c513b2d95d",
+          "map": "02harvest",
+          "r": 520,
+          "own_side": 1,
+          "distance": 1.3982741977633217,
+          "same_map": true,
+          "end": 530,
+          "banked_change": 12,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "bank_complete": 1,
+            "cast": 6,
+            "move": 47,
+            "buy": 2,
+            "ward": 3
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 3
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 710,
+          "own_side": 1,
+          "distance": 1.4633268081822546,
+          "same_map": true,
+          "end": 720,
+          "banked_change": 21,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "cancel_channel": 40,
+            "move": 41,
+            "recall": 46,
+            "ward": 3,
+            "bank_complete": 1,
+            "buy": 2,
+            "cast": 5,
+            "priority": 3,
+            "attack": 6
+          },
+          "native_events": {
+            "wardPlacement": 3,
+            "gemSubmission": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C025",
+      "controls": {
+        "own_win": {
+          "match_id": "4eb355d7-d5db-45cd-9f64-cd5d46e976b9",
+          "map": "00ambush",
+          "r": 420,
+          "own_side": 1,
+          "distance": 0.7929726577984894,
+          "same_map": true,
+          "end": 430,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 15,
+            "move": 44,
+            "cast": 6,
+            "priority": 8,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5101f4a7-1053-4e11-a36a-8db3b6412706",
+          "map": "00contest",
+          "r": 510,
+          "own_side": 0,
+          "distance": 0.6249639989279382,
+          "same_map": false,
+          "end": 520,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 48,
+            "move": 41,
+            "recall": 48,
+            "attack": 6,
+            "cast": 4,
+            "movement_blocked": 2
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C026",
+      "controls": {
+        "own_win": {
+          "match_id": "4eb355d7-d5db-45cd-9f64-cd5d46e976b9",
+          "map": "00ambush",
+          "r": 520,
+          "own_side": 1,
+          "distance": 0.4890693487539649,
+          "same_map": true,
+          "end": 530,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 48,
+            "cast": 5,
+            "movement_blocked": 7,
+            "priority": 4
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "bdec3b65-c20c-4dd8-aaa8-4a6be77b688f",
+          "map": "02arena",
+          "r": 240,
+          "own_side": 0,
+          "distance": 0.8421712904112396,
+          "same_map": false,
+          "end": 250,
+          "banked_change": 62,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "bank_complete": 1,
+            "priority": 19,
+            "move": 26,
+            "cast": 8,
+            "attack": 5,
+            "ward": 1,
+            "movement_blocked": 2
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C027",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 280,
+          "own_side": 0,
+          "distance": 1.2857430407647557,
+          "same_map": true,
+          "end": 290,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 50,
+            "ward": 2,
+            "cast": 3,
+            "movement_blocked": 5
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "716f068b-5410-474c-8fe8-52681c73375e",
+          "map": "00road_of_riches",
+          "r": 230,
+          "own_side": 0,
+          "distance": 1.7137096018141462,
+          "same_map": true,
+          "end": 240,
+          "banked_change": 29,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "move": 15,
+            "attack": 29,
+            "cast": 6,
+            "bank_start": 1,
+            "bank_complete": 1,
+            "recall": 2,
+            "priority": 1,
+            "movement_blocked": 1,
+            "ward": 1,
+            "buy": 2
+          },
+          "native_events": {
+            "campClear": 3,
+            "gemSubmission": 1,
+            "wardPlacement": 1,
+            "gemCollection": 1,
+            "buyConsumable": 1,
+            "buyItem": 1,
+            "itemCombination": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C028",
+      "controls": {
+        "own_win": {
+          "match_id": "2862b40e-4bb7-405d-84df-1447cb79913a",
+          "map": "00contest",
+          "r": 210,
+          "own_side": 1,
+          "distance": 0.3954434501491082,
+          "same_map": false,
+          "end": 220,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 44,
+            "cast": 9,
+            "attack": 11,
+            "priority": 14,
+            "ward": 1
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 430,
+          "own_side": 1,
+          "distance": 0.4458210617508602,
+          "same_map": false,
+          "end": 440,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 240,
+          "actions": {
+            "attack": 7,
+            "cast": 2,
+            "move": 43,
+            "ward": 4,
+            "buy": 2,
+            "movement_blocked": 4,
+            "recall": 1,
+            "priority": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 4,
+            "buyItem": 2,
+            "itemCombination": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C029",
+      "controls": {
+        "own_win": {
+          "match_id": "bd59ab81-3b7e-4803-9d72-7b3153feaf45",
+          "map": "00anvil",
+          "r": 1320,
+          "own_side": 0,
+          "distance": 0.6719108812148106,
+          "same_map": true,
+          "end": 1330,
+          "banked_change": 26,
+          "collected_change": 26,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 24,
+            "priority": 18,
+            "cast": 2,
+            "attack": 1,
+            "ward": 2,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 2,
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 830,
+          "own_side": 0,
+          "distance": 2.0069552995583284,
+          "same_map": false,
+          "end": 840,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 27,
+            "cast": 3,
+            "attack": 4
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C030",
+      "controls": {
+        "own_win": {
+          "match_id": "c3fbb4ec-8df5-48da-b2e5-3b99652ac8b1",
+          "map": "00dunes",
+          "r": 140,
+          "own_side": 0,
+          "distance": 0.438624450558794,
+          "same_map": true,
+          "end": 150,
+          "banked_change": 4,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "ward": 1,
+            "move": 38,
+            "cast": 5,
+            "priority": 6,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "77610d11-e05a-446a-b093-e026521d8212",
+          "map": "00dunes",
+          "r": 260,
+          "own_side": 0,
+          "distance": 0.7810687250450064,
+          "same_map": true,
+          "end": 270,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 29,
+            "move": 30,
+            "priority": 13,
+            "recall": 39,
+            "attack": 10,
+            "cast": 5,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C031",
+      "controls": {
+        "own_win": {
+          "match_id": "a774bdc2-f3fb-4b43-8586-8668e47cd34f",
+          "map": "02fields",
+          "r": 780,
+          "own_side": 1,
+          "distance": 1.822507666745359,
+          "same_map": false,
+          "end": 790,
+          "banked_change": 0,
+          "collected_change": 47,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 28,
+            "priority": 9,
+            "attack": 21,
+            "ward": 1,
+            "cast": 3,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C032",
+      "controls": {
+        "own_win": null,
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C033",
+      "controls": {
+        "own_win": {
+          "match_id": "be14408e-e0ba-4126-bd3f-8c545722a27d",
+          "map": "00stampede",
+          "r": 790,
+          "own_side": 0,
+          "distance": 1.3455982773122437,
+          "same_map": true,
+          "end": 800,
+          "banked_change": 88,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "attack": 5,
+            "move": 38,
+            "priority": 4,
+            "cast": 3,
+            "bank_complete": 1,
+            "recall": 1,
+            "ward": 3,
+            "buy": 2
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "death": 1,
+            "gemLoss": 1,
+            "wardPlacement": 3,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C034",
+      "controls": {
+        "own_win": {
+          "match_id": "1d769695-04a8-402a-86d7-b3e4ccf9e270",
+          "map": "00vault",
+          "r": 150,
+          "own_side": 0,
+          "distance": 1.0189114305900622,
+          "same_map": true,
+          "end": 160,
+          "banked_change": 343,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "move": 26,
+            "priority": 17,
+            "bank_complete": 1,
+            "cast": 2,
+            "buy": 3,
+            "ward": 2
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "buyConsumable": 2,
+            "buyItem": 1,
+            "wardPlacement": 2
+          }
+        },
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C035",
+      "controls": {
+        "own_win": null,
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C036",
+      "controls": {
+        "own_win": {
+          "match_id": "50d215e1-eebf-4623-ae10-0a37a42d17b8",
+          "map": "01islands",
+          "r": 190,
+          "own_side": 1,
+          "distance": 1.2888729798579377,
+          "same_map": true,
+          "end": 200,
+          "banked_change": 23,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 360,
+          "actions": {
+            "move": 15,
+            "buy": 4,
+            "movement_blocked": 2,
+            "attack": 3,
+            "cast": 4,
+            "ward": 2,
+            "bank_start": 2,
+            "bank_complete": 2
+          },
+          "native_events": {
+            "buyConsumable": 1,
+            "buyItem": 3,
+            "itemCombination": 1,
+            "wardPlacement": 2,
+            "campClear": 1,
+            "gemSubmission": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 200,
+          "own_side": 1,
+          "distance": 0.8659635065315633,
+          "same_map": false,
+          "end": 210,
+          "banked_change": 0,
+          "collected_change": 8,
+          "lost_change": 0,
+          "equipment_change": 300,
+          "actions": {
+            "move": 39,
+            "priority": 3,
+            "buy": 3,
+            "cast": 7,
+            "attack": 10
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 3,
+            "itemCombination": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C037",
+      "controls": {
+        "own_win": {
+          "match_id": "3c084265-163a-4c68-a2dc-8ff7ed0a4c3a",
+          "map": "01islands",
+          "r": 350,
+          "own_side": 0,
+          "distance": 0.5717976368005272,
+          "same_map": true,
+          "end": 360,
+          "banked_change": 32,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 300,
+          "actions": {
+            "attack": 7,
+            "move": 23,
+            "buy": 4,
+            "cast": 4,
+            "ward": 2,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "buyItem": 3,
+            "itemCombination": 2,
+            "campClear": 2,
+            "wardPlacement": 2,
+            "gemCollection": 1,
+            "buyConsumable": 1,
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 230,
+          "own_side": 0,
+          "distance": 0.6870442581992228,
+          "same_map": false,
+          "end": 240,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 42,
+            "move": 33,
+            "recall": 45,
+            "priority": 18,
+            "attack": 10,
+            "cast": 2,
+            "ward": 2,
+            "fuel": 1,
+            "bank_start": 1
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "fuelExhausted": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C038",
+      "controls": {
+        "own_win": {
+          "match_id": "c08c95aa-b423-42e1-8d73-6b330c622870",
+          "map": "00lanes",
+          "r": 890,
+          "own_side": 0,
+          "distance": 0.9196841392426496,
+          "same_map": false,
+          "end": 900,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 38,
+            "priority": 20,
+            "attack": 17,
+            "cast": 7,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "c4266fa9-307b-42e0-8d0e-f379c6411ebd",
+          "map": "00packs",
+          "r": 980,
+          "own_side": 0,
+          "distance": 1.5707077655908286,
+          "same_map": false,
+          "end": 990,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "move": 23,
+            "buy": 2,
+            "priority": 7,
+            "cancel_channel": 21,
+            "recall": 23,
+            "cast": 4,
+            "attack": 4,
+            "ward": 1
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C039",
+      "controls": {
+        "own_win": {
+          "match_id": "7e44d1af-88cc-491e-a4dd-6b8c2c962fab",
+          "map": "00monolith",
+          "r": 920,
+          "own_side": 0,
+          "distance": 1.1171933050597056,
+          "same_map": false,
+          "end": 930,
+          "banked_change": 0,
+          "collected_change": 16,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 37,
+            "cast": 5,
+            "priority": 6,
+            "attack": 10,
+            "ward": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "c4266fa9-307b-42e0-8d0e-f379c6411ebd",
+          "map": "00packs",
+          "r": 1120,
+          "own_side": 0,
+          "distance": 2.2190014936452394,
+          "same_map": false,
+          "end": 1130,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 7,
+            "move": 9,
+            "priority": 7,
+            "recall": 9,
+            "cast": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C040",
+      "controls": {
+        "own_win": {
+          "match_id": "54380b4f-bbd0-4156-8314-29cf0be82598",
+          "map": "00reverse_spiral",
+          "r": 220,
+          "own_side": 0,
+          "distance": 0.6103392131135893,
+          "same_map": true,
+          "end": 230,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 31,
+            "priority": 13,
+            "attack": 15,
+            "cast": 5,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "045f814a-656f-4a87-b855-d7c3352d78c0",
+          "map": "00reverse_spiral",
+          "r": 310,
+          "own_side": 0,
+          "distance": 0.6064684488072842,
+          "same_map": true,
+          "end": 320,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 20,
+            "move": 22,
+            "recall": 32,
+            "attack": 17,
+            "priority": 21,
+            "cast": 7,
+            "ward": 2,
+            "bank_start": 2
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 3
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C041",
+      "controls": {
+        "own_win": {
+          "match_id": "045a0dd2-5c92-47b9-9e78-1aa060981f69",
+          "map": "adgato_gemcombat2",
+          "r": 240,
+          "own_side": 1,
+          "distance": 1.2852689764082235,
+          "same_map": true,
+          "end": 250,
+          "banked_change": 0,
+          "collected_change": 7,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 29,
+            "priority": 24,
+            "cast": 7,
+            "attack": 11
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f1410baa-195e-4ab5-b522-af860054c2b7",
+          "map": "00galaxy",
+          "r": 260,
+          "own_side": 0,
+          "distance": 0.3329768118183703,
+          "same_map": false,
+          "end": 270,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cancel_channel": 48,
+            "move": 51,
+            "recall": 49,
+            "buy": 1,
+            "priority": 9,
+            "cast": 4
+          },
+          "native_events": {
+            "buyItem": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C042",
+      "controls": {
+        "own_win": {
+          "match_id": "82e506d3-1591-427d-9989-cdf233ef6628",
+          "map": "00breadcrumbs",
+          "r": 250,
+          "own_side": 1,
+          "distance": 1.7543967226672332,
+          "same_map": true,
+          "end": 260,
+          "banked_change": 0,
+          "collected_change": 23,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 8,
+            "priority": 7,
+            "attack": 9,
+            "cast": 5
+          },
+          "native_events": {
+            "gemCollection": 3,
+            "campClear": 4
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 570,
+          "own_side": 1,
+          "distance": 1.4824704944241032,
+          "same_map": false,
+          "end": 580,
+          "banked_change": 0,
+          "collected_change": 43,
+          "lost_change": 0,
+          "equipment_change": 300,
+          "actions": {
+            "cancel_channel": 34,
+            "move": 25,
+            "recall": 45,
+            "attack": 20,
+            "priority": 7,
+            "cast": 5,
+            "ward": 3,
+            "buy": 3
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 3,
+            "gemCollection": 1,
+            "buyItem": 3,
+            "itemCombination": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C043",
+      "controls": {
+        "own_win": {
+          "match_id": "c08c95aa-b423-42e1-8d73-6b330c622870",
+          "map": "00lanes",
+          "r": 420,
+          "own_side": 0,
+          "distance": 0.17480286181196358,
+          "same_map": false,
+          "end": 430,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 27,
+            "attack": 22,
+            "cast": 5,
+            "priority": 21,
+            "recall": 1
+          },
+          "native_events": {
+            "campClear": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 390,
+          "own_side": 1,
+          "distance": 0.3481590387417167,
+          "same_map": false,
+          "end": 400,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "priority": 13,
+            "move": 24,
+            "attack": 11,
+            "recall": 1,
+            "cast": 4,
+            "buy": 2,
+            "ward": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C044",
+      "controls": {
+        "own_win": {
+          "match_id": "a8a645a5-62ed-41b8-be93-b70078a944cb",
+          "map": "adgato_gemcombat4",
+          "r": 360,
+          "own_side": 1,
+          "distance": 1.0057256974580282,
+          "same_map": true,
+          "end": 370,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 28,
+            "cast": 5,
+            "attack": 3,
+            "priority": 20
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 740,
+          "own_side": 1,
+          "distance": 1.3137469881784138,
+          "same_map": false,
+          "end": 750,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 38,
+            "cast": 6,
+            "attack": 4,
+            "priority": 3
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C045",
+      "controls": {
+        "own_win": {
+          "match_id": "20198b24-5ed1-4ab1-a190-fc8bbc45d5b8",
+          "map": "00corners",
+          "r": 240,
+          "own_side": 0,
+          "distance": 1.918149141876865,
+          "same_map": true,
+          "end": 250,
+          "banked_change": 0,
+          "collected_change": 23,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 10,
+            "move": 39,
+            "priority": 6,
+            "cast": 2,
+            "bank_start": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "716f068b-5410-474c-8fe8-52681c73375e",
+          "map": "00road_of_riches",
+          "r": 300,
+          "own_side": 0,
+          "distance": 1.7188397092532257,
+          "same_map": false,
+          "end": 310,
+          "banked_change": 0,
+          "collected_change": 7,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 14,
+            "move": 44,
+            "priority": 1,
+            "cast": 6,
+            "ward": 2,
+            "bank_start": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C046",
+      "controls": {
+        "own_win": {
+          "match_id": "458a9ab1-3f12-4e6e-b4f9-1c859b27ff3b",
+          "map": "02guardians",
+          "r": 500,
+          "own_side": 1,
+          "distance": 1.5307708549703265,
+          "same_map": false,
+          "end": 510,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 23,
+            "move": 9,
+            "cast": 6
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "716f068b-5410-474c-8fe8-52681c73375e",
+          "map": "00road_of_riches",
+          "r": 300,
+          "own_side": 0,
+          "distance": 1.7940293472289854,
+          "same_map": false,
+          "end": 310,
+          "banked_change": 0,
+          "collected_change": 7,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 14,
+            "move": 44,
+            "priority": 1,
+            "cast": 6,
+            "ward": 2,
+            "bank_start": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C047",
+      "controls": {
+        "own_win": {
+          "match_id": "45b663fd-a112-4f5d-a904-f1bb63b97d9f",
+          "map": "00contest",
+          "r": 110,
+          "own_side": 1,
+          "distance": 0.3592086658545419,
+          "same_map": true,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "recall": 1,
+            "priority": 18,
+            "move": 54,
+            "cast": 5,
+            "buy": 3
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyConsumable": 2,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5101f4a7-1053-4e11-a36a-8db3b6412706",
+          "map": "00contest",
+          "r": 460,
+          "own_side": 0,
+          "distance": 0.5265430153550591,
+          "same_map": true,
+          "end": 470,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "cancel_channel": 32,
+            "move": 35,
+            "recall": 34,
+            "priority": 6,
+            "ward": 2,
+            "buy": 1,
+            "cast": 2,
+            "attack": 2
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "buyItem": 1,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C048",
+      "controls": {
+        "own_win": {
+          "match_id": "82f816ab-8f19-493b-be68-a315a1293133",
+          "map": "00galaxy",
+          "r": 150,
+          "own_side": 1,
+          "distance": 0.9035270047036009,
+          "same_map": true,
+          "end": 160,
+          "banked_change": 35,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 46,
+            "bank_complete": 1,
+            "cast": 7,
+            "ward": 1,
+            "attack": 4
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "wardPlacement": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f1410baa-195e-4ab5-b522-af860054c2b7",
+          "map": "00galaxy",
+          "r": 390,
+          "own_side": 0,
+          "distance": 1.093456132333127,
+          "same_map": true,
+          "end": 400,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 50,
+            "cast": 8,
+            "move": 43,
+            "recall": 50,
+            "attack": 10,
+            "ward": 4,
+            "priority": 2
+          },
+          "native_events": {
+            "wardPlacement": 4
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C049",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 290,
+          "own_side": 0,
+          "distance": 1.6244209632253583,
+          "same_map": true,
+          "end": 300,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "movement_blocked": 3,
+            "move": 49,
+            "cast": 4,
+            "attack": 2
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "716f068b-5410-474c-8fe8-52681c73375e",
+          "map": "00road_of_riches",
+          "r": 210,
+          "own_side": 0,
+          "distance": 1.8790187846881679,
+          "same_map": true,
+          "end": 220,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 20,
+            "attack": 31,
+            "cast": 8,
+            "priority": 2,
+            "teleport_complete": 1,
+            "recall": 1,
+            "movement_blocked": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C050",
+      "controls": {
+        "own_win": {
+          "match_id": "b921c9b2-851b-4c24-86ad-de02c9104b8f",
+          "map": "02uncharted_lands",
+          "r": 130,
+          "own_side": 1,
+          "distance": 0.61370122271036,
+          "same_map": true,
+          "end": 140,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 7,
+          "equipment_change": 30,
+          "actions": {
+            "attack": 19,
+            "move": 21,
+            "priority": 3,
+            "cast": 4,
+            "buy": 1
+          },
+          "native_events": {
+            "death": 1,
+            "gemLoss": 1,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 420,
+          "own_side": 1,
+          "distance": 0.4908487530512768,
+          "same_map": false,
+          "end": 430,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 210,
+          "actions": {
+            "move": 34,
+            "buy": 2,
+            "priority": 14,
+            "cast": 2,
+            "ward": 2,
+            "attack": 3
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C051",
+      "controls": {
+        "own_win": {
+          "match_id": "54380b4f-bbd0-4156-8314-29cf0be82598",
+          "map": "00reverse_spiral",
+          "r": 250,
+          "own_side": 0,
+          "distance": 2.3266551665415025,
+          "same_map": true,
+          "end": 260,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 30,
+            "priority": 19,
+            "cast": 4,
+            "attack": 9
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "045f814a-656f-4a87-b855-d7c3352d78c0",
+          "map": "00reverse_spiral",
+          "r": 270,
+          "own_side": 0,
+          "distance": 2.2440883830656015,
+          "same_map": true,
+          "end": 280,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 33,
+            "move": 34,
+            "priority": 17,
+            "recall": 37,
+            "cast": 1
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C052",
+      "controls": {
+        "own_win": {
+          "match_id": "ed588203-6f6d-4ae2-bb86-40e8a63e3a9d",
+          "map": "02harvest",
+          "r": 150,
+          "own_side": 1,
+          "distance": 0.3094252060272401,
+          "same_map": false,
+          "end": 160,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 36,
+            "cast": 10,
+            "move": 18,
+            "movement_blocked": 5
+          },
+          "native_events": {
+            "campClear": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "093e3e5f-67ec-4fdd-a271-064f10f3ea16",
+          "map": "00expanse",
+          "r": 70,
+          "own_side": 0,
+          "distance": 0.4792064030509191,
+          "same_map": false,
+          "end": 80,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "cancel_channel": 40,
+            "move": 39,
+            "recall": 42,
+            "buy": 2,
+            "cast": 6,
+            "attack": 11,
+            "priority": 2,
+            "ward": 4
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "campClear": 2,
+            "wardPlacement": 4,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C053",
+      "controls": {
+        "own_win": {
+          "match_id": "3e643ebb-65a6-4623-a17e-f7ae262fcc4d",
+          "map": "01islands",
+          "r": 90,
+          "own_side": 0,
+          "distance": 0.1888644288381236,
+          "same_map": false,
+          "end": 100,
+          "banked_change": 15,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "attack": 3,
+            "cast": 8,
+            "bank_complete": 1,
+            "move": 18,
+            "ward": 1,
+            "buy": 2
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "wardPlacement": 1,
+            "buyConsumable": 1,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "bf76477c-97b7-4590-b040-7ee761c12bf9",
+          "map": "00oasis",
+          "r": 20,
+          "own_side": 0,
+          "distance": 0.23377830697989122,
+          "same_map": false,
+          "end": 30,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 30,
+          "actions": {
+            "cancel_channel": 43,
+            "move": 40,
+            "recall": 44,
+            "cast": 8,
+            "movement_blocked": 1,
+            "priority": 13,
+            "buy": 1,
+            "ward": 3,
+            "attack": 6
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 1,
+            "wardPlacement": 3
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C054",
+      "controls": {
+        "own_win": {
+          "match_id": "3c084265-163a-4c68-a2dc-8ff7ed0a4c3a",
+          "map": "01islands",
+          "r": 280,
+          "own_side": 0,
+          "distance": 1.3576514901550387,
+          "same_map": true,
+          "end": 290,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 7,
+            "move": 9,
+            "ward": 1,
+            "attack": 6,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 180,
+          "own_side": 0,
+          "distance": 0.4679866735015137,
+          "same_map": false,
+          "end": 190,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 26,
+            "cast": 9,
+            "move": 26,
+            "priority": 1,
+            "recall": 1
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C055",
+      "controls": {
+        "own_win": {
+          "match_id": "f9173781-6f36-4892-b2e7-a9dd49c74e70",
+          "map": "00gemfight",
+          "r": 240,
+          "own_side": 1,
+          "distance": 0.3181146698817854,
+          "same_map": false,
+          "end": 250,
+          "banked_change": 4,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "move": 26,
+            "recall": 1,
+            "bank_start": 1,
+            "priority": 20,
+            "bank_complete": 1,
+            "attack": 9,
+            "cast": 5,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "gemSubmission": 1,
+            "buyItem": 1,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 50,
+          "own_side": 1,
+          "distance": 0.4460968857557739,
+          "same_map": false,
+          "end": 60,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 31,
+            "move": 16,
+            "recall": 50,
+            "attack": 40,
+            "cast": 12,
+            "priority": 12,
+            "ward": 4
+          },
+          "native_events": {
+            "wardPlacement": 4
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C056",
+      "controls": {
+        "own_win": {
+          "match_id": "458a9ab1-3f12-4e6e-b4f9-1c859b27ff3b",
+          "map": "02guardians",
+          "r": 450,
+          "own_side": 1,
+          "distance": 1.1517988832312052,
+          "same_map": false,
+          "end": 460,
+          "banked_change": 0,
+          "collected_change": 30,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 5,
+            "move": 9,
+            "attack": 14,
+            "ward": 1,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "716f068b-5410-474c-8fe8-52681c73375e",
+          "map": "00road_of_riches",
+          "r": 330,
+          "own_side": 0,
+          "distance": 2.4912366937565658,
+          "same_map": false,
+          "end": 340,
+          "banked_change": 43,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "move": 28,
+            "attack": 28,
+            "cast": 8,
+            "bank_start": 1,
+            "recall": 2,
+            "bank_complete": 1,
+            "priority": 4,
+            "buy": 2,
+            "ward": 1
+          },
+          "native_events": {
+            "campClear": 2,
+            "gemSubmission": 1,
+            "gemCollection": 1,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "buyConsumable": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C057",
+      "controls": {
+        "own_win": {
+          "match_id": "01e1942a-606b-4717-a337-c1c6f07e521d",
+          "map": "02famine",
+          "r": 1440,
+          "own_side": 1,
+          "distance": 1.6381594355265718,
+          "same_map": true,
+          "end": 1450,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 24,
+            "ward": 1,
+            "cast": 3,
+            "attack": 5,
+            "priority": 5
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 320,
+          "own_side": 1,
+          "distance": 1.348435256068404,
+          "same_map": false,
+          "end": 330,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 510,
+          "actions": {
+            "attack": 29,
+            "cast": 9,
+            "move": 27,
+            "movement_blocked": 4,
+            "ward": 2,
+            "priority": 3,
+            "buy": 4,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "buyItem": 4,
+            "itemCombination": 3,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C058",
+      "controls": {
+        "own_win": {
+          "match_id": "a25633ae-c424-4cd9-9bf7-d2b803de46a4",
+          "map": "02treasure_box",
+          "r": 460,
+          "own_side": 0,
+          "distance": 1.1440607480954228,
+          "same_map": false,
+          "end": 470,
+          "banked_change": 8,
+          "collected_change": 8,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "move": 33,
+            "priority": 31,
+            "attack": 34,
+            "cast": 11,
+            "bank_start": 1,
+            "bank_complete": 1,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "kill": 1,
+            "assist": 3,
+            "gemSubmission": 1,
+            "campClear": 1,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 470,
+          "own_side": 0,
+          "distance": 0.9675941698856947,
+          "same_map": false,
+          "end": 480,
+          "banked_change": 44,
+          "collected_change": 37,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "cancel_channel": 38,
+            "move": 35,
+            "priority": 7,
+            "recall": 44,
+            "attack": 5,
+            "bank_complete": 2,
+            "cast": 4,
+            "buy": 1,
+            "ward": 1,
+            "bank_start": 1
+          },
+          "native_events": {
+            "gemSubmission": 2,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "wardPlacement": 1,
+            "campClear": 1,
+            "gemCollection": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C059",
+      "controls": {
+        "own_win": {
+          "match_id": "f3b80d3c-fae0-4446-9317-2c3dc3dca0ad",
+          "map": "00elkring",
+          "r": 150,
+          "own_side": 0,
+          "distance": 0.7329922938310623,
+          "same_map": true,
+          "end": 160,
+          "banked_change": 0,
+          "collected_change": 55,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 33,
+            "move": 28,
+            "priority": 33,
+            "cast": 8
+          },
+          "native_events": {
+            "kill": 3,
+            "gemCollection": 3,
+            "assist": 9
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 550,
+          "own_side": 1,
+          "distance": 2.3259338288977633,
+          "same_map": true,
+          "end": 560,
+          "banked_change": 22,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 240,
+          "actions": {
+            "move": 44,
+            "cast": 6,
+            "buy": 3,
+            "priority": 5,
+            "bank_complete": 1,
+            "attack": 2,
+            "movement_blocked": 2,
+            "ward": 3
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "buyConsumable": 1,
+            "gemSubmission": 1,
+            "wardPlacement": 3
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C060",
+      "controls": {
+        "own_win": {
+          "match_id": "1c5bc479-a7ec-4a2f-a087-2a19965a4b4e",
+          "map": "00dunes",
+          "r": 150,
+          "own_side": 0,
+          "distance": 0.36892993625552334,
+          "same_map": true,
+          "end": 160,
+          "banked_change": 18,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 24,
+            "attack": 16,
+            "cast": 4,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "77610d11-e05a-446a-b093-e026521d8212",
+          "map": "00dunes",
+          "r": 390,
+          "own_side": 0,
+          "distance": 1.0948678121996007,
+          "same_map": true,
+          "end": 400,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 30,
+          "actions": {
+            "move": 23,
+            "recall": 30,
+            "attack": 13,
+            "cast": 5,
+            "priority": 12,
+            "cancel_channel": 15,
+            "buy": 1
+          },
+          "native_events": {
+            "buyItem": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C061",
+      "controls": {
+        "own_win": {
+          "match_id": "60d86c6c-9f14-41c2-972b-d67d788e3185",
+          "map": "00crater",
+          "r": 10,
+          "own_side": 1,
+          "distance": 0.06742599889119566,
+          "same_map": true,
+          "end": 20,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 48,
+            "attack": 6,
+            "cast": 4
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "f0fe0c14-2109-4b69-8b39-820d51da9932",
+          "map": "00crater",
+          "r": 340,
+          "own_side": 0,
+          "distance": 0.776923585216567,
+          "same_map": true,
+          "end": 350,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 34,
+            "recall": 37,
+            "move": 33,
+            "priority": 16,
+            "cast": 4,
+            "attack": 4,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C062",
+      "controls": {
+        "own_win": {
+          "match_id": "22a1782d-e94a-4d00-9f79-92ce7d57d632",
+          "map": "00monolith",
+          "r": 500,
+          "own_side": 0,
+          "distance": 0.7154688213489921,
+          "same_map": true,
+          "end": 510,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "cast": 8,
+            "move": 39,
+            "priority": 6,
+            "attack": 13,
+            "buy": 2
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 250,
+          "own_side": 1,
+          "distance": 0.28177699881998886,
+          "same_map": false,
+          "end": 260,
+          "banked_change": 0,
+          "collected_change": 40,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cancel_channel": 38,
+            "move": 30,
+            "recall": 42,
+            "attack": 13,
+            "priority": 12,
+            "cast": 8,
+            "buy": 2,
+            "ward": 2
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "campClear": 1,
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C063",
+      "controls": {
+        "own_win": {
+          "match_id": "136f3588-6356-4eaf-b816-b2513df42cf1",
+          "map": "01the_farm",
+          "r": 20,
+          "own_side": 1,
+          "distance": 0.8626565960015607,
+          "same_map": true,
+          "end": 30,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 11,
+            "move": 12,
+            "cast": 3
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "e841f159-3f35-4b04-9822-dbba454a732a",
+          "map": "00dunes",
+          "r": 280,
+          "own_side": 1,
+          "distance": 0.7068553424978689,
+          "same_map": false,
+          "end": 290,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 47,
+            "move": 41,
+            "attack": 1,
+            "recall": 49,
+            "priority": 34,
+            "cast": 2
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C064",
+      "controls": {
+        "own_win": {
+          "match_id": "1785b6fc-ad8c-4d99-be83-fa24e303e9cf",
+          "map": "01starfish",
+          "r": 210,
+          "own_side": 1,
+          "distance": 0.39258376602197903,
+          "same_map": true,
+          "end": 220,
+          "banked_change": 0,
+          "collected_change": 8,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "ward": 3,
+            "move": 33,
+            "priority": 12,
+            "attack": 10,
+            "cast": 9,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 3,
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 390,
+          "own_side": 1,
+          "distance": 0.43383129737323584,
+          "same_map": false,
+          "end": 400,
+          "banked_change": 66,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 510,
+          "actions": {
+            "move": 39,
+            "movement_blocked": 3,
+            "ward": 3,
+            "bank_complete": 1,
+            "recall": 1,
+            "priority": 2,
+            "cast": 9,
+            "attack": 20,
+            "buy": 4
+          },
+          "native_events": {
+            "wardPlacement": 3,
+            "gemSubmission": 1,
+            "buyItem": 4,
+            "itemCombination": 4
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C065",
+      "controls": {
+        "own_win": {
+          "match_id": "212e398d-545a-4f1e-bd5b-049873df5a62",
+          "map": "00split",
+          "r": 440,
+          "own_side": 1,
+          "distance": 1.145608279419356,
+          "same_map": false,
+          "end": 450,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 35,
+            "priority": 22,
+            "attack": 18,
+            "cast": 5
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 270,
+          "own_side": 1,
+          "distance": 0.7216359898243563,
+          "same_map": false,
+          "end": 280,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 28,
+            "cast": 10,
+            "attack": 29,
+            "priority": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "campClear": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C066",
+      "controls": {
+        "own_win": {
+          "match_id": "212e398d-545a-4f1e-bd5b-049873df5a62",
+          "map": "00split",
+          "r": 440,
+          "own_side": 1,
+          "distance": 1.7902208342875816,
+          "same_map": false,
+          "end": 450,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 35,
+            "priority": 22,
+            "attack": 18,
+            "cast": 5
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 270,
+          "own_side": 1,
+          "distance": 2.029517085360551,
+          "same_map": false,
+          "end": 280,
+          "banked_change": 0,
+          "collected_change": 22,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 28,
+            "cast": 10,
+            "attack": 29,
+            "priority": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "campClear": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C067",
+      "controls": {
+        "own_win": {
+          "match_id": "e5ad8b63-3c68-45f1-bd13-15a4e440744d",
+          "map": "02guardians",
+          "r": 380,
+          "own_side": 0,
+          "distance": 1.12971528901783,
+          "same_map": true,
+          "end": 390,
+          "banked_change": 0,
+          "collected_change": 18,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 22,
+            "attack": 22,
+            "priority": 24,
+            "cast": 8,
+            "ward": 3,
+            "movement_blocked": 1
+          },
+          "native_events": {
+            "wardPlacement": 3,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 190,
+          "own_side": 0,
+          "distance": 0.5304222406790621,
+          "same_map": false,
+          "end": 200,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 44,
+            "cast": 10,
+            "move": 14,
+            "priority": 1
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C068",
+      "controls": {
+        "own_win": {
+          "match_id": "d5dd08b3-6a6f-4553-b8b2-d83e5b760b0c",
+          "map": "02stalactites",
+          "r": 320,
+          "own_side": 0,
+          "distance": 2.2986308472821784,
+          "same_map": false,
+          "end": 330,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 31,
+            "cast": 6,
+            "priority": 17,
+            "bank_start": 1,
+            "attack": 8
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        },
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C069",
+      "controls": {
+        "own_win": {
+          "match_id": "c08c95aa-b423-42e1-8d73-6b330c622870",
+          "map": "00lanes",
+          "r": 110,
+          "own_side": 0,
+          "distance": 1.5666614443296436,
+          "same_map": true,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "move": 26,
+            "priority": 15,
+            "cast": 6,
+            "recall": 1,
+            "attack": 7,
+            "buy": 1
+          },
+          "native_events": {
+            "buyItem": 1,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 890,
+          "own_side": 1,
+          "distance": 1.2290115537783834,
+          "same_map": false,
+          "end": 900,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 3,
+            "attack": 8,
+            "priority": 5,
+            "move": 6,
+            "movement_blocked": 7,
+            "recall": 1
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C070",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 840,
+          "own_side": 0,
+          "distance": 2.1399040587364984,
+          "same_map": false,
+          "end": 850,
+          "banked_change": 0,
+          "collected_change": 45,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "move": 36,
+            "attack": 4,
+            "ward": 1,
+            "cast": 3,
+            "priority": 5,
+            "recall": 1,
+            "buy": 3
+          },
+          "native_events": {
+            "campClear": 2,
+            "wardPlacement": 1,
+            "gemCollection": 2,
+            "buyConsumable": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 800,
+          "own_side": 1,
+          "distance": 2.3315693573817162,
+          "same_map": false,
+          "end": 810,
+          "banked_change": 0,
+          "collected_change": 8,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 15,
+            "cast": 9,
+            "move": 39,
+            "priority": 8,
+            "ward": 1,
+            "recall": 3
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "kill": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C071",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 830,
+          "own_side": 0,
+          "distance": 1.668786316130769,
+          "same_map": false,
+          "end": 840,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 39,
+            "priority": 6,
+            "attack": 15,
+            "cast": 6
+          },
+          "native_events": {}
+        },
+        "top_winner": null
+      }
+    },
+    {
+      "card_id": "C072",
+      "controls": {
+        "own_win": {
+          "match_id": "0cdf2f0f-1be2-4260-ac9a-79cfd3f11294",
+          "map": "00pilgrimage",
+          "r": 1340,
+          "own_side": 0,
+          "distance": 1.3340085570668678,
+          "same_map": true,
+          "end": 1350,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "move": 26,
+            "cast": 3,
+            "buy": 1,
+            "priority": 6
+          },
+          "native_events": {
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f0fe0c14-2109-4b69-8b39-820d51da9932",
+          "map": "00crater",
+          "r": 390,
+          "own_side": 0,
+          "distance": 1.963422115057806,
+          "same_map": false,
+          "end": 400,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 35,
+            "move": 42,
+            "priority": 24,
+            "recall": 41,
+            "attack": 1,
+            "cast": 3,
+            "movement_blocked": 1,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C073",
+      "controls": {
+        "own_win": {
+          "match_id": "0cdf2f0f-1be2-4260-ac9a-79cfd3f11294",
+          "map": "00pilgrimage",
+          "r": 1100,
+          "own_side": 0,
+          "distance": 1.006398743354031,
+          "same_map": true,
+          "end": 1110,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 32,
+            "priority": 14,
+            "attack": 19,
+            "cast": 6,
+            "movement_blocked": 1,
+            "ward": 1,
+            "recall": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "63bd63d1-c3ec-41ab-94d7-7af613262eff",
+          "map": "00anvil",
+          "r": 810,
+          "own_side": 1,
+          "distance": 1.4267105495202168,
+          "same_map": false,
+          "end": 820,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "buy": 2,
+            "priority": 5,
+            "cancel_channel": 18,
+            "move": 19,
+            "recall": 20,
+            "cast": 3,
+            "ward": 1,
+            "attack": 4
+          },
+          "native_events": {
+            "death": 1,
+            "gemLoss": 1,
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C074",
+      "controls": {
+        "own_win": {
+          "match_id": "6c72edbd-b1d0-4bd5-aaa4-6249440d5f40",
+          "map": "01concentrated_wealth",
+          "r": 280,
+          "own_side": 0,
+          "distance": 0.18508010922044987,
+          "same_map": true,
+          "end": 290,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 14,
+            "move": 18,
+            "cast": 7,
+            "priority": 15,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5101f4a7-1053-4e11-a36a-8db3b6412706",
+          "map": "00contest",
+          "r": 200,
+          "own_side": 0,
+          "distance": 0.185951348206945,
+          "same_map": false,
+          "end": 210,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 30,
+          "actions": {
+            "cancel_channel": 44,
+            "move": 37,
+            "recall": 45,
+            "attack": 6,
+            "cast": 3,
+            "buy": 1,
+            "priority": 10,
+            "ward": 3,
+            "movement_blocked": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 1,
+            "itemCombination": 1,
+            "campClear": 1,
+            "wardPlacement": 3
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C075",
+      "controls": {
+        "own_win": {
+          "match_id": "6c72edbd-b1d0-4bd5-aaa4-6249440d5f40",
+          "map": "01concentrated_wealth",
+          "r": 270,
+          "own_side": 0,
+          "distance": 0.7474301896690349,
+          "same_map": true,
+          "end": 280,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 12,
+            "priority": 2,
+            "ward": 1,
+            "move": 25,
+            "cast": 5
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5aa6681d-6f0f-47ef-b4b8-49e93550f144",
+          "map": "00eight",
+          "r": 230,
+          "own_side": 1,
+          "distance": 0.7276929808642358,
+          "same_map": false,
+          "end": 240,
+          "banked_change": 0,
+          "collected_change": 37,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 43,
+            "attack": 10,
+            "cast": 5,
+            "recall": 2,
+            "ward": 1,
+            "priority": 1,
+            "movement_blocked": 2
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C076",
+      "controls": {
+        "own_win": {
+          "match_id": "cf8e14e7-c227-4a28-af11-d9dd605487dd",
+          "map": "01yellow_brick_road",
+          "r": 20,
+          "own_side": 1,
+          "distance": 0.6686723645545061,
+          "same_map": true,
+          "end": 30,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 31,
+            "attack": 37,
+            "priority": 8,
+            "cast": 9,
+            "ward": 5
+          },
+          "native_events": {
+            "wardPlacement": 5,
+            "death": 1,
+            "gemLoss": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "56c21fb1-5a81-4e21-a922-98ffa8eba491",
+          "map": "01yellow_brick_road",
+          "r": 90,
+          "own_side": 1,
+          "distance": 1.1687550328440321,
+          "same_map": true,
+          "end": 100,
+          "banked_change": 0,
+          "collected_change": 8,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 30,
+            "move": 19,
+            "recall": 50,
+            "cast": 10,
+            "attack": 37,
+            "ward": 2
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C077",
+      "controls": {
+        "own_win": {
+          "match_id": "cf8e14e7-c227-4a28-af11-d9dd605487dd",
+          "map": "01yellow_brick_road",
+          "r": 310,
+          "own_side": 1,
+          "distance": 1.2277630557689505,
+          "same_map": true,
+          "end": 320,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 38,
+            "priority": 30,
+            "attack": 4,
+            "ward": 5,
+            "cast": 7
+          },
+          "native_events": {
+            "wardPlacement": 5,
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 3
+          }
+        },
+        "top_winner": {
+          "match_id": "56c21fb1-5a81-4e21-a922-98ffa8eba491",
+          "map": "01yellow_brick_road",
+          "r": 290,
+          "own_side": 1,
+          "distance": 2.0145959383011083,
+          "same_map": true,
+          "end": 300,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "move": 24,
+            "recall": 45,
+            "attack": 31,
+            "cancel_channel": 34,
+            "buy": 2,
+            "cast": 6,
+            "ward": 4
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 1,
+            "wardPlacement": 4,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C078",
+      "controls": {
+        "own_win": {
+          "match_id": "ddea0aef-a521-409a-81b1-5aeb476d493d",
+          "map": "adgato_gemcombat1",
+          "r": 170,
+          "own_side": 1,
+          "distance": 0.858986048115769,
+          "same_map": false,
+          "end": 180,
+          "banked_change": 42,
+          "collected_change": 21,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 28,
+            "priority": 5,
+            "bank_start": 1,
+            "cast": 2,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "gemSubmission": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 540,
+          "own_side": 0,
+          "distance": 0.9344212176033292,
+          "same_map": false,
+          "end": 550,
+          "banked_change": 0,
+          "collected_change": 15,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 14,
+            "attack": 12,
+            "cast": 6,
+            "priority": 3,
+            "bank_start": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C079",
+      "controls": {
+        "own_win": {
+          "match_id": "907941ac-9d69-491c-80df-fce4cfa55c76",
+          "map": "02cuts",
+          "r": 420,
+          "own_side": 1,
+          "distance": 1.3637097889578915,
+          "same_map": true,
+          "end": 430,
+          "banked_change": 0,
+          "collected_change": 15,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 42,
+            "ward": 2,
+            "recall": 1,
+            "cast": 4
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "1b868c04-5676-4c80-bdfb-50108bdfb726",
+          "map": "02cuts",
+          "r": 450,
+          "own_side": 0,
+          "distance": 1.5711818722851574,
+          "same_map": true,
+          "end": 460,
+          "banked_change": 0,
+          "collected_change": 88,
+          "lost_change": 0,
+          "equipment_change": 450,
+          "actions": {
+            "priority": 8,
+            "move": 26,
+            "attack": 16,
+            "cast": 7,
+            "buy": 2,
+            "bank_start": 1
+          },
+          "native_events": {
+            "buyItem": 2,
+            "itemCombination": 2,
+            "gemCollection": 1,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C080",
+      "controls": {
+        "own_win": {
+          "match_id": "57ca0c7f-8f0d-49aa-8f4c-7b7fd7d1ec4f",
+          "map": "02cuts",
+          "r": 540,
+          "own_side": 1,
+          "distance": 1.5224623046480763,
+          "same_map": true,
+          "end": 550,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 180,
+          "actions": {
+            "move": 42,
+            "cast": 8,
+            "attack": 5,
+            "ward": 2,
+            "buy": 3,
+            "teleport_channel": 1,
+            "teleport_complete": 1
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "buyConsumable": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "1b868c04-5676-4c80-bdfb-50108bdfb726",
+          "map": "02cuts",
+          "r": 170,
+          "own_side": 0,
+          "distance": 1.5091066074414545,
+          "same_map": true,
+          "end": 180,
+          "banked_change": 0,
+          "collected_change": 28,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 41,
+            "attack": 4,
+            "cast": 3,
+            "priority": 3
+          },
+          "native_events": {
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C081",
+      "controls": {
+        "own_win": {
+          "match_id": "20198b24-5ed1-4ab1-a190-fc8bbc45d5b8",
+          "map": "00corners",
+          "r": 290,
+          "own_side": 0,
+          "distance": 0.7299530897957806,
+          "same_map": true,
+          "end": 300,
+          "banked_change": 0,
+          "collected_change": 31,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 21,
+            "cast": 9,
+            "move": 24,
+            "priority": 35,
+            "movement_blocked": 1,
+            "bank_start": 1
+          },
+          "native_events": {
+            "campClear": 2,
+            "kill": 1,
+            "gemCollection": 3,
+            "assist": 3
+          }
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 110,
+          "own_side": 0,
+          "distance": 1.695931753776177,
+          "same_map": true,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cast": 7,
+            "move": 33,
+            "priority": 15,
+            "recall": 32,
+            "cancel_channel": 23,
+            "attack": 9,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C082",
+      "controls": {
+        "own_win": {
+          "match_id": "20198b24-5ed1-4ab1-a190-fc8bbc45d5b8",
+          "map": "00corners",
+          "r": 400,
+          "own_side": 0,
+          "distance": 1.094097164077133,
+          "same_map": true,
+          "end": 410,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 27,
+            "cast": 4,
+            "attack": 9,
+            "priority": 8
+          },
+          "native_events": {}
+        },
+        "top_winner": {
+          "match_id": "e44b2041-21db-4a94-b9a6-579b5f4f3980",
+          "map": "00corners",
+          "r": 110,
+          "own_side": 0,
+          "distance": 2.1036924982193708,
+          "same_map": true,
+          "end": 120,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cast": 7,
+            "move": 33,
+            "priority": 15,
+            "recall": 32,
+            "cancel_channel": 23,
+            "attack": 9,
+            "buy": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "buyItem": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C083",
+      "controls": {
+        "own_win": {
+          "match_id": "4dd329db-a27e-4e68-96c2-283a084e8a1b",
+          "map": "00quarry",
+          "r": 270,
+          "own_side": 1,
+          "distance": 1.2279258089757579,
+          "same_map": true,
+          "end": 280,
+          "banked_change": 4,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 19,
+            "attack": 15,
+            "priority": 14,
+            "cast": 5,
+            "ward": 1,
+            "bank_start": 1,
+            "bank_complete": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 3,
+            "gemSubmission": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 620,
+          "own_side": 1,
+          "distance": 1.2055315347319433,
+          "same_map": true,
+          "end": 630,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "movement_blocked": 22,
+            "priority": 9,
+            "cast": 3,
+            "move": 8,
+            "ward": 2
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 2,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C084",
+      "controls": {
+        "own_win": {
+          "match_id": "60d86c6c-9f14-41c2-972b-d67d788e3185",
+          "map": "00crater",
+          "r": 40,
+          "own_side": 1,
+          "distance": 0.12520890003992566,
+          "same_map": false,
+          "end": 50,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 48,
+            "priority": 33,
+            "attack": 12,
+            "cast": 6
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 4
+          }
+        },
+        "top_winner": {
+          "match_id": "f0fe0c14-2109-4b69-8b39-820d51da9932",
+          "map": "00crater",
+          "r": 40,
+          "own_side": 0,
+          "distance": 0.38987185054666884,
+          "same_map": false,
+          "end": 50,
+          "banked_change": 0,
+          "collected_change": 18,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 39,
+            "move": 33,
+            "recall": 48,
+            "priority": 19,
+            "cast": 8,
+            "attack": 14,
+            "ward": 2
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C085",
+      "controls": {
+        "own_win": {
+          "match_id": "e498452a-6943-4213-8288-9650b13abfd2",
+          "map": "02the_pond",
+          "r": 460,
+          "own_side": 0,
+          "distance": 1.3364734546675276,
+          "same_map": true,
+          "end": 470,
+          "banked_change": 0,
+          "collected_change": 15,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "teleport_complete": 1,
+            "cast": 4,
+            "move": 21,
+            "recall": 1,
+            "ward": 1,
+            "buy": 3,
+            "bank_start": 1,
+            "attack": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 1,
+            "buyConsumable": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 550,
+          "own_side": 0,
+          "distance": 0.8434918649796607,
+          "same_map": false,
+          "end": 560,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 3,
+            "attack": 19,
+            "cast": 4
+          },
+          "native_events": {}
+        }
+      }
+    },
+    {
+      "card_id": "C086",
+      "controls": {
+        "own_win": {
+          "match_id": "e498452a-6943-4213-8288-9650b13abfd2",
+          "map": "02the_pond",
+          "r": 460,
+          "own_side": 0,
+          "distance": 1.7570803312702787,
+          "same_map": true,
+          "end": 470,
+          "banked_change": 0,
+          "collected_change": 15,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "teleport_complete": 1,
+            "cast": 4,
+            "move": 21,
+            "recall": 1,
+            "ward": 1,
+            "buy": 3,
+            "bank_start": 1,
+            "attack": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 1,
+            "buyConsumable": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "50295f77-7443-4838-8656-e6b610822fcc",
+          "map": "00ribs",
+          "r": 140,
+          "own_side": 0,
+          "distance": 1.0942900591074238,
+          "same_map": false,
+          "end": 150,
+          "banked_change": 43,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 46,
+            "move": 41,
+            "recall": 48,
+            "bank_complete": 1,
+            "ward": 2,
+            "priority": 9,
+            "cast": 7,
+            "attack": 7
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "wardPlacement": 2,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C087",
+      "controls": {
+        "own_win": {
+          "match_id": "17282444-d44b-4e35-badb-e8c513b2d95d",
+          "map": "02harvest",
+          "r": 260,
+          "own_side": 1,
+          "distance": 0.34241313176337157,
+          "same_map": true,
+          "end": 270,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 9,
+            "move": 30,
+            "attack": 16,
+            "ward": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "0e38a9fb-4f5b-4293-aa90-944c06c2e25b",
+          "map": "02harvest",
+          "r": 540,
+          "own_side": 1,
+          "distance": 0.978158143535083,
+          "same_map": true,
+          "end": 550,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "cancel_channel": 43,
+            "move": 44,
+            "recall": 45,
+            "attack": 2,
+            "cast": 5,
+            "ward": 4,
+            "buy": 2,
+            "priority": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "wardPlacement": 4,
+            "gemCollection": 1,
+            "buyItem": 2,
+            "itemCombination": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C088",
+      "controls": {
+        "own_win": {
+          "match_id": "c376ce7d-0b26-42f5-9911-b40e5b78a8b5",
+          "map": "00great_wall",
+          "r": 310,
+          "own_side": 0,
+          "distance": 1.0057094818813235,
+          "same_map": true,
+          "end": 320,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 49,
+            "cast": 4,
+            "ward": 1,
+            "priority": 3,
+            "bank_start": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 160,
+          "own_side": 0,
+          "distance": 0.6894016199183174,
+          "same_map": true,
+          "end": 170,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 120,
+          "actions": {
+            "move": 49,
+            "buy": 2,
+            "priority": 4,
+            "cast": 3
+          },
+          "native_events": {
+            "buyItem": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C089",
+      "controls": {
+        "own_win": {
+          "match_id": "c376ce7d-0b26-42f5-9911-b40e5b78a8b5",
+          "map": "00great_wall",
+          "r": 310,
+          "own_side": 0,
+          "distance": 0.8279364694853235,
+          "same_map": true,
+          "end": 320,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 49,
+            "cast": 4,
+            "ward": 1,
+            "priority": 3,
+            "bank_start": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 80,
+          "own_side": 0,
+          "distance": 0.5200397873460112,
+          "same_map": true,
+          "end": 90,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 150,
+          "actions": {
+            "priority": 6,
+            "attack": 12,
+            "move": 36,
+            "buy": 1,
+            "cast": 6
+          },
+          "native_events": {
+            "buyItem": 1,
+            "itemCombination": 1,
+            "campClear": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C090",
+      "controls": {
+        "own_win": {
+          "match_id": "f40e50e5-77df-44cc-9690-0a7871802d30",
+          "map": "00road_of_riches",
+          "r": 740,
+          "own_side": 0,
+          "distance": 2.2987549640112697,
+          "same_map": true,
+          "end": 750,
+          "banked_change": 138,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 27,
+            "bank_start": 2,
+            "bank_complete": 2,
+            "attack": 10,
+            "cast": 5
+          },
+          "native_events": {
+            "gemSubmission": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 290,
+          "own_side": 1,
+          "distance": 0.9140919357273078,
+          "same_map": false,
+          "end": 300,
+          "banked_change": 0,
+          "collected_change": 39,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 2,
+            "priority": 10,
+            "move": 10,
+            "movement_blocked": 18,
+            "cast": 1
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C091",
+      "controls": {
+        "own_win": {
+          "match_id": "7e44d1af-88cc-491e-a4dd-6b8c2c962fab",
+          "map": "00monolith",
+          "r": 730,
+          "own_side": 0,
+          "distance": 0.7918225193614226,
+          "same_map": true,
+          "end": 740,
+          "banked_change": 0,
+          "collected_change": 16,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 35,
+            "priority": 33,
+            "attack": 14,
+            "cast": 6
+          },
+          "native_events": {
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "63bd63d1-c3ec-41ab-94d7-7af613262eff",
+          "map": "00anvil",
+          "r": 850,
+          "own_side": 1,
+          "distance": 1.4877026815546897,
+          "same_map": false,
+          "end": 860,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 30,
+          "actions": {
+            "cancel_channel": 15,
+            "move": 17,
+            "recall": 16,
+            "priority": 2,
+            "cast": 1,
+            "buy": 1
+          },
+          "native_events": {
+            "buyItem": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C092",
+      "controls": {
+        "own_win": {
+          "match_id": "c376ce7d-0b26-42f5-9911-b40e5b78a8b5",
+          "map": "00great_wall",
+          "r": 470,
+          "own_side": 0,
+          "distance": 1.3056636383789675,
+          "same_map": true,
+          "end": 480,
+          "banked_change": 0,
+          "collected_change": 49,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 35,
+            "cast": 3,
+            "recall": 1,
+            "priority": 3
+          },
+          "native_events": {
+            "gemCollection": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "b180e493-4ae7-462a-a72c-f28ee930fa69",
+          "map": "00great_wall",
+          "r": 690,
+          "own_side": 0,
+          "distance": 1.3696118992420219,
+          "same_map": true,
+          "end": 700,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 17,
+            "move": 9,
+            "cast": 6,
+            "priority": 11,
+            "recall": 1,
+            "cancel_channel": 1,
+            "bank_start": 3
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 3
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C093",
+      "controls": {
+        "own_win": {
+          "match_id": "c3ae490e-3c05-4dd7-9819-f51a37f7c326",
+          "map": "00ribs",
+          "r": 480,
+          "own_side": 1,
+          "distance": 0.9019045646406719,
+          "same_map": true,
+          "end": 490,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 16,
+            "priority": 12,
+            "move": 32,
+            "cast": 4,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "50295f77-7443-4838-8656-e6b610822fcc",
+          "map": "00ribs",
+          "r": 130,
+          "own_side": 0,
+          "distance": 0.5769418937710207,
+          "same_map": true,
+          "end": 140,
+          "banked_change": 0,
+          "collected_change": 43,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 46,
+            "move": 41,
+            "recall": 45,
+            "priority": 8,
+            "cast": 2,
+            "ward": 2,
+            "bank_start": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C094",
+      "controls": {
+        "own_win": {
+          "match_id": "7f6bb47a-58b3-41b4-8e36-b41a51e37199",
+          "map": "02the_pack",
+          "r": 40,
+          "own_side": 0,
+          "distance": 0.33517376308784047,
+          "same_map": true,
+          "end": 50,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 27,
+            "priority": 22,
+            "attack": 16,
+            "cast": 8,
+            "recall": 1
+          },
+          "native_events": {
+            "campClear": 1,
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5101f4a7-1053-4e11-a36a-8db3b6412706",
+          "map": "00contest",
+          "r": 190,
+          "own_side": 0,
+          "distance": 0.2258654491496654,
+          "same_map": false,
+          "end": 200,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "move": 43,
+            "buy": 1,
+            "cancel_channel": 47,
+            "recall": 48,
+            "cast": 7,
+            "priority": 4,
+            "attack": 4,
+            "ward": 4
+          },
+          "native_events": {
+            "buyItem": 1,
+            "gemCollection": 2,
+            "wardPlacement": 4,
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C095",
+      "controls": {
+        "own_win": {
+          "match_id": "212e398d-545a-4f1e-bd5b-049873df5a62",
+          "map": "00split",
+          "r": 210,
+          "own_side": 1,
+          "distance": 1.1858742587125775,
+          "same_map": true,
+          "end": 220,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 8,
+            "move": 40,
+            "priority": 5,
+            "attack": 16
+          },
+          "native_events": {
+            "campClear": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "762c08a8-792f-4485-8290-633c3d4cfd79",
+          "map": "00collision",
+          "r": 740,
+          "own_side": 0,
+          "distance": 0.7331201376549226,
+          "same_map": false,
+          "end": 750,
+          "banked_change": 0,
+          "collected_change": 4,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "priority": 14,
+            "move": 28,
+            "cast": 3
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C096",
+      "controls": {
+        "own_win": {
+          "match_id": "118dc8d7-2b9c-46f2-b0d1-db6d5928888a",
+          "map": "00fragment",
+          "r": 340,
+          "own_side": 0,
+          "distance": 0.39216142772556445,
+          "same_map": true,
+          "end": 350,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 25,
+            "priority": 11,
+            "ward": 1,
+            "cast": 5,
+            "attack": 3,
+            "bank_start": 1
+          },
+          "native_events": {
+            "wardPlacement": 1,
+            "campClear": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "f0fe0c14-2109-4b69-8b39-820d51da9932",
+          "map": "00crater",
+          "r": 40,
+          "own_side": 0,
+          "distance": 0.47744767665547166,
+          "same_map": false,
+          "end": 50,
+          "banked_change": 0,
+          "collected_change": 18,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 39,
+            "move": 33,
+            "recall": 48,
+            "priority": 19,
+            "cast": 8,
+            "attack": 14,
+            "ward": 2
+          },
+          "native_events": {
+            "wardPlacement": 2,
+            "gemCollection": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C097",
+      "controls": {
+        "own_win": {
+          "match_id": "a6ac8138-0820-4f92-8940-7ba63d8d8ae6",
+          "map": "00swirl",
+          "r": 200,
+          "own_side": 1,
+          "distance": 0.6298901285960733,
+          "same_map": true,
+          "end": 210,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 7,
+            "priority": 20,
+            "move": 21,
+            "attack": 13
+          },
+          "native_events": {
+            "gemCollection": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "5101f4a7-1053-4e11-a36a-8db3b6412706",
+          "map": "00contest",
+          "r": 500,
+          "own_side": 0,
+          "distance": 0.3850993394232591,
+          "same_map": false,
+          "end": 510,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 240,
+          "actions": {
+            "cancel_channel": 33,
+            "move": 33,
+            "recall": 36,
+            "attack": 10,
+            "cast": 9,
+            "priority": 3,
+            "buy": 4,
+            "ward": 2
+          },
+          "native_events": {
+            "campClear": 2,
+            "buyItem": 4,
+            "itemCombination": 2,
+            "gemCollection": 2,
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C098",
+      "controls": {
+        "own_win": {
+          "match_id": "b83026f1-4aca-4841-8c03-ea1aabfa8081",
+          "map": "00quadrants",
+          "r": 280,
+          "own_side": 0,
+          "distance": 1.7243122683474472,
+          "same_map": true,
+          "end": 290,
+          "banked_change": 0,
+          "collected_change": 61,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 24,
+            "recall": 1,
+            "cast": 5,
+            "ward": 1,
+            "attack": 8,
+            "priority": 1
+          },
+          "native_events": {
+            "gemCollection": 2,
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "77610d11-e05a-446a-b093-e026521d8212",
+          "map": "00dunes",
+          "r": 670,
+          "own_side": 0,
+          "distance": 1.6268293184551337,
+          "same_map": false,
+          "end": 680,
+          "banked_change": 43,
+          "collected_change": 18,
+          "lost_change": 0,
+          "equipment_change": 60,
+          "actions": {
+            "cancel_channel": 41,
+            "move": 44,
+            "ward": 3,
+            "recall": 43,
+            "priority": 13,
+            "buy": 1,
+            "cast": 5,
+            "bank_start": 1,
+            "attack": 2,
+            "bank_complete": 1,
+            "movement_blocked": 1
+          },
+          "native_events": {
+            "gemCollection": 1,
+            "wardPlacement": 3,
+            "buyItem": 1,
+            "gemSubmission": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C099",
+      "controls": {
+        "own_win": {
+          "match_id": "94b10a81-fe07-47d8-bfe3-1330398a01fb",
+          "map": "00packs",
+          "r": 20,
+          "own_side": 0,
+          "distance": 0.40210697405041135,
+          "same_map": true,
+          "end": 30,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 23,
+            "attack": 20,
+            "cast": 5,
+            "priority": 21,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "c4266fa9-307b-42e0-8d0e-f379c6411ebd",
+          "map": "00packs",
+          "r": 80,
+          "own_side": 0,
+          "distance": 1.0670415360253576,
+          "same_map": true,
+          "end": 90,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 20,
+            "move": 20,
+            "recall": 27,
+            "attack": 16,
+            "cast": 8,
+            "priority": 9
+          },
+          "native_events": {
+            "campClear": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C100",
+      "controls": {
+        "own_win": {
+          "match_id": "2b8f001b-1792-41f8-867f-afc21d0d8452",
+          "map": "01islands",
+          "r": 230,
+          "own_side": 1,
+          "distance": 0.4163946253253808,
+          "same_map": true,
+          "end": 240,
+          "banked_change": 8,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 16,
+            "bank_complete": 1,
+            "cast": 9,
+            "priority": 21,
+            "attack": 20,
+            "ward": 1
+          },
+          "native_events": {
+            "gemSubmission": 1,
+            "gemCollection": 1,
+            "campClear": 2,
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "50295f77-7443-4838-8656-e6b610822fcc",
+          "map": "00ribs",
+          "r": 360,
+          "own_side": 0,
+          "distance": 0.32455746512194134,
+          "same_map": false,
+          "end": 370,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 21,
+            "recall": 50,
+            "cancel_channel": 42,
+            "ward": 5,
+            "move": 30,
+            "priority": 5,
+            "cast": 6
+          },
+          "native_events": {
+            "wardPlacement": 5
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C101",
+      "controls": {
+        "own_win": {
+          "match_id": "fe324bab-404a-4121-a789-711864f9dce6",
+          "map": "02treasure_box",
+          "r": 300,
+          "own_side": 1,
+          "distance": 0.0,
+          "same_map": true,
+          "end": 310,
+          "banked_change": 0,
+          "collected_change": 43,
+          "lost_change": 30,
+          "equipment_change": 0,
+          "actions": {
+            "cast": 7,
+            "move": 17,
+            "priority": 32,
+            "attack": 28
+          },
+          "native_events": {
+            "death": 1,
+            "gemLoss": 1,
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 4
+          }
+        },
+        "top_winner": {
+          "match_id": "0373394f-b99c-44e6-a923-79cd1aeb61b7",
+          "map": "02treasure_box",
+          "r": 410,
+          "own_side": 1,
+          "distance": 0.7442842075175757,
+          "same_map": true,
+          "end": 420,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 22,
+            "recall": 27,
+            "cancel_channel": 8,
+            "cast": 5,
+            "attack": 18
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 4
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C102",
+      "controls": {
+        "own_win": {
+          "match_id": "f41d4a9c-7106-4463-b69d-c8b68e311825",
+          "map": "00pilgrimage",
+          "r": 350,
+          "own_side": 1,
+          "distance": 1.3227665729081792,
+          "same_map": true,
+          "end": 360,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 32,
+            "cast": 3
+          },
+          "native_events": {
+            "gemCollection": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "50295f77-7443-4838-8656-e6b610822fcc",
+          "map": "00ribs",
+          "r": 200,
+          "own_side": 0,
+          "distance": 1.6719590799828925,
+          "same_map": false,
+          "end": 210,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "cancel_channel": 34,
+            "move": 42,
+            "priority": 18,
+            "recall": 39,
+            "cast": 4,
+            "attack": 5,
+            "ward": 2
+          },
+          "native_events": {
+            "wardPlacement": 2
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C103",
+      "controls": {
+        "own_win": {
+          "match_id": "22209992-3210-4cdf-a036-501ad4cc69f0",
+          "map": "00split",
+          "r": 130,
+          "own_side": 1,
+          "distance": 0.9200905425296131,
+          "same_map": true,
+          "end": 140,
+          "banked_change": 12,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "move": 38,
+            "priority": 13,
+            "attack": 12,
+            "bank_start": 2,
+            "cast": 8,
+            "bank_complete": 2,
+            "ward": 2
+          },
+          "native_events": {
+            "gemSubmission": 2,
+            "wardPlacement": 2
+          }
+        },
+        "top_winner": {
+          "match_id": "a1344b11-b47a-4800-b22a-2d336db88cf5",
+          "map": "00quarry",
+          "r": 170,
+          "own_side": 1,
+          "distance": 1.1966918397797746,
+          "same_map": false,
+          "end": 180,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "priority": 1,
+            "move": 7,
+            "cast": 4,
+            "attack": 16
+          },
+          "native_events": {
+            "death": 1,
+            "gemLoss": 1
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C104",
+      "controls": {
+        "own_win": {
+          "match_id": "a8a645a5-62ed-41b8-be93-b70078a944cb",
+          "map": "adgato_gemcombat4",
+          "r": 370,
+          "own_side": 1,
+          "distance": 1.175506833967779,
+          "same_map": true,
+          "end": 380,
+          "banked_change": 0,
+          "collected_change": 63,
+          "lost_change": 0,
+          "equipment_change": 90,
+          "actions": {
+            "cast": 5,
+            "priority": 19,
+            "move": 30,
+            "attack": 4,
+            "recall": 1,
+            "movement_blocked": 1,
+            "ward": 1,
+            "buy": 1
+          },
+          "native_events": {
+            "kill": 1,
+            "gemCollection": 1,
+            "assist": 4,
+            "wardPlacement": 1,
+            "buyItem": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "50295f77-7443-4838-8656-e6b610822fcc",
+          "map": "00ribs",
+          "r": 330,
+          "own_side": 0,
+          "distance": 1.560363405841323,
+          "same_map": false,
+          "end": 340,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "priority": 10,
+            "cancel_channel": 32,
+            "move": 37,
+            "recall": 36,
+            "ward": 4,
+            "cast": 4,
+            "attack": 2
+          },
+          "native_events": {
+            "wardPlacement": 4
+          }
+        }
+      }
+    },
+    {
+      "card_id": "C105",
+      "controls": {
+        "own_win": {
+          "match_id": "4eb355d7-d5db-45cd-9f64-cd5d46e976b9",
+          "map": "00ambush",
+          "r": 420,
+          "own_side": 1,
+          "distance": 1.1700847291888739,
+          "same_map": true,
+          "end": 430,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 0,
+          "actions": {
+            "attack": 15,
+            "move": 44,
+            "cast": 6,
+            "priority": 8,
+            "ward": 1
+          },
+          "native_events": {
+            "wardPlacement": 1
+          }
+        },
+        "top_winner": {
+          "match_id": "a799c9f4-c9b2-4f0f-a1d4-fff20f06f3e6",
+          "map": "00elkring",
+          "r": 590,
+          "own_side": 1,
+          "distance": 0.8914075811689656,
+          "same_map": false,
+          "end": 600,
+          "banked_change": 0,
+          "collected_change": 0,
+          "lost_change": 0,
+          "equipment_change": 300,
+          "actions": {
+            "move": 55,
+            "ward": 3,
+            "buy": 2,
+            "movement_blocked": 1,
+            "attack": 6,
+            "cast": 6
+          },
+          "native_events": {
+            "wardPlacement": 3,
+            "buyItem": 2,
+            "itemCombination": 2
+          }
+        }
+      }
+    }
+  ]
+}

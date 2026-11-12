@@ -1,0 +1,108 @@
+{
+  "version": "deep-detectors-v1",
+  "engine": "2.0.0",
+  "registered_before_examined_trajectory_review": true,
+  "partition_seed": 20261028,
+  "analysis_partition": "examined",
+  "validation_partition": "calibration-excluded",
+  "hands_off_processing": "No detector execution or review before the final frequency check",
+  "unit": "physical champion, with native champion IDs; Cassi and Issac remain separate",
+  "interpretation": "Measured review flags and associations, not proven defects or causal effects",
+  "sample": "Every actual champion turn start; actions retain exact engine step round/input/substep; group progress at round boundaries",
+  "thresholds": {
+    "idle_turns": 10,
+    "bag_gems": 40,
+    "bag_turns": 50,
+    "repeat_death_window": 250,
+    "repeat_death_radius": 6,
+    "oscillation_moves": 4,
+    "oscillation_window": 20,
+    "empty_camp_wait_turns": 10,
+    "spawn_block_turns": 5,
+    "isolated_radius": 6,
+    "isolated_enemies": 2,
+    "isolated_turns": 3,
+    "ground_island_turns": 50,
+    "gold": 300,
+    "gold_turns": 20,
+    "vision_history_rounds": 5,
+    "equipment_rounds": [100, 250]
+  },
+  "detectors": {
+    "D1": {
+      "name": "Stationary with no move, attack or cast",
+      "predicate": "At least 10 consecutive fully observed alive turns without movement, attack or cast. Exclude active channel, stun and standing on an available capture reward.",
+      "denominator": "fully observed alive champion turns excluding channel/stun/capture occupation",
+      "limit": "Camping or deliberate waiting can be legitimate. End-of-game incomplete turns are censored."
+    },
+    "D2": {
+      "name": "Long high bag or high-bag death",
+      "predicate": "At least 40 gems for 50 consecutive alive turn observations without a recorded bank attempt/channel; separately, native death gem loss of at least 40.",
+      "denominator": "alive champion turns for bag duration; native deaths for death losses",
+      "limit": "Bank safety, map gates and deliberately waiting for a winning bag require contextual review."
+    },
+    "D3": {
+      "name": "Repeated spatial or killer-specific deaths",
+      "predicate": "A native death within 250 rounds of an earlier death of the same champion within Chebyshev radius 6, or to the same identified enemy champion.",
+      "denominator": "native champion deaths",
+      "limit": "Same killer is not a measurement of an entire enemy configuration."
+    },
+    "D4": {
+      "name": "Movement oscillation proxy",
+      "predicate": "A-B-A-B-A tile arrivals: four moves between two distinct tiles within 20 rounds; overlapping windows in one oscillation episode are merged.",
+      "denominator": "recorded movement steps",
+      "limit": "Spatial proxy only. Hidden modes and target intentions are unavailable; tactical kiting can trigger it."
+    },
+    "D5": {
+      "name": "Capture progress lost or reward taken after our clear",
+      "predicate": "An observed in-progress native group capture resets/switches owner before completion; separately, native last-clear team differs from native gem-reward recipient team.",
+      "denominator": "observed group progress transitions and native gem-reward captures, reported separately",
+      "limit": "Progress is sampled at round boundaries and can miss short attempts. Reward-steal coverage excludes any gold-only receipt absent from gemCollection events; native last-clear ownership is not damage-majority ownership."
+    },
+    "D6": {
+      "name": "Waiting at empty camps or blocking respawn",
+      "predicate": "At least 10 inactive, unchannelled alive turns within one tile of a respawning group; separately, at least 5 turns occupying a group's spawn tile while its respawn timer is zero.",
+      "denominator": "fully observed alive champion turns",
+      "limit": "Spawn occupation measures a contributor to blockage, not proof of the sole cause. Waiting may be deliberate."
+    },
+    "D7": {
+      "name": "Fuel exhaustion and native faults",
+      "predicate": "Exact native fuelExhausted events and diagnostic bot-fault totals, crosschecked against replay steps 26 and 27.",
+      "denominator": "fully observed champion turns; fault counts also reported per game",
+      "limit": "A fuel-out is not automatically a strength loss; zero-fault calibration cannot validate a positive fault example."
+    },
+    "D8": {
+      "name": "Interrupted bank channel or observed lock",
+      "predicate": "A recorded tribute start ends without its native gemSubmission; report visible enemy altar-lock context on high-bag turns.",
+      "denominator": "recorded bank attempts; high-bag alive turns for lock context",
+      "limit": "No replay evidence exists for SDK calls rejected before a recorded action. Dynamic altar-path inaccessibility is not inferred from absence of banking; gate and failed-call diagnosis remains a deep-track task."
+    },
+    "D9": {
+      "name": "Visible local isolation and ground-island context",
+      "predicate": "At least 3 alive turns with at least 2 actually visible enemies within 6 and no ally within 6. Separately record 50 stationary turns in a static ground component disconnected from spawn and altars.",
+      "denominator": "alive own-perspective champion-turn observations",
+      "limit": "The component flag omits ability, teleport and camp-clearing routes. It is a stranding review proxy, not proof that escape is impossible."
+    },
+    "D10": {
+      "name": "High unspent gold and shopping timing",
+      "predicate": "At least 300 gold for 20 consecutive turn observations, including dead shopping turns. Record first native buy and actual equipment at rounds 100 and 250.",
+      "denominator": "all observed champion turns with known gold, including dead turns",
+      "limit": "High gold can reflect travel or saving. Equipment is an inventory purchase-cost descriptor, not combat power; Greed emblems cost 750 rather than 150."
+    },
+    "D11": {
+      "name": "Turn-sampled vision gap and wards",
+      "predicate": "A native enemy-champion death whose killer was absent from all five preceding round-aligned victim turn-start visibility samples. Also report native ward placements through round 250.",
+      "denominator": "deaths with all five preceding alive turn samples and an identified enemy champion killer; ward counts only where game reaches round 250",
+      "limit": "Turn-sampled proxy: an enemy may become visible between these samples or in the death round. This is not proof the bot never saw the threat."
+    }
+  },
+  "reporting": {
+    "occurrence": "Per-game any champion flag, separately for own wins and losses; n and Wilson 95% interval",
+    "time_rates": "Flagged champion-turns / registered eligible champion-turns where applicable",
+    "uncertainty": "Map-cluster bootstrap loss-minus-win occurrence difference; opponent-cluster sensitivity; report insufficient support rather than zero-width certainty",
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 20261028,
+    "strata": ["primary cohort", "map", "opponent"],
+    "top_v_top": "Reference only; paired teams from one game share a game cluster"
+  }
+}

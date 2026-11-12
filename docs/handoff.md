@@ -1,5 +1,16 @@
 # Handoff: bot development from v52 onward
 
+**Latest deep-analysis handoff: final research report (2026-10-28).** Read `docs/NEXT_BOT_BRIEF.md` and `research/deep-2026-10-28/REPORT.md`. Exact reproduction, bounded recall regression, opponent profiles and fixed reserved-game frequency confirmation are complete. Recommendations remain unimplemented; see the dated final section at the end.
+
+**Analysis checkpoint (2026-10-28, Session 1 complete):** Read
+`research/deep-2026-10-28/STATE.md`, SESSION1_FINDINGS.md and P2_DETECTORS.md.
+All 555 replay/native pairs pass; all 385 examined games pass the registered
+D1-D11 event/state checks (360 own games,25 top-v-top). The 165 hands-off games
+have no detector output. Repeated-death flags remain associated with losses after
+per-death normalization and clustering; this is not a causal fix. Session 2
+timelines/model/cards are next. Wave 2 still needs FAST_FINDINGS and hypotheses.
+No new matches, bot edits, submissions or activations were made.
+
 **Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
 Written by Claude Code on 2026-10-25, when development was paused at v53. The next agent (GPT/Codex) works on **another device** and should set it up with `docs/setup.md`. Everything needed to build, test, analyse and submit is in this repository. Only bulk training data stays on the original laptop, the "training box" (§7), and none of the next steps need it.
@@ -414,3 +425,93 @@ NFS_REPLAY_ENGINE=2.0.0; decoder final score/round matched native output. Histor
 
 
 v58 submission receipt:2026-10-26T13:23:03.916Z, platform57 (repository v58),279034bytes, matching the verified bundle. Source unchanged38754076. The platform selected57; compilation remained queued and platform56 active at the last check. The user said further checking was unnecessary; no more polling, automation or match groups. Source/evidence commits311c4a8 and9c5ee22 were pushed before upload. See results/v58-submit.txt and V58_RELEASE.json.
+
+## 19. Deep analysis Session 1 checkpoint (2026-10-28)
+
+Analysis continues on `analysis/deep-2026-10-28`, based on the named working branch
+`claude/compare-fix-replay-decoder` at294500b8c4da4af19a81f2cdb262305ea54d27f9.
+The correct user-provided live69 source is frozen unchanged in `bots/live-69/`;
+33/33 remote blob hashes equal the ZIP,29/33 match v58. Independent server-source
+hash and exact activation time remain unavailable; authenticated actual-version
+UI evidence excludes contemporaneous v67 games.
+
+Read `research/deep-2026-10-28/STATE.md`, `P0_SETUP.md`, `P1_DATA.md`,
+`P2_DETECTORS.md` and `WAVE1_RESULTS.md`. Session 1 is incomplete at replay access:
+455 existing v69 games and30 top-v-top games cataloged as metadata;14 mirrored
+unranked groups/70 games completed,10W/60L, all request maps/sides/teams checked.
+No further wave1 requests. Wave2 retains10 groups and needs FAST_FINDINGS plus
+written hypotheses first. `SCRIMMAGES.json` is authoritative for IDs and pins.
+
+Candidate split: seed20261028,385 examined/165 hands-off,5 calibration-excluded.
+These are metadata assignments; accepted/reconciled games n=0. Two official native
+summaries pass internal/metadata checks, but no current replay file arrived.
+CLI remains signed out; login initiation previously refused before credentials.
+Do not copy browser session secrets or bypass blocked download controls. Resume
+with current replay bundles/native summaries, validate five pairs, then implement
+and validate D1-D11. Decoder migration uses the shared engine2 pins; smoke checks
+are not replay validation. No submissions, activations or ranked requests made.
+
+
+## 20. Deep-analysis website retrieval complete (2026-10-28)
+
+The earlier replay-access blocker in section 19 is resolved on the Windows desktop.
+All 111 frozen groups / 555 replay/native pairs were downloaded through official
+website controls. All 555 pass engine-2.0.0 final-state, draft, dynamic roster and
+native accounting checks (5,356 champion bodies); five calibration games passed
+before bulk decoding. Accepted study n=550: 385 examined / 165 hands-off. IDs and
+partitions are unchanged; no held-out decision/detector outputs were reviewed.
+
+Read research/deep-2026-10-28/STATE.md and REPLAY_RETRIEVAL.md; inventories/checks
+are DOWNLOADS.json and RECONCILIATION.json. Raw and decoded files remain local-only
+under artifacts/local-only/deep-2026-10-28 in work/battlecode-deep-analysis on the
+Battlecode project desktop workspace. See tools/README.md for ingestion/validation.
+Resume at detector threshold registration and D1-D11/perspective validation; do not
+restart wave 1. No new matches, submissions, activations or frozen-bot edits occurred.
+
+
+## 21. Deep-analysis Session 1 detector screen complete (2026-10-28)
+
+Registration 148d845 fixes D1-D11 definitions before examined processing. All five
+calibration games and all 385 examined games pass native-event/perspective checks;
+13 semantic cases and six statistics cases pass. Examined own sample: 191 losses,
+169 wins; reference: 25 top-v-top games. No detector has run on 165 hands-off games.
+New public metadata for all 111 frozen groups agree with native scores/rounds.
+
+Read research/deep-2026-10-28/SESSION1_FINDINGS.md, P2_DETECTORS.md and
+DETECTOR_DATA.json. D3 repeat deaths are associated with losses even per native
+death; D11's per-death contrast is weaker than its per-game contrast. Several
+other flags are frequent in wins too. No causal fix or threshold change follows.
+Next: Session 2 timelines, decomposition, openings, game-separated win-probability
+calibration and diverse prediction-first cards/ceilings. FAST_FINDINGS and wave-2
+hypotheses remain pending. Current raw outputs are local-only under
+artifacts/local-only/deep-2026-10-28/detector-examined-v2; usage in tools/README.md.
+
+
+## Session 2 deep-analysis checkpoint — 2026-10-28
+
+Read research/deep-2026-10-28/STATE.md and FAST_FINDINGS.md first.385 examined
+timelines pass11,853,045 resource comparisons; model231/77/77 split test log-loss
+0.4243 versus0.5318 bank-only;105 prediction-first cards cover65 losses and15
+control wins. D3 remains the leading detector association, not a tested fix.
+The official movement-blocked label correction is documented and checked across
+385 games, with identical model features/native-dependent events. Current P2
+supersedes older movement rates. The165 hands-off games remain unreviewed.
+
+Next: exact reproduction/effective-rule traces, then opponent profiles, takeover
+regressions and the final bot brief. Automated cards do not establish source-rule
+violations. Ten planned wave2 groups remain unqueued; check identity and direct
+authorization before any new request. No source edits/submissions/activations/new
+matches occurred. The user approved ongoing analysis-only pushes to the existing
+analysis/deep-2026-10-28 branch; raw replays/native summaries remain local.
+
+## 2026-10-28 final deep-analysis handoff
+
+Read docs/NEXT_BOT_BRIEF.md, docs/LOSS_KNOWLEDGE.md and research/deep-2026-10-28/REPORT.md, DATA.json, MISTAKES.md, P5_OPPONENTS.md, P6_DEEP_TRACK.md and FINAL_CONFIRMATION.md. Session3/4 now supersede the older Session2 “unfinished” pointers above.
+
+Ten losses/two control wins reproduce byte-for-byte;24 independent state comparisons/25,184 samples pass. Detailed traces are valid for nine selected windows, sparse exact traces for three. One recall/bank timer inconsistency is causally tested at a bounded warm state; original regression fails and diagnostic passes, without a win claim. Full-model purchases and broad repeated-death flags are not production recipes. A fixed final D3/M1-proxy/native-accounting check opens the165 reserved games once; no refitting or threshold tuning.
+
+Only a narrow M1 patch is implementation-ready; broader opening/combat/capture work requires diagnosis and new failing cases. Recommendations only: frozen bot unchanged, no new candidate submitted/activated or ranked/shared-quota matches requested. Wave2 ten groups remain unqueued. All tools/notes are on analysis/deep-2026-10-28 under ongoing user-approved analysis-only publication. Raw replays and diagnostic binaries remain ignored. The165 research-confirmation games are spent; future candidates need an untouched release holdout and the existing bench3/cluster/Bayes gate.
+
+## 2026-10-29 current v70 follow-up
+
+Newest research: docs/CURRENT_BOT_ADDENDUM.md and research/followup-v70-2026-10-29/REPORT.md, ANALYSIS_DATA.json and STATE.md. Current downloaded platform70 “home side” differs from the historical v69 study. Added85 replay/native pairs,59 distinct trajectories, sideA-only BattleCats coverage; two source reproductions and two sparse private-state traces are full-game byte-exact. M1 recurs on split/collision; midgame resource divergence, Marcella funding and guardians zero-bank loss are the new diagnostic priorities. Old study stays frozen. No production policy changes, matches queued or deployments. User approval still covers analysis-only publication to analysis/deep-2026-10-28; raw evidence/current source remain ignored.

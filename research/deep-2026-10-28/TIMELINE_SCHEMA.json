@@ -1,0 +1,29 @@
+{
+  "version": "deep-timeline-v1",
+  "engine": "2.0.0",
+  "clock": {
+    "initial": "before first player input; recorded as round0 with actual engine cursor retained",
+    "ordinary": "main phase0, after all round operations and before the next round increment",
+    "last": "exact final state, including a final partial round",
+    "validated_against": "native round-indexed RLE gold, gems, earnedGold, submissions and final metrics",
+    "rejected_method": "Timeline seek's third parameter is not a raw step.substep cursor; draft rounds also reuse the round field"
+  },
+  "sampling": "every round <=300, every fifth later round, every native event round, and final",
+  "storage": "local-only per-game JSON; schema and small calibration sample may be committed",
+  "team_columns": [
+    "banked", "carried", "collected", "lost", "earned_gold", "gold",
+    "capture_gold", "kill_gold", "bank_bonus_gold", "other_or_unclassified_gold",
+    "equipment_cost", "alive", "health", "max_health_alive", "respawn_timer_sum",
+    "captures", "clears", "capture_rewards_taken_from_clearer", "middle_gems", "middle_capture_gold",
+    "wards_placed", "active_wards", "vision_fraction", "middle_vision_fraction",
+    "centroid_x", "centroid_y", "spread", "nearest_enemy_distance",
+    "round_actions", "fuel_outs", "dead_rounds", "travel_rounds", "stationary_rounds", "channel_rounds"
+  ],
+  "events": "exact native event time/owner/target/position; successful movement/cast/recall/bank/priority/teleport steps retain actual engine round/input/substep",
+  "perspective": "both teams' true team-perspective state at retained round snapshots; exact actor-turn contexts are reconstructed separately for chosen cards",
+  "middle": "minimum Chebyshev distance to initial spawn positions; neither side is <0.8 of the other distance",
+  "gold_sources": "capture phase deltas; exact native kill/bank event pre/post credit deltas; all unmatched or mixed credits remain explicit residuals",
+  "equipment": "actual current inventory purchase cost; standard emblem150, Greed emblem750, shard30; not combat power",
+  "time_categories": "round-boundary proxies with declared precedence, not hidden modes or exact continuous durations",
+  "model": "no terminal features, no future income, no game IDs/map/opponent labels as predictors; splits fixed in MODEL_SPLIT.json"
+}

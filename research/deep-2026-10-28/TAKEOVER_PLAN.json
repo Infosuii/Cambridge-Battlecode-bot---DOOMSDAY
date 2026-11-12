@@ -1,0 +1,18 @@
+{
+  "version": "winning-bag-recall-guard-diagnostic-v1",
+  "registered_before_diagnostic_run": true,
+  "match_id": "1473a066-b6df-4410-a447-2b374428adc2",
+  "card_id": "C004",
+  "actor": 1,
+  "takeover_round": 1669,
+  "valid_horizon_rounds": 10,
+  "decision_assertion_window": [1669, 1672],
+  "baseline": "exact frozen69 source against the validated enemy action puppet; already byte-identical to original full replay",
+  "diagnostic_change": "Only for actor1 at R>=1669, require !w.no_bank and round>=tribute_off_until before cancelling recall solely because win_now() and health pass the current guard. Preserve the existing channel-danger cancellation path.",
+  "warm_state_requirement": "Every accepted input and state before R1669 must match the frozen source run. Any earlier divergence invalidates this trial.",
+  "prediction": "The baseline repeats cancel+recall in each decision-window turn; the diagnostic does not, while banking remains disabled until1683. A live bank or game win is not predicted.",
+  "assertion": "Zero same-turn CancelChannel+Recall restart pairs by actor1 during R1669-1672 when the original exact trace has banking disabled; record recall completion, health and bag through R1678 as secondary observations.",
+  "enemy_puppet_horizon": "Use at most ten rounds, and truncate interpretation earlier if any enemy scripted action is rejected. Ignore the eventual match outcome.",
+  "decision_rule": "If prefix fidelity fails, no counterfactual claim. If prefix passes and baseline fails/diagnostic passes the assertion without an earlier enemy-script rejection, confirm only that the guard removes this recorded decision inconsistency. Ladder benefit remains untested.",
+  "publication": "Diagnostic source and Wasm stay under ignored artifacts; only tool, case metadata, hashes and bounded results may be committed. Do not edit or submit the frozen bot."
+}
