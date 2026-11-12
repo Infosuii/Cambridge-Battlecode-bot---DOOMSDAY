@@ -1,0 +1,48 @@
+{
+  "status": "Frozen before prospective games; diagnostic only",
+  "mechanism": "One stationary damaging target; raw damage multiplied by1+0.5*(1-currentHP/maxHP) each basic, coupled to shield timing. No reset, movement, healing, other actors, dash or mixed groups.",
+  "mechanics_geometry": [
+    "00expanse",
+    "00lanes",
+    "01fracture"
+  ],
+  "validation_geometry": [
+    "00great-wall",
+    "00interlock",
+    "00packs",
+    "00pilgrimage",
+    "00quadrants",
+    "00reverse-spiral"
+  ],
+  "flags": {
+    "DZ_TRACE_MODEL": 1,
+    "DZ_TRACE_SHIELD": 1,
+    "DZ_TRACE_HEART": 1,
+    "DZ_TRACE_SPLASH": 0,
+    "DZ_TRACE_SLOT": 1,
+    "DZ_TRACE_TO": 0,
+    "DZ_DRAFT_VARIANT": 1,
+    "DZ_MAP_DRAFT_TABLE": 0
+  },
+  "pilot": {
+    "run": "dz-model-heart-shield-quad-01",
+    "maps": [
+      "00quadrants"
+    ],
+    "opponent": "v76"
+  },
+  "validation": {
+    "idle": "dz-model-heart-shield-idle-01",
+    "v76": "dz-model-heart-shield-v76-01",
+    "games_each": 12
+  },
+  "bounds": {
+    "members": 64,
+    "horizon": 96,
+    "gate_cost": 45000,
+    "reserve": 12000,
+    "physical_fuel_threshold": 57000
+  },
+  "scoring": "Only issued mode2/bonus0.5 forecasts with exact member HP identity, one live damaging member, fresh memory, stationary public spawn context, no helpers/bystanders, other damage or healing. Excluded/dead/censored explicit; empty n0/null. Same-window old unshielded comparison, not isolated passive causal effect.",
+  "gates": "Runtime-clean pilot required; retain failed attempts. No source-policy promotion or full V-M1 closure from restricted positive cases. Historical six mechanics games are retrospective, not prospective validation or independent seeds."
+}

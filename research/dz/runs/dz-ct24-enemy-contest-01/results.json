@@ -1,0 +1,94 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 694.1166134185304,
+  "fuel_p99": 7477,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "capture-contest",
+      "map_sha256": "fb0bad7c246a02ea18a136085d5d46cceff1f7a87014e063f2975cbe1ffc6438",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 110,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a77ce11f7a464e4fcd56448596726ee5e6480b5108580d14005d4b1e65b21e38",
+      "opponent_sha256": "39ff59c8fdea6fdedc8236280de156e71a60c5aa726ad97aab7459a5d32a9942",
+      "replay_sha256": "680ae64d303d6abd3414d7bf829b76ec5439138da10e73896a5f3ec1b74c898f",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "contest_resets_capture_timer": false,
+          "contest_preserves_unclaimed_gems": true,
+          "full_reward_after_enemy_leaves": true,
+          "capture_progress_resumed": true
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "capture-contest",
+      "map_sha256": "fb0bad7c246a02ea18a136085d5d46cceff1f7a87014e063f2975cbe1ffc6438",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 110,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a77ce11f7a464e4fcd56448596726ee5e6480b5108580d14005d4b1e65b21e38",
+      "opponent_sha256": "39ff59c8fdea6fdedc8236280de156e71a60c5aa726ad97aab7459a5d32a9942",
+      "replay_sha256": "c4095498da5cdec759bbf57a0d580410f0483b15cac4ca6dfd5497e8edcf4d1c",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "contest_resets_capture_timer": true,
+          "contest_preserves_unclaimed_gems": true,
+          "full_reward_after_enemy_leaves": true,
+          "capture_progress_resumed": true
+        },
+        "missing": []
+      }
+    }
+  ]
+}

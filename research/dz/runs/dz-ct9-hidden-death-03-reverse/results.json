@@ -1,0 +1,168 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 475.51608579088474,
+  "fuel_p99": 5149,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 130,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "45311f546f6164a4f9b14ae5a08f63d5c0b9ff2bc8fde27b5b82e9aa39d61441",
+      "opponent_sha256": "03a49186bc58018dba220e684a1f2eb1fb502b7afc32e8868207c5527aed1070",
+      "replay_sha256": "e565b30a60c23f875d79122f2aa2ce575e8986c06bdbaf8d369233ddeee25f93",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "enemy_hidden_before_death": true,
+          "enemy_hidden_during_death": true,
+          "ally_respawn_duration": false,
+          "enemy_respawn_duration": false
+        },
+        "queries": {
+          "hidden_alive_before": [
+            1,
+            1,
+            0
+          ],
+          "hidden_health_before": [
+            0,
+            0,
+            97
+          ],
+          "ally_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_enemy_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_health_dead": [
+            0,
+            0,
+            97
+          ],
+          "ally_respawn_alive": [
+            1,
+            1,
+            0
+          ],
+          "hidden_enemy_respawn_alive": [
+            1,
+            1,
+            0
+          ]
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 130,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "45311f546f6164a4f9b14ae5a08f63d5c0b9ff2bc8fde27b5b82e9aa39d61441",
+      "opponent_sha256": "03a49186bc58018dba220e684a1f2eb1fb502b7afc32e8868207c5527aed1070",
+      "replay_sha256": "7aca83a684429b4b8569e8cfd2b027fdeb677f16886ae95843198ae4cd1a2143",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "enemy_hidden_before_death": true,
+          "enemy_hidden_during_death": true,
+          "ally_respawn_duration": false,
+          "enemy_respawn_duration": false
+        },
+        "queries": {
+          "hidden_alive_before": [
+            1,
+            1,
+            0
+          ],
+          "hidden_health_before": [
+            0,
+            0,
+            97
+          ],
+          "ally_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_enemy_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_health_dead": [
+            0,
+            0,
+            97
+          ],
+          "ally_respawn_alive": [
+            1,
+            1,
+            0
+          ],
+          "hidden_enemy_respawn_alive": [
+            1,
+            1,
+            0
+          ]
+        },
+        "missing": []
+      }
+    }
+  ]
+}

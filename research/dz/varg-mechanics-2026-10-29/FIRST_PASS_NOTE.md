@@ -1,0 +1,1 @@
+First-pass sideA audits use the correct body1. SideB body1 is an idle opponent, not the traced candidate; its empty audit is not evidence. Fracture-B stopped on the Varg type assertion. Corrected-02 derives candidate body from the frozen SDK quotes (sideB body6) and reanalyzes the same four games. No new matches or data overwrite.

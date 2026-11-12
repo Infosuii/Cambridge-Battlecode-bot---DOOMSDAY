@@ -1,0 +1,11 @@
+--- cand_v130/src/bot.cpp	2026-11-10 00:28:57.724095600 +0000
++++ cand_v130wa/src/bot.cpp	2026-11-10 01:07:24.644025900 +0000
+@@ -5681,7 +5681,7 @@
+                 force_tribute = true;
+                 return tribute_if_needed();
+             }
+-            if (gold >= 90 && !shop_done && wait > home_trip + 4 && type != bc::champion_type::tavi) {
++            if (gold >= 30 && !shop_done && wait > home_trip + 4 && type != bc::champion_type::tavi) { // CL waitshop30
+                 heading_home = true;
+                 return go_home_if_needed(true);
+             }

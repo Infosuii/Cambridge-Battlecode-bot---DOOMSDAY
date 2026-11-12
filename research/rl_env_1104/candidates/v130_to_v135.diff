@@ -1,0 +1,348 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -1993,16 +1993,7 @@
+ bool Bot::kite_step(const EnemyRec& target) {
+     auto& me = bc::self();
+     if (!me.can_move()) return false;
+-    const bool vv = VV_CARRY && type == bc::champion_type::vesper_vale;
+-    if (vv && cheb(pos, target.pos) > range) return false;
+     auto score = [&](vec2 q) {
+-        if (vv) {
+-            if (cheb(q, target.pos) > range) return -1000;
+-            int margin = 2;
+-            for (const auto& e : w.enemies)
+-                if (!e.tributing() && !e.recalling()) margin = std::min(margin, cheb(e.pos, q) - e.range);
+-            return margin;
+-        }
+         int md = 99;
+         for (const auto& e : w.enemies)
+             if (e.range <= 1 && !e.tributing() && !e.recalling()) md = std::min(md, cheb(e.pos, q));
+@@ -3114,14 +3105,6 @@
+         return true;
+     }
+     if (in_danger && !winning && tune::kStand2 && melee_caught()) return true;
+-#if VV_CARRY
+-    if (type == bc::champion_type::vesper_vale && target && target_ttk > 1.0f &&
+-        (!in_danger || winning) && kite_step(*target)) {
+-        mode = "vv-kite";
+-        debug_block({ std::printf("VVKITE %d %u %u\n", round, my_id, target->id); });
+-        return true;
+-    }
+-#endif
+     // Caster micro (APEX_CMICRO): ranged champions pick stay-and-shoot or a step by damage dealt against damage risked.
+     if (tune::kCMicro && (!melee || NOVA_CMICRO_MELEE) && nearest && nearest_d <= tune::kCMicroRange &&
+         (type != bc::champion_type::cassi || tune::kCMicroCassi == 1 || (tune::kCMicroCassi == 2 && [&] {
+@@ -3877,7 +3860,24 @@
+ bool Bot::wb_late() {
+     if (gems < 10 || !w.altar_ready) return false;
+     const int d = fdist(w.altar_field, pos);
+-    return d != kUnreach && round + d + gems / 10 + 25 >= static_cast<int>(bc::constants::max_rounds);
++    if (d == kUnreach) return false;
++    const int time_left = static_cast<int>(bc::constants::max_rounds) - round;
++    if (d + gems / 10 + 25 >= time_left) return true;
++    if (d != 0 || !w.enemies.empty() || w.no_bank || hp < max_hp * 0.4f) return false;
++
++    const int goal = static_cast<int>(bc::constants::winning_gems);
++    const int rival_remaining = std::min(goal - enemy_score, 2 * time_left);
++    if (rival_remaining > 300 || gems < std::max(10, rival_remaining / 8)) return false;
++    // Take a deposit in place during the race. Leave an ongoing capture and watched altars to the normal policy.
++    for (const auto& s : w.sightings)
++        if (round - s.round <= 10 && cheb(s.pos, pos) <= 7) return false;
++    for (const auto& g : w.groups)
++        if (g.state == GroupState::reward && bit(g.tiles, pos)) return false;
++    if (tune::kStaleBag > 0 && gems >= tune::kStaleBag)
++        for (std::size_t i = 0; i < w.altars.size() && i < altar_watch.size(); ++i)
++            if (altar_watch[i] > round && cheb(w.altars[i], pos) <= 2) return false;
++    debug_block({ std::printf("BANK_CLOSE %d %u %d %d %d %d\n", round, my_id, gems, ally_score, enemy_score, d); });
++    return true;
+ }
+
+ bool Bot::tribute_if_needed() {
+@@ -4125,6 +4125,25 @@
+     return n;
+ }
+
++// A stationary, movement-enabled approach failed several times at the same tile.
++bool Bot::leave_stalled_job(int group) {
++    // On gated maps a fresh camp can also reopen the only route to an altar.
++    if (w.altar_gated) return false;
++    if (group < 0 || static_cast<std::size_t>(group) >= route_avoid_until.size() || !bc::self().can_move()) return false;
++    if (stalled_job != group || stalled_job_round != round - 1 || stalled_job_pos != pos) {
++        stalled_job = group;
++        stalled_job_pos = pos;
++        stalled_job_turns = 0;
++    }
++    stalled_job_round = round;
++    if (++stalled_job_turns < 4) return false;
++    avoid_until[group] = route_avoid_until[group] = round + 40;
++    target_group = -1;
++    write_claim(-1);
++    debug_block({ std::printf("JOBSTUCK %d %u %d\n", round, my_id, group); });
++    return true;
++}
++
+ bool Bot::fight_camps(GroupRec& g, int need) {
+     auto pick_target = [&]() {
+         int best = -1;
+@@ -4410,14 +4429,15 @@
+             const bc::bitboard ring = attack_zone & ~inner & ~w.static_blocked & ~w.unit_tiles;
+             if (!ring.is_empty()) goal = ring;
+         }
+-        if (!walk_toward(goal) && !bit(goal, pos)) {
++        if (!walk_toward(goal)) {
+             if (walk_unreachable) {
+                 // No attack position is reachable over static terrain: drop the group (see to-capture).
+                 const auto gi = static_cast<std::size_t>(&g - &w.groups[0]);
+                 if (gi < avoid_until.size()) avoid_until[gi] = route_avoid_until[gi] = round + 300;
+                 return false;
+             }
+-            if (break_out()) return true;
++            if (!bit(goal, pos) && break_out()) return true;
++            if (leave_stalled_job(static_cast<int>(&g - &w.groups[0]))) return false;
+         }
+         if (!melee) {
+             const int after_walk = pick_target();
+@@ -4430,19 +4450,6 @@
+         t = pick_target();
+         if (t < 0) return true;
+     }
+-#if VV_CARRY
+-    if (t >= 0 && type == bc::champion_type::vesper_vale && incoming > 0 && hp_left > 2.0f * my_dps(&g)) {
+-        bc::bitboard nearby;
+-        nearby.clear();
+-        nearby.draw_chebyshev(pos, 1.0f);
+-        const auto safe = nearby & attack_zone & ~danger_zone & ~w.static_blocked & ~w.unit_tiles;
+-        if (!safe.is_empty() && walk_toward(safe)) {
+-            mode = "vv-camp-kite";
+-            debug_block({ std::printf("VVCAMP %d %u\n", round, my_id); });
+-            return true;
+-        }
+-    }
+-#endif
+     if (cast_on_camp(t)) {
+         // A spell may have killed the chosen target (or several nearby targets). Preserve the basic attack.
+         for (int retry = 0; retry < 4 && t >= 0; ++retry) {
+@@ -4579,13 +4586,11 @@
+ // A clearly poorer ally will take this finished group's reward: it stands on the region, or (unless
+ // on_tile_only) it claims the group and stands within 2 tiles of it.
+ bool Bot::poorer_ally_takes(const GroupRec& g, int gi, bool on_tile_only) const {
+-    const bool vv_reward = VV_CARRY && g.gold > 5.0f * g.gems;
+-    if (vv_reward && type == bc::champion_type::vesper_vale) return false;
+     const float mine = my_items();
+     if (type == bc::champion_type::marcella && (a2stack::cfg() & 8)) return false;
+     if (type == bc::champion_type::vesper_vale && (a2stack::cfg() & 1024) && static_cast<float>(g.gems) * 5.0f < static_cast<float>(g.gold)) return false;
+     for (const auto& a : w.allies) {
+-        const bool funnel = ((UB_GOLD_FUNNEL || vv_reward) && a.type == bc::champion_type::vesper_vale) || ((a2stack::cfg() & 8) && a.type == bc::champion_type::marcella) || ((a2stack::cfg() & 1024) && a.type == bc::champion_type::vesper_vale && static_cast<float>(g.gems) * 5.0f < static_cast<float>(g.gold));
++        const bool funnel = (UB_GOLD_FUNNEL && a.type == bc::champion_type::vesper_vale) || ((a2stack::cfg() & 8) && a.type == bc::champion_type::marcella) || ((a2stack::cfg() & 1024) && a.type == bc::champion_type::vesper_vale && static_cast<float>(g.gems) * 5.0f < static_cast<float>(g.gold));
+         if (!funnel && ((a2stack::cfg() & 4096) || items_of(a.type, a.max_hp, a.strength, a.focus) + static_cast<float>(tune::kShareGold) >= mine)) continue;
+         if (bit(g.tiles, a.pos)) return true;
+         if (on_tile_only) continue;
+@@ -4603,6 +4608,10 @@
+ // so a second body standing there only spends its capture turns on a share of the same reward. Every ally on the region
+ // computes the same owner (poorest by items, then lowest id) from what it sees; the others leave for their next job.
+ bool Bot::a3_other_owner(const GroupRec& g) const {
++    // MARC_OWNER: Marcella keeps the captures she stands on (2 gold per banked gem); allies on her region leave.
++    if (type == bc::champion_type::marcella) return false;
++    for (const auto& a : w.allies)
++        if (a.type == bc::champion_type::marcella && bit(g.tiles, a.pos) && a.hp >= 0.35f * a.max_hp) return true;
+     const float mine = my_items();
+     float best_items = mine;
+     std::uint32_t best_id = my_id;
+@@ -5568,7 +5577,26 @@
+     PROF_CHECK("farmsel");
+     nn_v92best = best;
+     nn_lazy_score();
+-    if (best >= 0 && nn_group >= 0 && !nn_stay && nn_ens_keep(best, nn_group)) nn_group = best;
++    if (best >= 0 && nn_group >= 0 && !nn_stay) {
++        if (nn_ens_keep(best, nn_group)) {
++            nn_group = best;
++        } else if ((type == bc::champion_type::cassi || type == bc::champion_type::issac) && best_need == 1 &&
++            !w.altar_gated && w.enemies.empty() && nn_group < static_cast<int>(w.groups.size()) &&
++            w.has_field(best) && w.has_field(nn_group) && w.group_distance(best, pos) <= w.group_distance(nn_group, pos) + 2) {
++            const auto& hand = w.groups[best];
++            const auto& neural = w.groups[nn_group];
++            const int partner = buddy();
++            const vec2 anchor = partner >= 0 ? buddy_anchor() : vec2{-1, -1};
++            if (anchor.x >= 0 && claim_of(partner) != best && !hand.camps.empty() && !neural.camps.empty() &&
++                hand.state == GroupState::alive && neural.state == GroupState::alive &&
++                cheb(anchor, w.camps[hand.camps.front()].pos) <= 4 &&
++                (cheb(anchor, w.camps[neural.camps.front()].pos) > 4 || claim_of(partner) == nn_group) &&
++                nn_ens_keep(best, nn_group, static_cast<float>(A2_NN_ENS))) {
++                debug_block({ std::printf("PAIR_VETO %d %u %d %d\n", round, my_id, nn_group, best); });
++                nn_group = best;
++            }
++        }
++    }
+     {
+         const int a2c = a2stack::cfg();
+         if (a2c & 2) nn_group = best;
+@@ -5645,14 +5673,15 @@
+         mode = "capture";
+         if (bit(g.tiles, pos)) return true; // capturing: hold position
+         mode = "to-capture";
+-        if (!walk_toward(g.tiles) && walk_unreachable) {
++        if (walk_toward(g.tiles)) return true;
++        if (walk_unreachable) {
+             // No walking route to the capture tiles (big-world/islands: camps on an island behind a two-tile hole
+             // moat; ranged allies kill them from the shore). Holding here froze champions for the rest of the game.
+             const auto gi = static_cast<std::size_t>(&g - &w.groups[0]);
+             if (gi < avoid_until.size()) avoid_until[gi] = route_avoid_until[gi] = round + 300;
+             return false;
+         }
+-        return true;
++        return !leave_stalled_job(best);
+     }
+     case GroupState::respawning: {
+         mode = "wait-respawn";
+@@ -5678,12 +5707,20 @@
+                 ? 2 * static_cast<int>(fdist(w.altar_field, pos)) + (gems + 9) / 10 : 0;
+             const int home_trip = std::min(2 * static_cast<int>(fdist(w.spawn_field, pos)), 12);
+             if (gems >= 10 && wait > altar_trip + 2) {
++                const bool prior_intent = force_tribute;
+                 force_tribute = true;
+-                return tribute_if_needed();
++                const bool acted = tribute_if_needed();
++                if (acted || !w.altar_gated) return acted;
++                // An unavailable gate can decline a deposit. Keep preparing the camp's next clear.
++                force_tribute = prior_intent;
++                debug_block({ std::printf("WAIT_BANK_FALLTHROUGH %d %u %d\n", round, my_id, wait); });
+             }
+             if (gold >= 90 && !shop_done && wait > home_trip + 4 && type != bc::champion_type::tavi) {
++                const bool prior_intent = heading_home;
+                 heading_home = true;
+-                return go_home_if_needed(true);
++                const bool acted = go_home_if_needed(true);
++                if (acted || !w.altar_gated) return acted;
++                heading_home = prior_intent && !bit(w.ally_spawn, pos);
+             }
+         }
+         bc::bitboard goal;
+--- a/src/bot.h
++++ b/src/bot.h
+@@ -45,7 +45,7 @@
+     void nn_lazy_score();        // in farm(): score the camps on the fuel v92 leaves (nnrec.cpp)
+     bool nn_stay = false;        // no fresh scores this turn: the current target stays (A2_NN_HOLDKEEP)
+     void nn_x_refresh(int x);    // refresh one slow block of the network's input (nnrec.cpp)
+-    bool nn_ens_keep(int v92g, int ng) const; // blend with v92's choice (nnrec.cpp)
++    bool nn_ens_keep(int v92g, int ng, float pair_margin = 0.0f) const; // blend with v92's choice (nnrec.cpp)
+     float nn_ens_margin(int v92g, int ng) const;
+     int nn_ens_sample(int v92g);              // the same in RL rollouts (A2_NN_RLIVE)
+     int nn_group = -1, nn_beh = -1;
+@@ -339,6 +339,11 @@
+     int bridge_hold = 0; // A2_BRIDGES: turns spent waiting at a hole gap for the dash
+     std::array<int, 8> altar_watch{}; // APEX_STALE_BAG: round until which each altar (w.altars order) is camped
+     bool keep_channel = false; // this turn: no stuns on a tributer we are hitting (a stun would free it)
++    int stalled_job = -1;
++    int stalled_job_round = -1;
++    int stalled_job_turns = 0;
++    vec2 stalled_job_pos{};
++    bool leave_stalled_job(int group);
+     bool walked = false;
+
+     void build_fields();
+@@ -381,8 +386,7 @@
+     float gold_weight() const {
+         // Secure an early item lead before contested camps and champion fights.
+         // Revert to the existing gem-race valuation after the opening phase.
+-        const float carry = VV_CARRY && type == bc::champion_type::vesper_vale ? 4.0f / 3.0f : 1.0f;
+-        const float weight = carry * tune::kGoldWeight * (round < UB_GOLD_UNTIL ? UB_GOLD_MULT : round < UB_GOLD_FADE ? UB_GOLD_MULT + (1.0f - UB_GOLD_MULT) * static_cast<float>(round - UB_GOLD_UNTIL) / static_cast<float>(UB_GOLD_FADE - UB_GOLD_UNTIL) : 1.0f);
++        const float weight = tune::kGoldWeight * (round < UB_GOLD_UNTIL ? UB_GOLD_MULT : round < UB_GOLD_FADE ? UB_GOLD_MULT + (1.0f - UB_GOLD_MULT) * static_cast<float>(round - UB_GOLD_UNTIL) / static_cast<float>(UB_GOLD_FADE - UB_GOLD_UNTIL) : 1.0f);
+         if (tune::kGoldTaper <= 0) return weight;
+         const float t = std::min(1.0f, static_cast<float>(ally_score) / static_cast<float>(tune::kGoldTaper));
+         return weight * (1.0f - 0.8f * t);
+--- a/src/common.h
++++ b/src/common.h
+@@ -94,7 +94,7 @@
+ #define HOME_TERR 0.3f
+ #define HOME_AGGR 0.8f
+ #define A3_BIG_PICKS cd::vendetta, cd::varg, cd::cassi_and_issac, cd::marcella, cd::heart_of_ruin
+-#define A3_ONE_OWNER 0
++#define A3_ONE_OWNER 1
+ #define A3_FOCUS 0.0f
+ #define A3_NUMBERS 0
+ #define A3_BACKOFF 1
+@@ -233,7 +233,7 @@
+ #define UB_CAMPFIX 0
+ #define UB_CAMPFIX_SCALE 1.0f
+ // UB_GOLD_FUNNEL: camp rewards go to Vesper (+33% gold) instead of the poorest teammate (bot.cpp poorer_ally_takes)
+-#define UB_GOLD_FUNNEL 1
++#define UB_GOLD_FUNNEL 0
+ // A2_FOG: fog belief regroup (bot.cpp fog_regroup): exposed (health < A2_FOG_HP of max or >= A2_FOG_GEMS carried) and
+ // at least A2_FOG_MARGIN more possible unseen enemies (sightings <= A2_FOG_AGE rounds old within A2_FOG_R + age) than allies within 5
+ #define A2_FOG_AGE 10
+@@ -271,7 +271,7 @@
+ #define UB_GOLD_MULT 4.0f
+ #define UB_GOLD_UNTIL 250
+ // the multiplier falls linearly from UB_GOLD_MULT at UB_GOLD_UNTIL to 1 at UB_GOLD_FADE (<= UNTIL: a step)
+-#define UB_GOLD_FADE 0
++#define UB_GOLD_FADE 700
+ #define A2_NN_MACRO 1
+ #define A2_NN_FAST 1
+ #define A2_NN_VALID 1
+--- a/src/draft.cpp
++++ b/src/draft.cpp
+@@ -620,11 +620,7 @@
+         if (v70 >= 0 && v70 < kNumLineups && pick_from(kLineups[v70], chosen)) return; // LADDER_TABLES
+         // A3 custom pick lists per team size (lab hooks; picked in order, skipping champions already ours).
+         if (size >= static_cast<std::uint32_t>(A3_BIG_SIZE)) {
+-#if VV_CARRY
+-            constexpr cd kA3Big[] = {cd::vendetta, cd::varg, cd::cassi_and_issac, cd::marcella, cd::vesper_vale};
+-#else
+             constexpr cd kA3Big[] = {A3_BIG_PICKS};
+-#endif
+             if (pick_from(kA3Big, chosen, skip)) return;
+         }
+         if (li >= 0 && li < kNumLineups && pick_from(kLineups[li], chosen, skip)) return;
+--- a/src/nnrec.cpp
++++ b/src/nnrec.cpp
+@@ -323,11 +323,28 @@
+     int n_claim = 0;
+     for (int s2 = 0; s2 < kClaimSlots; ++s2)
+         if (s2 != slot) claim_g[n_claim] = claim_of(s2), claim_n[n_claim] = 1, ++n_claim;
+-    for (std::size_t i = 1; i < gc.size(); ++i) {
+-        const GC e = gc[i];
+-        std::size_t j = i;
+-        for (; j > 0 && gc[j - 1].key > e.key; --j) gc[j] = gc[j - 1];
+-        gc[j] = e;
++    if (w.altar_gated || gc.size() <= 12) {
++        for (std::size_t i = 1; i < gc.size(); ++i) {
++            const GC e = gc[i];
++            std::size_t j = i;
++            for (; j > 0 && gc[j - 1].key > e.key; --j) gc[j] = gc[j - 1];
++            gc[j] = e;
++        }
++    } else {
++        const std::size_t limit = 4 * gc.size() + 16;
++        std::size_t shifts = 0;
++        std::size_t i = 1;
++        for (; i < gc.size() && shifts <= limit; ++i) {
++            const GC e = gc[i];
++            std::size_t j = i;
++            for (; j > 0 && gc[j - 1].key > e.key; --j) gc[j] = gc[j - 1];
++            gc[j] = e;
++            shifts += i - j;
++        }
++        if (i < gc.size()) {
++            std::stable_sort(gc.begin(), gc.end(), [](const GC& a, const GC& b) { return a.key < b.key; });
++            debug_block({ std::printf("MERGE_SORT %d %u %zu %zu\n", round, my_id, gc.size(), shifts); });
++        }
+     }
+     for (int i = 0; i < NC; ++i, k += kCF) {
+         if (i >= static_cast<int>(gc.size())) continue;
+@@ -588,14 +605,14 @@
+ }
+ // E123: blend of the network and v92 (farm(), nn_mkbot.py): v92's own choice stays unless the network's scores the other group more than A2_NN_ENS logits higher.
+ // A group outside the network's 10 nearest counts at the network's "far" score.
+-bool Bot::nn_ens_keep(int v92g, int ng) const {
++bool Bot::nn_ens_keep(int v92g, int ng, float pair_margin) const {
+     float sv = nn_pub.far, sn = -1e30f;
+     for (int i = 0; i < nn_pub.n; ++i) {
+         if (nn_pub.eg[i] == v92g) sv = nn_pub.es[i];
+         if (nn_pub.eg[i] == ng) sn = nn_pub.es[i];
+     }
+     const int a2c = a2stack::cfg();
+-    return sv + ((a2c & 128) ? 4.0f : (a2c & 256) ? 1.0f : static_cast<float>(A2_NN_ENS)) >= sn;
++    return sv + ((a2c & 128) ? 4.0f : (a2c & 256) ? 1.0f : static_cast<float>(A2_NN_ENS)) + pair_margin >= sn;
+ }
+ // Neural bot (A2_NN bits: 1 the student picks the farming target group, 2 it decides when to bank).
+ void Bot::nn_decide() {

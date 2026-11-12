@@ -1,4 +1,6 @@
-# Handoff: bot development from v52 onward (read this first)
+# Handoff: bot development from v52 onward
+
+**Newer state (2026-10-26): read `docs/HANDOFF_V61.md` first. Live bot: platform 60 = `bots/v61`.**
 
 Written by Claude Code on 2026-10-25, when development was paused at v53. The next agent (GPT/Codex) works on **another device** and should set it up with `docs/setup.md`. Everything needed to build, test, analyse and submit is in this repository. Only bulk training data stays on the original laptop, the "training box" (§7), and none of the next steps need it.
 

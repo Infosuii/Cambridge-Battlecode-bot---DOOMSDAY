@@ -1,0 +1,2 @@
+Initial metadata guard failed before timeline analysis: passive_type is uint8 at byte8 in unit_definition, not attack_type at84. Corrected directly from sdk/cpp/imports.h. No first-pass mechanics result was produced; fresh output names follow.
+Outputs02 validate basic damage but initially decoded dash payload as shield fields, making its metadata duration invalid. Correct tagged union offsets from imports.h in outputs03; no effect on the damage computations. Retain02 outputs as superseded mechanics attempts.

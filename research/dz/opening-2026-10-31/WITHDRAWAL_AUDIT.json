@@ -1,0 +1,162 @@
+{
+  "run": "dz-opening-checkpoint-10",
+  "passed": false,
+  "candidate_sha256": "835f54957e66a3a49542362ef70b9d33edb9cecfece2d1722085f4e1db1bec6b",
+  "scope": "Audit repeated production siege visits on frozen correctness fixtures.\n\nScope: retained target, own camp damage, native healing, and deaths during\nexplicit withdrawals, including ones that never return. Not strength evidence.\n",
+  "auditor_sha256": "cda5a92457c3293a54fc560afcabf02e360772cf7236a8d232bb29a53064c49b",
+  "note": "Existing strict audit, unchanged. Long censored intervals may include later tasks when trace events are missing; this is a failed audit, not zero-death acceptance. Recovery-shop does not require repeated siege cycles.",
+  "cells": [
+    {
+      "map": "recovery-shop",
+      "side": "A",
+      "completed_cycles": 0,
+      "escape_deaths": [],
+      "banked": 228,
+      "runtime_clean": true,
+      "passed": false,
+      "stdout_sha256": "3b9067c0b99784ea6c523ea3c7aea4c6d68938a3fe6ae5e36304d9b68343f20d",
+      "summary_sha256": "57180489979e715cef0079f745451aae4688f27c0d88af4a8df6064060e60e73"
+    },
+    {
+      "map": "recovery-shop",
+      "side": "B",
+      "completed_cycles": 0,
+      "escape_deaths": [],
+      "banked": 240,
+      "runtime_clean": true,
+      "passed": false,
+      "stdout_sha256": "1e96382144bc764f6ef4cd5dad08198b6b26ccdbbe97add1ef297d7ee9ac1724",
+      "summary_sha256": "1c225c430ff3afc3764505ac019cc664fbeae59407b846dd04993df87c91d354"
+    },
+    {
+      "map": "siege-two-layer",
+      "side": "A",
+      "completed_cycles": 46,
+      "escape_deaths": [
+        {
+          "body": 2,
+          "rounds": [
+            734
+          ],
+          "start": 711,
+          "stop": 1081
+        },
+        {
+          "body": 0,
+          "rounds": [
+            1253
+          ],
+          "start": 1202,
+          "stop": 1341
+        },
+        {
+          "body": 2,
+          "rounds": [
+            1262
+          ],
+          "start": 1230,
+          "stop": 1472
+        },
+        {
+          "body": 1,
+          "rounds": [
+            1814,
+            1980
+          ],
+          "start": 1531,
+          "stop": 2000
+        }
+      ],
+      "banked": 340,
+      "runtime_clean": true,
+      "passed": false,
+      "stdout_sha256": "9cad09c2fa19229d69ac6dcb9b8b37472dc8c31ea25c771ffe855dd1e6a09e09",
+      "summary_sha256": "5d32c19590735c6c30ede89cd63cb35e68c1245565036a550a2d0cd4db1de365"
+    },
+    {
+      "map": "siege-two-layer",
+      "side": "B",
+      "completed_cycles": 42,
+      "escape_deaths": [
+        {
+          "body": 5,
+          "rounds": [
+            605
+          ],
+          "start": 585,
+          "stop": 690
+        },
+        {
+          "body": 4,
+          "rounds": [
+            819,
+            934
+          ],
+          "start": 617,
+          "stop": 1042
+        },
+        {
+          "body": 3,
+          "rounds": [
+            594,
+            796,
+            877,
+            994,
+            1076
+          ],
+          "start": 584,
+          "stop": 1168
+        },
+        {
+          "body": 4,
+          "rounds": [
+            1096
+          ],
+          "start": 1088,
+          "stop": 1177
+        },
+        {
+          "body": 5,
+          "rounds": [
+            1106
+          ],
+          "start": 1088,
+          "stop": 1192
+        },
+        {
+          "body": 4,
+          "rounds": [
+            1232,
+            1371
+          ],
+          "start": 1180,
+          "stop": 1458
+        },
+        {
+          "body": 5,
+          "rounds": [
+            1570,
+            1666
+          ],
+          "start": 1539,
+          "stop": 1768
+        },
+        {
+          "body": 4,
+          "rounds": [
+            1555,
+            1646,
+            1856
+          ],
+          "start": 1547,
+          "stop": 2000
+        }
+      ],
+      "banked": 247,
+      "runtime_clean": true,
+      "passed": false,
+      "stdout_sha256": "03f9c9612b89b29f96979d2373f006e6925584e1c479cacf362742ae7383152f",
+      "summary_sha256": "a02626514b74ff52b2148bfe8f7f1f15abb2169d8d9945bf13281f6eae8212e4"
+    }
+  ]
+}

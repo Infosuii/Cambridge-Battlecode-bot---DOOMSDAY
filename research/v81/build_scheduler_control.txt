@@ -1,0 +1,79 @@
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/.cambc/build-release
+[0/2] Re-checking globbed directories...
+[1/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/neural_policy.cpp.obj
+[2/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/economy.cpp.obj
+[3/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/scheduler.cpp.obj
+[4/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/deny.cpp.obj
+[5/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/fight.cpp.obj
+[6/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tactics.cpp.obj
+[7/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/pressure.cpp.obj
+[8/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/episode.cpp.obj
+[9/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/main.cpp.obj
+[10/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/draft.cpp.obj
+[11/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/world.cpp.obj
+[12/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp:804:26: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^  ~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp:804:26: note: use '&' for a bitwise operation
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~
+      |                          &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp:804:26: note: remove constant to silence this warning
+  804 |     if (tune::kTsPhantom && tune::kBelief &&
+      |                          ^~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp:941:56: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^  ~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/tsearch.cpp:941:56: note: use '|' for a bitwise operation
+  941 |             const std::uint64_t need = tune::kTsBudget || tune::kDet ? static_cast<std::uint64_t>(2 - plan) * worst : 2 * worst;
+      |                                                        ^~
+      |                                                        |
+2 warnings generated.
+[13/15] Building CXX object CMakeFiles/bot.dir/C_/projects/cambridge_battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp.obj
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:3663:53: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+ 3663 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^  ~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:3663:53: note: use '&' for a bitwise operation
+ 3663 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~
+      |                                                     &
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:3663:53: note: remove constant to silence this warning
+ 3663 |     if (!tfc_applied && tune::kTsDecide && !(A2_TSX && tune::kTSearch) && target && nearest_d <= tune::kTsRange) {
+      |                                                     ^~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:4095:92: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4095 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:4095:92: note: use '|' for a bitwise operation
+ 4095 |             const bool moved_r = planned_r == 1 || (planned_r == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                            ^~
+      |                                                                                            |
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:4113:82: warning: use of logical '||' with constant operand [-Wconstant-logical-operand]
+ 4113 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^  ~~~~~~~~~~~~~~~~~~
+C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/src/bot.cpp:4113:82: note: use '|' for a bitwise operation
+ 4113 |         const bool moved = planned == 1 || (planned == 0 && ((((NOVA_FIGHT2 & 4) || (A2_TEAMFIGHT & 2)) && regroup_from(nearest->pos)) || retreat_from(nearest->pos)));
+      |                                                                                  ^~
+      |                                                                                  |
+3 warnings generated.
+[14/15] Linking CXX executable bot.wasm
+-- The CXX compiler identification is Clang 22.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Users/omdha/AppData/Local/cambc/wasi-sdk-33/bin/clang++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: C:/projects/cambridge battlecode/work/neural-full-stack/artifacts/tmp/v67/q-82control/.cambc/build
+injected 1 checks into 1 functions
+stripped stale debug sections (.debug_loc, .debug_abbrev, .debug_info, .debug_str, .debug_line, .debug_ranges); pass --keep-debug to retain them
+built C:\projects\cambridge battlecode\work\neural-full-stack\artifacts/tmp/v67/q-82control\.cambc\build-release\bot-injected.wasm

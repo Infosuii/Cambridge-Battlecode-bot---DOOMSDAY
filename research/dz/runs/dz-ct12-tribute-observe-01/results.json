@@ -1,0 +1,136 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 351.70909242854754,
+  "fuel_p99": 5117,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d3cde2a880290317f46877343baae93fa8df59d2658ca6d3d35ad5b278996e00",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "a830e4d0379ec31806ec01b6fe8f91d1ab610fda2774d19026cc750b0675c15b",
+      "diagnostic_checks": {
+        "passed": false,
+        "mechanical_setup_passed": true,
+        "observation_only": true,
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true
+        },
+        "results": [
+          [
+            "14",
+            "2",
+            "2",
+            "2",
+            "14",
+            "0",
+            "1",
+            "0.330000013"
+          ]
+        ],
+        "missing": [],
+        "scope": "calibration observation; passive effect not yet asserted"
+      },
+      "summary_sha256": "390f621532f31ab0c5d7bb700a097a9787274624c7309406d4e97b99deeb6eb4"
+    },
+    {
+      "map": "prospector",
+      "map_sha256": "5570d3376397a3f34298f9b183e576b0340eafcbb36b4702c7b0c83893ca085e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d3cde2a880290317f46877343baae93fa8df59d2658ca6d3d35ad5b278996e00",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "33097738a63227f83015e50b4e8be557f6fec67bbfe7e51f344840ec4d126e4c",
+      "diagnostic_checks": {
+        "passed": false,
+        "mechanical_setup_passed": true,
+        "observation_only": true,
+        "checks": {
+          "tribute_passive_setup": true,
+          "tribute_financed": true,
+          "tribute_bag_prepared": true,
+          "tribute_baseline_timer": true,
+          "tribute_cancel_retains_bag": true,
+          "tribute_item_created": true,
+          "tribute_same_bag": true,
+          "tribute_completed": true,
+          "tribute_live_duration": true
+        },
+        "results": [
+          [
+            "14",
+            "2",
+            "2",
+            "2",
+            "14",
+            "0",
+            "1",
+            "0.330000013"
+          ]
+        ],
+        "missing": [],
+        "scope": "calibration observation; passive effect not yet asserted"
+      },
+      "summary_sha256": "2890c32168d614807140063d57db27d9f115409fa4a2f6d627ac155d16a0ddb0"
+    }
+  ]
+}

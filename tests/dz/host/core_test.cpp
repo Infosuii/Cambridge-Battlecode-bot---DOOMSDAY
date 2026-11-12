@@ -1,0 +1,505 @@
+#include "core.h"
+#include "protocol.h"
+#include "camp_threat.h"
+#include "ledger.h"
+#include "basic_clear.h"
+#include "objective_math.h"
+#include "trace_meter.h"
+#include "failed_moves.h"
+#include "clear_risk.h"
+#include "fight.h"
+#include "attack_clock.h"
+#include "timed_damage.h"
+#include "shield_clear.h"
+#include "duel.h"
+#include "splash_reduction.h"
+#include <cassert>
+#include <iostream>
+#include <limits>
+
+int main() {
+    using namespace dz;
+    for (unsigned code=0;code<256;++code) assert(protocol::is_group_code(code)==(code<112));
+    assert(!protocol::is_group_code(protocol::idle)&&!protocol::is_group_code(protocol::shop));
+    FailedMoves blocked_moves;
+    FailureStreak retry_streak;
+    for(int round=1;round<20;++round) assert(!retry_streak.repeated(42,round));
+    assert(retry_streak.repeated(42,20));
+    assert(retry_streak.repeated(42,20)); // Duplicate cannot erase the streak.
+    assert(!retry_streak.repeated(42,22));
+    assert(!retry_streak.repeated(43,23));
+    for (int round=1;round<20;++round) assert(!blocked_moves.persistent_failure(42,round));
+    assert(blocked_moves.persistent_failure(42,20));
+    assert(!blocked_moves.persistent_failure(42,22)); // Gap or different tile resets evidence.
+    assert(!blocked_moves.persistent_failure(43,23));
+    blocked_moves.remember(42,10);
+    assert(blocked_moves.blocks(42,10)&&blocked_moves.blocks(42,15));
+    assert(!blocked_moves.blocks(42,16)&&!blocked_moves.blocks(41,10));
+    blocked_moves.remember(42,20);blocked_moves.clear(42);
+    assert(!blocked_moves.blocks(42,20));
+    blocked_moves.remember(42,20,2);
+    assert(blocked_moves.blocks(42,21)&&!blocked_moves.blocks(42,22));
+    for (int i=0;i<9;++i) blocked_moves.remember(100+i,30+i);
+    assert(!blocked_moves.blocks(100,38)&&blocked_moves.blocks(108,38));
+    TraceMeter meter;
+    meter.begin(1000,1);
+    assert(meter.available(900,1)==1000);
+    meter.begin(900,1);
+    meter.finish(850,1);
+    assert(meter.credited==0&&meter.available(850,1)==1000);
+    meter.finish(800,1);
+    assert(meter.credited==200&&meter.available(780,1)==980); // 20 actual bot work.
+    assert(meter.available(780,1,100)==880); // Compensation cannot exhaust the reserve.
+    meter.begin(780,1); meter.finish(750,1);
+    assert(meter.credited==230&&meter.available(730,1)==960);
+    meter.reset(); meter.begin(1000,1); meter.begin(900,1);
+    assert(meter.available(500,2)==500); // Suspension never credits the new turn.
+    meter.finish(500,2); meter.finish(450,2);
+    assert(meter.credited==0&&meter.depth==0);
+    assert(solo_capture_delay(CapturePhase::Available,5,3,true,true).rounds==4);
+    assert(solo_capture_delay(CapturePhase::Available,5,5,true,true).rounds==6);
+    assert(solo_capture_delay(CapturePhase::AllyActive,3,3,true,true).rounds==3);
+    assert(!solo_capture_delay(CapturePhase::AllyActive,3,3,false,true).supported());
+    assert(!solo_capture_delay(CapturePhase::Available,5,3,true,false).supported());
+    for (auto phase:{CapturePhase::Unavailable,CapturePhase::Contested,CapturePhase::EnemyActive})
+        assert(solo_capture_delay(phase,5,3,true,true).status==QuoteStatus::Unsupported);
+    assert(solo_capture_delay(CapturePhase::AllyActive,0,3,true,true).status==QuoteStatus::Invalid);
+    assert(solo_capture_delay(CapturePhase::AllyActive,5,3,true,true).status==QuoteStatus::Invalid);
+    assert(solo_capture_delay(static_cast<CapturePhase>(7),5,3,true,true).status==QuoteStatus::Invalid);
+    for (auto row:std::array<std::array<int,3>,7>{{{7,1,1},{14,2,2},{21,3,3},{30,3,3},{35,4,3},{70,7,5},{98,10,7}}}) {
+        assert(tribute_delay(row[0],0,1,.1f,0).rounds==row[1]);
+        assert(tribute_delay(row[0],0,1,.1f,.33f).rounds==row[2]);
+    }
+    // Independently known integer decade rule; catches widening .1f to double.
+    for (unsigned bag=1;bag<=2000;++bag) assert(tribute_delay(bag,0,1,.1f,0).rounds==static_cast<int>((bag+9)/10));
+    assert(!tribute_delay(0,0,1,.1f,0).supported());
+    assert(!tribute_delay(7,0,1,.1f,1).supported());
+    assert(!tribute_delay(7,0,1,std::numeric_limits<float>::quiet_NaN(),0).supported());
+    auto reward=solo_reward(RewardKind::GoldCluster,0,240,false,true,0);
+    assert(reward.supported()&&reward.gold_min==319&&reward.gold_max==319&&reward.next_remainder==80);
+    auto small_gold=solo_reward(RewardKind::GoldCluster,0,20,false,true,reward.next_remainder);
+    auto wolf_gold=solo_reward(RewardKind::Wolf,4,40,true,true,small_gold.next_remainder);
+    assert(small_gold.gold_min==26&&wolf_gold.gold_min==54&&wolf_gold.gems==4);
+    auto wolf_first=solo_reward(RewardKind::Wolf,4,40,false,true,reward.next_remainder);
+    assert(wolf_first.gold_min==53&&solo_reward(RewardKind::GoldCluster,0,20,false,true,wolf_first.next_remainder).gold_min==27);
+    assert(solo_reward(RewardKind::GemCluster,7,0,true,false).gems==8);
+    assert(solo_reward(RewardKind::GemCluster,14,0,true,false).gems==17);
+    for (bool prospector:{false,true}) for (bool vesper:{false,true}) for (unsigned gold:{0u,1u,20u,40u,240u,std::numeric_limits<unsigned>::max()}) {
+        auto interval=solo_reward(RewardKind::GoldCluster,0,gold,prospector,vesper);
+        assert(interval.supported()&&interval.next_remainder==-1&&interval.gold_max-interval.gold_min<=1);
+        for (int remainder=0;remainder<400;++remainder) {
+            auto exact=solo_reward(RewardKind::GoldCluster,0,gold,prospector,vesper,remainder);
+            assert(exact.supported()&&exact.gold_min==exact.gold_max&&exact.gold_min>=interval.gold_min&&exact.gold_max<=interval.gold_max);
+            assert(exact.next_remainder>=0&&exact.next_remainder<400);
+        }
+    }
+    assert(!solo_reward(RewardKind::Unsupported,7,20,false,false).supported());
+    assert(!solo_reward(RewardKind::GemCluster,7,20,false,false).supported());
+    assert(!solo_reward(RewardKind::Wolf,4,40,false,false,400).supported());
+    assert(!action_budget_available(5000,ActionBudget::Normal));
+    assert(action_budget_available(5000,ActionBudget::Emergency));
+    assert(!action_budget_available(1800,ActionBudget::Emergency));
+    assert(action_budget_available(1801,ActionBudget::Emergency));
+    std::array<BasicTarget,12> cluster;
+    cluster.fill({120,80});
+    assert(basic_attack_work(cluster).attacks==24); // Aggregated HP / damage wrongly gives 18.
+    assert(basic_attack_work(cluster,23).status==WorkStatus::BeyondHorizon);
+    assert(basic_attack_work(std::span<const BasicTarget>{},0).complete());
+    const BasicTarget dead[]{ {0,0} };
+    assert(basic_attack_work(dead,0).complete());
+    for (float hp:{-1.f,std::numeric_limits<float>::infinity(),std::numeric_limits<float>::quiet_NaN()}) {
+        const BasicTarget bad[]{ {hp,80} };
+        assert(basic_attack_work(bad).status==WorkStatus::Invalid);
+    }
+    for (float damage:{0.f,-1.f,std::numeric_limits<float>::infinity()}) {
+        const BasicTarget bad[]{ {120,damage} };
+        assert(basic_attack_work(bad).status==WorkStatus::Invalid);
+    }
+    const BasicTarget huge[]{ {std::numeric_limits<float>::max(),std::numeric_limits<float>::denorm_min()} };
+    assert(basic_attack_work(huge).status==WorkStatus::BeyondHorizon);
+    const BasicTarget invalid_tail[]{ {1e30f,1.f},{-1,1} };
+    assert(basic_attack_work(invalid_tail).status==WorkStatus::Invalid);
+    for (int hp=1;hp<=400;++hp) for (int damage=1;damage<=90;++damage) {
+        int remaining=hp,count=0;
+        while (remaining>0) { remaining-=damage; ++count; }
+        const BasicTarget target[]{ {static_cast<float>(hp),static_cast<float>(damage)} };
+        auto got=basic_attack_work(target);
+        assert(got.complete()&&got.attacks==static_cast<unsigned>(count));
+    }
+    const BasicTarget below[]{ {std::nextafter(160.f,0.f),80} },exact[]{ {160,80} },above[]{ {std::nextafter(160.f,200.f),80} };
+    assert(basic_attack_work(below).attacks==2&&basic_attack_work(exact).attacks==2&&basic_attack_work(above).attacks==3);
+    auto wolf=stationary_duel(1000,{1350,70},20);
+    assert(wolf.work.attacks==20&&wolf.future_damage_for_clear==380&&wolf.survives);
+    auto boundary=stationary_duel(60,{140,70},60);
+    assert(!boundary.survives&&stationary_duel(61,{140,70},60).survives);
+    assert(stationary_duel(1,{70,70},200).survives); // A kill this turn prevents retaliation next turn.
+    assert(!stationary_duel(1000,{2400,70},60).survives);
+    assert(stationary_duel(0,{70,70},0).work.status==WorkStatus::Invalid);
+    static_assert(tier_for(60000) == Tier::Full);
+    static_assert(tier_for(59999) == Tier::Lean);
+    static_assert(tier_for(24999) == Tier::Fallback);
+    unsigned checks = 0;
+    const std::uint64_t sentinel = 0xa5379876543210ffULL;
+    for (unsigned index = 0; index < protocol::slots; ++index) for (unsigned obj = 0; obj < 128; ++obj)
+        for (bool onsite : {false, true}) {
+            auto word = protocol::with_slot(sentinel, index, {static_cast<std::uint8_t>(obj), onsite});
+            const auto got = protocol::slot(word, index);
+            assert(got.objective == obj && got.onsite == onsite);
+            assert((word >> 48) == (sentinel >> 48));
+            for (unsigned other = 0; other < protocol::slots; ++other) if (other != index) {
+                assert(protocol::slot(word, other).objective == protocol::slot(sentinel, other).objective);
+                assert(protocol::slot(word, other).onsite == protocol::slot(sentinel, other).onsite);
+            }
+            ++checks;
+        }
+    for (unsigned i = 0; i < 6; ++i) assert(protocol::slot(protocol::empty_word(), i).objective == protocol::idle);
+    assert(protocol::group_code(111) == 111 && protocol::group_code(112) == protocol::idle);
+    assert(protocol::with_slot(sentinel, 6, {0,false}) == sentinel);
+    bool stale = false, action_ran = false;
+    try { require_current(4, [] { return 5u; }); action_ran = true; } catch (const StaleTurn&) { stale = true; }
+    assert(stale && !action_ran);
+    require_current(5, [] { return 5u; });
+    ModuleHealth broken,healthy; unsigned attempts=0,reports=0,healthy_runs=0;
+    for (unsigned i=0;i<8;++i) {
+        assert(!guarded_module(broken,[&] { ++attempts; throw std::runtime_error("controlled failure"); },[&](const char*) { ++reports; }));
+        assert(guarded_module(healthy,[&] { ++healthy_runs; },[](const char*) { assert(false); }));
+    }
+    assert(attempts==3 && reports==3 && !broken.enabled() && healthy_runs==8 && healthy.enabled());
+    try { guarded_module(healthy,[]{throw StaleTurn{};},[](const char*){assert(false);}); assert(false); }
+    catch (const StaleTurn&) {}
+    assert(healthy.failures==0); // Budget suspension is not a broken module.
+    ActionHistory actions;
+    assert(actions.may_cast(true, false, false, true));
+    actions.record_move(false); // Hidden obstruction keeps the allowance.
+    assert(actions.may_cast(true, false, false, true));
+    actions.record_move(true);
+    assert(!actions.may_cast(true, false, false, true));
+    assert(actions.may_cast(true, false, false, false)); // Shield/reset can follow movement.
+    actions = {};
+    actions.record_cast(false, true);
+    assert(actions.may_move(true, false, false));
+    actions.record_cast(true, true);
+    assert(!actions.may_move(true, false, false));
+    assert(!actions.may_cast(true, false, false, false));
+    actions = {};
+    actions.record_cast(true, false);
+    assert(actions.may_move(true, false, false));
+    assert(!actions.may_move(false, false, false)); // Ranged attack removed engine move allowance.
+    assert(!actions.may_move(true, true, false));
+    assert(!actions.may_move(true, false, true));
+    actions = {};
+    assert(!actions.may_cast(false, false, false, false));
+    assert(!actions.may_cast(true, true, false, false));
+    assert(!actions.may_cast(true, false, true, false));
+    Contract contract;
+    contract.start(2, 0, 20, 500, 5);
+    assert(contract.progressing(5, 20, 500, 5));
+    assert(!contract.progressing(6, 20, 500, 5));
+    assert(contract.progressing(6, 19, 500, 5));
+    assert(contract.progressing(11, 19, 400, 5));
+    assert(contract.progressing(16, 19, 400, 4));
+    assert(!contract.progressing(22, 19, 400, 4));
+    GroupBelief b; b.state = GroupState::Partial; b.hp = 123;
+    assert(b.available(100) && b.hp == 123); // Unattended partial HP is retained.
+    b.state = GroupState::Respawning; b.ready = 150;
+    assert(!b.available(149) && b.available(150));
+    assert(!bank_now(0, 0, 999, 1000));
+    assert(bank_now(1, 40, 999, 1000));
+    assert(bank_now(30, 40, 0, 1000));
+    assert(bank_now(1, 8, 0, 1000));
+    assert(!bank_now(29, 9, 0, 1000));
+    std::array threats{CampThreat{{0,0},60,4}};
+    auto exit=camp_escape(Tile{1,0},threats,[](Tile,int){return true;});
+    assert(exit.found && exit.steps==4 && exit.damage==180);
+    assert(camp_damage(exit.exit,threats)==0);
+    assert(must_escape_camps(240,60,180) && !must_escape_camps(241,60,180));
+    auto no_exit=camp_escape(Tile{1,0},threats,[](Tile,int){return false;});
+    assert(!no_exit.found);
+    auto blocked_exit=camp_escape(Tile{1,0},threats,[](Tile p,int){return !(p.x==3 && p.y==0);});
+    assert((blocked_exit.found && blocked_exit.exit!=Tile{5,0}));
+    auto no_budget=camp_escape(Tile{1,0},threats,[](Tile,int){return true;},[]{return false;});
+    assert(!no_budget.found && no_budget.truncated);
+    std::array pair{CampThreat{{0,0},60,4},CampThreat{{0,0},120,4}};
+    assert(camp_damage({1,1},pair)==180);
+    assert(camp_damage({5,1},pair)==0);
+    GroupBelief ledger; std::vector<float> initial{120,120},known=initial;
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{10.f,std::nullopt}},10);
+    assert(ledger.state==GroupState::Partial && ledger.hp==130);
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{std::nullopt,20.f}},20);
+    assert(ledger.hp==30 && known[0]==10);
+    // Unseen capture+respawn: HP increasing proves a new generation; hidden
+    // members must not retain old generation damage.
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{120.f,std::nullopt}},100);
+    assert(ledger.state==GroupState::Alive && ledger.hp==240 && known[1]==120);
+    apply_group_sample(ledger,known,initial,{GroupState::Reward,0,3,{std::nullopt,std::nullopt}},110);
+    assert(ledger.hp==0 && known[0]==0 && known[1]==0 && ledger.capture==3);
+    apply_group_sample(ledger,known,initial,{GroupState::Alive,0,65535,{100.f,std::nullopt}},170);
+    assert(ledger.hp==220 && known[1]==120);
+    apply_group_sample(ledger,known,initial,{GroupState::Respawning,30,65535,{std::nullopt,std::nullopt}},180);
+    assert(ledger.ready==210 && ledger.hp==240);
+    {
+        // Native single-camp duels (BASIC_CLEAR_VALIDATION, CAMP_MODIFIER_CONFORMANCE).
+        const ClearMember wolf[]{{1350,20}};
+        auto r=solo_clear_risk(wolf,70); assert(r.complete()&&r.attacks==20&&r.damage==380);
+        assert(clear_survivable(r,1000,1000));
+        const ClearMember wolf_mjd[]{{1350,12.6f}};
+        r=solo_clear_risk(wolf_mjd,115); assert(r.attacks==12&&std::abs(r.damage-138.6)<1e-3);
+        const ClearMember elk[]{{2400,60}}, golem[]{{5000,120}};
+        r=solo_clear_risk(elk,70); assert(r.attacks==35&&r.damage==2040&&!clear_survivable(r,1000,1000));
+        r=solo_clear_risk(golem,70); assert(r.attacks==72&&!clear_survivable(r,1000,1000));
+        // Harmless cluster: per-member overkill, zero damage.
+        std::array<ClearMember,12> cluster{}; cluster.fill({120,0});
+        r=solo_clear_risk(cluster,70); assert(r.attacks==24&&r.damage==0&&clear_survivable(r,101,1000)&&!clear_survivable(r,100,1000));
+        // Smith order: kill the high-damage member first. 2 wolves (20 hits
+        // each) + elk (35): elk first = 60*34+20*54+20*74 = 4600.
+        const ClearMember mixed[]{{1350,20},{2400,60},{1350,20}};
+        r=solo_clear_risk(mixed,70); assert(r.attacks==75&&r.damage==4600);
+        // Dead members are free; invalid inputs and horizons are explicit.
+        const ClearMember dead[]{{0,60},{1350,20}};
+        assert(solo_clear_risk(dead,70).damage==380);
+        const ClearMember bad[]{{1350,-1}};
+        assert(solo_clear_risk(bad,70).status==WorkStatus::Invalid);
+        assert(solo_clear_risk(wolf,0).status==WorkStatus::Invalid);
+        assert(solo_clear_risk(wolf,70,19).status==WorkStatus::BeyondHorizon);
+        assert(!clear_survivable(r,0,1000)&&!clear_survivable({},1000,1000));
+        assert(!clear_survivable(solo_clear_risk(wolf,70),.1f*1000+475,1000)&&clear_survivable(solo_clear_risk(wolf,70),.1f*1000+476,1000));
+    }
+    {
+        // Aggregated clear risk equals the per-member reference, including
+        // horizon and invalid-input outcomes.
+        unsigned seed=12345;
+        auto next=[&]{ seed=seed*1664525u+1013904223u; return seed>>8; };
+        for (int trial=0;trial<20000;++trial) {
+            std::array<ClearMember,clear_risk_members> m{};
+            const unsigned n=next()%40;
+            for (unsigned i=0;i<n;++i) {
+                const float hps[]{0,120,1350,2400,5000,700.5f,1.f};
+                const float inc[]{0,20,60,120,12.6f,18};
+                m[i]={hps[next()%7],inc[next()%6]};
+            }
+            const float dmg=next()%5==0 ? 115.f : 30.f+next()%90;
+            const unsigned horizon=next()%3==0 ? next()%200 : 2000;
+            std::span<const ClearMember> span(m.data(),n);
+            auto a=solo_clear_risk(span,dmg,horizon), b=solo_clear_risk_reference(span,dmg,horizon);
+            assert(a.status==b.status);
+            if (a.complete()) assert(a.attacks==b.attacks&&std::abs(a.damage-b.damage)<=1e-6*std::max(1.,b.damage));
+        }
+    }
+    {
+        // Focus-fire simulator.
+        const Fighter v{1000,70};
+        const Fighter one[]{v}, two[]{v,v};
+        auto f=simulate_fight(one,one); assert(f.valid&&f.rounds==15&&!f.self_alive&&f.theirs_alive==0&&!f.won()); // Mutual kill.
+        f=simulate_fight(two,one); assert(f.won()&&f.rounds==8&&f.ours_alive==2);
+        f=simulate_fight(one,two); assert(!f.won()&&!f.self_alive&&f.theirs_alive==2);
+        // The enemy focuses our weakest member, so a healthy decider survives.
+        const Fighter mixed[]{{2400,30},{300,70}};
+        f=simulate_fight(mixed,one); assert(f.won()&&f.ours_alive==1);
+        const Fighter bad[]{{1000,-1}};
+        assert(!simulate_fight(bad,one).valid&&!simulate_fight({},one).valid);
+        assert(simulate_fight(one,{}).won()); // No enemy: trivially won.
+        assert(simulate_fight(one,one,3).rounds==3&&!simulate_fight(one,one,3).won());
+    }
+    {
+        // Compare the closed-form reset clock with explicit owner-turn ticks.
+        auto reference=[](std::span<const TimedAttackJob> jobs,unsigned cd,unsigned period) {
+            unsigned rounds=0,resets=0;
+            for(auto job:jobs) {
+                unsigned n=job.attacks;
+                while(n) {
+                    ++rounds;--n;
+                    if(n&&period&&cd==0) { --n;++resets;cd=period; }
+                    if(!n&&job.refresh_on_kill)cd=0;
+                    if(cd)--cd;
+                }
+            }
+            return AttackClock{WorkStatus::Complete,rounds,resets,cd};
+        };
+        unsigned cases=0;
+        for(unsigned period=1;period<=8;++period)for(unsigned cd=0;cd<=8;++cd)
+            for(unsigned n=0;n<=100;++n)for(bool refresh:{false,true}) {
+                const TimedAttackJob jobs[]{{n,refresh},{n%7,!refresh}};
+                const auto fast=attack_clock(jobs,cd,period),slow=reference(jobs,cd,period);
+                assert(fast.complete()&&fast.rounds==slow.rounds&&fast.resets==slow.resets&&fast.remaining_cooldown==slow.remaining_cooldown);
+                ++cases;
+            }
+        const TimedAttackJob one[]{{1,true}},two[]{{2,true}},huge[]{{2001,false}};
+        assert(attack_clock(one,0,8).rounds==1&&attack_clock(one,0,8).resets==0);
+        assert(attack_clock(two,0,8).rounds==1&&attack_clock(two,0,8).remaining_cooldown==0);
+        assert(attack_clock(two,0,0).rounds==2);
+        assert(attack_clock(huge,0,8).status==WorkStatus::BeyondHorizon);
+        assert(!attack_clock(one,2001,8).complete());
+        std::cout << cases << " reset-clock/reference cases passed\n";
+    }
+    {
+        // Independent turn simulation: attack/reset, eliminate, then remaining
+        // camps hit before the next owner turn. No extra phase after a clear.
+        unsigned seed=74191;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            std::array<TimedDamageJob,8> jobs{};
+            const unsigned count=next()%9,period=next()%9,initial=period?next()%12:0;
+            for(unsigned k=0;k<count;++k)jobs[k]={{next()%30,bool(next()%2)},float(next()%40)/2};
+            const auto fast=timed_clear_damage(std::span<const TimedDamageJob>(jobs.data(),count),initial,period);
+            unsigned rounds=0,resets=0,cd=initial;double loss=0;
+            for(unsigned k=0;k<count;++k) {
+                unsigned n=jobs[k].attack.attacks;
+                while(n) {
+                    ++rounds;--n;
+                    if(n&&period&&!cd){--n;++resets;cd=period;}
+                    if(!n&&jobs[k].attack.refresh_on_kill)cd=0;
+                    if(cd)--cd;
+                    if(n)loss+=jobs[k].incoming;
+                    for(unsigned j=k+1;j<count;++j)if(jobs[j].attack.attacks)loss+=jobs[j].incoming;
+                }
+            }
+            assert(fast.clock.complete()&&fast.clock.rounds==rounds&&fast.clock.resets==resets&&fast.clock.remaining_cooldown==cd);
+            assert(fast.damage==loss);
+        }
+        const TimedDamageJob invalid[]{{{0,false},-1}},huge[]{{{2001,false},20}};
+        assert(!timed_clear_damage(invalid,0,8).clock.complete());
+        assert(timed_clear_damage(huge,0,8).clock.status==WorkStatus::BeyondHorizon);
+        assert(!timed_clear_damage({},1,0).clock.complete());
+        std::cout << "10000 reset-damage/phase-reference cases passed\n";
+    }
+    {
+        // Native Varg expanse-A R155: raw80.5, wolf1189, reset7/8,
+        // shield250 for5 rounds at cooldown0/8. Two shields absorb10 phases.
+        ShieldClearInput sample{820,1000,1189,80.5f,20,7,8,0,8,5,250};
+        auto p=shield_clear(sample);
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==14&&p.attacks==15&&p.resets==1&&p.shields==2&&p.loss==60);
+        // Duration1 protects one future camp phase even when decremented to0.
+        p=shield_clear({100,100,30,10,20,0,0,0,8,1,100});
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==20);
+        // Reset wins the one available cast, delaying the shield by one turn.
+        p=shield_clear({80,100,50,10,20,0,2,0,8,2,100});
+        assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==20&&p.resets==2&&p.shields==1);
+        // Depletion permits another cast despite the old buff's long duration.
+        p=shield_clear({80,100,30,10,20,0,0,0,1,5,10});
+        assert(p.status==ShieldClearStatus::Cleared&&p.loss==20&&p.shields==2);
+        auto bad=sample;bad.damage=0;
+        assert(shield_clear(bad).status==ShieldClearStatus::Invalid);
+        assert(shield_clear(sample,2).status==ShieldClearStatus::BeyondHorizon);
+        auto doomed=sample;doomed.hp=1;doomed.shield_cd=8;
+        assert(shield_clear(doomed).status==ShieldClearStatus::Dead);
+        unsigned seed=89111;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            const unsigned n=1+next()%60,period=next()%9,cd=period?next()%12:0;
+            const float hit=1.f+next()%100,incoming=next()%500;
+            ShieldClearInput input{80000,100000,n*hit,hit,incoming,cd,period,0,8,1+next()%8,float(1+next()%2000)};
+            const auto shielded=shield_clear(input);
+            input.shield_period=0;input.shield_duration=0;input.shield_amount=0;
+            const auto bare=shield_clear(input);
+            const TimedAttackJob job[]{ {n,false} };const auto clock=attack_clock(job,cd,period);
+            assert(bare.status==ShieldClearStatus::Cleared&&shielded.status==ShieldClearStatus::Cleared);
+            assert(bare.rounds==clock.rounds&&bare.resets==clock.resets&&bare.attacks==n);
+            assert(shielded.rounds==bare.rounds&&shielded.attacks==bare.attacks&&shielded.resets==bare.resets);
+            assert(bare.loss==incoming*(clock.rounds-1)&&shielded.loss>=0&&shielded.loss<=bare.loss);
+        }
+        std::cout << "10000 shield/reset coupling and exposure invariants passed\n";
+    }
+    {
+        ShieldClearInput in{1000,1000,310,100,100};in.missing_health_bonus=.5f;
+        auto p=shield_clear(in);assert(p.status==ShieldClearStatus::Cleared&&p.rounds==3&&p.loss==200);
+        in={800,1000,620,100,100,0,0,0,8,5,150};in.missing_health_bonus=.5f;
+        p=shield_clear(in);assert(p.status==ShieldClearStatus::Cleared&&p.rounds==6&&p.loss==350&&p.shields==1);
+        in.missing_health_bonus=-.1f;assert(shield_clear(in).status==ShieldClearStatus::Invalid);
+        in.missing_health_bonus=1.1f;assert(shield_clear(in).status==ShieldClearStatus::Invalid);
+        unsigned seed=300914;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial) {
+            const float hp=1000.f+next()%1000;
+            ShieldClearInput input{hp,hp+next()%1000,float(1+next()%3000),float(5+next()%70),float(next()%30),
+                0,0,next()%8,8,1+next()%5,float(50+next()%300)};
+            input.can_cast=next()%4!=0;input.existing=next()%3==0;
+            input.existing_value=float(1+next()%200);input.existing_duration=next()%6;
+            const auto base=shield_clear(input);input.missing_health_bonus=.5f;const auto heart=shield_clear(input);
+            assert(heart.loss>=0&&heart.loss<=hp);
+            // With the same single survivor, HP/shield phase histories are
+            // identical until the earlier clear. Extra damage cannot delay a
+            // completed base clear, add incoming exposure or extra casts.
+            if(base.status==ShieldClearStatus::Cleared) {
+                assert(heart.status==ShieldClearStatus::Cleared&&heart.rounds<=base.rounds);
+                assert(heart.loss<=base.loss&&heart.shields<=base.shields);
+            }
+        }
+        std::cout << "10000 missing-health/shield dominance cases passed\n";
+    }
+    {
+        unsigned seed=921111;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        const Tile positions[]{{1,-1},{1,1},{2,0},{2,-1},{2,1},{0,-1},{0,1}};
+        for(unsigned trial=0;trial<10000;++trial) {
+            std::array<SplashMember,8> members{};
+            const float hit=1.f+next()%80,health=hit*(1+next()%60);
+            const unsigned count=2+next()%7;
+            members[0]={{1,0},health,20,3};
+            for(unsigned k=1;k<count;++k)members[k]={positions[k-1],float(1+next()%static_cast<unsigned>(health)),0,3};
+            const auto reduction=splash_reduction(std::span<const SplashMember>(members.data(),count),{0,0},1);
+            assert(reduction.supported&&reduction.target==0&&reduction.live==count);
+            // Explicit basic-hit sequence checks both target priority and
+            // collateral survival. All resources vanish by the monster's hit.
+            while(members[0].hp>0) {
+                int chosen=-1;float best=1e30f;
+                for(unsigned k=0;k<count;++k)if(members[k].hp>0) {
+                    const float score=cheb({0,0},members[k].position)*1000.f+members[k].hp-1e6f*members[k].strength;
+                    if(score<best){best=score;chosen=static_cast<int>(k);}
+                }
+                assert(chosen==0);
+                for(unsigned k=0;k<count;++k)if(cheb(members[k].position,members[0].position)<=1)
+                    members[k].hp=std::max(0.f,members[k].hp-hit);
+            }
+            for(unsigned k=0;k<count;++k)assert(members[k].hp==0);
+        }
+        SplashMember pair[]{{{1,0},1000,20,3},{{2,1},120,0,3}};
+        assert(splash_reduction(pair,{0,0},1).supported); // diagonal radius1
+        pair[1].hp=1001;assert(!splash_reduction(pair,{0,0},1).supported);
+        pair[1].hp=120;pair[1].position={3,1};assert(!splash_reduction(pair,{0,0},1).supported);
+        pair[1].position={2,1};pair[1].strength=20;assert(!splash_reduction(pair,{0,0},1).supported);
+        const float a[]{10,20},b[]{20,10},c[]{10,20};
+        assert(member_hp_hash(a)==member_hp_hash(c)&&member_hp_hash(a)!=member_hp_hash(b));
+        std::cout << "10000 splash-reduction/explicit-hit cases passed\n";
+    }
+    {
+        DuelActor a{1000,1000,100},b{1000,1000,100};
+        auto p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Won&&p.owner_rounds==10&&p.our_hp==100);
+        // Simultaneous damage loses initiative: the old heuristic kills both.
+        const Fighter old[]{ {1000,100} };assert(!simulate_fight(old,old).won());
+        a={1000,1000,100};b={100,100,1};b.existing=true;b.existing_value=100;b.existing_duration=0;
+        p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Won&&p.owner_rounds==2&&p.our_hp==999);
+        a={50,50,1};a.existing=true;a.existing_value=100;a.existing_duration=0;b={1000,1000,100};
+        p=stationary_duel(a,b,{});assert(p.status==DuelStatus::Dead&&p.owner_rounds==2&&p.our_hp==0);
+        unsigned seed=301015;
+        auto next=[&]{seed=seed*1664525u+1013904223u;return seed>>8;};
+        for(unsigned trial=0;trial<10000;++trial){
+            a={float(1+next()%1000),1000,float(1+next()%100)};b={float(1+next()%1000),1000,float(1+next()%100)};
+            const unsigned need_a=static_cast<unsigned>(std::ceil(b.hp/a.damage)),need_b=static_cast<unsigned>(std::ceil(a.hp/b.damage));
+            p=stationary_duel(a,b,{});
+            if(need_a<=need_b&&need_a<=96){
+                assert(p.status==DuelStatus::Won&&p.owner_rounds==need_a&&p.ours.basics==need_a&&p.theirs.basics==need_a-1);
+                assert(p.our_hp==a.hp-(need_a-1)*b.damage&&p.enemy_hp==0);
+            }else if(need_b<need_a&&need_b<96){
+                assert(p.status==DuelStatus::Dead&&p.owner_rounds==need_b+1&&p.ours.basics==need_b&&p.theirs.basics==need_b);
+                assert(p.our_hp==0&&p.enemy_hp==b.hp-need_b*a.damage);
+            }else assert(p.status==DuelStatus::Horizon);
+        }
+        std::cout << "10000 alternating-duel/closed-form bare cases passed\n";
+        for(unsigned trial=0;trial<10000;++trial){
+            a={float(1+next()%1000),1000,float(1+next()%100)};b={float(1+next()%1000),1000,float(1+next()%100)};
+            const bool first=next()%2;const unsigned need_a=static_cast<unsigned>(std::ceil(b.hp/a.damage)),need_b=static_cast<unsigned>(std::ceil(a.hp/b.damage));
+            const unsigned enemy_before_win=first?2*(need_a/2):2*((need_a-1)/2);
+            const unsigned our_before_loss=first?2*((need_b-1)/2)+1:2*((need_b+1)/2);
+            p=stationary_duel(a,b,{true,first},96);
+            if(need_b>enemy_before_win&&need_a<=96){
+                assert(p.status==DuelStatus::Won&&p.owner_rounds==need_a&&p.ours.basics==need_a&&p.theirs.basics==enemy_before_win);
+                assert(p.our_hp==a.hp-enemy_before_win*b.damage&&p.enemy_hp==0);
+            }else if(need_b<=enemy_before_win&&our_before_loss<96){
+                assert(p.status==DuelStatus::Dead&&p.owner_rounds==our_before_loss+1&&p.ours.basics==our_before_loss&&p.theirs.basics==need_b);
+                assert(p.our_hp==0&&p.enemy_hp==b.hp-our_before_loss*a.damage);
+            }else assert(p.status==DuelStatus::Horizon);
+        }
+        std::cout << "10000 alternating-round-lead/closed-form bare cases passed\n";
+    }
+    std::cout << checks << " protocol cases; guard, contract, ledger and bank checks passed\n";
+}

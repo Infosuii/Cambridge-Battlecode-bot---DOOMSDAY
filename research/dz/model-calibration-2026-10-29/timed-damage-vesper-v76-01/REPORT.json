@@ -1,0 +1,405 @@
+{
+  "quotes": 318,
+  "outcomes": {
+    "goal_changed": 92,
+    "cleared": 133,
+    "already_clear": 93
+  },
+  "contact_predictions": 94,
+  "contact_clears": 70,
+  "assisted_contact_clears": 37,
+  "all_contact_clear": {
+    "n": 70,
+    "median_absolute_relative_error": 0.625,
+    "aggregate_signed_bias": 0.7987012987012987,
+    "median_absolute_error": 3.125,
+    "unit": "rounds",
+    "p90_absolute_error": 29.0
+  },
+  "solo_basic_clear": {
+    "n": 33,
+    "median_absolute_relative_error": 0.3,
+    "aggregate_signed_bias": 0.23778195488721804,
+    "median_absolute_error": 1.5,
+    "unit": "rounds",
+    "p90_absolute_error": 4.25
+  },
+  "solo_work_only_clear": {
+    "n": 33,
+    "median_absolute_relative_error": 0.2,
+    "aggregate_signed_bias": 0.16541353383458646,
+    "median_absolute_error": 1,
+    "unit": "rounds",
+    "p90_absolute_error": 4
+  },
+  "solo_clock_clear": {
+    "n": 33,
+    "median_absolute_relative_error": 0.029411764705882353,
+    "aggregate_signed_bias": -0.007518796992481203,
+    "median_absolute_error": 1,
+    "unit": "rounds",
+    "p90_absolute_error": 1
+  },
+  "constant_kit_clock_clear": {
+    "n": 33,
+    "median_absolute_relative_error": 0.029411764705882353,
+    "aggregate_signed_bias": -0.007518796992481203,
+    "median_absolute_error": 1,
+    "unit": "rounds",
+    "p90_absolute_error": 1
+  },
+  "realized_reset_actions": 47,
+  "solo_target_damage": {
+    "n": 10,
+    "median_absolute_relative_error": 0.2777777777777778,
+    "aggregate_signed_bias": 0.5867768595041323,
+    "median_absolute_error": 80.0,
+    "unit": "HP",
+    "p90_absolute_error": 380
+  },
+  "damage_context_known": 10,
+  "damage_potential_bystanders": 5,
+  "damage_observed_other_tanking": 4,
+  "solo_unshared_target_damage": {
+    "n": 5,
+    "median_absolute_relative_error": 0.18695652173913044,
+    "aggregate_signed_bias": 0.24489795918367346,
+    "median_absolute_error": 60,
+    "unit": "HP",
+    "p90_absolute_error": 80
+  },
+  "solo_unshared_timed_damage": {
+    "n": 5,
+    "median_absolute_relative_error": 0.05507246376811594,
+    "aggregate_signed_bias": 0.08163265306122448,
+    "median_absolute_error": 20,
+    "unit": "HP",
+    "p90_absolute_error": 20
+  },
+  "constant_kit_unshared_timed_damage": {
+    "n": 5,
+    "median_absolute_relative_error": 0.05507246376811594,
+    "aggregate_signed_bias": 0.08163265306122448,
+    "median_absolute_error": 20,
+    "unit": "HP",
+    "p90_absolute_error": 20
+  },
+  "cached_field_arrival": {
+    "n": 52,
+    "median_absolute_relative_error": 0.125,
+    "aggregate_signed_bias": -0.1076923076923077,
+    "median_absolute_error": 1.0,
+    "unit": "rounds",
+    "p90_absolute_error": 2
+  },
+  "coverage": "Only logged bodies/rounds. Censored/dead/unmatched episodes stay in outcomes, never score as successful clears.",
+  "gate_status": "V-M1 remains open: diagnostic sample, no full-role holdout or prospective validation; solo upper-bound gate is not a crew elapsed-time model.",
+  "inputs": [
+    {
+      "run": "dz-model-timed-damage-vesper-v76-01",
+      "candidate_sha256": "76e59e2c0c20075348549421805b217567ec59ca44b5cd20e60e7d3ebcceb22a",
+      "capsule_sha256": "7858b335e4f8e00415ace1b3f7b83e5887138f96b89774e4601613d52ba5d5f0"
+    }
+  ],
+  "source": {
+    "tools/dz_model_report.py": "faf91d545825a79da7d36d73b62aac040aca758ff20a9d40addbad71f0d7e310",
+    "tools/dz_model_audit.mjs": "583c8ba1abb36eae394ea13c866ad2fff2304157d5e98c70099d27497a9b035e",
+    "tools/replay/model_audit_core.mjs": "e10a972f5441dd5170030bf2ad3a3b105cb145cde546bf8cef4dc34823a049ee",
+    "tools/replay/engine.mjs": "80361cd47c2fb232d222d397a3bab29363b5c4e10f54d47a61dcf5c2efe2882b"
+  },
+  "strata": {
+    "0": {
+      "quotes": 157,
+      "outcomes": {
+        "cleared": 73,
+        "goal_changed": 54,
+        "already_clear": 30
+      },
+      "contact_predictions": 59,
+      "contact_clears": 39,
+      "assisted_contact_clears": 27,
+      "all_contact_clear": {
+        "n": 39,
+        "median_absolute_relative_error": 0.725,
+        "aggregate_signed_bias": 0.8627300613496932,
+        "median_absolute_error": 8.0,
+        "unit": "rounds",
+        "p90_absolute_error": 42.0
+      },
+      "solo_basic_clear": {
+        "n": 12,
+        "median_absolute_relative_error": 0.21041666666666667,
+        "aggregate_signed_bias": 0.19010416666666666,
+        "median_absolute_error": 3.5,
+        "unit": "rounds",
+        "p90_absolute_error": 5.0
+      },
+      "solo_work_only_clear": {
+        "n": 12,
+        "median_absolute_relative_error": 0.12878787878787878,
+        "aggregate_signed_bias": 0.140625,
+        "median_absolute_error": 2.5,
+        "unit": "rounds",
+        "p90_absolute_error": 4
+      },
+      "solo_clock_clear": {
+        "n": 12,
+        "median_absolute_relative_error": 0.041666666666666664,
+        "aggregate_signed_bias": 0.005208333333333333,
+        "median_absolute_error": 1.0,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "constant_kit_clock_clear": {
+        "n": 12,
+        "median_absolute_relative_error": 0.041666666666666664,
+        "aggregate_signed_bias": 0.005208333333333333,
+        "median_absolute_error": 1.0,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "realized_reset_actions": 27,
+      "solo_target_damage": {
+        "n": 10,
+        "median_absolute_relative_error": 0.2777777777777778,
+        "aggregate_signed_bias": 0.5867768595041323,
+        "median_absolute_error": 80.0,
+        "unit": "HP",
+        "p90_absolute_error": 380
+      },
+      "damage_context_known": 10,
+      "damage_potential_bystanders": 5,
+      "damage_observed_other_tanking": 4,
+      "solo_unshared_target_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.18695652173913044,
+        "aggregate_signed_bias": 0.24489795918367346,
+        "median_absolute_error": 60,
+        "unit": "HP",
+        "p90_absolute_error": 80
+      },
+      "solo_unshared_timed_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.05507246376811594,
+        "aggregate_signed_bias": 0.08163265306122448,
+        "median_absolute_error": 20,
+        "unit": "HP",
+        "p90_absolute_error": 20
+      },
+      "constant_kit_unshared_timed_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.05507246376811594,
+        "aggregate_signed_bias": 0.08163265306122448,
+        "median_absolute_error": 20,
+        "unit": "HP",
+        "p90_absolute_error": 20
+      },
+      "cached_field_arrival": {
+        "n": 33,
+        "median_absolute_relative_error": 0.16666666666666666,
+        "aggregate_signed_bias": -0.10991957104557641,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 2
+      },
+      "coverage": "Only logged bodies/rounds. Censored/dead/unmatched episodes stay in outcomes, never score as successful clears.",
+      "gate_status": "V-M1 remains open: diagnostic sample, no full-role holdout or prospective validation; solo upper-bound gate is not a crew elapsed-time model."
+    },
+    "1": {
+      "quotes": 161,
+      "outcomes": {
+        "goal_changed": 38,
+        "cleared": 60,
+        "already_clear": 63
+      },
+      "contact_predictions": 35,
+      "contact_clears": 31,
+      "assisted_contact_clears": 10,
+      "all_contact_clear": {
+        "n": 31,
+        "median_absolute_relative_error": 0.625,
+        "aggregate_signed_bias": 0.4449152542372881,
+        "median_absolute_error": 1.5,
+        "unit": "rounds",
+        "p90_absolute_error": 3.5
+      },
+      "solo_basic_clear": {
+        "n": 21,
+        "median_absolute_relative_error": 0.5,
+        "aggregate_signed_bias": 0.3614864864864865,
+        "median_absolute_error": 1.25,
+        "unit": "rounds",
+        "p90_absolute_error": 2.25
+      },
+      "solo_work_only_clear": {
+        "n": 21,
+        "median_absolute_relative_error": 0.3333333333333333,
+        "aggregate_signed_bias": 0.22972972972972974,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 2
+      },
+      "solo_clock_clear": {
+        "n": 21,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": -0.04054054054054054,
+        "median_absolute_error": 0,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "constant_kit_clock_clear": {
+        "n": 21,
+        "median_absolute_relative_error": 0.0,
+        "aggregate_signed_bias": -0.04054054054054054,
+        "median_absolute_error": 0,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "realized_reset_actions": 20,
+      "solo_target_damage": {
+        "n": 0,
+        "median_absolute_relative_error": null,
+        "aggregate_signed_bias": null,
+        "median_absolute_error": null,
+        "p90_absolute_error": null,
+        "unit": "HP"
+      },
+      "damage_context_known": 0,
+      "damage_potential_bystanders": 0,
+      "damage_observed_other_tanking": 0,
+      "solo_unshared_target_damage": {
+        "n": 0,
+        "median_absolute_relative_error": null,
+        "aggregate_signed_bias": null,
+        "median_absolute_error": null,
+        "p90_absolute_error": null,
+        "unit": "HP"
+      },
+      "solo_unshared_timed_damage": {
+        "n": 0,
+        "median_absolute_relative_error": null,
+        "aggregate_signed_bias": null,
+        "median_absolute_error": null,
+        "p90_absolute_error": null,
+        "unit": "HP"
+      },
+      "constant_kit_unshared_timed_damage": {
+        "n": 0,
+        "median_absolute_relative_error": null,
+        "aggregate_signed_bias": null,
+        "median_absolute_error": null,
+        "p90_absolute_error": null,
+        "unit": "HP"
+      },
+      "cached_field_arrival": {
+        "n": 19,
+        "median_absolute_relative_error": 0.09090909090909091,
+        "aggregate_signed_bias": -0.10377358490566038,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 2
+      },
+      "coverage": "Only logged bodies/rounds. Censored/dead/unmatched episodes stay in outcomes, never score as successful clears.",
+      "gate_status": "V-M1 remains open: diagnostic sample, no full-role holdout or prospective validation; solo upper-bound gate is not a crew elapsed-time model."
+    }
+  },
+  "champion_strata": {
+    "1": {
+      "quotes": 318,
+      "outcomes": {
+        "goal_changed": 92,
+        "cleared": 133,
+        "already_clear": 93
+      },
+      "contact_predictions": 94,
+      "contact_clears": 70,
+      "assisted_contact_clears": 37,
+      "all_contact_clear": {
+        "n": 70,
+        "median_absolute_relative_error": 0.625,
+        "aggregate_signed_bias": 0.7987012987012987,
+        "median_absolute_error": 3.125,
+        "unit": "rounds",
+        "p90_absolute_error": 29.0
+      },
+      "solo_basic_clear": {
+        "n": 33,
+        "median_absolute_relative_error": 0.3,
+        "aggregate_signed_bias": 0.23778195488721804,
+        "median_absolute_error": 1.5,
+        "unit": "rounds",
+        "p90_absolute_error": 4.25
+      },
+      "solo_work_only_clear": {
+        "n": 33,
+        "median_absolute_relative_error": 0.2,
+        "aggregate_signed_bias": 0.16541353383458646,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 4
+      },
+      "solo_clock_clear": {
+        "n": 33,
+        "median_absolute_relative_error": 0.029411764705882353,
+        "aggregate_signed_bias": -0.007518796992481203,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "constant_kit_clock_clear": {
+        "n": 33,
+        "median_absolute_relative_error": 0.029411764705882353,
+        "aggregate_signed_bias": -0.007518796992481203,
+        "median_absolute_error": 1,
+        "unit": "rounds",
+        "p90_absolute_error": 1
+      },
+      "realized_reset_actions": 47,
+      "solo_target_damage": {
+        "n": 10,
+        "median_absolute_relative_error": 0.2777777777777778,
+        "aggregate_signed_bias": 0.5867768595041323,
+        "median_absolute_error": 80.0,
+        "unit": "HP",
+        "p90_absolute_error": 380
+      },
+      "damage_context_known": 10,
+      "damage_potential_bystanders": 5,
+      "damage_observed_other_tanking": 4,
+      "solo_unshared_target_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.18695652173913044,
+        "aggregate_signed_bias": 0.24489795918367346,
+        "median_absolute_error": 60,
+        "unit": "HP",
+        "p90_absolute_error": 80
+      },
+      "solo_unshared_timed_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.05507246376811594,
+        "aggregate_signed_bias": 0.08163265306122448,
+        "median_absolute_error": 20,
+        "unit": "HP",
+        "p90_absolute_error": 20
+      },
+      "constant_kit_unshared_timed_damage": {
+        "n": 5,
+        "median_absolute_relative_error": 0.05507246376811594,
+        "aggregate_signed_bias": 0.08163265306122448,
+        "median_absolute_error": 20,
+        "unit": "HP",
+        "p90_absolute_error": 20
+      },
+      "cached_field_arrival": {
+        "n": 52,
+        "median_absolute_relative_error": 0.125,
+        "aggregate_signed_bias": -0.1076923076923077,
+        "median_absolute_error": 1.0,
+        "unit": "rounds",
+        "p90_absolute_error": 2
+      },
+      "coverage": "Only logged bodies/rounds. Censored/dead/unmatched episodes stay in outcomes, never score as successful clears.",
+      "gate_status": "V-M1 remains open: diagnostic sample, no full-role holdout or prospective validation; solo upper-bound gate is not a crew elapsed-time model."
+    }
+  }
+}

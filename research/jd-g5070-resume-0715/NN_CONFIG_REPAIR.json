@@ -1,0 +1,8 @@
+{
+  "status": "Retry required",
+  "first_run": "resume-golden-01",
+  "verified_cause": "A2_NN_FAST was omitted, using unbounded first-turn feature precomputation and slower kernels incompatible with reservations",
+  "repair": "Fast kernels required automatically whenever event runtime enabled; explicit zero fails compilation",
+  "precision_result": "19/19 WASM target and behavior argmaxes agree with checkpoint; 83/83 host rows agree, including64 saturated/extreme rows",
+  "remaining": "Repeat with fast flag and at least20 actual WASM observations; prior golden fails row-count minimum and is not accepted"
+}

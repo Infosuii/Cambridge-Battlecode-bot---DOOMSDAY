@@ -1,0 +1,1926 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 8952.020833333334,
+  "fuel_p99": 17081,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 20,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "f0d7e4ec01bf94bb60576dd6939471530b50b08770501844f1e0bb9ad8ac7478",
+      "opponent_sha256": "47d7d8499577d77eacaf59a66e1b534197ddabe2f9bbe32e2dc3a909d1db685e",
+      "replay_sha256": "5160783690a3b68ede7efd2eacc1656e031e21cd43170b968f2c5a6c0fad65a3",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "opponent_checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "missing": [],
+        "native_priority": {
+          "passed": true,
+          "sdk_observations": 96,
+          "rosters": [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "mismatches": [],
+          "rounds": [
+            {
+              "round": 1,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 2,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 3,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 4,
+              "order": [
+                7,
+                3,
+                6,
+                2,
+                5,
+                1,
+                4,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 5,
+              "order": [
+                3,
+                7,
+                2,
+                6,
+                1,
+                5,
+                0,
+                4
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 6,
+              "order": [
+                7,
+                3,
+                6,
+                2,
+                5,
+                1,
+                4,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 7,
+              "order": [
+                0,
+                4,
+                3,
+                7,
+                2,
+                6,
+                1,
+                5
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 8,
+              "order": [
+                4,
+                0,
+                7,
+                3,
+                6,
+                2,
+                5,
+                1
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 9,
+              "order": [
+                0,
+                4,
+                3,
+                7,
+                2,
+                6,
+                1,
+                5
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 10,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 11,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 12,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            }
+          ],
+          "hypotheses": "Higher current priority first within each team; equal priority lower handle first; changes next round and persist; teams alternate and round starter swaps."
+        }
+      }
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 20,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "f0d7e4ec01bf94bb60576dd6939471530b50b08770501844f1e0bb9ad8ac7478",
+      "opponent_sha256": "47d7d8499577d77eacaf59a66e1b534197ddabe2f9bbe32e2dc3a909d1db685e",
+      "replay_sha256": "d47335cb53e0a4856130c07d54eca43f3fb64c54b7a3268a9bfba68157f2f0ed",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "opponent_checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "missing": [],
+        "native_priority": {
+          "passed": true,
+          "sdk_observations": 96,
+          "rosters": [
+            [
+              4,
+              5,
+              6,
+              7
+            ],
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          "mismatches": [],
+          "rounds": [
+            {
+              "round": 1,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 2,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 3,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 4,
+              "order": [
+                7,
+                3,
+                6,
+                2,
+                5,
+                1,
+                4,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ],
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 5,
+              "order": [
+                3,
+                7,
+                2,
+                6,
+                1,
+                5,
+                0,
+                4
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ],
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 6,
+              "order": [
+                7,
+                3,
+                6,
+                2,
+                5,
+                1,
+                4,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  7,
+                  6,
+                  5,
+                  4
+                ],
+                [
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 7,
+              "order": [
+                0,
+                4,
+                3,
+                7,
+                2,
+                6,
+                1,
+                5
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ],
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 8,
+              "order": [
+                4,
+                0,
+                7,
+                3,
+                6,
+                2,
+                5,
+                1
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ],
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 9,
+              "order": [
+                0,
+                4,
+                3,
+                7,
+                2,
+                6,
+                1,
+                5
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  4,
+                  7,
+                  6,
+                  5
+                ],
+                [
+                  0,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 10,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 11,
+              "order": [
+                0,
+                4,
+                1,
+                5,
+                2,
+                6,
+                3,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 12,
+              "order": [
+                4,
+                0,
+                5,
+                1,
+                6,
+                2,
+                7,
+                3
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            }
+          ],
+          "hypotheses": "Higher current priority first within each team; equal priority lower handle first; changes next round and persist; teams alternate and round starter swaps."
+        }
+      }
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 20,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "f0d7e4ec01bf94bb60576dd6939471530b50b08770501844f1e0bb9ad8ac7478",
+      "opponent_sha256": "47d7d8499577d77eacaf59a66e1b534197ddabe2f9bbe32e2dc3a909d1db685e",
+      "replay_sha256": "781334d2cfa2cc525ec6844b50d0863c007250eeecfb19f3985fb7a346939f23",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "opponent_checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "missing": [],
+        "native_priority": {
+          "passed": true,
+          "sdk_observations": 144,
+          "rosters": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ]
+          ],
+          "mismatches": [],
+          "rounds": [
+            {
+              "round": 1,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 2,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 3,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 4,
+              "order": [
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1,
+                6,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 5,
+              "order": [
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7,
+                0,
+                6
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 6,
+              "order": [
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1,
+                6,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 7,
+              "order": [
+                0,
+                6,
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 8,
+              "order": [
+                6,
+                0,
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 9,
+              "order": [
+                0,
+                6,
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ],
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 10,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 11,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 12,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            }
+          ],
+          "hypotheses": "Higher current priority first within each team; equal priority lower handle first; changes next round and persist; teams alternate and round starter swaps."
+        }
+      }
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 20,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "f0d7e4ec01bf94bb60576dd6939471530b50b08770501844f1e0bb9ad8ac7478",
+      "opponent_sha256": "47d7d8499577d77eacaf59a66e1b534197ddabe2f9bbe32e2dc3a909d1db685e",
+      "replay_sha256": "96af1c7a3212c02d662ca187a9ed841cc1d3667e13a499f8dacd4f9040694e2b",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "opponent_checks": {
+          "priority_roster": true,
+          "priority_once_per_round": true,
+          "priority_deferred_current": true,
+          "priority_next_visible": true
+        },
+        "missing": [],
+        "native_priority": {
+          "passed": true,
+          "sdk_observations": 144,
+          "rosters": [
+            [
+              6,
+              7,
+              8,
+              9,
+              10,
+              11
+            ],
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          ],
+          "mismatches": [],
+          "rounds": [
+            {
+              "round": 1,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 2,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 3,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 4,
+              "order": [
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1,
+                6,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ],
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 5,
+              "order": [
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7,
+                0,
+                6
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ],
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 6,
+              "order": [
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1,
+                6,
+                0
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6
+                ],
+                [
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 7,
+              "order": [
+                0,
+                6,
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ],
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 8,
+              "order": [
+                6,
+                0,
+                11,
+                5,
+                10,
+                4,
+                9,
+                3,
+                8,
+                2,
+                7,
+                1
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ],
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 9,
+              "order": [
+                0,
+                6,
+                5,
+                11,
+                4,
+                10,
+                3,
+                9,
+                2,
+                8,
+                1,
+                7
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  6,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ],
+                [
+                  0,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 10,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 11,
+              "order": [
+                0,
+                6,
+                1,
+                7,
+                2,
+                8,
+                3,
+                9,
+                4,
+                10,
+                5,
+                11
+              ],
+              "starting_team": 0,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            },
+            {
+              "round": 12,
+              "order": [
+                6,
+                0,
+                7,
+                1,
+                8,
+                2,
+                9,
+                3,
+                10,
+                4,
+                11,
+                5
+              ],
+              "starting_team": 1,
+              "team_orders": [
+                [
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ],
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "alternating": true,
+              "starting_team_swapped": true
+            }
+          ],
+          "hypotheses": "Higher current priority first within each team; equal priority lower handle first; changes next round and persist; teams alternate and round starter swaps."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "failed": "dz-duel-heart-varg-02",
+  "finding": "Native phases show teamB first on even rounds and teamA first on odd rounds. Fixed first-slot subjects therefore have zero or two opponent turns between own turns. Initial strict A/B alternation matches winners but fails elapsed/HP/basic assertions. Cooldowns/durations visibly decrement at owner-end, matching the existing transition.",
+  "source": "NATIVE_PHASES_01.json, rounds16..26 from frozen native replay; no outcome-fitted damage/shield parameter",
+  "fix": "Explicit DuelOrder alternating_round_lead plus public current round/side for this no-priority controlled controller. Keep fixed-alternation mode as a separate primitive. No production use.",
+  "replacement": "dz-duel-heart-varg-03",
+  "test": "10000 independent closed-form alternating-round-lead bare cases in addition to10000 strict-alternation cases",
+  "limitations": "Other priorities/body slots need an explicit schedule; round parity alone is not a general live EE order model."
+}

@@ -1,0 +1,66 @@
+{
+ "dump": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\runs\\resume-golden-fast-02",
+ "pt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\a2\\research\\agent2-neural\\rl_workspace\\agent2\\student_i2.pt",
+ "games": 24,
+ "rows": 121,
+ "feature_transport_identical": 121,
+ "feature_transport_no_nr_row": 0,
+ "feature_transport_differ": 0,
+ "wasm_vs_torch_export": {
+  "rows": 121,
+  "target_argmax_agree": 121,
+  "behaviour_argmax_agree": 121,
+  "masks_agree": true,
+  "max_abs_logit_err": 0.0001220703125,
+  "max_rel_logit_err": 3.6182063922751695e-06,
+  "max_abs_logit": 278.1898193359375,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "wasm_vs_torch_checkpoint": {
+  "rows": 121,
+  "target_argmax_agree": 121,
+  "behaviour_argmax_agree": 121,
+  "masks_agree": true,
+  "max_abs_logit_err": 0.0001220703125,
+  "max_rel_logit_err": 3.6182063922751695e-06,
+  "max_abs_logit": 278.1898193359375,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "host_saturation_finite": true,
+ "host_vs_torch_export": {
+  "rows": 185,
+  "target_argmax_agree": 185,
+  "behaviour_argmax_agree": 185,
+  "masks_agree": true,
+  "max_abs_logit_err": 13.0,
+  "max_rel_logit_err": 2.1919620849075727e-05,
+  "max_abs_logit": 87966680.0,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "host_vs_torch_checkpoint": {
+  "rows": 185,
+  "target_argmax_agree": 185,
+  "behaviour_argmax_agree": 185,
+  "masks_agree": true,
+  "max_abs_logit_err": 13.0,
+  "max_rel_logit_err": 2.1919620849075727e-05,
+  "max_abs_logit": 87966680.0,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "wasm_vs_host": {
+  "rows": 121,
+  "target_argmax_agree": 121,
+  "behaviour_argmax_agree": 121,
+  "masks_agree": true,
+  "max_abs_logit_err": 9.1552734375e-05,
+  "max_rel_logit_err": 1.7992848597714328e-06,
+  "max_abs_logit": 278.18988037109375,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "pass": true
+}

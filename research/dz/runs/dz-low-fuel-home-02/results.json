@@ -1,0 +1,253 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 37934.27038054139,
+  "fuel_p99": 64491,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a481bfcd4a08f746ab8a5a3b562d5a006d432610bc5feed69319d3e40cda826f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "553063206c18f6952461e2680524eabb9ac88bd17cd06a40f53c2cdd7bca63a4",
+      "diagnostic_checks": {
+        "passed": false,
+        "forced": [
+          [
+            50,
+            0,
+            4947
+          ],
+          [
+            50,
+            1,
+            4946
+          ],
+          [
+            50,
+            2,
+            4946
+          ]
+        ],
+        "measured": [],
+        "bodies": 3,
+        "continued_at_round_100": true,
+        "scope": "bounded cached-home movement and claim clearing; not full planned SafeMode",
+        "expected_bodies": 3
+      },
+      "summary_sha256": "7d02af2551161894bbb454e15511f3f896363f46094ee4b8b66c8a299001f1c6"
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a481bfcd4a08f746ab8a5a3b562d5a006d432610bc5feed69319d3e40cda826f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "2a87cf5fb2e35d4507e159fc423f418bbacb3c20f0970e16b92e8243b6d9a1d6",
+      "diagnostic_checks": {
+        "passed": false,
+        "forced": [
+          [
+            50,
+            0,
+            4947
+          ],
+          [
+            50,
+            1,
+            4947
+          ],
+          [
+            50,
+            2,
+            4958
+          ]
+        ],
+        "measured": [],
+        "bodies": 3,
+        "continued_at_round_100": true,
+        "scope": "bounded cached-home movement and claim clearing; not full planned SafeMode",
+        "expected_bodies": 3
+      },
+      "summary_sha256": "09298fa7c6a080e9e225ebef7e9a66e46727f0b98aa78bc178fc750a7c6abc3e"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a481bfcd4a08f746ab8a5a3b562d5a006d432610bc5feed69319d3e40cda826f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "55a0f2057810a3e9646c3b6bc71ff2d07e0f08955a74b069139799bf40b1e0d5",
+      "diagnostic_checks": {
+        "passed": false,
+        "forced": [
+          [
+            50,
+            0,
+            4939
+          ],
+          [
+            50,
+            1,
+            4958
+          ],
+          [
+            50,
+            2,
+            4953
+          ],
+          [
+            50,
+            3,
+            4939
+          ],
+          [
+            50,
+            4,
+            4939
+          ]
+        ],
+        "measured": [],
+        "bodies": 5,
+        "continued_at_round_100": true,
+        "scope": "bounded cached-home movement and claim clearing; not full planned SafeMode",
+        "expected_bodies": 5
+      },
+      "summary_sha256": "f1052825d2eda04e2d363767f9d50d6248ff45cce91e79d81af11f0126a6d73e"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "a481bfcd4a08f746ab8a5a3b562d5a006d432610bc5feed69319d3e40cda826f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ead2177b0f9869d9e9ad6b156cd8832f4b015e4617921ff519853d008c4d0a80",
+      "diagnostic_checks": {
+        "passed": false,
+        "forced": [
+          [
+            50,
+            0,
+            4934
+          ],
+          [
+            50,
+            1,
+            4931
+          ],
+          [
+            50,
+            2,
+            4953
+          ],
+          [
+            50,
+            4,
+            4951
+          ]
+        ],
+        "measured": [],
+        "bodies": 4,
+        "continued_at_round_100": true,
+        "scope": "bounded cached-home movement and claim clearing; not full planned SafeMode",
+        "expected_bodies": 5
+      },
+      "summary_sha256": "baa16b979e2942018618995a0052c369e9c855bd7c760ef0baa1bed6474b41f6"
+    }
+  ]
+}

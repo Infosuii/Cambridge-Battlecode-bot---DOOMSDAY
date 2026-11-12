@@ -1,0 +1,374 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 4,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 39021.27773707146,
+  "fuel_p99": 64618,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 1,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "2738cc9a3da496f0eb72e25767fa1fe0daf9061a1acce8af0216610c2f507c07",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "54d01b274f44a37dc3f8967c745d3bdf7ce4781734606364b0db4a014073cdbd",
+      "diagnostic_checks": {
+        "passed": true,
+        "choices": [
+          [
+            0,
+            11
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        "body_types": [
+          [
+            0,
+            12,
+            3
+          ],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            7,
+            3
+          ]
+        ],
+        "burns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "resumes": [
+          [
+            "2",
+            "2",
+            "1"
+          ]
+        ],
+        "draft_round_number_changed": true,
+        "scope": "one deliberate fuel suspension after first/second successful pick request; intended complete roster must survive",
+        "expected_deliberate_fuel_outs": 1
+      },
+      "summary_sha256": "b8c88a48886eb57b1dafcbd8d5543abc5686c498fd2f16e251d714500e8aa40a"
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 1,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "2738cc9a3da496f0eb72e25767fa1fe0daf9061a1acce8af0216610c2f507c07",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "bed4bca26c7e0279f3ca444bba60f426e00e30d34a2187a8c47cc32ef5cdc1b7",
+      "diagnostic_checks": {
+        "passed": true,
+        "choices": [
+          [
+            0,
+            11
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            6
+          ]
+        ],
+        "body_types": [
+          [
+            3,
+            12,
+            3
+          ],
+          [
+            4,
+            2,
+            3
+          ],
+          [
+            5,
+            7,
+            3
+          ]
+        ],
+        "burns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "resumes": [
+          [
+            "2",
+            "2",
+            "1"
+          ]
+        ],
+        "draft_round_number_changed": true,
+        "scope": "one deliberate fuel suspension after first/second successful pick request; intended complete roster must survive",
+        "expected_deliberate_fuel_outs": 1
+      },
+      "summary_sha256": "287ca4c547c17bde869a71c6e5a3dbdccc987bc7a8df2a8fb43b9cd2c6732ed0"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 1,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "2738cc9a3da496f0eb72e25767fa1fe0daf9061a1acce8af0216610c2f507c07",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "fcd717394f7f61ff70e2f2d32ff826edfe819d9d634a25e86ed1a45e5735590b",
+      "diagnostic_checks": {
+        "passed": true,
+        "choices": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "body_types": [
+          [
+            0,
+            1,
+            5
+          ],
+          [
+            1,
+            12,
+            5
+          ],
+          [
+            2,
+            2,
+            5
+          ],
+          [
+            3,
+            7,
+            5
+          ],
+          [
+            4,
+            0,
+            5
+          ]
+        ],
+        "burns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "resumes": [
+          [
+            "2",
+            "2",
+            "1"
+          ]
+        ],
+        "draft_round_number_changed": true,
+        "scope": "one deliberate fuel suspension after first/second successful pick request; intended complete roster must survive",
+        "expected_deliberate_fuel_outs": 1
+      },
+      "summary_sha256": "4eba8974636138965d99202cfd442ea5dbb3349534c3786f60189428d5e18e87"
+    },
+    {
+      "map": "01big-world",
+      "map_sha256": "f1ecb726472858efb1d75d00b0d7668be18d83a010b2abf9a1f8c38aab456aa5",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 1,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "2738cc9a3da496f0eb72e25767fa1fe0daf9061a1acce8af0216610c2f507c07",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "937c549ef35cd6b1f74ab59d7d7debb145d00830eb26d8d17e6419962e1a89c7",
+      "diagnostic_checks": {
+        "passed": true,
+        "choices": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "body_types": [
+          [
+            6,
+            1,
+            5
+          ],
+          [
+            7,
+            12,
+            5
+          ],
+          [
+            8,
+            2,
+            5
+          ],
+          [
+            9,
+            7,
+            5
+          ],
+          [
+            10,
+            0,
+            5
+          ]
+        ],
+        "burns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "resumes": [
+          [
+            "2",
+            "2",
+            "1"
+          ]
+        ],
+        "draft_round_number_changed": true,
+        "scope": "one deliberate fuel suspension after first/second successful pick request; intended complete roster must survive",
+        "expected_deliberate_fuel_outs": 1
+      },
+      "summary_sha256": "61a5a307e536953ec01febeb5f286dc4be00662b8956dff09863adadfcf63149"
+    }
+  ]
+}

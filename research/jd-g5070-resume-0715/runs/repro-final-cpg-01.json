@@ -1,0 +1,291 @@
+{
+ "name": "repro-final-cpg-01",
+ "reported": "2026-11-04T08:25:26Z",
+ "cand": "repro-final-cpg-01-f77ace219eaa",
+ "base": "v92-448de19b2a28",
+ "maps": "conf",
+ "sides": "AB",
+ "fuel_quantum": 0,
+ "label": "official fuel",
+ "expected_games": 36,
+ "played": 36,
+ "missing": 0,
+ "failed": 0,
+ "bootstrap": {
+  "resamples": 2000,
+  "seed": 1104,
+  "cluster": "map"
+ },
+ "arms": {
+  "cand": {
+   "played": 18,
+   "wins": 11,
+   "draws": 0,
+   "faults": 0,
+   "opp_faults": 0,
+   "fuel_outs": 3,
+   "trace_over": 3,
+   "fuel_out_games": 3,
+   "mean_banked": 965.2,
+   "mean_deaths": 6.61,
+   "max_ordinary_fuel": 100000
+  },
+  "base": {
+   "played": 18,
+   "wins": 9,
+   "draws": 0,
+   "faults": 0,
+   "opp_faults": 0,
+   "fuel_outs": 4,
+   "trace_over": 4,
+   "fuel_out_games": 4,
+   "mean_banked": 896.8,
+   "mean_deaths": 5.06,
+   "max_ordinary_fuel": 100000
+  }
+ },
+ "paired": {
+  "cells": 18,
+  "maps": 3,
+  "cand_winrate": 61.11,
+  "base_winrate": 50.0,
+  "d_score": 11.11,
+  "ci95": [
+   -16.67,
+   33.33
+  ],
+  "d_banked": 68.4
+ },
+ "per_opp": {
+  "p65pack-a1a0211b8399": {
+   "cells": 6,
+   "maps": 3,
+   "cand_winrate": 83.33,
+   "base_winrate": 66.67,
+   "d_score": 16.67,
+   "ci95": [
+    -50.0,
+    50.0
+   ],
+   "d_banked": 41.7
+  },
+  "v92-448de19b2a28": {
+   "cells": 6,
+   "maps": 3,
+   "cand_winrate": 33.33,
+   "base_winrate": 50.0,
+   "d_score": -16.67,
+   "ci95": [
+    -50.0,
+    0.0
+   ],
+   "d_banked": 25.0
+  },
+  "x3inv-c5da472cafd8": {
+   "cells": 6,
+   "maps": 3,
+   "cand_winrate": 66.67,
+   "base_winrate": 33.33,
+   "d_score": 33.33,
+   "ci95": [
+    0.0,
+    50.0
+   ],
+   "d_banked": 138.7
+  }
+ },
+ "per_cat": {
+  "generated": {
+   "cells": 18,
+   "maps": 3,
+   "cand_winrate": 61.11,
+   "base_winrate": 50.0,
+   "d_score": 11.11,
+   "ci95": [
+    -16.67,
+    33.33
+   ],
+   "d_banked": 68.4
+  }
+ },
+ "per_size": {
+  "large": {
+   "cells": 6,
+   "maps": 1,
+   "cand_winrate": 50.0,
+   "base_winrate": 66.67,
+   "d_score": -16.67,
+   "ci95": [
+    -16.67,
+    -16.67
+   ],
+   "d_banked": -8.3
+  },
+  "medium": {
+   "cells": 12,
+   "maps": 2,
+   "cand_winrate": 66.67,
+   "base_winrate": 41.67,
+   "d_score": 25.0,
+   "ci95": [
+    16.67,
+    33.33
+   ],
+   "d_banked": 106.8
+  }
+ },
+ "failed_list": [],
+ "missing_list": [],
+ "batch": {
+  "finished": "2026-11-04T08:25:26Z",
+  "seconds": 11.6,
+  "returncode": 0
+ },
+ "games_per_min": 186.21,
+ "cells": [
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77035",
+   "A",
+   1.0,
+   1.0,
+   21
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77035",
+   "B",
+   0.0,
+   0.0,
+   40
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77042",
+   "A",
+   0.0,
+   0.0,
+   44
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77042",
+   "B",
+   1.0,
+   1.0,
+   4
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77068",
+   "A",
+   0.0,
+   1.0,
+   -179
+  ],
+  [
+   "v92-448de19b2a28",
+   "pf_pool_77068",
+   "B",
+   0.0,
+   0.0,
+   220
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77035",
+   "A",
+   1.0,
+   0.0,
+   111
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77035",
+   "B",
+   0.0,
+   0.0,
+   380
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77042",
+   "A",
+   1.0,
+   1.0,
+   31
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77042",
+   "B",
+   0.0,
+   0.0,
+   -98
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77068",
+   "A",
+   1.0,
+   1.0,
+   -23
+  ],
+  [
+   "x3inv-c5da472cafd8",
+   "pf_pool_77068",
+   "B",
+   1.0,
+   0.0,
+   431
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77035",
+   "A",
+   1.0,
+   0.0,
+   56
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77035",
+   "B",
+   1.0,
+   1.0,
+   -18
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77042",
+   "A",
+   1.0,
+   1.0,
+   3
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77042",
+   "B",
+   0.0,
+   1.0,
+   -34
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77068",
+   "A",
+   1.0,
+   1.0,
+   43
+  ],
+  [
+   "p65pack-a1a0211b8399",
+   "pf_pool_77068",
+   "B",
+   1.0,
+   0.0,
+   200
+  ]
+ ]
+}

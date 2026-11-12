@@ -1,0 +1,1428 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1580.6930294906167,
+  "fuel_p99": 6314,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 130,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d341335b511e26073df46d6cf40d605680a1aa34f15fc40638f226af61a29ab1",
+      "opponent_sha256": "afb4a59d44da499ebd2a97f69d8e900cf1a14b0b7d4e3a73de1987a335ca824a",
+      "replay_sha256": "3d6ae977f2fcf3338b2067a2285c6a8ca5e5e13d07c88fb81ae542ffcb7f16ef",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "enemy_hidden_before_death": true,
+          "enemy_hidden_during_death": true,
+          "ally_respawn_observation_bound": true,
+          "enemy_respawn_observation_bound": true
+        },
+        "queries": {
+          "hidden_alive_before": [
+            1,
+            1,
+            0
+          ],
+          "hidden_health_before": [
+            0,
+            0,
+            97
+          ],
+          "ally_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_enemy_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_health_dead": [
+            0,
+            0,
+            97
+          ],
+          "ally_respawn_alive": [
+            1,
+            1,
+            0
+          ],
+          "hidden_enemy_respawn_alive": [
+            1,
+            1,
+            0
+          ]
+        },
+        "missing": [],
+        "native_lifecycle": {
+          "passed": false,
+          "sdk_observations_checked": 76,
+          "mismatches": [
+            {
+              "round": 1,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 2,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 3,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 4,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 5,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 6,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 7,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 8,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 9,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 10,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 11,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 12,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 13,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 14,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 15,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 16,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 17,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 18,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 19,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 20,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 21,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 22,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 23,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 24,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 25,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 26,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 27,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 28,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 29,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 30,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 31,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 32,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 33,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 34,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 35,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 36,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 37,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 38,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 39,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 40,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 41,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 42,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 43,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 44,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 45,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 46,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 47,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 48,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 49,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 50,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 51,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 52,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 53,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 54,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 55,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 56,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 57,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 58,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 59,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 60,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 61,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 62,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 63,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 64,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 65,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 66,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 67,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 68,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 69,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 70,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 71,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 72,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 73,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 74,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 0
+            },
+            {
+              "round": 75,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 0,
+              "ally": 1,
+              "allyAlive": 1
+            },
+            {
+              "round": 76,
+              "observer": 0,
+              "enemy": 3,
+              "enemyAlive": 1,
+              "ally": 1,
+              "allyAlive": 1
+            }
+          ],
+          "base_respawn_setting": 60,
+          "intervals": [
+            {
+              "body": 3,
+              "death_round": 15,
+              "respawn_round": 75,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 1
+            },
+            {
+              "body": 1,
+              "death_round": 14,
+              "respawn_round": 74,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 3
+            }
+          ],
+          "conclusion": "Respawn occurs at the champion turn. A different champion may observe it in that round or the next."
+        }
+      }
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 130,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d341335b511e26073df46d6cf40d605680a1aa34f15fc40638f226af61a29ab1",
+      "opponent_sha256": "afb4a59d44da499ebd2a97f69d8e900cf1a14b0b7d4e3a73de1987a335ca824a",
+      "replay_sha256": "926b07f04b8259f1c5418817635473e419c009db766e04deaa6c4029e90e4a44",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "enemy_hidden_before_death": true,
+          "enemy_hidden_during_death": true,
+          "enemy_respawn_observation_bound": true,
+          "ally_respawn_observation_bound": true
+        },
+        "queries": {
+          "hidden_alive_before": [
+            1,
+            1,
+            0
+          ],
+          "hidden_health_before": [
+            0,
+            0,
+            97
+          ],
+          "ally_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_enemy_dead_alive": [
+            1,
+            0,
+            0
+          ],
+          "hidden_health_dead": [
+            0,
+            0,
+            97
+          ],
+          "hidden_enemy_respawn_alive": [
+            1,
+            1,
+            0
+          ],
+          "ally_respawn_alive": [
+            1,
+            1,
+            0
+          ]
+        },
+        "missing": [],
+        "native_lifecycle": {
+          "passed": false,
+          "sdk_observations_checked": 75,
+          "mismatches": [
+            {
+              "round": 1,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 2,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 3,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 4,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 5,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 6,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 7,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 8,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 9,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 10,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 11,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 12,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 13,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            },
+            {
+              "round": 14,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 15,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 16,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 17,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 18,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 19,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 20,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 21,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 22,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 23,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 24,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 25,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 26,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 27,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 28,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 29,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 30,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 31,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 32,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 33,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 34,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 35,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 36,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 37,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 38,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 39,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 40,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 41,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 42,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 43,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 44,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 45,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 46,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 47,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 48,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 49,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 50,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 51,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 52,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 53,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 54,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 55,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 56,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 57,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 58,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 59,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 60,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 61,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 62,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 63,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 64,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 65,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 66,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 67,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 68,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 69,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 70,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 71,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 72,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 73,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 74,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 0,
+              "ally": 4,
+              "allyAlive": 0
+            },
+            {
+              "round": 75,
+              "observer": 3,
+              "enemy": 0,
+              "enemyAlive": 1,
+              "ally": 4,
+              "allyAlive": 1
+            }
+          ],
+          "base_respawn_setting": 60,
+          "intervals": [
+            {
+              "body": 0,
+              "death_round": 15,
+              "respawn_round": 75,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 0
+            },
+            {
+              "body": 4,
+              "death_round": 14,
+              "respawn_round": 74,
+              "elapsed": 60,
+              "respawn_phase": 14,
+              "respawn_turn": 2
+            }
+          ],
+          "conclusion": "Respawn occurs at the champion turn. A different champion may observe it in that round or the next."
+        }
+      }
+    }
+  ]
+}

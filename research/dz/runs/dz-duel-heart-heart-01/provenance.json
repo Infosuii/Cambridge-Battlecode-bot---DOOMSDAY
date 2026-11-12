@@ -1,0 +1,63 @@
+{
+  "created_utc": "2026-10-30T12:15:46.337595+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--name",
+    "dz-duel-heart-heart-01",
+    "--fixture",
+    "duel",
+    "--fixture-opponent",
+    "--map-dir",
+    "tests/dz/maps",
+    "--maps",
+    "isolated-wolf",
+    "--diagnostic-rounds",
+    "160",
+    "--set",
+    "DZ_DUEL_HEART=1",
+    "--set",
+    "DZ_DUEL_OTHER_HEART=1",
+    "--workers",
+    "2"
+  ],
+  "git_head": "a9ad70106bd0d1aee2044d9278f721fa5b5a599b",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "runner_sha256": "ef2b58940f3e91c2352c82dce05539ce210ed5f17053b96a878ff2b3f6b129a0",
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "source": {
+    "src/config.h": "1b6b9cb9df2233e1272563738bf6ac5b6bd2a884ac1bdf67cb9eb6b7902a5f13",
+    "src/duel.h": "227b551e1892679ffe3747ebd7bdee2f7c79415a3d6aaef68dd076969b854830",
+    "src/fight.h": "73d888fcfb616e4eaf37f3e32d885ce7ce5fdc53acde450c9314c8e6a0200b1b",
+    "src/main.cpp": "6fc17c177e3023538c49fd6daf8341c89e05aa843915a089201a7d0ddf398a90"
+  },
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "isolated-wolf": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3"
+  },
+  "candidate_sha256": "35c427c2b03e6ca088cccfe5feeffffe818149202335e01775b07d60b5ec1d16",
+  "opponent_sha256": "35c427c2b03e6ca088cccfe5feeffffe818149202335e01775b07d60b5ec1d16",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples",
+  "map_directory": "tests\\dz\\maps",
+  "fixture": "duel",
+  "candidate_bot": "dz",
+  "opponent_source": {
+    "src/config.h": "0214d63e4317496e87938713b14a00d0b6ed3033cbf7b87925e89d2822262cfc",
+    "src/duel.h": "227b551e1892679ffe3747ebd7bdee2f7c79415a3d6aaef68dd076969b854830",
+    "src/fight.h": "73d888fcfb616e4eaf37f3e32d885ce7ce5fdc53acde450c9314c8e6a0200b1b",
+    "src/main.cpp": "6fc17c177e3023538c49fd6daf8341c89e05aa843915a089201a7d0ddf398a90"
+  }
+}

@@ -1,0 +1,106 @@
+{
+ "tree": {
+  "feat": "log_area",
+  "thr": 7.8823,
+  "le": {
+   "feat": "log_mean_dist",
+   "thr": 3.1377,
+   "le": {
+    "feat": "harmless",
+    "thr": 0.623,
+    "le": {
+     "leaf": 3,
+     "n": 18
+    },
+    "gt": {
+     "leaf": 5,
+     "n": 4
+    }
+   },
+   "gt": {
+    "feat": "harmless",
+    "thr": 0.1725,
+    "le": {
+     "leaf": 6,
+     "n": 24
+    },
+    "gt": {
+     "leaf": 7,
+     "n": 13
+    }
+   }
+  },
+  "gt": {
+   "feat": "harmless",
+   "thr": 0.459,
+   "le": {
+    "feat": "near30",
+    "thr": 0.578,
+    "le": {
+     "leaf": 2,
+     "n": 21
+    },
+    "gt": {
+     "leaf": 6,
+     "n": 3
+    }
+   },
+   "gt": {
+    "leaf": 4,
+    "n": 3
+   }
+  }
+ },
+ "features": [
+  "log_area",
+  "team",
+  "contested",
+  "top3",
+  "log_density",
+  "groups_per_champ",
+  "harmless",
+  "strong",
+  "blocked",
+  "unreachable",
+  "near15",
+  "near30",
+  "log_mean_dist",
+  "log_hp_per_gem"
+ ],
+ "leaves": {
+  "C1": [
+   "log_area <= 7.8823",
+   "log_mean_dist <= 3.1377",
+   "harmless <= 0.623"
+  ],
+  "C2": [
+   "log_area <= 7.8823",
+   "log_mean_dist <= 3.1377",
+   "harmless > 0.623"
+  ],
+  "C3": [
+   "log_area <= 7.8823",
+   "log_mean_dist > 3.1377",
+   "harmless <= 0.1725"
+  ],
+  "C4": [
+   "log_area <= 7.8823",
+   "log_mean_dist > 3.1377",
+   "harmless > 0.1725"
+  ],
+  "C5": [
+   "log_area > 7.8823",
+   "harmless <= 0.459",
+   "near30 <= 0.578"
+  ],
+  "C6": [
+   "log_area > 7.8823",
+   "harmless <= 0.459",
+   "near30 > 0.578"
+  ],
+  "C7": [
+   "log_area > 7.8823",
+   "harmless > 0.459"
+  ]
+ }
+}

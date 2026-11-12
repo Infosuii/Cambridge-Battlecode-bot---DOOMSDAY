@@ -1,0 +1,88 @@
+{
+  "runs": [
+    "dz-model-calibration-idle-pilot-01",
+    "dz-model-calibration-role-1-01",
+    "dz-model-calibration-role-2-01",
+    "dz-model-calibration-role-3-01",
+    "dz-model-calibration-role-4-01",
+    "dz-model-calibration-v76-validation-01",
+    "dz-model-clock-diagnostics-v76-01",
+    "dz-model-clock-release-screen-01",
+    "dz-model-work-only-idle-01",
+    "dz-model-work-only-v65-01",
+    "dz-model-work-only-v76-01"
+  ],
+  "new_games": 486,
+  "candidate_faults": 0,
+  "candidate_fuel_outs": 0,
+  "comparisons": [
+    {
+      "base": "dz-resume-cold-retry-idle-01",
+      "candidate": "dz-model-work-only-idle-01",
+      "all_geometry_descriptive": {
+        "cells": 140,
+        "delta": -2.4714285714285715,
+        "descriptive_se": 1.9671360241286708
+      },
+      "development_only": {
+        "cells": 112,
+        "delta": -3.607142857142857,
+        "descriptive_se": 2.390637476805023
+      }
+    },
+    {
+      "base": "dz-resume-cold-retry-v65-01",
+      "candidate": "dz-model-work-only-v65-01",
+      "all_geometry_descriptive": {
+        "cells": 140,
+        "delta": -4.35,
+        "descriptive_se": 5.305603361523054
+      },
+      "development_only": {
+        "cells": 112,
+        "delta": -0.2857142857142857,
+        "descriptive_se": 5.958449930523386
+      }
+    },
+    {
+      "base": "dz-resume-cold-retry-v76-check-01",
+      "candidate": "dz-model-work-only-v76-01",
+      "all_geometry_descriptive": {
+        "cells": 140,
+        "delta": -3.9357142857142855,
+        "descriptive_se": 5.322596352686983
+      },
+      "development_only": {
+        "cells": 112,
+        "delta": -6.169642857142857,
+        "descriptive_se": 6.479721466389676
+      }
+    },
+    {
+      "base": "dz-resume-cold-retry-v65-01",
+      "candidate": "dz-model-clock-release-screen-01",
+      "all_geometry_descriptive": {
+        "cells": 12,
+        "delta": -43.5,
+        "descriptive_se": 24.92184754083222
+      },
+      "development_only": {
+        "cells": 12,
+        "delta": -43.5,
+        "descriptive_se": 24.92184754083222
+      }
+    }
+  ],
+  "default_sha256": "4ee9731c53c76e65bb43b4285a092664803e7011fd86359636f1258de11bcaa4",
+  "decisions": {
+    "work_only": "disabled: full-pool release banking lower on all3 opponents",
+    "clock": "disabled: better restricted timing calibration but release screen regressed",
+    "V-M1": "open: multi-role damage, spells, crews, death/abort coverage remain"
+  },
+  "tests": {
+    "python": 38,
+    "node_audit": 8,
+    "clock_reference": 14544,
+    "core_execution": "WASI/Node24; native host ABI not exercised"
+  }
+}

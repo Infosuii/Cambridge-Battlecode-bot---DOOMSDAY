@@ -1,0 +1,186 @@
+--- bot.cpp	1980-01-01 00:00:00.000000000 +0000
++++ bot.cpp	2026-11-08 23:49:57.145626500 +0000
+@@ -25,6 +25,7 @@
+ #include "a2map.h"
+ 
+ #include <span>
++#include <optional>
+ #include <string_view>
+ #include <tuple>
+ #include <variant>
+@@ -4161,10 +4162,11 @@
+         fdist(w.spawn_field, pos) > tune::kShopWalkDist) {
+         // Losing, hurt and hidden: recall from cover (nobody can hit us here to cancel it).
+         try {
+-            bc::self().recall();
+-            mode = "bush-recall";
+-            heading_home = true;
+-            return true;
++            if (start_recall()) {
++                mode = "bush-recall";
++                heading_home = true;
++                return true;
++            }
+         } catch (const std::exception& e) {
+             LOG("bush recall error %s\n", e.what());
+         }
+@@ -4761,8 +4763,7 @@
+     if (enemy_close && tune::kBushRecall && hidden_here() && !bit(w.hot_zone, pos)) enemy_close = false;
+     if (dist > tune::kShopWalkDist && !enemy_close) {
+         try {
+-            me.recall();
+-            return true;
++            if (start_recall()) return true;
+         } catch (const std::exception& e) {
+             LOG("recall error %s\n", e.what());
+         }
+@@ -4777,10 +4778,55 @@
+     return true;
+ }
+ 
++bool Bot::retry_channel(ChannelRetry::Kind kind, vec2 altar) {
++    if (!channel_retry.matches(kind, pos.x, pos.y, altar.x, altar.y)) return true;
++    // A same-turn retry cannot have made progress. On a later turn use the same
++    // threat model as the cancellation guard, evaluated for a fresh channel.
++    if (channel_retry.round == round) return false;
++    float incoming = 0.0f;
++    for (const auto& e : w.enemies)
++        if (cheb(e.pos, pos) <= e.range + 2) incoming += e.strength + e.focus * 0.5f;
++    int duration = bc::constants::recall_time;
++    if (kind == ChannelRetry::submit) {
++        duration = std::max(bc::constants::submit_gem_minimum_duration,
++            bc::constants::submit_gem_base_duration + static_cast<int>(std::ceil(
++                static_cast<double>(gems) * bc::constants::submit_gem_duration_multiplier)));
++    } else {
++        const auto items = bc::self().item_count();
++        if (items[bc::item_type::home_emblem_of_strength] ||
++            items[bc::item_type::home_emblem_of_focus] ||
++            items[bc::item_type::home_emblem_of_health]) duration = 3;
++    }
++    bool unsafe = tune::kChannelGuard > 0.0f && incoming * static_cast<float>(duration + 1) * tune::kChannelGuard >= hp;
++#if A2_HIDEREC
++    if (kind == ChannelRetry::recall && hidden_here()) unsafe = false;
++#endif
++    return channel_retry.allows(kind, round, pos.x, pos.y, altar.x, altar.y, unsafe);
++}
++
++bool Bot::start_recall() {
++    if (!retry_channel(ChannelRetry::recall)) return false;
++    bc::self().recall();
++    return true;
++}
++
++bool Bot::start_submission(vec2 altar) {
++    if (!retry_channel(ChannelRetry::submit, altar)) return false;
++    bc::self().submit_gems(altar);
++    channel_altar = altar;
++    return true;
++}
++
+ bool Bot::tribute_if_needed() {
+     if (gems <= 0) return false;
+ #if A2_ALTARFIX
+-    if (w.no_bank || round < tribute_off_until) return false;
++    if (w.no_bank) return false;
++    if (round < tribute_off_until) {
++        // The route timeout is not a ban on scoring after we reach an altar.
++        bool in_range = false;
++        for (vec2 a : w.altars) in_range |= cheb(a, pos) <= bc::constants::submit_gems_range;
++        if (!in_range) return false;
++    }
+ #endif
+ #if A2_LAB
+     if (lab::active(static_cast<std::int32_t>(my_id), round, 3)) return false; // engine lab: hold the bag
+@@ -4893,27 +4939,33 @@
+     }
+ #endif
+     if (dist == 0) {
++        std::optional<bc::altar_lock> enemy_lock;
+         for (vec2 a : w.altars) {
+             if (cheb(a, pos) > bc::constants::submit_gems_range) continue;
+-            if (bc::vision::has_altar_lock(a)) {
+-                const auto lock = bc::vision::altar_lock_at(a);
+-                if (lock.is_enemy()) {
+-                    if (me.can_attack()) {
+-                        try {
+-                            me.attack(lock);
+-                        } catch (...) {
+-                        }
+-                    }
+-                    return true;
+-                }
++            // altar_lock_at prefers our lock when both teams occupy an altar.
++            // Query the hostile lock explicitly, and try every open alternative
++            // before spending this turn clearing one.
++            d::altar_lock_info info{};
++            const auto rc = d::sdk_altar_lock(a.x, a.y, d::absolute_team(team::enemy), &info);
++            if (rc == 0) {
++                if (!enemy_lock) enemy_lock.emplace(info);
++                continue;
++            }
++            if (rc != static_cast<std::int32_t>(bc::error_code::api_not_found)) {
++                continue; // Do not infer access from an unsuccessful visibility query.
+             }
+             try {
+-                me.submit_gems(a);
+-                return true;
++                if (start_submission(a)) return true;
+             } catch (const std::exception& e) {
+                 LOG("submit error %s\n", e.what());
+             }
+         }
++        if (enemy_lock) {
++            if (me.can_attack()) {
++                try { me.attack(*enemy_lock); } catch (...) {}
++            }
++            return true;
++        }
+         return false;
+     }
+     bc::bitboard blocked = w.static_blocked | w.unit_tiles;
+@@ -6859,9 +6911,10 @@
+             for (const auto& sg : w.sightings) threat |= round - sg.round <= 5 && cheb(sg.pos, pos) <= 8;
+             if (!threat) {
+                 try {
+-                    bc::self().recall();
+-                    mode = "recall-travel";
+-                    return true;
++                    if (start_recall()) {
++                        mode = "recall-travel";
++                        return true;
++                    }
+                 } catch (const std::exception& e) {
+                     LOG("recall-travel error %s\n", e.what());
+                 }
+@@ -7560,6 +7613,7 @@
+     if (state.contains(bc::champion_state::recalling) && win_now() && hp >= max_hp * tune::kDangerHp) {
+         try {
+             me.cancel_recall();
++            channel_retry.cancelled(ChannelRetry::recall, round, pos.x, pos.y);
+         } catch (const std::exception& e) {
+             LOG("cancel recall error %s\n", e.what());
+         }
+@@ -7584,8 +7638,13 @@
+         if (state.contains(bc::champion_state::recalling) && hidden_here()) return;
+ #endif
+         try {
+-            if (state.contains(bc::champion_state::submitting_gems)) me.cancel_submit_gems();
+-            else me.cancel_recall();
++            if (state.contains(bc::champion_state::submitting_gems)) {
++                me.cancel_submit_gems();
++                channel_retry.cancelled(ChannelRetry::submit, round, pos.x, pos.y, channel_altar.x, channel_altar.y);
++            } else {
++                me.cancel_recall();
++                channel_retry.cancelled(ChannelRetry::recall, round, pos.x, pos.y);
++            }
+         } catch (const std::exception& e) {
+             LOG("channel cancel error %s\n", e.what());
+             return;
+@@ -8002,5 +8061,5 @@
+     debug_block({ std::printf("M %d %u %s %d\n", round, my_id, mode, target_group); });
+     LOG("R%d %-11s p(%d,%d) hp%.0f/%.0f g%d $%d %s G%d st%d fuel%llu\n", round, bc::to_string(type).c_str(), pos.x, pos.y, hp,
+         max_hp, gems, gold, mode, target_group, target_group >= 0 ? static_cast<int>(w.groups[target_group].state) : -1,
+-        static_cast<unsigned long long>((bc::fuel_remaining() + nn_spent)));
++        static_cast<unsigned long long>(bc::fuel_remaining()));
+ }
+

@@ -1,0 +1,2 @@
+#define CT_OPPONENT 0
+#define DZ_REVERSE_DRAFT 0

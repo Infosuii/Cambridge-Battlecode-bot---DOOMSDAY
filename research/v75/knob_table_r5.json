@@ -1,0 +1,424 @@
+{
+ "base": [
+  "v65=R5-v65-base",
+  "v61=R5-v61-base",
+  "v58=R5-v58-base",
+  "proxy=R5-proxy-base"
+ ],
+ "options": [
+  "spread:v65=R5-v65-spread",
+  "spread:v61=R5-v61-spread",
+  "spread:v58=R5-v58-spread",
+  "spread:proxy=R5-proxy-spread",
+  "solo:v65=R5-v65-solo",
+  "solo:v61=R5-v61-solo",
+  "solo:v58=R5-v58-solo",
+  "solo:proxy=R5-proxy-solo",
+  "needplus:v65=R5-v65-needplus",
+  "needplus:v61=R5-v61-needplus",
+  "needplus:v58=R5-v58-needplus",
+  "needplus:proxy=R5-proxy-needplus",
+  "nohunt:v65=R5-v65-nohunt",
+  "nohunt:v61=R5-v61-nohunt",
+  "nohunt:v58=R5-v58-nohunt",
+  "nohunt:proxy=R5-proxy-nohunt",
+  "calm:v65=R5-v65-calm",
+  "calm:v61=R5-v61-calm",
+  "calm:v58=R5-v58-calm",
+  "calm:proxy=R5-proxy-calm",
+  "wait:v65=R5-v65-wait",
+  "wait:v61=R5-v61-wait",
+  "wait:v58=R5-v58-wait",
+  "wait:proxy=R5-proxy-wait",
+  "nowait:v65=R5-v65-nowait",
+  "nowait:v61=R5-v61-nowait",
+  "nowait:v58=R5-v58-nowait",
+  "nowait:proxy=R5-proxy-nowait",
+  "shopmore:v65=R5-v65-shopmore",
+  "shopmore:v61=R5-v61-shopmore",
+  "shopmore:v58=R5-v58-shopmore",
+  "shopmore:proxy=R5-proxy-shopmore",
+  "shopless:v65=R5-v65-shopless",
+  "shopless:v61=R5-v61-shopless",
+  "shopless:v58=R5-v58-shopless",
+  "shopless:proxy=R5-proxy-shopless"
+ ],
+ "min_gain": 100.0,
+ "max_loss": 250.0,
+ "table": {
+  "00corners": {
+   "profile": "solo",
+   "key": [
+    71,
+    71,
+    5,
+    30,
+    396
+   ],
+   "gain": 120,
+   "per_opponent": {
+    "v65": 428,
+    "v61": 37,
+    "v58": -132,
+    "proxy": 146
+   }
+  },
+  "00eight": {
+   "profile": "spread",
+   "key": [
+    41,
+    30,
+    5,
+    8,
+    230
+   ],
+   "gain": 280,
+   "per_opponent": {
+    "v65": 41,
+    "v61": 527,
+    "v58": 768,
+    "proxy": -214
+   }
+  },
+  "00expanse": {
+   "profile": "wait",
+   "key": [
+    80,
+    80,
+    5,
+    24,
+    362
+   ],
+   "gain": 101,
+   "per_opponent": {
+    "v65": 128,
+    "v61": 187,
+    "v58": -1,
+    "proxy": 89
+   }
+  },
+  "00gemfight": {
+   "profile": "wait",
+   "key": [
+    30,
+    30,
+    4,
+    19,
+    200
+   ],
+   "gain": 122,
+   "per_opponent": {
+    "v65": 222,
+    "v61": 118,
+    "v58": -116,
+    "proxy": 263
+   }
+  },
+  "00quadrants": {
+   "profile": "solo",
+   "key": [
+    45,
+    45,
+    5,
+    21,
+    763
+   ],
+   "gain": 173,
+   "per_opponent": {
+    "v65": 484,
+    "v61": 127,
+    "v58": 254,
+    "proxy": -174
+   }
+  },
+  "00quarry": {
+   "profile": "shopmore",
+   "key": [
+    35,
+    29,
+    4,
+    14,
+    114
+   ],
+   "gain": 151,
+   "per_opponent": {
+    "v65": 114,
+    "v61": 560,
+    "v58": -210,
+    "proxy": 141
+   }
+  },
+  "00reverse-spiral": {
+   "profile": "spread",
+   "key": [
+    30,
+    30,
+    4,
+    14,
+    334
+   ],
+   "gain": 190,
+   "per_opponent": {
+    "v65": 503,
+    "v61": 362,
+    "v58": -198,
+    "proxy": 94
+   }
+  },
+  "00rushbait-v2": {
+   "profile": "wait",
+   "key": [
+    30,
+    80,
+    4,
+    18,
+    258
+   ],
+   "gain": 146,
+   "per_opponent": {
+    "v65": -220,
+    "v61": 275,
+    "v58": -6,
+    "proxy": 535
+   }
+  },
+  "00split": {
+   "profile": "spread",
+   "key": [
+    45,
+    35,
+    5,
+    32,
+    850
+   ],
+   "gain": 101,
+   "per_opponent": {
+    "v65": 89,
+    "v61": 236,
+    "v58": 12,
+    "proxy": 66
+   }
+  },
+  "00swirl": {
+   "profile": "nowait",
+   "key": [
+    45,
+    30,
+    4,
+    22,
+    638
+   ],
+   "gain": 141,
+   "per_opponent": {
+    "v65": -198,
+    "v61": 384,
+    "v58": 314,
+    "proxy": 62
+   }
+  },
+  "00the-line": {
+   "profile": "wait",
+   "key": [
+    33,
+    33,
+    4,
+    9,
+    193
+   ],
+   "gain": 257,
+   "per_opponent": {
+    "v65": 1122,
+    "v61": -103,
+    "v58": -8,
+    "proxy": 17
+   }
+  },
+  "00vault": {
+   "profile": "wait",
+   "key": [
+    31,
+    31,
+    4,
+    7,
+    359
+   ],
+   "gain": 153,
+   "per_opponent": {
+    "v65": 1,
+    "v61": -42,
+    "v58": -181,
+    "proxy": 836
+   }
+  },
+  "01concentrated-wealth": {
+   "profile": "needplus",
+   "key": [
+    61,
+    61,
+    5,
+    11,
+    177
+   ],
+   "gain": 220,
+   "per_opponent": {
+    "v65": 358,
+    "v61": 688,
+    "v58": -160,
+    "proxy": -7
+   }
+  },
+  "01gold-rush": {
+   "profile": "calm",
+   "key": [
+    31,
+    31,
+    3,
+    15,
+    266
+   ],
+   "gain": 307,
+   "per_opponent": {
+    "v65": -62,
+    "v61": 408,
+    "v58": 457,
+    "proxy": 426
+   }
+  },
+  "01hooks": {
+   "profile": "wait",
+   "key": [
+    31,
+    31,
+    4,
+    12,
+    88
+   ],
+   "gain": 219,
+   "per_opponent": {
+    "v65": 68,
+    "v61": 360,
+    "v58": 458,
+    "proxy": -12
+   }
+  },
+  "01starfish": {
+   "profile": "wait",
+   "key": [
+    50,
+    50,
+    5,
+    16,
+    334
+   ],
+   "gain": 407,
+   "per_opponent": {
+    "v65": 412,
+    "v61": 6,
+    "v58": 786,
+    "proxy": 425
+   }
+  },
+  "01yellow-brick-road": {
+   "profile": "shopmore",
+   "key": [
+    40,
+    30,
+    5,
+    28,
+    472
+   ],
+   "gain": 100,
+   "per_opponent": {
+    "v65": 77,
+    "v61": 31,
+    "v58": 305,
+    "proxy": -12
+   }
+  },
+  "02guardians": {
+   "profile": "shopless",
+   "key": [
+    41,
+    41,
+    4,
+    22,
+    688
+   ],
+   "gain": 274,
+   "per_opponent": {
+    "v65": -77,
+    "v61": 426,
+    "v58": -174,
+    "proxy": 920
+   }
+  },
+  "02the-pack": {
+   "profile": "needplus",
+   "key": [
+    45,
+    45,
+    3,
+    35,
+    388
+   ],
+   "gain": 165,
+   "per_opponent": {
+    "v65": -248,
+    "v61": 394,
+    "v58": 635,
+    "proxy": -121
+   }
+  },
+  "adgato-gemcombat3": {
+   "profile": "calm",
+   "key": [
+    51,
+    51,
+    4,
+    10,
+    308
+   ],
+   "gain": 116,
+   "per_opponent": {
+    "v65": -41,
+    "v61": -2,
+    "v58": -167,
+    "proxy": 673
+   }
+  },
+  "adgato-gemcombat4": {
+   "profile": "wait",
+   "key": [
+    41,
+    61,
+    5,
+    8,
+    252
+   ],
+   "gain": 138,
+   "per_opponent": {
+    "v65": -177,
+    "v61": 291,
+    "v58": 96,
+    "proxy": 343
+   }
+  },
+  "adgato-gemcombat5": {
+   "profile": "shopless",
+   "key": [
+    99,
+    99,
+    5,
+    24,
+    735
+   ],
+   "gain": 172,
+   "per_opponent": {
+    "v65": 97,
+    "v61": 375,
+    "v58": 357,
+    "proxy": -141
+   }
+  }
+ }
+}

@@ -1,0 +1,191 @@
+{
+ "kind": "native target-head PPO update (mc-terminal-gamma1-v1); NOT a strength claim",
+ "version": "clna-head-v1-u4-96dff8487c94",
+ "collected_with": "clna-head-v1-init1104-14960dd8be0d",
+ "behaviour_replay_max_error": 4.6136952391861996e-07,
+ "games": [
+  {
+   "key": "3fed84091b160ff0|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00anvil.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 1601,
+   "skips": 561
+  },
+  {
+   "key": "3fed84091b160ff0|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00anvil.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 1081,
+   "skips": 1715
+  },
+  {
+   "key": "fea9c8e766be4011|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00breadcrumbs.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 1280,
+   "skips": 381
+  },
+  {
+   "key": "fea9c8e766be4011|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00breadcrumbs.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1067,
+   "skips": 345
+  },
+  {
+   "key": "6e3c67956080f8da|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00collision.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 1431,
+   "skips": 222
+  },
+  {
+   "key": "6e3c67956080f8da|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00collision.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1544,
+   "skips": 316
+  },
+  {
+   "key": "76b5ce0895130f5f|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00eight.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 1087,
+   "skips": 1194
+  },
+  {
+   "key": "76b5ce0895130f5f|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00eight.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1535,
+   "skips": 1341
+  },
+  {
+   "key": "2d80c4fd704de4a4|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00galaxy.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 2096,
+   "skips": 482
+  },
+  {
+   "key": "2d80c4fd704de4a4|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00galaxy.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 2201,
+   "skips": 451
+  },
+  {
+   "key": "80af89f07723d23d|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00gem-fields.map26a",
+   "side": "A",
+   "outcome": -1,
+   "decisions": 1653,
+   "skips": 348
+  },
+  {
+   "key": "80af89f07723d23d|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00gem-fields.map26a",
+   "side": "B",
+   "outcome": -1,
+   "decisions": 1795,
+   "skips": 223
+  },
+  {
+   "key": "1dfe5669ebcdf39e|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00gemfight.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 808,
+   "skips": 689
+  },
+  {
+   "key": "1dfe5669ebcdf39e|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00gemfight.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 824,
+   "skips": 870
+  },
+  {
+   "key": "a97f4ab5707d1572|a742fcd06402a762|5704d7ba41acca8f|release|A",
+   "map": "maps/ladder-pool/00happy-halloween.map26a",
+   "side": "A",
+   "outcome": 1,
+   "decisions": 2213,
+   "skips": 762
+  },
+  {
+   "key": "a97f4ab5707d1572|a742fcd06402a762|5704d7ba41acca8f|release|B",
+   "map": "maps/ladder-pool/00happy-halloween.map26a",
+   "side": "B",
+   "outcome": 1,
+   "decisions": 2677,
+   "skips": 720
+  }
+ ],
+ "decisions": 24893,
+ "outcome_mean": 0.125,
+ "epochs": [
+  {
+   "epoch": 0,
+   "loss": -76.08593956411033,
+   "approx_kl": -2.2515299784535967e-08,
+   "alpha_mean": 0.020000003276085507,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 1,
+   "loss": -76.1131849314556,
+   "approx_kl": -1.5605722355487502e-05,
+   "alpha_mean": 0.02024889364883496,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 2,
+   "loss": -76.15010460231068,
+   "approx_kl": -3.251464968941843e-05,
+   "alpha_mean": 0.02055534331467487,
+   "clip_frac": 0.0
+  },
+  {
+   "epoch": 3,
+   "loss": -76.1984364212068,
+   "approx_kl": -4.951497759361738e-05,
+   "alpha_mean": 0.020932080299506224,
+   "clip_frac": 4.0171935885590324e-05
+  }
+ ],
+ "params": 11826,
+ "alpha_before": {
+  "mean": 0.020000003276085507,
+  "min": 0.020000001415610313,
+  "max": 0.020000003278255463
+ },
+ "alpha_after": {
+  "mean": 0.021392279361319568,
+  "min": 0.02053155191242695,
+  "max": 0.022526739165186882
+ },
+ "logged_ref_rows_nonref_mass_after": 0.005457668306176542,
+ "shards": [
+  "runs/rl_env_1104/head-a-01"
+ ],
+ "rejected_episodes": [],
+ "objective": "sum of decision surrogates per game, mean over games",
+ "reward_spec": "mc-terminal-gamma1-v1",
+ "head_abi_hash": "521fd13aa634d0cd545a897fb5e64e3fdf5961a26725da2e33eef5db0a0e1e82",
+ "resumed_from": null,
+ "updates": 4,
+ "lr": 0.001,
+ "clip": 0.2
+}

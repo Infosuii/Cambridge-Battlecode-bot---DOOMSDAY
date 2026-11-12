@@ -1,0 +1,24 @@
+
+RUN HOME84D-denial
+SIDE a win False fuel 7
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [50, {"rewardAvailable": true, "captureTeam": 2}], [314, {"rewardAvailable": false, "captureTeam": 2}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [56, {"rewardAvailable": true, "captureTeam": 0}]]
+GOLD 100 120.0
+GOLD 200 220.0
+GOLD 300 340.0
+GOLD 500 1260.0
+SIDE b win False fuel 8
+GROUP 0 gold 600 gems 0 camps 30 start {'id': 0, 'x': 5, 'y': 17, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [92, {"rewardAvailable": true, "captureTeam": 1}]]
+GROUP 1 gold 600 gems 0 camps 30 start {'id': 1, 'x': 34, 'y': 12, 'type': 3}
+stateR0 {'rewardAvailable': False, 'captureTeam': 2}
+transitions [[1, {"rewardAvailable": false, "captureTeam": 2}], [49, {"rewardAvailable": true, "captureTeam": 2}], [204, {"rewardAvailable": false, "captureTeam": 2}]]
+GOLD 100 100.0
+GOLD 200 220.0
+GOLD 300 920.0
+GOLD 500 920.0

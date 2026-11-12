@@ -1,0 +1,390 @@
+{
+ "layout": 2,
+ "action_schema": "native-blend-eps-v1",
+ "sampling": "complete",
+ "stale_block": false,
+ "hidden_size": 0,
+ "decision_index": true,
+ "native_cands": true,
+ "gate_inputs": 8,
+ "eps": 0.02,
+ "action_kind": "latent_group_at_blend_boundary",
+ "executor": "frozen v92 farm() after the blend (fixed)",
+ "return_convention": "gamma=1 complete-game Monte Carlo: G_t = reward column = team outcome",
+ "observation_point": "native-blend-farm",
+ "data_origin": "engine",
+ "features": "absent: release logger (CNR1) logs q, gate inputs and alpha only; x_fresh zero",
+ "reward_spec": "mc-terminal-gamma1-v1: every decision of the team's complete game gets the team's final outcome (+1 win / 0 draw / -1 loss) as its undiscounted return; no shaping, no bootstrap (JOHNDOE #61)",
+ "run_ns": "nat-rel-01",
+ "log_limit": 67108864,
+ "policy": {
+  "name": "native-blend-eps",
+  "backbone": "agent2 student_i2m (frozen)",
+  "checkpoint_sha256": "05052b6e8ddeb8eaa4cef760b8b24dda9cfee794207b0a2d12d7b06bfae9e5ec",
+  "wasm_sha256": "9f8cf58b454074a683a66ba965912ff1066f85b02f4bb16d6bd0626006ae76e8",
+  "build": "release",
+  "flags": [
+   "CLNA_EPS=0.02",
+   "CLNA_RLOG=1"
+  ],
+  "gate_header_sha256": "2dc3f652e079580e16a2aa7c37ed153ea45dbe8725ffcba6e120fc3bb3331685",
+  "source_commit": "cefbc258f490b4f484f3d62cd519fc731b7cc564"
+ },
+ "engine": {
+  "cambc": "4.0.0",
+  "engine": "2.0.0"
+ },
+ "contract_version": "rlenv-2",
+ "rows": 9725,
+ "episodes": [
+  {
+   "key": "97906cc38f503e02|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00corners.map26a",
+   "map_file_sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "seed": "14185859257870086076",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1271,
+   "end_round": 1272,
+   "final_scores": {
+    "ours": 1006,
+    "theirs": 927
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 69,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 2414,
+   "skips": 0,
+   "reassigned": 7,
+   "fuel_out_rows": 63,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 2414
+  },
+  {
+   "key": "97906cc38f503e02|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00corners.map26a",
+   "map_file_sha256": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "97906cc38f503e027c041b681a877465519b3fcb19a410c316cf6efc40c909ea",
+   "seed": "14185859257870086076",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1254,
+   "end_round": 1255,
+   "final_scores": {
+    "ours": 1000,
+    "theirs": 658
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 60,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 2687,
+   "skips": 0,
+   "reassigned": 11,
+   "fuel_out_rows": 52,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "dev",
+   "rows": 2687
+  },
+  {
+   "key": "0fdcd925bde87ac4|9f8cf58b454074a6|5704d7ba41acca8f|release|A",
+   "map_file": "maps/ladder-pool/00oasis.map26a",
+   "map_file_sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "A",
+   "build_mode": "release",
+   "map_hash": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "seed": "11962245115393419346",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1672,
+   "end_round": 1673,
+   "final_scores": {
+    "ours": 1018,
+    "theirs": 179
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 26,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamA",
+   "outcome": "teamA",
+   "decisions": 2359,
+   "skips": 0,
+   "reassigned": 9,
+   "fuel_out_rows": 26,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 2359
+  },
+  {
+   "key": "0fdcd925bde87ac4|9f8cf58b454074a6|5704d7ba41acca8f|release|B",
+   "map_file": "maps/ladder-pool/00oasis.map26a",
+   "map_file_sha256": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "opponent": {
+    "name": "bots/v92",
+    "wasm_sha256": "5704d7ba41acca8f5c369c963cec1719c1285780a532cc797857d8d7e3a06d47"
+   },
+   "side": "B",
+   "build_mode": "release",
+   "map_hash": "0fdcd925bde87ac49ca9a98ff3c87ef5513d3ddc57dab43320ef09d8ba12d26d",
+   "seed": "11962245115393419346",
+   "engine_build_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+   "rounds_completed": 1787,
+   "end_round": 1788,
+   "final_scores": {
+    "ours": 1033,
+    "theirs": 436
+   },
+   "terminal_outcome": 1,
+   "fuel_outs": 23,
+   "bot_faults": 0,
+   "status": "terminated",
+   "our_team": "teamB",
+   "outcome": "teamB",
+   "decisions": 2265,
+   "skips": 0,
+   "reassigned": 11,
+   "fuel_out_rows": 22,
+   "problems": [],
+   "reward_complete": true,
+   "ppo_eligible": true,
+   "incomplete": false,
+   "log_cut": false,
+   "split": "train",
+   "rows": 2265
+  }
+ ],
+ "columns": {
+  "x_fresh": {
+   "dtype": "int16",
+   "shape": [
+    9725,
+    500
+   ]
+  },
+  "has_stale": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "feat_round": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "stale_round": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "act_round": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "episode": {
+   "dtype": "uint32",
+   "shape": [
+    9725
+   ]
+  },
+  "body_id": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "slot": {
+   "dtype": "int8",
+   "shape": [
+    9725
+   ]
+  },
+  "mask": {
+   "dtype": "uint8",
+   "shape": [
+    9725,
+    14
+   ]
+  },
+  "action": {
+   "dtype": "int16",
+   "shape": [
+    9725
+   ]
+  },
+  "teacher_action": {
+   "dtype": "int16",
+   "shape": [
+    9725
+   ]
+  },
+  "executed": {
+   "dtype": "int16",
+   "shape": [
+    9725
+   ]
+  },
+  "logp": {
+   "dtype": "float32",
+   "shape": [
+    9725
+   ]
+  },
+  "has_logp": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "weight": {
+   "dtype": "float32",
+   "shape": [
+    9725
+   ]
+  },
+  "changed": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "reset": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "reward": {
+   "dtype": "float32",
+   "shape": [
+    9725
+   ]
+  },
+  "dt_rounds": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "terminated": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "truncated": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "boundary": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "bootstrap_valid": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "decision_index": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "cand_group": {
+   "dtype": "int16",
+   "shape": [
+    9725,
+    14
+   ]
+  },
+  "cand_q": {
+   "dtype": "float32",
+   "shape": [
+    9725,
+    14
+   ]
+  },
+  "eps": {
+   "dtype": "float32",
+   "shape": [
+    9725
+   ]
+  },
+  "ref_slot": {
+   "dtype": "int16",
+   "shape": [
+    9725
+   ]
+  },
+  "fuel_out": {
+   "dtype": "uint8",
+   "shape": [
+    9725
+   ]
+  },
+  "gate_x": {
+   "dtype": "float32",
+   "shape": [
+    9725,
+    8
+   ]
+  },
+  "engine_round": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  },
+  "engine_round_done": {
+   "dtype": "int32",
+   "shape": [
+    9725
+   ]
+  }
+ },
+ "created_utc": "2026-11-04T18:17:07Z",
+ "features_logged": false
+}

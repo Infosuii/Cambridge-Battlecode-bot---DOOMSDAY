@@ -1,0 +1,16 @@
+{
+  "purpose": "Matched diagnostic-budget control; not release-strength evidence",
+  "runs": {
+    "dz-model-heart-off-idle-01": "idle",
+    "dz-model-heart-off-v76-01": "v76"
+  },
+  "maps": [
+    "00great-wall",
+    "00interlock",
+    "00packs",
+    "00pilgrimage",
+    "00quadrants",
+    "00reverse-spiral"
+  ],
+  "difference": "DZ_TRACE_HEART=0 only; same global variant1, slot1, TRACE_MODEL/SHIELD1, ordinary trace_to0. Compare to frozen Heart-on runs with tools/dz_compare.py. Do not compare across draft variants as a policy improvement."
+}

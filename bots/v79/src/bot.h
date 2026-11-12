@@ -1,0 +1,444 @@
+// Champion decision logic. Each champion runs its own Bot; state persists between turns.
+#pragma once
+#include "common.h"
+#include "world.h"
+#include <string>
+
+namespace ts {
+struct State;
+struct Map;
+} // namespace ts
+
+struct Spell {
+    bool present = false;
+    bc::ability_kind kind{};
+    float range = 0, modifier = 0, radius = 0;
+    bool excludes_walk = false;
+    bool camps = false, enemies = false, allies = false, ground = false;
+};
+
+inline constexpr int kClaimDead = -2;
+// Shared memory (8 bytes): 6 claim slots x 7 bits (bits 0-41; a team with Cassi & Issac has 6
+// bodies), the latest enemy sighting x (42-48), y (49-55), round mod 64 (56-61), distress (62).
+inline constexpr int kClaimBits = 7;
+inline constexpr std::uint64_t kClaimMask = 127;
+inline constexpr std::uint64_t kClaimCodeDead = 126, kClaimCodeIdle = 127;
+inline constexpr int kClaimSlots = 6;
+inline constexpr int kSightX = 42, kSightY = 49, kSightRound = 56, kDistressBit = 62;
+inline constexpr int kSightRoundMask = 63;
+// V54_ONSITE: on maps with at most kOnsiteGroups groups, claim code kOnsiteBase + g means "claims group g and is at
+// its staging ring or fighting it" (fight orders keep 112-118). Teammates count on-site claimants as present
+// without seeing them.
+inline constexpr int kOnsiteBase = 64, kOnsiteGroups = 48;
+
+#if V58_DIRECTOR
+void economy_record_roster();
+#endif
+
+class Bot {
+public:
+    void play_turn();
+
+private:
+    bool v71_done_ = false; // V71_MAP_KNOBS applied
+
+    // v69 idle fixes (V69_ISLAND, V69_CAPTURE_STALL).
+    bool escape_island();
+    int cap_group_ = -1, cap_since_ = 0;
+
+    // V68_SIEGE_FIX: incremental siege line-of-sight scan (group, live camps, next ring tile, tiles that see).
+    int siege_los_group_ = -1, siege_los_alive_ = -1;
+    std::size_t siege_los_next_ = 0;
+    bc::bitboard siege_los_seeing_;
+
+#if V58_FINISH_RESET
+    int reset_defer_group = -1, reset_defer_until = -1;
+#endif
+#if V58_CAMP_CONTACT
+    bool camp_contact();
+#endif
+    void init();
+#if V58_CAPTURE_STAND
+    bool capture_stand();
+#endif
+#if V58_DENY_CAP
+    bool deny_capture();
+#endif
+    void refresh_self();
+#if V58_VISION
+    void vision_objective();
+    int vision_checked = -100;
+#endif
+#if V58_LOCKS
+    void locks_objective();
+#endif
+#if V58_SURVIVE
+    bool survive_contact();
+    bool survive_bank_due() const;
+#endif
+#if V58_ACT
+    bool act_camp_before_walk(GroupRec& g);
+    bool act_enemy_before_walk();
+    std::uint32_t act_enemy_id = 0;
+    int act_enemy_round = -100;
+    vec2 act_enemy_previous{-1, -1};
+#endif
+#if V58_DIRECTOR
+    bool economy_enabled() const;
+    int economy_carry() const;
+    bool economy_carry_on(const GroupRec& g) const;
+    int economy_owner(const GroupRec& g) const;
+    int economy_crew(int group, unsigned& mask, int requested = 0) const;
+    void economy_update();
+    int economy_assignment(int& need, float& score);
+    int ec_job = -1, ec_job_since = 0, ec_replan = -100, ec_capture = -1;
+    int ec_local_epoch = -1, ec_local_group = -1;
+    int ec_treasure_shards = 0, ec_release = -1;
+    bool ec_small_crew = false;
+#if V58_DIRECTOR >= 2
+    int economy_secondary_for(int primary);
+    std::vector<int> ec_secondary_cache;
+    int ec_secondary_commit = -1, ec_secondary_since = 0;
+#endif
+    bool economy_release_capture();
+    bool economy_precapture(const GroupRec& g, float remaining_hp);
+#endif
+    void shop();
+
+    // Shared memory: per-slot camp-group claims plus the last enemy sighting.
+    std::uint64_t read_shared() const;
+    void write_claim(int group, bool onsite = false);
+    void decode_claims();                   // claim_cache / onsite_bits from `shared`
+    bool claim_onsite(int s) const { return (onsite_bits >> s) & 1; }
+    void mark_onsite(int group);            // V54_ONSITE: we are at `group`'s staging ring or fighting it
+    void unmark_onsite();
+    std::array<std::int16_t, kClaimSlots> claim_cache{};
+    unsigned onsite_bits = 0;
+    bool onsite_ok = false;                 // this map's groups fit the on-site codes
+    int tp_held = -1;                       // V54_TP: teleport crystals carried (-1 = not read yet)
+    bool shop_done = false;                 // V56_SHOP_DONE: every build step reached (or the shop refuses more)
+    bool try_teleport(const bc::distance_field& field);
+    int claim_count(int group) const;
+    std::pair<int, int> claims_split(int group) const;
+    bool open_call_by_lower();
+    void share_sighting(bool distress = false);
+    void read_sighting();
+    int claim_of(int slot) const;
+    // Claim ages (APEX_INCUMBENT): the round each slot's current claim was first seen, ours included.
+    std::array<int, kClaimSlots> seen_claim{}, claim_since{};
+    int my_claim_since = 0;
+    void track_claims();
+    int senior_claims(int group) const;
+
+    // Movement.
+    bool walk_toward(const bc::bitboard& goals);
+#if A2_GOV_WALK
+    bool greedy_step(const bc::bitboard& goals);
+#endif
+#if (A2_TEAM & 2)
+    bool a2_join_fight();
+#endif
+#if A2_PLAN
+    int a2_team_plan();
+#endif
+#if A2_BELIEF
+    int a2_hidden_near(int radius, int grow);
+    float a2_hidden_burst();
+#endif
+#if A2_THREAT
+    static const bc::bitboard& a2_threat_zone(World& world, int now);
+    bool a2_route_around(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals);
+#endif
+#if A2_CAMPNET
+    struct CnCand {
+        int gi, need;
+        float score;
+        float f[18];
+    };
+    static constexpr int kCnMax = 64;
+    int campnet_pick(CnCand* cn, int n, int base, int& best_need, float& best_score);
+    int cn_commit = -1, cn_commit_round = 0, cn_last_base = -1;
+#endif
+#if A2_DPLAN
+    std::vector<std::pair<int, int>> dplan; // draft-turn team plan for this slot: (group index, start round)
+    std::size_t dplan_i = 0;
+    bool dplan_loaded = false, dplan_seen_alive = false;
+    void dplan_load();
+    int dplan_group();
+#endif
+#if A2_FOG
+    int fog_threat(vec2 at) const;
+    bool fog_regroup();
+#endif
+    bool travel_around_threats(const bc::distance_field& field, const bc::bitboard& blocked, const bc::bitboard& goals);
+    bool follow_field(const bc::distance_field& field, const bc::bitboard& blocked, bool allow_dash);
+    bool try_dash(const bc::distance_field& field, const bc::bitboard& blocked);
+    bool combat_move = false; // inside handle_enemies / hunt: dashes are for the fight
+    bool travel_dash_ok() const;
+    bool retreat_from(vec2 threat);
+    bool regroup_from(vec2 threat); // NOVA_FIGHT2 bit 4
+    int buddy();                    // NOVA_BUDDY: partner slot, -1 none
+    vec2 buddy_anchor();
+    int buddy_slot = -2;
+    int prev_enemy_score = -1; // NOVA_ALTAR_INFER
+    int duo_map_ok = -1;       // NOVA_DUO_MAPS: cached per game (-1 = not decided yet)
+#if A2_RACE
+    int mode_race = 0;         // A2_RACE posture: 1 safe (ahead), -1 contest (behind), 0 even
+#endif
+    int official_map = -1;     // 1 = official pool map (nova_map_id >= 0), 0 = unseen, -1 = not decided yet
+    bool is_official_map();
+    bool ward_ahead();
+    std::vector<char> big_group; // NOVA_BIGJOB: groups holding a dominant share of the map's gems
+    std::vector<std::int8_t> zone_of; // A2_ZONES: territory of each group (-1 none)
+    std::vector<char> mid_group;      // A2_MID_W: groups in the contested middle
+    int my_zone = -1;
+    void build_zones();
+    int duo_ignore_slot = -1; // NOVA_DUO: the leader's follower, whose claims the leader ignores
+    bool dash_away();
+    bool try_burst_kill();
+    bool bush_ambush();
+    bool counter_ambush();
+    bool ward_reveal(); // true when a ward went into a bush (look again)
+    bool hidden_here(); // in a bush cluster that no visible enemy stands in
+    void update_priority();
+    int priority_set = 0;
+    bool position_and_attack(const EnemyRec& target);
+    void prelock_altars();
+    bool hidden_from_threats(vec2 q);
+    std::vector<bc::bitboard> threat_vision; // what each nearby enemy sees (built on demand)
+    int threat_vision_round = -1;
+    bool escape_or_stand(const EnemyRec* target, const EnemyRec* nearest, float ttd);
+    bool melee_caught();
+    bool kite_step(const EnemyRec& target);
+    int nearest_enemy_melee() const;
+    int enemy_spell_reach() const;
+    bool caster_micro(const EnemyRec* target, bool engage); // APEX_CMICRO (tsearch.cpp)
+    int team_casters = -1; // Stellar, Tavi, Prism and Willow on our team (-1 until read)
+
+    // Escape search (APEX_ESCAPE_SEARCH): this turn's flight plan, made once and then carried out.
+    struct EscapePlan {
+        bool valid = false;
+        int dash_slot = -1; // dash first (to `land`), or -1
+        vec2 land{}, step{}; // `step` == where we stand afterwards (pos when staying)
+    };
+    // Boards and distance-field buffers, allocated on the first flight (each costs fuel to create).
+    struct EscapeBoards {
+        bc::bitboard chase_blocked; // what stops enemy walking: walls, holes, altars, our spawn
+        bc::bitboard dash_stop;     // what a dash path cannot cross: walls, altars, the enemy spawn
+        bc::bitboard root, visited; // root stays empty between searches (bits set and cleared directly)
+        std::array<bc::distance_field, 3> field;
+    };
+    std::unique_ptr<EscapeBoards> esc_boards;
+    EscapePlan esc_plan;
+    int esc_round = -1;
+    vec2 esc_failed{-1, -1}; // a planned tile the engine refused this turn (hidden unit)
+    bool plan_escape();
+    int run_escape(bool dash_only); // 0 = no plan (use the old flee), 1 = moved or dashed, 2 = plan stays
+
+    // Combat helpers.
+    bool attack_unit(const bc::unit& target, vec2 where);
+    bool cast_on_camp(int camp_index);
+#if V55_HEART_CAMP
+    bool cast_camp_strike(int camp_index);
+#endif
+#if V55_HEART_MODEL
+    float cached_dps = 1.0f;
+#endif
+    bool cast_on_enemy(const EnemyRec& e);
+    bool use_reset_and_attack(const bc::unit& target, vec2 where);
+    void support_casts();
+    float my_dps(const GroupRec* g) const;
+
+    // Tactical search (tsearch.cpp, APEX_TSEARCH): plays the local fight forward and acts on the best line.
+    bool tactical_search();
+    void ts_prewarm();
+    int tactical_decide();
+    int team_decide(std::uint32_t& focus_handle);            // APEX_TFC: 1 engage, 2 retreat, 0 none
+    void write_order(int code);                              // a fight order in our claim slot
+    int tfc_order_round = -1;                                  // +1 fight, -1 run, 0 no verdict (APEX_TS_DECIDE)
+    bool ts_snapshot(ts::State& s, ts::Map& m, const EnemyRec** eref);
+
+public:
+    // Fight episodes (episode.cpp, APEX_EPISODES): learning data and the learned aggression multiplier.
+    static constexpr int kEpFeat = 33, kEpGrid = 6;
+
+private:
+    struct Episode {
+        bool active = false;
+        int start = 0, last_contact = 0, choice = 2, enemy_deaths0 = 0, last_gems = 0, score_us = 0, score_them = 0;
+        float hp0 = 0;
+        float f[kEpFeat]{};
+    };
+    Episode ep;
+    float ep_aggr = 1.0f, ep_danger = 1.0f; // this episode's multipliers for the fight formula
+    std::vector<std::uint32_t> enemy_handles;
+    // Opponent model (APEX_OPP_MODEL): does an enemy within 3 tiles back off, by its health fifth? Learned from
+    // consecutive sightings; sets the fight search's enemy flee thresholds once enough is seen.
+    struct OppSeen {
+        std::uint32_t id;
+        vec2 pos;
+        float frac;
+        int dist, round;
+    };
+    std::vector<OppSeen> opp_last;
+    int opp_obs[5] = {0, 0, 0, 0, 0}, opp_ret[5] = {0, 0, 0, 0, 0};
+    void update_opp_model();
+    float opp_flee_estimate() const; // < 0 until enough observations
+    // Numbers (APEX_NUMBERS): living champions per side (the engine answers is_alive for every champion).
+    std::vector<std::uint32_t> num_handles[2];
+    int alive_us = 0, alive_them = 0;
+    void update_numbers();
+#ifdef APEX_SPELLSTAT
+    int spellstat_camp = 0, spellstat_enemy = 0, spellstat_contacts = 0, spellstat_has = 0, spellstat_ready = 0, spellstat_last_contact = -100;
+#endif
+    int ts_ran_round = -1;   // round the fight search last played out (APEX_DET: farming keeps its target then)
+    int field_calls = 0;     // build_fields calls so far (APEX_DET: the first one has the doubled budget)
+    std::vector<char> enemy_alive;
+    int enemy_deaths = 0;
+    void count_enemy_deaths();
+    void ep_features(float* f) const;
+    void episode_tick(bool dead_now);
+    vec2 ts_home[2] = {{-1, -1}, {-1, -1}}; // spawn centres (ours, theirs)
+    std::string ts_trace[2];                  // APEX_TSTRACE: the last two searches, printed on death
+    int ts_trace_i = 0;
+    int ts_trace_round = -1000;
+    bool ts_dead_logged = false;
+
+    // Behaviours, highest priority first.
+    bool handle_enemies();
+    // Opening rush (NOVA_RUSH_UNTIL): the team moves as one pack to the enemy's nearest camps and fights there.
+    bool rush();
+    bool rush_active() const;
+    std::vector<char> rush_visited;
+    int rush_target = -1;
+    int rush_leader_slot() const;
+    bool try_lock_altar();
+    bool deny_tribute();
+    bool hunt();
+    float siege_dps(const GroupRec& g) const;
+    void drop_ward();
+    bool go_home_if_needed();
+    bool tribute_if_needed();
+    bool farm();
+    bool fight_camps(GroupRec& g, int need);
+    bool reveal_bush_camp(const GroupRec& g); // NOVA_BUSH_WARD
+    bool break_out();                         // NOVA_UNBOX
+    bool walk_boxed = false;                  // last walk_toward: units (not terrain) blocked every route
+    bool walk_unreachable = false;            // last walk_toward: no route over static terrain (moated islands)
+    int sole_gem_group = -2;                  // A2_SOLE_GEM: group holding >= 90% of the map's gems (-1 none, -2 unset)
+    int champions_needed(const GroupRec& g, float hp_left);
+    float soak_coefficient(int group, float hp_left);
+    float group_soak(const GroupRec& g, float team_dps) const;
+    bool camp_targets_me(int camp_index, vec2 at) const;
+    float incoming_from_group(const GroupRec& g, vec2 at) const;
+    int allies_near_group(const GroupRec& g) const;
+    bool group_capture_covered(const GroupRec& g) const;
+    // Gold sharing (APEX_SHARE_GOLD): shards bought, estimated from stats; a poorer ally that is on
+    // (or claims and stands beside) a finished group takes its reward.
+    float my_items() const;
+    bool poorer_ally_takes(const GroupRec& g, int gi, bool on_tile_only) const;
+    std::array<std::uint32_t, 8> ally_handle{}; // slot -> champion handle
+    std::array<bc::champion_type, 8> slot_type{}; // slot -> champion type
+    bool in_role_pack = false;                    // APEX_ROLE_SQUAD: this champion farms with the pack
+    int score_groups(int participants_hint, int& best_need, float& best_score);
+    struct RouteCand {
+        int gi = -1, need = 1;
+        float value = 0, cost = 1, score = 0;
+        int finish = 0;
+    };
+    int route_search(const RouteCand* top, int n_top);
+    int plan_search(const RouteCand* top, int n_top, bool& bank_first); // APEX_PLAN
+    int plan_bank_round = -1;
+    void refresh_follow_ups();
+    // Per-turn follow-up table: gem value for one champion alone (0 = not worth or not safe solo),
+    // fixed turns (kill + capture), and the respawn round when the group is down (else -1).
+    std::vector<int> group_order; // groups by last turn's distance (nearly sorted each turn)
+    std::vector<char> order_seen;
+    std::vector<float> follow_value, follow_fixed;
+    std::vector<int> follow_respawn;
+    int follow_round = -1;
+    void opportunistic_attack();
+
+    bool spell_ready(int slot) const;
+
+    World w;
+    bool inited = false;
+    int round = 0;
+    int slot = 0;
+    std::uint32_t my_id = 0;
+    int team_size = 1;
+    std::uint64_t shared = 0;
+
+    // Self snapshot, refreshed each turn.
+    vec2 pos;
+    float hp = 0, max_hp = 1, strength = 0, focus = 0;
+    float prev_hp = 0; // health at the start of our previous turn (APEX_AWAKE_ZONE)
+    int gems = 0, gold = 0, range = 1;
+    bool melee = true;
+    bc::champion_type type{};
+    std::array<Spell, 2> spells;
+    std::array<int, 2> cooldown{};
+    bool cast_done = false;
+    int tribute_stuck = 0, tribute_last_dist = -1, tribute_off_until = 0; // A2_ALTARFIX bit 2
+    int approach_group = -1, approach_best = 0, approach_stuck = 0; // A2_APPROACHFIX
+    int bridge_hold = 0; // A2_BRIDGES: turns spent waiting at a hole gap for the dash
+    std::array<int, 8> altar_watch{}; // APEX_STALE_BAG: round until which each altar (w.altars order) is camped
+    bool keep_channel = false; // this turn: no stuns on a tributer we are hitting (a stun would free it)
+    bool walked = false;
+
+    void build_fields();
+    std::vector<float> soak_cache, soak_key_hp;
+    std::vector<int> soak_key_state;
+    int target_group = -1;
+    int staging_since = -1;          // round we started waiting for allies at target_group
+    int staging_walk_since = -1;     // round we started walking to a job that needs helpers (V54_STAGE_ARRIVE)
+    std::vector<int> avoid_until;    // per group: skip it until this round
+    bool heading_home = false;
+    bool force_tribute = false;
+    const char* mode = "";
+    bool was_dead = false;
+    Sighting distress{{-1, -1}, -1000}; // latest teammate call for help (an enemy chasing them)
+    // Last few turns, dumped when we die (APEX_DEATHLOG=1).
+    struct TurnNote {
+        int round = 0, hp = 0, max_hp = 0, gems = 0, enemies = 0, near_enemy = 99, enemy_hp = 0, allies_near = 0, target = -1, spawn_dist = 0;
+        const char* mode = "";
+        vec2 pos{};
+    };
+    TurnNote notes[4];
+    int note_i = 0;
+    int last_enemy_dist = 99;
+    bool mic_can_attack0 = false; // A2_MICLOG: could attack at turn start
+    bool shield_late_pass = false; // A2_SHIELDLATE: second support_casts pass after the fight logic
+    int last_flee_round = -1000; // hunting resumes only a while after we last fled
+    // V79_TF team fight: 0 no commitment, 1 engaged, 2 leaving; the round it began; the last round an enemy was within 8.
+    int tf_state = 0, tf_since = -1000, tf_seen = -1000;
+    float tf_ratio(vec2 at, float me_weight, const EnemyRec** focus_out) const;
+    bool tf_join();
+    bool no_initiate = false;    // solo members in pair mode: no help calls this turn
+    int call_ban_until = -1;     // after a help call times out, no new calls until this round
+    float camp_taken_mult = 1.0f; // camp damage we take: jungle emblem 0.7, durability 0.9
+    float camp_dealt_mult = 1.0f; // camp damage we deal: monster emblem from runtime metadata
+    void refresh_emblems();
+#if V58_PATCH
+    bool inventory_dirty = true;
+    int capture_time = 5;
+    float champion_dealt_mult = 1.0f, prospector_bonus = 0.0f, tribute_bonus = 0.0f;
+#else
+    static constexpr int capture_time = tune::kCaptureTime;
+#endif
+    // Our bag alone finishes the race (switch APEX_WIN_FIRST): tribute outranks shopping and recalls.
+    // Gold buys items, which matter early; gems win. With APEX_GOLD_TAPER the weight falls linearly
+    // from APEX_GOLD_WEIGHT at score 0 to a fifth of it at that score.
+    float gold_weight() const {
+        // Secure an early item lead before contested camps and champion fights.
+        // Revert to the existing gem-race valuation after the opening phase.
+        const float weight = tune::kGoldWeight * (round < UB_GOLD_UNTIL ? UB_GOLD_MULT : round < UB_GOLD_FADE ? UB_GOLD_MULT + (1.0f - UB_GOLD_MULT) * static_cast<float>(round - UB_GOLD_UNTIL) / static_cast<float>(UB_GOLD_FADE - UB_GOLD_UNTIL) : 1.0f);
+        if (tune::kGoldTaper <= 0) return weight;
+        const float t = std::min(1.0f, static_cast<float>(ally_score) / static_cast<float>(tune::kGoldTaper));
+        return weight * (1.0f - 0.8f * t);
+    }
+    bool win_now() const { return tune::kWinFirst && gems > 0 && ally_score + gems >= static_cast<int>(bc::constants::winning_gems); }
+    vec2 ward_pos{-100, -100};
+    int ally_score = 0, enemy_score = 0;
+    int team_kills_seen = 0;
+};

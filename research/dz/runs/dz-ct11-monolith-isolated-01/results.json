@@ -1,0 +1,142 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 3094.1088082901556,
+  "fuel_p99": 23193,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 70,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "595d868d464614858ea2eec84df1e8fe80b0e5d281314c880f22acfc33a3da96",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "1133533d3c6ee37be9af8e5dad1c61abc37acdda9ad3e988b4b36bfd25c016d2",
+      "diagnostic_checks": {
+        "passed": true,
+        "consecutive_full_strength_damage_rounds": 5,
+        "matching_hits": 5,
+        "first_hits": [
+          {
+            "round": 25,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 26,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 27,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 28,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 29,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          }
+        ],
+        "setup_reached_damage": true,
+        "conclusion": "full in-range camp strength lost every round in this fixture; targeting not isolated"
+      }
+    },
+    {
+      "map": "isolated-monolith",
+      "map_sha256": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 70,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "595d868d464614858ea2eec84df1e8fe80b0e5d281314c880f22acfc33a3da96",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "1b5686c1b3e7cb2f0b69780ae866142ca6ce580e93f6647f8f1bead07a3702f5",
+      "diagnostic_checks": {
+        "passed": true,
+        "consecutive_full_strength_damage_rounds": 5,
+        "matching_hits": 5,
+        "first_hits": [
+          {
+            "round": 25,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 26,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 27,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 28,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          },
+          {
+            "round": 29,
+            "delta": 200.0,
+            "in_range_strength": 200.0
+          }
+        ],
+        "setup_reached_damage": true,
+        "conclusion": "full in-range camp strength lost every round in this fixture; targeting not isolated"
+      }
+    }
+  ]
+}

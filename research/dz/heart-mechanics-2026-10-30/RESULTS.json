@@ -1,0 +1,291 @@
+{
+  "status": "Restricted native primitive conformance passes; field accuracy INSUFFICIENT, no production promotion",
+  "mechanics_summary": {
+    "camp_basics": 999,
+    "damaged_hp_basics": 944,
+    "monster_emblem_basics": 0,
+    "anomalies": 0,
+    "shield_casts": 92,
+    "vanished_after_zero_duration": 85,
+    "vanished_with_positive_duration": 7
+  },
+  "full_games": 50,
+  "full_native_faults": 0,
+  "full_native_fuel_outs": 0,
+  "full_caught_errors": 0,
+  "truncated_conformance_games": 24,
+  "truncated_native_faults": null,
+  "truncated_faults_measured": false,
+  "truncated_observed_fuel_outs": 0,
+  "controlled_source_matched_games": 16,
+  "controlled_windows": {
+    "total": 30,
+    "cleared": 8,
+    "dead": 22,
+    "existing_shield": 14,
+    "independent": false
+  },
+  "runs": {
+    "dz-model-heart-shield-quad-01": {
+      "summary": {
+        "games": 2,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 490.0,
+        "mean_banked": 366.5,
+        "fuel_mean": 32137.792130427966,
+        "fuel_p99": 68229,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "4cfd4357c734bb30401f6ee0d8c3082b126e89428345c1257d42ff4b7f6e6f44",
+      "opponent_sha256": "42071fa685aeabd7f074e86bbe73598db51ab9a0fae4d0bca62be2e2803d3cfb"
+    },
+    "dz-model-heart-shield-idle-01": {
+      "summary": {
+        "games": 12,
+        "wins": 12,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 963.1666666666666,
+        "mean_banked": 932.1666666666666,
+        "fuel_mean": 34175.363912301145,
+        "fuel_p99": 58557,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "4cfd4357c734bb30401f6ee0d8c3082b126e89428345c1257d42ff4b7f6e6f44",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112"
+    },
+    "dz-model-heart-shield-v76-01": {
+      "summary": {
+        "games": 12,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 326.5833333333333,
+        "mean_banked": 232.66666666666666,
+        "fuel_mean": 29992.092317636547,
+        "fuel_p99": 61058,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "4cfd4357c734bb30401f6ee0d8c3082b126e89428345c1257d42ff4b7f6e6f44",
+      "opponent_sha256": "42071fa685aeabd7f074e86bbe73598db51ab9a0fae4d0bca62be2e2803d3cfb"
+    },
+    "dz-model-heart-off-idle-01": {
+      "summary": {
+        "games": 12,
+        "wins": 12,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 963.1666666666666,
+        "mean_banked": 932.1666666666666,
+        "fuel_mean": 34159.71926068457,
+        "fuel_p99": 58551,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "3becad00179a419ff07b279d1494aed68a750da23631f9cf58012759b7792775",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112"
+    },
+    "dz-model-heart-off-v76-01": {
+      "summary": {
+        "games": 12,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 326.5833333333333,
+        "mean_banked": 232.66666666666666,
+        "fuel_mean": 29978.034486036388,
+        "fuel_p99": 60945,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "3becad00179a419ff07b279d1494aed68a750da23631f9cf58012759b7792775",
+      "opponent_sha256": "42071fa685aeabd7f074e86bbe73598db51ab9a0fae4d0bca62be2e2803d3cfb"
+    },
+    "dz-shield-probe-heart-wolf-01": {
+      "summary": {
+        "games": 2,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 0.0,
+        "mean_banked": 0.0,
+        "fuel_mean": 1080.1933045356373,
+        "fuel_p99": 7202,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "fixture_passes": 2,
+      "native_faults_measured": false
+    },
+    "dz-shield-probe-heart-heavy-01": {
+      "summary": {
+        "games": 6,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 0.0,
+        "mean_banked": 0.0,
+        "fuel_mean": 691.236861051116,
+        "fuel_p99": 6971,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "fixture_passes": 3,
+      "native_faults_measured": false
+    },
+    "dz-shield-probe-heart-all-02": {
+      "summary": {
+        "games": 8,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 0.0,
+        "mean_banked": 0.0,
+        "fuel_mean": 539.4152267818574,
+        "fuel_p99": 5697,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "f0d5d23c1079edd724af0bad29211bb76533c0ccb0b42b308a877099850c15fd",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "fixture_passes": 8,
+      "native_faults_measured": false
+    },
+    "dz-shield-probe-varg-all-01": {
+      "summary": {
+        "games": 8,
+        "wins": 0,
+        "faults": 0,
+        "opponent_faults": 0,
+        "fuel_outs": 0,
+        "mean_collected": 0.0,
+        "mean_banked": 0.0,
+        "fuel_mean": 554.2186825053996,
+        "fuel_p99": 5754,
+        "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body"
+      },
+      "candidate_sha256": "f8af01690e2904539de3810e723cc6698e93f93992869b5b8ae99b4629ad2b49",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "fixture_passes": 8,
+      "native_faults_measured": false
+    }
+  },
+  "field": {
+    "idle-audit-01": {
+      "forecasts": 3,
+      "outcomes": {
+        "cleared": 3
+      },
+      "all_member_hp_hash_matches": true,
+      "metrics": {
+        "heart_single_live_shield_time": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "rounds"
+        },
+        "heart_single_live_shield_damage": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "HP"
+        },
+        "heart_single_live_unshielded_damage": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "HP"
+        },
+        "heart_shield_casts": {
+          "predicted": 0,
+          "observed": 0
+        }
+      },
+      "nonexclusive_exclusions": {
+        "helpers": 2,
+        "movement": 1,
+        "bystanders": 3
+      }
+    },
+    "v76-audit-01": {
+      "forecasts": 5,
+      "outcomes": {
+        "cleared": 5
+      },
+      "all_member_hp_hash_matches": true,
+      "metrics": {
+        "heart_single_live_shield_time": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "rounds"
+        },
+        "heart_single_live_shield_damage": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "HP"
+        },
+        "heart_single_live_unshielded_damage": {
+          "n": 0,
+          "median_absolute_relative_error": null,
+          "aggregate_signed_bias": null,
+          "median_absolute_error": null,
+          "p90_absolute_error": null,
+          "unit": "HP"
+        },
+        "heart_shield_casts": {
+          "predicted": 0,
+          "observed": 0
+        }
+      },
+      "nonexclusive_exclusions": {
+        "helpers": 5,
+        "movement": 2,
+        "bystanders": 5
+      }
+    }
+  },
+  "max_model_line_bytes": 324,
+  "core_missing_health_dominance_cases": 10000,
+  "python_tests": 53,
+  "node_tests": 13,
+  "default_identities": {
+    "release": {
+      "sha256": "5cf28cb74612e04e97910fed5ec7d5d69b514cf3c0f5319ddac7c52b99934a5d",
+      "matched_selected_frozen_pool": true
+    },
+    "trace": {
+      "sha256": "b4bc106c097bf2ee135110d1428df73d2c0e60c04e2046ea25925b64f94aee28",
+      "matched_selected_frozen_pool": true
+    },
+    "scope": "Source-only export/SDK/CMake; no config/caches initially. Same pinned host/toolchain, not another physical device. All model flags off."
+  },
+  "verified_capsules": 72,
+  "limitations": [
+    "No strict field cases",
+    "Only four isolated geometries with fixed controller/base kit",
+    "No native Monster-emblem damage observations in the mechanics cohort",
+    "Controlled overlapping/mirrored windows are not independent",
+    "No full V-M1, new-job survival, crew or strength claim"
+  ]
+}

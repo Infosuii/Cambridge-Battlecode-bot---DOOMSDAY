@@ -1,0 +1,57 @@
+{
+  "created_utc": "2026-10-29T07:51:05.878747+00:00",
+  "command": [
+    "tools/dz.py",
+    "conformance",
+    "--name",
+    "dz-ct9-hidden-death-06",
+    "--fixture",
+    "death",
+    "--fixture-opponent",
+    "--map-dir",
+    "tests/dz/maps",
+    "--maps",
+    "isolated-monolith",
+    "--diagnostic-rounds",
+    "130",
+    "--workers",
+    "2"
+  ],
+  "git_head": "c706ff3e4e6219f4912d1f3076dfc3150e021c2e",
+  "release": true,
+  "trace": false,
+  "diagnostic": true,
+  "runner_sha256": "2f17bfa83f77241fe91730159f7a3e86b307ea654206d2a1fea3f0561d024076",
+  "cli_sha256": "03ee5b8aac2b5186cc05fd8e5dfc4fe281010cb4691a4728538d80afe5576c34",
+  "source": {
+    "src/config.h": "4d0a34d1c48a915f12ff32bdb35d6a22a25a49d1a410e6ac99196e5c6526b300",
+    "src/main.cpp": "4f5522cbd4ac2c74276f54befcab343bc783f2bfb60aa12bec345f7528a6cd5f"
+  },
+  "sdk": {
+    "sdk/cpp/cambc.h": "5d175d6af2ccdb12c693db1dbfceefb0c096c7d482efe4e8683de7ea2d4516bf",
+    "sdk/cpp/imports.h": "5ed1833b9059ee59aed3ab69cafc7d682642d9937f3334331d18a69e37c2a64c",
+    "sdk/cpp/LICENSE-LLVM.txt": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+    "sdk/cpp/THIRD_PARTY.txt": "3da082e429fc5c970e3ebada40905f683e661d9f9ad625586984a29ad516edc4",
+    "sdk/cpp/wasm_simd128.h": "254cb9207bb773a6b88d9a11ae8c8e2dd869675142d6f686a59a41d46af10196",
+    "sdk/cpp/tests/CMakeLists.txt": "a781241513b1e25a65d37ce635e962b12de15600a27324bba466941513a572ce",
+    "sdk/cpp/tests/engine_contract.cpp": "f383a9b63209bd392dd6821950bedde88845b0a446ed860bcc48196b66b8dc0a",
+    "sdk/cpp/tests/typed_api.cpp": "b6046b939502bab5ea9b887f7277455361340e9142c7f61c4b0c11d693ca15b7",
+    "sdk/cpp/effect-tests/src/bot.cpp": "ece596df390d9e99013652882d515e97b612d290f8203c81a48ae2bcb28a3723",
+    "sdk/cpp/tests/src/bot.cpp": "19180951367fe39a83f1d73fb6e0163258b4e86b9c67c8258fe0c4328012ea53"
+  },
+  "maps": {
+    "isolated-monolith": "674b9d258303aa9d92537da94cb591a2774b8e0c29c8b1687d34c5291f031996"
+  },
+  "candidate_sha256": "d341335b511e26073df46d6cf40d605680a1aa34f15fc40638f226af61a29ab1",
+  "opponent_sha256": "afb4a59d44da499ebd2a97f69d8e900cf1a14b0b7d4e3a73de1987a335ca824a",
+  "seed": "deterministic; no seed parameter; duplicate identities are not independent samples",
+  "map_directory": "tests\\dz\\maps",
+  "analysis_source": {
+    "dz_lifecycle_audit.mjs": "e20ce9a8fce13cea3da8c5afac63f84d31a9eab49d084327446a600d9a6c2550",
+    "replay/engine.mjs": "80361cd47c2fb232d222d397a3bab29363b5c4e10f54d47a61dcf5c2efe2882b"
+  },
+  "opponent_source": {
+    "src/config.h": "905d3f66160af5e8ba350c82c998ee2e622c10621fa89298eb6bc8341b7f5026",
+    "src/main.cpp": "4f5522cbd4ac2c74276f54befcab343bc783f2bfb60aa12bec345f7528a6cd5f"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1848.5248138957816,
+  "fuel_p99": 9286,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "recovery-shop",
+      "map_sha256": "51b8820c9ee2d84e08a8357f5dc3f2e0f585c21de5df317fe4e8f42af036390e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "ebb9de3cb8e84b3b0a063666348f3b2862f7b3ffd40933e787a96e358dd030e9",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "9b7b82ab69eda09d33ce13eadbdcff149aa1c503e1146087cc6f1d5412ac5ce3",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "injury_established": 1
+        },
+        "missing": [
+          "arrival_before_healing",
+          "base_recall_five_ticks",
+          "health_purchase_heals_gain",
+          "home_emblem_created",
+          "home_recall_three_ticks",
+          "next_spawn_turn_full_heal"
+        ],
+        "recall_on_spawn": null
+      }
+    },
+    {
+      "map": "recovery-shop",
+      "map_sha256": "51b8820c9ee2d84e08a8357f5dc3f2e0f585c21de5df317fe4e8f42af036390e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "ebb9de3cb8e84b3b0a063666348f3b2862f7b3ffd40933e787a96e358dd030e9",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "eeec737928cb2a69d959a0323809f3bb0eddff4110410b33e5f7ac4b42bf65fa",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "injury_established": 1
+        },
+        "missing": [
+          "arrival_before_healing",
+          "base_recall_five_ticks",
+          "health_purchase_heals_gain",
+          "home_emblem_created",
+          "home_recall_three_ticks",
+          "next_spawn_turn_full_heal"
+        ],
+        "recall_on_spawn": null
+      }
+    }
+  ]
+}

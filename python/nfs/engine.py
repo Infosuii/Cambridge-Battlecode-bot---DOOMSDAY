@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import subprocess
+import threading
 import time
 import zipfile
 from dataclasses import dataclass
@@ -159,11 +160,67 @@ def run_match(a, b, map_path, folder, candidate_side: str = 'A', log_limit: int 
         raise ValueError(f'{folder}: legacy summary has no engine identity; use a new folder')
     else:
         write_json(receipt, identity)
-    if not stats.exists():
+    if not stats.exists() and not _cache_restore(identity, folder):
         log = _run([CLI, 'run', a, b, '--map', map_path, '--out-dir', folder, '--statistics', stats,
                     '--json', '--release', '--log-limit', str(log_limit)], timeout=timeout)
         (folder / 'runner.log').write_text(log, encoding='utf-8')
+        _cache_store(identity, folder)
     return parse_summary(json.loads(stats.read_text(encoding='utf-8')), folder, Path(map_path).stem, candidate_side)
+
+
+# Game cache. The engine is deterministic: the same two wasm files on the same map always replay the same match
+# (local duplicate schedule slots and the platform's own reruns agree), so a finished match is stored once under its
+# identity and copied into any later folder that asks for it. Set NFS_GAME_CACHE=0 to disable.
+GAME_CACHE = ROOT / 'artifacts/tmp/game-cache'
+_cache_locks: dict[str, threading.Lock] = {}
+_cache_guard = threading.Lock()
+
+
+_cli_sha: list[str] = []
+
+
+def _cache_key(identity: dict) -> str:
+    if not _cli_sha:
+        _cli_sha.append(sha256(CLI))  # a new CLI (engine) never reuses an old engine's matches
+    return sha256_bytes(json.dumps(dict(identity, cli=_cli_sha[0]), sort_keys=True).encode())
+
+
+def _cache_lock(key: str):
+    with _cache_guard:
+        return _cache_locks.setdefault(key, threading.Lock())
+
+
+def _cache_restore(identity: dict, folder: Path) -> bool:
+    if os.environ.get('NFS_GAME_CACHE', '1') == '0':
+        return False
+    key = _cache_key(identity)
+    with _cache_lock(key):
+        src = GAME_CACHE / key
+        if not (src / 'summary.json').exists():
+            return False
+        for p in src.iterdir():
+            if p.name != 'engine_identity.json':
+                shutil.copyfile(p, folder / p.name)
+        return True
+
+
+def _cache_store(identity: dict, folder: Path) -> None:
+    if os.environ.get('NFS_GAME_CACHE', '1') == '0':
+        return
+    key = _cache_key(identity)
+    dest = GAME_CACHE / key
+    if (dest / 'summary.json').exists():
+        return
+    staging = GAME_CACHE / f'.{key}.{os.getpid()}.{threading.get_ident()}'
+    shutil.rmtree(staging, ignore_errors=True)
+    staging.mkdir(parents=True)
+    for p in folder.iterdir():
+        if p.is_file():
+            shutil.copyfile(p, staging / p.name)
+    try:
+        staging.replace(dest)
+    except OSError:  # another worker stored the same match first
+        shutil.rmtree(staging, ignore_errors=True)
 
 
 def parse_summary(d: dict, folder, map_name: str, side: str) -> MatchResult:

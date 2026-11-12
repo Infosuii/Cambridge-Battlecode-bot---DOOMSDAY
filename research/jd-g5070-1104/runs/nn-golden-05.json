@@ -1,0 +1,66 @@
+{
+ "dump": "c:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\runs\\nn-golden-05",
+ "pt": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\checkpoints\\student_i2.pt",
+ "games": 2,
+ "rows": 32,
+ "feature_transport_identical": 32,
+ "feature_transport_no_nr_row": 0,
+ "feature_transport_differ": 0,
+ "wasm_vs_torch_export": {
+  "rows": 32,
+  "target_argmax_agree": 32,
+  "behaviour_argmax_agree": 32,
+  "masks_agree": true,
+  "max_abs_logit_err": 1.1444091796875e-05,
+  "max_rel_logit_err": 5.7220458984375e-06,
+  "max_abs_logit": 33.372066497802734,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "wasm_vs_torch_checkpoint": {
+  "rows": 32,
+  "target_argmax_agree": 32,
+  "behaviour_argmax_agree": 32,
+  "masks_agree": true,
+  "max_abs_logit_err": 0.0037555694580078125,
+  "max_rel_logit_err": 0.0017501115798950195,
+  "max_abs_logit": 33.37350082397461,
+  "rel_tol": 0.005,
+  "pass": true
+ },
+ "host_saturation_finite": true,
+ "host_vs_torch_export": {
+  "rows": 96,
+  "target_argmax_agree": 96,
+  "behaviour_argmax_agree": 96,
+  "masks_agree": true,
+  "max_abs_logit_err": 18.0,
+  "max_rel_logit_err": 4.4418033212423325e-05,
+  "max_abs_logit": 87966672.0,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "host_vs_torch_checkpoint": {
+  "rows": 96,
+  "target_argmax_agree": 96,
+  "behaviour_argmax_agree": 96,
+  "masks_agree": true,
+  "max_abs_logit_err": 18.0,
+  "max_rel_logit_err": 0.0017507076263427734,
+  "max_abs_logit": 87966680.0,
+  "rel_tol": 0.005,
+  "pass": true
+ },
+ "wasm_vs_host": {
+  "rows": 32,
+  "target_argmax_agree": 32,
+  "behaviour_argmax_agree": 32,
+  "masks_agree": true,
+  "max_abs_logit_err": 9.5367431640625e-06,
+  "max_rel_logit_err": 1.3733125570070115e-06,
+  "max_abs_logit": 33.372066497802734,
+  "rel_tol": 0.0001,
+  "pass": true
+ },
+ "pass": true
+}

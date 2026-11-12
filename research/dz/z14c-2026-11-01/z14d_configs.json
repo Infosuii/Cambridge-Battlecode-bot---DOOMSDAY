@@ -1,0 +1,492 @@
+{
+ "note": "Z14d: the Z14c screens plus v74 (selection on v76+v65+v74); confirmation vs v81hl and v85 (unseen).",
+ "baseline": {
+  "v76": "dz-z14c-base-v76-01",
+  "v65": "dz-z14c-base-v65-01",
+  "v74": "dz-z14c-base-v74-01"
+ },
+ "configs": {
+  "dvg2": {
+   "draft": 2,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg2-v76-01",
+    "v65": "dz-z14c-dvg2-v65-01",
+    "v74": "dz-z14c-dvg2-v74-01"
+   }
+  },
+  "turtle": {
+   "draft": -1,
+   "bits": [
+    "TURTLE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-turtle-v76-01",
+    "v65": "dz-z14c-turtle-v65-01",
+    "v74": "dz-z14c-turtle-v74-01"
+   }
+  },
+  "homedv1": {
+   "draft": 1,
+   "bits": [
+    "HOME"
+   ],
+   "runs": {
+    "v76": "dz-z14c-homedv1-v76-01",
+    "v65": "dz-z14c-homedv1-v65-01",
+    "v74": "dz-z14c-homedv1-v74-01"
+   }
+  },
+  "dvg7": {
+   "draft": 7,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg7-v76-01",
+    "v65": "dz-z14c-dvg7-v65-01",
+    "v74": "dz-z14c-dvg7-v74-01"
+   }
+  },
+  "ee3": {
+   "draft": -1,
+   "bits": [
+    "EE3"
+   ],
+   "runs": {
+    "v76": "dz-z14c-ee3-v76-01",
+    "v65": "dz-z14c-ee3-v65-01",
+    "v74": "dz-z14c-ee3-v74-01"
+   }
+  },
+  "s500home": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    500,
+    [
+     "HOME"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s500home-v76-01",
+    "v65": "dz-z14c-s500home-v65-01",
+    "v74": "dz-z14c-s500home-v74-01"
+   }
+  },
+  "s500fight": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    500,
+    [
+     "FIGHT"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s500fight-v76-01",
+    "v65": "dz-z14c-s500fight-v65-01",
+    "v74": "dz-z14c-s500fight-v74-01"
+   }
+  },
+  "s500hoard": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    500,
+    [
+     "HOARD"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s500hoard-v76-01",
+    "v65": "dz-z14c-s500hoard-v65-01",
+    "v74": "dz-z14c-s500hoard-v74-01"
+   }
+  },
+  "ee3gs": {
+   "draft": -1,
+   "bits": [
+    "EE3",
+    "GEAR_SURVIVE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-ee3gs-v76-01",
+    "v65": "dz-z14c-ee3gs-v65-01",
+    "v74": "dz-z14c-ee3gs-v74-01"
+   }
+  },
+  "ee3dvg2": {
+   "draft": 2,
+   "bits": [
+    "EE3",
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-ee3dvg2-v76-01",
+    "v65": "dz-z14c-ee3dvg2-v65-01",
+    "v74": "dz-z14c-ee3dvg2-v74-01"
+   }
+  },
+  "ee3turtle": {
+   "draft": -1,
+   "bits": [
+    "EE3",
+    "TURTLE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-ee3turtle-v76-01",
+    "v65": "dz-z14c-ee3turtle-v65-01",
+    "v74": "dz-z14c-ee3turtle-v74-01"
+   }
+  },
+  "s250fight": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    250,
+    [
+     "FIGHT"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s250fight-v76-01",
+    "v65": "dz-z14c-s250fight-v65-01",
+    "v74": "dz-z14c-s250fight-v74-01"
+   }
+  },
+  "s250hoard": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    250,
+    [
+     "HOARD"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s250hoard-v76-01",
+    "v65": "dz-z14c-s250hoard-v65-01",
+    "v74": "dz-z14c-s250hoard-v74-01"
+   }
+  },
+  "s250home": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    250,
+    [
+     "HOME"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s250home-v76-01",
+    "v65": "dz-z14c-s250home-v65-01",
+    "v74": "dz-z14c-s250home-v74-01"
+   }
+  },
+  "s100hoard": {
+   "draft": -1,
+   "bits": [],
+   "switch": [
+    100,
+    [
+     "HOARD"
+    ]
+   ],
+   "runs": {
+    "v76": "dz-z14c-s100hoard-v76-01",
+    "v65": "dz-z14c-s100hoard-v65-01",
+    "v74": "dz-z14c-s100hoard-v74-01"
+   }
+  },
+  "home": {
+   "draft": -1,
+   "bits": [
+    "HOME"
+   ],
+   "runs": {
+    "v76": "dz-z14c-home-v76-01",
+    "v65": "dz-z14c-home-v65-01",
+    "v74": "dz-z14c-home-v74-01"
+   }
+  },
+  "gs": {
+   "draft": -1,
+   "bits": [
+    "GEAR_SURVIVE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-gs-v76-01",
+    "v65": "dz-z14c-gs-v65-01",
+    "v74": "dz-z14c-gs-v74-01"
+   }
+  },
+  "homegs": {
+   "draft": -1,
+   "bits": [
+    "HOME",
+    "GEAR_SURVIVE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-homegs-v76-01",
+    "v65": "dz-z14c-homegs-v65-01",
+    "v74": "dz-z14c-homegs-v74-01"
+   }
+  },
+  "fight": {
+   "draft": -1,
+   "bits": [
+    "FIGHT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-fight-v76-01",
+    "v65": "dz-z14c-fight-v65-01",
+    "v74": "dz-z14c-fight-v74-01"
+   }
+  },
+  "dvg1": {
+   "draft": 1,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg1-v76-01",
+    "v65": "dz-z14c-dvg1-v65-01",
+    "v74": "dz-z14c-dvg1-v74-01"
+   }
+  },
+  "gsp": {
+   "draft": -1,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-gsp-v76-01",
+    "v65": "dz-z14c-gsp-v65-01",
+    "v74": "dz-z14c-gsp-v74-01"
+   }
+  },
+  "hoard": {
+   "draft": -1,
+   "bits": [
+    "HOARD"
+   ],
+   "runs": {
+    "v76": "dz-z14c-hoard-v76-01",
+    "v65": "dz-z14c-hoard-v65-01",
+    "v74": "dz-z14c-hoard-v74-01"
+   }
+  },
+  "dv2": {
+   "draft": 2,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv2-v76-01",
+    "v65": "dz-z14c-dv2-v65-01",
+    "v74": "dz-z14c-dv2-v74-01"
+   }
+  },
+  "dvg3": {
+   "draft": 3,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg3-v76-01",
+    "v65": "dz-z14c-dvg3-v65-01",
+    "v74": "dz-z14c-dvg3-v74-01"
+   }
+  },
+  "dvg4": {
+   "draft": 4,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg4-v76-01",
+    "v65": "dz-z14c-dvg4-v65-01",
+    "v74": "dz-z14c-dvg4-v74-01"
+   }
+  },
+  "og": {
+   "draft": -1,
+   "bits": [
+    "OPENING_GOLD"
+   ],
+   "runs": {
+    "v76": "dz-z14c-og-v76-01",
+    "v65": "dz-z14c-og-v65-01",
+    "v74": "dz-z14c-og-v74-01"
+   }
+  },
+  "homeog": {
+   "draft": -1,
+   "bits": [
+    "HOME",
+    "OPENING_GOLD"
+   ],
+   "runs": {
+    "v76": "dz-z14c-homeog-v76-01",
+    "v65": "dz-z14c-homeog-v65-01",
+    "v74": "dz-z14c-homeog-v74-01"
+   }
+  },
+  "fightgs": {
+   "draft": -1,
+   "bits": [
+    "FIGHT",
+    "GEAR_SURVIVE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-fightgs-v76-01",
+    "v65": "dz-z14c-fightgs-v65-01",
+    "v74": "dz-z14c-fightgs-v74-01"
+   }
+  },
+  "dvg5": {
+   "draft": 5,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg5-v76-01",
+    "v65": "dz-z14c-dvg5-v65-01",
+    "v74": "dz-z14c-dvg5-v74-01"
+   }
+  },
+  "dvg6": {
+   "draft": 6,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT"
+   ],
+   "runs": {
+    "v76": "dz-z14c-dvg6-v76-01",
+    "v65": "dz-z14c-dvg6-v65-01",
+    "v74": "dz-z14c-dvg6-v74-01"
+   }
+  },
+  "dv1": {
+   "draft": 1,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv1-v76-01",
+    "v65": "dz-z14c-dv1-v65-01",
+    "v74": "dz-z14c-dv1-v74-01"
+   }
+  },
+  "dv3": {
+   "draft": 3,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv3-v76-01",
+    "v65": "dz-z14c-dv3-v65-01",
+    "v74": "dz-z14c-dv3-v74-01"
+   }
+  },
+  "dv4": {
+   "draft": 4,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv4-v76-01",
+    "v65": "dz-z14c-dv4-v65-01",
+    "v74": "dz-z14c-dv4-v74-01"
+   }
+  },
+  "dv5": {
+   "draft": 5,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv5-v76-01",
+    "v65": "dz-z14c-dv5-v65-01",
+    "v74": "dz-z14c-dv5-v74-01"
+   }
+  },
+  "dv6": {
+   "draft": 6,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv6-v76-01",
+    "v65": "dz-z14c-dv6-v65-01",
+    "v74": "dz-z14c-dv6-v74-01"
+   }
+  },
+  "dv7": {
+   "draft": 7,
+   "bits": [],
+   "runs": {
+    "v76": "dz-z14c-dv7-v76-01",
+    "v65": "dz-z14c-dv7-v65-01",
+    "v74": "dz-z14c-dv7-v74-01"
+   }
+  },
+  "int1b": {
+   "draft": -1,
+   "bits": [
+    "GEAR_SURVIVE",
+    "GEAR_PROSPECT",
+    "RING_GATES"
+   ],
+   "runs": {
+    "v76": "dz-z14c-int1b-v76-01",
+    "v65": "dz-z14c-int1b-v65-01",
+    "v74": "dz-z14c-int1b-v74-01"
+   }
+  },
+  "gates4": {
+   "draft": -1,
+   "bits": [
+    "RING_GATES"
+   ],
+   "runs": {
+    "v76": "dz-z14c-gates4-v76-01",
+    "v65": "dz-z14c-gates4-v65-01",
+    "v74": "dz-z14c-gates4-v74-01"
+   }
+  },
+  "bb": {
+   "draft": -1,
+   "bits": [
+    "BANK_BIG"
+   ],
+   "runs": {
+    "v76": "dz-z14c-bb-v76-01",
+    "v65": "dz-z14c-bb-v65-01",
+    "v74": "dz-z14c-bb-v74-01"
+   }
+  },
+  "gv": {
+   "draft": -1,
+   "bits": [
+    "GOLD_VALUE"
+   ],
+   "runs": {
+    "v76": "dz-z14c-gv-v76-01",
+    "v65": "dz-z14c-gv-v65-01",
+    "v74": "dz-z14c-gv-v74-01"
+   }
+  },
+  "ee2": {
+   "draft": -1,
+   "bits": [
+    "EE2"
+   ],
+   "runs": {
+    "v76": "dz-z14c-ee2-v76-01",
+    "v65": "dz-z14c-ee2-v65-01",
+    "v74": "dz-z14c-ee2-v74-01"
+   }
+  }
+ }
+}

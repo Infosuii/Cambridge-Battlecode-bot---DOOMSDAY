@@ -1,0 +1,14 @@
+{
+  "failed": "dz-shield-probe-heart-heavy-01",
+  "reason": "SideB parking based on the protected spawn-region corner placed allies at19,24 and18,24 within range4 of the camp20,20. Isolation assertions correctly fail, despite matching numerical outputs. Native replay inspection confirms it. No model math change.",
+  "fix": "Non-subject bodies remain on their actual spawn tiles. Preserve all isolation checks and failed evidence.",
+  "replacement": "dz-shield-probe-heart-all-02",
+  "maps": [
+    "isolated-wolf",
+    "isolated-elk",
+    "isolated-golem",
+    "isolated-monolith"
+  ],
+  "round_limit": 160,
+  "source_matched_varg": "dz-shield-probe-varg-all-01"
+}

@@ -1,0 +1,1 @@
+Incomplete analysis, preserved. The first reader incorrectly rejected normal personal-fog API code97. Corrected reader follows SDK has_camp semantics (97 means false). Fresh analyses roles-02 and clock-v76-02 use the SAME frozen games; no match rerun or failed candidate runtime.

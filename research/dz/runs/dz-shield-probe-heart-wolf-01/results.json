@@ -1,0 +1,152 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1080.1933045356373,
+  "fuel_p99": 7202,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "38e10ed8fca5ba7601a9c8f9edc4fdb8c5ae9b4c65afbc303a485497ce72e6ca",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "0"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "19",
+            "0"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    },
+    {
+      "map": "isolated-wolf",
+      "map_sha256": "b65db0229fd7b2991393eb28c3f9b3bd23eb1fef2e5c6c93929f0c836934d8b3",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 160,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7bff8980761444f34eaa2e56a88efe55396dc066e05c5c4cd657b7354812034f",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "930f6655b21a6870ae647079d451950d5896935c64a123695fd43027ba033fae",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "shield_outcome": true,
+          "shield_elapsed": true,
+          "shield_hp": true,
+          "shield_basics": true,
+          "shield_casts": true,
+          "shield_isolated": true
+        },
+        "missing": [],
+        "quotes": [
+          [
+            "0",
+            "1",
+            "0",
+            "10",
+            "0"
+          ],
+          [
+            "1",
+            "1",
+            "1",
+            "19",
+            "0"
+          ]
+        ],
+        "results": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "1",
+            "1"
+          ]
+        ],
+        "scope": "Controlled stationary isolated target; primitive conformance, not field-model or strength validation"
+      }
+    }
+  ]
+}

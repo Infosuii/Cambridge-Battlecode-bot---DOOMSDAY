@@ -1,0 +1,154 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 463.98011031255226,
+  "fuel_p99": 9372,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "camp-modifiers",
+      "map_sha256": "7920154c1e6fbe1f3c332a4f8ea5a1708da31393aff57bc5bf55e780fd066538",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7c9c6d7165db1b9feb2a771c4207fd05fa57915fdc544ba2b8969df6800fdbef",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "6760179fce8a346b996fca9d6cb9039729fc09763a820c14a63432badfaf4e9b",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "modifier_setup": true,
+          "modifier_gold_captured": true,
+          "modifier_items_created": true,
+          "modifier_feasible": true,
+          "modifier_hit_damage": true,
+          "modifier_phase_damage": true,
+          "modifier_attack_count": true,
+          "modifier_elapsed": true,
+          "modifier_total_damage": true,
+          "modifier_isolated_fixed_stats": true
+        },
+        "setup": [
+          [
+            "0",
+            "0",
+            "1",
+            "70",
+            "1350",
+            "20",
+            "70",
+            "18",
+            "20"
+          ]
+        ],
+        "result": [
+          [
+            "20",
+            "19",
+            "342",
+            "342"
+          ]
+        ],
+        "phase_samples": 19,
+        "missing": [],
+        "scope": "constant-stat stationary wolf duel; no spells or other combatants"
+      },
+      "summary_sha256": "1b3f58037562a6a150e7993c2cd2ab9af32a66411f9088ca54ad3f8b9aca5eb1"
+    },
+    {
+      "map": "camp-modifiers",
+      "map_sha256": "7920154c1e6fbe1f3c332a4f8ea5a1708da31393aff57bc5bf55e780fd066538",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "7c9c6d7165db1b9feb2a771c4207fd05fa57915fdc544ba2b8969df6800fdbef",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "42343439d71a6b64f07c0480a8a0b6c9727046b3997f45c337bcf8c20119c6f3",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "modifier_setup": true,
+          "modifier_gold_captured": true,
+          "modifier_items_created": true,
+          "modifier_feasible": true,
+          "modifier_hit_damage": true,
+          "modifier_phase_damage": true,
+          "modifier_attack_count": true,
+          "modifier_elapsed": true,
+          "modifier_total_damage": true,
+          "modifier_isolated_fixed_stats": true
+        },
+        "setup": [
+          [
+            "0",
+            "0",
+            "1",
+            "70",
+            "1350",
+            "20",
+            "70",
+            "18",
+            "20"
+          ]
+        ],
+        "result": [
+          [
+            "20",
+            "19",
+            "342",
+            "342"
+          ]
+        ],
+        "phase_samples": 19,
+        "missing": [],
+        "scope": "constant-stat stationary wolf duel; no spells or other combatants"
+      },
+      "summary_sha256": "2c31a8a701bdc5369d4040a6f707bdc9dfcb09f0fe15fab66d515663c8f699e8"
+    }
+  ]
+}

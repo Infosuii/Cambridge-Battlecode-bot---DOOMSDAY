@@ -23,6 +23,11 @@ export const PINNED = VERSION === '2.0.0' ? PINNED2 : {
 };
 
 export function defaultAssets() {
+  if (process.env.NFS_REPLAY_ASSETS) {
+    const override = path.resolve(process.env.NFS_REPLAY_ASSETS);
+    if (!fs.existsSync(path.join(override, WASM))) throw new Error('NFS_REPLAY_ASSETS lacks '+WASM);
+    return override;
+  }
   const root = path.join(os.homedir(), 'AppData/Local/cambc/assets');
   for (const d of fs.existsSync(root) ? fs.readdirSync(root) : []) {
     const p = path.join(root, d, 'visualiser/assets');

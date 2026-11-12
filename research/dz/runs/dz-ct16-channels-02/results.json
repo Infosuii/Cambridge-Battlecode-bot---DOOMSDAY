@@ -1,0 +1,180 @@
+{
+  "games": 4,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 1416.9159007352941,
+  "fuel_p99": 9797,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d969cb744d5a111b7e84e54c9aa02fa97c7724ecb27e13ef66275aaaad6828fe",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ac473658fa2969e8bf2e9d72b8a193c08d891e068dd280c4221172be5ea3a3b2",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "recall_starts_in_camp_range": 1,
+          "camp_damage_interrupts_recall": 1,
+          "base_recall_duration_five": 1,
+          "spawn_arrival_precedes_heal": 1,
+          "one_spawn_turn_full_heal": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "00collision",
+      "map_sha256": "6e3c67956080f8da5a0042e68ea481189cd6f61061a742a8be0354a9ea5c5620",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d969cb744d5a111b7e84e54c9aa02fa97c7724ecb27e13ef66275aaaad6828fe",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "a840584a63c41c73cedef2d05ac78a78a1482d6f928fde4471ca29b0d1d734e7",
+      "diagnostic_checks": {
+        "passed": true,
+        "checks": {
+          "recall_starts_in_camp_range": 1,
+          "camp_damage_interrupts_recall": 1,
+          "base_recall_duration_five": 1,
+          "spawn_arrival_precedes_heal": 1,
+          "one_spawn_turn_full_heal": 1
+        },
+        "missing": []
+      }
+    },
+    {
+      "map": "00elkring",
+      "map_sha256": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d969cb744d5a111b7e84e54c9aa02fa97c7724ecb27e13ef66275aaaad6828fe",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "0ea3adfda92a9117f8fef46080a5ca1c274ed12297e49e320c73337bd91946c7",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "recall_starts_in_camp_range": 1,
+          "camp_damage_interrupts_recall": 1
+        },
+        "missing": [
+          "base_recall_duration_five",
+          "one_spawn_turn_full_heal",
+          "spawn_arrival_precedes_heal"
+        ]
+      }
+    },
+    {
+      "map": "00elkring",
+      "map_sha256": "4621e92590befe6b0438b7ecdd8fde5aa85945b27535f4968e701cf86934746e",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 140,
+      "outcome": "unfinished-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": false,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "d969cb744d5a111b7e84e54c9aa02fa97c7724ecb27e13ef66275aaaad6828fe",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "ec252dae819d5c549bb68b4ea28a10d02da3b4a2db42bb12a0ffde1cc2ef35c8",
+      "diagnostic_checks": {
+        "passed": false,
+        "checks": {
+          "recall_starts_in_camp_range": 1,
+          "camp_damage_interrupts_recall": 1
+        },
+        "missing": [
+          "base_recall_duration_five",
+          "one_spawn_turn_full_heal",
+          "spawn_arrival_precedes_heal"
+        ]
+      }
+    }
+  ]
+}

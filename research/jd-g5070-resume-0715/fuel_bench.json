@@ -1,0 +1,4732 @@
+{
+ "stages": {
+  "resume-profile-cg-01": {
+   "note": "1k-fuel histogram percentiles (upper bin edge); \"stage*\" rows aggregate names; value = fuel from the previous checkpoint to this one",
+   "rows": [
+    {
+     "name": "TURN",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 147289,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 163749
+    },
+    {
+     "name": "TURN*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 147289,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 163749
+    },
+    {
+     "name": "other*",
+     "phase": "first_turn",
+     "n": 1872,
+     "mean": 17368,
+     "p50": 10000,
+     "p95": 43000,
+     "p99": 48000,
+     "max": 47208
+    },
+    {
+     "name": "group_loop",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35213,
+     "p50": 37000,
+     "p95": 48000,
+     "p99": 48000,
+     "max": 47208
+    },
+    {
+     "name": "spawn_field",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 19624,
+     "p50": 21000,
+     "p95": 31000,
+     "p99": 31000,
+     "max": 30202
+    },
+    {
+     "name": "observe*",
+     "phase": "first_turn",
+     "n": 5616,
+     "mean": 1546,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "fields",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 18286,
+     "p50": 15000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49945
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 18286,
+     "p50": 15000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49945
+    },
+    {
+     "name": "init",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 16335,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 44000,
+     "max": 43842
+    },
+    {
+     "name": "first_turn_init*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 16335,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 44000,
+     "max": 43842
+    },
+    {
+     "name": "w_champs",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 9066,
+     "p50": 11000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "farm_route*",
+     "phase": "first_turn",
+     "n": 1584,
+     "mean": 2329,
+     "p50": 1000,
+     "p95": 29000,
+     "p99": 33000,
+     "max": 32630
+    },
+    {
+     "name": "tables",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 7394,
+     "p50": 8000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10726
+    },
+    {
+     "name": "boards",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 7239,
+     "p50": 8000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7972
+    },
+    {
+     "name": "field",
+     "phase": "first_turn",
+     "n": 180,
+     "mean": 17535,
+     "p50": 8000,
+     "p95": 33000,
+     "p99": 33000,
+     "max": 32630
+    },
+    {
+     "name": "claims",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6213,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6213,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "vision*",
+     "phase": "first_turn",
+     "n": 936,
+     "mean": 2822,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 8000,
+     "max": 7457
+    },
+    {
+     "name": "wardrev",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 5588,
+     "p50": 6000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7457
+    },
+    {
+     "name": "tail*",
+     "phase": "first_turn",
+     "n": 936,
+     "mean": 1827,
+     "p50": 1000,
+     "p95": 16000,
+     "p99": 26000,
+     "max": 25532
+    },
+    {
+     "name": "bushpre",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 3545,
+     "p50": 1000,
+     "p95": 18000,
+     "p99": 26000,
+     "max": 25532
+    },
+    {
+     "name": "w_vis",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 3472,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3977
+    },
+    {
+     "name": "w_hot",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2421,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4383
+    },
+    {
+     "name": "w_groups",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2076,
+     "p50": 3000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2577
+    },
+    {
+     "name": "w_ward",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 865,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1059
+    },
+    {
+     "name": "shop",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 643
+    },
+    {
+     "name": "shop*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 643
+    },
+    {
+     "name": "farm0",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 700
+    },
+    {
+     "name": "d_farm",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 385,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 413
+    },
+    {
+     "name": "refresh",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "support",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "support_casts*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "decide",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "decide_other*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "d_opp",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 110,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 110
+    },
+    {
+     "name": "tail",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 109,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 109
+    },
+    {
+     "name": "sight",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 74,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 74
+    },
+    {
+     "name": "enemies",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "contact*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "ambush",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "world",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "w_sight",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "events",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "w_update",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 42,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 42
+    },
+    {
+     "name": "end",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "episode",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "TURN",
+     "phase": "ordinary",
+     "n": 347104,
+     "mean": 55419,
+     "p50": 60000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99885
+    },
+    {
+     "name": "TURN*",
+     "phase": "ordinary",
+     "n": 347104,
+     "mean": 55419,
+     "p50": 60000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99885
+    },
+    {
+     "name": "farm_route*",
+     "phase": "ordinary",
+     "n": 3619903,
+     "mean": 3349,
+     "p50": 1000,
+     "p95": 21000,
+     "p99": 30000,
+     "max": 62746
+    },
+    {
+     "name": "observe*",
+     "phase": "ordinary",
+     "n": 4115902,
+     "mean": 1062,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 54620
+    },
+    {
+     "name": "farmsel",
+     "phase": "ordinary",
+     "n": 301303,
+     "mean": 14065,
+     "p50": 15000,
+     "p95": 32000,
+     "p99": 47000,
+     "max": 61652
+    },
+    {
+     "name": "route0",
+     "phase": "ordinary",
+     "n": 128272,
+     "mean": 18304,
+     "p50": 19000,
+     "p95": 26000,
+     "p99": 28000,
+     "max": 30959
+    },
+    {
+     "name": "c_walked",
+     "phase": "ordinary",
+     "n": 141063,
+     "mean": 11869,
+     "p50": 12000,
+     "p95": 19000,
+     "p99": 23000,
+     "max": 45807
+    },
+    {
+     "name": "vision*",
+     "phase": "ordinary",
+     "n": 663546,
+     "mean": 2259,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 9000,
+     "max": 45558
+    },
+    {
+     "name": "wardrev",
+     "phase": "ordinary",
+     "n": 331762,
+     "mean": 4445,
+     "p50": 6000,
+     "p95": 8000,
+     "p99": 10000,
+     "max": 45558
+    },
+    {
+     "name": "route1",
+     "phase": "ordinary",
+     "n": 128532,
+     "mean": 10228,
+     "p50": 11000,
+     "p95": 17000,
+     "p99": 23000,
+     "max": 34106
+    },
+    {
+     "name": "w_champs",
+     "phase": "ordinary",
+     "n": 352120,
+     "mean": 2913,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 6000,
+     "max": 7787
+    },
+    {
+     "name": "w_groups",
+     "phase": "ordinary",
+     "n": 352118,
+     "mean": 2905,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 5376
+    },
+    {
+     "name": "w_vis",
+     "phase": "ordinary",
+     "n": 351757,
+     "mean": 2720,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 9000,
+     "max": 54620
+    },
+    {
+     "name": "w_hot",
+     "phase": "ordinary",
+     "n": 351682,
+     "mean": 2271,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4484
+    },
+    {
+     "name": "farm0",
+     "phase": "ordinary",
+     "n": 300606,
+     "mean": 2616,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 18000,
+     "max": 31522
+    },
+    {
+     "name": "d_farm",
+     "phase": "ordinary",
+     "n": 301428,
+     "mean": 2429,
+     "p50": 1000,
+     "p95": 14000,
+     "p99": 19000,
+     "max": 31245
+    },
+    {
+     "name": "claims",
+     "phase": "ordinary",
+     "n": 347170,
+     "mean": 1774,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2432
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "ordinary",
+     "n": 347170,
+     "mean": 1774,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2432
+    },
+    {
+     "name": "w_ward",
+     "phase": "ordinary",
+     "n": 352030,
+     "mean": 762,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 7661
+    },
+    {
+     "name": "decide",
+     "phase": "ordinary",
+     "n": 331646,
+     "mean": 771,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 41812
+    },
+    {
+     "name": "decide_other*",
+     "phase": "ordinary",
+     "n": 331646,
+     "mean": 771,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 41812
+    },
+    {
+     "name": "f_camps",
+     "phase": "ordinary",
+     "n": 202454,
+     "mean": 1203,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 15000,
+     "max": 39547
+    },
+    {
+     "name": "c_zones",
+     "phase": "ordinary",
+     "n": 202943,
+     "mean": 1109,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 2994
+    },
+    {
+     "name": "tail*",
+     "phase": "ordinary",
+     "n": 663136,
+     "mean": 281,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 6000,
+     "max": 36767
+    },
+    {
+     "name": "tail",
+     "phase": "ordinary",
+     "n": 331288,
+     "mean": 360,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 15735
+    },
+    {
+     "name": "refresh",
+     "phase": "ordinary",
+     "n": 347166,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "farmmove",
+     "phase": "ordinary",
+     "n": 301364,
+     "mean": 366,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1076
+    },
+    {
+     "name": "s_inc",
+     "phase": "ordinary",
+     "n": 203304,
+     "mean": 458,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2275
+    },
+    {
+     "name": "field",
+     "phase": "ordinary",
+     "n": 7856,
+     "mean": 11402,
+     "p50": 11000,
+     "p95": 20000,
+     "p99": 21000,
+     "max": 24269
+    },
+    {
+     "name": "support",
+     "phase": "ordinary",
+     "n": 331632,
+     "mean": 234,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4008
+    },
+    {
+     "name": "support_casts*",
+     "phase": "ordinary",
+     "n": 331632,
+     "mean": 234,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4008
+    },
+    {
+     "name": "sight",
+     "phase": "ordinary",
+     "n": 331370,
+     "mean": 227,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1651
+    },
+    {
+     "name": "bushpre",
+     "phase": "ordinary",
+     "n": 331848,
+     "mean": 203,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 6000,
+     "max": 36767
+    },
+    {
+     "name": "score0",
+     "phase": "ordinary",
+     "n": 294108,
+     "mean": 224,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2687
+    },
+    {
+     "name": "fields",
+     "phase": "ordinary",
+     "n": 331328,
+     "mean": 151,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40426
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "ordinary",
+     "n": 331328,
+     "mean": 151,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40426
+    },
+    {
+     "name": "shop",
+     "phase": "ordinary",
+     "n": 331375,
+     "mean": 134,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 6949
+    },
+    {
+     "name": "shop*",
+     "phase": "ordinary",
+     "n": 331375,
+     "mean": 134,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 6949
+    },
+    {
+     "name": "c_safe",
+     "phase": "ordinary",
+     "n": 186834,
+     "mean": 195,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 548
+    },
+    {
+     "name": "d_opp",
+     "phase": "ordinary",
+     "n": 300933,
+     "mean": 114,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 141
+    },
+    {
+     "name": "c_brk0",
+     "phase": "ordinary",
+     "n": 1131,
+     "mean": 29275,
+     "p50": 31000,
+     "p95": 40000,
+     "p99": 45000,
+     "max": 48257
+    },
+    {
+     "name": "w_sight",
+     "phase": "ordinary",
+     "n": 351774,
+     "mean": 88,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2563
+    },
+    {
+     "name": "c_cast",
+     "phase": "ordinary",
+     "n": 53812,
+     "mean": 567,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 9000,
+     "max": 12816
+    },
+    {
+     "name": "events",
+     "phase": "ordinary",
+     "n": 331399,
+     "mean": 82,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 365
+    },
+    {
+     "name": "c_pick2",
+     "phase": "ordinary",
+     "n": 109216,
+     "mean": 225,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1357
+    },
+    {
+     "name": "ambush",
+     "phase": "ordinary",
+     "n": 331784,
+     "mean": 72,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 37730
+    },
+    {
+     "name": "enemies",
+     "phase": "ordinary",
+     "n": 331459,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 12097
+    },
+    {
+     "name": "contact*",
+     "phase": "ordinary",
+     "n": 331459,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 12097
+    },
+    {
+     "name": "world",
+     "phase": "ordinary",
+     "n": 331331,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 238
+    },
+    {
+     "name": "end",
+     "phase": "ordinary",
+     "n": 346987,
+     "mean": 50,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2434
+    },
+    {
+     "name": "tail_end*",
+     "phase": "ordinary",
+     "n": 346987,
+     "mean": 50,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2434
+    },
+    {
+     "name": "w_update",
+     "phase": "ordinary",
+     "n": 331808,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2457
+    },
+    {
+     "name": "s_stage",
+     "phase": "ordinary",
+     "n": 15305,
+     "mean": 952,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1783
+    },
+    {
+     "name": "episode",
+     "phase": "ordinary",
+     "n": 331347,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "f_alive",
+     "phase": "ordinary",
+     "n": 202702,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "c_pick1",
+     "phase": "ordinary",
+     "n": 31916,
+     "mean": 226,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 701
+    },
+    {
+     "name": "c_staged",
+     "phase": "ordinary",
+     "n": 187145,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "s_dps",
+     "phase": "ordinary",
+     "n": 15859,
+     "mean": 197,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_los",
+     "phase": "ordinary",
+     "n": 460,
+     "mean": 5755,
+     "p50": 2000,
+     "p95": 37000,
+     "p99": 61000,
+     "max": 62746
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "ordinary",
+     "n": 460,
+     "mean": 3004,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3652
+    },
+    {
+     "name": "sg_ring",
+     "phase": "ordinary",
+     "n": 460,
+     "mean": 756,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 930
+    },
+    {
+     "name": "sg_init",
+     "phase": "ordinary",
+     "n": 437,
+     "mean": 378,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 28000,
+     "max": 27743
+    },
+    {
+     "name": "TURN",
+     "phase": "contact",
+     "n": 47223,
+     "mean": 51354,
+     "p50": 52000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99713
+    },
+    {
+     "name": "TURN*",
+     "phase": "contact",
+     "n": 47223,
+     "mean": 51354,
+     "p50": 52000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99713
+    },
+    {
+     "name": "contact*",
+     "phase": "contact",
+     "n": 413911,
+     "mean": 1934,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 28000,
+     "max": 43415
+    },
+    {
+     "name": "observe*",
+     "phase": "contact",
+     "n": 572107,
+     "mean": 1375,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 43164
+    },
+    {
+     "name": "farm_route*",
+     "phase": "contact",
+     "n": 178834,
+     "mean": 3306,
+     "p50": 1000,
+     "p95": 21000,
+     "p99": 28000,
+     "max": 62746
+    },
+    {
+     "name": "e_td",
+     "phase": "contact",
+     "n": 29565,
+     "mean": 15905,
+     "p50": 18000,
+     "p95": 30000,
+     "p99": 32000,
+     "max": 43415
+    },
+    {
+     "name": "farmsel",
+     "phase": "contact",
+     "n": 16063,
+     "mean": 14996,
+     "p50": 20000,
+     "p95": 31000,
+     "p99": 39000,
+     "max": 52953
+    },
+    {
+     "name": "w_champs",
+     "phase": "contact",
+     "n": 48023,
+     "mean": 3754,
+     "p50": 4000,
+     "p95": 6000,
+     "p99": 7000,
+     "max": 9936
+    },
+    {
+     "name": "enemies",
+     "phase": "contact",
+     "n": 47445,
+     "mean": 3190,
+     "p50": 3000,
+     "p95": 11000,
+     "p99": 15000,
+     "max": 40715
+    },
+    {
+     "name": "w_groups",
+     "phase": "contact",
+     "n": 48005,
+     "mean": 3054,
+     "p50": 4000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 5414
+    },
+    {
+     "name": "w_vis",
+     "phase": "contact",
+     "n": 48040,
+     "mean": 2798,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 8000,
+     "max": 43164
+    },
+    {
+     "name": "w_hot",
+     "phase": "contact",
+     "n": 48029,
+     "mean": 2664,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4476
+    },
+    {
+     "name": "farm0",
+     "phase": "contact",
+     "n": 16040,
+     "mean": 5815,
+     "p50": 3000,
+     "p95": 16000,
+     "p99": 21000,
+     "max": 29486
+    },
+    {
+     "name": "c_walked",
+     "phase": "contact",
+     "n": 8100,
+     "mean": 11112,
+     "p50": 11000,
+     "p95": 18000,
+     "p99": 21000,
+     "max": 36508
+    },
+    {
+     "name": "claims",
+     "phase": "contact",
+     "n": 47365,
+     "mean": 1845,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2380
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "contact",
+     "n": 47365,
+     "mean": 1845,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2380
+    },
+    {
+     "name": "w_update",
+     "phase": "contact",
+     "n": 47263,
+     "mean": 1460,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2648
+    },
+    {
+     "name": "e_bush",
+     "phase": "contact",
+     "n": 47085,
+     "mean": 1407,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 36868
+    },
+    {
+     "name": "e_mid",
+     "phase": "contact",
+     "n": 39579,
+     "mean": 1618,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 7677
+    },
+    {
+     "name": "decide",
+     "phase": "contact",
+     "n": 47407,
+     "mean": 1173,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 32822
+    },
+    {
+     "name": "decide_other*",
+     "phase": "contact",
+     "n": 47407,
+     "mean": 1173,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 32822
+    },
+    {
+     "name": "vision*",
+     "phase": "contact",
+     "n": 94714,
+     "mean": 514,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 7000,
+     "max": 28718
+    },
+    {
+     "name": "d_farm",
+     "phase": "contact",
+     "n": 16076,
+     "mean": 3000,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 16000,
+     "max": 24045
+    },
+    {
+     "name": "w_ward",
+     "phase": "contact",
+     "n": 48033,
+     "mean": 983,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 36801
+    },
+    {
+     "name": "route0",
+     "phase": "contact",
+     "n": 2632,
+     "mean": 17817,
+     "p50": 18000,
+     "p95": 24000,
+     "p99": 25000,
+     "max": 26982
+    },
+    {
+     "name": "wardrev",
+     "phase": "contact",
+     "n": 47300,
+     "mean": 950,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 8000,
+     "max": 12741
+    },
+    {
+     "name": "tail*",
+     "phase": "contact",
+     "n": 94676,
+     "mean": 442,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 13000,
+     "max": 31982
+    },
+    {
+     "name": "sight",
+     "phase": "contact",
+     "n": 47250,
+     "mean": 668,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 1974
+    },
+    {
+     "name": "route1",
+     "phase": "contact",
+     "n": 2599,
+     "mean": 10733,
+     "p50": 11000,
+     "p95": 16000,
+     "p99": 20000,
+     "max": 26758
+    },
+    {
+     "name": "e_in",
+     "phase": "contact",
+     "n": 47311,
+     "mean": 565,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2765
+    },
+    {
+     "name": "tail",
+     "phase": "contact",
+     "n": 47309,
+     "mean": 503,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 15821
+    },
+    {
+     "name": "w_sight",
+     "phase": "contact",
+     "n": 48124,
+     "mean": 467,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 5166
+    },
+    {
+     "name": "bushpre",
+     "phase": "contact",
+     "n": 47367,
+     "mean": 380,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 14000,
+     "max": 31982
+    },
+    {
+     "name": "refresh",
+     "phase": "contact",
+     "n": 47428,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "e_prestand",
+     "phase": "contact",
+     "n": 34870,
+     "mean": 345,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 6000,
+     "max": 11445
+    },
+    {
+     "name": "c_zones",
+     "phase": "contact",
+     "n": 10350,
+     "mean": 1146,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1676
+    },
+    {
+     "name": "support",
+     "phase": "contact",
+     "n": 47165,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4521
+    },
+    {
+     "name": "support_casts*",
+     "phase": "contact",
+     "n": 47165,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4521
+    },
+    {
+     "name": "f_camps",
+     "phase": "contact",
+     "n": 10347,
+     "mean": 848,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 11000,
+     "max": 18912
+    },
+    {
+     "name": "world",
+     "phase": "contact",
+     "n": 47203,
+     "mean": 146,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 342
+    },
+    {
+     "name": "farmmove",
+     "phase": "contact",
+     "n": 15961,
+     "mean": 350,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 406
+    },
+    {
+     "name": "fields",
+     "phase": "contact",
+     "n": 47225,
+     "mean": 116,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 122
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "contact",
+     "n": 47225,
+     "mean": 116,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 122
+    },
+    {
+     "name": "shop",
+     "phase": "contact",
+     "n": 47259,
+     "mean": 97,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6355
+    },
+    {
+     "name": "shop*",
+     "phase": "contact",
+     "n": 47259,
+     "mean": 97,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6355
+    },
+    {
+     "name": "e_stand",
+     "phase": "contact",
+     "n": 34526,
+     "mean": 130,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 32490
+    },
+    {
+     "name": "s_inc",
+     "phase": "contact",
+     "n": 10385,
+     "mean": 420,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2162
+    },
+    {
+     "name": "ambush",
+     "phase": "contact",
+     "n": 47414,
+     "mean": 80,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 28718
+    },
+    {
+     "name": "score0",
+     "phase": "contact",
+     "n": 12607,
+     "mean": 216,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 570
+    },
+    {
+     "name": "d_opp",
+     "phase": "contact",
+     "n": 15996,
+     "mean": 158,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4129
+    },
+    {
+     "name": "events",
+     "phase": "contact",
+     "n": 47308,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 294
+    },
+    {
+     "name": "end",
+     "phase": "contact",
+     "n": 47297,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "contact",
+     "n": 47297,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "c_safe",
+     "phase": "contact",
+     "n": 9828,
+     "mean": 195,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 522
+    },
+    {
+     "name": "episode",
+     "phase": "contact",
+     "n": 47401,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "c_pick2",
+     "phase": "contact",
+     "n": 6300,
+     "mean": 240,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 897
+    },
+    {
+     "name": "c_brk0",
+     "phase": "contact",
+     "n": 74,
+     "mean": 19879,
+     "p50": 25000,
+     "p95": 32000,
+     "p99": 38000,
+     "max": 37225
+    },
+    {
+     "name": "e_prefight",
+     "phase": "contact",
+     "n": 12374,
+     "mean": 118,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4772
+    },
+    {
+     "name": "e_altar",
+     "phase": "contact",
+     "n": 47343,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "e_lock",
+     "phase": "contact",
+     "n": 47288,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "c_cast",
+     "phase": "contact",
+     "n": 2308,
+     "mean": 570,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 9000,
+     "max": 11608
+    },
+    {
+     "name": "e_noflee",
+     "phase": "contact",
+     "n": 26525,
+     "mean": 37,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 37
+    },
+    {
+     "name": "s_stage",
+     "phase": "contact",
+     "n": 469,
+     "mean": 981,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1700
+    },
+    {
+     "name": "c_pick1",
+     "phase": "contact",
+     "n": 1826,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 515
+    },
+    {
+     "name": "f_alive",
+     "phase": "contact",
+     "n": 10385,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "c_staged",
+     "phase": "contact",
+     "n": 9878,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "sg_los",
+     "phase": "contact",
+     "n": 29,
+     "mean": 6117,
+     "p50": 2000,
+     "p95": 22000,
+     "p99": 63000,
+     "max": 62746
+    },
+    {
+     "name": "s_dps",
+     "phase": "contact",
+     "n": 495,
+     "mean": 210,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "contact",
+     "n": 29,
+     "mean": 3006,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3308
+    },
+    {
+     "name": "sg_ring",
+     "phase": "contact",
+     "n": 29,
+     "mean": 778,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 872
+    },
+    {
+     "name": "sg_init",
+     "phase": "contact",
+     "n": 28,
+     "mean": 64,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 64
+    },
+    {
+     "name": "TURN",
+     "phase": "dead",
+     "n": 16811,
+     "mean": 6436,
+     "p50": 3000,
+     "p95": 30000,
+     "p99": 44000,
+     "max": 56022
+    },
+    {
+     "name": "TURN*",
+     "phase": "dead",
+     "n": 16811,
+     "mean": 6436,
+     "p50": 3000,
+     "p95": 30000,
+     "p99": 44000,
+     "max": 56022
+    },
+    {
+     "name": "field",
+     "phase": "dead",
+     "n": 2895,
+     "mean": 17484,
+     "p50": 18000,
+     "p95": 25000,
+     "p99": 28000,
+     "max": 27936
+    },
+    {
+     "name": "farm_route*",
+     "phase": "dead",
+     "n": 2895,
+     "mean": 17484,
+     "p50": 18000,
+     "p95": 25000,
+     "p99": 28000,
+     "max": 27936
+    },
+    {
+     "name": "claims",
+     "phase": "dead",
+     "n": 16803,
+     "mean": 1814,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2194
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "dead",
+     "n": 16803,
+     "mean": 1814,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2194
+    },
+    {
+     "name": "end",
+     "phase": "dead",
+     "n": 16781,
+     "mean": 1609,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 51287
+    },
+    {
+     "name": "tail_end*",
+     "phase": "dead",
+     "n": 16781,
+     "mean": 1609,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 51287
+    },
+    {
+     "name": "TURN",
+     "phase": "crossed_round",
+     "n": 74,
+     "mean": 98261,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "TURN*",
+     "phase": "crossed_round",
+     "n": 74,
+     "mean": 98261,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "farm_route*",
+     "phase": "crossed_round",
+     "n": 36,
+     "mean": 37982,
+     "p50": 44000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61366
+    },
+    {
+     "name": "sg_init",
+     "phase": "crossed_round",
+     "n": 24,
+     "mean": 50316,
+     "p50": 47000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61366
+    },
+    {
+     "name": "tail*",
+     "phase": "crossed_round",
+     "n": 36,
+     "mean": 10729,
+     "p50": 13000,
+     "p95": 16000,
+     "p99": 16000,
+     "max": 15465
+    },
+    {
+     "name": "tail",
+     "phase": "crossed_round",
+     "n": 34,
+     "mean": 11359,
+     "p50": 13000,
+     "p95": 16000,
+     "p99": 16000,
+     "max": 15465
+    },
+    {
+     "name": "field",
+     "phase": "crossed_round",
+     "n": 10,
+     "mean": 15914,
+     "p50": 15000,
+     "p95": 22000,
+     "p99": 22000,
+     "max": 21152
+    },
+    {
+     "name": "enemies",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 52396,
+     "p50": 53000,
+     "p95": 53000,
+     "p99": 53000,
+     "max": 52396
+    },
+    {
+     "name": "contact*",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 52396,
+     "p50": 53000,
+     "p95": 53000,
+     "p99": 53000,
+     "max": 52396
+    },
+    {
+     "name": "c_cast",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 516,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 516
+    },
+    {
+     "name": "fields",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 99,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 99
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 99,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 99
+    },
+    {
+     "name": "d_opp",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 88,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 88
+    },
+    {
+     "name": "bushpre",
+     "phase": "crossed_round",
+     "n": 2,
+     "mean": 11,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 11
+    }
+   ],
+   "perturbation": {
+    "cand": {
+     "n": 435168,
+     "p50": 66016,
+     "p95": 84670,
+     "p99": 91609,
+     "max": 100000,
+     "mean": 60058.7,
+     "suspensions": 105,
+     "engine_fuel_exhausted": 105
+    },
+    "base": {
+     "n": 439575,
+     "p50": 57058,
+     "p95": 78414,
+     "p99": 86166,
+     "max": 100000,
+     "mean": 51849.2,
+     "suspensions": 31,
+     "engine_fuel_exhausted": 31
+    }
+   },
+   "suspended_trails": [
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77082__A",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78514 ambush=78451 enemies=78393 farm0=77791 score0=75492 farmsel=33939 farmmove=33588 f_alive=33548 c_zones=32370 s_inc=31354 s_dps=31116 sg_ring=30554 sg_init=86639* sg_los=34205 sg_seeing=31324 f_camps=18572 d_farm=18528 d_opp=18418 decide=18244 tail=18135 fields=17986 bushpre=17906 end=17865"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77082__B",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78489 ambush=78426 enemies=78368 farm0=77754 score0=75455 farmsel=33921 farmmove=33570 f_alive=33530 c_zones=32344 s_inc=31328 s_dps=31090 sg_ring=30522 sg_init=86639* sg_los=33701 sg_seeing=30820 f_camps=17786 d_farm=17742 d_opp=17632 decide=17458 tail=17349 fields=17200 bushpre=17120 end=17079"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R67 t3 n39: start=99948 claims=97685 refresh=97345 w_vis=93772 w_groups=90383 w_hot=86009 w_champs=83079 w_ward=82103 w_sight=82049 w_update=82007 world=81951 episode=81916 sight=81791 events=81737 shop=81659 support=81404 wardrev=75950 ambush=75887 enemies=75829 farm0=75363 score0=75081 farmsel=47599 farmmove=47252 f_alive=47212 c_zones=45569 s_inc=45097 s_dps=44840 sg_ring=44150 sg_init=92672* sg_los=29926 sg_seeing=26618 f_camps=14642 d_farm=14598 d_opp=14457 decide=14203 tail=14094 fields=13901 bushpre=13821 end=13780"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1116__B",
+     "map": "pool_1116",
+     "line": "JDSUS R472 t3 n47: start=99948 claims=98161 refresh=97821 w_vis=94962 w_groups=91400 w_hot=87020 w_champs=82944 w_ward=82096 w_sight=81705 w_update=79580 world=79446 episode=79411 sight=78737 events=78689 shop=78611 support=78356 wardrev=78115 ambush=78052 e_in=76720 e_altar=76690 e_lock=76660 e_bush=74673 e_mid=71625 e_prestand=71581 e_stand=71542 e_noflee=71505 enemies=71408 farm0=70877 score0=70576 farmsel=42570 farmmove=42219 f_alive=42179 c_zones=40754 s_inc=40088 s_dps=39831 sg_ring=39141 sg_init=87711* sg_los=24965 sg_seeing=21657 f_camps=9681 d_farm=9637 d_opp=9496 decide=9242 tail=897"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R248 t3 n39: start=99948 claims=98125 refresh=97785 w_vis=94926 w_groups=91723 w_hot=88771 w_champs=85459 w_ward=84611 w_sight=84429 w_update=84387 world=84331 episode=84296 sight=83762 events=83641 shop=83563 support=83308 wardrev=76472 ambush=76409 enemies=76351 farm0=75565 score0=75264 farmsel=45561 farmmove=45210 f_alive=45170 c_zones=43822 s_inc=43267 s_dps=43039 sg_ring=42399 sg_init=81033* sg_los=40271 sg_seeing=36788 f_camps=24172 d_farm=24128 d_opp=23987 decide=23733 tail=23485 fields=23311 bushpre=23271 end=23230"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R300 t12 n38: start=94609 claims=92790 refresh=92450 w_vis=89359 w_groups=85299 w_hot=82347 w_champs=79688 w_ward=78840 w_sight=78648 w_update=78606 world=78550 episode=78515 sight=78289 events=78168 shop=78090 support=77925 wardrev=71113 ambush=71050 enemies=70992 farm0=55813 score0=55626 farmsel=34161 farmmove=33817 f_alive=33777 c_zones=32315 s_inc=32006 c_staged=31971 c_safe=31768 c_walked=12603 c_pick2=12338 f_camps=11973 d_farm=11929 d_opp=11819 decide=11655 tail=99475* fields=66209 bushpre=66169 end=66128"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R70 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=94222 w_groups=91009 w_hot=88063 w_champs=84490 w_ward=83622 w_sight=83568 w_update=83526 world=83470 episode=83435 sight=83277 events=83223 shop=83145 support=82890 wardrev=77544 ambush=77481 enemies=77423 farm0=76846 score0=76573 farmsel=48704 farmmove=48353 f_alive=48313 c_zones=46807 s_inc=46252 s_dps=46024 sg_ring=45384 sg_init=84213* sg_los=43451 sg_seeing=39968 f_camps=29042 d_farm=28998 d_opp=28857 decide=28603 tail=28494 fields=28301 bushpre=28221 end=28180"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t3 n38: start=94609 claims=92930 refresh=92590 w_vis=88625 w_groups=85319 w_hot=82357 w_champs=79405 w_ward=78557 w_sight=78391 w_update=78349 world=78293 episode=78258 sight=77768 events=77647 shop=77569 support=77314 wardrev=70948 ambush=70885 enemies=70827 farm0=53391 score0=53028 farmsel=34826 farmmove=34482 f_alive=34442 c_zones=32824 s_inc=32515 c_staged=32480 c_safe=32246 c_walked=12175 c_pick1=11910 f_camps=11317 d_farm=11273 d_opp=11132 decide=10878 tail=98661* fields=98543 bushpre=98503 end=98462"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t7 n38: start=94609 claims=92793 refresh=92453 w_vis=89594 w_groups=87348 w_hot=84522 w_champs=81965 w_ward=81117 w_sight=80951 w_update=80909 world=80853 episode=80818 sight=80328 events=80207 shop=80129 support=79874 wardrev=73161 ambush=73098 enemies=73040 farm0=56883 score0=56696 farmsel=33599 farmmove=33255 f_alive=33215 c_zones=31812 s_inc=31503 c_staged=31468 c_safe=31250 c_walked=11690 c_pick2=11425 f_camps=11060 d_farm=11016 d_opp=10906 decide=10652 tail=98323* fields=65119 bushpre=65079 end=65038"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n41: start=94456 claims=92777 refresh=92437 w_vis=89450 w_groups=86285 w_hot=83751 w_champs=80504 w_ward=79706 w_sight=79652 w_update=79610 world=79554 episode=79519 sight=79278 events=79224 shop=79146 support=78891 wardrev=72928 ambush=72865 enemies=72807 farm0=72266 score0=72114 farmsel=41046 farmmove=40702 f_alive=40662 c_zones=39408 s_inc=39020 c_staged=38985 c_safe=38812 c_brk0=3966 c_walked=3907 c_pick2=3742 f_camps=3377 d_farm=3333 d_opp=3223 decide=2969 tail=90875* field=78120 field=65448 fields=65397 bushpre=65357 end=65316"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t2 n40: start=94609 claims=92930 refresh=92590 w_vis=88552 w_groups=85191 w_hot=82651 w_champs=78352 w_ward=77554 w_sight=77449 w_update=77407 world=77351 episode=77316 sight=77219 events=77098 shop=77020 support=76751 wardrev=69849 ambush=69786 enemies=69728 farm0=69305 score0=69114 farmsel=37377 farmmove=37033 f_alive=36993 c_zones=35585 s_inc=35072 c_staged=35037 c_safe=34877 c_walked=2526 c_pick2=2361 f_camps=1694 d_farm=1650 d_opp=1540 decide=1272 tail=89123* field=76224 field=59232 fields=59181 bushpre=59141 end=59100"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R471 t1 n40: start=94589 claims=92910 refresh=92570 w_vis=88610 w_groups=85467 w_hot=82753 w_champs=79888 w_ward=79090 w_sight=79036 w_update=78994 world=78938 episode=78903 sight=78778 events=78724 shop=78646 support=78351 wardrev=71398 ambush=71335 enemies=71277 farm0=70830 score0=70526 farmsel=41584 farmmove=41240 f_alive=41200 c_zones=39788 s_inc=39544 c_staged=39509 c_safe=39349 c_walked=1543 c_pick1=1378 f_camps=635 d_farm=591 d_opp=455 decide=161 tail=0 field=87129* field=70137 fields=70086 bushpre=70046 end=70005"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R473 t1 n40: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84125 events=84071 shop=83993 support=83698 wardrev=76745 ambush=76682 enemies=76624 farm0=76177 score0=75873 farmsel=46195 farmmove=45851 f_alive=45811 c_zones=44399 s_inc=44155 c_staged=44120 c_safe=43960 c_walked=1495 c_pick1=1330 f_camps=587 d_farm=543 d_opp=407 decide=113 tail=99968* field=89085 field=78429 fields=78378 bushpre=78338 end=78297"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R475 t1 n40: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83790 events=83736 shop=83658 support=83363 wardrev=76777 ambush=76714 enemies=76656 farm0=76209 score0=75905 farmsel=45584 farmmove=45240 f_alive=45200 c_zones=43730 s_inc=43486 c_staged=43451 c_safe=43291 c_walked=1597 c_pick1=1432 f_camps=619 d_farm=575 d_opp=439 decide=145 tail=0 field=87145* field=74345 fields=74294 bushpre=74254 end=74213"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R477 t1 n39: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84195 events=84141 shop=84063 support=83768 wardrev=77805 ambush=77742 enemies=77684 farm0=77237 score0=76933 farmsel=47317 farmmove=46973 f_alive=46933 c_zones=45521 s_inc=45277 c_staged=45242 c_safe=45082 c_brk0=1722 c_walked=1663 c_pick1=1498 f_camps=755 d_farm=711 d_opp=601 decide=307 tail=146 fields=0 bushpre=99989* end=99948"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R479 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84125 events=84071 shop=83993 support=83698 wardrev=77735 ambush=77672 enemies=77614 farm0=77167 score0=76863 farmsel=47947 farmmove=47603 f_alive=47563 c_zones=46151 s_inc=45907 c_staged=45872 c_safe=45712 c_brk0=1682 c_walked=1623 c_pick1=1458 f_camps=715 d_farm=671 d_opp=561 decide=267 tail=106 field=86365* field=72685 fields=72634 bushpre=72594 end=72553"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R481 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83790 events=83736 shop=83658 support=83363 wardrev=77272 ambush=77209 enemies=77151 farm0=76704 score0=76400 farmsel=47569 farmmove=47225 f_alive=47185 c_zones=45715 s_inc=45471 c_staged=45436 c_safe=45276 c_brk0=1678 c_walked=1619 c_pick1=1454 f_camps=641 d_farm=597 d_opp=487 decide=193 tail=32 field=85949* field=71658 fields=71607 bushpre=71567 end=71526"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R483 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90731 w_hot=88014 w_champs=85207 w_ward=84409 w_sight=84355 w_update=84313 world=84257 episode=84222 sight=83981 events=83927 shop=83849 support=83554 wardrev=77591 ambush=77528 enemies=77470 farm0=77023 score0=76719 farmsel=49441 farmmove=49097 f_alive=49057 c_zones=47645 s_inc=47401 c_staged=47366 c_safe=47206 c_brk0=1592 c_walked=1533 c_pick1=1368 f_camps=625 d_farm=581 d_opp=471 decide=177 tail=16 field=85401* field=69417 fields=69366 bushpre=69326 end=69285"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R485 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84092 events=84038 shop=83960 support=83665 wardrev=77702 ambush=77639 enemies=77581 farm0=77134 score0=76830 farmsel=50008 farmmove=49664 f_alive=49624 c_zones=48212 s_inc=47968 c_staged=47933 c_safe=47773 c_brk0=1583 c_walked=1524 c_pick1=1359 f_camps=616 d_farm=572 d_opp=462 decide=168 tail=7 field=83097* field=66774 fields=66723 bushpre=66683 end=66642"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R487 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83757 events=83703 shop=83625 support=83330 wardrev=77239 ambush=77176 enemies=77118 farm0=76671 score0=76367 farmsel=49374 farmmove=49030 f_alive=48990 c_zones=47520 s_inc=47276 c_staged=47241 c_safe=47081 c_brk0=1611 c_walked=1552 c_pick1=1387 f_camps=574 d_farm=530 d_opp=420 decide=126 tail=99968* field=83629 field=66797 fields=66746 bushpre=66706 end=66665"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R489 t1 n39: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84162 events=84108 shop=84030 support=83735 wardrev=77772 ambush=77709 enemies=77651 farm0=77204 score0=76900 farmsel=50769 farmmove=50425 f_alive=50385 c_zones=48973 s_inc=48729 c_staged=48694 c_safe=48534 c_brk0=1717 c_walked=1658 c_pick1=1493 f_camps=750 d_farm=706 d_opp=596 decide=302 tail=141 fields=0 bushpre=99989* end=99948"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R491 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84092 events=84038 shop=83960 support=83665 wardrev=77702 ambush=77639 enemies=77581 farm0=77134 score0=76830 farmsel=50680 farmmove=50336 f_alive=50296 c_zones=48884 s_inc=48640 c_staged=48605 c_safe=48445 c_brk0=1679 c_walked=1620 c_pick1=1455 f_camps=712 d_farm=668 d_opp=558 decide=264 tail=103 field=83341* field=64045 fields=63994 bushpre=63954 end=63913"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R493 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83757 events=83703 shop=83625 support=83330 wardrev=77239 ambush=77176 enemies=77118 farm0=76671 score0=76367 farmsel=50915 farmmove=50571 f_alive=50531 c_zones=49061 s_inc=48817 c_staged=48782 c_safe=48622 c_brk0=1712 c_walked=1653 c_pick1=1488 f_camps=675 d_farm=631 d_opp=521 decide=227 tail=66 field=80621* field=59325 fields=59274 bushpre=59234 end=59193"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R495 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84079 events=84025 shop=83947 support=83652 wardrev=77689 ambush=77626 enemies=77568 farm0=77121 score0=76817 farmsel=52097 farmmove=51753 f_alive=51713 c_zones=50301 s_inc=50057 c_staged=50022 c_safe=49862 c_brk0=1605 c_walked=1546 c_pick1=1381 f_camps=638 d_farm=594 d_opp=484 decide=190 tail=29 field=78877* field=62461 fields=62410 bushpre=62370 end=62329"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R498 t1 n41: start=94456 claims=92777 refresh=92437 w_vis=88456 w_groups=85180 w_hot=82469 w_champs=79534 w_ward=78608 w_sight=78554 w_update=78512 world=78456 episode=78421 sight=78263 events=78209 shop=78131 support=77836 wardrev=71745 ambush=71682 enemies=71624 farm0=71177 score0=70812 farmsel=47619 farmmove=47275 f_alive=47235 c_zones=45765 s_inc=45521 c_staged=45486 c_safe=45326 c_brk0=1584 c_walked=1525 c_pick1=1360 f_camps=547 d_farm=503 d_opp=393 decide=99 tail=99968* field=83341 field=66077 fields=66026 bushpre=65986 end=65945"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t1 n43: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90821 w_hot=88110 w_champs=85303 w_ward=84505 w_sight=84451 w_update=84409 world=84353 episode=84318 sight=84160 events=84106 shop=84028 support=83733 wardrev=77770 ambush=77707 enemies=77649 farm0=77202 score0=76837 route0=55321 route1=28177 farmsel=28075 farmmove=27731 f_alive=27691 c_zones=26221 s_inc=25977 c_staged=25942 c_safe=25782 c_brk0=2827 c_walked=2768 c_pick1=2603 f_camps=1790 d_farm=1746 d_opp=1636 decide=1342 tail=89217* field=71870 field=48558 fields=48507 bushpre=48467 end=48426"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89263 w_groups=85891 w_hot=83180 w_champs=80110 w_ward=79489 w_sight=79435 w_update=79393 world=79337 episode=79302 sight=79144 events=79090 shop=79012 support=78782 wardrev=72996 ambush=72933 enemies=72875 farm0=70094 score0=69942 farmsel=40131 farmmove=39787 f_alive=39747 c_zones=38591 s_inc=38313 c_staged=38278 c_safe=38105 c_brk0=7015 c_walked=6956 c_pick2=6791 f_camps=6507 d_farm=6463 d_opp=6353 decide=6124 tail=94038* field=80371 field=66691 fields=66640 bushpre=66600 end=66559"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t2 n41: start=94456 claims=92777 refresh=92437 w_vis=88407 w_groups=84863 w_hot=82332 w_champs=79525 w_ward=78727 w_sight=78609 w_update=78567 world=78511 episode=78476 sight=78118 events=77997 shop=77919 support=77650 wardrev=72275 ambush=72212 enemies=72154 farm0=59073 score0=58882 farmsel=34815 farmmove=34471 f_alive=34431 c_zones=33025 s_inc=32781 c_staged=32746 c_safe=32586 c_brk0=4106 c_walked=4047 c_pick2=3882 f_camps=3215 d_farm=3171 d_opp=3061 decide=2793 tail=90619* field=77864 field=63989 fields=63938 bushpre=63898 end=63857"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n40: start=94609 claims=92930 refresh=92590 w_vis=89777 w_groups=86612 w_hot=84081 w_champs=80894 w_ward=80096 w_sight=79978 w_update=79936 world=79880 episode=79845 sight=79487 events=79366 shop=79288 support=78839 wardrev=72758 ambush=72695 enemies=72637 farm0=72290 score0=72138 farmsel=42147 farmmove=41803 f_alive=41763 c_zones=40567 s_inc=40179 c_staged=40144 c_safe=39971 c_walked=4167 c_pick2=4002 f_camps=3637 d_farm=3593 d_opp=3483 decide=3309 tail=91038* field=77333 field=63711 fields=63660 bushpre=63620 end=63579"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t1 n41: start=94476 claims=92797 refresh=92457 w_vis=88555 w_groups=84949 w_hot=82255 w_champs=79417 w_ward=78619 w_sight=78565 w_update=78523 world=78467 episode=78432 sight=78274 events=78220 shop=78142 support=77887 wardrev=72828 ambush=72765 enemies=72707 farm0=72241 score0=71937 farmsel=42944 farmmove=42600 f_alive=42560 c_zones=41152 s_inc=40908 c_staged=40873 c_safe=40713 c_brk0=3776 c_walked=3717 c_pick1=3552 f_camps=2809 d_farm=2765 d_opp=2655 decide=2401 tail=90272* field=74061 field=61245 fields=61194 bushpre=61154 end=61113"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89644 w_groups=86494 w_hot=83800 w_champs=81309 w_ward=80511 w_sight=80457 w_update=80415 world=80359 episode=80324 sight=80166 events=80112 shop=80034 support=79804 wardrev=73841 ambush=73778 enemies=73720 farm0=73373 score0=73221 farmsel=45510 farmmove=45166 f_alive=45126 c_zones=43931 s_inc=43687 c_staged=43652 c_safe=43479 c_brk0=4231 c_walked=4172 c_pick2=4007 f_camps=3642 d_farm=3598 d_opp=3488 decide=3259 tail=91141* field=77148 field=63238 fields=63187 bushpre=63147 end=63106"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t1 n40: start=99948 claims=98269 refresh=97929 w_vis=94027 w_groups=90904 w_hot=88225 w_champs=85418 w_ward=84620 w_sight=84502 w_update=84460 world=84404 episode=84369 sight=84011 events=83957 shop=83879 support=83624 wardrev=83209 ambush=83146 enemies=83088 farm0=71393 score0=71019 farmsel=42188 farmmove=41844 f_alive=41804 c_zones=40278 s_inc=39986 c_staged=39951 c_safe=39749 c_walked=11769 c_pick1=11504 f_camps=10761 d_farm=10717 d_opp=10601 decide=10427 tail=98203* field=87464 field=74792 fields=74741 bushpre=74701 end=74660"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R594 t1 n40: start=99948 claims=98257 refresh=97917 w_vis=94015 w_groups=90318 w_hot=87771 w_champs=84933 w_ward=84135 w_sight=84081 w_update=84039 world=83983 episode=83948 sight=83823 events=83529 shop=83451 support=83241 wardrev=76478 ambush=76415 enemies=76357 farm0=73016 score0=72645 farmsel=43088 farmmove=42737 f_alive=42697 c_zones=41285 s_inc=41041 c_staged=41006 c_safe=40846 c_walked=1505 c_pick1=1340 f_camps=597 d_farm=553 d_opp=417 decide=208 tail=47 field=83341* field=66442 fields=66391 bushpre=66351 end=66310"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R600 t1 n39: start=94569 claims=92878 refresh=92538 w_vis=88636 w_groups=84858 w_hot=82311 w_champs=78738 w_ward=77940 w_sight=77886 w_update=77844 world=77788 episode=77753 sight=77628 events=77574 shop=77496 support=77241 wardrev=70478 ambush=70415 enemies=70357 farm0=67002 score0=66628 farmsel=38619 farmmove=38275 f_alive=38235 c_zones=36827 s_inc=36439 c_staged=36404 c_safe=36244 c_walked=3496 c_pick1=3331 f_camps=2588 d_farm=2544 d_opp=2408 decide=2154 tail=90001* field=70622 fields=70556 bushpre=70516 end=70475"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R700 t10 n41: start=94456 claims=92777 refresh=92437 w_vis=89545 w_groups=86630 w_hot=83910 w_champs=80956 w_ward=80393 w_sight=80339 w_update=80297 world=80241 episode=80206 sight=80048 events=79994 shop=79916 support=79686 wardrev=73943 ambush=73880 enemies=73822 farm0=73475 score0=73323 farmsel=41555 farmmove=41211 f_alive=41171 c_zones=40131 s_inc=39743 c_staged=39708 c_safe=39535 c_brk0=4175 c_walked=4116 c_pick2=3951 f_camps=3667 d_farm=3623 d_opp=3513 decide=3284 tail=91141* field=75286 field=58496 fields=58445 bushpre=58405 end=58364"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R700 t4 n40: start=99948 claims=98269 refresh=97929 w_vis=95037 w_groups=92119 w_hot=89847 w_champs=87616 w_ward=87053 w_sight=86999 w_update=86957 world=86901 episode=86866 sight=86708 events=86654 shop=86576 support=86366 wardrev=80485 ambush=80422 enemies=80364 farm0=77785 score0=77594 route0=55038 route1=26762 farmsel=26660 farmmove=26316 f_alive=26276 c_zones=25182 s_inc=24897 c_staged=24862 c_safe=24681 c_walked=10573 c_pick2=10358 f_camps=10074 d_farm=10030 d_opp=9920 decide=9711 tail=97360* fields=97242 bushpre=97202 end=97161"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R33 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=92818 w_hot=91756 w_champs=88024 w_ward=87316 w_sight=87262 w_update=87220 world=87164 episode=87129 sight=86971 events=86917 shop=86839 support=86584 wardrev=80515 ambush=80452 enemies=80394 farm0=79792 score0=79499 farmsel=48579 farmmove=48228 f_alive=48188 c_zones=47117 s_inc=46437 s_dps=46209 sg_ring=45709 sg_init=99718* sg_los=61699 sg_seeing=58706 f_camps=49568 d_farm=49524 d_opp=49383 decide=49129 tail=49020 fields=48871 bushpre=48791 end=48750"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1907__B",
+     "map": "pool_1907",
+     "line": "JDSUS R26 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=93691 w_hot=92623 w_champs=88156 w_ward=87448 w_sight=87394 w_update=87352 world=87296 episode=87261 sight=87080 events=87026 shop=86948 support=86693 wardrev=81600 ambush=81537 enemies=81479 farm0=80816 score0=80523 farmsel=47032 farmmove=46681 f_alive=46641 c_zones=45562 s_inc=44757 s_dps=44529 sg_ring=44029 sg_init=97982* sg_los=59963 sg_seeing=56970 f_camps=47379 d_farm=47335 d_opp=47194 decide=46940 tail=46831 fields=46682 bushpre=46588 end=46547"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77035__B",
+     "map": "pf_pool_77035",
+     "line": "JDSUS R222 t12 n34: start=99948 claims=97880 refresh=97540 w_vis=95065 w_groups=91136 w_hot=88637 w_champs=84950 w_ward=84280 w_sight=84021 w_update=82488 world=82354 episode=82319 sight=81784 events=81736 shop=81658 support=81307 wardrev=81066 ambush=81003 e_in=80833 e_altar=80803 e_lock=80773 e_bush=80707 e_td=49379 e_mid=47901 e_prestand=47861 e_stand=47822 e_noflee=47785 e_prefight=47697 enemies=95301* decide=91082 tail=90748 fields=90635 bushpre=90595 end=90554"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77082__A",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78514 ambush=78451 enemies=78393 farm0=77791 score0=75492 farmsel=33939 farmmove=33588 f_alive=33548 c_zones=32370 s_inc=31354 s_dps=31116 sg_ring=30554 sg_init=86639* sg_los=34205 sg_seeing=31324 f_camps=18572 d_farm=18528 d_opp=18418 decide=18244 tail=18135 fields=17986 bushpre=17906 end=17865"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77082__B",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78489 ambush=78426 enemies=78368 farm0=77754 score0=75455 farmsel=33921 farmmove=33570 f_alive=33530 c_zones=32344 s_inc=31328 s_dps=31090 sg_ring=30522 sg_init=86639* sg_los=33701 sg_seeing=30820 f_camps=17786 d_farm=17742 d_opp=17632 decide=17458 tail=17349 fields=17200 bushpre=17120 end=17079"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R67 t3 n39: start=99948 claims=97685 refresh=97345 w_vis=93772 w_groups=90383 w_hot=86009 w_champs=83079 w_ward=82103 w_sight=82049 w_update=82007 world=81951 episode=81916 sight=81791 events=81737 shop=81659 support=81404 wardrev=75950 ambush=75887 enemies=75829 farm0=75363 score0=75081 farmsel=47599 farmmove=47252 f_alive=47212 c_zones=45569 s_inc=45097 s_dps=44840 sg_ring=44150 sg_init=92672* sg_los=29926 sg_seeing=26618 f_camps=14642 d_farm=14598 d_opp=14457 decide=14203 tail=14094 fields=13901 bushpre=13821 end=13780"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R1200 t3 n42: start=99948 claims=98176 refresh=97836 w_vis=94255 w_groups=90280 w_hot=85906 w_champs=82306 w_ward=80538 w_sight=80050 w_update=77883 world=77749 episode=77714 sight=77172 events=77124 shop=77046 support=76791 wardrev=76522 ambush=76459 e_in=76285 e_altar=76255 e_lock=76225 e_bush=74238 enemies=74041 farm0=60491 score0=60117 farmsel=34317 farmmove=33966 f_alive=33926 c_zones=32471 s_inc=32221 c_staged=32186 c_safe=31967 c_walked=12399 c_pick1=12233 f_camps=11691 d_farm=11647 d_opp=11506 decide=11252 tail=98785* fields=98672 bushpre=98632 end=98591"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__B",
+     "map": "pool_1116",
+     "line": "JDSUS R518 t3 n39: start=99948 claims=98269 refresh=97929 w_vis=94916 w_groups=92482 w_hot=88282 w_champs=84217 w_ward=83369 w_sight=83315 w_update=83273 world=83217 episode=83182 sight=82961 events=82907 shop=79594 support=79339 wardrev=74013 ambush=73950 enemies=73892 farm0=73330 score0=72976 farmsel=48405 farmmove=48054 f_alive=48014 c_zones=46589 s_inc=45748 s_dps=45491 sg_ring=44801 sg_init=93312* sg_los=30566 sg_seeing=27258 f_camps=11928 d_farm=11884 d_opp=11743 decide=11489 tail=11380 fields=11262 bushpre=11222 end=11181"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R248 t3 n39: start=99948 claims=98125 refresh=97785 w_vis=94926 w_groups=91723 w_hot=88771 w_champs=85459 w_ward=84611 w_sight=84429 w_update=84387 world=84331 episode=84296 sight=83762 events=83641 shop=83563 support=83308 wardrev=76472 ambush=76409 enemies=76351 farm0=75565 score0=75264 farmsel=45561 farmmove=45210 f_alive=45170 c_zones=43822 s_inc=43267 s_dps=43039 sg_ring=42399 sg_init=81033* sg_los=40271 sg_seeing=36788 f_camps=24172 d_farm=24128 d_opp=23987 decide=23733 tail=23485 fields=23311 bushpre=23271 end=23230"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R300 t12 n38: start=94609 claims=92790 refresh=92450 w_vis=89359 w_groups=85299 w_hot=82347 w_champs=79688 w_ward=78840 w_sight=78664 w_update=78622 world=78566 episode=78531 sight=78261 events=78140 shop=78062 support=77897 wardrev=71165 ambush=71102 enemies=71044 farm0=55905 score0=55718 farmsel=34253 farmmove=33909 f_alive=33869 c_zones=32407 s_inc=32098 c_staged=32063 c_safe=31860 c_walked=12695 c_pick2=12430 f_camps=12065 d_farm=12021 d_opp=11911 decide=11747 tail=99552* fields=66286 bushpre=66246 end=66205"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R70 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=94222 w_groups=91009 w_hot=88063 w_champs=84490 w_ward=83622 w_sight=83568 w_update=83526 world=83470 episode=83435 sight=83277 events=83223 shop=83145 support=82890 wardrev=77544 ambush=77481 enemies=77423 farm0=76846 score0=76573 farmsel=48704 farmmove=48353 f_alive=48313 c_zones=46807 s_inc=46252 s_dps=46024 sg_ring=45384 sg_init=84213* sg_los=43451 sg_seeing=39968 f_camps=29042 d_farm=28998 d_opp=28857 decide=28603 tail=28494 fields=28301 bushpre=28221 end=28180"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t12 n30: start=95633 claims=93802 refresh=93462 w_vis=90413 w_groups=88084 w_hot=85124 w_champs=82298 w_ward=80465 w_sight=80363 w_update=80321 world=80265 episode=80230 sight=80011 events=79890 shop=79812 support=79602 wardrev=73062 ambush=72999 enemies=72941 farm0=52689 score0=52521 farmsel=34696 farmmove=34352 d_farm=10610 d_opp=10500 decide=10291 tail=98092* fields=64752 bushpre=64712 end=64671"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t2 n30: start=99948 claims=98266 refresh=97926 w_vis=93966 w_groups=90050 w_hot=87383 w_champs=82337 w_ward=81539 w_sight=81389 w_update=81347 world=81291 episode=81256 sight=80810 events=80689 shop=80611 support=80316 wardrev=74078 ambush=74015 enemies=73957 farm0=60920 score0=60729 farmsel=34607 farmmove=34253 d_farm=8792 d_opp=8682 decide=8508 tail=96345* fields=96227 bushpre=96187 end=96146"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R600 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89644 w_groups=86105 w_hot=83568 w_champs=80359 w_ward=79561 w_sight=79233 w_update=79191 world=79135 episode=79100 sight=78566 events=78445 shop=78367 support=78137 wardrev=71848 ambush=71785 enemies=71727 farm0=60401 score0=60249 farmsel=33851 farmmove=33507 f_alive=33467 c_zones=32273 s_inc=31885 c_staged=31850 c_safe=31677 c_brk0=5151 c_walked=5092 c_pick2=4927 f_camps=4562 d_farm=4518 d_opp=4408 decide=4179 tail=91775* field=75478 field=59264 fields=59213 bushpre=59173 end=59132"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n40: start=94609 claims=92930 refresh=92590 w_vis=89698 w_groups=86783 w_hot=84060 w_champs=81835 w_ward=81272 w_sight=81154 w_update=81112 world=81056 episode=81021 sight=80663 events=80542 shop=80464 support=80234 wardrev=74279 ambush=74216 enemies=74158 farm0=73711 score0=73559 farmsel=43013 farmmove=42669 f_alive=42629 c_zones=41589 s_inc=41345 c_staged=41310 c_safe=41137 c_walked=4183 c_pick2=4018 f_camps=3734 d_farm=3690 d_opp=3580 decide=3351 tail=91128* field=78441 field=64387 fields=64336 bushpre=64296 end=64255"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t2 n43: start=93824 claims=92049 refresh=91709 w_vis=87728 w_groups=84362 w_hot=81684 w_champs=77231 w_ward=76305 w_sight=76154 w_update=74167 world=74033 episode=73998 sight=73507 events=73459 shop=73381 support=73090 wardrev=72905 ambush=72842 e_in=72680 e_altar=72650 e_lock=72620 e_bush=72554 enemies=72357 farm0=58816 score0=58625 farmsel=34285 farmmove=33941 f_alive=33901 c_zones=32437 s_inc=32049 c_staged=32014 c_safe=31854 c_brk0=5378 c_walked=5319 c_pick2=5154 f_camps=4417 d_farm=4373 d_opp=4213 decide=3923 tail=91662* fields=91543 bushpre=91503 end=91462"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t10 n43: start=93831 claims=92056 refresh=91716 w_vis=89057 w_groups=85797 w_hot=83272 w_champs=79325 w_ward=78527 w_sight=78376 w_update=76495 world=76361 episode=76326 sight=75828 events=75780 shop=75702 support=75474 wardrev=75289 ambush=75226 e_in=74505 e_altar=74475 e_lock=74445 e_bush=72845 enemies=72648 farm0=70169 score0=70017 farmsel=37842 farmmove=37498 f_alive=37458 c_zones=36264 s_inc=35876 c_staged=35841 c_safe=35668 c_brk0=5088 c_walked=5029 c_pick2=4864 f_camps=4499 d_farm=4455 d_opp=4295 decide=4068 tail=91734* fields=91615 bushpre=91575 end=91534"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1157__A",
+     "map": "pool_1157",
+     "line": "JDSUS R700 t7 n38: start=99948 claims=98132 refresh=97792 w_vis=95163 w_groups=92363 w_hot=90053 w_champs=87690 w_ward=86938 w_sight=86836 w_update=86794 world=86738 episode=86703 sight=86389 events=86268 shop=86190 support=85921 wardrev=79806 ambush=79743 enemies=79685 farm0=79164 score0=78977 farmsel=31592 farmmove=31248 f_alive=31208 c_zones=29998 s_inc=29689 c_staged=29654 c_safe=29436 c_walked=13366 c_pick2=13101 f_camps=12736 d_farm=12692 d_opp=12582 decide=12314 tail=99552* fields=99434 bushpre=99394 end=99353"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1159__A",
+     "map": "pool_1159",
+     "line": "JDSUS R281 t3 n39: start=99948 claims=98269 refresh=97929 w_vis=95308 w_groups=91197 w_hot=87572 w_champs=83752 w_ward=83002 w_sight=82948 w_update=82906 world=82850 episode=82815 sight=82690 events=82396 shop=82318 support=82063 wardrev=76241 ambush=76178 enemies=76120 farm0=73332 score0=73073 farmsel=40831 farmmove=40480 f_alive=40440 c_zones=39095 s_inc=38266 s_dps=37951 sg_ring=37259 sg_init=84317* sg_los=23581 sg_seeing=20616 f_camps=8123 d_farm=8079 d_opp=7938 decide=7684 tail=7575 fields=7426 bushpre=7386 end=7345"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R657 t3 n45: start=99948 claims=98269 refresh=97929 w_vis=95270 w_groups=92979 w_hot=90618 w_champs=88123 w_ward=87325 w_sight=87271 w_update=87229 world=87173 episode=87138 sight=86980 events=86926 shop=86848 support=86593 wardrev=80888 ambush=80825 enemies=80767 farm0=80301 score0=79938 route0=55076 route1=24265 farmsel=24163 farmmove=23812 f_alive=23772 c_zones=22726 s_inc=22465 c_staged=22430 c_safe=22238 w_vis=9929 w_groups=6748 w_hot=4387 w_champs=1210 w_ward=412 w_sight=358 c_cast=99842* f_camps=99085 d_farm=99041 d_opp=98900 decide=98646 tail=98485 fields=98367 bushpre=98327 end="
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R33 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=92818 w_hot=91756 w_champs=88024 w_ward=87316 w_sight=87262 w_update=87220 world=87164 episode=87129 sight=86971 events=86917 shop=86839 support=86584 wardrev=80515 ambush=80452 enemies=80394 farm0=79792 score0=79499 farmsel=48579 farmmove=48228 f_alive=48188 c_zones=47117 s_inc=46437 s_dps=46209 sg_ring=45709 sg_init=99718* sg_los=61699 sg_seeing=58706 f_camps=49568 d_farm=49524 d_opp=49383 decide=49129 tail=49020 fields=48871 bushpre=48791 end=48750"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R600 t4 n32: start=99948 claims=98269 refresh=97929 w_vis=95479 w_groups=93105 w_hot=92182 w_champs=89883 w_ward=89175 w_sight=89121 w_update=89079 world=89023 episode=88988 sight=88830 events=88536 shop=88458 support=88189 wardrev=87951 ambush=87888 enemies=87830 farm0=85254 score0=85063 route0=66381 route1=54964 farmsel=30594 farmmove=30243 d_farm=11502 d_opp=11392 decide=11218 tail=99068* fields=98950 bushpre=98910 end=98869"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1907__B",
+     "map": "pool_1907",
+     "line": "JDSUS R26 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=93691 w_hot=92623 w_champs=88156 w_ward=87448 w_sight=87394 w_update=87352 world=87296 episode=87261 sight=87080 events=87026 shop=86948 support=86693 wardrev=81600 ambush=81537 enemies=81479 farm0=80816 score0=80523 farmsel=47032 farmmove=46681 f_alive=46641 c_zones=45562 s_inc=44757 s_dps=44529 sg_ring=44029 sg_init=97982* sg_los=59963 sg_seeing=56970 f_camps=47379 d_farm=47335 d_opp=47194 decide=46940 tail=46831 fields=46682 bushpre=46588 end=46547"
+    },
+    {
+     "game": "cand__p65pack-a1a0211b8399__pf_pool_77082__A",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78514 ambush=78451 enemies=78393 farm0=77791 score0=75492 farmsel=33939 farmmove=33588 f_alive=33548 c_zones=32370 s_inc=31354 s_dps=31116 sg_ring=30554 sg_init=86639* sg_los=34205 sg_seeing=31324 f_camps=18572 d_farm=18528 d_opp=18418 decide=18244 tail=18135 fields=17986 bushpre=17906 end=17865"
+    }
+   ],
+   "suspended_at": {
+    "decide->tail": 35,
+    "sg_ring->sg_init": 24,
+    "tail->field": 10,
+    "fields->bushpre": 2,
+    "e_prefight->enemies": 1,
+    "w_sight->c_cast": 1,
+    "d_farm->d_opp": 1,
+    "tail->fields": 1
+   }
+  },
+  "resume-profile-cpg-01": {
+   "note": "1k-fuel histogram percentiles (upper bin edge); \"stage*\" rows aggregate names; value = fuel from the previous checkpoint to this one",
+   "rows": [
+    {
+     "name": "TURN",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 147291,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 163749
+    },
+    {
+     "name": "TURN*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 147291,
+     "p50": 101000,
+     "p95": 101000,
+     "p99": 101000,
+     "max": 163749
+    },
+    {
+     "name": "other*",
+     "phase": "first_turn",
+     "n": 1872,
+     "mean": 17368,
+     "p50": 10000,
+     "p95": 43000,
+     "p99": 48000,
+     "max": 47259
+    },
+    {
+     "name": "group_loop",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35215,
+     "p50": 37000,
+     "p95": 48000,
+     "p99": 48000,
+     "max": 47259
+    },
+    {
+     "name": "spawn_field",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 19624,
+     "p50": 21000,
+     "p95": 31000,
+     "p99": 31000,
+     "max": 30202
+    },
+    {
+     "name": "observe*",
+     "phase": "first_turn",
+     "n": 5616,
+     "mean": 1546,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "fields",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 18286,
+     "p50": 15000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49945
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 18286,
+     "p50": 15000,
+     "p95": 50000,
+     "p99": 50000,
+     "max": 49945
+    },
+    {
+     "name": "init",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 16335,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 44000,
+     "max": 43842
+    },
+    {
+     "name": "first_turn_init*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 16335,
+     "p50": 16000,
+     "p95": 20000,
+     "p99": 44000,
+     "max": 43842
+    },
+    {
+     "name": "w_champs",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 9066,
+     "p50": 11000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10856
+    },
+    {
+     "name": "farm_route*",
+     "phase": "first_turn",
+     "n": 1584,
+     "mean": 2329,
+     "p50": 1000,
+     "p95": 29000,
+     "p99": 33000,
+     "max": 32630
+    },
+    {
+     "name": "tables",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 7394,
+     "p50": 8000,
+     "p95": 11000,
+     "p99": 11000,
+     "max": 10726
+    },
+    {
+     "name": "boards",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 7239,
+     "p50": 8000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7972
+    },
+    {
+     "name": "field",
+     "phase": "first_turn",
+     "n": 180,
+     "mean": 17535,
+     "p50": 8000,
+     "p95": 33000,
+     "p99": 33000,
+     "max": 32630
+    },
+    {
+     "name": "claims",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6214,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 6214,
+     "p50": 7000,
+     "p95": 7000,
+     "p99": 7000,
+     "max": 6543
+    },
+    {
+     "name": "vision*",
+     "phase": "first_turn",
+     "n": 936,
+     "mean": 2822,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 8000,
+     "max": 7457
+    },
+    {
+     "name": "wardrev",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 5588,
+     "p50": 6000,
+     "p95": 8000,
+     "p99": 8000,
+     "max": 7457
+    },
+    {
+     "name": "tail*",
+     "phase": "first_turn",
+     "n": 936,
+     "mean": 1827,
+     "p50": 1000,
+     "p95": 16000,
+     "p99": 26000,
+     "max": 25532
+    },
+    {
+     "name": "bushpre",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 3545,
+     "p50": 1000,
+     "p95": 18000,
+     "p99": 26000,
+     "max": 25532
+    },
+    {
+     "name": "w_vis",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 3472,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3977
+    },
+    {
+     "name": "w_hot",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2421,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4383
+    },
+    {
+     "name": "w_groups",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 2076,
+     "p50": 3000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2577
+    },
+    {
+     "name": "w_ward",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 865,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1059
+    },
+    {
+     "name": "shop",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 643
+    },
+    {
+     "name": "shop*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 643
+    },
+    {
+     "name": "farm0",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 643,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 700
+    },
+    {
+     "name": "d_farm",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 385,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 413
+    },
+    {
+     "name": "refresh",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "support",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "support_casts*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 255,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 255
+    },
+    {
+     "name": "decide",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "decide_other*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 254,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 254
+    },
+    {
+     "name": "d_opp",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 110,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 110
+    },
+    {
+     "name": "tail",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 109,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 109
+    },
+    {
+     "name": "sight",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 74,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 74
+    },
+    {
+     "name": "enemies",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "contact*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 58,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 58
+    },
+    {
+     "name": "ambush",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "world",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 56
+    },
+    {
+     "name": "w_sight",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "events",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 54,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 54
+    },
+    {
+     "name": "w_update",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 42,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 42
+    },
+    {
+     "name": "end",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "episode",
+     "phase": "first_turn",
+     "n": 468,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "TURN",
+     "phase": "ordinary",
+     "n": 344787,
+     "mean": 55526,
+     "p50": 61000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99861
+    },
+    {
+     "name": "TURN*",
+     "phase": "ordinary",
+     "n": 344787,
+     "mean": 55526,
+     "p50": 61000,
+     "p95": 80000,
+     "p99": 87000,
+     "max": 99861
+    },
+    {
+     "name": "farm_route*",
+     "phase": "ordinary",
+     "n": 3578906,
+     "mean": 3368,
+     "p50": 1000,
+     "p95": 22000,
+     "p99": 30000,
+     "max": 81133
+    },
+    {
+     "name": "observe*",
+     "phase": "ordinary",
+     "n": 4087161,
+     "mean": 1064,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 54620
+    },
+    {
+     "name": "farmsel",
+     "phase": "ordinary",
+     "n": 298778,
+     "mean": 14353,
+     "p50": 16000,
+     "p95": 33000,
+     "p99": 47000,
+     "max": 61652
+    },
+    {
+     "name": "route0",
+     "phase": "ordinary",
+     "n": 123769,
+     "mean": 18333,
+     "p50": 19000,
+     "p95": 26000,
+     "p99": 28000,
+     "max": 31131
+    },
+    {
+     "name": "c_walked",
+     "phase": "ordinary",
+     "n": 140168,
+     "mean": 11921,
+     "p50": 12000,
+     "p95": 19000,
+     "p99": 23000,
+     "max": 46096
+    },
+    {
+     "name": "vision*",
+     "phase": "ordinary",
+     "n": 659041,
+     "mean": 2284,
+     "p50": 1000,
+     "p95": 7000,
+     "p99": 9000,
+     "max": 45511
+    },
+    {
+     "name": "wardrev",
+     "phase": "ordinary",
+     "n": 329556,
+     "mean": 4495,
+     "p50": 6000,
+     "p95": 8000,
+     "p99": 10000,
+     "max": 45511
+    },
+    {
+     "name": "route1",
+     "phase": "ordinary",
+     "n": 123834,
+     "mean": 10185,
+     "p50": 11000,
+     "p95": 17000,
+     "p99": 23000,
+     "max": 34106
+    },
+    {
+     "name": "w_champs",
+     "phase": "ordinary",
+     "n": 349879,
+     "mean": 2926,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 6000,
+     "max": 7787
+    },
+    {
+     "name": "w_groups",
+     "phase": "ordinary",
+     "n": 349149,
+     "mean": 2908,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 5376
+    },
+    {
+     "name": "w_vis",
+     "phase": "ordinary",
+     "n": 349281,
+     "mean": 2728,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 9000,
+     "max": 54620
+    },
+    {
+     "name": "w_hot",
+     "phase": "ordinary",
+     "n": 349180,
+     "mean": 2266,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4484
+    },
+    {
+     "name": "farm0",
+     "phase": "ordinary",
+     "n": 298237,
+     "mean": 2605,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 18000,
+     "max": 31522
+    },
+    {
+     "name": "d_farm",
+     "phase": "ordinary",
+     "n": 298590,
+     "mean": 2444,
+     "p50": 1000,
+     "p95": 14000,
+     "p99": 19000,
+     "max": 31250
+    },
+    {
+     "name": "claims",
+     "phase": "ordinary",
+     "n": 344727,
+     "mean": 1774,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2458
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "ordinary",
+     "n": 344727,
+     "mean": 1774,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2458
+    },
+    {
+     "name": "w_ward",
+     "phase": "ordinary",
+     "n": 349705,
+     "mean": 767,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 7661
+    },
+    {
+     "name": "decide",
+     "phase": "ordinary",
+     "n": 329515,
+     "mean": 787,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 40282
+    },
+    {
+     "name": "decide_other*",
+     "phase": "ordinary",
+     "n": 329515,
+     "mean": 787,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 13000,
+     "max": 40282
+    },
+    {
+     "name": "f_camps",
+     "phase": "ordinary",
+     "n": 200378,
+     "mean": 1197,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 15000,
+     "max": 40416
+    },
+    {
+     "name": "c_zones",
+     "phase": "ordinary",
+     "n": 200684,
+     "mean": 1114,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 2994
+    },
+    {
+     "name": "tail*",
+     "phase": "ordinary",
+     "n": 658001,
+     "mean": 283,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 6000,
+     "max": 36632
+    },
+    {
+     "name": "farmmove",
+     "phase": "ordinary",
+     "n": 298004,
+     "mean": 490,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 23275
+    },
+    {
+     "name": "tail",
+     "phase": "ordinary",
+     "n": 329258,
+     "mean": 360,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 15735
+    },
+    {
+     "name": "refresh",
+     "phase": "ordinary",
+     "n": 345256,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "s_inc",
+     "phase": "ordinary",
+     "n": 200488,
+     "mean": 459,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2218
+    },
+    {
+     "name": "field",
+     "phase": "ordinary",
+     "n": 7847,
+     "mean": 11446,
+     "p50": 11000,
+     "p95": 20000,
+     "p99": 21000,
+     "max": 24269
+    },
+    {
+     "name": "support",
+     "phase": "ordinary",
+     "n": 329555,
+     "mean": 233,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4216
+    },
+    {
+     "name": "support_casts*",
+     "phase": "ordinary",
+     "n": 329555,
+     "mean": 233,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4216
+    },
+    {
+     "name": "sight",
+     "phase": "ordinary",
+     "n": 328615,
+     "mean": 227,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1651
+    },
+    {
+     "name": "bushpre",
+     "phase": "ordinary",
+     "n": 328743,
+     "mean": 206,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 7000,
+     "max": 36632
+    },
+    {
+     "name": "score0",
+     "phase": "ordinary",
+     "n": 291783,
+     "mean": 224,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2687
+    },
+    {
+     "name": "fields",
+     "phase": "ordinary",
+     "n": 328794,
+     "mean": 152,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40426
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "ordinary",
+     "n": 328794,
+     "mean": 152,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40426
+    },
+    {
+     "name": "shop",
+     "phase": "ordinary",
+     "n": 328713,
+     "mean": 130,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 7153
+    },
+    {
+     "name": "shop*",
+     "phase": "ordinary",
+     "n": 328713,
+     "mean": 130,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 4000,
+     "max": 7153
+    },
+    {
+     "name": "c_safe",
+     "phase": "ordinary",
+     "n": 185733,
+     "mean": 194,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 548
+    },
+    {
+     "name": "d_opp",
+     "phase": "ordinary",
+     "n": 298137,
+     "mean": 114,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 141
+    },
+    {
+     "name": "c_brk0",
+     "phase": "ordinary",
+     "n": 1073,
+     "mean": 29456,
+     "p50": 31000,
+     "p95": 41000,
+     "p99": 45000,
+     "max": 48113
+    },
+    {
+     "name": "w_sight",
+     "phase": "ordinary",
+     "n": 349611,
+     "mean": 88,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2563
+    },
+    {
+     "name": "c_cast",
+     "phase": "ordinary",
+     "n": 54233,
+     "mean": 567,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 9000,
+     "max": 12914
+    },
+    {
+     "name": "events",
+     "phase": "ordinary",
+     "n": 329103,
+     "mean": 81,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 365
+    },
+    {
+     "name": "c_pick2",
+     "phase": "ordinary",
+     "n": 108293,
+     "mean": 225,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 1127
+    },
+    {
+     "name": "ambush",
+     "phase": "ordinary",
+     "n": 329485,
+     "mean": 71,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 34494
+    },
+    {
+     "name": "enemies",
+     "phase": "ordinary",
+     "n": 329567,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 12097
+    },
+    {
+     "name": "contact*",
+     "phase": "ordinary",
+     "n": 329567,
+     "mean": 62,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 12097
+    },
+    {
+     "name": "world",
+     "phase": "ordinary",
+     "n": 329224,
+     "mean": 56,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 238
+    },
+    {
+     "name": "end",
+     "phase": "ordinary",
+     "n": 345160,
+     "mean": 50,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2434
+    },
+    {
+     "name": "tail_end*",
+     "phase": "ordinary",
+     "n": 345160,
+     "mean": 50,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2434
+    },
+    {
+     "name": "w_update",
+     "phase": "ordinary",
+     "n": 328752,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 2457
+    },
+    {
+     "name": "s_stage",
+     "phase": "ordinary",
+     "n": 13710,
+     "mean": 985,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1783
+    },
+    {
+     "name": "episode",
+     "phase": "ordinary",
+     "n": 329406,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "f_alive",
+     "phase": "ordinary",
+     "n": 200778,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "c_pick1",
+     "phase": "ordinary",
+     "n": 31682,
+     "mean": 226,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 701
+    },
+    {
+     "name": "c_staged",
+     "phase": "ordinary",
+     "n": 186357,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "s_dps",
+     "phase": "ordinary",
+     "n": 14227,
+     "mean": 200,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_los",
+     "phase": "ordinary",
+     "n": 537,
+     "mean": 5250,
+     "p50": 2000,
+     "p95": 23000,
+     "p99": 61000,
+     "max": 81133
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "ordinary",
+     "n": 537,
+     "mean": 2978,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3652
+    },
+    {
+     "name": "sg_ring",
+     "phase": "ordinary",
+     "n": 537,
+     "mean": 746,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 930
+    },
+    {
+     "name": "sg_init",
+     "phase": "ordinary",
+     "n": 512,
+     "mean": 385,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 28000,
+     "max": 27452
+    },
+    {
+     "name": "TURN",
+     "phase": "contact",
+     "n": 46523,
+     "mean": 51618,
+     "p50": 53000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99778
+    },
+    {
+     "name": "TURN*",
+     "phase": "contact",
+     "n": 46523,
+     "mean": 51618,
+     "p50": 53000,
+     "p95": 77000,
+     "p99": 85000,
+     "max": 99778
+    },
+    {
+     "name": "contact*",
+     "phase": "contact",
+     "n": 403379,
+     "mean": 1942,
+     "p50": 1000,
+     "p95": 9000,
+     "p99": 28000,
+     "max": 43415
+    },
+    {
+     "name": "observe*",
+     "phase": "contact",
+     "n": 561186,
+     "mean": 1381,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 5000,
+     "max": 43164
+    },
+    {
+     "name": "farm_route*",
+     "phase": "contact",
+     "n": 178116,
+     "mean": 3291,
+     "p50": 1000,
+     "p95": 21000,
+     "p99": 28000,
+     "max": 62746
+    },
+    {
+     "name": "e_td",
+     "phase": "contact",
+     "n": 28552,
+     "mean": 16089,
+     "p50": 22000,
+     "p95": 30000,
+     "p99": 32000,
+     "max": 43415
+    },
+    {
+     "name": "farmsel",
+     "phase": "contact",
+     "n": 15844,
+     "mean": 15060,
+     "p50": 20000,
+     "p95": 31000,
+     "p99": 39000,
+     "max": 55252
+    },
+    {
+     "name": "w_champs",
+     "phase": "contact",
+     "n": 47026,
+     "mean": 3744,
+     "p50": 4000,
+     "p95": 6000,
+     "p99": 7000,
+     "max": 9936
+    },
+    {
+     "name": "enemies",
+     "phase": "contact",
+     "n": 46362,
+     "mean": 3205,
+     "p50": 3000,
+     "p95": 11000,
+     "p99": 17000,
+     "max": 40949
+    },
+    {
+     "name": "w_groups",
+     "phase": "contact",
+     "n": 47256,
+     "mean": 3067,
+     "p50": 4000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 5414
+    },
+    {
+     "name": "w_vis",
+     "phase": "contact",
+     "n": 47224,
+     "mean": 2810,
+     "p50": 3000,
+     "p95": 4000,
+     "p99": 8000,
+     "max": 43164
+    },
+    {
+     "name": "w_hot",
+     "phase": "contact",
+     "n": 47160,
+     "mean": 2674,
+     "p50": 3000,
+     "p95": 5000,
+     "p99": 5000,
+     "max": 4458
+    },
+    {
+     "name": "farm0",
+     "phase": "contact",
+     "n": 15814,
+     "mean": 5868,
+     "p50": 3000,
+     "p95": 16000,
+     "p99": 21000,
+     "max": 29486
+    },
+    {
+     "name": "c_walked",
+     "phase": "contact",
+     "n": 8067,
+     "mean": 11164,
+     "p50": 11000,
+     "p95": 18000,
+     "p99": 21000,
+     "max": 36364
+    },
+    {
+     "name": "claims",
+     "phase": "contact",
+     "n": 46564,
+     "mean": 1846,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2428
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "contact",
+     "n": 46564,
+     "mean": 1846,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2428
+    },
+    {
+     "name": "w_update",
+     "phase": "contact",
+     "n": 46388,
+     "mean": 1476,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 3000,
+     "max": 2648
+    },
+    {
+     "name": "e_bush",
+     "phase": "contact",
+     "n": 46018,
+     "mean": 1415,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 36868
+    },
+    {
+     "name": "e_mid",
+     "phase": "contact",
+     "n": 38337,
+     "mean": 1613,
+     "p50": 2000,
+     "p95": 3000,
+     "p99": 4000,
+     "max": 7677
+    },
+    {
+     "name": "decide",
+     "phase": "contact",
+     "n": 46330,
+     "mean": 1194,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 32822
+    },
+    {
+     "name": "decide_other*",
+     "phase": "contact",
+     "n": 46330,
+     "mean": 1194,
+     "p50": 1000,
+     "p95": 10000,
+     "p99": 14000,
+     "max": 32822
+    },
+    {
+     "name": "vision*",
+     "phase": "contact",
+     "n": 92698,
+     "mean": 513,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 7000,
+     "max": 28718
+    },
+    {
+     "name": "w_ward",
+     "phase": "contact",
+     "n": 47032,
+     "mean": 995,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 36801
+    },
+    {
+     "name": "d_farm",
+     "phase": "contact",
+     "n": 15827,
+     "mean": 2895,
+     "p50": 1000,
+     "p95": 13000,
+     "p99": 16000,
+     "max": 24562
+    },
+    {
+     "name": "route0",
+     "phase": "contact",
+     "n": 2559,
+     "mean": 17782,
+     "p50": 18000,
+     "p95": 23000,
+     "p99": 25000,
+     "max": 26661
+    },
+    {
+     "name": "wardrev",
+     "phase": "contact",
+     "n": 46341,
+     "mean": 947,
+     "p50": 1000,
+     "p95": 5000,
+     "p99": 8000,
+     "max": 12741
+    },
+    {
+     "name": "tail*",
+     "phase": "contact",
+     "n": 92785,
+     "mean": 447,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 13000,
+     "max": 31905
+    },
+    {
+     "name": "sight",
+     "phase": "contact",
+     "n": 46396,
+     "mean": 670,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 2086
+    },
+    {
+     "name": "route1",
+     "phase": "contact",
+     "n": 2565,
+     "mean": 10754,
+     "p50": 11000,
+     "p95": 16000,
+     "p99": 20000,
+     "max": 25771
+    },
+    {
+     "name": "e_in",
+     "phase": "contact",
+     "n": 46617,
+     "mean": 580,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2765
+    },
+    {
+     "name": "tail",
+     "phase": "contact",
+     "n": 46483,
+     "mean": 513,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 13000,
+     "max": 15821
+    },
+    {
+     "name": "w_sight",
+     "phase": "contact",
+     "n": 47046,
+     "mean": 471,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 5166
+    },
+    {
+     "name": "bushpre",
+     "phase": "contact",
+     "n": 46302,
+     "mean": 381,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 14000,
+     "max": 31905
+    },
+    {
+     "name": "refresh",
+     "phase": "contact",
+     "n": 46364,
+     "mean": 340,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 340
+    },
+    {
+     "name": "c_zones",
+     "phase": "contact",
+     "n": 10435,
+     "mean": 1147,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1676
+    },
+    {
+     "name": "e_prestand",
+     "phase": "contact",
+     "n": 33920,
+     "mean": 351,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 6000,
+     "max": 11445
+    },
+    {
+     "name": "support",
+     "phase": "contact",
+     "n": 46421,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4521
+    },
+    {
+     "name": "support_casts*",
+     "phase": "contact",
+     "n": 46421,
+     "mean": 232,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4521
+    },
+    {
+     "name": "f_camps",
+     "phase": "contact",
+     "n": 10408,
+     "mean": 814,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 11000,
+     "max": 18912
+    },
+    {
+     "name": "farmmove",
+     "phase": "contact",
+     "n": 15817,
+     "mean": 474,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 559
+    },
+    {
+     "name": "world",
+     "phase": "contact",
+     "n": 46465,
+     "mean": 146,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 342
+    },
+    {
+     "name": "fields",
+     "phase": "contact",
+     "n": 46342,
+     "mean": 116,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 122
+    },
+    {
+     "name": "tail_fields*",
+     "phase": "contact",
+     "n": 46342,
+     "mean": 116,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 122
+    },
+    {
+     "name": "shop",
+     "phase": "contact",
+     "n": 46374,
+     "mean": 98,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6355
+    },
+    {
+     "name": "shop*",
+     "phase": "contact",
+     "n": 46374,
+     "mean": 98,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 6355
+    },
+    {
+     "name": "e_stand",
+     "phase": "contact",
+     "n": 33381,
+     "mean": 131,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 32490
+    },
+    {
+     "name": "s_inc",
+     "phase": "contact",
+     "n": 10396,
+     "mean": 422,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 2000,
+     "max": 1996
+    },
+    {
+     "name": "ambush",
+     "phase": "contact",
+     "n": 46357,
+     "mean": 80,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 28718
+    },
+    {
+     "name": "score0",
+     "phase": "contact",
+     "n": 12522,
+     "mean": 216,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 572
+    },
+    {
+     "name": "d_opp",
+     "phase": "contact",
+     "n": 15841,
+     "mean": 158,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4129
+    },
+    {
+     "name": "events",
+     "phase": "contact",
+     "n": 46486,
+     "mean": 49,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 304
+    },
+    {
+     "name": "c_safe",
+     "phase": "contact",
+     "n": 10011,
+     "mean": 195,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 522
+    },
+    {
+     "name": "end",
+     "phase": "contact",
+     "n": 46338,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "tail_end*",
+     "phase": "contact",
+     "n": 46338,
+     "mean": 41,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 41
+    },
+    {
+     "name": "episode",
+     "phase": "contact",
+     "n": 46343,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "c_brk0",
+     "phase": "contact",
+     "n": 83,
+     "mean": 18628,
+     "p50": 16000,
+     "p95": 32000,
+     "p99": 38000,
+     "max": 37081
+    },
+    {
+     "name": "c_pick2",
+     "phase": "contact",
+     "n": 6263,
+     "mean": 240,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 897
+    },
+    {
+     "name": "e_altar",
+     "phase": "contact",
+     "n": 46533,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "e_lock",
+     "phase": "contact",
+     "n": 46400,
+     "mean": 30,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 30
+    },
+    {
+     "name": "e_prefight",
+     "phase": "contact",
+     "n": 11716,
+     "mean": 118,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 4772
+    },
+    {
+     "name": "c_cast",
+     "phase": "contact",
+     "n": 2501,
+     "mean": 546,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 8000,
+     "max": 11608
+    },
+    {
+     "name": "e_noflee",
+     "phase": "contact",
+     "n": 25543,
+     "mean": 37,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 37
+    },
+    {
+     "name": "c_pick1",
+     "phase": "contact",
+     "n": 1813,
+     "mean": 231,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 515
+    },
+    {
+     "name": "f_alive",
+     "phase": "contact",
+     "n": 10425,
+     "mean": 40,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "s_stage",
+     "phase": "contact",
+     "n": 376,
+     "mean": 1027,
+     "p50": 1000,
+     "p95": 2000,
+     "p99": 2000,
+     "max": 1700
+    },
+    {
+     "name": "c_staged",
+     "phase": "contact",
+     "n": 10029,
+     "mean": 35,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 40
+    },
+    {
+     "name": "sg_los",
+     "phase": "contact",
+     "n": 29,
+     "mean": 6117,
+     "p50": 2000,
+     "p95": 22000,
+     "p99": 63000,
+     "max": 62746
+    },
+    {
+     "name": "sg_seeing",
+     "phase": "contact",
+     "n": 29,
+     "mean": 3006,
+     "p50": 4000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 3308
+    },
+    {
+     "name": "s_dps",
+     "phase": "contact",
+     "n": 405,
+     "mean": 214,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 325
+    },
+    {
+     "name": "sg_ring",
+     "phase": "contact",
+     "n": 29,
+     "mean": 778,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 872
+    },
+    {
+     "name": "sg_init",
+     "phase": "contact",
+     "n": 28,
+     "mean": 64,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 64
+    },
+    {
+     "name": "TURN",
+     "phase": "dead",
+     "n": 17037,
+     "mean": 6319,
+     "p50": 3000,
+     "p95": 30000,
+     "p99": 44000,
+     "max": 56022
+    },
+    {
+     "name": "TURN*",
+     "phase": "dead",
+     "n": 17037,
+     "mean": 6319,
+     "p50": 3000,
+     "p95": 30000,
+     "p99": 44000,
+     "max": 56022
+    },
+    {
+     "name": "field",
+     "phase": "dead",
+     "n": 2850,
+     "mean": 17283,
+     "p50": 18000,
+     "p95": 25000,
+     "p99": 28000,
+     "max": 27936
+    },
+    {
+     "name": "farm_route*",
+     "phase": "dead",
+     "n": 2850,
+     "mean": 17283,
+     "p50": 18000,
+     "p95": 25000,
+     "p99": 28000,
+     "max": 27936
+    },
+    {
+     "name": "claims",
+     "phase": "dead",
+     "n": 17070,
+     "mean": 1824,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2194
+    },
+    {
+     "name": "claims_decode*",
+     "phase": "dead",
+     "n": 17070,
+     "mean": 1824,
+     "p50": 2000,
+     "p95": 2000,
+     "p99": 3000,
+     "max": 2194
+    },
+    {
+     "name": "end",
+     "phase": "dead",
+     "n": 16918,
+     "mean": 1608,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 51287
+    },
+    {
+     "name": "tail_end*",
+     "phase": "dead",
+     "n": 16918,
+     "mean": 1608,
+     "p50": 1000,
+     "p95": 4000,
+     "p99": 4000,
+     "max": 51287
+    },
+    {
+     "name": "TURN",
+     "phase": "crossed_round",
+     "n": 82,
+     "mean": 98223,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "TURN*",
+     "phase": "crossed_round",
+     "n": 82,
+     "mean": 98223,
+     "p50": 100000,
+     "p95": 100000,
+     "p99": 100000,
+     "max": 99948
+    },
+    {
+     "name": "farm_route*",
+     "phase": "crossed_round",
+     "n": 40,
+     "mean": 37162,
+     "p50": 44000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61374
+    },
+    {
+     "name": "sg_init",
+     "phase": "crossed_round",
+     "n": 26,
+     "mean": 50092,
+     "p50": 47000,
+     "p95": 62000,
+     "p99": 62000,
+     "max": 61374
+    },
+    {
+     "name": "tail*",
+     "phase": "crossed_round",
+     "n": 39,
+     "mean": 10214,
+     "p50": 13000,
+     "p95": 16000,
+     "p99": 16000,
+     "max": 15471
+    },
+    {
+     "name": "tail",
+     "phase": "crossed_round",
+     "n": 35,
+     "mean": 11379,
+     "p50": 13000,
+     "p95": 16000,
+     "p99": 16000,
+     "max": 15471
+    },
+    {
+     "name": "field",
+     "phase": "crossed_round",
+     "n": 11,
+     "mean": 15824,
+     "p50": 17000,
+     "p95": 22000,
+     "p99": 22000,
+     "max": 21216
+    },
+    {
+     "name": "enemies",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 52396,
+     "p50": 53000,
+     "p95": 53000,
+     "p99": 53000,
+     "max": 52396
+    },
+    {
+     "name": "contact*",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 52396,
+     "p50": 53000,
+     "p95": 53000,
+     "p99": 53000,
+     "max": 52396
+    },
+    {
+     "name": "f_camps",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 9502,
+     "p50": 10000,
+     "p95": 10000,
+     "p99": 10000,
+     "max": 9502
+    },
+    {
+     "name": "c_cast",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 414,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 414
+    },
+    {
+     "name": "d_opp",
+     "phase": "crossed_round",
+     "n": 1,
+     "mean": 98,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 98
+    },
+    {
+     "name": "end",
+     "phase": "crossed_round",
+     "n": 3,
+     "mean": 20,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "tail_end*",
+     "phase": "crossed_round",
+     "n": 3,
+     "mean": 20,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 35
+    },
+    {
+     "name": "bushpre",
+     "phase": "crossed_round",
+     "n": 4,
+     "mean": 13,
+     "p50": 1000,
+     "p95": 1000,
+     "p99": 1000,
+     "max": 18
+    }
+   ],
+   "perturbation": {
+    "cand": {
+     "n": 432667,
+     "p50": 66169,
+     "p95": 84848,
+     "p99": 91600,
+     "max": 100000,
+     "mean": 60111.8,
+     "suspensions": 118,
+     "engine_fuel_exhausted": 118
+    },
+    "base": {
+     "n": 440157,
+     "p50": 57256,
+     "p95": 78508,
+     "p99": 86322,
+     "max": 100000,
+     "mean": 51985.6,
+     "suspensions": 31,
+     "engine_fuel_exhausted": 31
+    }
+   },
+   "suspended_trails": [
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77082__A",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78514 ambush=78451 enemies=78393 farm0=77791 score0=75492 farmsel=33939 farmmove=33523 f_alive=33483 c_zones=32305 s_inc=31289 s_dps=31051 sg_ring=30489 sg_init=86639* sg_los=34205 sg_seeing=31324 f_camps=18572 d_farm=18528 d_opp=18418 decide=18244 tail=18135 fields=17986 bushpre=17906 end=17865"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77082__B",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78489 ambush=78426 enemies=78368 farm0=77754 score0=75455 farmsel=33921 farmmove=33505 f_alive=33465 c_zones=32279 s_inc=31263 s_dps=31025 sg_ring=30457 sg_init=86639* sg_los=33701 sg_seeing=30820 f_camps=17786 d_farm=17742 d_opp=17632 decide=17458 tail=17349 fields=17200 bushpre=17120 end=17079"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77082__B",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R800 t1 n44: start=99948 claims=98269 refresh=97929 w_vis=94844 w_groups=91471 w_hot=87732 w_champs=84338 w_ward=83484 w_sight=83296 w_update=83254 world=83198 episode=83163 sight=82805 events=82684 shop=82606 support=82396 w_vis=72644 w_groups=69379 w_hot=65640 w_champs=63068 w_ward=61537 w_sight=61419 wardrev=61379 ambush=61316 enemies=61258 farm0=60545 score0=60169 farmsel=33685 farmmove=33181 f_alive=33141 c_zones=31876 s_inc=31629 c_staged=31594 c_safe=31413 c_walked=13616 c_pick1=13401 f_camps=12859 d_farm=12815 d_opp=12679 decide=12470 tail=149 fields=31 bushpre=0 end=99988*"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pf_pool_77125__B",
+     "map": "pf_pool_77125",
+     "line": "JDSUS R433 t7 n39: start=99948 claims=98132 refresh=97792 w_vis=95331 w_groups=92049 w_hot=89721 w_champs=86748 w_ward=86038 w_sight=85984 w_update=85942 world=85886 episode=85851 sight=85726 events=85432 shop=85354 support=85085 wardrev=78498 ambush=78435 enemies=78377 farm0=78012 score0=77825 farmsel=34660 farmmove=34195 f_alive=34155 c_zones=33164 s_inc=32758 s_dps=32579 sg_ring=32127 sg_init=90228* sg_los=69614 sg_seeing=66759 f_camps=58160 d_farm=58116 d_opp=58006 decide=57738 tail=57629 fields=57511 bushpre=47963 end=47922"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R67 t3 n39: start=99948 claims=97685 refresh=97345 w_vis=93772 w_groups=90383 w_hot=86009 w_champs=83079 w_ward=82103 w_sight=82049 w_update=82007 world=81951 episode=81916 sight=81791 events=81737 shop=81659 support=81404 wardrev=75950 ambush=75887 enemies=75829 farm0=75363 score0=75081 farmsel=47599 farmmove=47197 f_alive=47157 c_zones=45514 s_inc=45042 s_dps=44785 sg_ring=44095 sg_init=92672* sg_los=29926 sg_seeing=26618 f_camps=14642 d_farm=14598 d_opp=14457 decide=14203 tail=14094 fields=13901 bushpre=13821 end=13780"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1116__B",
+     "map": "pool_1116",
+     "line": "JDSUS R472 t3 n47: start=99948 claims=98161 refresh=97821 w_vis=94962 w_groups=91400 w_hot=87020 w_champs=82944 w_ward=82096 w_sight=81705 w_update=79580 world=79446 episode=79411 sight=78737 events=78689 shop=78611 support=78356 wardrev=78115 ambush=78052 e_in=76720 e_altar=76690 e_lock=76660 e_bush=74673 e_mid=71625 e_prestand=71581 e_stand=71542 e_noflee=71505 enemies=71408 farm0=70877 score0=70576 farmsel=42570 farmmove=42154 f_alive=42114 c_zones=40689 s_inc=40023 s_dps=39766 sg_ring=39076 sg_init=87711* sg_los=24965 sg_seeing=21657 f_camps=9681 d_farm=9637 d_opp=9496 decide=9242 tail=897"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1116__B",
+     "map": "pool_1116",
+     "line": "JDSUS R1100 t3 n30: start=99948 claims=98269 refresh=97929 w_vis=94043 w_groups=90762 w_hot=86368 w_champs=83531 w_ward=82663 w_sight=82561 w_update=82519 world=82463 episode=82428 sight=82114 events=82060 shop=76908 support=76653 wardrev=71403 ambush=71340 enemies=71282 farm0=70703 score0=70330 farmsel=36530 farmmove=36066 d_farm=10061 d_opp=9920 decide=9666 tail=97227* fields=97109 bushpre=97069 end=97028"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R248 t3 n39: start=99948 claims=98125 refresh=97785 w_vis=94926 w_groups=91723 w_hot=88771 w_champs=85459 w_ward=84611 w_sight=84429 w_update=84387 world=84331 episode=84296 sight=83762 events=83641 shop=83563 support=83308 wardrev=76472 ambush=76409 enemies=76351 farm0=75565 score0=75264 farmsel=45561 farmmove=45145 f_alive=45105 c_zones=43757 s_inc=43202 s_dps=42974 sg_ring=42334 sg_init=81033* sg_los=40271 sg_seeing=36788 f_camps=24172 d_farm=24128 d_opp=23987 decide=23733 tail=23485 fields=23311 bushpre=23271 end=23230"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R300 t12 n38: start=94609 claims=92790 refresh=92450 w_vis=89359 w_groups=85299 w_hot=82347 w_champs=79688 w_ward=78840 w_sight=78648 w_update=78606 world=78550 episode=78515 sight=78289 events=78168 shop=78090 support=77925 wardrev=71113 ambush=71050 enemies=70992 farm0=55813 score0=55626 farmsel=34161 farmmove=33752 f_alive=33712 c_zones=32250 s_inc=31941 c_staged=31906 c_safe=31703 c_walked=12538 c_pick2=12273 f_camps=11908 d_farm=11864 d_opp=11754 decide=11590 tail=99475* fields=66209 bushpre=66169 end=66128"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R70 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=94222 w_groups=91009 w_hot=88063 w_champs=84490 w_ward=83622 w_sight=83568 w_update=83526 world=83470 episode=83435 sight=83277 events=83223 shop=83145 support=82890 wardrev=77544 ambush=77481 enemies=77423 farm0=76846 score0=76573 farmsel=48704 farmmove=48298 f_alive=48258 c_zones=46752 s_inc=46197 s_dps=45969 sg_ring=45329 sg_init=83955* sg_los=43193 sg_seeing=39710 f_camps=28784 d_farm=28740 d_opp=28599 decide=28345 tail=28236 fields=28043 bushpre=27963 end=27922"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t3 n38: start=94569 claims=92890 refresh=92550 w_vis=88585 w_groups=85279 w_hot=82317 w_champs=79365 w_ward=78517 w_sight=78351 w_update=78309 world=78253 episode=78218 sight=77728 events=77607 shop=77529 support=77274 wardrev=70908 ambush=70845 enemies=70787 farm0=53351 score0=52986 farmsel=34920 farmmove=34416 f_alive=34376 c_zones=32758 s_inc=32449 c_staged=32414 c_safe=32180 c_walked=12109 c_pick1=11844 f_camps=11251 d_farm=11207 d_opp=11066 decide=10812 tail=98584* fields=98466 bushpre=98426 end=98385"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t7 n38: start=94609 claims=92793 refresh=92453 w_vis=89594 w_groups=87348 w_hot=84522 w_champs=81965 w_ward=81117 w_sight=80951 w_update=80909 world=80853 episode=80818 sight=80328 events=80207 shop=80129 support=79874 wardrev=73161 ambush=73098 enemies=73040 farm0=56883 score0=56696 farmsel=33599 farmmove=33190 f_alive=33150 c_zones=31747 s_inc=31438 c_staged=31403 c_safe=31185 c_walked=11625 c_pick2=11360 f_camps=10995 d_farm=10951 d_opp=10841 decide=10587 tail=98273* fields=65069 bushpre=65029 end=64988"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89470 w_groups=86305 w_hot=83771 w_champs=80524 w_ward=79726 w_sight=79672 w_update=79630 world=79574 episode=79539 sight=79298 events=79244 shop=79166 support=78911 wardrev=72948 ambush=72885 enemies=72827 farm0=72286 score0=72134 farmsel=41066 farmmove=40657 f_alive=40617 c_zones=39363 s_inc=38975 c_staged=38940 c_safe=38767 c_brk0=4065 c_walked=4006 c_pick2=3841 f_camps=3476 d_farm=3432 d_opp=3322 decide=3068 tail=90985* field=78230 field=65558 fields=65507 bushpre=65467 end=65426"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t2 n40: start=94609 claims=92930 refresh=92590 w_vis=88521 w_groups=85082 w_hot=82542 w_champs=78165 w_ward=77289 w_sight=77184 w_update=77142 world=77086 episode=77051 sight=76954 events=76833 shop=76755 support=76486 wardrev=69506 ambush=69443 enemies=69385 farm0=68962 score0=68771 farmsel=37084 farmmove=36675 f_alive=36635 c_zones=35188 s_inc=34675 c_staged=34640 c_safe=34480 c_walked=2561 c_pick2=2396 f_camps=1690 d_farm=1646 d_opp=1536 decide=1268 tail=89123* field=76146 field=59076 fields=59025 bushpre=58985 end=58944"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R473 t1 n41: start=94609 claims=92930 refresh=92590 w_vis=88609 w_groups=85338 w_hot=82624 w_champs=79658 w_ward=78732 w_sight=78678 w_update=78636 world=78580 episode=78545 sight=78420 events=78366 shop=78288 support=77993 wardrev=71902 ambush=71839 enemies=71781 farm0=71334 score0=71030 farmsel=41225 farmmove=40816 f_alive=40776 c_zones=39306 s_inc=39062 c_staged=39027 c_safe=38867 c_brk0=1606 c_walked=1547 c_pick1=1382 f_camps=569 d_farm=525 d_opp=415 decide=121 tail=99968* field=86941 field=69821 fields=69770 bushpre=69730 end=69689"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R475 t1 n39: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84195 events=84141 shop=84063 support=83768 wardrev=77805 ambush=77742 enemies=77684 farm0=77237 score0=76933 farmsel=46659 farmmove=46250 f_alive=46210 c_zones=44798 s_inc=44554 c_staged=44519 c_safe=44359 c_brk0=1718 c_walked=1659 c_pick1=1494 f_camps=751 d_farm=707 d_opp=597 decide=303 tail=142 fields=0 bushpre=99989* end=99948"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R477 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84009 events=83955 shop=83877 support=83582 wardrev=77619 ambush=77556 enemies=77498 farm0=77051 score0=76747 farmsel=46543 farmmove=46134 f_alive=46094 c_zones=44682 s_inc=44438 c_staged=44403 c_safe=44243 c_brk0=1653 c_walked=1594 c_pick1=1429 f_camps=686 d_farm=642 d_opp=532 decide=238 tail=77 field=89245* field=78589 fields=78538 bushpre=78498 end=78457"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R479 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90672 w_hot=87961 w_champs=85026 w_ward=84100 w_sight=84046 w_update=84004 world=83948 episode=83913 sight=83755 events=83701 shop=83623 support=83328 wardrev=77237 ambush=77174 enemies=77116 farm0=76669 score0=76365 farmsel=46469 farmmove=46060 f_alive=46020 c_zones=44550 s_inc=44306 c_staged=44271 c_safe=44111 c_brk0=1665 c_walked=1606 c_pick1=1441 f_camps=628 d_farm=584 d_opp=474 decide=180 tail=19 field=87145* field=74345 fields=74294 bushpre=74254 end=74213"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R481 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90821 w_hot=88110 w_champs=85303 w_ward=84505 w_sight=84451 w_update=84409 world=84353 episode=84318 sight=84160 events=84106 shop=84028 support=83733 wardrev=77770 ambush=77707 enemies=77649 farm0=77202 score0=76898 farmsel=47712 farmmove=47303 f_alive=47263 c_zones=45851 s_inc=45607 c_staged=45572 c_safe=45412 c_brk0=1619 c_walked=1560 c_pick1=1395 f_camps=652 d_farm=608 d_opp=498 decide=204 tail=43 field=86365* field=72685 fields=72634 bushpre=72594 end=72553"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R483 t1 n39: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90656 w_hot=87942 w_champs=85135 w_ward=84337 w_sight=84283 w_update=84241 world=84185 episode=84150 sight=83992 events=83938 shop=83860 support=83565 wardrev=77602 ambush=77539 enemies=77481 farm0=77034 score0=76730 farmsel=47893 farmmove=47484 f_alive=47444 c_zones=46032 s_inc=45788 c_staged=45753 c_safe=45593 c_brk0=1707 c_walked=1648 c_pick1=1483 f_camps=740 d_farm=696 d_opp=586 decide=292 tail=131 fields=0 bushpre=99989* end=99948"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R485 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83757 events=83703 shop=83625 support=83330 wardrev=77239 ambush=77176 enemies=77118 farm0=76671 score0=76367 farmsel=47880 farmmove=47471 f_alive=47431 c_zones=45961 s_inc=45717 c_staged=45682 c_safe=45522 c_brk0=1636 c_walked=1577 c_pick1=1412 f_camps=599 d_farm=555 d_opp=445 decide=151 tail=0 field=85849* field=71558 fields=71507 bushpre=71467 end=71426"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R487 t1 n39: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84162 events=84108 shop=84030 support=83735 wardrev=77772 ambush=77709 enemies=77651 farm0=77204 score0=76900 farmsel=49622 farmmove=49213 f_alive=49173 c_zones=47761 s_inc=47517 c_staged=47482 c_safe=47322 c_brk0=1708 c_walked=1649 c_pick1=1484 f_camps=741 d_farm=697 d_opp=587 decide=293 tail=132 fields=0 bushpre=99989* end=99948"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R489 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84092 events=84038 shop=83960 support=83665 wardrev=77702 ambush=77639 enemies=77581 farm0=77134 score0=76830 farmsel=48798 farmmove=48389 f_alive=48349 c_zones=46937 s_inc=46693 c_staged=46658 c_safe=46498 c_brk0=1604 c_walked=1545 c_pick1=1380 f_camps=637 d_farm=593 d_opp=483 decide=189 tail=28 field=85401* field=69417 fields=69366 bushpre=69326 end=69285"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R491 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90677 w_hot=87963 w_champs=85028 w_ward=84102 w_sight=84048 w_update=84006 world=83950 episode=83915 sight=83757 events=83703 shop=83625 support=83330 wardrev=77239 ambush=77176 enemies=77118 farm0=76671 score0=76367 farmsel=48238 farmmove=47829 f_alive=47789 c_zones=46319 s_inc=46075 c_staged=46040 c_safe=45880 c_brk0=1706 c_walked=1647 c_pick1=1482 f_camps=669 d_farm=625 d_opp=515 decide=221 tail=60 field=83069* field=66618 fields=66567 bushpre=66527 end=66486"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R493 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90826 w_hot=88112 w_champs=85305 w_ward=84507 w_sight=84453 w_update=84411 world=84355 episode=84320 sight=84162 events=84108 shop=84030 support=83735 wardrev=77772 ambush=77709 enemies=77651 farm0=77204 score0=76900 farmsel=48600 farmmove=48191 f_alive=48151 c_zones=46739 s_inc=46495 c_staged=46460 c_safe=46300 c_brk0=1694 c_walked=1635 c_pick1=1470 f_camps=727 d_farm=683 d_opp=573 decide=279 tail=118 field=83917* field=67213 fields=67162 bushpre=67122 end=67081"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R495 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93899 w_groups=90756 w_hot=88042 w_champs=85235 w_ward=84437 w_sight=84383 w_update=84341 world=84285 episode=84250 sight=84009 events=83955 shop=83877 support=83582 wardrev=77619 ambush=77556 enemies=77498 farm0=77051 score0=76747 farmsel=50577 farmmove=50168 f_alive=50128 c_zones=48716 s_inc=48472 c_staged=48437 c_safe=48277 c_brk0=1604 c_walked=1545 c_pick1=1380 f_camps=637 d_farm=593 d_opp=483 decide=189 tail=28 field=83241* field=63945 fields=63894 bushpre=63854 end=63813"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R497 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93948 w_groups=90672 w_hot=87961 w_champs=85026 w_ward=84100 w_sight=84046 w_update=84004 world=83948 episode=83913 sight=83755 events=83701 shop=83623 support=83328 wardrev=77237 ambush=77174 enemies=77116 farm0=76669 score0=76302 farmsel=50797 farmmove=50388 f_alive=50348 c_zones=48878 s_inc=48634 c_staged=48599 c_safe=48439 c_brk0=1673 c_walked=1614 c_pick1=1449 f_camps=636 d_farm=592 d_opp=482 decide=188 tail=27 field=80521* field=59225 fields=59174 bushpre=59134 end=59093"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R499 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90821 w_hot=88110 w_champs=85303 w_ward=84505 w_sight=84451 w_update=84409 world=84353 episode=84318 sight=84160 events=84106 shop=84028 support=83733 wardrev=77770 ambush=77707 enemies=77649 farm0=77202 score0=76835 farmsel=52082 farmmove=51673 f_alive=51633 c_zones=50221 s_inc=49977 c_staged=49942 c_safe=49782 c_brk0=1669 c_walked=1610 c_pick1=1445 f_camps=702 d_farm=658 d_opp=548 decide=254 tail=93 field=78877* field=62461 fields=62410 bushpre=62370 end=62329"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89263 w_groups=85891 w_hot=83180 w_champs=80110 w_ward=79489 w_sight=79435 w_update=79393 world=79337 episode=79302 sight=79144 events=79090 shop=79012 support=78782 wardrev=72996 ambush=72933 enemies=72875 farm0=70094 score0=69942 farmsel=40271 farmmove=39862 f_alive=39822 c_zones=38666 s_inc=38388 c_staged=38353 c_safe=38180 c_brk0=7124 c_walked=7065 c_pick2=6900 f_camps=6616 d_farm=6572 d_opp=6462 decide=6233 tail=94140* field=80473 field=66793 fields=66742 bushpre=66702 end=66661"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R502 t1 n41: start=94476 claims=92797 refresh=92457 w_vis=88476 w_groups=85200 w_hot=82489 w_champs=79554 w_ward=78628 w_sight=78574 w_update=78532 world=78476 episode=78441 sight=78283 events=78229 shop=78151 support=77856 wardrev=71765 ambush=71702 enemies=71644 farm0=71197 score0=70830 farmsel=46261 farmmove=45852 f_alive=45812 c_zones=44342 s_inc=44098 c_staged=44063 c_safe=43903 c_brk0=1601 c_walked=1542 c_pick1=1377 f_camps=564 d_farm=520 d_opp=410 decide=116 tail=99968* field=83341 field=66077 fields=66026 bushpre=65986 end=65945"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R504 t1 n41: start=99948 claims=98269 refresh=97929 w_vis=93969 w_groups=90821 w_hot=88110 w_champs=85303 w_ward=84505 w_sight=84451 w_update=84409 world=84353 episode=84318 sight=84160 events=84106 shop=84028 support=83733 wardrev=77770 ambush=77707 enemies=77649 farm0=77202 score0=76835 farmsel=51995 farmmove=51586 f_alive=51546 c_zones=50134 s_inc=49890 c_staged=49855 c_safe=49695 c_brk0=1582 c_walked=1523 c_pick1=1358 f_camps=615 d_farm=571 d_opp=461 decide=167 tail=6 field=82809* field=59625 fields=59574 bushpre=59534 end=59493"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R600 t1 n40: start=94476 claims=92797 refresh=92457 w_vis=88476 w_groups=85198 w_hot=82478 w_champs=77318 w_ward=76392 w_sight=76338 w_update=76296 world=76240 episode=76205 sight=76047 events=75993 shop=75915 support=75620 wardrev=66970 ambush=66907 enemies=66849 farm0=66229 score0=65862 farmsel=42623 farmmove=42214 f_alive=42174 c_zones=40708 s_inc=40070 c_staged=40035 c_safe=39875 c_brk0=3639 c_walked=3580 c_pick1=3415 f_camps=2602 d_farm=2558 d_opp=2448 decide=2154 tail=90001* field=66606 fields=66540 bushpre=66500 end=66459"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t2 n41: start=94476 claims=92797 refresh=92457 w_vis=88427 w_groups=84883 w_hot=82352 w_champs=79545 w_ward=78747 w_sight=78629 w_update=78587 world=78531 episode=78496 sight=78138 events=78017 shop=77939 support=77670 wardrev=72295 ambush=72232 enemies=72174 farm0=59093 score0=58902 farmsel=34835 farmmove=34426 f_alive=34386 c_zones=32980 s_inc=32736 c_staged=32701 c_safe=32541 c_brk0=4061 c_walked=4002 c_pick2=3837 f_camps=3170 d_farm=3126 d_opp=3016 decide=2748 tail=90583* field=77828 field=63953 fields=63902 bushpre=63862 end=63821"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n40: start=94609 claims=92930 refresh=92590 w_vis=89777 w_groups=86612 w_hot=84081 w_champs=80894 w_ward=80096 w_sight=79978 w_update=79936 world=79880 episode=79845 sight=79487 events=79366 shop=79288 support=78839 wardrev=72758 ambush=72695 enemies=72637 farm0=72290 score0=72138 farmsel=42147 farmmove=41738 f_alive=41698 c_zones=40502 s_inc=40114 c_staged=40079 c_safe=39906 c_walked=4246 c_pick2=4081 f_camps=3716 d_farm=3672 d_opp=3562 decide=3388 tail=91247* field=77542 field=63920 fields=63869 bushpre=63829 end=63788"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t1 n41: start=94476 claims=92797 refresh=92457 w_vis=88555 w_groups=84949 w_hot=82255 w_champs=79417 w_ward=78619 w_sight=78565 w_update=78523 world=78467 episode=78432 sight=78274 events=78220 shop=78142 support=77887 wardrev=72828 ambush=72765 enemies=72707 farm0=72241 score0=71937 farmsel=42944 farmmove=42535 f_alive=42495 c_zones=41087 s_inc=40843 c_staged=40808 c_safe=40648 c_brk0=3855 c_walked=3796 c_pick1=3631 f_camps=2888 d_farm=2844 d_opp=2734 decide=2480 tail=90322* field=74111 field=61295 fields=61244 bushpre=61204 end=61163"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89644 w_groups=86494 w_hot=83800 w_champs=81309 w_ward=80511 w_sight=80457 w_update=80415 world=80359 episode=80324 sight=80166 events=80112 shop=80034 support=79804 wardrev=73841 ambush=73778 enemies=73720 farm0=73373 score0=73221 farmsel=45510 farmmove=45101 f_alive=45061 c_zones=43866 s_inc=43622 c_staged=43587 c_safe=43414 c_brk0=4310 c_walked=4251 c_pick2=4086 f_camps=3721 d_farm=3677 d_opp=3567 decide=3338 tail=91191* field=77198 field=63288 fields=63237 bushpre=63197 end=63156"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R700 t4 n40: start=99948 claims=98269 refresh=97929 w_vis=95037 w_groups=92119 w_hot=89847 w_champs=87616 w_ward=87053 w_sight=86999 w_update=86957 world=86901 episode=86866 sight=86708 events=86654 shop=86576 support=86366 wardrev=80485 ambush=80422 enemies=80364 farm0=77785 score0=77594 route0=55038 route1=26762 farmsel=26660 farmmove=26156 f_alive=26116 c_zones=25022 s_inc=24737 c_staged=24702 c_safe=24521 c_walked=10413 c_pick2=10198 f_camps=9914 d_farm=9870 d_opp=9760 decide=9551 tail=97187* fields=97069 bushpre=97029 end=96988"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R33 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=92818 w_hot=91756 w_champs=88024 w_ward=87316 w_sight=87262 w_update=87220 world=87164 episode=87129 sight=86971 events=86917 shop=86839 support=86584 wardrev=80515 ambush=80452 enemies=80394 farm0=79792 score0=79499 farmsel=48579 farmmove=48163 f_alive=48123 c_zones=47052 s_inc=46372 s_dps=46144 sg_ring=45644 sg_init=99519* sg_los=61500 sg_seeing=58507 f_camps=49369 d_farm=49325 d_opp=49184 decide=48930 tail=48821 fields=48672 bushpre=48592 end=48551"
+    },
+    {
+     "game": "cand__v92-448de19b2a28__pool_1907__B",
+     "map": "pool_1907",
+     "line": "JDSUS R26 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=93691 w_hot=92623 w_champs=88156 w_ward=87448 w_sight=87394 w_update=87352 world=87296 episode=87261 sight=87080 events=87026 shop=86948 support=86693 wardrev=81600 ambush=81537 enemies=81479 farm0=80816 score0=80523 farmsel=47032 farmmove=46616 f_alive=46576 c_zones=45497 s_inc=44692 s_dps=44464 sg_ring=43964 sg_init=97982* sg_los=59963 sg_seeing=56970 f_camps=47379 d_farm=47335 d_opp=47194 decide=46940 tail=46831 fields=46682 bushpre=46588 end=46547"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77035__B",
+     "map": "pf_pool_77035",
+     "line": "JDSUS R222 t12 n34: start=99948 claims=97880 refresh=97540 w_vis=95065 w_groups=91136 w_hot=88637 w_champs=84950 w_ward=84280 w_sight=84021 w_update=82488 world=82354 episode=82319 sight=81784 events=81736 shop=81658 support=81307 wardrev=81066 ambush=81003 e_in=80833 e_altar=80803 e_lock=80773 e_bush=80707 e_td=49379 e_mid=47901 e_prestand=47861 e_stand=47822 e_noflee=47785 e_prefight=47697 enemies=95301* decide=91082 tail=90748 fields=90635 bushpre=90595 end=90554"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77082__A",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78514 ambush=78451 enemies=78393 farm0=77791 score0=75492 farmsel=33939 farmmove=33523 f_alive=33483 c_zones=32305 s_inc=31289 s_dps=31051 sg_ring=30489 sg_init=86639* sg_los=34205 sg_seeing=31324 f_camps=18572 d_farm=18528 d_opp=18418 decide=18244 tail=18135 fields=17986 bushpre=17906 end=17865"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pf_pool_77082__B",
+     "map": "pf_pool_77082",
+     "line": "JDSUS R2 t9 n39: start=99948 claims=98143 refresh=97803 w_vis=94710 w_groups=92936 w_hot=89232 w_champs=84464 w_ward=83718 w_sight=83664 w_update=83622 world=83566 episode=83531 sight=83457 events=83403 shop=83286 support=83031 wardrev=78489 ambush=78426 enemies=78368 farm0=77754 score0=75455 farmsel=33921 farmmove=33505 f_alive=33465 c_zones=32279 s_inc=31263 s_dps=31025 sg_ring=30457 sg_init=86639* sg_los=33701 sg_seeing=30820 f_camps=17786 d_farm=17742 d_opp=17632 decide=17458 tail=17349 fields=17200 bushpre=17120 end=17079"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R67 t3 n39: start=99948 claims=97685 refresh=97345 w_vis=93772 w_groups=90383 w_hot=86009 w_champs=83079 w_ward=82103 w_sight=82049 w_update=82007 world=81951 episode=81916 sight=81791 events=81737 shop=81659 support=81404 wardrev=75950 ambush=75887 enemies=75829 farm0=75363 score0=75081 farmsel=47599 farmmove=47197 f_alive=47157 c_zones=45514 s_inc=45042 s_dps=44785 sg_ring=44095 sg_init=92672* sg_los=29926 sg_seeing=26618 f_camps=14642 d_farm=14598 d_opp=14457 decide=14203 tail=14094 fields=13901 bushpre=13821 end=13780"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__A",
+     "map": "pool_1116",
+     "line": "JDSUS R1200 t3 n42: start=99948 claims=98176 refresh=97836 w_vis=94255 w_groups=90280 w_hot=85906 w_champs=82306 w_ward=80538 w_sight=80050 w_update=77883 world=77749 episode=77714 sight=77172 events=77124 shop=77046 support=76791 wardrev=76522 ambush=76459 e_in=76285 e_altar=76255 e_lock=76225 e_bush=74238 enemies=74041 farm0=60491 score0=60115 farmsel=34315 farmmove=33850 f_alive=33810 c_zones=32355 s_inc=32105 c_staged=32070 c_safe=31851 c_walked=12283 c_pick1=12117 f_camps=11575 d_farm=11531 d_opp=11390 decide=11136 tail=98666* fields=98553 bushpre=98513 end=98472"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1116__B",
+     "map": "pool_1116",
+     "line": "JDSUS R518 t3 n39: start=99948 claims=98269 refresh=97929 w_vis=94916 w_groups=92482 w_hot=88282 w_champs=84217 w_ward=83369 w_sight=83315 w_update=83273 world=83217 episode=83182 sight=82961 events=82907 shop=79594 support=79339 wardrev=74013 ambush=73950 enemies=73892 farm0=73330 score0=72974 farmsel=48403 farmmove=47938 f_alive=47898 c_zones=46473 s_inc=45632 s_dps=45375 sg_ring=44685 sg_init=92994* sg_los=30248 sg_seeing=26940 f_camps=11610 d_farm=11566 d_opp=11425 decide=11171 tail=11062 fields=10944 bushpre=10904 end=10863"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R248 t3 n39: start=99948 claims=98125 refresh=97785 w_vis=94926 w_groups=91723 w_hot=88771 w_champs=85459 w_ward=84611 w_sight=84429 w_update=84387 world=84331 episode=84296 sight=83762 events=83641 shop=83563 support=83308 wardrev=76472 ambush=76409 enemies=76351 farm0=75565 score0=75264 farmsel=45561 farmmove=45145 f_alive=45105 c_zones=43757 s_inc=43202 s_dps=42974 sg_ring=42334 sg_init=81033* sg_los=40271 sg_seeing=36788 f_camps=24172 d_farm=24128 d_opp=23987 decide=23733 tail=23485 fields=23311 bushpre=23271 end=23230"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__A",
+     "map": "pool_1118",
+     "line": "JDSUS R300 t12 n38: start=94609 claims=92790 refresh=92450 w_vis=89359 w_groups=85299 w_hot=82347 w_champs=79688 w_ward=78840 w_sight=78664 w_update=78622 world=78566 episode=78531 sight=78261 events=78140 shop=78062 support=77897 wardrev=71165 ambush=71102 enemies=71044 farm0=55905 score0=55718 farmsel=34253 farmmove=33844 f_alive=33804 c_zones=32342 s_inc=32033 c_staged=31998 c_safe=31795 c_walked=12630 c_pick2=12365 f_camps=12000 d_farm=11956 d_opp=11846 decide=11682 tail=99491* fields=66225 bushpre=66185 end=66144"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R70 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=94222 w_groups=91009 w_hot=88063 w_champs=84490 w_ward=83622 w_sight=83568 w_update=83526 world=83470 episode=83435 sight=83277 events=83223 shop=83145 support=82890 wardrev=77544 ambush=77481 enemies=77423 farm0=76846 score0=76573 farmsel=48704 farmmove=48298 f_alive=48258 c_zones=46752 s_inc=46197 s_dps=45969 sg_ring=45329 sg_init=83955* sg_los=43193 sg_seeing=39710 f_camps=28784 d_farm=28740 d_opp=28599 decide=28345 tail=28236 fields=28043 bushpre=27963 end=27922"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1118__B",
+     "map": "pool_1118",
+     "line": "JDSUS R500 t12 n30: start=95613 claims=93782 refresh=93442 w_vis=90393 w_groups=88064 w_hot=85104 w_champs=82278 w_ward=80445 w_sight=80343 w_update=80301 world=80245 episode=80210 sight=79991 events=79870 shop=79792 support=79582 wardrev=73042 ambush=72979 enemies=72921 farm0=52669 score0=52501 farmsel=34676 farmmove=34267 d_farm=10520 d_opp=10410 decide=10201 tail=98007* fields=64667 bushpre=64627 end=64586"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R400 t2 n30: start=99948 claims=98266 refresh=97926 w_vis=93966 w_groups=90050 w_hot=87383 w_champs=82337 w_ward=81539 w_sight=81389 w_update=81347 world=81291 episode=81256 sight=80810 events=80689 shop=80611 support=80316 wardrev=74078 ambush=74015 enemies=73957 farm0=60920 score0=60729 farmsel=34607 farmmove=34139 d_farm=8673 d_opp=8563 decide=8389 tail=96224* fields=96106 bushpre=96066 end=96025"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__A",
+     "map": "pool_1119",
+     "line": "JDSUS R600 t10 n41: start=94476 claims=92797 refresh=92457 w_vis=89644 w_groups=86105 w_hot=83568 w_champs=80359 w_ward=79561 w_sight=79233 w_update=79191 world=79135 episode=79100 sight=78566 events=78445 shop=78367 support=78137 wardrev=71848 ambush=71785 enemies=71727 farm0=60401 score0=60249 farmsel=33851 farmmove=33442 f_alive=33402 c_zones=32208 s_inc=31820 c_staged=31785 c_safe=31612 c_brk0=5086 c_walked=5027 c_pick2=4862 f_camps=4497 d_farm=4453 d_opp=4343 decide=4114 tail=91775* field=75478 field=59264 fields=59213 bushpre=59173 end=59132"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R300 t10 n40: start=94609 claims=92930 refresh=92590 w_vis=89698 w_groups=86783 w_hot=84060 w_champs=81835 w_ward=81272 w_sight=81154 w_update=81112 world=81056 episode=81021 sight=80663 events=80542 shop=80464 support=80234 wardrev=74279 ambush=74216 enemies=74158 farm0=73711 score0=73559 farmsel=43013 farmmove=42604 f_alive=42564 c_zones=41524 s_inc=41280 c_staged=41245 c_safe=41072 c_walked=4262 c_pick2=4097 f_camps=3813 d_farm=3769 d_opp=3659 decide=3430 tail=91287* field=78600 field=64546 fields=64495 bushpre=64455 end=64414"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t2 n43: start=93841 claims=92066 refresh=91726 w_vis=87745 w_groups=84379 w_hot=81701 w_champs=77248 w_ward=76322 w_sight=76171 w_update=74184 world=74050 episode=74015 sight=73524 events=73476 shop=73398 support=73107 wardrev=72922 ambush=72859 e_in=72697 e_altar=72667 e_lock=72637 e_bush=72571 enemies=72374 farm0=58833 score0=58642 farmsel=34302 farmmove=33893 f_alive=33853 c_zones=32389 s_inc=32001 c_staged=31966 c_safe=31806 c_brk0=5330 c_walked=5271 c_pick2=5106 f_camps=4369 d_farm=4325 d_opp=4165 decide=3875 tail=91620* fields=91501 bushpre=91461 end=91420"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1119__B",
+     "map": "pool_1119",
+     "line": "JDSUS R500 t10 n43: start=93773 claims=91998 refresh=91658 w_vis=88999 w_groups=85739 w_hot=83214 w_champs=79267 w_ward=78469 w_sight=78318 w_update=76437 world=76303 episode=76268 sight=75770 events=75722 shop=75644 support=75416 wardrev=75231 ambush=75168 e_in=74447 e_altar=74417 e_lock=74387 e_bush=72787 enemies=72590 farm0=70111 score0=69959 farmsel=37784 farmmove=37375 f_alive=37335 c_zones=36141 s_inc=35753 c_staged=35718 c_safe=35545 c_brk0=4965 c_walked=4906 c_pick2=4741 f_camps=4376 d_farm=4332 d_opp=4172 decide=3945 tail=91620* fields=91501 bushpre=91461 end=91420"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1159__A",
+     "map": "pool_1159",
+     "line": "JDSUS R281 t3 n39: start=99948 claims=98269 refresh=97929 w_vis=95308 w_groups=91197 w_hot=87572 w_champs=83752 w_ward=83002 w_sight=82948 w_update=82906 world=82850 episode=82815 sight=82690 events=82396 shop=82318 support=82063 wardrev=76241 ambush=76178 enemies=76120 farm0=73332 score0=73073 farmsel=40831 farmmove=40415 f_alive=40375 c_zones=39030 s_inc=38201 s_dps=37886 sg_ring=37194 sg_init=84317* sg_los=23581 sg_seeing=20616 f_camps=8123 d_farm=8079 d_opp=7938 decide=7684 tail=7575 fields=7426 bushpre=7386 end=7345"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R657 t3 n45: start=99948 claims=98269 refresh=97929 w_vis=95270 w_groups=92979 w_hot=90618 w_champs=88123 w_ward=87325 w_sight=87271 w_update=87229 world=87173 episode=87138 sight=86980 events=86926 shop=86848 support=86593 wardrev=80888 ambush=80825 enemies=80767 farm0=80301 score0=79936 route0=55074 route1=24263 farmsel=24161 farmmove=23696 f_alive=23656 c_zones=22610 s_inc=22349 c_staged=22314 c_safe=22122 w_vis=9813 w_groups=6632 w_hot=4271 w_champs=1094 w_ward=296 w_sight=242 c_cast=99828* f_camps=99071 d_farm=99027 d_opp=98886 decide=98632 tail=98471 fields=98353 bushpre=98313 end="
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R800 t10 n40: start=99948 claims=98263 refresh=97923 w_vis=95031 w_groups=92045 w_hot=89869 w_champs=86170 w_ward=85607 w_sight=85553 w_update=85511 world=85455 episode=85420 sight=85262 events=85208 shop=85130 support=84875 wardrev=79397 ambush=79334 enemies=79276 farm0=76697 score0=76510 route0=55329 route1=25640 farmsel=25538 farmmove=25028 f_alive=24988 c_zones=23894 s_inc=23240 c_staged=23205 c_safe=23011 c_walked=12439 c_pick2=12224 f_camps=11940 d_farm=11896 d_opp=11786 decide=11532 tail=99131* fields=99013 bushpre=98973 end=98932"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1207__B",
+     "map": "pool_1207",
+     "line": "JDSUS R1000 t12 n41: start=99948 claims=98129 refresh=97789 w_vis=94976 w_groups=91185 w_hot=89033 w_champs=86557 w_ward=85759 w_sight=85705 w_update=85663 world=85607 episode=85572 sight=85414 events=85360 shop=85282 support=84834 wardrev=79015 ambush=78952 enemies=78894 farm0=78447 score0=78260 route0=55091 route1=36487 farmsel=36385 farmmove=35908 f_alive=35868 c_zones=34708 s_inc=34454 c_staged=34419 c_safe=34263 c_walked=25321 c_pick2=25120 c_cast=16464 f_camps=12193 d_farm=12149 d_opp=12039 decide=11870 tail=99750* fields=99632 bushpre=99592 end=99551"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R33 t3 n39: start=99948 claims=98143 refresh=97803 w_vis=95324 w_groups=92818 w_hot=91756 w_champs=88024 w_ward=87316 w_sight=87262 w_update=87220 world=87164 episode=87129 sight=86971 events=86917 shop=86839 support=86584 wardrev=80515 ambush=80452 enemies=80394 farm0=79792 score0=79499 farmsel=48579 farmmove=48163 f_alive=48123 c_zones=47052 s_inc=46372 s_dps=46144 sg_ring=45644 sg_init=99519* sg_los=61500 sg_seeing=58507 f_camps=49369 d_farm=49325 d_opp=49184 decide=48930 tail=48821 fields=48672 bushpre=48592 end=48551"
+    },
+    {
+     "game": "cand__x3inv-c5da472cafd8__pool_1907__A",
+     "map": "pool_1907",
+     "line": "JDSUS R600 t4 n32: start=99948 claims=98269 refresh=97929 w_vis=95479 w_groups=93105 w_hot=92182 w_champs=89883 w_ward=89175 w_sight=89121 w_update=89079 world=89023 episode=88988 sight=88830 events=88536 shop=88458 support=88189 wardrev=87951 ambush=87888 enemies=87830 farm0=85254 score0=85063 route0=66381 route1=54964 farmsel=30594 farmmove=30129 d_farm=11383 d_opp=11273 decide=11099 tail=98949* fields=98831 bushpre=98791 end=98750"
+    }
+   ],
+   "suspended_at": {
+    "decide->tail": 35,
+    "sg_ring->sg_init": 26,
+    "tail->field": 11,
+    "fields->bushpre": 4,
+    "bushpre->end": 3,
+    "e_prefight->enemies": 1,
+    "w_sight->c_cast": 1,
+    "d_farm->d_opp": 1
+   }
+  }
+ }
+}

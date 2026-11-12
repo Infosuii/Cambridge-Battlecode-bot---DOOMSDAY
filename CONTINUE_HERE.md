@@ -1,0 +1,388 @@
+# ACTIVE 2026-10-31 — sequential crew projects; unpromoted
+
+Read research/dz/sequences-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented per-monster formations, resumable checked BFS/serial role routes,
+parking cycles, safe staging/re-entry, planned entry exposure, live formation fire
+on awake targets, prefix/generation caching and background geometry. Recovery
+retains project ownership/partial work; fresh reassignment and bank deadlines win.
+ELEVEN host suites pass; ten capsules/32 cells verify. Final three-wolf fixture
+banks48/300 with zero deaths/faults/fuel-outs and actual phase1/2 advances. Strong
+side asymmetry remains. Final layered416/127 strict audit passes50/22 cycles.
+Famine FAILS77/7 vs selected400/236 despite clean runtime. Do not promote/scale.
+Next: legal per-body project/resource freshness, disjoint/reward/gear progression,
+then joint ability-aware phases, combat/action and opening/map integration. General
+model/conformance/release acceptance remains open. Defaults/Mac437f91c3 and Windows
+5cf28cb7 unchanged. No validation/holdout/online actions. Goal active; CLI works.
+Untracked .vscode/ is untouched. Native traces/capsules are in the checkpoint.
+
+# ACTIVE 2026-10-31 — resumable geometry and cast-aware work; unpromoted
+
+Read research/dz/cast-crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Fixed observed Vesper R9 fuel exhaustion; the diagnostic returned from crew quote
+with 34 fuel. Added persistent front/exit/helper geometry search and pending auction
+work. Added bounded reset/shield/direct-cast phase model, conditional single-monster
+self quotes, and a checked first-shield wake transaction. TEN host suites pass.
+Final native fixtures: wolf272/272, elk570/570, layered502/127; zero faults/fuel-outs;
+strict layered recovery passes45/22 cycles. General model/cast-transaction native
+coverage remains open. Final Famine FAILS14/17 vs selected400/236 despite clean
+runtime. Do not scale or promote. Next: sequential multi-monster crew geometry,
+ability/phase validation, contested conversion/progression, siege and joint combat.
+All six capsules verify; selected and combined Wasm build. Defaults/Mac437f91c3
+and Windows5cf28cb7 preserved. No validation/release pool or online actions used.
+Goal remains active; native CLI works. .vscode/ belongs to workspace; untouched.
+
+# ACTIVE 2026-10-31 — owned crews and renewable allocation; unpromoted
+
+Read research/dz/team-economy-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded six-actor task DP, renewable collection/delivery schedules,
+observed conversion identity, caller-owned offers, fixed working reservations,
+partial-clear crew visits, reusable role geometry and real-work starvation recovery.
+Nine host suites, 28 measurement and six audit checks pass; all 24 development
+capsules verify. Selected and integrated-table Wasm build. Defaults are unchanged.
+Final fixture source banks 585/30 (elk), 234/92 (layered), zero faults/fuel-outs;
+scoped strict layered audit passes 43/24 cycles. This is narrow execution evidence.
+Famine still FAILS: 21/41 vs selected control 400/236 and one Vesper R9 fuel-out
+on each side. Intrusive profiling stalls production and does not clear that fault.
+Do not promote or scale competitive screens. Next: fix the cold path, integrate
+ability-aware objective work, siege/crew roles, then joint combat/action models.
+Full Z6–Z15 acceptance/parity remains open; no validation/release pool was used in
+this checkpoint. Keep the goal active. No online actions. Native CLI works with
+explicit Homebrew Python 3.14 + DZ_CAMBC. Untracked .vscode/ is untouched.
+
+# ACTIVE 2026-10-31 — collection/delivery and gear checkpoint; unpromoted
+
+Read research/dz/trips-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented bounded three-job circuits, fixed conversion/delivery commitments,
+explicit funded gear-visit/defer schedules, actual combination stats, conditional
+job-unlock estimates, common production accounting and bounded gear frontier.
+Native06 confirms multi-job circuits and planned purchases (earlier searches
+silently discarded every over-budget ranking). All nine host suites/28 measurement/
+six audit tests pass. Selected and combined Wasm build. Release defaults preserved.
+Failed pre-latch Famine08 banks63/11 vs400/236 control. Do not scale or promote.
+Layered07 strict audit FAILS with three deaths in two withdrawal intervals. Final
+persistent ordinary recovery latch09 repairs the observed re-entry defect: scoped
+strict audit passes62/43 cycles, banks354/170, no recorded withdrawal deaths/faults/
+fuel-outs. Final source has targeted layered validation only; general acceptance
+and competition remain open. Next: sparse renewable circuits/bank scheduling,
+contested production, siege/crew roles and joint combat/action/model calibration.
+Keep the goal active. No holdout/online actions. Python3.14 + DZ_CAMBC work.
+Untracked .vscode/ belongs to the workspace and is untouched.
+
+# ACTIVE 2026-10-31 — spatial crew and production checkpoint; unpromoted
+
+Read research/dz/crew-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented actual tank/rear/escape geometry, consenting roster/focus/capture roles,
+local handoff code (native handoff unverified), shared legal neutral recovery,
+observation budgets, cached role navigation, production coverage and resumable crews.
+All host suites/28 measurement/four parser tests pass; three flag combinations build.
+Final six native fixture cells have zero deaths/faults/fuel-outs. Scoped layered
+strict audit passes51/43 cycles; not general V-M1/Z11/release acceptance. Final double
+wolf uses solo progression, so final-source multi-member crew exercise remains open.
+Preliminary v65 screen fails41.75 vs294.5; later Famine repairs84/78 vs400/236 control.
+Next source: deferred gear-trip counterfactuals and concrete circuit/delivery plans,
+then siege/crew integration, combat and full action/model calibration. Do not scale
+failed benchmarks. Defaults/Mac SHA437f91c3/Windows5cf28cb7 preserved. No holdout or
+online actions. Explicit Homebrew Python3.14 + DZ_CAMBC work. .vscode/ untouched.
+
+# ACTIVE 2026-10-31 — opening projects and retreat lanes; unpromoted
+
+Read research/dz/opening-2026-10-31/README.md and research/dz/BACKLOG.md.
+Implemented under DZ_ECONOMY_V2=0: resumable multi-layer opening quotes, economy/
+gear competition, concrete follow-through commitments, dependency stack/resume,
+arrival-tick respawn occupancy, approach safeguards and visible ally lane yielding.
+Final four-cell native fixture banks340/247 (layered gate),228/240 (shop), zero
+faults/fuel-outs, p99 fuel73,083. All host,28 measurement and six audit checks pass.
+STRICT WITHDRAWAL AUDIT STILL FAILS; scenario banking is not release acceptance.
+Next: real tank/rear/escape crew positions, focus/capture roles, fatal-withdrawal/
+legacy interaction, then full combat/macro calibration and action integration.
+No competitive campaign was run this checkpoint. Release defaults restored to
+prior Mac SHA437f91c3; Windows selected5cf28cb7 unchanged. No holdout/online actions.
+Native CLI works. Use explicit Homebrew Python3.14 and DZ_CAMBC as below.
+Older PAUSED/status sections are historical. Untracked .vscode/ remains untouched.
+
+# ACTIVE 2026-10-31 — macro and gear-visit checkpoint, unpromoted
+
+Siege/shared-work merge is pushed through d16f779. Current continuation is active.
+Read research/dz/macro-2026-10-31/README.md and research/dz/BACKLOG.md.
+Common finite-horizon farm/bank/shop scoring and matching executable gear visits
+are implemented in DZ_ECONOMY_V2 (default 0). All host suites, 28 measurement and
+six audit checks pass. Final-source four-cell native fixtures bank positively with
+zero faults/fuel-outs, p99 fuel73,344; default Mac Wasm remains SHA437f91c3.
+Preliminary four-cell v65 screen fails:169.25 vs selected-source294.5. Later source
+fixes have fixture checks only; no candidate is promoted or competitively confirmed.
+Next code: integrate gate investment/progression with macro choices, actual tank/
+rear crew focus and recovery handoff, then combat/capture/ward opportunity costs.
+Do not scale failed benchmarks or spend reserved release seeds. Native CLI works.
+Older PAUSED/status entries below are preserved history, not current instructions.
+
+# ACTIVE 2026-10-31 — native siege checkpoint; release unchanged
+
+Current authorised continuation is active; older PAUSED entries below are historical.
+Merged shared remote 247641f with native siege implementation 330cac1 in 0629a74.
+Read research/dz/siege-2026-10-31/README.md and the combined plan below.
+Persistent escape/heal-return, current committed-ally tank credit and cached actual
+altar access are built under DZ_SIEGE / DZ_ECONOMY_V2, both default 0. Corrected
+four-cell native fixture audit passes 169 completed cycles with no recorded
+withdrawal deaths, faults or fuel-outs. Small three-map v65 screen loses banking
+(1.17 vs paired control 13.0); not promoted. Broad economy integration is runtime
+clean but strategically unaccepted (one side banks zero). Do not scale these screens.
+Default merged Mac build SHA437f91c3 remains unchanged; all host suites and six
+negative/parser audit tests pass. Windows selected SHA5cf28cb7 is unchanged.
+Native CLI works: DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc; use Homebrew Python3.14.
+Next: common macro action/gear-visit scoring, progression before expensive gates,
+real multi-turn tank/rear crews and conditional enemy exposure. Shared EE2/table
+results are preserved; their reported calibration has not been independently
+reaudited here. Full ObjModel/EE/competitive release gates remain open. Preserve
+reserved release seeds; no submission, activation or online matches authorised.
+Untracked .vscode/ settings belong to the workspace and were left untouched.
+
+# PAUSED 2026-10-31 - read research/dz/COMBINED_PLAN_2026-10-31.md FIRST
+
+Selected release 5cf28cb7 unchanged (every new flag defaults to 0; default build byte-identical).
+The combined plan merges the Z plan, the lab/v76 plan (branch lab/box), the 24-paper research
+review, lab4 branching evidence and the elite-meta study into one ordered task list with gates.
+
+Done since the previous section:
+- Runtime per-map plans: DZ_PLAN_TABLE + plan.h (DZ_ON/DZ_HAS), map_plans.inc rows {signature,
+  draft, bits}, tools/dz_plan_select.py, 70 signatures in research/dz/z-integration-2026-10-31/.
+- Z13 style opponents: DZ_STYLE + tools/dz_styles.py (rusher/turtle/farmer, git-ignored bots/dzs-*).
+- Z12/Z6 gold weight: DZ_OPENING_GOLD, DZ_GOLD_VALUE (R100 gold is 180 vs v76's 329).
+- Z10 V-M2 PASSES: tools/dz_contacts.mjs + dz_contacts_build.py + dz_vm2.py; 140 games, 150,742
+  contacts, Brier 0.0379 vs baseline 0.0398 (CI below 0). Old rule called 64% of contacts lost,
+  6.5% died. Model in bots/dz/src/ee_model.h; DZ_EE2 / DZ_EE2_BOLD use it (screens in RESULTS).
+- Z14 screen 26/58 runs done; resume with tools/dz_z14_screen.sh (section 3 of the plan).
+
+Fresh laptop: follow CONTINUE_HERE.md setup; host tests need g++ (WinLibs GCC 16 works with the
+committed -Wno-misleading-indentation); dz_vm2.py needs numpy + scikit-learn; decoders need Node 24
+and NFS_REPLAY_ENGINE=2.0.0. Continuation prompt: CONTINUATION_PROMPT.md. No ladder/submission.
+
+Parallel line on this branch: Tamim Atiqur's native Mac work (DZ_ECONOMY_V2: objective quotes,
+economic crew leases, four-turn combat, marginal gear, race clock), described in the sections below
+and research/dz/engineering-2026-10-31/. Both lines are default-off; integrate them per the combined plan.
+
+# CONTINUING 2026-10-31 — integrated native candidate, promotion rejected
+
+Read research/dz/engineering-2026-10-31/README.md and RESULTS.json. New bounded
+objective/allocation, gear, four-turn combat, action values, race clock, exact-
+round crew leases and resumable gate boot are integrated under DZ_ECONOMY_V2=0.
+Latest lease screen is runtime-clean but loses banking (113.83 vs control144.75
+on12 development cells). Do not promote it or launch larger confirmation pools.
+Next: implement persistent partial-clear siege/escape/heal-return, real tank
+positioning and objective conversion. Full V-M1/V-M2/Z milestones remain open.
+Selected release preserved; no holdout, submission, ladder or activation used.
+Use explicit Homebrew Python3.14 plus DZ_CAMBC=artifacts/tmp/dz-env/bin/cambc.
+
+# CONTINUING 2026-10-31 — native Mac dynamic economy implementation
+
+Remote starting point fca7b34, selected Windows release unchanged. Read
+research/dz/engineering-2026-10-31/README.md for live queue and exact evidence.
+Official cambc 4.0.0 works on arm64 macOS, installed at artifacts/tmp/dz-env/bin/cambc.
+Use DZ_CAMBC and explicit Homebrew Python 3.14 (checkout shell resolves Python 3.9).
+New objective bounds/dynamic crew auction are under DZ_ECONOMY_V2=0, unpromoted.
+Host checks and corrected two-cell collision execution pass; V-M1/parity remain open.
+Continue gear/combat integration, then lean development screens. No online actions.
+
+# CONTINUING 2026-10-31 - first integrated Z pass
+
+Selected release 5cf28cb7 unchanged (all new DZ_* flags default 0). Read the TOP of
+CLAUDE_HANDOFF.md and research/dz/z-integration-2026-10-31/README.md. Z9/Z10/Z11/
+Z14 v1 components exist behind flags; none confirmed on a separate opponent.
+Host tests on GCC 16 need tools/dz.py's -Wno-misleading-indentation (committed).
+
+# CONTINUING 2026-10-30 - enemy cast policy confirmed out of opponent
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. No new games.
+Read research/dz/enemy-policy-2026-10-30/README.md. Frozen v65 observations
+confirmed on v76: Varg pre-basic shields329/329, post-basic resets189/189;
+Heart pre-basic shields184/188 and306 dash casts. All frozen patterns pass.
+These owner-view replay observations are retrospective, not live legal inputs,
+causal intent, strength or EE admission. No old bot code inspected/copied.
+Controlled duel policy omits dash and orders shield differently; keep it bounded.
+
+Next active Z3/Z10: native adapter conformance for Heart ground dash, followed
+by a guarded camp-only release experiment if mechanics pass. Preserve default
+carrier priority1, experimental policies0, Prospector/JOB_GEAR off, no ladder.
+User requested continuous work; no pause or scheduling requested.
+
+# Active continuation - stationary duel checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/duel-2026-10-30/README.md. Restricted native
+phase conformance passes; production EE stays disabled. Next active work is
+opponent ability-policy evidence and diagnostic input uncertainty. No pause.
+
+# Active continuation - fight-value screen
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/fight-value-2026-10-30/README.md.
+The12-game fight-value screen fails entry; flag stays0. Next active work is
+stationary duel phase modeling, with EE disabled. No pause requested.
+
+# Active continuation - Heart mechanism checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/heart-mechanics-2026-10-30/README.md.
+Controlled coupling checks pass; strict field accuracy remains insufficient.
+Next active work is a limited Z10 fight-value release screen. No pause requested.
+
+# Active continuation - restricted splash checkpoint
+
+Selected release5cf28cb7/ordinary traceb4bc106c remain unchanged. Read the TOP
+of CLAUDE_HANDOFF.md and research/dz/varg-splash-2026-10-30/README.md.
+54 new local games are runtime clean, but strict mixed-group accuracy remains
+insufficient (n0/null). Next active work is Heart mechanics; V-M1 stays open.
+User requested continuous work, no pause or scheduled continuation.
+
+# Active continuation - Varg shield checkpoint
+
+Current default stays release5cf28cb7, ordinary traceb4bc106c. Read the TOP of
+CLAUDE_HANDOFF.md and research/dz/varg-mechanics-2026-10-29/README.md.
+The restricted shield diagnostic is validated; production settings stay intact.
+Initial failed/insufficient pilots are preserved. Full V-M1 remains open.
+Next active work: bounded Varg splash groups, then Heart/movement/crews.
+No pause or scheduled continuation requested.
+
+# Active continuation - reset-exposure checkpoint
+
+Selected foundation remains research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json
+(default release5cf28cb7). Read the TOP of CLAUDE_HANDOFF.md, then
+research/dz/draft-refresh-2026-10-29/README.md and
+research/dz/model-calibration-2026-10-29/RESET_DAMAGE.md.
+Z14 frozen18-map refresh stays disabled after its productivity gate failed.
+Next active work is Z6 Varg splash mechanics, then prospective bounded-model
+validation; full V-M1 stays open. No pause or scheduled continuation requested.
+
+# Active selected checkpoint - carrier banking priority
+
+Read CLAUDE_HANDOFF.md's newest CONTINUING section, then
+research/dz/FOUNDATION_CARRIER_PRIORITY_2026-10-29.json and
+research/dz/carrier-priority-2026-10-29/README.md. Default release is5cf28cb7,
+with unchanged idle productivity and close contested release performance.
+Original4ee9731c remains a frozen control. User requested continuous work.
+Next active work: refresh draft selection on56 development maps, then v76.
+
+# Active continuation - Z6 calibration checkpoint
+
+Read the newest CONTINUING section in CLAUDE_HANDOFF.md, then
+research/dz/model-calibration-2026-10-29/README.md. User requested continuous
+work. Default foundation remains byte-identical; both timing policies are off.
+Next active experiment is the frozen Z14 mixed-table confirmation against v76.
+
+# Latest continuation — 2026-10-29
+
+Read the new CONTINUED section at the top of CLAUDE_HANDOFF.md first, then
+research/dz/next-2026-10-29/REPORT.md and RESULTS.json. Selected default remains
+the byte-identical resumed foundation. New reachability/draft candidates remain
+disabled/unpromoted after88 local games. Z6/V-M1 remains the next model gate.
+The source-first sparse checkout and verified installed runtime are described
+there; original archive setup below remains applicable on a clean machine.
+
+# Latest paused checkpoint - 2026-10-29
+
+Branch **build/pure-algorithm-zero**, latest pushed commit. Read **CLAUDE_HANDOFF.md**
+first. Current selected source/binary/results:
+`research/dz/FOUNDATION_RESUMED_2026-10-29.json`. Older manifests and result tables
+remain historical evidence. The setup sequence below is still applicable.
+
+# DOOMSDAY Zero: continue the pure algorithm bot build
+
+**Active branch: `build/pure-algorithm-zero`.** The user resumed work on 2026-10-28
+and authorized a clean-slate algorithmic bot, local tests, read-only replay downloads,
+and pushing this build branch to `Infosuii/neural-networkk-battlecode`.
+
+Read [the current continuation state](CLAUDE_HANDOFF.md) first, then
+[the DZ architecture handoff](research/dz/HANDOFF.md),
+[results and failures](research/dz/RESULTS.md), and
+[the bot guide](bots/dz/README.md). Build work and all supplied research are committed
+on this branch. Historical "paused / not yet approved" statements below and in the
+planning documents do not supersede the user's current build authorization.
+
+The starter completed 292 release games with zero faults/fuel-outs but lost every
+contested game against v65/v76. It is a foundation, not a finals candidate.
+
+Fresh Windows x64 machine (from the clone root):
+
+```powershell
+git clone --branch build/pure-algorithm-zero https://github.com/Infosuii/neural-networkk-battlecode.git
+cd neural-networkk-battlecode
+python tools/continuation_checkpoint.py verify
+python tools/continuation_checkpoint.py restore --install-runtime
+python tools/dz_support.py verify
+python tools/dz_support.py restore
+python tools/dz.py verify
+python tools/dz.py build
+python tools/dz.py host
+```
+
+Python 3.12+ and Git are required; native host tests additionally need C++20 g++
+(MSYS2 UCRT64 on this laptop), on PATH or selected by `DZ_CXX`. DZ's build/test
+runner uses only Python's standard library and repo-relative paths. Do not commit
+`config/paths.json`, which belongs to this laptop. No login is required for local
+builds or matches. The large original archive supplies the pinned Windows official
+runtime; the DZ support archive supplies 2,931 offline evidence files, including the
+SA-IDLE-v76 calibration replays and the deep-study reports at 19109c4. Both restorers
+verify content and refuse to overwrite different source/evidence files.
+
+Other operating systems need their matching official CLI/toolchain; only Windows
+x64 restoration has been packaged/tested. Node 24 is needed only for the optional
+replay decoders, with `NFS_REPLAY_ENGINE=2.0.0`.
+
+Do not submit, activate, create ladder match groups or run ladder duels without
+separate authorization. Never copy old bot code into DZ. The next agent should
+finish engine conformance and validate the objective model before enabling the
+economy auction or EE. Preserve the registered release holdout.
+
+The previous checkpoint guide is retained at
+[continuation/RESEARCH_CHECKPOINT_HANDOFF.md](continuation/RESEARCH_CHECKPOINT_HANDOFF.md).
+
+---
+
+# Historical paused research checkpoint (superseded for active build status)
+
+Research was paused at the user's request on2026-10-28. **No live change is authorized.**
+Read [the precise handoff](research/v81/HANDOFF.md), [the mission](research/v81/MISSION.md),
+[research results](research/v81/RESEARCH.md), and [the new five-loss analysis](research/v75/MG_18208504.md).
+V76 is the established local comparator; V80-85 are not proven upgrades. Repo v74 is live platform68.
+
+## Fresh Windows laptop
+
+Install Git/Git Bash, Python3.12+ and Node24 (tested here:24.20.0). Clone this checkpoint branch (the GitHub checkpoint commit is the
+authoritative snapshot; do not assume main has the newest research). In Git Bash:
+
+```bash
+git clone --branch checkpoint/research-v85-2026-10-28 https://github.com/Infosuii/neural-networkk-battlecode.git
+cd neural-networkk-battlecode
+python tools/continuation_checkpoint.py verify --full
+python tools/continuation_checkpoint.py restore --install-runtime
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install numpy==2.5.2
+```
+
+The restore command verifies all archive hashes and installs the saved official Windows SDK/CMake/Ninja/replay
+assets into `%LOCALAPPDATA%/cambc`. It restores ignored evidence into its original repository paths and never
+overwrites Git source. If a different official runtime is already installed, restore without `--install-runtime`
+and use the extracted `artifacts/portable-runtime` separately. Replay tools accept `NFS_REPLAY_ASSETS` pointing to
+its `assets/<hash>/visualiser/assets` directory containing the pinned engine2.0.0 Wasm. No credentials or login
+sessions are archived.
+
+Configure paths for this clone:
+
+```bash
+.venv/Scripts/python.exe tools/configure_dev.py --cli tools/vendor/cambc.exe
+export PYTHONPATH="$PWD/python" NFS_REPLAY_ENGINE=2.0.0
+export TMP="$PWD/artifacts/tmp" TEMP="$PWD/artifacts/tmp" PYTHONDONTWRITEBYTECODE=1
+```
+
+`configure_dev.py` expects native g++. Install MSYS2 UCRT64 if needed; it is used for standalone C++ policy parity
+checks. The official Wasm bot build uses the restored WASI toolchain. Python fitting here needs only NumPy, not CUDA
+or sklearn. Do not run the older full training/recovery workflows. `config/paths.json` is laptop-specific and must
+not be committed. The source and official CLI/SDK/maps are already vendored.
+
+The user must log in separately for official read-only ladder requests. No login is needed for local builds/replays.
+Never run submit/activate/ladder_duel without explicit approval. No experiments should start until the user resumes.
+
+Suggested first prompt for the new agent:
+
+> Continue the paused DOOMSDAY structural research. First read CONTINUE_HERE.md and research/v81/HANDOFF.md, then the
+> saved mission and MG_18208504.md. Verify the portable evidence and build provenance. Preserve frozen V76/V80.
+> Resume the research loop from the recorded failures and objective-conversion questions. Do not submit or activate.

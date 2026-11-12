@@ -1,0 +1,1096 @@
+{
+  "source_freeze": {
+    "frozen_at": "2026-11-04T07:48:55Z",
+    "source_commit": "30aa8ead827f452dffb97b26356d7dd96f8d377b",
+    "variants": {
+      "resume-release-cg": {
+        "name": "resume-release-cg-91d5286c4d1e",
+        "bot": "jd-g5070-resume-0715",
+        "alias": "resume-release-cg",
+        "src": "C:\\Users\\omdha\\.codex\\worktrees\\g5070-resume-0715\\doomsday\\bots\\jd-g5070-resume-0715\\src",
+        "src_tree_sha256": "46206811320c99de9d50b2ff6c5bae56c3045c79e3c14241ffbd7917f7d0c125",
+        "defines": [
+          "JD_CONTACT=3",
+          "JD_GOV=5"
+        ],
+        "wasm": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\wasm\\resume-release-cg-91d5286c4d1e.wasm",
+        "wasm_sha256": "e36f44134ed7ca2e9fc914bee73c0b76a826519e0b74446e88c43140a72fe0a2",
+        "build_s": 17.7,
+        "frozen_at": "2026-11-04T07:42:58Z"
+      },
+      "resume-release-cpg": {
+        "name": "resume-release-cpg-a99403639cdc",
+        "bot": "jd-g5070-resume-0715",
+        "alias": "resume-release-cpg",
+        "src": "C:\\Users\\omdha\\.codex\\worktrees\\g5070-resume-0715\\doomsday\\bots\\jd-g5070-resume-0715\\src",
+        "src_tree_sha256": "46206811320c99de9d50b2ff6c5bae56c3045c79e3c14241ffbd7917f7d0c125",
+        "defines": [
+          "JD_CONTACT=3",
+          "JD_PROGRESS=1",
+          "JD_GOV=5"
+        ],
+        "wasm": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\wasm\\resume-release-cpg-a99403639cdc.wasm",
+        "wasm_sha256": "a06ae0655dc5a473db4c783e4b436487ac39959e04eb02573090b938625657a4",
+        "build_s": 11.5,
+        "frozen_at": "2026-11-04T07:43:10Z"
+      },
+      "resume-release-gov": {
+        "name": "resume-release-gov-c0703922a5f7",
+        "bot": "jd-g5070-resume-0715",
+        "alias": "resume-release-gov",
+        "src": "C:\\Users\\omdha\\.codex\\worktrees\\g5070-resume-0715\\doomsday\\bots\\jd-g5070-resume-0715\\src",
+        "src_tree_sha256": "46206811320c99de9d50b2ff6c5bae56c3045c79e3c14241ffbd7917f7d0c125",
+        "defines": [
+          "JD_GOV=5"
+        ],
+        "wasm": "C:\\projects\\cambridge battlecode\\battlecode part 2\\jd-eval\\wasm\\resume-release-gov-c0703922a5f7.wasm",
+        "wasm_sha256": "befdeee8f830c59675989ce1ea49ce957d43f01b630144a25d4c619fc34540ef",
+        "build_s": 23.2,
+        "frozen_at": "2026-11-04T07:43:33Z"
+      }
+    },
+    "policy": "No bot/strategy edits after freeze; pool+fresh51104 confirmation only. Runtime governor is a control, not a selected policy.",
+    "cells_per_variant": 2232,
+    "finalists": 2
+  },
+  "final": {
+    "cg": {
+      "combined": {
+        "cells": 2232,
+        "maps": 186,
+        "delta_pp": 4.435,
+        "ci95": [
+          2.24,
+          6.586
+        ],
+        "cand_wins": 1636,
+        "base_wins": 1537,
+        "candidate_only_wins": 351,
+        "baseline_only_wins": 252,
+        "draws": 0,
+        "mean_delta_banked": 11.964
+      },
+      "pool": {
+        "cells": 1032,
+        "maps": 86,
+        "delta_pp": 3.198,
+        "ci95": [
+          0.291,
+          6.202
+        ],
+        "cand_wins": 751,
+        "base_wins": 718,
+        "candidate_only_wins": 156,
+        "baseline_only_wins": 123,
+        "draws": 0,
+        "mean_delta_banked": 7.563
+      },
+      "fresh": {
+        "cells": 1200,
+        "maps": 100,
+        "delta_pp": 5.5,
+        "ci95": [
+          2.25,
+          8.667
+        ],
+        "cand_wins": 885,
+        "base_wins": 819,
+        "candidate_only_wins": 195,
+        "baseline_only_wins": 129,
+        "draws": 0,
+        "mean_delta_banked": 15.749
+      },
+      "arms": {
+        "cand": {
+          "played": 2232,
+          "wins": 1636,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 806,
+          "fuel_out_games": 358
+        },
+        "base": {
+          "played": 2232,
+          "wins": 1537,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 1532,
+          "fuel_out_games": 414
+        }
+      },
+      "strata": {
+        "opp": {
+          "b5_c3-0cffe40f9bc9": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 4.032,
+            "ci95": [
+              -1.613,
+              10.215
+            ],
+            "cand_wins": 246,
+            "base_wins": 231,
+            "candidate_only_wins": 79,
+            "baseline_only_wins": 64,
+            "draws": 0,
+            "mean_delta_banked": 4.108
+          },
+          "public-decrest-85e4ba326dd5": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 0.269,
+            "ci95": [
+              0.0,
+              0.806
+            ],
+            "cand_wins": 370,
+            "base_wins": 369,
+            "candidate_only_wins": 1,
+            "baseline_only_wins": 0,
+            "draws": 0,
+            "mean_delta_banked": 0.078
+          },
+          "public-wardens-96ec60f39a45": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "cand_wins": 371,
+            "base_wins": 371,
+            "candidate_only_wins": 0,
+            "baseline_only_wins": 0,
+            "draws": 0,
+            "mean_delta_banked": 4.589
+          },
+          "v61_c3-863f3d1a082f": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 4.301,
+            "ci95": [
+              -1.075,
+              9.946
+            ],
+            "cand_wins": 230,
+            "base_wins": 214,
+            "candidate_only_wins": 65,
+            "baseline_only_wins": 49,
+            "draws": 0,
+            "mean_delta_banked": 6.815
+          },
+          "v92-448de19b2a28": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 7.258,
+            "ci95": [
+              2.688,
+              11.559
+            ],
+            "cand_wins": 213,
+            "base_wins": 186,
+            "candidate_only_wins": 101,
+            "baseline_only_wins": 74,
+            "draws": 0,
+            "mean_delta_banked": 21.013
+          },
+          "x3mf2-aa10b5c575c0": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 10.753,
+            "ci95": [
+              5.914,
+              15.591
+            ],
+            "cand_wins": 206,
+            "base_wins": 166,
+            "candidate_only_wins": 105,
+            "baseline_only_wins": 65,
+            "draws": 0,
+            "mean_delta_banked": 35.183
+          }
+        },
+        "size": {
+          "large": {
+            "cells": 468,
+            "maps": 39,
+            "delta_pp": 6.624,
+            "ci95": [
+              2.778,
+              10.684
+            ],
+            "cand_wins": 348,
+            "base_wins": 317,
+            "candidate_only_wins": 74,
+            "baseline_only_wins": 43,
+            "draws": 0,
+            "mean_delta_banked": 18.761
+          },
+          "medium": {
+            "cells": 1032,
+            "maps": 86,
+            "delta_pp": 4.167,
+            "ci95": [
+              0.969,
+              7.364
+            ],
+            "cand_wins": 755,
+            "base_wins": 712,
+            "candidate_only_wins": 163,
+            "baseline_only_wins": 120,
+            "draws": 0,
+            "mean_delta_banked": 7.06
+          },
+          "small": {
+            "cells": 732,
+            "maps": 61,
+            "delta_pp": 3.415,
+            "ci95": [
+              -0.41,
+              7.377
+            ],
+            "cand_wins": 533,
+            "base_wins": 508,
+            "candidate_only_wins": 114,
+            "baseline_only_wins": 89,
+            "draws": 0,
+            "mean_delta_banked": 14.533
+          }
+        },
+        "category": {
+          "C1": {
+            "cells": 216,
+            "maps": 18,
+            "delta_pp": 0.926,
+            "ci95": [
+              -5.556,
+              7.87
+            ],
+            "cand_wins": 161,
+            "base_wins": 159,
+            "candidate_only_wins": 29,
+            "baseline_only_wins": 27,
+            "draws": 0,
+            "mean_delta_banked": 9.625
+          },
+          "C2": {
+            "cells": 48,
+            "maps": 4,
+            "delta_pp": -12.5,
+            "ci95": [
+              -33.333,
+              4.167
+            ],
+            "cand_wins": 31,
+            "base_wins": 37,
+            "candidate_only_wins": 6,
+            "baseline_only_wins": 12,
+            "draws": 0,
+            "mean_delta_banked": -30.75
+          },
+          "C3": {
+            "cells": 288,
+            "maps": 24,
+            "delta_pp": 4.167,
+            "ci95": [
+              -0.347,
+              8.681
+            ],
+            "cand_wins": 210,
+            "base_wins": 198,
+            "candidate_only_wins": 45,
+            "baseline_only_wins": 33,
+            "draws": 0,
+            "mean_delta_banked": 4.49
+          },
+          "C4": {
+            "cells": 156,
+            "maps": 13,
+            "delta_pp": 5.769,
+            "ci95": [
+              -1.923,
+              13.462
+            ],
+            "cand_wins": 109,
+            "base_wins": 100,
+            "candidate_only_wins": 25,
+            "baseline_only_wins": 16,
+            "draws": 0,
+            "mean_delta_banked": 14.724
+          },
+          "C5": {
+            "cells": 252,
+            "maps": 21,
+            "delta_pp": 3.968,
+            "ci95": [
+              -1.984,
+              9.127
+            ],
+            "cand_wins": 184,
+            "base_wins": 174,
+            "candidate_only_wins": 39,
+            "baseline_only_wins": 29,
+            "draws": 0,
+            "mean_delta_banked": 3.46
+          },
+          "C6": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 8.333,
+            "ci95": [
+              0.0,
+              25.0
+            ],
+            "cand_wins": 28,
+            "base_wins": 25,
+            "candidate_only_wins": 7,
+            "baseline_only_wins": 4,
+            "draws": 0,
+            "mean_delta_banked": 38.722
+          },
+          "C7": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 8.333,
+            "ci95": [
+              8.333,
+              8.333
+            ],
+            "cand_wins": 28,
+            "base_wins": 25,
+            "candidate_only_wins": 5,
+            "baseline_only_wins": 2,
+            "draws": 0,
+            "mean_delta_banked": 37.389
+          },
+          "generated-unclassified": {
+            "cells": 1200,
+            "maps": 100,
+            "delta_pp": 5.5,
+            "ci95": [
+              2.25,
+              8.667
+            ],
+            "cand_wins": 885,
+            "base_wins": 819,
+            "candidate_only_wins": 195,
+            "baseline_only_wins": 129,
+            "draws": 0,
+            "mean_delta_banked": 15.749
+          }
+        }
+      },
+      "scope": "Local official-fuel current-engine evidence only; no ladder trials",
+      "status": "Conditionally useful / experimental; promotion gate not met",
+      "severe_strata": [
+        {
+          "dimension": "category",
+          "stratum": "C2",
+          "cells": 48,
+          "maps": 4,
+          "delta_pp": -12.5,
+          "ci95": [
+            -33.333,
+            4.167
+          ],
+          "cand_wins": 31,
+          "base_wins": 37,
+          "candidate_only_wins": 6,
+          "baseline_only_wins": 12,
+          "draws": 0,
+          "mean_delta_banked": -30.75
+        }
+      ]
+    },
+    "cpg": {
+      "combined": {
+        "cells": 2232,
+        "maps": 186,
+        "delta_pp": 3.763,
+        "ci95": [
+          1.523,
+          6.004
+        ],
+        "cand_wins": 1621,
+        "base_wins": 1537,
+        "candidate_only_wins": 347,
+        "baseline_only_wins": 263,
+        "draws": 0,
+        "mean_delta_banked": 11.614
+      },
+      "pool": {
+        "cells": 1032,
+        "maps": 86,
+        "delta_pp": 3.779,
+        "ci95": [
+          0.291,
+          7.074
+        ],
+        "cand_wins": 757,
+        "base_wins": 718,
+        "candidate_only_wins": 161,
+        "baseline_only_wins": 122,
+        "draws": 0,
+        "mean_delta_banked": 8.027
+      },
+      "fresh": {
+        "cells": 1200,
+        "maps": 100,
+        "delta_pp": 3.75,
+        "ci95": [
+          0.917,
+          6.583
+        ],
+        "cand_wins": 864,
+        "base_wins": 819,
+        "candidate_only_wins": 186,
+        "baseline_only_wins": 141,
+        "draws": 0,
+        "mean_delta_banked": 14.699
+      },
+      "arms": {
+        "cand": {
+          "played": 2232,
+          "wins": 1621,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 803,
+          "fuel_out_games": 342
+        },
+        "base": {
+          "played": 2232,
+          "wins": 1537,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 1532,
+          "fuel_out_games": 414
+        }
+      },
+      "strata": {
+        "opp": {
+          "b5_c3-0cffe40f9bc9": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 1.075,
+            "ci95": [
+              -4.301,
+              6.989
+            ],
+            "cand_wins": 235,
+            "base_wins": 231,
+            "candidate_only_wins": 63,
+            "baseline_only_wins": 59,
+            "draws": 0,
+            "mean_delta_banked": -13.981
+          },
+          "public-decrest-85e4ba326dd5": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 0.806,
+            "ci95": [
+              0.0,
+              2.151
+            ],
+            "cand_wins": 372,
+            "base_wins": 369,
+            "candidate_only_wins": 3,
+            "baseline_only_wins": 0,
+            "draws": 0,
+            "mean_delta_banked": 4.005
+          },
+          "public-wardens-96ec60f39a45": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "cand_wins": 371,
+            "base_wins": 371,
+            "candidate_only_wins": 0,
+            "baseline_only_wins": 0,
+            "draws": 0,
+            "mean_delta_banked": 3.253
+          },
+          "v61_c3-863f3d1a082f": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 1.344,
+            "ci95": [
+              -4.301,
+              7.258
+            ],
+            "cand_wins": 219,
+            "base_wins": 214,
+            "candidate_only_wins": 67,
+            "baseline_only_wins": 62,
+            "draws": 0,
+            "mean_delta_banked": 13.274
+          },
+          "v92-448de19b2a28": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 7.796,
+            "ci95": [
+              2.957,
+              12.366
+            ],
+            "cand_wins": 215,
+            "base_wins": 186,
+            "candidate_only_wins": 103,
+            "baseline_only_wins": 74,
+            "draws": 0,
+            "mean_delta_banked": 24.758
+          },
+          "x3mf2-aa10b5c575c0": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 11.559,
+            "ci95": [
+              6.452,
+              16.398
+            ],
+            "cand_wins": 209,
+            "base_wins": 166,
+            "candidate_only_wins": 111,
+            "baseline_only_wins": 68,
+            "draws": 0,
+            "mean_delta_banked": 38.376
+          }
+        },
+        "size": {
+          "large": {
+            "cells": 468,
+            "maps": 39,
+            "delta_pp": 5.342,
+            "ci95": [
+              0.641,
+              9.829
+            ],
+            "cand_wins": 342,
+            "base_wins": 317,
+            "candidate_only_wins": 67,
+            "baseline_only_wins": 42,
+            "draws": 0,
+            "mean_delta_banked": 17.639
+          },
+          "medium": {
+            "cells": 1032,
+            "maps": 86,
+            "delta_pp": 2.81,
+            "ci95": [
+              -0.388,
+              6.202
+            ],
+            "cand_wins": 741,
+            "base_wins": 712,
+            "candidate_only_wins": 160,
+            "baseline_only_wins": 131,
+            "draws": 0,
+            "mean_delta_banked": 2.759
+          },
+          "small": {
+            "cells": 732,
+            "maps": 61,
+            "delta_pp": 4.098,
+            "ci95": [
+              0.41,
+              7.923
+            ],
+            "cand_wins": 538,
+            "base_wins": 508,
+            "candidate_only_wins": 120,
+            "baseline_only_wins": 90,
+            "draws": 0,
+            "mean_delta_banked": 20.247
+          }
+        },
+        "category": {
+          "C1": {
+            "cells": 216,
+            "maps": 18,
+            "delta_pp": 0.463,
+            "ci95": [
+              -7.87,
+              8.333
+            ],
+            "cand_wins": 160,
+            "base_wins": 159,
+            "candidate_only_wins": 30,
+            "baseline_only_wins": 29,
+            "draws": 0,
+            "mean_delta_banked": 5.435
+          },
+          "C2": {
+            "cells": 48,
+            "maps": 4,
+            "delta_pp": -6.25,
+            "ci95": [
+              -14.583,
+              4.167
+            ],
+            "cand_wins": 34,
+            "base_wins": 37,
+            "candidate_only_wins": 6,
+            "baseline_only_wins": 9,
+            "draws": 0,
+            "mean_delta_banked": -10.458
+          },
+          "C3": {
+            "cells": 288,
+            "maps": 24,
+            "delta_pp": 0.0,
+            "ci95": [
+              -5.903,
+              5.903
+            ],
+            "cand_wins": 198,
+            "base_wins": 198,
+            "candidate_only_wins": 37,
+            "baseline_only_wins": 37,
+            "draws": 0,
+            "mean_delta_banked": -11.372
+          },
+          "C4": {
+            "cells": 156,
+            "maps": 13,
+            "delta_pp": 13.462,
+            "ci95": [
+              3.846,
+              23.077
+            ],
+            "cand_wins": 121,
+            "base_wins": 100,
+            "candidate_only_wins": 36,
+            "baseline_only_wins": 15,
+            "draws": 0,
+            "mean_delta_banked": 32.423
+          },
+          "C5": {
+            "cells": 252,
+            "maps": 21,
+            "delta_pp": 4.762,
+            "ci95": [
+              -1.19,
+              10.317
+            ],
+            "cand_wins": 186,
+            "base_wins": 174,
+            "candidate_only_wins": 38,
+            "baseline_only_wins": 26,
+            "draws": 0,
+            "mean_delta_banked": 11.536
+          },
+          "C6": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 13.889,
+            "ci95": [
+              8.333,
+              25.0
+            ],
+            "cand_wins": 30,
+            "base_wins": 25,
+            "candidate_only_wins": 10,
+            "baseline_only_wins": 5,
+            "draws": 0,
+            "mean_delta_banked": 53.111
+          },
+          "C7": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 8.333,
+            "ci95": [
+              0.0,
+              16.667
+            ],
+            "cand_wins": 28,
+            "base_wins": 25,
+            "candidate_only_wins": 4,
+            "baseline_only_wins": 1,
+            "draws": 0,
+            "mean_delta_banked": 28.056
+          },
+          "generated-unclassified": {
+            "cells": 1200,
+            "maps": 100,
+            "delta_pp": 3.75,
+            "ci95": [
+              0.917,
+              6.583
+            ],
+            "cand_wins": 864,
+            "base_wins": 819,
+            "candidate_only_wins": 186,
+            "baseline_only_wins": 141,
+            "draws": 0,
+            "mean_delta_banked": 14.699
+          }
+        }
+      },
+      "scope": "Local official-fuel current-engine evidence only; no ladder trials",
+      "status": "Accepted (local evidence)",
+      "severe_strata": []
+    },
+    "gov": {
+      "combined": {
+        "cells": 2232,
+        "maps": 186,
+        "delta_pp": 1.12,
+        "ci95": [
+          -0.762,
+          3.047
+        ],
+        "cand_wins": 1562,
+        "base_wins": 1537,
+        "candidate_only_wins": 246,
+        "baseline_only_wins": 221,
+        "draws": 0,
+        "mean_delta_banked": 2.151
+      },
+      "pool": {
+        "cells": 1032,
+        "maps": 86,
+        "delta_pp": 1.841,
+        "ci95": [
+          -0.678,
+          4.457
+        ],
+        "cand_wins": 737,
+        "base_wins": 718,
+        "candidate_only_wins": 107,
+        "baseline_only_wins": 88,
+        "draws": 0,
+        "mean_delta_banked": -1.656
+      },
+      "fresh": {
+        "cells": 1200,
+        "maps": 100,
+        "delta_pp": 0.5,
+        "ci95": [
+          -2.333,
+          3.333
+        ],
+        "cand_wins": 825,
+        "base_wins": 819,
+        "candidate_only_wins": 139,
+        "baseline_only_wins": 133,
+        "draws": 0,
+        "mean_delta_banked": 5.426
+      },
+      "arms": {
+        "cand": {
+          "played": 2232,
+          "wins": 1562,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 790,
+          "fuel_out_games": 337
+        },
+        "base": {
+          "played": 2232,
+          "wins": 1537,
+          "draws": 0,
+          "faults": 0,
+          "fuel_outs": 1532,
+          "fuel_out_games": 414
+        }
+      },
+      "strata": {
+        "opp": {
+          "b5_c3-0cffe40f9bc9": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 1.882,
+            "ci95": [
+              -3.495,
+              6.989
+            ],
+            "cand_wins": 238,
+            "base_wins": 231,
+            "candidate_only_wins": 57,
+            "baseline_only_wins": 50,
+            "draws": 0,
+            "mean_delta_banked": 3.745
+          },
+          "public-decrest-85e4ba326dd5": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 0.269,
+            "ci95": [
+              0.0,
+              0.806
+            ],
+            "cand_wins": 370,
+            "base_wins": 369,
+            "candidate_only_wins": 1,
+            "baseline_only_wins": 0,
+            "draws": 0,
+            "mean_delta_banked": -0.392
+          },
+          "public-wardens-96ec60f39a45": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": -0.269,
+            "ci95": [
+              -0.806,
+              0.0
+            ],
+            "cand_wins": 370,
+            "base_wins": 371,
+            "candidate_only_wins": 0,
+            "baseline_only_wins": 1,
+            "draws": 0,
+            "mean_delta_banked": -1.094
+          },
+          "v61_c3-863f3d1a082f": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": -2.419,
+            "ci95": [
+              -7.258,
+              2.688
+            ],
+            "cand_wins": 205,
+            "base_wins": 214,
+            "candidate_only_wins": 41,
+            "baseline_only_wins": 50,
+            "draws": 0,
+            "mean_delta_banked": -3.212
+          },
+          "v92-448de19b2a28": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 1.882,
+            "ci95": [
+              -2.419,
+              6.452
+            ],
+            "cand_wins": 193,
+            "base_wins": 186,
+            "candidate_only_wins": 71,
+            "baseline_only_wins": 64,
+            "draws": 0,
+            "mean_delta_banked": -0.14
+          },
+          "x3mf2-aa10b5c575c0": {
+            "cells": 372,
+            "maps": 186,
+            "delta_pp": 5.376,
+            "ci95": [
+              0.538,
+              10.215
+            ],
+            "cand_wins": 186,
+            "base_wins": 166,
+            "candidate_only_wins": 76,
+            "baseline_only_wins": 56,
+            "draws": 0,
+            "mean_delta_banked": 14.003
+          }
+        },
+        "size": {
+          "large": {
+            "cells": 468,
+            "maps": 39,
+            "delta_pp": 5.769,
+            "ci95": [
+              1.496,
+              10.47
+            ],
+            "cand_wins": 344,
+            "base_wins": 317,
+            "candidate_only_wins": 68,
+            "baseline_only_wins": 41,
+            "draws": 0,
+            "mean_delta_banked": 7.795
+          },
+          "medium": {
+            "cells": 1032,
+            "maps": 86,
+            "delta_pp": 1.357,
+            "ci95": [
+              -1.744,
+              4.264
+            ],
+            "cand_wins": 726,
+            "base_wins": 712,
+            "candidate_only_wins": 123,
+            "baseline_only_wins": 109,
+            "draws": 0,
+            "mean_delta_banked": 9.687
+          },
+          "small": {
+            "cells": 732,
+            "maps": 61,
+            "delta_pp": -2.186,
+            "ci95": [
+              -4.781,
+              0.683
+            ],
+            "cand_wins": 492,
+            "base_wins": 508,
+            "candidate_only_wins": 55,
+            "baseline_only_wins": 71,
+            "draws": 0,
+            "mean_delta_banked": -12.081
+          }
+        },
+        "category": {
+          "C1": {
+            "cells": 216,
+            "maps": 18,
+            "delta_pp": -2.778,
+            "ci95": [
+              -8.333,
+              3.704
+            ],
+            "cand_wins": 153,
+            "base_wins": 159,
+            "candidate_only_wins": 18,
+            "baseline_only_wins": 24,
+            "draws": 0,
+            "mean_delta_banked": -10.148
+          },
+          "C2": {
+            "cells": 48,
+            "maps": 4,
+            "delta_pp": -4.167,
+            "ci95": [
+              -12.5,
+              0.0
+            ],
+            "cand_wins": 35,
+            "base_wins": 37,
+            "candidate_only_wins": 0,
+            "baseline_only_wins": 2,
+            "draws": 0,
+            "mean_delta_banked": -19.979
+          },
+          "C3": {
+            "cells": 288,
+            "maps": 24,
+            "delta_pp": 4.167,
+            "ci95": [
+              -1.042,
+              9.375
+            ],
+            "cand_wins": 210,
+            "base_wins": 198,
+            "candidate_only_wins": 32,
+            "baseline_only_wins": 20,
+            "draws": 0,
+            "mean_delta_banked": 11.858
+          },
+          "C4": {
+            "cells": 156,
+            "maps": 13,
+            "delta_pp": 1.282,
+            "ci95": [
+              -2.564,
+              5.128
+            ],
+            "cand_wins": 102,
+            "base_wins": 100,
+            "candidate_only_wins": 10,
+            "baseline_only_wins": 8,
+            "draws": 0,
+            "mean_delta_banked": -11.686
+          },
+          "C5": {
+            "cells": 252,
+            "maps": 21,
+            "delta_pp": 4.365,
+            "ci95": [
+              -1.19,
+              10.317
+            ],
+            "cand_wins": 185,
+            "base_wins": 174,
+            "candidate_only_wins": 38,
+            "baseline_only_wins": 27,
+            "draws": 0,
+            "mean_delta_banked": 2.687
+          },
+          "C6": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 2.778,
+            "ci95": [
+              -8.333,
+              16.667
+            ],
+            "cand_wins": 26,
+            "base_wins": 25,
+            "candidate_only_wins": 5,
+            "baseline_only_wins": 4,
+            "draws": 0,
+            "mean_delta_banked": -13.028
+          },
+          "C7": {
+            "cells": 36,
+            "maps": 3,
+            "delta_pp": 2.778,
+            "ci95": [
+              0.0,
+              8.333
+            ],
+            "cand_wins": 26,
+            "base_wins": 25,
+            "candidate_only_wins": 4,
+            "baseline_only_wins": 3,
+            "draws": 0,
+            "mean_delta_banked": -9.944
+          },
+          "generated-unclassified": {
+            "cells": 1200,
+            "maps": 100,
+            "delta_pp": 0.5,
+            "ci95": [
+              -2.333,
+              3.333
+            ],
+            "cand_wins": 825,
+            "base_wins": 819,
+            "candidate_only_wins": 139,
+            "baseline_only_wins": 133,
+            "draws": 0,
+            "mean_delta_banked": 5.426
+          }
+        }
+      },
+      "scope": "Local official-fuel current-engine evidence only; no ladder trials",
+      "status": "Conditionally useful / experimental; promotion gate not met",
+      "severe_strata": []
+    }
+  },
+  "notes": [
+    "No tuning after freeze",
+    "Pool includes the pinned70 official maps from the handoff; fresh51104=100 unseen generated maps",
+    "C1-C7 only for maps with measured atlas categories; generated maps reported by size/opponent and as unclassified",
+    "Silent SDK action-failure returns are not instrumented; official diagnostic codes audited separately"
+  ],
+  "recommendation": {
+    "local_candidate": "cpg",
+    "reason": "Positive independent confirmation and no category/opponent point delta below-10pp; CG has higher aggregate score but breaches C2 gate",
+    "official_baseline": "v80/v92 retained; no official activity authorized",
+    "release_qualified": false,
+    "release_limitations": [
+      "No ladder validation",
+      "Silent SDK action-rejection returns not separately instrumented",
+      "Some additional suspension cells despite lower aggregate counts; no universal zero-new-mode guarantee",
+      "Small category samples have wide uncertainty"
+    ]
+  },
+  "component_status": {
+    "neural_export": "working, measured, exact float32",
+    "neural_heads": "lightly trained / distilled; disabled, not release-qualified",
+    "roster_codec": "working, tested; no measured strategy gain, disabled",
+    "early_fields": "Retry required on large maps; disabled",
+    "routing_progress": "measured in frozen combination; incremental gain over CG inconclusive"
+  },
+  "map_inventory_scope": "Pinned competition pool from the handoff; local engine/SDK identities verified. No authenticated live map-pool refresh performed.",
+  "completed_utc": "2026-11-04T08:32:22.026294+00:00"
+}

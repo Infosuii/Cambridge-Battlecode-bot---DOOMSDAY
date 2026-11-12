@@ -1,0 +1,112 @@
+{
+  "games": 2,
+  "wins": 0,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 0.0,
+  "mean_banked": 0.0,
+  "fuel_mean": 91.0,
+  "fuel_p99": 91,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "four-pick",
+      "map_sha256": "4c67b83845030b6529f47f49b900bd45e940326c33cb2e1a4d75a75794273e51",
+      "side": "A",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "daadce128d90c2a94acc7be2d2c5e4658e164f2b3c676d0162ae05767c280aea",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "bc99be5600cf4e589062b06ca4e74dd7b2b6261b8750c4a79d03867e0244a1a3",
+      "diagnostic_checks": {
+        "passed": true,
+        "team_picks": 4,
+        "missed_turn": 1,
+        "recorded_prefix": [
+          3
+        ],
+        "champion_bodies": 5,
+        "physical_types": [
+          3,
+          4,
+          1,
+          5,
+          0
+        ],
+        "own_post_pick_list_delayed": true,
+        "scope": "missed first/second pick; guest not resumed for remaining draft; completed roster observed, autofill choices not assumed"
+      },
+      "summary_sha256": "e22c7bad1f90163407385ee4b6efb634c8357c0a14328cc2b68c267e8178ec45"
+    },
+    {
+      "map": "four-pick",
+      "map_sha256": "4c67b83845030b6529f47f49b900bd45e940326c33cb2e1a4d75a75794273e51",
+      "side": "B",
+      "diagnostic": true,
+      "rounds": 2000,
+      "outcome": "completed-diagnostic",
+      "banked": 0,
+      "opponent_banked": 0,
+      "collected": 0,
+      "gold": 0,
+      "deaths": 0,
+      "faults": 0,
+      "faults_measured": true,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "daadce128d90c2a94acc7be2d2c5e4658e164f2b3c676d0162ae05767c280aea",
+      "opponent_sha256": "58103dff81c96726344c939502149525dcf47caa0c8c3040291ce080714ca112",
+      "replay_sha256": "cc42ef534472af2f47b3704ce35934af9360c03bae762311ae52e81fdc57bc8c",
+      "diagnostic_checks": {
+        "passed": true,
+        "team_picks": 4,
+        "missed_turn": 1,
+        "recorded_prefix": [
+          3
+        ],
+        "champion_bodies": 5,
+        "physical_types": [
+          3,
+          4,
+          1,
+          5,
+          0
+        ],
+        "own_post_pick_list_delayed": true,
+        "scope": "missed first/second pick; guest not resumed for remaining draft; completed roster observed, autofill choices not assumed"
+      },
+      "summary_sha256": "71261520b89633ee0783e25384bed31d93bd82a0bd4de60c93309539361dd3d4"
+    }
+  ]
+}

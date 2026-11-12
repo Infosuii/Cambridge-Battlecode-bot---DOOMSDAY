@@ -1,0 +1,170 @@
+{
+ "rows": 50912,
+ "classes": {
+  "1": 10239,
+  "2": 27704,
+  "0": 12969
+ },
+ "features": [
+  "hp_fraction",
+  "hp",
+  "max_hp",
+  "strength",
+  "focus",
+  "range",
+  "gems",
+  "round",
+  "ready0",
+  "ready1",
+  "nearest",
+  "allies6",
+  "ally_hp6",
+  "ally_strength6",
+  "enemies6",
+  "enemy_hp6",
+  "enemy_strength6",
+  "ranged_enemies6",
+  "weakest_fraction",
+  "local_hp_ratio",
+  "type_0",
+  "type_1",
+  "type_2",
+  "type_3",
+  "type_4",
+  "type_5",
+  "type_6",
+  "type_7",
+  "type_8",
+  "type_9",
+  "type_10",
+  "type_11",
+  "type_12"
+ ],
+ "folds": [
+  {
+   "excluded_teams": [
+    "Ad Astra",
+    "NEETCoders",
+    "hello"
+   ],
+   "n": 12530,
+   "accuracy": 0.5999201915403033,
+   "balanced_accuracy": 0.43799136502201685,
+   "majority_accuracy": 0.5644852354349561,
+   "confident_coverage": 0.3438946528332003,
+   "confident_accuracy": 0.778602924112323,
+   "confusion": [
+    [
+     878,
+     226,
+     1889
+    ],
+    [
+     341,
+     310,
+     1813
+    ],
+    [
+     412,
+     332,
+     6329
+    ]
+   ]
+  },
+  {
+   "excluded_teams": [
+    "Claudus Maximus",
+    "Sponge(Albert and Bob)",
+    "print dont int"
+   ],
+   "n": 11690,
+   "accuracy": 0.6128314798973482,
+   "balanced_accuracy": 0.4690310226526677,
+   "majority_accuracy": 0.5335329341317365,
+   "confident_coverage": 0.3840889649272883,
+   "confident_accuracy": 0.7926503340757238,
+   "confusion": [
+    [
+     1490,
+     43,
+     1838
+    ],
+    [
+     490,
+     173,
+     1419
+    ],
+    [
+     619,
+     117,
+     5501
+    ]
+   ]
+  },
+  {
+   "excluded_teams": [
+    "Intercontinental Fish",
+    "Trzy Kwaterki",
+    "prism best girl"
+   ],
+   "n": 14356,
+   "accuracy": 0.5596962942323767,
+   "balanced_accuracy": 0.41250875714453605,
+   "majority_accuracy": 0.5472972972972973,
+   "confident_coverage": 0.47074393981610474,
+   "confident_accuracy": 0.6914767682746374,
+   "confusion": [
+    [
+     1112,
+     111,
+     2128
+    ],
+    [
+     526,
+     129,
+     2493
+    ],
+    [
+     957,
+     106,
+     6794
+    ]
+   ]
+  },
+  {
+   "excluded_teams": [
+    "Mite",
+    "Univardisty of Shingtonwash",
+    "willow best girl"
+   ],
+   "n": 12336,
+   "accuracy": 0.5903858625162127,
+   "balanced_accuracy": 0.4754808142429751,
+   "majority_accuracy": 0.5299124513618677,
+   "confident_coverage": 0.35854409857328146,
+   "confident_accuracy": 0.7054035722360389,
+   "confusion": [
+    [
+     1324,
+     242,
+     1688
+    ],
+    [
+     547,
+     450,
+     1548
+    ],
+    [
+     610,
+     418,
+     5509
+    ]
+   ]
+  }
+ ],
+ "nodes": 57,
+ "method": "NumPy histogram CART, 16 training-only quantile bins, depth 5, min leaf 250",
+ "depth": 5,
+ "minimum_leaf": 250,
+ "confidence_backoff": 0.65
+}

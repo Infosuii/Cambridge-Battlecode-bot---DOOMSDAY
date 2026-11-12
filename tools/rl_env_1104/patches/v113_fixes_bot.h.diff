@@ -1,0 +1,22 @@
+--- bot.h	1980-01-01 00:00:00.000000000 +0000
++++ bot.h	2026-11-08 23:49:57.149374700 +0000
+@@ -2,6 +2,7 @@
+ #pragma once
+ #include "common.h"
+ #include "world.h"
++#include "channel_retry.h"
+ #include <string>
+ 
+ namespace ts {
+@@ -82,6 +83,11 @@
+ #endif
+ 
+ private:
++    ChannelRetry channel_retry;
++    vec2 channel_altar{-1, -1};
++    bool retry_channel(ChannelRetry::Kind kind, vec2 altar = {-1, -1});
++    bool start_recall();
++    bool start_submission(vec2 altar);
+ #if V58_FINISH_RESET
+     int reset_defer_group = -1, reset_defer_until = -1;
+ #endif

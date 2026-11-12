@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "status": "PROPOSED_NOT_LAUNCHED",
+  "task": "rl-strategy-design-1104",
+  "epoch": 1,
+  "source": {
+    "cpg_commit": "cb8d0105e4047f75924556268f23053eb634699a",
+    "agent2_commit": "0b0ae8e475c65c2901a0aad02842c58a0fee6c55",
+    "sdk": "4.0.0",
+    "engine": "2.0.0",
+    "nnc4_checkpoint_git_blob": "0a62bb38a6c9c1cf047e1709c54c7e48e24ba591",
+    "nnc4_header_git_blob": "419d202cbafaa6955658013586aa37456e486f1a",
+    "cpg_release_wasm_sha256": "a06ae0655dc5a473db4c783e4b436487ac39959e04eb02573090b938625657a4"
+  },
+  "ownership": {
+    "research": "johndoe",
+    "collaborator_requested": "R1shik123",
+    "collaborator_confirmed": false,
+    "compute_owner": null,
+    "agent2_training_takeover": false
+  },
+  "E0": {
+    "purpose": "Pinned numerical/action/timing/fuel equivalence before new RL",
+    "required_artifacts": [
+      "source_hashes",
+      "normalized_features_and_ages",
+      "legal_masks",
+      "logged_and_recomputed_behavior_log_probabilities",
+      "chosen_and_executed_action_trace",
+      "reset_and_respawn_trace",
+      "release_fuel_by_phase",
+      "full_toolchain_manifest"
+    ],
+    "stop_conditions": [
+      "unexplained deterministic trace mismatch",
+      "mixed feature/action ABI",
+      "missing actual SDK outcomes",
+      "no bounded release path",
+      "unverified compute access"
+    ],
+    "cases": [
+      "empty/absent entities",
+      "int16 feature extremes",
+      "near-tied logits",
+      "legal/illegal target transitions",
+      "first draft and later picks",
+      "first body turn",
+      "large map and many camps",
+      "contact transition",
+      "respawn",
+      "fuel exhaustion and resume"
+    ],
+    "note": "Debug-only sampling must not evade actor/environment fuel. No free compute through debug fuel controls in deployment."
+  },
+  "E1": {
+    "purpose": "Separate target-retention gains from model/freshness effects",
+    "arms": [
+      "v92",
+      "CPG",
+      "nnc4 pinned residual blend",
+      "explicit target-retention control"
+    ],
+    "direct_match_required": [
+      "CPG_vs_nnc4_both_sides"
+    ],
+    "required_frozen_manifest": [
+      "map_hash",
+      "map_family",
+      "side",
+      "engine_seed",
+      "opponent_wasm_hash",
+      "candidate_wasm_hash",
+      "release_flags",
+      "outcome",
+      "faults",
+      "fuel_suspensions",
+      "fallback_share",
+      "feature_age",
+      "missing_or_failed_cell"
+    ],
+    "splits": "By map family/lineage and generator seed; all E124 suites treated as exposed development evidence.",
+    "analysis": "Matched contrasts; map/family cluster confidence; no iid treatment of noisy-opponent copies.",
+    "sample_size": "Choose from blinded development variance and minimum worthwhile gain before final evaluation."
+  },
+  "bayesian_ablation": {
+    "models": [
+      "off",
+      "fixed_prior",
+      "history_only",
+      "calibrated_posterior",
+      "equal_cost_randomized_posterior"
+    ],
+    "prediction_metrics": [
+      "Brier",
+      "log_loss",
+      "calibration",
+      "unknown_mass",
+      "mode_switch_delay"
+    ],
+    "game_metrics": [
+      "matched_win_difference",
+      "faults",
+      "fuel_tail",
+      "fallback_share"
+    ],
+    "must_pass": [
+      "actor_observation_visibility_audit",
+      "event_dedup",
+      "context_conditioning",
+      "memory_ownership",
+      "release_fuel_bench"
+    ]
+  },
+  "platform_actions": [],
+  "new_training_jobs": []
+}

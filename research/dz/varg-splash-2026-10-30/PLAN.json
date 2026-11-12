@@ -1,0 +1,45 @@
+{
+  "status": "Frozen before native games; diagnostic only",
+  "mechanism": "One stationary damaging member remains the executor target; all harmless live resources are within Chebyshev radius1 and have HP<=target. Apply existing shield/reset scalar to whole group.",
+  "inputs": "Personal current visible members, remembered per-member HP, public geometry/stats; no native outcomes as inputs",
+  "bounds": {
+    "members": 64,
+    "turns": 96,
+    "physical_fuel_gate": 65000
+  },
+  "flags": {
+    "DZ_TRACE_MODEL": 1,
+    "DZ_TRACE_SHIELD": 1,
+    "DZ_TRACE_SPLASH": 1,
+    "DZ_TRACE_SLOT": 1,
+    "DZ_TRACE_TO": 0,
+    "DZ_DRAFT_VARIANT": 0,
+    "DZ_MAP_DRAFT_TABLE": 0
+  },
+  "pilot": {
+    "name": "dz-model-varg-splash-quad-01",
+    "maps": [
+      "00quadrants"
+    ],
+    "opponent": "v76"
+  },
+  "prospective": {
+    "idle": "dz-model-varg-splash-idle-01",
+    "v76": "dz-model-varg-splash-v76-01",
+    "maps": [
+      "00great-wall",
+      "00interlock",
+      "00packs",
+      "00pilgrimage",
+      "00quadrants",
+      "00reverse-spiral"
+    ]
+  },
+  "gate": "No production promotion. Require clean pilot, preserve all exclusions/failures, null when no observations; report same-window time, HP loss and shield casts. Stationary, matching vector hash/native target, unshared, no healing/nonbasic/helpers. Full V-M1 open.",
+  "limitations": [
+    "No multi-monster simulation",
+    "No movement prediction",
+    "No new-job survival validation",
+    "No release-strength evidence"
+  ]
+}
