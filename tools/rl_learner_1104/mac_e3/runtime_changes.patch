@@ -1,0 +1,261 @@
+--- a/src/bot.cpp
++++ b/src/bot.cpp
+@@ -7293,6 +7293,9 @@
+         }
+     });
+     if (state.is_dead()) {
++#if CLRL_ACT
++        clrl::act.reset_pending = true;
++#endif
+         episode_tick(true);
+ #ifdef APEX_TSTRACE
+         if (!ts_dead_logged && (ts_dead_logged = true))
+--- a/src/bot.h
++++ b/src/bot.h
+@@ -1,3 +1,4 @@
++#define CLRL_ACT 1
+ // Champion decision logic. Each champion runs its own Bot; state persists between turns.
+ #pragma once
+ #include "common.h"
+--- a/src/clrl_act.h
++++ b/src/clrl_act.h
+@@ -1,5 +1,5 @@
+ // CLRL_ACT: the cl1 camp-pointer actor chooses v92's farm target (task rl-env-collector-1104).
+-// Hybrid macro milestone: at farm()'s target point (after v92's own choice `best`) the actor encodes this body's cl1
++// Hybrid macro milestone: the actor replaces v92 target search and encodes this body's cl1
+ // observation and runs the network, both CHARGED (outside debug_block, as in deployment), samples a c-row at
+ // temperature 1 and returns the World group to farm (action 12 = no farm target this turn). Only logging is inside
+ // debug_block. Rows (one per actor decision):
+@@ -17,6 +17,13 @@
+ #include "clrl_actor.h"
+ #include "clrl_rec.h"
+ 
++#ifndef CLRL_MIN_DECISION_FUEL
++#define CLRL_MIN_DECISION_FUEL 72000
++#endif
++#ifndef CLRL_HOLD_ROUNDS
++#define CLRL_HOLD_ROUNDS 8
++#endif
++
+ #ifndef CLRL_SEED
+ #define CLRL_SEED 1104
+ #endif
+@@ -25,6 +32,9 @@
+ struct ActState {
+     float h[clrl_actor::kH] = {};
+     bool have = false;
++    bool reset_pending = true;
++    int last_decision_round = -100000;
++    unsigned decisions = 0;
+     std::uint64_t rng = 0;
+     int dec_round = -1;  // round of this turn's decision (-1: none this turn)
+ };
+@@ -45,8 +55,21 @@
+     template <class BotT>
+     static int decide(const BotT& b, int v92_best, int claim_dead) {
+         using namespace clrl;
++        if (b.target_group == claim_dead) act.reset_pending = true;
++        const bool held_valid = b.target_group >= 0 && b.target_group < static_cast<int>(b.w.groups.size()) &&
++            b.avoid_until[b.target_group] <= b.round && b.w.groups[b.target_group].state != GroupState::respawning;
++        const auto available = bc::fuel_remaining();
++        const bool startup_hold = b.round <= 1;  // first play turn spends its doubled budget on initialization
++        const bool budget_hold = available < CLRL_MIN_DECISION_FUEL;
++        const bool scheduled_hold = held_valid && b.round - act.last_decision_round < CLRL_HOLD_ROUNDS;
++        if (startup_hold || budget_hold || scheduled_hold) {
++            debug_block({ std::printf("CLH1 %d %u %d %d %llu\n", b.round, b.my_id,
++                startup_hold ? 3 : (budget_hold ? 1 : 2), held_valid ? b.target_group : -1, static_cast<unsigned long long>(available)); });
++            return held_valid ? b.target_group : -1;
++        }
++        const unsigned decision_index = act.decisions++;
+         if (!act.rng) act.rng = static_cast<std::uint64_t>(CLRL_SEED) * 0x100000001B3ull ^ (static_cast<std::uint64_t>(b.my_id) << 17);
+-        const bool reset = !act.have || b.target_group == claim_dead;  // first decision, or respawned since the last
++        const bool reset = act.reset_pending || !act.have || b.target_group == claim_dead;  // first decision, or respawned since the last
+         const std::uint64_t f0 = bc::fuel_remaining();
+         ClrlFriend::encode(b);                                          // charged: deployment encoder
+         const std::uint64_t f1 = bc::fuel_remaining();
+@@ -80,8 +103,11 @@
+             if (v92_best >= 0 && st.c_group[i] == v92_best) v92_row = i;
+         for (int i = 0; i < clrl_actor::kH; ++i) act.h[i] = o.h[i];
+         act.have = true;
++        act.reset_pending = false;
++        act.last_decision_round = b.round;
+         act.dec_round = b.round;
+         debug_block({
++            std::printf("CLQ1 %d %u %u\n", b.round, b.my_id, decision_index);
+             std::printf("CLA1 %d %d %u %d %.7f %d %u %d %s\n", b.round, b.slot, b.my_id, a, logp, reset ? 1 : 0, mask,
+                         v92_row, b64(st.f, kNF).c_str());
+             std::printf("CLF1 %d %u enc %llu fwd %llu left %llu\n", b.round, b.my_id,
+--- a/src/clrl_actor.h
++++ b/src/clrl_actor.h
+@@ -1,8 +1,8 @@
+ // cl1 camp-pointer actor inference (format jd-cl1-pointer-f32-v1, preprocessing jd-cl1-af91-v1), float32.
+ // Implements JOHNDOE tools/rl_learner_1104/rl_learner_1104/cl1.py (CampPointer.forward + preprocess) exactly:
+-// entity encoders Linear+ReLU (8), masked mean + max pooling in order ally, altar, camp, enemy, globals 58 ->
+-// context Linear+ReLU (32) -> GRUCell 16 (gate order r, z, n; reset zeroes the incoming hidden state) -> per-camp
+-// score tanh(Linear[24->16]) -> Linear[16->1], none head Linear[16->1]. Absent camps are illegal; none always legal.
++// Runtime widths come from clrl_actor_weights.h (original 8/32/16/16; compact 4/16/8/8).
++// Entity Linear+ReLU, masked mean+max in ally/altar/camp/enemy order; globals58; context ReLU;
++// GRU gates r,z,n; shared per-camp pointer and separate none head. Absent camps are illegal.
+ // No SDK calls: input is one cl1 int16[448] row, so the same code runs on the host, in tests and in the bot.
+ #pragma once
+ #include <cmath>
+@@ -23,7 +23,8 @@
+ #ifdef CLRL_ACTOR_PROF
+ inline std::uint64_t prof[8];
+ #endif
+-constexpr int kH = 16, kG = 58, kCtxIn = 122, kNA = 13;
++constexpr int kH = clrl_w::kHidden, kEnc = clrl_w::kEnc, kCtx = clrl_w::kContext, kPtr = clrl_w::kPointer;
++constexpr int kG = 58, kCtxIn = 58 + 8 * kEnc, kNA = 13;
+ constexpr int kWAlly = 20, kWEnemy = 23, kWCamp = 19, kWAltar = 4;
+ 
+ struct Out {
+@@ -37,7 +38,7 @@
+ // y[o] = b[o] + sum_i W[o][i] * x[i]  (W row-major [out][in], PyTorch Linear layout). In WASM: 4-lane SIMD dot
+ // products (fuel is charged per instruction, so this cuts the dense-layer cost ~4x); the host keeps the scalar loop.
+ // Summation order differs from PyTorch either way; parity is checked against the fixture tolerance.
+-inline void linear(const float* W, const float* b, const float* x, int in, int out, float* y) {
++__attribute__((always_inline)) inline void linear(const float* W, const float* b, const float* x, int in, int out, float* y) {
+     for (int o = 0; o < out; ++o) {
+         const float* w = W + o * in;
+         float s = 0.0f;
+@@ -95,11 +96,12 @@
+ // y = b + W x with W given transposed (Wt[in][out], out a multiple of 4): each nonzero input is broadcast and
+ // accumulated into all outputs at once. Zero inputs (one-hots, masked fields) are skipped. Summation order differs
+ // from PyTorch; parity is checked against the fixture tolerance.
+-inline void linear_t(const float* Wt, const float* b, const float* x, int in, int out, float* y) {
++__attribute__((always_inline)) inline void linear_t(const float* Wt, const float* b, const float* x, int in, int out, float* y) {
+ #if defined(__wasm_simd128__)
+     v128_t acc[12];
+     const int nv = out / 4;
+     for (int v = 0; v < nv; ++v) acc[v] = wasm_v128_load(b + 4 * v);
++#pragma clang loop unroll(full)
+     for (int i = 0; i < in; ++i) {
+         if (x[i] == 0.0f) continue;
+         const v128_t xi = wasm_f32x4_splat(x[i]);
+@@ -109,6 +111,7 @@
+     for (int v = 0; v < nv; ++v) wasm_v128_store(y + 4 * v, acc[v]);
+ #else
+     for (int o = 0; o < out; ++o) y[o] = b[o];
++#pragma clang loop unroll(full)
+     for (int i = 0; i < in; ++i) {
+         if (x[i] == 0.0f) continue;
+         for (int o = 0; o < out; ++o) y[o] += Wt[i * out + o] * x[i];
+@@ -124,7 +127,7 @@
+     bool pa[5], pe[6], pc[12], pl[4];
+ };
+ 
+-inline void preprocess(const std::int16_t* raw, Pre& p) {
++__attribute__((always_inline)) inline void preprocess(const std::int16_t* raw, Pre& p) {
+     float x[448];
+     for (int i = 0; i < 448; ++i) x[i] = static_cast<float>(raw[i]);
+     const float* g = x;
+@@ -194,18 +197,18 @@
+ 
+ // Encode a block of entity rows with Linear+ReLU(8); write masked mean then max (zeros when no row is present).
+ template <int N, int W>
+-inline void pool(const float (&rows)[N][W], const bool (&present)[N], const float* wt, const float* b, float* mean,
+-                 float* mx, float (*enc)[8] = nullptr) {
+-    float z[N][8];
++__attribute__((always_inline)) inline void pool(const float (&rows)[N][W], const bool (&present)[N], const float* wt, const float* b, float* mean,
++                 float* mx, float (*enc)[kEnc] = nullptr) {
++    float z[N][kEnc];
+     int n = 0;
+     for (int r = 0; r < N; ++r) {
+         if (!present[r]) continue;  // absent rows are masked out of every use: don't encode them
+-        linear_t(wt, b, rows[r], W, 8, z[r]);
+-        for (int o = 0; o < 8; ++o) z[r][o] = z[r][o] > 0.0f ? z[r][o] : 0.0f;
+-        if (enc) for (int o = 0; o < 8; ++o) enc[r][o] = z[r][o];
++        linear_t(wt, b, rows[r], W, kEnc, z[r]);
++        for (int o = 0; o < kEnc; ++o) z[r][o] = z[r][o] > 0.0f ? z[r][o] : 0.0f;
++        if (enc) for (int o = 0; o < kEnc; ++o) enc[r][o] = z[r][o];
+         ++n;
+     }
+-    for (int o = 0; o < 8; ++o) {
++    for (int o = 0; o < kEnc; ++o) {
+         float s = 0.0f, m = -std::numeric_limits<float>::infinity();
+         for (int r = 0; r < N; ++r)
+             if (present[r]) {
+@@ -224,22 +227,22 @@
+     preprocess(raw, p);
+     CLRL_P(1);
+     float ctx_in[kCtxIn];
+-    float camp_enc[12][8];
+-    pool<5, kWAlly>(p.ally, p.pa, enc_ally_wt, enc_ally_b, ctx_in + 0, ctx_in + 8);
+-    pool<4, kWAltar>(p.altar, p.pl, enc_altar_wt, enc_altar_b, ctx_in + 16, ctx_in + 24);
+-    pool<12, kWCamp>(p.camp, p.pc, enc_camp_wt, enc_camp_b, ctx_in + 32, ctx_in + 40, camp_enc);
+-    pool<6, kWEnemy>(p.enemy, p.pe, enc_enemy_wt, enc_enemy_b, ctx_in + 48, ctx_in + 56);
++    float camp_enc[12][kEnc];
++    pool<5, kWAlly>(p.ally, p.pa, enc_ally_wt, enc_ally_b, ctx_in + 0, ctx_in + kEnc);
++    pool<4, kWAltar>(p.altar, p.pl, enc_altar_wt, enc_altar_b, ctx_in + 2*kEnc, ctx_in + 3*kEnc);
++    pool<12, kWCamp>(p.camp, p.pc, enc_camp_wt, enc_camp_b, ctx_in + 4*kEnc, ctx_in + 5*kEnc, camp_enc);
++    pool<6, kWEnemy>(p.enemy, p.pe, enc_enemy_wt, enc_enemy_b, ctx_in + 6*kEnc, ctx_in + 7*kEnc);
+     CLRL_P(2);
+-    for (int i = 0; i < kG; ++i) ctx_in[64 + i] = p.glob[i];
+-    float ctx[32];
+-    linear_t(ctx_wt, ctx_b, ctx_in, kCtxIn, 32, ctx);
+-    for (int i = 0; i < 32; ++i) ctx[i] = ctx[i] > 0.0f ? ctx[i] : 0.0f;
++    for (int i = 0; i < kG; ++i) ctx_in[8*kEnc + i] = p.glob[i];
++    float ctx[kCtx];
++    linear_t(ctx_wt, ctx_b, ctx_in, kCtxIn, kCtx, ctx);
++    for (int i = 0; i < kCtx; ++i) ctx[i] = ctx[i] > 0.0f ? ctx[i] : 0.0f;
+ 
+     CLRL_P(3);
+-    float hp[kH], gi[48], gh[48];
++    float hp[kH], gi[3*kH], gh[3*kH];
+     for (int i = 0; i < kH; ++i) hp[i] = reset ? 0.0f : h_in[i];
+-    linear_t(gru_wiht, gru_bih, ctx, 32, 48, gi);
+-    linear_t(gru_whht, gru_bhh, hp, kH, 48, gh);
++    linear_t(gru_wiht, gru_bih, ctx, kCtx, 3*kH, gi);
++    linear_t(gru_whht, gru_bhh, hp, kH, 3*kH, gh);
+     for (int i = 0; i < kH; ++i) {
+         const float r = sigmoid(gi[i] + gh[i]);
+         const float z = sigmoid(gi[kH + i] + gh[kH + i]);
+@@ -249,18 +252,18 @@
+     CLRL_P(4);
+     // Pointer: W[16x24] . [camp_enc(8); h(16)] + b = W_camp . camp_enc + (W_h . h + b). The h part is the same for
+     // every camp, so it is computed once (exact up to summation order).
+-    float hpart[16];
+-    linear_t(ptr_wt + 8 * 16, ptr_b, out.h, kH, 16, hpart);  // rows 8..23 of the transposed [24][16] matrix
++    float hpart[kPtr];
++    linear_t(ptr_wt + kEnc*kPtr, ptr_b, out.h, kH, kPtr, hpart);  // rows 8..23 of the transposed [24][16] matrix
+     for (int c = 0; c < 12; ++c) {
+         out.legal[c] = p.pc[c];
+         if (!p.pc[c]) {  // absent camp: illegal, no score computed
+             out.logits[c] = -std::numeric_limits<float>::infinity();
+             continue;
+         }
+-        float t[16], sc;
+-        linear_t(ptr_wt, hpart, camp_enc[c], 8, 16, t);  // rows 0..7; bias = the shared h part
+-        for (int i = 0; i < 16; ++i) t[i] = ftanh(t[i]);
+-        linear(score_w, score_b, t, 16, 1, &sc);
++        float t[kPtr], sc;
++        linear_t(ptr_wt, hpart, camp_enc[c], kEnc, kPtr, t);  // rows 0..7; bias = the shared h part
++        for (int i = 0; i < kPtr; ++i) t[i] = ftanh(t[i]);
++        linear(score_w, score_b, t, kPtr, 1, &sc);
+         out.legal[c] = p.pc[c];
+         out.logits[c] = p.pc[c] ? sc : -std::numeric_limits<float>::infinity();
+     }
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -55,7 +55,21 @@
+             }
+ #else
+             else {
++#if CLRL_ACT
++                const auto jd_fuel0 = bc::fuel_remaining();
++                const auto jd_round0 = bc::round_number();
++#endif
+                 bot.play_turn();
++#if CLRL_ACT
++                if (clrl::act.dec_round >= 0) { debug_block({
++                    const auto jd_left = bc::fuel_remaining();
++                    const bool jd_crossed = bc::round_number() != jd_round0;
++                    std::printf("CLT1 %u %d %llu %llu %llu %d\n", jd_round0,
++                        static_cast<int>(clrl::st.f[clrl::kOffS + 31]),
++                        static_cast<unsigned long long>(jd_fuel0 >= jd_left ? jd_fuel0 - jd_left : 0),
++                        static_cast<unsigned long long>(jd_fuel0), static_cast<unsigned long long>(jd_left), jd_crossed ? 1 : 0);
++                }); }
++#endif
+ #if CLRL_REC
+                 ClrlFriend::finish(bot);
+ #endif

@@ -1,0 +1,13 @@
+# Sparse joint-route PPO integration contract
+
+`ppo_objective.py` is the learner objective, not a full collector adapter or a trained bot. Run `check_ppo.py` for synthetic mathematical verification. It consumes every admitted stochastic gate row, including hold rows; deterministic resource-mask decisions must stay in episode/skip accounting but not enter this objective.
+
+Inputs are current gate logits, logged boolean invoke, current conditional chosen-group logp ONLY for invoked rows in original order, detached logged old joint-route logp, detached terminal returns, and the total number of complete games. A game with no admitted stochastic decisions still counts in the game denominator. If using chunks, each chunk uses the same total game count; sum gradients before one optimizer step. Do not average chunk means.
+
+The expensive q evaluator must receive invoked indices only. Use the logged branch even if invoke executes the same physical reference action as hold. Merge physical aliases before producing conditional chosen logp. Replaying the behavior checkpoint must reproduce old joint logp before any update. Existing physical marginal-action datasets are incompatible and must not be relabeled.
+
+Reward remains gamma=1 terminal team outcome, fixed zero baseline; no critic/GAE claimed. Objective is clipped joint-route PPO plus exact Bernoulli gate entropy only. It deliberately does NOT claim full conditional-policy entropy; q is unobserved on holds. All original complete-game, training-map, row/execution association, source/engine/artifact/checkpoint integrity checks remain required in the adapter.
+
+Diagnostics: `sampled_joint_kl_log` is mean(old_logp-new_logp), can be negative in finite samples. `sampled_joint_kl_k3` is mean(exp(new_logp-old_logp)-1-(new_logp-old_logp)), nonnegative per sample and unbiased for old||new joint KL under old-policy sampling with the same support. Neither is exact full-distribution KL on a finite batch, a confidence bound, nor physical marginal KL. Correlation and rare invokes may make these estimates weak. `exact_gate_kl` gives exact Bernoulli KL only at visited states. Never label these as an exact full-policy guard. Add conservative max sampled likelihood change checks and evaluate gameplay separately; do not certify trust-region safety from sample means alone.
+
+This helper does not choose the gate architecture, feature schema, C++ encoding or checkpoint format. Those must be pinned to the integrated runtime. Do not silently reuse the old 64-dimensional expensive gate, because that computes the context projection before the supposed cheap gate. No large-head background staging on holds.

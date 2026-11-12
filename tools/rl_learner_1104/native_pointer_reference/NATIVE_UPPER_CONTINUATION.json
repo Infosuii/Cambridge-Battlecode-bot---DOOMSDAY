@@ -1,0 +1,115 @@
+{
+  "scope": "Five expanded native upper/query training batches; no strength inference from differing-map train win counts",
+  "games": 160,
+  "decisions": 486076,
+  "departures": 12487,
+  "families": 40,
+  "accepted_epochs": 10,
+  "trainable_parameters": 5200,
+  "total_network_parameters": 28889,
+  "latest_header_sha256": "6661d16ace9971334ba646993729560f77bec507d4191e7527201f3e2ab21862",
+  "continuation": {
+    "stage": "complete",
+    "cycles": [
+      {
+        "cycle": 1,
+        "games": 32,
+        "rows": 94302,
+        "departures": 2638,
+        "training_wins": 14,
+        "training_losses": 18,
+        "families": [
+          "the-front",
+          "rows",
+          "uncharted-lands",
+          "breadcrumbs",
+          "fields",
+          "crossing",
+          "quarry",
+          "pilgrimage"
+        ],
+        "seed": 110502,
+        "accepted_updates": 2,
+        "total_updates": 4,
+        "full_kl": 7.970854394074502e-05,
+        "export_header_sha256": "f7e9d954ffa42ee6515c64a1f166b7604bc1c61d869d5f9b40aa374dccf08bc3",
+        "optimizer_resumed": true
+      },
+      {
+        "cycle": 2,
+        "games": 32,
+        "rows": 109373,
+        "departures": 2678,
+        "training_wins": 22,
+        "training_losses": 10,
+        "families": [
+          "ribs",
+          "harvest",
+          "tangle",
+          "quadrants",
+          "split",
+          "fan",
+          "happy-halloween",
+          "stampede"
+        ],
+        "seed": 110503,
+        "accepted_updates": 2,
+        "total_updates": 6,
+        "full_kl": 8.734960610081516e-05,
+        "export_header_sha256": "ce358fcb04461909fcb3b063df670c99f2f29a2f46c045a08a69c158451525b9",
+        "optimizer_resumed": true
+      },
+      {
+        "cycle": 3,
+        "games": 32,
+        "rows": 92345,
+        "departures": 2117,
+        "training_wins": 13,
+        "training_losses": 19,
+        "families": [
+          "rushbait",
+          "collision",
+          "galaxy",
+          "stalactites",
+          "reverse-spiral",
+          "anvil",
+          "arenas",
+          "concentrated-wealth"
+        ],
+        "seed": 110504,
+        "accepted_updates": 2,
+        "total_updates": 8,
+        "full_kl": 7.117244182065724e-05,
+        "export_header_sha256": "48c061aaa3195364fc9d349d2250b24bf1938433d96f15faba13499fb7edb983",
+        "optimizer_resumed": true
+      },
+      {
+        "cycle": 4,
+        "games": 32,
+        "rows": 110727,
+        "departures": 3074,
+        "training_wins": 13,
+        "training_losses": 19,
+        "families": [
+          "gemfight",
+          "honeycomb",
+          "road-of-riches",
+          "islands",
+          "twisty",
+          "boss-battle",
+          "adgato-gemcombat",
+          "big-world"
+        ],
+        "seed": 110505,
+        "accepted_updates": 2,
+        "total_updates": 10,
+        "full_kl": 0.0001239479479458488,
+        "export_header_sha256": "6661d16ace9971334ba646993729560f77bec507d4191e7527201f3e2ab21862",
+        "optimizer_resumed": true
+      }
+    ],
+    "wall_seconds": 429.43123541679233,
+    "latest_checkpoint": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/runs/native-upper-continuation-01/cycle4/update/upper.pt",
+    "latest_header": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/runs/native-upper-continuation-01/cycle4/update/nn_weights.h"
+  }
+}

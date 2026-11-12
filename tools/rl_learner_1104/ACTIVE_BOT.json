@@ -1,0 +1,43 @@
+{
+  "schema": "doomsday-active-bot-v1",
+  "status": "SOURCE_IDENTITY_VERIFIED",
+  "active_line": "v111 (nnrc10)",
+  "reported_live_version": 111,
+  "reported_selected_version": 111,
+  "reported_pinned": true,
+  "report_source": "Issue #5 comment 6667872728, signed-in CLI and site observation reported by Ishan",
+  "verified_upload_source_sha256": "72e9a198135d9b42361a223be505e379b1cf286e1223ee3daf1fbb90a34f8463",
+  "source_base_zip_sha256": null,
+  "runtime_delta_commit": null,
+  "header_sha256": "f1555e37775fd32d99aa82463bbe30b3181e9e96e9c2caa898959b7e85c8d0ec",
+  "defines": {
+    "V58_PATCH": 1,
+    "CLFS": 9
+  },
+  "local_reconstruction_wasm_sha256": null,
+  "local_windows_rebuild_wasm_sha256": "0896a189a0bb99452b72617307ea86a4cfda82df76daa91482febef58039c423",
+  "exact_live_wasm_sha256": null,
+  "r1_identity_ack": null,
+  "source_identity_evidence": {
+    "issue_comment_id": 6667872728,
+    "platform_submission_id": "d8f4fa54-ad2b-4e6e-aee4-cb2f248795b5",
+    "created_at": "2026-11-05T17:36:07.438Z",
+    "archive_files": 40,
+    "matching_sdk5_windows_builds": 2,
+    "ref": "1796e3c9b6fe993afd6a2b8b63179f7e13c89094",
+    "path": "research/codex-ishan/LIVE111_SOURCE_VERIFIED.json"
+  },
+  "owners": {
+    "learning_strategy": "JOHNDOE",
+    "runtime_platform_collection": "R1shik123"
+  },
+  "rule": "One active source/runtime/weights manifest. Coordinate source changes and every platform upload before switching. Previous RL160/nonCLFS continuation archived, not active candidates.",
+  "platform": "R1 retains LOCK/ACK/UNLOCK, verifies active/selected and outstanding matches before operations. User authorized unranked collection and logs+replays.",
+  "historical_benchmark": {
+    "version": 109,
+    "verified_upload_source_sha256": "c013c216393de628334c1d38d4c24d6abdd1b8bf159d8ffb262711040febd5e8",
+    "local_reconstruction_wasm_sha256": "f71bbe3bde4be15088114c189a4df8f1512e134446f03b0489cf400dc0c94b09",
+    "local_windows_rebuild_wasm_sha256": "f3d919e9a0e870c131b821742d370f40cbdb78dbc04a22945add78d95da91775",
+    "prior_manifest_blob_sha": "05e87e4ce9329238bab4de3297443a94a76e5e84"
+  }
+}

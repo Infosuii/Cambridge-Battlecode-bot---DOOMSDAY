@@ -1,0 +1,100 @@
+{
+  "scope": "Scheduled matched GREEDY deployment evaluation after5 upper-trunk/query training batches; separate from categorical training policy, no sealed holdout or ladder claim",
+  "games": 120,
+  "primary_maps": 15,
+  "primary_families": 13,
+  "public_maps": [],
+  "pairs": {
+    "upper0-vs-v92": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "own_fuel_outs": 414,
+      "score_rate": 0.5
+    },
+    "upper5-vs-v92": {
+      "games": 30,
+      "wins": 16,
+      "draws": 0,
+      "losses": 14,
+      "own_fuel_outs": 442,
+      "score_rate": 0.5333333333333333
+    },
+    "upper0-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 407,
+      "score_rate": 0.43333333333333335
+    },
+    "upper5-vs-native": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "losses": 13,
+      "own_fuel_outs": 434,
+      "score_rate": 0.5666666666666667
+    }
+  },
+  "comparisons": {
+    "v92": {
+      "delta_score_rate": 0.03333333333333333,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.16666666666666666,
+        0.2692307692307692
+      ]
+    },
+    "native": {
+      "delta_score_rate": 0.13333333333333333,
+      "families": 13,
+      "family_cluster_bootstrap_95": [
+        -0.0625,
+        0.32142857142857145
+      ]
+    }
+  },
+  "artifacts": {
+    "upper0": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper0_greedy_deploy.wasm",
+      "sha256": "09719dbf3f719e9f3e56835acc02499cfc4559a1aa8ae2d5bfb8b8100cc930cb"
+    },
+    "upper5": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper5_greedy_deploy.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "native": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+      "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+    },
+    "v92": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+    },
+    "decrest": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-decrest-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b502e467f12c4d7200ea597eb6bd094ccb6594a5bb70ef5805a9b4ae1df54a92"
+    },
+    "khiri": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-khiri-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "0b42527c2e6b2dc7ccc1933d01f3436415b85f166dfe276f43f2986a069eb84b"
+    },
+    "wardens": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-wardens-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "3b034efc1afe426d4cac9d9e700e873224026631987b87976dd12b59d8fc2bba"
+    }
+  },
+  "wall_seconds": 158.04939808277413,
+  "deterministic_argmax": true,
+  "logging_disabled": true,
+  "compiled_seed": 110401,
+  "limitations": [
+    "Native/v92 are related frozen opponents; this greedy evaluation has no current live-team opponent.",
+    "No public-opponent games were included in this120-game greedy evaluation.",
+    "All evaluation maps DEVELOPMENT, previously exposed; external live replay exposure is separately tracked in LIVE_REPLAY_EXPOSURE_OVERLAY.json.",
+    "Deterministic policy on matched map/side cells; do not treat the30 cells as independent RNG replications.",
+    "No model/temperature choice made inside trainingblock; evaluation is a checkpoint, not evidence of future superiority."
+  ]
+}

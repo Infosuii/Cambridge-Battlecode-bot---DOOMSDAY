@@ -1,0 +1,19 @@
+{
+  "status": "PRESERVED_EXPERIMENTAL_NOT_PROMOTED",
+  "reason": "User requested retaining candidate; development win gain uncertain and own fuel-outs up4.6%. Test CLFS separately.",
+  "source_zip_sha256": "8e7ec306160087947b820acc9a64c98578966caae10790fc3c11464a8fcbafa1",
+  "header_sha256": "dc57ac511966a3aa7c011328144589da1e9193408a1db55f321cb122021b2375",
+  "wasm_sha256": "e79fe3d4bd55fa51745e38c4c1fed21710846418cac5ecbfa087fbc23521bb7b",
+  "base": "Exact v107 source, only nn_weights.h differs; no CLFS patch included",
+  "training_games": 160,
+  "decisions": 497911,
+  "development_wins": {
+    "initial": 132,
+    "trained": 136,
+    "games_each": 180
+  },
+  "development_fuel_outs": {
+    "initial": 2182,
+    "trained": 2282
+  }
+}

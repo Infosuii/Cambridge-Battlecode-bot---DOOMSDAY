@@ -1,0 +1,29 @@
+{
+  "scope": "Actual JNP3 consumed-h0 native replay and diagnostic gradient; no RL update or strength claim",
+  "rows": 3773,
+  "trainable_parameters": 5200,
+  "h1_and_logits_bit_exact": true,
+  "max_chosen_logp_error": 8.881784197001252e-16,
+  "gradient_norms": {
+    "query_w": 22.307115172130406,
+    "query_bias": 1.041023206080315,
+    "trunk_w": 18.234550305595278,
+    "trunk_bias": 1.3152470110440975
+  },
+  "association": {
+    "missing_completion": [],
+    "extra_completion": [],
+    "logging_round_overruns": [],
+    "min_fuel_at_completion_marker": 11250,
+    "reported_skips": [
+      0,
+      0,
+      39,
+      0
+    ],
+    "producer_markers_complete": true,
+    "action_semantics": "sampled target command to frozen downstream executor, which may cancel/reassign; NOT executed action label"
+  },
+  "header_sha256": "c76eb3f385df3cbcabc32e83f942645538cf0243dc7adb044e3be0ccf5aa0e14",
+  "stdout_sha256": "1a2c35348d7d4ad8a830818e376202596af7249432f1027519008a4b026d7b72"
+}

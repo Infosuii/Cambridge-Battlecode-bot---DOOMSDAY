@@ -1,0 +1,129 @@
+{
+  "scope": "Predeclared frozen-prior-value vs zero on-policy training comparison; DEVELOPMENT only",
+  "fresh_evaluation_games": 121,
+  "cached_initial_cells": 60,
+  "control": "Repeated pinnedupper5 control fullstatistics identical beforecache reuse",
+  "training_plan_sha256": "821f423493a587e440c638df73c46789bda6864e09f400651eccbaadfd0eb4e3",
+  "pairs": {
+    "upper5-vs-v92": {
+      "games": 30,
+      "wins": 16,
+      "draws": 0,
+      "losses": 14,
+      "own_fuel_outs": 442
+    },
+    "zero-vs-v92": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 405
+    },
+    "value-vs-v92": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "losses": 13,
+      "own_fuel_outs": 411
+    },
+    "upper5-vs-native": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "losses": 13,
+      "own_fuel_outs": 434
+    },
+    "zero-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 433
+    },
+    "value-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 404
+    }
+  },
+  "comparisons": {
+    "value-minus-zero_vs_v92": {
+      "delta": 0.13333333333333333,
+      "families": 13,
+      "family_cluster_95": [
+        0.0,
+        0.26666666666666666
+      ]
+    },
+    "zero-minus-upper5_vs_v92": {
+      "delta": -0.1,
+      "families": 13,
+      "family_cluster_95": [
+        -0.25,
+        0.03125
+      ]
+    },
+    "value-minus-upper5_vs_v92": {
+      "delta": 0.03333333333333333,
+      "families": 13,
+      "family_cluster_95": [
+        -0.19230769230769232,
+        0.21875
+      ]
+    },
+    "value-minus-zero_vs_native": {
+      "delta": 0.0,
+      "families": 13,
+      "family_cluster_95": [
+        -0.13157894736842105,
+        0.13333333333333333
+      ]
+    },
+    "zero-minus-upper5_vs_native": {
+      "delta": -0.13333333333333333,
+      "families": 13,
+      "family_cluster_95": [
+        -0.40625,
+        0.16666666666666666
+      ]
+    },
+    "value-minus-upper5_vs_native": {
+      "delta": -0.13333333333333333,
+      "families": 13,
+      "family_cluster_95": [
+        -0.3333333333333333,
+        0.08823529411764706
+      ]
+    }
+  },
+  "artifacts": {
+    "zero": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/value_trial_zero_greedy.wasm",
+      "sha256": "6ba95fa1bd696f4bbb08dcc07df5cf4e78617f8f167953eaa8bd75a379cfa610"
+    },
+    "value": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/value_trial_value_greedy.wasm",
+      "sha256": "f57b784fb5d3a9dfc368ced38c0bfd37069580373bc1c0bfe57aebbe3f4d75e4"
+    },
+    "upper5": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper5_greedy_release.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "native": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+      "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+    },
+    "v92": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+    }
+  },
+  "limitations": [
+    "One paired training seed schedule, two related frozen opponents; not proof of broad ladder superiority.",
+    "No currentopponentcode available fromuserreplays; live outcomes must be version-verified separately.",
+    "Training baseline predicts prior-state outcome; noactorinferencecost, but predictiongain alone is not astrengthgain.",
+    "Developmentmaps previouslyexposed; confirmationeligibility separately excludesVault/TheLine/Swirl."
+  ]
+}

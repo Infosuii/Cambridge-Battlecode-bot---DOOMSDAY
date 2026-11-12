@@ -1,0 +1,22 @@
+{
+  "scope": "Untuned prior-query baseline tested chronologically on160 subsequent upper-model games; no actor update/strength/gradient-variance claim",
+  "baseline_sha256": "b79c800d18bbdde649ace544faaeadd794adf4a7a0ef2576f4bc97eea8da493a",
+  "frozen_baseline_json_sha256": "c628a5a5b86794ccfa62716483c7d7ec10490815b4d9d5149d6c813ed465d2ba",
+  "baseline_training_games": 128,
+  "future_games": 160,
+  "future_families": 40,
+  "model_mse": 0.8000890926457942,
+  "zero_mse": 1.0,
+  "family_cluster_95_difference": [
+    -0.27257341356715187,
+    -0.12632320457603782
+  ],
+  "validated_against_zero": true,
+  "previously_unseen_family_mse": 0.8265864602290094,
+  "limitations": [
+    "Future games share mapfamilies withpriortraining except8 heldfamilies, so this is chronological rather than wholly new-map validation.",
+    "Prediction MSE is not the policy-gradient covariance or a strength result.",
+    "No model refit or hyperparameter choice based on these future outcomes; baseline remains frozen."
+  ],
+  "full_report_sha256": "8e911c8158e0a904f96de6862a00c1d007afdbfd690035cd9af68e5ae6b49780"
+}

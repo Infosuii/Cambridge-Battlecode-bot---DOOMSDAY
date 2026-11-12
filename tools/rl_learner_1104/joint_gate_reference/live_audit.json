@@ -1,0 +1,109 @@
+{
+  "scope": "Independent 0ea31bc conditional arithmetic/encoding and reported admission audit; nontrained diagnostic weights, not strength evidence",
+  "runtime_commit": "0ea31bc02315504de436085b5bb52cb7f7bdce8a",
+  "wasm_sha256": "0fbf4fb404ad6c009cad447b25ba13d43fcf2d1eac8964042c2715d75e622a46",
+  "gate": {
+    "weights": [
+      0.4,
+      -0.2,
+      0.15,
+      0.1,
+      -0.3,
+      0.25
+    ],
+    "bias": "log(.2/.8)",
+    "trained": false
+  },
+  "header_sha256": {
+    "clna_cgate.h": "93e8fc108009a13dacd94e490aed81714a83a563a8344a611fb947c505fc5d6e",
+    "clna_head_w.h": "7f84c5ad24b250e005597359eb28f6a369092d8649c459f24944a6b82957861f",
+    "nnrec.cpp": "2b8261a9241298621fe48a8c16683c0d5cdd9c1a1e324ba29816852e1eb9d948"
+  },
+  "cells": {
+    "02fields_A": {
+      "scope": "Actual conditional runtime arithmetic/encoding audit with NONTRAINED diagnostic head+gate; no strength or full collection eligibility claim",
+      "head_version": "clna-head-v1-jd-cache-audit-13b794bb6c67",
+      "rows": 109,
+      "invokes": 29,
+      "holds": 80,
+      "physical_departures": 10,
+      "max_joint_logp_error": 2.088375896214245e-06,
+      "max_gate_probability_error": 2.8724011447156528e-08,
+      "max_conditional_chosen_probability_error": 7.690457000664175e-07,
+      "alpha_range": [
+        0.222656819869408,
+        0.3095730033991324
+      ],
+      "invoked_pub_age_p10_p50_p90": [
+        1.0,
+        1.0,
+        2.0
+      ],
+      "association": {
+        "missing_execution": [],
+        "reassigned_execution": [],
+        "extra_execution": [],
+        "reported_skips": [
+          0,
+          0,
+          3884,
+          0
+        ],
+        "execution_verified": true,
+        "caveat": "Emitted row association alone does not establish producer completeness or unflushed final skip counts."
+      },
+      "truncated_duplicate_payload_rejection": "pass"
+    },
+    "00reverse_spiral_A": {
+      "scope": "Actual conditional runtime arithmetic/encoding audit with NONTRAINED diagnostic head+gate; no strength or full collection eligibility claim",
+      "head_version": "clna-head-v1-jd-cache-audit-13b794bb6c67",
+      "rows": 3,
+      "invokes": 0,
+      "holds": 3,
+      "physical_departures": 0,
+      "max_joint_logp_error": 3.366733825060919e-08,
+      "max_gate_probability_error": 2.870838422541766e-08,
+      "max_conditional_chosen_probability_error": null,
+      "alpha_range": [
+        0.24638534957870867,
+        0.32529318223278303
+      ],
+      "invoked_pub_age_p10_p50_p90": null,
+      "association": {
+        "missing_execution": [],
+        "reassigned_execution": [],
+        "extra_execution": [],
+        "reported_skips": [
+          0,
+          0,
+          3082,
+          0
+        ],
+        "execution_verified": true,
+        "caveat": "Emitted row association alone does not establish producer completeness or unflushed final skip counts."
+      },
+      "truncated_duplicate_payload_rejection": "pass"
+    }
+  },
+  "fields_capture_discard_full_statistics_equal": true,
+  "diagnostics": {
+    "conditional-audit-fields-A": {
+      "botFaults": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "codes": [],
+      "detailedCaptureComplete": true
+    },
+    "conditional-audit-spiral-A": {
+      "botFaults": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "codes": [],
+      "detailedCaptureComplete": true
+    }
+  },
+  "concern": "60k guard after native scorer gives very low admitted-state coverage in these two cases; no claimed universal rate or producer-complete skip count. A near-native no-explore control can pass while leaving too few invoked decisions for useful training.",
+  "next": "Compare actual PC admission/invoke counts before pilot; if similarly low, reduce per-invocation work or reuse/train native scorer rather than merely raising exploration probability."
+}

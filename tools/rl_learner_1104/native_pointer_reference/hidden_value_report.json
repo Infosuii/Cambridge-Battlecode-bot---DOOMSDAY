@@ -1,0 +1,255 @@
+{
+  "scope": "Training-only value-prediction test on PAST actor data; no actor update, gameplay or fuel saving claim",
+  "past_games": 160,
+  "training_games": 128,
+  "validation_games": 32,
+  "training_families": 32,
+  "validation_families": 8,
+  "states": 5120,
+  "states_per_game": 32,
+  "parameters": 4225,
+  "epochs": 50,
+  "constant_baseline": -0.109375,
+  "train_mse": 0.6953951716423035,
+  "validation_mse": 1.1199073791503906,
+  "validation_constant_mse": 1.011962890625,
+  "validation_zero_mse": 1.0,
+  "heldout_family_cluster_95_mse_difference": [
+    -0.027697534556500612,
+    0.2245095338439569
+  ],
+  "validated_against_constant": false,
+  "split": "8 fixed hash-selected training families held out; no development or confirmation maps used",
+  "limitations": [
+    "Rows within each game share terminal reward; validation and intervals group whole games/families.",
+    "Improved prediction does not prove lower policy-gradient variance or better playing strength.",
+    "A frozen baseline must precede the fresh actor collection; do not fit on the same returns before using it for that actor update.",
+    "Native trunk has stayed frozen; feature representation transfer needs rechecking if trunk is trained later."
+  ],
+  "per_game": [
+    {
+      "game": 4,
+      "family": "fields",
+      "critic_mse": 1.1228337287902832,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 5,
+      "family": "fields",
+      "critic_mse": 1.2009027004241943,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 6,
+      "family": "fields",
+      "critic_mse": 1.2483407258987427,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 7,
+      "family": "fields",
+      "critic_mse": 1.0719887018203735,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 12,
+      "family": "galaxy",
+      "critic_mse": 0.4642556607723236,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 13,
+      "family": "galaxy",
+      "critic_mse": 1.626549243927002,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 14,
+      "family": "galaxy",
+      "critic_mse": 2.322295665740967,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 15,
+      "family": "galaxy",
+      "critic_mse": 0.5940395593643188,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 60,
+      "family": "the-pond",
+      "critic_mse": 1.6186461448669434,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 61,
+      "family": "the-pond",
+      "critic_mse": 1.408327579498291,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 62,
+      "family": "the-pond",
+      "critic_mse": 1.5190727710723877,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 63,
+      "family": "the-pond",
+      "critic_mse": 0.9874354004859924,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 64,
+      "family": "concentrated-wealth",
+      "critic_mse": 0.8048016428947449,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 65,
+      "family": "concentrated-wealth",
+      "critic_mse": 0.8533111810684204,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 66,
+      "family": "concentrated-wealth",
+      "critic_mse": 0.9611544013023376,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 67,
+      "family": "concentrated-wealth",
+      "critic_mse": 1.0818169116973877,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 76,
+      "family": "stalactites",
+      "critic_mse": 1.2459288835525513,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 77,
+      "family": "stalactites",
+      "critic_mse": 1.2442679405212402,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 78,
+      "family": "stalactites",
+      "critic_mse": 1.519308090209961,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 79,
+      "family": "stalactites",
+      "critic_mse": 1.0625195503234863,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 112,
+      "family": "twisty",
+      "critic_mse": 1.3519465923309326,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 113,
+      "family": "twisty",
+      "critic_mse": 1.163825511932373,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 114,
+      "family": "twisty",
+      "critic_mse": 1.3084111213684082,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 115,
+      "family": "twisty",
+      "critic_mse": 1.2613790035247803,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 136,
+      "family": "split",
+      "critic_mse": 1.7004188299179077,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 137,
+      "family": "split",
+      "critic_mse": 1.5974042415618896,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 138,
+      "family": "split",
+      "critic_mse": 0.45062142610549927,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 139,
+      "family": "split",
+      "critic_mse": 0.5741745233535767,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 156,
+      "family": "ribs",
+      "critic_mse": 0.4666469395160675,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 157,
+      "family": "ribs",
+      "critic_mse": 1.1175792217254639,
+      "constant_mse": 1.230712890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 158,
+      "family": "ribs",
+      "critic_mse": 0.2750711739063263,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    },
+    {
+      "game": 159,
+      "family": "ribs",
+      "critic_mse": 0.6117619276046753,
+      "constant_mse": 0.793212890625,
+      "zero_mse": 1.0
+    }
+  ]
+}

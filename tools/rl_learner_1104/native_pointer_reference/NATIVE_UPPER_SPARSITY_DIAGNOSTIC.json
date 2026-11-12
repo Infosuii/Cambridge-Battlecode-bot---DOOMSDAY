@@ -1,0 +1,21 @@
+{
+  "scope": "Same consumed h0 trace, initial vs trained hidden/query activation sparsity; not a full fuel attribution",
+  "metrics": [
+    {
+      "header": "work/rl-execution/native_pointer_reference/upper_u0_header.h",
+      "rows": 79329,
+      "mean_nonzero_h1": 41.79820746511364,
+      "mean_nonzero_query": 15.990545702076163
+    },
+    {
+      "header": "work/rl-execution/runs/native-upper-continuation-01/cycle4/update/nn_weights.h",
+      "rows": 79329,
+      "mean_nonzero_h1": 41.794841735052756,
+      "mean_nonzero_query": 15.9907852109569
+    }
+  ],
+  "limitations": [
+    "Native dense16 skips zero INPUT coordinates; changed upper activations can change query/key cost even with identical parameter count.",
+    "This frozen-input diagnostic cannot isolate fullgame fuel differences caused by different trajectories, cache refresh or executor actions."
+  ]
+}

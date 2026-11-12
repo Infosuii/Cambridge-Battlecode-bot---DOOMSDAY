@@ -1,0 +1,71 @@
+{
+  "scope": "Full-game QUIET SHADOW inference-cost impact; no verdict/action override, no learned improvement claim",
+  "new_games": 61,
+  "pairs": {
+    "upper5-vs-v92": {
+      "games": 30,
+      "wins": 16,
+      "draws": 0,
+      "own_fuel_outs": 442
+    },
+    "upper5-vs-native": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "own_fuel_outs": 434
+    },
+    "shadow-vs-v92": {
+      "games": 30,
+      "wins": 18,
+      "draws": 0,
+      "own_fuel_outs": 385
+    },
+    "shadow-vs-native": {
+      "games": 30,
+      "wins": 14,
+      "draws": 0,
+      "own_fuel_outs": 491
+    }
+  },
+  "comparisons": {
+    "v92": {
+      "delta_score_rate": 0.06666666666666667,
+      "family_cluster_95": [
+        -0.14285714285714285,
+        0.2647058823529412
+      ]
+    },
+    "native": {
+      "delta_score_rate": -0.1,
+      "family_cluster_95": [
+        -0.32142857142857145,
+        0.1
+      ]
+    }
+  },
+  "control": "Pinned v107greedy repeat fullstatistics identical before baselinecache reuse",
+  "artifacts": {
+    "shadow": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/contact_reference/contact_shadow_full.wasm",
+      "sha256": "411a5489a665b892803534c7eb1d512287926142347424f8df4709b27194be55"
+    },
+    "upper5": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper5_greedy_release.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "native": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+      "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+    },
+    "v92": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+    }
+  },
+  "limitations": [
+    "No softmax/sampling/acting overhead included; nontrained head outputs go tovolatile sink toretainarithmetic.",
+    "Scorescomputed on everyfreshfinalcontact<=6 when>=25k fuel; earlierburst/ambush/capture returns andlowfuel casesexcluded.",
+    "Contactfeatures consume fuel and canchange downstream trajectories or background NN refreshes even without explicit actionoverrides.",
+    "15previouslyexposeddevmaps/two relatedfrozenopponents; no broadladderstrengthclaim."
+  ]
+}

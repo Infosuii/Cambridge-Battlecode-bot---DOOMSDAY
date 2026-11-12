@@ -1,0 +1,499 @@
+{
+  "scope": "Fixed 160-game current-engine training block, 360 fresh matched DEVELOPMENT games, no reserved confirmation used",
+  "engine_hash": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+  "training": {
+    "stage": "training_complete_not_validated",
+    "completed": [
+      {
+        "cycle": 0,
+        "decisions": 85088,
+        "accepted_updates": 2,
+        "header_sha256": "8c2bc2d0d88d79cbd6321e07ce62ee6c73c9769cddfcd2ebf435b385ea5b28b9"
+      },
+      {
+        "cycle": 1,
+        "decisions": 122438,
+        "accepted_updates": 2,
+        "header_sha256": "52309d264b8f6a7a80735410afac6a05df0bd414d1ce046e184caea042c4ef12"
+      },
+      {
+        "cycle": 2,
+        "decisions": 88723,
+        "accepted_updates": 2,
+        "header_sha256": "7a7b153f846785c6670b8b8dbf27b7c5e4e5394a114af861e988152211bc2dda"
+      },
+      {
+        "cycle": 3,
+        "decisions": 100392,
+        "accepted_updates": 2,
+        "header_sha256": "eea72754a9a80427495164d2cb9463ef9501543beee6cbf109e94afc0af05e43"
+      },
+      {
+        "cycle": 4,
+        "decisions": 101270,
+        "accepted_updates": 2,
+        "header_sha256": "dc57ac511966a3aa7c011328144589da1e9193408a1db55f321cb122021b2375"
+      }
+    ],
+    "engine_hash": "96ce858f548c14560eff737967a691a30eaf0a469afd1f4f400f125e094bd1fd",
+    "elapsed_seconds": 404.82126962486655,
+    "cycle": 4,
+    "latest_checkpoint": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/runs/tournament-engine3-01/cycle4/update/upper.pt",
+    "latest_header": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/runs/tournament-engine3-01/cycle4/update/nn_weights.h"
+  },
+  "pairs": {
+    "initial-vs-v92": {
+      "games": 30,
+      "wins": 17,
+      "draws": 0,
+      "losses": 13,
+      "own_fuel_outs": 528,
+      "fuel_per1000_team_rounds": 13.345128269935548,
+      "mean_camp_margin": 194.26666666666668,
+      "mean_submitted_margin": 150.73333333333332
+    },
+    "trained-vs-v92": {
+      "games": 30,
+      "wins": 20,
+      "draws": 0,
+      "losses": 10,
+      "own_fuel_outs": 572,
+      "fuel_per1000_team_rounds": 14.724431745051097,
+      "mean_camp_margin": 171.03333333333333,
+      "mean_submitted_margin": 190.03333333333333
+    },
+    "initial-vs-native": {
+      "games": 30,
+      "wins": 11,
+      "draws": 0,
+      "losses": 19,
+      "own_fuel_outs": 404,
+      "fuel_per1000_team_rounds": 10.730411686586985,
+      "mean_camp_margin": -58.4,
+      "mean_submitted_margin": -101.36666666666666
+    },
+    "trained-vs-native": {
+      "games": 30,
+      "wins": 13,
+      "draws": 0,
+      "losses": 17,
+      "own_fuel_outs": 477,
+      "fuel_per1000_team_rounds": 12.480050234164464,
+      "mean_camp_margin": -9.833333333333334,
+      "mean_submitted_margin": 14.233333333333333
+    },
+    "initial-vs-upper5": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "own_fuel_outs": 457,
+      "fuel_per1000_team_rounds": 12.28891040120469,
+      "mean_camp_margin": 0,
+      "mean_submitted_margin": 0
+    },
+    "trained-vs-upper5": {
+      "games": 30,
+      "wins": 15,
+      "draws": 0,
+      "losses": 15,
+      "own_fuel_outs": 441,
+      "fuel_per1000_team_rounds": 11.713147410358566,
+      "mean_camp_margin": 46.2,
+      "mean_submitted_margin": 63.4
+    },
+    "initial-vs-decrest": {
+      "games": 30,
+      "wins": 29,
+      "draws": 0,
+      "losses": 1,
+      "own_fuel_outs": 254,
+      "fuel_per1000_team_rounds": 9.298579587055206,
+      "mean_camp_margin": 817.9,
+      "mean_submitted_margin": 893.6
+    },
+    "trained-vs-decrest": {
+      "games": 30,
+      "wins": 28,
+      "draws": 0,
+      "losses": 2,
+      "own_fuel_outs": 250,
+      "fuel_per1000_team_rounds": 9.050101361135244,
+      "mean_camp_margin": 799.6,
+      "mean_submitted_margin": 860.2
+    },
+    "initial-vs-khiri": {
+      "games": 30,
+      "wins": 30,
+      "draws": 0,
+      "losses": 0,
+      "own_fuel_outs": 292,
+      "fuel_per1000_team_rounds": 10.097517117366346,
+      "mean_camp_margin": 869.0666666666667,
+      "mean_submitted_margin": 904.2333333333333
+    },
+    "trained-vs-khiri": {
+      "games": 30,
+      "wins": 30,
+      "draws": 0,
+      "losses": 0,
+      "own_fuel_outs": 265,
+      "fuel_per1000_team_rounds": 9.077518583222005,
+      "mean_camp_margin": 881.0666666666667,
+      "mean_submitted_margin": 882.3333333333334
+    },
+    "initial-vs-wardens": {
+      "games": 30,
+      "wins": 30,
+      "draws": 0,
+      "losses": 0,
+      "own_fuel_outs": 247,
+      "fuel_per1000_team_rounds": 8.639988806492234,
+      "mean_camp_margin": 815.3333333333334,
+      "mean_submitted_margin": 885.2666666666667
+    },
+    "trained-vs-wardens": {
+      "games": 30,
+      "wins": 30,
+      "draws": 0,
+      "losses": 0,
+      "own_fuel_outs": 277,
+      "fuel_per1000_team_rounds": 9.728514733256068,
+      "mean_camp_margin": 801.3,
+      "mean_submitted_margin": 871.8666666666667
+    },
+    "initial-all_six": {
+      "games": 180,
+      "wins": 132,
+      "draws": 0,
+      "losses": 48,
+      "own_fuel_outs": 2182,
+      "fuel_per1000_team_rounds": 10.952440707742502,
+      "mean_camp_margin": 439.69444444444446,
+      "mean_submitted_margin": 455.4111111111111
+    },
+    "initial-core_three": {
+      "games": 90,
+      "wins": 43,
+      "draws": 0,
+      "losses": 47,
+      "own_fuel_outs": 1389,
+      "fuel_per1000_team_rounds": 12.141290001136333,
+      "mean_camp_margin": 45.28888888888889,
+      "mean_submitted_margin": 16.455555555555556
+    },
+    "trained-all_six": {
+      "games": 180,
+      "wins": 136,
+      "draws": 0,
+      "losses": 44,
+      "own_fuel_outs": 2282,
+      "fuel_per1000_team_rounds": 11.40954361825527,
+      "mean_camp_margin": 448.22777777777776,
+      "mean_submitted_margin": 480.34444444444443
+    },
+    "trained-core_three": {
+      "games": 90,
+      "wins": 48,
+      "draws": 0,
+      "losses": 42,
+      "own_fuel_outs": 1490,
+      "fuel_per1000_team_rounds": 12.988371484858522,
+      "mean_camp_margin": 69.13333333333334,
+      "mean_submitted_margin": 89.22222222222223
+    }
+  },
+  "trained_minus_initial": {
+    "v92": {
+      "score": {
+        "mean_delta": 0.1,
+        "family_bootstrap95": [
+          -0.038461538461538464,
+          0.2692307692307692
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": -23.233333333333334,
+        "family_bootstrap95": [
+          -211.17151041666665,
+          184.23942307692295
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": 39.3,
+        "family_bootstrap95": [
+          -143.77160714285716,
+          293.9416666666664
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": 1.4666666666666666,
+        "family_bootstrap95": [
+          -1,
+          4.178571428571429
+        ]
+      },
+      "families": 13
+    },
+    "native": {
+      "score": {
+        "mean_delta": 0.06666666666666667,
+        "family_bootstrap95": [
+          -0.10714285714285714,
+          0.25
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": 48.56666666666667,
+        "family_bootstrap95": [
+          -49.80166666666666,
+          159.50073529411765
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": 115.6,
+        "family_bootstrap95": [
+          -23.536744505494504,
+          278.39361263736265
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": 2.433333333333333,
+        "family_bootstrap95": [
+          -0.7307692307692307,
+          6.03125
+        ]
+      },
+      "families": 13
+    },
+    "upper5": {
+      "score": {
+        "mean_delta": 0,
+        "family_bootstrap95": [
+          -0.20588235294117646,
+          0.2
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": 46.2,
+        "family_bootstrap95": [
+          -180.78125,
+          314.3964972527472
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": 63.4,
+        "family_bootstrap95": [
+          -193.35738095238096,
+          330.7891483516483
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": -0.5333333333333333,
+        "family_bootstrap95": [
+          -4.076923076923077,
+          2.0294117647058822
+        ]
+      },
+      "families": 13
+    },
+    "decrest": {
+      "score": {
+        "mean_delta": -0.03333333333333333,
+        "family_bootstrap95": [
+          -0.09375,
+          0
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": -18.3,
+        "family_bootstrap95": [
+          -102.65625,
+          42.1875
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": -33.4,
+        "family_bootstrap95": [
+          -94.00078125,
+          6.80624999999999
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": -0.13333333333333333,
+        "family_bootstrap95": [
+          -1.5666666666666667,
+          1.46875
+        ]
+      },
+      "families": 13
+    },
+    "khiri": {
+      "score": {
+        "mean_delta": 0,
+        "family_bootstrap95": [
+          0,
+          0
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": 12,
+        "family_bootstrap95": [
+          -13.538461538461538,
+          36.94117647058823
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": -21.9,
+        "family_bootstrap95": [
+          -49.76503267973856,
+          9.193269230769216
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": -0.9,
+        "family_bootstrap95": [
+          -2.46671875,
+          0.5769230769230769
+        ]
+      },
+      "families": 13
+    },
+    "wardens": {
+      "score": {
+        "mean_delta": 0,
+        "family_bootstrap95": [
+          0,
+          0
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": -14.033333333333333,
+        "family_bootstrap95": [
+          -31.812723214285715,
+          4.366666666666666
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": -13.4,
+        "family_bootstrap95": [
+          -30.36145833333333,
+          3.000892857142844
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": 1,
+        "family_bootstrap95": [
+          -0.038461538461538464,
+          1.866874999999997
+        ]
+      },
+      "families": 13
+    },
+    "core_three": {
+      "score": {
+        "mean_delta": 0.05555555555555555,
+        "family_bootstrap95": [
+          -0.07692307692307693,
+          0.19612438725490128
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": 23.844444444444445,
+        "family_bootstrap95": [
+          -89.79388888888889,
+          150.25749999999996
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": 72.76666666666667,
+        "family_bootstrap95": [
+          -72.57578125,
+          228.16694444444443
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": 1.1222222222222222,
+        "family_bootstrap95": [
+          -0.46153846153846156,
+          3.125061274509803
+        ]
+      },
+      "families": 13
+    },
+    "all_six": {
+      "score": {
+        "mean_delta": 0.022222222222222223,
+        "family_bootstrap95": [
+          -0.03888888888888889,
+          0.08928571428571429
+        ]
+      },
+      "camp_margin": {
+        "mean_delta": 8.533333333333333,
+        "family_bootstrap95": [
+          -50.62127976190476,
+          73.72261904761902
+        ]
+      },
+      "submitted_margin": {
+        "mean_delta": 24.933333333333334,
+        "family_bootstrap95": [
+          -48.41086309523809,
+          106.81062127976186
+        ]
+      },
+      "own_fuel": {
+        "mean_delta": 0.5555555555555556,
+        "family_bootstrap95": [
+          -0.20239955357142855,
+          1.3796296296296295
+        ]
+      },
+      "families": 13
+    }
+  },
+  "artifacts": {
+    "initial": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/tournament_current/initial_greedy.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "trained": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/tournament_current/trained_greedy.wasm",
+      "sha256": "e79fe3d4bd55fa51745e38c4c1fed21710846418cac5ecbfa087fbc23521bb7b"
+    },
+    "upper5": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/native_pointer_reference/upper5_greedy_release.wasm",
+      "sha256": "0b4a30f84e4a80bc73f099ed801ed79bd9cdd8ecdaa5af41d50bed6bfb0d389d"
+    },
+    "native": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-a2-seed-e3/.cambc/build-release/bot-injected.wasm",
+      "sha256": "a48fe4423cb6a3f0f469266595d08038465288f82fbc67cbd68120a99db6b177"
+    },
+    "v92": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-v92-mac/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b260ebe4ecb2a8df4de229f60e980b41160a57726741cf72a653fc377a687343"
+    },
+    "decrest": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-decrest-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "b502e467f12c4d7200ea597eb6bd094ccb6594a5bb70ef5805a9b4ae1df54a92"
+    },
+    "khiri": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-khiri-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "0b42527c2e6b2dc7ccc1933d01f3436415b85f166dfe276f43f2986a069eb84b"
+    },
+    "wardens": {
+      "path": "/Users/rishik/Documents/Codex/2026-11-04/https-github-com-infosuii-neural-networkk/work/rl-execution/mac-project/bots/jd-public-wardens-frozen/.cambc/build-release/bot-injected.wasm",
+      "sha256": "3b034efc1afe426d4cac9d9e700e873224026631987b87976dd12b59d8fc2bba"
+    }
+  },
+  "wall_seconds": 336.13990270905197,
+  "accounting_audit_passed": true,
+  "limitations": [
+    "Development maps previously exposed; 13 families and one fixed training seed schedule.",
+    "Six frozen bootstrap opponents: three related policies and three older weaker public policies; not representative of current top ladder.",
+    "No live or tournament superiority established.",
+    "Only upper strategic head trained; lower execution, combat, draft and shop remain frozen.",
+    "Bootstrap intervals descriptive and unadjusted for multiple comparisons; no superiority claim from a positive point estimate alone."
+  ]
+}

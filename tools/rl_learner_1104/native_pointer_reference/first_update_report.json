@@ -1,0 +1,67 @@
+{
+  "scope": "REAL native target-query on-policy QAT PPO update, not a playing-strength result",
+  "games": 32,
+  "decisions": 112221,
+  "trainable_parameters": 1040,
+  "reward": "gamma1 terminal team outcome",
+  "baseline": "fixed zero",
+  "action_semantics": "target command to frozen downstream executor; may be cancelled/reassigned, not an executed-action label",
+  "objective": "sum command decisions per game, mean games; categorical entropy .003",
+  "settings": {
+    "epochs": 2,
+    "weight_lr": 0.0003,
+    "bias_lr": 0.003,
+    "clip": 0.1,
+    "gradient_norm": 0.5,
+    "full_kl_limit": 0.005,
+    "max_sampled_logp_change": 0.5,
+    "chunk": 512,
+    "threads": 2
+  },
+  "initial_replay_max_logp_error": 1.7763568394002505e-15,
+  "accepted_updates": 2,
+  "epochs": [
+    {
+      "epoch": 0,
+      "loss": -637.5654437699131,
+      "gradient_norm_before_clip": 39.69826788061764,
+      "accepted": true,
+      "full_old_to_new_conditional_kl": 5.612026467697864e-05,
+      "max_sampled_logp_change": 0.2621230076796306,
+      "support_lost": false
+    },
+    {
+      "epoch": 1,
+      "loss": -637.7866033296044,
+      "gradient_norm_before_clip": 84.22629805291224,
+      "accepted": true,
+      "full_old_to_new_conditional_kl": 7.231712289227445e-05,
+      "max_sampled_logp_change": 0.37204309538693003,
+      "support_lost": false
+    }
+  ],
+  "final": {
+    "full_old_to_new_conditional_kl": 7.231712289227445e-05,
+    "max_sampled_logp_change": 0.37204309538693003,
+    "support_lost": false
+  },
+  "export": {
+    "noop": false,
+    "source_sha256": "82d9dedb5d57561bf2a1616daf10437024c587a04f6a65b19b70c4441e5d757f",
+    "export_sha256": "9f745c629d46af829077b25c9a35c9c328cba1e9345af6ea2940b8ce86bd1c2f",
+    "only_changed_arrays": [
+      "kP_target_qW",
+      "kP_target_qb",
+      "kP_target_qW_T",
+      "kP_target_qW_TQ",
+      "kP_target_qbQ"
+    ]
+  },
+  "wall_seconds": 10.151959999930114,
+  "limitations": [
+    "Only existing1040 target-query parameters train; encoders/trunk/other heads/key/far frozen.",
+    "STE gradients approximate quantized actor optimization.",
+    "Collector logging changes fuel timing; deployment artifact requires separate runtime/strength evaluation.",
+    "One compiled policy RNG seed and8 map families; decisions are correlated."
+  ]
+}

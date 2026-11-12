@@ -1,0 +1,53 @@
+{
+  "kind": "bounded target-head PPO, no strength claim",
+  "games": 16,
+  "decisions": 7379,
+  "parameters": 11826,
+  "objective": "sum across team stochastic decisions per game, mean across games",
+  "reward": "gamma1 terminal team outcome",
+  "baseline": "fixed zero",
+  "settings": {
+    "lr_requested": 0.0001,
+    "lr_effective": 0.0001,
+    "clip": 0.1,
+    "entropy": 0.003,
+    "max_kl": 0.01,
+    "grad_norm": 0.5,
+    "chunk": 1024,
+    "threads": 2
+  },
+  "initial_replay_max_error": 4.76837158203125e-07,
+  "epochs": [
+    {
+      "epoch": 0,
+      "loss": 418.7756576538086,
+      "gradient_norm_before_clip": 1.3916438817977905,
+      "pre_step_clip_fraction": 0.0,
+      "full_old_to_new_kl": 2.8062761119898924e-08,
+      "max_chosen_logp_change": 0.003403186798095703,
+      "mean_entropy": 0.026593459203388976,
+      "accepted": true
+    },
+    {
+      "epoch": 1,
+      "loss": 418.77416229248047,
+      "gradient_norm_before_clip": 1.387946367263794,
+      "pre_step_clip_fraction": 0.0,
+      "full_old_to_new_kl": 4.5891825242180324e-08,
+      "max_chosen_logp_change": 0.006863594055175781,
+      "mean_entropy": 0.026554977494795677,
+      "accepted": true
+    }
+  ],
+  "final_exported_float32": {
+    "full_old_to_new_kl": 4.5891825242180324e-08,
+    "max_chosen_logp_change": 0.006863594055175781,
+    "mean_entropy": 0.026554977494795677
+  },
+  "weights_sha256": "4afd93425f16b31f073a52450427bb5960e7fdeb6f21d3c66864738297f5907e",
+  "feature_abi_sha256": "521fd13aa634d0cd545a897fb5e64e3fdf5961a26725da2e33eef5db0a0e1e82",
+  "parent_checkpoint": "work/rl-execution/head-real-batch/head0.pt",
+  "dataset_manifest_sha256": "f59b2e8b0afc343e3cfdc8fe5471cce39d828544457aa8f5c95ef307d77825d1",
+  "map_manifest_sha256": "a1fcb51e115097707a31351a670ab389766649ee71bba63c661dedd8f584de3c",
+  "accepted_updates": 2
+}

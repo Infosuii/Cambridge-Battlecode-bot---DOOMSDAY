@@ -1,0 +1,18 @@
+{
+  "scope": "Synthetic conditional-head arithmetic probe in actual release engine; NOT integrated RL policy or gameplay improvement",
+  "decisions": 64,
+  "invocations": 1,
+  "always_compute_fuel": 2241313,
+  "conditional_compute_fuel": 52317,
+  "reduction_in_this_optional_path": 0.9766578786630872,
+  "source_sha256": "0ecf0a59d160022ac5edac4dd085ba98bd53b9a8079e4595cf845cdbc24e998b",
+  "wasm_sha256": "656f84dd1f51cd12e48d7b5a8a80ffc95dea8e0f8ec0dafaaa22391aafcc8f60",
+  "raw": "CONDITIONAL mode=0 decisions=64 head_calls=64 invokes=1 fuel=2241313\nCONDITIONAL mode=1 decisions=64 head_calls=1 invokes=1 fuel=52317\n",
+  "notes": [
+    "Same64cheap gate draws,1invoke in both modes; one seeded finite sample, not claimed universal rate",
+    "Expensive callback uses nonzero-weight optimized head scores and exp work; excludes native reference, full policy sampler, mapping, logging, execution and background staging",
+    "Uses existing export_probe synthetic fixtures/optimized_head.h; not trained weights",
+    "Joint-latent policy likelihood must be implemented as validated in joint_gate_reference; this probe only tests skipping compute",
+    "Removing unconditional extra-head background work is required for integration savings"
+  ]
+}

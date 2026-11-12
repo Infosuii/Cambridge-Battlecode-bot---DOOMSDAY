@@ -1,0 +1,116 @@
+{
+  "scope": "REAL native upper-trunk/query on-policy QAT PPO update, not a playing-strength result",
+  "games": 32,
+  "decisions": 79329,
+  "trainable_parameters": 5200,
+  "reward": "gamma1 terminal team outcome",
+  "baseline": "fixed zero",
+  "action_semantics": "target command to frozen downstream executor; may be cancelled/reassigned, not an executed-action label",
+  "objective": "sum command decisions per game, mean games; categorical entropy .003",
+  "settings": {
+    "epochs": 2,
+    "weight_lr": 0.0003,
+    "bias_lr": 0.003,
+    "effective_lrs": [
+      0.00015,
+      0.0015
+    ],
+    "backtracking": "up to6 training-KL/likelihood-only step halvings, restored model+Adam before retry",
+    "clip": 0.1,
+    "gradient_norm": 0.5,
+    "full_kl_limit": 0.005,
+    "max_sampled_logp_change": 0.5,
+    "chunk": 512,
+    "threads": 2
+  },
+  "initial_replay_max_logp_error": 1.7763568394002505e-15,
+  "accepted_updates": 2,
+  "total_accepted_updates": 2,
+  "optimizer_resumed": false,
+  "epochs": [
+    {
+      "epoch": 0,
+      "loss": -55.793945663273426,
+      "gradient_norm_before_clip": 34.99091982784904,
+      "accepted": true,
+      "attempts": [
+        {
+          "trial": 0,
+          "lrs": [
+            0.0003,
+            0.003
+          ],
+          "accepted": false,
+          "full_old_to_new_conditional_kl": 0.00016313797805821563,
+          "max_sampled_logp_change": 0.5298217121301327,
+          "support_lost": false
+        },
+        {
+          "trial": 1,
+          "lrs": [
+            0.00015,
+            0.0015
+          ],
+          "accepted": true,
+          "full_old_to_new_conditional_kl": 3.8673690982085976e-05,
+          "max_sampled_logp_change": 0.2490013294046789,
+          "support_lost": false
+        }
+      ],
+      "full_old_to_new_conditional_kl": 3.8673690982085976e-05,
+      "max_sampled_logp_change": 0.2490013294046789,
+      "support_lost": false
+    },
+    {
+      "epoch": 1,
+      "loss": -55.893648492672106,
+      "gradient_norm_before_clip": 35.74454457399662,
+      "accepted": true,
+      "attempts": [
+        {
+          "trial": 0,
+          "lrs": [
+            0.00015,
+            0.0015
+          ],
+          "accepted": true,
+          "full_old_to_new_conditional_kl": 6.474492410032689e-05,
+          "max_sampled_logp_change": 0.34370608687480253,
+          "support_lost": false
+        }
+      ],
+      "full_old_to_new_conditional_kl": 6.474492410032689e-05,
+      "max_sampled_logp_change": 0.34370608687480253,
+      "support_lost": false
+    }
+  ],
+  "final": {
+    "full_old_to_new_conditional_kl": 6.474492410032689e-05,
+    "max_sampled_logp_change": 0.34370608687480253,
+    "support_lost": false
+  },
+  "export": {
+    "noop": false,
+    "source_sha256": "0c2c85644630e9fd7859f883a7c2e15dbedcda1b9f2b9559cf4e1e089c21c45c",
+    "export_sha256": "f233c1570d5d65d72ed34f9a7aa788c38d8dfbff90ff958303a93633ae1688cb",
+    "only_changed_arrays": [
+      "kT_W1",
+      "kT_b1",
+      "kT_W1_T",
+      "kT_W1_TQ",
+      "kT_b1Q",
+      "kP_target_qW",
+      "kP_target_qb",
+      "kP_target_qW_T",
+      "kP_target_qW_TQ",
+      "kP_target_qbQ"
+    ]
+  },
+  "wall_seconds": 22.49983779201284,
+  "limitations": [
+    "Existing5200 upper-trunk/query parameters train; lower trunk/encoders/other heads/key/far frozen.",
+    "STE gradients approximate quantized actor optimization.",
+    "Collector logging changes fuel timing; deployment artifact requires separate runtime/strength evaluation.",
+    "One compiled policy RNG seed and8 map families; decisions are correlated."
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schema": "jd-historical-public-opponent-candidates-v1",
+  "status": "SOURCE_PINNED_BUILD_AND_SMOKE_PENDING",
+  "purpose": "Broaden training/development opponents beyond v92; not proof of contemporary ladder strength.",
+  "source_ref": "cefbc258",
+  "opponents": [
+    {
+      "name": "public-decrest",
+      "path": "bots/public-decrest",
+      "source_commit": "cefbc258",
+      "files": [
+        {
+          "name": "bot.cpp",
+          "sha": "16311d665efb853a239c9857b058a055390f2ad0",
+          "size": 38862
+        },
+        {
+          "name": "bot.h",
+          "sha": "afcf6ea8c637f4a0ae0243de7e75ebd8932da753",
+          "size": 329
+        },
+        {
+          "name": "draft.cpp",
+          "sha": "8eff149835a23a23321ea3ffb0eeaaebfd9b5c0b",
+          "size": 2125
+        },
+        {
+          "name": "draft.h",
+          "sha": "7be98bb8a0ed5674e1828fefe6258378d2bf4fdf",
+          "size": 33
+        },
+        {
+          "name": "main.cpp",
+          "sha": "a2660dba057d3f70fff063dd86b89d25e20ef17f",
+          "size": 1304
+        },
+        {
+          "name": "random.h",
+          "sha": "39bcc2db34dd9f9c16cece2227c6ec0f4d7c5125",
+          "size": 742
+        }
+      ],
+      "src_tree_sha": "81f3ff52b116f2133271afecc915fdb7c037c690",
+      "current_ladder_representative": false,
+      "release_build_verified": false
+    },
+    {
+      "name": "public-khiri",
+      "path": "bots/public-khiri",
+      "source_commit": "cefbc258",
+      "files": [
+        {
+          "name": "bot.cpp",
+          "sha": "7192dfd073976b922e474232c31298616f9e8d3a",
+          "size": 56462
+        },
+        {
+          "name": "bot.h",
+          "sha": "ed33f8b5025c6851e47ad9d769da259ab9ab6a6a",
+          "size": 1418
+        },
+        {
+          "name": "draft.cpp",
+          "sha": "86169d3d793dd611f04f87dfbefbe6ffec87cbad",
+          "size": 4279
+        },
+        {
+          "name": "draft.h",
+          "sha": "7be98bb8a0ed5674e1828fefe6258378d2bf4fdf",
+          "size": 33
+        },
+        {
+          "name": "main.cpp",
+          "sha": "165cc6bd746c79f2e7074d82f4edcd86245d919a",
+          "size": 581
+        },
+        {
+          "name": "random.h",
+          "sha": "39bcc2db34dd9f9c16cece2227c6ec0f4d7c5125",
+          "size": 742
+        }
+      ],
+      "src_tree_sha": "35f66ee40ff557b250acb3b70231058488734131",
+      "current_ladder_representative": false,
+      "release_build_verified": false
+    },
+    {
+      "name": "public-wardens",
+      "path": "bots/public-wardens",
+      "source_commit": "cefbc258",
+      "files": [
+        {
+          "name": "behaviors",
+          "sha": "9e553ae4cad5a10906e7f98c4ccf0f1baa60b359",
+          "size": 0
+        },
+        {
+          "name": "core",
+          "sha": "1025632a7349851a61a334dfbd4c7bcd5d152836",
+          "size": 0
+        },
+        {
+          "name": "draft.cpp",
+          "sha": "02d3618c86324df2575ee4679681b0c12d24213c",
+          "size": 4429
+        },
+        {
+          "name": "draft.h",
+          "sha": "9a812b1546d4547c4c33a7cb50043841ae4194e0",
+          "size": 130
+        },
+        {
+          "name": "main.cpp",
+          "sha": "c668f3f4de609621a27dfcc76a024caed403547a",
+          "size": 560
+        },
+        {
+          "name": "navigation",
+          "sha": "13e582c29db0e329dc8446a1ede8922d0f3ac4fa",
+          "size": 0
+        }
+      ],
+      "src_tree_sha": "3cd7fcce69478192a5c6f3e6b1311582b15f3f1d",
+      "current_ladder_representative": false,
+      "release_build_verified": false
+    }
+  ],
+  "rules": [
+    "Build/smoke under current SDK, engine and real fuel before admission.",
+    "Pin exact WASM and source/flags for every opponent; never mutate a frozen pool entry.",
+    "Keep a broad mixture; do not train exclusively on Agent2 or one historical source.",
+    "Treat adaptively chosen opponents as development; hold separate current-team tests for confirmation.",
+    "Source availability does not prove current strength, API compatibility, behavior or training independence."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "SYNTHETIC learner integration checks only",
+  "parameters": 11826,
+  "checks": [
+    "initial header/checkpoint",
+    "all-win decision rows can update with fixed-zero baseline",
+    "zero-decision completed game retained in denominator",
+    "optimizer continuation on fresh matching-policy data",
+    "stale policy rejected",
+    "synthetic origin rejected in normal mode",
+    "post-step KL rollback preserves checkpoint",
+    "truncated complete-game claim rejected"
+  ],
+  "first_update": {
+    "full_old_to_new_kl": 6.562621971776632e-08,
+    "max_chosen_logp_change": 0.006648063659667969,
+    "mean_entropy": 0.06911834577719371
+  }
+}

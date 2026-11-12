@@ -1,0 +1,414 @@
+{
+  "kind": "probability_and_gradient_oracle_NOT_training_results",
+  "precision": "float64",
+  "coverage": "masked proposal, duplicate routes to reference, physical fallback aggregation, gate and head gradients, greedy departure when alpha grows",
+  "max_analytic_vs_autograd_error": 2.220446049250313e-16,
+  "max_analytic_vs_finite_difference_error": 4.1614156565117355e-11,
+  "cases": [
+    {
+      "alpha": 0.02,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.018607409313010966,
+        0.9804661823273734,
+        0.0009264083596157053
+      ],
+      "chosen": 3,
+      "log_probability": -3.9841954274214633,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598906,
+        0.06962953434945184,
+        0.0,
+        -0.006268786887067858,
+        -0.04632041798078525,
+        0.9799999999999999
+      ]
+    },
+    {
+      "alpha": 0.02,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.018607409313010966,
+        0.9804661823273734,
+        0.0009264083596157053
+      ],
+      "chosen": 7,
+      "log_probability": -0.019727124172691443,
+      "gradient_logits_then_gate_logit": [
+        0.00033949430911008873,
+        -0.00044236331330351614,
+        0.0,
+        0.00012489297671630433,
+        -2.2023972522876977e-05,
+        -0.019524529926910134
+      ]
+    },
+    {
+      "alpha": 0.02,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.018607409313010966,
+        0.9804661823273734,
+        0.0009264083596157053
+      ],
+      "chosen": 12,
+      "log_probability": -6.984195427421463,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598903,
+        -0.9303704656505479,
+        0.0,
+        -0.006268786887067858,
+        0.9536795820192147,
+        0.9799999999999998
+      ]
+    },
+    {
+      "alpha": 0.1,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.09303704656505483,
+        0.9023309116368667,
+        0.004632041798078526
+      ],
+      "chosen": 3,
+      "log_probability": -2.3747575149873628,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598903,
+        0.06962953434945184,
+        0.0,
+        -0.0062687868870678586,
+        -0.04632041798078525,
+        0.9
+      ]
+    },
+    {
+      "alpha": 0.1,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.09303704656505483,
+        0.9023309116368667,
+        0.004632041798078526
+      ],
+      "chosen": 7,
+      "log_probability": -0.10277396185535778,
+      "gradient_logits_then_gate_logit": [
+        0.001844460191279554,
+        -0.002403343736776099,
+        0.0,
+        0.000678538984430894,
+        -0.00011965543893434927,
+        -0.09741678844556229
+      ]
+    },
+    {
+      "alpha": 0.1,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.09303704656505483,
+        0.9023309116368667,
+        0.004632041798078526
+      ],
+      "chosen": 12,
+      "log_probability": -5.374757514987363,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598903,
+        -0.9303704656505482,
+        0.0,
+        -0.006268786887067859,
+        0.9536795820192148,
+        0.9
+      ]
+    },
+    {
+      "alpha": 0.8,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.7442963725204386,
+        0.21864729309493336,
+        0.03705633438462821
+      ],
+      "chosen": 3,
+      "log_probability": -0.29531597330752696,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598906,
+        0.06962953434945185,
+        0.0,
+        -0.00626878688706786,
+        -0.046320417980785254,
+        0.19999999999999996
+      ]
+    },
+    {
+      "alpha": 0.8,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.7442963725204386,
+        0.21864729309493336,
+        0.03705633438462821
+      ],
+      "chosen": 7,
+      "log_probability": -1.5202953812824693,
+      "gradient_logits_then_gate_logit": [
+        0.06089491151953369,
+        -0.07934646944072994,
+        0.0,
+        0.022401986019990484,
+        -0.003950428098794249,
+        -0.7147151888734473
+      ]
+    },
+    {
+      "alpha": 0.8,
+      "proposal_logits": [
+        0.0,
+        4.0,
+        99.0,
+        -1.0,
+        1.0
+      ],
+      "mask": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "proposal_to_physical": [
+        7,
+        3,
+        8,
+        7,
+        12
+      ],
+      "reference": 7,
+      "physical_order": [
+        3,
+        7,
+        12
+      ],
+      "probabilities": [
+        0.7442963725204386,
+        0.21864729309493336,
+        0.03705633438462821
+      ],
+      "chosen": 12,
+      "log_probability": -3.295315973307527,
+      "gradient_logits_then_gate_logit": [
+        -0.017040329481598903,
+        -0.9303704656505482,
+        0.0,
+        -0.006268786887067859,
+        0.9536795820192148,
+        0.19999999999999996
+      ]
+    }
+  ]
+}
