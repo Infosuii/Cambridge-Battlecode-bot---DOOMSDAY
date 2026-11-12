@@ -1,0 +1,4 @@
+# 0011: PC0052 L007 extension queued
+
+Read0052 on09:35poll. Existingx3mf15-29 finishesfirst,thenx3inv0-29,thenADDEDv86h0-29,thenx1bru0-29,allascending. Queueplanupdatedatomically; currentk25notinterrupted. ImmediateexactJSONpostingcontinues. IfPCfinishedresultsarevisible,skipthem; otherwiseper0052keepgoingratherthanwaitforunpublishedPCruns (duplicatesexplicitlyacceptedbyPC).
+L006 stayspausedthroughfullL007queue. PC0051wins-onlyalignmentstillrequiredbeforeL006restart; oldmarginfitsarepreserved.

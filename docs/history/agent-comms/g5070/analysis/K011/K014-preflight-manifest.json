@@ -1,0 +1,836 @@
+[
+  {
+    "row": 14,
+    "tag": "sec3-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_SECURE=1 --set X1_SECURE_MULT=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_SECURE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 93,
+          "text": "#define X1_SECURE 0 // MAPF kill-securing coordinator: a target killable this round by allies in reach is worth X1_SECURE_MULT x more."
+        }
+      ],
+      "X1_SECURE_MULT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 96,
+          "text": "#define X1_SECURE_MULT 3.0f"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 14,
+    "tag": "sec15-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_SECURE=1 --set X1_SECURE_MULT=1.5",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_SECURE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 93,
+          "text": "#define X1_SECURE 0 // MAPF kill-securing coordinator: a target killable this round by allies in reach is worth X1_SECURE_MULT x more."
+        }
+      ],
+      "X1_SECURE_MULT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 96,
+          "text": "#define X1_SECURE_MULT 3.0f"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 14,
+    "tag": "sec6-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_SECURE=1 --set X1_SECURE_MULT=6",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_SECURE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 93,
+          "text": "#define X1_SECURE 0 // MAPF kill-securing coordinator: a target killable this round by allies in reach is worth X1_SECURE_MULT x more."
+        }
+      ],
+      "X1_SECURE_MULT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 96,
+          "text": "#define X1_SECURE_MULT 3.0f"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 15,
+    "tag": "bp1560-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_BUSHPRE=15 --set X1_BUSHPRE_LAZY=60",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_BUSHPRE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 22,
+          "text": "#define X1_BUSHPRE 0 // Fuel: label bush clusters ahead of use from each turn's leftover fuel, down to X1_BUSHPRE k fuel (resumable; same labels)."
+        }
+      ],
+      "X1_BUSHPRE_LAZY": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 25,
+          "text": "#define X1_BUSHPRE_LAZY 50 // with X1_BUSHPRE: on-demand labelling stops at this many k fuel (cluster reads unknown until done)"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 15,
+    "tag": "bp2570-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_BUSHPRE=25 --set X1_BUSHPRE_LAZY=70",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_BUSHPRE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 22,
+          "text": "#define X1_BUSHPRE 0 // Fuel: label bush clusters ahead of use from each turn's leftover fuel, down to X1_BUSHPRE k fuel (resumable; same labels)."
+        }
+      ],
+      "X1_BUSHPRE_LAZY": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 25,
+          "text": "#define X1_BUSHPRE_LAZY 50 // with X1_BUSHPRE: on-demand labelling stops at this many k fuel (cluster reads unknown until done)"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 15,
+    "tag": "bp1050-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_BUSHPRE=10 --set X1_BUSHPRE_LAZY=50",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_BUSHPRE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 22,
+          "text": "#define X1_BUSHPRE 0 // Fuel: label bush clusters ahead of use from each turn's leftover fuel, down to X1_BUSHPRE k fuel (resumable; same labels)."
+        }
+      ],
+      "X1_BUSHPRE_LAZY": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 25,
+          "text": "#define X1_BUSHPRE_LAZY 50 // with X1_BUSHPRE: on-demand labelling stops at this many k fuel (cluster reads unknown until done)"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 16,
+    "tag": "sf45-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_SIEGEFUEL=45",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_SIEGEFUEL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 28,
+          "text": "#define X1_SIEGEFUEL 0 // Fuel: fill the siege line-of-sight cache only above X1_SIEGEFUEL k fuel (was 30k), direct bit writes."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 16,
+    "tag": "sf55-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_SIEGEFUEL=55",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_SIEGEFUEL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 28,
+          "text": "#define X1_SIEGEFUEL 0 // Fuel: fill the siege line-of-sight cache only above X1_SIEGEFUEL k fuel (was 30k), direct bit writes."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 17,
+    "tag": "af3w250-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_ANTIFEED=3 --set X1_ANTIFEED_WIN=250 --set X1_WALKTAIL=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_ANTIFEED": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 117,
+          "text": "#define X1_ANTIFEED 0 // Anti-feeding: this many team deaths within X1_ANTIFEED_WIN rounds -> the team plays safe (0 = off)."
+        }
+      ],
+      "X1_ANTIFEED_WIN": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 120,
+          "text": "#define X1_ANTIFEED_WIN 150"
+        }
+      ],
+      "X1_WALKTAIL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 35,
+          "text": "#define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 17,
+    "tag": "af5w400-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_ANTIFEED=5 --set X1_ANTIFEED_WIN=400 --set X1_WALKTAIL=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_ANTIFEED": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 117,
+          "text": "#define X1_ANTIFEED 0 // Anti-feeding: this many team deaths within X1_ANTIFEED_WIN rounds -> the team plays safe (0 = off)."
+        }
+      ],
+      "X1_ANTIFEED_WIN": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 120,
+          "text": "#define X1_ANTIFEED_WIN 150"
+        }
+      ],
+      "X1_WALKTAIL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 35,
+          "text": "#define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 17,
+    "tag": "af4w150-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_ANTIFEED=4 --set X1_ANTIFEED_WIN=150 --set X1_WALKTAIL=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_ANTIFEED": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 117,
+          "text": "#define X1_ANTIFEED 0 // Anti-feeding: this many team deaths within X1_ANTIFEED_WIN rounds -> the team plays safe (0 = off)."
+        }
+      ],
+      "X1_ANTIFEED_WIN": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 120,
+          "text": "#define X1_ANTIFEED_WIN 150"
+        }
+      ],
+      "X1_WALKTAIL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 35,
+          "text": "#define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 18,
+    "tag": "fd15-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_FLEEDROP=15",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_FLEEDROP": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 145,
+          "text": "#define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 18,
+    "tag": "fd25-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_FLEEDROP=25",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_FLEEDROP": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 145,
+          "text": "#define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 18,
+    "tag": "fd40-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_FLEEDROP=40",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_FLEEDROP": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 145,
+          "text": "#define X1_FLEEDROP 0 // audit F01 alt: drop the camp target on a flee and skip it for this many rounds (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 19,
+    "tag": "fh4-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_FLEEHOLD=4",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_FLEEHOLD": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 133,
+          "text": "#define X1_FLEEHOLD 0 // audit F01: rounds after a flee during which a champion keeps away from enemies seen within 8 (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 20,
+    "tag": "teamwin-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_TEAMWIN=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_TEAMWIN": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 136,
+          "text": "#define X1_TEAMWIN 0 // audit F03: the win-now bank counts the whole team's carried gems."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 20,
+    "tag": "heartfix-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_HEARTFIX=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_HEARTFIX": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 123,
+          "text": "#define X1_HEARTFIX 0 // audit B01: fight forecast with Heart of Ruin dash landing damage/stun and missing-health damage (A2_KITFIX 25 -> 31)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 20,
+    "tag": "bag40-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_BAGRISK=40",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_BAGRISK": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 142,
+          "text": "#define X1_BAGRISK 0 // Bag risk: carrying this many gems with an enemy seen within 10 in 5 rounds -> bank now (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 20,
+    "tag": "bag80-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_BAGRISK=80",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_BAGRISK": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 142,
+          "text": "#define X1_BAGRISK 0 // Bag risk: carrying this many gems with an enemy seen within 10 in 5 rounds -> bank now (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 21,
+    "tag": "solo3-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_HUNT_SOLO=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_HUNT_SOLO": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 99,
+          "text": "#define X1_HUNT_SOLO 0 // Lone hunters: with no ally within 5, hunt only enemies sighted within this many tiles (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 21,
+    "tag": "solo5-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_HUNT_SOLO=5",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_HUNT_SOLO": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 99,
+          "text": "#define X1_HUNT_SOLO 0 // Lone hunters: with no ally within 5, hunt only enemies sighted within this many tiles (0 = off)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 22,
+    "tag": "alone-g5070",
+    "switches": "--set X1_MAPFIT=1 --set X1_ALONE=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "X1_ALONE": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 90,
+          "text": "#define X1_ALONE 0 // Isolation: no ally within 5 and an enemy within 10 -> walk to the nearest ally (teammate's untested alone alert)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 23,
+    "tag": "vision-g5070",
+    "switches": "--set X1_MAPFIT=1 --set V58_VISION=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "V58_VISION": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 336,
+          "text": "#define V58_VISION 0"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 23,
+    "tag": "threat-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_THREAT=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_THREAT": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1312,
+          "text": "#define A2_THREAT 0"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 23,
+    "tag": "stale-g5070",
+    "switches": "--set X1_MAPFIT=1 --set APEX_STALE_BAG=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "APEX_STALE_BAG": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1547,
+          "text": "#define APEX_STALE_BAG 0"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 24,
+    "tag": "reset-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_RESETFIX=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_RESETFIX": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1221,
+          "text": "#define A2_RESETFIX 0"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 24,
+    "tag": "ffirst-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_FIELDFIRST=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_FIELDFIRST": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1233,
+          "text": "#define A2_FIELDFIRST 0 // the route search (fields built only from leftover fuel never arrived on islands: straight-line targets)"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 24,
+    "tag": "mprof-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_MAP_PROFILE=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_MAP_PROFILE": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1288,
+          "text": "#define A2_MAP_PROFILE 0"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 25,
+    "tag": "policywt-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_POLICY=1 --set X1_WALKTAIL=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_POLICY": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1186,
+          "text": "#define A2_POLICY 0"
+        }
+      ],
+      "X1_WALKTAIL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 35,
+          "text": "#define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 25,
+    "tag": "assesswt-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A2_ASSESS=1 --set X1_WALKTAIL=3",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A2_ASSESS": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 1162,
+          "text": "#define A2_ASSESS 0"
+        }
+      ],
+      "X1_WALKTAIL": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 35,
+          "text": "#define X1_WALKTAIL 0 // Fuel: after an approach walk, skip the camp re-pick and attack when under X1_WALKTAIL k fuel (15 of 24 plan-4 fuel-outs crossed there)."
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 26,
+    "tag": "items0-g5070",
+    "switches": "--set X1_MAPFIT=1 --set V58_ITEM_PLAN=0",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "V58_ITEM_PLAN": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 290,
+          "text": "#define V58_ITEM_PLAN 1"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 26,
+    "tag": "a3i1-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A3_ITEMS=1",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A3_ITEMS": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 231,
+          "text": "#define A3_ITEMS 0"
+        },
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 250,
+          "text": "#define A3_ITEMS 1"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  },
+  {
+    "row": 26,
+    "tag": "a3i2-g5070",
+    "switches": "--set X1_MAPFIT=1 --set A3_ITEMS=2",
+    "definitions": {
+      "X1_MAPFIT": [
+        {
+          "file": "bots/x3/src/x1_config.h",
+          "line": 69,
+          "text": "#define X1_MAPFIT 0 // per-map knob fit table (x1_mapfit.h) for maps without a ladder table"
+        }
+      ],
+      "A3_ITEMS": [
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 231,
+          "text": "#define A3_ITEMS 0"
+        },
+        {
+          "file": "bots/x3/src/common.h",
+          "line": 250,
+          "text": "#define A3_ITEMS 1"
+        }
+      ]
+    },
+    "state": "pending K011 build identity"
+  }
+]

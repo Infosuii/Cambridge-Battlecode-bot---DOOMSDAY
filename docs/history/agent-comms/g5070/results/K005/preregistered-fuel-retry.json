@@ -1,0 +1,12 @@
+{
+  "defined_utc": "2026-11-02T11:08:43.485303+00:00",
+  "scope": "One optional feature-specific fuel attempt after prescribed queues. Original six finalists remain unchanged. No validation result may enter the choice.",
+  "parent_rule": "Among original K005 grid 2/3 lines with positive BP gain and R1 failure exclusively on fuel, choose most wins then fewer total fuel-outs.",
+  "floor_rule": "Re-pair original grid 4 to BP; require R1 pass, gain >=0, real-map fuel <206. Choose lowest ladder+styled fuel; ties higher wins, lower total fuel, label.",
+  "merge_rule": "Apply only the chosen BUSHPRE/BUSHPRE_LAZY/SIEGEFUEL values to the parent, preserving its plan/anti-feed flags. Run one full x2/x2-s2 gate vs BP.",
+  "validation_rule": "Only if positive gain and R1 pass, evaluate the fixed retry against v86h/v86h-s2/v81hl on standard and the same frozen fresh maps. No further tuning based on those scores. This is a supplementary candidate outside the original top six.",
+  "skip_rule": "If no qualifying parent/floor exists, skip the attempt.",
+  "local_implementation_sha256": "f7259fd9c30bdae237f1a698dea787333947864c142bcd283cf5b68cc2bc0111",
+  "implementation_record_updated_utc": "2026-11-02T11:47:19.993813+00:00",
+  "implementation_update_note": "Added matched joint control and awake-until-publication handling; fuel-retry parent/floor/merge/validation rules unchanged, before any K006 outcome."
+}

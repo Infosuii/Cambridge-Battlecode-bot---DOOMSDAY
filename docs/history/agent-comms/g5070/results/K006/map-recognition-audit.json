@@ -1,0 +1,124 @@
+{
+  "scope": "Potential matches on width, height and draft team size only. Exact current draft recognition additionally requires full runtime camp-group count. Fresh layouts and map hashes remain independent of candidate tuning regardless of signature recognition.",
+  "potential_matches": [
+    {
+      "map": "holdout/g5070_holdout_01",
+      "potential_draft_rows": [
+        [
+          30,
+          30,
+          5,
+          10,
+          21
+        ]
+      ],
+      "authored_half_groups": 5
+    },
+    {
+      "map": "holdout/g5070_holdout_04",
+      "potential_draft_rows": [
+        [
+          31,
+          31,
+          3,
+          8,
+          6
+        ],
+        [
+          31,
+          31,
+          3,
+          15,
+          24
+        ]
+      ],
+      "authored_half_groups": 9
+    },
+    {
+      "map": "holdout/g5070_holdout_16",
+      "potential_draft_rows": [
+        [
+          41,
+          41,
+          3,
+          20,
+          26
+        ]
+      ],
+      "authored_half_groups": 8
+    },
+    {
+      "map": "holdout/g5070_holdout_25",
+      "potential_draft_rows": [
+        [
+          45,
+          45,
+          5,
+          21,
+          21
+        ]
+      ],
+      "authored_half_groups": 11
+    },
+    {
+      "map": "holdout/g5070_holdout_38",
+      "potential_draft_rows": [
+        [
+          93,
+          93,
+          5,
+          9,
+          21
+        ]
+      ],
+      "authored_half_groups": 9
+    }
+  ],
+  "conservative_unknown_maps": [
+    "holdout/g5070_holdout_00",
+    "holdout/g5070_holdout_02",
+    "holdout/g5070_holdout_03",
+    "holdout/g5070_holdout_05",
+    "holdout/g5070_holdout_07",
+    "holdout/g5070_holdout_08",
+    "holdout/g5070_holdout_10",
+    "holdout/g5070_holdout_11",
+    "holdout/g5070_holdout_12",
+    "holdout/g5070_holdout_13",
+    "holdout/g5070_holdout_14",
+    "holdout/g5070_holdout_15",
+    "holdout/g5070_holdout_17",
+    "holdout/g5070_holdout_18",
+    "holdout/g5070_holdout_20",
+    "holdout/g5070_holdout_21",
+    "holdout/g5070_holdout_22",
+    "holdout/g5070_holdout_23",
+    "holdout/g5070_holdout_24",
+    "holdout/g5070_holdout_26",
+    "holdout/g5070_holdout_27",
+    "holdout/g5070_holdout_28",
+    "holdout/g5070_holdout_29",
+    "holdout/g5070_holdout_31",
+    "holdout/g5070_holdout_32",
+    "holdout/g5070_holdout_33",
+    "holdout/g5070_holdout_34",
+    "holdout/g5070_holdout_35",
+    "holdout/g5070_holdout_36",
+    "holdout/g5070_holdout_37",
+    "holdout/g5070_holdout_39"
+  ],
+  "size_overlap_maps": [
+    "holdout/g5070_holdout_01",
+    "holdout/g5070_holdout_04",
+    "holdout/g5070_holdout_06",
+    "holdout/g5070_holdout_09",
+    "holdout/g5070_holdout_16",
+    "holdout/g5070_holdout_19",
+    "holdout/g5070_holdout_25",
+    "holdout/g5070_holdout_30",
+    "holdout/g5070_holdout_38"
+  ],
+  "subset_definition": "Predetermined before holdout results. Exclude every map whose dimensions, allowing transposition, occur in any old draft-ID, current draft-table or strategy-profile key. Retained maps cannot match those signatures regardless of group/gem counts. Excluded maps are potential overlaps, not asserted actual recognitions.",
+  "runtime_note": "The raw editor Game_GetNumCampGroups exposes authored-half metadata before gameplay; the SDK API refuses at that stage. It was not treated as the runtime group signature.",
+  "subset_defined_before_robustness_utc": "2026-11-02T11:04:40.701942+00:00"
+}

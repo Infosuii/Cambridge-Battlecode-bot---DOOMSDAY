@@ -1,0 +1,130 @@
+{
+  "games": 2,
+  "wins": 2,
+  "faults": 0,
+  "opponent_faults": 0,
+  "fuel_outs": 0,
+  "mean_collected": 1046.0,
+  "mean_banked": 1046.0,
+  "fuel_mean": 48912.26753205636,
+  "fuel_p99": 80427,
+  "fuel_quantile_policy": "diagnostics: omit 20 entries; full matches: omit exactly own draft picks + first boosted turn per body",
+  "per_game": [
+    {
+      "map": "00quadrants",
+      "map_sha256": "261fe6c133f076653bda84e88965dc35c5a59a70e7730082b4c6df9ca892df92",
+      "side": "A",
+      "rounds": 632,
+      "outcome": "teamA",
+      "banked": 1020,
+      "opponent_banked": 776,
+      "collected": 1020,
+      "gold": 2326,
+      "deaths": 1,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "engine": "2.0.0",
+      "engine_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "100a9a91dbfcd867fc3ba20002518cf23433e0bea25da93d92b7d8c6bdd44c9e",
+      "opponent_sha256": "d762af611f243ddc08714cac8b7b7cab0436d29f9f5fcb97c3b0fff372cbbcd9",
+      "summary_sha256": "6acab52c06225daca68fc3dc2029b70e58efd54fa10f444ad9bd9ad6958dcf02",
+      "replay_sha256": "96a36ac79cbf7a9688be8360ee3a21d0cdbd3c2afe3a58c683fc73699b2599ec",
+      "fuel_prefix_excluded": 10,
+      "checkpoints": {
+        "100": {
+          "round": 100,
+          "ended_before_checkpoint": false,
+          "collected": 36.0,
+          "gold": 290.0,
+          "deaths": 0.0,
+          "banked": 36.0
+        },
+        "250": {
+          "round": 250,
+          "ended_before_checkpoint": false,
+          "collected": 262.0,
+          "gold": 770.0,
+          "deaths": 0.0,
+          "banked": 196.0
+        },
+        "500": {
+          "round": 500,
+          "ended_before_checkpoint": false,
+          "collected": 700.0,
+          "gold": 1752.0,
+          "deaths": 1.0,
+          "banked": 670.0
+        }
+      }
+    },
+    {
+      "map": "00quadrants",
+      "map_sha256": "261fe6c133f076653bda84e88965dc35c5a59a70e7730082b4c6df9ca892df92",
+      "side": "B",
+      "rounds": 634,
+      "outcome": "teamB",
+      "banked": 1072,
+      "opponent_banked": 526,
+      "collected": 1072,
+      "gold": 2810,
+      "deaths": 1,
+      "faults": 0,
+      "opponent_faults": 0,
+      "fuel_outs": 0,
+      "engine": "2.0.0",
+      "engine_hash": "85aa7167b44db7cea97509f55e997750520e33d644e9f4f90d6128c50eba1d21",
+      "fuel_budgets": [
+        10000000,
+        100000,
+        200000,
+        100000,
+        10000000,
+        100000,
+        200000,
+        100000
+      ],
+      "candidate_sha256": "100a9a91dbfcd867fc3ba20002518cf23433e0bea25da93d92b7d8c6bdd44c9e",
+      "opponent_sha256": "d762af611f243ddc08714cac8b7b7cab0436d29f9f5fcb97c3b0fff372cbbcd9",
+      "summary_sha256": "8707462fd54ddbe47dbe1e0aebb87ab0cf01fea390eb3a0a5c637e7329c8b902",
+      "replay_sha256": "6dcf6adc78e66a95e0d1ab8061a73a94c9b959c7c727136f16283fa9c3fc04d8",
+      "fuel_prefix_excluded": 10,
+      "checkpoints": {
+        "100": {
+          "round": 100,
+          "ended_before_checkpoint": false,
+          "collected": 36.0,
+          "gold": 290.0,
+          "deaths": 1.0,
+          "banked": 36.0
+        },
+        "250": {
+          "round": 250,
+          "ended_before_checkpoint": false,
+          "collected": 220.0,
+          "gold": 844.0,
+          "deaths": 1.0,
+          "banked": 220.0
+        },
+        "500": {
+          "round": 500,
+          "ended_before_checkpoint": false,
+          "collected": 823.0,
+          "gold": 2268.0,
+          "deaths": 1.0,
+          "banked": 650.0
+        }
+      }
+    }
+  ]
+}

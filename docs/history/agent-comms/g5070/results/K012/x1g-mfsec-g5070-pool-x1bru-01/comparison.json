@@ -1,0 +1,839 @@
+{
+  "records": 172,
+  "matching_required_records": 137,
+  "behavioral_exact": false,
+  "builds_exact": false,
+  "matching_fields": {
+    "outcome": 164,
+    "banked": 138,
+    "opponent_banked": 140,
+    "rounds": 136,
+    "deaths": 140,
+    "faults": 172,
+    "opponent_faults": 172,
+    "fuel_outs": 172,
+    "map_sha256": 172,
+    "engine": 172,
+    "engine_hash": 172,
+    "candidate_sha256": 0,
+    "opponent_sha256": 172
+  },
+  "reference": {
+    "games": 172,
+    "wins": 130,
+    "faults": 0,
+    "opponent_faults": 0,
+    "fuel_outs": 188,
+    "deaths_per_game": 8.80232558139535,
+    "candidate_hashes": [
+      "8df6f3fe1c401dd628444f3c1cc6e03fdb662730805372779354106a78d1e7fa"
+    ],
+    "opponent_hashes": [
+      "7081e318426cadfa9a8c881adfca97d3c999b3d2c95fccfa5b5eccb37799b3c7"
+    ]
+  },
+  "candidate": {
+    "games": 172,
+    "wins": 122,
+    "faults": 0,
+    "opponent_faults": 0,
+    "fuel_outs": 188,
+    "deaths_per_game": 9.098837209302326,
+    "candidate_hashes": [
+      "caee37c0a5b6d8f0695c8060a445d75b79a895271cc3226ed75b1679cc54f256"
+    ],
+    "opponent_hashes": [
+      "7081e318426cadfa9a8c881adfca97d3c999b3d2c95fccfa5b5eccb37799b3c7"
+    ]
+  },
+  "delta_wins": -8,
+  "gained": 0,
+  "lost": 8,
+  "paired_z": -2.82842712474619,
+  "changed_game_records": [
+    {
+      "map": "00contest",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1000,
+          "candidate": 600
+        },
+        "rounds": {
+          "reference": 1943,
+          "candidate": 2000
+        },
+        "deaths": {
+          "reference": 44,
+          "candidate": 47
+        }
+      }
+    },
+    {
+      "map": "00contest",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 0,
+          "candidate": 200
+        },
+        "opponent_banked": {
+          "reference": 1000,
+          "candidate": 1200
+        },
+        "rounds": {
+          "reference": 1494,
+          "candidate": 1744
+        },
+        "deaths": {
+          "reference": 58,
+          "candidate": 67
+        }
+      }
+    },
+    {
+      "map": "00crater",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 306,
+          "candidate": 262
+        },
+        "opponent_banked": {
+          "reference": 1041,
+          "candidate": 1035
+        },
+        "rounds": {
+          "reference": 1448,
+          "candidate": 1384
+        },
+        "deaths": {
+          "reference": 31,
+          "candidate": 28
+        }
+      }
+    },
+    {
+      "map": "00eight",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1052,
+          "candidate": 1029
+        },
+        "opponent_banked": {
+          "reference": 307,
+          "candidate": 609
+        },
+        "rounds": {
+          "reference": 1275,
+          "candidate": 1328
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 9
+        }
+      }
+    },
+    {
+      "map": "00eight",
+      "side": "B",
+      "changed": {
+        "outcome": {
+          "reference": "teamB",
+          "candidate": "teamA"
+        },
+        "banked": {
+          "reference": 1048,
+          "candidate": 634
+        },
+        "opponent_banked": {
+          "reference": 180,
+          "candidate": 1016
+        },
+        "rounds": {
+          "reference": 1078,
+          "candidate": 1433
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 9
+        }
+      }
+    },
+    {
+      "map": "00elkring",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1009,
+          "candidate": 1010
+        },
+        "opponent_banked": {
+          "reference": 737,
+          "candidate": 935
+        },
+        "rounds": {
+          "reference": 888,
+          "candidate": 942
+        },
+        "deaths": {
+          "reference": 7,
+          "candidate": 5
+        }
+      }
+    },
+    {
+      "map": "00elkring",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 622,
+          "candidate": 599
+        },
+        "opponent_banked": {
+          "reference": 1018,
+          "candidate": 1007
+        },
+        "rounds": {
+          "reference": 841,
+          "candidate": 845
+        },
+        "deaths": {
+          "reference": 9,
+          "candidate": 8
+        }
+      }
+    },
+    {
+      "map": "00gemfight",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 513,
+          "candidate": 276
+        },
+        "opponent_banked": {
+          "reference": 1020,
+          "candidate": 1032
+        },
+        "rounds": {
+          "reference": 1036,
+          "candidate": 998
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 17
+        }
+      }
+    },
+    {
+      "map": "00great-wall",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1025,
+          "candidate": 695
+        },
+        "opponent_banked": {
+          "reference": 925,
+          "candidate": 1050
+        },
+        "rounds": {
+          "reference": 1009,
+          "candidate": 899
+        }
+      }
+    },
+    {
+      "map": "00interlock",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1014,
+          "candidate": 685
+        },
+        "opponent_banked": {
+          "reference": 545,
+          "candidate": 1016
+        },
+        "rounds": {
+          "reference": 1301,
+          "candidate": 1310
+        },
+        "deaths": {
+          "reference": 5,
+          "candidate": 10
+        }
+      }
+    },
+    {
+      "map": "00interlock",
+      "side": "B",
+      "changed": {
+        "outcome": {
+          "reference": "teamB",
+          "candidate": "teamA"
+        },
+        "banked": {
+          "reference": 1017,
+          "candidate": 569
+        },
+        "opponent_banked": {
+          "reference": 645,
+          "candidate": 1034
+        },
+        "rounds": {
+          "reference": 1378,
+          "candidate": 1312
+        },
+        "deaths": {
+          "reference": 9,
+          "candidate": 16
+        }
+      }
+    },
+    {
+      "map": "00monolith",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1063,
+          "candidate": 1021
+        },
+        "opponent_banked": {
+          "reference": 711,
+          "candidate": 731
+        },
+        "rounds": {
+          "reference": 1014,
+          "candidate": 972
+        }
+      }
+    },
+    {
+      "map": "00oasis",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 687,
+          "candidate": 316
+        },
+        "opponent_banked": {
+          "reference": 1004,
+          "candidate": 1001
+        },
+        "rounds": {
+          "reference": 1686,
+          "candidate": 1415
+        },
+        "deaths": {
+          "reference": 23,
+          "candidate": 20
+        }
+      }
+    },
+    {
+      "map": "00oasis",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 294,
+          "candidate": 268
+        },
+        "rounds": {
+          "reference": 1346,
+          "candidate": 1322
+        },
+        "deaths": {
+          "reference": 16,
+          "candidate": 20
+        }
+      }
+    },
+    {
+      "map": "00packs",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1014,
+          "candidate": 1006
+        },
+        "opponent_banked": {
+          "reference": 348,
+          "candidate": 318
+        },
+        "rounds": {
+          "reference": 1108,
+          "candidate": 1044
+        },
+        "deaths": {
+          "reference": 14,
+          "candidate": 12
+        }
+      }
+    },
+    {
+      "map": "00pilgrimage",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 1006,
+          "candidate": 1005
+        },
+        "opponent_banked": {
+          "reference": 934,
+          "candidate": 536
+        },
+        "rounds": {
+          "reference": 1768,
+          "candidate": 1392
+        },
+        "deaths": {
+          "reference": 19,
+          "candidate": 6
+        }
+      }
+    },
+    {
+      "map": "00quadrants",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1015,
+          "candidate": 1013
+        },
+        "opponent_banked": {
+          "reference": 532,
+          "candidate": 644
+        },
+        "rounds": {
+          "reference": 650,
+          "candidate": 617
+        }
+      }
+    },
+    {
+      "map": "00quarry",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 743,
+          "candidate": 573
+        },
+        "opponent_banked": {
+          "reference": 1012,
+          "candidate": 1003
+        },
+        "rounds": {
+          "reference": 1292,
+          "candidate": 1170
+        },
+        "deaths": {
+          "reference": 15,
+          "candidate": 9
+        }
+      }
+    },
+    {
+      "map": "00reverse-spiral",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 706,
+          "candidate": 589
+        },
+        "opponent_banked": {
+          "reference": 1076,
+          "candidate": 1016
+        },
+        "rounds": {
+          "reference": 1358,
+          "candidate": 1250
+        }
+      }
+    },
+    {
+      "map": "00stampede",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 177,
+          "candidate": 0
+        },
+        "opponent_banked": {
+          "reference": 1024,
+          "candidate": 800
+        },
+        "rounds": {
+          "reference": 1932,
+          "candidate": 2000
+        },
+        "deaths": {
+          "reference": 23,
+          "candidate": 31
+        }
+      }
+    },
+    {
+      "map": "00swirl",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1004,
+          "candidate": 1002
+        },
+        "opponent_banked": {
+          "reference": 15,
+          "candidate": 54
+        },
+        "rounds": {
+          "reference": 1081,
+          "candidate": 914
+        },
+        "deaths": {
+          "reference": 9,
+          "candidate": 14
+        }
+      }
+    },
+    {
+      "map": "01corridors",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1133,
+          "candidate": 929
+        },
+        "opponent_banked": {
+          "reference": 346,
+          "candidate": 1108
+        },
+        "rounds": {
+          "reference": 1243,
+          "candidate": 1731
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 12
+        }
+      }
+    },
+    {
+      "map": "01elk-arena",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 470,
+          "candidate": 1017
+        },
+        "opponent_banked": {
+          "reference": 216,
+          "candidate": 0
+        },
+        "rounds": {
+          "reference": 2000,
+          "candidate": 1182
+        },
+        "deaths": {
+          "reference": 1,
+          "candidate": 2
+        }
+      }
+    },
+    {
+      "map": "01gold-rush",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 289,
+          "candidate": 241
+        },
+        "opponent_banked": {
+          "reference": 1089,
+          "candidate": 1032
+        },
+        "rounds": {
+          "reference": 1803,
+          "candidate": 1564
+        },
+        "deaths": {
+          "reference": 22,
+          "candidate": 13
+        }
+      }
+    },
+    {
+      "map": "01hooks",
+      "side": "A",
+      "changed": {
+        "opponent_banked": {
+          "reference": 0,
+          "candidate": 44
+        },
+        "rounds": {
+          "reference": 1243,
+          "candidate": 1317
+        },
+        "deaths": {
+          "reference": 5,
+          "candidate": 8
+        }
+      }
+    },
+    {
+      "map": "01hooks",
+      "side": "B",
+      "changed": {
+        "rounds": {
+          "reference": 1459,
+          "candidate": 1520
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 9
+        }
+      }
+    },
+    {
+      "map": "01starfish",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1007,
+          "candidate": 811
+        },
+        "opponent_banked": {
+          "reference": 509,
+          "candidate": 914
+        },
+        "rounds": {
+          "reference": 1478,
+          "candidate": 2000
+        },
+        "deaths": {
+          "reference": 28,
+          "candidate": 41
+        }
+      }
+    },
+    {
+      "map": "01starvation",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1090,
+          "candidate": 497
+        },
+        "opponent_banked": {
+          "reference": 364,
+          "candidate": 780
+        },
+        "rounds": {
+          "reference": 1962,
+          "candidate": 2000
+        },
+        "deaths": {
+          "reference": 14,
+          "candidate": 25
+        }
+      }
+    },
+    {
+      "map": "01yellow-brick-road",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 1021,
+          "candidate": 1007
+        },
+        "opponent_banked": {
+          "reference": 989,
+          "candidate": 368
+        },
+        "rounds": {
+          "reference": 1418,
+          "candidate": 1285
+        },
+        "deaths": {
+          "reference": 11,
+          "candidate": 6
+        }
+      }
+    },
+    {
+      "map": "03ambush-field",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 1006,
+          "candidate": 1016
+        },
+        "opponent_banked": {
+          "reference": 623,
+          "candidate": 777
+        },
+        "rounds": {
+          "reference": 666,
+          "candidate": 781
+        },
+        "deaths": {
+          "reference": 2,
+          "candidate": 5
+        }
+      }
+    },
+    {
+      "map": "03colosseum",
+      "side": "A",
+      "changed": {
+        "outcome": {
+          "reference": "teamA",
+          "candidate": "teamB"
+        },
+        "banked": {
+          "reference": 1001,
+          "candidate": 851
+        },
+        "opponent_banked": {
+          "reference": 63,
+          "candidate": 1006
+        },
+        "rounds": {
+          "reference": 594,
+          "candidate": 918
+        },
+        "deaths": {
+          "reference": 5,
+          "candidate": 17
+        }
+      }
+    },
+    {
+      "map": "03fan",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1010,
+          "candidate": 1004
+        },
+        "opponent_banked": {
+          "reference": 272,
+          "candidate": 442
+        },
+        "rounds": {
+          "reference": 1211,
+          "candidate": 1001
+        },
+        "deaths": {
+          "reference": 23,
+          "candidate": 17
+        }
+      }
+    },
+    {
+      "map": "03shrines",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 1004,
+          "candidate": 1033
+        },
+        "opponent_banked": {
+          "reference": 669,
+          "candidate": 777
+        },
+        "rounds": {
+          "reference": 1122,
+          "candidate": 1175
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 10
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat4",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 868,
+          "candidate": 907
+        },
+        "opponent_banked": {
+          "reference": 1008,
+          "candidate": 1039
+        },
+        "rounds": {
+          "reference": 626,
+          "candidate": 662
+        },
+        "deaths": {
+          "reference": 8,
+          "candidate": 6
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat5",
+      "side": "A",
+      "changed": {
+        "banked": {
+          "reference": 1019,
+          "candidate": 1127
+        },
+        "opponent_banked": {
+          "reference": 733,
+          "candidate": 397
+        },
+        "rounds": {
+          "reference": 751,
+          "candidate": 842
+        },
+        "deaths": {
+          "reference": 9,
+          "candidate": 8
+        }
+      }
+    },
+    {
+      "map": "adgato-gemcombat5",
+      "side": "B",
+      "changed": {
+        "banked": {
+          "reference": 1086,
+          "candidate": 1014
+        },
+        "rounds": {
+          "reference": 615,
+          "candidate": 667
+        },
+        "deaths": {
+          "reference": 6,
+          "candidate": 8
+        }
+      }
+    }
+  ]
+}
