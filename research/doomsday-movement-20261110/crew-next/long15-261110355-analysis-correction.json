@@ -1,0 +1,13 @@
+{
+  "reason": "Filter baseline rows to v306 before constructing the paired comparison. Raw matches, totals, native identity verification and build artifacts are unchanged.",
+  "before_report_sha256": "dffffd779449b4923353723174260347daa0a678ad9236ae59efd37de40bf613",
+  "after_report_sha256": "adab47b247e09f176972a383b6e03d09bd391087846ee96bf3b1b8c11291c5c7",
+  "analysis_source_sha256": "81d60d17eec6f2c8a9de76ce94857d8200feb3208bedc6dc06eef9aab560cbb6",
+  "recommended": "v306AltarPressureReach",
+  "checks": [
+    "Each primary comparison has 1920 clean paired conditions",
+    "Paired gain equals candidate minus v306 totals",
+    "Reference split totals equal candidate totals",
+    "Frozen bot source and Wasm identities unchanged"
+  ]
+}
