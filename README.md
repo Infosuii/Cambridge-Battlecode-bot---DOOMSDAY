@@ -1,202 +1,187 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="Team DOOMSDAY, Cambridge Battlecode 2026: #5 in the UK lobby, #41 internationally, 250+ bot builds, 2,100 commits in 24 days" width="100%">
+  <img src="docs/assets/hero.svg" alt="DOOMSDAY — Cambridge Battlecode 2026. Hybrid strategy AI in C++ and WebAssembly. Historical peaks: fifth in the UK lobby and forty-first internationally." width="100%">
 </p>
 
 <p align="center">
-  <img alt="Bot: C++20 to WebAssembly" src="https://img.shields.io/badge/bot-C%2B%2B20%20%E2%86%92%20WebAssembly-00599C?style=for-the-badge">
-  <img alt="Tooling: Python and Node" src="https://img.shields.io/badge/tooling-Python%20%C2%B7%20Node-3776AB?style=for-the-badge">
-  <img alt="UK lobby peak: #5" src="https://img.shields.io/badge/UK%20lobby%20peak-%235-d95926?style=for-the-badge">
-  <img alt="International peak: #41" src="https://img.shields.io/badge/international%20peak-%2341-3987e5?style=for-the-badge">
+  <a href="docs/START-HERE.md"><img src="https://img.shields.io/badge/EXPLORE-THE%20BOT-e76f42?style=for-the-badge&amp;labelColor=101824" alt="Explore the bot"></a>
+  <a href="research/doomsday-movement-20261110/releases/best-final-v306AltarPressureReach/compiled-bot.zip"><img src="https://img.shields.io/badge/DOWNLOAD-v306-62dbc8?style=for-the-badge&amp;labelColor=101824" alt="Download compiled v306 ZIP"></a>
+  <a href="docs/RESULTS.md"><img src="https://img.shields.io/badge/READ-THE%20EVIDENCE-91b6ff?style=for-the-badge&amp;labelColor=101824" alt="Read the benchmark evidence"></a>
 </p>
 
 <p align="center">
-  <b>A real-time strategy AI that drafts, farms, fights and banks on its own, every turn, inside a 100,000-instruction budget.</b><br>
-  Built, measured and shipped in 24 days for <a href="https://2026a.battlecode.co.uk">Cambridge Battlecode 2026</a>.
+  <b>Draft a team. Build an economy. Take the right fight. Get the gems home.</b><br>
+  An autonomous strategy bot built for Cambridge Battlecode, combining hand-written tactics,<br>
+  neural camp ranking and short combat simulations under a strict instruction budget.
 </p>
 
 <p align="center">
-  <a href="#-highlights">Highlights</a> ·
-  <a href="#-the-challenge">The challenge</a> ·
-  <a href="#-architecture">Architecture</a> ·
-  <a href="#-results">Results</a> ·
-  <a href="#-how-we-engineered-it">How we engineered it</a> ·
-  <a href="#-the-journey">Journey</a> ·
-  <a href="#-lessons">Lessons</a> ·
-  <a href="#-repository-map">Repository</a> ·
-  <a href="#-team">Team</a>
+  <a href="#the-project">Project</a> ·
+  <a href="#inside-the-bot">Architecture</a> ·
+  <a href="#measured-performance">Results</a> ·
+  <a href="#engineering-the-edge">Engineering</a> ·
+  <a href="#explore-the-repository">Source &amp; downloads</a> ·
+  <a href="#the-team">Team</a>
 </p>
 
 ---
 
-## ✦ Highlights
+## The project
 
-<table>
-<tr>
-<td width="33%" valign="top">
+Cambridge Battlecode asks a team of programs to play a complete strategy game without human input. Teams draft
+champions, clear monster camps, earn gold, buy items and fight over resources. Carried gems only become score when
+they reach an altar; a death can hand the entire bag to the opposition.
 
-**🏆 5th in the UK lobby**<br>
-Peak rank among UK teams. Internationally the bot climbed from **#87 to #41** (rating 1834 → 2206) in two weeks.
+DOOMSDAY grew from an early policy prototype into a hybrid C++20 system compiled to WebAssembly. Its final
+recommended local release is **v306AltarPressureReach**. The repository preserves the source, compiled artifacts,
+experimental alternatives and the measurements behind that choice.
 
-</td>
-<td width="33%" valign="top">
-
-**⚙️ 17k lines of C++ → WebAssembly**<br>
-A deterministic decision engine that runs in under 100,000 WebAssembly instructions per turn, with zero faults as a release gate.
-
-</td>
-<td width="33%" valign="top">
-
-**🧠 Neural nets where they pay**<br>
-A 16-bit camp-ranking network blended into the heuristic core: **54.6% vs our own best bot** over 1,440 games, at the real compute limit.
-
-</td>
-</tr>
-<tr>
-<td valign="top">
-
-**🗺️ Per-map intelligence**<br>
-The bot fingerprints each of 86+ maps on turn one and loads a tuned draft and a 48-knob strategy profile.
-
-</td>
-<td valign="top">
-
-**📊 Statistics before ship**<br>
-Paired benches across 28 maps × 2 sides × several seeds, map-clustered bootstrap intervals, held-out maps, and paired ladder duels.
-
-</td>
-<td valign="top">
-
-**🖥️ Five machines in parallel**<br>
-Campaigns on GPU and CPU boxes, coordinated through a git-based job board with leases and heartbeats.
-
-</td>
-</tr>
-</table>
-
-## ✦ The challenge
-
-Cambridge Battlecode is a programming competition with **no humans in the loop**. Each team uploads a bot, and the
-bots play each other on a public ladder around the clock.
-
-> Two teams draft 3–5 champions from a roster of 12, then play up to 2,000 rounds on a mirrored map. Champions clear
-> monster camps for gems and gold, buy items, fight, and race to **bank 1,000 gems** at an altar. A death hands the
-> killer your entire bag.
-
-What makes it hard:
-
-| Constraint | Consequence |
-|---|---|
-| ⛽ **100,000 fuel per turn**, one unit per WebAssembly instruction | Run out and the turn is lost. Every loop has a price. |
-| 🎲 **Fully deterministic engine** | A do-nothing code change still moves fuel use and flips 4–7 of 172 games, so every build is one draw. |
-| 👁️ **No shared vision** | Each champion sees only its own raycast, 8 tiles out. |
-| 📡 **8 bytes of team memory** | Coordination has to be bit-packed: camp claims, sightings and respawn timers. |
-
-→ [Full rules primer](docs/game.md)
-
-## ✦ Architecture
-
-<p align="center">
-  <img src="docs/assets/architecture.svg" alt="Architecture: a draft phase with map fingerprinting and per-map tables; a per-turn priority cascade of perceive, shop, fight or flee, close out, hunt, bank and farm; side modules for neural networks, the 8-byte team radio and fuel discipline; and a ship pipeline from C++ to the ladder" width="100%">
-</p>
-
-- **Priority cascade.** Each turn walks seven stages, and the first one that acts ends the turn. That keeps the
-  common case cheap and the expensive analysis rare.
-- **Heuristic core, neural edges.** Camp choice is scored by hand-built value, distance, danger and crew-size terms.
-  A small quantised network re-ranks the result and overrides it only when it is more than 2 logits more confident.
-- **Fuel as a first-class resource.** New logic runs once per turn, never per camp. Network inputs refresh in stages on
-  spare fuel, and distance fields are built lazily.
-- **Bit-packed coordination.** Six claim slots, sightings and respawn events fit in 8 bytes, so champions split camps
-  without colliding.
-
-→ [Architecture deep-dive](docs/architecture.md)
-
-## ✦ Results
-
-<p align="center">
-  <img src="docs/assets/ladder.svg" alt="International ladder rank: #87 on 25 Oct, #54 on 26 Oct, #68 on 3 Nov, #63 on 4 Nov, a peak of #41 on 8 Nov, #53 on 9 Nov. Peak in the UK lobbies: #5." width="100%">
-</p>
-
-<sub>International ranks come from dated ladder snapshots (dots), with lines joining them. The UK lobby ranks UK
-teams separately; our peak there was 5th.</sub>
-
-| Milestone | Build | Measured |
+| Competition history | Final implementation | Evaluation |
 |---|---|---|
-| Island and stampede map fixes | v51–v52 | stampede 0/28 on the ladder → 6–0 locally |
-| Economy package on the new rules | v58 | 430/672 games, +153 gems a game vs v57 |
-| Per-map draft and knob tables | v74 | best of its generation in paired top-12 ladder duels |
-| Neural camp blend (nnq4) | v106 | 54.6% ± 1.3 vs v92 over 1,440 games |
-| Retuned network weights | v112 | **international #41**, rating 2206 |
-| Home-siege and navigation fixes | v118 cycle | home capture from round 1,353 → 417; Islands 7/18 → 15/18 |
-| Shop-while-waiting | v137 | +149 over 2,064 paired games vs v130 |
+| **#5 UK lobby peak** | **44 C++ source/header files** | **240 fresh random maps** in the extended panel |
+| **#41 international peak** | **22,055 source lines**, including model tables | **1,398 / 1,920** v306 wins against four local references |
+| Peaks recorded during the season | Rules, neural ranking and short simulation | Both sides; three draft sizes; variable altars |
 
-## ✦ How we engineered it
+The historical ladder peaks belong to earlier live builds, including v112 at international #41. The final local
+benchmark is a separate result; it is not a ladder rating or a finals placement.
 
-| Practice | What we did |
+**Start with [the guided tour](docs/START-HERE.md), [the final source](bots/mainline/v306AltarPressureReach/src), or
+[the compiled release](research/doomsday-movement-20261110/releases/best-final-v306AltarPressureReach/compiled-bot.zip).**
+
+## Inside the bot
+
+<p align="center">
+  <img src="docs/assets/architecture.svg" alt="v306 architecture: observations and team messages feed an ordered decision cascade, assisted by neural camp ranking and a short fight-versus-retreat simulation. Actions and optional background work share the fuel budget." width="100%">
+</p>
+
+Each champion maintains its own persistent state. A priority cascade decides what matters now; small shared
+messages coordinate local teamwork.
+
+| System | What makes it interesting |
 |---|---|
-| **Release gates** | Candidates played the current bot on 28 development maps × both sides × several seeds. They shipped only if a map-clustered bootstrap interval cleared zero, with no regression on 12 held-out maps and zero faults. |
-| **Paired ladder duels** | Local self-play turned out to be a poor predictor, so we built a pipeline that plays a candidate and the base against the *same* ladder opponents, pinned to identical bot versions. |
-| **Replay intelligence** | We built an official-engine replay decoder and decoded about **245,000 ladder matches** into NumPy shards. That data fed team ratings, behaviour-cloning datasets, loss diagnoses and top-team studies. A win-probability model trained on 138k game states reached 73.6% held-out accuracy. |
-| **Map atlas** | The bot computes about 25 features of each map itself (exact on 86/86 maps), sorts maps into 7 categories, and picks one of 14 strategy profiles at round 3. |
-| **Distributed campaigns** | A PC, a laptop and GPU boxes (RTX 5060, RTX 5070 Ti) ran experiments in parallel, coordinated by a git message board with jobs, leases and heartbeats. |
-| **Root-cause loops** | Logging builds and decision traces found map-specific bugs fast. For example, home monoliths were never attacked because `need > team_size`; a 3-champion siege crew fixed it. |
+| **World model & navigation** | Cached terrain, camp states and sightings; walking-distance fields; dashes, gap crossings and teleport shortcuts; recovery from blocked or unreachable jobs. |
+| **Camp economy** | Reward per travel/fight/capture time, early gold emphasis, two-stop lookahead, local crew claims and useful side work during respawn downtime. |
+| **Neural ranking** | A 500-feature entity network, cached encoders and 16-bit inference. Its camp preferences are blended with the hand scorer and checked for validity. |
+| **Combat** | A short fight-versus-retreat simulation, ready-burst checks, ranged micro, attack resets and supported attacks against isolated targets. |
+| **Team play** | Actual hitters and reachable firing tiles matter. Helpers can finish invested camp work, preserve one capture anchor or peel a pursuer off a loaded teammate. |
+| **Banking** | Winning-bag priority, short safe deposits despite visible enemies, channel-risk checks, retry memory and timed interruption of enemy submissions. |
+| **Draft** | Recognised-map lineups, map analysis and a separate neural scorer on eligible unfamiliar maps. |
 
-## ✦ The journey
+The shipped configuration matters: the larger tactical action search, central economy director, direct neural
+fight/run policy and several learned movement systems are retained as experiments but disabled. The
+**short fight-versus-retreat simulator is active**. The bot does not train its weights during a match.
 
-| | Phase | Dates | What happened |
-|:-:|---|---|---|
-| 0 | Prototype | 19–21 Oct | First repository: parallel workstreams, bots v34–v36, tuning on engine 1.0.1 |
-| 1 | Neural framework | 24 Oct | Behaviour cloning on **7.3M** top-team decisions. It learned nothing usable, so we pivoted to a heuristic core |
-| 2 | Heuristic sprint | 25–26 Oct | v51 → v61 behind statistical gates. **International #87 → #54** |
-| 3 | Per-map tuning | 27–28 Oct | Per-map drafts and knob tables (v65–v81), a proxy of the top teams, and DOOMSDAY Zero, a clean-slate rewrite |
-| 4 | Scale-out | 29 Oct – 2 Nov | Map atlas and portfolio, gigabot and botx3 lines, multi-machine campaigns. **v92** becomes the reference |
-| 5 | Neural blend | 3–5 Nov | The nnq4 camp-ranking blend (v106), a recurrent PPO learner, migration to engine 3.0.0 |
-| 6 | Qualifier week | 7–11 Nov | Retuned weights take us to **international #41**. Root-cause fixes v113–v138 run up to the UK qualifier lock |
+→ [Architecture overview](docs/architecture.md) ·
+[Complete feature and decision audit](research/doomsday-movement-20261110/architecture-audit-v306-20261111/BOT-ARCHITECTURE.md) ·
+[All 700 named source macros](research/doomsday-movement-20261110/architecture-audit-v306-20261111/CONFIGURATION-APPENDIX.md)
 
-→ [Detailed timeline, with sources](docs/timeline.md)
+## Measured performance
 
-## ✦ Lessons
+<p align="center">
+  <img src="docs/assets/evaluation.svg" alt="Extended local evaluation: 240 fresh maps, four reference opponents, both sides and 1,920 conditions per bot. v306 won 1,398, or 72.8 percent. Medium supplied-opponent test: 104 of 200 random-map games, with an inconclusive interval." width="100%">
+</p>
 
-1. **Compute is the opponent.** A behaviour-identical change in a hot loop lost 70–98 over 168 games.
-2. **One build is one draw.** An "improved" RL checkpoint fell from 56% to 44.5% once its own scores were jittered.
-3. **Self-play lies.** Local gains of +37 to +89 were about zero on the ladder. Only paired ladder duels predicted it.
-4. **Losses are economic.** Production was the biggest deficit in 96 of 151 losses, and +150 gold at round 100 meant
-   an 84.5% win rate.
-5. **Networks belong beside heuristics, not instead of them.**
+The final extended comparison kept the baseline when newer variants did not demonstrate an improvement.
 
-→ [All findings, with the numbers](docs/findings.md)
+| Frozen build | Fresh random pool | Published-map pool | Outcome |
+|---|---:|---:|---|
+| **v306 · AltarPressureReach** | **1,398 / 1,920 · 72.8%** | **276 / 420 · 65.7%** | Recommended release |
+| v320 · CampChannelCore | 1,395 / 1,920 · 72.7% | 278 / 420 · 66.2% | Retry required |
+| v348 · LethalFinishSafety | 1,374 / 1,920 · 71.6% | 270 / 420 · 64.3% | Retry required |
 
-## ✦ Repository map
+The fresh pool uses **240 new maps**, five terrain/reward families, three team sizes, four references and both
+sides. Candidate gains were assessed with map-clustered intervals. These figures describe this local opponent
+panel; synthetic map frequencies are not an estimate of the finals pool.
+
+A separate supplied-opponent test was deliberately less conclusive: v306 won **104 / 200** fresh-random games
+(52.0%; 95% map-cluster interval **44.0–60.5%**) and **45 / 60** published-map games. The random result does not
+establish a reliable advantage. Major-objective maps remain a documented weakness.
+
+**Zero native bot faults were recorded in the reported final comparison cohorts. Fuel exhaustion was tracked
+separately and was not zero.**
+
+→ [Results, scope and limitations](docs/RESULTS.md) ·
+[Extended benchmark record](research/doomsday-movement-20261110/crew-next/long15-261110355-REPORT.md) ·
+[Supplied-opponent analysis](research/doomsday-movement-20261110/crew-next/mediumzip-7d9b610b-261111401-REPORT.md)
+
+<details>
+<summary><b>Earlier ladder history</b></summary>
+
+<p><img src="docs/assets/ladder.svg" alt="Dated international ladder snapshots from rank 87 to a peak of rank 41; separate UK lobby peak of fifth" width="100%"></p>
+
+Earlier milestones include the v58 economy package, per-map draft tuning, the v106 neural camp blend and the v112
+weight retune. These belong to different versions, opponents and evaluation conditions; they are not interchangeable
+with the final v306 panel.
+
+See the [dated timeline and sources](docs/timeline.md).
+
+</details>
+
+## Engineering the edge
+
+**A turn is a budget.** The historical engine allowed 100,000 WebAssembly fuel per ordinary turn. Navigation,
+combat and neural inference compete for that budget. DOOMSDAY uses capped searches, staged inference, cached
+distance fields, SIMD and quantisation to keep optional work from consuming the rest of a turn.
+
+**A teammate nearby is not necessarily a teammate who can hit.** Supported pressure checks attack readiness,
+channel state and reachable firing tiles. Two allies cannot both be credited with the same free square. A healthy
+capture anchor can stay on the reward while the others act.
+
+**A plausible fix still needs evidence.** Experiments retain source identities, compiled hashes and paired
+conditions. Replay diagnosis separates a strategic failure from a broken gate, missing input or fuel problem.
+Promising failures remain eligible for focused repairs; a failed benchmark is not automatically a rejected idea.
+
+**The archive is part of the result.** The final workstream preserves **19,710 source and research files** in a
+deduplicated capsule with manifests and SHA-256 verification. Readable release sources, reports and the architecture
+audit are also available directly in the tree.
+
+→ [Findings across the project](docs/findings.md) ·
+[Final development log](research/doomsday-movement-20261110/crew-next/ROUND3-DEVELOPMENT-20261110.md)
+
+## Explore the repository
+
+| Looking for… | Go here |
+|---|---|
+| A quick technical tour | [Start here](docs/START-HERE.md) |
+| The recommended bot | [v306 source](bots/mainline/v306AltarPressureReach/src) · [compiled ZIP](research/doomsday-movement-20261110/releases/best-final-v306AltarPressureReach/compiled-bot.zip) · [source ZIP](research/doomsday-movement-20261110/releases/best-final-v306AltarPressureReach/bot.zip) |
+| Every feature, including disabled systems | [Complete v306 audit](research/doomsday-movement-20261110/architecture-audit-v306-20261111/BOT-ARCHITECTURE.md) |
+| Benchmarks and reproducibility | [Results guide](docs/RESULTS.md) · [release receipt](bots/mainline/v306AltarPressureReach/release-build.json) |
+| Experimental bot families | [Bot catalogue](bots/README.md) |
+| Research, learning and loss diagnosis | [Research index](research/README.md) |
+| The game and its constraints | [Rules primer](docs/game.md) · [SDK](sdk) |
+| Historical work and the team | [Timeline](docs/timeline.md) · [Workstreams](docs/workstreams.md) |
+| The complete final workstream | [Archive guide and restore instructions](research/doomsday-movement-20261110/README.md) |
+
+<details>
+<summary><b>Repository layout</b></summary>
 
 ```text
-bots/        250+ builds by line: mainline (v48 → v115e), x-series, gigabot, live-line, botx3, rl-env, neural, doomsday-zero
-research/    Reports and measurements for every version and line (versions/, live-line/, rl-env/, x-series/, …)
-tools/       Benchmarks, Bayesian and map-clustered comparison, replay decoding, ladder duels, map atlas
-data/        Ladder snapshots, decoded loss samples, match manifests
-maps/        The 86-map ladder pool, benchmark sets, generated and maze maps
-neural/      The neural framework: Python package, schemas, models, locked evaluation protocol
-tests/       Python and C++ tests, mechanic probes, loss cases
-sdk/         The official C++ SDK and CMake files
-docs/        Rules primer, architecture, timeline, findings, team; history/ holds the original working notes
-archive/     Retired material: the v36 prototype, framework workspaces, continuation packages
+bots/       Final v306/v320/v348 sources and historical bot families
+research/   Final audit, releases, benchmark records and earlier investigations
+docs/       Guided tour, architecture, results, game rules and project history
+tools/      Evaluation, replay decoding, tuning and historical experiment tooling
+neural/     Training framework, models and observation schemas
+maps/       Preserved map pools and generated benchmark maps
+data/       Ladder snapshots, analysis inputs and match manifests
+tests/      Mechanic probes, regression cases and historical tests
+sdk/        Preserved C++ SDK and build support
+archive/    Retired workspaces, earlier handoffs and archival records
 ```
 
-## ✦ Team
+</details>
 
-<table>
-<tr>
-<td align="center" width="25%"><b>Om Dhande</b><br><sub>Team lead</sub><br><a href="https://github.com/Infosuii"><code>@Infosuii</code></a></td>
-<td align="center" width="25%"><b>Rishik</b><br><sub>Campaigns · RL environment</sub><br><a href="https://github.com/R1shik123"><code>@R1shik123</code></a></td>
-<td align="center" width="25%"><b>Ishan Patil</b><br><sub>Fuel merge · live analysis</sub><br><a href="https://github.com/ishanp765"><code>@ishanp765</code></a></td>
-<td align="center" width="25%"><b>Iniya</b><br><sub>Neural blend research</sub></td>
-</tr>
-</table>
+## The team
 
-→ [Who built what, and where every old branch went](docs/workstreams.md)
+| **Om Dhande** | **Rishik** | **Ishan Patil** | **Iniya** |
+|:---:|:---:|:---:|:---:|
+| Team lead | Campaigns · RL environment | Fuel merge · live analysis | Neural blend research |
+| [@Infosuii](https://github.com/Infosuii) | [@R1shik123](https://github.com/R1shik123) | [@ishanp765](https://github.com/ishanp765) | — |
+
+→ [Workstreams and contributions](docs/workstreams.md)
 
 ---
 
-<sub>This is a finished project: the competition has moved on to newer engines, and the repository is kept as a record
-of the work. Every former branch is preserved as a tag `archive/<branch-name>`. Large raw evidence (game-dump zips,
-split archives) is in git history but not in the current tree; see
-<a href="archive/REMOVED_FROM_TREE.tsv"><code>archive/REMOVED_FROM_TREE.tsv</code></a>. Scripts use the paths from
-before the cleanup. Build a bot with <code>cambc build bots/mainline/v92 --release --output v92.wasm</code>.</sub>
+<p align="center"><b>Built through experiments. Preserved with evidence.</b></p>
+
+<p align="center"><sub>Competition research archive · October–November 2026<br>
+Historical engine and SDK versions apply. Some older tools retain pre-reorganisation paths.<br>
+See the guided tour for downloads, build context and reproducibility notes.</sub></p>

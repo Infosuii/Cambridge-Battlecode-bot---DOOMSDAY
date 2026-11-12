@@ -1,5 +1,7 @@
 # What our DOOMSDAY bot actually does
 
+[Project home](../../../README.md) · [Architecture overview](../../../docs/architecture.md) · [Results](../../../docs/RESULTS.md)
+
 Source audit: 11 November 2026. Reference build: **v306AltarPressureReach**, the recommended release from the recent benchmarks. This document describes the frozen bot; the audit did not change its gameplay or submit anything to the ladder.
 
 The newer v348 experiment adds two camp-safety changes described at the end. Those changes must not be attributed to v306.

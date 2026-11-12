@@ -1,71 +1,89 @@
-# How the bot works
+# How v306 works
 
-DOOMSDAY's ladder bot is a **hand-written C++ heuristic bot compiled to WebAssembly**, with small neural networks
-in a few decision points. One codebase evolved from v48 to the final qualifier builds. This page walks through the
-reference build, [`bots/mainline/v92`](../bots/mainline/v92/src), at about 17,000 lines. Later versions keep this
-structure.
+DOOMSDAY's final recommended local release is a **hybrid C++20 bot compiled to WebAssembly**. Each champion runs
+an independent persistent controller. Rules handle most actions, a neural network helps rank camps, a separate
+neural scorer can assist eligible drafts, and a short simulator compares fighting with retreating.
 
-<p align="center"><img src="assets/architecture.svg" alt="Bot architecture: draft phase, per-turn priority cascade, neural modules, team radio, fuel discipline" width="100%"></p>
+<p><img src="assets/architecture.svg" alt="v306 decision architecture" width="100%"></p>
 
-## The pieces
+## The turn pipeline
 
-| Area | Where (v92) | What it does |
+Observe and update memory → shop/support → safe immediate deposit → enemy contact → urgent banking → home/team
+support → hunt/bank/farm → optional background work.
+
+Earlier branches can consume the decision before later branches run. Legal action combinations still allow
+attacks, movement and compatible spells within a turn; it is not simply one API call per turn.
+
+| Area | Source | Responsibility |
 |---|---|---|
-| Draft | `draft.cpp` | Picks champions from fixed lineups, per-map tables (`kNovaMapLineup`, ladder tables from v70) and a learned draft network (`A2_MLDRAFT`). It uses the 10× fuel of the first draft turn to analyse the map. |
-| World model | `world.cpp`, `world.h` | Tracks tiles, camps, groups, altars, respawns and enemies. Builds **distance fields** with cheap host-side calls, because wasm loops are expensive. |
-| Per-map profiles | `bot.cpp` (`V71_MAP_KNOBS`) | Recognises a pool map by fingerprint on the first turn and loads a tuned knob vector: aggression, bag size, hunting, retreat health and so on. |
-| Camp choice | `score_groups`, `farm`, `route_search` | Scores every camp group by value, distance, danger and crew needed, then claims it through shared memory so champions don't collide. |
-| Combat | `handle_enemies`, `tsearch.*`, `fight.cpp` | Fights, flees or regroups using Lanchester-style strength estimates. A bounded tactical search runs on whatever fuel is left in the turn. |
-| Banking | `tribute_if_needed` | Decides when a bag is big enough to bank (`kTributeCarry`), and when a race lead means bank small and play safe. |
-| Items | `shop`, `build_for` | Item plans per champion: stat shards, emblem milestones (Treasure first, Bruiser stacks), consumables. |
-| Coordination | `write_claim`, `read_sighting`, `decode_claims` | Packs claims, sightings and respawn events into the **8 bytes** of shared memory. |
-| Vision | `ward_ahead`, `ward_reveal` | Places wards ahead of routes and into bushes. |
-| Race layer (switchable) | `play_turn` (`APEX_BRAIN`) | A learned win-probability model (73.6% held-out accuracy, 138k samples) switches posture between pressing, safe banking and contesting. |
+| Main cascade | [bot.cpp](../bots/mainline/v306AltarPressureReach/src/bot.cpp) | `play_turn`; precedence, channel handling and action dispatch |
+| Persistent world | [world.cpp](../bots/mainline/v306AltarPressureReach/src/world.cpp) | Camps, terrain, sightings, bushes and distance fields |
+| Navigation | `follow_field`, `walk_toward`, `retreat_from` | Walking paths, dashes, gap crossings, fallback search and stall recovery |
+| Economy | `score_groups`, `route_search`, `farm` | Value per time, local claims, two-stop lookahead and downtime jobs |
+| Fight/run decision | [tsearch.cpp](../bots/mainline/v306AltarPressureReach/src/tsearch.cpp) | Short kit-aware simulation, with budget and modelling safeguards |
+| Combat execution | `handle_enemies`, `caster_micro` | Targeting, kiting, supported pressure, spell ordering and retreat |
+| Capture protection | [pressure.cpp](../bots/mainline/v306AltarPressureReach/src/pressure.cpp) | One capture anchor, safe footwork and supported local contest |
+| Banking | `tribute_if_needed`, `bank_visible_window` | Thresholds, winning bags, altar access, short safe channels and retries |
+| Tribute denial | [deny.cpp](../bots/mainline/v306AltarPressureReach/src/deny.cpp) | Kill/interrupt timing against a channeling opponent |
+| Items | `build_for`, `shop` | Champion-aware item milestones, consumables and completion tracking |
+| Coordination | `write_claim`, `read_sighting` | Compact camp claims, sightings and respawn messages |
+| Draft | [draft.cpp](../bots/mainline/v306AltarPressureReach/src/draft.cpp) | Tables, map analysis, conditional neural draft and fallback rosters |
 
-## Neural components
+## The neural boundary
 
-All networks are tiny and quantised, because they must fit inside the 100k-fuel turn:
+The main network has 500 feature slots: global state, self, five allies, eight enemies, ten candidate camps and four
+altars. Entity encoders produce 16-value representations; pooling forms a 160-value summary followed by two
+64-unit layers. The model contains multiple output families, but **camp ranking is its main deployed influence**.
 
-- **Draft net** (`A2_MLDRAFT`) and **camp net** (`A2_CAMPNET`, 321 parameters, about 3 hours of in-engine PPO),
-  from the v48–v50 era.
-- **Danger net** (`UB_DANGER`, v48) and an **item model**.
-- **The nnq4 blend** (4 Nov, shipped as v106): a 16-bit student network re-scores camps inside `farm()`.
-  It overrides v92's choice only when another camp scores more than 2 logits higher. Its slow part refreshes in stages
-  on spare fuel. Against v92 it scored 54.6% ± 1.3 over 1,440 games. The blend (`A2_NN_ENS`, `A2_NN_LAZY`) stayed in
-  the v112–v137 live line. See
-  [`research/neural/nnq4-blend`](../research/neural/nnq4-blend/README.md).
-- **ES-retuned weights** (Om's live line, v112): evolution-strategy tuning of the network weights on a 20-thread
-  workstation. This was the build live at our peak ladder rank.
+The hand scorer remains part of the choice. Neural suggestions pass validity, freshness, margin and partnership
+checks. Movement, shopping, banking and combat are not all directly controlled by that network.
 
-## Living inside the fuel budget
+Cached encoders, staged live/lazy updates, 16-bit quantisation and WebAssembly SIMD reduce inference cost.
+Weights remain fixed during a match. A changing observation cache is not online training.
 
-The bot runs at its fuel limit almost every turn, so the code follows strict rules:
+## Team play without a central commander
 
-1. New logic runs **once per call or once per turn**, never inside per-group or per-camp loops.
-2. Expensive analysis is deferred: staged network refreshes, lazy distance fields, analysis spread over the draft turns.
-3. Every change is measured as a whole build, because the engine is deterministic and any binary change can move later
-   decisions.
-4. Fuel-outs are tracked per game. A release must show zero faults and near-zero fuel-outs.
+Shared memory holds compact claims and one small sighting/event payload. Local rules turn those messages and
+visible teammates into crews, capture ownership, buddy farming, supported pressure and carrier protection.
 
-## Experimental systems built on the same code
+Support is checked against reach, readiness and safe firing squares. A channeling ally cannot be counted as an
+immediate hitter. Completed captures can retain one anchor while helpers leave. The current configuration also
+overrides selected camp staffing to one, an important limit on the wider crew machinery.
 
-| System | Where | Idea |
-|---|---|---|
-| Map atlas and portfolio | `bots/x-series/x3`, `research/x-series/x3` | About 25 map features computed by the bot itself, 7 map categories, and a 14-profile portfolio picked at round 3. Exact on 86/86 maps, but per-category choices did not transfer to unseen maps. |
-| Counter tables | `bots/x-series/x3ctr*` | Opponent-specific tables. They looked strong in sample (+37 to +89) and came out about zero out of sample. |
-| Team economy | `bots/botx3/` | Eleven versions of coordinated crews and shared economy, paused on 3 Nov. |
-| gigabot (gx) | `bots/gigabot/` | Many single-mechanism increments, each with a matched control and a proof run. |
-| DOOMSDAY Zero | `bots/doomsday-zero/` | A clean-slate C++20 rewrite with no old code or weights. It passed 292 release games with no faults and never reached strategy parity. |
-| RL environment | `bots/rl-env/`, `research/rl-env/` | A recurrent PPO learner, a belief model, and a qualifier-week fix pipeline. |
+## Configuration is part of the architecture
 
-## Building
+Several tempting interpretations of the source are wrong:
 
-The bots build with the official CLI, which bundles a wasi-sdk C++ toolchain:
+| What appears in the code | What v306 actually does |
+|---|---|
+| Full tactical search switch is off | The independent short fight/run simulator is still on |
+| Common settings say neural draft is off | draft.cpp overrides the setting and enables an eligible path |
+| Multiple item presets are enabled | The active item plan returns before the older plans |
+| Network has banking and action heads | The selected deployment leaves these mostly dormant |
+| Central economy director exists | It is switched off |
+| Ward-drop switch is off | Independent reactive ward uses remain active |
 
-```bash
-cambc build bots/mainline/v92 --release --output v92.wasm
-cambc run v92.wasm other.wasm --map maps/ladder-pool/<map>.map26a --release
-```
+This is why the full audit records **700 named macros**, translation-unit differences and runtime gates, rather
+than treating every flag as an independent active feature.
 
-The repository is a record of finished work. Scripts still use the paths from before the reorganisation (for example
-`bots/v92`), and the platform has moved on to newer engines, so expect to adjust paths before rerunning anything.
+## Fuel discipline and its limits
+
+The historical ordinary-turn budget was 100,000 WebAssembly fuel. Optional work is admitted only with a reserve:
+capped navigation search, bounded tactical playouts, incremental fields and staged neural refresh all compete for
+time. A quiet turn may prepare work that a later combat turn reuses.
+
+These mechanisms reduce exhaustion; they do not eliminate it. The final benchmark distinguishes zero native bot
+faults from nonzero exhausted-fuel events. See [results](RESULTS.md).
+
+## Continue deeper
+
+- [Full feature audit, including disabled systems](../research/doomsday-movement-20261110/architecture-audit-v306-20261111/BOT-ARCHITECTURE.md)
+- [Configuration appendix](../research/doomsday-movement-20261110/architecture-audit-v306-20261111/CONFIGURATION-APPENDIX.md)
+- [Runtime knobs](../research/doomsday-movement-20261110/architecture-audit-v306-20261111/RUNTIME-KNOBS.md)
+- [Source method index](../research/doomsday-movement-20261110/architecture-audit-v306-20261111/SOURCE-METHOD-INDEX.md)
+- [Historical neural blend research](../research/neural/nnq4-blend/README.md)
+- [Experimental families](../bots/README.md)
+
+v320 adds camp-aware channel safety; v348 also adds a narrow lethal camp-finishing spell exception. They are
+preserved experiments, and neither displaced v306 in the final benchmark. The larger research archive also retains
+earlier team-economy, policy-learning, map-portfolio and clean-slate systems; they are not all active in this release.

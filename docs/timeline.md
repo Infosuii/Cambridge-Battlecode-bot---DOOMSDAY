@@ -100,4 +100,9 @@ through a git-based **message board** with jobs, leases and heartbeats
 - **v119–v130:** a rapid series of pre-registered candidates on 9 Nov.
 - **10 Nov:** **v137** = v135 + "shop while waiting" (+149 over 2,064 paired games vs v130), then **v138** with a
   6-map knob table, blocked-tile memory and tribute alerts. The **UK qualifier lock** was 23:59 GMT that night.
-- **11 Nov:** the last commit, a deposit-and-aggression add-on plan.
+- **10–11 Nov, final local movement/crew workstream:** v306 adds supported isolated-target pressure and safer nearby banking. v320 and v348 retain further camp/channel safety experiments.
+- **11 Nov, extended comparison:** v306 remains recommended at 1,398/1,920 primary random-pool wins; neither newer candidate demonstrates a primary-pool gain. A separate supplied-opponent matchup is inconclusive on random maps.
+- **11 Nov, source audit:** 44 source/header files, 700 named macros and the full decision flow are documented, including disabled or shadowed systems.
+- **12 Nov, preservation:** the final sources, releases and benchmark records are added to this repository with a verified capsule preserving 19,710 source/research files.
+
+→ [Final workstream](../research/doomsday-movement-20261110/README.md) · [Results and scope](RESULTS.md)

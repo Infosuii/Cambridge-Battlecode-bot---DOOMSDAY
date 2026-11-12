@@ -1,114 +1,69 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900" role="img" aria-label="Architecture of the DOOMSDAY bot: draft phase, per-turn priority cascade, neural modules, shared memory and fuel discipline">
-<title>Architecture of the DOOMSDAY bot: draft phase, per-turn priority cascade, neural modules, shared memory and fuel discipline</title>
-<defs>
-  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0e14"/><stop offset="1" stop-color="#141a25"/></linearGradient>
-  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity="0.035"/></pattern>
-  <radialGradient id="glow" cx="0.16" cy="0.5" r="0.45"><stop offset="0" stop-color="#d95926" stop-opacity="0.22"/><stop offset="1" stop-color="#d95926" stop-opacity="0"/></radialGradient>
-  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8e97a8"/></marker>
-</defs>
-<rect width="1280" height="900" rx="18" fill="url(#bg)"/>
-<rect width="1280" height="900" rx="18" fill="url(#grid)"/>
-<text x="48" y="64" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="34" font-weight="800" fill="#f0efec" text-anchor="start" >Inside the bot</text>
-<text x="48" y="96" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#c3c2b7" text-anchor="start" >One deterministic turn, under 100,000 WebAssembly instructions. The first stage that acts ends the turn.</text>
-<rect x="40" y="124" width="1200" height="118" rx="14" fill="#171d29" stroke="#2b3446"/>
-<text x="64" y="160" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#d95926" text-anchor="start" letter-spacing="2">DRAFT PHASE</text>
-<text x="64" y="186" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#8e97a8" text-anchor="start" >runs once, with 10× fuel</text>
-<rect x="280" y="150" width="284" height="34" rx="17" fill="#d95926" fill-opacity="0.14" stroke="#d95926" stroke-opacity="0.55"/><text x="422.05" y="172" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >Map fingerprint → 48-knob profile</text>
-<rect x="576.1" y="150" width="192" height="34" rx="17" fill="#d95926" fill-opacity="0.14" stroke="#d95926" stroke-opacity="0.55"/><text x="671.95" y="172" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >Per-map lineup tables</text>
-<rect x="779.8000000000001" y="150" width="192" height="34" rx="17" fill="#d95926" fill-opacity="0.14" stroke="#d95926" stroke-opacity="0.55"/><text x="875.6500000000001" y="172" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >Learned draft network</text>
-<rect x="983.5000000000001" y="150" width="199" height="34" rx="17" fill="#d95926" fill-opacity="0.14" stroke="#d95926" stroke-opacity="0.55"/><text x="1083.2" y="172" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >Cached distance fields</text>
-<text x="280" y="220" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#8e97a8" text-anchor="start" >Alternating picks from 12 champions; the map is analysed once and the plan is written to 1,024 bytes of shared draft memory.</text>
-<path d="M450 242V272" stroke="#8e97a8" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="40" y="280" width="830" height="500" rx="14" fill="#171d29" stroke="#2b3446"/>
-<text x="64" y="316" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#3987e5" text-anchor="start" letter-spacing="2">EVERY TURN  ·  priority cascade</text>
-<rect x="60" y="336" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="364" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="369" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >1</text>
-<text x="116" y="360" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">PERCEIVE</text>
-<text x="116" y="381" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >world.update()</text>
-<text x="330" y="370" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >raycast vision · camp HP · enemy sightings · teammate claims</text>
-<path d="M88 392V398" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="398" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="426" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="431" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >2</text>
-<text x="116" y="422" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">SHOP</text>
-<text x="116" y="443" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >shop()</text>
-<text x="330" y="432" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >shards → emblems at spawn, per-champion item plans</text>
-<path d="M88 454V460" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="460" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="488" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="493" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >3</text>
-<text x="116" y="484" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">FIGHT / FLEE</text>
-<text x="116" y="505" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >handle_enemies()</text>
-<text x="330" y="494" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Lanchester strength estimate · tactical search on spare fuel</text>
-<path d="M88 516V522" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="522" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="550" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="555" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >4</text>
-<text x="116" y="546" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">CLOSE OUT</text>
-<text x="116" y="567" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >win_now()</text>
-<text x="330" y="556" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >bag + banked score ≥ 1,000 → bank immediately</text>
-<path d="M88 578V584" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="584" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="612" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="617" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >5</text>
-<text x="116" y="608" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">HUNT</text>
-<text x="116" y="629" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >hunt()</text>
-<text x="330" y="618" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >chase the freshest enemy sighting when healthy and light</text>
-<path d="M88 640V646" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="646" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="674" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="679" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >6</text>
-<text x="116" y="670" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">BANK</text>
-<text x="116" y="691" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >tribute_if_needed()</text>
-<text x="330" y="680" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >bag-size and race-lead thresholds · altar safety</text>
-<path d="M88 702V708" stroke="#2b3446" stroke-width="2"/>
-<rect x="60" y="708" width="790" height="56" rx="10" fill="#1d2433" stroke="#2b3446"/>
-<circle cx="88" cy="736" r="15" fill="#3987e5" fill-opacity="0.18" stroke="#3987e5"/>
-<text x="88" y="741" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f0efec" text-anchor="middle" >7</text>
-<text x="116" y="732" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#f0efec" text-anchor="start" letter-spacing="1">FARM</text>
-<text x="116" y="753" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5" font-weight="500" fill="#3987e5" text-anchor="start" >farm() · score_groups()</text>
-<text x="330" y="742" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >value / distance / danger / crew scoring + neural re-rank</text>
-<rect x="894" y="280" width="346" height="164" rx="14" fill="#171d29" stroke="#2b3446"/>
-<rect x="894" y="280" width="6" height="164" rx="3" fill="#9085e9"/>
-<text x="920" y="312" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#9085e9" text-anchor="start" letter-spacing="2">NEURAL MODULES</text>
-<circle cx="926" cy="336" r="3.5" fill="#9085e9"/>
-<text x="940" y="341" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Draft network</text>
-<circle cx="926" cy="364" r="3.5" fill="#9085e9"/>
-<text x="940" y="369" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Camp network · 321 params, PPO</text>
-<circle cx="926" cy="392" r="3.5" fill="#9085e9"/>
-<text x="940" y="397" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >nnq4 blend · 16-bit, 2-logit gate</text>
-<circle cx="926" cy="420" r="3.5" fill="#9085e9"/>
-<text x="940" y="425" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Win-probability model · 73.6%</text>
-<rect x="894" y="460" width="346" height="136" rx="14" fill="#171d29" stroke="#2b3446"/>
-<rect x="894" y="460" width="6" height="136" rx="3" fill="#199e70"/>
-<text x="920" y="492" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#199e70" text-anchor="start" letter-spacing="2">8-BYTE TEAM RADIO</text>
-<circle cx="926" cy="516" r="3.5" fill="#199e70"/>
-<text x="940" y="521" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Camp claims (6 slots)</text>
-<circle cx="926" cy="544" r="3.5" fill="#199e70"/>
-<text x="940" y="549" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Enemy sightings</text>
-<circle cx="926" cy="572" r="3.5" fill="#199e70"/>
-<text x="940" y="577" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Respawn timers</text>
-<rect x="894" y="612" width="346" height="164" rx="14" fill="#171d29" stroke="#2b3446"/>
-<rect x="894" y="612" width="6" height="164" rx="3" fill="#d95926"/>
-<text x="920" y="644" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#d95926" text-anchor="start" letter-spacing="2">FUEL DISCIPLINE</text>
-<circle cx="926" cy="668" r="3.5" fill="#d95926"/>
-<text x="940" y="673" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >New logic once per turn, never per camp</text>
-<circle cx="926" cy="696" r="3.5" fill="#d95926"/>
-<text x="940" y="701" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Staged network refresh on spare fuel</text>
-<circle cx="926" cy="724" r="3.5" fill="#d95926"/>
-<text x="940" y="729" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Lazy distance fields</text>
-<circle cx="926" cy="752" r="3.5" fill="#d95926"/>
-<text x="940" y="757" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#c3c2b7" text-anchor="start" >Release gate: zero faults</text>
-<rect x="40" y="806" width="1200" height="70" rx="14" fill="#171d29" stroke="#2b3446"/>
-<text x="64" y="847" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#199e70" text-anchor="start" letter-spacing="2">SHIP</text>
-<rect x="150" y="824" width="122" height="34" rx="17" fill="#199e70" fill-opacity="0.14" stroke="#199e70" stroke-opacity="0.55"/><text x="211.2" y="846" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >C++20 source</text>
-<path d="M278 841H302" stroke="#8e97a8" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="312.4" y="824" width="199" height="34" rx="17" fill="#199e70" fill-opacity="0.14" stroke="#199e70" stroke-opacity="0.55"/><text x="412.09999999999997" y="846" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >cambc build · wasi-sdk</text>
-<path d="M518 841H542" stroke="#8e97a8" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="551.8" y="824" width="138" height="34" rx="17" fill="#199e70" fill-opacity="0.14" stroke="#199e70" stroke-opacity="0.55"/><text x="620.6999999999999" y="846" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >.wasm ≈ 1.6 MB</text>
-<path d="M696 841H720" stroke="#8e97a8" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="729.5999999999999" y="824" width="246" height="34" rx="17" fill="#199e70" fill-opacity="0.14" stroke="#199e70" stroke-opacity="0.55"/><text x="852.3999999999999" y="846" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >paired bench + held-out maps</text>
-<path d="M981 841H1005" stroke="#8e97a8" stroke-width="2" marker-end="url(#arrow)"/>
-<rect x="1015.1999999999999" y="824" width="76" height="34" rx="17" fill="#199e70" fill-opacity="0.14" stroke="#199e70" stroke-opacity="0.55"/><text x="1053.3" y="846" font-family="'Segoe UI', -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#f0efec" text-anchor="middle" >ladder</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="850" viewBox="0 0 1280 850" role="img" aria-label="v306 decision architecture: persistent perception, ordered priorities, bounded decision support, legal actions and deferred computation.">
+<title>v306 decision architecture: persistent perception, ordered priorities, bounded decision support, legal actions and deferred computation.</title>
+<defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#9abaff" stroke-opacity=".045"/></pattern><linearGradient id="accent"><stop stop-color="#f38a60"/><stop offset="1" stop-color="#64ddc5"/></linearGradient></defs>
+<rect width="1280" height="850" rx="20" fill="#0b111b"/>
+<rect width="1280" height="850" rx="20" fill="url(#grid)"/>
+<text x="40" y="57" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="27" font-weight="750" fill="#edf3fa">ONE CHAMPION. ONE CONTROLLER.</text>
+<text x="40" y="90" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Persistent state, local teamwork and a budget for every decision.</text>
+<text x="40" y="139" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="700" fill="#9abaff" letter-spacing="2">01  PERCEIVE</text>
+<text x="370" y="139" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="700" fill="#f38a60" letter-spacing="2">02  PRIORITISE</text>
+<text x="900" y="139" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="700" fill="#64ddc5" letter-spacing="2">03  ASSIST</text>
+<rect x="40" y="160" width="300" height="225" rx="12" fill="#121e2d" stroke="#26384d"/>
+<text x="62" y="197" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="23" font-weight="700" fill="#edf3fa">World &amp; memory</text>
+<text x="62" y="237" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Terrain + distance fields</text>
+<text x="62" y="271" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Camps + capture state</text>
+<text x="62" y="305" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Enemies + dated sightings</text>
+<text x="62" y="339" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Our HP, bag and cooldowns</text>
+<rect x="40" y="409" width="300" height="191" rx="12" fill="#121e2d" stroke="#26384d"/>
+<text x="62" y="446" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="23" font-weight="700" fill="#edf3fa">Team radio</text>
+<text x="62" y="485" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Compact camp claims</text>
+<text x="62" y="519" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Sightings + respawn events</text>
+<text x="62" y="553" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="18" font-weight="400" fill="#a8bbcf">Local crews + capture owner</text>
+<path d="M340 266L370 266" fill="none" stroke="#9abaff" stroke-width="2"/>
+<path d="M340 502L370 502" fill="none" stroke="#9abaff" stroke-width="2"/>
+<rect x="370" y="160" width="500" height="440" rx="12" fill="#121e2d" stroke="#26384d"/>
+<circle cx="394" cy="186" r="4" fill="#f38a60"/>
+<text x="410" y="191" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Refresh / shop / support</text>
+<text x="410" y="215" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">Prepare observations and legal support</text>
+<path d="M394 196L394 245" fill="none" stroke="#26384d" stroke-width="1"/>
+<circle cx="394" cy="254" r="4" fill="#f38a60"/>
+<text x="410" y="259" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Safe deposit window</text>
+<text x="410" y="283" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">An available short channel can win priority</text>
+<path d="M394 264L394 313" fill="none" stroke="#26384d" stroke-width="1"/>
+<circle cx="394" cy="322" r="4" fill="#f38a60"/>
+<text x="410" y="327" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Enemy contact</text>
+<text x="410" y="351" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">Protect captures · fight · pressure · retreat</text>
+<path d="M394 332L394 381" fill="none" stroke="#26384d" stroke-width="1"/>
+<circle cx="394" cy="390" r="4" fill="#f38a60"/>
+<text x="410" y="395" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Urgent banking / home</text>
+<text x="410" y="419" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">Winning bags, healing and spending</text>
+<path d="M394 400L394 449" fill="none" stroke="#26384d" stroke-width="1"/>
+<circle cx="394" cy="458" r="4" fill="#f38a60"/>
+<text x="410" y="463" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Team support / hunt / bank</text>
+<text x="410" y="487" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">Use nearby opportunities when eligible</text>
+<path d="M394 468L394 517" fill="none" stroke="#26384d" stroke-width="1"/>
+<circle cx="394" cy="526" r="4" fill="#f38a60"/>
+<text x="410" y="531" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="600" fill="#edf3fa">Farm</text>
+<text x="410" y="555" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#a8bbcf">Score jobs, select a target and act</text>
+<rect x="900" y="160" width="340" height="154" rx="12" fill="#121e2d" stroke="#26384d"/>
+<text x="921" y="196" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#edf3fa">Neural camp ranking</text>
+<text x="921" y="232" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">500 feature slots · fixed weights</text>
+<text x="921" y="264" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">Cached + quantised inference</text>
+<text x="921" y="292" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#64ddc5">Blended with the hand scorer</text>
+<rect x="900" y="336" width="340" height="146" rx="12" fill="#121e2d" stroke="#26384d"/>
+<text x="921" y="372" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="21" font-weight="700" fill="#edf3fa">Short combat simulation</text>
+<text x="921" y="408" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">Compare fight versus retreat</text>
+<text x="921" y="440" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">Budget and modelling safeguards</text>
+<rect x="900" y="504" width="340" height="96" rx="12" fill="#121e2d" stroke="#26384d"/>
+<text x="921" y="541" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="20" font-weight="700" fill="#edf3fa">Draft before gameplay</text>
+<text x="921" y="575" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">Map rules + eligible neural picks</text>
+<path d="M870 237L900 237" fill="none" stroke="#64ddc5" stroke-width="2" stroke-dasharray="6 7"/>
+<path d="M870 410L900 410" fill="none" stroke="#64ddc5" stroke-width="2" stroke-dasharray="6 7"/>
+<rect x="40" y="638" width="1200" height="91" rx="12" fill="#162a2a" stroke="#31564f"/>
+<text x="62" y="675" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="15" font-weight="700" fill="#64ddc5" letter-spacing="2">04  EXECUTE</text>
+<text x="247" y="675" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="23" font-weight="600" fill="#edf3fa">Walk / dash / attack / cast / capture / submit / recall</text>
+<text x="247" y="706" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#a8bbcf">Legal action ordering and champion-specific movement restrictions apply.</text>
+<rect x="40" y="751" width="1200" height="59" rx="12" fill="#17202d" stroke="#26384d"/>
+<text x="62" y="788" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="14" font-weight="700" fill="#9abaff" letter-spacing="2">FUEL GOVERNOR</text>
+<text x="268" y="788" font-family="Segoe UI,Arial,Helvetica,sans-serif" font-size="19" font-weight="400" fill="#a8bbcf">Bound searches · reserve action time · defer fields and neural refresh</text>
 </svg>

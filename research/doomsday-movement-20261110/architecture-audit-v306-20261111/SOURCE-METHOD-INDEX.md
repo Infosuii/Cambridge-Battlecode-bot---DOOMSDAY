@@ -1,209 +1,211 @@
 # v306 source method index
 
+[Project home](../../../README.md) · [Architecture overview](../../../docs/architecture.md) · [Results](../../../docs/RESULTS.md)
+
 Definitions in the source, including disabled branches. Duplicate method names can be alternative implementations behind compile switches. Presence here does not establish runtime reachability.
 
 | Method | Source |
 |---|---|
-| `Bot::init` | [bot.cpp:457](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:457>) |
-| `Bot::refresh_self` | [bot.cpp:569](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:569>) |
-| `Bot::spell_ready` | [bot.cpp:606](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:606>) |
-| `Bot::read_shared` | [bot.cpp:610](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:610>) |
-| `Bot::write_claim` | [bot.cpp:616](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:616>) |
-| `Bot::decode_claims` | [bot.cpp:639](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:639>) |
-| `Bot::unmark_onsite` | [bot.cpp:656](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:656>) |
-| `Bot::mark_onsite` | [bot.cpp:666](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:666>) |
-| `Bot::write_order` | [bot.cpp:677](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:677>) |
-| `Bot::share_sighting` | [bot.cpp:687](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:687>) |
-| `Bot::read_sighting` | [bot.cpp:711](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:711>) |
-| `Bot::claims_split` | [bot.cpp:736](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:736>) |
-| `Bot::open_call_by_lower` | [bot.cpp:745](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:745>) |
-| `Bot::track_claims` | [bot.cpp:756](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:756>) |
-| `Bot::senior_claims` | [bot.cpp:767](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:767>) |
-| `Bot::claim_count` | [bot.cpp:777](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:777>) |
-| `Bot::shop` | [bot.cpp:786](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:786>) |
-| `Bot::refresh_emblems` | [bot.cpp:884](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:884>) |
-| `Bot::travel_dash_ok` | [bot.cpp:932](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:932>) |
-| `Bot::try_dash` | [bot.cpp:939](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:939>) |
-| `Bot::follow_field` | [bot.cpp:989](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:989>) |
-| `Bot::try_teleport` | [bot.cpp:1075](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1075>) |
-| `Bot::walk_toward` | [bot.cpp:1107](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1107>) |
-| `Bot::a2_team_plan` | [bot.cpp:1264](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1264>) |
-| `Bot::a2_hidden_near` | [bot.cpp:1345](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1345>) |
-| `Bot::a2_hidden_burst` | [bot.cpp:1359](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1359>) |
-| `Bot::a2_join_fight` | [bot.cpp:1376](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1376>) |
-| `Bot::a2_threat_zone` | [bot.cpp:1406](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1406>) |
-| `Bot::a2_route_around` | [bot.cpp:1421](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1421>) |
-| `Bot::greedy_step` | [bot.cpp:1446](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1446>) |
-| `Bot::travel_around_threats` | [bot.cpp:1505](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1505>) |
-| `Bot::hidden_from_threats` | [bot.cpp:1541](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1541>) |
-| `Bot::buddy` | [bot.cpp:1564](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1564>) |
-| `Bot::buddy_anchor` | [bot.cpp:1600](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1600>) |
-| `Bot::regroup_from` | [bot.cpp:1614](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1614>) |
-| `Bot::retreat_from` | [bot.cpp:1634](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1634>) |
-| `Bot::my_dps` | [bot.cpp:1697](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1697>) |
-| `Bot::attack_unit` | [bot.cpp:1719](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1719>) |
-| `Bot::use_reset_and_attack` | [bot.cpp:1736](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1736>) |
-| `Bot::cast_camp_strike` | [bot.cpp:1810](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1810>) |
-| `Bot::cast_on_camp` | [bot.cpp:1851](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1851>) |
-| `Bot::cast_on_enemy` | [bot.cpp:1903](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:1903>) |
-| `Bot::support_casts` | [bot.cpp:2017](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2017>) |
-| `Bot::prelock_altars` | [bot.cpp:2093](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2093>) |
-| `Bot::try_lock_altar` | [bot.cpp:2115](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2115>) |
-| `Bot::bush_ambush` | [bot.cpp:2140](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2140>) |
-| `Bot::update_priority` | [bot.cpp:2218](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2218>) |
-| `Bot::ward_ahead` | [bot.cpp:2251](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2251>) |
-| `Bot::fog_threat` | [bot.cpp:2334](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2334>) |
-| `Bot::fog_regroup` | [bot.cpp:2350](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2350>) |
-| `Bot::dplan_load` | [bot.cpp:2372](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2372>) |
-| `Bot::dplan_group` | [bot.cpp:2396](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2396>) |
-| `Bot::ward_reveal` | [bot.cpp:2415](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2415>) |
-| `Bot::hidden_here` | [bot.cpp:2480](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2480>) |
-| `Bot::counter_ambush` | [bot.cpp:2492](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2492>) |
-| `Bot::try_burst_kill` | [bot.cpp:2599](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2599>) |
-| `Bot::enemy_spell_reach` | [bot.cpp:2692](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2692>) |
-| `Bot::nearest_enemy_melee` | [bot.cpp:2704](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2704>) |
-| `Bot::kite_step` | [bot.cpp:2714](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2714>) |
-| `Bot::position_and_attack` | [bot.cpp:2745](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2745>) |
-| `Bot::dash_away` | [bot.cpp:2794](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2794>) |
-| `Bot::plan_escape` | [bot.cpp:2858](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:2858>) |
-| `Bot::run_escape` | [bot.cpp:3094](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3094>) |
-| `Bot::escape_or_stand` | [bot.cpp:3158](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3158>) |
-| `Bot::melee_caught` | [bot.cpp:3229](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3229>) |
-| `Bot::squad_strike` | [bot.cpp:3276](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3276>) |
-| `Bot::press_isolated` | [bot.cpp:3399](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3399>) |
-| `Bot::guard_carrier` | [bot.cpp:3484](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3484>) |
-| `Bot::handle_enemies` | [bot.cpp:3526](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:3526>) |
-| `Bot::rush_leader_slot` | [bot.cpp:4763](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4763>) |
-| `Bot::rush_active` | [bot.cpp:4771](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4771>) |
-| `Bot::rush` | [bot.cpp:4789](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4789>) |
-| `Bot::hunt` | [bot.cpp:4856](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4856>) |
-| `Bot::a2_pair_hunt` | [bot.cpp:4934](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4934>) |
-| `Bot::a2_converge` | [bot.cpp:4969](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:4969>) |
-| `Bot::a2_alone_alert` | [bot.cpp:5010](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5010>) |
-| `Bot::hs_reach` | [bot.cpp:5031](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5031>) |
-| `Bot::hs_find` | [bot.cpp:5039](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5039>) |
-| `Bot::home_siege` | [bot.cpp:5060](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5060>) |
-| `Bot::go_home_if_needed` | [bot.cpp:5115](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5115>) |
-| `Bot::channel_danger` | [bot.cpp:5236](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5236>) |
-| `Bot::retry_channel` | [bot.cpp:5261](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5261>) |
-| `Bot::start_recall` | [bot.cpp:5284](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5284>) |
-| `Bot::start_submission` | [bot.cpp:5290](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5290>) |
-| `Bot::submit_here` | [bot.cpp:5297](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5297>) |
-| `Bot::submission_danger` | [bot.cpp:5329](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5329>) |
-| `Bot::bank_visible_window` | [bot.cpp:5385](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5385>) |
-| `Bot::p19_bank_close` | [bot.cpp:5410](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5410>) |
-| `Bot::tribute_if_needed` | [bot.cpp:5428](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5428>) |
-| `Bot::camp_targets_me` | [bot.cpp:5574](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5574>) |
-| `Bot::incoming_from_group` | [bot.cpp:5589](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5589>) |
-| `Bot::soak_coefficient` | [bot.cpp:5598](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5598>) |
-| `Bot::group_soak` | [bot.cpp:5618](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5618>) |
-| `Bot::champions_needed` | [bot.cpp:5639](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5639>) |
-| `Bot::allies_near_group` | [bot.cpp:5652](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5652>) |
-| `Bot::leave_stalled_job` | [bot.cpp:5667](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5667>) |
-| `Bot::fight_camps` | [bot.cpp:5685](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:5685>) |
-| `Bot::break_out` | [bot.cpp:6092](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6092>) |
-| `Bot::reveal_bush_camp` | [bot.cpp:6118](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6118>) |
-| `Bot::siege_dps` | [bot.cpp:6159](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6159>) |
-| `Bot::claim_of` | [bot.cpp:6178](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6178>) |
-| `Bot::group_capture_covered` | [bot.cpp:6180](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6180>) |
-| `Bot::my_items` | [bot.cpp:6199](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6199>) |
-| `Bot::poorer_ally_takes` | [bot.cpp:6203](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6203>) |
-| `Bot::a3_other_owner` | [bot.cpp:6237](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6237>) |
-| `Bot::build_zones` | [bot.cpp:6265](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6265>) |
-| `Bot::campnet_pick` | [bot.cpp:6315](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6315>) |
-| `Bot::score_groups` | [bot.cpp:6400](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6400>) |
-| `Bot::score_groups_full` | [bot.cpp:6412](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6412>) |
-| `Bot::score_groups` | [bot.cpp:6415](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6415>) |
-| `Bot::score_groups_full` | [bot.cpp:6431](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6431>) |
-| `Bot::score_groups` | [bot.cpp:6433](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6433>) |
-| `Bot::refresh_follow_ups` | [bot.cpp:6948](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6948>) |
-| `Bot::route_search` | [bot.cpp:6978](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:6978>) |
-| `Bot::plan_search` | [bot.cpp:7063](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7063>) |
-| `Bot::is_official_map` | [bot.cpp:7172](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7172>) |
-| `Bot::init_sweep_region` | [bot.cpp:7186](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7186>) |
-| `Bot::next_sweep_stop` | [bot.cpp:7214](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7214>) |
-| `Bot::crew_can_finish` | [bot.cpp:7230](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7230>) |
-| `Bot::camp_downtime_job` | [bot.cpp:7266](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7266>) |
-| `Bot::farm` | [bot.cpp:7331](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7331>) |
-| `Bot::opportunistic_attack` | [bot.cpp:7852](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7852>) |
-| `Bot::drop_ward` | [bot.cpp:7871](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7871>) |
-| `Bot::update_numbers` | [bot.cpp:7902](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7902>) |
-| `Bot::build_fields` | [bot.cpp:7918](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7918>) |
-| `Bot::fb_turn_start` | [bot.cpp:7987](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7987>) |
-| `Bot::fb_turn_end` | [bot.cpp:7997](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:7997>) |
-| `Bot::play_turn` | [bot.cpp:8036](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/bot.cpp:8036>) |
-| `Bot::deny_tribute` | [deny.cpp:12](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/deny.cpp:12>) |
-| `Bot::economy_secondary_for` | [economy.cpp:25](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:25>) |
-| `Bot::economy_enabled` | [economy.cpp:45](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:45>) |
-| `Bot::economy_carry` | [economy.cpp:50](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:50>) |
-| `Bot::economy_carry_on` | [economy.cpp:58](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:58>) |
-| `Bot::economy_owner` | [economy.cpp:66](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:66>) |
-| `Bot::economy_crew` | [economy.cpp:80](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:80>) |
-| `Bot::economy_update` | [economy.cpp:104](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:104>) |
-| `Bot::economy_release_capture` | [economy.cpp:274](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:274>) |
-| `Bot::economy_precapture` | [economy.cpp:292](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:292>) |
-| `Bot::economy_assignment` | [economy.cpp:327](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/economy.cpp:327>) |
-| `Bot::count_enemy_deaths` | [episode.cpp:29](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/episode.cpp:29>) |
-| `Bot::ep_features` | [episode.cpp:42](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/episode.cpp:42>) |
-| `Bot::episode_tick` | [episode.cpp:105](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/episode.cpp:105>) |
-| `Bot::nn_track` | [nnrec.cpp:116](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:116>) |
-| `Bot::nn_feats_t` | [nnrec.cpp:164](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:164>) |
-| `Bot::nn_feats` | [nnrec.cpp:577](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:577>) |
-| `Bot::nn_feats3` | [nnrec.cpp:578](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:578>) |
-| `Bot::nn_near` | [nnrec.cpp:580](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:580>) |
-| `Bot::nnrec_begin` | [nnrec.cpp:588](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:588>) |
-| `Bot::nnrec_end` | [nnrec.cpp:616](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:616>) |
-| `Bot::nn_x_refresh` | [nnrec.cpp:785](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:785>) |
-| `Bot::nn_lazy_score` | [nnrec.cpp:822](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:822>) |
-| `Bot::nn_fcmp` | [nnrec.cpp:980](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:980>) |
-| `Bot::nn_ens_log` | [nnrec.cpp:1013](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1013>) |
-| `Bot::nn_ens_keep` | [nnrec.cpp:1023](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1023>) |
-| `Bot::nn_ens_keep` | [nnrec.cpp:1025](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1025>) |
-| `Bot::nn_ens_margin` | [nnrec.cpp:1040](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1040>) |
-| `Bot::nn_ens_sample` | [nnrec.cpp:1052](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1052>) |
-| `Bot::nn_decide` | [nnrec.cpp:1088](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1088>) |
-| `Bot::nn_turn_end` | [nnrec.cpp:1621](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1621>) |
-| `Bot::nn_pipe_step` | [nnrec.cpp:1731](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1731>) |
-| `Bot::nn_option_out` | [nnrec.cpp:1787](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1787>) |
-| `Bot::nn_rl_end` | [nnrec.cpp:1833](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/nnrec.cpp:1833>) |
-| `Bot::capture_stand` | [pressure.cpp:6](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/pressure.cpp:6>) |
-| `Bot::deny_capture` | [pressure.cpp:103](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/pressure.cpp:103>) |
-| `Bot::camp_contact` | [pressure.cpp:139](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/pressure.cpp:139>) |
-| `Bot::act_camp_before_walk` | [tactics.cpp:5](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:5>) |
-| `Bot::act_enemy_before_walk` | [tactics.cpp:27](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:27>) |
-| `Bot::vision_objective` | [tactics.cpp:57](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:57>) |
-| `Bot::locks_objective` | [tactics.cpp:100](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:100>) |
-| `Bot::survive_bank_due` | [tactics.cpp:119](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:119>) |
-| `Bot::survive_contact` | [tactics.cpp:127](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tactics.cpp:127>) |
-| `Bot::ts_prewarm` | [tsearch.cpp:122](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:122>) |
-| `Bot::ts_snapshot` | [tsearch.cpp:129](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:129>) |
-| `Bot::tactical_search` | [tsearch.cpp:399](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:399>) |
-| `Bot::update_opp_model` | [tsearch.cpp:695](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:695>) |
-| `Bot::opp_flee_estimate` | [tsearch.cpp:714](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:714>) |
-| `Bot::tactical_decide` | [tsearch.cpp:780](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:780>) |
-| `Bot::team_decide` | [tsearch.cpp:1005](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:1005>) |
-| `Bot::caster_micro` | [tsearch.cpp:1086](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/tsearch.cpp:1086>) |
-| `World::init` | [world.cpp:43](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:43>) |
-| `World::bush_cluster` | [world.cpp:186](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:186>) |
-| `World::cluster_board` | [world.cpp:283](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:283>) |
-| `World::vision_from` | [world.cpp:302](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:302>) |
-| `World::pair_row` | [world.cpp:314](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:314>) |
-| `World::awake_camps_near` | [world.cpp:331](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:331>) |
-| `World::group_to_group` | [world.cpp:341](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:341>) |
-| `World::value_cut_off` | [world.cpp:351](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:351>) |
-| `World::enable_bridges` | [world.cpp:365](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:365>) |
-| `World::ensure_altar_field` | [world.cpp:382](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:382>) |
-| `World::ensure_enemy_field` | [world.cpp:397](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:397>) |
-| `World::prepare_field_order` | [world.cpp:415](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:415>) |
-| `World::build_next_group_field` | [world.cpp:433](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:433>) |
-| `World::group_of_camp_tile` | [world.cpp:454](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:454>) |
-| `World::apply_event` | [world.cpp:460](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:460>) |
-| `World::observe_groups` | [world.cpp:482](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:482>) |
-| `World::update_altar_gates` | [world.cpp:548](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:548>) |
-| `World::recall_is_counting_down` | [world.cpp:568](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:568>) |
-| `World::observe_champions` | [world.cpp:600](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:600>) |
-| `World::add_sighting` | [world.cpp:627](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:627>) |
-| `World::update_beliefs` | [world.cpp:639](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:639>) |
-| `World::expected_enemies` | [world.cpp:707](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:707>) |
-| `World::threat_zone` | [world.cpp:721](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:721>) |
-| `World::update` | [world.cpp:729](<C:/projects/cambridge battlecode/work/doomsday-movement-20261110/arena/bots/v306AltarPressureReach/src/world.cpp:729>) |
+| `Bot::init` | [bot.cpp:457](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L457) |
+| `Bot::refresh_self` | [bot.cpp:569](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L569) |
+| `Bot::spell_ready` | [bot.cpp:606](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L606) |
+| `Bot::read_shared` | [bot.cpp:610](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L610) |
+| `Bot::write_claim` | [bot.cpp:616](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L616) |
+| `Bot::decode_claims` | [bot.cpp:639](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L639) |
+| `Bot::unmark_onsite` | [bot.cpp:656](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L656) |
+| `Bot::mark_onsite` | [bot.cpp:666](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L666) |
+| `Bot::write_order` | [bot.cpp:677](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L677) |
+| `Bot::share_sighting` | [bot.cpp:687](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L687) |
+| `Bot::read_sighting` | [bot.cpp:711](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L711) |
+| `Bot::claims_split` | [bot.cpp:736](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L736) |
+| `Bot::open_call_by_lower` | [bot.cpp:745](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L745) |
+| `Bot::track_claims` | [bot.cpp:756](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L756) |
+| `Bot::senior_claims` | [bot.cpp:767](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L767) |
+| `Bot::claim_count` | [bot.cpp:777](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L777) |
+| `Bot::shop` | [bot.cpp:786](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L786) |
+| `Bot::refresh_emblems` | [bot.cpp:884](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L884) |
+| `Bot::travel_dash_ok` | [bot.cpp:932](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L932) |
+| `Bot::try_dash` | [bot.cpp:939](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L939) |
+| `Bot::follow_field` | [bot.cpp:989](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L989) |
+| `Bot::try_teleport` | [bot.cpp:1075](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1075) |
+| `Bot::walk_toward` | [bot.cpp:1107](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1107) |
+| `Bot::a2_team_plan` | [bot.cpp:1264](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1264) |
+| `Bot::a2_hidden_near` | [bot.cpp:1345](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1345) |
+| `Bot::a2_hidden_burst` | [bot.cpp:1359](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1359) |
+| `Bot::a2_join_fight` | [bot.cpp:1376](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1376) |
+| `Bot::a2_threat_zone` | [bot.cpp:1406](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1406) |
+| `Bot::a2_route_around` | [bot.cpp:1421](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1421) |
+| `Bot::greedy_step` | [bot.cpp:1446](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1446) |
+| `Bot::travel_around_threats` | [bot.cpp:1505](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1505) |
+| `Bot::hidden_from_threats` | [bot.cpp:1541](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1541) |
+| `Bot::buddy` | [bot.cpp:1564](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1564) |
+| `Bot::buddy_anchor` | [bot.cpp:1600](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1600) |
+| `Bot::regroup_from` | [bot.cpp:1614](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1614) |
+| `Bot::retreat_from` | [bot.cpp:1634](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1634) |
+| `Bot::my_dps` | [bot.cpp:1697](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1697) |
+| `Bot::attack_unit` | [bot.cpp:1719](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1719) |
+| `Bot::use_reset_and_attack` | [bot.cpp:1736](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1736) |
+| `Bot::cast_camp_strike` | [bot.cpp:1810](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1810) |
+| `Bot::cast_on_camp` | [bot.cpp:1851](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1851) |
+| `Bot::cast_on_enemy` | [bot.cpp:1903](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L1903) |
+| `Bot::support_casts` | [bot.cpp:2017](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2017) |
+| `Bot::prelock_altars` | [bot.cpp:2093](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2093) |
+| `Bot::try_lock_altar` | [bot.cpp:2115](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2115) |
+| `Bot::bush_ambush` | [bot.cpp:2140](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2140) |
+| `Bot::update_priority` | [bot.cpp:2218](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2218) |
+| `Bot::ward_ahead` | [bot.cpp:2251](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2251) |
+| `Bot::fog_threat` | [bot.cpp:2334](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2334) |
+| `Bot::fog_regroup` | [bot.cpp:2350](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2350) |
+| `Bot::dplan_load` | [bot.cpp:2372](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2372) |
+| `Bot::dplan_group` | [bot.cpp:2396](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2396) |
+| `Bot::ward_reveal` | [bot.cpp:2415](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2415) |
+| `Bot::hidden_here` | [bot.cpp:2480](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2480) |
+| `Bot::counter_ambush` | [bot.cpp:2492](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2492) |
+| `Bot::try_burst_kill` | [bot.cpp:2599](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2599) |
+| `Bot::enemy_spell_reach` | [bot.cpp:2692](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2692) |
+| `Bot::nearest_enemy_melee` | [bot.cpp:2704](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2704) |
+| `Bot::kite_step` | [bot.cpp:2714](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2714) |
+| `Bot::position_and_attack` | [bot.cpp:2745](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2745) |
+| `Bot::dash_away` | [bot.cpp:2794](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2794) |
+| `Bot::plan_escape` | [bot.cpp:2858](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L2858) |
+| `Bot::run_escape` | [bot.cpp:3094](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3094) |
+| `Bot::escape_or_stand` | [bot.cpp:3158](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3158) |
+| `Bot::melee_caught` | [bot.cpp:3229](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3229) |
+| `Bot::squad_strike` | [bot.cpp:3276](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3276) |
+| `Bot::press_isolated` | [bot.cpp:3399](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3399) |
+| `Bot::guard_carrier` | [bot.cpp:3484](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3484) |
+| `Bot::handle_enemies` | [bot.cpp:3526](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L3526) |
+| `Bot::rush_leader_slot` | [bot.cpp:4763](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4763) |
+| `Bot::rush_active` | [bot.cpp:4771](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4771) |
+| `Bot::rush` | [bot.cpp:4789](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4789) |
+| `Bot::hunt` | [bot.cpp:4856](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4856) |
+| `Bot::a2_pair_hunt` | [bot.cpp:4934](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4934) |
+| `Bot::a2_converge` | [bot.cpp:4969](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L4969) |
+| `Bot::a2_alone_alert` | [bot.cpp:5010](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5010) |
+| `Bot::hs_reach` | [bot.cpp:5031](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5031) |
+| `Bot::hs_find` | [bot.cpp:5039](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5039) |
+| `Bot::home_siege` | [bot.cpp:5060](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5060) |
+| `Bot::go_home_if_needed` | [bot.cpp:5115](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5115) |
+| `Bot::channel_danger` | [bot.cpp:5236](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5236) |
+| `Bot::retry_channel` | [bot.cpp:5261](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5261) |
+| `Bot::start_recall` | [bot.cpp:5284](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5284) |
+| `Bot::start_submission` | [bot.cpp:5290](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5290) |
+| `Bot::submit_here` | [bot.cpp:5297](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5297) |
+| `Bot::submission_danger` | [bot.cpp:5329](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5329) |
+| `Bot::bank_visible_window` | [bot.cpp:5385](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5385) |
+| `Bot::p19_bank_close` | [bot.cpp:5410](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5410) |
+| `Bot::tribute_if_needed` | [bot.cpp:5428](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5428) |
+| `Bot::camp_targets_me` | [bot.cpp:5574](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5574) |
+| `Bot::incoming_from_group` | [bot.cpp:5589](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5589) |
+| `Bot::soak_coefficient` | [bot.cpp:5598](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5598) |
+| `Bot::group_soak` | [bot.cpp:5618](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5618) |
+| `Bot::champions_needed` | [bot.cpp:5639](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5639) |
+| `Bot::allies_near_group` | [bot.cpp:5652](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5652) |
+| `Bot::leave_stalled_job` | [bot.cpp:5667](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5667) |
+| `Bot::fight_camps` | [bot.cpp:5685](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L5685) |
+| `Bot::break_out` | [bot.cpp:6092](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6092) |
+| `Bot::reveal_bush_camp` | [bot.cpp:6118](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6118) |
+| `Bot::siege_dps` | [bot.cpp:6159](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6159) |
+| `Bot::claim_of` | [bot.cpp:6178](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6178) |
+| `Bot::group_capture_covered` | [bot.cpp:6180](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6180) |
+| `Bot::my_items` | [bot.cpp:6199](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6199) |
+| `Bot::poorer_ally_takes` | [bot.cpp:6203](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6203) |
+| `Bot::a3_other_owner` | [bot.cpp:6237](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6237) |
+| `Bot::build_zones` | [bot.cpp:6265](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6265) |
+| `Bot::campnet_pick` | [bot.cpp:6315](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6315) |
+| `Bot::score_groups` | [bot.cpp:6400](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6400) |
+| `Bot::score_groups_full` | [bot.cpp:6412](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6412) |
+| `Bot::score_groups` | [bot.cpp:6415](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6415) |
+| `Bot::score_groups_full` | [bot.cpp:6431](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6431) |
+| `Bot::score_groups` | [bot.cpp:6433](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6433) |
+| `Bot::refresh_follow_ups` | [bot.cpp:6948](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6948) |
+| `Bot::route_search` | [bot.cpp:6978](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L6978) |
+| `Bot::plan_search` | [bot.cpp:7063](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7063) |
+| `Bot::is_official_map` | [bot.cpp:7172](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7172) |
+| `Bot::init_sweep_region` | [bot.cpp:7186](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7186) |
+| `Bot::next_sweep_stop` | [bot.cpp:7214](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7214) |
+| `Bot::crew_can_finish` | [bot.cpp:7230](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7230) |
+| `Bot::camp_downtime_job` | [bot.cpp:7266](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7266) |
+| `Bot::farm` | [bot.cpp:7331](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7331) |
+| `Bot::opportunistic_attack` | [bot.cpp:7852](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7852) |
+| `Bot::drop_ward` | [bot.cpp:7871](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7871) |
+| `Bot::update_numbers` | [bot.cpp:7902](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7902) |
+| `Bot::build_fields` | [bot.cpp:7918](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7918) |
+| `Bot::fb_turn_start` | [bot.cpp:7987](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7987) |
+| `Bot::fb_turn_end` | [bot.cpp:7997](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L7997) |
+| `Bot::play_turn` | [bot.cpp:8036](../../../bots/mainline/v306AltarPressureReach/src/bot.cpp#L8036) |
+| `Bot::deny_tribute` | [deny.cpp:12](../../../bots/mainline/v306AltarPressureReach/src/deny.cpp#L12) |
+| `Bot::economy_secondary_for` | [economy.cpp:25](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L25) |
+| `Bot::economy_enabled` | [economy.cpp:45](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L45) |
+| `Bot::economy_carry` | [economy.cpp:50](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L50) |
+| `Bot::economy_carry_on` | [economy.cpp:58](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L58) |
+| `Bot::economy_owner` | [economy.cpp:66](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L66) |
+| `Bot::economy_crew` | [economy.cpp:80](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L80) |
+| `Bot::economy_update` | [economy.cpp:104](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L104) |
+| `Bot::economy_release_capture` | [economy.cpp:274](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L274) |
+| `Bot::economy_precapture` | [economy.cpp:292](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L292) |
+| `Bot::economy_assignment` | [economy.cpp:327](../../../bots/mainline/v306AltarPressureReach/src/economy.cpp#L327) |
+| `Bot::count_enemy_deaths` | [episode.cpp:29](../../../bots/mainline/v306AltarPressureReach/src/episode.cpp#L29) |
+| `Bot::ep_features` | [episode.cpp:42](../../../bots/mainline/v306AltarPressureReach/src/episode.cpp#L42) |
+| `Bot::episode_tick` | [episode.cpp:105](../../../bots/mainline/v306AltarPressureReach/src/episode.cpp#L105) |
+| `Bot::nn_track` | [nnrec.cpp:116](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L116) |
+| `Bot::nn_feats_t` | [nnrec.cpp:164](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L164) |
+| `Bot::nn_feats` | [nnrec.cpp:577](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L577) |
+| `Bot::nn_feats3` | [nnrec.cpp:578](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L578) |
+| `Bot::nn_near` | [nnrec.cpp:580](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L580) |
+| `Bot::nnrec_begin` | [nnrec.cpp:588](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L588) |
+| `Bot::nnrec_end` | [nnrec.cpp:616](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L616) |
+| `Bot::nn_x_refresh` | [nnrec.cpp:785](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L785) |
+| `Bot::nn_lazy_score` | [nnrec.cpp:822](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L822) |
+| `Bot::nn_fcmp` | [nnrec.cpp:980](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L980) |
+| `Bot::nn_ens_log` | [nnrec.cpp:1013](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1013) |
+| `Bot::nn_ens_keep` | [nnrec.cpp:1023](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1023) |
+| `Bot::nn_ens_keep` | [nnrec.cpp:1025](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1025) |
+| `Bot::nn_ens_margin` | [nnrec.cpp:1040](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1040) |
+| `Bot::nn_ens_sample` | [nnrec.cpp:1052](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1052) |
+| `Bot::nn_decide` | [nnrec.cpp:1088](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1088) |
+| `Bot::nn_turn_end` | [nnrec.cpp:1621](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1621) |
+| `Bot::nn_pipe_step` | [nnrec.cpp:1731](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1731) |
+| `Bot::nn_option_out` | [nnrec.cpp:1787](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1787) |
+| `Bot::nn_rl_end` | [nnrec.cpp:1833](../../../bots/mainline/v306AltarPressureReach/src/nnrec.cpp#L1833) |
+| `Bot::capture_stand` | [pressure.cpp:6](../../../bots/mainline/v306AltarPressureReach/src/pressure.cpp#L6) |
+| `Bot::deny_capture` | [pressure.cpp:103](../../../bots/mainline/v306AltarPressureReach/src/pressure.cpp#L103) |
+| `Bot::camp_contact` | [pressure.cpp:139](../../../bots/mainline/v306AltarPressureReach/src/pressure.cpp#L139) |
+| `Bot::act_camp_before_walk` | [tactics.cpp:5](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L5) |
+| `Bot::act_enemy_before_walk` | [tactics.cpp:27](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L27) |
+| `Bot::vision_objective` | [tactics.cpp:57](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L57) |
+| `Bot::locks_objective` | [tactics.cpp:100](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L100) |
+| `Bot::survive_bank_due` | [tactics.cpp:119](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L119) |
+| `Bot::survive_contact` | [tactics.cpp:127](../../../bots/mainline/v306AltarPressureReach/src/tactics.cpp#L127) |
+| `Bot::ts_prewarm` | [tsearch.cpp:122](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L122) |
+| `Bot::ts_snapshot` | [tsearch.cpp:129](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L129) |
+| `Bot::tactical_search` | [tsearch.cpp:399](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L399) |
+| `Bot::update_opp_model` | [tsearch.cpp:695](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L695) |
+| `Bot::opp_flee_estimate` | [tsearch.cpp:714](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L714) |
+| `Bot::tactical_decide` | [tsearch.cpp:780](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L780) |
+| `Bot::team_decide` | [tsearch.cpp:1005](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L1005) |
+| `Bot::caster_micro` | [tsearch.cpp:1086](../../../bots/mainline/v306AltarPressureReach/src/tsearch.cpp#L1086) |
+| `World::init` | [world.cpp:43](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L43) |
+| `World::bush_cluster` | [world.cpp:186](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L186) |
+| `World::cluster_board` | [world.cpp:283](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L283) |
+| `World::vision_from` | [world.cpp:302](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L302) |
+| `World::pair_row` | [world.cpp:314](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L314) |
+| `World::awake_camps_near` | [world.cpp:331](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L331) |
+| `World::group_to_group` | [world.cpp:341](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L341) |
+| `World::value_cut_off` | [world.cpp:351](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L351) |
+| `World::enable_bridges` | [world.cpp:365](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L365) |
+| `World::ensure_altar_field` | [world.cpp:382](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L382) |
+| `World::ensure_enemy_field` | [world.cpp:397](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L397) |
+| `World::prepare_field_order` | [world.cpp:415](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L415) |
+| `World::build_next_group_field` | [world.cpp:433](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L433) |
+| `World::group_of_camp_tile` | [world.cpp:454](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L454) |
+| `World::apply_event` | [world.cpp:460](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L460) |
+| `World::observe_groups` | [world.cpp:482](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L482) |
+| `World::update_altar_gates` | [world.cpp:548](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L548) |
+| `World::recall_is_counting_down` | [world.cpp:568](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L568) |
+| `World::observe_champions` | [world.cpp:600](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L600) |
+| `World::add_sighting` | [world.cpp:627](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L627) |
+| `World::update_beliefs` | [world.cpp:639](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L639) |
+| `World::expected_enemies` | [world.cpp:707](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L707) |
+| `World::threat_zone` | [world.cpp:721](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L721) |
+| `World::update` | [world.cpp:729](../../../bots/mainline/v306AltarPressureReach/src/world.cpp#L729) |

@@ -1,5 +1,10 @@
 # What we learned
 
+> These findings describe historical experiments across several bot lines. For the final v306 comparison,
+> confidence intervals, faults and fuel accounting, see [Results and evidence](RESULTS.md).
+> For which systems are actually active in v306, see [the architecture](architecture.md).
+
+
 The lessons that cost the most to learn, each with the measurement behind it. The longer write-ups are linked.
 
 ## 1. Compute is the real opponent

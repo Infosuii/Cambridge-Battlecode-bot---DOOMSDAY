@@ -1,11 +1,24 @@
 # Bots
 
+## Final local releases
+
+| Build | Source | Status |
+|---|---|---|
+| **v306AltarPressureReach** | [Browse](mainline/v306AltarPressureReach/src) | **Recommended** from the final local comparison |
+| v320CampChannelCore | [Browse](mainline/v320CampChannelCore/src) | Camp-aware channel safety; retry required |
+| v348LethalFinishSafety | [Browse](mainline/v348LethalFinishSafety/src) | Adds lethal camp-finishing spell exception; retry required |
+
+[Download the compiled v306 ZIP](../research/doomsday-movement-20261110/releases/best-final-v306AltarPressureReach/compiled-bot.zip)
+· [Read the evidence](../docs/RESULTS.md) · [Understand the architecture](../docs/architecture.md)
+
+## Historical families
+
 More than 250 bot builds, grouped by workstream. In each folder, `src/` is exactly what `cambc submit` uploads.
 Where a version has a `CHANGES.md`, it records what changed and how the change measured.
 
 | Folder | What's inside |
 |---|---|
-| [`mainline/`](mainline) | The ladder lineage, **v48 → v115e**, with single-change variants such as `v62a–f`, `v66x_*`/`v66y_*` and `v92*`. Includes `live-69`, a frozen copy of platform version 69. |
+| [`mainline/`](mainline) | The historical ladder lineage, **v48 → v115e**, plus the frozen **v306/v320/v348** local releases, with single-change variants such as `v62a–f`, `v66x_*`/`v66y_*` and `v92*`. Includes `live-69`, a frozen copy of platform version 69. |
 | [`x-series/`](x-series) | z-plan development bots: `x1`/`x2`/`x3`, map-table bots `x3mf`/`x3mf2`, counter tables `x3ctr*`, the `x3inv*` sparring partners, and portfolio profiles `pf0`–`pf13`. The default `x3` build is byte-identical to v92. |
 | [`gigabot/`](gigabot) | gigabot (gx): about 100 single-mechanism increments (`gx-bankproof01`, `gx-siege01` …), each with a matched control, plus `gx-final`. |
 | [`live-line/`](live-line) | Candidates from the live line's automated improvement loop: siege, ward, bush, opening and fuel variants, and `live111-frozen`. |

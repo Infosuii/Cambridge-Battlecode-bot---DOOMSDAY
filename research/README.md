@@ -1,5 +1,22 @@
 # Research
 
+## Final workstream
+
+The [November 10–11 snapshot](doomsday-movement-20261110/README.md) brings together the final bot,
+local benchmarks and the full architecture audit. Its deduplicated source capsule preserves **19,710 files**.
+
+| Investigate | Read |
+|---|---|
+| How the recommended v306 actually makes decisions | [Full feature audit](doomsday-movement-20261110/architecture-audit-v306-20261111/BOT-ARCHITECTURE.md) |
+| Why newer variants did not replace it | [Extended benchmark](doomsday-movement-20261110/crew-next/long15-261110355-REPORT.md) |
+| How it performs against a separate supplied bot | [Medium matchup](doomsday-movement-20261110/crew-next/mediumzip-7d9b610b-261111401-REPORT.md) |
+| What was built and repaired | [Final development log](doomsday-movement-20261110/crew-next/ROUND3-DEVELOPMENT-20261110.md) |
+| How to recover the wider experimental sources | [Archive and restore guide](doomsday-movement-20261110/README.md) |
+
+See [results and limitations](../docs/RESULTS.md) for the concise interpretation.
+
+## Earlier research
+
 Every experiment, benchmark, ladder analysis and rejected idea, grouped by workstream. Reports are Markdown, and
 measurements are JSON or TSV next to them.
 
